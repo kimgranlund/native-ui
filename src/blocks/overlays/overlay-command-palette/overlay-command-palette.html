@@ -20,14 +20,13 @@
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin: 0;
       }
 
       h2 {
         font-size: 1rem;
         font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
+        margin: 0;
         color: var(--neutral-ink-strong);
       }
 
@@ -82,14 +81,18 @@
   </head>
   <body>
     <ui-layout><main>
-    <h1>Command Palette</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
-      Quick-access command palette in a dialog overlay. Searchable, keyboard navigable,
-      and grouped by category. Opens via button click or <kbd>Ctrl+K</kbd> shortcut.
-    </p>
+    <ui-stack gap="6">
+    <div>
+      <h1>Command Palette</h1>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+        Quick-access command palette in a dialog overlay. Searchable, keyboard navigable,
+        and grouped by category. Opens via button click or <kbd>Ctrl+K</kbd> shortcut.
+      </p>
+    </div>
 
     <!-- -- Trigger Area -- -->
 
+    <ui-stack gap="4">
     <h2>Open Command Palette</h2>
     <div class="trigger-area">
       <ui-button id="open-palette" intent="accent" size="lg">
@@ -156,13 +159,17 @@
         </ui-command>
       </div>
     </ui-dialog>
+    </ui-stack>
 
     <!-- -- Inline Preview -- -->
 
-    <h2>Inline Preview</h2>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem; margin-bottom: 1rem;">
-      The same command palette rendered inline for reference.
-    </p>
+    <ui-stack gap="4">
+    <div>
+      <h2>Inline Preview</h2>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem;">
+        The same command palette rendered inline for reference.
+      </p>
+    </div>
     <div style="max-width: 32rem;">
       <ui-command>
         <ui-command-input>
@@ -192,6 +199,8 @@
         <ui-command-empty>No results.</ui-command-empty>
       </ui-command>
     </div>
+    </ui-stack>
+    </ui-stack>
 
     </main></ui-layout>
     <script type="module">

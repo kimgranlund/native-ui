@@ -20,14 +20,13 @@
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin: 0;
       }
 
       h2 {
         font-size: 1rem;
         font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
+        margin: 0;
         color: var(--neutral-ink-strong);
       }
 
@@ -148,9 +147,10 @@
   </head>
   <body>
     <ui-layout><main>
+    <ui-stack gap="6">
 
     <!-- ── Breadcrumb ── -->
-    <ui-breadcrumb style="margin-bottom: 1.5rem;">
+    <ui-breadcrumb>
       <ui-breadcrumb-item href="/">Dashboard</ui-breadcrumb-item>
       <ui-breadcrumb-item href="/users">Users</ui-breadcrumb-item>
       <ui-breadcrumb-item current>Kim Granlund</ui-breadcrumb-item>
@@ -158,7 +158,7 @@
 
     <!-- ── Profile Header ── -->
     <ui-card>
-      <div class="profile-header">
+      <ui-body><div class="profile-header">
         <ui-avatar name="Kim Granlund" size="xl" intent="accent"></ui-avatar>
         <div class="profile-info">
           <div class="profile-name">
@@ -177,21 +177,22 @@
             <span slot="label">Delete</span>
           </ui-button>
         </div>
-      </div>
+      </div></ui-body>
     </ui-card>
 
     <!-- ── Tabs ── -->
-    <ui-tabs value="overview" style="margin-top: 1.5rem;">
+    <ui-tabs value="overview">
       <ui-tab value="overview">Overview</ui-tab>
       <ui-tab value="activity">Activity</ui-tab>
       <ui-tab value="settings">Settings</ui-tab>
 
       <!-- ── Overview Panel ── -->
       <ui-tab-panel value="overview">
-        <div class="detail-grid" style="margin-top: 1rem;">
+        <ui-stack gap="4">
+        <div class="detail-grid">
           <ui-card>
-            <div>
-              <h2 style="margin-top: 0;">Personal Information</h2>
+            <ui-body>
+              <h2>Personal Information</h2>
               <ui-stack gap="3">
                 <div class="detail-item">
                   <span class="detail-label">Full Name</span>
@@ -210,12 +211,12 @@
                   <span class="detail-value">San Francisco, CA</span>
                 </div>
               </ui-stack>
-            </div>
+            </ui-body>
           </ui-card>
 
           <ui-card>
-            <div>
-              <h2 style="margin-top: 0;">Work Information</h2>
+            <ui-body>
+              <h2>Work Information</h2>
               <ui-stack gap="3">
                 <div class="detail-item">
                   <span class="detail-label">Department</span>
@@ -234,14 +235,14 @@
                   <span class="detail-value">EMP-2023-0472</span>
                 </div>
               </ui-stack>
-            </div>
+            </ui-body>
           </ui-card>
         </div>
 
         <!-- ── Recent Projects ── -->
-        <ui-card style="margin-top: 1rem;">
-          <div>
-          <h2 style="margin-top: 0;">Recent Projects</h2>
+        <ui-card>
+          <ui-body>
+          <h2>Recent Projects</h2>
           <ui-table style="grid-template-columns: 2fr 1fr 100px 100px;">
             <ui-table-head>
               <ui-table-row>
@@ -278,15 +279,16 @@
               </ui-table-row>
             </ui-table-body>
           </ui-table>
-          </div>
+          </ui-body>
         </ui-card>
+        </ui-stack>
       </ui-tab-panel>
 
       <!-- ── Activity Panel ── -->
       <ui-tab-panel value="activity">
-        <ui-card style="margin-top: 1rem;">
-          <div>
-          <h2 style="margin-top: 0;">Recent Activity</h2>
+        <ui-card>
+          <ui-body>
+          <h2>Recent Activity</h2>
           <div class="activity-item">
             <span class="activity-dot"></span>
             <div class="activity-content">
@@ -336,16 +338,17 @@
               <span class="activity-time">Feb 15, 2026</span>
             </div>
           </div>
-          </div>
+          </ui-body>
         </ui-card>
       </ui-tab-panel>
 
       <!-- ── Settings Panel ── -->
       <ui-tab-panel value="settings">
-        <div class="detail-grid" style="margin-top: 1rem;">
+        <ui-stack gap="4">
+        <div class="detail-grid">
           <ui-card>
-            <div>
-              <h2 style="margin-top: 0;">Notifications</h2>
+            <ui-body>
+              <h2>Notifications</h2>
               <div class="settings-row">
                 <div>
                   <div class="settings-label">Email notifications</div>
@@ -367,12 +370,12 @@
                 </div>
                 <ui-switch></ui-switch>
               </div>
-            </div>
+            </ui-body>
           </ui-card>
 
           <ui-card>
-            <div>
-              <h2 style="margin-top: 0;">Security</h2>
+            <ui-body>
+              <h2>Security</h2>
               <div class="settings-row">
                 <div>
                   <div class="settings-label">Two-factor authentication</div>
@@ -400,13 +403,13 @@
                   <span slot="label">Manage</span>
                 </ui-button>
               </div>
-            </div>
+            </ui-body>
           </ui-card>
         </div>
 
-        <ui-card style="margin-top: 1rem;">
-          <div>
-            <h2 style="margin-top: 0; color: var(--danger-ink-strong);">Danger Zone</h2>
+        <ui-card>
+          <ui-body>
+            <h2 style="color: var(--danger-ink-strong);">Danger Zone</h2>
             <div class="settings-row">
               <div>
                 <div class="settings-label">Deactivate account</div>
@@ -426,10 +429,12 @@
                 <span slot="label">Delete Account</span>
               </ui-button>
             </div>
-          </div>
+          </ui-body>
         </ui-card>
+        </ui-stack>
       </ui-tab-panel>
     </ui-tabs>
+    </ui-stack>
 
     </main></ui-layout>
     <script type="module">

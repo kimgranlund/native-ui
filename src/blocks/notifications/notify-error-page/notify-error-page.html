@@ -20,14 +20,13 @@
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin: 0;
       }
 
       h2 {
         font-size: 1rem;
         font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
+        margin: 0;
         color: var(--neutral-ink-strong);
       }
 
@@ -75,14 +74,18 @@
   </head>
   <body>
     <ui-layout><main>
-    <h1>Error Pages</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
-      Full-page error patterns for common HTTP errors and maintenance windows.
-      Each variant provides clear messaging and an actionable recovery path.
-    </p>
+    <ui-stack gap="6">
+    <div>
+      <h1>Error Pages</h1>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+        Full-page error patterns for common HTTP errors and maintenance windows.
+        Each variant provides clear messaging and an actionable recovery path.
+      </p>
+    </div>
 
     <!-- -- 404 Not Found -- -->
 
+    <ui-stack gap="4">
     <h2>404 — Not Found</h2>
     <div class="error-page">
       <div class="error-code" aria-hidden="true">404</div>
@@ -93,9 +96,11 @@
         <span slot="label">Go Home</span>
       </ui-button>
     </div>
+    </ui-stack>
 
     <!-- -- 500 Server Error -- -->
 
+    <ui-stack gap="4">
     <h2>500 — Server Error</h2>
     <div class="error-page">
       <div class="error-code" aria-hidden="true">500</div>
@@ -111,9 +116,11 @@
         </ui-button>
       </ui-stack>
     </div>
+    </ui-stack>
 
     <!-- -- Maintenance -- -->
 
+    <ui-stack gap="4">
     <h2>Maintenance</h2>
     <div class="error-page">
       <ui-icon name="gear" size="xl" aria-hidden="true"></ui-icon>
@@ -124,6 +131,8 @@
         <span slot="label">Check Status</span>
       </ui-button>
     </div>
+    </ui-stack>
+    </ui-stack>
 
     </main></ui-layout>
     <script type="module">

@@ -20,14 +20,13 @@
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin: 0;
       }
 
       h2 {
         font-size: 1rem;
         font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
+        margin: 0;
         color: var(--neutral-ink-strong);
       }
 
@@ -209,14 +208,18 @@
   </head>
   <body>
     <ui-layout><main>
-    <h1>Application Sidebar</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
-      Vertical navigation sidebar with brand, sections, collapsible groups, and user footer.
-      Two variants: full-width and compact (icon-only).
-    </p>
+    <ui-stack gap="6">
+    <div>
+      <h1>Application Sidebar</h1>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+        Vertical navigation sidebar with brand, sections, collapsible groups, and user footer.
+        Two variants: full-width and compact (icon-only).
+      </p>
+    </div>
 
     <!-- ── Full Sidebar ── -->
 
+    <ui-stack gap="4">
     <h2>Full Sidebar</h2>
     <div class="sidebar-preview">
       <nav class="sidebar-nav" aria-label="Application navigation">
@@ -282,9 +285,11 @@
         Main content area
       </div>
     </div>
+    </ui-stack>
 
     <!-- ── Compact Sidebar ── -->
 
+    <ui-stack gap="4">
     <h2>Compact (Icon-only)</h2>
     <div class="sidebar-preview" style="min-height: 28rem;">
       <nav class="sidebar-nav sidebar-compact" aria-label="Compact navigation">
@@ -319,6 +324,8 @@
         Main content area
       </div>
     </div>
+    </ui-stack>
+    </ui-stack>
 
     </main></ui-layout>
     <script type="module">

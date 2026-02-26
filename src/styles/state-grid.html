@@ -13,24 +13,24 @@
         color: var(--neutral-950);
       }
 
-      main { padding: 2rem; }
+      main { padding: calc(var(--_space) * 8); }
 
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.25rem;
+        margin-bottom: var(--_space);
         color: var(--neutral-ink-strong);
       }
 
       h1 + p {
         font-size: 0.8125rem;
         color: var(--neutral-ink-muted);
-        margin-bottom: 1.5rem;
+        margin-bottom: calc(var(--_space) * 6);
       }
 
       /* ── Toolbar ── */
       #toolbar {
-        margin-bottom: 1rem;
+        margin-bottom: calc(var(--_space) * 4);
       }
 
       #state-filter {
@@ -41,7 +41,7 @@
       .state-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-        gap: 0.75rem;
+        gap: calc(var(--_space) * 3);
       }
 
       /* ── Card state overrides ── */
@@ -71,7 +71,7 @@
       .comp-card-body {
         display: flex;
         flex-direction: column;
-        gap: 0.375rem;
+        gap: calc(var(--_space) * 1.5);
       }
 
       /* ── State group labels ── */
@@ -81,7 +81,7 @@
         text-transform: uppercase;
         letter-spacing: 0.05em;
         color: var(--neutral-ink-muted);
-        margin-top: 0.125rem;
+        margin-top: calc(var(--_space) / 2);
       }
 
       .state-group-label:first-child {
@@ -92,15 +92,15 @@
       .state-row {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.25rem;
+        gap: var(--_space);
       }
 
       /* ── State pill ── */
       .state-pill {
         display: inline-flex;
         align-items: center;
-        gap: 0.25rem;
-        padding: 0.1875rem 0.5rem;
+        gap: var(--_space);
+        padding: var(--_space) calc(var(--_space) * 2);
         border-radius: 1rem;
         font-size: 0.6875rem;
         font-weight: 500;
@@ -163,7 +163,7 @@
       .legend-item {
         display: flex;
         align-items: center;
-        gap: 0.375rem;
+        gap: calc(var(--_space) * 1.5);
         font-size: 0.6875rem;
         color: var(--neutral-ink-muted);
       }
@@ -191,7 +191,7 @@
         color: var(--neutral-ink-strong);
         border: 1px solid var(--neutral-border-muted);
         border-radius: var(--_radius);
-        padding: 0.5rem 0.75rem;
+        padding: calc(var(--_space) * 2) calc(var(--_space) * 3);
         font-size: 0.6875rem;
         line-height: 1.5;
         box-shadow: 0 4px 12px oklch(0% 0 0 / 0.12);
@@ -205,10 +205,10 @@
       .hover-tooltip .tt-row {
         display: flex;
         align-items: center;
-        gap: 0.375rem;
+        gap: calc(var(--_space) * 1.5);
       }
 
-      .hover-tooltip .tt-row + .tt-row { margin-top: 0.25rem; }
+      .hover-tooltip .tt-row + .tt-row { margin-top: var(--_space); }
 
       .hover-tooltip .tt-label {
         color: var(--neutral-ink-muted);
@@ -226,7 +226,7 @@
       }
 
       .hover-tooltip .tt-match-header {
-        margin-top: 0.5rem;
+        margin-top: calc(var(--_space) * 2);
         font-weight: 600;
         color: var(--accent-ink);
         font-size: 0.625rem;
@@ -240,9 +240,9 @@
         background: var(--neutral-panel);
         border: 1px solid var(--neutral-border-muted);
         border-radius: var(--_radius);
-        padding: 0.75rem;
+        padding: calc(var(--_space) * 3);
         margin: 0;
-        margin-top: 0.75rem;
+        margin-top: calc(var(--_space) * 3);
         font-family: ui-monospace, monospace;
         font-size: 0.8125rem;
         line-height: 1.5;
@@ -257,8 +257,8 @@
 
       .demo-code > ui-button {
         position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
+        top: var(--_space);
+        right: var(--_space);
       }
     </style>
     <script type="module">
@@ -293,7 +293,7 @@
       <h1>Component State Grid</h1>
       <p>Each card shows the CSS color tokens a component uses per state. Hover or click a state pill to highlight every component that resolves to the same <code>background</code>, <code>color</code>, and <code>border-color</code> values.</p>
 
-      <ui-panel bordered size="sm" style="flex-direction: row; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+      <ui-panel bordered size="sm" style="flex-direction: row; flex-wrap: wrap; gap: calc(var(--_space) * 4); margin-bottom: calc(var(--_space) * 4);">
         <div class="legend-item"><span class="legend-swatch" style="background: var(--accent-surface);"></span> accent-surface</div>
         <div class="legend-item"><span class="legend-swatch" style="background: white; border-color: var(--neutral-border-muted);"></span> white</div>
         <div class="legend-item"><span class="legend-swatch" style="background: var(--neutral-panel);"></span> panel</div>
@@ -1006,7 +1006,7 @@ pointer-events: none;</code><ui-button class="copy-btn" size="sm" variant="ghost
         const otherMatches = matches.filter(m => m.comp !== comp || m.state !== state);
         const totalMatches = matches.length;
 
-        let html = `<div style="font-weight:600;margin-bottom:0.375rem;">${comp} \u2192 ${state}</div>`;
+        let html = `<div style="font-weight:600;margin-bottom:calc(var(--_space) * 1.5);">${comp} \u2192 ${state}</div>`;
 
         if (totalMatches > 1) {
           html += `<div class="tt-match-header">Shared by ${totalMatches} component states</div>`;
@@ -1017,7 +1017,7 @@ pointer-events: none;</code><ui-button class="copy-btn" size="sm" variant="ghost
         html += `<div class="tt-row"><span class="tt-label">border:</span> ${createSwatch(border)} <span class="tt-value">${border}</span>${resolvedNote(border)}</div>`;
 
         if (otherMatches.length > 0) {
-          html += `<div style="margin-top:0.5rem;border-top:1px solid var(--neutral-border-muted);padding-top:0.375rem;">`;
+          html += `<div style="margin-top:calc(var(--_space) * 2);border-top:1px solid var(--neutral-border-muted);padding-top:calc(var(--_space) * 1.5);">`;
           for (const m of otherMatches.slice(0, 8)) {
             html += `<div class="tt-row"><span class="tt-value">${m.comp} \u2192 ${m.state}</span></div>`;
           }

@@ -20,15 +20,7 @@
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
+        margin: 0;
       }
 
       .checkout-layout {
@@ -105,15 +97,18 @@
   </head>
   <body>
     <ui-layout><main>
-    <h1>Checkout</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
-      Complete your purchase by filling in the details below.
-    </p>
+    <ui-stack gap="6">
+    <div>
+      <h1>Checkout</h1>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+        Complete your purchase by filling in the details below.
+      </p>
+    </div>
 
     <form id="checkout-form">
       <div class="checkout-layout">
         <!-- ── Left Column: Shipping + Payment ── -->
-        <div>
+        <ui-stack gap="6">
           <!-- ── Shipping Information ── -->
           <ui-card>
             <ui-header>
@@ -177,7 +172,7 @@
           </ui-card>
 
           <!-- ── Payment Method ── -->
-          <ui-card style="margin-top: 1.5rem;">
+          <ui-card>
             <ui-header>
               <ui-icon name="credit-card" slot="leading"></ui-icon>
               <span slot="label">Payment Method</span>
@@ -220,7 +215,7 @@
               </ui-stack>
             </ui-body>
           </ui-card>
-        </div>
+        </ui-stack>
 
         <!-- ── Right Column: Order Summary ── -->
         <div>
@@ -274,19 +269,22 @@
                 </div>
               </ui-stack>
             </ui-body>
-            <ui-footer style="flex-direction: column; gap: 0.75rem;">
-              <ui-button variant="primary" intent="accent" type="submit" form="checkout-form" style="width: 100%;">
-                <ui-icon name="shopping-cart" slot="leading"></ui-icon>
-                <span slot="label">Place Order</span>
-              </ui-button>
-              <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); text-align: center;">
-                Your payment information is encrypted and secure.
-              </p>
+            <ui-footer justify="center">
+              <ui-stack gap="3" align="stretch">
+                <ui-button variant="primary" intent="accent" type="submit" form="checkout-form">
+                  <ui-icon name="shopping-cart" slot="leading"></ui-icon>
+                  <span slot="label">Place Order</span>
+                </ui-button>
+                <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); text-align: center; margin: 0;">
+                  Your payment information is encrypted and secure.
+                </p>
+              </ui-stack>
             </ui-footer>
           </ui-card>
         </div>
       </div>
     </form>
+    </ui-stack>
 
     </main></ui-layout>
     <script type="module">

@@ -20,32 +20,37 @@
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin: 0;
       }
 
       h2 {
         font-size: 1rem;
         font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
+        margin: 0;
         color: var(--neutral-ink-strong);
       }
     </style>
   </head>
   <body>
     <ui-layout><main>
-    <h1>Toast Notifications</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
-      Trigger toast notifications with different intents, durations, and content lengths.
-      Each button demonstrates a specific toast configuration via the Toastable trait.
-    </p>
+    <ui-stack gap="6">
+    <div>
+      <h1>Toast Notifications</h1>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+        Trigger toast notifications with different intents, durations, and content lengths.
+        Each button demonstrates a specific toast configuration via the Toastable trait.
+      </p>
+    </div>
 
     <!-- -- Intent Variants -- -->
 
-    <h2>Intent Variants</h2>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem; margin-bottom: 1rem;">
-      One button per intent. Click to trigger a toast styled for that intent.
-    </p>
+    <ui-stack gap="4">
+    <div>
+      <h2>Intent Variants</h2>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem;">
+        One button per intent. Click to trigger a toast styled for that intent.
+      </p>
+    </div>
     <ui-grid columns="auto-fill" min="10rem" gap="3">
       <ui-stack gap="2">
         <ui-button id="toast-default" size="md" style="width: 100%;">
@@ -87,13 +92,17 @@
         <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0;">Error or failure</p>
       </ui-stack>
     </ui-grid>
+    </ui-stack>
 
     <!-- -- Special Cases -- -->
 
-    <h2>Special Cases</h2>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem; margin-bottom: 1rem;">
-      Long messages and non-dismissible toasts to test edge cases.
-    </p>
+    <ui-stack gap="4">
+    <div>
+      <h2>Special Cases</h2>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem;">
+        Long messages and non-dismissible toasts to test edge cases.
+      </p>
+    </div>
     <ui-stack direction="row" gap="3" wrap>
       <ui-button id="toast-long">
         <ui-icon name="file-text" slot="leading"></ui-icon>
@@ -104,13 +113,17 @@
         <span slot="label">Non-dismissible (sticky)</span>
       </ui-button>
     </ui-stack>
+    </ui-stack>
 
     <!-- -- Batch Operations -- -->
 
-    <h2>Batch Operations</h2>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem; margin-bottom: 1rem;">
-      Spawn multiple toasts at once or dismiss them all.
-    </p>
+    <ui-stack gap="4">
+    <div>
+      <h2>Batch Operations</h2>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem;">
+        Spawn multiple toasts at once or dismiss them all.
+      </p>
+    </div>
     <ui-stack direction="row" gap="3" wrap>
       <ui-button id="toast-batch" intent="accent">
         <ui-icon name="plus" slot="leading"></ui-icon>
@@ -120,6 +133,8 @@
         <ui-icon name="x" slot="leading"></ui-icon>
         <span slot="label">Dismiss All</span>
       </ui-button>
+    </ui-stack>
+    </ui-stack>
     </ui-stack>
 
     </main></ui-layout>

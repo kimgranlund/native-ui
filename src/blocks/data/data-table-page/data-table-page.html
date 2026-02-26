@@ -20,22 +20,13 @@
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
+        margin: 0;
       }
 
       .page-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 1.5rem;
         flex-wrap: wrap;
         gap: 1rem;
       }
@@ -81,6 +72,7 @@
   </head>
   <body>
     <ui-layout><main>
+    <ui-stack gap="6">
 
     <!-- ── Page Header ── -->
     <div class="page-header">
@@ -98,7 +90,7 @@
 
     <!-- ── Toolbar ── -->
     <ui-card>
-      <div>
+      <ui-body>
       <div class="toolbar-row">
         <div class="search-input">
           <ui-input size="sm" placeholder="Search users...">
@@ -253,8 +245,9 @@
         <span class="table-info">Showing 1-10 of 87 users</span>
         <ui-pagination total="9" value="1" size="sm"></ui-pagination>
       </div>
-      </div>
+      </ui-body>
     </ui-card>
+    </ui-stack>
 
     </main></ui-layout>
     <script type="module">

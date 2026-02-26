@@ -26,13 +26,13 @@
       .settings-section-description {
         font-size: 0.8125rem;
         color: var(--neutral-ink-muted);
-        margin: 0.25rem 0 0;
+        margin: calc(var(--_space) * 1) 0 0;
       }
 
       .avatar-row {
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: calc(var(--_space) * 4);
       }
 
       .avatar-info {
@@ -55,7 +55,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.75rem 0;
+        padding-block: calc(var(--_space) * 3);
       }
 
       .notification-row + .notification-row {
@@ -76,21 +76,21 @@
       .section-actions {
         display: flex;
         justify-content: flex-end;
-        padding-top: 0.5rem;
+        padding-top: calc(var(--_space) * 2);
       }
 
       .danger-zone {
         background: var(--danger-panel);
         border: 1px solid var(--danger-border-muted);
-        border-radius: 0.5rem;
-        padding: 1.25rem;
+        border-radius: var(--_radius);
+        padding: calc(var(--_space-k) * var(--_space));
       }
 
       .danger-zone-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 1rem;
+        gap: calc(var(--_space) * 4);
         flex-wrap: wrap;
       }
 
@@ -109,7 +109,7 @@
       .danger-zone-description {
         font-size: 0.75rem;
         color: var(--danger-ink-muted);
-        margin: 0.25rem 0 0;
+        margin: calc(var(--_space) * 1) 0 0;
       }
     </style>
   </head>

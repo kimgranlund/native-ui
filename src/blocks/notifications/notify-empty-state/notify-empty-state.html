@@ -20,14 +20,13 @@
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin: 0;
       }
 
       h2 {
         font-size: 1rem;
         font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
+        margin: 0;
         color: var(--neutral-ink-strong);
       }
 
@@ -64,14 +63,18 @@
   </head>
   <body>
     <ui-layout><main>
-    <h1>Empty States</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
-      Placeholder patterns shown when content areas have no data.
-      Each variant communicates context and offers a clear next action.
-    </p>
+    <ui-stack gap="6">
+    <div>
+      <h1>Empty States</h1>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+        Placeholder patterns shown when content areas have no data.
+        Each variant communicates context and offers a clear next action.
+      </p>
+    </div>
 
     <!-- -- No Data -- -->
 
+    <ui-stack gap="4">
     <h2>No Data</h2>
     <div class="empty-state">
       <ui-icon name="folder" size="xl" aria-hidden="true"></ui-icon>
@@ -82,9 +85,11 @@
         <span slot="label">Create Project</span>
       </ui-button>
     </div>
+    </ui-stack>
 
     <!-- -- No Search Results -- -->
 
+    <ui-stack gap="4">
     <h2>No Search Results</h2>
     <div class="empty-state">
       <ui-icon name="magnifying-glass" size="xl" aria-hidden="true"></ui-icon>
@@ -100,9 +105,11 @@
         </ui-button>
       </ui-stack>
     </div>
+    </ui-stack>
 
     <!-- -- Error State -- -->
 
+    <ui-stack gap="4">
     <h2>Error State</h2>
     <div class="empty-state">
       <ui-icon name="warning" size="xl" aria-hidden="true" style="color: var(--danger-ink-strong);"></ui-icon>
@@ -117,6 +124,8 @@
         </ui-button>
       </ui-stack>
     </div>
+    </ui-stack>
+    </ui-stack>
 
     </main></ui-layout>
     <script type="module">

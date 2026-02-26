@@ -20,14 +20,13 @@
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin: 0;
       }
 
       h2 {
         font-size: 1rem;
         font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
+        margin: 0;
         color: var(--neutral-ink-strong);
       }
 
@@ -79,10 +78,13 @@
   </head>
   <body>
     <ui-layout><main>
-    <h1>Create Account</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
-      Complete the steps below to set up your new account.
-    </p>
+    <ui-stack gap="6">
+    <div>
+      <h1>Create Account</h1>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+        Complete the steps below to set up your new account.
+      </p>
+    </div>
 
     <div class="wizard-wrapper">
       <ui-card>
@@ -96,7 +98,7 @@
 
         <!-- ── Step 1: Personal Information ── -->
         <div class="step-panel" id="step-personal" active>
-          <ui-stack gap="4">
+          <ui-body><ui-stack gap="4">
             <ui-field required>
               <label slot="label">Full name</label>
               <ui-input placeholder="Jane Doe" id="input-name" name="name">
@@ -129,11 +131,12 @@
               </ui-button>
             </div>
           </div>
+          </ui-body>
         </div>
 
         <!-- ── Step 2: Address ── -->
         <div class="step-panel" id="step-address">
-          <ui-stack gap="4">
+          <ui-body><ui-stack gap="4">
             <ui-field required>
               <label slot="label">Street address</label>
               <ui-input placeholder="123 Main Street" id="input-address" name="address">
@@ -181,14 +184,19 @@
               </ui-button>
             </div>
           </div>
+          </ui-body>
         </div>
 
         <!-- ── Step 3: Review ── -->
         <div class="step-panel" id="step-review">
-          <h2 style="margin-top: 0;">Review your information</h2>
-          <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1rem;">
+          <ui-body>
+          <ui-stack gap="4">
+          <div>
+            <h2>Review your information</h2>
+            <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
             Please verify that all details are correct before submitting.
           </p>
+          </div>
 
           <ui-stack gap="2">
             <div class="review-row">
@@ -220,6 +228,7 @@
               <span class="review-value" id="review-zip">--</span>
             </div>
           </ui-stack>
+          </ui-stack>
 
           <div class="step-actions">
             <ui-button variant="ghost" id="btn-prev-3">
@@ -233,9 +242,11 @@
               </ui-button>
             </div>
           </div>
+          </ui-body>
         </div>
       </ui-card>
     </div>
+    </ui-stack>
 
     </main></ui-layout>
     <script type="module">

@@ -20,14 +20,13 @@
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin: 0;
       }
 
       h2 {
         font-size: 1rem;
         font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
+        margin: 0;
         color: var(--neutral-ink-strong);
       }
 
@@ -98,14 +97,18 @@
   </head>
   <body>
     <ui-layout><main>
-    <h1>Top Navigation Bar</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
-      Horizontal application header with brand, navigation, search, and user controls.
-      Demonstrates two layout variants: breadcrumb-centered and search-centered.
-    </p>
+    <ui-stack gap="6">
+    <div>
+      <h1>Top Navigation Bar</h1>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+        Horizontal application header with brand, navigation, search, and user controls.
+        Demonstrates two layout variants: breadcrumb-centered and search-centered.
+      </p>
+    </div>
 
     <!-- -- With Breadcrumb -- -->
 
+    <ui-stack gap="4">
     <h2>With Breadcrumb Navigation</h2>
     <nav class="nav-bar" aria-label="Main navigation">
       <div class="nav-brand">
@@ -141,9 +144,11 @@
         </div>
       </div>
     </nav>
+    </ui-stack>
 
     <!-- -- With Search Input -- -->
 
+    <ui-stack gap="4">
     <h2>With Search Input</h2>
     <nav class="nav-bar" aria-label="Main navigation with search">
       <div class="nav-brand">
@@ -176,9 +181,11 @@
         </div>
       </div>
     </nav>
+    </ui-stack>
 
     <!-- -- Compact Variant -- -->
 
+    <ui-stack gap="4">
     <h2>Compact (density)</h2>
     <nav class="nav-bar" aria-label="Compact navigation" density="compact">
       <div class="nav-brand">
@@ -211,6 +218,8 @@
         </div>
       </div>
     </nav>
+    </ui-stack>
+    </ui-stack>
 
     </main></ui-layout>
     <script type="module">

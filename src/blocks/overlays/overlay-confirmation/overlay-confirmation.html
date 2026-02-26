@@ -20,14 +20,13 @@
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin: 0;
       }
 
       h2 {
         font-size: 1rem;
         font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
+        margin: 0;
         color: var(--neutral-ink-strong);
       }
 
@@ -71,14 +70,18 @@
   </head>
   <body>
     <ui-layout><main>
-    <h1>Confirmation Dialogs</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
-      Modal confirmation patterns for different severity levels. Each dialog
-      clearly communicates the action, its consequences, and provides cancel/confirm options.
-    </p>
+    <ui-stack gap="6">
+    <div>
+      <h1>Confirmation Dialogs</h1>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+        Modal confirmation patterns for different severity levels. Each dialog
+        clearly communicates the action, its consequences, and provides cancel/confirm options.
+      </p>
+    </div>
 
     <!-- -- Trigger Buttons -- -->
 
+    <ui-stack gap="4">
     <h2>Trigger Dialogs</h2>
     <div class="trigger-row">
       <ui-button id="open-info" intent="info">
@@ -94,6 +97,7 @@
         <span slot="label">Delete Account</span>
       </ui-button>
     </div>
+    </ui-stack>
 
     <!-- -- Info Confirmation Dialog -- -->
 
@@ -171,6 +175,7 @@
         </ui-footer>
       </ui-card>
     </ui-dialog>
+    </ui-stack>
 
     </main></ui-layout>
     <script type="module">

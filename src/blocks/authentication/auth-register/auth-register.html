@@ -91,7 +91,7 @@
 
       .oauth-row {
         display: flex;
-        gap: 0.75rem;
+        gap: calc(var(--_space) * 3);
       }
 
       .oauth-row > * {
@@ -118,52 +118,56 @@
           <p class="auth-heading">Create your account</p>
           <p class="auth-subheading">Start your free 14-day trial, no credit card required</p>
           <ui-card>
-            <form>
+            <ui-body>
               <ui-stack gap="4">
-                <ui-field required>
-                  <label slot="label">Full name</label>
-                  <ui-input placeholder="Kim Granlund" name="name">
-                    <ui-icon name="user" slot="leading"></ui-icon>
-                  </ui-input>
-                </ui-field>
-                <ui-field required>
-                  <label slot="label">Email</label>
-                  <ui-input type="email" placeholder="kim@example.com" name="email">
-                    <ui-icon name="envelope" slot="leading"></ui-icon>
-                  </ui-input>
-                </ui-field>
-                <ui-field required>
-                  <label slot="label">Password</label>
-                  <ui-input type="password" placeholder="At least 8 characters" name="password">
-                    <ui-icon name="lock" slot="leading"></ui-icon>
-                  </ui-input>
-                  <span slot="description">Must contain at least 8 characters, one uppercase letter, and one number.</span>
-                </ui-field>
-                <ui-field required>
-                  <label slot="label">Confirm password</label>
-                  <ui-input type="password" placeholder="Repeat your password" name="password_confirm">
-                    <ui-icon name="lock" slot="leading"></ui-icon>
-                  </ui-input>
-                </ui-field>
-                <ui-checkbox name="terms" required>
-                  <span class="terms-text">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
-                </ui-checkbox>
-                <ui-button variant="primary" intent="accent" type="submit" style="width: 100%;">
-                  <span slot="label">Create Account</span>
-                </ui-button>
+                <form>
+                  <ui-stack gap="4">
+                    <ui-field required>
+                      <label slot="label">Full name</label>
+                      <ui-input placeholder="Kim Granlund" name="name">
+                        <ui-icon name="user" slot="leading"></ui-icon>
+                      </ui-input>
+                    </ui-field>
+                    <ui-field required>
+                      <label slot="label">Email</label>
+                      <ui-input type="email" placeholder="kim@example.com" name="email">
+                        <ui-icon name="envelope" slot="leading"></ui-icon>
+                      </ui-input>
+                    </ui-field>
+                    <ui-field required>
+                      <label slot="label">Password</label>
+                      <ui-input type="password" placeholder="At least 8 characters" name="password">
+                        <ui-icon name="lock" slot="leading"></ui-icon>
+                      </ui-input>
+                      <span slot="description">Must contain at least 8 characters, one uppercase letter, and one number.</span>
+                    </ui-field>
+                    <ui-field required>
+                      <label slot="label">Confirm password</label>
+                      <ui-input type="password" placeholder="Repeat your password" name="password_confirm">
+                        <ui-icon name="lock" slot="leading"></ui-icon>
+                      </ui-input>
+                    </ui-field>
+                    <ui-checkbox name="terms" required>
+                      <span class="terms-text">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+                    </ui-checkbox>
+                    <ui-button variant="primary" intent="accent" type="submit">
+                      <span slot="label">Create Account</span>
+                    </ui-button>
+                  </ui-stack>
+                </form>
+                <ui-divider>or continue with</ui-divider>
+                <div class="oauth-row">
+                  <ui-button>
+                    <ui-icon name="google-logo" slot="leading"></ui-icon>
+                    <span slot="label">Google</span>
+                  </ui-button>
+                  <ui-button>
+                    <ui-icon name="github-logo" slot="leading"></ui-icon>
+                    <span slot="label">GitHub</span>
+                  </ui-button>
+                </div>
               </ui-stack>
-            </form>
-            <ui-divider>or continue with</ui-divider>
-            <div class="oauth-row">
-              <ui-button>
-                <ui-icon name="google-logo" slot="leading"></ui-icon>
-                <span slot="label">Google</span>
-              </ui-button>
-              <ui-button>
-                <ui-icon name="github-logo" slot="leading"></ui-icon>
-                <span slot="label">GitHub</span>
-              </ui-button>
-            </div>
+            </ui-body>
           </ui-card>
           <p class="auth-footer-text">
             Already have an account? <a href="#">Sign in</a>

@@ -20,15 +20,7 @@
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
+        margin: 0;
       }
 
       .form-wrapper {
@@ -38,10 +30,13 @@
   </head>
   <body>
     <ui-layout><main>
-    <h1>Contact Us</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
-      Have a question or feedback? Fill out the form below and we'll get back to you within 24 hours.
-    </p>
+    <ui-stack gap="6">
+    <div>
+      <h1>Contact Us</h1>
+      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+        Have a question or feedback? Fill out the form below and we'll get back to you within 24 hours.
+      </p>
+    </div>
 
     <div class="form-wrapper">
       <ui-card>
@@ -99,6 +94,7 @@
         </ui-footer>
       </ui-card>
     </div>
+    </ui-stack>
 
     </main></ui-layout>
     <script type="module">

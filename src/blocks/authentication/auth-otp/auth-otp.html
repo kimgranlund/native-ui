@@ -61,7 +61,6 @@
         text-align: center;
         font-size: 0.8125rem;
         color: var(--neutral-ink-muted);
-        margin-top: 1rem;
       }
 
       .auth-resend-link {
@@ -121,19 +120,23 @@
             We sent a 6-digit code to <span class="auth-email-highlight">kim@example.com</span>. Enter it below to verify your identity.
           </p>
           <ui-card>
-            <form>
+            <ui-body>
               <ui-stack gap="4">
-                <div class="otp-center">
-                  <ui-input-otp name="otp" length="6"></ui-input-otp>
-                </div>
-                <ui-button variant="primary" intent="accent" type="submit" style="width: 100%;">
-                  <span slot="label">Verify</span>
-                </ui-button>
+                <form>
+                  <ui-stack gap="4">
+                    <div class="otp-center">
+                      <ui-input-otp name="otp" length="6"></ui-input-otp>
+                    </div>
+                    <ui-button variant="primary" intent="accent" type="submit">
+                      <span slot="label">Verify</span>
+                    </ui-button>
+                  </ui-stack>
+                </form>
+                <p class="auth-resend-text">
+                  Didn't receive a code? <button class="auth-resend-link" type="button">Resend code</button>
+                </p>
               </ui-stack>
-            </form>
-            <p class="auth-resend-text">
-              Didn't receive a code? <button class="auth-resend-link" type="button">Resend code</button>
-            </p>
+            </ui-body>
           </ui-card>
           <a href="#" class="auth-back-link">
             <ui-icon name="arrow-left" size="sm"></ui-icon>
