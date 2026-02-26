@@ -88,9 +88,9 @@ Tournament 2: 2026-02-26 | 6 teams, 6 areas (lifecycle, ARIA, CSS cascade, signa
 
 - [x] **Missing `[hidden]` overrides (13 components)** — Components set `display` but lack `:where(el[hidden]) { display: none }`. UA hidden loses to author-layer display. Affected: ui-field, ui-accordion, ui-radio, ui-range, ui-chat, ui-breadcrumb, ui-avatar, ui-badge, ui-pagination, ui-input-otp, ui-slideshow, ui-tree, ui-segmented-control. *(HYDRA)*
 
-- [ ] **No constraint validation (setValidity)** — 4 components accept `required` but never call `internals.setValidity()`: ui-input, ui-textarea, ui-checkbox, ui-radio-group. *(PHOENIX)*
+- [x] **No constraint validation (setValidity)** — 4 components accept `required` but never call `internals.setValidity()`: ui-input, ui-textarea, ui-checkbox, ui-radio-group. *(PHOENIX)*
 
-- [ ] **FormAssociable missing callbacks** — Mixin lacks `formStateRestoreCallback()` and `formAssociatedCallback()`. Autofill/bfcache restore won't work. *(PHOENIX)*
+- [x] **FormAssociable missing callbacks** — Mixin lacks `formStateRestoreCallback()` and `formAssociatedCallback()`. Autofill/bfcache restore won't work. *(PHOENIX)*
 
 - [x] **Hard-coded backdrop oklch()** — `ui-dialog.css:33`, `ui-drawer.css:36` use `oklch(0% 0 0)` instead of token. *(HYDRA)*
 
@@ -104,21 +104,21 @@ Tournament 2: 2026-02-26 | 6 teams, 6 areas (lifecycle, ARIA, CSS cascade, signa
 
 - [ ] **Missing `required` on 6 form controls** — ui-range, ui-select, ui-combobox, ui-input-otp, ui-calendar, ui-segmented-control lack `required` in `observedAttributes`. *(PHOENIX)*
 
-- [ ] **Inconsistent initial value capture** — ui-range and ui-input-otp read current attribute on reset instead of setup-time capture. *(PHOENIX)*
+- [x] **Inconsistent initial value capture** — ui-range and ui-input-otp read current attribute on reset instead of setup-time capture. *(PHOENIX)*
 
-- [ ] **Calendar setup missing batch()** — `ui-calendar-element.ts:93-98`: sets value/min/max without batching → 3 intermediate recomputes. *(SPHINX)*
+- [x] **Calendar setup missing batch()** — `ui-calendar-element.ts:93-98`: sets value/min/max without batching → 3 intermediate recomputes. *(SPHINX)*
 
 - [ ] **Z-index strategy undocumented** — Table z-index 1-5, sidebar 10. No tokens or doc. *(HYDRA)*
 
-- [ ] **Slideshow hard-coded control sizes** — `ui-slideshow.css:129` uses `2rem`, dots `1.25rem`. *(HYDRA)*
+- [x] **Slideshow hard-coded control sizes** — `ui-slideshow.css:129` uses `2rem`, dots `1.25rem`. *(HYDRA)*
 
-- [ ] **ARIA: internals.ariaLabel without setAttribute** — pagination, radio-group, avatar, breadcrumb, tree set `internals.ariaLabel` only. *(COBRA)*
+- [x] **ARIA: internals.ariaLabel without setAttribute** — pagination, radio-group, avatar, breadcrumb, tree set `internals.ariaLabel` only. *(COBRA)*
 
 ## P3 — Low
 
-- [ ] **CalendarStore month navigation not batched** — Two sequential signal writes in `prevMonth()`. *(SPHINX)*
+- [x] **CalendarStore month navigation not batched** — Two sequential signal writes in `prevMonth()`. *(SPHINX)*
 - [ ] **ReactiveProp boolean/number setters don't guard** — Missing `getAttribute()` check before DOM write. *(SPHINX)*
-- [ ] **Textarea ariaMultiLine via internals only** — `internals.ariaMultiLine` without DOM attribute. *(COBRA)*
+- [x] **Textarea ariaMultiLine via internals only** — `internals.ariaMultiLine` without DOM attribute. *(COBRA)*
 
 ---
 
