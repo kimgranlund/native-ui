@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Secrets & credentials
+.env
+.env.*
+*.pem
+*.key
+
 # Claude Code local settings
 .claude/settings.local.json
 .claude/plans/
