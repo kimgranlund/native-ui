@@ -3,8 +3,9 @@
 // Usage: vite build --config vite.config.site.ts
 
 import { defineConfig } from 'vite';
+import type { Plugin } from 'vite';
 import { resolve } from 'path';
-import { readdirSync, statSync } from 'fs';
+import { readdirSync, statSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 // Collect all .html files recursively under src/ as MPA entry points
@@ -24,9 +25,26 @@ function collectHtmlEntries(dir: string, base = ''): Record<string, string> {
   return entries;
 }
 
+// WHY: Inject site-overrides.css into every HTML page's <head>.
+// Fixes ui-layout flash-prevention (visibility: hidden) that blocks
+// rendering in static builds where [data-ready] may not get set.
+function injectSiteOverrides(): Plugin {
+  const css = readFileSync(
+    resolve(__dirname, 'src/styles/site-overrides.css'),
+    'utf8',
+  );
+  return {
+    name: 'inject-site-overrides',
+    transformIndexHtml(html) {
+      return html.replace('</head>', `<style>${css}</style></head>`);
+    },
+  };
+}
+
 const srcEntries = collectHtmlEntries(resolve(__dirname, 'src'));
 
 export default defineConfig({
+  plugins: [injectSiteOverrides()],
   define: {
     __DEV__: 'false',
   },
