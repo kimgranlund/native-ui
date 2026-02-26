@@ -14,7 +14,6 @@ function collectHtmlEntries(dir: string, base = ''): Record<string, string> {
     const full = join(dir, item);
     const rel = base ? `${base}/${item}` : item;
     if (statSync(full).isDirectory()) {
-      // Skip test directories and node_modules
       if (item === '__tests__' || item === 'node_modules') continue;
       Object.assign(entries, collectHtmlEntries(full, rel));
     } else if (item.endsWith('.html')) {
@@ -33,11 +32,16 @@ export default defineConfig({
   },
   build: {
     outDir: 'site',
+    // WHY: Disable tree-shaking for the demo site. Inline <script type="module">
+    // in HTML pages import .ts files that call customElements.define() as side
+    // effects. Rolldown tree-shakes them away because package.json has
+    // "sideEffects": false. This is correct for library builds, but wrong here.
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
         ...srcEntries,
       },
+      treeshake: false,
     },
   },
 });
