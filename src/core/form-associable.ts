@@ -29,12 +29,23 @@ export function FormAssociable<T extends Constructor>(Base: T) {
     /** Override to handle form reset. */
     onFormReset(): void {}
 
+    /** Override to handle form state restore (e.g. back/forward navigation). */
+    onFormStateRestore(_state: string | FormData | null): void {}
+
     formDisabledCallback(disabled: boolean): void {
       this.onFormDisabled(disabled);
     }
 
     formResetCallback(): void {
       this.onFormReset();
+    }
+
+    formStateRestoreCallback(state: string | FormData | null, _mode: string): void {
+      this.onFormStateRestore(state);
+    }
+
+    formAssociatedCallback(_form: HTMLFormElement | null): void {
+      // No-op by default. Subclasses can override onFormAssociated if needed.
     }
   };
 }

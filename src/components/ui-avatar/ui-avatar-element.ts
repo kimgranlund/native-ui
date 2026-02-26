@@ -59,6 +59,7 @@ export class UIAvatar extends UIElement {
     const alt = this.getAttribute('alt') ?? name ?? '';
 
     this.#internals.ariaLabel = alt;
+    this.setAttribute('aria-label', alt);
 
     if (src) {
       this.#img = document.createElement('img');

@@ -1,3 +1,4 @@
+import { signal } from '../../reactivity/signal.ts';
 import { UIElement } from '../../core/ui-element.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
 import { prop, syncProp } from '../../core/reactive-prop.ts';
@@ -22,6 +23,7 @@ export class UICheckbox extends FormAssociable(UIElement) {
   #checked: ReactiveProp<boolean>;
   #indeterminate: ReactiveProp<boolean>;
   #disabled: ReactiveProp<boolean>;
+  #required = signal(false);
   #initialChecked = false;
   #press!: PressController;
 
@@ -49,8 +51,11 @@ export class UICheckbox extends FormAssociable(UIElement) {
   get value(): string { return this.getAttribute('value') ?? 'on'; }
   set value(val: string) { this.setAttribute('value', val); }
 
-  get required(): boolean { return this.hasAttribute('required'); }
-  set required(val: boolean) { this.toggleAttribute('required', val); }
+  get required(): boolean { return this.#required.value; }
+  set required(val: boolean) {
+    this.#required.value = val;
+    this.toggleAttribute('required', val);
+  }
 
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     if (old === val) return;
@@ -58,6 +63,7 @@ export class UICheckbox extends FormAssociable(UIElement) {
       super.attributeChangedCallback?.(name, old, val);
       return;
     }
+    if (name === 'required') this.#required.value = val !== null;
     super.attributeChangedCallback?.(name, old, val);
   }
 
@@ -67,6 +73,8 @@ export class UICheckbox extends FormAssociable(UIElement) {
       disabled: () => this.disabled,
     });
     this.#initialChecked = this.hasAttribute('checked');
+    // WHY: Sync signal from initial attribute (attributeChangedCallback fires before setup)
+    this.#required.value = this.hasAttribute('required');
     if (!this.hasAttribute('tabindex')) this.setAttribute('tabindex', '0');
 
     this.addEffect(createDisabledEffect(this, this.#disabled.signal, this.#internals, { manageTabindex: true }));
@@ -81,8 +89,21 @@ export class UICheckbox extends FormAssociable(UIElement) {
     });
 
     this.addEffect(() => {
-      const required = this.required;
+      const required = this.#required.value;
       this.#internals.ariaRequired = required ? 'true' : null;
+    });
+
+    // Constraint validation: report valueMissing when required and unchecked
+    this.addEffect(() => {
+      if (this.#required.value && !this.#checked.value) {
+        this.#internals.setValidity(
+          { valueMissing: true },
+          'Please check this box if you want to proceed.',
+          this,
+        );
+      } else {
+        this.#internals.setValidity({});
+      }
     });
 
     this.addEventListener('ui-press', this.#onPress);

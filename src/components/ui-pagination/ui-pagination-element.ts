@@ -66,7 +66,9 @@ export class UIPagination extends UIElement {
 
   setup(): void {
     super.setup();
-    this.#internals.ariaLabel = this.getAttribute('aria-label') ?? 'Pagination';
+    const label = this.getAttribute('aria-label') ?? 'Pagination';
+    this.#internals.ariaLabel = label;
+    if (!this.hasAttribute('aria-label')) this.setAttribute('aria-label', label);
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals));
     this.addEffect(() => { this.#render(); });
   }

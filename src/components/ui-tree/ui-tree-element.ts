@@ -38,7 +38,9 @@ export class UITree extends UIElement {
       selector: ':scope ui-tree-item > [slot="label"]',
       orientation: 'vertical',
     });
-    this.#internals.ariaLabel = this.getAttribute('aria-label') ?? 'Tree';
+    const label = this.getAttribute('aria-label') ?? 'Tree';
+    this.#internals.ariaLabel = label;
+    if (!this.hasAttribute('aria-label')) this.setAttribute('aria-label', label);
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals));
   }
 

@@ -20,6 +20,7 @@ export class UIRange extends FormAssociable(UIElement) {
   #internals: ElementInternals;
   #disabled = signal(false);
   #value = signal(50);
+  #initialValue = 50;
   #min = signal(0);
   #max = signal(100);
   #step = signal(1);
@@ -96,6 +97,7 @@ export class UIRange extends FormAssociable(UIElement) {
 
   setup(): void {
     super.setup();
+    this.#initialValue = this.#value.value;
 
     // Create thumb element
     this.#thumb = document.createElement('div');
@@ -138,7 +140,7 @@ export class UIRange extends FormAssociable(UIElement) {
   }
 
   override onFormReset(): void {
-    this.#value.value = parseFloat(this.getAttribute('value') ?? '50') || 50;
+    this.#value.value = this.#initialValue;
     this.#syncFormValue();
   }
 

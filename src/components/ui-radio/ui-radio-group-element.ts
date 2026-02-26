@@ -18,6 +18,7 @@ export class UIRadioGroup extends FormAssociable(UIElement) {
 
   #internals: ElementInternals;
   #disabled = signal(false);
+  #required = signal(false);
   #initialValue: string | null = null;
   #nav!: ListNavigateController;
 
@@ -58,10 +59,11 @@ export class UIRadioGroup extends FormAssociable(UIElement) {
   }
 
   get required(): boolean {
-    return this.hasAttribute('required');
+    return this.#required.value;
   }
 
   set required(val: boolean) {
+    this.#required.value = val;
     this.toggleAttribute('required', val);
   }
 
@@ -74,6 +76,9 @@ export class UIRadioGroup extends FormAssociable(UIElement) {
       case 'disabled':
         this.#disabled.value = val !== null;
         break;
+      case 'required':
+        this.#required.value = val !== null;
+        break;
       case 'orientation':
         if (this.#nav) this.#nav.rovingFocus.orientation = (val as 'vertical' | 'horizontal') ?? 'vertical';
         break;
@@ -84,6 +89,8 @@ export class UIRadioGroup extends FormAssociable(UIElement) {
   setup(): void {
     super.setup();
     this.#initialValue = this.getAttribute('value');
+    // WHY: Sync signal from initial attribute (attributeChangedCallback fires before setup)
+    this.#required.value = this.hasAttribute('required');
 
     this.#nav = new ListNavigateController(this, {
       itemSelector: ':scope ui-radio:not([disabled])',
@@ -116,7 +123,7 @@ export class UIRadioGroup extends FormAssociable(UIElement) {
     }
 
     this.addEffect(() => {
-      const required = this.required;
+      const required = this.#required.value;
       this.#internals.ariaRequired = required ? 'true' : null;
     });
 
@@ -124,6 +131,20 @@ export class UIRadioGroup extends FormAssociable(UIElement) {
     this.addEffect(() => {
       const val = this.#nav.listValue.value;
       this.#internals.setFormValue(val);
+    });
+
+    // Constraint validation: report valueMissing when required and no selection
+    this.addEffect(() => {
+      const val = this.#nav.listValue.value;
+      if (this.#required.value && (val === null || val === '')) {
+        this.#internals.setValidity(
+          { valueMissing: true },
+          'Please select one of these options.',
+          this,
+        );
+      } else {
+        this.#internals.setValidity({});
+      }
     });
   }
 

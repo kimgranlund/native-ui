@@ -1,4 +1,4 @@
-import { signal, computed } from '../../reactivity/index.ts';
+import { signal, computed, batch } from '../../reactivity/index.ts';
 import type { Signal, ReadonlySignal } from '../../reactivity/types.ts';
 
 export type CalendarView = 'day' | 'month' | 'year';
@@ -68,21 +68,25 @@ export class CalendarStore {
   // ── Navigation ──
 
   prevMonth(): void {
-    if (this.focusedMonth.value === 0) {
-      this.focusedMonth.value = 11;
-      this.focusedYear.value--;
-    } else {
-      this.focusedMonth.value--;
-    }
+    batch(() => {
+      if (this.focusedMonth.value === 0) {
+        this.focusedMonth.value = 11;
+        this.focusedYear.value--;
+      } else {
+        this.focusedMonth.value--;
+      }
+    });
   }
 
   nextMonth(): void {
-    if (this.focusedMonth.value === 11) {
-      this.focusedMonth.value = 0;
-      this.focusedYear.value++;
-    } else {
-      this.focusedMonth.value++;
-    }
+    batch(() => {
+      if (this.focusedMonth.value === 11) {
+        this.focusedMonth.value = 0;
+        this.focusedYear.value++;
+      } else {
+        this.focusedMonth.value++;
+      }
+    });
   }
 
   prevYear(): void {

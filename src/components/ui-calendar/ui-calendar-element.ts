@@ -1,4 +1,5 @@
 import { signal } from '../../reactivity/signal.ts';
+import { batch } from '../../reactivity/batch.ts';
 import { UIElement } from '../../core/ui-element.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
 import { CalendarStore } from './calendar-store.ts';
@@ -89,13 +90,15 @@ export class UICalendar extends FormAssociable(UIElement) {
     super.setup();
     this.#initialValue = this.getAttribute('value');
 
-    // WHY: Initialize store from attributes
+    // WHY: Initialize store from attributes — batch to avoid 3 intermediate recomputes
     const val = this.getAttribute('value');
     const min = this.getAttribute('min');
     const max = this.getAttribute('max');
-    if (val) this.#store.value.value = val;
-    if (min) this.#store.min.value = min;
-    if (max) this.#store.max.value = max;
+    batch(() => {
+      if (val) this.#store.value.value = val;
+      if (min) this.#store.min.value = min;
+      if (max) this.#store.max.value = max;
+    });
 
     // Stamp internal structure
     this.#stamp();

@@ -126,8 +126,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    width: var(--_min-height);
+    height: var(--_min-height);
     border-radius: 50%;
     background: var(--_panel);
     color: var(--_ink);
@@ -198,9 +198,9 @@
 
     /* Base size is the active pill; inactive state scales down via transform.
        GPU composited — only transform + background animate. */
-    width: 1.25rem;
-    height: 0.5rem;
-    border-radius: 0.25rem;
+    width: calc(var(--_space) * 5);
+    height: calc(var(--_space) * 2);
+    border-radius: var(--_space);
     background: var(--_border);
     flex-shrink: 0;
     transform: scale(0.4, 1);

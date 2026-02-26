@@ -19,6 +19,8 @@ export class UIInput extends FormAssociable(UIElement) {
 
   #internals: ElementInternals;
   #disabled = signal(false);
+  #required = signal(false);
+  #formValue = signal('');
   // WHY: contenteditable deletes all children on select-all + delete/cut —
   // we save slot refs so #onInput can restore them
   #slots: Element[] = [];
@@ -37,6 +39,7 @@ export class UIInput extends FormAssociable(UIElement) {
 
   set value(val: string) {
     this.#setTextContent(val);
+    this.#formValue.value = val;
     this.#internals.setFormValue(val);
     this.#updateEmptyState();
   }
@@ -101,10 +104,11 @@ export class UIInput extends FormAssociable(UIElement) {
   // ── Required ──
 
   get required(): boolean {
-    return this.hasAttribute('required');
+    return this.#required.value;
   }
 
   set required(val: boolean) {
+    this.#required.value = val;
     this.toggleAttribute('required', val);
   }
 
@@ -115,6 +119,7 @@ export class UIInput extends FormAssociable(UIElement) {
     switch (name) {
       case 'value':
         this.#setTextContent(val ?? '');
+        this.#formValue.value = val ?? '';
         this.#internals.setFormValue(val ?? '');
         this.#updateEmptyState();
         break;
@@ -126,6 +131,9 @@ export class UIInput extends FormAssociable(UIElement) {
         break;
       case 'readonly':
         this.setAttribute('contenteditable', (val !== null || this.#disabled.value) ? 'false' : 'plaintext-only');
+        break;
+      case 'required':
+        this.#required.value = val !== null;
         break;
     }
     super.attributeChangedCallback?.(name, old, val);
@@ -142,8 +150,25 @@ export class UIInput extends FormAssociable(UIElement) {
     for (const el of this.#slots) {
       el.setAttribute('contenteditable', 'false');
     }
+    // WHY: Sync signals from initial attributes (attributeChangedCallback fires before setup)
+    this.#required.value = this.hasAttribute('required');
+    this.#formValue.value = this.#getTextContent();
     this.#updateEmptyState();
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals, { manageTabindex: true }));
+
+    // Constraint validation: report valueMissing when required and empty
+    this.addEffect(() => {
+      if (this.#required.value && this.#formValue.value === '') {
+        this.#internals.setValidity(
+          { valueMissing: true },
+          'Please fill out this field.',
+          this,
+        );
+      } else {
+        this.#internals.setValidity({});
+      }
+    });
+
     this.addEventListener('input', this.#onInput);
     this.addEventListener('blur', this.#onBlur);
   }
@@ -173,6 +198,7 @@ export class UIInput extends FormAssociable(UIElement) {
 
   override onFormReset(): void {
     this.#setTextContent('');
+    this.#formValue.value = '';
     this.#internals.setFormValue('');
     this.#updateEmptyState();
     this.#disabled.value = this.hasAttribute('disabled');
@@ -194,6 +220,7 @@ export class UIInput extends FormAssociable(UIElement) {
       if (!el.parentNode) this.appendChild(el);
     }
     const val = this.#getTextContent();
+    this.#formValue.value = val;
     this.#internals.setFormValue(val);
     this.#updateEmptyState();
     this.dispatchEvent(new CustomEvent('ui-input', {

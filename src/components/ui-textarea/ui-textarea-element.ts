@@ -22,6 +22,8 @@ export class UITextarea extends FormAssociable(UIElement) {
 
   #internals: ElementInternals;
   #disabled = signal(false);
+  #required = signal(false);
+  #formValue = signal('');
   #autoGrowRaf = 0;
 
   constructor() {
@@ -29,6 +31,7 @@ export class UITextarea extends FormAssociable(UIElement) {
     this.#internals = this.attachInternals();
     this.#internals.role = 'textbox';
     this.#internals.ariaMultiLine = 'true';
+    this.setAttribute('aria-multiline', 'true');
   }
 
   // ── Value ──
@@ -39,6 +42,7 @@ export class UITextarea extends FormAssociable(UIElement) {
 
   set value(val: string) {
     this.textContent = val;
+    this.#formValue.value = val;
     this.#internals.setFormValue(val);
     this.#updateEmptyState();
     this.#autoGrow();
@@ -89,10 +93,11 @@ export class UITextarea extends FormAssociable(UIElement) {
   // ── Required ──
 
   get required(): boolean {
-    return this.hasAttribute('required');
+    return this.#required.value;
   }
 
   set required(val: boolean) {
+    this.#required.value = val;
     this.toggleAttribute('required', val);
   }
 
@@ -103,6 +108,7 @@ export class UITextarea extends FormAssociable(UIElement) {
     switch (name) {
       case 'value':
         this.textContent = val ?? '';
+        this.#formValue.value = val ?? '';
         this.#internals.setFormValue(val ?? '');
         this.#updateEmptyState();
         this.#autoGrow();
@@ -115,6 +121,9 @@ export class UITextarea extends FormAssociable(UIElement) {
         break;
       case 'readonly':
         this.setAttribute('contenteditable', (val !== null || this.#disabled.value) ? 'false' : 'plaintext-only');
+        break;
+      case 'required':
+        this.#required.value = val !== null;
         break;
       case 'autogrow':
         this.#autoGrow();
@@ -130,9 +139,26 @@ export class UITextarea extends FormAssociable(UIElement) {
     if (!this.hasAttribute('contenteditable')) {
       this.setAttribute('contenteditable', 'plaintext-only');
     }
+    // WHY: Sync signals from initial attributes (attributeChangedCallback fires before setup)
+    this.#required.value = this.hasAttribute('required');
+    this.#formValue.value = this.textContent ?? '';
     this.#updateEmptyState();
     this.#autoGrow();
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals, { manageTabindex: true }));
+
+    // Constraint validation: report valueMissing when required and empty
+    this.addEffect(() => {
+      if (this.#required.value && this.#formValue.value === '') {
+        this.#internals.setValidity(
+          { valueMissing: true },
+          'Please fill out this field.',
+          this,
+        );
+      } else {
+        this.#internals.setValidity({});
+      }
+    });
+
     this.addEventListener('input', this.#onInput);
     this.addEventListener('blur', this.#onBlur);
   }
@@ -153,6 +179,7 @@ export class UITextarea extends FormAssociable(UIElement) {
 
   override onFormReset(): void {
     this.textContent = '';
+    this.#formValue.value = '';
     this.#internals.setFormValue('');
     this.#updateEmptyState();
     this.#disabled.value = this.hasAttribute('disabled');
@@ -201,6 +228,7 @@ export class UITextarea extends FormAssociable(UIElement) {
     }
 
     const finalVal = this.textContent ?? '';
+    this.#formValue.value = finalVal;
     this.#internals.setFormValue(finalVal);
     this.#updateEmptyState();
     this.#autoGrow();

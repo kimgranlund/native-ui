@@ -12,6 +12,8 @@ export class UIBreadcrumb extends UIElement {
 
   setup(): void {
     super.setup();
-    this.#internals.ariaLabel = this.getAttribute('aria-label') ?? 'Breadcrumb';
+    const label = this.getAttribute('aria-label') ?? 'Breadcrumb';
+    this.#internals.ariaLabel = label;
+    if (!this.hasAttribute('aria-label')) this.setAttribute('aria-label', label);
   }
 }
