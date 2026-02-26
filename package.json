@@ -36,6 +36,7 @@
     "build:js": "vite build",
     "build:types": "tsc -p tsconfig.build.json",
     "build:cem": "cem analyze",
+    "build:site": "vite build --config vite.config.site.ts",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
