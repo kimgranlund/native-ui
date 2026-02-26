@@ -3,6 +3,11 @@
 // In dev mode, each HTML page imports only what it needs. In production,
 // this single entry ensures nothing is missing.
 
+// WHY: Traits MUST register before component define() calls.
+// ES module imports execute in declaration order (depth-first),
+// so this import runs before the component imports below.
+import './site-register-traits.ts';
+
 // All component registrations
 import './components/ui-accordion/ui-accordion.ts';
 import './components/ui-avatar/ui-avatar.ts';
@@ -47,7 +52,3 @@ import './icons/ui-icon.ts';
 
 // Dev layout
 import './nav/ui-layout.ts';
-
-// Trait registration
-import { registerAllTraits } from './traits/register-all.ts';
-registerAllTraits();
