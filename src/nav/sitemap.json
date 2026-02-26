@@ -1,13 +1,4 @@
 [
-  { "title": "Colors", "path": "/src/styles/colors.html", "group": "Foundation" },
-  { "title": "UI Primitives", "path": "/src/styles/ui.html", "group": "Foundation" },
-  { "title": "Reference", "path": "/src/styles/reference.html", "group": "Foundation" },
-  { "title": "State Grid", "path": "/src/styles/state-grid.html", "group": "Foundation" },
-  { "title": "Icons", "path": "/src/icons/ui-icon.html", "group": "Foundation" },
-  { "title": "Kernel", "path": "/src/kernel/kernel.html", "group": "Foundation" },
-  { "title": "A2UI Protocol", "path": "/src/a2ui/a2ui.html", "group": "Foundation" },
-  { "title": "A2UI Components", "path": "/src/a2ui/a2ui-components.html", "group": "Foundation" },
-  { "title": "Context API", "path": "/src/core/context.html", "group": "Core" },
   { "title": "ui-button", "path": "/src/components/ui-button/ui-button.html", "group": "Components" },
   { "title": "ui-input", "path": "/src/components/ui-input/ui-input.html", "group": "Components" },
   { "title": "ui-listbox", "path": "/src/components/ui-listbox/ui-listbox.html", "group": "Components" },
@@ -87,5 +78,12 @@
   { "title": "Nav Sidebar", "path": "/src/blocks/navigation/nav-sidebar/nav-sidebar-block.html", "group": "Blocks" },
   { "title": "Nav Header", "path": "/src/blocks/navigation/nav-header/nav-header.html", "group": "Blocks" },
   { "title": "Command Palette", "path": "/src/blocks/overlays/overlay-command-palette/overlay-command-palette.html", "group": "Blocks" },
-  { "title": "Confirmation Dialog", "path": "/src/blocks/overlays/overlay-confirmation/overlay-confirmation.html", "group": "Blocks" }
+  { "title": "Confirmation Dialog", "path": "/src/blocks/overlays/overlay-confirmation/overlay-confirmation.html", "group": "Blocks" },
+  { "title": "Context API", "path": "/src/core/context.html", "group": "Core" },
+  { "title": "Reference", "path": "/src/styles/reference.html", "group": "Other" },
+  { "title": "State Grid", "path": "/src/styles/state-grid.html", "group": "Other" },
+  { "title": "Icons", "path": "/src/icons/ui-icon.html", "group": "Other" },
+  { "title": "Kernel", "path": "/src/kernel/kernel.html", "group": "Other" },
+  { "title": "A2UI Protocol", "path": "/src/a2ui/a2ui.html", "group": "Other" },
+  { "title": "A2UI Components", "path": "/src/a2ui/a2ui-components.html", "group": "Other" }
 ]
