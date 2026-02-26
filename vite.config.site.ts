@@ -3,7 +3,7 @@
 // Usage: vite build --config vite.config.site.ts
 
 import { defineConfig } from 'vite';
-import type { Plugin } from 'vite';
+import type { Plugin, HtmlTagDescriptor } from 'vite';
 import { resolve } from 'path';
 import { readdirSync, statSync, readFileSync } from 'fs';
 import { join } from 'path';
@@ -25,18 +25,33 @@ function collectHtmlEntries(dir: string, base = ''): Record<string, string> {
   return entries;
 }
 
-// WHY: Inject site-overrides.css into every HTML page's <head>.
-// Fixes ui-layout flash-prevention (visibility: hidden) that blocks
-// rendering in static builds where [data-ready] may not get set.
-function injectSiteOverrides(): Plugin {
+// WHY: Inject site-overrides.css and site-entry.ts into every page.
+// Uses Vite's HtmlTagDescriptor API so the script tag is properly
+// resolved and bundled during the build pipeline.
+function injectSiteAssets(): Plugin {
   const css = readFileSync(
     resolve(__dirname, 'src/styles/site-overrides.css'),
     'utf8',
   );
   return {
-    name: 'inject-site-overrides',
-    transformIndexHtml(html) {
-      return html.replace('</head>', `<style>${css}</style></head>`);
+    name: 'inject-site-assets',
+    transformIndexHtml: {
+      order: 'pre',
+      handler() {
+        const tags: HtmlTagDescriptor[] = [
+          {
+            tag: 'style',
+            children: css,
+            injectTo: 'head',
+          },
+          {
+            tag: 'script',
+            attrs: { type: 'module', src: '/src/site-entry.ts' },
+            injectTo: 'head',
+          },
+        ];
+        return tags;
+      },
     },
   };
 }
@@ -44,16 +59,12 @@ function injectSiteOverrides(): Plugin {
 const srcEntries = collectHtmlEntries(resolve(__dirname, 'src'));
 
 export default defineConfig({
-  plugins: [injectSiteOverrides()],
+  plugins: [injectSiteAssets()],
   define: {
     __DEV__: 'false',
   },
   build: {
     outDir: 'site',
-    // WHY: Disable tree-shaking for the demo site. Inline <script type="module">
-    // in HTML pages import .ts files that call customElements.define() as side
-    // effects. Rolldown tree-shakes them away because package.json has
-    // "sideEffects": false. This is correct for library builds, but wrong here.
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
