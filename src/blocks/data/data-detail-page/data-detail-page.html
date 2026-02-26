@@ -158,7 +158,7 @@
 
     <!-- ── Profile Header ── -->
     <ui-card>
-      <ui-body><div class="profile-header">
+      <div class="profile-header">
         <ui-avatar name="Kim Granlund" size="xl" intent="accent"></ui-avatar>
         <div class="profile-info">
           <div class="profile-name">
@@ -177,7 +177,7 @@
             <span slot="label">Delete</span>
           </ui-button>
         </div>
-      </div></ui-body>
+      </div>
     </ui-card>
 
     <!-- ── Tabs ── -->
@@ -191,57 +191,52 @@
         <ui-stack gap="4">
         <div class="detail-grid">
           <ui-card>
-            <ui-body>
-              <h2>Personal Information</h2>
-              <ui-stack gap="3">
-                <div class="detail-item">
-                  <span class="detail-label">Full Name</span>
-                  <span class="detail-value">Kim Granlund</span>
-                </div>
-                <div class="detail-item">
-                  <span class="detail-label">Email</span>
-                  <span class="detail-value">kim.granlund@company.com</span>
-                </div>
-                <div class="detail-item">
-                  <span class="detail-label">Phone</span>
-                  <span class="detail-value">+1 (555) 234-5678</span>
-                </div>
-                <div class="detail-item">
-                  <span class="detail-label">Location</span>
-                  <span class="detail-value">San Francisco, CA</span>
-                </div>
-              </ui-stack>
-            </ui-body>
+            <h2>Personal Information</h2>
+            <ui-stack gap="3">
+              <div class="detail-item">
+                <span class="detail-label">Full Name</span>
+                <span class="detail-value">Kim Granlund</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Email</span>
+                <span class="detail-value">kim.granlund@company.com</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Phone</span>
+                <span class="detail-value">+1 (555) 234-5678</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Location</span>
+                <span class="detail-value">San Francisco, CA</span>
+              </div>
+            </ui-stack>
           </ui-card>
 
           <ui-card>
-            <ui-body>
-              <h2>Work Information</h2>
-              <ui-stack gap="3">
-                <div class="detail-item">
-                  <span class="detail-label">Department</span>
-                  <span class="detail-value">Design</span>
-                </div>
-                <div class="detail-item">
-                  <span class="detail-label">Role</span>
-                  <span class="detail-value">Admin</span>
-                </div>
-                <div class="detail-item">
-                  <span class="detail-label">Manager</span>
-                  <span class="detail-value">Sarah Mitchell</span>
-                </div>
-                <div class="detail-item">
-                  <span class="detail-label">Employee ID</span>
-                  <span class="detail-value">EMP-2023-0472</span>
-                </div>
-              </ui-stack>
-            </ui-body>
+            <h2>Work Information</h2>
+            <ui-stack gap="3">
+              <div class="detail-item">
+                <span class="detail-label">Department</span>
+                <span class="detail-value">Design</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Role</span>
+                <span class="detail-value">Admin</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Manager</span>
+                <span class="detail-value">Sarah Mitchell</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Employee ID</span>
+                <span class="detail-value">EMP-2023-0472</span>
+              </div>
+            </ui-stack>
           </ui-card>
         </div>
 
         <!-- ── Recent Projects ── -->
         <ui-card>
-          <ui-body>
           <h2>Recent Projects</h2>
           <ui-table style="grid-template-columns: 2fr 1fr 100px 100px;">
             <ui-table-head>
@@ -279,7 +274,6 @@
               </ui-table-row>
             </ui-table-body>
           </ui-table>
-          </ui-body>
         </ui-card>
         </ui-stack>
       </ui-tab-panel>
@@ -287,7 +281,6 @@
       <!-- ── Activity Panel ── -->
       <ui-tab-panel value="activity">
         <ui-card>
-          <ui-body>
           <h2>Recent Activity</h2>
           <div class="activity-item">
             <span class="activity-dot"></span>
@@ -338,7 +331,6 @@
               <span class="activity-time">Feb 15, 2026</span>
             </div>
           </div>
-          </ui-body>
         </ui-card>
       </ui-tab-panel>
 
@@ -347,89 +339,83 @@
         <ui-stack gap="4">
         <div class="detail-grid">
           <ui-card>
-            <ui-body>
-              <h2>Notifications</h2>
-              <div class="settings-row">
-                <div>
-                  <div class="settings-label">Email notifications</div>
-                  <div class="settings-description">Receive email updates about activity</div>
-                </div>
-                <ui-switch checked></ui-switch>
+            <h2>Notifications</h2>
+            <div class="settings-row">
+              <div>
+                <div class="settings-label">Email notifications</div>
+                <div class="settings-description">Receive email updates about activity</div>
               </div>
-              <div class="settings-row">
-                <div>
-                  <div class="settings-label">Push notifications</div>
-                  <div class="settings-description">Receive push notifications on your device</div>
-                </div>
-                <ui-switch checked></ui-switch>
+              <ui-switch checked></ui-switch>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="settings-label">Push notifications</div>
+                <div class="settings-description">Receive push notifications on your device</div>
               </div>
-              <div class="settings-row">
-                <div>
-                  <div class="settings-label">Weekly digest</div>
-                  <div class="settings-description">Get a weekly summary of activity</div>
-                </div>
-                <ui-switch></ui-switch>
+              <ui-switch checked></ui-switch>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="settings-label">Weekly digest</div>
+                <div class="settings-description">Get a weekly summary of activity</div>
               </div>
-            </ui-body>
+              <ui-switch></ui-switch>
+            </div>
           </ui-card>
 
           <ui-card>
-            <ui-body>
-              <h2>Security</h2>
-              <div class="settings-row">
-                <div>
-                  <div class="settings-label">Two-factor authentication</div>
-                  <div class="settings-description">Add an extra layer of security</div>
-                </div>
-                <ui-button size="xs">
-                  <span slot="label">Enable</span>
-                </ui-button>
+            <h2>Security</h2>
+            <div class="settings-row">
+              <div>
+                <div class="settings-label">Two-factor authentication</div>
+                <div class="settings-description">Add an extra layer of security</div>
               </div>
-              <div class="settings-row">
-                <div>
-                  <div class="settings-label">Password</div>
-                  <div class="settings-description">Last changed 30 days ago</div>
-                </div>
-                <ui-button size="xs">
-                  <span slot="label">Change</span>
-                </ui-button>
+              <ui-button size="xs">
+                <span slot="label">Enable</span>
+              </ui-button>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="settings-label">Password</div>
+                <div class="settings-description">Last changed 30 days ago</div>
               </div>
-              <div class="settings-row">
-                <div>
-                  <div class="settings-label">Active sessions</div>
-                  <div class="settings-description">2 devices currently signed in</div>
-                </div>
-                <ui-button size="xs">
-                  <span slot="label">Manage</span>
-                </ui-button>
+              <ui-button size="xs">
+                <span slot="label">Change</span>
+              </ui-button>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="settings-label">Active sessions</div>
+                <div class="settings-description">2 devices currently signed in</div>
               </div>
-            </ui-body>
+              <ui-button size="xs">
+                <span slot="label">Manage</span>
+              </ui-button>
+            </div>
           </ui-card>
         </div>
 
         <ui-card>
-          <ui-body>
-            <h2 style="color: var(--danger-ink-strong);">Danger Zone</h2>
-            <div class="settings-row">
-              <div>
-                <div class="settings-label">Deactivate account</div>
-                <div class="settings-description">Temporarily disable this user's access to the platform</div>
-              </div>
-              <ui-button size="xs" intent="danger">
-                <span slot="label">Deactivate</span>
-              </ui-button>
+          <h2 style="color: var(--danger-ink-strong);">Danger Zone</h2>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Deactivate account</div>
+              <div class="settings-description">Temporarily disable this user's access to the platform</div>
             </div>
-            <div class="settings-row">
-              <div>
-                <div class="settings-label">Delete account</div>
-                <div class="settings-description">Permanently remove this user and all associated data</div>
-              </div>
-              <ui-button variant="primary" size="xs" intent="danger">
-                <ui-icon name="trash" slot="leading"></ui-icon>
-                <span slot="label">Delete Account</span>
-              </ui-button>
+            <ui-button size="xs" intent="danger">
+              <span slot="label">Deactivate</span>
+            </ui-button>
+          </div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Delete account</div>
+              <div class="settings-description">Permanently remove this user and all associated data</div>
             </div>
-          </ui-body>
+            <ui-button variant="primary" size="xs" intent="danger">
+              <ui-icon name="trash" slot="leading"></ui-icon>
+              <span slot="label">Delete Account</span>
+            </ui-button>
+          </div>
         </ui-card>
         </ui-stack>
       </ui-tab-panel>

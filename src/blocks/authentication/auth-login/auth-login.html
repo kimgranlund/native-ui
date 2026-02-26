@@ -161,44 +161,42 @@
           <p class="auth-heading">Welcome back</p>
           <p class="auth-subheading">Sign in to your account to continue</p>
           <ui-card>
-            <ui-body>
-              <ui-stack gap="4">
-                <form>
-                  <ui-stack gap="4">
-                    <ui-field required>
-                      <label slot="label">Email</label>
-                      <ui-input type="email" placeholder="kim@example.com" name="email">
-                        <ui-icon name="envelope" slot="leading"></ui-icon>
-                      </ui-input>
-                    </ui-field>
-                    <ui-field required>
-                      <label slot="label">Password</label>
-                      <ui-input type="password" placeholder="Enter your password" name="password">
-                        <ui-icon name="lock" slot="leading"></ui-icon>
-                      </ui-input>
-                    </ui-field>
-                    <div class="auth-row-between">
-                      <ui-checkbox name="remember">Remember me</ui-checkbox>
-                      <a href="#" class="auth-forgot-link">Forgot password?</a>
-                    </div>
-                    <ui-button variant="primary" intent="accent" type="submit">
-                      <span slot="label">Sign In</span>
-                    </ui-button>
-                  </ui-stack>
-                </form>
-                <ui-divider>or continue with</ui-divider>
-                <div class="oauth-row">
-                  <ui-button>
-                    <ui-icon name="google-logo" slot="leading"></ui-icon>
-                    <span slot="label">Google</span>
+            <ui-stack gap="4">
+              <form>
+                <ui-stack gap="4">
+                  <ui-field required>
+                    <label slot="label">Email</label>
+                    <ui-input type="email" placeholder="kim@example.com" name="email">
+                      <ui-icon name="envelope" slot="leading"></ui-icon>
+                    </ui-input>
+                  </ui-field>
+                  <ui-field required>
+                    <label slot="label">Password</label>
+                    <ui-input type="password" placeholder="Enter your password" name="password">
+                      <ui-icon name="lock" slot="leading"></ui-icon>
+                    </ui-input>
+                  </ui-field>
+                  <div class="auth-row-between">
+                    <ui-checkbox name="remember">Remember me</ui-checkbox>
+                    <a href="#" class="auth-forgot-link">Forgot password?</a>
+                  </div>
+                  <ui-button variant="primary" intent="accent" type="submit">
+                    <span slot="label">Sign In</span>
                   </ui-button>
-                  <ui-button>
-                    <ui-icon name="github-logo" slot="leading"></ui-icon>
-                    <span slot="label">GitHub</span>
-                  </ui-button>
-                </div>
-              </ui-stack>
-            </ui-body>
+                </ui-stack>
+              </form>
+              <ui-divider>or continue with</ui-divider>
+              <div class="oauth-row">
+                <ui-button>
+                  <ui-icon name="google-logo" slot="leading"></ui-icon>
+                  <span slot="label">Google</span>
+                </ui-button>
+                <ui-button>
+                  <ui-icon name="github-logo" slot="leading"></ui-icon>
+                  <span slot="label">GitHub</span>
+                </ui-button>
+              </div>
+            </ui-stack>
           </ui-card>
           <p class="auth-footer-text">
             Don't have an account? <a href="#">Sign up</a>
