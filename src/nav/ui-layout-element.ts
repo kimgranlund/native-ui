@@ -186,18 +186,21 @@ export class UILayout extends UIElement {
     }
 
     const groupIcons: Record<string, string> = {
-      Foundation: 'compass',
-      Core: 'cpu',
       Components: 'cube',
       Containers: 'package',
       Traits: 'lightning',
       Blocks: 'squares-four',
+      Core: 'cpu',
+      Other: 'compass',
     };
 
     for (const [groupName, entries] of groups) {
       const group = document.createElement('ui-nav-group');
 
-      const isOpen = groupStates[groupName] !== false;
+      // WHY: Default to collapsed for all groups except Components.
+      // User-persisted state (from localStorage) overrides the default.
+      const defaultOpen = groupName === 'Components';
+      const isOpen = groupStates[groupName] ?? defaultOpen;
       if (!isOpen) (group as unknown as { open: boolean }).open = false;
 
       const groupHeader = document.createElement('ui-nav-group-header');
