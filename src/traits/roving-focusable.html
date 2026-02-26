@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RovingFocusable — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      /* ── Vertical toolbar ── */
+
+      .toolbar {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding: 0.25rem;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.375rem;
+        width: fit-content;
+      }
+
+      .tool-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        background: transparent;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: background 100ms ease;
+        outline: none;
+      }
+
+      .tool-btn:hover {
+        background: var(--neutral-panel-hover);
+      }
+
+      .tool-btn:focus-visible {
+        outline: 2px solid var(--ui-focus-ring);
+        outline-offset: -2px;
+      }
+
+      .tool-btn[disabled] {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      /* ── Horizontal tab bar ── */
+
+      .tabbar {
+        display: flex;
+        gap: 0;
+        border-bottom: 1px solid var(--neutral-border-muted);
+      }
+
+      .tab-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        cursor: pointer;
+        outline: none;
+        border-bottom: 2px solid transparent;
+        transition: border-color 100ms ease, color 100ms ease;
+        color: var(--neutral-ink-muted);
+      }
+
+      .tab-item:hover {
+        color: var(--neutral-ink-hover);
+      }
+
+      .tab-item:focus-visible {
+        outline: 2px solid var(--ui-focus-ring);
+        outline-offset: -2px;
+      }
+
+      .tab-item.active {
+        color: var(--accent-surface-ink);
+        border-bottom-color: var(--accent-surface);
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--neutral-border-muted);
+        color: var(--neutral-ink-strong);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--neutral-border-muted);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+
+    <h1>RovingFocusable</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Composable trait for keyboard navigation within a group. Only one item has <code>tabindex="0"</code> at a time — arrow keys move focus between items, Home/End jump to first/last. Skips disabled items.
+    </p>
+
+    <!-- ── Vertical Toolbar (Provider) ── -->
+
+    <h2>Vertical (Arrow Up/Down)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        <code>&lt;ui-controller&gt;</code> applies roving focus with vertical orientation. Tab into the toolbar, then use Up/Down arrows. The "Italic" item is disabled and skipped.
+      </p>
+      <ui-controller traits="roving-focusable" roving-focusable-selector=":scope > .toolbar > .tool-btn:not([disabled])" roving-focusable-orientation="vertical">
+        <div>
+          <div class="toolbar">
+            <div class="tool-btn" role="button">Bold</div>
+            <div class="tool-btn" role="button" disabled>Italic (disabled)</div>
+            <div class="tool-btn" role="button">Underline</div>
+            <div class="tool-btn" role="button">Strikethrough</div>
+            <div class="tool-btn" role="button">Code</div>
+          </div>
+        </div>
+      </ui-controller>
+      <pre class="demo-code"><code>&lt;ui-controller traits="roving-focusable"
+  roving-focusable-selector=".tool-btn:not([disabled])"
+  roving-focusable-orientation="vertical"&gt;
+  &lt;div&gt;
+    &lt;div class="toolbar"&gt;
+      &lt;div class="tool-btn" role="button"&gt;Bold&lt;/div&gt;
+      &lt;div class="tool-btn" role="button" disabled&gt;Italic&lt;/div&gt;
+      &lt;div class="tool-btn" role="button"&gt;Underline&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Horizontal Tab Bar (Provider) ── -->
+
+    <h2>Horizontal (Arrow Left/Right)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Horizontal orientation with wrap-around. Use Left/Right arrows to navigate. Focus wraps from last to first.
+      </p>
+      <ui-controller traits="roving-focusable" roving-focusable-selector=".tab-item" roving-focusable-orientation="horizontal">
+        <div>
+          <div class="tabbar" id="tabbar">
+            <div class="tab-item active" role="tab">Overview</div>
+            <div class="tab-item" role="tab">Features</div>
+            <div class="tab-item" role="tab">API</div>
+            <div class="tab-item" role="tab">Examples</div>
+          </div>
+        </div>
+      </ui-controller>
+      <pre class="demo-code"><code>&lt;ui-controller traits="roving-focusable"
+  roving-focusable-selector=".tab-item"
+  roving-focusable-orientation="horizontal"&gt;
+  &lt;div&gt;
+    &lt;div class="tabbar"&gt;
+      &lt;div class="tab-item" role="tab"&gt;Overview&lt;/div&gt;
+      &lt;div class="tab-item" role="tab"&gt;Features&lt;/div&gt;
+      &lt;div class="tab-item" role="tab"&gt;API&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Built-in: ui-listbox ── -->
+
+    <h2>Built-in: ui-listbox</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        <code>ui-listbox</code> uses RovingFocusable internally. Arrow keys navigate between options.
+      </p>
+      <ui-listbox style="max-width: 16rem;">
+        <ui-option value="react">React</ui-option>
+        <ui-option value="vue">Vue</ui-option>
+        <ui-option value="svelte">Svelte</ui-option>
+        <ui-option value="lit">Lit</ui-option>
+      </ui-listbox>
+    </div>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Provider Usage</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>roving-focusable-selector</code></td>
+            <td><code>string</code></td>
+            <td>—</td>
+            <td>CSS selector for focusable items. Exclude disabled items with <code>:not([disabled])</code>.</td>
+          </tr>
+          <tr>
+            <td><code>roving-focusable-orientation</code></td>
+            <td><code>'vertical' | 'horizontal' | 'both'</code></td>
+            <td><code>'both'</code></td>
+            <td>Which arrow keys to respond to. <code>'vertical'</code> = Up/Down, <code>'horizontal'</code> = Left/Right.</td>
+          </tr>
+          <tr>
+            <td><code>roving-focusable-wrap</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Whether focus wraps from last to first (and vice versa).</td>
+          </tr>
+          <tr>
+            <td><code>roving-focusable-disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables roving focus when <code>"true"</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>Arrow Up/Down</code></td>
+            <td>Move focus in vertical mode.</td>
+          </tr>
+          <tr>
+            <td><code>Arrow Left/Right</code></td>
+            <td>Move focus in horizontal mode.</td>
+          </tr>
+          <tr>
+            <td><code>Home</code></td>
+            <td>Move focus to first item.</td>
+          </tr>
+          <tr>
+            <td><code>End</code></td>
+            <td>Move focus to last item.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></ui-layout>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../components/ui-listbox/ui-listbox.ts';
+      import '../components/ui-controller/ui-controller.ts';
+      import '../icons/ui-icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Tab bar: active class switching ──
+
+      const tabbar = document.getElementById('tabbar');
+      tabbar.addEventListener('focusin', (e) => {
+        for (const item of tabbar.querySelectorAll('.tab-item')) item.classList.remove('active');
+        if (e.target !== tabbar) e.target.classList.add('active');
+      });
+    </script>
+  </body>
+</html>

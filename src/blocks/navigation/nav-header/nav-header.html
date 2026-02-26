@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Top Navigation Bar — Block</title>
+    <link rel="stylesheet" href="../../../styles/index.css" />
+    <link rel="stylesheet" href="../../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .nav-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 1rem;
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        min-height: 3rem;
+      }
+
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 700;
+        font-size: 0.9375rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .nav-brand ui-icon {
+        color: var(--accent-ink-strong);
+      }
+
+      .nav-center {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        flex-shrink: 0;
+      }
+
+      .nav-user {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-inline-start: 0.25rem;
+        cursor: default;
+      }
+
+      .nav-user-name {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .icon-badge-wrapper {
+        position: relative;
+        display: inline-flex;
+      }
+
+      .search-input-wrapper {
+        max-width: 20rem;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>Top Navigation Bar</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Horizontal application header with brand, navigation, search, and user controls.
+      Demonstrates two layout variants: breadcrumb-centered and search-centered.
+    </p>
+
+    <!-- -- With Breadcrumb -- -->
+
+    <h2>With Breadcrumb Navigation</h2>
+    <nav class="nav-bar" aria-label="Main navigation">
+      <div class="nav-brand">
+        <ui-icon name="house" aria-hidden="true"></ui-icon>
+        Acme Inc
+      </div>
+
+      <ui-divider orientation="vertical"></ui-divider>
+
+      <div class="nav-center">
+        <ui-breadcrumb size="sm">
+          <ui-breadcrumb-item href="/">Dashboard</ui-breadcrumb-item>
+          <ui-breadcrumb-item href="/projects">Projects</ui-breadcrumb-item>
+          <ui-breadcrumb-item current>Alpha</ui-breadcrumb-item>
+        </ui-breadcrumb>
+      </div>
+
+      <div class="nav-actions">
+        <ui-button variant="ghost" size="sm" aria-label="Search">
+          <ui-icon name="magnifying-glass"></ui-icon>
+        </ui-button>
+        <div class="icon-badge-wrapper">
+          <ui-button variant="ghost" size="sm" aria-label="Notifications">
+            <ui-icon name="bell"></ui-icon>
+          </ui-button>
+          <ui-badge intent="danger" floating>3</ui-badge>
+        </div>
+        <ui-divider orientation="vertical"></ui-divider>
+        <div class="nav-user">
+          <ui-avatar name="Kim Granlund" size="sm"></ui-avatar>
+          <span class="nav-user-name">Kim Granlund</span>
+          <ui-icon name="caret-down" aria-hidden="true" style="color: var(--neutral-ink-muted);"></ui-icon>
+        </div>
+      </div>
+    </nav>
+
+    <!-- -- With Search Input -- -->
+
+    <h2>With Search Input</h2>
+    <nav class="nav-bar" aria-label="Main navigation with search">
+      <div class="nav-brand">
+        <ui-icon name="house" aria-hidden="true"></ui-icon>
+        Acme Inc
+      </div>
+
+      <ui-divider orientation="vertical"></ui-divider>
+
+      <div class="nav-center">
+        <div class="search-input-wrapper">
+          <ui-input size="sm" placeholder="Search projects, people, tasks...">
+            <ui-icon name="magnifying-glass" slot="leading"></ui-icon>
+          </ui-input>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <div class="icon-badge-wrapper">
+          <ui-button variant="ghost" size="sm" aria-label="Notifications">
+            <ui-icon name="bell"></ui-icon>
+          </ui-button>
+          <ui-badge intent="danger" floating>3</ui-badge>
+        </div>
+        <ui-divider orientation="vertical"></ui-divider>
+        <div class="nav-user">
+          <ui-avatar name="Kim Granlund" size="sm"></ui-avatar>
+          <span class="nav-user-name">Kim Granlund</span>
+          <ui-icon name="caret-down" aria-hidden="true" style="color: var(--neutral-ink-muted);"></ui-icon>
+        </div>
+      </div>
+    </nav>
+
+    <!-- -- Compact Variant -- -->
+
+    <h2>Compact (density)</h2>
+    <nav class="nav-bar" aria-label="Compact navigation" density="compact">
+      <div class="nav-brand">
+        <ui-icon name="house" aria-hidden="true"></ui-icon>
+        Acme Inc
+      </div>
+
+      <ui-divider orientation="vertical"></ui-divider>
+
+      <div class="nav-center">
+        <ui-breadcrumb size="sm">
+          <ui-breadcrumb-item href="/">Dashboard</ui-breadcrumb-item>
+          <ui-breadcrumb-item current>Overview</ui-breadcrumb-item>
+        </ui-breadcrumb>
+      </div>
+
+      <div class="nav-actions">
+        <ui-button variant="ghost" size="sm" aria-label="Search">
+          <ui-icon name="magnifying-glass"></ui-icon>
+        </ui-button>
+        <div class="icon-badge-wrapper">
+          <ui-button variant="ghost" size="sm" aria-label="Notifications">
+            <ui-icon name="bell"></ui-icon>
+          </ui-button>
+          <ui-badge intent="danger" floating>3</ui-badge>
+        </div>
+        <ui-divider orientation="vertical"></ui-divider>
+        <div class="nav-user">
+          <ui-avatar name="Kim Granlund" size="xs"></ui-avatar>
+        </div>
+      </div>
+    </nav>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../../nav/ui-layout.ts';
+      import '../../../components/ui-button/ui-button.ts';
+      import '../../../components/ui-input/ui-input.ts';
+      import '../../../components/ui-avatar/ui-avatar.ts';
+      import '../../../components/ui-badge/ui-badge.ts';
+      import '../../../components/ui-breadcrumb/ui-breadcrumb.ts';
+      import '../../../icons/ui-icon.ts';
+      import '../../../icons/phosphor/house.ts';
+      import '../../../icons/phosphor/magnifying-glass.ts';
+      import '../../../icons/phosphor/bell.ts';
+      import '../../../icons/phosphor/caret-down.ts';
+    </script>
+  </body>
+</html>

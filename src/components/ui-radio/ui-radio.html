@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ui-radio — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+        margin-top: 1.5rem;
+        color: var(--neutral-ink-muted);
+      }
+
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: start;
+        gap: 2rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .demo-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        width: 5rem;
+        flex-shrink: 0;
+        color: var(--neutral-ink-muted);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      .log {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.375rem;
+        padding: 0.75rem;
+        max-height: 10rem;
+        overflow-y: auto;
+        margin-top: 0.5rem;
+      }
+
+      .log-entry {
+        padding: 0.125rem 0;
+        color: var(--neutral-ink-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>&lt;ui-radio-group&gt; + &lt;ui-radio&gt;</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Exclusive single-select radio group with roving focus, form association, and arrow-key navigation.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic (Vertical)</h2>
+    <div class="demo-section">
+      <ui-radio-group value="banana">
+        <ui-radio value="apple">Apple</ui-radio>
+        <ui-radio value="banana">Banana</ui-radio>
+        <ui-radio value="cherry">Cherry</ui-radio>
+        <ui-radio value="date">Date</ui-radio>
+      </ui-radio-group>
+    <pre class="demo-code"><code>&lt;ui-radio-group value="banana"&gt;
+  &lt;ui-radio value="apple"&gt;Apple&lt;/ui-radio&gt;
+  &lt;ui-radio value="banana"&gt;Banana&lt;/ui-radio&gt;
+  &lt;ui-radio value="cherry"&gt;Cherry&lt;/ui-radio&gt;
+&lt;/ui-radio-group&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Horizontal ── -->
+
+    <h2>Horizontal</h2>
+    <div class="demo-section">
+      <ui-radio-group orientation="horizontal" value="monthly">
+        <ui-radio value="daily">Daily</ui-radio>
+        <ui-radio value="weekly">Weekly</ui-radio>
+        <ui-radio value="monthly">Monthly</ui-radio>
+        <ui-radio value="yearly">Yearly</ui-radio>
+      </ui-radio-group>
+    <pre class="demo-code"><code>&lt;ui-radio-group orientation="horizontal" value="monthly"&gt;
+  &lt;ui-radio value="daily"&gt;Daily&lt;/ui-radio&gt;
+  &lt;ui-radio value="weekly"&gt;Weekly&lt;/ui-radio&gt;
+  &lt;ui-radio value="monthly"&gt;Monthly&lt;/ui-radio&gt;
+&lt;/ui-radio-group&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <ui-radio-group size="xs" value="a">
+          <ui-radio value="a">Extra small A</ui-radio>
+          <ui-radio value="b">Extra small B</ui-radio>
+        </ui-radio-group>
+        <ui-radio-group size="sm" value="a">
+          <ui-radio value="a">Small A</ui-radio>
+          <ui-radio value="b">Small B</ui-radio>
+        </ui-radio-group>
+        <ui-radio-group size="md" value="a">
+          <ui-radio value="a">Medium A</ui-radio>
+          <ui-radio value="b">Medium B</ui-radio>
+        </ui-radio-group>
+        <ui-radio-group size="lg" value="a">
+          <ui-radio value="a">Large A</ui-radio>
+          <ui-radio value="b">Large B</ui-radio>
+        </ui-radio-group>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-radio-group size="sm" value="a"&gt;
+  &lt;ui-radio value="a"&gt;Small A&lt;/ui-radio&gt;
+  &lt;ui-radio value="b"&gt;Small B&lt;/ui-radio&gt;
+&lt;/ui-radio-group&gt;
+
+&lt;ui-radio-group size="lg" value="a"&gt;
+  &lt;ui-radio value="a"&gt;Large A&lt;/ui-radio&gt;
+  &lt;ui-radio value="b"&gt;Large B&lt;/ui-radio&gt;
+&lt;/ui-radio-group&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section">
+      <h3>compact</h3>
+      <div class="demo-row" density="compact">
+        <ui-radio-group size="sm" value="a">
+          <ui-radio value="a">Small A</ui-radio>
+          <ui-radio value="b">Small B</ui-radio>
+        </ui-radio-group>
+        <ui-radio-group value="a">
+          <ui-radio value="a">Medium A</ui-radio>
+          <ui-radio value="b">Medium B</ui-radio>
+        </ui-radio-group>
+      </div>
+      <h3>default</h3>
+      <div class="demo-row">
+        <ui-radio-group size="sm" value="a">
+          <ui-radio value="a">Small A</ui-radio>
+          <ui-radio value="b">Small B</ui-radio>
+        </ui-radio-group>
+        <ui-radio-group value="a">
+          <ui-radio value="a">Medium A</ui-radio>
+          <ui-radio value="b">Medium B</ui-radio>
+        </ui-radio-group>
+      </div>
+      <h3>loose</h3>
+      <div class="demo-row" density="loose">
+        <ui-radio-group size="sm" value="a">
+          <ui-radio value="a">Small A</ui-radio>
+          <ui-radio value="b">Small B</ui-radio>
+        </ui-radio-group>
+        <ui-radio-group value="a">
+          <ui-radio value="a">Medium A</ui-radio>
+          <ui-radio value="b">Medium B</ui-radio>
+        </ui-radio-group>
+      </div>
+      <pre class="demo-code"><code>&lt;div density="compact"&gt;
+  &lt;ui-radio-group value="a"&gt;...&lt;/ui-radio-group&gt;
+&lt;/div&gt;
+
+&lt;div density="loose"&gt;
+  &lt;ui-radio-group value="a"&gt;...&lt;/ui-radio-group&gt;
+&lt;/div&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Radius ── -->
+
+    <h2>Radius</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <ui-radio-group value="a">
+          <ui-radio value="a">Default A</ui-radio>
+          <ui-radio value="b">Default B</ui-radio>
+        </ui-radio-group>
+        <ui-radio-group radius="rounded" value="a">
+          <ui-radio value="a">Rounded A</ui-radio>
+          <ui-radio value="b">Rounded B</ui-radio>
+        </ui-radio-group>
+        <ui-radio-group radius="sharp" value="a">
+          <ui-radio value="a">Sharp A</ui-radio>
+          <ui-radio value="b">Sharp B</ui-radio>
+        </ui-radio-group>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-radio-group radius="rounded" value="a"&gt;
+  &lt;ui-radio value="a"&gt;Rounded A&lt;/ui-radio&gt;
+  &lt;ui-radio value="b"&gt;Rounded B&lt;/ui-radio&gt;
+&lt;/ui-radio-group&gt;
+
+&lt;ui-radio-group radius="sharp" value="a"&gt;
+  &lt;ui-radio value="a"&gt;Sharp A&lt;/ui-radio&gt;
+  &lt;ui-radio value="b"&gt;Sharp B&lt;/ui-radio&gt;
+&lt;/ui-radio-group&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Intents ── -->
+
+    <h2>Intents</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <ui-radio-group intent="neutral" value="a">
+          <ui-radio value="a">Neutral A</ui-radio>
+          <ui-radio value="b">Neutral B</ui-radio>
+        </ui-radio-group>
+        <ui-radio-group intent="accent" value="a">
+          <ui-radio value="a">Accent A</ui-radio>
+          <ui-radio value="b">Accent B</ui-radio>
+        </ui-radio-group>
+        <ui-radio-group intent="success" value="a">
+          <ui-radio value="a">Success A</ui-radio>
+          <ui-radio value="b">Success B</ui-radio>
+        </ui-radio-group>
+        <ui-radio-group intent="danger" value="a">
+          <ui-radio value="a">Danger A</ui-radio>
+          <ui-radio value="b">Danger B</ui-radio>
+        </ui-radio-group>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-radio-group intent="accent" value="a"&gt;
+  &lt;ui-radio value="a"&gt;Accent A&lt;/ui-radio&gt;
+  &lt;ui-radio value="b"&gt;Accent B&lt;/ui-radio&gt;
+&lt;/ui-radio-group&gt;
+
+&lt;ui-radio-group intent="danger" value="a"&gt;
+  &lt;ui-radio value="a"&gt;Danger A&lt;/ui-radio&gt;
+  &lt;ui-radio value="b"&gt;Danger B&lt;/ui-radio&gt;
+&lt;/ui-radio-group&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <ui-radio-group disabled value="b">
+          <ui-radio value="a">Option A</ui-radio>
+          <ui-radio value="b">Option B (selected)</ui-radio>
+          <ui-radio value="c">Option C</ui-radio>
+        </ui-radio-group>
+
+        <ui-radio-group value="a">
+          <ui-radio value="a">Enabled</ui-radio>
+          <ui-radio value="b" disabled>Disabled option</ui-radio>
+          <ui-radio value="c">Enabled</ui-radio>
+        </ui-radio-group>
+      </div>
+      <pre class="demo-code"><code>&lt;!-- Entire group disabled --&gt;
+&lt;ui-radio-group disabled value="b"&gt;
+  &lt;ui-radio value="a"&gt;Option A&lt;/ui-radio&gt;
+  &lt;ui-radio value="b"&gt;Option B&lt;/ui-radio&gt;
+&lt;/ui-radio-group&gt;
+
+&lt;!-- Single option disabled --&gt;
+&lt;ui-radio-group value="a"&gt;
+  &lt;ui-radio value="a"&gt;Enabled&lt;/ui-radio&gt;
+  &lt;ui-radio value="b" disabled&gt;Disabled&lt;/ui-radio&gt;
+&lt;/ui-radio-group&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Events ── -->
+
+    <h2>Change Events</h2>
+    <div class="demo-section">
+      <ui-radio-group id="event-rg">
+        <ui-radio value="red">Red</ui-radio>
+        <ui-radio value="green">Green</ui-radio>
+        <ui-radio value="blue">Blue</ui-radio>
+      </ui-radio-group>
+      <div class="log" id="event-log"></div>
+    <pre class="demo-code"><code>&lt;ui-radio-group id="my-radios"&gt;
+  &lt;ui-radio value="red"&gt;Red&lt;/ui-radio&gt;
+  &lt;ui-radio value="green"&gt;Green&lt;/ui-radio&gt;
+  &lt;ui-radio value="blue"&gt;Blue&lt;/ui-radio&gt;
+&lt;/ui-radio-group&gt;
+
+&lt;script&gt;
+  document.getElementById('my-radios')
+    .addEventListener('ui-change', (e) =&gt; {
+      console.log(e.detail.value, e.detail.label);
+    });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Form Association ── -->
+
+    <h2>Form Association</h2>
+    <div class="demo-section">
+      <form id="demo-form">
+        <ui-radio-group name="plan" value="pro" style="margin-bottom: 1rem;">
+          <ui-radio value="free">Free</ui-radio>
+          <ui-radio value="pro">Pro</ui-radio>
+          <ui-radio value="enterprise">Enterprise</ui-radio>
+        </ui-radio-group>
+        <div style="display: flex; gap: 0.5rem;">
+          <ui-button variant="primary" type="submit"><span slot="label">Submit</span></ui-button>
+          <ui-button variant="secondary" type="reset"><span slot="label">Reset</span></ui-button>
+        </div>
+      </form>
+      <div class="log" id="form-log"></div>
+    <pre class="demo-code"><code>&lt;form&gt;
+  &lt;ui-radio-group name="plan" value="pro"&gt;
+    &lt;ui-radio value="free"&gt;Free&lt;/ui-radio&gt;
+    &lt;ui-radio value="pro"&gt;Pro&lt;/ui-radio&gt;
+    &lt;ui-radio value="enterprise"&gt;Enterprise&lt;/ui-radio&gt;
+  &lt;/ui-radio-group&gt;
+  &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
+      </p>
+      <div class="demo-row">
+        <ui-radio force-hover checked>Force hover (checked)</ui-radio>
+        <ui-radio force-hover>Force hover</ui-radio>
+        <ui-radio force-focus-visible checked>Force focus-visible (checked)</ui-radio>
+        <ui-radio force-focus-visible>Force focus-visible</ui-radio>
+      </div>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../nav/ui-layout.ts';
+      import './ui-radio.ts';
+      import '../ui-button/ui-button.ts';
+      import '../../icons/ui-icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Change event logging
+      const eventRg = document.getElementById('event-rg');
+      const eventLog = document.getElementById('event-log');
+      let count = 0;
+
+      eventRg.addEventListener('ui-change', (e) => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} ui-change — value: "${e.detail.value}", label: "${e.detail.label}"`;
+        eventLog.prepend(entry);
+      });
+
+      // Form logging
+      const form = document.getElementById('demo-form');
+      const formLog = document.getElementById('form-log');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const entries = [...data.entries()].map(([k, v]) => `${k}=${v}`).join(', ');
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `submit — ${entries || '(empty)'}`;
+        formLog.prepend(entry);
+      });
+
+      form.addEventListener('reset', () => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = 'reset';
+        formLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

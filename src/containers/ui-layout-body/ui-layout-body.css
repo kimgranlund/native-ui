@@ -1,0 +1,25 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  ui-layout-body                                          │
+     │  Rounded, padded, scrollable content surface.            │
+     │  Fills remaining flex space inside ui-layout-canvas.     │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  :where(ui-layout-body) {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    overflow-y: auto;
+    scrollbar-width: none;
+    background: var(--_ground, var(--_panel));
+    border-radius: var(--_radius);
+    padding: calc(var(--_space-k) * var(--_space));
+  }
+
+  :where(ui-layout-body)[show-scrollbar] {
+    scrollbar-width: thin;
+  }
+
+}

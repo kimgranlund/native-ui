@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clippable — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      /* ── Clipboard Items ── */
+
+      .clip-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .clip-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 0.75rem;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.375rem;
+        cursor: pointer;
+        user-select: none;
+        transition: background 150ms ease, border-color 150ms ease, opacity 150ms ease;
+        font-size: 0.875rem;
+      }
+
+      .clip-item[selected] {
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+        border-color: var(--accent-border);
+      }
+
+      .clip-item[clip-cut] {
+        opacity: 0.35;
+        border-style: dashed;
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--neutral-ink-muted);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--neutral-panel);
+        border-radius: 0.25rem;
+      }
+
+      .shortcut-hint {
+        display: inline-block;
+        font-size: 0.6875rem;
+        color: var(--neutral-ink-muted);
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.25rem;
+        padding: 0.0625rem 0.375rem;
+        font-family: ui-monospace, monospace;
+      }
+
+      .shortcut-row {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.75rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--neutral-border-muted);
+        color: var(--neutral-ink-strong);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--neutral-border-muted);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+
+    <h1>Clippable</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Keyboard clipboard operations (<strong>Ctrl/Cmd+C/X/V</strong>) for structured data. Composes with <code>Selectable</code> to copy/cut selected items.
+    </p>
+
+    <!-- ── Copy & Paste ── -->
+
+    <h2>Copy &amp; Paste</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.5rem;">
+        Click to select items, then use keyboard shortcuts to copy. Focus the list first by clicking an item.
+      </p>
+      <div class="shortcut-row">
+        <span class="shortcut-hint">Ctrl/Cmd+C — Copy</span>
+        <span class="shortcut-hint">Shift+Click — Range select</span>
+        <span class="shortcut-hint">Ctrl/Cmd+A — Select all</span>
+      </div>
+      <ui-controller traits="selectable clippable" selectable-selector=".clip-item" selectable-mode="multiple" clippable-selector=".clip-item">
+        <div id="copy-list" class="clip-list" tabindex="0">
+          <div class="clip-item">src/index.ts</div>
+          <div class="clip-item">src/core/types.ts</div>
+          <div class="clip-item">src/traits/selectable.ts</div>
+          <div class="clip-item">src/traits/clippable.ts</div>
+          <div class="clip-item">src/components/ui-button.ts</div>
+        </div>
+      </ui-controller>
+      <div id="copy-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="selectable clippable"
+  selectable-selector=".clip-item"
+  selectable-mode="multiple"
+  clippable-selector=".clip-item"&gt;
+  &lt;div class="clip-list" tabindex="0"&gt;
+    &lt;div class="clip-item"&gt;src/index.ts&lt;/div&gt;
+    &lt;div class="clip-item"&gt;src/core/types.ts&lt;/div&gt;
+    &lt;!-- ... --&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;
+
+list.addEventListener('ui-clip-copy', (e) =&gt; {
+  log(`Copied ${e.detail.items.length} item(s)`);
+});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Cut & Paste ── -->
+
+    <h2>Cut &amp; Paste</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.5rem;">
+        <strong>Ctrl/Cmd+X</strong> marks items with <code>[clip-cut]</code> (dimmed). <strong>Ctrl/Cmd+V</strong> dispatches a paste event.
+      </p>
+      <div class="shortcut-row">
+        <span class="shortcut-hint">Ctrl/Cmd+X — Cut</span>
+        <span class="shortcut-hint">Ctrl/Cmd+V — Paste</span>
+      </div>
+      <ui-controller traits="selectable clippable" selectable-selector=".clip-item" selectable-mode="multiple" clippable-selector=".clip-item">
+        <div id="cut-list" class="clip-list" tabindex="0">
+          <div class="clip-item">Header.tsx</div>
+          <div class="clip-item">Sidebar.tsx</div>
+          <div class="clip-item">Footer.tsx</div>
+          <div class="clip-item">Modal.tsx</div>
+          <div class="clip-item">Toast.tsx</div>
+        </div>
+      </ui-controller>
+      <div id="cut-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="selectable clippable"
+  selectable-selector=".clip-item"
+  selectable-mode="multiple"
+  clippable-selector=".clip-item"&gt;
+  &lt;div class="clip-list" tabindex="0"&gt;
+    &lt;div class="clip-item"&gt;Header.tsx&lt;/div&gt;
+    &lt;!-- ... --&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;
+
+list.addEventListener('ui-clip-cut', (e) =&gt; {
+  log(`Cut ${e.detail.items.length} item(s)`);
+});
+
+list.addEventListener('ui-clip-paste', (e) =&gt; {
+  log(`Paste: "${e.detail.data}"`);
+});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Provider Usage</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>clippable-selector</code></td>
+            <td><code>string</code></td>
+            <td><code>''</code></td>
+            <td>CSS selector for clippable items. Keyboard shortcuts act on <code>[selected]</code> items within this selector.</td>
+          </tr>
+          <tr>
+            <td><code>clippable-disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables all clipboard operations when true.</td>
+          </tr>
+          <tr>
+            <td><code>selectable-selector</code></td>
+            <td><code>string</code></td>
+            <td><code>''</code></td>
+            <td>CSS selector for selectable items (from the <code>selectable</code> trait).</td>
+          </tr>
+          <tr>
+            <td><code>selectable-mode</code></td>
+            <td><code>'single' | 'multiple'</code></td>
+            <td><code>'multiple'</code></td>
+            <td>Selection mode: single or multiple (from the <code>selectable</code> trait).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Controller Methods</h3>
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>copy(items)</code></td>
+            <td>Copy given items to system clipboard and dispatch <code>ui-clip-copy</code>.</td>
+          </tr>
+          <tr>
+            <td><code>cut(items)</code></td>
+            <td>Copy items and mark them with <code>[clip-cut]</code>. Dispatch <code>ui-clip-cut</code>.</td>
+          </tr>
+          <tr>
+            <td><code>paste()</code></td>
+            <td>Read from clipboard and dispatch <code>ui-clip-paste</code>.</td>
+          </tr>
+          <tr>
+            <td><code>cancelCut()</code></td>
+            <td>Remove <code>[clip-cut]</code> from all previously cut items.</td>
+          </tr>
+          <tr>
+            <td><code>serialize(items)</code></td>
+            <td>Convert items to a string. Default: joins <code>textContent</code> with newlines.</td>
+          </tr>
+          <tr>
+            <td><code>deserialize(data)</code></td>
+            <td>Convert clipboard string back to an array of strings. Default: splits by newline.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>ui-clip-copy</code></td>
+            <td><code>{ items, data }</code></td>
+            <td>Fired after a copy operation. <code>data</code> is the serialized string.</td>
+          </tr>
+          <tr>
+            <td><code>ui-clip-cut</code></td>
+            <td><code>{ items, data }</code></td>
+            <td>Fired after a cut operation. Items are marked with <code>[clip-cut]</code>.</td>
+          </tr>
+          <tr>
+            <td><code>ui-clip-paste</code></td>
+            <td><code>{ data }</code></td>
+            <td>Fired after reading from clipboard. Consumer handles insertion.</td>
+          </tr>
+          <tr>
+            <td><code>ui-selection-change</code></td>
+            <td><code>{ selected, count }</code></td>
+            <td>Fired when the selection changes (from the <code>selectable</code> trait).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Set on</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>[selected]</code></td>
+            <td>Selected items</td>
+            <td>Present on items currently selected (from the <code>selectable</code> trait).</td>
+          </tr>
+          <tr>
+            <td><code>[clip-cut]</code></td>
+            <td>Cut items</td>
+            <td>Present on items that have been cut. Use for dimmed/dashed styling.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></ui-layout>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../components/ui-controller/ui-controller.ts';
+      import '../icons/ui-icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Event logging ──
+
+      function appendLog(el, msg) {
+        const line = document.createElement('div');
+        line.textContent = msg;
+        el.appendChild(line);
+        el.scrollTop = el.scrollHeight;
+      }
+
+      // ── Copy & Paste list ──
+
+      const copyList = document.getElementById('copy-list');
+      const copyLogEl = document.getElementById('copy-log');
+
+      copyList.addEventListener('ui-selection-change', (e) => {
+        appendLog(copyLogEl, `Selected ${e.detail.count} item(s)`);
+      });
+
+      copyList.addEventListener('ui-clip-copy', (e) => {
+        appendLog(copyLogEl, `Copied ${e.detail.items.length} item(s): "${e.detail.data}"`);
+      });
+
+      // ── Cut & Paste list ──
+
+      const cutList = document.getElementById('cut-list');
+      const cutLogEl = document.getElementById('cut-log');
+
+      cutList.addEventListener('ui-selection-change', (e) => {
+        appendLog(cutLogEl, `Selected ${e.detail.count} item(s)`);
+      });
+
+      cutList.addEventListener('ui-clip-cut', (e) => {
+        appendLog(cutLogEl, `Cut ${e.detail.items.length} item(s) — marked with [clip-cut]`);
+      });
+
+      cutList.addEventListener('ui-clip-paste', (e) => {
+        appendLog(cutLogEl, `Paste received: "${e.detail.data}"`);
+      });
+    </script>
+  </body>
+</html>

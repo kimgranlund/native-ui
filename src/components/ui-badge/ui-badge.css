@@ -1,0 +1,63 @@
+@layer ui {
+
+  /* ── Badge Base ── */
+
+  :where(ui-badge) {
+    --_font-weight: var(--ui-font-weight-button);
+    --_radius: 9999px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: var(--ui-badge-size-md);
+    min-height: var(--ui-badge-size-md);
+    padding-inline: 0.375em;
+
+    font-size: var(--ui-badge-font-md);
+    font-weight: var(--_font-weight);
+    line-height: 1;
+    letter-spacing: var(--_letter-spacing);
+
+    border-radius: var(--_radius);
+
+    background: var(--_surface);
+    color: var(--_surface-ink);
+
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  /* ── Badge typescale (smaller than standard) ── */
+
+  :where(ui-badge[size="xs"]) { font-size: var(--ui-badge-font-xs); min-width: var(--ui-badge-size-xs); min-height: var(--ui-badge-size-xs); }
+  :where(ui-badge[size="sm"]) { font-size: var(--ui-badge-font-sm); min-width: var(--ui-badge-size-sm); min-height: var(--ui-badge-size-sm); }
+  :where(ui-badge[size="md"]) { font-size: var(--ui-badge-font-md); min-width: var(--ui-badge-size-md); min-height: var(--ui-badge-size-md); }
+  :where(ui-badge[size="lg"]) { font-size: var(--ui-badge-font-lg); min-width: var(--ui-badge-size-lg); min-height: var(--ui-badge-size-lg); }
+  :where(ui-badge[size="xl"]) { font-size: var(--ui-badge-font-xl); min-width: var(--ui-badge-size-xl); min-height: var(--ui-badge-size-xl); }
+
+  /* ── Floating ── */
+
+  :where(ui-badge[floating]) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    translate: 50% -50%;
+    z-index: 1;
+  }
+
+  /* ── Dot ── */
+
+  :where(ui-badge[dot]) {
+    width: var(--ui-badge-dot);
+    height: var(--ui-badge-dot);
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    font-size: 0;
+    background: var(--_ink);
+  }
+
+  :where(ui-badge[hidden]) { display: none; }
+
+}

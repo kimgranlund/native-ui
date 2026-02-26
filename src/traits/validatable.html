@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Validatable — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .field-wrapper {
+        margin-bottom: 1rem;
+      }
+
+      .field-wrapper label {
+        display: block;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.375rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .error-msg {
+        font-size: 0.75rem;
+        color: var(--danger-ink);
+        margin-top: 0.25rem;
+        min-height: 1.125rem;
+      }
+
+      [invalid] ui-input {
+        --_border-color: var(--danger-border);
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--neutral-ink-muted);
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--neutral-panel);
+        border-radius: 0.25rem;
+        min-height: 1.5rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--neutral-border-muted);
+        color: var(--neutral-ink-strong);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--neutral-border-muted);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+
+    <h1>Validatable</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Composable trait for declarative form validation. Attach rules to any element, call <code>validate()</code>, and react to <code>ui-valid</code> / <code>ui-invalid</code> events. Sets <code>[invalid]</code> and <code>aria-invalid</code> attributes automatically.
+    </p>
+
+    <!-- ── Required Field ── -->
+
+    <h2>Required Field</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Uses <code>ValidateController</code> directly on a wrapper div with a <code>ui-input</code> inside.
+      </p>
+      <div class="field-wrapper" id="required-field">
+        <label>Name</label>
+        <ui-input placeholder="Enter your name"></ui-input>
+        <div class="error-msg"></div>
+      </div>
+      <ui-button id="validate-required">Validate</ui-button>
+      <div id="required-output" class="output"></div>
+      <pre class="demo-code"><code>import { ValidateController } from '@nonoun/native-ui';
+
+const field = document.getElementById('field');
+const validator = new ValidateController(field);
+validator.rules = [
+  ValidateController.required('Name is required'),
+];
+
+field.addEventListener('ui-invalid', (e) =&gt; {
+  errorEl.textContent = e.detail.message;
+});
+field.addEventListener('ui-valid', () =&gt; {
+  errorEl.textContent = '';
+});
+
+// Validate on button press
+button.addEventListener('ui-press', () =&gt; {
+  validator.validate();
+});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Multiple Rules ── -->
+
+    <h2>Multiple Rules (min length + pattern)</h2>
+    <div class="demo-section">
+      <div class="field-wrapper" id="password-field">
+        <label>Password</label>
+        <ui-input type="password" placeholder="Enter a password"></ui-input>
+        <div class="error-msg"></div>
+      </div>
+      <ui-button id="validate-password">Validate</ui-button>
+      <div id="password-output" class="output"></div>
+      <pre class="demo-code"><code>validator.rules = [
+  ValidateController.required('Password is required'),
+  ValidateController.minLength(8, 'Must be at least 8 characters'),
+  ValidateController.pattern(/[A-Z]/, 'Must contain an uppercase letter'),
+  ValidateController.pattern(/[0-9]/, 'Must contain a number'),
+];</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Validate on Blur ── -->
+
+    <h2>Validate on Blur</h2>
+    <div class="demo-section">
+      <div class="field-wrapper" id="email-field">
+        <label>Email</label>
+        <ui-input type="email" placeholder="you@example.com"></ui-input>
+        <div class="error-msg"></div>
+      </div>
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted);">
+        Focus the input, type something, then tab away. Validation runs on blur.
+      </p>
+      <pre class="demo-code"><code>const emailInput = field.querySelector('ui-input');
+emailInput.addEventListener('focusout', () =&gt; {
+  validator.validate();
+});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Methods</h3>
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>validate(value?)</code></td>
+            <td><code>boolean</code></td>
+            <td>Runs all rules against the value (or auto-detects from child input). Sets <code>[invalid]</code> and dispatches events.</td>
+          </tr>
+          <tr>
+            <td><code>clearValidation()</code></td>
+            <td>—</td>
+            <td>Removes <code>[invalid]</code> and clears error message.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Static Rule Helpers</h3>
+      <table class="api-table">
+        <thead><tr><th>Helper</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>ValidateController.required(msg)</code></td>
+            <td>Fails if value is empty or whitespace-only.</td>
+          </tr>
+          <tr>
+            <td><code>ValidateController.minLength(n, msg)</code></td>
+            <td>Fails if value length is less than <code>n</code>.</td>
+          </tr>
+          <tr>
+            <td><code>ValidateController.pattern(regex, msg)</code></td>
+            <td>Fails if value does not match the regex.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>ui-invalid</code></td>
+            <td><code>{ message }</code></td>
+            <td>Fired when validation fails. <code>message</code> is the first failing rule's message.</td>
+          </tr>
+          <tr>
+            <td><code>ui-valid</code></td>
+            <td>—</td>
+            <td>Fired when validation passes after a previous failure.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>[invalid]</code></td>
+            <td>Set on the host element when validation fails. Use to style error state on child inputs.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></ui-layout>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../components/ui-input/ui-input.ts';
+      import '../components/ui-controller/ui-controller.ts';
+      import '../icons/ui-icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+      import { ValidateController } from '../index.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Wire validation field ──
+
+      function wireField(field) {
+        const errorEl = field.querySelector('.error-msg');
+        field.addEventListener('ui-invalid', (e) => {
+          if (errorEl) errorEl.textContent = e.detail.message;
+        });
+        field.addEventListener('ui-valid', () => {
+          if (errorEl) errorEl.textContent = '';
+        });
+      }
+
+      // ── Required Field ──
+
+      const reqField = document.getElementById('required-field');
+      const reqValidator = new ValidateController(reqField);
+      reqValidator.rules = [
+        ValidateController.required('Name is required'),
+      ];
+      wireField(reqField);
+      document.getElementById('validate-required').addEventListener('ui-press', () => {
+        const ok = reqValidator.validate();
+        document.getElementById('required-output').textContent = ok ? 'Valid!' : `Invalid: ${reqValidator.errorMessage}`;
+      });
+
+      // ── Password Field ──
+
+      const pwField = document.getElementById('password-field');
+      const pwValidator = new ValidateController(pwField);
+      pwValidator.rules = [
+        ValidateController.required('Password is required'),
+        ValidateController.minLength(8, 'Must be at least 8 characters'),
+        ValidateController.pattern(/[A-Z]/, 'Must contain an uppercase letter'),
+        ValidateController.pattern(/[0-9]/, 'Must contain a number'),
+      ];
+      wireField(pwField);
+      document.getElementById('validate-password').addEventListener('ui-press', () => {
+        const ok = pwValidator.validate();
+        document.getElementById('password-output').textContent = ok ? 'Valid!' : `Invalid: ${pwValidator.errorMessage}`;
+      });
+
+      // ── Email Field (blur validation) ──
+
+      const emailField = document.getElementById('email-field');
+      const emailValidator = new ValidateController(emailField);
+      emailValidator.rules = [
+        ValidateController.required('Email is required'),
+        ValidateController.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Must be a valid email address'),
+      ];
+      wireField(emailField);
+      const emailInput = emailField.querySelector('ui-input');
+      emailInput.addEventListener('focusout', () => {
+        emailValidator.validate();
+      });
+    </script>
+  </body>
+</html>

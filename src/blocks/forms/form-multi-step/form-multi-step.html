@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi-Step Form — Block</title>
+    <link rel="stylesheet" href="../../../styles/index.css" />
+    <link rel="stylesheet" href="../../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .wizard-wrapper {
+        max-width: 36rem;
+      }
+
+      .step-panel {
+        display: none;
+      }
+
+      .step-panel[active] {
+        display: block;
+      }
+
+      .step-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--neutral-border-muted);
+      }
+
+      .step-actions .right {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .review-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--neutral-border-muted);
+        font-size: 0.875rem;
+      }
+
+      .review-row:last-child {
+        border-bottom: none;
+      }
+
+      .review-label {
+        color: var(--neutral-ink-muted);
+      }
+
+      .review-value {
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>Create Account</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Complete the steps below to set up your new account.
+    </p>
+
+    <div class="wizard-wrapper">
+      <ui-card>
+        <ui-header>
+          <ui-segmented-control id="step-indicator" value="personal" slot="label" style="width: 100%;">
+            <ui-segment value="personal">1. Personal</ui-segment>
+            <ui-segment value="address">2. Address</ui-segment>
+            <ui-segment value="review">3. Review</ui-segment>
+          </ui-segmented-control>
+        </ui-header>
+
+        <!-- ── Step 1: Personal Information ── -->
+        <div class="step-panel" id="step-personal" active>
+          <ui-stack gap="4">
+            <ui-field required>
+              <label slot="label">Full name</label>
+              <ui-input placeholder="Jane Doe" id="input-name" name="name">
+                <ui-icon name="user" slot="leading"></ui-icon>
+              </ui-input>
+            </ui-field>
+
+            <ui-field required>
+              <label slot="label">Email address</label>
+              <ui-input placeholder="you@example.com" id="input-email" name="email">
+                <ui-icon name="envelope" slot="leading"></ui-icon>
+              </ui-input>
+              <span slot="description">We'll send a verification link to this address.</span>
+            </ui-field>
+
+            <ui-field required>
+              <label slot="label">Phone number</label>
+              <ui-input placeholder="+1 (555) 000-0000" id="input-phone" name="phone">
+                <ui-icon name="phone" slot="leading"></ui-icon>
+              </ui-input>
+            </ui-field>
+          </ui-stack>
+
+          <div class="step-actions">
+            <div></div>
+            <div class="right">
+              <ui-button variant="primary" intent="accent" id="btn-next-1">
+                <span slot="label">Next</span>
+                <ui-icon name="arrow-right" slot="trailing"></ui-icon>
+              </ui-button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Step 2: Address ── -->
+        <div class="step-panel" id="step-address">
+          <ui-stack gap="4">
+            <ui-field required>
+              <label slot="label">Street address</label>
+              <ui-input placeholder="123 Main Street" id="input-address" name="address">
+                <ui-icon name="map-pin" slot="leading"></ui-icon>
+              </ui-input>
+            </ui-field>
+
+            <ui-field required>
+              <label slot="label">City</label>
+              <ui-input placeholder="San Francisco" id="input-city" name="city"></ui-input>
+            </ui-field>
+
+            <ui-field required>
+              <label slot="label">State / Region</label>
+              <ui-select id="input-state" name="state">
+                <ui-button justify="spread">
+                  <span slot="label">Select state</span>
+                  <ui-icon name="caret-up-down" slot="trailing"></ui-icon>
+                </ui-button>
+                <ui-listbox popover>
+                  <ui-option value="ca">California</ui-option>
+                  <ui-option value="ny">New York</ui-option>
+                  <ui-option value="tx">Texas</ui-option>
+                  <ui-option value="wa">Washington</ui-option>
+                  <ui-option value="il">Illinois</ui-option>
+                </ui-listbox>
+              </ui-select>
+            </ui-field>
+
+            <ui-field required>
+              <label slot="label">ZIP code</label>
+              <ui-input placeholder="94102" id="input-zip" name="zip"></ui-input>
+            </ui-field>
+          </ui-stack>
+
+          <div class="step-actions">
+            <ui-button variant="ghost" id="btn-prev-2">
+              <ui-icon name="arrow-left" slot="leading"></ui-icon>
+              <span slot="label">Previous</span>
+            </ui-button>
+            <div class="right">
+              <ui-button variant="primary" intent="accent" id="btn-next-2">
+                <span slot="label">Next</span>
+                <ui-icon name="arrow-right" slot="trailing"></ui-icon>
+              </ui-button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Step 3: Review ── -->
+        <div class="step-panel" id="step-review">
+          <h2 style="margin-top: 0;">Review your information</h2>
+          <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1rem;">
+            Please verify that all details are correct before submitting.
+          </p>
+
+          <ui-stack gap="2">
+            <div class="review-row">
+              <span class="review-label">Name</span>
+              <span class="review-value" id="review-name">--</span>
+            </div>
+            <div class="review-row">
+              <span class="review-label">Email</span>
+              <span class="review-value" id="review-email">--</span>
+            </div>
+            <div class="review-row">
+              <span class="review-label">Phone</span>
+              <span class="review-value" id="review-phone">--</span>
+            </div>
+            <div class="review-row">
+              <span class="review-label">Address</span>
+              <span class="review-value" id="review-address">--</span>
+            </div>
+            <div class="review-row">
+              <span class="review-label">City</span>
+              <span class="review-value" id="review-city">--</span>
+            </div>
+            <div class="review-row">
+              <span class="review-label">State</span>
+              <span class="review-value" id="review-state">--</span>
+            </div>
+            <div class="review-row">
+              <span class="review-label">ZIP</span>
+              <span class="review-value" id="review-zip">--</span>
+            </div>
+          </ui-stack>
+
+          <div class="step-actions">
+            <ui-button variant="ghost" id="btn-prev-3">
+              <ui-icon name="arrow-left" slot="leading"></ui-icon>
+              <span slot="label">Previous</span>
+            </ui-button>
+            <div class="right">
+              <ui-button variant="primary" intent="accent" id="btn-submit">
+                <ui-icon name="check" slot="leading"></ui-icon>
+                <span slot="label">Create Account</span>
+              </ui-button>
+            </div>
+          </div>
+        </div>
+      </ui-card>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../../nav/ui-layout.ts';
+      import '../../../components/ui-field/ui-field.ts';
+      import '../../../components/ui-input/ui-input.ts';
+      import '../../../components/ui-select/ui-select.ts';
+      import '../../../components/ui-listbox/ui-listbox.ts';
+      import '../../../components/ui-listbox/ui-option.ts';
+      import '../../../components/ui-segmented-control/ui-segmented-control.ts';
+      import '../../../components/ui-button/ui-button.ts';
+      import '../../../containers/ui-card/ui-card.ts';
+      import '../../../icons/ui-icon.ts';
+      import '../../../icons/phosphor/user.ts';
+      import '../../../icons/phosphor/envelope.ts';
+      import '../../../icons/phosphor/phone.ts';
+      import '../../../icons/phosphor/map-pin.ts';
+      import '../../../icons/phosphor/arrow-right.ts';
+      import '../../../icons/phosphor/arrow-left.ts';
+      import '../../../icons/phosphor/check.ts';
+      import '../../../icons/phosphor/caret-up-down.ts';
+
+      const steps = ['personal', 'address', 'review'];
+      const indicator = document.getElementById('step-indicator');
+      let currentStep = 0;
+
+      function goToStep(index) {
+        currentStep = index;
+        const stepName = steps[index];
+
+        // Update panels
+        document.querySelectorAll('.step-panel').forEach((p) => p.removeAttribute('active'));
+        document.getElementById(`step-${stepName}`)?.setAttribute('active', '');
+
+        // Update segmented control
+        indicator.value = stepName;
+
+        // Populate review if going to step 3
+        if (stepName === 'review') {
+          document.getElementById('review-name').textContent =
+            document.getElementById('input-name')?.value || '--';
+          document.getElementById('review-email').textContent =
+            document.getElementById('input-email')?.value || '--';
+          document.getElementById('review-phone').textContent =
+            document.getElementById('input-phone')?.value || '--';
+          document.getElementById('review-address').textContent =
+            document.getElementById('input-address')?.value || '--';
+          document.getElementById('review-city').textContent =
+            document.getElementById('input-city')?.value || '--';
+          const stateSelect = document.getElementById('input-state');
+          document.getElementById('review-state').textContent =
+            stateSelect?.value || '--';
+          document.getElementById('review-zip').textContent =
+            document.getElementById('input-zip')?.value || '--';
+        }
+      }
+
+      // Segmented control click navigation
+      indicator.addEventListener('ui-change', (e) => {
+        const idx = steps.indexOf(e.detail.value);
+        if (idx >= 0) goToStep(idx);
+      });
+
+      // Button navigation
+      document.getElementById('btn-next-1')?.addEventListener('ui-press', () => goToStep(1));
+      document.getElementById('btn-prev-2')?.addEventListener('ui-press', () => goToStep(0));
+      document.getElementById('btn-next-2')?.addEventListener('ui-press', () => goToStep(2));
+      document.getElementById('btn-prev-3')?.addEventListener('ui-press', () => goToStep(1));
+      document.getElementById('btn-submit')?.addEventListener('ui-press', () => {
+        alert('Account created successfully!');
+      });
+    </script>
+  </body>
+</html>

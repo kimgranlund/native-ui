@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ui-chat — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .demo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        align-items: start;
+      }
+
+      .demo-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .demo-col-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--neutral-ink-muted);
+      }
+
+      .chat-frame {
+        height: 480px;
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        overflow: hidden;
+        background: var(--neutral-doc);
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>&lt;ui-chat&gt;</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Chat application shell with header, scrollable content, composable input surface, and footer.
+    </p>
+
+    <!-- ── Full Chat Shell ── -->
+
+    <h2>Full Chat Shell</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+
+        <!-- Idle state -->
+        <div class="demo-col">
+          <span class="demo-col-label">Idle (empty input)</span>
+          <div class="chat-frame">
+            <ui-chat>
+              <ui-chat-header>
+                <span slot="leading"><ui-icon name="chat-dots"></ui-icon></span>
+                <span>Assistant</span>
+                <span slot="trailing"><ui-button variant="ghost"><ui-icon name="dots-three"></ui-icon></ui-button></span>
+              </ui-chat-header>
+              <ui-chat-content>
+                <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem;">Messages will appear here.</p>
+              </ui-chat-content>
+              <ui-chat-input>
+                <ui-textarea placeholder="Ask anything" autogrow rows="3"></ui-textarea>
+                <ui-chat-input-actions>
+                  <ui-button variant="ghost" inline><ui-icon name="plus"></ui-icon></ui-button>
+                  <ui-button variant="ghost" inline><ui-icon name="microphone"></ui-icon></ui-button>
+                  <ui-select value="haiku-4.5">
+                    <ui-button variant="ghost" inline><ui-icon name="dots-three-outline-fill"></ui-icon></ui-button>
+                    <ui-listbox popover>
+                      <ui-option-group>
+                        <ui-option-group-header>Claude</ui-option-group-header>
+                        <ui-option value="opus-4.6">Opus 4.6</ui-option>
+                        <ui-option value="sonnet-4.6">Sonnet 4.6</ui-option>
+                        <ui-option value="haiku-4.5">Haiku 4.5</ui-option>
+                      </ui-option-group>
+                      <ui-option-group>
+                        <ui-option-group-header>ChatGPT</ui-option-group-header>
+                        <ui-option value="gpt-5.2">GPT-5.2</ui-option>
+                        <ui-option value="gpt-5.3-codex">GPT-5.3 Codex</ui-option>
+                        <ui-option value="gpt-5.2-codex">GPT-5.2 Codex</ui-option>
+                      </ui-option-group>
+                      <ui-option-group>
+                        <ui-option-group-header>Gemini</ui-option-group-header>
+                        <ui-option value="gemini-3.1-pro">Gemini 3.1 Pro</ui-option>
+                        <ui-option value="gemini-3-flash">Gemini 3 Flash</ui-option>
+                      </ui-option-group>
+                    </ui-listbox>
+                  </ui-select>
+                </ui-chat-input-actions>
+              </ui-chat-input>
+            </ui-chat>
+          </div>
+        </div>
+
+        <!-- Typing state -->
+        <div class="demo-col">
+          <span class="demo-col-label">Typing (with send button)</span>
+          <div class="chat-frame">
+            <ui-chat>
+              <ui-chat-header>
+                <span slot="leading"><ui-icon name="chat-dots"></ui-icon></span>
+                <span>Assistant</span>
+                <span slot="trailing"><ui-button variant="ghost"><ui-icon name="dots-three"></ui-icon></ui-button></span>
+              </ui-chat-header>
+              <ui-chat-content>
+                <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem;">Messages will appear here.</p>
+              </ui-chat-content>
+              <ui-chat-input>
+                <ui-textarea placeholder="Ask anything" autogrow rows="3"></ui-textarea>
+                <ui-chat-input-actions>
+                  <ui-button variant="ghost" inline><ui-icon name="plus"></ui-icon></ui-button>
+                  <ui-button variant="ghost" inline><ui-icon name="microphone"></ui-icon></ui-button>
+                  <ui-select value="sonnet-4.6">
+                    <ui-button variant="ghost" inline><ui-icon name="dots-three-outline-fill"></ui-icon></ui-button>
+                    <ui-listbox popover>
+                      <ui-option-group>
+                        <ui-option-group-header>Claude</ui-option-group-header>
+                        <ui-option value="opus-4.6">Opus 4.6</ui-option>
+                        <ui-option value="sonnet-4.6">Sonnet 4.6</ui-option>
+                        <ui-option value="haiku-4.5">Haiku 4.5</ui-option>
+                      </ui-option-group>
+                      <ui-option-group>
+                        <ui-option-group-header>ChatGPT</ui-option-group-header>
+                        <ui-option value="gpt-5.2">GPT-5.2</ui-option>
+                        <ui-option value="gpt-5.3-codex">GPT-5.3 Codex</ui-option>
+                        <ui-option value="gpt-5.2-codex">GPT-5.2 Codex</ui-option>
+                      </ui-option-group>
+                      <ui-option-group>
+                        <ui-option-group-header>Gemini</ui-option-group-header>
+                        <ui-option value="gemini-3.1-pro">Gemini 3.1 Pro</ui-option>
+                        <ui-option value="gemini-3-flash">Gemini 3 Flash</ui-option>
+                      </ui-option-group>
+                    </ui-listbox>
+                  </ui-select>
+                  <ui-button variant="primary" intent="accent" radius="round" inline disabled class="submit-btn"><ui-icon name="arrow-up"></ui-icon></ui-button>
+                </ui-chat-input-actions>
+              </ui-chat-input>
+            </ui-chat>
+          </div>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-chat&gt;
+  &lt;ui-chat-header&gt;
+    &lt;span slot="leading"&gt;&lt;ui-icon name="chat-dots"&gt;&lt;/ui-icon&gt;&lt;/span&gt;
+    &lt;span&gt;Assistant&lt;/span&gt;
+    &lt;span slot="trailing"&gt;&lt;ui-button variant="ghost"&gt;&lt;ui-icon name="dots-three"&gt;&lt;/ui-icon&gt;&lt;/ui-button&gt;&lt;/span&gt;
+  &lt;/ui-chat-header&gt;
+  &lt;ui-chat-content&gt;...&lt;/ui-chat-content&gt;
+  &lt;ui-chat-input&gt;
+    &lt;ui-textarea placeholder="Ask anything" autogrow rows="3"&gt;&lt;/ui-textarea&gt;
+    &lt;ui-chat-input-actions&gt;
+      &lt;ui-button variant="ghost" inline&gt;&lt;ui-icon name="plus"&gt;&lt;/ui-icon&gt;&lt;/ui-button&gt;
+      &lt;ui-button variant="ghost" inline&gt;&lt;ui-icon name="microphone"&gt;&lt;/ui-icon&gt;&lt;/ui-button&gt;
+    &lt;/ui-chat-input-actions&gt;
+  &lt;/ui-chat-input&gt;
+&lt;/ui-chat&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Input Surface Only ── -->
+
+    <h2>Input Surface Only</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Standalone input</span>
+          <ui-chat-input>
+            <ui-textarea placeholder="Ask anything" autogrow rows="2"></ui-textarea>
+            <ui-chat-input-actions>
+              <ui-button variant="ghost" inline><ui-icon name="plus"></ui-icon></ui-button>
+              <ui-button variant="ghost" inline><ui-icon name="microphone"></ui-icon></ui-button>
+              <ui-select value="gpt-5.2">
+                <ui-button variant="ghost" inline><ui-icon name="dots-three-outline-fill"></ui-icon></ui-button>
+                <ui-listbox popover>
+                  <ui-option-group>
+                    <ui-option-group-header>Claude</ui-option-group-header>
+                    <ui-option value="opus-4.6">Opus 4.6</ui-option>
+                    <ui-option value="sonnet-4.6">Sonnet 4.6</ui-option>
+                    <ui-option value="haiku-4.5">Haiku 4.5</ui-option>
+                  </ui-option-group>
+                  <ui-option-group>
+                    <ui-option-group-header>ChatGPT</ui-option-group-header>
+                    <ui-option value="gpt-5.2">GPT-5.2</ui-option>
+                    <ui-option value="gpt-5.3-codex">GPT-5.3 Codex</ui-option>
+                    <ui-option value="gpt-5.2-codex">GPT-5.2 Codex</ui-option>
+                  </ui-option-group>
+                  <ui-option-group>
+                    <ui-option-group-header>Gemini</ui-option-group-header>
+                    <ui-option value="gemini-3.1-pro">Gemini 3.1 Pro</ui-option>
+                    <ui-option value="gemini-3-flash">Gemini 3 Flash</ui-option>
+                  </ui-option-group>
+                </ui-listbox>
+              </ui-select>
+            </ui-chat-input-actions>
+          </ui-chat-input>
+        </div>
+
+        <div class="demo-col">
+          <span class="demo-col-label">Compact (single row)</span>
+          <ui-chat-input compact>
+            <ui-textarea placeholder="Type a message..." autogrow rows="1"></ui-textarea>
+            <ui-chat-input-actions>
+              <ui-button variant="ghost" inline><ui-icon name="plus"></ui-icon></ui-button>
+              <ui-button variant="ghost" inline><ui-icon name="microphone"></ui-icon></ui-button>
+              <ui-button variant="primary" intent="accent" radius="round" inline disabled class="submit-btn"><ui-icon name="arrow-up"></ui-icon></ui-button>
+            </ui-chat-input-actions>
+          </ui-chat-input>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-chat-input&gt;
+  &lt;ui-textarea placeholder="Ask anything" autogrow rows="2"&gt;&lt;/ui-textarea&gt;
+  &lt;ui-chat-input-actions&gt;
+    &lt;ui-button variant="ghost" inline&gt;&lt;ui-icon name="plus"&gt;&lt;/ui-icon&gt;&lt;/ui-button&gt;
+  &lt;/ui-chat-input-actions&gt;
+&lt;/ui-chat-input&gt;
+
+&lt;!-- Compact --&gt;
+&lt;ui-chat-input compact&gt;
+  &lt;ui-textarea placeholder="Type a message..." autogrow rows="1"&gt;&lt;/ui-textarea&gt;
+  &lt;ui-chat-input-actions&gt;...&lt;/ui-chat-input-actions&gt;
+&lt;/ui-chat-input&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Sub-containers ── -->
+
+    <h2>Sub-containers</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Header</span>
+          <ui-chat-header>
+            <span slot="leading"><ui-icon name="chat-dots"></ui-icon></span>
+            <span>Chat Title</span>
+            <span slot="trailing"><ui-button variant="ghost"><ui-icon name="x"></ui-icon></ui-button></span>
+          </ui-chat-header>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">Footer</span>
+          <ui-chat-footer>
+            <ui-button variant="ghost">Clear</ui-button>
+            <ui-button variant="primary">Send</ui-button>
+          </ui-chat-footer>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-chat-header&gt;
+  &lt;span slot="leading"&gt;&lt;ui-icon name="chat-dots"&gt;&lt;/ui-icon&gt;&lt;/span&gt;
+  &lt;span&gt;Chat Title&lt;/span&gt;
+  &lt;span slot="trailing"&gt;&lt;ui-button variant="ghost"&gt;&lt;ui-icon name="x"&gt;&lt;/ui-icon&gt;&lt;/ui-button&gt;&lt;/span&gt;
+&lt;/ui-chat-header&gt;
+
+&lt;ui-chat-footer&gt;
+  &lt;ui-button variant="ghost"&gt;Clear&lt;/ui-button&gt;
+  &lt;ui-button variant="primary"&gt;Send&lt;/ui-button&gt;
+&lt;/ui-chat-footer&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../nav/ui-layout.ts';
+      import '../ui-button/ui-button.ts';
+      import '../ui-textarea/ui-textarea.ts';
+      import '../ui-select/ui-select.ts';
+      import '../ui-listbox/ui-listbox.ts';
+      import './ui-chat-input.ts';
+      import '../../icons/ui-icon.ts';
+      import '../../icons/phosphor/chat-dots.ts';
+      import '../../icons/phosphor/dots-three.ts';
+      import '../../icons/phosphor/dots-three-outline-fill.ts';
+      import '../../icons/phosphor/microphone.ts';
+      import '../../icons/phosphor/arrow-up.ts';
+      import '../../icons/phosphor/plus.ts';
+      import '../../icons/phosphor/x.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

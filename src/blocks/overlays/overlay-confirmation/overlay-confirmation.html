@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirmation Dialogs — Block</title>
+    <link rel="stylesheet" href="../../../styles/index.css" />
+    <link rel="stylesheet" href="../../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      ui-dialog > ui-card {
+        width: min(26rem, calc(100vw - 2rem));
+        box-shadow:
+          0 8px 30px oklch(0% 0 0 / 0.12),
+          0 2px 8px oklch(0% 0 0 / 0.06);
+      }
+
+      .dialog-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+      }
+
+      .dialog-icon-info {
+        background: var(--info-surface);
+        color: var(--info-surface-ink);
+      }
+
+      .dialog-icon-warning {
+        background: var(--warning-surface);
+        color: var(--warning-surface-ink);
+      }
+
+      .dialog-icon-danger {
+        background: var(--danger-surface);
+        color: var(--danger-surface-ink);
+      }
+
+      .trigger-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>Confirmation Dialogs</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Modal confirmation patterns for different severity levels. Each dialog
+      clearly communicates the action, its consequences, and provides cancel/confirm options.
+    </p>
+
+    <!-- -- Trigger Buttons -- -->
+
+    <h2>Trigger Dialogs</h2>
+    <div class="trigger-row">
+      <ui-button id="open-info" intent="info">
+        <ui-icon name="info" slot="leading"></ui-icon>
+        <span slot="label">Archive Project</span>
+      </ui-button>
+      <ui-button id="open-warning" intent="warning">
+        <ui-icon name="warning" slot="leading"></ui-icon>
+        <span slot="label">Unsaved Changes</span>
+      </ui-button>
+      <ui-button id="open-danger" intent="danger">
+        <ui-icon name="trash" slot="leading"></ui-icon>
+        <span slot="label">Delete Account</span>
+      </ui-button>
+    </div>
+
+    <!-- -- Info Confirmation Dialog -- -->
+
+    <ui-dialog id="info-dialog">
+      <ui-card>
+        <ui-body>
+          <div class="dialog-icon dialog-icon-info">
+            <ui-icon name="info" aria-hidden="true"></ui-icon>
+          </div>
+          <h3 style="font-size: 1.0625rem; font-weight: 700; margin: 0 0 0.25rem;">Archive project?</h3>
+          <p style="font-size: 0.875rem; color: var(--neutral-ink-muted); margin: 0; line-height: 1.5;">
+            This project will be moved to the archive. Team members will lose edit access,
+            but all data and history will be preserved. You can restore it at any time from
+            the archive.
+          </p>
+        </ui-body>
+        <ui-footer>
+          <ui-button id="info-cancel">
+            <span slot="label">Cancel</span>
+          </ui-button>
+          <ui-button id="info-confirm" intent="info">
+            <span slot="label">Archive</span>
+          </ui-button>
+        </ui-footer>
+      </ui-card>
+    </ui-dialog>
+
+    <!-- -- Warning Confirmation Dialog -- -->
+
+    <ui-dialog id="warning-dialog">
+      <ui-card>
+        <ui-body>
+          <div class="dialog-icon dialog-icon-warning">
+            <ui-icon name="warning" aria-hidden="true"></ui-icon>
+          </div>
+          <h3 style="font-size: 1.0625rem; font-weight: 700; margin: 0 0 0.25rem;">Unsaved changes</h3>
+          <p style="font-size: 0.875rem; color: var(--neutral-ink-muted); margin: 0; line-height: 1.5;">
+            You have unsaved changes that will be lost if you leave this page.
+            Would you like to save your work before continuing?
+          </p>
+        </ui-body>
+        <ui-footer>
+          <ui-button id="warning-discard">
+            <span slot="label">Discard</span>
+          </ui-button>
+          <ui-button id="warning-save" intent="accent">
+            <span slot="label">Save</span>
+          </ui-button>
+        </ui-footer>
+      </ui-card>
+    </ui-dialog>
+
+    <!-- -- Danger Confirmation Dialog -- -->
+
+    <ui-dialog id="danger-dialog">
+      <ui-card>
+        <ui-body>
+          <div class="dialog-icon dialog-icon-danger">
+            <ui-icon name="trash" aria-hidden="true"></ui-icon>
+          </div>
+          <h3 style="font-size: 1.0625rem; font-weight: 700; margin: 0 0 0.25rem; color: var(--danger-ink-strong);">Delete account?</h3>
+          <p style="font-size: 0.875rem; color: var(--neutral-ink-muted); margin: 0; line-height: 1.5;">
+            This action cannot be undone. All your data, projects, and settings
+            will be permanently removed. Any active subscriptions will be cancelled immediately.
+          </p>
+        </ui-body>
+        <ui-footer>
+          <ui-button id="danger-cancel">
+            <span slot="label">Cancel</span>
+          </ui-button>
+          <ui-button id="danger-confirm" intent="danger">
+            <ui-icon name="trash" slot="leading"></ui-icon>
+            <span slot="label">Delete</span>
+          </ui-button>
+        </ui-footer>
+      </ui-card>
+    </ui-dialog>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../../nav/ui-layout.ts';
+      import '../../../components/ui-button/ui-button.ts';
+      import '../../../components/ui-dialog/ui-dialog.ts';
+      import '../../../containers/ui-card/ui-card.ts';
+      import '../../../icons/ui-icon.ts';
+      import '../../../icons/phosphor/info.ts';
+      import '../../../icons/phosphor/warning.ts';
+      import '../../../icons/phosphor/trash.ts';
+
+      function wire(openId, dialogId, closeIds) {
+        const dialog = document.getElementById(dialogId);
+        document.getElementById(openId).addEventListener('ui-press', () => dialog.showModal());
+        for (const id of closeIds) {
+          document.getElementById(id).addEventListener('ui-press', () => dialog.close());
+        }
+      }
+
+      wire('open-info', 'info-dialog', ['info-cancel', 'info-confirm']);
+      wire('open-warning', 'warning-dialog', ['warning-discard', 'warning-save']);
+      wire('open-danger', 'danger-dialog', ['danger-cancel', 'danger-confirm']);
+    </script>
+  </body>
+</html>

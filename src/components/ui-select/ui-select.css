@@ -1,0 +1,9 @@
+@layer ui {
+
+  /* ── Coordinator — no visual presence ── */
+
+  :where(ui-select) {
+    display: contents;
+  }
+
+}

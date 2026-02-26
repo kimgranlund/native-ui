@@ -1,0 +1,71 @@
+@layer ui {
+
+  /* ── Breadcrumb Container ── */
+
+  :where(ui-breadcrumb) {
+    --_font-weight: var(--ui-font-weight-button);
+    --_line-height: var(--ui-line-height-control);
+
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: calc(var(--_space) * 1);
+    font-size: var(--_font-size);
+    line-height: var(--_line-height);
+  }
+
+  /* ── Breadcrumb Item ── */
+
+  :where(ui-breadcrumb-item) {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--_space) * 1);
+    color: var(--_ink-muted);
+    text-decoration: none;
+    cursor: pointer;
+
+    transition:
+      background var(--_duration) var(--_easing),
+      color var(--_duration) var(--_easing),
+      border-color var(--_duration) var(--_easing),
+      opacity var(--_duration) var(--_easing),
+      transform var(--_duration) var(--_easing);
+  }
+
+  :where(ui-breadcrumb-item):hover,
+  :where(ui-breadcrumb-item)[force-hover] {
+    color: var(--_ink);
+    text-decoration: underline;
+  }
+
+  :where(ui-breadcrumb-item):focus-visible,
+  :where(ui-breadcrumb-item)[force-focus-visible] {
+    outline: 2px solid var(--ui-focus-ring);
+    outline-offset: 2px;
+    border-radius: calc(var(--_radius) * 0.25);
+  }
+
+  /* ── Current item ── */
+
+  :where(ui-breadcrumb-item[current]) {
+    color: var(--_ink-strong);
+    font-weight: var(--_font-weight);
+    cursor: default;
+    text-decoration: none;
+    pointer-events: none;
+  }
+
+  /* ── Separator ── */
+
+  :where(ui-breadcrumb-item):not(:last-child)::after {
+    content: var(--ui-breadcrumb-separator, '/');
+    color: var(--_ink-muted);
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  :where(ui-breadcrumb[hidden]) { display: none; }
+
+}

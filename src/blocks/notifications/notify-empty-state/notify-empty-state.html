@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Empty State Patterns — Block</title>
+    <link rel="stylesheet" href="../../../styles/index.css" />
+    <link rel="stylesheet" href="../../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 3rem 2rem;
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.75rem;
+      }
+
+      .empty-state ui-icon {
+        color: var(--neutral-ink-muted);
+        margin-bottom: 1rem;
+      }
+
+      .empty-state h3 {
+        font-size: 1.0625rem;
+        font-weight: 700;
+        margin: 0 0 0.375rem;
+      }
+
+      .empty-state p {
+        font-size: 0.875rem;
+        color: var(--neutral-ink-muted);
+        margin: 0 0 1.25rem;
+        max-width: 24rem;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>Empty States</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Placeholder patterns shown when content areas have no data.
+      Each variant communicates context and offers a clear next action.
+    </p>
+
+    <!-- -- No Data -- -->
+
+    <h2>No Data</h2>
+    <div class="empty-state">
+      <ui-icon name="folder" size="xl" aria-hidden="true"></ui-icon>
+      <h3>No projects yet</h3>
+      <p>Create your first project to get started. Projects help you organize tasks, track progress, and collaborate with your team.</p>
+      <ui-button intent="accent">
+        <ui-icon name="plus" slot="leading"></ui-icon>
+        <span slot="label">Create Project</span>
+      </ui-button>
+    </div>
+
+    <!-- -- No Search Results -- -->
+
+    <h2>No Search Results</h2>
+    <div class="empty-state">
+      <ui-icon name="magnifying-glass" size="xl" aria-hidden="true"></ui-icon>
+      <h3>No results found</h3>
+      <p>We couldn't find anything matching "quarterly report". Try adjusting your search terms or clearing filters.</p>
+      <ui-stack direction="row" gap="3">
+        <ui-button id="clear-search-btn">
+          <ui-icon name="x" slot="leading"></ui-icon>
+          <span slot="label">Clear Search</span>
+        </ui-button>
+        <ui-button id="browse-all-btn">
+          <span slot="label">Browse All</span>
+        </ui-button>
+      </ui-stack>
+    </div>
+
+    <!-- -- Error State -- -->
+
+    <h2>Error State</h2>
+    <div class="empty-state">
+      <ui-icon name="warning" size="xl" aria-hidden="true" style="color: var(--danger-ink-strong);"></ui-icon>
+      <h3>Something went wrong</h3>
+      <p>We couldn't load your projects. This might be a temporary issue. Please check your connection and try again.</p>
+      <ui-stack direction="row" gap="3">
+        <ui-button intent="accent" id="retry-btn">
+          <span slot="label">Try Again</span>
+        </ui-button>
+        <ui-button id="support-btn">
+          <span slot="label">Contact Support</span>
+        </ui-button>
+      </ui-stack>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../../nav/ui-layout.ts';
+      import '../../../components/ui-button/ui-button.ts';
+      import '../../../icons/ui-icon.ts';
+      import '../../../icons/phosphor/folder.ts';
+      import '../../../icons/phosphor/plus.ts';
+      import '../../../icons/phosphor/magnifying-glass.ts';
+      import '../../../icons/phosphor/x.ts';
+      import '../../../icons/phosphor/warning.ts';
+    </script>
+  </body>
+</html>

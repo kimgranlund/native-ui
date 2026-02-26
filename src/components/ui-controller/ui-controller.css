@@ -1,0 +1,10 @@
+/* ─────────────────────────────────────────────────────────
+   ui-controller
+   Structural trait provider — no visual footprint
+   ───────────────────────────────────────────────────────── */
+
+@layer ui {
+  :where(ui-controller) {
+    display: contents;
+  }
+}

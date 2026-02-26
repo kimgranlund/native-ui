@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toastable — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      /* ── Toast Styles ── */
+
+      .ui-toast {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        min-width: 280px;
+        max-width: 360px;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.4;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        animation: toast-in 200ms ease-out;
+      }
+
+      .ui-toast[intent="info"] {
+        background: var(--info-surface);
+        color: var(--info-surface-ink);
+      }
+
+      .ui-toast[intent="success"] {
+        background: var(--success-surface);
+        color: var(--success-surface-ink);
+      }
+
+      .ui-toast[intent="warning"] {
+        background: var(--warning-surface);
+        color: var(--warning-surface-ink);
+      }
+
+      .ui-toast[intent="danger"] {
+        background: var(--danger-surface);
+        color: var(--danger-surface-ink);
+      }
+
+      .ui-toast-message {
+        flex: 1;
+      }
+
+      .ui-toast-close {
+        background: none;
+        border: none;
+        color: inherit;
+        font-size: 1.125rem;
+        cursor: pointer;
+        padding: 0.125rem 0.25rem;
+        border-radius: 0.25rem;
+        opacity: 0.7;
+        line-height: 1;
+      }
+
+      .ui-toast-close:hover {
+        opacity: 1;
+      }
+
+      @keyframes toast-in {
+        from {
+          opacity: 0;
+          transform: translateX(1rem);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--neutral-border-muted);
+        color: var(--neutral-ink-strong);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--neutral-border-muted);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+
+    <h1>Toastable</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Composable trait for showing toast notifications. Manages a global toast stack with auto-dismiss timers, intent-based styling, and optional dismiss buttons.
+    </p>
+
+    <!-- ── Intent Variants ── -->
+
+    <h2>Intent Variants</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Uses <code>ToastController</code> directly on a host element. Each intent maps to a different surface color.
+      </p>
+      <div class="button-row">
+        <ui-button id="info-btn" intent="info">Info Toast</ui-button>
+        <ui-button id="success-btn" intent="success">Success Toast</ui-button>
+        <ui-button id="warning-btn" intent="warning">Warning Toast</ui-button>
+        <ui-button id="danger-btn" intent="danger">Danger Toast</ui-button>
+      </div>
+      <pre class="demo-code"><code>import { ToastController } from '@nonoun/native-ui';
+
+const toaster = new ToastController(document.body);
+
+toaster.toast({
+  message: 'Action completed!',
+  intent: 'success',   // 'info' | 'success' | 'warning' | 'danger'
+  duration: 4000,       // ms, 0 = sticky
+});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Custom Duration ── -->
+
+    <h2>Custom Duration</h2>
+    <div class="demo-section">
+      <div class="button-row">
+        <ui-button id="fast-btn">Fast (1s)</ui-button>
+        <ui-button id="slow-btn">Slow (10s)</ui-button>
+        <ui-button id="sticky-btn">Sticky (manual dismiss)</ui-button>
+      </div>
+      <pre class="demo-code"><code>// Fast — disappears after 1 second
+toaster.toast({ message: 'Gone!', intent: 'info', duration: 1000 });
+
+// Sticky — duration: 0 means manual dismiss only
+toaster.toast({ message: 'Sticky!', intent: 'warning', duration: 0 });</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Dismiss All ── -->
+
+    <h2>Batch Operations</h2>
+    <div class="demo-section">
+      <div class="button-row">
+        <ui-button id="batch-btn">Spawn 5 Toasts</ui-button>
+        <ui-button id="clear-btn">Dismiss All</ui-button>
+      </div>
+      <pre class="demo-code"><code>// Dismiss all active toasts
+toaster.dismissAllToasts();</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Methods</h3>
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>toast(options)</code></td>
+            <td><code>string</code></td>
+            <td>Show a toast. Returns the toast ID. Options: <code>{ message, intent?, duration? }</code>.</td>
+          </tr>
+          <tr>
+            <td><code>dismissToast(id)</code></td>
+            <td>—</td>
+            <td>Dismiss a specific toast by ID.</td>
+          </tr>
+          <tr>
+            <td><code>dismissAllToasts()</code></td>
+            <td>—</td>
+            <td>Dismiss all active toasts.</td>
+          </tr>
+          <tr>
+            <td><code>destroy()</code></td>
+            <td>—</td>
+            <td>Dismiss all and clean up.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Toast Options</h3>
+      <table class="api-table">
+        <thead><tr><th>Option</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>message</code></td>
+            <td><code>string</code></td>
+            <td>—</td>
+            <td>Toast message text. Required.</td>
+          </tr>
+          <tr>
+            <td><code>intent</code></td>
+            <td><code>string</code></td>
+            <td><code>'info'</code></td>
+            <td>Visual intent: <code>'info'</code>, <code>'success'</code>, <code>'warning'</code>, <code>'danger'</code>.</td>
+          </tr>
+          <tr>
+            <td><code>duration</code></td>
+            <td><code>number</code></td>
+            <td><code>4000</code></td>
+            <td>Auto-dismiss time in ms. <code>0</code> = sticky (manual dismiss only).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></ui-layout>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../components/ui-controller/ui-controller.ts';
+      import '../icons/ui-icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+      import { ToastController } from '../index.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Toast Controller — attached to body ──
+
+      const toaster = new ToastController(document.body);
+
+      // ── Intent demos ──
+
+      document.getElementById('info-btn').addEventListener('ui-press', () => {
+        toaster.toast({ message: 'This is an info notification.', intent: 'info' });
+      });
+      document.getElementById('success-btn').addEventListener('ui-press', () => {
+        toaster.toast({ message: 'Action completed successfully!', intent: 'success' });
+      });
+      document.getElementById('warning-btn').addEventListener('ui-press', () => {
+        toaster.toast({ message: 'Careful — this action cannot be undone.', intent: 'warning' });
+      });
+      document.getElementById('danger-btn').addEventListener('ui-press', () => {
+        toaster.toast({ message: 'Something went wrong. Please try again.', intent: 'danger' });
+      });
+
+      // ── Duration demos ──
+
+      document.getElementById('fast-btn').addEventListener('ui-press', () => {
+        toaster.toast({ message: 'Gone in 1 second!', intent: 'info', duration: 1000 });
+      });
+      document.getElementById('slow-btn').addEventListener('ui-press', () => {
+        toaster.toast({ message: 'I\'ll stick around for 10 seconds.', intent: 'info', duration: 10000 });
+      });
+      document.getElementById('sticky-btn').addEventListener('ui-press', () => {
+        toaster.toast({ message: 'I won\'t go away until you dismiss me.', intent: 'warning', duration: 0 });
+      });
+
+      // ── Batch demos ──
+
+      document.getElementById('batch-btn').addEventListener('ui-press', () => {
+        const intents = ['info', 'success', 'warning', 'danger', 'info'];
+        intents.forEach((intent, i) => {
+          setTimeout(() => {
+            toaster.toast({ message: `Toast #${i + 1} (${intent})`, intent, duration: 6000 });
+          }, i * 100);
+        });
+      });
+      document.getElementById('clear-btn').addEventListener('ui-press', () => {
+        toaster.dismissAllToasts();
+      });
+    </script>
+  </body>
+</html>

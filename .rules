@@ -1,0 +1,330 @@
+# Core Rules
+
+LLM coding agent operational framework. Token budgets are finite—every artifact must justify its existence.
+
+## 0. Meta — Context Engineering
+
+These rules files are context-engineered for LLM consumption. They are the **primary context** loaded at the start of every conversation and the first line of defense against incorrect output.
+
+**Authoring principles for all rules files (.rules, .rules-*):**
+
+- Every rule the LLM must follow is surfaced here — not buried in deep docs
+- Front-load the most commonly violated rules
+- Decision tables and correct/wrong pairs over prose
+- Every rule must be actionable without reading another document
+- If a pattern is violated twice, it belongs in the rules
+- Sub-rules (`.rules-*`) extend and override this file for domain-specific concerns
+- `docs/REQUIREMENTS/req-*.md` is the deep spec; these files are the quick-reference
+
+---
+
+## I. Cardinal Rules
+
+### Dogfooding
+
+Always use existing library components instead of raw HTML elements:
+
+| Don't | Do |
+|-------|-----|
+| `<button>` | `<ui-button>` |
+| `<input>` | `<ui-input>` |
+| `<dialog>` | `<ui-dialog>` or native `<dialog>` with components inside |
+| `<kbd>` | `<ui-kbd>` |
+| Raw SVG icons | `<ui-icon name="...">` |
+
+**WHY:** Validates component APIs, ensures consistency, catches bugs early.
+
+### No data-* Attributes
+
+Never use `data-*` attributes for styling or state. Use plain attributes:
+
+| Instead of | Use |
+|------------|-----|
+| `data-active` | `[active]` |
+| `data-size="lg"` | `[size="lg"]` |
+| `data-state="open"` | `[open]` |
+| `data-variant` | `[variant]` |
+
+**WHY:** Attributes are semantic, inspectable, and work with CSS `:has()`.
+
+**Exception:** `data-*` is acceptable only for third-party integration or genuine arbitrary data storage (not styling/state).
+
+### Nested Component Sizing
+
+When a component is nested inside another, it should match or step down one size:
+
+| Parent Size | Nested Size |
+|-------------|-------------|
+| `xs` | `xs` |
+| `sm` | `xs` |
+| `md` | `sm` |
+| `lg` | `md` |
+| `xl` | `lg` |
+
+**WHY:** Nested elements at the same size as their parent look oversized.
+
+**Applies to:** `ui-kbd` in `ui-button`, `ui-badge` in controls, `ui-icon` in compact contexts.
+
+---
+
+## II. Colors, Color Scheme & Theming
+
+These rules apply to **all CSS** in the project — library components, dev tooling, and demo pages.
+
+### Theme ≠ Color Scheme
+
+| Concept | What it is | Attribute | Example |
+|---------|-----------|-----------|---------|
+| **Color scheme** | Light or dark appearance | `color-scheme="dark"` | `light-dark()` resolves against this |
+| **Theme** | A stylesheet that overrides foundational tokens | `theme="zinc"` | Rewrites hues, surfaces, radii, spacing |
+
+These are independent axes. A provider can have both: `<ui-provider theme="rose" color-scheme="dark">`.
+
+| Correct | Wrong |
+|---------|-------|
+| `<ui-provider color-scheme="dark">` | `<ui-provider theme="dark">` |
+| `<ui-provider theme="zinc">` | "zinc theme" meaning a color scheme |
+| `[color-scheme="dark"] { color-scheme: dark; }` | `[theme="dark"] { color-scheme: dark; }` |
+
+### OKLCH only
+
+| Correct | Wrong |
+|---------|-------|
+| `oklch(55% 0.2 250)` | `#3b82f6` |
+| `oklch(0 0 0 / 0.06)` | `rgba(0, 0, 0, 0.06)` |
+
+No hex, `rgb()`, `hsl()`, or named colors. Exception: system colors inside `@media (forced-colors: active)`.
+
+### All colors use light-dark()
+
+Every color value that differs between light and dark color schemes MUST use `light-dark()`:
+
+| Correct | Wrong |
+|---------|-------|
+| `light-dark(oklch(20% 0.02 265), oklch(93% 0.01 265))` | `oklch(20% 0.02 265)` |
+| `--surface: light-dark(oklch(100% 0 0), oklch(16% 0.015 265))` | `--surface: oklch(100% 0 0)` |
+
+Colors that are identical in both color schemes (e.g. brand accent, semi-transparent scrims) may use bare `oklch()`.
+
+### color-scheme, not @media
+
+Color scheme switching uses the `color-scheme` property. Never `@media (prefers-color-scheme)` for individual values:
+
+| Correct | Wrong |
+|---------|-------|
+| `color-scheme: light dark` | `@media (prefers-color-scheme: dark) { ... }` |
+| `ui-provider[color-scheme="dark"] { color-scheme: dark; }` | `@media (prefers-color-scheme: dark) { :root { ... } }` |
+
+**WHY:** `light-dark()` respects the inherited `color-scheme` property, enabling nested color schemes via `<ui-provider>` without media query coupling. `@media` is global and cannot be scoped.
+
+### Themes override tokens, not color scheme
+
+A theme is a `CSSStyleSheet` (via `css` tagged template) in `@layer themes` that overrides foundational tokens on `:where(ui-provider[theme="name"])`:
+
+```css
+/* ✅ Theme — overrides primitives */
+@layer themes {
+  :where(ui-provider[theme="zinc"]) {
+    --hue-neutral: 240;
+    --hue-primary: 230;
+    --surface: light-dark(oklch(100% 0 0), oklch(14% 0.005 240));
+  }
+}
+
+/* ❌ Not a theme — this is a color scheme */
+:where(ui-provider[theme="dark"]) { color-scheme: dark; }
+```
+
+**WHY:** Themes and color schemes are orthogonal. A theme works in both light and dark because it uses `light-dark()` for its overrides. Conflating them prevents independent control.
+
+### Scrim backgrounds
+
+Overlays and hover states use semi-transparent oklch scrims that adapt to any surface:
+
+```css
+/* ✅ Scrim — adapts to any surface */
+background: light-dark(oklch(0 0 0 / 0.06), oklch(100% 0 0 / 0.08));
+
+/* ❌ Solid — only works on one surface */
+background: oklch(95% 0 0);
+```
+
+---
+
+## III. Context Management
+
+### Approved Documents
+
+| Path | Purpose |
+|------|---------|
+| `docs/README.md` | Index of all docs and folder structure |
+| `docs/BACKLOG/BACKLOG.md` | Active work items (actively trimmed and groomed) |
+| `docs/BACKLOG/backlog-{###}-{summary}.md` | Archived completed backlog items |
+| `docs/DECISIONS/decisions-{###}-{summary}.md` | Architectural decision log |
+| `docs/PATTERNS/{topic}.md` | Reusable process templates (session, code review) |
+| `docs/REQUIREMENTS/req-{scope}.md` | Architectural requirements and rules |
+| `docs/REVIEWS/review-{###}-{topic}.md` | Code review reports |
+| `docs/SESSIONS/session-{nnn}-{YYYYMMDD}-{topic}.md` | Context bridges between threads |
+| `docs/SPECS/spec-{###}-{topic}-{scope}.md` | Component API quick reference |
+
+### Backlog
+
+`docs/BACKLOG/BACKLOG.md` is the single source of truth for active work. No separate tasks file.
+
+**Rules**:
+- Only active/upcoming items live in `BACKLOG.md` — no "Done" items
+- When completed items accumulate, archive them to `backlog-{###}-{summary}.md`
+- Each archive file references the previous: `**Previous archive**: [backlog-001-…](…)`
+- Items use `BACK-{NNN}` IDs — globally unique, never reused
+- No `**Status:**` lines — if it's in `BACKLOG.md`, it's not done
+
+### Decisions
+
+Every non-trivial architectural or design decision is logged in `docs/DECISIONS/decisions-{###}-{summary}.md`.
+
+**Table format**: `| ID | Session | Decision | Rationale | Trade-offs |`
+
+**Rules**:
+- IDs are `D{NNN}` — globally unique across all decision files
+- Log decisions as they're made, not retroactively
+- Each file caps at **50 decisions**, then create the next file
+- Each new file references the previous: `**Previous**: decisions-001-…`
+- Session docs may reference decision IDs but MUST NOT duplicate the full table
+
+### Session Documents
+
+Generate ONLY when explicitly requested. Follow `docs/PATTERNS/session-template.md` exactly.
+
+**Required sections**: Header (number, date, previous, status), Objective, Outcome, Work Completed, Metrics.
+
+**Conditional sections** (include only when applicable): Decisions, Problems Solved, Patterns Established, Open Items.
+
+**Rules**:
+- Objective and Outcome are each one sentence — no more
+- Decisions reference `D{NNN}` IDs from the decisions log — include rationale/trade-offs in session doc only for context, canonical record is in `docs/DECISIONS/`
+- Work Completed is file-level only — git has the diff
+- Problems Solved captures root cause, not just symptoms
+- Patterns Established creates obligations for future sessions
+- Open Items must have a reason and a next step
+
+### Prohibited
+
+- ❌ Ad-hoc summary documents
+- ❌ Redundant documentation
+- ❌ Verbose explanations
+- ❌ Decorative comments, ASCII banners, dividers
+- ❌ Documentation serving only the LLM
+
+---
+
+## IV. First-Principles Protocol
+
+Before proposing non-trivial solutions:
+
+1. **Identify first principles** — What are the irreducible truths? Which constraints are real vs assumed?
+2. **Defeat strawman** — Why do obviously bad solutions fail?
+3. **Challenge steelman** — What's the best argument against this solution?
+4. **External consultant** — Would a hostile expert approve?
+5. **Don't boil the ocean** — Is the problem too large? Break it down into constituent parts and solve incrementally.
+
+---
+
+## V. Code Standards
+
+### Comments
+
+**Approved prefixes:**
+```
+// WHY: Non-obvious rationale
+// PERF: Performance consideration
+// WARN: Footgun or edge case
+// TODO: Actionable with context
+// HACK: Temporary, explain resolution
+// REF: External reference
+```
+
+**Prohibited:**
+```
+// ================
+// Section Header
+// ================
+// This function gets user by ID
+// Constructor
+```
+
+### Naming
+
+| Type | Pattern | Example |
+|------|---------|---------|
+| Actions | verb + noun | `getUserById()`, `validateEmail()` |
+| Booleans | is/has/can | `isValid()`, `hasPermission()` |
+| Handlers | handle/on | `handleClick()`, `onSubmit()` |
+| Transforms | to/from/map | `toJSON()`, `fromDTO()` |
+
+**Avoid:** `process()`, `handle()`, `manage()`, `do()`
+
+### Private Fields
+
+```typescript
+// ✅ CORRECT
+#privateField: string;
+private anotherPrivate: number;
+
+// ❌ WRONG
+_privateField: string;
+```
+
+### Component Naming
+
+**Custom Elements (kebab-case):**
+
+| Pattern | Use Case | Example |
+|---------|----------|---------|
+| `ui-{name}` | Base component | `ui-button`, `ui-input` |
+| `ui-{name}-{variant}` | Variant of base | `ui-button-icon`, `ui-input-otp` |
+| `ui-{parent}-{child}` | Child of composite | `ui-menu-list-item`, `ui-combobox-group` |
+| `ui-{parent}-{child}-{variant}` | Specialized child | `ui-menu-list-item-stock-ticker` |
+| `ui-{name}-controller` | Controller for element | `ui-combobox-controller` |
+
+**Class Names (PascalCase):**
+
+| Element | Class |
+|---------|-------|
+| `ui-button` | `UIButton` |
+| `ui-menu-list-item` | `UIMenuListItem` |
+| `ui-combobox-controller` | `UIComboboxController` |
+
+---
+
+## VI. Response Standards
+
+1. **Concise** — Respect token budgets
+2. **Relevant** — Every sentence advances understanding or action
+3. **Structured** — Headers and lists for scanning
+4. **Precise** — No hedging unless genuinely uncertain
+
+### Before Responding
+
+- [ ] Problem scope in need of destructuring to constituent parts first?
+- [ ] First principles identified?
+- [ ] Strongest counter-argument considered?
+- [ ] Defensible to expert reviewer?
+- [ ] Token cost justified?
+
+---
+
+## VII. Anti-Patterns
+
+| Don't | Why |
+|-------|-----|
+| Cargo cult | Patterns need understanding |
+| Premature optimization | Measure first |
+| Resume-driven development | Boring > trendy |
+| Analysis paralysis | Perfect ≠ done |
+| Not invented here | Use existing solutions |
+| Dependency proliferation | Every dep is liability |
+| Incomplete patterns | Fixing one gap while creating others is not fixing |
+
+---
+
+**Version**: 1.0.0

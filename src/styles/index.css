@@ -1,0 +1,71 @@
+@import 'colors.primitives.css';
+@import 'colors.tokens.css';
+@import 'themes.css';
+@import 'ui.base.css';
+@import 'ui.primitives.css';
+
+/* ── Layout Flash Prevention ──
+   Hide ui-layout content until the custom element is defined and ready.
+   Without this, the raw <main> content flashes before the sidebar shell builds.
+   :not(:defined) matches until customElements.define() runs.
+   [data-ready] is set by ui-layout after it finishes building the shell.
+
+   Uses color-scheme-aware background + hidden children (not visibility:hidden)
+   so the element still paints the correct surface during view transitions —
+   prevents a flash of bare body background between old→new page snapshots. */
+
+ui-layout:not(:defined),
+ui-layout:not([data-ready]) {
+  display: block;
+  min-height: 100dvh;
+  background: var(--neutral-doc);
+}
+
+ui-layout:not(:defined) > *,
+ui-layout:not([data-ready]) > * {
+  visibility: hidden;
+}
+
+/* ── Cross-Document View Transitions ──
+   Opt-in for same-origin MPA navigations.
+   The layout shell (sidebar, breadcrumb) is named so the browser treats it
+   as a persistent element — no animation since it's identical across pages.
+   Only the <main> content area transitions with a fast, subtle swap.
+   The root group is suppressed so there's no full-page crossfade. */
+
+@view-transition {
+  navigation: auto;
+}
+
+/* Kill all default animations — no zoom, no crossfade, no geometry interpolation */
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation: none;
+}
+
+/* Shell persists — named so it's excluded from root snapshot */
+ui-layout {
+  view-transition-name: shell;
+}
+
+/* Content area is the only thing that transitions */
+main {
+  view-transition-name: content;
+}
+
+::view-transition-old(content) {
+  animation: 80ms ease-out both fade-out;
+}
+
+::view-transition-new(content) {
+  animation: 80ms 40ms ease-in both fade-in;
+}
+
+@keyframes fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+}

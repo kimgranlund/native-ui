@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toast Notification Showcase — Block</title>
+    <link rel="stylesheet" href="../../../styles/index.css" />
+    <link rel="stylesheet" href="../../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>Toast Notifications</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Trigger toast notifications with different intents, durations, and content lengths.
+      Each button demonstrates a specific toast configuration via the Toastable trait.
+    </p>
+
+    <!-- -- Intent Variants -- -->
+
+    <h2>Intent Variants</h2>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem; margin-bottom: 1rem;">
+      One button per intent. Click to trigger a toast styled for that intent.
+    </p>
+    <ui-grid columns="auto-fill" min="10rem" gap="3">
+      <ui-stack gap="2">
+        <ui-button id="toast-default" size="md" style="width: 100%;">
+          <ui-icon name="bell" slot="leading"></ui-icon>
+          <span slot="label">Default</span>
+        </ui-button>
+        <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0;">Neutral notification</p>
+      </ui-stack>
+
+      <ui-stack gap="2">
+        <ui-button id="toast-info" intent="info" size="md" style="width: 100%;">
+          <ui-icon name="info" slot="leading"></ui-icon>
+          <span slot="label">Info</span>
+        </ui-button>
+        <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0;">Informational message</p>
+      </ui-stack>
+
+      <ui-stack gap="2">
+        <ui-button id="toast-success" intent="success" size="md" style="width: 100%;">
+          <ui-icon name="check" slot="leading"></ui-icon>
+          <span slot="label">Success</span>
+        </ui-button>
+        <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0;">Action completed</p>
+      </ui-stack>
+
+      <ui-stack gap="2">
+        <ui-button id="toast-warning" intent="warning" size="md" style="width: 100%;">
+          <ui-icon name="warning" slot="leading"></ui-icon>
+          <span slot="label">Warning</span>
+        </ui-button>
+        <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0;">Caution needed</p>
+      </ui-stack>
+
+      <ui-stack gap="2">
+        <ui-button id="toast-danger" intent="danger" size="md" style="width: 100%;">
+          <ui-icon name="warning-circle" slot="leading"></ui-icon>
+          <span slot="label">Danger</span>
+        </ui-button>
+        <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0;">Error or failure</p>
+      </ui-stack>
+    </ui-grid>
+
+    <!-- -- Special Cases -- -->
+
+    <h2>Special Cases</h2>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem; margin-bottom: 1rem;">
+      Long messages and non-dismissible toasts to test edge cases.
+    </p>
+    <ui-stack direction="row" gap="3" wrap>
+      <ui-button id="toast-long">
+        <ui-icon name="file-text" slot="leading"></ui-icon>
+        <span slot="label">Long Message</span>
+      </ui-button>
+      <ui-button id="toast-sticky">
+        <ui-icon name="lock" slot="leading"></ui-icon>
+        <span slot="label">Non-dismissible (sticky)</span>
+      </ui-button>
+    </ui-stack>
+
+    <!-- -- Batch Operations -- -->
+
+    <h2>Batch Operations</h2>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem; margin-bottom: 1rem;">
+      Spawn multiple toasts at once or dismiss them all.
+    </p>
+    <ui-stack direction="row" gap="3" wrap>
+      <ui-button id="toast-batch" intent="accent">
+        <ui-icon name="plus" slot="leading"></ui-icon>
+        <span slot="label">Spawn 5 Toasts</span>
+      </ui-button>
+      <ui-button id="toast-clear">
+        <ui-icon name="x" slot="leading"></ui-icon>
+        <span slot="label">Dismiss All</span>
+      </ui-button>
+    </ui-stack>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../../nav/ui-layout.ts';
+      import '../../../components/ui-button/ui-button.ts';
+      import '../../../icons/ui-icon.ts';
+      import '../../../icons/phosphor/bell.ts';
+      import '../../../icons/phosphor/info.ts';
+      import '../../../icons/phosphor/check.ts';
+      import '../../../icons/phosphor/warning.ts';
+      import '../../../icons/phosphor/warning-circle.ts';
+      import '../../../icons/phosphor/file-text.ts';
+      import '../../../icons/phosphor/lock.ts';
+      import '../../../icons/phosphor/plus.ts';
+      import '../../../icons/phosphor/x.ts';
+      import { UIElement, define, ToastController } from '../../../index.ts';
+
+      // Custom element with ToastController to host toast calls
+      class ToastDemo extends UIElement {
+        #toaster;
+        setup() {
+          super.setup();
+          this.#toaster = new ToastController(this);
+        }
+        toast(options) { return this.#toaster.toast(options); }
+        dismissAllToasts() { this.#toaster.dismissAllToasts(); }
+        teardown() { this.#toaster.destroy(); super.teardown(); }
+      }
+      define('toast-demo', ToastDemo);
+
+      const host = document.createElement('toast-demo');
+      document.body.appendChild(host);
+
+      // Intent variant buttons
+      document.getElementById('toast-default').addEventListener('ui-press', () => {
+        host.toast({ message: 'This is a default notification.' });
+      });
+      document.getElementById('toast-info').addEventListener('ui-press', () => {
+        host.toast({ message: 'A new version is available. Refresh to update.', intent: 'info' });
+      });
+      document.getElementById('toast-success').addEventListener('ui-press', () => {
+        host.toast({ message: 'Project saved successfully!', intent: 'success' });
+      });
+      document.getElementById('toast-warning').addEventListener('ui-press', () => {
+        host.toast({ message: 'Your session will expire in 5 minutes.', intent: 'warning' });
+      });
+      document.getElementById('toast-danger').addEventListener('ui-press', () => {
+        host.toast({ message: 'Failed to delete the resource. Please try again.', intent: 'danger' });
+      });
+
+      // Long message
+      document.getElementById('toast-long').addEventListener('ui-press', () => {
+        host.toast({
+          message: 'This is a much longer toast notification message designed to test how the toast component handles multi-line content and text wrapping behavior within the container.',
+          intent: 'info',
+          duration: 8000,
+        });
+      });
+
+      // Non-dismissible (sticky) toast
+      document.getElementById('toast-sticky').addEventListener('ui-press', () => {
+        host.toast({
+          message: 'This toast will not auto-dismiss. You must close it manually.',
+          intent: 'warning',
+          duration: 0,
+        });
+      });
+
+      // Batch spawn
+      document.getElementById('toast-batch').addEventListener('ui-press', () => {
+        const intents = ['info', 'success', 'warning', 'danger', 'info'];
+        const messages = [
+          'Syncing project data...',
+          'Build completed in 2.3s.',
+          'Disk usage above 80%.',
+          'Connection lost to server.',
+          'Deployment queued for review.',
+        ];
+        intents.forEach((intent, i) => {
+          setTimeout(() => {
+            host.toast({ message: messages[i], intent, duration: 6000 });
+          }, i * 150);
+        });
+      });
+
+      // Dismiss all
+      document.getElementById('toast-clear').addEventListener('ui-press', () => {
+        host.dismissAllToasts();
+      });
+    </script>
+  </body>
+</html>

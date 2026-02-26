@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verify OTP — Auth Block</title>
+    <link rel="stylesheet" href="../../../styles/index.css" />
+    <link rel="stylesheet" href="../../../styles/components.css" />
+    <style>
+      body { background: var(--neutral-doc); color: var(--neutral-950); }
+      main { padding: 2rem; }
+      h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+      h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; margin-top: 2rem; color: var(--neutral-ink-strong); }
+
+      .auth-centered {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 8rem);
+      }
+
+      .auth-card-wrapper {
+        width: 100%;
+        max-width: 24rem;
+      }
+
+      .auth-icon-circle {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+      }
+
+      .auth-heading {
+        text-align: center;
+        margin-bottom: 0.25rem;
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+
+      .auth-subheading {
+        text-align: center;
+        color: var(--neutral-ink-muted);
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+      }
+
+      .auth-email-highlight {
+        font-weight: 600;
+        color: var(--neutral-ink-strong);
+      }
+
+      .auth-resend-text {
+        text-align: center;
+        font-size: 0.8125rem;
+        color: var(--neutral-ink-muted);
+        margin-top: 1rem;
+      }
+
+      .auth-resend-link {
+        color: var(--accent-ink);
+        text-decoration: none;
+        font-weight: 500;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-size: inherit;
+        padding: 0;
+      }
+
+      .auth-resend-link:hover {
+        text-decoration: underline;
+      }
+
+      .auth-back-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.375rem;
+        font-size: 0.8125rem;
+        color: var(--neutral-ink-muted);
+        text-decoration: none;
+        margin-top: 1.5rem;
+      }
+
+      .auth-back-link:hover {
+        color: var(--neutral-ink);
+      }
+
+      .otp-center {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>OTP Verification</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      6-digit one-time password verification step with resend and back link.
+    </p>
+
+    <!-- ── OTP Verification Card ── -->
+
+    <h2>Enter Verification Code</h2>
+    <div style="background: var(--neutral-body); border: 1px solid var(--neutral-border-muted); border-radius: 0.5rem; overflow: hidden; margin-bottom: 1rem;">
+      <div class="auth-centered" style="min-height: 32rem;">
+        <div class="auth-card-wrapper">
+          <div class="auth-icon-circle">
+            <ui-icon name="shield-check" size="lg"></ui-icon>
+          </div>
+          <p class="auth-heading">Enter verification code</p>
+          <p class="auth-subheading">
+            We sent a 6-digit code to <span class="auth-email-highlight">kim@example.com</span>. Enter it below to verify your identity.
+          </p>
+          <ui-card>
+            <form>
+              <ui-stack gap="4">
+                <div class="otp-center">
+                  <ui-input-otp name="otp" length="6"></ui-input-otp>
+                </div>
+                <ui-button variant="primary" intent="accent" type="submit" style="width: 100%;">
+                  <span slot="label">Verify</span>
+                </ui-button>
+              </ui-stack>
+            </form>
+            <p class="auth-resend-text">
+              Didn't receive a code? <button class="auth-resend-link" type="button">Resend code</button>
+            </p>
+          </ui-card>
+          <a href="#" class="auth-back-link">
+            <ui-icon name="arrow-left" size="sm"></ui-icon>
+            Back to sign in
+          </a>
+        </div>
+      </div>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../../nav/ui-layout.ts';
+      import '../../../components/ui-button/ui-button.ts';
+      import '../../../components/ui-input-otp/ui-input-otp.ts';
+      import '../../../containers/ui-card/ui-card.ts';
+      import '../../../icons/ui-icon.ts';
+      import '../../../icons/phosphor/shield-check.ts';
+      import '../../../icons/phosphor/arrow-left.ts';
+    </script>
+  </body>
+</html>

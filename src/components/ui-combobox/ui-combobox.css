@@ -1,0 +1,20 @@
+@layer ui {
+
+  /* ── Coordinator — no visual presence ── */
+
+  :where(ui-combobox) {
+    display: contents;
+  }
+
+  /* WHY: The input acts as a dropdown trigger — default cursor at rest,
+     text cursor once focused (typing to filter). */
+
+  :where(ui-combobox) > :where(ui-input) {
+    cursor: default;
+  }
+
+  :where(ui-combobox) > :where(ui-input):focus-within {
+    cursor: text;
+  }
+
+}

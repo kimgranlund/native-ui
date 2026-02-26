@@ -1,0 +1,29 @@
+@layer ui {
+
+  /* ── Base ── */
+
+  :where(ui-panel) {
+    --_ground: var(--_panel);
+
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    flex-direction: column;
+    background: var(--_ground);
+    border-radius: var(--_radius);
+    padding: calc(var(--_space-k) * var(--_space));
+  }
+
+  /* ── Bordered ── */
+
+  :where(ui-panel)[bordered] {
+    border: 1px solid var(--_border-muted);
+  }
+
+  /* ── No padding ── */
+
+  :where(ui-panel[padded="false"]) {
+    padding: 0;
+  }
+
+}

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ui-panel — Container Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .sidebar-demo {
+        display: flex;
+        gap: 1rem;
+        height: 16rem;
+      }
+
+      .sidebar-demo > ui-panel {
+        width: 14rem;
+        flex-shrink: 0;
+      }
+
+      .sidebar-demo > .content-area {
+        flex: 1;
+        padding: 1rem;
+        font-size: 0.875rem;
+        color: var(--neutral-ink-muted);
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>&lt;ui-panel&gt;</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Section surface for sidebars, toolbars, and content areas. Less bounded than card. CSS-only container.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <div class="demo-section">
+      <ui-panel>
+        <p style="margin: 0;">A basic panel with default padding and panel-elevation background.</p>
+      </ui-panel>
+    <pre class="demo-code"><code>&lt;ui-panel&gt;
+  &lt;p&gt;A basic panel with default padding and panel-elevation background.&lt;/p&gt;
+&lt;/ui-panel&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Bordered ── -->
+
+    <h2>Bordered</h2>
+    <div class="demo-section">
+      <ui-panel bordered>
+        <p style="margin: 0;">A panel with a visible border.</p>
+      </ui-panel>
+    <pre class="demo-code"><code>&lt;ui-panel bordered&gt;
+  &lt;p&gt;A panel with a visible border.&lt;/p&gt;
+&lt;/ui-panel&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Sidebar Layout ── -->
+
+    <h2>Sidebar Layout</h2>
+    <div class="demo-section">
+      <div class="sidebar-demo">
+        <ui-panel bordered>
+          <ui-stack gap="1">
+            <ui-button variant="ghost" justify="spread" style="width: 100%;"><ui-icon name="house" slot="leading"></ui-icon><span slot="label">Dashboard</span></ui-button>
+            <ui-button variant="ghost" justify="spread" style="width: 100%;"><ui-icon name="folder" slot="leading"></ui-icon><span slot="label">Projects</span></ui-button>
+            <ui-button variant="ghost" justify="spread" style="width: 100%;"><ui-icon name="gear" slot="leading"></ui-icon><span slot="label">Settings</span></ui-button>
+          </ui-stack>
+        </ui-panel>
+        <div class="content-area">
+          Main content area. The panel serves as a sidebar surface.
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-panel bordered&gt;
+  &lt;ui-stack gap="1"&gt;
+    &lt;ui-button variant="ghost" justify="spread"&gt;
+      &lt;ui-icon name="house" slot="leading"&gt;&lt;/ui-icon&gt;
+      &lt;span slot="label"&gt;Dashboard&lt;/span&gt;
+    &lt;/ui-button&gt;
+    &lt;ui-button variant="ghost" justify="spread"&gt;...&lt;/ui-button&gt;
+  &lt;/ui-stack&gt;
+&lt;/ui-panel&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <ui-stack gap="4">
+        <ui-panel bordered size="sm">
+          <p style="margin: 0; font-size: 0.8125rem;">Small panel — compact padding</p>
+        </ui-panel>
+        <ui-panel bordered size="lg">
+          <p style="margin: 0;">Large panel — spacious padding</p>
+        </ui-panel>
+      </ui-stack>
+    <pre class="demo-code"><code>&lt;ui-panel bordered size="sm"&gt;
+  &lt;p&gt;Small panel&lt;/p&gt;
+&lt;/ui-panel&gt;
+
+&lt;ui-panel bordered size="lg"&gt;
+  &lt;p&gt;Large panel&lt;/p&gt;
+&lt;/ui-panel&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── No Padding ── -->
+
+    <h2>No Padding</h2>
+    <div class="demo-section">
+      <ui-panel bordered padded="false">
+        <p style="margin: 0;">This panel has <code>padded="false"</code> — no internal padding. Content touches the edges.</p>
+      </ui-panel>
+    <pre class="demo-code"><code>&lt;ui-panel bordered padded="false"&gt;
+  &lt;p&gt;No internal padding. Content touches the edges.&lt;/p&gt;
+&lt;/ui-panel&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../nav/ui-layout.ts';
+      import '../../components/ui-button/ui-button.ts';
+      import '../../icons/ui-icon.ts';
+      import '../../icons/phosphor/house.ts';
+      import '../../icons/phosphor/folder.ts';
+      import '../../icons/phosphor/gear.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

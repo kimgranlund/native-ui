@@ -1,0 +1,268 @@
+@layer ui {
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     ui-slideshow / ui-slide
+     CSS-first carousel using scroll-snap.
+
+     DOM structure (JS-stamped):
+       ui-slideshow
+         div[part="track"]
+           ui-slide …
+         div[part="controls"]
+           button[part="prev"]
+           button[part="next"]
+         div[part="indicators"]
+           button[part="dot"] …
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  /* ── Slideshow Wrapper ── */
+
+  :where(ui-slideshow) {
+    --_slideshow-gap: 0px;
+    --_per-view: 1;
+    --_slideshow-peek: 0px;
+
+    display: grid;
+    flex: 1 1 0%;
+    min-width: 0;
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--_radius);
+  }
+
+  :where(ui-slideshow[gap]) {
+    --_slideshow-gap: calc(var(--_space) * 4);
+  }
+
+  :where(ui-slideshow[peek]) {
+    --_slideshow-peek: calc(var(--_space-k) * var(--_space) * 2);
+  }
+
+  /* ── Track ── */
+
+  :where(ui-slideshow) > :where([part="track"]) {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    gap: var(--_slideshow-gap);
+    padding-inline: var(--_slideshow-peek);
+    scroll-padding-inline: var(--_slideshow-peek);
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  :where(ui-slideshow) > :where([part="track"])::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Drag-to-scroll cursor */
+  :where(ui-slideshow) > :where([part="track"]) {
+    cursor: grab;
+  }
+
+  :where(ui-slideshow) > :where([part="track"][data-dragging]) {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  /* ── Vertical ── */
+
+  :where(ui-slideshow[direction="vertical"]) > :where([part="track"]) {
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    overscroll-behavior-x: auto;
+    overscroll-behavior-y: contain;
+    padding-inline: 0;
+    scroll-padding-inline: 0;
+    padding-block: var(--_slideshow-peek);
+    scroll-padding-block: var(--_slideshow-peek);
+  }
+
+  /* ── Slide ── */
+
+  :where(ui-slide) {
+    flex: 0 0 calc(
+      (100% - (var(--_per-view) - 1) * var(--_slideshow-gap)) / var(--_per-view)
+    );
+    scroll-snap-align: start;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* Vertical slides need full height instead of full width */
+  :where(ui-slideshow[direction="vertical"]) > :where([part="track"]) > :where(ui-slide) {
+    flex: 0 0 100%;
+  }
+
+  /* ── Controls ── */
+
+  :where(ui-slideshow) > :where([part="controls"]) {
+    display: none;
+  }
+
+  :where(ui-slideshow[controls]) > :where([part="controls"]) {
+    display: contents;
+  }
+
+  :where(ui-slideshow) :where([part="prev"]),
+  :where(ui-slideshow) :where([part="next"]) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+
+    appearance: none;
+    border: none;
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--_panel);
+    color: var(--_ink);
+    border: 1px solid var(--_border-muted);
+    box-shadow: var(--ui-shadow-sm);
+
+    transition:
+      background var(--_duration) var(--_easing),
+      color var(--_duration) var(--_easing),
+      border-color var(--_duration) var(--_easing),
+      opacity var(--_duration) var(--_easing),
+      transform var(--_duration) var(--_easing);
+  }
+
+  :where(ui-slideshow) :where([part="prev"]) {
+    inset-inline-start: calc(var(--_space) * 2);
+  }
+
+  :where(ui-slideshow) :where([part="next"]) {
+    inset-inline-end: calc(var(--_space) * 2);
+  }
+
+  :where(ui-slideshow) :where([part="prev"]):hover,
+  :where(ui-slideshow) :where([part="next"]):hover,
+  :where(ui-slideshow[force-hover]) :where([part="prev"]),
+  :where(ui-slideshow[force-hover]) :where([part="next"]) {
+    background: var(--_panel-hover);
+    color: var(--_ink-hover);
+    border-color: var(--_border-hover);
+  }
+
+  :where(ui-slideshow) :where([part="prev"]):focus-visible,
+  :where(ui-slideshow) :where([part="next"]):focus-visible,
+  :where(ui-slideshow[force-focus-visible]) :where([part="prev"]),
+  :where(ui-slideshow[force-focus-visible]) :where([part="next"]) {
+    outline: 2px solid var(--ui-focus-ring);
+    outline-offset: 2px;
+  }
+
+  :where(ui-slideshow) :where([part="prev"]):disabled,
+  :where(ui-slideshow) :where([part="next"]):disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* ── Indicators ── */
+
+  :where(ui-slideshow) > :where([part="indicators"]) {
+    display: none;
+    grid-row: 2;
+    grid-column: 1;
+  }
+
+  :where(ui-slideshow[indicators]) > :where([part="indicators"]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--_space) * 2);
+    padding-block: calc(var(--_space) * 3);
+  }
+
+  :where(ui-slideshow) :where([part="dot"]) {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    /* Base size is the active pill; inactive state scales down via transform.
+       GPU composited — only transform + background animate. */
+    width: 1.25rem;
+    height: 0.5rem;
+    border-radius: 0.25rem;
+    background: var(--_border);
+    flex-shrink: 0;
+    transform: scale(0.4, 1);
+
+    transition:
+      background var(--_duration) var(--_easing),
+      transform var(--_duration) var(--_easing);
+  }
+
+  :where(ui-slideshow) :where([part="dot"])[active] {
+    background: var(--_surface);
+    transform: scale(1);
+  }
+
+  :where(ui-slideshow) :where([part="dot"]):hover:not([active]),
+  :where(ui-slideshow[force-hover]) :where([part="dot"]):not([active]) {
+    background: var(--_border-hover);
+    transform: scale(0.48, 1.2);
+  }
+
+  :where(ui-slideshow) :where([part="dot"]):focus-visible,
+  :where(ui-slideshow[force-focus-visible]) :where([part="dot"]) {
+    outline: 2px solid var(--ui-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* ── Disabled ── */
+
+  :where(ui-slideshow)[aria-disabled="true"] > :where([part="track"]) {
+    pointer-events: none;
+  }
+
+  :where(ui-slideshow)[aria-disabled="true"] > :where([part="controls"]) {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  /* ── Visually Hidden (live region) ── */
+
+  :where(ui-slideshow) :where([data-visually-hidden]) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  /* ── Reduced Motion ── */
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(ui-slideshow) > :where([part="track"]) {
+      scroll-behavior: auto;
+    }
+
+    :where(ui-slideshow) :where([part="prev"]),
+    :where(ui-slideshow) :where([part="next"]),
+    :where(ui-slideshow) :where([part="dot"]) {
+      transition: none;
+    }
+  }
+
+  :where(ui-slideshow[hidden]) { display: none; }
+
+}

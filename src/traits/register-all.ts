@@ -1,0 +1,58 @@
+import { registerTrait } from '../core/trait-registry.ts';
+import {
+  pressableAdapter,
+  hoverableAdapter,
+  copyableAdapter,
+  intersectableAdapter,
+  droppableAdapter,
+  sortableAdapter,
+  validatableAdapter,
+  focusTrappableAdapter,
+  collapsibleAdapter,
+  rovingFocusableAdapter,
+  dismissableAdapter,
+  toastableAdapter,
+  popoverableAdapter,
+  listNavigableAdapter,
+  dialogableAdapter,
+  draggableAdapter,
+  rangeSelectableAdapter,
+  resizableAdapter,
+  virtualizableAdapter,
+  selectableAdapter,
+  searchableAdapter,
+  clippableAdapter,
+  swipeableAdapter,
+  editableAdapter,
+} from './adapters/index.ts';
+
+/**
+ * Register all built-in trait adapters with the global trait registry.
+ * Call once at app startup to enable `traits="..."` attribute on UIElement subclasses.
+ */
+export function registerAllTraits(): void {
+  registerTrait(pressableAdapter);
+  registerTrait(hoverableAdapter);
+  registerTrait(copyableAdapter);
+  registerTrait(intersectableAdapter);
+  registerTrait(droppableAdapter);
+  registerTrait(sortableAdapter);
+  registerTrait(validatableAdapter);
+  registerTrait(focusTrappableAdapter);
+  registerTrait(collapsibleAdapter);
+  registerTrait(rovingFocusableAdapter);
+  registerTrait(dismissableAdapter);
+  registerTrait(toastableAdapter);
+  registerTrait(popoverableAdapter);
+  registerTrait(listNavigableAdapter);
+  registerTrait(dialogableAdapter);
+  registerTrait(draggableAdapter);
+  registerTrait(rangeSelectableAdapter);
+  registerTrait(resizableAdapter);
+  registerTrait(virtualizableAdapter);
+  registerTrait(selectableAdapter);
+  registerTrait(searchableAdapter);
+  registerTrait(clippableAdapter);
+  registerTrait(swipeableAdapter);
+  registerTrait(editableAdapter);
+}

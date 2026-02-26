@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ui-combobox — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+        margin-top: 1.5rem;
+        color: var(--neutral-ink-muted);
+      }
+
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: start;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .demo-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        width: 5rem;
+        flex-shrink: 0;
+        color: var(--neutral-ink-muted);
+        padding-top: 0.5rem;
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .log {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.375rem;
+        padding: 0.75rem;
+        max-height: 10rem;
+        overflow-y: auto;
+        margin-top: 0.5rem;
+      }
+
+      .log-entry {
+        padding: 0.125rem 0;
+        color: var(--neutral-ink-muted);
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>&lt;ui-combobox&gt;</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Coordinator element that wires a text input + filterable popover listbox into a combobox.
+    </p>
+
+    <!-- ── Basic Usage ── -->
+
+    <h2>Basic Usage</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <ui-combobox>
+          <ui-input placeholder="Search fruits...">
+            <ui-icon name="magnifying-glass" slot="leading"></ui-icon>
+          </ui-input>
+          <ui-listbox popover>
+            <ui-option value="apple" label="Apple">Apple</ui-option>
+            <ui-option value="banana" label="Banana">Banana</ui-option>
+            <ui-option value="cherry" label="Cherry">Cherry</ui-option>
+            <ui-option value="grape" label="Grape">Grape</ui-option>
+            <ui-option value="lemon" label="Lemon">Lemon</ui-option>
+            <ui-option value="mango" label="Mango">Mango</ui-option>
+            <ui-option value="orange" label="Orange">Orange</ui-option>
+            <ui-option value="peach" label="Peach">Peach</ui-option>
+            <ui-option value="pear" label="Pear">Pear</ui-option>
+            <ui-option value="strawberry" label="Strawberry">Strawberry</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-combobox&gt;
+  &lt;ui-input placeholder="Search fruits..."&gt;
+    &lt;ui-icon name="magnifying-glass" slot="leading"&gt;&lt;/ui-icon&gt;
+  &lt;/ui-input&gt;
+  &lt;ui-listbox popover&gt;
+    &lt;ui-option value="apple" label="Apple"&gt;Apple&lt;/ui-option&gt;
+    &lt;ui-option value="banana" label="Banana"&gt;Banana&lt;/ui-option&gt;
+    &lt;ui-option value="cherry" label="Cherry"&gt;Cherry&lt;/ui-option&gt;
+  &lt;/ui-listbox&gt;
+&lt;/ui-combobox&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span class="demo-label">sm</span>
+        <ui-combobox size="sm">
+          <ui-input placeholder="Small..."></ui-input>
+          <ui-listbox popover>
+            <ui-option value="a" label="Alpha">Alpha</ui-option>
+            <ui-option value="b" label="Bravo">Bravo</ui-option>
+            <ui-option value="c" label="Charlie">Charlie</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">md</span>
+        <ui-combobox size="md">
+          <ui-input placeholder="Medium..."></ui-input>
+          <ui-listbox popover>
+            <ui-option value="a" label="Alpha">Alpha</ui-option>
+            <ui-option value="b" label="Bravo">Bravo</ui-option>
+            <ui-option value="c" label="Charlie">Charlie</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">lg</span>
+        <ui-combobox size="lg">
+          <ui-input placeholder="Large..."></ui-input>
+          <ui-listbox popover>
+            <ui-option value="a" label="Alpha">Alpha</ui-option>
+            <ui-option value="b" label="Bravo">Bravo</ui-option>
+            <ui-option value="c" label="Charlie">Charlie</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+      </div>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section">
+      <h3>compact</h3>
+      <div class="demo-row" density="compact">
+        <ui-combobox size="sm">
+          <ui-input placeholder="Small compact..."></ui-input>
+          <ui-listbox popover>
+            <ui-option value="a" label="Alpha">Alpha</ui-option>
+            <ui-option value="b" label="Bravo">Bravo</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+        <ui-combobox>
+          <ui-input placeholder="Medium compact..."></ui-input>
+          <ui-listbox popover>
+            <ui-option value="a" label="Alpha">Alpha</ui-option>
+            <ui-option value="b" label="Bravo">Bravo</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+      </div>
+      <h3>default</h3>
+      <div class="demo-row">
+        <ui-combobox size="sm">
+          <ui-input placeholder="Small default..."></ui-input>
+          <ui-listbox popover>
+            <ui-option value="a" label="Alpha">Alpha</ui-option>
+            <ui-option value="b" label="Bravo">Bravo</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+        <ui-combobox>
+          <ui-input placeholder="Medium default..."></ui-input>
+          <ui-listbox popover>
+            <ui-option value="a" label="Alpha">Alpha</ui-option>
+            <ui-option value="b" label="Bravo">Bravo</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+      </div>
+      <h3>loose</h3>
+      <div class="demo-row" density="loose">
+        <ui-combobox size="sm">
+          <ui-input placeholder="Small loose..."></ui-input>
+          <ui-listbox popover>
+            <ui-option value="a" label="Alpha">Alpha</ui-option>
+            <ui-option value="b" label="Bravo">Bravo</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+        <ui-combobox>
+          <ui-input placeholder="Medium loose..."></ui-input>
+          <ui-listbox popover>
+            <ui-option value="a" label="Alpha">Alpha</ui-option>
+            <ui-option value="b" label="Bravo">Bravo</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+      </div>
+    </div>
+
+    <!-- ── Many Options (Scrollable) ── -->
+
+    <h2>Many Options (Scrollable)</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <ui-combobox>
+          <ui-input placeholder="Search countries...">
+            <ui-icon name="magnifying-glass" slot="leading"></ui-icon>
+          </ui-input>
+          <ui-listbox popover>
+            <ui-option value="ar" label="Argentina">Argentina</ui-option>
+            <ui-option value="au" label="Australia">Australia</ui-option>
+            <ui-option value="br" label="Brazil">Brazil</ui-option>
+            <ui-option value="ca" label="Canada">Canada</ui-option>
+            <ui-option value="cn" label="China">China</ui-option>
+            <ui-option value="de" label="Germany">Germany</ui-option>
+            <ui-option value="fr" label="France">France</ui-option>
+            <ui-option value="in" label="India">India</ui-option>
+            <ui-option value="it" label="Italy">Italy</ui-option>
+            <ui-option value="jp" label="Japan">Japan</ui-option>
+            <ui-option value="kr" label="South Korea">South Korea</ui-option>
+            <ui-option value="mx" label="Mexico">Mexico</ui-option>
+            <ui-option value="nl" label="Netherlands">Netherlands</ui-option>
+            <ui-option value="no" label="Norway">Norway</ui-option>
+            <ui-option value="se" label="Sweden">Sweden</ui-option>
+            <ui-option value="gb" label="United Kingdom">United Kingdom</ui-option>
+            <ui-option value="us" label="United States">United States</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+      </div>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section" size="sm">
+      <h3>Disabled combobox</h3>
+      <div class="demo-row">
+        <ui-combobox disabled>
+          <ui-input placeholder="Disabled combobox..."></ui-input>
+          <ui-listbox popover>
+            <ui-option value="a" label="Alpha">Alpha</ui-option>
+            <ui-option value="b" label="Bravo">Bravo</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+      </div>
+
+      <h3>Disabled individual options</h3>
+      <div class="demo-row">
+        <ui-combobox>
+          <ui-input placeholder="Some options disabled..."></ui-input>
+          <ui-listbox popover>
+            <ui-option value="available" label="Available">Available</ui-option>
+            <ui-option value="unavailable" label="Unavailable" disabled>Unavailable</ui-option>
+            <ui-option value="restricted" label="Restricted" disabled>Restricted</ui-option>
+            <ui-option value="open" label="Open">Open</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+      </div>
+    </div>
+
+    <!-- ── Pre-selected Value ── -->
+
+    <h2>Pre-selected Value</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <ui-combobox value="cherry">
+          <ui-input placeholder="Search fruits..."></ui-input>
+          <ui-listbox popover>
+            <ui-option value="apple" label="Apple">Apple</ui-option>
+            <ui-option value="banana" label="Banana">Banana</ui-option>
+            <ui-option value="cherry" label="Cherry">Cherry</ui-option>
+            <ui-option value="grape" label="Grape">Grape</ui-option>
+          </ui-listbox>
+        </ui-combobox>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-combobox value="cherry"&gt;
+  &lt;ui-input placeholder="Search fruits..."&gt;&lt;/ui-input&gt;
+  &lt;ui-listbox popover&gt;
+    &lt;ui-option value="apple" label="Apple"&gt;Apple&lt;/ui-option&gt;
+    &lt;ui-option value="cherry" label="Cherry"&gt;Cherry&lt;/ui-option&gt;
+  &lt;/ui-listbox&gt;
+&lt;/ui-combobox&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Events ── -->
+
+    <h2>Events</h2>
+    <div class="demo-section" size="sm">
+      <ui-combobox id="event-combobox">
+        <ui-input placeholder="Type to filter..."></ui-input>
+        <ui-listbox popover>
+          <ui-option value="red" label="Red">Red</ui-option>
+          <ui-option value="green" label="Green">Green</ui-option>
+          <ui-option value="blue" label="Blue">Blue</ui-option>
+          <ui-option value="yellow" label="Yellow">Yellow</ui-option>
+          <ui-option value="purple" label="Purple">Purple</ui-option>
+        </ui-listbox>
+      </ui-combobox>
+      <div class="log" id="event-log"></div>
+      <pre class="demo-code"><code>&lt;ui-combobox id="my-combo"&gt;
+  &lt;ui-input placeholder="Type to filter..."&gt;&lt;/ui-input&gt;
+  &lt;ui-listbox popover&gt;
+    &lt;ui-option value="red" label="Red"&gt;Red&lt;/ui-option&gt;
+    &lt;ui-option value="green" label="Green"&gt;Green&lt;/ui-option&gt;
+    &lt;ui-option value="blue" label="Blue"&gt;Blue&lt;/ui-option&gt;
+  &lt;/ui-listbox&gt;
+&lt;/ui-combobox&gt;
+
+&lt;script&gt;
+  document.getElementById('my-combo')
+    .addEventListener('ui-change', (e) =&gt; {
+      console.log(e.detail.value, e.detail.label);
+    });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Form Association ── -->
+
+    <h2>Form Association</h2>
+    <div class="demo-section" size="sm">
+      <form id="demo-form">
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.75rem;">
+          <ui-combobox name="country">
+            <ui-input placeholder="Country...">
+              <ui-icon name="magnifying-glass" slot="leading"></ui-icon>
+            </ui-input>
+            <ui-listbox popover>
+              <ui-option value="us" label="United States">United States</ui-option>
+              <ui-option value="gb" label="United Kingdom">United Kingdom</ui-option>
+              <ui-option value="ca" label="Canada">Canada</ui-option>
+              <ui-option value="au" label="Australia">Australia</ui-option>
+            </ui-listbox>
+          </ui-combobox>
+          <ui-combobox name="language">
+            <ui-input placeholder="Language..."></ui-input>
+            <ui-listbox popover>
+              <ui-option value="en" label="English">English</ui-option>
+              <ui-option value="es" label="Spanish">Spanish</ui-option>
+              <ui-option value="fr" label="French">French</ui-option>
+              <ui-option value="de" label="German">German</ui-option>
+              <ui-option value="ja" label="Japanese">Japanese</ui-option>
+            </ui-listbox>
+          </ui-combobox>
+        </div>
+        <div class="demo-row">
+          <ui-button variant="primary" type="submit"><span slot="label">Submit</span></ui-button>
+          <ui-button variant="secondary" type="reset"><span slot="label">Reset</span></ui-button>
+        </div>
+      </form>
+      <div class="log" id="form-log"></div>
+      <pre class="demo-code"><code>&lt;form&gt;
+  &lt;ui-combobox name="country"&gt;
+    &lt;ui-input placeholder="Country..."&gt;
+      &lt;ui-icon name="magnifying-glass" slot="leading"&gt;&lt;/ui-icon&gt;
+    &lt;/ui-input&gt;
+    &lt;ui-listbox popover&gt;
+      &lt;ui-option value="us" label="United States"&gt;United States&lt;/ui-option&gt;
+      &lt;ui-option value="gb" label="United Kingdom"&gt;United Kingdom&lt;/ui-option&gt;
+    &lt;/ui-listbox&gt;
+  &lt;/ui-combobox&gt;
+  &lt;ui-button type="submit"&gt;Submit&lt;/ui-button&gt;
+&lt;/form&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../nav/ui-layout.ts';
+      import './ui-combobox.ts';
+      import '../ui-button/ui-button.ts';
+      import '../ui-input/ui-input.ts';
+      import '../ui-listbox/ui-listbox.ts';
+      import '../ui-listbox/ui-option.ts';
+      import '../../icons/ui-icon.ts';
+      import '../../icons/phosphor/magnifying-glass.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Event logging
+      const eventCombobox = document.getElementById('event-combobox');
+      const eventLog = document.getElementById('event-log');
+      let count = 0;
+
+      eventCombobox.addEventListener('ui-change', (e) => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} ui-change — value: "${e.detail.value}", label: "${e.detail.label}"`;
+        eventLog.prepend(entry);
+      });
+
+      // Form logging
+      const form = document.getElementById('demo-form');
+      const formLog = document.getElementById('form-log');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `submit — ${[...data.entries()].map(([k, v]) => `${k}: "${v}"`).join(', ')}`;
+        formLog.prepend(entry);
+      });
+
+      form.addEventListener('reset', () => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = 'reset';
+        formLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,239 @@
+@layer ui {
+
+  /* ── Calendar Container ── */
+
+  :where(ui-calendar) {
+    --_font-weight: var(--ui-font-weight-text);
+    --_line-height: var(--ui-line-height-text);
+
+    --_background: var(--_panel);
+    --_border-color: var(--_border-muted);
+    --_color: var(--_ink);
+
+    display: inline-flex;
+    flex-direction: column;
+    gap: calc(var(--_space));
+    padding: calc(var(--_space) * 2);
+    border: 1px solid var(--_border-color);
+    border-radius: var(--_radius);
+    background: var(--_background);
+    color: var(--_color);
+    font-size: var(--_font-size);
+    outline: none;
+    user-select: none;
+  }
+
+  :where(ui-calendar):focus-visible,
+  :where(ui-calendar)[force-focus-visible] {
+    outline: 2px solid var(--ui-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* ── Header ── */
+
+  :where(ui-calendar) :where(.cal-header) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(var(--_space));
+  }
+
+  /* ── Header Buttons (prev/next/title) ── */
+
+  :where(ui-calendar) :where(.cal-prev, .cal-next, .cal-title) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--_ink);
+    cursor: pointer;
+    border-radius: calc(var(--_radius) - var(--_space));
+    font-family: inherit;
+    transition:
+      background var(--_duration) var(--_easing),
+      color var(--_duration) var(--_easing),
+      border-color var(--_duration) var(--_easing),
+      opacity var(--_duration) var(--_easing),
+      transform var(--_duration) var(--_easing);
+  }
+
+  :where(ui-calendar) :where(.cal-prev, .cal-next, .cal-title):hover,
+  :where(ui-calendar[force-hover]) :where(.cal-prev, .cal-next, .cal-title) {
+    background: var(--_panel-hover);
+    color: var(--_ink-hover);
+  }
+
+  :where(ui-calendar) :where(.cal-prev, .cal-next) {
+    width: calc(var(--_min-height) * 0.7);
+    height: calc(var(--_min-height) * 0.7);
+    padding: 0;
+  }
+
+  /* WHY: Chevron arrows via CSS mask — inherits currentColor */
+
+  :where(ui-calendar) :where(.cal-prev)::after,
+  :where(ui-calendar) :where(.cal-next)::after {
+    content: '';
+    width: 0.75em;
+    height: 0.75em;
+    background: currentColor;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M10 3L5 8l5 5' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+  }
+
+  :where(ui-calendar) :where(.cal-next)::after {
+    transform: rotate(180deg);
+  }
+
+  :where(ui-calendar) :where(.cal-title) {
+    flex: 1;
+    padding: calc(var(--_space)) calc(var(--_space) * 2);
+    font-size: var(--_font-size);
+    font-weight: var(--ui-font-weight-button);
+    letter-spacing: var(--_letter-spacing);
+    color: var(--_ink-strong);
+    text-align: center;
+  }
+
+  /* ── Weekday Labels ── */
+
+  :where(ui-calendar) :where(.cal-weekdays) {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  :where(ui-calendar) :where(.cal-weekday) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(var(--_min-height) * 0.6);
+    font-size: calc(var(--_font-size) * 0.85);
+    font-weight: var(--ui-font-weight-button);
+    color: var(--_ink-muted);
+  }
+
+  /* ── Grid ── */
+
+  :where(ui-calendar) :where(.cal-grid) {
+    display: grid;
+    gap: 1px;
+  }
+
+  /* Day view: 7 columns */
+  :where(ui-calendar[view="day"]) :where(.cal-grid) {
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  /* Month view: 4 columns */
+  :where(ui-calendar[view="month"]) :where(.cal-grid) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Year view: 4 columns */
+  :where(ui-calendar[view="year"]) :where(.cal-grid) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* ── Cell (shared) ── */
+
+  :where(ui-calendar) :where(.cal-cell) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--_ink);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--_font-size);
+    border-radius: calc(var(--_radius) - var(--_space));
+
+    transition:
+      background var(--_duration) var(--_easing),
+      color var(--_duration) var(--_easing),
+      border-color var(--_duration) var(--_easing),
+      opacity var(--_duration) var(--_easing),
+      transform var(--_duration) var(--_easing);
+  }
+
+  /* Day cells: aspect-ratio 1 for square shape */
+  :where(ui-calendar) :where(.cal-cell:not([data-month]):not([data-year])) {
+    aspect-ratio: 1;
+    min-width: calc(var(--_min-height) * 0.7);
+  }
+
+  /* Month/Year cells: wider rectangle */
+  :where(ui-calendar) :where(.cal-cell[data-month], .cal-cell[data-year]) {
+    min-height: calc(var(--_min-height) * 0.8);
+    padding: calc(var(--_space)) calc(var(--_space) * 2);
+  }
+
+  /* ── Cell States ── */
+
+  :where(ui-calendar) :where(.cal-cell):hover:not(:disabled),
+  :where(ui-calendar[force-hover]) :where(.cal-cell):not(:disabled) {
+    background: var(--_panel-hover);
+    color: var(--_ink-hover);
+  }
+
+  /* Outside month — muted */
+  :where(ui-calendar) :where([data-outside]) {
+    color: var(--_ink-muted);
+  }
+
+  /* Today — subtle ring */
+  :where(ui-calendar) :where([data-today]) {
+    font-weight: var(--ui-font-weight-button);
+    box-shadow: inset 0 0 0 1px var(--_border-muted);
+  }
+
+  /* Selected — filled surface */
+  :where(ui-calendar) :where([data-selected]) {
+    background: var(--_surface);
+    color: var(--_surface-ink);
+    font-weight: var(--ui-font-weight-button);
+  }
+
+  :where(ui-calendar) :where([data-selected]):hover:not(:disabled),
+  :where(ui-calendar[force-hover]) :where([data-selected]):not(:disabled) {
+    background: var(--_surface-hover);
+    color: var(--_surface-ink-hover);
+  }
+
+  /* Disabled — uses native :disabled pseudo-class */
+  :where(ui-calendar) :where(.cal-cell):disabled {
+    color: var(--_ink-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* ── Range States ── */
+
+  :where(ui-calendar) :where([data-in-range]) {
+    background: var(--_surface);
+    color: var(--_surface-ink);
+    border-radius: 0;
+  }
+
+  :where(ui-calendar) :where([data-in-range]):hover:not(:disabled),
+  :where(ui-calendar[force-hover]) :where([data-in-range]):not(:disabled) {
+    background: var(--_surface-hover);
+    color: var(--_surface-ink-hover);
+  }
+
+  :where(ui-calendar) :where([data-range-start]) {
+    border-radius: calc(var(--_radius) - var(--_space)) 0 0 calc(var(--_radius) - var(--_space));
+  }
+
+  :where(ui-calendar) :where([data-range-end]) {
+    border-radius: 0 calc(var(--_radius) - var(--_space)) calc(var(--_radius) - var(--_space)) 0;
+  }
+
+  :where(ui-calendar) :where([data-range-start][data-range-end]) {
+    border-radius: calc(var(--_radius) - var(--_space));
+  }
+
+}

@@ -1,0 +1,19 @@
+@layer ui {
+
+  /* ── Base ── */
+
+  :where(ui-toolbar) {
+    --_ground: var(--_panel);
+
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    align-items: center;
+    gap: calc(var(--_space) * 2);
+    background: var(--_ground);
+    padding: var(--_space);
+    border-radius: var(--_radius);
+    border: 1px solid var(--_border-muted);
+  }
+
+}

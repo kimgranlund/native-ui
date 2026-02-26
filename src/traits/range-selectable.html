@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RangeSelectable — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      /* ── Grid ── */
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
+        user-select: none;
+      }
+
+      .cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 1;
+        border-radius: 0.25rem;
+        font-size: 0.8125rem;
+        background: var(--neutral-panel);
+        color: var(--neutral-ink);
+        cursor: pointer;
+        transition: background 100ms ease, color 100ms ease;
+      }
+
+      .cell[range-selected] {
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+      }
+
+      .cell[range-start] {
+        border-radius: 0.25rem 0 0 0.25rem;
+      }
+
+      .cell[range-end] {
+        border-radius: 0 0.25rem 0.25rem 0;
+      }
+
+      .cell[range-start][range-end] {
+        border-radius: 0.25rem;
+      }
+
+      /* ── Day Headers ── */
+
+      .day-headers {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
+        margin-bottom: 0.5rem;
+      }
+
+      .day-header {
+        text-align: center;
+        font-size: 0.6875rem;
+        color: var(--neutral-ink-muted);
+        font-weight: 600;
+      }
+
+      /* ── Inline List ── */
+
+      .list-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        user-select: none;
+      }
+
+      .list-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0.75rem;
+        background: var(--neutral-panel);
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: background 100ms ease, color 100ms ease;
+      }
+
+      .list-item[range-selected] {
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--neutral-ink-muted);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--neutral-panel);
+        border-radius: 0.25rem;
+        min-height: 1.5rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--neutral-border-muted);
+        color: var(--neutral-ink-strong);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--neutral-border-muted);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+
+    <h1>RangeSelectable</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Composable trait for selecting a range of items. Supports two modes: <strong>drag</strong> (click-drag-release) and <strong>click</strong> (click start, hover to preview, click to commit). Sets <code>[range-selected]</code>, <code>[range-start]</code>, and <code>[range-end]</code> attributes.
+    </p>
+
+    <!-- ── Drag Mode: Calendar Grid (Provider) ── -->
+
+    <h2>Drag Mode — Calendar Grid (Provider)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        <code>&lt;ui-controller&gt;</code> wraps a grid and applies the range-selectable trait. Click and drag across cells to select a range. Release to commit.
+      </p>
+      <div class="day-headers">
+        <div class="day-header">Su</div>
+        <div class="day-header">Mo</div>
+        <div class="day-header">Tu</div>
+        <div class="day-header">We</div>
+        <div class="day-header">Th</div>
+        <div class="day-header">Fr</div>
+        <div class="day-header">Sa</div>
+      </div>
+      <ui-controller traits="range-selectable" range-selectable-selector=".cell" range-selectable-mode="drag">
+        <div id="drag-grid" class="grid-container"></div>
+      </ui-controller>
+      <div id="drag-output" class="output">Click and drag to select a range</div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="range-selectable"
+  range-selectable-selector=".cell"
+  range-selectable-mode="drag"&gt;
+  &lt;div class="grid-container"&gt;
+    &lt;div class="cell"&gt;1&lt;/div&gt;
+    &lt;div class="cell"&gt;2&lt;/div&gt;
+    &lt;!-- ... 28 cells --&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;
+
+&lt;script&gt;
+  grid.addEventListener('ui-range-select', (e) =&gt; {
+    const { startIndex, endIndex } = e.detail;
+    log.textContent = `Selected days ${startIndex + 1}–${endIndex + 1}`;
+  });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Click Mode: Calendar Grid ── -->
+
+    <h2>Click Mode — Calendar Grid</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Click a start date, hover to preview range, click to commit. Uses <code>RangeSelectController</code> directly with <code>clearRange()</code> method.
+      </p>
+      <div class="day-headers">
+        <div class="day-header">Su</div>
+        <div class="day-header">Mo</div>
+        <div class="day-header">Tu</div>
+        <div class="day-header">We</div>
+        <div class="day-header">Th</div>
+        <div class="day-header">Fr</div>
+        <div class="day-header">Sa</div>
+      </div>
+      <div id="click-grid" class="grid-container"></div>
+      <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+        <ui-button id="clear-btn" size="sm">Clear Range</ui-button>
+      </div>
+      <div id="click-output" class="output">Click a start date, hover to preview, click to commit</div>
+      <pre class="demo-code"><code>import { RangeSelectController } from '../index.ts';
+
+const grid = document.getElementById('click-grid');
+const ctrl = new RangeSelectController(grid, {
+  selector: '.cell',
+  mode: 'click',
+});
+
+grid.addEventListener('ui-range-change', (e) =&gt; {
+  const { startIndex, endIndex } = e.detail;
+  log.textContent = `Preview: days ${startIndex + 1}–${endIndex + 1}`;
+});
+
+grid.addEventListener('ui-range-select', (e) =&gt; {
+  const { startIndex, endIndex } = e.detail;
+  log.textContent = `Committed: days ${startIndex + 1}–${endIndex + 1}`;
+});
+
+clearBtn.addEventListener('ui-press', () =&gt; {
+  ctrl.clearRange();
+});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Drag Mode: Vertical List (Provider) ── -->
+
+    <h2>Drag Mode — Vertical List (Provider)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        <code>&lt;ui-controller&gt;</code> applies range-selectable to a vertical list. Click and drag to select a contiguous range of days.
+      </p>
+      <ui-controller traits="range-selectable" range-selectable-selector=".list-item">
+        <div id="list" class="list-container">
+          <div class="list-item">Monday</div>
+          <div class="list-item">Tuesday</div>
+          <div class="list-item">Wednesday</div>
+          <div class="list-item">Thursday</div>
+          <div class="list-item">Friday</div>
+          <div class="list-item">Saturday</div>
+          <div class="list-item">Sunday</div>
+        </div>
+      </ui-controller>
+      <div id="list-output" class="output">Click and drag to select a range</div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="range-selectable"
+  range-selectable-selector=".list-item"&gt;
+  &lt;div class="list-container"&gt;
+    &lt;div class="list-item"&gt;Monday&lt;/div&gt;
+    &lt;div class="list-item"&gt;Tuesday&lt;/div&gt;
+    &lt;!-- ... --&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── RangeSelectController: Attach to Any Element ── -->
+
+    <h2>RangeSelectController — Attach to Any Element</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Use <code>RangeSelectController</code> to add range selection to an existing element without subclassing. Same events, same modes — no trait mixin required.
+      </p>
+      <div id="ctrl-list" class="list-container">
+        <div class="list-item">January</div>
+        <div class="list-item">February</div>
+        <div class="list-item">March</div>
+        <div class="list-item">April</div>
+        <div class="list-item">May</div>
+        <div class="list-item">June</div>
+      </div>
+      <div id="ctrl-output" class="output">Click and drag to select a range</div>
+      <pre class="demo-code"><code>import { RangeSelectController } from '../index.ts';
+
+const list = document.getElementById('ctrl-list');
+const ctrl = new RangeSelectController(list, {
+  selector: '.list-item',
+  mode: 'drag',
+});
+
+list.addEventListener('ui-range-select', (e) =&gt; {
+  const { startIndex, endIndex, items } = e.detail;
+  log.textContent = `Selected ${items.length} items (${startIndex}–${endIndex})`;
+});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Provider Usage</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>range-selectable-selector</code></td>
+            <td><code>string</code></td>
+            <td>—</td>
+            <td>CSS selector for selectable items within the host. Required.</td>
+          </tr>
+          <tr>
+            <td><code>range-selectable-mode</code></td>
+            <td><code>'drag' | 'click'</code></td>
+            <td><code>'drag'</code></td>
+            <td><strong>drag</strong>: click-drag-release. <strong>click</strong>: click start, hover to preview, click to commit.</td>
+          </tr>
+          <tr>
+            <td><code>range-selectable-disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables range selection when true.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>ui-range-change</code></td>
+            <td><code>{ startIndex, endIndex, items }</code></td>
+            <td>During drag/hover, fires as range changes. Use for live preview.</td>
+          </tr>
+          <tr>
+            <td><code>ui-range-select</code></td>
+            <td><code>{ startIndex, endIndex, items }</code></td>
+            <td>Fired on release/commit. Use for final selection.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Set on</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>[range-selected]</code></td>
+            <td>Items within range</td>
+            <td>Present on items within the selected range. Use for highlight styling.</td>
+          </tr>
+          <tr>
+            <td><code>[range-start]</code></td>
+            <td>First item</td>
+            <td>Present on the first item in the range. Use for start-cap border-radius.</td>
+          </tr>
+          <tr>
+            <td><code>[range-end]</code></td>
+            <td>Last item</td>
+            <td>Present on the last item in the range. Use for end-cap border-radius.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></ui-layout>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../components/ui-controller/ui-controller.ts';
+      import '../icons/ui-icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+      import { RangeSelectController } from '../index.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Helper: event logging ──
+
+      function appendLog(el, msg) {
+        if (!el) return;
+        const line = document.createElement('div');
+        line.textContent = msg;
+        el.appendChild(line);
+        el.scrollTop = el.scrollHeight;
+        while (el.children.length > 20) el.removeChild(el.firstChild);
+      }
+
+      // ── Stamp 28 cells into grids ──
+
+      function stampCells(container) {
+        for (let i = 1; i <= 28; i++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.textContent = String(i);
+          container.appendChild(cell);
+        }
+      }
+
+      // Drag mode grid (cells inside ui-controller child div)
+      const dragGrid = document.getElementById('drag-grid');
+      stampCells(dragGrid);
+
+      // Click mode grid (cells inside plain div)
+      const clickGrid = document.getElementById('click-grid');
+      stampCells(clickGrid);
+
+      // ── Drag Mode: Calendar Grid (Provider) ──
+
+      const dragOutput = document.getElementById('drag-output');
+      dragGrid.addEventListener('ui-range-select', (e) => {
+        const { startIndex, endIndex } = e.detail;
+        appendLog(dragOutput, `Selected days ${startIndex + 1}\u2013${endIndex + 1}`);
+      });
+      dragGrid.addEventListener('ui-range-change', (e) => {
+        const { startIndex, endIndex } = e.detail;
+        dragOutput.textContent = `Dragging: days ${startIndex + 1}\u2013${endIndex + 1}`;
+      });
+
+      // ── Click Mode: Calendar Grid (RangeSelectController) ──
+
+      const clickCtrl = new RangeSelectController(clickGrid, {
+        selector: '.cell',
+        mode: 'click',
+      });
+
+      const clickOutput = document.getElementById('click-output');
+
+      clickGrid.addEventListener('ui-range-change', (e) => {
+        const { startIndex, endIndex } = e.detail;
+        clickOutput.textContent = `Preview: days ${startIndex + 1}\u2013${endIndex + 1}`;
+      });
+
+      clickGrid.addEventListener('ui-range-select', (e) => {
+        const { startIndex, endIndex } = e.detail;
+        appendLog(clickOutput, `Committed: days ${startIndex + 1}\u2013${endIndex + 1}`);
+      });
+
+      document.getElementById('clear-btn').addEventListener('ui-press', () => {
+        clickCtrl.clearRange();
+        clickOutput.textContent = 'Range cleared. Click a start date.';
+      });
+
+      // ── Drag Mode: Vertical List (Provider) ──
+
+      const listOutput = document.getElementById('list-output');
+      const list = document.getElementById('list');
+
+      list.addEventListener('ui-range-select', (e) => {
+        const { startIndex, endIndex, items } = e.detail;
+        appendLog(listOutput, `Selected ${items.length} items (${startIndex}\u2013${endIndex})`);
+      });
+
+      // ── RangeSelectController: Attach to Any Element ──
+
+      const ctrlList = document.getElementById('ctrl-list');
+      const ctrl = new RangeSelectController(ctrlList, {
+        selector: '.list-item',
+        mode: 'drag',
+      });
+
+      const ctrlOutput = document.getElementById('ctrl-output');
+      ctrlList.addEventListener('ui-range-select', (e) => {
+        const { startIndex, endIndex, items } = e.detail;
+        appendLog(ctrlOutput, `Selected ${items.length} items (${startIndex}\u2013${endIndex})`);
+      });
+    </script>
+  </body>
+</html>

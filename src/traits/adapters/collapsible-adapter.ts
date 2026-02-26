@@ -1,0 +1,15 @@
+import type { TraitAdapter } from '../../core/trait-registry.ts';
+import { CollapsibleController } from '../collapsible-controller.ts';
+
+export const collapsibleAdapter: TraitAdapter<CollapsibleController> = {
+  name: 'collapsible',
+  create(host, options) {
+    return new CollapsibleController(host, {
+      duration: options['duration'] ? Number(options['duration']) : undefined,
+    });
+  },
+  destroy(instance) { instance.destroy(); },
+  update(instance, options) {
+    if ('duration' in options) instance.duration = Number(options['duration']);
+  },
+};

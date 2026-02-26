@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resizable — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .resize-panel {
+        display: block;
+        position: relative;
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        font-size: 0.875rem;
+        min-height: 80px;
+        overflow: hidden;
+      }
+
+      .resize-panel[resizing] {
+        user-select: none;
+      }
+
+      .resize-handle {
+        position: absolute;
+        background: var(--accent-surface-ink);
+        opacity: 0.3;
+        border-radius: 2px;
+        transition: opacity 150ms ease;
+      }
+
+      .resize-handle:hover,
+      [resizing] .resize-handle {
+        opacity: 0.6;
+      }
+
+      .resize-handle-right {
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 2rem;
+        cursor: ew-resize;
+      }
+
+      .resize-handle-bottom {
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2rem;
+        height: 4px;
+        cursor: ns-resize;
+      }
+
+      .resize-handle-corner {
+        right: 0;
+        bottom: 0;
+        width: 12px;
+        height: 12px;
+        cursor: nwse-resize;
+        border-radius: 0;
+        clip-path: polygon(100% 0%, 100% 100%, 0% 100%);
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--neutral-ink-muted);
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--neutral-panel);
+        border-radius: 0.25rem;
+        min-height: 1.5rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--neutral-border-muted);
+        color: var(--neutral-ink-strong);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--neutral-border-muted);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+
+    <h1>Resizable</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Composable trait for drag-to-resize functionality. Configure axis constraints, min/max sizes, and handle selectors. Dispatches <code>ui-resize-start</code>, <code>ui-resize-move</code>, and <code>ui-resize-end</code> events. Press Escape to cancel.
+    </p>
+
+    <!-- ── Horizontal Resize ── -->
+
+    <h2>Horizontal Resize</h2>
+    <div class="demo-section">
+      <ui-controller traits="resizable" resizable-handle-selector=".resize-handle-right" resizable-axis="horizontal" resizable-min="150" resizable-max="500">
+        <div id="h-panel" class="resize-panel" style="width: 300px;">
+          Drag the right edge to resize horizontally.
+          <div class="resize-handle resize-handle-right"></div>
+        </div>
+      </ui-controller>
+      <div id="h-output" class="output">Width: 300px</div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="resizable"
+  resizable-handle-selector=".resize-handle-right"
+  resizable-axis="horizontal"
+  resizable-min="150"
+  resizable-max="500"&gt;
+  &lt;div class="resize-panel" style="width: 300px;"&gt;
+    Drag the right edge to resize horizontally.
+    &lt;div class="resize-handle resize-handle-right"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Vertical Resize ── -->
+
+    <h2>Vertical Resize</h2>
+    <div class="demo-section">
+      <ui-controller traits="resizable" resizable-handle-selector=".resize-handle-bottom" resizable-axis="vertical" resizable-min="60" resizable-max="400">
+        <div id="v-panel" class="resize-panel" style="height: 120px;">
+          Drag the bottom edge to resize vertically.
+          <div class="resize-handle resize-handle-bottom"></div>
+        </div>
+      </ui-controller>
+      <div id="v-output" class="output">Height: 120px</div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="resizable"
+  resizable-handle-selector=".resize-handle-bottom"
+  resizable-axis="vertical"
+  resizable-min="60"
+  resizable-max="400"&gt;
+  &lt;div class="resize-panel" style="height: 120px;"&gt;
+    Drag the bottom edge to resize vertically.
+    &lt;div class="resize-handle resize-handle-bottom"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Both Axes ── -->
+
+    <h2>Both Axes (with min/max)</h2>
+    <div class="demo-section">
+      <ui-controller traits="resizable" resizable-handle-selector=".resize-handle-corner" resizable-axis="both" resizable-min="150" resizable-max="500">
+        <div id="both-panel" class="resize-panel" style="width: 300px; height: 120px;">
+          Drag the corner to resize in both directions. Clamped to 150-500px.
+          <div class="resize-handle resize-handle-corner"></div>
+        </div>
+      </ui-controller>
+      <div id="both-output" class="output">300 x 120</div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="resizable"
+  resizable-handle-selector=".resize-handle-corner"
+  resizable-axis="both"
+  resizable-min="150"
+  resizable-max="500"&gt;
+  &lt;div class="resize-panel" style="width: 300px; height: 120px;"&gt;
+    Drag the corner to resize in both directions.
+    &lt;div class="resize-handle resize-handle-corner"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Provider Usage</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>resizable-handle-selector</code></td>
+            <td><code>string</code></td>
+            <td><code>''</code></td>
+            <td>CSS selector for the resize handle element(s) within the host.</td>
+          </tr>
+          <tr>
+            <td><code>resizable-axis</code></td>
+            <td><code>'horizontal' | 'vertical' | 'both'</code></td>
+            <td><code>'horizontal'</code></td>
+            <td>Constrains resize to one axis or both.</td>
+          </tr>
+          <tr>
+            <td><code>resizable-min</code></td>
+            <td><code>number</code></td>
+            <td>—</td>
+            <td>Minimum size in pixels.</td>
+          </tr>
+          <tr>
+            <td><code>resizable-max</code></td>
+            <td><code>number</code></td>
+            <td>—</td>
+            <td>Maximum size in pixels.</td>
+          </tr>
+          <tr>
+            <td><code>resizable-disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables all resize behavior when true.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>ui-resize-start</code></td>
+            <td><code>{ width, height }</code></td>
+            <td>Fired on first pointer move after handle pointerdown.</td>
+          </tr>
+          <tr>
+            <td><code>ui-resize-move</code></td>
+            <td><code>{ width, height }</code></td>
+            <td>Fired on every pointer move during resize.</td>
+          </tr>
+          <tr>
+            <td><code>ui-resize-end</code></td>
+            <td><code>{ width, height }</code></td>
+            <td>Fired on pointer up.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Attributes (set during resize)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Set on</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>[resizing]</code></td>
+            <td>Host element</td>
+            <td>Present while the element is being resized. Use for <code>user-select: none</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></ui-layout>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../components/ui-controller/ui-controller.ts';
+      import '../icons/ui-icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Event logging ──
+
+      function appendLog(el, msg) {
+        const line = document.createElement('div');
+        line.textContent = msg;
+        el.appendChild(line);
+        el.scrollTop = el.scrollHeight;
+      }
+
+      // ── Horizontal ──
+
+      const hOut = document.getElementById('h-output');
+      document.getElementById('h-panel').addEventListener('ui-resize-move', (e) => {
+        hOut.textContent = `Width: ${Math.round(e.detail.width)}px`;
+      });
+
+      // ── Vertical ──
+
+      const vOut = document.getElementById('v-output');
+      document.getElementById('v-panel').addEventListener('ui-resize-move', (e) => {
+        vOut.textContent = `Height: ${Math.round(e.detail.height)}px`;
+      });
+
+      // ── Both axes ──
+
+      const bothOut = document.getElementById('both-output');
+      document.getElementById('both-panel').addEventListener('ui-resize-move', (e) => {
+        bothOut.textContent = `${Math.round(e.detail.width)} x ${Math.round(e.detail.height)}`;
+      });
+    </script>
+  </body>
+</html>

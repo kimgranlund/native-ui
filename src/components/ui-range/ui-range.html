@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ui-range — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        max-width: 24rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      .value-display {
+        font-size: 0.8125rem;
+        color: var(--neutral-ink-muted);
+        font-variant-numeric: tabular-nums;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>&lt;ui-range&gt;</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Slider input with thumb on a track. Keyboard: Arrow ±step, Page ±10×step, Home/End.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <div class="demo-section">
+      <ui-stack gap="4">
+        <ui-field>
+          <label slot="label">Volume</label>
+          <ui-range value="75"></ui-range>
+        </ui-field>
+        <ui-field>
+          <label slot="label">Brightness</label>
+          <ui-range value="50"></ui-range>
+        </ui-field>
+      </ui-stack>
+    <pre class="demo-code"><code>&lt;ui-field&gt;
+  &lt;label slot="label"&gt;Volume&lt;/label&gt;
+  &lt;ui-range value="75"&gt;&lt;/ui-range&gt;
+&lt;/ui-field&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Custom Range ── -->
+
+    <h2>Custom Range</h2>
+    <div class="demo-section">
+      <ui-stack gap="4">
+        <ui-field>
+          <label slot="label">Temperature (°F)</label>
+          <ui-range min="60" max="85" step="1" value="72"></ui-range>
+          <span slot="description">60°F – 85°F</span>
+        </ui-field>
+        <ui-field>
+          <label slot="label">Opacity</label>
+          <ui-range min="0" max="1" step="0.1" value="0.8"></ui-range>
+          <span slot="description">0 – 1, step 0.1</span>
+        </ui-field>
+      </ui-stack>
+    <pre class="demo-code"><code>&lt;ui-field&gt;
+  &lt;label slot="label"&gt;Temperature (&deg;F)&lt;/label&gt;
+  &lt;ui-range min="60" max="85" step="1" value="72"&gt;&lt;/ui-range&gt;
+  &lt;span slot="description"&gt;60&deg;F &ndash; 85&deg;F&lt;/span&gt;
+&lt;/ui-field&gt;
+
+&lt;ui-field&gt;
+  &lt;label slot="label"&gt;Opacity&lt;/label&gt;
+  &lt;ui-range min="0" max="1" step="0.1" value="0.8"&gt;&lt;/ui-range&gt;
+&lt;/ui-field&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section">
+      <ui-field disabled>
+        <label slot="label">Locked slider</label>
+        <ui-range value="30"></ui-range>
+      </ui-field>
+    <pre class="demo-code"><code>&lt;ui-field disabled&gt;
+  &lt;label slot="label"&gt;Locked slider&lt;/label&gt;
+  &lt;ui-range value="30"&gt;&lt;/ui-range&gt;
+&lt;/ui-field&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <ui-stack gap="4">
+        <ui-field size="sm">
+          <label slot="label">Small</label>
+          <ui-range value="40"></ui-range>
+        </ui-field>
+        <ui-field>
+          <label slot="label">Default</label>
+          <ui-range value="60"></ui-range>
+        </ui-field>
+        <ui-field size="lg">
+          <label slot="label">Large</label>
+          <ui-range value="80"></ui-range>
+        </ui-field>
+      </ui-stack>
+    <pre class="demo-code"><code>&lt;ui-field size="sm"&gt;
+  &lt;label slot="label"&gt;Small&lt;/label&gt;
+  &lt;ui-range value="40"&gt;&lt;/ui-range&gt;
+&lt;/ui-field&gt;
+
+&lt;ui-field size="lg"&gt;
+  &lt;label slot="label"&gt;Large&lt;/label&gt;
+  &lt;ui-range value="80"&gt;&lt;/ui-range&gt;
+&lt;/ui-field&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Intents ── -->
+
+    <h2>Intents</h2>
+    <div class="demo-section">
+      <ui-stack gap="4">
+        <ui-range intent="accent" value="65"></ui-range>
+        <ui-range intent="success" value="85"></ui-range>
+        <ui-range intent="danger" value="25"></ui-range>
+      </ui-stack>
+    <pre class="demo-code"><code>&lt;ui-range intent="accent" value="65"&gt;&lt;/ui-range&gt;
+&lt;ui-range intent="success" value="85"&gt;&lt;/ui-range&gt;
+&lt;ui-range intent="danger" value="25"&gt;&lt;/ui-range&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Live Value ── -->
+
+    <h2>Live Value</h2>
+    <div class="demo-section">
+      <ui-field>
+        <label slot="label">Zoom: <span id="zoom-value" class="value-display">100%</span></label>
+        <ui-range id="zoom-range" min="50" max="200" step="10" value="100"></ui-range>
+      </ui-field>
+    <pre class="demo-code"><code>&lt;ui-range id="zoom" min="50" max="200" step="10" value="100"&gt;&lt;/ui-range&gt;
+
+&lt;script&gt;
+  document.getElementById('zoom')
+    .addEventListener('ui-input', (e) =&gt; {
+      console.log('Zoom:', e.detail.value + '%');
+    });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+          <div style="font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--neutral-ink-muted); margin-bottom: 0.5rem;">force-hover</div>
+          <ui-range force-hover value="50"></ui-range>
+        </div>
+        <div>
+          <div style="font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--neutral-ink-muted); margin-bottom: 0.5rem;">force-focus</div>
+          <ui-range force-focus value="50"></ui-range>
+        </div>
+      </div>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../nav/ui-layout.ts';
+      import './ui-range.ts';
+      import '../ui-field/ui-field.ts';
+      import '../ui-input/ui-input.ts';
+      import '../ui-button/ui-button.ts';
+      import '../../icons/ui-icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      const range = document.getElementById('zoom-range');
+      const display = document.getElementById('zoom-value');
+      range?.addEventListener('ui-input', (e) => {
+        display.textContent = `${e.detail.value}%`;
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

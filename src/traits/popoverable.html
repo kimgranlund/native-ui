@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Popoverable — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .pop-content {
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.375rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.8125rem;
+        box-shadow: 0 4px 12px oklch(0% 0 0 / 0.1);
+        min-width: 12rem;
+      }
+
+      .pop-content:not(:popover-open) {
+        display: none;
+      }
+
+      .pop-content[popover] {
+        position: fixed;
+        position-area: block-end;
+        margin: 0.25rem 0 0;
+        inset: unset;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--neutral-border-muted);
+        color: var(--neutral-ink-strong);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--neutral-border-muted);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+
+    <h1>Popoverable</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Composable trait that extends <code>Dismissable</code> with CSS Anchor positioning. Provides <code>wirePopover(anchor, popover)</code> to set up anchor-name/position-anchor, and <code>syncPopover(open)</code> to show/hide with <code>popover="manual"</code>.
+    </p>
+
+    <!-- ── Basic Popover ── -->
+
+    <h2>Basic Popover</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Uses <code>PopoverController</code> directly to wire an anchor button to a popover panel. Click outside or press Escape to close.
+      </p>
+      <div id="pop-1" style="display: inline-block; position: relative;">
+        <ui-button id="pop-trigger-1">Toggle Popover</ui-button>
+        <div class="pop-content" id="pop-content-1" popover="manual">
+          <p style="margin: 0;">This popover is anchored to the button using CSS Anchor positioning. Click outside or press Escape to close.</p>
+        </div>
+      </div>
+      <pre class="demo-code"><code>import { PopoverController, signal } from '@nonoun/native-ui';
+
+const host = document.getElementById('pop-host');
+const popover = new PopoverController(host);
+const open = signal(false);
+
+popover.wirePopover(anchor, panel);
+
+anchor.addEventListener('ui-press', () =&gt; {
+  open.value = !open.value;
+});
+
+host.addEventListener('ui-dismiss', () =&gt; {
+  open.value = false;
+});
+
+// In an effect:
+popover.syncPopover(open.value);</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Multiple Popovers ── -->
+
+    <h2>Multiple Popovers</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Each popover joins the dismissable layer stack. Only the topmost one is dismissed first.
+      </p>
+      <div style="display: flex; gap: 0.75rem;">
+        <div id="pop-2" style="display: inline-block; position: relative;">
+          <ui-button id="pop-trigger-2">Popover A</ui-button>
+          <div class="pop-content" id="pop-content-2" popover="manual">
+            <p style="margin: 0;"><strong>Popover A</strong> — First layer</p>
+          </div>
+        </div>
+        <div id="pop-3" style="display: inline-block; position: relative;">
+          <ui-button id="pop-trigger-3">Popover B</ui-button>
+          <div class="pop-content" id="pop-content-3" popover="manual">
+            <p style="margin: 0;"><strong>Popover B</strong> — Second layer</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Built-in: ui-select ── -->
+
+    <h2>Built-in: ui-select</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        <code>ui-select</code> uses Popoverable internally to anchor its dropdown listbox to the trigger button. CSS Anchor Positioning and dismiss-on-click-outside are handled automatically.
+      </p>
+      <ui-select placeholder="Pick a framework" options='[{"value":"react","label":"React"},{"value":"vue","label":"Vue"},{"value":"svelte","label":"Svelte"},{"value":"lit","label":"Lit"}]' style="max-width: 16rem;"></ui-select>
+      <pre class="demo-code"><code>&lt;ui-select placeholder="Pick a framework"
+  options='[
+    {"value":"react","label":"React"},
+    {"value":"vue","label":"Vue"},
+    {"value":"svelte","label":"Svelte"}
+  ]'&gt;&lt;/ui-select&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Methods</h3>
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>wirePopover(anchor, popover)</code></td>
+            <td>Sets up CSS <code>anchor-name</code> / <code>position-anchor</code> styles between the anchor and popover elements.</td>
+          </tr>
+          <tr>
+            <td><code>syncPopover(open)</code></td>
+            <td>Call in an effect. Shows (<code>showPopover()</code>) or hides (<code>hidePopover()</code>) the popover based on the boolean <code>open</code> state. Also manages the dismiss layer.</td>
+          </tr>
+          <tr>
+            <td><code>destroy()</code></td>
+            <td>Cleans up the dismiss layer and styles.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>ui-dismiss</code></td>
+            <td>—</td>
+            <td>Inherited from Dismissable. Fired when click-outside or Escape occurs while the popover is the topmost layer.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Pattern</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>[popover]:not(:popover-open)</code></td>
+            <td>Must set <code>display: none</code> to prevent author-layer display from overriding UA hide.</td>
+          </tr>
+          <tr>
+            <td><code>position-area: block-end</code></td>
+            <td>Anchors the popover below the trigger. Use <code>position-try-fallbacks: flip-block</code> for viewport clipping.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></ui-layout>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../components/ui-select/ui-select.ts';
+      import '../components/ui-controller/ui-controller.ts';
+      import '../icons/ui-icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+      import '../icons/phosphor/caret-up-down.ts';
+      import { PopoverController, signal, effect } from '../index.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Helper: wire a popover instance ──
+
+      function wirePopDemo(hostId, triggerId, contentId) {
+        const host = document.getElementById(hostId);
+        const trigger = document.getElementById(triggerId);
+        const content = document.getElementById(contentId);
+        const popover = new PopoverController(host);
+        const open = signal(false);
+
+        popover.wirePopover(trigger, content);
+
+        trigger.addEventListener('ui-press', () => {
+          open.value = !open.value;
+        });
+
+        host.addEventListener('ui-dismiss', () => {
+          open.value = false;
+        });
+
+        effect(() => {
+          popover.syncPopover(open.value);
+        });
+      }
+
+      // ── Wire all popover demos ──
+
+      wirePopDemo('pop-1', 'pop-trigger-1', 'pop-content-1');
+      wirePopDemo('pop-2', 'pop-trigger-2', 'pop-content-2');
+      wirePopDemo('pop-3', 'pop-trigger-3', 'pop-content-3');
+    </script>
+  </body>
+</html>

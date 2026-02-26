@@ -1,0 +1,37 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  ui-footer                                               │
+     │  Sub-container footer with flex row layout. Actions      │
+     │  align to the end by default; use justify attribute      │
+     │  to change alignment.                                    │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* ── Base ── */
+
+  :where(ui-footer) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: calc(var(--_space) * 2);
+    padding-block: calc(var(--_space) * 2);
+    padding-inline: calc(var(--_space-k) * var(--_space));
+    min-width: 0;
+  }
+
+  /* ── Justify ── */
+
+  :where(ui-footer)[justify="start"]  { justify-content: flex-start; }
+  :where(ui-footer)[justify="center"] { justify-content: center; }
+  :where(ui-footer)[justify="spread"] { justify-content: space-between; }
+
+  /* ── Sticky ── */
+
+  :where(ui-footer)[sticky] {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    background: inherit;
+  }
+
+}

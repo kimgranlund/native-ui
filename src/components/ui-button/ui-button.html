@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ui-button — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+        margin-top: 1.5rem;
+        color: var(--neutral-ink-muted);
+      }
+
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .demo-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        width: 5rem;
+        flex-shrink: 0;
+        color: var(--neutral-ink-muted);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .log {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.375rem;
+        padding: 0.75rem;
+        max-height: 10rem;
+        overflow-y: auto;
+        margin-top: 0.5rem;
+      }
+
+      .log-entry {
+        padding: 0.125rem 0;
+        color: var(--neutral-ink-muted);
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>&lt;ui-button&gt;</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Custom element with Pressable trait, form association, and signal-backed attributes.
+    </p>
+
+    <!-- ── Custom Element vs Native ── -->
+
+    <h2>Custom Element vs Native Button</h2>
+    <div class="demo-section">
+      <h3>ui-button (Custom Element)</h3>
+      <div class="demo-row">
+        <ui-button variant="primary" size="sm"><span slot="label">Primary</span></ui-button>
+        <ui-button variant="secondary" size="sm"><span slot="label">Secondary</span></ui-button>
+        <ui-button variant="outline" size="sm"><span slot="label">Outline</span></ui-button>
+        <ui-button variant="ghost" size="sm"><span slot="label">Ghost</span></ui-button>
+        <ui-button variant="default" size="sm"><span slot="label">Default</span></ui-button>
+        <ui-button variant="selected" size="sm"><span slot="label">Selected</span></ui-button>
+      </div>
+
+      <h3>Native button (same CSS)</h3>
+      <div class="demo-row">
+        <button variant="primary" size="sm"><span slot="label">Primary</span></button>
+        <button variant="secondary" size="sm"><span slot="label">Secondary</span></button>
+        <button variant="outline" size="sm"><span slot="label">Outline</span></button>
+        <button variant="ghost" size="sm"><span slot="label">Ghost</span></button>
+        <button variant="default" size="sm"><span slot="label">Default</span></button>
+        <button variant="selected" size="sm"><span slot="label">Selected</span></button>
+      </div>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span class="demo-label">xs</span>
+        <ui-button size="xs" variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button size="xs" variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button size="xs" variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">sm</span>
+        <ui-button size="sm" variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button size="sm" variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button size="sm" variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">md</span>
+        <ui-button size="md" variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button size="md" variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button size="md" variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">lg</span>
+        <ui-button size="lg" variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button size="lg" variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button size="lg" variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">xl</span>
+        <ui-button size="xl" variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button size="xl" variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button size="xl" variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-button size="sm" variant="primary"&gt;
+  &lt;span slot="label"&gt;Small&lt;/span&gt;
+&lt;/ui-button&gt;
+
+&lt;ui-button size="lg" variant="primary"&gt;
+  &lt;span slot="label"&gt;Large&lt;/span&gt;
+&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Intents ── -->
+
+    <h2>Intents</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <ui-button variant="primary" intent="neutral"><span slot="label">Neutral</span></ui-button>
+        <ui-button variant="primary" intent="accent"><span slot="label">Accent</span></ui-button>
+        <ui-button variant="primary" intent="info"><span slot="label">Info</span></ui-button>
+        <ui-button variant="primary" intent="success"><span slot="label">Success</span></ui-button>
+        <ui-button variant="primary" intent="warning"><span slot="label">Warning</span></ui-button>
+        <ui-button variant="primary" intent="danger"><span slot="label">Danger</span></ui-button>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-button variant="primary" intent="accent"&gt;
+  &lt;span slot="label"&gt;Accent&lt;/span&gt;
+&lt;/ui-button&gt;
+
+&lt;ui-button variant="primary" intent="danger"&gt;
+  &lt;span slot="label"&gt;Danger&lt;/span&gt;
+&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <ui-button variant="primary" disabled><span slot="label">Primary</span></ui-button>
+        <ui-button variant="secondary" disabled><span slot="label">Secondary</span></ui-button>
+        <ui-button variant="outline" disabled><span slot="label">Outline</span></ui-button>
+        <ui-button variant="ghost" disabled><span slot="label">Ghost</span></ui-button>
+        <ui-button variant="default" disabled><span slot="label">Default</span></ui-button>
+        <ui-button variant="selected" disabled><span slot="label">Selected</span></ui-button>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-button variant="primary" disabled&gt;
+  &lt;span slot="label"&gt;Disabled&lt;/span&gt;
+&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Press Events ── -->
+
+    <h2>Press Events</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <ui-button variant="primary" id="press-btn"><span slot="label">Click or press Enter/Space</span></ui-button>
+      </div>
+      <div class="log" id="press-log"></div>
+      <pre class="demo-code"><code>&lt;ui-button variant="primary" id="my-btn"&gt;
+  &lt;span slot="label"&gt;Click me&lt;/span&gt;
+&lt;/ui-button&gt;
+
+&lt;script&gt;
+  document.getElementById('my-btn')
+    .addEventListener('ui-press', (e) =&gt; {
+      console.log('pressed', e.detail.pointerType);
+    });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Form Association ── -->
+
+    <h2>Form Association</h2>
+    <div class="demo-section" size="sm">
+      <form id="demo-form">
+        <input type="text" name="demo" value="hello" style="margin-bottom: 0.5rem; padding: 0.25rem 0.5rem; border: 1px solid var(--neutral-border-muted); border-radius: 0.375rem; font-family: inherit;" />
+        <div class="demo-row">
+          <ui-button variant="primary" type="submit"><span slot="label">Submit</span></ui-button>
+          <ui-button variant="secondary" type="reset"><span slot="label">Reset</span></ui-button>
+          <ui-button variant="ghost"><span slot="label">Button (no form action)</span></ui-button>
+        </div>
+      </form>
+      <div class="log" id="form-log"></div>
+      <pre class="demo-code"><code>&lt;form&gt;
+  &lt;ui-button variant="primary" type="submit"&gt;
+    &lt;span slot="label"&gt;Submit&lt;/span&gt;
+  &lt;/ui-button&gt;
+  &lt;ui-button variant="secondary" type="reset"&gt;
+    &lt;span slot="label"&gt;Reset&lt;/span&gt;
+  &lt;/ui-button&gt;
+&lt;/form&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Variants ── -->
+
+    <h2>Variants</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <span class="demo-label">primary</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">secondary</span>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">outline</span>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">ghost</span>
+        <ui-button variant="ghost"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">default</span>
+        <ui-button variant="default"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">selected</span>
+        <ui-button variant="selected"><span slot="label">Button</span></ui-button>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-button variant="primary"&gt;&lt;span slot="label"&gt;Primary&lt;/span&gt;&lt;/ui-button&gt;
+&lt;ui-button variant="secondary"&gt;&lt;span slot="label"&gt;Secondary&lt;/span&gt;&lt;/ui-button&gt;
+&lt;ui-button variant="outline"&gt;&lt;span slot="label"&gt;Outline&lt;/span&gt;&lt;/ui-button&gt;
+&lt;ui-button variant="ghost"&gt;&lt;span slot="label"&gt;Ghost&lt;/span&gt;&lt;/ui-button&gt;
+&lt;ui-button variant="default"&gt;&lt;span slot="label"&gt;Default&lt;/span&gt;&lt;/ui-button&gt;
+&lt;ui-button variant="selected"&gt;&lt;span slot="label"&gt;Selected&lt;/span&gt;&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section">
+      <h3>xs</h3>
+      <div class="demo-row" size="xs" density="compact">
+        <span class="demo-label">compact</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row" size="xs" density="default">
+        <span class="demo-label">default</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row" size="xs" density="loose">
+        <span class="demo-label">loose</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+
+      <h3>sm</h3>
+      <div class="demo-row" size="sm" density="compact">
+        <span class="demo-label">compact</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row" size="sm" density="default">
+        <span class="demo-label">default</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row" size="sm" density="loose">
+        <span class="demo-label">loose</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+
+      <h3>md</h3>
+      <div class="demo-row" size="md" density="compact">
+        <span class="demo-label">compact</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row" size="md" density="default">
+        <span class="demo-label">default</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row" size="md" density="loose">
+        <span class="demo-label">loose</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+
+      <h3>lg</h3>
+      <div class="demo-row" size="lg" density="compact">
+        <span class="demo-label">compact</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row" size="lg" density="default">
+        <span class="demo-label">default</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row" size="lg" density="loose">
+        <span class="demo-label">loose</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+
+      <h3>xl</h3>
+      <div class="demo-row" size="xl" density="compact">
+        <span class="demo-label">compact</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row" size="xl" density="default">
+        <span class="demo-label">default</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row" size="xl" density="loose">
+        <span class="demo-label">loose</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+    </div>
+
+    <!-- ── Radius ── -->
+
+    <h2>Radius</h2>
+    <div class="demo-section" size="md">
+      <div class="demo-row" radius="sharp">
+        <span class="demo-label">sharp</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row" radius="default">
+        <span class="demo-label">default</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+      <div class="demo-row" radius="round">
+        <span class="demo-label">round</span>
+        <ui-button variant="primary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="secondary"><span slot="label">Button</span></ui-button>
+        <ui-button variant="outline"><span slot="label">Button</span></ui-button>
+      </div>
+    </div>
+
+    <!-- ── Cascading ── -->
+
+    <h2>Cascading</h2>
+    <div class="demo-section">
+      <h3>Parent size="md", child overrides</h3>
+      <div class="demo-row" size="md" intent="accent">
+        <ui-button variant="primary"><span slot="label">Inherited md</span></ui-button>
+        <ui-button variant="primary" size="xs"><span slot="label">Override xs</span></ui-button>
+        <ui-button variant="primary" size="lg"><span slot="label">Override lg</span></ui-button>
+      </div>
+
+      <h3>Parent intent="accent", child overrides</h3>
+      <div class="demo-row" size="sm" intent="accent">
+        <ui-button variant="primary"><span slot="label">Accent</span></ui-button>
+        <ui-button variant="primary" intent="danger"><span slot="label">Danger</span></ui-button>
+        <ui-button variant="primary" intent="success"><span slot="label">Success</span></ui-button>
+      </div>
+
+      <h3>Section cascading all attributes</h3>
+      <section size="sm" density="compact" radius="round" intent="accent">
+        <div class="demo-row">
+          <ui-button variant="primary"><span slot="label">All inherited</span></ui-button>
+          <ui-button variant="secondary"><span slot="label">All inherited</span></ui-button>
+          <ui-button variant="outline"><span slot="label">All inherited</span></ui-button>
+          <ui-button variant="ghost"><span slot="label">All inherited</span></ui-button>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── Variants x Intents ── -->
+
+    <h2>Variants x Intents</h2>
+    <div class="demo-section" size="sm">
+      <h3>Primary</h3>
+      <div class="demo-row">
+        <ui-button variant="primary" intent="neutral"><span slot="label">Neutral</span></ui-button>
+        <ui-button variant="primary" intent="accent"><span slot="label">Accent</span></ui-button>
+        <ui-button variant="primary" intent="info"><span slot="label">Info</span></ui-button>
+        <ui-button variant="primary" intent="success"><span slot="label">Success</span></ui-button>
+        <ui-button variant="primary" intent="warning"><span slot="label">Warning</span></ui-button>
+        <ui-button variant="primary" intent="danger"><span slot="label">Danger</span></ui-button>
+      </div>
+      <h3>Secondary</h3>
+      <div class="demo-row">
+        <ui-button variant="secondary" intent="neutral"><span slot="label">Neutral</span></ui-button>
+        <ui-button variant="secondary" intent="accent"><span slot="label">Accent</span></ui-button>
+        <ui-button variant="secondary" intent="info"><span slot="label">Info</span></ui-button>
+        <ui-button variant="secondary" intent="success"><span slot="label">Success</span></ui-button>
+        <ui-button variant="secondary" intent="warning"><span slot="label">Warning</span></ui-button>
+        <ui-button variant="secondary" intent="danger"><span slot="label">Danger</span></ui-button>
+      </div>
+      <h3>Outline</h3>
+      <div class="demo-row">
+        <ui-button variant="outline" intent="neutral"><span slot="label">Neutral</span></ui-button>
+        <ui-button variant="outline" intent="accent"><span slot="label">Accent</span></ui-button>
+        <ui-button variant="outline" intent="info"><span slot="label">Info</span></ui-button>
+        <ui-button variant="outline" intent="success"><span slot="label">Success</span></ui-button>
+        <ui-button variant="outline" intent="warning"><span slot="label">Warning</span></ui-button>
+        <ui-button variant="outline" intent="danger"><span slot="label">Danger</span></ui-button>
+      </div>
+      <h3>Ghost</h3>
+      <div class="demo-row">
+        <ui-button variant="ghost" intent="neutral"><span slot="label">Neutral</span></ui-button>
+        <ui-button variant="ghost" intent="accent"><span slot="label">Accent</span></ui-button>
+        <ui-button variant="ghost" intent="info"><span slot="label">Info</span></ui-button>
+        <ui-button variant="ghost" intent="success"><span slot="label">Success</span></ui-button>
+        <ui-button variant="ghost" intent="warning"><span slot="label">Warning</span></ui-button>
+        <ui-button variant="ghost" intent="danger"><span slot="label">Danger</span></ui-button>
+      </div>
+      <h3>Default</h3>
+      <div class="demo-row">
+        <ui-button variant="default" intent="neutral"><span slot="label">Neutral</span></ui-button>
+        <ui-button variant="default" intent="accent"><span slot="label">Accent</span></ui-button>
+        <ui-button variant="default" intent="info"><span slot="label">Info</span></ui-button>
+        <ui-button variant="default" intent="success"><span slot="label">Success</span></ui-button>
+        <ui-button variant="default" intent="warning"><span slot="label">Warning</span></ui-button>
+        <ui-button variant="default" intent="danger"><span slot="label">Danger</span></ui-button>
+      </div>
+      <h3>Selected</h3>
+      <div class="demo-row">
+        <ui-button variant="selected" intent="neutral"><span slot="label">Neutral</span></ui-button>
+        <ui-button variant="selected" intent="accent"><span slot="label">Accent</span></ui-button>
+        <ui-button variant="selected" intent="info"><span slot="label">Info</span></ui-button>
+        <ui-button variant="selected" intent="success"><span slot="label">Success</span></ui-button>
+        <ui-button variant="selected" intent="warning"><span slot="label">Warning</span></ui-button>
+        <ui-button variant="selected" intent="danger"><span slot="label">Danger</span></ui-button>
+      </div>
+    </div>
+
+    <!-- ── Justify: spread ── -->
+
+    <h2>Justify: spread</h2>
+    <div class="demo-section" size="md" style="max-width: 20rem;">
+      <ui-stack gap="2">
+        <ui-button justify="spread">
+          <ui-icon name="heart" slot="leading"></ui-icon>
+          <span slot="label">Favorites</span>
+          <ui-icon name="arrow-right" slot="trailing"></ui-icon>
+        </ui-button>
+        <ui-button variant="outline" justify="spread">
+          <ui-icon name="pencil-simple" slot="leading"></ui-icon>
+          <span slot="label">Edit Profile</span>
+          <ui-icon name="arrow-right" slot="trailing"></ui-icon>
+        </ui-button>
+      </ui-stack>
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-top: 0.75rem;">
+        <code>justify="spread"</code> switches to <code>auto 1fr auto</code> columns so the label fills available space and trailing icon pushes to the far edge. Used as dropdown triggers in <code>&lt;ui-select&gt;</code>.
+      </p>
+      <pre class="demo-code"><code>&lt;ui-button justify="spread"&gt;
+  &lt;ui-icon name="heart" slot="leading"&gt;&lt;/ui-icon&gt;
+  &lt;span slot="label"&gt;Favorites&lt;/span&gt;
+  &lt;ui-icon name="arrow-right" slot="trailing"&gt;&lt;/ui-icon&gt;
+&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Icon Only ── -->
+
+    <h2>Icon Only</h2>
+    <div class="demo-section" size="md">
+      <div class="demo-row">
+        <ui-button variant="primary" aria-label="Add"><ui-icon name="plus"></ui-icon></ui-button>
+        <ui-button variant="secondary" aria-label="Close"><ui-icon name="x"></ui-icon></ui-button>
+        <ui-button variant="ghost" aria-label="Favorite"><ui-icon name="heart"></ui-icon></ui-button>
+        <ui-button variant="outline" aria-label="Next"><ui-icon name="arrow-right"></ui-icon></ui-button>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-button variant="primary" aria-label="Add"&gt;
+  &lt;ui-icon name="plus"&gt;&lt;/ui-icon&gt;
+&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Slots ── -->
+
+    <h2>Slot Variations</h2>
+    <div class="demo-section" size="md">
+      <h3>Full (leading + label + trailing)</h3>
+      <div class="demo-row">
+        <ui-button variant="primary">
+          <ui-icon name="plus" slot="leading"></ui-icon>
+          <span slot="label">Add Item</span>
+          <ui-icon name="arrow-right" slot="trailing"></ui-icon>
+        </ui-button>
+        <ui-button variant="secondary">
+          <ui-icon name="plus" slot="leading"></ui-icon>
+          <span slot="label">Add Item</span>
+          <ui-icon name="arrow-right" slot="trailing"></ui-icon>
+        </ui-button>
+      </div>
+      <h3>Label + Trailing</h3>
+      <div class="demo-row">
+        <ui-button variant="primary">
+          <span slot="label">Next</span>
+          <ui-icon name="arrow-right" slot="trailing"></ui-icon>
+        </ui-button>
+        <ui-button variant="secondary">
+          <span slot="label">Next</span>
+          <ui-icon name="arrow-right" slot="trailing"></ui-icon>
+        </ui-button>
+      </div>
+      <h3>Leading + Label</h3>
+      <div class="demo-row">
+        <ui-button variant="primary">
+          <ui-icon name="heart" slot="leading"></ui-icon>
+          <span slot="label">Favorite</span>
+        </ui-button>
+        <ui-button variant="secondary">
+          <ui-icon name="heart" slot="leading"></ui-icon>
+          <span slot="label">Favorite</span>
+        </ui-button>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-button variant="primary"&gt;
+  &lt;ui-icon name="plus" slot="leading"&gt;&lt;/ui-icon&gt;
+  &lt;span slot="label"&gt;Add Item&lt;/span&gt;
+  &lt;ui-icon name="arrow-right" slot="trailing"&gt;&lt;/ui-icon&gt;
+&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section" size="md">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+        Attribute-driven pseudo-state overrides for DevTools debugging, Storybook-style state demos, and visual testing.
+      </p>
+      <h3>force-hover</h3>
+      <div class="demo-row">
+        <ui-button variant="primary" force-hover><span slot="label">Primary</span></ui-button>
+        <ui-button variant="secondary" force-hover><span slot="label">Secondary</span></ui-button>
+        <ui-button variant="outline" force-hover><span slot="label">Outline</span></ui-button>
+        <ui-button variant="ghost" force-hover><span slot="label">Ghost</span></ui-button>
+      </div>
+      <h3>force-active</h3>
+      <div class="demo-row">
+        <ui-button variant="primary" force-active><span slot="label">Primary</span></ui-button>
+        <ui-button variant="secondary" force-active><span slot="label">Secondary</span></ui-button>
+        <ui-button variant="outline" force-active><span slot="label">Outline</span></ui-button>
+        <ui-button variant="ghost" force-active><span slot="label">Ghost</span></ui-button>
+      </div>
+      <h3>force-focus-visible</h3>
+      <div class="demo-row">
+        <ui-button variant="primary" force-focus-visible><span slot="label">Primary</span></ui-button>
+        <ui-button variant="secondary" force-focus-visible><span slot="label">Secondary</span></ui-button>
+        <ui-button variant="outline" force-focus-visible><span slot="label">Outline</span></ui-button>
+        <ui-button variant="ghost" force-focus-visible><span slot="label">Ghost</span></ui-button>
+      </div>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../nav/ui-layout.ts';
+      import './ui-button.ts';
+      import '../../icons/ui-icon.ts';
+      import '../../icons/phosphor/plus.ts';
+      import '../../icons/phosphor/arrow-right.ts';
+      import '../../icons/phosphor/x.ts';
+      import '../../icons/phosphor/heart.ts';
+      import '../../icons/phosphor/pencil-simple.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Press event logging
+      const pressBtn = document.getElementById('press-btn');
+      const pressLog = document.getElementById('press-log');
+      let pressCount = 0;
+
+      pressBtn.addEventListener('ui-press', (e) => {
+        pressCount++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${pressCount} ui-press — pointerType: ${e.detail.pointerType}`;
+        pressLog.prepend(entry);
+      });
+
+      // Form logging
+      const form = document.getElementById('demo-form');
+      const formLog = document.getElementById('form-log');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `submit — value: "${new FormData(form).get('demo')}"`;
+        formLog.prepend(entry);
+      });
+
+      form.addEventListener('reset', () => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = 'reset';
+        formLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

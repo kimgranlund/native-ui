@@ -1,0 +1,98 @@
+@layer ui {
+
+  /* ── Command Container ── */
+
+  :where(ui-command) {
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    flex-direction: column;
+    border-radius: var(--_radius);
+    border: 1px solid var(--_border-color, var(--_border-rest));
+    background: var(--_background, var(--_control));
+    color: var(--_color, var(--_ink));
+    overflow: hidden;
+  }
+
+  /* ── Command Input ── */
+
+  :where(ui-command-input) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--_space) * 2);
+    min-height: var(--_min-height);
+    padding-inline: calc(var(--_space-k) * var(--_space));
+    border-bottom: 1px solid var(--_border-color);
+  }
+
+  :where(ui-command-input) :where(input) {
+    flex: 1;
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: var(--_font-size);
+    font-weight: var(--_font-weight);
+    line-height: var(--_line-height);
+    letter-spacing: var(--_letter-spacing);
+    outline: none;
+    min-width: 0;
+  }
+
+  :where(ui-command-input) :where(input)::placeholder {
+    color: var(--_ink-placeholder);
+  }
+
+  /* ── Command List ── */
+
+  :where(ui-command-list) {
+    overflow-y: auto;
+    max-height: var(--ui-popover-max-height);
+    padding: var(--_space);
+  }
+
+  /* ── Command Group ── */
+
+  :where(ui-command-group) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  :where(ui-command-group) > :where([slot="heading"]) {
+    font-size: var(--_font-size);
+    font-weight: var(--ui-font-weight-button);
+    letter-spacing: var(--_letter-spacing);
+    color: var(--_ink-muted);
+  }
+
+  /* ── Command Empty ── */
+
+  :where(ui-command-empty) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(var(--_min-height) * 2);
+    color: var(--_ink-muted);
+    font-size: var(--_font-size);
+  }
+
+  /* ── Popover hidden guard ── */
+  /* WHY: author display: flex overrides UA display: none on [popover] */
+
+  :where(ui-command[popover]):not(:popover-open) {
+    display: none;
+  }
+
+  /* ── Hidden ── */
+
+  :where(ui-command)[hidden] {
+    display: none;
+  }
+
+  /* ── Auto-hide logic ── */
+
+  :where(ui-command-group):where(:not(:has(ui-command-item:not([hidden])))) {
+    display: none;
+  }
+
+}

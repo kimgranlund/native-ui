@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ui-command — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+        margin-top: 1.5rem;
+        color: var(--neutral-ink-muted);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .demo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+        align-items: start;
+      }
+
+      .demo-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .demo-col-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--neutral-ink-muted);
+      }
+
+      .log {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.375rem;
+        padding: 0.75rem;
+        max-height: 10rem;
+        overflow-y: auto;
+        margin-top: 0.5rem;
+      }
+
+      .log-entry {
+        padding: 0.125rem 0;
+        color: var(--neutral-ink-muted);
+      }
+
+      .shortcut {
+        font-family: ui-monospace, monospace;
+        font-size: 0.625rem;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.25rem;
+        padding: 0.125rem 0.375rem;
+        margin-left: auto;
+        color: var(--neutral-ink-muted);
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>&lt;ui-command&gt;</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Command palette with search filtering, keyboard navigation, and grouped items.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic Command Palette</h2>
+    <div class="demo-section" intent="neutral" variant="secondary">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Simple list</span>
+          <ui-command id="basic-command">
+            <ui-command-input>
+              <ui-icon name="magnifying-glass"></ui-icon>
+              <input type="text" placeholder="Type to search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="new-file"><ui-icon name="plus"></ui-icon> New File</ui-command-item>
+              <ui-command-item value="open-file"><ui-icon name="folder-open"></ui-icon> Open File</ui-command-item>
+              <ui-command-item value="save"><ui-icon name="floppy-disk"></ui-icon> Save</ui-command-item>
+              <ui-command-item value="save-as"><ui-icon name="floppy-disk"></ui-icon> Save As...</ui-command-item>
+              <ui-command-item value="close"><ui-icon name="x"></ui-icon> Close Tab</ui-command-item>
+              <ui-command-item value="settings"><ui-icon name="gear"></ui-icon> Settings</ui-command-item>
+            </ui-command-list>
+            <ui-command-empty>No results found.</ui-command-empty>
+          </ui-command>
+          <div class="log" id="basic-log"></div>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-command&gt;
+  &lt;ui-command-input&gt;
+    &lt;ui-icon name="magnifying-glass"&gt;&lt;/ui-icon&gt;
+    &lt;input type="text" placeholder="Type to search..." /&gt;
+  &lt;/ui-command-input&gt;
+  &lt;ui-command-list&gt;
+    &lt;ui-command-item value="new-file"&gt;&lt;ui-icon name="plus"&gt;&lt;/ui-icon&gt; New File&lt;/ui-command-item&gt;
+    &lt;ui-command-item value="open-file"&gt;&lt;ui-icon name="folder-open"&gt;&lt;/ui-icon&gt; Open File&lt;/ui-command-item&gt;
+    &lt;ui-command-item value="save"&gt;&lt;ui-icon name="floppy-disk"&gt;&lt;/ui-icon&gt; Save&lt;/ui-command-item&gt;
+  &lt;/ui-command-list&gt;
+  &lt;ui-command-empty&gt;No results found.&lt;/ui-command-empty&gt;
+&lt;/ui-command&gt;
+
+&lt;script&gt;
+  command.addEventListener('ui-change', (e) =&gt; {
+    console.log(e.detail.value, e.detail.label);
+  });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Grouped ── -->
+
+    <h2>Grouped Commands</h2>
+    <div class="demo-section" intent="neutral" variant="secondary">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">With groups and shortcuts</span>
+          <ui-command id="grouped-command">
+            <ui-command-input>
+              <ui-icon name="magnifying-glass"></ui-icon>
+              <input type="text" placeholder="Search commands..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-group>
+                <div slot="heading">File</div>
+                <ui-command-item value="new-file" keywords="create">
+                  <ui-icon name="plus"></ui-icon> New File <span class="shortcut">Cmd+N</span>
+                </ui-command-item>
+                <ui-command-item value="open-file" keywords="browse load">
+                  <ui-icon name="folder-open"></ui-icon> Open File <span class="shortcut">Cmd+O</span>
+                </ui-command-item>
+                <ui-command-item value="save" keywords="write store">
+                  <ui-icon name="floppy-disk"></ui-icon> Save <span class="shortcut">Cmd+S</span>
+                </ui-command-item>
+              </ui-command-group>
+              <ui-command-group>
+                <div slot="heading">Edit</div>
+                <ui-command-item value="undo" keywords="revert">
+                  <ui-icon name="arrow-counter-clockwise"></ui-icon> Undo <span class="shortcut">Cmd+Z</span>
+                </ui-command-item>
+                <ui-command-item value="redo">
+                  <ui-icon name="arrow-clockwise"></ui-icon> Redo <span class="shortcut">Cmd+Shift+Z</span>
+                </ui-command-item>
+                <ui-command-item value="copy" keywords="clipboard">
+                  <ui-icon name="copy"></ui-icon> Copy <span class="shortcut">Cmd+C</span>
+                </ui-command-item>
+                <ui-command-item value="paste" keywords="clipboard">
+                  <ui-icon name="clipboard-text"></ui-icon> Paste <span class="shortcut">Cmd+V</span>
+                </ui-command-item>
+              </ui-command-group>
+              <ui-command-group>
+                <div slot="heading">View</div>
+                <ui-command-item value="zoom-in" keywords="magnify enlarge">
+                  <ui-icon name="magnifying-glass-plus"></ui-icon> Zoom In <span class="shortcut">Cmd++</span>
+                </ui-command-item>
+                <ui-command-item value="zoom-out" keywords="shrink reduce">
+                  <ui-icon name="magnifying-glass-minus"></ui-icon> Zoom Out <span class="shortcut">Cmd+-</span>
+                </ui-command-item>
+                <ui-command-item value="fullscreen" keywords="maximize expand">
+                  <ui-icon name="arrows-out"></ui-icon> Toggle Fullscreen <span class="shortcut">F11</span>
+                </ui-command-item>
+              </ui-command-group>
+            </ui-command-list>
+            <ui-command-empty>No matching commands.</ui-command-empty>
+          </ui-command>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-command&gt;
+  &lt;ui-command-input&gt;
+    &lt;ui-icon name="magnifying-glass"&gt;&lt;/ui-icon&gt;
+    &lt;input type="text" placeholder="Search commands..." /&gt;
+  &lt;/ui-command-input&gt;
+  &lt;ui-command-list&gt;
+    &lt;ui-command-group&gt;
+      &lt;div slot="heading"&gt;File&lt;/div&gt;
+      &lt;ui-command-item value="new-file" keywords="create"&gt;
+        &lt;ui-icon name="plus"&gt;&lt;/ui-icon&gt; New File
+      &lt;/ui-command-item&gt;
+      &lt;ui-command-item value="save" keywords="write store"&gt;
+        &lt;ui-icon name="floppy-disk"&gt;&lt;/ui-icon&gt; Save
+      &lt;/ui-command-item&gt;
+    &lt;/ui-command-group&gt;
+    &lt;ui-command-group&gt;
+      &lt;div slot="heading"&gt;Edit&lt;/div&gt;
+      &lt;ui-command-item value="undo"&gt;
+        &lt;ui-icon name="arrow-counter-clockwise"&gt;&lt;/ui-icon&gt; Undo
+      &lt;/ui-command-item&gt;
+    &lt;/ui-command-group&gt;
+  &lt;/ui-command-list&gt;
+  &lt;ui-command-empty&gt;No matching commands.&lt;/ui-command-empty&gt;
+&lt;/ui-command&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── With Disabled Items ── -->
+
+    <h2>Disabled Items</h2>
+    <div class="demo-section" intent="neutral" variant="secondary">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Some items disabled</span>
+          <ui-command>
+            <ui-command-input>
+              <ui-icon name="magnifying-glass"></ui-icon>
+              <input type="text" placeholder="Search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="cut"><ui-icon name="scissors"></ui-icon> Cut</ui-command-item>
+              <ui-command-item value="copy"><ui-icon name="copy"></ui-icon> Copy</ui-command-item>
+              <ui-command-item value="paste" disabled><ui-icon name="clipboard-text"></ui-icon> Paste (clipboard empty)</ui-command-item>
+              <ui-command-item value="delete"><ui-icon name="trash"></ui-icon> Delete</ui-command-item>
+              <ui-command-item value="select-all"><ui-icon name="selection-all"></ui-icon> Select All</ui-command-item>
+            </ui-command-list>
+          </ui-command>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-command-item value="paste" disabled&gt;
+  &lt;ui-icon name="clipboard-text"&gt;&lt;/ui-icon&gt; Paste (clipboard empty)
+&lt;/ui-command-item&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section" variant="secondary">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">sm</span>
+          <ui-command size="sm">
+            <ui-command-input>
+              <input type="text" placeholder="Search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="a">Alpha</ui-command-item>
+              <ui-command-item value="b">Bravo</ui-command-item>
+              <ui-command-item value="c">Charlie</ui-command-item>
+            </ui-command-list>
+          </ui-command>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">md (default)</span>
+          <ui-command size="md">
+            <ui-command-input>
+              <input type="text" placeholder="Search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="a">Alpha</ui-command-item>
+              <ui-command-item value="b">Bravo</ui-command-item>
+              <ui-command-item value="c">Charlie</ui-command-item>
+            </ui-command-list>
+          </ui-command>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">lg</span>
+          <ui-command size="lg">
+            <ui-command-input>
+              <input type="text" placeholder="Search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="a">Alpha</ui-command-item>
+              <ui-command-item value="b">Bravo</ui-command-item>
+              <ui-command-item value="c">Charlie</ui-command-item>
+            </ui-command-list>
+          </ui-command>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Variants ── -->
+
+    <h2>Variants</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">secondary</span>
+          <ui-command variant="secondary">
+            <ui-command-input>
+              <input type="text" placeholder="Search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="a">Alpha</ui-command-item>
+              <ui-command-item value="b">Bravo</ui-command-item>
+              <ui-command-item value="c">Charlie</ui-command-item>
+            </ui-command-list>
+          </ui-command>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">outline</span>
+          <ui-command variant="outline">
+            <ui-command-input>
+              <input type="text" placeholder="Search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="a">Alpha</ui-command-item>
+              <ui-command-item value="b">Bravo</ui-command-item>
+              <ui-command-item value="c">Charlie</ui-command-item>
+            </ui-command-list>
+          </ui-command>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">default</span>
+          <ui-command variant="default">
+            <ui-command-input>
+              <input type="text" placeholder="Search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="a">Alpha</ui-command-item>
+              <ui-command-item value="b">Bravo</ui-command-item>
+              <ui-command-item value="c">Charlie</ui-command-item>
+            </ui-command-list>
+          </ui-command>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section" size="md" variant="secondary">
+      <div class="demo-grid">
+        <div class="demo-col" density="loose">
+          <span class="demo-col-label">loose</span>
+          <ui-command>
+            <ui-command-input>
+              <input type="text" placeholder="Search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="a">Alpha</ui-command-item>
+              <ui-command-item value="b">Bravo</ui-command-item>
+              <ui-command-item value="c">Charlie</ui-command-item>
+            </ui-command-list>
+          </ui-command>
+        </div>
+        <div class="demo-col" density="default">
+          <span class="demo-col-label">default</span>
+          <ui-command>
+            <ui-command-input>
+              <input type="text" placeholder="Search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="a">Alpha</ui-command-item>
+              <ui-command-item value="b">Bravo</ui-command-item>
+              <ui-command-item value="c">Charlie</ui-command-item>
+            </ui-command-list>
+          </ui-command>
+        </div>
+        <div class="demo-col" density="compact">
+          <span class="demo-col-label">compact</span>
+          <ui-command>
+            <ui-command-input>
+              <input type="text" placeholder="Search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="a">Alpha</ui-command-item>
+              <ui-command-item value="b">Bravo</ui-command-item>
+              <ui-command-item value="c">Charlie</ui-command-item>
+            </ui-command-list>
+          </ui-command>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Radius ── -->
+
+    <h2>Radius</h2>
+    <div class="demo-section" size="sm" variant="secondary">
+      <div class="demo-grid">
+        <div class="demo-col" radius="sharp">
+          <span class="demo-col-label">sharp</span>
+          <ui-command>
+            <ui-command-input>
+              <input type="text" placeholder="Search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="a">Alpha</ui-command-item>
+              <ui-command-item value="b">Bravo</ui-command-item>
+              <ui-command-item value="c">Charlie</ui-command-item>
+            </ui-command-list>
+          </ui-command>
+        </div>
+        <div class="demo-col" radius="default">
+          <span class="demo-col-label">default</span>
+          <ui-command>
+            <ui-command-input>
+              <input type="text" placeholder="Search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="a">Alpha</ui-command-item>
+              <ui-command-item value="b">Bravo</ui-command-item>
+              <ui-command-item value="c">Charlie</ui-command-item>
+            </ui-command-list>
+          </ui-command>
+        </div>
+        <div class="demo-col" radius="round">
+          <span class="demo-col-label">round</span>
+          <ui-command>
+            <ui-command-input>
+              <input type="text" placeholder="Search..." />
+            </ui-command-input>
+            <ui-command-list>
+              <ui-command-item value="a">Alpha</ui-command-item>
+              <ui-command-item value="b">Bravo</ui-command-item>
+              <ui-command-item value="c">Charlie</ui-command-item>
+            </ui-command-list>
+          </ui-command>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Cascading ── -->
+
+    <h2>Cascading</h2>
+    <div class="demo-section">
+      <h3>Section cascading all attributes</h3>
+      <section size="sm" density="compact" radius="round" intent="accent">
+        <div class="demo-grid">
+          <div class="demo-col">
+            <span class="demo-col-label">All inherited (secondary)</span>
+            <ui-command variant="secondary">
+              <ui-command-input>
+                <input type="text" placeholder="Search..." />
+              </ui-command-input>
+              <ui-command-list>
+                <ui-command-item value="a">Alpha</ui-command-item>
+                <ui-command-item value="b">Bravo</ui-command-item>
+                <ui-command-item value="c">Charlie</ui-command-item>
+              </ui-command-list>
+            </ui-command>
+          </div>
+          <div class="demo-col">
+            <span class="demo-col-label">All inherited (outline)</span>
+            <ui-command variant="outline">
+              <ui-command-input>
+                <input type="text" placeholder="Search..." />
+              </ui-command-input>
+              <ui-command-list>
+                <ui-command-item value="a">Alpha</ui-command-item>
+                <ui-command-item value="b">Bravo</ui-command-item>
+                <ui-command-item value="c">Charlie</ui-command-item>
+              </ui-command-list>
+            </ui-command>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── Keyboard Instructions ── -->
+
+    <h2>Keyboard Navigation</h2>
+    <div class="demo-section">
+      <table style="font-size: 0.8125rem; border-collapse: collapse; width: 100%;">
+        <thead>
+          <tr style="text-align: left; border-bottom: 1px solid var(--neutral-border-muted);">
+            <th style="padding: 0.5rem; font-weight: 600;">Key</th>
+            <th style="padding: 0.5rem; font-weight: 600;">Action</th>
+          </tr>
+        </thead>
+        <tbody style="color: var(--neutral-ink-muted);">
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>Arrow Down</code></td><td style="padding: 0.375rem 0.5rem;">Move to next item</td></tr>
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>Arrow Up</code></td><td style="padding: 0.375rem 0.5rem;">Move to previous item</td></tr>
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>Home</code></td><td style="padding: 0.375rem 0.5rem;">Jump to first item</td></tr>
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>End</code></td><td style="padding: 0.375rem 0.5rem;">Jump to last item</td></tr>
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>Enter</code></td><td style="padding: 0.375rem 0.5rem;">Select active item</td></tr>
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>Escape</code></td><td style="padding: 0.375rem 0.5rem;">Dismiss (fires ui-dismiss event)</td></tr>
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>Type</code></td><td style="padding: 0.375rem 0.5rem;">Filter items by search text</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../nav/ui-layout.ts';
+      import './ui-command.ts';
+      import '../../icons/ui-icon.ts';
+      import '../../icons/phosphor/magnifying-glass.ts';
+      import '../../icons/phosphor/plus.ts';
+      import '../../icons/phosphor/folder-open.ts';
+      import '../../icons/phosphor/floppy-disk.ts';
+      import '../../icons/phosphor/x.ts';
+      import '../../icons/phosphor/gear.ts';
+      import '../../icons/phosphor/arrow-counter-clockwise.ts';
+      import '../../icons/phosphor/arrow-clockwise.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/clipboard-text.ts';
+      import '../../icons/phosphor/magnifying-glass-plus.ts';
+      import '../../icons/phosphor/magnifying-glass-minus.ts';
+      import '../../icons/phosphor/arrows-out.ts';
+      import '../../icons/phosphor/scissors.ts';
+      import '../../icons/phosphor/trash.ts';
+      import '../../icons/phosphor/selection-all.ts';
+      import '../../icons/phosphor/check.ts';
+      import '../ui-button/ui-button.ts';
+
+      // Basic command event logging
+      const basicCommand = document.getElementById('basic-command');
+      const basicLog = document.getElementById('basic-log');
+      let count = 0;
+
+      basicCommand.addEventListener('ui-change', (e) => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} ui-change — value: "${e.detail.value}", label: "${e.detail.label}"`;
+        basicLog.prepend(entry);
+      });
+
+      basicCommand.addEventListener('ui-dismiss', () => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} ui-dismiss`;
+        basicLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

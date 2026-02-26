@@ -1,0 +1,36 @@
+@layer ui {
+
+  :where(ui-dialog) {
+    display: contents;
+  }
+
+  /* ── Dialog (native <dialog> reset) ──
+     WHY: Override UA <dialog> styles (border, padding, dimensions).
+     CSS custom properties inherit from :root through the DOM tree normally —
+     top-layer rendering promotion does NOT break inheritance. */
+
+  :where(ui-dialog) > :where(dialog) {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: var(--_ink);
+    padding: 0;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+  }
+
+  /* WHY: Author-layer display:grid overrides UA dialog:not([open]) display:none */
+  :where(ui-dialog) > :where(dialog):not([open]) {
+    display: none;
+  }
+
+  :where(ui-dialog) > :where(dialog)::backdrop {
+    background: var(--ui-backdrop-color) / var(--ui-backdrop-opacity);
+  }
+
+}

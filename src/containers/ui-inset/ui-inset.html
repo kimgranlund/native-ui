@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ui-inset — Container Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>&lt;ui-inset&gt;</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Content indentation container. Adds consistent inline-start padding without visual surface. CSS-only container.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <div class="demo-section">
+      <span style="font-weight: 500;">Parent heading</span>
+      <ui-inset>
+        <span>Indented child 1</span>
+        <span>Indented child 2</span>
+        <span>Indented child 3</span>
+      </ui-inset>
+    <pre class="demo-code"><code>&lt;span&gt;Parent heading&lt;/span&gt;
+&lt;ui-inset&gt;
+  &lt;span&gt;Indented child 1&lt;/span&gt;
+  &lt;span&gt;Indented child 2&lt;/span&gt;
+  &lt;span&gt;Indented child 3&lt;/span&gt;
+&lt;/ui-inset&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── With Checkboxes ── -->
+
+    <h2>Nested Checkboxes</h2>
+    <div class="demo-section">
+      <ui-checkbox checked>Select all</ui-checkbox>
+      <ui-inset>
+        <ui-checkbox checked>Option A</ui-checkbox>
+        <ui-checkbox checked>Option B</ui-checkbox>
+        <ui-checkbox>Option C</ui-checkbox>
+      </ui-inset>
+    <pre class="demo-code"><code>&lt;ui-checkbox checked&gt;Select all&lt;/ui-checkbox&gt;
+&lt;ui-inset&gt;
+  &lt;ui-checkbox checked&gt;Option A&lt;/ui-checkbox&gt;
+  &lt;ui-checkbox checked&gt;Option B&lt;/ui-checkbox&gt;
+  &lt;ui-checkbox&gt;Option C&lt;/ui-checkbox&gt;
+&lt;/ui-inset&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div size="sm">
+        <span style="font-weight: 500; font-size: 0.8125rem;">sm parent</span>
+        <ui-inset>
+          <span style="font-size: 0.8125rem;">sm indented content</span>
+        </ui-inset>
+      </div>
+      <div size="lg" style="margin-top: 1rem;">
+        <span style="font-weight: 500;">lg parent</span>
+        <ui-inset>
+          <span>lg indented content</span>
+        </ui-inset>
+      </div>
+      <pre class="demo-code"><code>&lt;div size="sm"&gt;
+  &lt;span&gt;sm parent&lt;/span&gt;
+  &lt;ui-inset&gt;
+    &lt;span&gt;sm indented content&lt;/span&gt;
+  &lt;/ui-inset&gt;
+&lt;/div&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../nav/ui-layout.ts';
+      import '../../components/ui-checkbox/ui-checkbox.ts';
+      import '../../components/ui-button/ui-button.ts';
+      import '../../icons/ui-icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Component State Grid — Style Demo</title>
+    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main { padding: 2rem; }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h1 + p {
+        font-size: 0.8125rem;
+        color: var(--neutral-ink-muted);
+        margin-bottom: 1.5rem;
+      }
+
+      /* ── Toolbar ── */
+      #toolbar {
+        margin-bottom: 1rem;
+      }
+
+      #state-filter {
+        min-width: 10rem;
+      }
+
+      /* ── Grid ── */
+      .state-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+        gap: 0.75rem;
+      }
+
+      /* ── Card state overrides ── */
+      .state-grid > ui-card {
+        transition: box-shadow 0.2s, border-color 0.2s, opacity 0.2s;
+      }
+
+      .state-grid > ui-card.dimmed {
+        opacity: 0.35;
+      }
+
+      .state-grid > ui-card.highlighted {
+        border-color: var(--accent-surface);
+        box-shadow: 0 0 0 2px var(--accent-surface);
+      }
+
+      .state-grid > ui-card.cat-hidden {
+        display: none;
+      }
+
+      .comp-card-name {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--neutral-ink-strong);
+      }
+
+      .comp-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+      }
+
+      /* ── State group labels ── */
+      .state-group-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--neutral-ink-muted);
+        margin-top: 0.125rem;
+      }
+
+      .state-group-label:first-child {
+        margin-top: 0;
+      }
+
+      /* ── State pill row ── */
+      .state-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+      }
+
+      /* ── State pill ── */
+      .state-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.1875rem 0.5rem;
+        border-radius: 1rem;
+        font-size: 0.6875rem;
+        font-weight: 500;
+        cursor: pointer;
+        border: 1px solid var(--neutral-border-muted);
+        background: var(--neutral-body);
+        color: var(--neutral-ink);
+        transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+        white-space: nowrap;
+        outline: none;
+      }
+
+      .state-pill:hover {
+        background: var(--neutral-panel-hover);
+        border-color: var(--neutral-border);
+      }
+
+      .state-pill:focus-visible {
+        outline: 2px solid var(--ui-focus-ring);
+        outline-offset: 1px;
+      }
+
+      /* Selection group pills get a subtle accent tint */
+      .state-pill[data-group="selection"] {
+        background: oklch(from var(--accent-surface) l c h / 0.15);
+        border-color: oklch(from var(--accent-surface) l c h / 0.3);
+      }
+
+      /* Value group pills get a subtle info tint */
+      .state-pill[data-group="value"] {
+        background: oklch(from var(--info-surface) l c h / 0.15);
+        border-color: oklch(from var(--info-surface) l c h / 0.3);
+      }
+
+      .state-pill.active-highlight {
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+        border-color: var(--accent-surface);
+      }
+
+      .state-pill.locked-source {
+        box-shadow: 0 0 0 2px var(--ui-focus-ring);
+      }
+
+      .state-pill.filter-dim {
+        opacity: 0.25;
+      }
+
+      /* ── Color swatch ── */
+      .swatch {
+        display: inline-block;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        border: 1px solid oklch(0% 0 0 / 0.15);
+        flex-shrink: 0;
+      }
+
+      /* ── Legend ── */
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        font-size: 0.6875rem;
+        color: var(--neutral-ink-muted);
+      }
+
+      .legend-swatch {
+        width: 0.625rem;
+        height: 0.625rem;
+        border-radius: 50%;
+        border: 1px solid oklch(0% 0 0 / 0.15);
+      }
+
+      /* ── Empty state text ── */
+      .no-states {
+        font-size: 0.6875rem;
+        color: var(--neutral-ink-muted);
+        font-style: italic;
+      }
+
+      /* ── Tooltip ── */
+      .hover-tooltip {
+        position: fixed;
+        z-index: 100;
+        pointer-events: none;
+        background: var(--neutral-modal);
+        color: var(--neutral-ink-strong);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.5rem 0.75rem;
+        font-size: 0.6875rem;
+        line-height: 1.5;
+        box-shadow: 0 4px 12px oklch(0% 0 0 / 0.12);
+        max-width: 22rem;
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+
+      .hover-tooltip.visible { opacity: 1; }
+
+      .hover-tooltip .tt-row {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+      }
+
+      .hover-tooltip .tt-row + .tt-row { margin-top: 0.25rem; }
+
+      .hover-tooltip .tt-label {
+        color: var(--neutral-ink-muted);
+        min-width: 5rem;
+      }
+
+      .hover-tooltip .tt-value {
+        font-family: ui-monospace, monospace;
+        font-size: 0.625rem;
+      }
+
+      .hover-tooltip .tt-resolved {
+        color: var(--neutral-ink-muted);
+        font-size: 0.5625rem;
+      }
+
+      .hover-tooltip .tt-match-header {
+        margin-top: 0.5rem;
+        font-weight: 600;
+        color: var(--accent-ink);
+        font-size: 0.625rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+    </style>
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-segmented-control/ui-segmented-control.ts';
+      import '../components/ui-input/ui-input.ts';
+      import '../components/ui-badge/ui-badge.ts';
+      import '../containers/ui-card/ui-card.ts';
+      import '../containers/ui-toolbar/ui-toolbar.ts';
+      import '../icons/ui-icon.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <ui-layout><main>
+      <h1>Component State Grid</h1>
+      <p>Each card shows the CSS color tokens a component uses per state. Hover or click a state pill to highlight every component that resolves to the same <code>background</code>, <code>color</code>, and <code>border-color</code> values.</p>
+
+      <ui-panel bordered size="sm" style="flex-direction: row; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+        <div class="legend-item"><span class="legend-swatch" style="background: var(--accent-surface);"></span> accent-surface</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: white; border-color: var(--neutral-border-muted);"></span> white</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: var(--neutral-panel);"></span> panel</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: var(--neutral-control);"></span> control</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: var(--neutral-higher);"></span> button</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: transparent; border-color: var(--neutral-border);"></span> transparent</div>
+      </ui-panel>
+
+      <!-- Toolbar: category filters + state search -->
+      <ui-toolbar id="toolbar" size="sm">
+        <ui-segmented-control id="cat-filters" value="all" size="sm">
+          <ui-segment value="all">All</ui-segment>
+          <ui-segment value="interactive">Interactive</ui-segment>
+          <ui-segment value="widget">Widget</ui-segment>
+          <ui-segment value="composite">Composite</ui-segment>
+          <ui-segment value="coordinator">Coordinator</ui-segment>
+          <ui-segment value="display">Display</ui-segment>
+          <ui-segment value="container">Container</ui-segment>
+        </ui-segmented-control>
+        <ui-divider orientation="vertical"></ui-divider>
+        <ui-input id="state-filter" placeholder="Filter states... (e.g. disabled, hover, active)" size="sm">
+          <ui-icon name="magnifying-glass" slot="leading"></ui-icon>
+        </ui-input>
+      </ui-toolbar>
+
+      <div class="demo-section">
+      <pre class="demo-code"><code>/* ── State Token Resolution ── */
+/* Components read local tokens (--_*) set by attribute selectors */
+
+/* Rest state */
+background: var(--_background);
+color: var(--_color);
+border-color: var(--_border-color);
+
+/* Hover state — fallback chain */
+background: var(--_background-hover, var(--_background));
+color: var(--_color-hover, var(--_color));
+border-color: var(--_border-color-hover, var(--_border-color));
+
+/* Disabled state */
+color: var(--_ink-disabled);
+pointer-events: none;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+
+      <pre class="demo-code"><code>/* ── Intent → Variant Resolution Flow ── */
+/* 1. [intent] sets the color family */
+:where([intent="accent"]) {
+  --_panel: var(--accent-panel);
+  --_surface: var(--accent-surface);
+  --_ink: var(--accent-ink);
+}
+
+/* 2. [variant] picks the role from the family */
+:where([variant="primary"]) {
+  --_background: var(--_surface);
+  --_color: var(--_surface-ink);
+  --_border-color: transparent;
+}</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+      </div>
+
+      <div class="state-grid" id="grid"></div>
+    </main></ui-layout>
+
+    <div class="hover-tooltip" id="tooltip"></div>
+
+    <script>
+      // ── Color signature database ──
+      // Each component → array of { state, bg, color, borderColor }
+      // Values are CSS token names (not resolved values), used for matching.
+
+      const components = [
+        {
+          name: 'ui-button',
+          category: 'interactive',
+          states: [
+            { state: 'rest (default)', bg: '--_button', color: '--_ink', border: '--neutral-border-muted', group: 'interaction' },
+            { state: ':hover', bg: '--neutral-panel-hover', color: '--_ink-hover', border: '--neutral-border-hover', group: 'interaction' },
+            { state: ':active', bg: '--neutral-panel-active', color: '--_ink-active', border: '--neutral-border-active', group: 'interaction' },
+            { state: ':focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
+            { state: ':disabled', bg: '--neutral-panel-disabled', color: '--_ink-disabled', border: '--neutral-border-muted', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-input',
+          category: 'interactive',
+          states: [
+            { state: 'rest (empty)', bg: '--_control', color: '--_ink', border: '--neutral-highest', group: 'interaction' },
+            { state: ':hover', bg: '--_control-hover', color: '--_ink-hover', border: '--_border-muted', group: 'interaction' },
+            { state: 'filled', bg: '--_panel', color: '--_ink-strong', border: 'transparent', group: 'value' },
+            { state: 'filled:hover', bg: '--_panel-hover', color: '--_ink-strong', border: 'transparent', group: 'value' },
+            { state: ':focus', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
+            { state: '[disabled]', bg: '--_control-disabled', color: '--_ink-disabled', border: '--_border-disabled', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-textarea',
+          category: 'interactive',
+          states: [
+            { state: 'rest (empty)', bg: '--_control', color: '--_ink', border: '--neutral-highest', group: 'interaction' },
+            { state: ':hover', bg: '--_control-hover', color: '--_ink-hover', border: '--_border-muted', group: 'interaction' },
+            { state: 'filled', bg: '--_panel', color: '--_ink-strong', border: 'transparent', group: 'value' },
+            { state: 'filled:hover', bg: '--_panel-hover', color: '--_ink-strong', border: 'transparent', group: 'value' },
+            { state: ':focus', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
+            { state: '[disabled]', bg: '--_control-disabled', color: '--_ink-disabled', border: '--_border-disabled', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-listbox',
+          category: 'interactive',
+          states: [
+            { state: 'container', bg: '--_control', color: '--_ink', border: '--neutral-highest', group: 'interaction' },
+            { state: '[aria-disabled]', bg: 'opacity: 0.6', color: '—', border: '—', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-option',
+          category: 'interactive',
+          states: [
+            { state: 'rest', bg: 'transparent', color: '--_ink', border: 'none', group: 'interaction' },
+            { state: ':hover', bg: '--neutral-panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
+            { state: ':active', bg: '--neutral-panel-active', color: '--_ink-active', border: 'none', group: 'interaction' },
+            { state: '[active]', bg: '--neutral-panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
+            { state: ':focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
+            { state: '[aria-selected]', bg: 'white', color: '--_ink-inverse', border: 'none', group: 'selection' },
+            { state: '[aria-disabled]', bg: 'transparent', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-command',
+          category: 'composite',
+          states: [
+            { state: 'container', bg: '--_control', color: '--_ink', border: '--neutral-highest', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-command-item',
+          category: 'interactive',
+          states: [
+            { state: 'rest', bg: 'transparent', color: '--_ink', border: 'none', group: 'interaction' },
+            { state: ':hover', bg: '--neutral-panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
+            { state: ':active', bg: '--neutral-panel-active', color: '--_ink-active', border: 'none', group: 'interaction' },
+            { state: '[active]', bg: '--neutral-panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
+            { state: ':focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
+            { state: '[aria-selected]', bg: 'white', color: '--_ink-inverse', border: 'none', group: 'selection' },
+            { state: '[aria-disabled]', bg: 'transparent', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-select',
+          category: 'coordinator',
+          states: [
+            { state: '(coordinator)', bg: 'display: contents', color: '—', border: '—', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-combobox',
+          category: 'coordinator',
+          states: [
+            { state: '(coordinator)', bg: 'display: contents', color: '—', border: '—', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-checkbox',
+          category: 'widget',
+          states: [
+            { state: 'rest (unchecked)', bg: '--_widget', color: '--_ink', border: '--_border-muted', group: 'interaction' },
+            { state: ':hover', bg: '--_widget-hover', color: '--_ink-hover', border: '--_border-hover', group: 'interaction' },
+            { state: '[pressed]', bg: '--_widget-active', color: '(unchanged)', border: '--_border-active', group: 'interaction' },
+            { state: '[aria-checked] box', bg: '--accent-surface', color: '--accent-surface-ink', border: '--accent-surface', group: 'selection' },
+            { state: 'checked:hover box', bg: '--accent-surface-hover', color: '--accent-surface-ink', border: '--accent-surface-hover', group: 'selection' },
+            { state: '[aria-checked=mixed]', bg: '--accent-surface', color: '--accent-surface-ink', border: '--accent-surface', group: 'selection' },
+            { state: '[aria-disabled]', bg: '--_widget-disabled', color: '--_ink-disabled', border: '--_border-disabled', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-switch',
+          category: 'widget',
+          states: [
+            { state: 'rest (off)', bg: '--_widget', color: '--_ink', border: '--_border-muted', group: 'interaction' },
+            { state: ':hover track', bg: '--_widget-hover', color: '--_ink-hover', border: '--_border-hover', group: 'interaction' },
+            { state: '[pressed] track', bg: '--_widget-active', color: '(unchanged)', border: '--_border-active', group: 'interaction' },
+            { state: '[aria-checked] track', bg: '--accent-surface', color: '--accent-surface-ink', border: '--accent-surface', group: 'selection' },
+            { state: 'checked:hover', bg: '--accent-surface-hover', color: '--accent-surface-ink', border: '--accent-surface-hover', group: 'selection' },
+            { state: '[aria-disabled]', bg: '--_widget-disabled', color: '--_ink-disabled', border: '--_border-disabled', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-radio',
+          category: 'widget',
+          states: [
+            { state: 'rest (unchecked)', bg: '--_widget', color: '--_ink', border: '--_border-muted', group: 'interaction' },
+            { state: ':hover', bg: '--_widget-hover', color: '--_ink-hover', border: '--_border-hover', group: 'interaction' },
+            { state: '[pressed]', bg: '--_widget-active', color: '(unchanged)', border: '--_border-active', group: 'interaction' },
+            { state: '[aria-checked] circle', bg: '--accent-surface', color: '--accent-surface-ink', border: '--accent-surface', group: 'selection' },
+            { state: 'checked:hover circle', bg: '--accent-surface-hover', color: '--accent-surface-ink', border: '--accent-surface-hover', group: 'selection' },
+            { state: '[aria-disabled]', bg: '--_widget-disabled', color: '--_ink-disabled', border: '--_border-disabled', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-range',
+          category: 'widget',
+          states: [
+            { state: 'track bg', bg: '--_widget', color: '—', border: '--_border-muted', group: 'interaction' },
+            { state: 'fill', bg: '--accent-surface', color: '—', border: 'none', group: 'selection' },
+            { state: 'fill:hover', bg: '--accent-surface-hover', color: '—', border: 'none', group: 'selection' },
+            { state: 'fill [pressed]', bg: '--accent-surface-active', color: '—', border: 'none', group: 'selection' },
+            { state: 'thumb', bg: '--accent-surface-ink', color: '—', border: '--accent-surface', group: 'selection' },
+            { state: '[aria-disabled]', bg: 'opacity: 0.5', color: '—', border: '—', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-tab',
+          category: 'interactive',
+          states: [
+            { state: 'rest', bg: 'transparent', color: '--_ink-muted', border: 'none', group: 'interaction' },
+            { state: ':hover', bg: 'transparent', color: '--_ink-hover', border: 'none', group: 'interaction' },
+            { state: '[pressed]', bg: 'transparent', color: '--_ink-active', border: 'none', group: 'interaction' },
+            { state: '[aria-selected]', bg: 'transparent', color: '--_surface-ink', border: 'none', group: 'selection' },
+            { state: '[aria-disabled]', bg: 'transparent', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-segment',
+          category: 'interactive',
+          states: [
+            { state: 'rest', bg: 'transparent', color: '--_ink-muted', border: 'none', group: 'interaction' },
+            { state: ':hover', bg: 'transparent', color: '--_ink-hover', border: 'none', group: 'interaction' },
+            { state: '[pressed]', bg: 'transparent', color: '--_ink-active', border: 'none', group: 'interaction' },
+            { state: '[aria-checked] + pill', bg: 'white', color: '--_ink-inverse', border: 'shadow', group: 'selection' },
+            { state: '[aria-disabled]', bg: 'transparent', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-segmented-control',
+          category: 'composite',
+          states: [
+            { state: 'container', bg: '--_control', color: '(inherit)', border: '--neutral-highest', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-table',
+          category: 'composite',
+          states: [
+            { state: 'container', bg: '(transparent)', color: '--_ink', border: '--_border-muted', group: 'interaction' },
+            { state: 'header row', bg: '--_panel', color: '--_ink-strong', border: '--_border-color', group: 'interaction' },
+            { state: 'body row:hover', bg: '--_panel-hover', color: '(inherit)', border: '(inherit)', group: 'interaction' },
+            { state: 'header:focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
+            { state: 'row:focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
+            { state: 'row [selected]', bg: '--accent-surface', color: '--accent-surface-ink', border: '(inherit)', group: 'selection' },
+            { state: 'row [selected]:hover', bg: '--accent-surface-hover', color: '--accent-surface-ink-hover', border: '(inherit)', group: 'selection' },
+          ]
+        },
+        {
+          name: 'ui-calendar',
+          category: 'composite',
+          states: [
+            { state: 'container', bg: '--_panel', color: '--_ink', border: '--_border-muted', group: 'interaction' },
+            { state: 'cell:hover', bg: '--_panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
+            { state: '[data-selected]', bg: '--accent-surface', color: '--accent-surface-ink', border: 'none', group: 'selection' },
+            { state: '[data-in-range]', bg: '--accent-surface', color: '--accent-surface-ink', border: 'none', group: 'selection' },
+            { state: '[data-today]', bg: '(transparent)', color: '(inherit)', border: 'inset --_border-muted', group: 'value' },
+            { state: 'cell:disabled', bg: '(transparent)', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-tree-item',
+          category: 'composite',
+          states: [
+            { state: 'rest', bg: 'transparent', color: '--_ink', border: 'none', group: 'interaction' },
+            { state: ':hover', bg: '--neutral-panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
+            { state: ':focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
+            { state: '[selected]', bg: '--_surface', color: '--_surface-ink', border: 'none', group: 'selection' },
+            { state: '[disabled]', bg: '(transparent)', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-tree',
+          category: 'composite',
+          states: [
+            { state: '[aria-disabled]', bg: 'opacity: 0.6', color: '—', border: '—', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-accordion-item',
+          category: 'composite',
+          states: [
+            { state: 'summary rest', bg: 'transparent', color: '--_ink-strong', border: 'none', group: 'interaction' },
+            { state: 'summary:hover', bg: '--_panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
+            { state: 'summary:focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
+            { state: '[aria-disabled]', bg: '(transparent)', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-accordion',
+          category: 'composite',
+          states: [
+            { state: '[aria-disabled]', bg: 'opacity: 0.6', color: '—', border: '—', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-breadcrumb-item',
+          category: 'interactive',
+          states: [
+            { state: 'rest', bg: 'transparent', color: '--_ink-muted', border: 'none', group: 'interaction' },
+            { state: ':hover', bg: 'transparent', color: '--_ink', border: 'none', group: 'interaction' },
+            { state: '[current]', bg: 'transparent', color: '--_ink-strong', border: 'none', group: 'value' },
+          ]
+        },
+        {
+          name: 'ui-pagination',
+          category: 'composite',
+          states: [
+            { state: '[aria-current=page]', bg: '--_surface', color: '--_surface-ink', border: 'none', group: 'selection' },
+          ]
+        },
+        {
+          name: 'ui-dialog',
+          category: 'coordinator',
+          states: [
+            { state: '(coordinator)', bg: 'display: contents', color: '—', border: '—', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-drawer',
+          category: 'coordinator',
+          states: [
+            { state: '[side] (structural)', bg: 'native dialog', color: '—', border: '—', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-tooltip',
+          category: 'display',
+          states: [
+            { state: 'popover', bg: '--neutral-modal', color: '--neutral-ink-strong', border: 'none', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-avatar',
+          category: 'display',
+          states: []
+        },
+        {
+          name: 'ui-badge',
+          category: 'display',
+          states: [
+            { state: 'rest', bg: '--_surface', color: '--_surface-ink', border: 'none', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-slideshow',
+          category: 'composite',
+          states: [
+            { state: 'prev/next:hover', bg: '--neutral-panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
+            { state: 'dot [active]', bg: '--_ink', color: '—', border: 'none', group: 'selection' },
+            { state: '[aria-disabled]', bg: 'opacity: 0.6', color: '—', border: '—', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-input-otp',
+          category: 'widget',
+          states: [
+            { state: 'cell rest', bg: '--_control', color: '--_ink', border: '--neutral-highest', group: 'interaction' },
+            { state: 'cell:hover', bg: '--_control-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
+            { state: 'cell:focus', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
+            { state: '[aria-disabled]', bg: 'opacity: 0.5', color: '—', border: '—', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-card',
+          category: 'container',
+          states: [
+            { state: '[interactive]:hover', bg: '(inherit)', color: '(inherit)', border: 'outline: --ui-focus-ring', group: 'interaction' },
+          ]
+        },
+        {
+          name: 'ui-field',
+          category: 'interactive',
+          states: [
+            { state: '[invalid]', bg: '(unchanged)', color: 'error slot shown', border: '(unchanged)', group: 'value' },
+            { state: '[required]', bg: '(unchanged)', color: '* shown', border: '(unchanged)', group: 'value' },
+            { state: '[disabled]', bg: '(unchanged)', color: '--_ink-muted', border: '(unchanged)', group: 'interaction' },
+          ]
+        },
+      ];
+
+      // ── Token-to-swatch color mapping ──
+      const tokenColors = {
+        '--_button': 'var(--neutral-higher)',
+        '--_control': 'var(--neutral-control)',
+        '--_control-hover': 'var(--neutral-control-hover)',
+        '--_control-disabled': 'var(--neutral-control-disabled)',
+        '--_widget': 'var(--neutral-control)',
+        '--_widget-hover': 'var(--neutral-control-hover)',
+        '--_widget-active': 'var(--neutral-control-active)',
+        '--_widget-disabled': 'var(--neutral-control-disabled)',
+        '--_panel': 'var(--neutral-panel)',
+        '--_panel-hover': 'var(--neutral-panel-hover)',
+        '--_panel-disabled': 'var(--neutral-panel-disabled)',
+        '--neutral-panel-hover': 'var(--neutral-panel-hover)',
+        '--neutral-panel-active': 'var(--neutral-panel-active)',
+        '--neutral-panel-disabled': 'var(--neutral-panel-disabled)',
+        '--_ink': 'var(--neutral-ink)',
+        '--_ink-hover': 'var(--neutral-ink-hover)',
+        '--_ink-active': 'var(--neutral-ink-active)',
+        '--_ink-strong': 'var(--neutral-ink-strong)',
+        '--_ink-muted': 'var(--neutral-ink-muted)',
+        '--_ink-inverse': 'var(--neutral-ink-inverse)',
+        '--_ink-disabled': 'var(--neutral-ink-disabled)',
+        '--_ink-placeholder': 'var(--neutral-ink-placeholder)',
+        '--_surface': 'var(--accent-surface)',
+        '--_surface-hover': 'var(--accent-surface-hover)',
+        '--_surface-ink': 'var(--accent-surface-ink)',
+        '--_surface-ink-hover': 'var(--accent-surface-ink-hover)',
+        '--accent-surface': 'var(--accent-surface)',
+        '--accent-surface-hover': 'var(--accent-surface-hover)',
+        '--accent-surface-active': 'var(--accent-surface-active)',
+        '--accent-surface-ink': 'var(--accent-surface-ink)',
+        '--accent-surface-ink-hover': 'var(--accent-surface-ink-hover)',
+        '--_border-muted': 'var(--neutral-border-muted)',
+        '--_border-hover': 'var(--neutral-border-hover)',
+        '--_border-active': 'var(--neutral-border-active)',
+        '--_border-disabled': 'var(--neutral-border-disabled)',
+        '--_border': 'var(--neutral-border)',
+        '--neutral-border-muted': 'var(--neutral-border-muted)',
+        '--neutral-border-hover': 'var(--neutral-border-hover)',
+        '--neutral-border-active': 'var(--neutral-border-active)',
+        '--neutral-highest': 'var(--neutral-highest)',
+        '--ui-focus-ring': 'var(--accent-600-scrim)',
+        '--neutral-modal': 'var(--neutral-modal)',
+        '--neutral-ink-strong': 'var(--neutral-ink-strong)',
+        '--_border-color': 'var(--neutral-border-muted)',
+        'white': 'white',
+        'transparent': 'transparent',
+        'none': 'transparent',
+      };
+
+      // Reverse lookup: local token → resolved semantic token
+      const tokenResolutions = {
+        '--_button': '--neutral-higher',
+        '--_control': '--neutral-control',
+        '--_control-hover': '--neutral-control-hover',
+        '--_control-disabled': '--neutral-control-disabled',
+        '--_widget': '--neutral-control',
+        '--_widget-hover': '--neutral-control-hover',
+        '--_widget-active': '--neutral-control-active',
+        '--_widget-disabled': '--neutral-control-disabled',
+        '--_panel': '--neutral-panel',
+        '--_panel-hover': '--neutral-panel-hover',
+        '--_panel-disabled': '--neutral-panel-disabled',
+        '--_ink': '--neutral-ink',
+        '--_ink-hover': '--neutral-ink-hover',
+        '--_ink-active': '--neutral-ink-active',
+        '--_ink-strong': '--neutral-ink-strong',
+        '--_ink-muted': '--neutral-ink-muted',
+        '--_ink-inverse': '--neutral-ink-inverse',
+        '--_ink-disabled': '--neutral-ink-disabled',
+        '--_ink-placeholder': '--neutral-ink-placeholder',
+        '--_surface': '--accent-surface',
+        '--_surface-hover': '--accent-surface-hover',
+        '--_surface-ink': '--accent-surface-ink',
+        '--_surface-ink-hover': '--accent-surface-ink-hover',
+        '--_border-muted': '--neutral-border-muted',
+        '--_border-hover': '--neutral-border-hover',
+        '--_border-active': '--neutral-border-active',
+        '--_border-disabled': '--neutral-border-disabled',
+        '--_border': '--neutral-border',
+        '--ui-focus-ring': '--accent-600-scrim',
+        '--_border-color': '--neutral-border-muted',
+      };
+
+      function getSwatchColor(token) {
+        if (!token || token.startsWith('(') || token === '—' || token.startsWith('outline:') || token.startsWith('inset') || token.startsWith('shadow') || token.startsWith('display:') || token.startsWith('opacity:') || token.startsWith('native') || token.startsWith('error') || token.startsWith('*')) {
+          return null;
+        }
+        return tokenColors[token] || null;
+      }
+
+      function createSwatch(token) {
+        const color = getSwatchColor(token);
+        if (!color) return '';
+        const isTrans = token === 'transparent' || token === 'none';
+        const style = isTrans
+          ? 'background: repeating-conic-gradient(#ccc 0% 25%, white 0% 50%) 0 0 / 0.25rem 0.25rem;'
+          : `background: ${color};`;
+        return `<span class="swatch" style="${style}"></span>`;
+      }
+
+      function resolvedNote(token) {
+        const res = tokenResolutions[token];
+        return res ? ` <span class="tt-resolved">\u2192 ${res}</span>` : '';
+      }
+
+      // ── Build match key for highlighting ──
+      function normalizeToken(t) {
+        if (!t || t.startsWith('(') || t === '—') return null;
+        return t;
+      }
+
+      function matchKey(s) {
+        const bg = normalizeToken(s.bg);
+        const color = normalizeToken(s.color);
+        const border = normalizeToken(s.border);
+        if (!bg && !color && !border) return null;
+        return `${bg || '_'}|${color || '_'}|${border || '_'}`;
+      }
+
+      // ── Build index: matchKey → [{compName, stateName}] ──
+      const matchIndex = new Map();
+      for (const comp of components) {
+        for (const s of comp.states) {
+          const key = matchKey(s);
+          if (!key) continue;
+          if (!matchIndex.has(key)) matchIndex.set(key, []);
+          matchIndex.get(key).push({ comp: comp.name, state: s.state });
+        }
+      }
+
+      // ── Category filter ──
+      const catFilterControl = document.getElementById('cat-filters');
+      const categoryLabels = {
+        all: 'All',
+        interactive: 'Interactive',
+        widget: 'Widget',
+        composite: 'Composite',
+        coordinator: 'Coordinator',
+        display: 'Display',
+        container: 'Container',
+      };
+
+      let activeCat = 'all';
+
+      catFilterControl.addEventListener('ui-change', (e) => {
+        activeCat = e.detail.value;
+        applyCategoryFilter();
+      });
+
+      function applyCategoryFilter() {
+        for (const card of allCards) {
+          const cat = card.dataset.category;
+          if (activeCat === 'all' || cat === activeCat) {
+            card.classList.remove('cat-hidden');
+          } else {
+            card.classList.add('cat-hidden');
+          }
+        }
+      }
+
+      // ── State text filter ──
+      const stateFilterInput = document.getElementById('state-filter');
+      let stateFilterText = '';
+
+      stateFilterInput.addEventListener('ui-input', (e) => {
+        stateFilterText = (e.detail.value || '').trim().toLowerCase();
+        applyStateFilter();
+      });
+
+      function applyStateFilter() {
+        for (const pill of allPills) {
+          if (!stateFilterText || pill.dataset.state.toLowerCase().includes(stateFilterText)) {
+            pill.classList.remove('filter-dim');
+          } else {
+            pill.classList.add('filter-dim');
+          }
+        }
+      }
+
+      // ── Render grid ──
+      const grid = document.getElementById('grid');
+      const tooltip = document.getElementById('tooltip');
+      const allCards = [];
+      const allPills = [];
+
+      const categoryIntents = {
+        interactive: 'accent',
+        widget: 'success',
+        composite: 'warning',
+        coordinator: 'info',
+        display: '',
+        container: '',
+      };
+
+      for (const comp of components) {
+        const card = document.createElement('ui-card');
+        card.dataset.comp = comp.name;
+        card.dataset.category = comp.category;
+
+        let bodyHTML = '';
+        const groups = {};
+        for (const s of comp.states) {
+          const g = s.group || 'other';
+          if (!groups[g]) groups[g] = [];
+          groups[g].push(s);
+        }
+
+        const groupOrder = ['interaction', 'selection', 'value', 'other'];
+        const groupLabels = { interaction: 'Interaction', selection: 'Selection', value: 'Value', other: 'Other' };
+
+        let hasStates = false;
+        for (const g of groupOrder) {
+          if (!groups[g]) continue;
+          hasStates = true;
+          bodyHTML += `<div class="state-group-label">${groupLabels[g]}</div>`;
+          bodyHTML += '<div class="state-row">';
+          for (const s of groups[g]) {
+            const key = matchKey(s);
+            const bgSwatch = createSwatch(s.bg);
+            const colorSwatch = createSwatch(s.color);
+            bodyHTML += `<span class="state-pill" tabindex="0" data-group="${s.group}" data-key="${key || ''}" data-comp="${comp.name}" data-state="${s.state}" data-bg="${s.bg}" data-color="${s.color}" data-border="${s.border}">${bgSwatch}${colorSwatch}${s.state}</span>`;
+          }
+          bodyHTML += '</div>';
+        }
+
+        if (!hasStates) {
+          bodyHTML = '<span class="no-states">No CSS states</span>';
+        }
+
+        const badgeIntent = categoryIntents[comp.category];
+        const badgeAttr = badgeIntent ? ` intent="${badgeIntent}"` : '';
+
+        card.innerHTML = `
+          <div slot="header">
+            <span class="comp-card-name">${comp.name}</span>
+            <ui-badge size="xs"${badgeAttr}>${categoryLabels[comp.category]}</ui-badge>
+          </div>
+          <div class="comp-card-body">${bodyHTML}</div>
+        `;
+
+        grid.appendChild(card);
+        allCards.push(card);
+      }
+
+      // Collect all pills
+      document.querySelectorAll('.state-pill').forEach(p => allPills.push(p));
+
+      // ── Highlight logic ──
+      let lockedKey = null;
+      let lockedPill = null;
+
+      function highlight(key, sourcePill) {
+        if (!key) return clearHighlight();
+
+        const matches = matchIndex.get(key) || [];
+        const matchedComps = new Set(matches.map(m => m.comp));
+
+        for (const card of allCards) {
+          const name = card.dataset.comp;
+          if (matchedComps.has(name)) {
+            card.classList.add('highlighted');
+            card.classList.remove('dimmed');
+          } else {
+            card.classList.remove('highlighted');
+            card.classList.add('dimmed');
+          }
+        }
+
+        for (const pill of allPills) {
+          if (pill.dataset.key === key) {
+            pill.classList.add('active-highlight');
+          } else {
+            pill.classList.remove('active-highlight');
+          }
+        }
+      }
+
+      function clearHighlight() {
+        lockedKey = null;
+        if (lockedPill) {
+          lockedPill.classList.remove('locked-source');
+          lockedPill = null;
+        }
+        for (const card of allCards) {
+          card.classList.remove('highlighted', 'dimmed');
+        }
+        for (const pill of allPills) {
+          pill.classList.remove('active-highlight');
+        }
+        tooltip.classList.remove('visible');
+      }
+
+      function lockHighlight(pill) {
+        const key = pill.dataset.key;
+        if (!key) return;
+
+        // Toggle off if already locked on this pill
+        if (lockedPill === pill) {
+          clearHighlight();
+          return;
+        }
+
+        // Clear previous lock
+        if (lockedPill) {
+          lockedPill.classList.remove('locked-source');
+        }
+
+        lockedKey = key;
+        lockedPill = pill;
+        pill.classList.add('locked-source');
+        highlight(key, pill);
+        showTooltip(pill);
+      }
+
+      function showTooltip(pill) {
+        const bg = pill.dataset.bg;
+        const color = pill.dataset.color;
+        const border = pill.dataset.border;
+        const comp = pill.dataset.comp;
+        const state = pill.dataset.state;
+
+        const key = pill.dataset.key;
+        const matches = key ? (matchIndex.get(key) || []) : [];
+        const otherMatches = matches.filter(m => m.comp !== comp || m.state !== state);
+        const totalMatches = matches.length;
+
+        let html = `<div style="font-weight:600;margin-bottom:0.375rem;">${comp} \u2192 ${state}</div>`;
+
+        if (totalMatches > 1) {
+          html += `<div class="tt-match-header">Shared by ${totalMatches} component states</div>`;
+        }
+
+        html += `<div class="tt-row"><span class="tt-label">background:</span> ${createSwatch(bg)} <span class="tt-value">${bg}</span>${resolvedNote(bg)}</div>`;
+        html += `<div class="tt-row"><span class="tt-label">color:</span> ${createSwatch(color)} <span class="tt-value">${color}</span>${resolvedNote(color)}</div>`;
+        html += `<div class="tt-row"><span class="tt-label">border:</span> ${createSwatch(border)} <span class="tt-value">${border}</span>${resolvedNote(border)}</div>`;
+
+        if (otherMatches.length > 0) {
+          html += `<div style="margin-top:0.5rem;border-top:1px solid var(--neutral-border-muted);padding-top:0.375rem;">`;
+          for (const m of otherMatches.slice(0, 8)) {
+            html += `<div class="tt-row"><span class="tt-value">${m.comp} \u2192 ${m.state}</span></div>`;
+          }
+          if (otherMatches.length > 8) {
+            html += `<div class="tt-row" style="color:var(--neutral-ink-muted)">+${otherMatches.length - 8} more</div>`;
+          }
+          html += '</div>';
+        }
+
+        tooltip.innerHTML = html;
+
+        // Position — measure AFTER setting innerHTML
+        requestAnimationFrame(() => {
+          tooltip.classList.add('visible');
+          const rect = pill.getBoundingClientRect();
+          const ttRect = tooltip.getBoundingClientRect();
+          let x = rect.left;
+          let y = rect.bottom + 8;
+
+          if (x + ttRect.width > window.innerWidth - 16) {
+            x = window.innerWidth - ttRect.width - 16;
+          }
+          if (y + ttRect.height > window.innerHeight - 16) {
+            y = rect.top - ttRect.height - 8;
+          }
+
+          tooltip.style.left = x + 'px';
+          tooltip.style.top = y + 'px';
+        });
+      }
+
+      // ── Event delegation ──
+      grid.addEventListener('pointerenter', e => {
+        const pill = e.target.closest('.state-pill');
+        if (!pill || lockedKey) return;
+        const key = pill.dataset.key;
+        highlight(key, pill);
+        showTooltip(pill);
+      }, true);
+
+      grid.addEventListener('pointerleave', e => {
+        const pill = e.target.closest('.state-pill');
+        if (!pill || lockedKey) return;
+        clearHighlight();
+      }, true);
+
+      // Click to lock
+      grid.addEventListener('click', e => {
+        const pill = e.target.closest('.state-pill');
+        if (!pill) return;
+        lockHighlight(pill);
+      });
+
+      // Keyboard: Enter/Space to lock, Escape to clear
+      grid.addEventListener('keydown', e => {
+        const pill = e.target.closest('.state-pill');
+        if (!pill) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          lockHighlight(pill);
+        }
+      });
+
+      // Focus shows tooltip (for keyboard nav)
+      grid.addEventListener('focusin', e => {
+        const pill = e.target.closest('.state-pill');
+        if (!pill || lockedKey) return;
+        const key = pill.dataset.key;
+        highlight(key, pill);
+        showTooltip(pill);
+      });
+
+      grid.addEventListener('focusout', e => {
+        const pill = e.target.closest('.state-pill');
+        if (!pill || lockedKey) return;
+        clearHighlight();
+      });
+
+      // Escape clears lock + filter
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+          if (lockedKey) {
+            clearHighlight();
+          } else if (stateFilterText) {
+            stateFilterInput.setAttribute('value', '');
+            stateFilterText = '';
+            applyStateFilter();
+          }
+        }
+      });
+
+      // Click on empty space clears lock
+      document.addEventListener('click', e => {
+        if (!lockedKey) return;
+        if (!e.target.closest('.state-pill') && !e.target.closest('.hover-tooltip')) {
+          clearHighlight();
+        }
+      });
+    </script>
+  </body>
+</html>

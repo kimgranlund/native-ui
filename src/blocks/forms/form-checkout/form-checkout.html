@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout Form — Block</title>
+    <link rel="stylesheet" href="../../../styles/index.css" />
+    <link rel="stylesheet" href="../../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .checkout-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        max-width: 56rem;
+      }
+
+      @media (min-width: 48rem) {
+        .checkout-layout {
+          grid-template-columns: 1fr 20rem;
+        }
+      }
+
+      .section-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+      }
+
+      @media (max-width: 30rem) {
+        .grid-2,
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .summary-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        font-size: 0.875rem;
+      }
+
+      .summary-line.total {
+        font-weight: 700;
+        font-size: 1rem;
+        border-top: 1px solid var(--neutral-border-muted);
+        margin-top: 0.5rem;
+        padding-top: 0.75rem;
+      }
+
+      .item-name {
+        color: var(--neutral-ink-strong);
+      }
+
+      .item-price {
+        font-weight: 500;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .item-qty {
+        color: var(--neutral-ink-muted);
+        font-size: 0.8125rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>Checkout</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Complete your purchase by filling in the details below.
+    </p>
+
+    <form id="checkout-form">
+      <div class="checkout-layout">
+        <!-- ── Left Column: Shipping + Payment ── -->
+        <div>
+          <!-- ── Shipping Information ── -->
+          <ui-card>
+            <ui-header>
+              <ui-icon name="package" slot="leading"></ui-icon>
+              <span slot="label">Shipping Information</span>
+            </ui-header>
+            <ui-body>
+              <ui-stack gap="4">
+                <div class="grid-2">
+                  <ui-field required>
+                    <label slot="label">First name</label>
+                    <ui-input placeholder="Jane" name="first_name"></ui-input>
+                  </ui-field>
+                  <ui-field required>
+                    <label slot="label">Last name</label>
+                    <ui-input placeholder="Doe" name="last_name"></ui-input>
+                  </ui-field>
+                </div>
+
+                <ui-field required>
+                  <label slot="label">Street address</label>
+                  <ui-input placeholder="123 Main Street, Apt 4B" name="address">
+                    <ui-icon name="map-pin" slot="leading"></ui-icon>
+                  </ui-input>
+                </ui-field>
+
+                <div class="grid-3">
+                  <ui-field required>
+                    <label slot="label">City</label>
+                    <ui-input placeholder="San Francisco" name="city"></ui-input>
+                  </ui-field>
+                  <ui-field required>
+                    <label slot="label">State</label>
+                    <ui-input placeholder="CA" name="state"></ui-input>
+                  </ui-field>
+                  <ui-field required>
+                    <label slot="label">ZIP code</label>
+                    <ui-input placeholder="94102" name="zip"></ui-input>
+                  </ui-field>
+                </div>
+
+                <ui-field required>
+                  <label slot="label">Country</label>
+                  <ui-select name="country">
+                    <ui-button justify="spread">
+                      <span slot="label">Select country</span>
+                      <ui-icon name="caret-up-down" slot="trailing"></ui-icon>
+                    </ui-button>
+                    <ui-listbox popover>
+                      <ui-option value="us">United States</ui-option>
+                      <ui-option value="ca">Canada</ui-option>
+                      <ui-option value="gb">United Kingdom</ui-option>
+                      <ui-option value="de">Germany</ui-option>
+                      <ui-option value="fr">France</ui-option>
+                      <ui-option value="au">Australia</ui-option>
+                    </ui-listbox>
+                  </ui-select>
+                </ui-field>
+              </ui-stack>
+            </ui-body>
+          </ui-card>
+
+          <!-- ── Payment Method ── -->
+          <ui-card style="margin-top: 1.5rem;">
+            <ui-header>
+              <ui-icon name="credit-card" slot="leading"></ui-icon>
+              <span slot="label">Payment Method</span>
+            </ui-header>
+            <ui-body>
+              <ui-stack gap="4">
+                <ui-field>
+                  <label slot="label">Payment type</label>
+                  <ui-radio-group name="payment_method" value="credit-card" orientation="horizontal">
+                    <ui-radio value="credit-card">Credit Card</ui-radio>
+                    <ui-radio value="paypal">PayPal</ui-radio>
+                    <ui-radio value="bank-transfer">Bank Transfer</ui-radio>
+                  </ui-radio-group>
+                </ui-field>
+
+                <ui-field required>
+                  <label slot="label">Card number</label>
+                  <ui-input placeholder="4242 4242 4242 4242" name="card_number">
+                    <ui-icon name="credit-card" slot="leading"></ui-icon>
+                  </ui-input>
+                </ui-field>
+
+                <div class="grid-2">
+                  <ui-field required>
+                    <label slot="label">Expiry date</label>
+                    <ui-input placeholder="MM / YY" name="card_expiry"></ui-input>
+                  </ui-field>
+                  <ui-field required>
+                    <label slot="label">CVV</label>
+                    <ui-input placeholder="123" name="card_cvv"></ui-input>
+                  </ui-field>
+                </div>
+
+                <ui-field required>
+                  <label slot="label">Name on card</label>
+                  <ui-input placeholder="Jane Doe" name="card_name"></ui-input>
+                </ui-field>
+
+                <ui-checkbox name="save_card">Save card for future purchases</ui-checkbox>
+              </ui-stack>
+            </ui-body>
+          </ui-card>
+        </div>
+
+        <!-- ── Right Column: Order Summary ── -->
+        <div>
+          <ui-card>
+            <ui-header>
+              <ui-icon name="receipt" slot="leading"></ui-icon>
+              <span slot="label">Order Summary</span>
+            </ui-header>
+            <ui-body>
+              <ui-stack gap="2">
+                <div class="summary-line">
+                  <div>
+                    <span class="item-name">Wireless Headphones</span>
+                    <span class="item-qty"> x 1</span>
+                  </div>
+                  <span class="item-price">$149.00</span>
+                </div>
+                <div class="summary-line">
+                  <div>
+                    <span class="item-name">USB-C Charging Cable</span>
+                    <span class="item-qty"> x 2</span>
+                  </div>
+                  <span class="item-price">$25.98</span>
+                </div>
+                <div class="summary-line">
+                  <div>
+                    <span class="item-name">Protective Case</span>
+                    <span class="item-qty"> x 1</span>
+                  </div>
+                  <span class="item-price">$29.99</span>
+                </div>
+
+                <ui-divider></ui-divider>
+
+                <div class="summary-line">
+                  <span style="color: var(--neutral-ink-muted);">Subtotal</span>
+                  <span class="item-price">$204.97</span>
+                </div>
+                <div class="summary-line">
+                  <span style="color: var(--neutral-ink-muted);">Shipping</span>
+                  <span class="item-price">$9.99</span>
+                </div>
+                <div class="summary-line">
+                  <span style="color: var(--neutral-ink-muted);">Tax</span>
+                  <span class="item-price">$17.42</span>
+                </div>
+
+                <div class="summary-line total">
+                  <span>Total</span>
+                  <span class="item-price">$232.38</span>
+                </div>
+              </ui-stack>
+            </ui-body>
+            <ui-footer style="flex-direction: column; gap: 0.75rem;">
+              <ui-button variant="primary" intent="accent" type="submit" form="checkout-form" style="width: 100%;">
+                <ui-icon name="shopping-cart" slot="leading"></ui-icon>
+                <span slot="label">Place Order</span>
+              </ui-button>
+              <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); text-align: center;">
+                Your payment information is encrypted and secure.
+              </p>
+            </ui-footer>
+          </ui-card>
+        </div>
+      </div>
+    </form>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../../nav/ui-layout.ts';
+      import '../../../components/ui-field/ui-field.ts';
+      import '../../../components/ui-input/ui-input.ts';
+      import '../../../components/ui-select/ui-select.ts';
+      import '../../../components/ui-listbox/ui-listbox.ts';
+      import '../../../components/ui-listbox/ui-option.ts';
+      import '../../../components/ui-radio/ui-radio.ts';
+      import '../../../components/ui-checkbox/ui-checkbox.ts';
+      import '../../../components/ui-button/ui-button.ts';
+      import '../../../containers/ui-card/ui-card.ts';
+      import '../../../icons/ui-icon.ts';
+      import '../../../icons/phosphor/package.ts';
+      import '../../../icons/phosphor/map-pin.ts';
+      import '../../../icons/phosphor/credit-card.ts';
+      import '../../../icons/phosphor/receipt.ts';
+      import '../../../icons/phosphor/shopping-cart.ts';
+      import '../../../icons/phosphor/caret-up-down.ts';
+    </script>
+  </body>
+</html>

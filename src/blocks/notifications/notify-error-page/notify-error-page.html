@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Error Page Patterns — Block</title>
+    <link rel="stylesheet" href="../../../styles/index.css" />
+    <link rel="stylesheet" href="../../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .error-page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 4rem 2rem;
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.75rem;
+        min-height: 20rem;
+      }
+
+      .error-code {
+        font-size: 4.5rem;
+        font-weight: 800;
+        line-height: 1;
+        color: var(--neutral-ink-muted);
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.02em;
+      }
+
+      .error-page h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem;
+      }
+
+      .error-page p {
+        font-size: 0.875rem;
+        color: var(--neutral-ink-muted);
+        margin: 0 0 1.5rem;
+        max-width: 28rem;
+        line-height: 1.5;
+      }
+
+      .error-page ui-icon {
+        color: var(--neutral-ink-muted);
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>Error Pages</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Full-page error patterns for common HTTP errors and maintenance windows.
+      Each variant provides clear messaging and an actionable recovery path.
+    </p>
+
+    <!-- -- 404 Not Found -- -->
+
+    <h2>404 — Not Found</h2>
+    <div class="error-page">
+      <div class="error-code" aria-hidden="true">404</div>
+      <h3>Page not found</h3>
+      <p>The page you're looking for doesn't exist or has been moved. Check the URL or head back to the homepage.</p>
+      <ui-button variant="primary" intent="accent">
+        <ui-icon name="house" slot="leading"></ui-icon>
+        <span slot="label">Go Home</span>
+      </ui-button>
+    </div>
+
+    <!-- -- 500 Server Error -- -->
+
+    <h2>500 — Server Error</h2>
+    <div class="error-page">
+      <div class="error-code" aria-hidden="true">500</div>
+      <h3>Server error</h3>
+      <p>Something went wrong on our end. Our team has been notified and is working on a fix. Please try again in a few moments.</p>
+      <ui-stack direction="row" gap="3">
+        <ui-button variant="primary" intent="accent" id="retry-btn">
+          <span slot="label">Try Again</span>
+        </ui-button>
+        <ui-button>
+          <ui-icon name="house" slot="leading"></ui-icon>
+          <span slot="label">Go Home</span>
+        </ui-button>
+      </ui-stack>
+    </div>
+
+    <!-- -- Maintenance -- -->
+
+    <h2>Maintenance</h2>
+    <div class="error-page">
+      <ui-icon name="gear" size="xl" aria-hidden="true"></ui-icon>
+      <h3>We'll be back soon</h3>
+      <p>We're performing scheduled maintenance to improve your experience. This usually takes less than 30 minutes. Thank you for your patience.</p>
+      <ui-button>
+        <ui-icon name="info" slot="leading"></ui-icon>
+        <span slot="label">Check Status</span>
+      </ui-button>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../../nav/ui-layout.ts';
+      import '../../../components/ui-button/ui-button.ts';
+      import '../../../icons/ui-icon.ts';
+      import '../../../icons/phosphor/house.ts';
+      import '../../../icons/phosphor/gear.ts';
+      import '../../../icons/phosphor/info.ts';
+    </script>
+  </body>
+</html>

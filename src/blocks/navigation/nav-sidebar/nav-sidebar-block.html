@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Application Sidebar — Block</title>
+    <link rel="stylesheet" href="../../../styles/index.css" />
+    <link rel="stylesheet" href="../../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .sidebar-preview {
+        display: flex;
+        gap: 1px;
+        background: var(--neutral-border-muted);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        overflow: hidden;
+        min-height: 32rem;
+      }
+
+      .sidebar-nav {
+        width: 16rem;
+        flex-shrink: 0;
+        background: var(--neutral-body);
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0.75rem;
+        gap: 0.5rem;
+      }
+
+      .sidebar-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.25rem 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .sidebar-brand-mark {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.375rem;
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.875rem;
+      }
+
+      .sidebar-brand-name {
+        font-weight: 700;
+        font-size: 0.9375rem;
+      }
+
+      .sidebar-section-label {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--neutral-ink-muted);
+        padding: 0.5rem 0.5rem 0.25rem;
+      }
+
+      .sidebar-nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.625rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--neutral-ink);
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .sidebar-nav-item:hover {
+        background: var(--neutral-panel);
+      }
+
+      .sidebar-nav-item[aria-current="page"] {
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+      }
+
+      .sidebar-nav-item ui-icon {
+        flex-shrink: 0;
+      }
+
+      .sidebar-badge {
+        margin-left: auto;
+      }
+
+      .sidebar-footer {
+        margin-top: auto;
+        border-top: 1px solid var(--neutral-border-muted);
+        padding-top: 0.75rem;
+      }
+
+      .sidebar-user {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+      }
+
+      .sidebar-user:hover {
+        background: var(--neutral-panel);
+        cursor: pointer;
+      }
+
+      .sidebar-user-info {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .sidebar-user-name {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        line-height: 1.2;
+      }
+
+      .sidebar-user-email {
+        font-size: 0.6875rem;
+        color: var(--neutral-ink-muted);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .sidebar-content {
+        flex: 1;
+        background: var(--neutral-doc);
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--neutral-ink-muted);
+        font-size: 0.875rem;
+      }
+
+      /* ── Collapsible sub-items ── */
+
+      .sidebar-sub-items {
+        padding-left: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.125rem;
+      }
+
+      .sidebar-sub-items .sidebar-nav-item {
+        font-size: 0.8125rem;
+        padding: 0.375rem 0.625rem;
+      }
+
+      /* ── Compact variant ── */
+
+      .sidebar-compact {
+        width: 3.5rem;
+        align-items: center;
+        padding: 0.75rem 0.5rem;
+      }
+
+      .sidebar-compact .sidebar-brand {
+        justify-content: center;
+        padding: 0;
+        margin-bottom: 0.5rem;
+      }
+
+      .sidebar-compact .sidebar-nav-item {
+        justify-content: center;
+        padding: 0.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+
+      .sidebar-compact .sidebar-footer {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>Application Sidebar</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Vertical navigation sidebar with brand, sections, collapsible groups, and user footer.
+      Two variants: full-width and compact (icon-only).
+    </p>
+
+    <!-- ── Full Sidebar ── -->
+
+    <h2>Full Sidebar</h2>
+    <div class="sidebar-preview">
+      <nav class="sidebar-nav" aria-label="Application navigation">
+        <div class="sidebar-brand">
+          <div class="sidebar-brand-mark">N</div>
+          <span class="sidebar-brand-name">Native UI</span>
+        </div>
+
+        <a href="#" class="sidebar-nav-item" aria-current="page">
+          <ui-icon name="house"></ui-icon>
+          Dashboard
+        </a>
+
+        <span class="sidebar-section-label">Workspace</span>
+
+        <a href="#" class="sidebar-nav-item">
+          <ui-icon name="folder"></ui-icon>
+          Projects
+          <ui-badge class="sidebar-badge" size="xs">12</ui-badge>
+        </a>
+
+        <div class="sidebar-sub-items">
+          <a href="#" class="sidebar-nav-item">Active</a>
+          <a href="#" class="sidebar-nav-item">Archived</a>
+        </div>
+
+        <a href="#" class="sidebar-nav-item">
+          <ui-icon name="users"></ui-icon>
+          Team Members
+        </a>
+
+        <a href="#" class="sidebar-nav-item">
+          <ui-icon name="chart-bar"></ui-icon>
+          Reports
+        </a>
+
+        <a href="#" class="sidebar-nav-item">
+          <ui-icon name="calendar"></ui-icon>
+          Calendar
+        </a>
+
+        <span class="sidebar-section-label">Settings</span>
+
+        <a href="#" class="sidebar-nav-item">
+          <ui-icon name="gear"></ui-icon>
+          Settings
+        </a>
+
+        <div class="sidebar-footer">
+          <div class="sidebar-user">
+            <ui-avatar name="Kim Granlund" size="sm" intent="accent"></ui-avatar>
+            <div class="sidebar-user-info">
+              <div class="sidebar-user-name">Kim Granlund</div>
+              <div class="sidebar-user-email">kim@example.com</div>
+            </div>
+            <ui-button variant="ghost" size="xs" aria-label="Sign out">
+              <ui-icon name="sign-out"></ui-icon>
+            </ui-button>
+          </div>
+        </div>
+      </nav>
+      <div class="sidebar-content">
+        Main content area
+      </div>
+    </div>
+
+    <!-- ── Compact Sidebar ── -->
+
+    <h2>Compact (Icon-only)</h2>
+    <div class="sidebar-preview" style="min-height: 28rem;">
+      <nav class="sidebar-nav sidebar-compact" aria-label="Compact navigation">
+        <div class="sidebar-brand">
+          <div class="sidebar-brand-mark">N</div>
+        </div>
+
+        <a href="#" class="sidebar-nav-item" aria-current="page" aria-label="Dashboard">
+          <ui-icon name="house"></ui-icon>
+        </a>
+        <a href="#" class="sidebar-nav-item" aria-label="Projects">
+          <ui-icon name="folder"></ui-icon>
+        </a>
+        <a href="#" class="sidebar-nav-item" aria-label="Team">
+          <ui-icon name="users"></ui-icon>
+        </a>
+        <a href="#" class="sidebar-nav-item" aria-label="Reports">
+          <ui-icon name="chart-bar"></ui-icon>
+        </a>
+        <a href="#" class="sidebar-nav-item" aria-label="Calendar">
+          <ui-icon name="calendar"></ui-icon>
+        </a>
+        <a href="#" class="sidebar-nav-item" aria-label="Settings">
+          <ui-icon name="gear"></ui-icon>
+        </a>
+
+        <div class="sidebar-footer">
+          <ui-avatar name="Kim Granlund" size="sm" intent="accent"></ui-avatar>
+        </div>
+      </nav>
+      <div class="sidebar-content">
+        Main content area
+      </div>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../../nav/ui-layout.ts';
+      import '../../../components/ui-button/ui-button.ts';
+      import '../../../components/ui-avatar/ui-avatar.ts';
+      import '../../../components/ui-badge/ui-badge.ts';
+      import '../../../icons/ui-icon.ts';
+      import '../../../icons/phosphor/house.ts';
+      import '../../../icons/phosphor/folder.ts';
+      import '../../../icons/phosphor/users.ts';
+      import '../../../icons/phosphor/chart-bar.ts';
+      import '../../../icons/phosphor/calendar.ts';
+      import '../../../icons/phosphor/gear.ts';
+      import '../../../icons/phosphor/sign-out.ts';
+    </script>
+  </body>
+</html>

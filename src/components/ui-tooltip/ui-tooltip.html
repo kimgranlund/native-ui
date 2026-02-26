@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ui-tooltip — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 3rem 2rem;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .demo-section > .demo-code {
+        flex-basis: 100%;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>&lt;ui-tooltip&gt;</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Hover/focus-triggered informational popover with delay, anchor positioning, and fade animation.
+    </p>
+
+    <!-- ── Placements ── -->
+
+    <h2>Placements</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <ui-button>
+          <span slot="label">Top (default)</span>
+          <ui-tooltip placement="top">Tooltip above the button</ui-tooltip>
+        </ui-button>
+
+        <ui-button>
+          <span slot="label">Bottom</span>
+          <ui-tooltip placement="bottom">Tooltip below the button</ui-tooltip>
+        </ui-button>
+
+        <ui-button>
+          <span slot="label">Left</span>
+          <ui-tooltip placement="left">Tooltip to the left</ui-tooltip>
+        </ui-button>
+
+        <ui-button>
+          <span slot="label">Right</span>
+          <ui-tooltip placement="right">Tooltip to the right</ui-tooltip>
+        </ui-button>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-button&gt;
+  &lt;span slot="label"&gt;Top (default)&lt;/span&gt;
+  &lt;ui-tooltip placement="top"&gt;Tooltip above the button&lt;/ui-tooltip&gt;
+&lt;/ui-button&gt;
+
+&lt;ui-button&gt;
+  &lt;span slot="label"&gt;Bottom&lt;/span&gt;
+  &lt;ui-tooltip placement="bottom"&gt;Tooltip below&lt;/ui-tooltip&gt;
+&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── On Different Elements ── -->
+
+    <h2>On Different Elements</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <ui-button variant="primary" intent="accent">
+          <span slot="label">Primary Button</span>
+          <ui-tooltip>Click to perform action</ui-tooltip>
+        </ui-button>
+
+        <ui-button variant="ghost">
+          <ui-icon name="info"></ui-icon>
+          <ui-tooltip placement="bottom">More information available</ui-tooltip>
+        </ui-button>
+
+        <span tabindex="0" style="text-decoration: underline dashed; cursor: help;">
+          Hover text
+          <ui-tooltip>This is a plain text tooltip</ui-tooltip>
+        </span>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-button variant="primary" intent="accent"&gt;
+  &lt;span slot="label"&gt;Primary Button&lt;/span&gt;
+  &lt;ui-tooltip&gt;Click to perform action&lt;/ui-tooltip&gt;
+&lt;/ui-button&gt;
+
+&lt;span tabindex="0" style="cursor: help;"&gt;
+  Hover text
+  &lt;ui-tooltip&gt;This is a plain text tooltip&lt;/ui-tooltip&gt;
+&lt;/span&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Custom Delay ── -->
+
+    <h2>Custom Delay</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <ui-button>
+          <span slot="label">Instant (0ms)</span>
+          <ui-tooltip delay="0" placement="top">No delay!</ui-tooltip>
+        </ui-button>
+
+        <ui-button>
+          <span slot="label">Default (500ms)</span>
+          <ui-tooltip placement="top">Standard half-second delay</ui-tooltip>
+        </ui-button>
+
+        <ui-button>
+          <span slot="label">Slow (1500ms)</span>
+          <ui-tooltip delay="1500" placement="top">1.5 second delay</ui-tooltip>
+        </ui-button>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-button&gt;
+  &lt;span slot="label"&gt;Instant (0ms)&lt;/span&gt;
+  &lt;ui-tooltip delay="0"&gt;No delay!&lt;/ui-tooltip&gt;
+&lt;/ui-button&gt;
+
+&lt;ui-button&gt;
+  &lt;span slot="label"&gt;Slow (1500ms)&lt;/span&gt;
+  &lt;ui-tooltip delay="1500"&gt;1.5 second delay&lt;/ui-tooltip&gt;
+&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <ui-button size="xs">
+          <span slot="label">XS</span>
+          <ui-tooltip>Extra small context</ui-tooltip>
+        </ui-button>
+
+        <ui-button size="sm">
+          <span slot="label">SM</span>
+          <ui-tooltip>Small context</ui-tooltip>
+        </ui-button>
+
+        <ui-button size="md">
+          <span slot="label">MD</span>
+          <ui-tooltip>Medium context</ui-tooltip>
+        </ui-button>
+
+        <ui-button size="lg">
+          <span slot="label">LG</span>
+          <ui-tooltip>Large context</ui-tooltip>
+        </ui-button>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-button size="sm"&gt;
+  &lt;span slot="label"&gt;SM&lt;/span&gt;
+  &lt;ui-tooltip&gt;Small context&lt;/ui-tooltip&gt;
+&lt;/ui-button&gt;
+
+&lt;ui-button size="lg"&gt;
+  &lt;span slot="label"&gt;LG&lt;/span&gt;
+  &lt;ui-tooltip&gt;Large context&lt;/ui-tooltip&gt;
+&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Long Content ── -->
+
+    <h2>Long Content</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <ui-button>
+          <span slot="label">Hover for details</span>
+          <ui-tooltip placement="bottom">This is a much longer tooltip that wraps to multiple lines. It has a max-width constraint to keep it readable.</ui-tooltip>
+        </ui-button>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-button&gt;
+  &lt;span slot="label"&gt;Hover for details&lt;/span&gt;
+  &lt;ui-tooltip placement="bottom"&gt;This is a much longer tooltip
+that wraps to multiple lines.&lt;/ui-tooltip&gt;
+&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../nav/ui-layout.ts';
+      import './ui-tooltip.ts';
+      import '../ui-button/ui-button.ts';
+      import '../../icons/ui-icon.ts';
+      import '../../icons/phosphor/info.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

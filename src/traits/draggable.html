@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Draggable — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      /* ── Sortable List ── */
+
+      .drag-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .drag-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 0.75rem;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.375rem;
+        cursor: grab;
+        user-select: none;
+        transition: opacity 150ms ease, box-shadow 150ms ease;
+      }
+
+      .drag-item[dragging] {
+        opacity: 0.3;
+      }
+
+      .drag-item .handle {
+        color: var(--neutral-ink-muted);
+        font-size: 0.875rem;
+      }
+
+      .drag-item .label {
+        flex: 1;
+      }
+
+      /* ── Replace Mode: Roles ── */
+
+      .drag-role {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.625rem 0.75rem;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+      }
+
+      .role-name {
+        font-weight: 600;
+        color: var(--neutral-ink-strong);
+      }
+
+      .role-assignee {
+        color: var(--neutral-ink-muted);
+      }
+
+      .drag-person {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 1rem;
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+        border-radius: 0.375rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        cursor: grab;
+        user-select: none;
+        transition: opacity 150ms ease;
+      }
+
+      .drag-person[dragging] {
+        opacity: 0.3;
+      }
+
+      /* Slot mode: gap indicator */
+      .drag-placeholder {
+        height: 3px;
+        background: var(--accent-surface);
+        border-radius: 2px;
+        margin: 0.125rem 0;
+        transition: none;
+      }
+
+      /* ── Horizontal ── */
+
+      .drag-row {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .drag-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 5rem;
+        height: 5rem;
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+        border-radius: 0.5rem;
+        font-weight: 700;
+        cursor: grab;
+        user-select: none;
+        transition: opacity 150ms ease;
+      }
+
+      .drag-card[dragging] {
+        opacity: 0.3;
+      }
+
+      /* Slot mode horizontal placeholder */
+      .drag-row > .drag-placeholder {
+        width: 3px;
+        height: 5rem;
+        margin: 0 0.125rem;
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--neutral-ink-muted);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--neutral-panel);
+        border-radius: 0.25rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--neutral-border-muted);
+        color: var(--neutral-ink-strong);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--neutral-border-muted);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+
+    <h1>Draggable</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Composable trait for drag-and-drop. Supports two modes: <strong>drop</strong> (outlines the target element) and <strong>slot</strong> (shows a gap indicator between items for insertion). Ghost renders in the top layer via popover. Press Escape to cancel.
+    </p>
+
+    <!-- ── Drop Mode: Swap (Provider) ── -->
+
+    <h2>Drop Mode — Swap (Provider)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        <code>&lt;ui-controller&gt;</code> wraps a plain <code>&lt;div&gt;</code> and applies the draggable trait. Drop onto a target to swap positions.
+      </p>
+      <ui-controller traits="draggable" draggable-selector=".drag-item" draggable-axis="vertical" draggable-mode="drop">
+        <div id="swap-list" class="drag-list">
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Design mockups</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Write component API</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Implement CSS</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Add keyboard support</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Write tests</span></div>
+        </div>
+      </ui-controller>
+      <div id="swap-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="draggable"
+  draggable-selector=".drag-item"
+  draggable-axis="vertical"
+  draggable-mode="drop"&gt;
+  &lt;div class="drag-list"&gt;
+    &lt;div class="drag-item"&gt;Design mockups&lt;/div&gt;
+    &lt;div class="drag-item"&gt;Write component API&lt;/div&gt;
+    &lt;!-- ... --&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;
+
+&lt;script&gt;
+  list.addEventListener('ui-drop', (e) =&gt; {
+    const { item, target } = e.detail;
+    if (!target || target === item) return;
+    const placeholder = document.createElement('div');
+    item.before(placeholder);
+    target.before(item);
+    placeholder.replaceWith(target);
+  });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Drop Mode: Replace (Provider) ── -->
+
+    <h2>Drop Mode — Replace (Provider)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Drag a person onto a role to assign. Uses <code>draggable-drop-zone-selector</code> to separate drag items from drop targets.
+      </p>
+      <ui-controller traits="draggable" draggable-selector=".drag-person" draggable-drop-zone-selector=".drag-role" draggable-mode="drop">
+        <div id="replace-list" class="drag-list">
+          <div class="drag-role"><span class="role-name">Lead</span><span class="role-assignee" id="role-0">—</span></div>
+          <div class="drag-role"><span class="role-name">Design</span><span class="role-assignee" id="role-1">—</span></div>
+          <div class="drag-role"><span class="role-name">Engineering</span><span class="role-assignee" id="role-2">—</span></div>
+          <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+            <div class="drag-person">Alice</div>
+            <div class="drag-person">Bob</div>
+            <div class="drag-person">Carol</div>
+          </div>
+        </div>
+      </ui-controller>
+      <div id="replace-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="draggable"
+  draggable-selector=".drag-person"
+  draggable-drop-zone-selector=".drag-role"
+  draggable-mode="drop"&gt;
+  &lt;div class="drag-list"&gt;
+    &lt;div class="drag-role"&gt;Lead — &lt;span&gt;—&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="drag-person"&gt;Alice&lt;/div&gt;
+    &lt;!-- ... --&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Slot Mode: Vertical List (Provider) ── -->
+
+    <h2>Slot Mode — Vertical List (Provider)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Shows a gap indicator between items. Dropping inserts the item at that position.
+      </p>
+      <ui-controller traits="draggable" draggable-selector=".drag-item" draggable-axis="vertical" draggable-mode="slot">
+        <div id="slot-list" class="drag-list">
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Research</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Prototype</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Build</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Test</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Ship</span></div>
+        </div>
+      </ui-controller>
+      <div id="slot-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="draggable"
+  draggable-selector=".drag-item"
+  draggable-axis="vertical"
+  draggable-mode="slot"&gt;
+  &lt;div class="drag-list"&gt;
+    &lt;div class="drag-item"&gt;Research&lt;/div&gt;
+    &lt;!-- ... --&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;
+
+&lt;script&gt;
+  list.addEventListener('ui-drop', (e) =&gt; {
+    const { item, insertBefore } = e.detail;
+    if (insertBefore) insertBefore.before(item);
+    else list.appendChild(item);
+  });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Slot Mode: Horizontal Cards (Provider) ── -->
+
+    <h2>Slot Mode — Horizontal Cards (Provider)</h2>
+    <div class="demo-section">
+      <ui-controller traits="draggable" draggable-selector=".drag-card" draggable-axis="horizontal" draggable-mode="slot">
+        <div id="card-row" class="drag-row">
+          <div class="drag-card">A</div>
+          <div class="drag-card">B</div>
+          <div class="drag-card">C</div>
+          <div class="drag-card">D</div>
+        </div>
+      </ui-controller>
+      <pre class="demo-code"><code>&lt;ui-controller traits="draggable"
+  draggable-selector=".drag-card"
+  draggable-axis="horizontal"
+  draggable-mode="slot"&gt;
+  &lt;div class="drag-row"&gt;
+    &lt;div class="drag-card"&gt;A&lt;/div&gt;
+    &lt;div class="drag-card"&gt;B&lt;/div&gt;
+    &lt;!-- ... --&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Provider Usage</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>draggable-selector</code></td>
+            <td><code>string</code></td>
+            <td>—</td>
+            <td>CSS selector for draggable items within the host. Required.</td>
+          </tr>
+          <tr>
+            <td><code>draggable-drop-zone-selector</code></td>
+            <td><code>string</code></td>
+            <td><code>''</code></td>
+            <td>CSS selector for drop zones. Defaults to <code>selector</code> items if empty.</td>
+          </tr>
+          <tr>
+            <td><code>draggable-axis</code></td>
+            <td><code>'vertical' | 'horizontal' | 'both'</code></td>
+            <td><code>'both'</code></td>
+            <td>Constrains hit-testing to one axis. Ghost always moves freely.</td>
+          </tr>
+          <tr>
+            <td><code>draggable-mode</code></td>
+            <td><code>'drop' | 'slot'</code></td>
+            <td><code>'drop'</code></td>
+            <td><strong>drop</strong>: outlines hovered target. <strong>slot</strong>: shows gap indicator between items.</td>
+          </tr>
+          <tr>
+            <td><code>draggable-disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables all drag behavior when true.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>ui-drag-start</code></td>
+            <td><code>{ item, index }</code></td>
+            <td>Fired on first pointer move after pointerdown.</td>
+          </tr>
+          <tr>
+            <td><code>ui-drag-move</code></td>
+            <td><code>{ item, x, y }</code></td>
+            <td>Fired on every pointer move during drag.</td>
+          </tr>
+          <tr>
+            <td><code>ui-drag-over</code></td>
+            <td>
+              <strong>drop:</strong> <code>{ item, target, index }</code><br>
+              <strong>slot:</strong> <code>{ item, index, insertBefore }</code>
+            </td>
+            <td>Fired when the pointer enters a drop zone or the slot position changes.</td>
+          </tr>
+          <tr>
+            <td><code>ui-drop</code></td>
+            <td>
+              <strong>drop:</strong> <code>{ item, target, fromIndex, toIndex }</code><br>
+              <strong>slot:</strong> <code>{ item, fromIndex, toIndex, insertBefore }</code>
+            </td>
+            <td>Fired on pointer up. Consumer handles the actual DOM reordering.</td>
+          </tr>
+          <tr>
+            <td><code>ui-drag-cancel</code></td>
+            <td><code>{ item }</code></td>
+            <td>Fired when Escape is pressed or pointer is cancelled.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Attributes (set during drag)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Set on</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>[dragging]</code></td>
+            <td>Dragged item</td>
+            <td>Present while the item is being dragged. Use for opacity/visibility.</td>
+          </tr>
+          <tr>
+            <td><code>[drag-over]</code></td>
+            <td>Drop zone (drop mode)</td>
+            <td>Present on the zone the pointer is currently over.</td>
+          </tr>
+          <tr>
+            <td><code>[drag-slot-before]</code></td>
+            <td>Item (slot mode)</td>
+            <td>The item immediately after the insertion gap.</td>
+          </tr>
+          <tr>
+            <td><code>[drag-slot-after]</code></td>
+            <td>Item (slot mode)</td>
+            <td>The item immediately before the insertion gap.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>.drag-placeholder</code></td>
+            <td>Gap indicator element inserted by slot mode. Style height/width, background, and margin to match your layout.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></ui-layout>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../components/ui-controller/ui-controller.ts';
+      import '../icons/ui-icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Drop mode — swap ──
+
+      const swapList = document.getElementById('swap-list');
+      swapList.addEventListener('ui-drop', (e) => {
+        const { item, target } = e.detail;
+        if (!target || target === item) return;
+        const itemLabel = item.querySelector('.label').textContent;
+        const targetLabel = target.querySelector('.label').textContent;
+        const placeholder = document.createElement('div');
+        item.before(placeholder);
+        target.before(item);
+        placeholder.replaceWith(target);
+        swapLog(`Swapped "${itemLabel}" ↔ "${targetLabel}"`);
+      });
+      swapList.addEventListener('ui-drag-cancel', (e) => {
+        swapLog(`Cancelled: "${e.detail.item.querySelector('.label').textContent}"`);
+      });
+
+      // ── Drop mode — replace ──
+
+      const replaceList = document.getElementById('replace-list');
+      replaceList.addEventListener('ui-drop', (e) => {
+        const { item, target } = e.detail;
+        if (!target) return;
+        const slot = target.querySelector('.role-assignee');
+        const name = item.textContent;
+        const role = target.querySelector('.role-name').textContent;
+        slot.textContent = name;
+        replaceLog(`Assigned "${name}" → ${role}`);
+      });
+
+      // ── Slot mode — vertical list ──
+
+      const slotList = document.getElementById('slot-list');
+      slotList.addEventListener('ui-drop', (e) => {
+        const { item, insertBefore, fromIndex, toIndex } = e.detail;
+        if (toIndex === -1) return;
+        if (insertBefore) {
+          insertBefore.before(item);
+        } else {
+          slotList.appendChild(item);
+        }
+        slotLog(`Inserted "${item.querySelector('.label').textContent}" at position ${toIndex}`);
+      });
+
+      // ── Slot mode — horizontal cards ──
+
+      const cardRow = document.getElementById('card-row');
+      cardRow.addEventListener('ui-drop', (e) => {
+        const { item, insertBefore } = e.detail;
+        if (insertBefore) {
+          insertBefore.before(item);
+        } else {
+          cardRow.appendChild(item);
+        }
+      });
+
+      // ── Event logging ──
+
+      function appendLog(el, msg) {
+        const line = document.createElement('div');
+        line.textContent = msg;
+        el.appendChild(line);
+        el.scrollTop = el.scrollHeight;
+      }
+
+      const swapLogEl = document.getElementById('swap-log');
+      function swapLog(msg) { appendLog(swapLogEl, msg); }
+
+      const replaceLogEl = document.getElementById('replace-log');
+      function replaceLog(msg) { appendLog(replaceLogEl, msg); }
+
+      const slotLogEl = document.getElementById('slot-log');
+      function slotLog(msg) { appendLog(slotLogEl, msg); }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ui-accordion — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .log {
+        font-family: monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        border-radius: 0.375rem;
+        padding: 0.75rem;
+        max-height: 10rem;
+        overflow-y: auto;
+        margin-top: 0.5rem;
+      }
+
+      .log-entry {
+        padding: 0.125rem 0;
+        color: var(--neutral-ink-muted);
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>&lt;ui-accordion&gt;</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Collapsible disclosure sections with native &lt;details&gt; under the hood. Supports single and multiple open modes.
+    </p>
+
+    <!-- ── Single Mode (default) ── -->
+
+    <h2>Single Mode (default)</h2>
+    <div class="demo-section">
+      <ui-accordion>
+        <ui-accordion-item open>
+          <span slot="heading">What is this library?</span>
+          A pure CSS + Web Component design system built on OKLCH color science, CSS custom property inheritance, and zero-specificity attribute selectors.
+        </ui-accordion-item>
+        <ui-accordion-item>
+          <span slot="heading">How does the cascade work?</span>
+          Every value a component consumes flows through three tiers: Public (--ui-*) tokens, Local (--_*) resolved by attribute selectors, and Component reads.
+        </ui-accordion-item>
+        <ui-accordion-item>
+          <span slot="heading">Can I customize colors?</span>
+          Yes! Override the 9 color environment parameters in colors.primitives.css or use the theme presets (forest, rose, zinc) for quick changes.
+        </ui-accordion-item>
+      </ui-accordion>
+      <pre class="demo-code"><code>&lt;ui-accordion&gt;
+  &lt;ui-accordion-item open&gt;
+    &lt;span slot="heading"&gt;Section title&lt;/span&gt;
+    Section content goes here.
+  &lt;/ui-accordion-item&gt;
+  &lt;ui-accordion-item&gt;
+    &lt;span slot="heading"&gt;Another section&lt;/span&gt;
+    More content here.
+  &lt;/ui-accordion-item&gt;
+&lt;/ui-accordion&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Multiple Mode ── -->
+
+    <h2>Multiple Mode</h2>
+    <div class="demo-section">
+      <ui-accordion multiple>
+        <ui-accordion-item open>
+          <span slot="heading">Section One</span>
+          This section can stay open while others open too. In multiple mode, opening one doesn't close the others.
+        </ui-accordion-item>
+        <ui-accordion-item open>
+          <span slot="heading">Section Two</span>
+          Both this and Section One can be open simultaneously. Try opening and closing independently.
+        </ui-accordion-item>
+        <ui-accordion-item>
+          <span slot="heading">Section Three</span>
+          Click to open this section without affecting the others above.
+        </ui-accordion-item>
+      </ui-accordion>
+      <pre class="demo-code"><code>&lt;ui-accordion multiple&gt;
+  &lt;ui-accordion-item open&gt;
+    &lt;span slot="heading"&gt;Section One&lt;/span&gt;
+    Content that stays open independently.
+  &lt;/ui-accordion-item&gt;
+  &lt;ui-accordion-item open&gt;
+    &lt;span slot="heading"&gt;Section Two&lt;/span&gt;
+    Both sections can be open at once.
+  &lt;/ui-accordion-item&gt;
+&lt;/ui-accordion&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Event Log ── -->
+
+    <h2>Event Log</h2>
+    <div class="demo-section">
+      <ui-accordion id="event-accordion">
+        <ui-accordion-item>
+          <span slot="heading">First Section</span>
+          Open and close to see toggle events logged below.
+        </ui-accordion-item>
+        <ui-accordion-item>
+          <span slot="heading">Second Section</span>
+          Each open/close fires a native toggle event.
+        </ui-accordion-item>
+        <ui-accordion-item>
+          <span slot="heading">Third Section</span>
+          In single mode, opening one closes the others — watch the log.
+        </ui-accordion-item>
+      </ui-accordion>
+      <div class="log" id="accordion-log"></div>
+      <pre class="demo-code"><code>&lt;ui-accordion id="my-accordion"&gt;
+  &lt;ui-accordion-item&gt;
+    &lt;span slot="heading"&gt;Click me&lt;/span&gt;
+    Toggle content.
+  &lt;/ui-accordion-item&gt;
+&lt;/ui-accordion&gt;
+
+&lt;script&gt;
+  document.getElementById('my-accordion')
+    .addEventListener('toggle', (e) =&gt; {
+      const item = e.target.closest('ui-accordion-item');
+      console.log(item.open ? 'expanded' : 'collapsed');
+    }, true);
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Disabled Items ── -->
+
+    <h2>Disabled Items</h2>
+    <div class="demo-section">
+      <ui-accordion>
+        <ui-accordion-item>
+          <span slot="heading">Enabled item</span>
+          This item works normally.
+        </ui-accordion-item>
+        <ui-accordion-item disabled>
+          <span slot="heading">Disabled item</span>
+          This content should not be reachable.
+        </ui-accordion-item>
+        <ui-accordion-item>
+          <span slot="heading">Another enabled item</span>
+          This item also works normally.
+        </ui-accordion-item>
+      </ui-accordion>
+      <pre class="demo-code"><code>&lt;ui-accordion&gt;
+  &lt;ui-accordion-item&gt;
+    &lt;span slot="heading"&gt;Enabled&lt;/span&gt;
+    This item works normally.
+  &lt;/ui-accordion-item&gt;
+  &lt;ui-accordion-item disabled&gt;
+    &lt;span slot="heading"&gt;Disabled&lt;/span&gt;
+    Cannot be opened.
+  &lt;/ui-accordion-item&gt;
+&lt;/ui-accordion&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <ui-accordion size="sm">
+          <ui-accordion-item>
+            <span slot="heading">Small accordion</span>
+            Compact size for tight spaces.
+          </ui-accordion-item>
+          <ui-accordion-item>
+            <span slot="heading">Another small item</span>
+            Second item at small size.
+          </ui-accordion-item>
+        </ui-accordion>
+
+        <ui-accordion size="lg">
+          <ui-accordion-item>
+            <span slot="heading">Large accordion</span>
+            Generous size for prominent sections.
+          </ui-accordion-item>
+          <ui-accordion-item>
+            <span slot="heading">Another large item</span>
+            Second item at large size.
+          </ui-accordion-item>
+        </ui-accordion>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-accordion size="sm"&gt;
+  &lt;ui-accordion-item&gt;
+    &lt;span slot="heading"&gt;Small&lt;/span&gt;
+    Compact size.
+  &lt;/ui-accordion-item&gt;
+&lt;/ui-accordion&gt;
+
+&lt;ui-accordion size="lg"&gt;
+  &lt;ui-accordion-item&gt;
+    &lt;span slot="heading"&gt;Large&lt;/span&gt;
+    Generous size.
+  &lt;/ui-accordion-item&gt;
+&lt;/ui-accordion&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Rich Content ── -->
+
+    <h2>Rich Content</h2>
+    <div class="demo-section">
+      <ui-accordion>
+        <ui-accordion-item>
+          <span slot="heading"><ui-icon name="code"></ui-icon> Code Example</span>
+          <pre style="background: var(--neutral-panel); padding: 0.75rem; border-radius: 0.25rem; font-size: 0.8125rem; overflow-x: auto;"><code>const el = document.querySelector('ui-accordion');
+el.multiple = true;</code></pre>
+        </ui-accordion-item>
+        <ui-accordion-item>
+          <span slot="heading"><ui-icon name="info"></ui-icon> Helpful Note</span>
+          Accordion items use native &lt;details&gt; elements internally, so they work even without JavaScript. The custom element enhances them with single-mode behavior and styling.
+        </ui-accordion-item>
+      </ui-accordion>
+      <pre class="demo-code"><code>&lt;ui-accordion&gt;
+  &lt;ui-accordion-item&gt;
+    &lt;span slot="heading"&gt;
+      &lt;ui-icon name="code"&gt;&lt;/ui-icon&gt; With Icon
+    &lt;/span&gt;
+    Rich content: images, code blocks, nested elements.
+  &lt;/ui-accordion-item&gt;
+&lt;/ui-accordion&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
+      </p>
+      <ui-accordion>
+        <ui-accordion-item force-hover open>
+          <span slot="heading">Force hover</span>
+          <p>This item has <code>force-hover</code> applied.</p>
+        </ui-accordion-item>
+        <ui-accordion-item force-focus-visible open>
+          <span slot="heading">Force focus-visible</span>
+          <p>This item has <code>force-focus-visible</code> applied.</p>
+        </ui-accordion-item>
+      </ui-accordion>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../nav/ui-layout.ts';
+      import './ui-accordion.ts';
+      import '../ui-button/ui-button.ts';
+      import '../../icons/ui-icon.ts';
+      import '../../icons/phosphor/code.ts';
+      import '../../icons/phosphor/info.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Event log for accordion toggle events
+      const accordion = document.getElementById('event-accordion');
+      const log = document.getElementById('accordion-log');
+      let count = 0;
+
+      accordion.addEventListener('toggle', (e) => {
+        const item = e.target.closest('ui-accordion-item');
+        if (!item) return;
+        const heading = item.querySelector('[slot="heading"]')?.textContent?.trim() ?? '?';
+        const isOpen = item.hasAttribute('open');
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} ${isOpen ? 'opened' : 'closed'} — "${heading}"`;
+        log.prepend(entry);
+      }, true);
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

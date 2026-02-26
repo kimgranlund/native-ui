@@ -1,0 +1,614 @@
+/* ================================================================
+   nonoun-css UI Primitives
+
+   Three-tier token architecture:
+   1. Public (--ui-*)   — themeable scale definitions on :root
+   2. Local  (--_*)     — resolved by attribute selectors
+   3. Component         — reads locals directly
+
+   Intent/variant selectors map color tokens to --_background/--_color/--_border-color.
+   All attribute selectors use :where() for zero specificity.
+   ================================================================ */
+
+@layer ui {
+  /* ── Tier 1: Public Scale + Local Defaults (md) ── */
+
+  :root {
+    /* Scale: xs */
+    --ui-size-xs: 1.5rem;
+    --ui-font-xs: 0.75rem;
+    --ui-tracking-xs: 0.01em;
+    --ui-space-xs: 0.125rem;
+
+    /* Scale: sm */
+    --ui-size-sm: 1.75rem;
+    --ui-font-sm: 0.8125rem;
+    --ui-tracking-sm: 0.005em;
+    --ui-space-sm: 0.1875rem;
+
+    /* Scale: md (default) */
+    --ui-size-md: 2.25rem;
+    --ui-font-md: 0.875rem;
+    --ui-tracking-md: 0em;
+    --ui-space-md: 0.25rem;
+    --ui-radius-md: 0.75rem;
+
+    /* Scale: lg */
+    --ui-size-lg: 2.75rem;
+    --ui-font-lg: 0.9375rem;
+    --ui-tracking-lg: -0.005em;
+    --ui-space-lg: 0.25rem;
+
+    /* Scale: xl */
+    --ui-size-xl: 3.25rem;
+    --ui-font-xl: 1rem;
+    --ui-tracking-xl: -0.01em;
+    --ui-space-xl: 0.25rem;
+
+    /* Icon sizes */
+    --ui-icon-xs: 0.75rem;
+    --ui-icon-sm: 0.875rem;
+    --ui-icon-md: 1rem;
+    --ui-icon-lg: 1.125rem;
+    --ui-icon-xl: 1.25rem;
+
+    /* Radius: sharp + round caps */
+    --ui-radius-sharp: 0.125rem;
+    --ui-radius-round: 1.125rem;
+
+    /* Typography */
+    --ui-font-weight-button: 500;
+    --ui-font-weight-input: 400;
+    --ui-font-weight-text: 400;
+    --ui-line-height-control: 1;
+    --ui-line-height-text: 1.5;
+
+    /* Animation */
+    --ui-duration: 0.225s;
+    --ui-easing: cubic-bezier(0.2, 0, 0, 1);
+
+    /* Tooltip */
+    --ui-tooltip-max-width: 20rem;
+
+    /* Popover (select / combobox / command) */
+    --ui-popover-max-height: 18rem;
+    --ui-popover-gap: 0.25rem;
+
+    /* Drawer */
+    --ui-drawer-width: 24rem;
+    --ui-drawer-height: 24rem;
+
+    /* Layout sidebar */
+    --ui-layout-sidebar-width: 240px;
+
+    /* Bar height (header, breadcrumb, sidebar header/footer) */
+    --ui-layout-bar-height: 3.5rem;
+
+    /* Toggle widgets (checkbox / radio / switch / range) */
+    --ui-widget-xs: 0.75rem;
+    --ui-widget-sm: 1rem;
+    --ui-widget-md: 1.25rem;
+    --ui-widget-lg: 1.5rem;
+    --ui-widget-xl: 1.75rem;
+
+    /* Badge */
+    --ui-badge-font-xs: 0.5625rem;
+    --ui-badge-font-sm: 0.625rem;
+    --ui-badge-font-md: 0.625rem;
+    --ui-badge-font-lg: 0.625rem;
+    --ui-badge-font-xl: 0.75rem;
+    --ui-badge-size-xs: 0.875rem;
+    --ui-badge-size-sm: 1rem;
+    --ui-badge-size-md: 1.125rem;
+    --ui-badge-size-lg: 1.25rem;
+    --ui-badge-size-xl: 1.375rem;
+    --ui-badge-dot: 0.5rem;
+
+    /* Group header (option-group, table category) */
+    --ui-group-header-font: 0.625rem;
+
+    /* Tabs indicator */
+    --ui-tabs-indicator: 2px;
+
+    /* Focus ring */
+    --ui-focus-ring: var(--accent-600-scrim);
+
+    /* Backdrop */
+    --ui-backdrop-color: oklch(0% 0 0);
+    --ui-backdrop-opacity: 0.3;
+
+    /* Shadows */
+    --ui-shadow-xs: 0 1px 2px oklch(0% 0 0 / 0.06), 0 1px 3px oklch(0% 0 0 / 0.1);
+    --ui-shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.12);
+    --ui-shadow-md: 0 2px 4px oklch(0% 0 0 / 0.08), 0 4px 12px oklch(0% 0 0 / 0.12);
+    --ui-shadow-lg: 0 8px 32px oklch(0% 0 0 / 0.15);
+    --ui-shadow-xl: 0 16px 48px oklch(0% 0 0 / 0.15);
+
+    /* Local defaults (md) */
+    --_min-height: var(--ui-size-md);
+    --_font-size: var(--ui-font-md);
+    --_letter-spacing: var(--ui-tracking-md);
+    --_space: var(--ui-space-md);
+    --_radius: min(calc(var(--_min-height) / 2), var(--ui-radius-round));
+    --_space-k: 4;
+    --_line-height: var(--ui-line-height-text);
+    --_font-weight: var(--ui-font-weight-text);
+    --_duration: var(--ui-duration);
+    --_easing: var(--ui-easing);
+    --_icon-size: var(--ui-icon-md);
+    --_widget-size: var(--ui-widget-md);
+  }
+
+  /* ── Tier 2: Size ── */
+
+  :where([size="xs"]) {
+    --_min-height: var(--ui-size-xs);
+    --_font-size: var(--ui-font-xs);
+    --_letter-spacing: var(--ui-tracking-xs);
+    --_space: var(--ui-space-xs);
+    --_icon-size: var(--ui-icon-xs);
+    --_widget-size: var(--ui-widget-xs);
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+  }
+
+  :where([size="sm"]) {
+    --_min-height: var(--ui-size-sm);
+    --_font-size: var(--ui-font-sm);
+    --_letter-spacing: var(--ui-tracking-sm);
+    --_space: var(--ui-space-sm);
+    --_icon-size: var(--ui-icon-sm);
+    --_widget-size: var(--ui-widget-sm);
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+  }
+
+  :where([size="md"]) {
+    --_min-height: var(--ui-size-md);
+    --_font-size: var(--ui-font-md);
+    --_letter-spacing: var(--ui-tracking-md);
+    --_space: var(--ui-space-md);
+    --_icon-size: var(--ui-icon-md);
+    --_widget-size: var(--ui-widget-md);
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+  }
+
+  :where([size="lg"]) {
+    --_min-height: var(--ui-size-lg);
+    --_font-size: var(--ui-font-lg);
+    --_letter-spacing: var(--ui-tracking-lg);
+    --_space: var(--ui-space-lg);
+    --_icon-size: var(--ui-icon-lg);
+    --_widget-size: var(--ui-widget-lg);
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+  }
+
+  :where([size="xl"]) {
+    --_min-height: var(--ui-size-xl);
+    --_font-size: var(--ui-font-xl);
+    --_letter-spacing: var(--ui-tracking-xl);
+    --_space: var(--ui-space-xl);
+    --_icon-size: var(--ui-icon-xl);
+    --_widget-size: var(--ui-widget-xl);
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+  }
+
+  /* ── Tier 2: Density ── */
+
+  :where([density="compact"]) { --_space-k: 2; }
+  :where([density="default"]) { --_space-k: 4; }
+  :where([density="loose"])   { --_space-k: 6; }
+
+  /* ── Tier 2: Radius ── */
+
+  :where([radius="round"]) {
+    --_radius: min(calc(var(--_min-height) / 2), var(--ui-radius-round));
+  }
+  :where([radius="rounded"]) {
+    --_radius: calc(var(--_space) * 2);
+  }
+  :where([radius="sharp"]) {
+    --_radius: var(--ui-radius-sharp);
+  }
+
+  /* ── Intent (maps to color token families) ── */
+
+  :root {
+    --_card: var(--neutral-card);
+    --_card-hover: var(--neutral-card-hover);
+
+    --_panel: var(--neutral-panel);
+    --_panel-hover: var(--neutral-panel-hover);
+    --_panel-active: var(--neutral-panel-active);
+    --_panel-disabled: var(--neutral-panel-disabled);
+
+    --_button: var(--neutral-button);
+    --_button-hover: var(--neutral-button-hover);
+    --_button-active: var(--neutral-button-active);
+    --_button-disabled: var(--neutral-button-disabled);
+
+    --_control: var(--neutral-control);
+    --_control-hover: var(--neutral-control-hover);
+    --_control-active: var(--neutral-control-active);
+    --_control-disabled: var(--neutral-control-disabled);
+
+    --_widget: var(--neutral-higher);
+    --_widget-hover: var(--neutral-control-hover);
+    --_widget-active: var(--neutral-control-active);
+    --_widget-disabled: var(--neutral-control-disabled);
+
+    --_surface: var(--neutral-surface);
+    --_surface-hover: var(--neutral-surface-hover);
+    --_surface-active: var(--neutral-surface-active);
+    --_surface-disabled: var(--neutral-surface-disabled);
+
+    --_surface-ink: var(--neutral-surface-ink);
+    --_surface-ink-hover: var(--neutral-surface-ink-hover);
+    --_surface-ink-active: var(--neutral-surface-ink-active);
+    --_surface-ink-disabled: var(--neutral-surface-ink-disabled);
+
+    --_border: var(--neutral-border);
+    --_border-hover: var(--neutral-border-hover);
+    --_border-active: var(--neutral-border-active);
+    --_border-disabled: var(--neutral-highest);
+    --_border-muted: var(--neutral-border-muted);
+    --_border-rest: var(--neutral-highest);
+
+
+    --_ink: var(--neutral-ink);
+    --_ink-strong: var(--neutral-ink-strong);
+    --_ink-inverse: var(--neutral-ink-inverse);
+    --_ink-muted: var(--neutral-ink-muted);
+    --_ink-placeholder: var(--neutral-ink-placeholder);
+    --_ink-hover: var(--neutral-ink-hover);
+    --_ink-active: var(--neutral-ink-active);
+    --_ink-disabled: var(--neutral-ink-disabled);
+  }
+
+  :where([intent="neutral"]) {
+    --_card: var(--neutral-card);
+    --_card-hover: var(--neutral-card-hover);
+    --_panel: var(--neutral-panel);
+    --_panel-hover: var(--neutral-panel-hover);
+    --_panel-active: var(--neutral-panel-active);
+    --_panel-disabled: var(--neutral-panel-disabled);
+    --_button: var(--neutral-button);
+    --_button-hover: var(--neutral-button-hover);
+    --_button-active: var(--neutral-button-active);
+    --_button-disabled: var(--neutral-button-disabled);
+    --_control: var(--neutral-control);
+    --_control-hover: var(--neutral-control-hover);
+    --_control-active: var(--neutral-control-active);
+    --_control-disabled: var(--neutral-control-disabled);
+    --_widget: var(--neutral-higher);
+    --_widget-hover: var(--neutral-control-hover);
+    --_widget-active: var(--neutral-control-active);
+    --_widget-disabled: var(--neutral-control-disabled);
+    --_surface: var(--neutral-surface);
+    --_surface-hover: var(--neutral-surface-hover);
+    --_surface-active: var(--neutral-surface-active);
+    --_surface-disabled: var(--neutral-surface-disabled);
+    --_surface-ink: var(--neutral-surface-ink);
+    --_surface-ink-hover: var(--neutral-surface-ink-hover);
+    --_surface-ink-active: var(--neutral-surface-ink-active);
+    --_surface-ink-disabled: var(--neutral-surface-ink-disabled);
+    --_border: var(--neutral-border);
+    --_border-hover: var(--neutral-border-hover);
+    --_border-active: var(--neutral-border-active);
+    --_border-disabled: var(--neutral-highest);
+    --_border-muted: var(--neutral-border-muted);
+    --_ink: var(--neutral-ink);
+    --_ink-strong: var(--neutral-ink-strong);
+    --_ink-inverse: var(--neutral-ink-inverse);
+    --_ink-muted: var(--neutral-ink-muted);
+    --_ink-placeholder: var(--neutral-ink-placeholder);
+    --_ink-hover: var(--neutral-ink-hover);
+    --_ink-active: var(--neutral-ink-active);
+    --_ink-disabled: var(--neutral-ink-disabled);
+  }
+
+  :where([intent="accent"]) {
+    --_card: var(--accent-card);
+    --_card-hover: var(--accent-card-hover);
+    --_panel: var(--accent-panel);
+    --_panel-hover: var(--accent-panel-hover);
+    --_panel-active: var(--accent-panel-active);
+    --_panel-disabled: var(--accent-panel-disabled);
+    --_button: var(--accent-button);
+    --_button-hover: var(--accent-button-hover);
+    --_button-active: var(--accent-button-active);
+    --_button-disabled: var(--accent-button-disabled);
+    --_control: var(--accent-control);
+    --_control-hover: var(--accent-control-hover);
+    --_control-active: var(--accent-control-active);
+    --_control-disabled: var(--accent-control-disabled);
+    --_widget: var(--accent-higher);
+    --_widget-hover: var(--accent-control-hover);
+    --_widget-active: var(--accent-control-active);
+    --_widget-disabled: var(--accent-control-disabled);
+    --_surface: var(--accent-surface);
+    --_surface-hover: var(--accent-surface-hover);
+    --_surface-active: var(--accent-surface-active);
+    --_surface-disabled: var(--accent-surface-disabled);
+    --_surface-ink: var(--accent-surface-ink);
+    --_surface-ink-hover: var(--accent-surface-ink-hover);
+    --_surface-ink-active: var(--accent-surface-ink-active);
+    --_surface-ink-disabled: var(--accent-surface-ink-disabled);
+    --_border: var(--accent-border);
+    --_border-hover: var(--accent-border-hover);
+    --_border-active: var(--accent-border-active);
+    --_border-disabled: var(--neutral-highest);
+    --_border-muted: var(--accent-border-muted);
+    --_ink: var(--accent-ink);
+    --_ink-strong: var(--accent-ink-strong);
+    --_ink-inverse: var(--accent-ink-inverse);
+    --_ink-muted: var(--accent-ink-muted);
+    --_ink-placeholder: var(--accent-ink-placeholder);
+    --_ink-hover: var(--accent-ink-hover);
+    --_ink-active: var(--accent-ink-active);
+    --_ink-disabled: var(--accent-ink-disabled);
+  }
+
+  :where([intent="info"]) {
+    --_card: var(--info-card);
+    --_card-hover: var(--info-card-hover);
+    --_panel: var(--info-panel);
+    --_panel-hover: var(--info-panel-hover);
+    --_panel-active: var(--info-panel-active);
+    --_panel-disabled: var(--info-panel-disabled);
+    --_button: var(--info-button);
+    --_button-hover: var(--info-button-hover);
+    --_button-active: var(--info-button-active);
+    --_button-disabled: var(--info-button-disabled);
+    --_control: var(--info-control);
+    --_control-hover: var(--info-control-hover);
+    --_control-active: var(--info-control-active);
+    --_control-disabled: var(--info-control-disabled);
+    --_widget: var(--info-higher);
+    --_widget-hover: var(--info-control-hover);
+    --_widget-active: var(--info-control-active);
+    --_widget-disabled: var(--info-control-disabled);
+    --_surface: var(--info-surface);
+    --_surface-hover: var(--info-surface-hover);
+    --_surface-active: var(--info-surface-active);
+    --_surface-disabled: var(--info-surface-disabled);
+    --_surface-ink: var(--info-surface-ink);
+    --_surface-ink-hover: var(--info-surface-ink-hover);
+    --_surface-ink-active: var(--info-surface-ink-active);
+    --_surface-ink-disabled: var(--info-surface-ink-disabled);
+    --_border: var(--info-border);
+    --_border-hover: var(--info-border-hover);
+    --_border-active: var(--info-border-active);
+    --_border-disabled: var(--neutral-highest);
+    --_border-muted: var(--info-border-muted);
+    --_ink: var(--info-ink);
+    --_ink-strong: var(--info-ink-strong);
+    --_ink-inverse: var(--info-ink-inverse);
+    --_ink-muted: var(--info-ink-muted);
+    --_ink-placeholder: var(--info-ink-placeholder);
+    --_ink-hover: var(--info-ink-hover);
+    --_ink-active: var(--info-ink-active);
+    --_ink-disabled: var(--info-ink-disabled);
+  }
+
+  :where([intent="success"]) {
+    --_card: var(--success-card);
+    --_card-hover: var(--success-card-hover);
+    --_panel: var(--success-panel);
+    --_panel-hover: var(--success-panel-hover);
+    --_panel-active: var(--success-panel-active);
+    --_panel-disabled: var(--success-panel-disabled);
+    --_button: var(--success-button);
+    --_button-hover: var(--success-button-hover);
+    --_button-active: var(--success-button-active);
+    --_button-disabled: var(--success-button-disabled);
+    --_control: var(--success-control);
+    --_control-hover: var(--success-control-hover);
+    --_control-active: var(--success-control-active);
+    --_control-disabled: var(--success-control-disabled);
+    --_widget: var(--success-higher);
+    --_widget-hover: var(--success-control-hover);
+    --_widget-active: var(--success-control-active);
+    --_widget-disabled: var(--success-control-disabled);
+    --_surface: var(--success-surface);
+    --_surface-hover: var(--success-surface-hover);
+    --_surface-active: var(--success-surface-active);
+    --_surface-disabled: var(--success-surface-disabled);
+    --_surface-ink: var(--success-surface-ink);
+    --_surface-ink-hover: var(--success-surface-ink-hover);
+    --_surface-ink-active: var(--success-surface-ink-active);
+    --_surface-ink-disabled: var(--success-surface-ink-disabled);
+    --_border: var(--success-border);
+    --_border-hover: var(--success-border-hover);
+    --_border-active: var(--success-border-active);
+    --_border-disabled: var(--neutral-highest);
+    --_border-muted: var(--success-border-muted);
+    --_ink: var(--success-ink);
+    --_ink-strong: var(--success-ink-strong);
+    --_ink-inverse: var(--success-ink-inverse);
+    --_ink-muted: var(--success-ink-muted);
+    --_ink-placeholder: var(--success-ink-placeholder);
+    --_ink-hover: var(--success-ink-hover);
+    --_ink-active: var(--success-ink-active);
+    --_ink-disabled: var(--success-ink-disabled);
+  }
+
+  :where([intent="warning"]) {
+    --_card: var(--warning-card);
+    --_card-hover: var(--warning-card-hover);
+    --_panel: var(--warning-panel);
+    --_panel-hover: var(--warning-panel-hover);
+    --_panel-active: var(--warning-panel-active);
+    --_panel-disabled: var(--warning-panel-disabled);
+    --_button: var(--warning-button);
+    --_button-hover: var(--warning-button-hover);
+    --_button-active: var(--warning-button-active);
+    --_button-disabled: var(--warning-button-disabled);
+    --_control: var(--warning-control);
+    --_control-hover: var(--warning-control-hover);
+    --_control-active: var(--warning-control-active);
+    --_control-disabled: var(--warning-control-disabled);
+    --_widget: var(--warning-higher);
+    --_widget-hover: var(--warning-control-hover);
+    --_widget-active: var(--warning-control-active);
+    --_widget-disabled: var(--warning-control-disabled);
+    --_surface: var(--warning-surface);
+    --_surface-hover: var(--warning-surface-hover);
+    --_surface-active: var(--warning-surface-active);
+    --_surface-disabled: var(--warning-surface-disabled);
+    --_surface-ink: var(--warning-surface-ink);
+    --_surface-ink-hover: var(--warning-surface-ink-hover);
+    --_surface-ink-active: var(--warning-surface-ink-active);
+    --_surface-ink-disabled: var(--warning-surface-ink-disabled);
+    --_border: var(--warning-border);
+    --_border-hover: var(--warning-border-hover);
+    --_border-active: var(--warning-border-active);
+    --_border-disabled: var(--neutral-highest);
+    --_border-muted: var(--warning-border-muted);
+    --_ink: var(--warning-ink);
+    --_ink-strong: var(--warning-ink-strong);
+    --_ink-inverse: var(--warning-ink-inverse);
+    --_ink-muted: var(--warning-ink-muted);
+    --_ink-placeholder: var(--warning-ink-placeholder);
+    --_ink-hover: var(--warning-ink-hover);
+    --_ink-active: var(--warning-ink-active);
+    --_ink-disabled: var(--warning-ink-disabled);
+  }
+
+  :where([intent="danger"]) {
+    --_card: var(--danger-card);
+    --_card-hover: var(--danger-card-hover);
+    --_panel: var(--danger-panel);
+    --_panel-hover: var(--danger-panel-hover);
+    --_panel-active: var(--danger-panel-active);
+    --_panel-disabled: var(--danger-panel-disabled);
+    --_button: var(--danger-button);
+    --_button-hover: var(--danger-button-hover);
+    --_button-active: var(--danger-button-active);
+    --_button-disabled: var(--danger-button-disabled);
+    --_control: var(--danger-control);
+    --_control-hover: var(--danger-control-hover);
+    --_control-active: var(--danger-control-active);
+    --_control-disabled: var(--danger-control-disabled);
+    --_widget: var(--danger-higher);
+    --_widget-hover: var(--danger-control-hover);
+    --_widget-active: var(--danger-control-active);
+    --_widget-disabled: var(--danger-control-disabled);
+    --_surface: var(--danger-surface);
+    --_surface-hover: var(--danger-surface-hover);
+    --_surface-active: var(--danger-surface-active);
+    --_surface-disabled: var(--danger-surface-disabled);
+    --_surface-ink: var(--danger-surface-ink);
+    --_surface-ink-hover: var(--danger-surface-ink-hover);
+    --_surface-ink-active: var(--danger-surface-ink-active);
+    --_surface-ink-disabled: var(--danger-surface-ink-disabled);
+    --_border: var(--danger-border);
+    --_border-hover: var(--danger-border-hover);
+    --_border-active: var(--danger-border-active);
+    --_border-disabled: var(--neutral-highest);
+    --_border-muted: var(--danger-border-muted);
+    --_ink: var(--danger-ink);
+    --_ink-strong: var(--danger-ink-strong);
+    --_ink-inverse: var(--danger-ink-inverse);
+    --_ink-muted: var(--danger-ink-muted);
+    --_ink-placeholder: var(--danger-ink-placeholder);
+    --_ink-hover: var(--danger-ink-hover);
+    --_ink-active: var(--danger-ink-active);
+    --_ink-disabled: var(--danger-ink-disabled);
+  }
+
+  /* ── Variant (maps intent colors to --_background/--_color/--_border-color) ── */
+
+  :where([variant="primary"]) {
+    --_background: var(--_surface);
+    --_background-hover: var(--_surface-hover);
+    --_background-active: var(--_surface-active);
+    --_background-disabled: var(--_surface-disabled);
+    --_color: var(--_surface-ink);
+    --_color-hover: var(--_surface-ink-hover);
+    --_color-active: var(--_surface-ink-active);
+    --_color-disabled: var(--_surface-ink-disabled);
+    --_border-color: transparent;
+    --_border-color-hover: transparent;
+    --_border-color-active: transparent;
+    --_border-color-disabled: transparent;
+  }
+
+  :where([variant="secondary"]) {
+    --_background: var(--_button);
+    --_background-hover: var(--_button-hover);
+    --_background-active: var(--_button-active);
+    --_background-disabled: var(--_button-disabled);
+    --_color: var(--_ink);
+    --_color-hover: var(--_ink-hover);
+    --_color-active: var(--_ink-active);
+    --_color-disabled: var(--_ink-disabled);
+    --_border-color: var(--_border-muted);
+    --_border-color-hover: var(--_border-hover);
+    --_border-color-active: var(--_border-active);
+    --_border-color-disabled: var(--_border-disabled);
+  }
+
+  :where([variant="default"]) {
+    --_background: var(--neutral-button);
+    --_background-hover: var(--neutral-button-hover);
+    --_background-active: var(--neutral-button-active);
+    --_background-disabled: var(--neutral-button-disabled);
+    --_color: var(--_ink);
+    --_color-hover: var(--_ink-hover);
+    --_color-active: var(--_ink-active);
+    --_color-disabled: var(--_ink-disabled);
+    --_border-color: var(--neutral-border-muted);
+    --_border-color-hover: var(--neutral-border-hover);
+    --_border-color-active: var(--neutral-border-active);
+    --_border-color-disabled: var(--_border-disabled);
+  }
+
+  :where([variant="ghost"]) {
+    --_background: transparent;
+    --_background-hover: transparent;
+    --_background-active: transparent;
+    --_background-disabled: transparent;
+    --_color: var(--_ink);
+    --_color-hover: var(--_ink-hover);
+    --_color-active: var(--_ink-active);
+    --_color-disabled: var(--_ink-disabled);
+    --_border-color: transparent;
+    --_border-color-hover: transparent;
+    --_border-color-active: transparent;
+    --_border-color-disabled: transparent;
+  }
+
+  :where([variant="outline"]) {
+    --_background: transparent;
+    --_background-hover: var(--_panel-hover);
+    --_background-active: var(--_panel-active);
+    --_background-disabled: transparent;
+    --_color: var(--_ink);
+    --_color-hover: var(--_ink-hover);
+    --_color-active: var(--_ink-active);
+    --_color-disabled: var(--_ink-disabled);
+    --_border-color: var(--_border);
+    --_border-color-hover: var(--_border-hover);
+    --_border-color-active: var(--_border-active);
+    --_border-color-disabled: var(--_border-disabled);
+  }
+
+  :where([variant="selected"]) {
+    --_background: white;
+    --_background-hover: var(--_panel-hover);
+    --_background-active: var(--_panel-active);
+    --_background-disabled: var(--_panel-disabled);
+    --_color: var(--_ink-inverse);
+    --_color-hover: var(--_ink-hover);
+    --_color-active: var(--_ink-active);
+    --_color-disabled: var(--_ink-disabled);
+    --_border-color: transparent;
+    --_border-color-hover: var(--_border-hover);
+    --_border-color-active: var(--_border-active);
+    --_border-color-disabled: var(--_border-disabled);
+  }
+}

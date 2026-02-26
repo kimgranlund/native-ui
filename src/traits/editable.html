@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editable — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      /* ── Editable Items ── */
+
+      .edit-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .edit-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 0.75rem;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        cursor: default;
+        transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+        outline: none;
+      }
+
+      .edit-item[editing] {
+        background: var(--neutral-body);
+        border-color: var(--accent-border);
+        box-shadow: 0 0 0 2px var(--accent-surface);
+        cursor: text;
+      }
+
+      .edit-item:not([editing]) {
+        user-select: none;
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--neutral-ink-muted);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--neutral-panel);
+        border-radius: 0.25rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      /* ── Pattern Badges ── */
+
+      .pattern-badge {
+        display: inline-block;
+        font-size: 0.625rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.125rem 0.5rem;
+        border-radius: 9999px;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+
+      .pattern-badge.provider {
+        background: var(--info-surface);
+        color: var(--info-surface-ink);
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--neutral-border-muted);
+        color: var(--neutral-ink-strong);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--neutral-border-muted);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+
+    <h1>Editable</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Inline editing pattern. Activate with click or double-click, commit with <strong>Enter</strong>, cancel with <strong>Escape</strong>. Blur also commits.
+    </p>
+
+    <!-- ── Double-Click to Edit (Provider) ── -->
+
+    <h2>Double-Click to Edit <span class="pattern-badge provider">Provider</span></h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        <code>&lt;ui-controller&gt;</code> with <code>for=".edit-item"</code> applies an <code>EditController</code> to each matching item. Double-click to start editing. Press <strong>Enter</strong> to commit or <strong>Escape</strong> to cancel.
+      </p>
+      <ui-controller traits="editable" editable-trigger="dblclick" for=".edit-item">
+        <div id="dbl-list" class="edit-list">
+          <div class="edit-item">Project Roadmap</div>
+          <div class="edit-item">Sprint Planning</div>
+          <div class="edit-item">Design Review</div>
+          <div class="edit-item">Release Notes</div>
+        </div>
+      </ui-controller>
+      <div id="dbl-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="editable"
+  editable-trigger="dblclick"
+  for=".edit-item"&gt;
+  &lt;div class="edit-list"&gt;
+    &lt;div class="edit-item"&gt;Project Roadmap&lt;/div&gt;
+    &lt;div class="edit-item"&gt;Sprint Planning&lt;/div&gt;
+    &lt;div class="edit-item"&gt;Design Review&lt;/div&gt;
+    &lt;div class="edit-item"&gt;Release Notes&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;
+
+// Events bubble up from each item
+list.addEventListener('ui-edit-commit', (e) =&gt; {
+  const { value, previousValue } = e.detail;
+});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Click to Edit (Provider) ── -->
+
+    <h2>Click to Edit <span class="pattern-badge provider">Provider</span></h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Trigger set to <code>'click'</code>. Single click activates editing mode. The <code>for</code> selector applies the trait to each matching descendant individually.
+      </p>
+      <ui-controller traits="editable" editable-trigger="click" for=".edit-item">
+        <div id="click-list" class="edit-list">
+          <div class="edit-item">Task Alpha</div>
+          <div class="edit-item">Task Bravo</div>
+          <div class="edit-item">Task Charlie</div>
+        </div>
+      </ui-controller>
+      <div id="click-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="editable"
+  editable-trigger="click"
+  for=".edit-item"&gt;
+  &lt;div class="edit-list"&gt;
+    &lt;div class="edit-item"&gt;Task Alpha&lt;/div&gt;
+    &lt;div class="edit-item"&gt;Task Bravo&lt;/div&gt;
+    &lt;div class="edit-item"&gt;Task Charlie&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── EditController Direct ── -->
+
+    <h2>EditController — Attach to Any Element</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Use <code>EditController</code> directly on any element without the trait adapter or <code>&lt;ui-controller&gt;</code>. Double-click to edit.
+      </p>
+      <div id="controller-item" class="edit-item">Editable paragraph — double-click me</div>
+      <div id="ctrl-log" class="output"></div>
+      <pre class="demo-code"><code>import { EditController } from '../index.ts';
+
+const item = document.querySelector('#my-item');
+const editor = new EditController(item, {
+  trigger: 'dblclick',
+});
+
+item.addEventListener('ui-edit-start', (e) =&gt; {
+  log(`Editing: "${e.detail.value}"`);
+});
+item.addEventListener('ui-edit-commit', (e) =&gt; {
+  log(`Committed: "${e.detail.value}"`);
+});
+item.addEventListener('ui-edit-cancel', (e) =&gt; {
+  log(`Cancelled: "${e.detail.value}"`);
+});
+
+// Properties: editor.isEditing, editor.originalValue, editor.currentValue
+// Methods: editor.startEdit(), editor.commitEdit(), editor.cancelEdit()
+// Later: editor.destroy();</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Adapter Options (<code>editable-*</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>editable-trigger</code></td>
+            <td><code>'click' | 'dblclick'</code></td>
+            <td><code>'dblclick'</code></td>
+            <td>Which event activates editing mode.</td>
+          </tr>
+          <tr>
+            <td><code>editable-disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables editing when true.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Controller Methods</h3>
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>startEdit()</code></td>
+            <td>—</td>
+            <td>Programmatically enter editing mode. Sets <code>contenteditable</code> and <code>[editing]</code>.</td>
+          </tr>
+          <tr>
+            <td><code>commitEdit()</code></td>
+            <td><code>string</code></td>
+            <td>Commit the current value. Removes editing state and dispatches <code>ui-edit-commit</code>.</td>
+          </tr>
+          <tr>
+            <td><code>cancelEdit()</code></td>
+            <td>—</td>
+            <td>Restore the original value. Removes editing state and dispatches <code>ui-edit-cancel</code>.</td>
+          </tr>
+          <tr>
+            <td><code>destroy()</code></td>
+            <td>—</td>
+            <td>Cancel any active edit, detach all listeners, and clean up.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Controller Properties</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>isEditing</code></td>
+            <td><code>boolean</code></td>
+            <td>Whether the element is currently in editing mode.</td>
+          </tr>
+          <tr>
+            <td><code>originalValue</code></td>
+            <td><code>string</code></td>
+            <td>The text content captured when editing started.</td>
+          </tr>
+          <tr>
+            <td><code>currentValue</code></td>
+            <td><code>string</code></td>
+            <td>The current text content of the host element.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>ui-edit-start</code></td>
+            <td><code>{ value }</code></td>
+            <td>Fired when editing begins. <code>value</code> is the original text.</td>
+          </tr>
+          <tr>
+            <td><code>ui-edit-commit</code></td>
+            <td><code>{ value, previousValue }</code></td>
+            <td>Fired when Enter is pressed or the element blurs. <code>value</code> is the new text.</td>
+          </tr>
+          <tr>
+            <td><code>ui-edit-cancel</code></td>
+            <td><code>{ value }</code></td>
+            <td>Fired when Escape is pressed. Text is restored to <code>value</code> (original).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Set on</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>[editing]</code></td>
+            <td>Host element</td>
+            <td>Present while the element is in editing mode. Use for focus/highlight styling.</td>
+          </tr>
+          <tr>
+            <td><code>[contenteditable="plaintext-only"]</code></td>
+            <td>Host element</td>
+            <td>Set automatically when editing starts. Restricts input to plain text.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></ui-layout>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components and wire demos -->
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../components/ui-controller/ui-controller.ts';
+      import '../icons/ui-icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+      import { EditController } from '../index.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Helper: event logging ──
+
+      function appendLog(el, msg) {
+        if (!el) return;
+        const line = document.createElement('div');
+        line.textContent = msg;
+        el.appendChild(line);
+        el.scrollTop = el.scrollHeight;
+        while (el.children.length > 20) el.removeChild(el.firstChild);
+      }
+
+      // ── Double-Click to Edit (provider) ──
+      // ui-controller with for=".edit-item" applies EditController to each item.
+      // Events bubble up from each item to the list container.
+
+      const dblLogEl = document.getElementById('dbl-log');
+      const dblList = document.getElementById('dbl-list');
+
+      dblList.addEventListener('ui-edit-start', (e) => {
+        appendLog(dblLogEl, `Editing: "${e.detail.value}"`);
+      });
+      dblList.addEventListener('ui-edit-commit', (e) => {
+        appendLog(dblLogEl, `Committed: "${e.detail.value}" (was "${e.detail.previousValue}")`);
+      });
+      dblList.addEventListener('ui-edit-cancel', (e) => {
+        appendLog(dblLogEl, `Cancelled: "${e.detail.value}"`);
+      });
+
+      // ── Click to Edit (provider) ──
+
+      const clickLogEl = document.getElementById('click-log');
+      const clickList = document.getElementById('click-list');
+
+      clickList.addEventListener('ui-edit-start', (e) => {
+        appendLog(clickLogEl, `Editing: "${e.detail.value}"`);
+      });
+      clickList.addEventListener('ui-edit-commit', (e) => {
+        appendLog(clickLogEl, `Committed: "${e.detail.value}" (was "${e.detail.previousValue}")`);
+      });
+      clickList.addEventListener('ui-edit-cancel', (e) => {
+        appendLog(clickLogEl, `Cancelled: "${e.detail.value}"`);
+      });
+
+      // ── EditController — attach to plain element ──
+
+      const ctrlItem = document.getElementById('controller-item');
+      const ctrlEditor = new EditController(ctrlItem, { trigger: 'dblclick' });
+
+      const ctrlLogEl = document.getElementById('ctrl-log');
+
+      ctrlItem.addEventListener('ui-edit-start', (e) => {
+        appendLog(ctrlLogEl, `Editing: "${e.detail.value}"`);
+      });
+      ctrlItem.addEventListener('ui-edit-commit', (e) => {
+        appendLog(ctrlLogEl, `Committed: "${e.detail.value}" (was "${e.detail.previousValue}")`);
+      });
+      ctrlItem.addEventListener('ui-edit-cancel', (e) => {
+        appendLog(ctrlLogEl, `Cancelled: "${e.detail.value}"`);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  ui-header                                               │
+     │  Sub-container header with leading / label / trailing    │
+     │  slots. Grid adapts columns to which slots are present.  │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* ── Base ── */
+
+  :where(ui-header) {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    gap: calc(var(--_space) * 2);
+    padding-block: calc(var(--_space) * 2);
+    padding-inline: calc(var(--_space-k) * var(--_space));
+    font-weight: var(--ui-font-weight-button);
+    color: var(--_ink-strong);
+    min-width: 0;
+  }
+
+  /* ── Slots ── */
+  /* WHY: Redefine grid-template per slot combination so absent leading/trailing
+     columns don't leave empty space. Four combos: both, leading-only,
+     trailing-only, label-only (base). */
+
+  :where(ui-header):has(> [slot="leading"]):has(> [slot="trailing"]) {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  :where(ui-header):has(> [slot="leading"]):not(:has(> [slot="trailing"])) {
+    grid-template-columns: auto 1fr;
+  }
+
+  :where(ui-header):not(:has(> [slot="leading"])):has(> [slot="trailing"]) {
+    grid-template-columns: 1fr auto;
+  }
+
+  :where(ui-header) > :where([slot="leading"]) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--_space) * 2);
+  }
+
+  :where(ui-header) > :where([slot="label"]),
+  :where(ui-header) > :where(:not([slot])) {
+    min-width: 0;
+  }
+
+  :where(ui-header) > :where([slot="trailing"]) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--_space) * 2);
+  }
+
+  /* ── Align ── */
+
+  :where(ui-header)[align="center"] > :where([slot="label"]),
+  :where(ui-header)[align="center"] > :where(:not([slot])) {
+    text-align: center;
+  }
+
+  :where(ui-header)[align="end"] > :where([slot="label"]),
+  :where(ui-header)[align="end"] > :where(:not([slot])) {
+    text-align: end;
+  }
+
+  /* ── Sticky ── */
+
+  :where(ui-header)[sticky] {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: inherit;
+  }
+
+}

@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ui-input-otp — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>&lt;ui-input-otp&gt;</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Segmented OTP input. Auto-advance on entry, backspace returns, paste fills all cells.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic (6 digits)</h2>
+    <div class="demo-section">
+      <ui-field>
+        <label slot="label">Verification code</label>
+        <ui-input-otp></ui-input-otp>
+        <span slot="description">Enter the 6-digit code sent to your phone.</span>
+      </ui-field>
+      <pre class="demo-code"><code>&lt;ui-field&gt;
+  &lt;label slot="label"&gt;Verification code&lt;/label&gt;
+  &lt;ui-input-otp&gt;&lt;/ui-input-otp&gt;
+  &lt;span slot="description"&gt;Enter the 6-digit code.&lt;/span&gt;
+&lt;/ui-field&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── 4 Digits ── -->
+
+    <h2>4 Digits</h2>
+    <div class="demo-section">
+      <ui-field>
+        <label slot="label">PIN</label>
+        <ui-input-otp length="4"></ui-input-otp>
+      </ui-field>
+          <pre class="demo-code"><code>&lt;ui-input-otp length="4"&gt;&lt;/ui-input-otp&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Masked ── -->
+
+    <h2>Masked</h2>
+    <div class="demo-section">
+      <ui-field>
+        <label slot="label">Security code</label>
+        <ui-input-otp mask></ui-input-otp>
+        <span slot="description">Characters are hidden for security.</span>
+      </ui-field>
+          <pre class="demo-code"><code>&lt;ui-input-otp mask&gt;&lt;/ui-input-otp&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── With Value ── -->
+
+    <h2>Pre-filled</h2>
+    <div class="demo-section">
+      <ui-field>
+        <label slot="label">Confirmation</label>
+        <ui-input-otp value="123456"></ui-input-otp>
+      </ui-field>
+          <pre class="demo-code"><code>&lt;ui-input-otp value="123456"&gt;&lt;/ui-input-otp&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section">
+      <ui-field disabled>
+        <label slot="label">Locked code</label>
+        <ui-input-otp value="847291"></ui-input-otp>
+      </ui-field>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <ui-stack gap="4">
+        <ui-field size="sm">
+          <label slot="label">Small</label>
+          <ui-input-otp length="4"></ui-input-otp>
+        </ui-field>
+        <ui-field>
+          <label slot="label">Default</label>
+          <ui-input-otp length="4"></ui-input-otp>
+        </ui-field>
+        <ui-field size="lg">
+          <label slot="label">Large</label>
+          <ui-input-otp length="4"></ui-input-otp>
+        </ui-field>
+      </ui-stack>
+      <pre class="demo-code"><code>&lt;ui-input-otp length="4" size="sm"&gt;&lt;/ui-input-otp&gt;
+&lt;ui-input-otp length="4"&gt;&lt;/ui-input-otp&gt;
+&lt;ui-input-otp length="4" size="lg"&gt;&lt;/ui-input-otp&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Live Value ── -->
+
+    <h2>Live Value</h2>
+    <div class="demo-section">
+      <ui-field>
+        <label slot="label">Code: <span id="otp-value" style="font-size: 0.8125rem; color: var(--neutral-ink-muted); font-variant-numeric: tabular-nums;">______</span></label>
+        <ui-input-otp id="otp-live" length="6"></ui-input-otp>
+      </ui-field>
+      <pre class="demo-code"><code>&lt;ui-input-otp id="otp-live" length="6"&gt;&lt;/ui-input-otp&gt;
+
+&lt;script&gt;
+  otp.addEventListener('ui-input', (e) =&gt; {
+    console.log(e.detail.value);
+  });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+          <div style="font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--neutral-ink-muted); margin-bottom: 0.5rem;">force-hover</div>
+          <ui-input-otp force-hover length="4"></ui-input-otp>
+        </div>
+        <div>
+          <div style="font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--neutral-ink-muted); margin-bottom: 0.5rem;">force-focus</div>
+          <ui-input-otp force-focus length="4"></ui-input-otp>
+        </div>
+      </div>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../nav/ui-layout.ts';
+      import './ui-input-otp.ts';
+      import '../ui-field/ui-field.ts';
+      import '../ui-input/ui-input.ts';
+      import '../ui-button/ui-button.ts';
+      import '../../icons/ui-icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      const otp = document.getElementById('otp-live');
+      const display = document.getElementById('otp-value');
+      otp?.addEventListener('ui-input', (e) => {
+        const val = e.detail.value;
+        display.textContent = val.padEnd(6, '_');
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

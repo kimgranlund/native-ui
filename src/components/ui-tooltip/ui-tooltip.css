@@ -1,0 +1,92 @@
+@layer ui {
+
+  /* ── Tooltip Base ── */
+  /* WHY: Tooltip is a child of its trigger, display:contents when closed
+     so it doesn't affect the trigger's layout. Promoted to top-layer
+     via [popover] when shown. */
+
+  :where(ui-tooltip) {
+    display: contents;
+  }
+
+  :where(ui-tooltip[popover]) {
+    position: fixed;
+    /* Default placement: above the anchor */
+    position-area: block-start;
+    position-try-fallbacks: flip-block, flip-inline;
+    margin: 0;
+
+    max-width: var(--ui-tooltip-max-width);
+    padding-block: calc(var(--_space) * 1.5);
+    padding-inline: calc(var(--_space-k) * var(--_space) * 0.75);
+
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+    line-height: var(--ui-line-height-text);
+    font-weight: var(--ui-font-weight-text);
+
+    color: var(--_surface-ink);
+    background: var(--_surface);
+    border: 1px solid var(--_border-muted);
+    border-radius: calc(var(--_radius) * 0.6);
+
+    box-shadow: var(--ui-shadow-md);
+
+    /* WHY: Override UA popover styles */
+    inset: unset;
+    overflow: visible;
+
+    opacity: 0;
+    transform: scale(0.96);
+    transition:
+      opacity var(--_duration) var(--_easing),
+      transform var(--_duration) var(--_easing),
+      display var(--_duration) var(--_easing) allow-discrete,
+      overlay var(--_duration) var(--_easing) allow-discrete;
+  }
+
+  /* ── Open State ── */
+
+  :where(ui-tooltip[popover]):popover-open {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Starting style for entry animation */
+  @starting-style {
+    :where(ui-tooltip[popover]):popover-open {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+  }
+
+  /* ── Placement Variants ── */
+
+  :where(ui-tooltip[placement="top"]) {
+    position-area: block-start;
+    margin-bottom: calc(var(--_space) * 2);
+  }
+
+  :where(ui-tooltip[placement="bottom"]) {
+    position-area: block-end;
+    margin-top: calc(var(--_space) * 2);
+  }
+
+  :where(ui-tooltip[placement="left"]) {
+    position-area: inline-start;
+    margin-right: calc(var(--_space) * 2);
+  }
+
+  :where(ui-tooltip[placement="right"]) {
+    position-area: inline-end;
+    margin-left: calc(var(--_space) * 2);
+  }
+
+  /* ── Hidden (not :popover-open) ── */
+  /* WHY: Override author display so UA display:none takes effect */
+
+  :where(ui-tooltip[popover]):not(:popover-open) {
+    display: none;
+  }
+
+}

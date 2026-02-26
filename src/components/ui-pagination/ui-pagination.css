@@ -1,0 +1,45 @@
+@layer ui {
+
+  /* ── Pagination Container ── */
+
+  :where(ui-pagination) {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--_space) * 1);
+  }
+
+  /* ── Page buttons ── */
+  /* WHY: Ghost variant sets hover to transparent; pagination buttons want
+     a subtle panel-hover fill on hover for better interactivity feedback. */
+
+  :where(ui-pagination) > :where(ui-button) {
+    --_background-hover: var(--_panel-hover);
+    --_background-active: var(--_panel-active);
+    --_radius: var(--ui-radius-md);
+  }
+
+  /* ── Current page highlight ── */
+
+  :where(ui-pagination) > :where(ui-button[aria-current="page"]) {
+    --_background: var(--_surface);
+    --_color: var(--_surface-ink);
+    --_border-color: var(--_surface);
+  }
+
+  /* ── Ellipsis ── */
+
+  :where(ui-pagination) > :where(.ui-pagination-ellipsis) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--_min-height);
+    min-height: var(--_min-height);
+    color: var(--_ink-muted);
+    font-size: var(--_font-size);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  :where(ui-pagination[hidden]) { display: none; }
+
+}

@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ui-textarea — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+        margin-top: 1.5rem;
+        color: var(--neutral-ink-muted);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .demo-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .demo-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--neutral-ink-muted);
+        margin-bottom: 0.25rem;
+      }
+
+      .log {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.375rem;
+        padding: 0.75rem;
+        max-height: 10rem;
+        overflow-y: auto;
+        margin-top: 0.5rem;
+      }
+
+      .log-entry {
+        padding: 0.125rem 0;
+        color: var(--neutral-ink-muted);
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>&lt;ui-textarea&gt;</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Multi-line text input with contenteditable, autogrow, rows presets, and maxlength.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <div class="demo-section">
+      <ui-textarea placeholder="Tell us about yourself..."></ui-textarea>
+        <pre class="demo-code"><code>&lt;ui-textarea placeholder="Tell us about yourself..."&gt;&lt;/ui-textarea&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── With Value ── -->
+
+    <h2>With Value</h2>
+    <div class="demo-section">
+      <ui-textarea rows="4">This is a textarea with some initial content. It supports multi-line text editing with all the same styling as ui-input.</ui-textarea>
+        <pre class="demo-code"><code>&lt;ui-textarea rows="4"&gt;Initial content here.&lt;/ui-textarea&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Variants ── -->
+
+    <h2>Variants</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <div>
+          <div class="demo-label">secondary (default)</div>
+          <ui-textarea placeholder="Secondary textarea"></ui-textarea>
+        </div>
+        <div>
+          <div class="demo-label">outline</div>
+          <ui-textarea variant="outline" placeholder="Outline textarea"></ui-textarea>
+        </div>
+        <div>
+          <div class="demo-label">ghost</div>
+          <ui-textarea variant="ghost" placeholder="Ghost textarea"></ui-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-textarea placeholder="Secondary (default)"&gt;&lt;/ui-textarea&gt;
+&lt;ui-textarea variant="outline" placeholder="Outline"&gt;&lt;/ui-textarea&gt;
+&lt;ui-textarea variant="ghost" placeholder="Ghost"&gt;&lt;/ui-textarea&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <div size="sm">
+          <div class="demo-label">sm</div>
+          <ui-textarea placeholder="Small textarea"></ui-textarea>
+        </div>
+        <div>
+          <div class="demo-label">md (default)</div>
+          <ui-textarea placeholder="Medium textarea"></ui-textarea>
+        </div>
+        <div size="lg">
+          <div class="demo-label">lg</div>
+          <ui-textarea placeholder="Large textarea"></ui-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;div size="sm"&gt;
+  &lt;ui-textarea placeholder="Small"&gt;&lt;/ui-textarea&gt;
+&lt;/div&gt;
+&lt;ui-textarea placeholder="Medium (default)"&gt;&lt;/ui-textarea&gt;
+&lt;div size="lg"&gt;
+  &lt;ui-textarea placeholder="Large"&gt;&lt;/ui-textarea&gt;
+&lt;/div&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <div density="compact">
+          <div class="demo-label">compact</div>
+          <ui-textarea placeholder="Compact textarea"></ui-textarea>
+        </div>
+        <div>
+          <div class="demo-label">default</div>
+          <ui-textarea placeholder="Default textarea"></ui-textarea>
+        </div>
+        <div density="loose">
+          <div class="demo-label">loose</div>
+          <ui-textarea placeholder="Loose textarea"></ui-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;div density="compact"&gt;
+  &lt;ui-textarea placeholder="Compact"&gt;&lt;/ui-textarea&gt;
+&lt;/div&gt;
+&lt;ui-textarea placeholder="Default"&gt;&lt;/ui-textarea&gt;
+&lt;div density="loose"&gt;
+  &lt;ui-textarea placeholder="Loose"&gt;&lt;/ui-textarea&gt;
+&lt;/div&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Rows ── -->
+
+    <h2>Rows</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <div>
+          <div class="demo-label">rows="1"</div>
+          <ui-textarea rows="1" placeholder="Single line height"></ui-textarea>
+        </div>
+        <div>
+          <div class="demo-label">rows="2"</div>
+          <ui-textarea rows="2" placeholder="Two rows"></ui-textarea>
+        </div>
+        <div>
+          <div class="demo-label">rows="3" (default)</div>
+          <ui-textarea placeholder="Three rows (default)"></ui-textarea>
+        </div>
+        <div>
+          <div class="demo-label">rows="5"</div>
+          <ui-textarea rows="5" placeholder="Five rows"></ui-textarea>
+        </div>
+        <div>
+          <div class="demo-label">rows="8"</div>
+          <ui-textarea rows="8" placeholder="Eight rows"></ui-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-textarea rows="1" placeholder="Single line"&gt;&lt;/ui-textarea&gt;
+&lt;ui-textarea rows="3" placeholder="Three rows (default)"&gt;&lt;/ui-textarea&gt;
+&lt;ui-textarea rows="5" placeholder="Five rows"&gt;&lt;/ui-textarea&gt;
+&lt;ui-textarea rows="8" placeholder="Eight rows"&gt;&lt;/ui-textarea&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Autogrow ── -->
+
+    <h2>Autogrow</h2>
+    <div class="demo-section">
+      <ui-textarea placeholder="Type here — grows as you type..." autogrow></ui-textarea>
+        <pre class="demo-code"><code>&lt;ui-textarea placeholder="Type here..." autogrow&gt;&lt;/ui-textarea&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Maxlength ── -->
+
+    <h2>Maxlength</h2>
+    <div class="demo-section">
+      <ui-textarea placeholder="Max 100 characters..." maxlength="100"></ui-textarea>
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-top: 0.5rem;">Limited to 100 characters. Excess input is truncated.</p>
+        <pre class="demo-code"><code>&lt;ui-textarea placeholder="Max 100 characters..." maxlength="100"&gt;&lt;/ui-textarea&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Intents ── -->
+
+    <h2>Intents</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <div intent="neutral">
+          <div class="demo-label">neutral</div>
+          <ui-textarea placeholder="Neutral"></ui-textarea>
+        </div>
+        <div intent="accent">
+          <div class="demo-label">accent</div>
+          <ui-textarea placeholder="Accent"></ui-textarea>
+        </div>
+        <div intent="info">
+          <div class="demo-label">info</div>
+          <ui-textarea placeholder="Info"></ui-textarea>
+        </div>
+        <div intent="success">
+          <div class="demo-label">success</div>
+          <ui-textarea placeholder="Success"></ui-textarea>
+        </div>
+        <div intent="warning">
+          <div class="demo-label">warning</div>
+          <ui-textarea placeholder="Warning"></ui-textarea>
+        </div>
+        <div intent="danger">
+          <div class="demo-label">danger</div>
+          <ui-textarea placeholder="Danger"></ui-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;div intent="accent"&gt;
+  &lt;ui-textarea placeholder="Accent"&gt;&lt;/ui-textarea&gt;
+&lt;/div&gt;
+&lt;div intent="success"&gt;
+  &lt;ui-textarea placeholder="Success"&gt;&lt;/ui-textarea&gt;
+&lt;/div&gt;
+&lt;div intent="danger"&gt;
+  &lt;ui-textarea placeholder="Danger"&gt;&lt;/ui-textarea&gt;
+&lt;/div&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Disabled & Readonly ── -->
+
+    <h2>Disabled &amp; Readonly</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <div>
+          <div class="demo-label">disabled</div>
+          <ui-textarea disabled>This content cannot be edited.</ui-textarea>
+        </div>
+        <div>
+          <div class="demo-label">readonly</div>
+          <ui-textarea readonly>This content is read-only but selectable.</ui-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;ui-textarea disabled&gt;Cannot be edited.&lt;/ui-textarea&gt;
+&lt;ui-textarea readonly&gt;Read-only but selectable.&lt;/ui-textarea&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Radius ── -->
+
+    <h2>Radius</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <div radius="sharp">
+          <div class="demo-label">sharp</div>
+          <ui-textarea placeholder="Sharp radius"></ui-textarea>
+        </div>
+        <div>
+          <div class="demo-label">default</div>
+          <ui-textarea placeholder="Default radius"></ui-textarea>
+        </div>
+        <div radius="round">
+          <div class="demo-label">round</div>
+          <ui-textarea placeholder="Round radius"></ui-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;div radius="sharp"&gt;
+  &lt;ui-textarea placeholder="Sharp"&gt;&lt;/ui-textarea&gt;
+&lt;/div&gt;
+&lt;ui-textarea placeholder="Default"&gt;&lt;/ui-textarea&gt;
+&lt;div radius="round"&gt;
+  &lt;ui-textarea placeholder="Round"&gt;&lt;/ui-textarea&gt;
+&lt;/div&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Events ── -->
+
+    <h2>Events</h2>
+    <div class="demo-section">
+      <ui-textarea id="event-textarea" placeholder="Type to see events..."></ui-textarea>
+      <div class="log" id="event-log"></div>
+    <pre class="demo-code"><code>&lt;ui-textarea id="my-textarea" placeholder="Type..."&gt;&lt;/ui-textarea&gt;
+
+&lt;script&gt;
+  const ta = document.getElementById('my-textarea');
+  ta.addEventListener('ui-input', (e) =&gt; {
+    console.log('input:', e.detail.value);
+  });
+  ta.addEventListener('ui-change', (e) =&gt; {
+    console.log('change:', e.detail.value);
+  });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Form Association ── -->
+
+    <h2>Form Association</h2>
+    <div class="demo-section">
+      <form id="demo-form">
+        <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <ui-textarea name="bio" placeholder="Write your bio..."></ui-textarea>
+          <ui-textarea name="notes" placeholder="Additional notes..." rows="2"></ui-textarea>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <ui-button variant="primary" type="submit"><span slot="label">Submit</span></ui-button>
+          <ui-button variant="secondary" type="reset"><span slot="label">Reset</span></ui-button>
+        </div>
+      </form>
+      <div class="log" id="form-log"></div>
+    <pre class="demo-code"><code>&lt;form&gt;
+  &lt;ui-textarea name="bio" placeholder="Write your bio..."&gt;&lt;/ui-textarea&gt;
+  &lt;ui-button variant="primary" type="submit"&gt;
+    &lt;span slot="label"&gt;Submit&lt;/span&gt;
+  &lt;/ui-button&gt;
+&lt;/form&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── With ui-field ── -->
+
+    <h2>With ui-field</h2>
+    <div class="demo-section">
+      <ui-stack gap="4">
+        <ui-field>
+          <label slot="label">Bio</label>
+          <ui-textarea placeholder="Tell us about yourself..."></ui-textarea>
+        </ui-field>
+        <ui-field required>
+          <label slot="label">Feedback</label>
+          <ui-textarea placeholder="Required field..." rows="4"></ui-textarea>
+          <span slot="description">We appreciate your feedback.</span>
+        </ui-field>
+        <ui-field disabled>
+          <label slot="label">Locked</label>
+          <ui-textarea>This field is disabled via ui-field.</ui-textarea>
+        </ui-field>
+      </ui-stack>
+    <pre class="demo-code"><code>&lt;ui-field&gt;
+  &lt;label slot="label"&gt;Bio&lt;/label&gt;
+  &lt;ui-textarea placeholder="Tell us about yourself..."&gt;&lt;/ui-textarea&gt;
+&lt;/ui-field&gt;
+&lt;ui-field required&gt;
+  &lt;label slot="label"&gt;Feedback&lt;/label&gt;
+  &lt;ui-textarea placeholder="Required..." rows="4"&gt;&lt;/ui-textarea&gt;
+  &lt;span slot="description"&gt;We appreciate your feedback.&lt;/span&gt;
+&lt;/ui-field&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
+      </p>
+      <div class="demo-row">
+        <div>
+          <div class="demo-label">force-hover</div>
+          <ui-textarea force-hover placeholder="Force hover"></ui-textarea>
+        </div>
+        <div>
+          <div class="demo-label">force-focus</div>
+          <ui-textarea force-focus placeholder="Force focus"></ui-textarea>
+        </div>
+      </div>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../nav/ui-layout.ts';
+      import './ui-textarea.ts';
+      import '../ui-field/ui-field.ts';
+      import '../ui-button/ui-button.ts';
+      import '../../icons/ui-icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Event logging
+      const eventTextarea = document.getElementById('event-textarea');
+      const eventLog = document.getElementById('event-log');
+      let count = 0;
+
+      eventTextarea.addEventListener('ui-input', (e) => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} ui-input — value: "${e.detail.value}"`;
+        eventLog.prepend(entry);
+      });
+
+      eventTextarea.addEventListener('ui-change', (e) => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} ui-change — value: "${e.detail.value}"`;
+        eventLog.prepend(entry);
+      });
+
+      // Form logging
+      const form = document.getElementById('demo-form');
+      const formLog = document.getElementById('form-log');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `submit — ${[...data.entries()].map(([k, v]) => `${k}: "${v}"`).join(', ')}`;
+        formLog.prepend(entry);
+      });
+
+      form.addEventListener('reset', () => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = 'reset';
+        formLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sortable — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      /* ── Sort Table ── */
+
+      .sort-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+      }
+
+      .sort-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.625rem 0.75rem;
+        border-bottom: 2px solid var(--neutral-border-muted);
+        color: var(--neutral-ink-strong);
+        cursor: pointer;
+        user-select: none;
+        white-space: nowrap;
+      }
+
+      .sort-table th:hover {
+        color: var(--accent-ink);
+      }
+
+      .sort-table th::after {
+        content: '';
+        display: inline-block;
+        width: 1em;
+        text-align: center;
+        margin-left: 0.25rem;
+        color: var(--neutral-ink-muted);
+      }
+
+      .sort-table th[aria-sort="ascending"]::after {
+        content: '\2191';
+        color: var(--accent-ink);
+      }
+
+      .sort-table th[aria-sort="descending"]::after {
+        content: '\2193';
+        color: var(--accent-ink);
+      }
+
+      .sort-table td {
+        padding: 0.625rem 0.75rem;
+        border-bottom: 1px solid var(--neutral-border-muted);
+      }
+
+      .sort-table tbody tr {
+        transition: background 100ms ease;
+      }
+
+      .sort-table tbody tr:hover {
+        background: var(--neutral-panel);
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--neutral-ink-muted);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--neutral-panel);
+        border-radius: 0.25rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--neutral-border-muted);
+        color: var(--neutral-ink-strong);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--neutral-border-muted);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+
+    <h1>Sortable</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Column sort state cycling (asc &rarr; desc &rarr; none) with ARIA sync. Click a header to cycle sort direction. The consumer handles actual data reordering in the <code>ui-sort</code> event.
+    </p>
+
+    <!-- ── Basic Table Sort ── -->
+
+    <h2>Basic Table Sort</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        <code>&lt;ui-controller&gt;</code> wraps a plain <code>&lt;div&gt;</code> and applies the sortable trait. Click column headers to cycle sort direction. ARIA <code>aria-sort</code> is synced automatically.
+      </p>
+      <ui-controller traits="sortable" sortable-selector="th">
+        <div id="basic-wrapper">
+          <table class="sort-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Language</th>
+                <th>Stars</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>React</td><td>JavaScript</td><td>220k</td></tr>
+              <tr><td>Vue</td><td>TypeScript</td><td>207k</td></tr>
+              <tr><td>Svelte</td><td>TypeScript</td><td>80k</td></tr>
+              <tr><td>Angular</td><td>TypeScript</td><td>96k</td></tr>
+              <tr><td>Lit</td><td>TypeScript</td><td>18k</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </ui-controller>
+      <div id="basic-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="sortable" sortable-selector="th"&gt;
+  &lt;div&gt;
+    &lt;table class="sort-table"&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Name&lt;/th&gt;
+          &lt;th&gt;Language&lt;/th&gt;
+          &lt;th&gt;Stars&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;&lt;td&gt;React&lt;/td&gt;&lt;td&gt;JavaScript&lt;/td&gt;&lt;td&gt;220k&lt;/td&gt;&lt;/tr&gt;
+        &lt;!-- ... --&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;
+
+&lt;script&gt;
+  const wrapper = document.getElementById('basic-wrapper');
+  wrapper.addEventListener('ui-sort', (e) =&gt; {
+    const { column, direction } = e.detail;
+    const tbody = wrapper.querySelector('tbody');
+    const rows = [...tbody.querySelectorAll('tr')];
+    const headers = [...wrapper.querySelectorAll('th')];
+    const colIndex = headers.findIndex(
+      h =&gt; h.textContent.trim() === column
+    );
+    if (direction === 'none') return;
+    rows.sort((a, b) =&gt; {
+      const aVal = a.children[colIndex].textContent;
+      const bVal = b.children[colIndex].textContent;
+      const cmp = aVal.localeCompare(bVal, undefined, { numeric: true });
+      return direction === 'asc' ? cmp : -cmp;
+    });
+    for (const row of rows) tbody.appendChild(row);
+  });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Custom Selector ── -->
+
+    <h2>Custom Selector</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Using <code>data-column</code> attributes on headers with a <code>[data-column]</code> selector. Column identity comes from the attribute rather than text content.
+      </p>
+      <ui-controller traits="sortable" sortable-selector="[data-column]">
+        <div id="custom-wrapper">
+          <table class="sort-table">
+            <thead>
+              <tr>
+                <th data-column="city">City</th>
+                <th data-column="country">Country</th>
+                <th data-column="population">Population</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Tokyo</td><td>Japan</td><td>13.96M</td></tr>
+              <tr><td>London</td><td>UK</td><td>8.98M</td></tr>
+              <tr><td>New York</td><td>USA</td><td>8.34M</td></tr>
+              <tr><td>Paris</td><td>France</td><td>2.16M</td></tr>
+              <tr><td>Berlin</td><td>Germany</td><td>3.64M</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </ui-controller>
+      <div id="custom-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="sortable" sortable-selector="[data-column]"&gt;
+  &lt;div&gt;
+    &lt;table class="sort-table"&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th data-column="city"&gt;City&lt;/th&gt;
+          &lt;th data-column="country"&gt;Country&lt;/th&gt;
+          &lt;th data-column="population"&gt;Population&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;&lt;td&gt;Tokyo&lt;/td&gt;&lt;td&gt;Japan&lt;/td&gt;&lt;td&gt;13.96M&lt;/td&gt;&lt;/tr&gt;
+        &lt;!-- ... --&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;
+
+&lt;script&gt;
+  const wrapper = document.getElementById('custom-wrapper');
+  wrapper.addEventListener('ui-sort', (e) =&gt; {
+    const { column, direction } = e.detail;
+    const tbody = wrapper.querySelector('tbody');
+    const rows = [...tbody.querySelectorAll('tr')];
+    const headers = [...wrapper.querySelectorAll('[data-column]')];
+    const colIndex = headers.findIndex(
+      h =&gt; h.dataset.column === column
+    );
+    if (direction === 'none') return;
+    rows.sort((a, b) =&gt; {
+      const aVal = a.children[colIndex].textContent;
+      const bVal = b.children[colIndex].textContent;
+      const cmp = aVal.localeCompare(bVal, undefined, { numeric: true });
+      return direction === 'asc' ? cmp : -cmp;
+    });
+    for (const row of rows) tbody.appendChild(row);
+  });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Provider Usage</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>sortable-selector</code></td>
+            <td><code>string</code></td>
+            <td><code>''</code></td>
+            <td>CSS selector for clickable header elements within the host.</td>
+          </tr>
+          <tr>
+            <td><code>sortable-disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables sort cycling when true. Header clicks are ignored.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>ui-sort</code></td>
+            <td><code>{ column, direction }</code></td>
+            <td>Fired when sort state changes. <code>column</code> is the column name (from <code>data-column</code> or text content), <code>direction</code> is <code>'asc'</code>, <code>'desc'</code>, or <code>'none'</code>. Consumer handles actual data reordering.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>[aria-sort="ascending"]</code></td>
+            <td>Set on the header element for the currently sorted column when direction is <code>'asc'</code>.</td>
+          </tr>
+          <tr>
+            <td><code>[aria-sort="descending"]</code></td>
+            <td>Set on the header element for the currently sorted column when direction is <code>'desc'</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></ui-layout>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../components/ui-controller/ui-controller.ts';
+      import '../icons/ui-icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+
+      // ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Basic Table Sort ──
+
+      const basicWrapper = document.getElementById('basic-wrapper');
+      basicWrapper.addEventListener('ui-sort', (e) => {
+        const { column, direction } = e.detail;
+        const tbody = basicWrapper.querySelector('tbody');
+        const rows = [...tbody.querySelectorAll('tr')];
+        const headers = [...basicWrapper.querySelectorAll('th')];
+        const colIndex = headers.findIndex(h => h.textContent.trim() === column);
+        if (direction === 'none') return;
+        rows.sort((a, b) => {
+          const aVal = a.children[colIndex].textContent;
+          const bVal = b.children[colIndex].textContent;
+          const cmp = aVal.localeCompare(bVal, undefined, { numeric: true });
+          return direction === 'asc' ? cmp : -cmp;
+        });
+        for (const row of rows) tbody.appendChild(row);
+      });
+
+      // ── Custom Selector Sort ──
+
+      const customWrapper = document.getElementById('custom-wrapper');
+      customWrapper.addEventListener('ui-sort', (e) => {
+        const { column, direction } = e.detail;
+        const tbody = customWrapper.querySelector('tbody');
+        const rows = [...tbody.querySelectorAll('tr')];
+        const headers = [...customWrapper.querySelectorAll('[data-column]')];
+        const colIndex = headers.findIndex(h => h.dataset.column === column);
+        if (direction === 'none') return;
+        rows.sort((a, b) => {
+          const aVal = a.children[colIndex].textContent;
+          const bVal = b.children[colIndex].textContent;
+          const cmp = aVal.localeCompare(bVal, undefined, { numeric: true });
+          return direction === 'asc' ? cmp : -cmp;
+        });
+        for (const row of rows) tbody.appendChild(row);
+      });
+
+      // ── Event logging ──
+
+      function appendLog(el, msg) {
+        const line = document.createElement('div');
+        line.textContent = msg;
+        el.appendChild(line);
+        el.scrollTop = el.scrollHeight;
+      }
+
+      const basicLogEl = document.getElementById('basic-log');
+      basicWrapper.addEventListener('ui-sort', (e) => {
+        appendLog(basicLogEl, `Sort: ${e.detail.column} ${e.detail.direction}`);
+      });
+
+      const customLogEl = document.getElementById('custom-log');
+      customWrapper.addEventListener('ui-sort', (e) => {
+        appendLog(customLogEl, `Sort: ${e.detail.column} ${e.detail.direction}`);
+      });
+    </script>
+  </body>
+</html>

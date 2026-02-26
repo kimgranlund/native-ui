@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up — Auth Block</title>
+    <link rel="stylesheet" href="../../../styles/index.css" />
+    <link rel="stylesheet" href="../../../styles/components.css" />
+    <style>
+      body { background: var(--neutral-doc); color: var(--neutral-950); }
+      main { padding: 2rem; }
+      h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+      h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; margin-top: 2rem; color: var(--neutral-ink-strong); }
+
+      .auth-centered {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 8rem);
+      }
+
+      .auth-card-wrapper {
+        width: 100%;
+        max-width: 24rem;
+      }
+
+      .auth-logo {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .auth-logo-mark {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.5rem;
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.125rem;
+      }
+
+      .auth-heading {
+        text-align: center;
+        margin-bottom: 0.25rem;
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+
+      .auth-subheading {
+        text-align: center;
+        color: var(--neutral-ink-muted);
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .auth-footer-text {
+        text-align: center;
+        font-size: 0.8125rem;
+        color: var(--neutral-ink-muted);
+        margin-top: 1.5rem;
+      }
+
+      .auth-footer-text a {
+        color: var(--accent-ink);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .auth-footer-text a:hover {
+        text-decoration: underline;
+      }
+
+      .terms-text {
+        font-size: 0.8125rem;
+        color: var(--neutral-ink-muted);
+      }
+
+      .terms-text a {
+        color: var(--accent-ink);
+        text-decoration: none;
+      }
+
+      .terms-text a:hover {
+        text-decoration: underline;
+      }
+
+      .oauth-row {
+        display: flex;
+        gap: 0.75rem;
+      }
+
+      .oauth-row > * {
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>Sign Up</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Registration form with name, email, password, confirmation, and terms acceptance.
+    </p>
+
+    <!-- ── Registration Form ── -->
+
+    <h2>Create Account</h2>
+    <div style="background: var(--neutral-body); border: 1px solid var(--neutral-border-muted); border-radius: 0.5rem; overflow: hidden; margin-bottom: 1rem;">
+      <div class="auth-centered" style="min-height: 48rem;">
+        <div class="auth-card-wrapper">
+          <div class="auth-logo">
+            <div class="auth-logo-mark">N</div>
+          </div>
+          <p class="auth-heading">Create your account</p>
+          <p class="auth-subheading">Start your free 14-day trial, no credit card required</p>
+          <ui-card>
+            <form>
+              <ui-stack gap="4">
+                <ui-field required>
+                  <label slot="label">Full name</label>
+                  <ui-input placeholder="Kim Granlund" name="name">
+                    <ui-icon name="user" slot="leading"></ui-icon>
+                  </ui-input>
+                </ui-field>
+                <ui-field required>
+                  <label slot="label">Email</label>
+                  <ui-input type="email" placeholder="kim@example.com" name="email">
+                    <ui-icon name="envelope" slot="leading"></ui-icon>
+                  </ui-input>
+                </ui-field>
+                <ui-field required>
+                  <label slot="label">Password</label>
+                  <ui-input type="password" placeholder="At least 8 characters" name="password">
+                    <ui-icon name="lock" slot="leading"></ui-icon>
+                  </ui-input>
+                  <span slot="description">Must contain at least 8 characters, one uppercase letter, and one number.</span>
+                </ui-field>
+                <ui-field required>
+                  <label slot="label">Confirm password</label>
+                  <ui-input type="password" placeholder="Repeat your password" name="password_confirm">
+                    <ui-icon name="lock" slot="leading"></ui-icon>
+                  </ui-input>
+                </ui-field>
+                <ui-checkbox name="terms" required>
+                  <span class="terms-text">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+                </ui-checkbox>
+                <ui-button variant="primary" intent="accent" type="submit" style="width: 100%;">
+                  <span slot="label">Create Account</span>
+                </ui-button>
+              </ui-stack>
+            </form>
+            <ui-divider>or continue with</ui-divider>
+            <div class="oauth-row">
+              <ui-button>
+                <ui-icon name="google-logo" slot="leading"></ui-icon>
+                <span slot="label">Google</span>
+              </ui-button>
+              <ui-button>
+                <ui-icon name="github-logo" slot="leading"></ui-icon>
+                <span slot="label">GitHub</span>
+              </ui-button>
+            </div>
+          </ui-card>
+          <p class="auth-footer-text">
+            Already have an account? <a href="#">Sign in</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../../nav/ui-layout.ts';
+      import '../../../components/ui-button/ui-button.ts';
+      import '../../../components/ui-input/ui-input.ts';
+      import '../../../components/ui-field/ui-field.ts';
+      import '../../../components/ui-checkbox/ui-checkbox.ts';
+      import '../../../containers/ui-card/ui-card.ts';
+      import '../../../icons/ui-icon.ts';
+      import '../../../icons/phosphor/user.ts';
+      import '../../../icons/phosphor/envelope.ts';
+      import '../../../icons/phosphor/lock.ts';
+      import '../../../icons/phosphor/google-logo.ts';
+      import '../../../icons/phosphor/github-logo.ts';
+    </script>
+  </body>
+</html>

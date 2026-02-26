@@ -1,0 +1,149 @@
+@layer ui {
+
+  /* ── Segmented Control (container) ── */
+
+  :where(ui-segmented-control) {
+    --_font-weight: var(--ui-font-weight-button);
+    --_line-height: var(--ui-line-height-control);
+
+    /* Indicator position (set by JS): 0-based index, segment count */
+    --_indicator-index: 0;
+    --_segment-count: 1;
+
+    position: relative;
+    display: grid;
+    width: 100%;
+    min-width: var(--_min-height);
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    align-items: center;
+    padding-block: var(--_space);
+    padding-inline: var(--_space);
+
+    border-radius: var(--_radius);
+    border: 1px solid var(--_border-color, var(--_border-rest));
+    background: var(--_background, var(--_control));
+
+    outline: none;
+  }
+
+  /* ── Floating Indicator ── */
+  /* WHY: Absolute-positioned ::before sized via percentage calc from
+     --_segment-count and --_indicator-index. No JS layout measurement —
+     fully responsive to container resize. */
+
+  :where(ui-segmented-control)::before {
+    content: none;
+  }
+
+  :where(ui-segmented-control):state(ready)::before {
+    content: '';
+    position: absolute;
+    top: var(--_space);
+    bottom: var(--_space);
+    left: 0;
+    width: calc(100% / var(--_segment-count));
+    border-radius: calc(var(--_radius) - var(--_space));
+    background: var(--_indicator-background, white);
+    /* WHY: translateX(N * 100%) moves by N indicator-widths — since all
+       columns are 1fr, each 100% equals one column. GPU-accelerated. */
+    transform: translateX(calc(var(--_indicator-index) * 100%));
+
+    box-shadow: var(--ui-shadow-xs);
+
+    transition:
+      transform var(--_duration) var(--_easing),
+      background var(--_duration) var(--_easing);
+  }
+
+  /* ── Segment (individual tab) ── */
+
+  :where(ui-segment) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--_space) * 2);
+
+    /* WHY: z-index ensures text sits above the floating indicator */
+    position: relative;
+    z-index: 1;
+
+    min-height: calc(var(--_min-height) - var(--_space) * 2 - 2px);
+    padding-inline: calc(var(--_space-k) * var(--_space));
+
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+    line-height: var(--_line-height);
+    font-weight: var(--_font-weight);
+
+    border-radius: calc(var(--_radius) - var(--_space));
+    background: transparent;
+    color: var(--_ink-muted);
+
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+  }
+
+  /* ── Segment States ── */
+
+  :where(ui-segment):hover,
+  :where(ui-segment)[force-hover] {
+    color: var(--_ink-hover);
+  }
+
+  :where(ui-segment)[pressed],
+  :where(ui-segment)[force-active] {
+    color: var(--_ink-active);
+  }
+
+  /* ── Selected Segment ── */
+  /* WHY: The floating indicator provides the background + shadow.
+     The segment itself only changes text color. */
+
+  :where(ui-segment)[aria-checked="true"] {
+    color: var(--_ink-inverse);
+  }
+
+  :where(ui-segment)[aria-checked="true"]:hover,
+  :where(ui-segment)[aria-checked="true"][force-hover] {
+    color: var(--_ink-hover);
+  }
+
+  /* ── Focus ── */
+
+  :where(ui-segment):focus-visible,
+  :where(ui-segment)[force-focus-visible] {
+    outline: 2px solid var(--ui-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* ── Disabled ── */
+
+  :where(ui-segment)[aria-disabled="true"] {
+    color: var(--_ink-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  :where(ui-segment)[aria-disabled="true"][aria-checked="true"] {
+    color: var(--_ink-disabled);
+  }
+
+  /* ── Inline mode ── */
+  /* WHY: Default is block (grid) so segmented controls fill available width.
+     [inline] restores shrink-wrap sizing. */
+
+  :where(ui-segmented-control)[inline] {
+    display: inline-grid;
+    width: auto;
+  }
+
+  :where(ui-segmented-control)[aria-disabled="true"]::before {
+    background: var(--_panel-disabled);
+    box-shadow: none;
+  }
+
+  :where(ui-segmented-control[hidden]) { display: none; }
+
+}

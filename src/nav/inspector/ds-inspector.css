@@ -1,0 +1,225 @@
+/* ds-inspector — Dev-only styles for design system inspector components.
+   Injected into ui-layout's shadow root via ?inline import. */
+
+/* ── Toolbar ── */
+
+.ds-inspector-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  gap: 0.5rem;
+  padding-block: 0.5rem;
+  margin-block-end: 0.5rem;
+  background: var(--_ground, var(--_panel));
+}
+
+.ds-inspector-toolbar > * {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Section Structure ── */
+
+.ds-inspector-section {
+  margin-block-end: 1rem;
+}
+
+.ds-inspector-section[hidden] {
+  display: none;
+}
+
+.ds-inspector-section + .ds-inspector-section:not([hidden]) {
+  padding-block-start: 0.5rem;
+  border-block-start: 1px solid var(--neutral-border-muted);
+}
+
+.ds-inspector-heading {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--neutral-ink-muted);
+  margin: 0 0 0.5rem;
+}
+
+.ds-inspector-subheading {
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: var(--neutral-ink-placeholder);
+  margin: 0.5rem 0 0.25rem;
+}
+
+/* ── ds-variable ── */
+
+:where(ds-variable) {
+  display: block;
+}
+
+.ds-variable-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding-block: 0.125rem;
+}
+
+.ds-variable-label {
+  font-size: 0.6875rem;
+  color: var(--neutral-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 3rem;
+  max-width: 5rem;
+}
+
+.ds-variable-value {
+  font-size: 0.625rem;
+  font-family: ui-monospace, monospace;
+  color: var(--neutral-ink-muted);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 3rem;
+  max-width: 5rem;
+}
+
+/* ── ds-colors ── */
+
+:where(ds-colors) {
+  display: block;
+}
+
+.ds-colors-strip {
+  display: flex;
+  gap: 2px;
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+/* ── ds-color-swatch ── */
+
+:where(ds-color-swatch) {
+  flex: 1;
+  aspect-ratio: 1;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ds-swatch-label {
+  font-size: 0.5rem;
+  line-height: 1;
+  text-align: center;
+  padding: 2px 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  pointer-events: none;
+}
+
+/* ── Swatch Popover ── */
+
+.ds-swatch-popover {
+  position: fixed;
+  position-area: block-end;
+  position-try-fallbacks: flip-block;
+  margin: 0.25rem 0 0;
+
+  min-width: 12rem;
+  padding: 0.375rem;
+
+  font-size: 0.6875rem;
+  color: var(--neutral-ink);
+  background: var(--neutral-modal);
+  border: 1px solid var(--neutral-border-muted);
+  border-radius: 0.375rem;
+  box-shadow: var(--ui-shadow-md);
+
+  /* Override UA popover styles */
+  inset: unset;
+  overflow: visible;
+
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease,
+    display 150ms ease allow-discrete,
+    overlay 150ms ease allow-discrete;
+}
+
+.ds-swatch-popover:popover-open {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@starting-style {
+  .ds-swatch-popover:popover-open {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+.ds-swatch-popover[popover]:not(:popover-open) {
+  display: none;
+}
+
+.ds-swatch-popover-header {
+  font-size: 0.5625rem;
+  font-family: ui-monospace, monospace;
+  color: var(--neutral-ink-muted);
+  padding: 0.125rem 0.25rem 0.375rem;
+  border-bottom: 1px solid var(--neutral-border-muted);
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ds-swatch-popover-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.25rem;
+  border: none;
+  border-radius: 0.25rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.ds-swatch-popover-row:hover {
+  background: var(--neutral-control);
+}
+
+.ds-swatch-popover-label {
+  font-size: 0.5625rem;
+  font-weight: 600;
+  color: var(--neutral-ink-muted);
+  min-width: 2.5rem;
+}
+
+.ds-swatch-popover-value {
+  font-size: 0.5625rem;
+  font-family: ui-monospace, monospace;
+  color: var(--neutral-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── ds-themes ── */
+
+:where(ds-themes) {
+  display: block;
+}

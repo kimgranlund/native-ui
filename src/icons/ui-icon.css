@@ -1,0 +1,42 @@
+@layer ui {
+
+  /* ── Icon Base ── */
+
+  :where(ui-icon) {
+    --ui-icon-size: var(--_icon-size);
+    --ui-icon-color: currentColor;
+
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--ui-icon-size);
+    height: var(--ui-icon-size);
+    color: var(--ui-icon-color);
+    flex-shrink: 0;
+    vertical-align: middle;
+    line-height: 0;
+  }
+
+  :where(ui-icon) > :where(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ── Icon Size Variants ── */
+
+  :where(ui-icon[size="xs"]) { --ui-icon-size: var(--ui-icon-xs); }
+  :where(ui-icon[size="sm"]) { --ui-icon-size: var(--ui-icon-sm); }
+  :where(ui-icon[size="md"]) { --ui-icon-size: var(--ui-icon-md); }
+  :where(ui-icon[size="lg"]) { --ui-icon-size: var(--ui-icon-lg); }
+  :where(ui-icon[size="xl"]) { --ui-icon-size: var(--ui-icon-xl); }
+
+  /* ── Forced Colors ── */
+
+  @media (forced-colors: active) {
+    :where(ui-icon) {
+      --ui-icon-color: ButtonText;
+    }
+  }
+
+}

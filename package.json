@@ -1,0 +1,56 @@
+{
+  "name": "@nonoun/native-ui",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./dist/native-ui.js",
+  "module": "./dist/native-ui.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/native-ui.js"
+    },
+    "./kernel": {
+      "types": "./dist/kernel.d.ts",
+      "default": "./dist/kernel.js"
+    },
+    "./traits": {
+      "types": "./dist/traits-entry.d.ts",
+      "default": "./dist/traits.js"
+    },
+    "./css": "./dist/native-ui.css",
+    "./css/foundation": "./dist/foundation.css",
+    "./css/components": "./dist/components.css",
+    "./css/components-lean": "./dist/components-lean.css",
+    "./css/lean": "./dist/native-ui-lean.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run build:js && npm run build:css && npm run build:types && npm run build:cem && npm run generate:docs",
+    "build:css": "node scripts/build-css.mjs",
+    "build:js": "vite build",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build:cem": "cem analyze",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "generate:icons": "node scripts/generate-icon-modules.mjs",
+    "generate:docs": "node scripts/generate-docs.mjs"
+  },
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@phosphor-icons/core": "^2.1.1",
+    "happy-dom": "^20.6.3",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.0-beta.13",
+    "vitest": "^4.0.18"
+  },
+  "overrides": {
+    "vite": "^8.0.0-beta.13"
+  },
+  "customElements": "dist/custom-elements.json"
+}

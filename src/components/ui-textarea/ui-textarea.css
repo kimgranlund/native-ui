@@ -1,0 +1,117 @@
+@layer ui {
+
+  /* ── Textarea Base ── */
+
+  :where(ui-textarea) {
+    --_font-weight: var(--ui-font-weight-input);
+    --_line-height: var(--ui-line-height-control);
+    --_rows: 3;
+
+    /* WHY: Do NOT set --_background/--_color/--_border-color here.
+       Variant selectors in ui.primitives.css (loaded earlier) set these.
+       Hard-coding them here would override all variants by source order.
+       Instead, apply them directly with fallbacks for the default look. */
+    --_radius: var(--ui-radius-md);
+
+    display: block;
+    flex: 1 1 0%;
+    min-width: 0;
+
+    min-height: calc(var(--_min-height) * var(--_rows));
+    padding-block: calc(var(--_space) * 2);
+    padding-inline: calc(var(--_space-k) * var(--_space));
+
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+    line-height: 1.5;
+    font-weight: var(--_font-weight);
+
+    border-radius: var(--_radius);
+    border: 1px solid var(--_border-color, var(--_border-rest));
+    background: var(--_background, var(--_control));
+    color: var(--_color, var(--_ink));
+
+    cursor: text;
+    outline: none;
+    resize: vertical;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+    transition:
+      background var(--_duration) var(--_easing),
+      color var(--_duration) var(--_easing),
+      border-color var(--_duration) var(--_easing),
+      opacity var(--_duration) var(--_easing),
+      transform var(--_duration) var(--_easing);
+  }
+
+  /* ── Rows ── */
+
+  :where(ui-textarea)[rows="1"] { --_rows: 1; }
+  :where(ui-textarea)[rows="2"] { --_rows: 2; }
+  :where(ui-textarea)[rows="4"] { --_rows: 4; }
+  :where(ui-textarea)[rows="5"] { --_rows: 5; }
+  :where(ui-textarea)[rows="6"] { --_rows: 6; }
+  :where(ui-textarea)[rows="8"] { --_rows: 8; }
+  :where(ui-textarea)[rows="10"] { --_rows: 10; }
+
+  /* ── Autogrow ── */
+
+  :where(ui-textarea)[autogrow] {
+    resize: none;
+    overflow-y: hidden;
+    height: var(--_autogrow-height, auto);
+  }
+
+  /* ── Placeholder (shown when empty via CustomStateSet) ── */
+
+  :where(ui-textarea):state(empty)::before {
+    content: attr(placeholder);
+    color: var(--_ink-placeholder);
+    pointer-events: none;
+  }
+
+  /* ── States ── */
+
+  :where(ui-textarea):hover,
+  :where(ui-textarea)[force-hover] {
+    background: var(--_background-hover, var(--_control-hover));
+    color: var(--_color-hover, var(--_ink-hover));
+    border-color: var(--_border-color-hover, var(--_border-muted));
+  }
+
+  /* ── Filled state (elevated bg, no border, stronger text) ── */
+  /* WHY: When the textarea has content, bump elevation (control → panel),
+     text contrast (ink → ink-strong), and drop border so filled fields
+     look solid and elevated vs the outlined empty state. */
+
+  :where(ui-textarea):not(:state(empty)) {
+    background: var(--_panel);
+    color: var(--_ink-strong);
+    border-color: transparent;
+  }
+
+  :where(ui-textarea):not(:state(empty)):hover,
+  :where(ui-textarea):not(:state(empty))[force-hover] {
+    background: var(--_panel-hover);
+    border-color: transparent;
+  }
+
+  :where(ui-textarea):focus,
+  :where(ui-textarea)[force-focus] {
+    border-color: var(--ui-focus-ring);
+    outline: 1px solid var(--ui-focus-ring);
+    outline-offset: 0;
+  }
+
+  :where(ui-textarea)[aria-disabled="true"] {
+    background: var(--_background-disabled, var(--_control-disabled));
+    color: var(--_color-disabled, var(--_ink-disabled));
+    border-color: var(--_border-color-disabled, var(--_border-disabled));
+    cursor: not-allowed;
+    pointer-events: none;
+    resize: none;
+  }
+
+}

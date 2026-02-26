@@ -1,0 +1,423 @@
+  /* ================================================================
+   nonoun-css Semantic Color Tokens
+
+   Maps color primitives to UI roles:
+     Grounds      — backgrounds by elevation (doc → body → panel → control → card → modal)
+     Ink          — text/icons on grounds
+     Stroke       — borders/dividers on grounds (muted scrims)
+     Surface      — interactive element fills (buttons, badges)
+     Surface Ink  — text/icons on surfaces
+     Outline      — borders on surfaces (higher contrast scrims)
+   ================================================================ */
+
+@layer tokens {
+  :root {
+    /* ── Neutral ── */
+
+    /* Grounds */
+    --neutral-doc:              var(--neutral-dimmer);
+    --neutral-doc-hover:        var(--neutral-lower);
+    --neutral-doc-active:       var(--neutral-low);
+    --neutral-doc-disabled:     var(--neutral-base);
+
+    --neutral-body:             var(--neutral-low);
+    --neutral-body-hover:       var(--neutral-bright);
+    --neutral-body-active:      var(--neutral-brighter);
+    --neutral-body-disabled:    var(--neutral-base);
+
+    --neutral-panel:            var(--neutral-bright);
+    --neutral-panel-hover:      var(--neutral-brighter);
+    --neutral-panel-active:     var(--neutral-brightest);
+    --neutral-panel-disabled:   var(--neutral-base);
+
+    --neutral-control:          var(--neutral-base);
+    --neutral-control-hover:    var(--neutral-bright);
+    --neutral-control-active:   var(--neutral-brighter);
+    --neutral-control-disabled: var(--neutral-base);
+
+    --neutral-button:           var(--neutral-higher);
+    --neutral-button-hover:     var(--neutral-highest);
+    --neutral-button-active:    var(--neutral-highest);
+    --neutral-button-disabled:  var(--neutral-base);
+
+    --neutral-card:             var(--neutral-brighter);
+    --neutral-card-hover:       var(--neutral-brightest);
+    --neutral-card-active:      var(--neutral-brightest);
+    --neutral-card-disabled:    var(--neutral-base);
+
+    --neutral-modal:            var(--neutral-brightest);
+    --neutral-modal-hover:      var(--neutral-brightest);
+    --neutral-modal-active:     var(--neutral-brightest);
+    --neutral-modal-disabled:   var(--neutral-base);
+
+    /* Ink */
+    --neutral-ink:              var(--neutral-700);
+    --neutral-ink-strong:       var(--neutral-950);
+    --neutral-ink-inverse:      var(--neutral-11);
+    --neutral-ink-muted:        var(--neutral-600);
+    --neutral-ink-placeholder:  var(--neutral-400);
+    --neutral-ink-hover:        var(--neutral-950);
+    --neutral-ink-active:       var(--neutral-500);
+    --neutral-ink-disabled:     var(--neutral-scrim-tint-weaker);
+
+    /* Border */
+    --neutral-border: var(--neutral-200-scrim);
+    --neutral-border-muted: var(--neutral-100-scrim);
+    --neutral-border-hover: var(--neutral-300-scrim);
+    --neutral-border-active: var(--neutral-400-scrim);
+    --neutral-border-disabled: var(--neutral-scrim-tint-weaker);
+
+    /* Surface */
+    --neutral-surface:          var(--neutral-500);
+    --neutral-surface-hover:    var(--neutral-400);
+    --neutral-surface-active:   var(--neutral-600);
+    --neutral-surface-disabled: var(--neutral-scrim-tint-weaker);
+
+    /* Surface Ink */
+    --neutral-surface-ink:          white;
+    --neutral-surface-ink-hover:    white;
+    --neutral-surface-ink-active:   var(--neutral-950);
+    --neutral-surface-ink-disabled: var(--neutral-scrim-tint-weaker);
+
+
+    /* ── Accent ── */
+
+    /* Grounds */
+    --accent-doc:              var(--accent-lowest);
+    --accent-doc-hover:        var(--accent-lower);
+    --accent-doc-active:       var(--accent-low);
+    --accent-doc-disabled:     var(--accent-base);
+
+    --accent-body:             var(--accent-low);
+    --accent-body-hover:       var(--accent-bright);
+    --accent-body-active:      var(--accent-brighter);
+    --accent-body-disabled:    var(--accent-base);
+
+    --accent-panel:            var(--accent-bright);
+    --accent-panel-hover:      var(--accent-brighter);
+    --accent-panel-active:     var(--accent-brightest);
+    --accent-panel-disabled:   var(--accent-base);
+
+    --accent-control:          var(--accent-base);
+    --accent-control-hover:    var(--accent-bright);
+    --accent-control-active:   var(--accent-brighter);
+    --accent-control-disabled: var(--accent-base);
+
+    --accent-button:           var(--accent-higher);
+    --accent-button-hover:     var(--accent-highest);
+    --accent-button-active:    var(--accent-highest);
+    --accent-button-disabled:  var(--accent-base);
+
+    --accent-card:             var(--accent-brighter);
+    --accent-card-hover:       var(--accent-brightest);
+    --accent-card-active:      var(--accent-brightest);
+    --accent-card-disabled:    var(--accent-base);
+
+    --accent-modal:            var(--accent-brightest);
+    --accent-modal-hover:      var(--accent-brightest);
+    --accent-modal-active:     var(--accent-brightest);
+    --accent-modal-disabled:   var(--accent-base);
+
+    /* Ink */
+    --accent-ink:              var(--accent-700);
+    --accent-ink-strong:       var(--accent-950);
+    --accent-ink-inverse:      var(--accent-11);
+    --accent-ink-muted:        var(--accent-600);
+    --accent-ink-placeholder:  var(--accent-400);
+    --accent-ink-hover:        var(--accent-950);
+    --accent-ink-active:       var(--accent-500);
+    --accent-ink-disabled:     var(--accent-scrim-tint-weaker);
+
+    /* Border */
+    --accent-border:           var(--accent-200-scrim);
+    --accent-border-muted:     var(--accent-100-scrim);
+    --accent-border-hover:     var(--accent-300-scrim);
+    --accent-border-active:    var(--accent-400-scrim);
+    --accent-border-disabled:  var(--accent-scrim-tint-weaker);
+
+    /* Surface */
+    --accent-surface:          var(--accent-500);
+    --accent-surface-hover:    var(--accent-400);
+    --accent-surface-active:   var(--accent-600);
+    --accent-surface-disabled: var(--accent-scrim-tint-weaker);
+
+    /* Surface Ink */
+    --accent-surface-ink:          white;
+    --accent-surface-ink-hover:    white;
+    --accent-surface-ink-active:   var(--accent-950);
+    --accent-surface-ink-disabled: var(--accent-scrim-tint-weaker);
+
+
+    /* ── Info ── */
+
+    /* Grounds */
+    --info-doc:              var(--info-lowest);
+    --info-doc-hover:        var(--info-lower);
+    --info-doc-active:       var(--info-low);
+    --info-doc-disabled:     var(--info-base);
+
+    --info-body:             var(--info-low);
+    --info-body-hover:       var(--info-bright);
+    --info-body-active:      var(--info-brighter);
+    --info-body-disabled:    var(--info-base);
+
+    --info-panel:            var(--info-bright);
+    --info-panel-hover:      var(--info-brighter);
+    --info-panel-active:     var(--info-brightest);
+    --info-panel-disabled:   var(--info-base);
+
+    --info-control:          var(--info-base);
+    --info-control-hover:    var(--info-bright);
+    --info-control-active:   var(--info-brighter);
+    --info-control-disabled: var(--info-base);
+
+    --info-button:           var(--info-higher);
+    --info-button-hover:     var(--info-highest);
+    --info-button-active:    var(--info-highest);
+    --info-button-disabled:  var(--info-base);
+
+    --info-card:             var(--info-brighter);
+    --info-card-hover:       var(--info-brightest);
+    --info-card-active:      var(--info-brightest);
+    --info-card-disabled:    var(--info-base);
+
+    --info-modal:            var(--info-brightest);
+    --info-modal-hover:      var(--info-brightest);
+    --info-modal-active:     var(--info-brightest);
+    --info-modal-disabled:   var(--info-base);
+
+    /* Ink */
+    --info-ink:              var(--info-700);
+    --info-ink-strong:       var(--info-950);
+    --info-ink-inverse:      var(--info-11);
+    --info-ink-muted:        var(--info-600);
+    --info-ink-placeholder:  var(--info-400);
+    --info-ink-hover:        var(--info-950);
+    --info-ink-active:       var(--info-500);
+    --info-ink-disabled:     var(--info-scrim-tint-weaker);
+
+    /* Border */
+    --info-border:           var(--info-200-scrim);
+    --info-border-muted:     var(--info-100-scrim);
+    --info-border-hover:     var(--info-300-scrim);
+    --info-border-active:    var(--info-400-scrim);
+    --info-border-disabled:  var(--info-scrim-tint-weaker);
+
+    /* Surface */
+    --info-surface:          var(--info-500);
+    --info-surface-hover:    var(--info-400);
+    --info-surface-active:   var(--info-600);
+    --info-surface-disabled: var(--info-scrim-tint-weaker);
+
+    /* Surface Ink */
+    --info-surface-ink:          white;
+    --info-surface-ink-hover:    white;
+    --info-surface-ink-active:   var(--info-950);
+    --info-surface-ink-disabled: var(--info-scrim-tint-weaker);
+
+
+    /* ── Success ── */
+
+    /* Grounds */
+    --success-doc:              var(--success-lowest);
+    --success-doc-hover:        var(--success-lower);
+    --success-doc-active:       var(--success-low);
+    --success-doc-disabled:     var(--success-base);
+
+    --success-body:             var(--success-low);
+    --success-body-hover:       var(--success-bright);
+    --success-body-active:      var(--success-brighter);
+    --success-body-disabled:    var(--success-base);
+
+    --success-panel:            var(--success-bright);
+    --success-panel-hover:      var(--success-brighter);
+    --success-panel-active:     var(--success-brightest);
+    --success-panel-disabled:   var(--success-base);
+
+    --success-control:          var(--success-base);
+    --success-control-hover:    var(--success-bright);
+    --success-control-active:   var(--success-brighter);
+    --success-control-disabled: var(--success-base);
+
+    --success-button:           var(--success-higher);
+    --success-button-hover:     var(--success-highest);
+    --success-button-active:    var(--success-highest);
+    --success-button-disabled:  var(--success-base);
+
+    --success-card:             var(--success-brighter);
+    --success-card-hover:       var(--success-brightest);
+    --success-card-active:      var(--success-brightest);
+    --success-card-disabled:    var(--success-base);
+
+    --success-modal:            var(--success-brightest);
+    --success-modal-hover:      var(--success-brightest);
+    --success-modal-active:     var(--success-brightest);
+    --success-modal-disabled:   var(--success-base);
+
+    /* Ink */
+    --success-ink:              var(--success-700);
+    --success-ink-strong:       var(--success-950);
+    --success-ink-inverse:      var(--success-11);
+    --success-ink-muted:        var(--success-600);
+    --success-ink-placeholder:  var(--success-400);
+    --success-ink-hover:        var(--success-950);
+    --success-ink-active:       var(--success-500);
+    --success-ink-disabled:     var(--success-scrim-tint-weaker);
+
+    /* Border */
+    --success-border:           var(--success-200-scrim);
+    --success-border-muted:     var(--success-100-scrim);
+    --success-border-hover:     var(--success-300-scrim);
+    --success-border-active:    var(--success-400-scrim);
+    --success-border-disabled:  var(--success-scrim-tint-weaker);
+
+    /* Surface */
+    --success-surface:          var(--success-500);
+    --success-surface-hover:    var(--success-400);
+    --success-surface-active:   var(--success-600);
+    --success-surface-disabled: var(--success-scrim-tint-weaker);
+
+    /* Surface Ink */
+    --success-surface-ink:          white;
+    --success-surface-ink-hover:    white;
+    --success-surface-ink-active:   var(--success-950);
+    --success-surface-ink-disabled: var(--success-scrim-tint-weaker);
+
+
+    /* ── Warning ── */
+
+    /* Grounds */
+    --warning-doc:              var(--warning-lowest);
+    --warning-doc-hover:        var(--warning-lower);
+    --warning-doc-active:       var(--warning-low);
+    --warning-doc-disabled:     var(--warning-base);
+
+    --warning-body:             var(--warning-low);
+    --warning-body-hover:       var(--warning-bright);
+    --warning-body-active:      var(--warning-brighter);
+    --warning-body-disabled:    var(--warning-base);
+
+    --warning-panel:            var(--warning-bright);
+    --warning-panel-hover:      var(--warning-brighter);
+    --warning-panel-active:     var(--warning-brightest);
+    --warning-panel-disabled:   var(--warning-base);
+
+    --warning-control:          var(--warning-base);
+    --warning-control-hover:    var(--warning-bright);
+    --warning-control-active:   var(--warning-brighter);
+    --warning-control-disabled: var(--warning-base);
+
+    --warning-button:           var(--warning-higher);
+    --warning-button-hover:     var(--warning-highest);
+    --warning-button-active:    var(--warning-highest);
+    --warning-button-disabled:  var(--warning-base);
+
+    --warning-card:             var(--warning-brighter);
+    --warning-card-hover:       var(--warning-brightest);
+    --warning-card-active:      var(--warning-brightest);
+    --warning-card-disabled:    var(--warning-base);
+
+    --warning-modal:            var(--warning-brightest);
+    --warning-modal-hover:      var(--warning-brightest);
+    --warning-modal-active:     var(--warning-brightest);
+    --warning-modal-disabled:   var(--warning-base);
+
+    /* Ink */
+    --warning-ink:              var(--warning-700);
+    --warning-ink-strong:       var(--warning-950);
+    --warning-ink-inverse:      var(--warning-11);
+    --warning-ink-muted:        var(--warning-600);
+    --warning-ink-placeholder:  var(--warning-400);
+    --warning-ink-hover:        var(--warning-950);
+    --warning-ink-active:       var(--warning-500);
+    --warning-ink-disabled:     var(--warning-scrim-tint-weaker);
+
+    /* Border */
+    --warning-border:           var(--warning-200-scrim);
+    --warning-border-muted:     var(--warning-100-scrim);
+    --warning-border-hover:     var(--warning-300-scrim);
+    --warning-border-active:    var(--warning-400-scrim);
+    --warning-border-disabled:  var(--warning-scrim-tint-weaker);
+
+    /* Surface */
+    --warning-surface:          var(--warning-500);
+    --warning-surface-hover:    var(--warning-400);
+    --warning-surface-active:   var(--warning-600);
+    --warning-surface-disabled: var(--warning-scrim-tint-weaker);
+
+    /* Surface Ink */
+    --warning-surface-ink:          white;
+    --warning-surface-ink-hover:    white;
+    --warning-surface-ink-active:   var(--warning-950);
+    --warning-surface-ink-disabled: var(--warning-scrim-tint-weaker);
+
+
+    /* ── Danger ── */
+
+    /* Grounds */
+    --danger-doc:              var(--danger-lowest);
+    --danger-doc-hover:        var(--danger-lower);
+    --danger-doc-active:       var(--danger-low);
+    --danger-doc-disabled:     var(--danger-base);
+
+    --danger-body:             var(--danger-low);
+    --danger-body-hover:       var(--danger-bright);
+    --danger-body-active:      var(--danger-brighter);
+    --danger-body-disabled:    var(--danger-base);
+
+    --danger-panel:            var(--danger-bright);
+    --danger-panel-hover:      var(--danger-brighter);
+    --danger-panel-active:     var(--danger-brightest);
+    --danger-panel-disabled:   var(--danger-base);
+
+    --danger-control:          var(--danger-base);
+    --danger-control-hover:    var(--danger-bright);
+    --danger-control-active:   var(--danger-brighter);
+    --danger-control-disabled: var(--danger-base);
+
+    --danger-button:           var(--danger-higher);
+    --danger-button-hover:     var(--danger-highest);
+    --danger-button-active:    var(--danger-highest);
+    --danger-button-disabled:  var(--danger-base);
+
+    --danger-card:             var(--danger-brighter);
+    --danger-card-hover:       var(--danger-brightest);
+    --danger-card-active:      var(--danger-brightest);
+    --danger-card-disabled:    var(--danger-base);
+
+    --danger-modal:            var(--danger-brightest);
+    --danger-modal-hover:      var(--danger-brightest);
+    --danger-modal-active:     var(--danger-brightest);
+    --danger-modal-disabled:   var(--danger-base);
+
+    /* Ink */
+    --danger-ink:              var(--danger-700);
+    --danger-ink-strong:       var(--danger-950);
+    --danger-ink-inverse:      var(--danger-11);
+    --danger-ink-muted:        var(--danger-600);
+    --danger-ink-placeholder:  var(--danger-400);
+    --danger-ink-hover:        var(--danger-950);
+    --danger-ink-active:       var(--danger-500);
+    --danger-ink-disabled:     var(--danger-scrim-tint-weaker);
+
+    /* Border */
+    --danger-border:           var(--danger-200-scrim);
+    --danger-border-muted:     var(--danger-100-scrim);
+    --danger-border-hover:     var(--danger-300-scrim);
+    --danger-border-active:    var(--danger-400-scrim);
+    --danger-border-disabled:  var(--danger-scrim-tint-weaker);
+
+    /* Surface */
+    --danger-surface:          var(--danger-500);
+    --danger-surface-hover:    var(--danger-400);
+    --danger-surface-active:   var(--danger-600);
+    --danger-surface-disabled: var(--danger-scrim-tint-weaker);
+
+    /* Surface Ink */
+    --danger-surface-ink:          white;
+    --danger-surface-ink-hover:    white;
+    --danger-surface-ink-active:   var(--danger-950);
+    --danger-surface-ink-disabled: var(--danger-scrim-tint-weaker);
+
+  }
+}

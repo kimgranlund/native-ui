@@ -1,0 +1,92 @@
+@layer ui {
+
+  /* ── Base ── */
+
+  :where(ui-section) {
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    flex-direction: column;
+    gap: calc(var(--_space) * 4);
+  }
+
+  /* ── Heading area ── */
+
+  :where(ui-section) > :where([slot="heading"]) {
+    font-weight: var(--ui-font-weight-button);
+    font-size: var(--_font-size);
+    line-height: var(--ui-line-height-control);
+    color: var(--_ink-strong);
+  }
+
+  /* ── Description ── */
+
+  :where(ui-section) > :where([slot="description"]) {
+    font-size: var(--_font-size);
+    color: var(--_ink-muted);
+    margin-top: calc(var(--_space) * -2);
+  }
+
+  /* ── Actions (aligns with heading) ── */
+
+  :where(ui-section) > :where([slot="actions"]) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--_space) * 2);
+  }
+
+  /* WHY: When heading and actions both exist, lay them out as space-between row.
+     We wrap heading + actions in a flex row container via the element class. */
+  :where(ui-section) > :where(.section-header) {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: calc(var(--_space) * 4);
+  }
+
+  :where(ui-section) > :where(.section-header) > :where([slot="heading"]) {
+    margin: 0;
+  }
+
+  /* ── Divider ── */
+
+  :where(ui-section)[divider] {
+    border-top: 1px solid var(--_border-muted);
+    padding-top: calc(var(--_space) * 4);
+  }
+
+  /* ── Collapsible ── */
+
+  :where(ui-section)[collapsible] > :where([slot="heading"]),
+  :where(ui-section)[collapsible] > :where(.section-header) > :where([slot="heading"]) {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* WHY: Chevron indicator for collapsible sections */
+  :where(ui-section)[collapsible] > :where([slot="heading"])::after,
+  :where(ui-section)[collapsible] > :where(.section-header) > :where([slot="heading"])::after {
+    content: '';
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    margin-inline-start: 0.5em;
+    vertical-align: 0.1em;
+    transition: transform var(--_duration) var(--_easing);
+  }
+
+  :where(ui-section)[collapsible][collapsed] > :where([slot="heading"])::after,
+  :where(ui-section)[collapsible][collapsed] > :where(.section-header) > :where([slot="heading"])::after {
+    transform: rotate(-45deg);
+  }
+
+  /* ── Collapsed content ── */
+
+  :where(ui-section)[collapsed] > :where(:not([slot="heading"]):not([slot="actions"]):not(.section-header)) {
+    display: none;
+  }
+
+}

@@ -1,0 +1,130 @@
+@layer ui {
+
+  /* ── Listbox Base ── */
+
+  :where(ui-listbox, [role="listbox"]) {
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0;
+    padding: var(--_space);
+    border-radius: var(--_radius);
+    border: 1px solid var(--_border-color, var(--_border-rest));
+    background: var(--_background, var(--_control));
+    color: var(--_color, var(--_ink));
+    overflow-y: auto;
+    outline: none;
+  }
+
+  /* WHY: Author-layer display:flex (above) overrides UA popover display:none.
+     This rule must come AFTER the base rule so it wins by source order
+     (both have zero specificity via :where()). */
+  :where(ui-listbox[popover]):not(:popover-open) {
+    display: none;
+  }
+
+  /* ── Option / Command Item Base ── */
+
+  :where(ui-option, ui-command-item, [role="option"]) {
+    --_font-weight: var(--ui-font-weight-text);
+    --_line-height: var(--ui-line-height-control);
+
+    /* Defaults: ghost-like — transparent at rest, panel on hover */
+    --_background: transparent;
+    --_background-hover: var(--_panel-hover);
+    --_background-active: var(--_panel-active);
+    --_background-disabled: transparent;
+    --_color: var(--_ink);
+    --_color-hover: var(--_ink-hover);
+    --_color-active: var(--_ink-active);
+    --_color-disabled: var(--_ink-disabled);
+
+    display: flex;
+    align-items: center;
+    gap: calc(var(--_space) * 2);
+
+    min-height: var(--_min-height);
+    padding-inline: calc(var(--_space-k) * var(--_space));
+
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+    line-height: var(--_line-height);
+    font-weight: var(--_font-weight);
+
+    border-radius: calc(var(--_radius) - var(--_space));
+    cursor: pointer;
+
+    background: var(--_background);
+    color: var(--_color);
+  }
+
+  /* ── Option / Command Item States ── */
+
+  :where(ui-option, ui-command-item, [role="option"]):hover,
+  :where(ui-option, ui-command-item, [role="option"])[force-hover] {
+    background: var(--_background-hover);
+    color: var(--_color-hover);
+  }
+
+  :where(ui-option, ui-command-item, [role="option"])[active] {
+    background: var(--_background-hover);
+    color: var(--_color-hover);
+  }
+
+  :where(ui-option, ui-command-item, [role="option"]):active,
+  :where(ui-option, ui-command-item, [role="option"])[force-active] {
+    background: var(--_background-active);
+    color: var(--_color-active);
+  }
+
+  :where(ui-option, ui-command-item, [role="option"])[aria-selected="true"] {
+    background: var(--_background-hover);
+    color: var(--_color-hover);
+  }
+
+  :where(ui-option, ui-command-item, [role="option"])[aria-disabled="true"] {
+    background: var(--_background-disabled);
+    color: var(--_color-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  :where(ui-option, ui-command-item, [role="option"]):focus-visible,
+  :where(ui-option, ui-command-item, [role="option"])[force-focus-visible] {
+    outline: 2px solid var(--ui-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* ── Option Group ── */
+  /* WHY: Group is purely structural — small uppercase label header,
+     flat child options with no indentation. */
+
+  :where(ui-option-group) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  :where(ui-option-group) + :where(ui-option-group) {
+    margin-block-start: calc(var(--_space) * 2);
+  }
+
+  /* ── Group Header — small uppercase label ── */
+
+  :where(ui-option-group-header) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--_space) * 2);
+    min-height: var(--_min-height);
+    padding-inline: calc(var(--_space-k) * var(--_space));
+    font-size: var(--ui-group-header-font);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: var(--ui-line-height-control);
+    color: var(--_ink-muted);
+    cursor: default;
+    user-select: none;
+  }
+
+}

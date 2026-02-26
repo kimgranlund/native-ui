@@ -1,0 +1,262 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  ui-nav                                                  │
+     │  Navigation list with keyboard nav + selection.          │
+     │  Transparent wrapper — no visual surface.                │
+     │  Uses ui-nav-item / ui-nav-group for children.           │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  :where(ui-nav) {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: var(--_space);
+    outline: none;
+  }
+
+  /* ── Nav Item ── */
+  /* WHY: Nav items share the same visual pattern as options (ghost row,
+     hover/active/selected states). */
+
+  :where(ui-nav-item) {
+    --_font-weight: var(--ui-font-weight-text);
+    --_line-height: var(--ui-line-height-control);
+
+    display: flex;
+    align-items: center;
+    gap: calc(var(--_space) * 2);
+
+    min-height: var(--_min-height);
+
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+    line-height: var(--_line-height);
+    font-weight: var(--_font-weight);
+
+    cursor: pointer;
+    user-select: none;
+    color: var(--_ink-muted);
+
+    transition:
+      background var(--_duration) var(--_easing),
+      color var(--_duration) var(--_easing),
+      border-color var(--_duration) var(--_easing),
+      opacity var(--_duration) var(--_easing),
+      transform var(--_duration) var(--_easing);
+  }
+
+  /* ── Nav Item States ── */
+
+  :where(ui-nav-item):hover,
+  :where(ui-nav-item)[force-hover] {
+    color: var(--_ink-hover);
+  }
+
+  :where(ui-nav-item)[active] {
+    color: var(--_ink-hover);
+  }
+
+  :where(ui-nav-item):active,
+  :where(ui-nav-item)[force-active] {
+    color: var(--_ink-active);
+  }
+
+  :where(ui-nav-item)[aria-current="page"] {
+    color: var(--_ink-strong);
+  }
+
+  :where(ui-nav-item)[aria-disabled="true"] {
+    color: var(--_ink-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  :where(ui-nav-item):focus-visible,
+  :where(ui-nav-item)[force-focus-visible] {
+    outline: 2px solid var(--ui-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* ── Nav Group ── */
+  /* WHY: Groups stamp a native <details>/<summary> for collapsible behavior.
+     DOM structure: ui-nav-group > details > summary > ui-nav-group-header
+                                          > ui-nav-item* */
+
+  :where(ui-nav-group) {
+    --_indicator-index: 0;
+
+    display: block;
+    position: relative;
+  }
+
+  :where(ui-nav-group) + :where(ui-nav-group) {
+    margin-block-start: calc(var(--_space) * 2);
+  }
+
+  /* ── Details (native disclosure with animated open/close) ── */
+  /* WHY: ::details-content lets us animate the content area directly.
+     interpolate-size allows height to transition between 0 and auto.
+     content-visibility with allow-discrete keeps content visible during close. */
+
+  :where(ui-nav-group) > :where(details) {
+    interpolate-size: allow-keywords;
+  }
+
+  :where(ui-nav-group) > :where(details)::details-content {
+    height: 0;
+    overflow: clip;
+    opacity: 0;
+
+    transition:
+      height var(--_duration) var(--_easing),
+      opacity var(--_duration) var(--_easing),
+      content-visibility var(--_duration) var(--_easing) allow-discrete;
+  }
+
+  :where(ui-nav-group) > :where(details[open])::details-content {
+    height: auto;
+    opacity: 1;
+  }
+
+  /* ── Summary (clickable header row) ── */
+
+  :where(ui-nav-group) > :where(details) > :where(summary) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--_space) * 2);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    outline: none;
+  }
+
+  /* WHY: Remove default marker in WebKit */
+  :where(ui-nav-group) > :where(details) > :where(summary)::-webkit-details-marker {
+    display: none;
+  }
+
+  :where(ui-nav-group) > :where(details) > :where(summary)::marker {
+    display: none;
+    content: '';
+  }
+
+  /* ── Nav Group Header ── */
+  /* WHY: Header sits inside <summary>. Bold text with optional icon. */
+
+  :where(ui-nav-group-header) {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: calc(var(--_space) * 2);
+    min-height: var(--_min-height);
+    font-size: var(--_font-size);
+    font-weight: var(--ui-font-weight-button);
+    letter-spacing: var(--_letter-spacing);
+    line-height: var(--ui-line-height-control);
+    color: var(--_ink);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* ── Chevron icon (right side of summary) ── */
+
+  :where(ui-nav-group) > :where(details) > :where(summary)::after {
+    content: '';
+    flex-shrink: 0;
+    width: var(--_icon-size);
+    height: var(--_icon-size);
+
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z' fill='currentColor'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z' fill='currentColor'/%3E%3C/svg%3E");
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    background: var(--_ink-muted);
+
+    transition:
+      transform var(--_duration) var(--_easing);
+  }
+
+  /* Chevron rotates when open */
+  :where(ui-nav-group) > :where(details[open]) > :where(summary)::after {
+    transform: rotate(180deg);
+  }
+
+  /* ── Selected group — has a child with aria-current ── */
+
+  :where(ui-nav-group):state(has-selection) > :where(details) > :where(summary) :where(ui-nav-group-header) {
+    color: var(--_ink-strong);
+  }
+
+  /* ── Summary Hover ── */
+
+  :where(ui-nav-group) > :where(details) > :where(summary):hover :where(ui-nav-group-header),
+  :where(ui-nav-group[force-hover]) > :where(details) > :where(summary) :where(ui-nav-group-header) {
+    color: var(--_ink-strong);
+  }
+
+  /* ── Summary Focus ── */
+
+  :where(ui-nav-group) > :where(details) > :where(summary):focus-visible,
+  :where(ui-nav-group[force-focus-visible]) > :where(details) > :where(summary) {
+    outline: 2px solid var(--ui-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* ── Vertical connector line (icon groups only) ── */
+  /* WHY: Connector draws from below the header to the bottom of the group.
+     Only shown when header contains an icon. Scoped via :has(). */
+
+  :where(ui-nav-group):has(:where(ui-nav-group-header) :where(ui-icon)) {
+    --_group-line-inset: calc(var(--_icon-size) / 2);
+    --_group-child-inset: calc(var(--_icon-size) + var(--_space) * 2);
+  }
+
+  :where(ui-nav-group):has(:where(ui-nav-group-header) :where(ui-icon)):has(:where(details[open]))::after {
+    content: '';
+    position: absolute;
+    inset-inline-start: var(--_group-line-inset);
+    top: var(--_min-height);
+    bottom: 0;
+    width: 1px;
+    background: var(--_border-muted);
+    pointer-events: none;
+  }
+
+  /* ── Sliding indicator (same pattern as vertical tabs) ── */
+  /* WHY: A ::before pseudo on the group slides along the connector line.
+     JS sets --_indicator-index; :state(has-selection) gates visibility. */
+
+  :where(ui-nav-group):has(:where(ui-nav-group-header) :where(ui-icon)):has(:where(details[open])):state(has-selection)::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    inset-inline-start: calc(var(--_group-line-inset, 0px) - 0.5px);
+    top: var(--_min-height);
+    height: var(--_min-height);
+    width: 2px;
+    border-radius: 1px;
+    background: var(--_surface);
+    pointer-events: none;
+    transform: translateY(calc(var(--_indicator-index) * var(--_min-height)));
+
+    transition:
+      transform var(--_duration) var(--_easing),
+      background var(--_duration) var(--_easing);
+  }
+
+  /* ── Grouped Child Items ── */
+  /* WHY: When header has an icon, margin-inline-start = icon-size + gap
+     so item text aligns with header text past the icon.
+     Items are inside <details> after the <summary>. */
+
+  :where(ui-nav-group) > :where(details) > :where(ui-nav-item) {
+    margin-inline-start: var(--_group-child-inset, 0);
+  }
+
+}

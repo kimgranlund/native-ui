@@ -1,0 +1,144 @@
+/* ui-layout — dev-only styles for sidebar chrome and command dialog.
+   Layout structure is handled by ui-layout-* components.
+   Injected into ui-layout's shadow root via ?inline import. */
+
+/* ── Sidebar collapsed icon-rail overrides ── */
+/* WHY: These target dev-specific ui-nav content inside the sidebar.
+   The layout component handles the width/positioning; these handle
+   the icon-rail visual behavior for the nav groups. */
+
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-content) {
+  align-items: center;
+  padding: 0.5rem;
+}
+
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(.nav-search-hint) {
+  display: none;
+}
+
+/* WHY: Collapsed triggers show only the leading icon — hide label and trailing caret. */
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-trigger) :where([slot="label"]),
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-trigger) :where([slot="trailing"]) {
+  display: none;
+}
+
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-item) {
+  display: none;
+}
+
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group) > :where(details) > :where(summary) {
+  justify-content: center;
+}
+
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group) > :where(details) > :where(summary)::after {
+  display: none;
+}
+
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group)::after,
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group)::before {
+  display: none;
+}
+
+/* WHY: Text nodes inside header can't be targeted by CSS. Setting font-size: 0
+   on the header collapses them to zero width. The icon overrides back to normal. */
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group-header) {
+  justify-content: center;
+  font-size: 0;
+  gap: 0;
+}
+
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group-header) :where(ui-icon) {
+  font-size: var(--_font-size, 1rem);
+}
+
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group) + :where(ui-nav-group) {
+  margin-block-start: 0;
+}
+
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-header),
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-footer) {
+  justify-content: center;
+  padding-inline: 0.5rem;
+}
+
+:where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(.nav-links) {
+  padding: 0;
+}
+
+/* ── Logo ── */
+
+.nav-logo {
+  display: flex;
+  flex-shrink: 0;
+}
+
+/* ── Search hint ── */
+
+.nav-search-hint {
+  color: var(--neutral-ink-muted);
+}
+
+.nav-search-hint kbd {
+  font-family: ui-monospace, monospace;
+  font-size: 0.625rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  background: var(--neutral-body);
+  border: 1px solid var(--neutral-border-muted);
+  color: var(--neutral-ink-muted);
+}
+
+/* ── Nav links ── */
+
+.nav-links {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+/* ── Breadcrumb colors ── */
+
+/* WHY: Inside shadow root — no ui-layout ancestor in the tree. */
+:where(ui-layout-breadcrumb) :where(ui-breadcrumb-item) {
+  color: var(--neutral-ink-muted);
+}
+
+:where(ui-layout-breadcrumb) :where(ui-breadcrumb-item[current]) {
+  color: var(--neutral-ink-strong);
+}
+
+/* ── Command Dialog ── */
+
+/* WHY: Thicker backdrop for command palette — draws focus to the search. */
+.nav-cmd-dialog > dialog::backdrop {
+  background: oklch(0% 0 0 / 0.5);
+}
+
+/* WHY: Override grid centering — align to top so ui-command stays at a fixed
+   y-position and doesn't shift as the list filters/shrinks. */
+.nav-cmd-dialog > dialog {
+  place-items: start center;
+}
+
+/* WHY: Pin ui-command to a fixed y-position so it doesn't shift as the list
+   filters/shrinks. */
+.nav-cmd-dialog ui-command {
+  margin-top: 120px;
+  border: 1px solid var(--neutral-border-muted);
+  border-radius: 0.75rem;
+  background: var(--neutral-body);
+  color: var(--neutral-ink);
+  width: min(480px, 90vw);
+  max-height: min(400px, 80vh);
+  overflow: hidden;
+  box-shadow: var(--ui-shadow-xl);
+}
+
+/* WHY: top-layer loses inheritance — provide fallbacks */
+@supports not (color: light-dark(red, red)) {
+  .nav-cmd-dialog ui-command {
+    background: #fff;
+    color: #1a1a1a;
+    border-color: #ddd;
+  }
+}

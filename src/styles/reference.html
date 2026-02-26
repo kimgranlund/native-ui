@@ -1,0 +1,1864 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Component Reference — Style Demo</title>
+    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 100%;
+        overflow-x: auto;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h1 + p {
+        font-size: 0.8125rem;
+        color: var(--neutral-ink-muted);
+        margin-bottom: 2rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      /* --- Matrix tables --- */
+      .matrix {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.75rem;
+        line-height: 1.4;
+        table-layout: auto;
+      }
+
+      .matrix th,
+      .matrix td {
+        padding: 0.375rem 0.5rem;
+        text-align: center;
+        border-bottom: 1px solid var(--neutral-border-muted);
+      }
+
+      .matrix th {
+        font-weight: 600;
+        color: var(--neutral-ink-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 0.625rem;
+        position: sticky;
+        top: 0;
+        background: var(--neutral-doc);
+        z-index: 1;
+      }
+
+      .matrix th:first-child,
+      .matrix td:first-child {
+        text-align: left;
+        font-weight: 600;
+        white-space: nowrap;
+        position: sticky;
+        left: 0;
+        background: var(--neutral-doc);
+        z-index: 2;
+        padding-right: 1rem;
+      }
+
+      /* header corner cell */
+      .matrix thead th:first-child {
+        z-index: 3;
+      }
+
+      .matrix tbody tr:hover td {
+        background: var(--neutral-panel);
+      }
+
+      .matrix tbody tr:hover td:first-child {
+        background: var(--neutral-panel);
+      }
+
+      /* Check / dash marks */
+      .y {
+        color: var(--success-ink);
+        font-weight: 700;
+      }
+
+      .n {
+        color: var(--neutral-border-muted);
+      }
+
+      .a {
+        color: color-mix(in oklch, var(--success-ink) 50%, var(--neutral-ink-placeholder));
+      }
+
+      .p {
+        color: var(--accent-ink);
+        font-weight: 600;
+        font-size: 0.625rem;
+      }
+
+      /* Legend */
+      .legend {
+        display: flex;
+        gap: 1.5rem;
+        font-size: 0.75rem;
+        color: var(--neutral-ink-muted);
+        margin-bottom: 1.5rem;
+      }
+
+      .legend span {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      /* Inline code inside tables */
+      ui-table code {
+        font-size: 0.6875rem;
+        padding: 0.125rem 0.375rem;
+        background: var(--neutral-highest);
+        border-radius: 0.25rem;
+        white-space: nowrap;
+      }
+
+      /* Category headers inside table */
+      .matrix .cat-header td {
+        font-weight: 700;
+        font-size: 0.6875rem;
+        color: var(--neutral-ink-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding-top: 1rem;
+        border-bottom: 2px solid var(--neutral-border);
+        background: var(--neutral-doc) !important;
+      }
+
+      /* Sub-element notes */
+      .sub {
+        font-weight: 400;
+        color: var(--neutral-ink-muted);
+        font-size: 0.625rem;
+      }
+
+      /* Tags */
+      .tag {
+        display: inline-block;
+        font-size: 0.5625rem;
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        vertical-align: middle;
+        margin-left: 0.25rem;
+      }
+
+      .tag-coord {
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+      }
+
+      .tag-display {
+        background: var(--neutral-panel);
+        color: var(--neutral-ink-muted);
+      }
+
+      .tag-container {
+        background: var(--info-surface);
+        color: var(--info-surface-ink);
+      }
+
+      .tag-form {
+        background: var(--success-surface);
+        color: var(--success-surface-ink);
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+    </style>
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-table/ui-table.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../icons/ui-icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <ui-layout><main>
+      <h1>Component State Reference</h1>
+      <p>Aggregate view of every UI component and the CSS states, ARIA attributes, and configuration attributes each supports.</p>
+
+      <div class="legend">
+        <span><span class="y">●</span> Implemented</span>
+        <span><span class="a">○</span> Supported</span>
+        <span><span class="n">–</span> Not supported</span>
+        <span><span class="p">via parent</span> Inherited from parent/shared CSS</span>
+      </div>
+
+      <!-- ========================================== -->
+      <h2>Interactive States</h2>
+      <!-- ========================================== -->
+      <div style="overflow-x: auto;">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>:hover</th>
+              <th>:active</th>
+              <th>:focus</th>
+              <th>:focus-visible</th>
+              <th>[pressed]</th>
+              <th>[disabled]</th>
+              <th>[aria-disabled]</th>
+              <th>[active]</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Interactive components -->
+            <tr class="cat-header"><td colspan="9">Interactive Components</td></tr>
+            <tr>
+              <td>ui-button</td>
+              <td class="y">●</td><!-- hover -->
+              <td class="y">●</td><!-- active -->
+              <td class="a">○</td><!-- focus: focusable, no :focus rule -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="y">●</td><!-- pressed: Pressable trait sets it, CSS :active + [pressed] -->
+              <td class="y">●</td><!-- disabled -->
+              <td class="n">–</td><!-- aria-disabled: uses native :disabled -->
+              <td class="n">–</td><!-- active attr: no coordinator sets it -->
+            </tr>
+            <tr>
+              <td>ui-input <span class="tag tag-form">form</span></td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable, no rule -->
+              <td class="y">●</td><!-- focus -->
+              <td class="a">○</td><!-- focus-visible: focusable, no rule -->
+              <td class="n">–</td><!-- pressed: not Pressable -->
+              <td class="a">○</td><!-- disabled: attr set by createDisabledEffect, CSS targets aria-disabled -->
+              <td class="y">●</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td>ui-textarea <span class="tag tag-form">form</span></td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable, no rule -->
+              <td class="y">●</td><!-- focus -->
+              <td class="a">○</td><!-- focus-visible: focusable, no rule -->
+              <td class="n">–</td><!-- pressed: not Pressable -->
+              <td class="a">○</td><!-- disabled: attr set by createDisabledEffect, CSS targets aria-disabled -->
+              <td class="y">●</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td>ui-option <span class="sub">(in listbox)</span></td>
+              <td class="y">●</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="y">●</td>
+            </tr>
+            <tr>
+              <td colspan="9" class="sub" style="padding-left:2rem;">↳ ui-listbox container supports [aria-disabled] (opacity + pointer-events)</td>
+            </tr>
+            <tr>
+              <td>ui-command-item <span class="sub">(in command)</span></td>
+              <td class="y">●</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="y">●</td>
+            </tr>
+            <tr>
+              <td>ui-tab <span class="sub">(in tabs)</span></td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable, no rule -->
+              <td class="a">○</td><!-- focus: focusable, no rule -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="y">●</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="y">●</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td>ui-segment <span class="sub">(in segmented)</span></td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable, no rule -->
+              <td class="a">○</td><!-- focus: focusable, no rule -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="y">●</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="y">●</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td>ui-breadcrumb-item</td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable child -->
+              <td class="a">○</td><!-- focus: focusable child -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed: not Pressable -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="n">–</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+
+            <!-- Widgets -->
+            <tr class="cat-header"><td colspan="9">Widgets (Toggle / Range)</td></tr>
+            <tr>
+              <td>ui-checkbox <span class="tag tag-form">form</span></td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable, no rule -->
+              <td class="a">○</td><!-- focus: focusable, no rule -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="y">●</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled: uses aria-disabled -->
+              <td class="y">●</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td>ui-radio <span class="tag tag-form">form</span></td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable, no rule -->
+              <td class="a">○</td><!-- focus: focusable, no rule -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="y">●</td><!-- pressed: CSS exists -->
+              <td class="n">–</td><!-- disabled: uses aria-disabled -->
+              <td class="y">●</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td>ui-switch <span class="tag tag-form">form</span></td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable, no rule -->
+              <td class="a">○</td><!-- focus: focusable, no rule -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="y">●</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled: uses aria-disabled -->
+              <td class="y">●</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td>ui-range <span class="tag tag-form">form</span></td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable, no rule -->
+              <td class="a">○</td><!-- focus: focusable, no rule -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="y">●</td><!-- pressed: CSS + JS -->
+              <td class="n">–</td><!-- disabled: uses aria-disabled -->
+              <td class="y">●</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td>ui-input-otp <span class="tag tag-form">form</span></td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable cells -->
+              <td class="y">●</td><!-- focus -->
+              <td class="a">○</td><!-- focus-visible: focusable, no rule -->
+              <td class="n">–</td><!-- pressed: not Pressable -->
+              <td class="a">○</td><!-- disabled: attr set, CSS uses aria-disabled -->
+              <td class="y">●</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+
+            <!-- Complex / Composite -->
+            <tr class="cat-header"><td colspan="9">Composite / Complex</td></tr>
+            <tr>
+              <td>ui-calendar <span class="tag tag-form">form</span></td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable cells -->
+              <td class="a">○</td><!-- focus: focusable, no rule -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed: not Pressable -->
+              <td class="y">●</td><!-- disabled -->
+              <td class="y">●</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td>ui-table</td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable rows -->
+              <td class="a">○</td><!-- focus: focusable, no rule -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="n">–</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td colspan="9" class="sub" style="padding-left:2rem;">↳ :hover on body rows, :focus-visible on sortable headers + selectable rows</td>
+            </tr>
+            <tr>
+              <td>ui-tree-item <span class="sub">(in tree)</span></td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable -->
+              <td class="a">○</td><!-- focus: focusable, no rule -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="y">●</td><!-- disabled -->
+              <td class="n">–</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td colspan="9" class="sub" style="padding-left:2rem;">↳ ui-tree container supports [aria-disabled] (opacity + pointer-events)</td>
+            </tr>
+            <tr>
+              <td>ui-accordion-item</td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable summary -->
+              <td class="a">○</td><!-- focus: focusable, no rule -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="y">●</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td colspan="9" class="sub" style="padding-left:2rem;">↳ ui-accordion container supports [aria-disabled] (opacity + pointer-events)</td>
+            </tr>
+            <tr>
+              <td>ui-slideshow</td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable buttons -->
+              <td class="a">○</td><!-- focus: focusable, no rule -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="y">●</td><!-- disabled -->
+              <td class="y">●</td><!-- aria-disabled -->
+              <td class="y">●</td><!-- active attr -->
+            </tr>
+
+            <!-- Coordinators -->
+            <tr class="cat-header"><td colspan="9">Coordinators <span class="tag tag-coord">display: contents</span></td></tr>
+            <tr>
+              <td>ui-select <span class="tag tag-coord">coord</span></td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-combobox <span class="tag tag-coord">coord</span></td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-dialog <span class="tag tag-coord">coord</span></td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+
+            <!-- Display -->
+            <tr class="cat-header"><td colspan="9">Display Components</td></tr>
+            <tr>
+              <td>ui-avatar <span class="tag tag-display">display</span></td>
+              <td class="a">○</td><!-- hover: visible element -->
+              <td class="n">–</td><!-- active: not focusable -->
+              <td class="n">–</td><!-- focus -->
+              <td class="n">–</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="n">–</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td>ui-badge <span class="tag tag-display">display</span></td>
+              <td class="a">○</td><!-- hover: visible element -->
+              <td class="n">–</td><!-- active: not focusable -->
+              <td class="n">–</td><!-- focus -->
+              <td class="n">–</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="n">–</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td>ui-tooltip <span class="tag tag-display">display</span></td>
+              <td class="a">○</td><!-- hover: visible element -->
+              <td class="n">–</td><!-- active: not focusable -->
+              <td class="n">–</td><!-- focus -->
+              <td class="n">–</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="n">–</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+
+            <!-- Containers -->
+            <tr class="cat-header"><td colspan="9">Containers</td></tr>
+            <tr>
+              <td>ui-card <span class="tag tag-container">container</span></td>
+              <td class="y">●</td><!-- hover -->
+              <td class="a">○</td><!-- active: focusable when [interactive] -->
+              <td class="a">○</td><!-- focus: focusable when [interactive] -->
+              <td class="y">●</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="n">–</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td colspan="9" class="sub" style="padding-left:2rem;">↳ only when [interactive] attribute is set</td>
+            </tr>
+            <tr>
+              <td>ui-section <span class="tag tag-container">container</span></td>
+              <td class="a">○</td><!-- hover: visible element -->
+              <td class="n">–</td><!-- active: not focusable -->
+              <td class="n">–</td><!-- focus -->
+              <td class="n">–</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="n">–</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td>ui-panel <span class="tag tag-container">container</span></td>
+              <td class="a">○</td><!-- hover: visible element -->
+              <td class="n">–</td><!-- active: not focusable -->
+              <td class="n">–</td><!-- focus -->
+              <td class="n">–</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="n">–</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="demo-section">
+      <pre class="demo-code"><code>&lt;!-- Interactive state attributes on components --&gt;
+&lt;ui-button force-hover&gt;Hovered&lt;/ui-button&gt;
+&lt;ui-button force-active&gt;Active&lt;/ui-button&gt;
+&lt;ui-button disabled&gt;Disabled&lt;/ui-button&gt;
+&lt;ui-input force-focus&gt;&lt;/ui-input&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+      </div>
+
+      <!-- ========================================== -->
+      <h2>Selection &amp; Value States</h2>
+      <!-- ========================================== -->
+      <div style="overflow-x: auto;">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>[aria-selected]</th>
+              <th>[aria-checked]</th>
+              <th>[aria-checked=mixed]</th>
+              <th>[aria-current]</th>
+              <th>[selected]</th>
+              <th>[expanded]</th>
+              <th>[open]</th>
+              <th>[current]</th>
+              <th>:state(empty)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ui-option</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-command-item</td>
+              <td class="a">○</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-tab</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-checkbox</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-radio</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-switch</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-segment</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-pagination</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-table-row</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="a">○</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-tree-item</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="a">○</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-accordion-item</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-dialog</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-drawer</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-breadcrumb-item</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="a">○</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-input</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+            </tr>
+            <tr>
+              <td>ui-textarea</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="demo-section">
+      <pre class="demo-code"><code>&lt;!-- Selection states --&gt;
+&lt;ui-option aria-selected="true"&gt;Selected&lt;/ui-option&gt;
+&lt;ui-checkbox aria-checked="true"&gt;Checked&lt;/ui-checkbox&gt;
+&lt;ui-checkbox aria-checked="mixed"&gt;Indeterminate&lt;/ui-checkbox&gt;
+&lt;ui-switch aria-checked="true"&gt;On&lt;/ui-switch&gt;
+
+&lt;!-- Value states --&gt;
+&lt;ui-input&gt;&lt;/ui-input&gt;  &lt;!-- :state(empty) when no value --&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+      </div>
+
+      <!-- ========================================== -->
+      <h2>Primitive Attributes (via <code>ui.primitives.css</code>)</h2>
+      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+        These attributes are resolved globally by the design system and inherited by all components via CSS custom properties.
+      </p>
+      <!-- ========================================== -->
+      <ui-table variant="plain" size="sm" style="grid-template-columns: auto 1fr 1fr;">
+        <ui-table-head>
+          <ui-table-row>
+            <ui-table-header>Attribute</ui-table-header>
+            <ui-table-header>Values</ui-table-header>
+            <ui-table-header>Resolves</ui-table-header>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row>
+            <ui-table-cell><code>size</code></ui-table-cell>
+            <ui-table-cell><code>xs</code> <code>sm</code> <code>md</code> <code>lg</code> <code>xl</code></ui-table-cell>
+            <ui-table-cell><code>--_min-height</code>, <code>--_font-size</code>, <code>--_space</code>, <code>--_radius</code></ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell><code>radius</code></ui-table-cell>
+            <ui-table-cell><code>sharp</code> <code>round</code> <code>pill</code></ui-table-cell>
+            <ui-table-cell><code>--_radius</code></ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell><code>variant</code></ui-table-cell>
+            <ui-table-cell><code>default</code> <code>secondary</code> <code>ghost</code> <code>outline</code> <code>soft</code> <code>selected</code></ui-table-cell>
+            <ui-table-cell><code>--_background</code>, <code>--_color</code>, <code>--_border-color</code> (+ hover/active/disabled)</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell><code>intent</code></ui-table-cell>
+            <ui-table-cell><code>neutral</code> <code>accent</code> <code>info</code> <code>success</code> <code>warning</code> <code>danger</code></ui-table-cell>
+            <ui-table-cell>All <code>--_*</code> color locals (ink, surface, border, panel, outline, etc.)</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell><code>density</code></ui-table-cell>
+            <ui-table-cell><code>compact</code> <code>default</code> <code>loose</code></ui-table-cell>
+            <ui-table-cell><code>--_space-k</code> (multiplier for inline padding)</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
+
+      <div class="demo-section">
+      <pre class="demo-code"><code>&lt;!-- Primitive attributes cascade via CSS custom properties --&gt;
+&lt;div size="sm" intent="accent" density="compact" radius="round"&gt;
+  &lt;ui-button variant="primary"&gt;Inherits all&lt;/ui-button&gt;
+  &lt;ui-input placeholder="Also inherits"&gt;&lt;/ui-input&gt;
+&lt;/div&gt;
+
+&lt;!-- Override on individual elements --&gt;
+&lt;ui-button size="lg" intent="danger" variant="primary"&gt;
+  Large Danger
+&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+      </div>
+
+      <!-- ========================================== -->
+      <h2>Component-Specific Attributes</h2>
+      <!-- ========================================== -->
+      <ui-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
+        <ui-table-head>
+          <ui-table-row>
+            <ui-table-header>Component</ui-table-header>
+            <ui-table-header>Attribute</ui-table-header>
+            <ui-table-header>Values / Effect</ui-table-header>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row>
+            <ui-table-cell>ui-button</ui-table-cell>
+            <ui-table-cell><code>justify</code></ui-table-cell>
+            <ui-table-cell><code>"spread"</code> — switches grid to <code>auto 1fr auto</code> (trigger mode)</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-input</ui-table-cell>
+            <ui-table-cell><code>variant</code></ui-table-cell>
+            <ui-table-cell><code>"outline"</code> — transparent bg + strong border (component-level override)</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-textarea</ui-table-cell>
+            <ui-table-cell><code>variant</code></ui-table-cell>
+            <ui-table-cell><code>"outline"</code> — transparent bg + strong border</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>rows</code></ui-table-cell>
+            <ui-table-cell><code>1</code>–<code>10</code> — sets <code>min-height</code> via <code>--_rows</code></ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>autogrow</code></ui-table-cell>
+            <ui-table-cell>Boolean — JS measures <code>scrollHeight</code>, disables resize</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-checkbox</ui-table-cell>
+            <ui-table-cell><code>intent</code></ui-table-cell>
+            <ui-table-cell>Component-level override: uses intent surface instead of accent hardcode</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>size</code></ui-table-cell>
+            <ui-table-cell><code>xs</code>/<code>sm</code>/<code>lg</code>/<code>xl</code> — component-level box sizing</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>radius</code></ui-table-cell>
+            <ui-table-cell><code>"sharp"</code> — sharp corners on checkbox box</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-radio-group</ui-table-cell>
+            <ui-table-cell><code>orientation</code></ui-table-cell>
+            <ui-table-cell><code>"horizontal"</code> / <code>"vertical"</code> — layout direction</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>radius</code></ui-table-cell>
+            <ui-table-cell><code>"rounded"</code> / <code>"sharp"</code> — rounded-rect or sharp-rect shape</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>size</code></ui-table-cell>
+            <ui-table-cell><code>xs</code>/<code>sm</code>/<code>lg</code>/<code>xl</code> — component-level sizing</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-switch</ui-table-cell>
+            <ui-table-cell><code>intent</code></ui-table-cell>
+            <ui-table-cell>Intent-colored track when on</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>size</code></ui-table-cell>
+            <ui-table-cell><code>xs</code>/<code>sm</code>/<code>lg</code>/<code>xl</code></ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-range</ui-table-cell>
+            <ui-table-cell><code>intent</code></ui-table-cell>
+            <ui-table-cell>Intent-colored fill track</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>size</code></ui-table-cell>
+            <ui-table-cell><code>xs</code>/<code>sm</code>/<code>lg</code>/<code>xl</code> — track height</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-tabs</ui-table-cell>
+            <ui-table-cell><code>orientation</code></ui-table-cell>
+            <ui-table-cell><code>"vertical"</code> — side tabs with vertical indicator</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>value</code></ui-table-cell>
+            <ui-table-cell>Presence enables the sliding indicator <code>::after</code></ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-table</ui-table-cell>
+            <ui-table-cell><code>selectable</code></ui-table-cell>
+            <ui-table-cell>Boolean — enables pointer cursor on body rows</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-table-header</ui-table-cell>
+            <ui-table-cell><code>sortable</code></ui-table-cell>
+            <ui-table-cell>Boolean — enables sort icon + hover/focus</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>sort</code></ui-table-cell>
+            <ui-table-cell><code>"asc"</code> / <code>"desc"</code> — sort direction indicator</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-calendar</ui-table-cell>
+            <ui-table-cell><code>view</code></ui-table-cell>
+            <ui-table-cell><code>"day"</code> / <code>"month"</code> / <code>"year"</code> — grid layout mode</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>data-today</code></ui-table-cell>
+            <ui-table-cell>On cell — today highlight (bold + inset ring)</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>data-selected</code></ui-table-cell>
+            <ui-table-cell>On cell — selected fill</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>data-in-range</code></ui-table-cell>
+            <ui-table-cell>On cell — range fill</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>data-range-start/end</code></ui-table-cell>
+            <ui-table-cell>On cell — rounded corners for range endpoints</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>data-outside</code></ui-table-cell>
+            <ui-table-cell>On cell — muted out-of-month days</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-input-otp</ui-table-cell>
+            <ui-table-cell><code>mask</code></ui-table-cell>
+            <ui-table-cell>Boolean — hides digits, shows dots</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-badge</ui-table-cell>
+            <ui-table-cell><code>floating</code></ui-table-cell>
+            <ui-table-cell>Boolean — absolute-positioned top-right</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>dot</code></ui-table-cell>
+            <ui-table-cell>Boolean — small circle, no text content</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-field</ui-table-cell>
+            <ui-table-cell><code>required</code></ui-table-cell>
+            <ui-table-cell>Boolean — shows asterisk after label</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>invalid</code></ui-table-cell>
+            <ui-table-cell>Boolean — shows error slot</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-drawer</ui-table-cell>
+            <ui-table-cell><code>side</code></ui-table-cell>
+            <ui-table-cell><code>"left"</code> / <code>"top"</code> / <code>"bottom"</code> (default: right)</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-tooltip</ui-table-cell>
+            <ui-table-cell><code>placement</code></ui-table-cell>
+            <ui-table-cell><code>"top"</code> / <code>"bottom"</code> / <code>"left"</code> / <code>"right"</code></ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-section</ui-table-cell>
+            <ui-table-cell><code>collapsible</code></ui-table-cell>
+            <ui-table-cell>Boolean — enables collapse behavior + chevron</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>collapsed</code></ui-table-cell>
+            <ui-table-cell>Boolean — hides content, rotates chevron</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>divider</code></ui-table-cell>
+            <ui-table-cell>Boolean — adds top border separator</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-slideshow</ui-table-cell>
+            <ui-table-cell><code>direction</code></ui-table-cell>
+            <ui-table-cell><code>"vertical"</code> — vertical scroll axis</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>controls</code></ui-table-cell>
+            <ui-table-cell>Boolean — shows prev/next navigation</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>indicators</code></ui-table-cell>
+            <ui-table-cell>Boolean — shows dot indicators</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>gap</code></ui-table-cell>
+            <ui-table-cell>Boolean — enables gap between slides</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>peek</code></ui-table-cell>
+            <ui-table-cell>Boolean — partial visibility of adjacent slides</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-card</ui-table-cell>
+            <ui-table-cell><code>interactive</code></ui-table-cell>
+            <ui-table-cell>Boolean — enables hover + focus ring + cursor</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-panel</ui-table-cell>
+            <ui-table-cell><code>bordered</code></ui-table-cell>
+            <ui-table-cell>Boolean — adds 1px muted border</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>padded</code></ui-table-cell>
+            <ui-table-cell><code>"false"</code> — removes padding</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
+
+      <div class="demo-section">
+      <pre class="demo-code"><code>&lt;!-- Component-specific attributes --&gt;
+&lt;ui-button justify="spread"&gt;
+  &lt;span slot="label"&gt;Select...&lt;/span&gt;
+  &lt;ui-icon name="caret-up-down" slot="trailing"&gt;&lt;/ui-icon&gt;
+&lt;/ui-button&gt;
+
+&lt;ui-textarea rows="5" autogrow&gt;&lt;/ui-textarea&gt;
+&lt;ui-input-otp mask length="6"&gt;&lt;/ui-input-otp&gt;
+&lt;ui-badge floating dot intent="danger"&gt;&lt;/ui-badge&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+      </div>
+
+      <!-- ========================================== -->
+      <h2>Container Layout Attributes</h2>
+      <!-- ========================================== -->
+      <ui-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
+        <ui-table-head>
+          <ui-table-row>
+            <ui-table-header>Container</ui-table-header>
+            <ui-table-header>Attribute</ui-table-header>
+            <ui-table-header>Values</ui-table-header>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row>
+            <ui-table-cell>ui-stack</ui-table-cell>
+            <ui-table-cell><code>direction</code></ui-table-cell>
+            <ui-table-cell><code>"row"</code> / <code>"column-reverse"</code> / <code>"row-reverse"</code></ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>gap</code></ui-table-cell>
+            <ui-table-cell><code>0</code>–<code>8</code></ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>align</code></ui-table-cell>
+            <ui-table-cell><code>"start"</code> / <code>"center"</code> / <code>"end"</code> / <code>"stretch"</code> / <code>"baseline"</code></ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>justify</code></ui-table-cell>
+            <ui-table-cell><code>"start"</code> / <code>"center"</code> / <code>"end"</code> / <code>"between"</code> / <code>"around"</code> / <code>"evenly"</code></ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>wrap</code></ui-table-cell>
+            <ui-table-cell>Boolean — enables flex-wrap</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-grid</ui-table-cell>
+            <ui-table-cell><code>cols</code></ui-table-cell>
+            <ui-table-cell><code>1</code>–<code>6</code> — fixed column count</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>min</code></ui-table-cell>
+            <ui-table-cell><code>"8rem"</code>–<code>"24rem"</code> — min column width (auto-fit)</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell></ui-table-cell>
+            <ui-table-cell><code>gap</code></ui-table-cell>
+            <ui-table-cell><code>0</code>–<code>8</code></ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-divider</ui-table-cell>
+            <ui-table-cell><code>orientation</code></ui-table-cell>
+            <ui-table-cell><code>"vertical"</code> (default: horizontal)</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
+
+      <div class="demo-section">
+      <pre class="demo-code"><code>&lt;!-- Container layout attributes --&gt;
+&lt;ui-stack direction="row" gap="4" align="center" wrap&gt;
+  &lt;ui-button&gt;A&lt;/ui-button&gt;
+  &lt;ui-button&gt;B&lt;/ui-button&gt;
+&lt;/ui-stack&gt;
+
+&lt;ui-grid cols="3" gap="4"&gt;
+  &lt;ui-card&gt;...&lt;/ui-card&gt;
+  &lt;ui-card&gt;...&lt;/ui-card&gt;
+  &lt;ui-card&gt;...&lt;/ui-card&gt;
+&lt;/ui-grid&gt;
+
+&lt;ui-divider orientation="vertical"&gt;&lt;/ui-divider&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+      </div>
+
+      <!-- ========================================== -->
+      <h2>Events</h2>
+      <!-- ========================================== -->
+      <div style="overflow-x: auto;">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>ui-press</th>
+              <th>ui-input</th>
+              <th>ui-change</th>
+              <th>ui-select</th>
+              <th>ui-dismiss</th>
+              <th>close</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ui-button</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-input</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-textarea</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-listbox</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-option</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-command</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-select</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-combobox</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-checkbox</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-radio-group</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-switch</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-tabs</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-segmented-control</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-range</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-dialog</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="y">●</td>
+            </tr>
+            <tr>
+              <td>ui-drawer</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="y">●</td>
+            </tr>
+            <tr>
+              <td>ui-accordion</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-tree</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-calendar</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="sub" style="padding-left:2rem;">↳ also emits <code>ui-range-select</code> when <code>[range]</code> with <code>{ start, end }</code></td>
+            </tr>
+            <tr>
+              <td>ui-table</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-pagination</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-breadcrumb</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-input-otp</td>
+              <td class="n">–</td>
+              <td class="y">●</td>
+              <td class="y">●</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td>ui-slideshow</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="sub" style="padding-left:2rem;">↳ emits <code>ui-slide-change</code> (not <code>ui-change</code>) with <code>{ index, slide }</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="demo-section">
+      <pre class="demo-code"><code>&lt;!-- Listening to component events --&gt;
+&lt;ui-button id="my-btn"&gt;Click me&lt;/ui-button&gt;
+&lt;script&gt;
+  document.getElementById('my-btn')
+    .addEventListener('ui-press', (e) =&gt; {
+      console.log('Button pressed');
+    });
+&lt;/script&gt;
+
+&lt;ui-input id="name"&gt;&lt;/ui-input&gt;
+&lt;script&gt;
+  document.getElementById('name')
+    .addEventListener('ui-change', (e) =&gt; {
+      console.log('Value:', e.detail.value);
+    });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+      </div>
+
+      <!-- ========================================== -->
+      <h2>Form Association</h2>
+      <!-- ========================================== -->
+      <ui-table variant="plain" size="sm" style="grid-template-columns: auto auto auto auto auto;">
+        <ui-table-head>
+          <ui-table-row>
+            <ui-table-header>Component</ui-table-header>
+            <ui-table-header>formAssociated</ui-table-header>
+            <ui-table-header>name attr</ui-table-header>
+            <ui-table-header>value type</ui-table-header>
+            <ui-table-header>Validation</ui-table-header>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row>
+            <ui-table-cell>ui-input</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell>string</ui-table-cell>
+            <ui-table-cell>via ui-field</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-textarea</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell>string</ui-table-cell>
+            <ui-table-cell>via ui-field</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-select</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell>string</ui-table-cell>
+            <ui-table-cell>via ui-field</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-combobox</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell>string</ui-table-cell>
+            <ui-table-cell>via ui-field</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-checkbox</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell>string (on/off)</ui-table-cell>
+            <ui-table-cell>via ui-field</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-radio-group</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell>string</ui-table-cell>
+            <ui-table-cell>via ui-field</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-switch</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell>string (on/off)</ui-table-cell>
+            <ui-table-cell>via ui-field</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-range</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell>number</ui-table-cell>
+            <ui-table-cell>via ui-field</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-input-otp</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell>string</ui-table-cell>
+            <ui-table-cell>via ui-field</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-segmented-control</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell>string</ui-table-cell>
+            <ui-table-cell>—</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-calendar</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell class="y">●</ui-table-cell>
+            <ui-table-cell>string (ISO date)</ui-table-cell>
+            <ui-table-cell>—</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
+
+      <div class="demo-section">
+      <pre class="demo-code"><code>&lt;!-- Form-associated components work with native forms --&gt;
+&lt;form&gt;
+  &lt;ui-field label="Email" required&gt;
+    &lt;ui-input name="email" placeholder="you@example.com"&gt;&lt;/ui-input&gt;
+  &lt;/ui-field&gt;
+
+  &lt;ui-field label="Role"&gt;
+    &lt;ui-select name="role" placeholder="Choose..."
+      options='[{"value":"admin","label":"Admin"},{"value":"user","label":"User"}]'&gt;
+    &lt;/ui-select&gt;
+  &lt;/ui-field&gt;
+
+  &lt;ui-button type="submit" variant="primary"&gt;Submit&lt;/ui-button&gt;
+&lt;/form&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+      </div>
+
+      <!-- ========================================== -->
+      <h2>ARIA Roles</h2>
+      <!-- ========================================== -->
+      <ui-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
+        <ui-table-head>
+          <ui-table-row>
+            <ui-table-header>Component</ui-table-header>
+            <ui-table-header>Role</ui-table-header>
+            <ui-table-header>Set via</ui-table-header>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row><ui-table-cell>ui-button</ui-table-cell><ui-table-cell><code>button</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-input</ui-table-cell><ui-table-cell><code>textbox</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-textarea</ui-table-cell><ui-table-cell><code>textbox</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-listbox</ui-table-cell><ui-table-cell><code>listbox</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-option</ui-table-cell><ui-table-cell><code>option</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-option-group</ui-table-cell><ui-table-cell><code>group</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-option-group-header</ui-table-cell><ui-table-cell><code>presentation</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-command</ui-table-cell><ui-table-cell><code>listbox</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-command-item</ui-table-cell><ui-table-cell><code>option</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-select</ui-table-cell><ui-table-cell><code>combobox</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-combobox</ui-table-cell><ui-table-cell><code>combobox</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-checkbox</ui-table-cell><ui-table-cell><code>checkbox</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-radio-group</ui-table-cell><ui-table-cell><code>radiogroup</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-radio</ui-table-cell><ui-table-cell><code>radio</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-switch</ui-table-cell><ui-table-cell><code>switch</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-tabs</ui-table-cell><ui-table-cell><code>tablist</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-tab</ui-table-cell><ui-table-cell><code>tab</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-tab-panel</ui-table-cell><ui-table-cell><code>tabpanel</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-segmented-control</ui-table-cell><ui-table-cell><code>radiogroup</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-segment</ui-table-cell><ui-table-cell><code>radio</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-range</ui-table-cell><ui-table-cell><code>slider</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-tree</ui-table-cell><ui-table-cell><code>tree</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-tree-item</ui-table-cell><ui-table-cell><code>treeitem</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-dialog</ui-table-cell><ui-table-cell><code>dialog</code></ui-table-cell><ui-table-cell>native &lt;dialog&gt;</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-drawer</ui-table-cell><ui-table-cell><code>dialog</code></ui-table-cell><ui-table-cell>native &lt;dialog&gt;</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-calendar</ui-table-cell><ui-table-cell><code>group</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-input-otp</ui-table-cell><ui-table-cell><code>group</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-pagination</ui-table-cell><ui-table-cell><code>navigation</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-breadcrumb</ui-table-cell><ui-table-cell><code>navigation</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-slideshow</ui-table-cell><ui-table-cell><code>region</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-avatar</ui-table-cell><ui-table-cell><code>img</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-badge</ui-table-cell><ui-table-cell><code>status</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-toolbar</ui-table-cell><ui-table-cell><code>toolbar</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+          <ui-table-row><ui-table-cell>ui-tooltip</ui-table-cell><ui-table-cell><code>tooltip</code></ui-table-cell><ui-table-cell>ElementInternals</ui-table-cell></ui-table-row>
+        </ui-table-body>
+      </ui-table>
+
+      <div class="demo-section">
+      <pre class="demo-code"><code>&lt;!-- ARIA roles are set automatically via ElementInternals --&gt;
+&lt;!-- No manual role attributes needed --&gt;
+&lt;ui-button&gt;role="button"&lt;/ui-button&gt;
+&lt;ui-input&gt; &lt;!-- role="textbox" --&gt;
+&lt;ui-listbox&gt; &lt;!-- role="listbox" --&gt;
+  &lt;ui-option&gt; &lt;!-- role="option" --&gt;
+&lt;/ui-listbox&gt;
+&lt;ui-checkbox&gt; &lt;!-- role="checkbox" --&gt;
+&lt;ui-switch&gt; &lt;!-- role="switch" --&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+      </div>
+
+      <!-- ========================================== -->
+      <h2>Keyboard Navigation</h2>
+      <!-- ========================================== -->
+      <ui-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
+        <ui-table-head>
+          <ui-table-row>
+            <ui-table-header>Component</ui-table-header>
+            <ui-table-header>Keys</ui-table-header>
+            <ui-table-header>Pattern</ui-table-header>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row>
+            <ui-table-cell>ui-button</ui-table-cell>
+            <ui-table-cell>Enter, Space</ui-table-cell>
+            <ui-table-cell>Pressable trait</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-listbox</ui-table-cell>
+            <ui-table-cell>↑↓ Home End Enter</ui-table-cell>
+            <ui-table-cell>Roving focus</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-command</ui-table-cell>
+            <ui-table-cell>↑↓ Home End Enter Esc</ui-table-cell>
+            <ui-table-cell>Active-index tracking</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-select</ui-table-cell>
+            <ui-table-cell>↑↓ Home End Enter Esc Space</ui-table-cell>
+            <ui-table-cell>Popover + roving focus</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-combobox</ui-table-cell>
+            <ui-table-cell>↑↓ Home End Enter Esc</ui-table-cell>
+            <ui-table-cell>Popover + active-index</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-tabs</ui-table-cell>
+            <ui-table-cell>←→ (horiz) ↑↓ (vert) Home End</ui-table-cell>
+            <ui-table-cell>Roving focus</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-radio-group</ui-table-cell>
+            <ui-table-cell>←→ ↑↓</ui-table-cell>
+            <ui-table-cell>Roving focus</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-segmented-control</ui-table-cell>
+            <ui-table-cell>←→ Home End</ui-table-cell>
+            <ui-table-cell>Roving focus</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-checkbox</ui-table-cell>
+            <ui-table-cell>Space</ui-table-cell>
+            <ui-table-cell>Toggle</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-switch</ui-table-cell>
+            <ui-table-cell>Space</ui-table-cell>
+            <ui-table-cell>Toggle</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-dialog</ui-table-cell>
+            <ui-table-cell>Esc</ui-table-cell>
+            <ui-table-cell>Focus trap + dismiss</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-drawer</ui-table-cell>
+            <ui-table-cell>Esc</ui-table-cell>
+            <ui-table-cell>Focus trap + dismiss</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-tree</ui-table-cell>
+            <ui-table-cell>↑↓ ←→ Home End Enter Space</ui-table-cell>
+            <ui-table-cell>Tree navigation (expand/collapse + roving)</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-accordion</ui-table-cell>
+            <ui-table-cell>native &lt;details&gt;</ui-table-cell>
+            <ui-table-cell>Browser built-in</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-calendar</ui-table-cell>
+            <ui-table-cell>←→ ↑↓ Home End PgUp PgDn</ui-table-cell>
+            <ui-table-cell>Grid navigation</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-toolbar</ui-table-cell>
+            <ui-table-cell>←→ Home End</ui-table-cell>
+            <ui-table-cell>Roving focus</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-pagination</ui-table-cell>
+            <ui-table-cell>←→</ui-table-cell>
+            <ui-table-cell>Roving focus</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-input-otp</ui-table-cell>
+            <ui-table-cell>←→ Backspace</ui-table-cell>
+            <ui-table-cell>Cell navigation</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell>ui-slideshow</ui-table-cell>
+            <ui-table-cell>←→ (horiz) ↑↓ (vert)</ui-table-cell>
+            <ui-table-cell>Prev/next slide</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
+
+      <div class="demo-section">
+      <pre class="demo-code"><code>&lt;!-- Keyboard patterns are built-in --&gt;
+&lt;!-- Listbox: Arrow keys, Home, End, Enter --&gt;
+&lt;ui-listbox&gt;
+  &lt;ui-option value="a"&gt;Option A&lt;/ui-option&gt;
+  &lt;ui-option value="b"&gt;Option B&lt;/ui-option&gt;
+&lt;/ui-listbox&gt;
+
+&lt;!-- Tabs: Arrow keys navigate, Enter/Space selects --&gt;
+&lt;ui-tabs&gt;
+  &lt;ui-tab value="1"&gt;Tab 1&lt;/ui-tab&gt;
+  &lt;ui-tab value="2"&gt;Tab 2&lt;/ui-tab&gt;
+&lt;/ui-tabs&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+      </div>
+
+      <!-- ========================================== -->
+      <h2>Customization Patterns</h2>
+      <!-- ========================================== -->
+
+      <h3 style="font-size: 0.875rem; font-weight: 600; margin: 1.5rem 0 0.5rem; color: var(--neutral-ink-strong);">State-conditional intent</h3>
+      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Override <code>--_*</code> locals in a state selector to change intent on hover, focus, etc.
+      </p>
+      <pre style="font-size: 0.75rem; background: var(--neutral-panel); border: 1px solid var(--neutral-border-muted); border-radius: 0.375rem; padding: 0.75rem; overflow-x: auto; margin-bottom: 1.5rem; color: var(--neutral-ink);"><code>/* Neutral button → accent on hover */
+ui-button.cta:hover {
+  --_ink:        var(--accent-ink);
+  --_ink-strong: var(--accent-ink-strong);
+  --_surface:    var(--accent-surface);
+  --_panel:      var(--accent-panel);
+  --_border:     var(--accent-border);
+}
+
+/* Danger intent on focus (e.g. delete confirmation) */
+ui-button.danger-focus:focus-visible {
+  --_ink:        var(--danger-ink);
+  --_surface:    var(--danger-surface);
+}</code></pre>
+
+      <h3 style="font-size: 0.875rem; font-weight: 600; margin: 1.5rem 0 0.5rem; color: var(--neutral-ink-strong);">Debug state attributes (<code>force-*</code>)</h3>
+      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Every pseudo-state with a visual effect has a <code>force-*</code> attribute mirror for DevTools debugging and state demos.
+        Add the attribute to the host element to simulate the pseudo-state.
+      </p>
+      <ui-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
+        <ui-table-head>
+          <ui-table-row>
+            <ui-table-header>Pseudo</ui-table-header>
+            <ui-table-header>Attribute</ui-table-header>
+            <ui-table-header>Components</ui-table-header>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row>
+            <ui-table-cell><code>:hover</code></ui-table-cell>
+            <ui-table-cell><code>[force-hover]</code></ui-table-cell>
+            <ui-table-cell>All interactive components + ui-card[interactive]</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell><code>:active</code></ui-table-cell>
+            <ui-table-cell><code>[force-active]</code></ui-table-cell>
+            <ui-table-cell>ui-button, ui-option, ui-command-item, ui-tab, ui-segment</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell><code>:focus</code></ui-table-cell>
+            <ui-table-cell><code>[force-focus]</code></ui-table-cell>
+            <ui-table-cell>ui-input, ui-textarea, ui-input-otp</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row>
+            <ui-table-cell><code>:focus-visible</code></ui-table-cell>
+            <ui-table-cell><code>[force-focus-visible]</code></ui-table-cell>
+            <ui-table-cell>All components with focus rings</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
+      <pre style="font-size: 0.75rem; background: var(--neutral-panel); border: 1px solid var(--neutral-border-muted); border-radius: 0.375rem; padding: 0.75rem; overflow-x: auto; margin-bottom: 1.5rem; color: var(--neutral-ink);"><code>&lt;!-- Toggle in DevTools to simulate hover --&gt;
+&lt;ui-button force-hover&gt;Hovered&lt;/ui-button&gt;
+
+&lt;!-- Compound states work too --&gt;
+&lt;ui-checkbox force-hover aria-checked="true"&gt;Checked + Hovered&lt;/ui-checkbox&gt;
+
+&lt;!-- Internal children: force-* on host triggers all children --&gt;
+&lt;ui-calendar force-hover&gt;...&lt;/ui-calendar&gt;</code></pre>
+
+      <h3 style="font-size: 0.875rem; font-weight: 600; margin: 1.5rem 0 0.5rem; color: var(--neutral-ink-strong);">Scoped intent override</h3>
+      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Override locals on a container to affect all children.
+      </p>
+      <pre style="font-size: 0.75rem; background: var(--neutral-panel); border: 1px solid var(--neutral-border-muted); border-radius: 0.375rem; padding: 0.75rem; overflow-x: auto; margin-bottom: 1.5rem; color: var(--neutral-ink);"><code>/* All controls inside .danger-zone get danger colors */
+.danger-zone {
+  --_ink:           var(--danger-ink);
+  --_ink-strong:    var(--danger-ink-strong);
+  --_surface:       var(--danger-surface);
+  --_border:        var(--danger-border);
+  --_border-muted:  var(--danger-border-muted);
+}</code></pre>
+
+    </main></ui-layout>
+  </body>
+</html>

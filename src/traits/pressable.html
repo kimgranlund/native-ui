@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pressable — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .press-box {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem 1.5rem;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.375rem;
+        cursor: pointer;
+        user-select: none;
+        font-size: 0.875rem;
+        transition: background 150ms ease, transform 100ms ease;
+      }
+
+      .press-box:hover {
+        background: var(--neutral-panel-hover);
+      }
+
+      .press-box[pressed] {
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+        transform: scale(0.97);
+      }
+
+      .press-box[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      .press-box:focus-visible {
+        outline: 2px solid var(--ui-focus-ring);
+        outline-offset: 2px;
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--neutral-ink-muted);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--neutral-panel);
+        border-radius: 0.25rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--neutral-border-muted);
+        color: var(--neutral-ink-strong);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--neutral-border-muted);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+
+    <h1>Pressable</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Composable trait that handles pointer and keyboard press states. Sets a <code>[pressed]</code> attribute during press and dispatches <code>ui-press</code> on release. Supports pointer capture and Enter/Space keys.
+    </p>
+
+    <!-- ── Basic Press (Provider) ── -->
+
+    <h2>Basic Press (Provider)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        <code>&lt;ui-controller&gt;</code> wraps each element and applies the pressable trait. Click or press Enter/Space.
+      </p>
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <ui-controller traits="pressable">
+          <div class="press-box" tabindex="0">Click or press Enter</div>
+        </ui-controller>
+        <ui-controller traits="pressable">
+          <div class="press-box" tabindex="0">Another pressable</div>
+        </ui-controller>
+        <ui-controller traits="pressable" pressable-disabled="true">
+          <div class="press-box" tabindex="0" disabled>Disabled</div>
+        </ui-controller>
+      </div>
+      <div id="log" class="output"></div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="pressable"&gt;
+  &lt;div class="press-box" tabindex="0"&gt;
+    Click or press Enter
+  &lt;/div&gt;
+&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── On ui-button (Built-in) ── -->
+
+    <h2>On ui-button (Built-in)</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        <code>ui-button</code> already uses the Pressable trait internally. The <code>ui-press</code> event and <code>[pressed]</code> attribute work out of the box.
+      </p>
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <ui-button id="btn-1">Button Press</ui-button>
+        <ui-button id="btn-2" intent="accent">Accent Press</ui-button>
+        <ui-button id="btn-3" disabled>Disabled</ui-button>
+      </div>
+      <div id="btn-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;ui-button&gt;Button Press&lt;/ui-button&gt;
+
+&lt;script&gt;
+  button.addEventListener('ui-press', (e) =&gt; {
+    console.log('pressed!', e.detail.pointerType);
+  });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Pointer Types ── -->
+
+    <h2>Pointer Types</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        The <code>ui-press</code> event includes a <code>pointerType</code> in its detail — <code>"mouse"</code>, <code>"touch"</code>, <code>"pen"</code>, or <code>"keyboard"</code>.
+      </p>
+      <ui-controller traits="pressable">
+        <div class="press-box" id="type-box" tabindex="0">Press me (check log)</div>
+      </ui-controller>
+      <div id="type-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="pressable"&gt;
+  &lt;div class="press-box" tabindex="0"&gt;
+    Press me (check log)
+  &lt;/div&gt;
+&lt;/ui-controller&gt;
+
+&lt;script&gt;
+  box.addEventListener('ui-press', (e) =&gt; {
+    console.log(e.detail.pointerType);
+    // "mouse" | "touch" | "pen" | "keyboard"
+  });
+&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Provider Usage</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>pressable-disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables press behavior when <code>"true"</code>. Pointer events are ignored.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>ui-press</code></td>
+            <td><code>{ pointerType }</code></td>
+            <td>Fired on release. <code>pointerType</code> is <code>"mouse"</code>, <code>"touch"</code>, <code>"pen"</code>, or <code>"keyboard"</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>[pressed]</code></td>
+            <td>Present on the element while pointer/key is held down. Use for active-press styling.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></ui-layout>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../components/ui-controller/ui-controller.ts';
+      import '../icons/ui-icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Helpers ──
+
+      function appendLog(el, msg) {
+        const line = document.createElement('div');
+        line.textContent = msg;
+        el.appendChild(line);
+        el.scrollTop = el.scrollHeight;
+      }
+
+      // ── Basic Press log ──
+
+      let count = 0;
+      const logEl = document.getElementById('log');
+      for (const box of document.querySelectorAll('.press-box')) {
+        box.addEventListener('ui-press', (e) => {
+          count++;
+          appendLog(logEl, `#${count} ui-press — pointerType: "${e.detail.pointerType}"`);
+        });
+      }
+
+      // ── Button Press log ──
+
+      let btnCount = 0;
+      const btnLogEl = document.getElementById('btn-log');
+      for (const btn of [document.getElementById('btn-1'), document.getElementById('btn-2'), document.getElementById('btn-3')]) {
+        btn.addEventListener('ui-press', (e) => {
+          btnCount++;
+          appendLog(btnLogEl, `#${btnCount} ui-press — pointerType: "${e.detail.pointerType}"`);
+        });
+      }
+
+      // ── Pointer Type log ──
+
+      const typeBox = document.getElementById('type-box');
+      const typeLogEl = document.getElementById('type-log');
+      typeBox.addEventListener('ui-press', (e) => {
+        appendLog(typeLogEl, `pointerType: "${e.detail.pointerType}"`);
+      });
+    </script>
+  </body>
+</html>

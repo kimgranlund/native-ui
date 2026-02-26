@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FocusTrappable — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .trap-region {
+        display: block;
+        padding: 1.5rem;
+        background: var(--neutral-panel);
+        border: 2px solid var(--ui-focus-ring);
+        border-radius: 0.5rem;
+        margin-top: 0.75rem;
+      }
+
+      .trap-region[hidden] {
+        display: none;
+      }
+
+      .trap-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .trap-form label {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+      }
+
+      .trap-form input {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        background: var(--neutral-body);
+        color: var(--neutral-ink);
+        font-family: inherit;
+      }
+
+      .trap-form input:focus-visible {
+        outline: 2px solid var(--ui-focus-ring);
+        outline-offset: 1px;
+      }
+
+      .trap-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+
+      /* ── Code Blocks ── */
+
+      .demo-code {
+        display: none;
+        position: relative;
+        background: var(--neutral-panel);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 0.75rem;
+        margin: 0;
+        margin-top: 0.75rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        overflow-x: auto;
+        white-space: pre;
+        color: var(--neutral-ink);
+      }
+
+      .demo-code[visible] {
+        display: block;
+      }
+
+      .demo-code > ui-button {
+        position: absolute;
+        top: 0.375rem;
+        right: 0.375rem;
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--neutral-border-muted);
+        color: var(--neutral-ink-strong);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--neutral-border-muted);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--neutral-panel);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+
+    <h1>FocusTrappable</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Composable trait for trapping Tab focus within a container. When enabled, Tab and Shift+Tab cycle through focusable children without leaving the container. On enable, focus moves to <code>[autofocus]</code> or the first focusable element. On disable, focus returns to the previously focused element.
+    </p>
+
+    <!-- ── Focus Trap ── -->
+
+    <h2>Focus Trap</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Uses <code>FocusTrapController</code> directly on a plain element. Tab cycles between the inputs and buttons.
+      </p>
+      <ui-button id="open-trap">Open Trapped Region</ui-button>
+      <div class="trap-region" id="trap" hidden>
+        <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+          Focus is trapped here. Tab cycles between the inputs and buttons. Click "Close" to release.
+        </p>
+        <div class="trap-form">
+          <label>
+            Name
+            <input type="text" placeholder="Your name" autofocus />
+          </label>
+          <label>
+            Email
+            <input type="email" placeholder="you@example.com" />
+          </label>
+        </div>
+        <div class="trap-actions">
+          <ui-button id="save-btn" intent="accent">Save</ui-button>
+          <ui-button id="close-btn">Close</ui-button>
+        </div>
+      </div>
+      <pre class="demo-code"><code>import { FocusTrapController } from '@nonoun/native-ui';
+
+const region = document.getElementById('trap');
+const trap = new FocusTrapController(region);
+
+function show() {
+  region.removeAttribute('hidden');
+  trap.enable(); // focuses [autofocus] or first focusable
+}
+
+function hide() {
+  trap.disable(); // restores focus to previous element
+  region.setAttribute('hidden', '');
+}</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
+    <!-- ── Without Autofocus ── -->
+
+    <h2>Without Autofocus</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        When no <code>[autofocus]</code> element exists, focus goes to the first focusable child.
+      </p>
+      <ui-button id="open-trap2">Open Trap (no autofocus)</ui-button>
+      <div class="trap-region" id="trap2" hidden>
+        <div class="trap-actions">
+          <ui-button>First</ui-button>
+          <ui-button>Second</ui-button>
+          <ui-button id="close-btn2">Close</ui-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Built-in: ui-dialog ── -->
+
+    <h2>Built-in: ui-dialog</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        <code>ui-dialog</code> uses FocusTrappable internally. When a modal dialog opens, focus is automatically trapped within it.
+      </p>
+      <ui-button id="open-dialog">Open Dialog</ui-button>
+      <ui-dialog id="demo-dialog">
+        <ui-card style="width: 20rem; padding: 1.5rem;">
+          <p style="margin: 0 0 1rem;">Focus is trapped inside this dialog. Tab only cycles between these buttons.</p>
+          <div class="trap-actions">
+            <ui-button intent="accent">Action</ui-button>
+            <ui-button id="close-dialog">Close</ui-button>
+          </div>
+        </ui-card>
+      </ui-dialog>
+    </div>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Methods</h3>
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>enable()</code></td>
+            <td>Starts trapping focus. Moves focus to <code>[autofocus]</code> or first focusable child. Saves the previously focused element for restoration.</td>
+          </tr>
+          <tr>
+            <td><code>disable()</code></td>
+            <td>Stops trapping focus. Returns focus to the previously focused element.</td>
+          </tr>
+          <tr>
+            <td><code>destroy()</code></td>
+            <td>Disables and cleans up. Call in <code>teardown()</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>Tab</code></td>
+            <td>Moves focus to next focusable child. Wraps to first when at last.</td>
+          </tr>
+          <tr>
+            <td><code>Shift+Tab</code></td>
+            <td>Moves focus to previous focusable child. Wraps to last when at first.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></ui-layout>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../nav/ui-layout.ts';
+      import '../components/ui-button/ui-button.ts';
+      import '../components/ui-dialog/ui-dialog.ts';
+      import '../components/ui-controller/ui-controller.ts';
+      import '../containers/ui-card/ui-card.ts';
+      import '../icons/ui-icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+      import { FocusTrapController } from '../index.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('ui-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Focus Trap Demo ──
+
+      const trapEl = document.getElementById('trap');
+      const trap = new FocusTrapController(trapEl);
+
+      function showTrap() {
+        trapEl.removeAttribute('hidden');
+        trap.enable();
+      }
+
+      function hideTrap() {
+        trap.disable();
+        trapEl.setAttribute('hidden', '');
+      }
+
+      document.getElementById('open-trap').addEventListener('ui-press', () => showTrap());
+      document.getElementById('close-btn').addEventListener('ui-press', () => hideTrap());
+      document.getElementById('save-btn').addEventListener('ui-press', () => hideTrap());
+
+      // ── No Autofocus Demo ──
+
+      const trap2El = document.getElementById('trap2');
+      const trap2 = new FocusTrapController(trap2El);
+
+      document.getElementById('open-trap2').addEventListener('ui-press', () => {
+        trap2El.removeAttribute('hidden');
+        trap2.enable();
+      });
+      document.getElementById('close-btn2').addEventListener('ui-press', () => {
+        trap2.disable();
+        trap2El.setAttribute('hidden', '');
+      });
+
+      // ── Dialog Demo ──
+
+      const dialog = document.getElementById('demo-dialog');
+      document.getElementById('open-dialog').addEventListener('ui-press', () => dialog.showModal());
+      document.getElementById('close-dialog').addEventListener('ui-press', () => dialog.close());
+    </script>
+  </body>
+</html>

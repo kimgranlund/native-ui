@@ -1,0 +1,61 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  ui-layout-inspector                                     │
+     │  Rounded, padded, scrollable right panel.                │
+     │  Hidden by default — shown via [open] attribute.         │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  :where(ui-layout-inspector) {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 0;
+    min-width: 0;
+    max-width: 480px;
+    overflow: clip;
+    scrollbar-width: none;
+    background: var(--_ground, var(--_panel));
+    border-radius: var(--_radius);
+    padding: 0;
+    transition:
+      width var(--_duration) var(--_easing),
+      min-width var(--_duration) var(--_easing),
+      padding var(--_duration) var(--_easing),
+      margin var(--_duration) var(--_easing);
+  }
+
+  :where(ui-layout-inspector[open]) {
+    width: 360px;
+    min-width: 280px;
+    margin-inline-start: calc(var(--_space) * 2);
+    overflow-y: auto;
+    padding: calc(var(--_space-k) * var(--_space));
+  }
+
+  :where(ui-layout-inspector[resizing]) {
+    transition: none;
+  }
+
+  :where(ui-layout-inspector)[show-scrollbar] {
+    scrollbar-width: thin;
+  }
+
+  /* ── Resize Handle ── */
+
+  :where(ui-layout-inspector) :where(.layout-resize-handle) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 1;
+  }
+
+  :where(ui-layout-inspector) :where(.layout-resize-handle):hover,
+  :where(ui-layout-inspector[resizing]) :where(.layout-resize-handle) {
+    background: var(--neutral-border-muted);
+  }
+
+}
