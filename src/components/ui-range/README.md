@@ -24,6 +24,18 @@
 | `ui-input` | Fired continuously during drag with `{ value }` detail |
 | `ui-change` | Fired on drag end or keyboard change with `{ value }` detail |
 
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-focus-ring`
+- `--ui-shadow-sm`
+- `--ui-widget-lg`
+- `--ui-widget-md`
+- `--ui-widget-sm`
+- `--ui-widget-xl`
+- `--ui-widget-xs`
+
 ## Usage
 
 ```html

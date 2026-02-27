@@ -21,11 +21,12 @@ export type SelectOption = BaseOption;
  * @fires ui-change - Fired when selection changes with `{ value, label }` detail
  */
 export class UISelect extends FormAssociable(UIElement) {
-  static observedAttributes = ['value', 'disabled', 'name', 'options', 'src', 'placeholder'];
+  static observedAttributes = ['value', 'disabled', 'name', 'options', 'src', 'placeholder', 'required'];
 
   #internals: ElementInternals;
   #controller = new SelectController();
   #disabled = signal(false);
+  #required = signal(false);
   #popover!: PopoverController;
 
   // ── Data-driven state ──
@@ -78,6 +79,14 @@ export class UISelect extends FormAssociable(UIElement) {
   set disabled(val: boolean) {
     this.#disabled.value = val;
     this.toggleAttribute('disabled', val);
+  }
+
+  // ── Required ──
+
+  get required(): boolean { return this.#required.value; }
+  set required(val: boolean) {
+    this.#required.value = val;
+    this.toggleAttribute('required', val);
   }
 
   get options(): SelectOption[] {
@@ -166,6 +175,9 @@ export class UISelect extends FormAssociable(UIElement) {
     switch (name) {
       case 'disabled':
         this.#disabled.value = val !== null;
+        break;
+      case 'required':
+        this.#required.value = val !== null;
         break;
       case 'options':
         if (val) this.#options.value = this.#parseOptions(val);
@@ -285,6 +297,17 @@ export class UISelect extends FormAssociable(UIElement) {
       if (trigger) trigger.toggleAttribute('disabled', val);
       // WHY: Close popover when disabled to prevent stale open state
       if (val && this.#controller.open.value) this.#controller.hide();
+    });
+
+    // Validity: required constraint
+    this.#required.value = this.hasAttribute('required');
+    this.addEffect(() => {
+      const val = this.#controller.value.value;
+      if (this.#required.value && (val === null || val === '')) {
+        this.#internals.setValidity({ valueMissing: true }, 'Please select an option.', this);
+      } else {
+        this.#internals.setValidity({});
+      }
     });
 
     // Effect: open → popover + dismissable + aria-expanded

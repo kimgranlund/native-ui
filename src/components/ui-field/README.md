@@ -15,11 +15,18 @@
 
 ## Slots
 
-| Slot | |
-|------|-|
-| `description` | |
-| `error` | |
-| `label` | |
+| Slot |
+|------|
+| `description` |
+| `error` |
+| `label` |
+
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-font-weight-button`
+- `--ui-line-height-control`
 
 ## Usage
 

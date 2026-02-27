@@ -20,12 +20,28 @@
 | `maxlength` | `number` | Maximum character count |
 | `autogrow` | `boolean` | Automatically grows height to fit content |
 
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `readOnly` | `boolean` | no |  |
+| `ariaMultiLine` | `string` | no | Default: `'true'` |
+
 ## Events
 
 | Event | Description |
 |-------|-------------|
 | `ui-input` | Fired on each keystroke with `{ value }` detail |
 | `ui-change` | Fired on blur with `{ value }` detail |
+
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-focus-ring`
+- `--ui-font-weight-input`
+- `--ui-line-height-control`
+- `--ui-radius-md`
 
 ## Usage
 

@@ -22,12 +22,13 @@ export type ComboboxOption = BaseOption;
  * @fires ui-change - Fired when selection changes with `{ value, label }` detail
  */
 export class UICombobox extends FormAssociable(UIElement) {
-  static observedAttributes = ['value', 'disabled', 'name', 'options', 'src', 'placeholder'];
+  static observedAttributes = ['value', 'disabled', 'name', 'options', 'src', 'placeholder', 'required'];
 
   #internals: ElementInternals;
   #list = new DataListController<ComboboxOption>();
   #open = signal(false);
   #disabled = signal(false);
+  #required = signal(false);
   #popover!: PopoverController;
   #listboxId = uid('listbox');
   #input: HTMLElement | null = null;
@@ -83,6 +84,14 @@ export class UICombobox extends FormAssociable(UIElement) {
   set disabled(val: boolean) {
     this.#disabled.value = val;
     this.toggleAttribute('disabled', val);
+  }
+
+  // ── Required ──
+
+  get required(): boolean { return this.#required.value; }
+  set required(val: boolean) {
+    this.#required.value = val;
+    this.toggleAttribute('required', val);
   }
 
   get options(): ComboboxOption[] {
@@ -170,6 +179,9 @@ export class UICombobox extends FormAssociable(UIElement) {
     switch (name) {
       case 'disabled':
         this.#disabled.value = val !== null;
+        break;
+      case 'required':
+        this.#required.value = val !== null;
         break;
       case 'options':
         if (val) this.#options.value = this.#parseOptions(val);
@@ -326,6 +338,17 @@ export class UICombobox extends FormAssociable(UIElement) {
       if (input) input.toggleAttribute('disabled', val);
       // WHY: Close popover when disabled to prevent stale open state
       if (val && this.#open.value) this.#open.value = false;
+    });
+
+    // Validity: required constraint
+    this.#required.value = this.hasAttribute('required');
+    this.addEffect(() => {
+      const val = this.#list.value.value;
+      if (this.#required.value && (val === null || val === '')) {
+        this.#internals.setValidity({ valueMissing: true }, 'Please select an option.', this);
+      } else {
+        this.#internals.setValidity({});
+      }
     });
 
     // Effect: open → popover + dismissable + aria-expanded

@@ -17,6 +17,12 @@ new SortController(host: HTMLElement, options?: SortOptions)
 | `selector` | `string` | no |  |
 | `disabled` | `boolean` | no |  |
 
+## Properties
+
+| Property | Type | Readonly |
+|----------|------|----------|
+| `sortDirection` | `SortDirection` | yes |
+
 ## Events Dispatched
 
 | Event | Detail |
@@ -25,9 +31,11 @@ new SortController(host: HTMLElement, options?: SortOptions)
 
 ## Methods
 
-| Method |
-|--------|
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `attach()` | `—` | `void` |
+| `detach()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

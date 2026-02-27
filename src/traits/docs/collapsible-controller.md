@@ -16,14 +16,27 @@ new CollapsibleController(host: HTMLElement, options?: CollapsibleOptions)
 |--------|------|----------|-------------|
 | `duration` | `number` | no |  |
 
+## Properties
+
+| Property | Type | Readonly |
+|----------|------|----------|
+| `collapsed` | `boolean` | no |
+
+## Events Dispatched
+
+| Event | Detail |
+|-------|--------|
+| `ui-expand` | _(none)_ |
+| `ui-collapse` | _(none)_ |
+
 ## Methods
 
-| Method |
-|--------|
-| `expand()` |
-| `collapse()` |
-| `toggle()` |
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `expand()` | `—` | `void` |
+| `collapse()` | `—` | `void` |
+| `toggle()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

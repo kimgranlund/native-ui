@@ -13,15 +13,17 @@ dist-ssr
 site
 *.local
 
+scripts
+
 # Secrets & credentials
 .env
 .env.*
 *.pem
 *.key
+.rules
 
 # Claude Code local settings
-.claude/settings.local.json
-.claude/plans/
+.claude
 
 # Editor directories and files
 .vscode/*

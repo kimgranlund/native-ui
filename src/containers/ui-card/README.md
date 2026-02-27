@@ -15,11 +15,18 @@
 
 ## Slots
 
-| Slot | |
-|------|-|
-| `footer` | |
-| `header` | |
-| `media` | |
+| Slot |
+|------|
+| `footer` |
+| `header` |
+| `media` |
+
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-focus-ring`
+- `--ui-font-weight-button`
 
 ## Usage
 

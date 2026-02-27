@@ -26,16 +26,18 @@ new SelectionController(host: HTMLElement, options?: SelectionOptions)
 
 ## Methods
 
-| Method |
-|--------|
-| `destroy()` |
-| `select()` |
-| `toggle()` |
-| `rangeTo()` |
-| `selectAll()` |
-| `clear()` |
-| `getSelection()` |
-| `handleClick()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `attach()` | `—` | `void` |
+| `detach()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
+| `select()` | `item: HTMLElement` | `void` |
+| `toggle()` | `item: HTMLElement` | `void` |
+| `rangeTo()` | `item: HTMLElement` | `void` |
+| `selectAll()` | `—` | `void` |
+| `clear()` | `—` | `void` |
+| `getSelection()` | `—` | `HTMLElement[]` |
+| `handleClick()` | `item: HTMLElement, modifiers: { shift: boolean; ctrl: boolean }` | `void` |
 
 ## Usage
 

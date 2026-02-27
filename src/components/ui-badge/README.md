@@ -12,6 +12,23 @@
 |-----------|------|-------------|
 | `max` | `number` | When set, truncates numeric content to "max+" if exceeded |
 
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-badge-dot`
+- `--ui-badge-font-lg`
+- `--ui-badge-font-md`
+- `--ui-badge-font-sm`
+- `--ui-badge-font-xl`
+- `--ui-badge-font-xs`
+- `--ui-badge-size-lg`
+- `--ui-badge-size-md`
+- `--ui-badge-size-sm`
+- `--ui-badge-size-xl`
+- `--ui-badge-size-xs`
+- `--ui-font-weight-button`
+
 ## Usage
 
 ```html

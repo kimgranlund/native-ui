@@ -4,13 +4,19 @@
 
 > Traps Tab key focus within the host element, cycling between first and last focusable children.
 
+## Constructor
+
+```ts
+new FocusTrapController(host: HTMLElement)
+```
+
 ## Methods
 
-| Method |
-|--------|
-| `enable()` |
-| `disable()` |
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `enable()` | `—` | `void` |
+| `disable()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

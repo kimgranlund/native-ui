@@ -27,9 +27,11 @@ new DropZoneController(host: HTMLElement, options?: DropZoneOptions)
 
 ## Methods
 
-| Method |
-|--------|
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `attach()` | `—` | `void` |
+| `detach()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

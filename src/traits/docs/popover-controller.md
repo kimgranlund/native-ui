@@ -4,13 +4,19 @@
 
 > Wires anchor positioning between elements and manages popover show/hide with dismiss layer.
 
+## Constructor
+
+```ts
+new PopoverController(host: HTMLElement)
+```
+
 ## Methods
 
-| Method |
-|--------|
-| `wirePopover()` |
-| `syncPopover()` |
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `wirePopover()` | `anchor: HTMLElement, popover: HTMLElement` | `void` |
+| `syncPopover()` | `open: boolean` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

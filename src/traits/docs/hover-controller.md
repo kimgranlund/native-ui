@@ -27,9 +27,11 @@ new HoverController(host: HTMLElement, options?: HoverOptions)
 
 ## Methods
 
-| Method |
-|--------|
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `attach()` | `—` | `void` |
+| `detach()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

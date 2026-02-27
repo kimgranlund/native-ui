@@ -25,9 +25,9 @@ new CopyController(host: HTMLElement, options?: CopyOptions)
 
 ## Methods
 
-| Method |
-|--------|
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

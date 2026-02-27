@@ -16,6 +16,13 @@
 | `disabled` | `boolean` | Disables interaction |
 | `name` | `string` | Form field name |
 | `range` | `boolean` | Enables range selection mode |
+| `required` | `string` |  |
+
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `store` | `CalendarStore` | yes |  |
 
 ## Events
 
@@ -23,6 +30,15 @@
 |-------|-------------|
 | `ui-range-select` | Fired on range commit with `{ start, end }` detail |
 | `ui-change` | Fired on single date selection with `{ value }` detail |
+
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-focus-ring`
+- `--ui-font-weight-button`
+- `--ui-font-weight-text`
+- `--ui-line-height-text`
 
 ## Usage
 

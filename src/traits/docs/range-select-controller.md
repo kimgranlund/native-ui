@@ -27,10 +27,12 @@ new RangeSelectController(host: HTMLElement, options?: RangeSelectOptions)
 
 ## Methods
 
-| Method |
-|--------|
-| `destroy()` |
-| `clearRange()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `attach()` | `—` | `void` |
+| `detach()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
+| `clearRange()` | `—` | `void` |
 
 ## Usage
 

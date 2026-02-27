@@ -17,6 +17,13 @@ new VirtualScrollController(host: HTMLElement, options?: VirtualScrollOptions)
 | `itemHeight` | `number` | no |  |
 | `overscan` | `number` | no |  |
 
+## Properties
+
+| Property | Type | Readonly |
+|----------|------|----------|
+| `start` | `number` | yes |
+| `end` | `number` | yes |
+
 ## Events Dispatched
 
 | Event | Detail |
@@ -25,12 +32,12 @@ new VirtualScrollController(host: HTMLElement, options?: VirtualScrollOptions)
 
 ## Methods
 
-| Method |
-|--------|
-| `enable()` |
-| `disable()` |
-| `updateCount()` |
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `enable()` | `scrollEl: HTMLElement, container: HTMLElement, totalCount: number` | `void` |
+| `disable()` | `—` | `void` |
+| `updateCount()` | `count: number` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

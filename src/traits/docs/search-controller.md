@@ -18,6 +18,12 @@ new SearchController(host: HTMLElement, options?: SearchOptions)
 | `textField` | `string` | no |  |
 | `disabled` | `boolean` | no |  |
 
+## Properties
+
+| Property | Type | Readonly |
+|----------|------|----------|
+| `query` | `string` | yes |
+
 ## Events Dispatched
 
 | Event | Detail |
@@ -26,10 +32,12 @@ new SearchController(host: HTMLElement, options?: SearchOptions)
 
 ## Methods
 
-| Method |
-|--------|
-| `destroy()` |
-| `clear()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `attach()` | `—` | `void` |
+| `detach()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
+| `clear()` | `—` | `void` |
 
 ## Usage
 

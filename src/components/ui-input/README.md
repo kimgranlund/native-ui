@@ -17,6 +17,18 @@
 | `required` | `boolean` | Marks as required for form validation |
 | `name` | `string` | Form field name |
 
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `readOnly` | `boolean` | no |  |
+
+## Methods
+
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `select()` | `—` | `void` |
+
 ## Events
 
 | Event | Description |
@@ -26,10 +38,18 @@
 
 ## Slots
 
-| Slot | |
-|------|-|
-| `leading` | |
-| `trailing` | |
+| Slot |
+|------|
+| `leading` |
+| `trailing` |
+
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-focus-ring`
+- `--ui-font-weight-input`
+- `--ui-line-height-control`
 
 ## Usage
 

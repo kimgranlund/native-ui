@@ -12,6 +12,12 @@
 |-----------|------|-------------|
 | `open` | `boolean` | Whether the inspector panel is visible |
 
+## Methods
+
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `toggle()` | `—` | `void` |
+
 ## Usage
 
 ```html

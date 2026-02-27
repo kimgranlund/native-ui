@@ -17,11 +17,12 @@ import { FormAssociable } from '../../core/form-associable.ts';
  * @fires ui-range-select - Fired on range commit with `{ start, end }` detail
  */
 export class UICalendar extends FormAssociable(UIElement) {
-  static observedAttributes = ['value', 'min', 'max', 'disabled', 'name', 'range'];
+  static observedAttributes = ['value', 'min', 'max', 'disabled', 'name', 'range', 'required'];
 
   #internals: ElementInternals;
   #store = new CalendarStore();
   #disabled = signal(false);
+  #required = signal(false);
   #initialValue: string | null = null;
 
   // WHY: Track focused cell index for keyboard navigation within the grid
@@ -63,6 +64,14 @@ export class UICalendar extends FormAssociable(UIElement) {
     this.toggleAttribute('disabled', val);
   }
 
+  // ── Required ──
+
+  get required(): boolean { return this.#required.value; }
+  set required(val: boolean) {
+    this.#required.value = val;
+    this.toggleAttribute('required', val);
+  }
+
   get range(): boolean {
     return this.hasAttribute('range');
   }
@@ -81,6 +90,9 @@ export class UICalendar extends FormAssociable(UIElement) {
         break;
       case 'disabled':
         this.#disabled.value = val !== null;
+        break;
+      case 'required':
+        this.#required.value = val !== null;
         break;
     }
     super.attributeChangedCallback?.(name, old, val);
@@ -114,6 +126,17 @@ export class UICalendar extends FormAssociable(UIElement) {
     });
 
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals, { manageTabindex: true }));
+
+    // Validity: required constraint
+    this.#required.value = this.hasAttribute('required');
+    this.addEffect(() => {
+      const val = this.#store.value.value;
+      if (this.#required.value && (val === null || val === '')) {
+        this.#internals.setValidity({ valueMissing: true }, 'Please select a date.', this);
+      } else {
+        this.#internals.setValidity({});
+      }
+    });
   }
 
   teardown(): void {

@@ -14,6 +14,18 @@
 | `size` | `string` | Icon size override |
 | `aria-label` | `string` | Accessible label (sets role="img" when present) |
 
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-icon-color`
+- `--ui-icon-lg`
+- `--ui-icon-md`
+- `--ui-icon-size`
+- `--ui-icon-sm`
+- `--ui-icon-xl`
+- `--ui-icon-xs`
+
 ## Usage
 
 ```html

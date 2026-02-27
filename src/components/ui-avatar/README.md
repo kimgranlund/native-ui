@@ -14,6 +14,12 @@
 | `name` | `string` | Full name used to generate initials when no image |
 | `alt` | `string` | Accessible label for the avatar |
 
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-font-weight-button`
+
 ## Usage
 
 ```html

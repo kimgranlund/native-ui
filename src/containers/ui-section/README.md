@@ -16,11 +16,18 @@
 
 ## Slots
 
-| Slot | |
-|------|-|
-| `actions` | |
-| `description` | |
-| `heading` | |
+| Slot |
+|------|
+| `actions` |
+| `description` |
+| `heading` |
+
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-font-weight-button`
+- `--ui-line-height-control`
 
 ## Usage
 

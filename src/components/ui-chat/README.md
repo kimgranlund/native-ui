@@ -14,11 +14,31 @@
 | `no-enter-submit` | `boolean` | Disables Enter key submission |
 | `no-auto-clear` | `boolean` | Prevents clearing the textarea after send |
 
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `value` | `string` | no |  |
+
 ## Events
 
 | Event | Description |
 |-------|-------------|
 | `ui-send` | Fired on submit with `{ value }` detail |
+
+## Slots
+
+| Slot |
+|------|
+| `leading` |
+| `trailing` |
+
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-font-weight-button`
+- `--ui-radius-md`
 
 ## Usage
 

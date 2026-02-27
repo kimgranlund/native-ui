@@ -21,11 +21,40 @@
 | `gap` | `string` | Gap between slides |
 | `disabled` | `boolean` | Disables keyboard navigation |
 
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `index` | `number` | yes |  |
+
+## Methods
+
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `goTo()` | `index: number` | `void` |
+| `next()` | `—` | `void` |
+| `prev()` | `—` | `void` |
+
 ## Events
 
 | Event | Description |
 |-------|-------------|
 | `ui-slide-change` | Fired when the active slide changes with `{ index, slide }` detail |
+
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-focus-ring`
+- `--ui-shadow-sm`
+
+---
+
+## ui-slide
+
+> Individual slide content within a slideshow.
+
+**Class:** `UISlide`
 
 ## Usage
 

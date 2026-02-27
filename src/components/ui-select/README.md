@@ -16,6 +16,13 @@
 | `options` | `string` | JSON array of `{ value, label }` objects for data-driven mode |
 | `src` | `string` | URL to fetch options from for data-driven mode |
 | `placeholder` | `string` | Placeholder text when no value is selected |
+| `required` | `string` |  |
+
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `controller` | `SelectController` | yes |  |
 
 ## Events
 

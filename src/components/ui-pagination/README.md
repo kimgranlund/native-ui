@@ -22,6 +22,12 @@
 |-------|-------------|
 | `ui-change` | Fired when page changes with `{ value }` detail |
 
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-radius-md`
+
 ## Usage
 
 ```html

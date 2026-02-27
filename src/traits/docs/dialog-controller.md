@@ -16,13 +16,19 @@ new DialogController(host: HTMLElement, options?: DialogOptions)
 |--------|------|----------|-------------|
 | `contentTarget` | `(dialog: HTMLDialogElement) => HTMLElement` | no |  |
 
+## Properties
+
+| Property | Type | Readonly |
+|----------|------|----------|
+| `open` | `boolean` | yes |
+
 ## Methods
 
-| Method |
-|--------|
-| `showModal()` |
-| `close()` |
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `showModal()` | `—` | `void` |
+| `close()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

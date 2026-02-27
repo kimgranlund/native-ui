@@ -16,6 +16,13 @@ new ValidateController(host: HTMLElement, options?: ValidateOptions)
 |--------|------|----------|-------------|
 | `rules` | `ValidationRule[]` | no |  |
 
+## Properties
+
+| Property | Type | Readonly |
+|----------|------|----------|
+| `valid` | `boolean` | yes |
+| `errorMessage` | `string` | yes |
+
 ## Events Dispatched
 
 | Event | Detail |
@@ -25,11 +32,11 @@ new ValidateController(host: HTMLElement, options?: ValidateOptions)
 
 ## Methods
 
-| Method |
-|--------|
-| `validate()` |
-| `clearValidation()` |
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `validate()` | `value?: string` | `boolean` |
+| `clearValidation()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

@@ -19,6 +19,13 @@ new SwipeController(host: HTMLElement, options?: SwipeOptions)
 | `axis` | `'horizontal' | 'vertical' | 'both'` | no |  |
 | `disabled` | `boolean` | no |  |
 
+## Properties
+
+| Property | Type | Readonly |
+|----------|------|----------|
+| `distance` | `number` | yes |
+| `velocity` | `number` | yes |
+
 ## Events Dispatched
 
 | Event | Detail |
@@ -27,9 +34,11 @@ new SwipeController(host: HTMLElement, options?: SwipeOptions)
 
 ## Methods
 
-| Method |
-|--------|
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `attach()` | `—` | `void` |
+| `detach()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

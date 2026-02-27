@@ -17,6 +17,14 @@ new EditController(host: HTMLElement, options?: EditOptions)
 | `trigger` | `'click' | 'dblclick'` | no |  |
 | `disabled` | `boolean` | no |  |
 
+## Properties
+
+| Property | Type | Readonly |
+|----------|------|----------|
+| `isEditing` | `boolean` | yes |
+| `originalValue` | `string` | yes |
+| `currentValue` | `string` | yes |
+
 ## Events Dispatched
 
 | Event | Detail |
@@ -27,12 +35,14 @@ new EditController(host: HTMLElement, options?: EditOptions)
 
 ## Methods
 
-| Method |
-|--------|
-| `destroy()` |
-| `startEdit()` |
-| `commitEdit()` |
-| `cancelEdit()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `attach()` | `—` | `void` |
+| `detach()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
+| `startEdit()` | `—` | `void` |
+| `commitEdit()` | `—` | `string` |
+| `cancelEdit()` | `—` | `void` |
 
 ## Usage
 

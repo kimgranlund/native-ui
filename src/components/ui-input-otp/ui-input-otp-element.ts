@@ -1,3 +1,4 @@
+import { signal } from '../../reactivity/signal.ts';
 import { UIElement } from '../../core/ui-element.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
 import { prop, syncProp } from '../../core/reactive-prop.ts';
@@ -16,9 +17,10 @@ import { FormAssociable } from '../../core/form-associable.ts';
  * @fires ui-change - Fired when all cells are filled with `{ value }` detail
  */
 export class UIInputOtp extends FormAssociable(UIElement) {
-  static observedAttributes = ['value', 'length', 'disabled', 'name', 'pattern', 'mask'];
+  static observedAttributes = ['value', 'length', 'disabled', 'name', 'pattern', 'mask', 'required'];
 
   #internals: ElementInternals;
+  #required = signal(false);
   #disabled: ReactiveProp<boolean>;
   #cells: HTMLDivElement[] = [];
   #value: string[] = [];
@@ -52,6 +54,14 @@ export class UIInputOtp extends FormAssociable(UIElement) {
   get disabled(): boolean { return this.#disabled.value; }
   set disabled(val: boolean) { this.#disabled.set(val); }
 
+  // ── Required ──
+
+  get required(): boolean { return this.#required.value; }
+  set required(val: boolean) {
+    this.#required.value = val;
+    this.toggleAttribute('required', val);
+  }
+
   // ── Attribute sync ──
 
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
@@ -75,6 +85,10 @@ export class UIInputOtp extends FormAssociable(UIElement) {
       case 'pattern':
         try { this.#pattern = new RegExp(val ?? '[0-9]'); } catch { /* keep old */ }
         break;
+      case 'required':
+        this.#required.value = val !== null;
+        if (this.isConnected) this.#syncFormValue();
+        break;
     }
     super.attributeChangedCallback(name, old, val);
   }
@@ -97,6 +111,9 @@ export class UIInputOtp extends FormAssociable(UIElement) {
 
     this.#stampCells();
     this.addEffect(createDisabledEffect(this, this.#disabled.signal, this.#internals, { manageTabindex: false }));
+
+    // Validity: required constraint (initial sync)
+    this.#required.value = this.hasAttribute('required');
 
     // Set initial value
     const valAttr = this.getAttribute('value');
@@ -158,7 +175,13 @@ export class UIInputOtp extends FormAssociable(UIElement) {
   }
 
   #syncFormValue(): void {
-    this.#internals.setFormValue(this.value);
+    const val = this.value;
+    this.#internals.setFormValue(val);
+    if (this.#required.value && val.length < this.#length) {
+      this.#internals.setValidity({ valueMissing: true }, 'Please fill out this field.', this);
+    } else {
+      this.#internals.setValidity({});
+    }
   }
 
   #focusCell(index: number): void {

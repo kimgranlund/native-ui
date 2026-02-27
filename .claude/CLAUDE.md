@@ -570,6 +570,25 @@ this.addEventListener('ui-dismiss', () => this.#controller.hide());
 
 Native `<dialog>.showModal()` promotes to the top layer for *rendering*, but the element stays in the DOM. CSS custom properties from `:root` inherit normally — no re-declaration needed. `ui-dialog.css` and `ui-drawer.css` only reset structural UA styles (`border: none`, `background: transparent`, `width: 100vw`, etc.).
 
+### Z-Index Strategy
+
+**No global z-index scale.** The library uses the platform's top layer for overlays (`<dialog>`, `[popover]`), so dialogs, drawers, tooltips, and dropdown listboxes never need z-index. All z-index values are **local stacking contexts** — siblings competing within a single component's layout.
+
+| z-index | Usage | Why |
+|---------|-------|-----|
+| **1** | Sticky headers/footers (`ui-header[sticky]`, `ui-footer[sticky]`) | Stay above scrolling content |
+| **1** | Resize handles (sidebar, chat, inspector, table column) | Sit above adjacent content |
+| **1** | Pseudo-element overlays (nav connector, badge dot, range thumb, tab indicator, segmented-control segments) | Positioned element above background |
+| **2** | Slideshow prev/next controls | Above slides |
+| **1–5** | Table sticky stacking (`ui-table`) | Cells < sticky column (1) < sticky subheader (2) < sticky header row (3) < corner cell (4) < column resize handle (5) |
+| **10** | Sidebar aside (`ui-layout-sidebar`) | Above all content columns so resize handle works |
+
+**Rules:**
+- Never use z-index for popovers or dialogs — the top layer handles them
+- z-index only needed when `position: sticky/absolute/relative` creates a local stacking context
+- Values stay as small as possible — almost everything is 1
+- Table uses 1–5 because 5 layers of sticky content can overlap
+
 ### Focus Ring Pattern
 
 | Context | Style | Rationale |

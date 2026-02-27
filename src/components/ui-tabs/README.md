@@ -20,6 +20,64 @@
 |-------|-------------|
 | `ui-change` | Fired when the active tab changes with `{ value, label }` detail |
 
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-focus-ring`
+- `--ui-font-weight-button`
+- `--ui-line-height-control`
+- `--ui-tabs-indicator`
+
+---
+
+## ui-tab
+
+> Individual tab within a tabs component.
+
+**Class:** `UITab`
+
+### Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `value` | `string` | Tab value used for selection matching |
+| `disabled` | `boolean` | Disables this tab |
+
+### Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `label` | `string` | yes |  |
+
+### Events
+
+| Event | Description |
+|-------|-------------|
+| `ui-select` | Fired on press with `{ value, label }` detail |
+
+---
+
+## ui-tab-panel
+
+> Content panel associated with a tab, shown when its tab is selected.
+
+**Class:** `UITabPanel`
+
+### Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `value` | `string` | Value matching the corresponding tab |
+
+---
+
+## ui-tab-panels
+
+> Structural wrapper for tab panels within a tabs component.
+
+**Class:** `UITabPanels`
+
 ## Usage
 
 ```html

@@ -21,6 +21,14 @@
 |-------|-------------|
 | `ui-change` | Fired on toggle with `{ checked, value }` detail |
 
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-focus-ring`
+- `--ui-font-weight-text`
+- `--ui-line-height-control`
+
 ## Usage
 
 ```html

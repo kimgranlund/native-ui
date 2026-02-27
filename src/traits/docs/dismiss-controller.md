@@ -4,13 +4,19 @@
 
 > Manages a dismiss layer that dispatches `ui-dismiss` on outside click or Escape.
 
+## Constructor
+
+```ts
+new DismissController(host: HTMLElement)
+```
+
 ## Methods
 
-| Method |
-|--------|
-| `enable()` |
-| `disable()` |
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `enable()` | `—` | `void` |
+| `disable()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

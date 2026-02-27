@@ -4,14 +4,20 @@
 
 > Creates and manages toast notifications via the global toast manager.
 
+## Constructor
+
+```ts
+new ToastController(host: HTMLElement)
+```
+
 ## Methods
 
-| Method |
-|--------|
-| `toast()` |
-| `dismissToast()` |
-| `dismissAllToasts()` |
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `toast()` | `options: ToastOptions` | `number` |
+| `dismissToast()` | `id: number` | `void` |
+| `dismissAllToasts()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

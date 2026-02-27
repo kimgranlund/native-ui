@@ -21,9 +21,11 @@ new RovingFocusController(host: HTMLElement, options?: RovingFocusOptions)
 
 ## Methods
 
-| Method |
-|--------|
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `attach()` | `—` | `void` |
+| `detach()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

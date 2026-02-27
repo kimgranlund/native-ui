@@ -13,10 +13,11 @@ import type { UISegment } from './ui-segment-element.ts';
  * @fires ui-change - Fired when selection changes with `{ value, label }` detail
  */
 export class UISegmentedControl extends FormAssociable(UIElement) {
-  static observedAttributes = ['value', 'disabled', 'name'];
+  static observedAttributes = ['value', 'disabled', 'name', 'required'];
 
   #internals: ElementInternals;
   #disabled = signal(false);
+  #required = signal(false);
   #initialValue: string | null = null;
   #nav!: ListNavigateController;
 
@@ -56,6 +57,14 @@ export class UISegmentedControl extends FormAssociable(UIElement) {
     this.setAttribute('name', val);
   }
 
+  // ── Required ──
+
+  get required(): boolean { return this.#required.value; }
+  set required(val: boolean) {
+    this.#required.value = val;
+    this.toggleAttribute('required', val);
+  }
+
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     if (old === val) return;
     switch (name) {
@@ -64,6 +73,9 @@ export class UISegmentedControl extends FormAssociable(UIElement) {
         break;
       case 'disabled':
         this.#disabled.value = val !== null;
+        break;
+      case 'required':
+        this.#required.value = val !== null;
         break;
     }
     super.attributeChangedCallback?.(name, old, val);
@@ -96,6 +108,17 @@ export class UISegmentedControl extends FormAssociable(UIElement) {
     if (initialValue !== null) this.#nav.listValue.value = initialValue;
 
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals));
+
+    // Validity: required constraint
+    this.#required.value = this.hasAttribute('required');
+    this.addEffect(() => {
+      const val = this.#nav.listValue.value;
+      if (this.#required.value && (val === null || val === '')) {
+        this.#internals.setValidity({ valueMissing: true }, 'Please select one of these options.', this);
+      } else {
+        this.#internals.setValidity({});
+      }
+    });
 
     this.addEffect(() => {
       const val = this.#nav.listValue.value;

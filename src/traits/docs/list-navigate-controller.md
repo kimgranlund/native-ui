@@ -22,11 +22,25 @@ new ListNavigateController(host: HTMLElement, options?: ListNavigateOptions)
 | `disabled` | `boolean` | no |  |
 | `onChildSelect` | `(detail: { value: string` | no |  |
 
+## Properties
+
+| Property | Type | Readonly |
+|----------|------|----------|
+| `rovingFocus` | `RovingFocusController` | yes |
+
+## Events Dispatched
+
+| Event | Detail |
+|-------|--------|
+| `ui-change` | _(none)_ |
+
 ## Methods
 
-| Method |
-|--------|
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `attach()` | `—` | `void` |
+| `detach()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

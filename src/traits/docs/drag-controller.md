@@ -26,15 +26,17 @@ new DragController(host: HTMLElement, options?: DragOptions)
 |-------|--------|
 | `ui-drag-start` | `{ item, index }` |
 | `ui-drag-move` | `{ item, x, y }` |
-| `ui-drag-over` | `{ item, index, insertBefore }` |
-| `ui-drop` | `{ item, target, fromIndex, toIndex }` |
+| `ui-drag-over` | `{ item, target, index }` |
+| `ui-drop` | `{ item, fromIndex, toIndex, insertBefore }` |
 | `ui-drag-cancel` | `{ item }` |
 
 ## Methods
 
-| Method |
-|--------|
-| `destroy()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `attach()` | `—` | `void` |
+| `detach()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
 
 ## Usage
 

@@ -21,11 +21,19 @@
 
 ## Slots
 
-| Slot | |
-|------|-|
-| `label` | |
-| `leading` | |
-| `trailing` | |
+| Slot |
+|------|
+| `label` |
+| `leading` |
+| `trailing` |
+
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-focus-ring`
+- `--ui-font-weight-button`
+- `--ui-line-height-control`
 
 ## Usage
 

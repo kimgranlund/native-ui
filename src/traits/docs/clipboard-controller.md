@@ -17,6 +17,13 @@ new ClipboardController(host: HTMLElement, options?: ClipboardOptions)
 | `selector` | `string` | yes |  |
 | `disabled` | `boolean` | no |  |
 
+## Properties
+
+| Property | Type | Readonly |
+|----------|------|----------|
+| `hasCutPending` | `boolean` | yes |
+| `cutItems` | `Set<HTMLElement>` | yes |
+
 ## Events Dispatched
 
 | Event | Detail |
@@ -27,12 +34,14 @@ new ClipboardController(host: HTMLElement, options?: ClipboardOptions)
 
 ## Methods
 
-| Method |
-|--------|
-| `destroy()` |
-| `serialize()` |
-| `deserialize()` |
-| `cancelCut()` |
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `attach()` | `—` | `void` |
+| `detach()` | `—` | `void` |
+| `destroy()` | `—` | `void` |
+| `serialize()` | `items: HTMLElement[]` | `string` |
+| `deserialize()` | `data: string` | `string[]` |
+| `cancelCut()` | `—` | `void` |
 
 ## Usage
 

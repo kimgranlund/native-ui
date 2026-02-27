@@ -16,6 +16,7 @@
 | `name` | `string` | Form field name |
 | `pattern` | `string` | Regex pattern for allowed characters (default "[0-9]") |
 | `mask` | `string` | Mask character for display |
+| `required` | `string` |  |
 
 ## Events
 
@@ -23,6 +24,14 @@
 |-------|-------------|
 | `ui-input` | Fired on each cell change with `{ value }` detail |
 | `ui-change` | Fired when all cells are filled with `{ value }` detail |
+
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-focus-ring`
+- `--ui-font-weight-button`
+- `--ui-line-height-control`
 
 ## Usage
 

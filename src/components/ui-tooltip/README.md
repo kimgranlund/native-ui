@@ -14,6 +14,15 @@
 | `delay` | `number` | Show delay in milliseconds (default 500) |
 | `disabled` | `boolean` | Prevents tooltip from showing |
 
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-font-weight-text`
+- `--ui-line-height-text`
+- `--ui-shadow-md`
+- `--ui-tooltip-max-width`
+
 ## Usage
 
 ```html
