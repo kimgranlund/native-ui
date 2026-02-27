@@ -104,6 +104,59 @@
     padding-left: 0;
   }
 
+  /* ── Collapsed Icon-Rail Content ── */
+  /* WHY: When collapsed, sidebar slot becomes a narrow icon rail.
+     Text and trailing slots are hidden; only icons remain visible.
+     Nav items hide entirely — only group headers (with icons) stay. */
+
+  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-content) {
+    align-items: center;
+    padding: 0.5rem;
+  }
+
+  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-header),
+  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-footer) {
+    justify-content: center;
+    padding-inline: 0.5rem;
+  }
+
+  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-trigger) :where([slot="label"]),
+  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-trigger) :where([slot="trailing"]) {
+    display: none;
+  }
+
+  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-item) {
+    display: none;
+  }
+
+  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group) > :where(details) > :where(summary) {
+    justify-content: center;
+  }
+
+  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group) > :where(details) > :where(summary)::after {
+    display: none;
+  }
+
+  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group)::after,
+  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group)::before {
+    display: none;
+  }
+
+  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group-header) {
+    justify-content: center;
+    font-size: 0;
+    gap: 0;
+  }
+
+  /* WHY: Icon keeps its size even though parent font-size is 0. */
+  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group-header) :where(ui-icon) {
+    font-size: var(--_font-size, 1rem);
+  }
+
+  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group) + :where(ui-nav-group) {
+    margin-block-start: 0;
+  }
+
   /* ── Sidebar Header ── */
 
   :where(ui-layout-sidebar-header) {
