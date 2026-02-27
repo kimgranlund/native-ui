@@ -159,6 +159,13 @@
         opacity: 0.25;
       }
 
+      /* WHY: View Transition animation — each cell needs a unique name
+         so the browser can track and animate them between positions */
+      ::view-transition-group(*) {
+        animation-duration: 150ms;
+        animation-timing-function: ease;
+      }
+
       /* ── Horizontal ── */
 
       .drag-row {
@@ -679,7 +686,12 @@
 
       // ── Preview mode — grid ──
 
+      // WHY: Assign unique view-transition-name to each cell so the browser
+      // can track and animate them between positions during View Transitions
       const previewGrid = document.getElementById('preview-grid');
+      for (const [i, cell] of [...previewGrid.querySelectorAll('.grid-cell')].entries()) {
+        cell.style.viewTransitionName = `grid-cell-${i}`;
+      }
       previewGrid.addEventListener('ui-drop', (e) => {
         const { item, fromIndex, toIndex } = e.detail;
         previewLog(`Moved cell ${item.textContent.trim()} from position ${fromIndex} → ${toIndex}`);

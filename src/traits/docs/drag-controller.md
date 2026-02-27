@@ -2,7 +2,7 @@
 
 # DragController
 
-> Enables pointer-driven drag-and-drop with drop mode or slot-based reordering.
+> Enables pointer-driven drag-and-drop with drop, slot, or preview reordering.
 
 ## Constructor
 
@@ -17,7 +17,7 @@ new DragController(host: HTMLElement, options?: DragOptions)
 | `selector` | `string` | yes |  |
 | `dropZoneSelector` | `string` | no |  |
 | `axis` | `'vertical' | 'horizontal' | 'both'` | no |  |
-| `mode` | `'drop' | 'slot'` | no |  |
+| `mode` | `'drop' | 'slot' | 'preview'` | no |  |
 | `disabled` | `boolean` | no |  |
 
 ## Events Dispatched

@@ -1,5 +1,9 @@
-/* ds-inspector — Dev-only styles for design system inspector components.
-   Injected into ui-layout's shadow root via ?inline import. */
+/* ──────────────────────────────────────────────────────────────────────────────
+   ds-inspector — Design system inspector component styles.
+   Opt-in via: @import '@nonoun/native-ui/css/inspector';
+   ────────────────────────────────────────────────────────────────────────────── */
+
+@layer ui {
 
 /* ── Toolbar ── */
 
@@ -223,3 +227,5 @@
 :where(ds-themes) {
   display: block;
 }
+
+} /* @layer ui */

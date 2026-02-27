@@ -16,6 +16,7 @@ export default defineConfig(({ command }) => ({
         'kernel': resolve(__dirname, 'src/kernel.ts'),
         'traits': resolve(__dirname, 'src/traits-entry.ts'),
         'register-all': resolve(__dirname, 'src/register-all.ts'),
+        'inspector': resolve(__dirname, 'src/inspector.ts'),
       },
       formats: ['es'],
     },

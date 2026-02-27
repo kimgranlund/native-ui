@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-ui",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Zero-dependency web component library with an OKLCH CSS design system, signal-based reactivity, and composable trait controllers",
   "license": "MIT",
   "type": "module",
@@ -24,17 +24,23 @@
       "types": "./dist/register-all.d.ts",
       "default": "./dist/register-all.js"
     },
+    "./inspector": {
+      "types": "./dist/inspector.d.ts",
+      "default": "./dist/inspector.js"
+    },
     "./css": "./dist/native-ui.css",
     "./css/foundation": "./dist/foundation.css",
     "./css/components": "./dist/components.css",
     "./css/components-lean": "./dist/components-lean.css",
-    "./css/lean": "./dist/native-ui-lean.css"
+    "./css/lean": "./dist/native-ui-lean.css",
+    "./css/inspector": "./dist/inspector.css"
   },
   "files": [
     "dist"
   ],
   "sideEffects": [
-    "./dist/register-all.js"
+    "./dist/register-all.js",
+    "./dist/inspector.js"
   ],
   "keywords": [
     "web-components",
