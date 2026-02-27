@@ -1,6 +1,7 @@
 {
   "name": "@nonoun/native-ui",
   "version": "0.1.0",
+  "description": "Zero-dependency web component library with an OKLCH CSS design system, signal-based reactivity, and composable trait controllers",
   "license": "MIT",
   "type": "module",
   "main": "./dist/native-ui.js",
@@ -19,6 +20,10 @@
       "types": "./dist/traits-entry.d.ts",
       "default": "./dist/traits.js"
     },
+    "./register": {
+      "types": "./dist/register-all.d.ts",
+      "default": "./dist/register-all.js"
+    },
     "./css": "./dist/native-ui.css",
     "./css/foundation": "./dist/foundation.css",
     "./css/components": "./dist/components.css",
@@ -28,7 +33,29 @@
   "files": [
     "dist"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "./dist/register-all.js"
+  ],
+  "keywords": [
+    "web-components",
+    "custom-elements",
+    "design-system",
+    "css",
+    "oklch",
+    "signals",
+    "reactivity",
+    "ui-components",
+    "accessible",
+    "typescript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kimgranlund/native-ui.git"
+  },
+  "homepage": "https://native-ui.nonoun.com",
+  "bugs": {
+    "url": "https://github.com/kimgranlund/native-ui/issues"
+  },
   "scripts": {
     "dev": "vite",
     "build": "npm run build:js && npm run build:css && npm run build:types && npm run build:cem && npm run generate:docs",
@@ -41,7 +68,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "generate:icons": "node scripts/generate-icon-modules.mjs",
-    "generate:docs": "node scripts/generate-docs.mjs"
+    "generate:docs": "node scripts/generate-docs.mjs",
+    "prepublishOnly": "npm run build && npm test"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.11.0",

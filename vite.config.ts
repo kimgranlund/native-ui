@@ -7,12 +7,15 @@ export default defineConfig(({ command }) => ({
   define: {
     __DEV__: String(command !== 'build'),
   },
+  // WHY: Don't copy public/ assets into dist/ — library build, not app build
+  publicDir: false,
   build: {
     lib: {
       entry: {
         'native-ui': resolve(__dirname, 'src/index.ts'),
         'kernel': resolve(__dirname, 'src/kernel.ts'),
         'traits': resolve(__dirname, 'src/traits-entry.ts'),
+        'register-all': resolve(__dirname, 'src/register-all.ts'),
       },
       formats: ['es'],
     },

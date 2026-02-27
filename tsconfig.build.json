@@ -9,5 +9,13 @@
     "rewriteRelativeImportExtensions": true
   },
   "include": ["src"],
-  "exclude": ["src/**/*.test.ts", "src/**/__tests__"]
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/__tests__",
+    "src/nav",
+    "src/test-setup.ts",
+    "src/site-entry.ts",
+    "src/site-register-traits.ts",
+    "src/icons/phosphor"
+  ]
 }
