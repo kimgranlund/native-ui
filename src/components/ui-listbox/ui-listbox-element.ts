@@ -122,9 +122,10 @@ export class UIListbox extends UIElement {
         const options = this.querySelectorAll<UIOption & HTMLElement>(':scope ui-option');
 
         for (const opt of options) {
+          const optVal = opt.getAttribute('value') ?? '';
           const isSelected = isMultiple
-            ? selectedSet.has(opt.value)
-            : opt.value === selected;
+            ? selectedSet.has(optVal)
+            : optVal === selected;
           // WHY: setAttribute (not toggleAttribute) — ARIA selected must be a string 'true'/'false'
           opt.setAttribute('aria-selected', isSelected ? 'true' : 'false');
         }

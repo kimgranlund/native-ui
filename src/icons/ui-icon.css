@@ -23,6 +23,14 @@
     height: 100%;
   }
 
+  /* WHY: Unregistered icons (no SVG content) should collapse to zero size
+     so surrounding buttons/slots don't render with phantom dimensions */
+  :where(ui-icon:empty) {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
   /* ── Icon Size Variants ── */
 
   :where(ui-icon[size="xs"]) { --ui-icon-size: var(--ui-icon-xs); }

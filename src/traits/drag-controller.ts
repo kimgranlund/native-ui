@@ -2,17 +2,17 @@ export interface DragOptions {
   selector: string;
   dropZoneSelector?: string;
   axis?: 'vertical' | 'horizontal' | 'both';
-  mode?: 'drop' | 'slot';
+  mode?: 'drop' | 'slot' | 'preview';
   disabled?: boolean;
 }
 
-/** Enables pointer-driven drag-and-drop with drop mode or slot-based reordering. */
+/** Enables pointer-driven drag-and-drop with drop, slot, or preview reordering. */
 export class DragController {
   readonly host: HTMLElement;
   selector: string;
   dropZoneSelector: string;
   axis: 'vertical' | 'horizontal' | 'both';
-  mode: 'drop' | 'slot';
+  mode: 'drop' | 'slot' | 'preview';
   disabled: boolean;
 
   #dragItem: HTMLElement | null = null;
@@ -25,6 +25,11 @@ export class DragController {
   #dragIndex = -1;
   #lastSlotIndex = -1;
   #attached = false;
+
+  // Preview mode: save original position for cancel restore
+  #previewOriginParent: HTMLElement | null = null;
+  #previewOriginNext: HTMLElement | null = null;
+  #lastPreviewIndex = -1;
 
   constructor(host: HTMLElement, options: DragOptions) {
     this.host = host;
@@ -137,6 +142,12 @@ export class DragController {
         return;
       }
       this.#dragItem.setAttribute('dragging', '');
+      // WHY: Preview mode saves original position so Escape can restore it
+      if (this.mode === 'preview') {
+        this.#previewOriginParent = this.#dragItem.parentElement;
+        this.#previewOriginNext = this.#dragItem.nextElementSibling as HTMLElement | null;
+        this.#lastPreviewIndex = -1;
+      }
       this.host.dispatchEvent(new CustomEvent('ui-drag-start', {
         bubbles: true,
         composed: true,
@@ -189,6 +200,10 @@ export class DragController {
       }
 
       this.#updateSlot(zones, insertIndex);
+    } else if (this.mode === 'preview') {
+      const ghostCenterX = e.clientX + this.#grabOffsetX;
+      const ghostCenterY = e.clientY + this.#grabOffsetY;
+      this.#updatePreview(zones, ghostCenterX, ghostCenterY);
     } else {
       // WHY: Drop mode uses pointer position within zone bounds (more precise for "drop onto")
       let overZone: HTMLElement | null = null;
@@ -290,6 +305,65 @@ export class DragController {
     }
   }
 
+  // ── Preview mode: move real item in DOM ──
+
+  #updatePreview(items: HTMLElement[], ghostCenterX: number, ghostCenterY: number): void {
+    const liveItems = items.filter(el => el !== this.#dragItem);
+    if (liveItems.length === 0) return;
+
+    // WHY: Find nearest item by center distance — works for 2D grids, not just 1D lists
+    let closestIndex = 0;
+    let closestDist = Infinity;
+    for (let i = 0; i < liveItems.length; i++) {
+      const rect = liveItems[i].getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dist = Math.hypot(ghostCenterX - cx, ghostCenterY - cy);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closestIndex = i;
+      }
+    }
+
+    // WHY: Row-band tolerance determines if ghost is on the same row or a different row.
+    // Same row → compare X. Different row → compare Y. This handles grid cells correctly.
+    const closestRect = liveItems[closestIndex].getBoundingClientRect();
+    const closestCx = closestRect.left + closestRect.width / 2;
+    const closestCy = closestRect.top + closestRect.height / 2;
+    const rowBand = closestRect.height * 0.5;
+    const sameRow = Math.abs(ghostCenterY - closestCy) < rowBand;
+
+    const insertIndex = sameRow
+      ? (ghostCenterX < closestCx ? closestIndex : closestIndex + 1)
+      : (ghostCenterY < closestCy ? closestIndex : closestIndex + 1);
+
+    if (insertIndex === this.#lastPreviewIndex) return;
+    this.#lastPreviewIndex = insertIndex;
+
+    // WHY: Perform the actual DOM move — the item IS the live preview indicator
+    const insertBefore = insertIndex < liveItems.length ? liveItems[insertIndex] : null;
+    if (insertBefore) {
+      insertBefore.before(this.#dragItem!);
+    } else {
+      liveItems[liveItems.length - 1].after(this.#dragItem!);
+    }
+
+    this.host.dispatchEvent(new CustomEvent('ui-drag-over', {
+      bubbles: true,
+      composed: true,
+      detail: { item: this.#dragItem, index: insertIndex, insertBefore },
+    }));
+  }
+
+  #restorePreview(): void {
+    if (this.mode !== 'preview' || !this.#dragItem || !this.#previewOriginParent) return;
+    if (this.#previewOriginNext && this.#previewOriginNext.isConnected) {
+      this.#previewOriginNext.before(this.#dragItem);
+    } else {
+      this.#previewOriginParent.appendChild(this.#dragItem);
+    }
+  }
+
   // ── End / Cancel ──
 
   #onPointerUp = (_e: PointerEvent): void => {
@@ -317,6 +391,23 @@ export class DragController {
             insertBefore,
           },
         }));
+      } else if (this.mode === 'preview') {
+        // WHY: Item is already in its final position — compute toIndex from current DOM order
+        const items = this.#getItems();
+        const toIndex = this.#dragItem ? items.indexOf(this.#dragItem) : -1;
+        // WHY: Clear origin refs so #cleanup doesn't restore the item
+        this.#previewOriginParent = null;
+        this.#previewOriginNext = null;
+
+        this.host.dispatchEvent(new CustomEvent('ui-drop', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            item: this.#dragItem,
+            fromIndex: this.#dragIndex,
+            toIndex,
+          },
+        }));
       } else {
         const zones = this.#getDropZones();
         const overZone = zones.find(z => z.hasAttribute('drag-over')) ?? null;
@@ -340,6 +431,7 @@ export class DragController {
 
   #onPointerCancel = (): void => {
     if (!this.#dragItem) return;
+    this.#restorePreview();
     if (this.#ghost) {
       this.host.dispatchEvent(new CustomEvent('ui-drag-cancel', {
         bubbles: true,
@@ -353,6 +445,7 @@ export class DragController {
   #onKeyDown = (e: KeyboardEvent): void => {
     if (e.key === 'Escape' && this.#dragItem) {
       e.preventDefault();
+      this.#restorePreview();
       this.host.dispatchEvent(new CustomEvent('ui-drag-cancel', {
         bubbles: true,
         composed: true,
@@ -435,6 +528,9 @@ export class DragController {
     this.#dragItem = null;
     this.#dragIndex = -1;
     this.#lastSlotIndex = -1;
+    this.#previewOriginParent = null;
+    this.#previewOriginNext = null;
+    this.#lastPreviewIndex = -1;
 
     document.removeEventListener('pointermove', this.#onPointerMove);
     document.removeEventListener('pointerup', this.#onPointerUp);

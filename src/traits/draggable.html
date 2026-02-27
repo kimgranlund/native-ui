@@ -132,6 +132,33 @@
         transition: none;
       }
 
+      /* ── Preview Mode: Grid ── */
+
+      .drag-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+      }
+
+      .grid-cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 4rem;
+        background: var(--accent-surface);
+        color: var(--accent-surface-ink);
+        border-radius: 0.5rem;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: grab;
+        user-select: none;
+        transition: opacity 150ms ease;
+      }
+
+      .grid-cell[dragging] {
+        opacity: 0.25;
+      }
+
       /* ── Horizontal ── */
 
       .drag-row {
@@ -385,6 +412,58 @@
 &lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
     </div>
 
+    <!-- ── Preview Mode: Grid Reorder ── -->
+
+    <h2>Preview Mode — Grid Reorder</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+        Live DOM reordering as you drag. The item moves to its new position in real time — no placeholder needed. Press Escape to cancel and restore the original order. Works with CSS Grid (2D hit-testing via <code>axis="both"</code>).
+      </p>
+      <ui-controller traits="draggable" draggable-selector=".grid-cell" draggable-axis="both" draggable-mode="preview">
+        <div id="preview-grid" class="drag-grid">
+          <div class="grid-cell">1</div>
+          <div class="grid-cell">2</div>
+          <div class="grid-cell">3</div>
+          <div class="grid-cell">4</div>
+          <div class="grid-cell">5</div>
+          <div class="grid-cell">6</div>
+          <div class="grid-cell">7</div>
+          <div class="grid-cell">8</div>
+          <div class="grid-cell">9</div>
+          <div class="grid-cell">10</div>
+          <div class="grid-cell">11</div>
+          <div class="grid-cell">12</div>
+          <div class="grid-cell">13</div>
+          <div class="grid-cell">14</div>
+          <div class="grid-cell">15</div>
+          <div class="grid-cell">16</div>
+          <div class="grid-cell">17</div>
+          <div class="grid-cell">18</div>
+          <div class="grid-cell">19</div>
+          <div class="grid-cell">20</div>
+          <div class="grid-cell">21</div>
+          <div class="grid-cell">22</div>
+          <div class="grid-cell">23</div>
+          <div class="grid-cell">24</div>
+        </div>
+      </ui-controller>
+      <div id="preview-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;ui-controller traits="draggable"
+  draggable-selector=".grid-cell"
+  draggable-axis="both"
+  draggable-mode="preview"&gt;
+  &lt;div class="drag-grid"&gt;
+    &lt;div class="grid-cell"&gt;1&lt;/div&gt;
+    &lt;div class="grid-cell"&gt;2&lt;/div&gt;
+    &lt;!-- ... 24 cells in a 4×6 grid --&gt;
+  &lt;/div&gt;
+&lt;/ui-controller&gt;
+
+&lt;!-- No ui-drop handler needed for reordering —
+     the item is already in its final position.
+     Handle ui-drop only to persist the new order. --&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    </div>
+
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -414,9 +493,9 @@
           </tr>
           <tr>
             <td><code>draggable-mode</code></td>
-            <td><code>'drop' | 'slot'</code></td>
+            <td><code>'drop' | 'slot' | 'preview'</code></td>
             <td><code>'drop'</code></td>
-            <td><strong>drop</strong>: outlines hovered target. <strong>slot</strong>: shows gap indicator between items.</td>
+            <td><strong>drop</strong>: outlines hovered target. <strong>slot</strong>: shows gap indicator. <strong>preview</strong>: moves the real item in real time (no consumer reordering needed).</td>
           </tr>
           <tr>
             <td><code>draggable-disabled</code></td>
@@ -598,6 +677,17 @@
         }
       });
 
+      // ── Preview mode — grid ──
+
+      const previewGrid = document.getElementById('preview-grid');
+      previewGrid.addEventListener('ui-drop', (e) => {
+        const { item, fromIndex, toIndex } = e.detail;
+        previewLog(`Moved cell ${item.textContent.trim()} from position ${fromIndex} → ${toIndex}`);
+      });
+      previewGrid.addEventListener('ui-drag-cancel', (e) => {
+        previewLog(`Cancelled: cell ${e.detail.item.textContent.trim()} restored`);
+      });
+
       // ── Event logging ──
 
       function appendLog(el, msg) {
@@ -615,6 +705,9 @@
 
       const slotLogEl = document.getElementById('slot-log');
       function slotLog(msg) { appendLog(slotLogEl, msg); }
+
+      const previewLogEl = document.getElementById('preview-log');
+      function previewLog(msg) { appendLog(previewLogEl, msg); }
     </script>
   </body>
 </html>

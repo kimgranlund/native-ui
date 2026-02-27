@@ -137,7 +137,7 @@ export class UISegmentedControl extends FormAssociable(UIElement) {
         let selectedIndex = -1;
         let count = 0;
         for (const seg of segments) {
-          if (seg.value === selected) selectedIndex = count;
+          if ((seg.getAttribute('value') ?? '') === selected) selectedIndex = count;
           count++;
         }
 

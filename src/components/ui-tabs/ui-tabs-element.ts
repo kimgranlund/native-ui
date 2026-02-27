@@ -108,12 +108,13 @@ export class UITabs extends UIElement {
         let count = 0;
 
         for (const tab of tabs) {
-          if (tab.value === selected) selectedIndex = count;
+          // WHY: Use getAttribute — child may not be upgraded yet in static HTML contexts
+          if ((tab.getAttribute('value') ?? '') === selected) selectedIndex = count;
           count++;
         }
 
         for (const panel of panels) {
-          const isActive = panel.value === selected;
+          const isActive = (panel.getAttribute('value') ?? '') === selected;
           panel.toggleAttribute('hidden', !isActive);
           panel.setAttribute('tabindex', isActive ? '0' : '-1');
         }
@@ -137,12 +138,12 @@ export class UITabs extends UIElement {
     const panelMap = new Map<string, HTMLElement>();
     for (const panel of panels) {
       if (!panel.id) panel.id = uid('tp');
-      panelMap.set(panel.value, panel);
+      panelMap.set(panel.getAttribute('value') ?? '', panel);
     }
 
     for (const tab of tabs) {
       if (!tab.id) tab.id = uid('tab');
-      const panel = panelMap.get(tab.value);
+      const panel = panelMap.get(tab.getAttribute('value') ?? '');
       if (panel) {
         tab.setAttribute('aria-controls', panel.id);
         panel.setAttribute('aria-labelledby', tab.id);

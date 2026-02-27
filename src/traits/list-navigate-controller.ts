@@ -62,7 +62,10 @@ export class ListNavigateController {
           const items = host.querySelectorAll<HTMLElement>(this.itemSelector);
           const isCurrent = this.ariaAttr === 'aria-current';
           for (const item of items) {
-            const val = (item as { value?: string }).value;
+            // WHY: Prefer attribute over property — child elements may not be upgraded yet
+            // when this effect first runs (e.g. static HTML from Astro set:html).
+            // Fall back to property for dynamically created items without attributes.
+            const val = item.getAttribute('value') ?? (item as unknown as { value?: string }).value;
             if (val !== undefined) {
               const isMatch = val === selected;
               if (isCurrent) {

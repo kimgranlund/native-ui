@@ -8,7 +8,7 @@ export const draggableAdapter: TraitAdapter<DragController> = {
       selector: options['selector'] ?? '',
       dropZoneSelector: options['drop-zone-selector'] ?? '',
       axis: (options['axis'] as 'vertical' | 'horizontal' | 'both') ?? 'both',
-      mode: (options['mode'] as 'drop' | 'slot') ?? 'drop',
+      mode: (options['mode'] as 'drop' | 'slot' | 'preview') ?? 'drop',
       disabled: options['disabled'] === 'true',
     });
   },
@@ -17,7 +17,7 @@ export const draggableAdapter: TraitAdapter<DragController> = {
     if ('selector' in options) instance.selector = options['selector'];
     if ('drop-zone-selector' in options) instance.dropZoneSelector = options['drop-zone-selector'];
     if ('axis' in options) instance.axis = options['axis'] as 'vertical' | 'horizontal' | 'both';
-    if ('mode' in options) instance.mode = options['mode'] as 'drop' | 'slot';
+    if ('mode' in options) instance.mode = options['mode'] as 'drop' | 'slot' | 'preview';
     if ('disabled' in options) instance.disabled = options['disabled'] === 'true';
   },
 };

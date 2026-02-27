@@ -10,7 +10,7 @@ class DragTestEl extends UIElement {
   #drag: DragController | null = null;
   #selector = '';
   #axis: 'vertical' | 'horizontal' | 'both' = 'both';
-  #mode: 'drop' | 'slot' = 'drop';
+  #mode: 'drop' | 'slot' | 'preview' = 'drop';
   #disabled = false;
 
   get dragSelector(): string { return this.#drag ? this.#drag.selector : this.#selector; }
@@ -19,8 +19,8 @@ class DragTestEl extends UIElement {
   get dragAxis(): 'vertical' | 'horizontal' | 'both' { return this.#drag ? this.#drag.axis : this.#axis; }
   set dragAxis(val: 'vertical' | 'horizontal' | 'both') { this.#axis = val; if (this.#drag) this.#drag.axis = val; }
 
-  get dragMode(): 'drop' | 'slot' { return this.#drag ? this.#drag.mode : this.#mode; }
-  set dragMode(val: 'drop' | 'slot') { this.#mode = val; if (this.#drag) this.#drag.mode = val; }
+  get dragMode(): 'drop' | 'slot' | 'preview' { return this.#drag ? this.#drag.mode : this.#mode; }
+  set dragMode(val: 'drop' | 'slot' | 'preview') { this.#mode = val; if (this.#drag) this.#drag.mode = val; }
 
   get dragDisabled(): boolean { return this.#drag ? this.#drag.disabled : this.#disabled; }
   set dragDisabled(val: boolean) { this.#disabled = val; if (this.#drag) this.#drag.disabled = val; }
@@ -41,7 +41,7 @@ if (!customElements.get('drag-test')) {
   define('drag-test', DragTestEl);
 }
 
-function create(mode: 'drop' | 'slot' = 'drop', count = 5): DragTestEl {
+function create(mode: 'drop' | 'slot' | 'preview' = 'drop', count = 5): DragTestEl {
   const el = document.createElement('drag-test') as DragTestEl;
   el.dragSelector = '.item';
   el.dragAxis = 'vertical';
@@ -362,6 +362,91 @@ describe('DragController', () => {
 
     const ghost = host.querySelector('[popover][aria-hidden="true"]');
     expect(ghost).toBeNull();
+    ctrl.destroy();
+  });
+});
+
+describe('Draggable — preview mode', () => {
+  it('has dragMode preview when configured', () => {
+    const el = create('preview');
+    expect(el.dragMode).toBe('preview');
+  });
+
+  it('keeps item in DOM with [dragging] during drag', () => {
+    const el = create('preview');
+    const item0 = items(el)[0];
+    item0.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
+
+    expect(item0.hasAttribute('dragging')).toBe(true);
+    expect(item0.isConnected).toBe(true);
+
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+    expect(item0.hasAttribute('dragging')).toBe(false);
+  });
+
+  it('dispatches ui-drop with fromIndex and toIndex', () => {
+    const el = create('preview');
+    const handler = vi.fn();
+    el.addEventListener('ui-drop', handler);
+
+    items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+
+    expect(handler).toHaveBeenCalledTimes(1);
+    const detail = handler.mock.calls[0][0].detail;
+    expect(detail.fromIndex).toBe(0);
+    expect(typeof detail.toIndex).toBe('number');
+  });
+
+  it('restores item to original position on Escape', () => {
+    const el = create('preview');
+    const item0 = items(el)[0];
+    const originalNext = item0.nextElementSibling;
+    const originalParent = item0.parentElement;
+
+    item0.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+
+    expect(item0.parentElement).toBe(originalParent);
+    expect(item0.nextElementSibling).toBe(originalNext);
+  });
+
+  it('dispatches ui-drag-cancel on Escape', () => {
+    const el = create('preview');
+    const handler = vi.fn();
+    el.addEventListener('ui-drag-cancel', handler);
+
+    items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+
+    expect(handler).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not create a .drag-placeholder element', () => {
+    const el = create('preview');
+    items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
+
+    expect(el.querySelector('.drag-placeholder')).toBeNull();
+
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+  });
+
+  it('works as standalone DragController', () => {
+    const host = createHost();
+    const ctrl = new DragController(host, { selector: '.item', mode: 'preview' });
+    const handler = vi.fn();
+    host.addEventListener('ui-drop', handler);
+
+    items(host)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+
+    expect(handler).toHaveBeenCalledTimes(1);
     ctrl.destroy();
   });
 });
