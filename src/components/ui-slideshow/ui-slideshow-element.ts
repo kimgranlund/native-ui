@@ -34,7 +34,7 @@ export class UISlideshow extends UIElement {
   #disabled = signal(false);
 
   #autoplayTimer: ReturnType<typeof setInterval> | null = null;
-  #prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  #prefersReducedMotion: MediaQueryList | null = null;
   #observer: IntersectionObserver | null = null;
   #slides: HTMLElement[] = [];
 
@@ -111,6 +111,7 @@ export class UISlideshow extends UIElement {
 
   setup(): void {
     super.setup();
+    this.#prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     // ── Stamp structural DOM ──
 
@@ -334,7 +335,7 @@ export class UISlideshow extends UIElement {
   }
 
   #startAutoplay(): void {
-    if (this.#prefersReducedMotion.matches) return;
+    if (this.#prefersReducedMotion?.matches) return;
     this.#stopAutoplay();
     const ms = parseInt(this.getAttribute('interval') ?? '5000', 10) || 5000;
     this.#autoplayTimer = setInterval(() => this.next(), ms);
@@ -367,7 +368,7 @@ export class UISlideshow extends UIElement {
   };
 
   #onResume = (): void => {
-    if (this.hasAttribute('autoplay') && !this.#prefersReducedMotion.matches && this.#autoplayTimer === null) {
+    if (this.hasAttribute('autoplay') && !this.#prefersReducedMotion?.matches && this.#autoplayTimer === null) {
       this.#startAutoplay();
     }
   };
