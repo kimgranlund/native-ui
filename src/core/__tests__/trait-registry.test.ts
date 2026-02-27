@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { registerTrait, getTrait, getRegisteredTraitNames } from '../trait-registry.ts';
+import { registerTrait, getTrait, getRegisteredTraitNames, onTraitRegistered } from '../trait-registry.ts';
 import type { TraitAdapter } from '../trait-registry.ts';
 
 function makeAdapter(name: string): TraitAdapter {
@@ -56,5 +56,21 @@ describe('trait-registry', () => {
     const names = getRegisteredTraitNames();
     expect(names).toBeInstanceOf(Set);
     expect(typeof names.has).toBe('function');
+  });
+
+  it('onTraitRegistered fires when a new trait is registered', () => {
+    const handler = vi.fn();
+    const unsub = onTraitRegistered(handler);
+    registerTrait(makeAdapter('test-on-register'));
+    expect(handler).toHaveBeenCalledWith('test-on-register');
+    unsub();
+  });
+
+  it('onTraitRegistered unsubscribe stops notifications', () => {
+    const handler = vi.fn();
+    const unsub = onTraitRegistered(handler);
+    unsub();
+    registerTrait(makeAdapter('test-unsub-no-fire'));
+    expect(handler).not.toHaveBeenCalled();
   });
 });

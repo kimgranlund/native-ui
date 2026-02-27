@@ -7,6 +7,7 @@ export interface TraitAdapter<T = unknown> {
 }
 
 const registry = new Map<string, TraitAdapter>();
+const listeners = new Set<(name: string) => void>();
 
 export function registerTrait(adapter: TraitAdapter): void {
   if (registry.has(adapter.name)) {
@@ -14,6 +15,14 @@ export function registerTrait(adapter: TraitAdapter): void {
     return;
   }
   registry.set(adapter.name, adapter);
+  // WHY: Notify waiting ui-controller elements that a trait they requested is now available
+  for (const fn of listeners) fn(adapter.name);
+}
+
+/** Subscribe to trait registration events. Returns unsubscribe function. */
+export function onTraitRegistered(fn: (name: string) => void): () => void {
+  listeners.add(fn);
+  return () => listeners.delete(fn);
 }
 
 export function getTrait(name: string): TraitAdapter | undefined {

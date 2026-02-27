@@ -1,6 +1,6 @@
 import { effect } from '../reactivity/index.ts';
 import type { Dispose } from '../reactivity/types.ts';
-import { getTrait } from './trait-registry.ts';
+import { getTrait, onTraitRegistered } from './trait-registry.ts';
 import { collectTraitOptions, parseTraitAttribute } from './trait-options.ts';
 
 /** Base custom element class with reactive effect lifecycle, child deferral, and trait protocol. */
@@ -8,6 +8,8 @@ export class UIElement extends HTMLElement {
   #disposers: Dispose[] = [];
   #controllers = new Map<string, unknown>();
   #traitObserver: MutationObserver | null = null;
+  #pendingTraits = new Set<string>();
+  #traitUnsub: (() => void) | null = null;
   #alive = false;
 
   addEffect(fn: () => void): void {
@@ -32,6 +34,9 @@ export class UIElement extends HTMLElement {
     this.#destroyAllControllers();
     this.#traitObserver?.disconnect();
     this.#traitObserver = null;
+    this.#traitUnsub?.();
+    this.#traitUnsub = null;
+    this.#pendingTraits.clear();
     this.teardown();
     for (const dispose of this.#disposers) dispose();
     this.#disposers = [];
@@ -103,11 +108,14 @@ export class UIElement extends HTMLElement {
     }
 
     // Add controllers for new traits
+    this.#pendingTraits.clear();
     for (const name of next) {
       if (this.#controllers.has(name)) continue;
       const adapter = getTrait(name);
       if (!adapter) {
-        console.warn(`[native-ui] Unknown trait "${name}". Is it registered?`);
+        // WHY: Trait not yet registered — track it and retry when registered.
+        // This handles the case where ui-controller upgrades before registerAllTraits() runs.
+        this.#pendingTraits.add(name);
         continue;
       }
 
@@ -126,6 +134,25 @@ export class UIElement extends HTMLElement {
       const options = collectTraitOptions(this, name);
       const instance = adapter.create(this, options);
       this.#controllers.set(name, instance);
+    }
+
+    // WHY: Subscribe to trait registration so pending traits auto-initialize
+    // when registerAllTraits() runs after element upgrade
+    if (this.#pendingTraits.size > 0 && !this.#traitUnsub) {
+      this.#traitUnsub = onTraitRegistered((name) => {
+        if (this.#pendingTraits.has(name)) {
+          this.#pendingTraits.delete(name);
+          this.#syncTraits(this.getAttribute('traits') ?? '');
+          // WHY: Unsubscribe once all pending traits are resolved
+          if (this.#pendingTraits.size === 0) {
+            this.#traitUnsub?.();
+            this.#traitUnsub = null;
+          }
+        }
+      });
+    } else if (this.#pendingTraits.size === 0 && this.#traitUnsub) {
+      this.#traitUnsub();
+      this.#traitUnsub = null;
     }
   }
 
