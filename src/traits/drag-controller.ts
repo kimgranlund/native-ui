@@ -167,7 +167,9 @@ export class DragController {
       detail: { item: this.#dragItem, x: e.clientX, y: e.clientY },
     }));
 
-    const zones = this.#getDropZones();
+    // WHY: Filter out the ghost clone as a safety measure — even though the ghost
+    // is now appended to document.body, custom selectors could still match it.
+    const zones = this.#getDropZones().filter(z => z !== this.#ghost);
 
     if (this.mode === 'slot') {
       // WHY: Slot mode uses ghost center vs zone centers. The slot indicator should
@@ -311,41 +313,59 @@ export class DragController {
     const liveItems = items.filter(el => el !== this.#dragItem);
     if (liveItems.length === 0) return;
 
-    // WHY: Find nearest item by center distance — works for 2D grids, not just 1D lists
-    let closestIndex = 0;
-    let closestDist = Infinity;
-    for (let i = 0; i < liveItems.length; i++) {
-      const rect = liveItems[i].getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dist = Math.hypot(ghostCenterX - cx, ghostCenterY - cy);
-      if (dist < closestDist) {
-        closestDist = dist;
-        closestIndex = i;
+    // WHY: Use ALL items (including the dragged one) for geometry detection.
+    // The dragged item still occupies its grid cell ([dragging] only sets opacity),
+    // so liveItems has a gap in the first row that would give wrong column count
+    // and a shifted coordinate origin.
+    const firstRect = items[0].getBoundingClientRect();
+    let cols = 1;
+    for (let i = 1; i < items.length; i++) {
+      if (Math.abs(items[i].getBoundingClientRect().top - firstRect.top) < firstRect.height * 0.5) {
+        cols = i + 1;
+      } else {
+        break;
       }
     }
 
-    // WHY: Row-band tolerance determines if ghost is on the same row or a different row.
-    // Same row → compare X. Different row → compare Y. This handles grid cells correctly.
-    const closestRect = liveItems[closestIndex].getBoundingClientRect();
-    const closestCx = closestRect.left + closestRect.width / 2;
-    const closestCy = closestRect.top + closestRect.height / 2;
-    const rowBand = closestRect.height * 0.5;
-    const sameRow = Math.abs(ghostCenterY - closestCy) < rowBand;
+    // WHY: Compute cell step (width + gap, height + gap) from adjacent items.
+    // This handles arbitrary gap sizes without needing to know the CSS grid gap value.
+    const stepX = cols > 1
+      ? (items[1].getBoundingClientRect().left - firstRect.left)
+      : firstRect.width;
+    const stepY = cols < items.length
+      ? (items[cols].getBoundingClientRect().top - firstRect.top)
+      : firstRect.height;
 
-    const insertIndex = sameRow
-      ? (ghostCenterX < closestCx ? closestIndex : closestIndex + 1)
-      : (ghostCenterY < closestCy ? closestIndex : closestIndex + 1);
+    // WHY: Convert ghost center to grid (row, col) coordinates relative to the
+    // first cell's center. Using Math.round gives a natural snap — the insertion
+    // point flips when the ghost crosses the midpoint between two cells.
+    const col = Math.round((ghostCenterX - (firstRect.left + firstRect.width / 2)) / stepX);
+    const row = Math.round((ghostCenterY - (firstRect.top + firstRect.height / 2)) / stepY);
+    const maxRow = Math.ceil(liveItems.length / cols) - 1;
+    const clampedCol = Math.max(0, Math.min(col, cols - 1));
+    const clampedRow = Math.max(0, Math.min(row, maxRow));
+
+    let insertIndex = clampedRow * cols + clampedCol;
+    insertIndex = Math.max(0, Math.min(insertIndex, liveItems.length));
 
     if (insertIndex === this.#lastPreviewIndex) return;
     this.#lastPreviewIndex = insertIndex;
 
-    // WHY: Perform the actual DOM move — the item IS the live preview indicator
+    // WHY: Perform the actual DOM move — the item IS the live preview indicator.
+    // Wrap in View Transition if available for smooth grid reflow animation.
     const insertBefore = insertIndex < liveItems.length ? liveItems[insertIndex] : null;
-    if (insertBefore) {
-      insertBefore.before(this.#dragItem!);
+    const doMove = () => {
+      if (insertBefore) {
+        insertBefore.before(this.#dragItem!);
+      } else {
+        liveItems[liveItems.length - 1].after(this.#dragItem!);
+      }
+    };
+
+    if (typeof document.startViewTransition === 'function') {
+      document.startViewTransition(doMove);
     } else {
-      liveItems[liveItems.length - 1].after(this.#dragItem!);
+      doMove();
     }
 
     this.host.dispatchEvent(new CustomEvent('ui-drag-over', {
@@ -357,10 +377,20 @@ export class DragController {
 
   #restorePreview(): void {
     if (this.mode !== 'preview' || !this.#dragItem || !this.#previewOriginParent) return;
-    if (this.#previewOriginNext && this.#previewOriginNext.isConnected) {
-      this.#previewOriginNext.before(this.#dragItem);
+    const item = this.#dragItem;
+    const next = this.#previewOriginNext;
+    const parent = this.#previewOriginParent;
+    const doRestore = () => {
+      if (next && next.isConnected) {
+        next.before(item);
+      } else {
+        parent.appendChild(item);
+      }
+    };
+    if (typeof document.startViewTransition === 'function') {
+      document.startViewTransition(doRestore);
     } else {
-      this.#previewOriginParent.appendChild(this.#dragItem);
+      doRestore();
     }
   }
 
@@ -468,12 +498,13 @@ export class DragController {
     // from overflow containers or stacking context issues.
     // The UA :popover-open styles set `inset: 0` and `margin: auto`, so we
     // use `inset: unset` + explicit positioning to override them.
-    // Ghost lives as a sibling inside the host (not document.body) to keep
-    // DOM locality — popover top-layer promotion handles rendering regardless.
+    // WHY: Append to document.body (not this.host) so the ghost clone doesn't
+    // appear in host.querySelectorAll(selector) results and doesn't occupy a
+    // grid/flex slot in the host's layout.
     ghost.setAttribute('popover', 'manual');
     ghost.setAttribute('aria-hidden', 'true');
 
-    this.host.appendChild(ghost);
+    document.body.appendChild(ghost);
     ghost.showPopover();
 
     // WHY: Apply positioning AFTER showPopover() to override UA :popover-open defaults
