@@ -272,7 +272,7 @@ describe('ui-controller', () => {
   });
 
   describe('unknown traits', () => {
-    it('warns for unregistered trait names', () => {
+    it('silently tracks unregistered traits as pending (no warn)', () => {
       const warns: string[] = [];
       const origWarn = console.warn;
       console.warn = (msg: string) => warns.push(msg);
@@ -285,7 +285,9 @@ describe('ui-controller', () => {
       document.body.appendChild(ctrl);
 
       console.warn = origWarn;
-      expect(warns.some((w) => w.includes('nonexistent-trait'))).toBe(true);
+      // WHY: No warning — unknown traits are tracked as pending and retried
+      // when the trait adapter is later registered
+      expect(warns.some((w) => w.includes('nonexistent-trait'))).toBe(false);
     });
   });
 });

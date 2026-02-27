@@ -1,5 +1,5 @@
 import { UIElement } from '../../core/ui-element.ts';
-import { getTrait } from '../../core/trait-registry.ts';
+import { getTrait, onTraitRegistered } from '../../core/trait-registry.ts';
 import { collectTraitOptions, parseTraitAttribute } from '../../core/trait-options.ts';
 
 /**
@@ -27,6 +27,10 @@ export class UIController extends UIElement {
   /** Watches for trait option attribute changes on this element */
   #optionObserver: MutationObserver | null = null;
 
+  /** Traits requested but not yet registered — retried on registration */
+  #pendingTraits = new Set<string>();
+  #traitUnsub: (() => void) | null = null;
+
   // WHY: Override connectedCallback to prevent UIElement from running its
   // trait-on-self protocol. UIController delegates traits to children, never
   // to itself. We call setup() directly (same as UIElement) but skip
@@ -47,6 +51,9 @@ export class UIController extends UIElement {
     this.#childObserver = null;
     this.#optionObserver?.disconnect();
     this.#optionObserver = null;
+    this.#traitUnsub?.();
+    this.#traitUnsub = null;
+    this.#pendingTraits.clear();
     super.teardown();
   }
 
@@ -84,6 +91,22 @@ export class UIController extends UIElement {
     } else {
       // Wrapper mode — apply to first element child
       this.#applyToFirstChild(traitTokens);
+    }
+
+    // WHY: Subscribe to trait registration so pending traits auto-initialize
+    // when registerAllTraits() runs after element upgrade
+    if (this.#pendingTraits.size > 0 && !this.#traitUnsub) {
+      this.#traitUnsub = onTraitRegistered((name) => {
+        if (this.#pendingTraits.has(name)) {
+          this.#pendingTraits.delete(name);
+          // Re-apply all traits — #applyTraitsToElement skips already-active ones
+          this.#apply();
+          if (this.#pendingTraits.size === 0) {
+            this.#traitUnsub?.();
+            this.#traitUnsub = null;
+          }
+        }
+      });
     }
   }
 
@@ -134,7 +157,8 @@ export class UIController extends UIElement {
 
       const adapter = getTrait(name);
       if (!adapter) {
-        console.warn(`[native-ui] Unknown trait "${name}". Is it registered?`);
+        // WHY: Trait not yet registered — track and retry when it becomes available
+        this.#pendingTraits.add(name);
         continue;
       }
 
