@@ -7,31 +7,13 @@
     <title>Searchable — Trait Demo</title>
     <link rel="stylesheet" href="../styles/index.css" />
     <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
 
       main {
         padding: 2rem;
         max-width: 64rem;
       }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
       h3 {
         font-size: 0.8125rem;
         font-weight: 600;
@@ -39,15 +21,6 @@
         margin-top: 1.25rem;
         color: var(--neutral-ink-strong);
       }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
       /* ── Search Items ── */
 
       .search-items {
@@ -94,36 +67,6 @@
         background: var(--neutral-panel);
         border-radius: 0.25rem;
       }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-
       /* ── API Reference ── */
 
       .api-section {
@@ -167,7 +110,7 @@
     <ui-layout><main>
 
     <h1>Searchable</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Text filtering with match/hide attributes and highlight support. Non-matching items receive <code>[search-hidden]</code>, matching items get <code>[search-match]</code>. Since searching requires calling <code>filter()</code> imperatively from input events, all demos use direct <code>SearchController</code> instantiation. The <code>&lt;ui-controller traits="searchable"&gt;</code> provider can create the controller declaratively, but <code>filter()</code> must still be called.
     </p>
 
@@ -175,11 +118,11 @@
 
     <h2>Basic Filter</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Type to filter items. Non-matching items are hidden via <code>[search-hidden]</code>.
       </p>
       <div id="basic-wrap">
-        <ui-input id="basic-input" placeholder="Filter items..." style="margin-bottom: 0.75rem"></ui-input>
+        <ui-input id="basic-input" placeholder="Filter items..." style="margin-bottom: 0.75rem;"></ui-input>
         <div class="search-items">
           <div class="search-item">Apple</div>
           <div class="search-item">Banana</div>
@@ -213,11 +156,11 @@ wrap.addEventListener('ui-search', (e) =&gt; {
 
     <h2>Custom Text Field</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Searches against a <code>data-search</code> attribute instead of <code>textContent</code>. Items display a label but filter on tags.
       </p>
       <div id="field-wrap">
-        <ui-input id="field-input" placeholder="Search by tag (e.g. 'ui', 'layout')..." style="margin-bottom: 0.75rem"></ui-input>
+        <ui-input id="field-input" placeholder="Search by tag (e.g. 'ui', 'layout')..." style="margin-bottom: 0.75rem;"></ui-input>
         <div class="search-items">
           <div class="search-item" data-search="component ui button">Button Component</div>
           <div class="search-item" data-search="component ui input form">Input Field</div>
@@ -245,11 +188,11 @@ input.addEventListener('ui-input', (e) =&gt; {
 
     <h2>Highlight Matches</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Uses <code>SearchController.highlight()</code> to wrap matches in <code>&lt;mark&gt;</code> tags.
       </p>
       <div id="highlight-wrap">
-        <ui-input id="highlight-input" placeholder="Type to highlight matches..." style="margin-bottom: 0.75rem"></ui-input>
+        <ui-input id="highlight-input" placeholder="Type to highlight matches..." style="margin-bottom: 0.75rem;"></ui-input>
         <div class="search-items">
           <div class="search-item" data-original="JavaScript">JavaScript</div>
           <div class="search-item" data-original="TypeScript">TypeScript</div>
@@ -281,11 +224,11 @@ input.addEventListener('ui-input', (e) =&gt; {
 
     <h2>SearchController — Attach to Any Element</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Use <code>SearchController</code> directly on a plain element without the trait mixin.
       </p>
       <div id="controller-wrap">
-        <ui-input id="ctrl-input" placeholder="Filter colors..." style="margin-bottom: 0.75rem"></ui-input>
+        <ui-input id="ctrl-input" placeholder="Filter colors..." style="margin-bottom: 0.75rem;"></ui-input>
         <div id="controller-list" class="search-items">
           <div class="search-item">Red</div>
           <div class="search-item">Orange</div>

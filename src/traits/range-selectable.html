@@ -7,31 +7,13 @@
     <title>RangeSelectable — Trait Demo</title>
     <link rel="stylesheet" href="../styles/index.css" />
     <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
 
       main {
         padding: 2rem;
         max-width: 64rem;
       }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
       h3 {
         font-size: 0.8125rem;
         font-weight: 600;
@@ -39,15 +21,6 @@
         margin-top: 1.25rem;
         color: var(--neutral-ink-strong);
       }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
       /* ── Grid ── */
 
       .grid-container {
@@ -141,36 +114,6 @@
         border-radius: 0.25rem;
         min-height: 1.5rem;
       }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-
       /* ── API Reference ── */
 
       .api-section {
@@ -214,7 +157,7 @@
     <ui-layout><main>
 
     <h1>RangeSelectable</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Composable trait for selecting a range of items. Supports two modes: <strong>drag</strong> (click-drag-release) and <strong>click</strong> (click start, hover to preview, click to commit). Sets <code>[range-selected]</code>, <code>[range-start]</code>, and <code>[range-end]</code> attributes.
     </p>
 
@@ -222,7 +165,7 @@
 
     <h2>Drag Mode — Calendar Grid (Provider)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         <code>&lt;ui-controller&gt;</code> wraps a grid and applies the range-selectable trait. Click and drag across cells to select a range. Release to commit.
       </p>
       <div class="day-headers">
@@ -260,7 +203,7 @@
 
     <h2>Click Mode — Calendar Grid</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Click a start date, hover to preview range, click to commit. Uses <code>RangeSelectController</code> directly with <code>clearRange()</code> method.
       </p>
       <div class="day-headers">
@@ -304,7 +247,7 @@ clearBtn.addEventListener('ui-press', () =&gt; {
 
     <h2>Drag Mode — Vertical List (Provider)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         <code>&lt;ui-controller&gt;</code> applies range-selectable to a vertical list. Click and drag to select a contiguous range of days.
       </p>
       <ui-controller traits="range-selectable" range-selectable-selector=".list-item">
@@ -333,7 +276,7 @@ clearBtn.addEventListener('ui-press', () =&gt; {
 
     <h2>RangeSelectController — Attach to Any Element</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Use <code>RangeSelectController</code> to add range selection to an existing element without subclassing. Same events, same modes — no trait mixin required.
       </p>
       <div id="ctrl-list" class="list-container">

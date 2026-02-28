@@ -7,31 +7,13 @@
     <title>Swipeable — Trait Demo</title>
     <link rel="stylesheet" href="../styles/index.css" />
     <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
 
       main {
         padding: 2rem;
         max-width: 64rem;
       }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
       h3 {
         font-size: 0.8125rem;
         font-weight: 600;
@@ -39,15 +21,6 @@
         margin-top: 1.25rem;
         color: var(--neutral-ink-strong);
       }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
       /* ── Swipe Cards ── */
 
       .swipe-card {
@@ -116,36 +89,6 @@
         background: var(--neutral-panel);
         border-radius: 0.25rem;
       }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-
       /* ── Pattern Badges ── */
 
       .pattern-badge {
@@ -208,7 +151,7 @@
     <ui-layout><main>
 
     <h1>Swipeable</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Touch/pointer swipe gesture recognition with direction, velocity, and threshold. Supports horizontal, vertical, and both axes.
     </p>
 
@@ -216,7 +159,7 @@
 
     <h2>Horizontal Swipe <span class="pattern-badge provider">Provider</span></h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Default axis. <code>&lt;ui-controller&gt;</code> applies swipeable to the first child. Detects left and right swipes. Click and drag horizontally.
       </p>
       <ui-controller traits="swipeable" swipeable-axis="horizontal">
@@ -243,7 +186,7 @@ card.addEventListener('ui-swipe', (e) =&gt; {
 
     <h2>Vertical Swipe <span class="pattern-badge provider">Provider</span></h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Axis set to <code>'vertical'</code>. Detects up and down swipes.
       </p>
       <ui-controller traits="swipeable" swipeable-axis="vertical">
@@ -266,7 +209,7 @@ card.addEventListener('ui-swipe', (e) =&gt; {
 
     <h2>Both Axes <span class="pattern-badge provider">Provider</span></h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Axis set to <code>'both'</code>. Detects the dominant direction from the gesture.
       </p>
       <ui-controller traits="swipeable" swipeable-axis="both">
@@ -289,7 +232,7 @@ card.addEventListener('ui-swipe', (e) =&gt; {
 
     <h2>Custom Threshold <span class="pattern-badge provider">Provider</span></h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Higher threshold (<strong>100px</strong>) and velocity (<strong>0.5 px/ms</strong>). Requires a longer, faster swipe to trigger.
       </p>
       <ui-controller traits="swipeable" swipeable-axis="horizontal" swipeable-threshold="100" swipeable-velocity-threshold="0.5">
@@ -314,7 +257,7 @@ card.addEventListener('ui-swipe', (e) =&gt; {
 
     <h2>SwipeController — Attach to Any Element</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Use <code>SwipeController</code> directly on any element without the trait adapter or <code>&lt;ui-controller&gt;</code>.
       </p>
       <div id="controller-card" class="swipe-card">

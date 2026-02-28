@@ -7,46 +7,9 @@
     <title>ui-kbd — Component Demo</title>
     <link rel="stylesheet" href="../../styles/index.css" />
     <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
-
-      main {
-        padding: 2rem;
-      }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .demo-row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 1rem;
-      }
-
-      .demo-row + .demo-row {
+.demo-row + .demo-row {
         margin-top: 0.75rem;
       }
 
@@ -60,7 +23,7 @@
   <body>
     <ui-layout><main>
     <h1>&lt;ui-kbd&gt;</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Keyboard shortcut indicator. Own font/size scale like ui-badge.
     </p>
 
@@ -156,7 +119,7 @@
 
     <h2>Inline with text</h2>
     <div class="demo-section">
-      <p style="font-size: 0.875rem; line-height: 1.5;">
+      <p class="demo-text">
         Press <ui-kbd><ui-icon name="command"></ui-icon>K</ui-kbd> to open search, <ui-kbd>Esc</ui-kbd> to close.
       </p>
     </div>

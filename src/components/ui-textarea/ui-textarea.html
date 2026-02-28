@@ -7,50 +7,14 @@
     <title>ui-textarea — Component Demo</title>
     <link rel="stylesheet" href="../../styles/index.css" />
     <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
 
       main {
         padding: 2rem;
         max-width: 64rem;
       }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
-      h3 {
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.5rem;
-        margin-top: 1.5rem;
-        color: var(--neutral-ink-muted);
-      }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .demo-row {
+.demo-row {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
@@ -65,58 +29,12 @@
         color: var(--neutral-ink-muted);
         margin-bottom: 0.25rem;
       }
-
-      .log {
-        font-family: ui-monospace, monospace;
-        font-size: 0.75rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: 0.375rem;
-        padding: 0.75rem;
-        max-height: 10rem;
-        overflow-y: auto;
-        margin-top: 0.5rem;
-      }
-
-      .log-entry {
-        padding: 0.125rem 0;
-        color: var(--neutral-ink-muted);
-      }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-    </style>
+</style>
   </head>
   <body>
     <ui-layout><main>
     <h1>&lt;ui-textarea&gt;</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Multi-line text input with contenteditable, autogrow, rows presets, and maxlength.
     </p>
 
@@ -258,7 +176,7 @@
     <h2>Maxlength</h2>
     <div class="demo-section">
       <ui-textarea placeholder="Max 100 characters..." maxlength="100"></ui-textarea>
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-top: 0.5rem;">Limited to 100 characters. Excess input is truncated.</p>
+      <p class="demo-hint" style="margin-top: 0.5rem; margin-bottom: 0;">Limited to 100 characters. Excess input is truncated.</p>
         <pre class="demo-code"><code>&lt;ui-textarea placeholder="Max 100 characters..." maxlength="100"&gt;&lt;/ui-textarea&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
     </div>
 
@@ -372,11 +290,11 @@
     <h2>Form Association</h2>
     <div class="demo-section">
       <form id="demo-form">
-        <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 0.75rem;">
+        <div class="demo-col" style="margin-bottom: 0.75rem;">
           <ui-textarea name="bio" placeholder="Write your bio..."></ui-textarea>
           <ui-textarea name="notes" placeholder="Additional notes..." rows="2"></ui-textarea>
         </div>
-        <div style="display: flex; gap: 0.5rem;">
+        <div class="demo-actions">
           <ui-button variant="primary" type="submit"><span slot="label">Submit</span></ui-button>
           <ui-button variant="secondary" type="reset"><span slot="label">Reset</span></ui-button>
         </div>
@@ -424,7 +342,7 @@
 
     <h2>Debug States (<code>force-*</code>)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+      <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
       </p>
       <div class="demo-row">

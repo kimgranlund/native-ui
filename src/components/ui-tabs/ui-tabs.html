@@ -7,73 +7,19 @@
     <title>ui-tabs — Component Demo</title>
     <link rel="stylesheet" href="../../styles/index.css" />
     <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
 
       main {
         padding: 2rem;
         max-width: 64rem;
       }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-    </style>
+</style>
   </head>
   <body>
     <ui-layout><main>
     <h1>&lt;ui-tabs&gt;</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Tab navigation with roving focus, panel switching, and a sliding underline indicator. Supports horizontal and vertical orientations.
     </p>
 
@@ -218,7 +164,7 @@ tabs.value = 'preview';</code></pre>
           <ui-tab-panel value="third"><p>Third panel.</p></ui-tab-panel>
         </ui-tab-panels>
       </ui-tabs>
-      <pre id="tab-event-log" style="margin-top: 0.75rem; font-size: 0.75rem; font-family: ui-monospace, monospace; color: var(--neutral-ink-muted); min-height: 2rem;"></pre>
+      <pre id="tab-event-log" class="demo-event-log"></pre>
     <pre class="demo-code"><code>&lt;ui-tabs id="my-tabs" value="first"&gt;
   &lt;ui-tab value="first"&gt;First&lt;/ui-tab&gt;
   &lt;ui-tab value="second"&gt;Second&lt;/ui-tab&gt;
@@ -237,7 +183,7 @@ tabs.value = 'preview';</code></pre>
 
     <h2>Sizes</h2>
     <div class="demo-section">
-      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <div class="demo-col-xl">
         <ui-tabs value="one" size="sm">
           <ui-tab value="one">Small</ui-tab>
           <ui-tab value="two">Tabs</ui-tab>
@@ -277,7 +223,7 @@ tabs.value = 'preview';</code></pre>
 
     <h2>Debug States (<code>force-*</code>)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+      <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to individual <code>ui-tab</code> elements.
       </p>
       <ui-tabs value="normal">

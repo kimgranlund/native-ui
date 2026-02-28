@@ -7,31 +7,13 @@
     <title>Dismissable — Trait Demo</title>
     <link rel="stylesheet" href="../styles/index.css" />
     <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
 
       main {
         padding: 2rem;
         max-width: 64rem;
       }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
       h3 {
         font-size: 0.8125rem;
         font-weight: 600;
@@ -39,16 +21,7 @@
         margin-top: 1.25rem;
         color: var(--neutral-ink-strong);
       }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .dismiss-panel {
+.dismiss-panel {
         display: block;
         padding: 1rem;
         background: var(--accent-surface);
@@ -73,36 +46,6 @@
         background: var(--neutral-panel);
         border-radius: 0.25rem;
       }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-
       /* ── API Reference ── */
 
       .api-section {
@@ -146,7 +89,7 @@
     <ui-layout><main>
 
     <h1>Dismissable</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Composable trait that manages a global layer stack. When enabled, clicking outside the element or pressing Escape dispatches a <code>ui-dismiss</code> event. Only the topmost layer in the stack receives dismiss events.
     </p>
 
@@ -154,7 +97,7 @@
 
     <h2>Click Outside to Dismiss</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Uses <code>DismissController</code> directly on a plain element. Call <code>enable()</code> to join the dismiss stack, <code>disable()</code> to leave.
       </p>
       <ui-button id="open-btn">Open Panel</ui-button>
@@ -186,10 +129,10 @@ panel.addEventListener('ui-dismiss', () =&gt; hidePanel());</code><ui-button cla
 
     <h2>Nested Layers (Stack)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Open both panels. Only the topmost one receives dismiss events. After the top panel is dismissed, the bottom panel becomes the new top.
       </p>
-      <div style="display: flex; gap: 0.5rem;">
+      <div class="demo-actions">
         <ui-button id="open-a">Open Panel A</ui-button>
         <ui-button id="open-b">Open Panel B</ui-button>
       </div>
@@ -218,13 +161,13 @@ dismissB.enable();
 
     <h2>Built-in: ui-dialog</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         <code>ui-dialog</code> uses Dismissable internally. Escape and backdrop click close the dialog automatically.
       </p>
       <ui-button id="open-dialog">Open Dialog</ui-button>
       <ui-dialog id="demo-dialog">
         <ui-card style="width: 20rem; padding: 1.5rem;">
-          <p style="margin: 0 0 1rem;">This dialog uses Dismissable internally. Press Escape or click the backdrop to close.</p>
+          <p style="margin-bottom: 1rem;">This dialog uses Dismissable internally. Press Escape or click the backdrop to close.</p>
           <ui-button id="close-dialog" intent="accent">Close</ui-button>
         </ui-card>
       </ui-dialog>

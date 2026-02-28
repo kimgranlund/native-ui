@@ -7,79 +7,12 @@
     <title>ui-header / ui-body / ui-footer — Sub-Container Demo</title>
     <link rel="stylesheet" href="../../styles/index.css" />
     <link rel="stylesheet" href="../../styles/components.css" />
-    <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
-
-      main {
-        padding: 2rem;
-      }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .demo-row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: start;
-        gap: 1rem;
-      }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-    </style>
-  </head>
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    </head>
   <body>
     <ui-layout><main>
     <h1>&lt;ui-header&gt; / &lt;ui-body&gt; / &lt;ui-footer&gt;</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Composable sub-containers for structuring surfaces. CSS-only. Work inside ui-card, ui-drawer, ui-panel, or any flex column.
     </p>
 
@@ -92,7 +25,7 @@
           <span slot="label">Card Title</span>
         </ui-header>
         <ui-body>
-          <p style="margin: 0;">Body content with the default padding and scrollable overflow.</p>
+          <p>Body content with the default padding and scrollable overflow.</p>
         </ui-body>
       </ui-card>
     <pre class="demo-code"><code>&lt;ui-card&gt;
@@ -116,7 +49,7 @@
           <ui-button slot="trailing" variant="ghost"><ui-icon name="dots-three"></ui-icon></ui-button>
         </ui-header>
         <ui-body>
-          <p style="margin: 0;">The header uses a 3-column grid: leading / label / trailing.</p>
+          <p>The header uses a 3-column grid: leading / label / trailing.</p>
         </ui-body>
         <ui-footer>
           <ui-button variant="ghost"><span slot="label">Cancel</span></ui-button>
@@ -139,19 +72,19 @@
           <ui-header>
             <span slot="label">Default (start)</span>
           </ui-header>
-          <ui-body><p style="margin: 0;">Left-aligned label.</p></ui-body>
+          <ui-body><p>Left-aligned label.</p></ui-body>
         </ui-card>
         <ui-card style="max-width: 18rem;">
           <ui-header align="center">
             <span slot="label">Centered</span>
           </ui-header>
-          <ui-body><p style="margin: 0;">Center-aligned label.</p></ui-body>
+          <ui-body><p>Center-aligned label.</p></ui-body>
         </ui-card>
         <ui-card style="max-width: 18rem;">
           <ui-header align="end">
             <span slot="label">End</span>
           </ui-header>
-          <ui-body><p style="margin: 0;">End-aligned label.</p></ui-body>
+          <ui-body><p>End-aligned label.</p></ui-body>
         </ui-card>
       </div>
       <pre class="demo-code"><code>&lt;ui-header&gt;...&lt;/ui-header&gt;
@@ -170,7 +103,7 @@
           <ui-button slot="trailing" variant="ghost"><ui-icon name="x"></ui-icon></ui-button>
         </ui-header>
         <ui-body>
-          <p style="margin: 0;">Common pattern: back button, centered title, close button.</p>
+          <p>Common pattern: back button, centered title, close button.</p>
         </ui-body>
       </ui-card>
     <pre class="demo-code"><code>&lt;ui-header align="center"&gt;
@@ -189,11 +122,11 @@
           <span slot="label">Scrollable Card</span>
         </ui-header>
         <ui-body>
-          <p style="margin: 0;">This card has a fixed height. The body scrolls independently while the header stays pinned.</p>
-          <p style="margin: 0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p style="margin: 0;">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          <p style="margin: 0;">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-          <p style="margin: 0;">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p>This card has a fixed height. The body scrolls independently while the header stays pinned.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </ui-body>
         <ui-footer>
           <ui-button variant="primary" intent="accent"><span slot="label">Done</span></ui-button>
@@ -217,10 +150,10 @@
       <ui-card style="max-width: 24rem; height: 14rem;">
         <ui-header><span slot="label">With Scrollbar</span></ui-header>
         <ui-body show-scrollbar>
-          <p style="margin: 0;">The <code>show-scrollbar</code> attribute reveals a thin scrollbar.</p>
-          <p style="margin: 0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <p style="margin: 0;">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
-          <p style="margin: 0;">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</p>
+          <p>The <code>show-scrollbar</code> attribute reveals a thin scrollbar.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</p>
         </ui-body>
       </ui-card>
     <pre class="demo-code"><code>&lt;ui-body show-scrollbar&gt;
@@ -235,7 +168,7 @@
       <ui-stack gap="4">
         <ui-card style="max-width: 28rem;">
           <ui-header><span slot="label">End (default)</span></ui-header>
-          <ui-body><p style="margin: 0;">Actions aligned to the right.</p></ui-body>
+          <ui-body><p>Actions aligned to the right.</p></ui-body>
           <ui-footer>
             <ui-button variant="ghost"><span slot="label">Cancel</span></ui-button>
             <ui-button variant="primary" intent="accent"><span slot="label">Confirm</span></ui-button>
@@ -243,7 +176,7 @@
         </ui-card>
         <ui-card style="max-width: 28rem;">
           <ui-header><span slot="label">Spread</span></ui-header>
-          <ui-body><p style="margin: 0;">Cancel left, Save right.</p></ui-body>
+          <ui-body><p>Cancel left, Save right.</p></ui-body>
           <ui-footer justify="spread">
             <ui-button variant="ghost"><span slot="label">Cancel</span></ui-button>
             <ui-button variant="primary" intent="accent"><span slot="label">Save</span></ui-button>
@@ -251,7 +184,7 @@
         </ui-card>
         <ui-card style="max-width: 28rem;">
           <ui-header><span slot="label">Start</span></ui-header>
-          <ui-body><p style="margin: 0;">Actions aligned left.</p></ui-body>
+          <ui-body><p>Actions aligned left.</p></ui-body>
           <ui-footer justify="start">
             <ui-button variant="ghost"><span slot="label">Back</span></ui-button>
             <ui-button variant="primary" intent="accent"><span slot="label">Next</span></ui-button>
@@ -259,7 +192,7 @@
         </ui-card>
         <ui-card style="max-width: 28rem;">
           <ui-header><span slot="label">Center</span></ui-header>
-          <ui-body><p style="margin: 0;">Centered actions.</p></ui-body>
+          <ui-body><p>Centered actions.</p></ui-body>
           <ui-footer justify="center">
             <ui-button variant="primary" intent="accent"><span slot="label">Got it</span></ui-button>
           </ui-footer>
@@ -278,17 +211,17 @@
       <div class="demo-row">
         <ui-card size="sm" style="max-width: 18rem;">
           <ui-header><span slot="label">Small</span></ui-header>
-          <ui-body><p style="margin: 0;">Compact padding.</p></ui-body>
+          <ui-body><p>Compact padding.</p></ui-body>
           <ui-footer><ui-button size="sm" variant="primary" intent="accent"><span slot="label">OK</span></ui-button></ui-footer>
         </ui-card>
         <ui-card style="max-width: 18rem;">
           <ui-header><span slot="label">Medium</span></ui-header>
-          <ui-body><p style="margin: 0;">Default padding.</p></ui-body>
+          <ui-body><p>Default padding.</p></ui-body>
           <ui-footer><ui-button variant="primary" intent="accent"><span slot="label">OK</span></ui-button></ui-footer>
         </ui-card>
         <ui-card size="lg" style="max-width: 18rem;">
           <ui-header><span slot="label">Large</span></ui-header>
-          <ui-body><p style="margin: 0;">Spacious padding.</p></ui-body>
+          <ui-body><p>Spacious padding.</p></ui-body>
           <ui-footer><ui-button size="lg" variant="primary" intent="accent"><span slot="label">OK</span></ui-button></ui-footer>
         </ui-card>
       </div>
@@ -310,14 +243,14 @@
           <ui-button slot="trailing" variant="ghost" id="close-drawer"><ui-icon name="x"></ui-icon></ui-button>
         </ui-header>
         <ui-body>
-          <p style="margin: 0;">The drawer uses ui-header / ui-body / ui-footer. The header and footer stay fixed while the body scrolls.</p>
-          <p style="margin: 0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
-          <p style="margin: 0;">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
-          <p style="margin: 0;">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-          <p style="margin: 0;">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.</p>
-          <p style="margin: 0;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
-          <p style="margin: 0;">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
-          <p style="margin: 0;">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          <p>The drawer uses ui-header / ui-body / ui-footer. The header and footer stay fixed while the body scrolls.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
         </ui-body>
         <ui-footer justify="spread">
           <ui-button variant="ghost" id="cancel-drawer"><span slot="label">Cancel</span></ui-button>

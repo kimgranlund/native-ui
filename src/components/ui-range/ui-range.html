@@ -7,69 +7,9 @@
     <title>ui-range — Component Demo</title>
     <link rel="stylesheet" href="../../styles/index.css" />
     <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
-
-      main {
-        padding: 2rem;
-      }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-        max-width: 24rem;
-      }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-
-      .value-display {
+.value-display {
         font-size: 0.8125rem;
         color: var(--neutral-ink-muted);
         font-variant-numeric: tabular-nums;
@@ -79,7 +19,7 @@
   <body>
     <ui-layout><main>
     <h1>&lt;ui-range&gt;</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Slider input with thumb on a track. Keyboard: Arrow ±step, Page ±10×step, Home/End.
     </p>
 
@@ -210,16 +150,16 @@
 
     <h2>Debug States (<code>force-*</code>)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+      <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
       </p>
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="demo-col-lg">
         <div>
-          <div style="font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--neutral-ink-muted); margin-bottom: 0.5rem;">force-hover</div>
+          <div class="demo-state-label">force-hover</div>
           <ui-range force-hover value="50"></ui-range>
         </div>
         <div>
-          <div style="font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--neutral-ink-muted); margin-bottom: 0.5rem;">force-focus</div>
+          <div class="demo-state-label">force-focus</div>
           <ui-range force-focus value="50"></ui-range>
         </div>
       </div>

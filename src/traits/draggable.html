@@ -7,31 +7,13 @@
     <title>Draggable — Trait Demo</title>
     <link rel="stylesheet" href="../styles/index.css" />
     <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
 
       main {
         padding: 2rem;
         max-width: 64rem;
       }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
       h3 {
         font-size: 0.8125rem;
         font-weight: 600;
@@ -39,15 +21,6 @@
         margin-top: 1.25rem;
         color: var(--neutral-ink-strong);
       }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
       /* ── Sortable List ── */
 
       .drag-list {
@@ -210,36 +183,6 @@
         background: var(--neutral-panel);
         border-radius: 0.25rem;
       }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-
       /* ── API Reference ── */
 
       .api-section {
@@ -283,7 +226,7 @@
     <ui-layout><main>
 
     <h1>Draggable</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Composable trait for drag-and-drop. Supports two modes: <strong>drop</strong> (outlines the target element) and <strong>slot</strong> (shows a gap indicator between items for insertion). Ghost renders in the top layer via popover. Press Escape to cancel.
     </p>
 
@@ -291,7 +234,7 @@
 
     <h2>Drop Mode — Swap (Provider)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         <code>&lt;ui-controller&gt;</code> wraps a plain <code>&lt;div&gt;</code> and applies the draggable trait. Drop onto a target to swap positions.
       </p>
       <ui-controller traits="draggable" draggable-selector=".drag-item" draggable-axis="vertical" draggable-mode="drop">
@@ -331,7 +274,7 @@
 
     <h2>Drop Mode — Replace (Provider)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Drag a person onto a role to assign. Uses <code>draggable-drop-zone-selector</code> to separate drag items from drop targets.
       </p>
       <ui-controller traits="draggable" draggable-selector=".drag-person" draggable-drop-zone-selector=".drag-role" draggable-mode="drop">
@@ -363,7 +306,7 @@
 
     <h2>Slot Mode — Vertical List (Provider)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Shows a gap indicator between items. Dropping inserts the item at that position.
       </p>
       <ui-controller traits="draggable" draggable-selector=".drag-item" draggable-axis="vertical" draggable-mode="slot">
@@ -423,7 +366,7 @@
 
     <h2>Preview Mode — Grid Reorder</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Live DOM reordering as you drag. The item moves to its new position in real time — no placeholder needed. Press Escape to cancel and restore the original order. Works with CSS Grid (2D hit-testing via <code>axis="both"</code>).
       </p>
       <ui-controller traits="draggable" draggable-selector=".grid-cell" draggable-axis="both" draggable-mode="preview">

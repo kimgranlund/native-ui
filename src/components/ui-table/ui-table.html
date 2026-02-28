@@ -7,104 +7,19 @@
     <title>ui-table — Component Demo</title>
     <link rel="stylesheet" href="../../styles/index.css" />
     <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
 
       main {
         padding: 2rem;
         max-width: 48rem;
       }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      h3 {
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.75rem;
-        margin-top: 1.5rem;
-        color: var(--neutral-ink-muted);
-      }
-
-      h3:first-child {
-        margin-top: 0;
-      }
-
-      .log {
-        font-family: ui-monospace, monospace;
-        font-size: 0.75rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: 0.375rem;
-        padding: 0.75rem;
-        max-height: 10rem;
-        overflow-y: auto;
-        margin-top: 0.5rem;
-      }
-
-      .log-entry {
-        padding: 0.125rem 0;
-        color: var(--neutral-ink-muted);
-      }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-    </style>
+</style>
   </head>
   <body>
     <ui-layout><main>
     <h1>&lt;ui-table&gt;</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Data table with sortable columns and selectable rows. Uses CSS grid with <code>subgrid</code> for column alignment.
     </p>
 
@@ -318,7 +233,7 @@
 
     <h2>Plain Variant</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+      <p class="demo-caption">
         Editorial / documentation tables that sit inline with prose. No outer border, no radius, no header fill, no row hover.
       </p>
       <ui-table variant="plain" size="sm" style="grid-template-columns: auto 1fr 1fr;">
@@ -368,7 +283,7 @@
 
     <h2>Colspan Rows</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+      <p class="demo-caption">
         Full-width category headers that opt out of subgrid. Hidden automatically when the table is sorted.
       </p>
       <ui-table id="colspan-table" style="grid-template-columns: 2fr 1fr 80px;">
@@ -426,7 +341,7 @@
 
     <h2>Sticky Header</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+      <p class="demo-caption">
         Header row stays fixed when scrolling vertically. Requires constrained height on the table.
       </p>
       <ui-table sticky-header style="grid-template-columns: 1fr 1fr 100px; max-height: 200px;">
@@ -456,7 +371,7 @@
 
     <h2>Sticky Column</h2>
     <div class="demo-section" style="max-width: 400px;">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+      <p class="demo-caption">
         First column stays fixed when scrolling horizontally. Requires constrained width.
       </p>
       <ui-table sticky-column style="grid-template-columns: 120px 150px 150px 150px 150px;">
@@ -510,7 +425,7 @@
 
     <h2>Sticky Colspan Rows</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+      <p class="demo-caption">
         Section headers stick below the table header as you scroll, like iOS section headers.
         Each section header pushes the previous one up.
       </p>
@@ -539,7 +454,7 @@
 
     <h2>Reorderable Rows</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+      <p class="demo-caption">
         Drag rows to reorder. DOM is auto-reordered unless the <code>ui-table-reorder</code> event is cancelled.
       </p>
       <ui-table reorderable style="grid-template-columns: 1fr 1fr 100px;">
@@ -594,7 +509,7 @@
 
     <h2>Resizable Columns</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+      <p class="demo-caption">
         Drag the right edge of any header cell to resize columns.
       </p>
       <ui-table resizable style="grid-template-columns: 2fr 1fr 1fr;">
@@ -640,7 +555,7 @@
 
     <h2>Sortable + Resizable</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+      <p class="demo-caption">
         Click header text to sort, drag header edge to resize. Both coexist without conflict.
       </p>
       <ui-table resizable id="sort-resize-table" style="grid-template-columns: 2fr 1fr 80px;">
@@ -670,7 +585,7 @@
 
     <h2>Debug States (<code>force-*</code>)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+      <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to individual rows and headers.
       </p>
       <ui-table style="grid-template-columns: 1fr 1fr 1fr;">

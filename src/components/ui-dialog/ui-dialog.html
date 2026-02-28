@@ -7,80 +7,25 @@
     <title>ui-dialog — Component Demo</title>
     <link rel="stylesheet" href="../../styles/index.css" />
     <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
 
       main {
         padding: 2rem;
         max-width: 64rem;
       }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      ui-dialog > ui-card {
+ui-dialog > ui-card {
         width: min(28rem, calc(100vw - 2rem));
         box-shadow:
           0 8px 30px oklch(0% 0 0 / 0.12),
           0 2px 8px oklch(0% 0 0 / 0.06);
       }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-    </style>
+</style>
   </head>
   <body>
     <ui-layout><main>
     <h1>&lt;ui-dialog&gt;</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Modal dialog built on native <code>&lt;dialog&gt;</code>. Opens via <code>showModal()</code>, closes on backdrop click, Escape, or programmatically. Content is promoted to the top layer with full token re-establishment.
     </p>
 
@@ -93,7 +38,7 @@
         <ui-card>
           <ui-header><span slot="label">Confirm Action</span></ui-header>
           <ui-body>
-            <p style="font-size: 0.875rem; color: var(--neutral-ink-muted); margin: 0; line-height: 1.5;">Are you sure you want to continue? This action cannot be undone.</p>
+            <p class="demo-text">Are you sure you want to continue? This action cannot be undone.</p>
           </ui-body>
           <ui-footer>
             <ui-button id="basic-cancel">Cancel</ui-button>
@@ -181,7 +126,7 @@
 
     <h2>No Close on Backdrop</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-text-sm">
         This dialog has <code>no-close-on-backdrop</code> — clicking outside doesn't close it. You must use the button.
       </p>
       <ui-button id="open-persistent">Open Persistent Dialog</ui-button>
@@ -189,7 +134,7 @@
         <ui-card>
           <ui-header><span slot="label">Important Notice</span></ui-header>
           <ui-body>
-            <p style="font-size: 0.875rem; color: var(--neutral-ink-muted); margin: 0; line-height: 1.5;">This dialog can only be closed by clicking the button below. Clicking the backdrop or pressing Escape won't dismiss it.</p>
+            <p class="demo-text">This dialog can only be closed by clicking the button below. Clicking the backdrop or pressing Escape won't dismiss it.</p>
           </ui-body>
           <ui-footer>
             <ui-button id="persistent-close" intent="accent">Got it</ui-button>
@@ -211,7 +156,7 @@
 
     <h2>No Close on Escape</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-text-sm">
         This dialog has <code>no-close-on-escape</code> — pressing Escape doesn't close it. Backdrop click still works.
       </p>
       <ui-button id="open-no-esc">Open (no Escape close)</ui-button>
@@ -219,7 +164,7 @@
         <ui-card>
           <ui-header><span slot="label">Escape Disabled</span></ui-header>
           <ui-body>
-            <p style="font-size: 0.875rem; color: var(--neutral-ink-muted); margin: 0; line-height: 1.5;">Press Escape — nothing happens. Click the backdrop or the button to close.</p>
+            <p class="demo-text">Press Escape — nothing happens. Click the backdrop or the button to close.</p>
           </ui-body>
           <ui-footer>
             <ui-button id="no-esc-close">Close</ui-button>
@@ -237,7 +182,7 @@
         <ui-card>
           <ui-header><span slot="label" style="color: var(--danger-ink-strong);">Delete Account</span></ui-header>
           <ui-body>
-            <p style="font-size: 0.875rem; color: var(--neutral-ink-muted); margin: 0; line-height: 1.5;">This will permanently delete your account and all associated data. This action cannot be reversed.</p>
+            <p class="demo-text">This will permanently delete your account and all associated data. This action cannot be reversed.</p>
           </ui-body>
           <ui-footer>
             <ui-button id="danger-cancel">Cancel</ui-button>

@@ -7,97 +7,20 @@
     <title>ui-divider — Container Demo</title>
     <link rel="stylesheet" href="../../styles/index.css" />
     <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
-
-      main {
-        padding: 2rem;
-      }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
-      h3 {
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.5rem;
-        margin-top: 1.5rem;
-        color: var(--neutral-ink-muted);
-      }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .demo-row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 0.75rem;
-      }
-
-      .vertical-container {
+.vertical-container {
         display: flex;
         align-items: center;
         gap: 1rem;
         height: 4rem;
       }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-    </style>
+</style>
   </head>
   <body>
     <ui-layout><main>
     <h1>&lt;ui-divider&gt;</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Horizontal or vertical rule between content sections. CSS-only container.
     </p>
 
@@ -202,13 +125,13 @@
     <div class="demo-section">
       <ui-button variant="primary" intent="accent" style="width: 100%;"><span slot="label">Sign In</span></ui-button>
       <ui-divider>or continue with</ui-divider>
-      <div style="display: flex; gap: 0.5rem;">
+      <div class="demo-actions">
         <ui-button style="flex: 1;"><ui-icon name="google-logo" slot="leading"></ui-icon><span slot="label">Google</span></ui-button>
         <ui-button style="flex: 1;"><ui-icon name="github-logo" slot="leading"></ui-icon><span slot="label">GitHub</span></ui-button>
       </div>
       <pre class="demo-code"><code>&lt;ui-button variant="primary" intent="accent" style="width: 100%;"&gt;Sign In&lt;/ui-button&gt;
 &lt;ui-divider&gt;or continue with&lt;/ui-divider&gt;
-&lt;div style="display: flex; gap: 0.5rem;"&gt;
+&lt;div class="demo-actions"&gt;
   &lt;ui-button style="flex: 1;"&gt;Google&lt;/ui-button&gt;
   &lt;ui-button style="flex: 1;"&gt;GitHub&lt;/ui-button&gt;
 &lt;/div&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>

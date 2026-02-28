@@ -7,10 +7,9 @@
     <title>Context API — Core Demo</title>
     <link rel="stylesheet" href="../styles/index.css" />
     <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/demo.css" />
     <style>
-      main { padding: 2rem; }
-      h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem; }
-      .subtitle { color: var(--neutral-ink-muted); font-size: 0.8125rem; margin-bottom: 1.5rem; white-space: normal; }
+.subtitle { color: var(--neutral-ink-muted); font-size: 0.8125rem; margin-bottom: 1.5rem; white-space: normal; }
 
       /* Structural wrappers: display contents so they don't create boxes */
       session-provider, notif-provider {
@@ -69,8 +68,7 @@
         font-family: ui-monospace, monospace; font-size: 0.6875rem;
         scrollbar-width: thin; scrollbar-color: var(--neutral-border-muted) transparent;
       }
-      .log-entry { padding: 0.125rem 0; color: var(--neutral-ink-muted); border-bottom: 1px solid var(--neutral-border-muted); }
-      .log-entry:last-child { border-bottom: none; }
+.log-entry:last-child { border-bottom: none; }
       .log-tag { font-weight: 600; margin-right: 0.25rem; }
       .log-tag.user  { color: var(--accent-ink); }
       .log-tag.notif { color: var(--danger-ink); }
@@ -163,7 +161,7 @@
                   <ui-badge slot="trailing" size="xs">live</ui-badge>
                 </ui-header>
                 <ui-body>
-                  <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.5rem;">
+                  <p class="demo-hint" style="margin-bottom: 0.5rem;">
                     Every context subscription and signal update is logged — proof that reactive state flows from providers to arbitrarily nested consumers.
                   </p>
                   <ctx-log></ctx-log>

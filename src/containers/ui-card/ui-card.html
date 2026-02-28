@@ -7,90 +7,12 @@
     <title>ui-card — Container Demo</title>
     <link rel="stylesheet" href="../../styles/index.css" />
     <link rel="stylesheet" href="../../styles/components.css" />
-    <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
-
-      main {
-        padding: 2rem;
-      }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
-      h3 {
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.5rem;
-        margin-top: 1.5rem;
-        color: var(--neutral-ink-muted);
-      }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .demo-row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: start;
-        gap: 1rem;
-        margin-bottom: 0.75rem;
-      }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-    </style>
-  </head>
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    </head>
   <body>
     <ui-layout><main>
     <h1>&lt;ui-card&gt;</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Bounded content surface with optional header, body, and footer.
     </p>
 
@@ -116,7 +38,7 @@
           <ui-button slot="trailing" variant="ghost"><ui-icon name="dots-three"></ui-icon></ui-button>
         </ui-header>
         <ui-body>
-          <p style="margin: 0;">Card body content goes here. This demonstrates the structured layout with header, body, and footer sections.</p>
+          <p>Card body content goes here. This demonstrates the structured layout with header, body, and footer sections.</p>
         </ui-body>
         <ui-footer>
           <ui-button variant="ghost"><span slot="label">Cancel</span></ui-button>
@@ -147,7 +69,7 @@
           <div slot="media" style="height: 10rem; background: linear-gradient(135deg, var(--accent-surface), var(--info-surface));"></div>
           <ui-body>
             <h3 style="margin: 0 0 0.25rem; text-transform: none; letter-spacing: 0; color: inherit;">Product Name</h3>
-            <p style="margin: 0; font-size: 0.8125rem; color: var(--neutral-ink-muted);">A short description of the product.</p>
+            <p class="demo-text-sm">A short description of the product.</p>
           </ui-body>
           <ui-footer>
             <ui-button variant="primary" intent="accent" size="sm"><span slot="label">Buy Now</span></ui-button>
@@ -157,7 +79,7 @@
           <div slot="media" style="height: 10rem; background: linear-gradient(135deg, var(--success-surface), var(--warning-surface));"></div>
           <ui-body>
             <h3 style="margin: 0 0 0.25rem; text-transform: none; letter-spacing: 0; color: inherit;">Another Product</h3>
-            <p style="margin: 0; font-size: 0.8125rem; color: var(--neutral-ink-muted);">Another description text.</p>
+            <p class="demo-text-sm">Another description text.</p>
           </ui-body>
           <ui-footer>
             <ui-button variant="primary" intent="accent" size="sm"><span slot="label">Buy Now</span></ui-button>
@@ -187,7 +109,7 @@
           <ui-button slot="trailing" variant="ghost"><ui-icon name="dots-three"></ui-icon></ui-button>
         </ui-header>
         <ui-body>
-          <p style="margin: 0;">The header uses a 3-column grid: leading / label / trailing. The card adds contextual divider borders automatically.</p>
+          <p>The header uses a 3-column grid: leading / label / trailing. The card adds contextual divider borders automatically.</p>
         </ui-body>
         <ui-footer justify="spread">
           <ui-button variant="ghost"><span slot="label">Cancel</span></ui-button>
@@ -214,10 +136,10 @@
     <div class="demo-section">
       <div class="demo-row">
         <ui-card interactive style="max-width: 16rem;">
-          <p style="margin: 0;">Click this card. It has hover and focus states.</p>
+          <p>Click this card. It has hover and focus states.</p>
         </ui-card>
         <ui-card interactive style="max-width: 16rem;">
-          <p style="margin: 0;">Another interactive card. Tab to focus.</p>
+          <p>Another interactive card. Tab to focus.</p>
         </ui-card>
       </div>
       <pre class="demo-code"><code>&lt;ui-card interactive&gt;
@@ -232,12 +154,12 @@
       <h3>size="sm"</h3>
       <ui-card size="sm" style="max-width: 20rem;">
         <ui-header><span slot="label">Small Card</span></ui-header>
-        <ui-body><p style="margin: 0;">Compact padding.</p></ui-body>
+        <ui-body><p>Compact padding.</p></ui-body>
       </ui-card>
       <h3>size="lg"</h3>
       <ui-card size="lg" style="max-width: 20rem;">
         <ui-header><span slot="label">Large Card</span></ui-header>
-        <ui-body><p style="margin: 0;">Spacious padding.</p></ui-body>
+        <ui-body><p>Spacious padding.</p></ui-body>
       </ui-card>
     <pre class="demo-code"><code>&lt;ui-card size="sm"&gt;
   &lt;ui-header&gt;&lt;span slot="label"&gt;Small Card&lt;/span&gt;&lt;/ui-header&gt;

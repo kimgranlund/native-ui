@@ -7,49 +7,9 @@
     <title>ui-listbox — Component Demo</title>
     <link rel="stylesheet" href="../../styles/index.css" />
     <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
-
-      main {
-        padding: 2rem;
-      }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
-      h3 {
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.5rem;
-        margin-top: 1.5rem;
-        color: var(--neutral-ink-muted);
-      }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .demo-grid {
+.demo-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 1.5rem;
@@ -69,25 +29,7 @@
         letter-spacing: 0.04em;
         color: var(--neutral-ink-muted);
       }
-
-      .log {
-        font-family: ui-monospace, monospace;
-        font-size: 0.75rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: 0.375rem;
-        padding: 0.75rem;
-        max-height: 10rem;
-        overflow-y: auto;
-        margin-top: 0.5rem;
-      }
-
-      .log-entry {
-        padding: 0.125rem 0;
-        color: var(--neutral-ink-muted);
-      }
-
-      .value-display {
+.value-display {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
         color: var(--accent-ink);
@@ -96,41 +38,12 @@
         padding: 0.25rem 0.5rem;
         display: inline-block;
       }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-    </style>
+</style>
   </head>
   <body>
     <ui-layout><main>
     <h1>&lt;ui-listbox&gt; + &lt;ui-option&gt;</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Listbox with roving focus, keyboard navigation, and selection management.
     </p>
 
@@ -505,7 +418,7 @@
 
     <h2>Debug States (<code>force-*</code>)</h2>
     <div class="demo-section" size="sm">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0 0 1rem;">
+      <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to individual <code>ui-option</code> elements.
       </p>
       <ui-listbox variant="secondary" style="max-width: 220px;">

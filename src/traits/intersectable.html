@@ -7,31 +7,13 @@
     <title>Intersectable — Trait Demo</title>
     <link rel="stylesheet" href="../styles/index.css" />
     <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
 
       main {
         padding: 2rem;
         max-width: 64rem;
       }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
       h3 {
         font-size: 0.8125rem;
         font-weight: 600;
@@ -39,15 +21,6 @@
         margin-top: 1.25rem;
         color: var(--neutral-ink-strong);
       }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
       /* ── Intersect Boxes ── */
 
       .scroll-spacer {
@@ -120,36 +93,6 @@
         background: var(--neutral-panel);
         border-radius: 0.25rem;
       }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-
       /* ── API Reference ── */
 
       .api-section {
@@ -193,7 +136,7 @@
     <ui-layout><main>
 
     <h1>Intersectable</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       IntersectionObserver wrapper for visibility-triggered behavior. Sets <code>[intersecting]</code> when the element enters the viewport and dispatches <code>ui-intersect</code>.
     </p>
 
@@ -201,7 +144,7 @@
 
     <h2>Scroll Into View (Provider)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         <code>&lt;ui-controller traits="intersectable"&gt;</code> wraps each box. Scroll down to see them appear with a CSS fade-in animation.
       </p>
       <div class="scroll-spacer">&#8595; Scroll down to reveal boxes &#8595;</div>
@@ -252,7 +195,7 @@
 
     <h2>Once Mode (Provider)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         <code>intersectable-once="true"</code>. The element fades in and stays visible permanently. The observer disconnects after the first intersection.
       </p>
       <div class="scroll-spacer">&#8595; Scroll down — these only animate once &#8595;</div>
@@ -286,7 +229,7 @@
 
     <h2>Threshold (50%)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         <code>intersectable-threshold="0.5"</code>. Only triggers when at least 50% of the element is visible.
       </p>
       <div class="scroll-spacer">&#8595; Scroll down — requires 50% visibility &#8595;</div>

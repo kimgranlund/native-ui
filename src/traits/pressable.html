@@ -7,31 +7,13 @@
     <title>Pressable — Trait Demo</title>
     <link rel="stylesheet" href="../styles/index.css" />
     <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
 
       main {
         padding: 2rem;
         max-width: 64rem;
       }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
       h3 {
         font-size: 0.8125rem;
         font-weight: 600;
@@ -39,16 +21,7 @@
         margin-top: 1.25rem;
         color: var(--neutral-ink-strong);
       }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .press-box {
+.press-box {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -94,36 +67,6 @@
         background: var(--neutral-panel);
         border-radius: 0.25rem;
       }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-
       /* ── API Reference ── */
 
       .api-section {
@@ -167,7 +110,7 @@
     <ui-layout><main>
 
     <h1>Pressable</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Composable trait that handles pointer and keyboard press states. Sets a <code>[pressed]</code> attribute during press and dispatches <code>ui-press</code> on release. Supports pointer capture and Enter/Space keys.
     </p>
 
@@ -175,10 +118,10 @@
 
     <h2>Basic Press (Provider)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         <code>&lt;ui-controller&gt;</code> wraps each element and applies the pressable trait. Click or press Enter/Space.
       </p>
-      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+      <div class="demo-row" style="gap: 0.75rem;">
         <ui-controller traits="pressable">
           <div class="press-box" tabindex="0">Click or press Enter</div>
         </ui-controller>
@@ -201,10 +144,10 @@
 
     <h2>On ui-button (Built-in)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         <code>ui-button</code> already uses the Pressable trait internally. The <code>ui-press</code> event and <code>[pressed]</code> attribute work out of the box.
       </p>
-      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+      <div class="demo-row" style="gap: 0.75rem;">
         <ui-button id="btn-1">Button Press</ui-button>
         <ui-button id="btn-2" intent="accent">Accent Press</ui-button>
         <ui-button id="btn-3" disabled>Disabled</ui-button>
@@ -223,7 +166,7 @@
 
     <h2>Pointer Types</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-text-sm">
         The <code>ui-press</code> event includes a <code>pointerType</code> in its detail — <code>"mouse"</code>, <code>"touch"</code>, <code>"pen"</code>, or <code>"keyboard"</code>.
       </p>
       <ui-controller traits="pressable">

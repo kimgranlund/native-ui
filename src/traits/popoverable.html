@@ -7,31 +7,13 @@
     <title>Popoverable — Trait Demo</title>
     <link rel="stylesheet" href="../styles/index.css" />
     <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/demo.css" />
     <style>
-      body {
-        background: var(--neutral-doc);
-        color: var(--neutral-950);
-      }
 
       main {
         padding: 2rem;
         max-width: 64rem;
       }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin-bottom: 0;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        margin-top: 2rem;
-        color: var(--neutral-ink-strong);
-      }
-
       h3 {
         font-size: 0.8125rem;
         font-weight: 600;
@@ -39,16 +21,7 @@
         margin-top: 1.25rem;
         color: var(--neutral-ink-strong);
       }
-
-      .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-      }
-
-      .pop-content {
+.pop-content {
         background: var(--neutral-panel);
         border: 1px solid var(--neutral-border-muted);
         border-radius: 0.375rem;
@@ -68,36 +41,6 @@
         margin: 0.25rem 0 0;
         inset: unset;
       }
-
-      /* ── Code Blocks ── */
-
-      .demo-code {
-        display: none;
-        position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: 0.75rem;
-        margin: 0;
-        margin-top: 0.75rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        overflow-x: auto;
-        white-space: pre;
-        color: var(--neutral-ink);
-      }
-
-      .demo-code[visible] {
-        display: block;
-      }
-
-      .demo-code > ui-button {
-        position: absolute;
-        top: 0.375rem;
-        right: 0.375rem;
-      }
-
       /* ── API Reference ── */
 
       .api-section {
@@ -141,7 +84,7 @@
     <ui-layout><main>
 
     <h1>Popoverable</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p class="demo-desc">
       Composable trait that extends <code>Dismissable</code> with CSS Anchor positioning. Provides <code>wirePopover(anchor, popover)</code> to set up anchor-name/position-anchor, and <code>syncPopover(open)</code> to show/hide with <code>popover="manual"</code>.
     </p>
 
@@ -149,13 +92,13 @@
 
     <h2>Basic Popover</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Uses <code>PopoverController</code> directly to wire an anchor button to a popover panel. Click outside or press Escape to close.
       </p>
       <div id="pop-1" style="display: inline-block; position: relative;">
         <ui-button id="pop-trigger-1">Toggle Popover</ui-button>
         <div class="pop-content" id="pop-content-1" popover="manual">
-          <p style="margin: 0;">This popover is anchored to the button using CSS Anchor positioning. Click outside or press Escape to close.</p>
+          <p>This popover is anchored to the button using CSS Anchor positioning. Click outside or press Escape to close.</p>
         </div>
       </div>
       <pre class="demo-code"><code>import { PopoverController, signal } from '@nonoun/native-ui';
@@ -182,20 +125,20 @@ popover.syncPopover(open.value);</code><ui-button class="copy-btn" size="sm" var
 
     <h2>Multiple Popovers</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         Each popover joins the dismissable layer stack. Only the topmost one is dismissed first.
       </p>
-      <div style="display: flex; gap: 0.75rem;">
+      <div class="demo-actions" style="gap: 0.75rem;">
         <div id="pop-2" style="display: inline-block; position: relative;">
           <ui-button id="pop-trigger-2">Popover A</ui-button>
           <div class="pop-content" id="pop-content-2" popover="manual">
-            <p style="margin: 0;"><strong>Popover A</strong> — First layer</p>
+            <p><strong>Popover A</strong> — First layer</p>
           </div>
         </div>
         <div id="pop-3" style="display: inline-block; position: relative;">
           <ui-button id="pop-trigger-3">Popover B</ui-button>
           <div class="pop-content" id="pop-content-3" popover="manual">
-            <p style="margin: 0;"><strong>Popover B</strong> — Second layer</p>
+            <p><strong>Popover B</strong> — Second layer</p>
           </div>
         </div>
       </div>
@@ -205,7 +148,7 @@ popover.syncPopover(open.value);</code><ui-button class="copy-btn" size="sm" var
 
     <h2>Built-in: ui-select</h2>
     <div class="demo-section">
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin-bottom: 0.75rem;">
+      <p class="demo-hint">
         <code>ui-select</code> uses Popoverable internally to anchor its dropdown listbox to the trigger button. CSS Anchor Positioning and dismiss-on-click-outside are handled automatically.
       </p>
       <ui-select placeholder="Pick a framework" options='[{"value":"react","label":"React"},{"value":"vue","label":"Vue"},{"value":"svelte","label":"Svelte"},{"value":"lit","label":"Lit"}]' style="max-width: 16rem;"></ui-select>
