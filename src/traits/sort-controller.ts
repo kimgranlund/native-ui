@@ -28,31 +28,24 @@ export class SortController {
   attach(): void {
     if (this.#attached) return;
     this.#attached = true;
-    if (this.selector) {
-      for (const header of this.host.querySelectorAll<HTMLElement>(this.selector)) {
-        header.addEventListener('click', this.#onHeaderClick);
-        header.style.cursor = 'pointer';
-      }
-    }
+    // WHY: Delegate to host instead of per-element listeners — handles dynamic header additions
+    this.host.addEventListener('click', this.#onHostClick);
   }
 
   detach(): void {
     if (!this.#attached) return;
     this.#attached = false;
-    if (this.selector) {
-      for (const header of this.host.querySelectorAll(this.selector)) {
-        header.removeEventListener('click', this.#onHeaderClick);
-      }
-    }
+    this.host.removeEventListener('click', this.#onHostClick);
   }
 
   destroy(): void {
     this.detach();
   }
 
-  #onHeaderClick = (e: Event): void => {
-    if (this.disabled) return;
-    const header = e.currentTarget as HTMLElement;
+  #onHostClick = (e: Event): void => {
+    if (this.disabled || !this.selector) return;
+    const header = (e.target as HTMLElement).closest(this.selector) as HTMLElement | null;
+    if (!header || !this.host.contains(header)) return;
     const column = header.dataset.column ?? header.textContent?.trim() ?? '';
 
     if (column === this.#sortColumn) {

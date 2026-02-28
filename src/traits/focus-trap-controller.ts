@@ -12,6 +12,10 @@ export class FocusTrapController {
   }
 
   enable(): void {
+    // WHY: Remove previous handler before creating a new one to prevent listener leak
+    if (this.#trapHandler) {
+      this.host.removeEventListener('keydown', this.#trapHandler);
+    }
     this.#previousFocus = document.activeElement;
 
     this.#trapHandler = (e: KeyboardEvent) => {

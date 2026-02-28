@@ -313,37 +313,19 @@ describe('ui-textarea', () => {
     });
   });
 
-  describe('maxlength enforcement', () => {
-    it('truncates textContent to maxlength on input when value exceeds limit', () => {
+  describe('maxlength validity (tooLong)', () => {
+    it('does not truncate textContent when value exceeds maxlength', () => {
       const el = createElement();
       el.setAttribute('maxlength', '5');
       el.textContent = 'hello world'; // 11 chars, exceeds limit of 5
 
       el.dispatchEvent(new Event('input', { bubbles: true }));
 
-      expect(el.textContent).toBe('hello');
+      // Value is preserved — no silent truncation
+      expect(el.textContent).toBe('hello world');
     });
 
-    it('does not truncate when value is within maxlength', () => {
-      const el = createElement();
-      el.setAttribute('maxlength', '10');
-      el.textContent = 'hi';
-
-      el.dispatchEvent(new Event('input', { bubbles: true }));
-
-      expect(el.textContent).toBe('hi');
-    });
-
-    it('does not truncate when maxlength attribute is absent', () => {
-      const el = createElement();
-      el.textContent = 'a very long string without any limit applied here';
-
-      el.dispatchEvent(new Event('input', { bubbles: true }));
-
-      expect(el.textContent).toBe('a very long string without any limit applied here');
-    });
-
-    it('ui-input detail.value reflects truncated value', () => {
+    it('ui-input detail.value carries full value when exceeding maxlength', () => {
       const el = createElement();
       el.setAttribute('maxlength', '3');
       el.textContent = 'abcdef';
@@ -355,7 +337,26 @@ describe('ui-textarea', () => {
 
       el.dispatchEvent(new Event('input', { bubbles: true }));
 
-      expect(detail.value).toBe('abc');
+      expect(detail.value).toBe('abcdef');
+    });
+
+    it('does not affect value when within maxlength', () => {
+      const el = createElement();
+      el.setAttribute('maxlength', '10');
+      el.textContent = 'hi';
+
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+
+      expect(el.textContent).toBe('hi');
+    });
+
+    it('does not affect value when maxlength attribute is absent', () => {
+      const el = createElement();
+      el.textContent = 'a very long string without any limit applied here';
+
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+
+      expect(el.textContent).toBe('a very long string without any limit applied here');
     });
   });
 });

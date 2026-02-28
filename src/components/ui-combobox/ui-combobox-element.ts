@@ -40,6 +40,8 @@ export class UICombobox extends FormAssociable(UIElement) {
   #dataMode = false;
   #fetchController: AbortController | null = null;
   #listbox: HTMLElement | null = null;
+  #initialValue: string | null = null;
+  #initialLabel = '';
 
   constructor() {
     super();
@@ -177,6 +179,26 @@ export class UICombobox extends FormAssociable(UIElement) {
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     if (old === val) return;
     switch (name) {
+      case 'value':
+        if (val !== null) {
+          const opt = this.querySelector(`ui-option[value="${CSS.escape(val)}"]`);
+          const label = opt?.getAttribute('label') ?? opt?.textContent?.trim() ?? val;
+          this.#list.select(val);
+          this.#list.query.value = label;
+          // WHY: Sync input text to show selected label
+          if (this.#input && 'value' in this.#input) {
+            (this.#input as HTMLElement & { value: string }).value = label;
+          }
+        } else {
+          batch(() => {
+            this.#list.clearSelection();
+            this.#list.query.value = '';
+          });
+          if (this.#input && 'value' in this.#input) {
+            (this.#input as HTMLElement & { value: string }).value = '';
+          }
+        }
+        break;
       case 'disabled':
         this.#disabled.value = val !== null;
         break;
@@ -244,6 +266,37 @@ export class UICombobox extends FormAssociable(UIElement) {
     input?.setAttribute('aria-controls', listbox?.id ?? '');
     input?.setAttribute('aria-expanded', 'false');
 
+    // ── Data-mode-only effects (outside deferChildren — no child DOM dependency) ──
+    // WHY: These effects only read signals and operate on references captured above (#listbox,
+    // input). They must be registered outside deferChildren so they fire immediately when
+    // signals change, without waiting for the microtask that deferChildren introduces.
+
+    if (this.#dataMode) {
+      // Effect: #options signal → re-render option list
+      // WHY: #renderOptions clears and re-stamps into #listbox — no child query needed
+      this.addEffect(() => {
+        const opts = this.#options.value;
+        this.#renderOptions(opts);
+      });
+
+      // Effect: #src signal → fetch remote options
+      this.addEffect(() => {
+        const url = this.#src.value;
+        if (url) this.#fetchOptions(url);
+      });
+
+      // Effect: placeholder signal → input placeholder attribute
+      // WHY: In manual mode the input's placeholder is set by the author directly; this effect
+      // is intentionally data-mode-only. Uses `input` reference captured above, no child query.
+      this.addEffect(() => {
+        const placeholder = this.#placeholder.value;
+        if (input) {
+          if (placeholder) input.setAttribute('placeholder', placeholder);
+          else input.removeAttribute('placeholder');
+        }
+      });
+    }
+
     // Collect options into store and set up child-dependent effects
     this.deferChildren(() => {
       // WHY: In manual mode, read options from DOM. In data mode, options come from signal.
@@ -262,6 +315,8 @@ export class UICombobox extends FormAssociable(UIElement) {
         const label = opt?.getAttribute('label') ?? opt?.textContent?.trim() ?? initialValue;
         this.#list.value.value = initialValue;
         this.#list.query.value = label;
+        this.#initialValue = initialValue;
+        this.#initialLabel = label;
       }
 
       // Effect: filter options by query
@@ -304,31 +359,6 @@ export class UICombobox extends FormAssociable(UIElement) {
           opt.setAttribute('aria-selected', String(isSelected));
         }
       });
-
-      // ── Data-mode-only effects ──
-
-      if (this.#dataMode) {
-        // Effect: #options signal → re-render option list
-        this.addEffect(() => {
-          const opts = this.#options.value;
-          this.#renderOptions(opts);
-        });
-
-        // Effect: #src signal → fetch remote options
-        this.addEffect(() => {
-          const url = this.#src.value;
-          if (url) this.#fetchOptions(url);
-        });
-
-        // Effect: placeholder signal → input placeholder attribute
-        this.addEffect(() => {
-          const placeholder = this.#placeholder.value;
-          if (input) {
-            if (placeholder) input.setAttribute('placeholder', placeholder);
-            else input.removeAttribute('placeholder');
-          }
-        });
-      }
     });
 
     // Effect: disabled → aria-disabled + attribute + cascade to input
@@ -337,7 +367,8 @@ export class UICombobox extends FormAssociable(UIElement) {
       const val = this.#disabled.value;
       if (input) input.toggleAttribute('disabled', val);
       // WHY: Close popover when disabled to prevent stale open state
-      if (val && this.#open.value) this.#open.value = false;
+      // WHY: peek() avoids tracking open signal — this effect should only re-run on disabled change
+      if (val && this.#open.peek()) this.#open.value = false;
     });
 
     // Validity: required constraint
@@ -504,13 +535,24 @@ export class UICombobox extends FormAssociable(UIElement) {
 
   override onFormReset(): void {
     batch(() => {
-      this.#list.clearSelection();
-      this.#list.query.value = '';
+      if (this.#initialValue !== null) {
+        this.#list.select(this.#initialValue);
+        this.#list.query.value = this.#initialLabel;
+      } else {
+        this.#list.clearSelection();
+        this.#list.query.value = '';
+      }
       this.#list.activeIndex.value = -1;
       this.#open.value = false;
     });
     const input = this.querySelector<HTMLElement & { value: string }>(':scope > ui-input');
-    if (input) input.value = '';
+    if (input) input.value = this.#initialLabel;
+  }
+
+  override onFormStateRestore(state: string | FormData | null): void {
+    if (typeof state === 'string' && state) {
+      this.value = state;
+    }
   }
 
   override onFormDisabled(disabled: boolean): void {

@@ -109,11 +109,13 @@
 
   /* ── Active (dragging) ── */
 
-  :where(ui-range)[pressed]::after {
+  :where(ui-range)[pressed]::after,
+  :where(ui-range)[force-active]::after {
     background: var(--_surface-active);
   }
 
-  :where(ui-range)[pressed] > :where(.ui-range-thumb) {
+  :where(ui-range)[pressed] > :where(.ui-range-thumb),
+  :where(ui-range)[force-active] > :where(.ui-range-thumb) {
     border-color: var(--_surface-active);
     box-shadow: var(--ui-shadow-sm), 0 0 0 6px var(--_surface);
   }

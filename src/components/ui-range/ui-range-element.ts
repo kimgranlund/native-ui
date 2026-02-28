@@ -10,15 +10,17 @@ import { FormAssociable } from '../../core/form-associable.ts';
  * @attr {number} max - Maximum value (default 100)
  * @attr {number} step - Step increment (default 1)
  * @attr {boolean} disabled - Disables interaction
+ * @attr {boolean} required - Marks as required for form validation
  * @attr {string} name - Form field name
  * @fires ui-input - Fired continuously during drag with `{ value }` detail
  * @fires ui-change - Fired on drag end or keyboard change with `{ value }` detail
  */
 export class UIRange extends FormAssociable(UIElement) {
-  static observedAttributes = ['value', 'min', 'max', 'step', 'disabled', 'name'];
+  static observedAttributes = ['value', 'min', 'max', 'step', 'disabled', 'name', 'required'];
 
   #internals: ElementInternals;
   #disabled = signal(false);
+  #required = signal(false);
   #value = signal(50);
   #initialValue = 50;
   #min = signal(0);
@@ -38,23 +40,31 @@ export class UIRange extends FormAssociable(UIElement) {
   get value(): number { return this.#value.value; }
   set value(val: number) {
     this.#value.value = this.#clamp(val);
-    this.#syncFormValue();
   }
 
   // ── Min ──
 
   get min(): number { return this.#min.value; }
-  set min(val: number) { this.#min.value = val; }
+  set min(val: number) {
+    this.#min.value = val;
+    this.setAttribute('min', String(val));
+  }
 
   // ── Max ──
 
   get max(): number { return this.#max.value; }
-  set max(val: number) { this.#max.value = val; }
+  set max(val: number) {
+    this.#max.value = val;
+    this.setAttribute('max', String(val));
+  }
 
   // ── Step ──
 
   get step(): number { return this.#step.value; }
-  set step(val: number) { this.#step.value = val; }
+  set step(val: number) {
+    this.#step.value = val;
+    this.setAttribute('step', String(val));
+  }
 
   // ── Disabled ──
 
@@ -62,6 +72,14 @@ export class UIRange extends FormAssociable(UIElement) {
   set disabled(val: boolean) {
     this.#disabled.value = val;
     this.toggleAttribute('disabled', val);
+  }
+
+  // ── Required ──
+
+  get required(): boolean { return this.#required.value; }
+  set required(val: boolean) {
+    this.#required.value = val;
+    this.toggleAttribute('required', val);
   }
 
   // ── Name ──
@@ -89,6 +107,9 @@ export class UIRange extends FormAssociable(UIElement) {
       case 'disabled':
         this.#disabled.value = val !== null;
         break;
+      case 'required':
+        this.#required.value = val !== null;
+        break;
     }
     super.attributeChangedCallback(name, old, val);
   }
@@ -108,16 +129,20 @@ export class UIRange extends FormAssociable(UIElement) {
 
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals, { manageTabindex: true }));
 
-    // Effect: sync progress CSS custom property + ARIA
+    // WHY: Sync initial required signal from attribute (attributeChangedCallback fires before setup)
+    this.#required.value = this.hasAttribute('required');
+
+    // Effect: sync progress CSS custom property + ARIA + form value
     this.addEffect(() => {
+      const val = this.#value.value;
       const progress = this.#getProgress();
       this.style.setProperty('--_progress', String(progress));
-      this.#internals.ariaValueNow = String(this.#value.value);
-      this.#internals.ariaValueMin = String(this.#min.value);
-      this.#internals.ariaValueMax = String(this.#max.value);
+      // WHY: setAttribute (not internals.ariaValueX) so AT reads DOM attributes
+      this.setAttribute('aria-valuenow', String(val));
+      this.setAttribute('aria-valuemin', String(this.#min.value));
+      this.setAttribute('aria-valuemax', String(this.#max.value));
+      this.#internals.setFormValue(String(val));
     });
-
-    this.#syncFormValue();
 
     this.addEventListener('pointerdown', this.#onPointerDown);
     this.addEventListener('keydown', this.#onKeyDown);
@@ -141,7 +166,13 @@ export class UIRange extends FormAssociable(UIElement) {
 
   override onFormReset(): void {
     this.#value.value = this.#initialValue;
-    this.#syncFormValue();
+  }
+
+  override onFormStateRestore(state: string | FormData | null): void {
+    if (typeof state === 'string') {
+      const num = parseFloat(state);
+      if (!isNaN(num)) this.value = num;
+    }
   }
 
   // ── Helpers ──
@@ -159,10 +190,6 @@ export class UIRange extends FormAssociable(UIElement) {
     const range = this.#max.value - this.#min.value;
     if (range === 0) return 0;
     return (this.#value.value - this.#min.value) / range;
-  }
-
-  #syncFormValue(): void {
-    this.#internals.setFormValue(String(this.#value.value));
   }
 
   #valueFromPointer(e: PointerEvent): number {
@@ -188,7 +215,6 @@ export class UIRange extends FormAssociable(UIElement) {
 
     const val = this.#clamp(this.#valueFromPointer(e));
     this.#value.value = val;
-    this.#syncFormValue();
     this.#dispatchInput();
 
     this.addEventListener('pointermove', this.#onPointerMove);
@@ -201,7 +227,7 @@ export class UIRange extends FormAssociable(UIElement) {
     const val = this.#clamp(this.#valueFromPointer(e));
     if (val !== this.#value.value) {
       this.#value.value = val;
-      this.#syncFormValue();
+
       this.#dispatchInput();
     }
   };
@@ -260,7 +286,7 @@ export class UIRange extends FormAssociable(UIElement) {
     val = this.#clamp(val);
     if (val !== this.#value.value) {
       this.#value.value = val;
-      this.#syncFormValue();
+
       this.#dispatchInput();
       this.#dispatchChange();
     }

@@ -58,18 +58,18 @@ describe('Hoverable — instant (no delay)', () => {
     expect(el.hasAttribute('hovered')).toBe(false);
   });
 
-  it('dispatches ui-hover-enter event', () => {
+  it('dispatches ui-hover-start event', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-hover-enter', handler);
+    el.addEventListener('ui-hover-start', handler);
     el.dispatchEvent(new PointerEvent('pointerenter', { bubbles: true }));
     expect(handler).toHaveBeenCalledTimes(1);
   });
 
-  it('dispatches ui-hover-leave event', () => {
+  it('dispatches ui-hover-end event', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-hover-leave', handler);
+    el.addEventListener('ui-hover-end', handler);
     el.dispatchEvent(new PointerEvent('pointerenter', { bubbles: true }));
     el.dispatchEvent(new PointerEvent('pointerleave', { bubbles: true }));
     expect(handler).toHaveBeenCalledTimes(1);
@@ -79,7 +79,7 @@ describe('Hoverable — instant (no delay)', () => {
     const el = create();
     el.hoverDisabled = true;
     const handler = vi.fn();
-    el.addEventListener('ui-hover-enter', handler);
+    el.addEventListener('ui-hover-start', handler);
     el.dispatchEvent(new PointerEvent('pointerenter', { bubbles: true }));
     expect(el.hasAttribute('hovered')).toBe(false);
     expect(handler).not.toHaveBeenCalled();
@@ -102,7 +102,7 @@ describe('Hoverable — with delays', () => {
     const el = create();
     el.hoverDelay = 200;
     const handler = vi.fn();
-    el.addEventListener('ui-hover-enter', handler);
+    el.addEventListener('ui-hover-start', handler);
     el.dispatchEvent(new PointerEvent('pointerenter', { bubbles: true }));
     vi.advanceTimersByTime(100);
     el.dispatchEvent(new PointerEvent('pointerleave', { bubbles: true }));
@@ -127,7 +127,7 @@ describe('Hoverable — with delays', () => {
     const el = create();
     el.hoverLeaveDelay = 300;
     const handler = vi.fn();
-    el.addEventListener('ui-hover-leave', handler);
+    el.addEventListener('ui-hover-end', handler);
     el.dispatchEvent(new PointerEvent('pointerenter', { bubbles: true }));
     el.dispatchEvent(new PointerEvent('pointerleave', { bubbles: true }));
     vi.advanceTimersByTime(100);
@@ -151,7 +151,7 @@ describe('Hoverable — teardown', () => {
     const el = create();
     el.teardown();
     const handler = vi.fn();
-    el.addEventListener('ui-hover-enter', handler);
+    el.addEventListener('ui-hover-start', handler);
     el.dispatchEvent(new PointerEvent('pointerenter', { bubbles: true }));
     expect(handler).not.toHaveBeenCalled();
   });

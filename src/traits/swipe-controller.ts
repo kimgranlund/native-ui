@@ -114,9 +114,22 @@ export class SwipeController {
       this.#distance = dist;
       this.#velocity = vel;
 
+      // WHY: Clear any pending timer and remove stale swipe-* attribute from a previous swipe
+      // before setting the new one — prevents orphaned attributes on rapid double-swipes.
+      if (this.#attrTimer !== null) {
+        clearTimeout(this.#attrTimer);
+        this.#attrTimer = null;
+        for (const attr of ['swipe-left', 'swipe-right', 'swipe-up', 'swipe-down']) {
+          this.host.removeAttribute(attr);
+        }
+      }
+
       // Set direction attribute briefly
       this.host.setAttribute(`swipe-${dir}`, '');
-      this.#attrTimer = setTimeout(() => this.host.removeAttribute(`swipe-${dir}`), 300);
+      this.#attrTimer = setTimeout(() => {
+        this.host.removeAttribute(`swipe-${dir}`);
+        this.#attrTimer = null;
+      }, 300);
 
       this.host.dispatchEvent(new CustomEvent('ui-swipe', {
         bubbles: true,

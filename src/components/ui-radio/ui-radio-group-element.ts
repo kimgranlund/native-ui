@@ -116,6 +116,13 @@ export class UIRadioGroup extends FormAssociable(UIElement) {
 
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals));
 
+    // WHY: Cascade disabled to child ui-radio elements so they become inert
+    this.addEffect(() => {
+      const disabled = this.#disabled.value;
+      const radios = this.querySelectorAll<HTMLElement>('ui-radio');
+      for (const radio of radios) radio.toggleAttribute('disabled', disabled);
+    });
+
     if (__DEV__) {
       this.deferChildren(() => {
         if (!this.querySelector('ui-radio')) console.warn('[ui-radio-group] No <ui-radio> descendants found.');
@@ -124,7 +131,9 @@ export class UIRadioGroup extends FormAssociable(UIElement) {
 
     this.addEffect(() => {
       const required = this.#required.value;
-      this.#internals.ariaRequired = required ? 'true' : null;
+      // WHY: setAttribute instead of internals.ariaRequired — DOM attribute needed for CSS/AT
+      if (required) this.setAttribute('aria-required', 'true');
+      else this.removeAttribute('aria-required');
     });
 
     // WHY: Form value synced from selection
@@ -163,6 +172,12 @@ export class UIRadioGroup extends FormAssociable(UIElement) {
       this.setAttribute('value', this.#initialValue);
     } else {
       this.removeAttribute('value');
+    }
+  }
+
+  override onFormStateRestore(state: string | FormData | null): void {
+    if (typeof state === 'string' && state) {
+      this.value = state;
     }
   }
 }

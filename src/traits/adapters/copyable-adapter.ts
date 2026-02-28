@@ -12,6 +12,10 @@ export const copyableAdapter: TraitAdapter<CopyController> = {
   destroy(instance) { instance.destroy(); },
   update(instance, options) {
     if ('value' in options) instance.value = options['value'];
-    if ('feedback-duration' in options) instance.feedbackDuration = Number(options['feedback-duration']);
+    if ('feedback-duration' in options) {
+      const val = options['feedback-duration'];
+      const n = Number(val);
+      if (val !== '' && !isNaN(n)) instance.feedbackDuration = n;
+    }
   },
 };

@@ -64,22 +64,22 @@
 
   :where(ui-tooltip[placement="top"]) {
     position-area: block-start;
-    margin-bottom: calc(var(--_space) * 2);
+    margin-block-end: calc(var(--_space) * 2);
   }
 
   :where(ui-tooltip[placement="bottom"]) {
     position-area: block-end;
-    margin-top: calc(var(--_space) * 2);
+    margin-block-start: calc(var(--_space) * 2);
   }
 
   :where(ui-tooltip[placement="left"]) {
     position-area: inline-start;
-    margin-right: calc(var(--_space) * 2);
+    margin-inline-end: calc(var(--_space) * 2);
   }
 
   :where(ui-tooltip[placement="right"]) {
     position-area: inline-end;
-    margin-left: calc(var(--_space) * 2);
+    margin-inline-start: calc(var(--_space) * 2);
   }
 
   /* ── Hidden (not :popover-open) ── */

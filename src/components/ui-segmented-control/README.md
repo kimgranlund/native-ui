@@ -42,8 +42,8 @@ Public `--ui-*` custom properties consumed by this component:
 
 | Attribute | Type | Description |
 |-----------|------|-------------|
-| `value` | `string` | Segment value emitted on selection |
 | `disabled` | `boolean` | Disables this segment |
+| `value` | `string` | Segment value emitted on selection |
 
 ### Properties
 

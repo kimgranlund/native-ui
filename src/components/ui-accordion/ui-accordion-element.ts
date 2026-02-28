@@ -32,8 +32,19 @@ export class UIAccordion extends UIElement {
 
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     if (old === val) return;
-    if (name === 'disabled') {
-      this.#disabled.value = val !== null;
+    switch (name) {
+      case 'disabled':
+        this.#disabled.value = val !== null;
+        break;
+      case 'multiple':
+        // WHY: When switching from multiple to single, close all but the first open item
+        if (val === null && this.isConnected) {
+          const openItems = [...this.querySelectorAll<HTMLElement & { open: boolean }>(':scope > ui-accordion-item[open]')];
+          for (let i = 1; i < openItems.length; i++) {
+            openItems[i].open = false;
+          }
+        }
+        break;
     }
     super.attributeChangedCallback?.(name, old, val);
   }

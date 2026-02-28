@@ -4,7 +4,7 @@ export interface DropZoneOptions {
   multiple?: boolean;
 }
 
-/** Handles native drag-and-drop file/data reception, dispatching `ui-drop-enter`, `ui-drop-leave`, and `ui-drop`. */
+/** Handles native drag-and-drop file/data reception, dispatching `ui-drop-enter`, `ui-drop-leave`, and `ui-drop` events. */
 export class DropZoneController {
   readonly host: HTMLElement;
   accept: string;
@@ -59,12 +59,19 @@ export class DropZoneController {
     if (this.disabled || !e.dataTransfer) return;
     e.preventDefault();
     this.#dragCounter++;
-    if (this.#matchesMime(e.dataTransfer)) {
+    const valid = this.#matchesMime(e.dataTransfer);
+    if (valid) {
       this.host.toggleAttribute('drop-active', true);
       this.host.removeAttribute('drop-invalid');
     } else {
       this.host.toggleAttribute('drop-invalid', true);
       this.host.removeAttribute('drop-active');
+    }
+    if (this.#dragCounter === 1) {
+      this.host.dispatchEvent(new CustomEvent('ui-drop-enter', {
+        bubbles: true, composed: true,
+        detail: { valid },
+      }));
     }
   };
 
@@ -80,6 +87,9 @@ export class DropZoneController {
       this.#dragCounter = 0;
       this.host.removeAttribute('drop-active');
       this.host.removeAttribute('drop-invalid');
+      this.host.dispatchEvent(new CustomEvent('ui-drop-leave', {
+        bubbles: true, composed: true,
+      }));
     }
   };
 
@@ -95,9 +105,9 @@ export class DropZoneController {
     if (e.dataTransfer.files.length > 0) {
       let files = Array.from(e.dataTransfer.files);
       if (!this.multiple) files = files.slice(0, 1);
-      this.host.dispatchEvent(new CustomEvent('ui-file-drop', {
+      this.host.dispatchEvent(new CustomEvent('ui-drop', {
         bubbles: true, composed: true,
-        detail: { files, dataTransfer: e.dataTransfer },
+        detail: { type: 'file', files, dataTransfer: e.dataTransfer },
       }));
       return;
     }
@@ -105,9 +115,9 @@ export class DropZoneController {
     // Text drop
     const text = e.dataTransfer.getData('text/plain');
     if (text) {
-      this.host.dispatchEvent(new CustomEvent('ui-text-drop', {
+      this.host.dispatchEvent(new CustomEvent('ui-drop', {
         bubbles: true, composed: true,
-        detail: { text },
+        detail: { type: 'text', text },
       }));
     }
   };

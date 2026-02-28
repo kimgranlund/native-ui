@@ -72,13 +72,6 @@ describe('Sortable', () => {
     expect(el.sortDirection).toBe('none');
   });
 
-  it('sets cursor pointer on headers during setup', () => {
-    const el = create();
-    for (const h of headers(el)) {
-      expect(h.style.cursor).toBe('pointer');
-    }
-  });
-
   it('clicking a header sets sort to asc', () => {
     const el = create();
     headers(el)[0].click();

@@ -5,12 +5,15 @@ export interface ValidationRule {
 
 export interface ValidateOptions {
   rules?: ValidationRule[];
+  /** When provided, bridges to the Constraint Validation API via `setValidity()`. */
+  internals?: ElementInternals;
 }
 
 /** Runs validation rules against a value and dispatches `ui-valid` or `ui-invalid` events. */
 export class ValidateController {
   readonly host: HTMLElement;
   rules: ValidationRule[];
+  #internals: ElementInternals | null;
 
   #valid = true;
   #errorMessage = '';
@@ -18,6 +21,7 @@ export class ValidateController {
   constructor(host: HTMLElement, options: ValidateOptions = {}) {
     this.host = host;
     this.rules = options.rules ?? [];
+    this.#internals = options.internals ?? null;
   }
 
   get valid(): boolean { return this.#valid; }
@@ -33,6 +37,8 @@ export class ValidateController {
         this.#errorMessage = rule.message;
         this.host.setAttribute('invalid', '');
         this.host.setAttribute('aria-invalid', 'true');
+        // WHY: Bridge to Constraint Validation API so form.checkValidity() aggregates errors
+        this.#internals?.setValidity({ customError: true }, rule.message, this.host);
         this.host.dispatchEvent(new CustomEvent('ui-invalid', {
           bubbles: true,
           composed: true,
@@ -46,6 +52,7 @@ export class ValidateController {
     this.#errorMessage = '';
     this.host.removeAttribute('invalid');
     this.host.removeAttribute('aria-invalid');
+    this.#internals?.setValidity({});
     this.host.dispatchEvent(new CustomEvent('ui-valid', {
       bubbles: true,
       composed: true,
@@ -59,6 +66,7 @@ export class ValidateController {
     this.#errorMessage = '';
     this.host.removeAttribute('invalid');
     this.host.removeAttribute('aria-invalid');
+    this.#internals?.setValidity({});
   }
 
   destroy(): void {

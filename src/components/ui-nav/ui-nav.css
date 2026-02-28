@@ -57,10 +57,6 @@
     color: var(--_ink-hover);
   }
 
-  :where(ui-nav-item)[active] {
-    color: var(--_ink-hover);
-  }
-
   :where(ui-nav-item):active,
   :where(ui-nav-item)[force-active] {
     color: var(--_ink-active);
@@ -288,7 +284,8 @@
     position: fixed;
     position-area: inline-end span-block-end;
     position-try-fallbacks: --nav-flyout-flip-up;
-    margin: 0 0 0 var(--ui-popover-gap);
+    margin: 0;
+    margin-inline-start: var(--ui-popover-gap);
     min-width: 200px;
     max-height: var(--ui-popover-max-height);
     overflow-y: auto;

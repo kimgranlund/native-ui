@@ -1357,8 +1357,8 @@ trigger.addEventListener('click', () =&gt; {
 
       const injectHoverLog = document.getElementById('inject-hover-log');
       for (const el of document.querySelectorAll('inject-demo[traits*="hoverable"]:not([traits*="pressable"])')) {
-        el.addEventListener('ui-hover-enter', () => appendLog(injectHoverLog, `Enter: "${el.textContent.trim()}"`));
-        el.addEventListener('ui-hover-leave', () => appendLog(injectHoverLog, `Leave: "${el.textContent.trim()}"`));
+        el.addEventListener('ui-hover-start', () => appendLog(injectHoverLog, `Enter: "${el.textContent.trim()}"`));
+        el.addEventListener('ui-hover-end', () => appendLog(injectHoverLog, `Leave: "${el.textContent.trim()}"`));
       }
 
       // ── Pressable + multi log ──
@@ -1367,8 +1367,8 @@ trigger.addEventListener('click', () =&gt; {
       for (const el of document.querySelectorAll('#inject-press-log').values()) break; // skip
       document.querySelectorAll('inject-demo[traits="pressable"], inject-demo[traits="hoverable pressable"]').forEach((el) => {
         el.addEventListener('ui-press', () => appendLog(injectPressLog, `Press: "${el.textContent.trim()}"`));
-        el.addEventListener('ui-hover-enter', () => appendLog(injectPressLog, `Hover: "${el.textContent.trim()}"`));
-        el.addEventListener('ui-hover-leave', () => appendLog(injectPressLog, `Leave: "${el.textContent.trim()}"`));
+        el.addEventListener('ui-hover-start', () => appendLog(injectPressLog, `Hover: "${el.textContent.trim()}"`));
+        el.addEventListener('ui-hover-end', () => appendLog(injectPressLog, `Leave: "${el.textContent.trim()}"`));
       });
 
       // ── Runtime access ──
@@ -1376,8 +1376,8 @@ trigger.addEventListener('click', () =&gt; {
       const runtimeEl = document.getElementById('runtime-ctrl');
       const runtimeLog = document.getElementById('inject-runtime-log');
 
-      runtimeEl.addEventListener('ui-hover-enter', () => appendLog(runtimeLog, 'Hover enter'));
-      runtimeEl.addEventListener('ui-hover-leave', () => appendLog(runtimeLog, 'Hover leave'));
+      runtimeEl.addEventListener('ui-hover-start', () => appendLog(runtimeLog, 'Hover enter'));
+      runtimeEl.addEventListener('ui-hover-end', () => appendLog(runtimeLog, 'Hover leave'));
 
       document.getElementById('set-delay-btn').addEventListener('ui-press', () => {
         const hover = runtimeEl.getTraitController('hoverable');
@@ -1445,16 +1445,16 @@ trigger.addEventListener('click', () =&gt; {
       const wrapperLog = document.getElementById('wrapper-log');
       const wrapperCard = document.querySelector('ui-controller[traits="hoverable"][hoverable-delay="200"] > .demo-card');
       if (wrapperCard) {
-        wrapperCard.addEventListener('ui-hover-enter', () => appendLog(wrapperLog, 'Hover enter'));
-        wrapperCard.addEventListener('ui-hover-leave', () => appendLog(wrapperLog, 'Hover leave'));
+        wrapperCard.addEventListener('ui-hover-start', () => appendLog(wrapperLog, 'Hover enter'));
+        wrapperCard.addEventListener('ui-hover-end', () => appendLog(wrapperLog, 'Hover leave'));
       }
 
       // ── Selector hoverable ──
 
       const selectorHoverLog = document.getElementById('selector-hover-log');
       for (const card of document.querySelectorAll('.card.demo-card')) {
-        card.addEventListener('ui-hover-enter', () => appendLog(selectorHoverLog, `Enter: "${card.textContent.trim()}"`));
-        card.addEventListener('ui-hover-leave', () => appendLog(selectorHoverLog, `Leave: "${card.textContent.trim()}"`));
+        card.addEventListener('ui-hover-start', () => appendLog(selectorHoverLog, `Enter: "${card.textContent.trim()}"`));
+        card.addEventListener('ui-hover-end', () => appendLog(selectorHoverLog, `Leave: "${card.textContent.trim()}"`));
       }
 
       // ── Dynamic children ──
@@ -1471,7 +1471,7 @@ trigger.addEventListener('click', () =&gt; {
         item.textContent = `Item ${itemCounter}`;
         dynamicList.appendChild(item);
         appendLog(dynamicLog, `Added "Item ${itemCounter}" — traits auto-wired`);
-        item.addEventListener('ui-hover-enter', () => appendLog(dynamicLog, `Hover: "${item.textContent}"`));
+        item.addEventListener('ui-hover-start', () => appendLog(dynamicLog, `Hover: "${item.textContent}"`));
         item.addEventListener('ui-press', () => appendLog(dynamicLog, `Press: "${item.textContent}"`));
       });
 
@@ -1608,8 +1608,8 @@ trigger.addEventListener('click', () =&gt; {
 
       const multiProviderLog = document.getElementById('multi-provider-log');
       for (const el of document.querySelectorAll('.multi-target')) {
-        el.addEventListener('ui-hover-enter', () => appendLog(multiProviderLog, `Hover: "${el.textContent.trim()}"`));
-        el.addEventListener('ui-hover-leave', () => appendLog(multiProviderLog, `Leave: "${el.textContent.trim()}"`));
+        el.addEventListener('ui-hover-start', () => appendLog(multiProviderLog, `Hover: "${el.textContent.trim()}"`));
+        el.addEventListener('ui-hover-end', () => appendLog(multiProviderLog, `Leave: "${el.textContent.trim()}"`));
         el.addEventListener('ui-press', () => appendLog(multiProviderLog, `Press: "${el.textContent.trim()}"`));
       }
     </script>

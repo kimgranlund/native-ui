@@ -1,8 +1,7 @@
 import { signal } from '../../reactivity/signal.ts';
+import { batch } from '../../reactivity/batch.ts';
 import type { Signal } from '../../reactivity/types.ts';
 import type { SortDirection } from '../../traits/sort-controller.ts';
-
-export type { SortDirection };
 
 export interface TableStoreOptions {
   sortColumn?: string;
@@ -24,17 +23,19 @@ export class TableStore {
   }
 
   toggleSort(column: string): void {
-    if (this.sortColumn.value === column) {
-      // WHY: Cycle through asc → desc → none
-      const dir = this.sortDirection.value;
-      this.sortDirection.value = dir === 'asc' ? 'desc' : dir === 'desc' ? 'none' : 'asc';
-      if (this.sortDirection.value === 'none') {
-        this.sortColumn.value = null;
+    batch(() => {
+      if (this.sortColumn.value === column) {
+        // WHY: Cycle through asc → desc → none
+        const dir = this.sortDirection.value;
+        this.sortDirection.value = dir === 'asc' ? 'desc' : dir === 'desc' ? 'none' : 'asc';
+        if (this.sortDirection.value === 'none') {
+          this.sortColumn.value = null;
+        }
+      } else {
+        this.sortColumn.value = column;
+        this.sortDirection.value = 'asc';
       }
-    } else {
-      this.sortColumn.value = column;
-      this.sortDirection.value = 'asc';
-    }
+    });
   }
 
   select(rowValue: string): void {

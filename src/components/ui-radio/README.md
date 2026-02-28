@@ -10,8 +10,8 @@
 
 | Attribute | Type | Description |
 |-----------|------|-------------|
-| `value` | `string` | Radio value emitted on selection |
 | `disabled` | `boolean` | Disables this radio |
+| `value` | `string` | Radio value emitted on selection |
 
 ## Properties
 

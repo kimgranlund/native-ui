@@ -103,6 +103,17 @@ export class UISlideshow extends UIElement {
         if (val !== null) this.#startAutoplay();
         else this.#stopAutoplay();
         break;
+      case 'interval':
+        // WHY: Restart autoplay with new interval if currently running
+        if (this.hasAttribute('autoplay')) {
+          this.#stopAutoplay();
+          this.#startAutoplay();
+        }
+        break;
+      case 'loop':
+        // WHY: Update prev/next button disabled states when loop changes
+        this.#syncControls(this.#activeIndex.value, this.#slideCount.value);
+        break;
     }
     super.attributeChangedCallback?.(name, old, val);
   }

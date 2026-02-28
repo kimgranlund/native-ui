@@ -137,13 +137,16 @@
 
   /* ── Active (pressed) ── */
 
-  :where(ui-checkbox)[pressed]::before {
+  :where(ui-checkbox)[pressed]::before,
+  :where(ui-checkbox)[force-active]::before {
     background: var(--_background-active, var(--_widget-active));
     border-color: var(--_border-color-active, var(--_border-active));
   }
 
   :where(ui-checkbox)[aria-checked="true"][pressed]::before,
-  :where(ui-checkbox)[aria-checked="mixed"][pressed]::before {
+  :where(ui-checkbox)[aria-checked="mixed"][pressed]::before,
+  :where(ui-checkbox)[aria-checked="true"][force-active]::before,
+  :where(ui-checkbox)[aria-checked="mixed"][force-active]::before {
     background: var(--_surface-active);
     border-color: var(--_surface-active);
   }

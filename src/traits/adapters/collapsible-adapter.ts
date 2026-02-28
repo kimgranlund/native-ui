@@ -10,6 +10,10 @@ export const collapsibleAdapter: TraitAdapter<CollapsibleController> = {
   },
   destroy(instance) { instance.destroy(); },
   update(instance, options) {
-    if ('duration' in options) instance.duration = Number(options['duration']);
+    if ('duration' in options) {
+      const val = options['duration'];
+      const n = Number(val);
+      if (val !== '' && !isNaN(n)) instance.duration = n;
+    }
   },
 };

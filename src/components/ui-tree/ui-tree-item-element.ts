@@ -22,6 +22,18 @@ export class UITreeItem extends UIElement {
     this.#internals.role = 'treeitem';
   }
 
+  get expanded(): boolean { return this.hasAttribute('expanded'); }
+  set expanded(val: boolean) {
+    this.toggleAttribute('expanded', val);
+    if (this.isConnected) this.#syncState();
+  }
+
+  get selected(): boolean { return this.hasAttribute('selected'); }
+  set selected(val: boolean) {
+    this.toggleAttribute('selected', val);
+    if (this.isConnected) this.#syncState();
+  }
+
   get disabled(): boolean { return this.#disabled.value; }
   set disabled(val: boolean) {
     this.#disabled.value = val;

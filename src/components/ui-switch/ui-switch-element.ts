@@ -11,14 +11,16 @@ import { FormAssociable } from '../../core/form-associable.ts';
  * @attr {boolean} disabled - Disables interaction
  * @attr {string} name - Form field name
  * @attr {string} value - Form value when checked (defaults to "on")
+ * @attr {boolean} required - Marks as required for form validation
  * @fires ui-change - Fired on toggle with `{ checked, value }` detail
  */
 export class UISwitch extends FormAssociable(UIElement) {
-  static observedAttributes = ['checked', 'disabled', 'name', 'value'];
+  static observedAttributes = ['checked', 'disabled', 'name', 'value', 'required'];
 
   #internals: ElementInternals;
   #checked: ReactiveProp<boolean>;
   #disabled: ReactiveProp<boolean>;
+  #required: ReactiveProp<boolean>;
   #initialChecked = false;
   #press!: PressController;
 
@@ -28,6 +30,7 @@ export class UISwitch extends FormAssociable(UIElement) {
     this.#internals.role = 'switch';
     this.#checked = prop(this, 'checked', { type: 'boolean' });
     this.#disabled = prop(this, 'disabled', { type: 'boolean' });
+    this.#required = prop(this, 'required', { type: 'boolean' });
   }
 
   get checked(): boolean { return this.#checked.value; }
@@ -42,9 +45,12 @@ export class UISwitch extends FormAssociable(UIElement) {
   get value(): string { return this.getAttribute('value') ?? 'on'; }
   set value(val: string) { this.setAttribute('value', val); }
 
+  get required(): boolean { return this.#required.value; }
+  set required(val: boolean) { this.#required.set(val); }
+
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     if (old === val) return;
-    syncProp({ checked: this.#checked, disabled: this.#disabled }, name, val);
+    syncProp({ checked: this.#checked, disabled: this.#disabled, required: this.#required }, name, val);
     super.attributeChangedCallback?.(name, old, val);
   }
 
@@ -65,6 +71,19 @@ export class UISwitch extends FormAssociable(UIElement) {
       this.#internals.setFormValue(checked ? this.value : null);
     });
 
+    // Constraint validation: report valueMissing when required and not checked
+    this.addEffect(() => {
+      if (this.#required.value && !this.#checked.value) {
+        this.#internals.setValidity(
+          { valueMissing: true },
+          'Please toggle this switch.',
+          this,
+        );
+      } else {
+        this.#internals.setValidity({});
+      }
+    });
+
     this.addEventListener('ui-press', this.#onPress);
   }
 
@@ -80,6 +99,10 @@ export class UISwitch extends FormAssociable(UIElement) {
 
   override onFormReset(): void {
     this.#checked.set(this.#initialChecked);
+  }
+
+  override onFormStateRestore(state: string | FormData | null): void {
+    this.checked = typeof state === 'string' && state === this.value;
   }
 
   #onPress = (): void => {

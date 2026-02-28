@@ -67,7 +67,7 @@ export { UITableRow } from './components/ui-table/ui-table-row-element.ts';
 export { UITableCell } from './components/ui-table/ui-table-cell-element.ts';
 export { UITableHeader } from './components/ui-table/ui-table-header-element.ts';
 export { TableStore, createTableStore } from './components/ui-table/table-store.ts';
-export type { SortDirection, TableStoreOptions } from './components/ui-table/table-store.ts';
+export type { TableStoreOptions } from './components/ui-table/table-store.ts';
 export { ColumnResizeController } from './components/ui-table/column-resize-controller.ts';
 export type { ColumnResizeOptions } from './components/ui-table/column-resize-controller.ts';
 export { UICalendar } from './components/ui-calendar/ui-calendar-element.ts';

@@ -30,7 +30,8 @@
   }
 
   :where(ui-dialog) > :where(dialog)::backdrop {
-    background: var(--ui-backdrop-color) / var(--ui-backdrop-opacity);
+    background: var(--ui-backdrop-color);
+    opacity: var(--ui-backdrop-opacity);
   }
 
 }

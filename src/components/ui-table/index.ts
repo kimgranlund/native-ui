@@ -8,6 +8,6 @@ export { UITableHead } from './ui-table-head-element.ts';
 export { UITableBody } from './ui-table-body-element.ts';
 export { UITable } from './ui-table-element.ts';
 export { TableStore, createTableStore } from './table-store.ts';
-export type { SortDirection, TableStoreOptions } from './table-store.ts';
+export type { TableStoreOptions } from './table-store.ts';
 export { ColumnResizeController } from './column-resize-controller.ts';
 export type { ColumnResizeOptions } from './column-resize-controller.ts';

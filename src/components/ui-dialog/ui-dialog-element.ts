@@ -8,7 +8,6 @@ import { DialogController } from '../../traits/dialog-controller.ts';
  * @fires close - Fired when the dialog is closed
  */
 export class UIDialog extends UIElement {
-  static observedAttributes = ['no-close-on-escape', 'no-close-on-backdrop'];
 
   #dialog!: DialogController;
 

@@ -292,11 +292,13 @@ describe('ui-dialog', () => {
     expect(dialog).not.toBeNull();
   });
 
-  it('observedAttributes includes opt-out attributes', () => {
+  it('opt-out attributes are read at event time (not in observedAttributes)', () => {
+    // no-close-on-escape and no-close-on-backdrop are read via hasAttribute() when events fire,
+    // not reactively — they don't need to be in observedAttributes.
     const Ctor = customElements.get('ui-dialog')!;
     const observed = (Ctor as any).observedAttributes;
-    expect(observed).toContain('no-close-on-escape');
-    expect(observed).toContain('no-close-on-backdrop');
+    expect(observed ?? []).not.toContain('no-close-on-escape');
+    expect(observed ?? []).not.toContain('no-close-on-backdrop');
   });
 
   it('close event does not bubble', () => {

@@ -9,6 +9,7 @@ export class CollapsibleController {
 
   #animating = false;
   #fallbackTimer: ReturnType<typeof setTimeout> | null = null;
+  #rafId = 0;
 
   constructor(host: HTMLElement, options: CollapsibleOptions = {}) {
     this.host = host;
@@ -35,7 +36,7 @@ export class CollapsibleController {
     this.host.style.overflow = 'clip';
     this.host.style.height = '0px';
 
-    requestAnimationFrame(() => {
+    this.#rafId = requestAnimationFrame(() => {
       const targetHeight = this.host.scrollHeight;
       this.host.style.transition = `height ${this.duration}ms var(--ui-easing, ease)`;
       this.host.style.height = `${targetHeight}px`;
@@ -67,12 +68,14 @@ export class CollapsibleController {
     this.host.style.overflow = 'clip';
     this.host.style.height = `${currentHeight}px`;
 
-    requestAnimationFrame(() => {
+    this.#rafId = requestAnimationFrame(() => {
       this.host.style.transition = `height ${this.duration}ms var(--ui-easing, ease)`;
       this.host.style.height = '0px';
 
       const onEnd = () => {
         this.host.removeEventListener('transitionend', onEnd);
+        this.host.style.removeProperty('height');
+        this.host.style.removeProperty('overflow');
         this.host.style.removeProperty('transition');
         this.#animating = false;
         this.host.setAttribute('collapsed', '');
@@ -92,9 +95,16 @@ export class CollapsibleController {
   }
 
   destroy(): void {
+    cancelAnimationFrame(this.#rafId);
     if (this.#fallbackTimer !== null) {
       clearTimeout(this.#fallbackTimer);
       this.#fallbackTimer = null;
+    }
+    if (this.#animating) {
+      // WHY: Clean up inline styles left by interrupted animation
+      this.host.style.removeProperty('height');
+      this.host.style.removeProperty('overflow');
+      this.host.style.removeProperty('transition');
     }
     this.#animating = false;
   }

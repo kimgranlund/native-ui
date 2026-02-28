@@ -35,7 +35,6 @@ export class UICalendar extends FormAssociable(UIElement) {
     super();
     this.#internals = this.attachInternals();
     this.#internals.role = 'group';
-    this.setAttribute('tabindex', '0');
   }
 
   get store(): CalendarStore {
@@ -94,12 +93,23 @@ export class UICalendar extends FormAssociable(UIElement) {
       case 'required':
         this.#required.value = val !== null;
         break;
+      case 'range':
+        // WHY: When range mode is toggled, reset the range phase and clear any pending range state
+        this.#rangePhase = 'idle';
+        this.#store.setRange(null, null);
+        break;
+      case 'name':
+        // WHY: name is read directly via getAttribute — no signal to update.
+        // Handled by the browser's form internals via the form-associated element API.
+        break;
     }
     super.attributeChangedCallback?.(name, old, val);
   }
 
   setup(): void {
     super.setup();
+    // WHY: Moved from constructor — spec forbids setAttribute in constructor
+    if (!this.hasAttribute('tabindex')) this.setAttribute('tabindex', '0');
     this.#initialValue = this.getAttribute('value');
 
     // WHY: Initialize store from attributes — batch to avoid 3 intermediate recomputes
@@ -123,6 +133,11 @@ export class UICalendar extends FormAssociable(UIElement) {
     // WHY: Sync form value
     this.addEffect(() => {
       this.#internals.setFormValue(this.#store.value.value);
+    });
+
+    // WHY: Label the calendar group with current title (month/year) for screen readers
+    this.addEffect(() => {
+      this.setAttribute('aria-label', this.#store.title.value);
     });
 
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals, { manageTabindex: true }));
@@ -160,6 +175,12 @@ export class UICalendar extends FormAssociable(UIElement) {
       this.setAttribute('value', this.#initialValue);
     } else {
       this.removeAttribute('value');
+    }
+  }
+
+  override onFormStateRestore(state: string | FormData | null): void {
+    if (typeof state === 'string' && state) {
+      this.value = state;
     }
   }
 
@@ -296,8 +317,10 @@ export class UICalendar extends FormAssociable(UIElement) {
       // selecting → click commits end, enter "committed" phase
       // committed → click clears everything, back to "idle"
       if (this.#rangePhase === 'idle') {
-        this.#store.selectDate(iso);
-        this.#store.setRange(iso, null);
+        batch(() => {
+          this.#store.selectDate(iso);
+          this.#store.setRange(iso, null);
+        });
         this.setAttribute('value', iso);
         this.#rangePhase = 'selecting';
       } else if (this.#rangePhase === 'selecting') {
@@ -312,8 +335,10 @@ export class UICalendar extends FormAssociable(UIElement) {
         }));
       } else {
         // committed → clear everything
-        this.#store.value.value = null;
-        this.#store.setRange(null, null);
+        batch(() => {
+          this.#store.value.value = null;
+          this.#store.setRange(null, null);
+        });
         this.removeAttribute('value');
         this.#rangePhase = 'idle';
       }

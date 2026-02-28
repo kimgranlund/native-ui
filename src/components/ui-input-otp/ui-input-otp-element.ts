@@ -26,6 +26,8 @@ export class UIInputOtp extends FormAssociable(UIElement) {
   #value: string[] = [];
   #length = 6;
   #pattern = /[0-9]/;
+  #mask: string | null = null;
+  #initialValue = '';
 
   constructor() {
     super();
@@ -85,6 +87,10 @@ export class UIInputOtp extends FormAssociable(UIElement) {
       case 'pattern':
         try { this.#pattern = new RegExp(val ?? '[0-9]'); } catch { /* keep old */ }
         break;
+      case 'mask':
+        this.#mask = val;
+        if (this.isConnected) this.#renderCells();
+        break;
       case 'required':
         this.#required.value = val !== null;
         if (this.isConnected) this.#syncFormValue();
@@ -108,15 +114,24 @@ export class UIInputOtp extends FormAssociable(UIElement) {
     if (patAttr) {
       try { this.#pattern = new RegExp(patAttr); } catch { /* default */ }
     }
+    this.#mask = this.getAttribute('mask');
 
     this.#stampCells();
     this.addEffect(createDisabledEffect(this, this.#disabled.signal, this.#internals, { manageTabindex: false }));
+    // WHY: Sync contenteditable on cells when disabled changes (attribute-driven path)
+    this.addEffect(() => {
+      const disabled = this.#disabled.value;
+      for (const cell of this.#cells) {
+        cell.setAttribute('contenteditable', disabled ? 'false' : 'plaintext-only');
+      }
+    });
 
     // Validity: required constraint (initial sync)
     this.#required.value = this.hasAttribute('required');
 
     // Set initial value
     const valAttr = this.getAttribute('value');
+    this.#initialValue = valAttr ?? '';
     if (valAttr) this.value = valAttr;
 
     this.addEventListener('paste', this.#onPaste);
@@ -165,7 +180,8 @@ export class UIInputOtp extends FormAssociable(UIElement) {
       const cell = this.#cells[i];
       if (!cell) continue;
       const char = this.#value[i] ?? '';
-      cell.textContent = char;
+      // WHY: Show mask character instead of actual value when mask is set
+      cell.textContent = char ? (this.#mask ?? char) : '';
       if (char) {
         cell.removeAttribute('data-empty');
       } else {
@@ -177,8 +193,11 @@ export class UIInputOtp extends FormAssociable(UIElement) {
   #syncFormValue(): void {
     const val = this.value;
     this.#internals.setFormValue(val);
-    if (this.#required.value && val.length < this.#length) {
+    if (this.#required.value && val.length === 0) {
       this.#internals.setValidity({ valueMissing: true }, 'Please fill out this field.', this);
+    } else if (this.#required.value && val.length < this.#length) {
+      // WHY: tooShort for partial fill — valueMissing only when completely empty
+      this.#internals.setValidity({ tooShort: true }, `Please enter ${this.#length} characters.`, this);
     } else {
       this.#internals.setValidity({});
     }
@@ -212,7 +231,7 @@ export class UIInputOtp extends FormAssociable(UIElement) {
       const lastChar = text[text.length - 1];
       if (this.#pattern.test(lastChar)) {
         this.#value[index] = lastChar;
-        cell.textContent = lastChar;
+        cell.textContent = this.#mask ?? lastChar;
         cell.removeAttribute('data-empty');
         this.#syncFormValue();
         this.#dispatchInput();
@@ -227,8 +246,9 @@ export class UIInputOtp extends FormAssociable(UIElement) {
           this.#dispatchChange();
         }
       } else {
-        // Reject character
-        cell.textContent = this.#value[index] || '';
+        // Reject character — restore previous value (masked if applicable)
+        const prev = this.#value[index] || '';
+        cell.textContent = prev ? (this.#mask ?? prev) : '';
       }
     } else {
       // Cell cleared
@@ -316,8 +336,12 @@ export class UIInputOtp extends FormAssociable(UIElement) {
   }
 
   override onFormReset(): void {
-    this.value = '';
+    this.value = this.#initialValue;
     this.#disabled.signal.value = this.hasAttribute('disabled');
+  }
+
+  override onFormStateRestore(state: string | FormData | null): void {
+    this.value = typeof state === 'string' ? state : '';
   }
 
   // ── Dispatch ──

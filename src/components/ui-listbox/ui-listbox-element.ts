@@ -3,6 +3,7 @@ import { UIElement } from '../../core/ui-element.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
 import { prop, syncProp } from '../../core/reactive-prop.ts';
 import type { ReactiveProp } from '../../core/reactive-prop.ts';
+import { uid } from '../../core/uid.ts';
 import { ListNavigateController } from '../../traits/list-navigate-controller.ts';
 import { DataListController } from '../../core/data-list.ts';
 import type { DataItem } from '../../core/data-list.ts';
@@ -136,7 +137,17 @@ export class UIListbox extends UIElement {
         const options = this.querySelectorAll<HTMLElement>(':scope ui-option:not([disabled])');
 
         for (let i = 0; i < options.length; i++) {
-          options[i].toggleAttribute('active', i === idx);
+          const opt = options[i];
+          const isActive = i === idx;
+          opt.toggleAttribute('active', isActive);
+          // WHY: Ensure each option has an id for aria-activedescendant
+          if (isActive) {
+            if (!opt.id) opt.id = uid('opt');
+            this.setAttribute('aria-activedescendant', opt.id);
+          }
+        }
+        if (idx < 0 || idx >= options.length) {
+          this.removeAttribute('aria-activedescendant');
         }
       });
     });

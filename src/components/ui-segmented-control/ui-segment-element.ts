@@ -11,7 +11,7 @@ import { PressController } from '../../traits/press-controller.ts';
  * @fires ui-select - Fired on press with `{ value, label }` detail
  */
 export class UISegment extends UIElement {
-  static observedAttributes = ['value', 'disabled'];
+  static observedAttributes = ['disabled'];
 
   #internals: ElementInternals;
   #disabled: ReactiveProp<boolean>;
@@ -22,6 +22,8 @@ export class UISegment extends UIElement {
     this.#internals = this.attachInternals();
     this.#internals.role = 'radio';
     this.#disabled = prop(this, 'disabled', { type: 'boolean' });
+    // WHY: Set initial aria-checked so AT has correct state before deferred effect runs
+    this.setAttribute('aria-checked', 'false');
   }
 
   get value(): string {

@@ -11,7 +11,7 @@ import { PressController } from '../../traits/press-controller.ts';
  * @fires ui-select - Fired on click with `{ value, label }` detail
  */
 export class UIRadio extends UIElement {
-  static observedAttributes = ['value', 'disabled'];
+  static observedAttributes = ['disabled'];
 
   #internals: ElementInternals;
   #disabled: ReactiveProp<boolean>;

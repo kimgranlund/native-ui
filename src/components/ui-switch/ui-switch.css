@@ -125,12 +125,14 @@
 
   /* ── Active (pressed) ── */
 
-  :where(ui-switch)[pressed]::before {
+  :where(ui-switch)[pressed]::before,
+  :where(ui-switch)[force-active]::before {
     background: var(--_track-bg-active);
     border-color: var(--_track-border-active);
   }
 
-  :where(ui-switch)[aria-checked="true"][pressed]::before {
+  :where(ui-switch)[aria-checked="true"][pressed]::before,
+  :where(ui-switch)[aria-checked="true"][force-active]::before {
     background: var(--_surface-active);
     border-color: var(--_surface-active);
   }

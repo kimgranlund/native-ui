@@ -13,8 +13,16 @@ export const swipeableAdapter: TraitAdapter<SwipeController> = {
   },
   destroy(instance) { instance.destroy(); },
   update(instance, options) {
-    if ('threshold' in options) instance.threshold = Number(options['threshold']);
-    if ('velocity-threshold' in options) instance.velocityThreshold = Number(options['velocity-threshold']);
+    if ('threshold' in options) {
+      const val = options['threshold'];
+      const n = Number(val);
+      if (val !== '' && !isNaN(n)) instance.threshold = n;
+    }
+    if ('velocity-threshold' in options) {
+      const val = options['velocity-threshold'];
+      const n = Number(val);
+      if (val !== '' && !isNaN(n)) instance.velocityThreshold = n;
+    }
     if ('axis' in options) instance.axis = options['axis'] as 'horizontal' | 'vertical' | 'both';
     if ('disabled' in options) instance.disabled = options['disabled'] === 'true';
   },

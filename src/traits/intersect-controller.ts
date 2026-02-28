@@ -70,6 +70,8 @@ export class IntersectController {
       if (intersecting && this.once) {
         this.#observer?.disconnect();
         this.#observer = null;
+        // WHY: Reset #attached so attach() can be called again if needed
+        this.#attached = false;
       }
     }
   };

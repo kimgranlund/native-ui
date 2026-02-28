@@ -26,6 +26,9 @@ export class UIAvatar extends UIElement {
   get name(): string { return this.getAttribute('name') ?? ''; }
   set name(val: string) { this.setAttribute('name', val); }
 
+  get alt(): string { return this.getAttribute('alt') ?? ''; }
+  set alt(val: string) { this.setAttribute('alt', val); }
+
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     if (old === val) return;
     if (this.isConnected) this.#render();

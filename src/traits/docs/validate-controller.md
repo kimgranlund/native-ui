@@ -15,6 +15,7 @@ new ValidateController(host: HTMLElement, options?: ValidateOptions)
 | Option | Type | Required | Description |
 |--------|------|----------|-------------|
 | `rules` | `ValidationRule[]` | no |  |
+| `internals` | `ElementInternals` | no | When provided, bridges to the Constraint Validation API via `setValidity()`. |
 
 ## Properties
 

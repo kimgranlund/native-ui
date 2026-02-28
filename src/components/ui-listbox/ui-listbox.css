@@ -8,7 +8,8 @@
     min-width: 0;
     flex-direction: column;
     gap: 0;
-    padding: var(--_space);
+    padding-block: var(--_space);
+    padding-inline: var(--_space);
     border-radius: var(--_radius);
     border: 1px solid var(--_border-color, var(--_border-rest));
     background: var(--_background, var(--_control));

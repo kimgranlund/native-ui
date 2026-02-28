@@ -1,5 +1,6 @@
 import { signal } from '../../reactivity/signal.ts';
 import { UIElement } from '../../core/ui-element.ts';
+import { uid } from '../../core/uid.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
 import { DataListController } from '../../core/data-list.ts';
 import type { DataItem } from '../../core/data-list.ts';
@@ -22,6 +23,7 @@ export class UICommand extends UIElement {
   constructor() {
     super();
     this.#internals = this.attachInternals();
+    this.#internals.role = 'search';
   }
 
   get store(): DataListController<DataItem> {
@@ -72,15 +74,20 @@ export class UICommand extends UIElement {
         this.#store.query.value;
         const idx = this.#store.activeIndex.value;
         const items = this.#getVisibleItems();
+        const list = this.querySelector('ui-command-list');
 
         for (let i = 0; i < items.length; i++) {
           items[i].toggleAttribute('active', i === idx);
         }
 
-        // Scroll active item into view
+        // WHY: aria-activedescendant on the listbox so AT follows keyboard navigation
         const activeItem = items[idx];
-        if (activeItem) {
+        if (activeItem && list) {
+          if (!activeItem.id) activeItem.id = uid('cmd');
+          list.setAttribute('aria-activedescendant', activeItem.id);
           activeItem.scrollIntoView({ block: 'nearest' });
+        } else {
+          list?.removeAttribute('aria-activedescendant');
         }
       });
 

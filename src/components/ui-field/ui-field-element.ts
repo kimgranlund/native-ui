@@ -87,26 +87,29 @@ export class UIField extends UIElement {
 
     const label = this.querySelector('[slot="label"]');
     const desc = this.querySelector('[slot="description"]');
-    const error = this.querySelector('[slot="error"]');
 
     if (label) {
       this.#control.setAttribute('aria-labelledby', label.id);
     }
 
-    // Build describedby from available slots
-    const describedBy: string[] = [];
-    if (desc) describedBy.push(desc.id);
-    if (error) describedBy.push(error.id);
-    if (describedBy.length) {
-      this.#control.setAttribute('aria-describedby', describedBy.join(' '));
+    // WHY: Only include description in initial describedby — error id is added
+    // dynamically in #onInvalid/#onValid to avoid referencing hidden content
+    if (desc) {
+      this.#control.setAttribute('aria-describedby', desc.id);
     }
   }
 
   // ── State sync ──
 
   #syncDisabled(): void {
-    if (!this.#control) return;
     const disabled = this.hasAttribute('disabled');
+    // WHY: Set aria-disabled on the field itself so CSS [aria-disabled] rules fire
+    if (disabled) {
+      this.setAttribute('aria-disabled', 'true');
+    } else {
+      this.removeAttribute('aria-disabled');
+    }
+    if (!this.#control) return;
     if (disabled) {
       this.#control.setAttribute('disabled', '');
     } else {
@@ -134,9 +137,27 @@ export class UIField extends UIElement {
     if (error && ce.detail?.message) {
       error.textContent = ce.detail.message;
     }
+    // WHY: Add error id to describedby so AT announces the error message
+    this.#updateDescribedBy(true);
   };
 
   #onValid = (): void => {
     this.removeAttribute('invalid');
+    // WHY: Remove error id from describedby when valid
+    this.#updateDescribedBy(false);
   };
+
+  #updateDescribedBy(includeError: boolean): void {
+    if (!this.#control) return;
+    const desc = this.querySelector('[slot="description"]');
+    const error = this.querySelector('[slot="error"]');
+    const ids: string[] = [];
+    if (desc) ids.push(desc.id);
+    if (includeError && error) ids.push(error.id);
+    if (ids.length) {
+      this.#control.setAttribute('aria-describedby', ids.join(' '));
+    } else {
+      this.#control.removeAttribute('aria-describedby');
+    }
+  }
 }

@@ -11,6 +11,7 @@ export const sortableAdapter: TraitAdapter<SortController> = {
   },
   destroy(instance) { instance.destroy(); },
   update(instance, options) {
+    if ('selector' in options) instance.selector = options['selector'] ?? '';
     if ('disabled' in options) instance.disabled = options['disabled'] === 'true';
   },
 };

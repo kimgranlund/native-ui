@@ -9,7 +9,6 @@ import { DialogController } from '../../traits/dialog-controller.ts';
  * @fires close - Fired when the drawer is closed
  */
 export class UIDrawer extends UIElement {
-  static observedAttributes = ['side', 'no-close-on-escape', 'no-close-on-backdrop'];
 
   #dialog!: DialogController;
 

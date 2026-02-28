@@ -165,6 +165,12 @@ export class UISegmentedControl extends FormAssociable(UIElement) {
     }
   }
 
+  override onFormStateRestore(state: string | FormData | null): void {
+    if (typeof state === 'string' && state) {
+      this.value = state;
+    }
+  }
+
   #updateIndicator(selectedIndex: number, count: number): void {
     if (selectedIndex < 0) {
       this.#internals.states.delete('ready');

@@ -33,7 +33,8 @@
   /* WHY: Animate backdrop opacity on open for a smooth reveal. */
 
   :where(ui-drawer) > :where(dialog)::backdrop {
-    background: var(--ui-backdrop-color) / var(--ui-backdrop-opacity);
+    background: var(--ui-backdrop-color);
+    opacity: var(--ui-backdrop-opacity);
     animation: drawer-backdrop-in var(--_duration) ease-out;
   }
 

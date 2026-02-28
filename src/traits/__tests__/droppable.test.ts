@@ -143,10 +143,10 @@ describe('Droppable — dragover', () => {
 });
 
 describe('Droppable — drop', () => {
-  it('dispatches ui-file-drop for file drops', () => {
+  it('dispatches ui-drop for file drops', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-file-drop', handler);
+    el.addEventListener('ui-drop', handler);
     const file = new File(['content'], 'test.txt', { type: 'text/plain' });
     el.dispatchEvent(makeDragEvent('drop', { files: [file] }));
     expect(handler).toHaveBeenCalledTimes(1);
@@ -158,17 +158,17 @@ describe('Droppable — drop', () => {
     const el = create();
     el.dropMultiple = false;
     const handler = vi.fn();
-    el.addEventListener('ui-file-drop', handler);
+    el.addEventListener('ui-drop', handler);
     const f1 = new File(['a'], 'a.txt', { type: 'text/plain' });
     const f2 = new File(['b'], 'b.txt', { type: 'text/plain' });
     el.dispatchEvent(makeDragEvent('drop', { files: [f1, f2] }));
     expect(handler.mock.calls[0][0].detail.files).toHaveLength(1);
   });
 
-  it('dispatches ui-text-drop for text drops', () => {
+  it('dispatches ui-drop for text drops', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-text-drop', handler);
+    el.addEventListener('ui-drop', handler);
     el.dispatchEvent(makeDragEvent('drop', { text: 'hello world' }));
     expect(handler).toHaveBeenCalledTimes(1);
     expect(handler.mock.calls[0][0].detail.text).toBe('hello world');
@@ -186,7 +186,7 @@ describe('Droppable — drop', () => {
     const el = create();
     el.dropDisabled = true;
     const handler = vi.fn();
-    el.addEventListener('ui-text-drop', handler);
+    el.addEventListener('ui-drop', handler);
     el.dispatchEvent(makeDragEvent('drop', { text: 'hello' }));
     expect(handler).not.toHaveBeenCalled();
   });
@@ -206,7 +206,7 @@ describe('Droppable — teardown', () => {
     const el = create();
     el.teardown();
     const handler = vi.fn();
-    el.addEventListener('ui-file-drop', handler);
+    el.addEventListener('ui-drop', handler);
     el.dispatchEvent(makeDragEvent('drop', { files: [new File(['x'], 'x.txt')] }));
     expect(handler).not.toHaveBeenCalled();
   });

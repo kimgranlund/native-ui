@@ -14,6 +14,7 @@
 | `disabled` | `boolean` | Disables interaction |
 | `name` | `string` | Form field name |
 | `value` | `string` | Form value when checked (defaults to "on") |
+| `required` | `boolean` | Marks as required for form validation |
 
 ## Events
 

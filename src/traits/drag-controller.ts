@@ -476,11 +476,15 @@ export class DragController {
     if (e.key === 'Escape' && this.#dragItem) {
       e.preventDefault();
       this.#restorePreview();
-      this.host.dispatchEvent(new CustomEvent('ui-drag-cancel', {
-        bubbles: true,
-        composed: true,
-        detail: { item: this.#dragItem },
-      }));
+      // WHY: Only dispatch ui-drag-cancel if a drag is actually in progress (ghost exists).
+      // Without a ghost, the pointer hasn't moved yet — no drag started, no cancel needed.
+      if (this.#ghost) {
+        this.host.dispatchEvent(new CustomEvent('ui-drag-cancel', {
+          bubbles: true,
+          composed: true,
+          detail: { item: this.#dragItem },
+        }));
+      }
       this.#cleanup();
     }
   };

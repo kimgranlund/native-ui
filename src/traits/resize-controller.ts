@@ -125,17 +125,26 @@ export class ResizeController {
 
   #onPointerCancel = (): void => {
     if (!this.#isResizing) return;
-    // WHY: Revert on cancel
-    this.host.style.width = `${this.#startWidth}px`;
-    this.host.style.height = `${this.#startHeight}px`;
+    // WHY: Revert on cancel — only revert the axis that was being resized
+    if (this.axis === 'horizontal' || this.axis === 'both') {
+      this.host.style.width = `${this.#startWidth}px`;
+    }
+    if (this.axis === 'vertical' || this.axis === 'both') {
+      this.host.style.height = `${this.#startHeight}px`;
+    }
     this.#cleanup();
   };
 
   #onKeyDown = (e: KeyboardEvent): void => {
     if (e.key === 'Escape' && this.#isResizing) {
       e.preventDefault();
-      this.host.style.width = `${this.#startWidth}px`;
-      this.host.style.height = `${this.#startHeight}px`;
+      // WHY: Revert on cancel — only revert the axis that was being resized
+      if (this.axis === 'horizontal' || this.axis === 'both') {
+        this.host.style.width = `${this.#startWidth}px`;
+      }
+      if (this.axis === 'vertical' || this.axis === 'both') {
+        this.host.style.height = `${this.#startHeight}px`;
+      }
       this.#cleanup();
     }
   };

@@ -11,7 +11,15 @@ export const virtualizableAdapter: TraitAdapter<VirtualScrollController> = {
   },
   destroy(instance) { instance.destroy(); },
   update(instance, options) {
-    if ('item-height' in options) instance.itemHeight = Number(options['item-height']);
-    if ('overscan' in options) instance.overscan = Number(options['overscan']);
+    if ('item-height' in options) {
+      const val = options['item-height'];
+      const n = Number(val);
+      if (val !== '' && !isNaN(n)) instance.itemHeight = n;
+    }
+    if ('overscan' in options) {
+      const val = options['overscan'];
+      const n = Number(val);
+      if (val !== '' && !isNaN(n)) instance.overscan = n;
+    }
   },
 };

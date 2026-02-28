@@ -112,20 +112,26 @@ export class CalendarStore {
   }
 
   selectMonth(month: number): void {
-    this.focusedMonth.value = month;
-    this.view.value = 'day';
+    batch(() => {
+      this.focusedMonth.value = month;
+      this.view.value = 'day';
+    });
   }
 
   selectYear(year: number): void {
-    this.focusedYear.value = year;
-    this.view.value = 'month';
+    batch(() => {
+      this.focusedYear.value = year;
+      this.view.value = 'month';
+    });
   }
 
   // ── Range ──
 
   setRange(start: string | null, end: string | null): void {
-    this.rangeStart.value = start;
-    this.rangeEnd.value = end;
+    batch(() => {
+      this.rangeStart.value = start;
+      this.rangeEnd.value = end;
+    });
   }
 
   // ── Validation ──

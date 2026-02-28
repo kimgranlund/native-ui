@@ -16,6 +16,7 @@
 | `step` | `number` | Step increment (default 1) |
 | `disabled` | `boolean` | Disables interaction |
 | `name` | `string` | Form field name |
+| `required` | `boolean` | Marks as required for form validation |
 
 ## Events
 

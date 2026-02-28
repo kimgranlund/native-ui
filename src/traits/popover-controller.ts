@@ -6,6 +6,7 @@ export class PopoverController {
   readonly host: HTMLElement;
   readonly #dismiss: DismissController;
 
+  #anchorEl: HTMLElement | null = null;
   #popoverEl: HTMLElement | null = null;
 
   constructor(host: HTMLElement) {
@@ -14,6 +15,7 @@ export class PopoverController {
   }
 
   wirePopover(anchor: HTMLElement, popover: HTMLElement): void {
+    this.#anchorEl = anchor;
     this.#popoverEl = popover;
     const id = uid('anchor');
     anchor.style.setProperty('anchor-name', `--${id}`);
@@ -34,6 +36,9 @@ export class PopoverController {
 
   destroy(): void {
     this.#dismiss.destroy();
+    this.#anchorEl?.style.removeProperty('anchor-name');
+    this.#anchorEl = null;
+    this.#popoverEl?.style.removeProperty('position-anchor');
     this.#popoverEl = null;
   }
 }

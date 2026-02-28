@@ -15,6 +15,7 @@
 | `disabled` | `boolean` | Disables interaction |
 | `readonly` | `boolean` | Prevents editing while remaining focusable |
 | `required` | `boolean` | Marks as required for form validation |
+| `pattern` | `string` |  |
 | `name` | `string` | Form field name |
 
 ## Properties

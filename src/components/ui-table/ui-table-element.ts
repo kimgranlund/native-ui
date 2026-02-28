@@ -44,6 +44,30 @@ export class UITable extends UIElement {
     this.toggleAttribute('selectable', val);
   }
 
+  attributeChangedCallback(name: string, old: string | null, val: string | null): void {
+    if (old === val) return;
+    switch (name) {
+      case 'resizable':
+        // WHY: Init/destroy column resize when attribute is toggled after setup
+        if (val !== null && !this.#resizeController) {
+          this.#initResize();
+        } else if (val === null && this.#resizeController) {
+          this.#resizeController.destroy();
+          this.#resizeController = null;
+        }
+        break;
+      case 'reorderable':
+        if (val !== null && !this.#dragController) {
+          this.#initReorder();
+        } else if (val === null && this.#dragController) {
+          this.#dragController.destroy();
+          this.#dragController = null;
+        }
+        break;
+    }
+    super.attributeChangedCallback?.(name, old, val);
+  }
+
   setup(): void {
     super.setup();
 

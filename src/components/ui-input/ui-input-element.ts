@@ -15,12 +15,14 @@ import { FormAssociable } from '../../core/form-associable.ts';
  * @fires ui-change - Fired on blur with `{ value }` detail
  */
 export class UIInput extends FormAssociable(UIElement) {
-  static observedAttributes = ['value', 'placeholder', 'disabled', 'readonly', 'required', 'name'];
+  static observedAttributes = ['value', 'placeholder', 'disabled', 'readonly', 'required', 'pattern'];
 
   #internals: ElementInternals;
   #disabled = signal(false);
   #required = signal(false);
   #formValue = signal('');
+  #initialValue = '';
+  #pattern: string | null = null;
   // WHY: contenteditable deletes all children on select-all + delete/cut —
   // we save slot refs so #onInput can restore them
   #slots: Element[] = [];
@@ -135,6 +137,9 @@ export class UIInput extends FormAssociable(UIElement) {
       case 'required':
         this.#required.value = val !== null;
         break;
+      case 'pattern':
+        this.#pattern = val;
+        break;
     }
     super.attributeChangedCallback?.(name, old, val);
   }
@@ -152,16 +157,25 @@ export class UIInput extends FormAssociable(UIElement) {
     }
     // WHY: Sync signals from initial attributes (attributeChangedCallback fires before setup)
     this.#required.value = this.hasAttribute('required');
+    this.#pattern = this.getAttribute('pattern');
+    this.#initialValue = this.getAttribute('value') ?? this.#getTextContent();
     this.#formValue.value = this.#getTextContent();
     this.#updateEmptyState();
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals, { manageTabindex: true }));
 
-    // Constraint validation: report valueMissing when required and empty
+    // Constraint validation: report valueMissing and patternMismatch
     this.addEffect(() => {
-      if (this.#required.value && this.#formValue.value === '') {
+      const val = this.#formValue.value;
+      if (this.#required.value && val === '') {
         this.#internals.setValidity(
           { valueMissing: true },
           'Please fill out this field.',
+          this,
+        );
+      } else if (this.#pattern !== null && val !== '' && !new RegExp(`^(?:${this.#pattern})$`).test(val)) {
+        this.#internals.setValidity(
+          { patternMismatch: true },
+          'Please match the requested format.',
           this,
         );
       } else {
@@ -197,11 +211,19 @@ export class UIInput extends FormAssociable(UIElement) {
   }
 
   override onFormReset(): void {
-    this.#setTextContent('');
-    this.#formValue.value = '';
-    this.#internals.setFormValue('');
+    this.#setTextContent(this.#initialValue);
+    this.#formValue.value = this.#initialValue;
+    this.#internals.setFormValue(this.#initialValue);
     this.#updateEmptyState();
     this.#disabled.value = this.hasAttribute('disabled');
+    // WHY: Re-sync contenteditable to match the reset disabled state.
+    // The disabled signal reset above triggers createDisabledEffect, but
+    // that effect does not manage contenteditable — we sync it explicitly here.
+    this.setAttribute('contenteditable', (this.#disabled.value || this.hasAttribute('readonly')) ? 'false' : 'plaintext-only');
+  }
+
+  override onFormStateRestore(state: string | FormData | null): void {
+    this.value = typeof state === 'string' ? state : '';
   }
 
   // ── Empty state (for CSS placeholder) ──

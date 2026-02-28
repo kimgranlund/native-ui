@@ -10,7 +10,8 @@
     flex: 1 1 0%;
     min-width: 0;
     flex-direction: column;
-    padding: var(--_space);
+    padding-block: var(--_space);
+    padding-inline: var(--_space);
     font-size: var(--_font-size);
     line-height: var(--_line-height);
   }
@@ -95,7 +96,7 @@
 
   /* ── Disabled ── */
 
-  :where(ui-tree-item[disabled]) > :where([slot="label"]) {
+  :where(ui-tree-item[aria-disabled="true"]) > :where([slot="label"]) {
     color: var(--_ink-disabled);
     cursor: not-allowed;
     pointer-events: none;

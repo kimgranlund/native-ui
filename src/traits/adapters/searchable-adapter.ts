@@ -13,6 +13,7 @@ export const searchableAdapter: TraitAdapter<SearchController> = {
   destroy(instance) { instance.destroy(); },
   update(instance, options) {
     if ('selector' in options) instance.selector = options['selector'];
+    if ('text-field' in options) instance.textField = options['text-field'] ?? 'textContent';
     if ('disabled' in options) instance.disabled = options['disabled'] === 'true';
   },
 };

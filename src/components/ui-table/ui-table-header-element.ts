@@ -33,6 +33,25 @@ export class UITableHeader extends UIElement {
     this.setAttribute('sort', val);
   }
 
+  attributeChangedCallback(name: string, old: string | null, val: string | null): void {
+    if (old === val) return;
+    switch (name) {
+      case 'sortable':
+        // WHY: Dynamically wire/unwire sort interaction when attribute toggles
+        if (val !== null) {
+          this.setAttribute('tabindex', '0');
+          this.addEventListener('click', this.#onClick);
+          this.addEventListener('keydown', this.#onKeyDown);
+        } else {
+          this.removeAttribute('tabindex');
+          this.removeEventListener('click', this.#onClick);
+          this.removeEventListener('keydown', this.#onKeyDown);
+        }
+        break;
+    }
+    super.attributeChangedCallback?.(name, old, val);
+  }
+
   setup(): void {
     super.setup();
     if (this.sortable) {

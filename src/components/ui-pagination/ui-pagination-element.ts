@@ -1,4 +1,5 @@
 import { signal } from '../../reactivity/signal.ts';
+import { untrack } from '../../reactivity/untrack.ts';
 import { UIElement } from '../../core/ui-element.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
 
@@ -57,7 +58,7 @@ export class UIPagination extends UIElement {
       case 'value': this.#value.value = Math.min(Math.max(1, isNaN(num) ? 1 : num), this.#total.value); break;
       case 'siblings': this.#siblings.value = Math.max(0, isNaN(num) ? 1 : num); break;
       case 'boundaries': this.#boundaries.value = Math.max(0, isNaN(num) ? 1 : num); break;
-      case 'disabled': this.#disabled.value = val !== null; return;
+      case 'disabled': this.#disabled.value = val !== null; break;
     }
     super.attributeChangedCallback(name, old, val);
   }
@@ -71,6 +72,22 @@ export class UIPagination extends UIElement {
     if (!this.hasAttribute('aria-label')) this.setAttribute('aria-label', label);
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals));
     this.addEffect(() => { this.#render(); });
+    // WHY: Separate effect toggles disabled on existing buttons without rebuilding DOM
+    this.addEffect(() => {
+      const disabled = this.#disabled.value;
+      const current = untrack(() => this.#value.value);
+      const total = untrack(() => this.#total.value);
+      for (const btn of this.querySelectorAll<HTMLElement>('ui-button')) {
+        const label = btn.getAttribute('aria-label') ?? '';
+        if (label === 'Previous page') {
+          btn.toggleAttribute('disabled', disabled || current <= 1);
+        } else if (label === 'Next page') {
+          btn.toggleAttribute('disabled', disabled || current >= total);
+        } else {
+          btn.toggleAttribute('disabled', disabled);
+        }
+      }
+    });
   }
 
   teardown(): void {
@@ -151,6 +168,8 @@ export class UIPagination extends UIElement {
   #render(): void {
     const total = this.#total.value;
     const current = this.#value.value;
+    // WHY: untrack disabled — separate effect handles disabled toggle without full rebuild
+    const disabled = untrack(() => this.#disabled.value);
     const pages = this.#getPages();
 
     // Clear
@@ -158,7 +177,7 @@ export class UIPagination extends UIElement {
 
     // Prev button
     this.appendChild(
-      this.#createIconButton('caret-left', 'Previous page', current <= 1, () => this.#goTo(current - 1))
+      this.#createIconButton('caret-left', 'Previous page', disabled || current <= 1, () => this.#goTo(current - 1))
     );
 
     // Page buttons
@@ -169,7 +188,7 @@ export class UIPagination extends UIElement {
         el.textContent = '\u2026'; // …
         this.appendChild(el);
       } else {
-        const btn = this.#createButton(String(page), `Page ${page}`, false, () => this.#goTo(page));
+        const btn = this.#createButton(String(page), `Page ${page}`, disabled, () => this.#goTo(page));
         if (page === current) btn.setAttribute('aria-current', 'page');
         this.appendChild(btn);
       }
@@ -177,7 +196,7 @@ export class UIPagination extends UIElement {
 
     // Next button
     this.appendChild(
-      this.#createIconButton('caret-right', 'Next page', current >= total, () => this.#goTo(current + 1))
+      this.#createIconButton('caret-right', 'Next page', disabled || current >= total, () => this.#goTo(current + 1))
     );
   }
 

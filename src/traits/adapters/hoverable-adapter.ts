@@ -12,8 +12,16 @@ export const hoverableAdapter: TraitAdapter<HoverController> = {
   },
   destroy(instance) { instance.destroy(); },
   update(instance, options) {
-    if ('delay' in options) instance.delay = Number(options['delay']);
-    if ('leave-delay' in options) instance.leaveDelay = Number(options['leave-delay']);
+    if ('delay' in options) {
+      const val = options['delay'];
+      const n = Number(val);
+      if (val !== '' && !isNaN(n)) instance.delay = n;
+    }
+    if ('leave-delay' in options) {
+      const val = options['leave-delay'];
+      const n = Number(val);
+      if (val !== '' && !isNaN(n)) instance.leaveDelay = n;
+    }
     if ('disabled' in options) instance.disabled = options['disabled'] === 'true';
   },
 };

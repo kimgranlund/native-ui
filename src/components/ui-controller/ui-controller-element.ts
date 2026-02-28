@@ -1,5 +1,5 @@
 import { UIElement } from '../../core/ui-element.ts';
-import { getTrait, onTraitRegistered } from '../../core/trait-registry.ts';
+import { getTrait, onTraitRegistered, getRegisteredTraitNames } from '../../core/trait-registry.ts';
 import { collectTraitOptions, parseTraitAttribute } from '../../core/trait-options.ts';
 
 /**
@@ -21,7 +21,7 @@ export class UIController extends UIElement {
   /** Per-target controller instances: target → Map<traitName, instance> */
   #targets = new Map<HTMLElement, ControllerMap>();
 
-  /** Watches for child additions/removals in selector mode */
+  /** Watches for child additions/removals in selector mode, or first-child changes in wrapper mode */
   #childObserver: MutationObserver | null = null;
 
   /** Watches for trait option attribute changes on this element */
@@ -30,13 +30,22 @@ export class UIController extends UIElement {
   /** Traits requested but not yet registered — retried on registration */
   #pendingTraits = new Set<string>();
   #traitUnsub: (() => void) | null = null;
+  #alive = false;
 
   // WHY: Override connectedCallback to prevent UIElement from running its
   // trait-on-self protocol. UIController delegates traits to children, never
   // to itself. We call setup() directly (same as UIElement) but skip
-  // #initTraitObserver.
+  // #initTraitObserver. The #alive guard prevents double-setup on DOM move.
   connectedCallback(): void {
+    if (this.#alive) return;
+    this.#alive = true;
     this.setup();
+  }
+
+  disconnectedCallback(): void {
+    this.#alive = false;
+    // WHY: Delegate to parent which calls teardown() + disposes effects
+    super.disconnectedCallback();
   }
 
   setup(): void {
@@ -112,8 +121,33 @@ export class UIController extends UIElement {
 
   #applyToFirstChild(traitTokens: string): void {
     const target = this.#resolveFirstChild();
-    if (!target) return;
-    this.#applyTraitsToElement(target, traitTokens);
+    if (target) this.#applyTraitsToElement(target, traitTokens);
+
+    // WHY: Watch for first-child replacement so controllers are cleaned up and re-created.
+    // Selector mode has its own observer; wrapper mode needs this to handle dynamic first children.
+    this.#childObserver = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type !== 'childList') continue;
+
+        // Destroy controllers for any removed first-child (if it was our target)
+        for (const removed of m.removedNodes) {
+          if (removed instanceof HTMLElement) {
+            const controllers = this.#targets.get(removed);
+            if (controllers) {
+              this.#destroyControllersFor(removed, controllers);
+              this.#targets.delete(removed);
+            }
+          }
+        }
+
+        // Apply traits to the new first child if one appeared
+        const newFirst = this.#resolveFirstChild();
+        if (newFirst && !this.#targets.has(newFirst)) {
+          this.#applyTraitsToElement(newFirst, traitTokens);
+        }
+      }
+    });
+    this.#childObserver.observe(this, { childList: true });
   }
 
   #applyToSelector(traitTokens: string, selector: string): void {
@@ -212,8 +246,6 @@ export class UIController extends UIElement {
     this.#optionObserver = new MutationObserver((mutations) => {
       for (const m of mutations) {
         if (!m.attributeName) continue;
-        // Skip attributes handled by attributeChangedCallback
-        if (m.attributeName === 'traits' || m.attributeName === 'for' || m.attributeName === 'provides') continue;
 
         const parsed = parseTraitAttribute(m.attributeName);
         if (!parsed) continue;
@@ -229,6 +261,32 @@ export class UIController extends UIElement {
         }
       }
     });
-    this.#optionObserver.observe(this, { attributes: true });
+
+    // WHY: Only observe trait-namespaced option attributes (e.g. "draggable-axis").
+    // Compute attributeFilter from all attributes currently on this element that match
+    // a registered trait prefix. This avoids firing on every attribute change.
+    const attributeFilter = this.#buildOptionAttributeFilter();
+    if (attributeFilter.length > 0) {
+      this.#optionObserver.observe(this, { attributes: true, attributeFilter });
+    } else {
+      // No trait option attrs present — observe all to catch dynamically added ones.
+      // MutationObserver with no filter fires on all attrs; parseTraitAttribute gates the logic.
+      this.#optionObserver.observe(this, { attributes: true });
+    }
+  }
+
+  /** Collect all attributes on this element that match any registered trait prefix. */
+  #buildOptionAttributeFilter(): string[] {
+    const traitNames = getRegisteredTraitNames();
+    const filter: string[] = [];
+    for (const attr of this.attributes) {
+      for (const name of traitNames) {
+        if (attr.name.startsWith(name + '-')) {
+          filter.push(attr.name);
+          break;
+        }
+      }
+    }
+    return filter;
   }
 }

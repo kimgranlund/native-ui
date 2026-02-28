@@ -1,5 +1,6 @@
 import { signal } from '../../reactivity/signal.ts';
 import { UIElement } from '../../core/ui-element.ts';
+import { uid } from '../../core/uid.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
 import { FormAssociable } from '../../core/form-associable.ts';
 import { PopoverController } from '../../traits/popover-controller.ts';
@@ -37,6 +38,8 @@ export class UISelect extends FormAssociable(UIElement) {
   #fetchController: AbortController | null = null;
   #listbox: (HTMLElement & UIListbox) | null = null;
   #trigger: HTMLElement | null = null;
+  #initialValue: string | null = null;
+  #initialLabel = '';
 
   constructor() {
     super();
@@ -173,6 +176,15 @@ export class UISelect extends FormAssociable(UIElement) {
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     if (old === val) return;
     switch (name) {
+      case 'value':
+        if (val !== null) {
+          const opt = this.querySelector(`ui-option[value="${CSS.escape(val)}"]`);
+          const label = opt?.getAttribute('label') ?? opt?.textContent?.trim() ?? val;
+          this.#controller.select(val, label);
+        } else {
+          this.#controller.reset();
+        }
+        break;
       case 'disabled':
         this.#disabled.value = val !== null;
         break;
@@ -233,6 +245,43 @@ export class UISelect extends FormAssociable(UIElement) {
 
     // ARIA
     trigger?.setAttribute('aria-haspopup', 'listbox');
+    if (trigger && listbox) {
+      if (!listbox.id) listbox.id = uid('lb');
+      trigger.setAttribute('aria-controls', listbox.id);
+    }
+
+    // ── Data-mode-only effects (outside deferChildren — no child DOM dependency) ──
+    // WHY: These effects only read signals and operate on references captured above (#listbox,
+    // trigger). They must be registered outside deferChildren so they fire immediately when
+    // signals change, without waiting for the microtask that deferChildren introduces.
+
+    if (this.#dataMode) {
+      // Effect: #options signal → re-render option list
+      // WHY: #renderOptions clears and re-stamps into #listbox — no child query needed
+      this.addEffect(() => {
+        const opts = this.#options.value;
+        this.#renderOptions(opts);
+      });
+
+      // Effect: #src signal → fetch remote options
+      this.addEffect(() => {
+        const url = this.#src.value;
+        if (url) this.#fetchOptions(url);
+      });
+
+      // Effect: placeholder signal → trigger label when no value selected
+      // WHY: placeholder is only relevant in data-driven mode — in manual mode the trigger
+      // button's own slotted content is the author's responsibility and is not driven by
+      // the placeholder attribute. So this effect is intentionally data-mode-only.
+      this.addEffect(() => {
+        const placeholder = this.#placeholder.value;
+        const label = this.#controller.label.value;
+        const labelEl = trigger?.querySelector('[slot="label"]');
+        if (labelEl && !label) {
+          labelEl.textContent = placeholder || '\u00A0';
+        }
+      });
+    }
 
     // Seed: read value attribute before effects (rule 5.9)
     this.deferChildren(() => {
@@ -242,6 +291,8 @@ export class UISelect extends FormAssociable(UIElement) {
         const label = opt?.getAttribute('label') ?? opt?.textContent?.trim() ?? initialValue;
         this.#controller.value.value = initialValue;
         this.#controller.label.value = label;
+        this.#initialValue = initialValue;
+        this.#initialLabel = label;
       }
 
       // Effect: label → trigger text (show placeholder in data mode when empty)
@@ -262,32 +313,6 @@ export class UISelect extends FormAssociable(UIElement) {
           opt.setAttribute('aria-selected', String(isSelected));
         }
       });
-
-      // ── Data-mode-only effects ──
-
-      if (this.#dataMode) {
-        // Effect: #options signal → re-render option list
-        this.addEffect(() => {
-          const opts = this.#options.value;
-          this.#renderOptions(opts);
-        });
-
-        // Effect: #src signal → fetch remote options
-        this.addEffect(() => {
-          const url = this.#src.value;
-          if (url) this.#fetchOptions(url);
-        });
-
-        // Effect: placeholder signal → trigger label when no value selected
-        this.addEffect(() => {
-          const placeholder = this.#placeholder.value;
-          const label = this.#controller.label.value;
-          const labelEl = trigger?.querySelector('[slot="label"]');
-          if (labelEl && !label) {
-            labelEl.textContent = placeholder || '\u00A0';
-          }
-        });
-      }
     });
 
     // Effect: disabled → aria-disabled + attribute + cascade to trigger
@@ -296,7 +321,8 @@ export class UISelect extends FormAssociable(UIElement) {
       const val = this.#disabled.value;
       if (trigger) trigger.toggleAttribute('disabled', val);
       // WHY: Close popover when disabled to prevent stale open state
-      if (val && this.#controller.open.value) this.#controller.hide();
+      // WHY: peek() avoids tracking open signal — this effect should only re-run on disabled change
+      if (val && this.#controller.open.peek()) this.#controller.hide();
     });
 
     // Validity: required constraint
@@ -381,7 +407,8 @@ export class UISelect extends FormAssociable(UIElement) {
           this.#controller.show();
         }
         if (ctrl) {
-          const items = listbox?.querySelectorAll<HTMLElement>(':scope > ui-option:not([disabled])');
+          // WHY: Descendant selector (not >) so options inside ui-option-group are included
+          const items = listbox?.querySelectorAll<HTMLElement>(':scope ui-option:not([disabled])');
           const count = items?.length ?? 0;
           ctrl.moveActive(e.key === 'ArrowDown' ? 1 : -1, count);
         }
@@ -416,7 +443,7 @@ export class UISelect extends FormAssociable(UIElement) {
         e.preventDefault();
         const ctrl = listbox?.controller;
         if (ctrl) {
-          const items = listbox?.querySelectorAll<HTMLElement>(':scope > ui-option:not([disabled])');
+          const items = listbox?.querySelectorAll<HTMLElement>(':scope ui-option:not([disabled])');
           ctrl.activeIndex.value = Math.max(0, (items?.length ?? 1) - 1);
         }
         break;
@@ -442,7 +469,17 @@ export class UISelect extends FormAssociable(UIElement) {
   // ── Form callbacks ──
 
   override onFormReset(): void {
-    this.#controller.reset();
+    if (this.#initialValue !== null) {
+      this.#controller.select(this.#initialValue, this.#initialLabel);
+    } else {
+      this.#controller.reset();
+    }
+  }
+
+  override onFormStateRestore(state: string | FormData | null): void {
+    if (typeof state === 'string' && state) {
+      this.value = state;
+    }
   }
 
   override onFormDisabled(disabled: boolean): void {

@@ -13,7 +13,8 @@
     display: inline-flex;
     flex-direction: column;
     gap: calc(var(--_space));
-    padding: calc(var(--_space) * 2);
+    padding-block: calc(var(--_space) * 2);
+    padding-inline: calc(var(--_space) * 2);
     border: 1px solid var(--_border-color);
     border-radius: var(--_radius);
     background: var(--_background);
@@ -225,11 +226,17 @@
   }
 
   :where(ui-calendar) :where([data-range-start]) {
-    border-radius: calc(var(--_radius) - var(--_space)) 0 0 calc(var(--_radius) - var(--_space));
+    border-start-start-radius: calc(var(--_radius) - var(--_space));
+    border-end-start-radius: calc(var(--_radius) - var(--_space));
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
   }
 
   :where(ui-calendar) :where([data-range-end]) {
-    border-radius: 0 calc(var(--_radius) - var(--_space)) calc(var(--_radius) - var(--_space)) 0;
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+    border-start-end-radius: calc(var(--_radius) - var(--_space));
+    border-end-end-radius: calc(var(--_radius) - var(--_space));
   }
 
   :where(ui-calendar) :where([data-range-start][data-range-end]) {

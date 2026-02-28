@@ -89,7 +89,17 @@ export class UITabs extends UIElement {
     const initialValue = this.getAttribute('value');
     if (initialValue !== null) this.#nav.listValue.value = initialValue;
 
+    // WHY: Default aria-label for tablist so AT announces role context
+    if (!this.hasAttribute('aria-label')) this.setAttribute('aria-label', 'Tabs');
+
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals));
+
+    // WHY: Cascade disabled to child ui-tab elements so they become inert
+    this.addEffect(() => {
+      const disabled = this.#disabled.value;
+      const tabs = this.querySelectorAll<HTMLElement>(':scope > ui-tab');
+      for (const tab of tabs) tab.toggleAttribute('disabled', disabled);
+    });
 
     this.deferChildren(() => {
       if (__DEV__) {

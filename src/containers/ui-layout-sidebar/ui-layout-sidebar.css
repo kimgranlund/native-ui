@@ -102,11 +102,11 @@
   /* WHY: When collapsed to icon rail, the sidebar edge meets content — drop left padding. */
 
   :where(ui-layout-sidebar)[collapsed] :where(ui-layout-canvas) {
-    padding-left: 0;
+    padding-inline-start: 0;
   }
 
   :where(ui-layout-sidebar)[collapsed] :where(ui-layout-breadcrumb) {
-    padding-left: 0;
+    padding-inline-start: 0;
   }
 
   /* ── Sidebar Header ── */
@@ -278,7 +278,8 @@
     position: fixed;
     position-area: inline-end span-block-end;
     position-try-fallbacks: --sidebar-item-flip-up;
-    margin: 0 0 0 var(--ui-popover-gap);
+    margin: 0;
+    margin-inline-start: var(--ui-popover-gap);
     min-width: 200px;
     max-height: var(--ui-popover-max-height);
     overflow-y: auto;

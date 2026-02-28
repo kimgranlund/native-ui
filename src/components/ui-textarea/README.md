@@ -15,10 +15,11 @@
 | `disabled` | `boolean` | Disables interaction |
 | `readonly` | `boolean` | Prevents editing while remaining focusable |
 | `required` | `boolean` | Marks as required for form validation |
-| `name` | `string` | Form field name |
 | `rows` | `number` | Minimum visible rows (sets min-height) |
 | `maxlength` | `number` | Maximum character count |
 | `autogrow` | `boolean` | Automatically grows height to fit content |
+| `pattern` | `string` |  |
+| `name` | `string` | Form field name |
 
 ## Properties
 

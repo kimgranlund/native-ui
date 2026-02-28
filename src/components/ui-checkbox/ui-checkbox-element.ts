@@ -90,7 +90,9 @@ export class UICheckbox extends FormAssociable(UIElement) {
 
     this.addEffect(() => {
       const required = this.#required.value;
-      this.#internals.ariaRequired = required ? 'true' : null;
+      // WHY: setAttribute instead of internals.ariaRequired — DOM attribute needed for CSS/AT
+      if (required) this.setAttribute('aria-required', 'true');
+      else this.removeAttribute('aria-required');
     });
 
     // Constraint validation: report valueMissing when required and unchecked
@@ -122,6 +124,10 @@ export class UICheckbox extends FormAssociable(UIElement) {
   override onFormReset(): void {
     this.#checked.set(this.#initialChecked);
     this.#indeterminate.set(false);
+  }
+
+  override onFormStateRestore(state: string | FormData | null): void {
+    this.checked = typeof state === 'string' && state === this.value;
   }
 
   #onPress = (): void => {

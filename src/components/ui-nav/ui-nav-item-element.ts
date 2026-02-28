@@ -22,7 +22,7 @@ export class UINavItem extends UIElement {
   constructor() {
     super();
     this.#internals = this.attachInternals();
-    this.#internals.role = 'option';
+    this.#internals.role = 'link';
     this.#disabled = prop(this, 'disabled', { type: 'boolean' });
   }
 

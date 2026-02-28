@@ -6,14 +6,14 @@ import type { Constructor } from './types.ts';
  * - `static formAssociated = true`
  * - `formDisabledCallback` → calls `onFormDisabled(disabled)`
  * - `formResetCallback` → calls `onFormReset()`
- *
- * Subclasses override `onFormDisabled` and `onFormReset` with their own logic.
+ * - `formStateRestoreCallback` → calls `onFormStateRestore(state)`
  *
  * Must remain a mixin (not a controller) because the Web Components spec
  * requires `static formAssociated = true` on the class constructor.
  *
  * ```ts
  * class UIInput extends FormAssociable(UIElement) {
+ *   #internals = this.attachInternals();
  *   onFormDisabled(disabled: boolean) { this.#disabled.value = disabled; }
  *   onFormReset() { this.textContent = ''; }
  * }
@@ -45,7 +45,7 @@ export function FormAssociable<T extends Constructor>(Base: T) {
     }
 
     formAssociatedCallback(_form: HTMLFormElement | null): void {
-      // No-op by default. Subclasses can override onFormAssociated if needed.
+      // No-op by default.
     }
   };
 }

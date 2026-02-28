@@ -92,6 +92,8 @@ export class PressController {
   #onKeyUp = (e: KeyboardEvent): void => {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     this.host.removeAttribute('pressed');
+    // WHY: Check disabled on keyup — element may have become disabled during keypress
+    if (this.#isDisabled()) return;
     this.host.dispatchEvent(new CustomEvent('ui-press', {
       bubbles: true,
       composed: true,

@@ -174,7 +174,7 @@
 
     <h1>Hoverable</h1>
     <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
-      Pointer hover state with configurable enter/leave delays. Sets <code>[hovered]</code> attribute and dispatches <code>ui-hover-enter</code> / <code>ui-hover-leave</code> events.
+      Pointer hover state with configurable enter/leave delays. Sets <code>[hovered]</code> attribute and dispatches <code>ui-hover-start</code> / <code>ui-hover-end</code> events.
     </p>
 
     <!-- ── Instant Hover ── -->
@@ -294,12 +294,12 @@
         <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>ui-hover-enter</code></td>
+            <td><code>ui-hover-start</code></td>
             <td><code>{ pointerType }</code></td>
             <td>Fired when hover activates (after delay, if configured). <code>pointerType</code> is <code>'mouse'</code>, <code>'pen'</code>, etc.</td>
           </tr>
           <tr>
-            <td><code>ui-hover-leave</code></td>
+            <td><code>ui-hover-end</code></td>
             <td><code>{ pointerType }</code></td>
             <td>Fired when hover deactivates (after leave delay, if configured).</td>
           </tr>
@@ -356,8 +356,8 @@
 
       function bindStatus(el) {
         const badge = el.querySelector('.hover-status');
-        el.addEventListener('ui-hover-enter', () => { badge.textContent = 'hovered'; });
-        el.addEventListener('ui-hover-leave', () => { badge.textContent = 'idle'; });
+        el.addEventListener('ui-hover-start', () => { badge.textContent = 'hovered'; });
+        el.addEventListener('ui-hover-end', () => { badge.textContent = 'idle'; });
       }
 
       // ── Bind status badges ──
@@ -379,10 +379,10 @@
 
       const instantCard = document.getElementById('instant-card');
       const instantLogEl = document.getElementById('instant-log');
-      instantCard.addEventListener('ui-hover-enter', (e) => {
+      instantCard.addEventListener('ui-hover-start', (e) => {
         appendLog(instantLogEl, `Enter (${e.detail.pointerType})`);
       });
-      instantCard.addEventListener('ui-hover-leave', (e) => {
+      instantCard.addEventListener('ui-hover-end', (e) => {
         appendLog(instantLogEl, `Leave (${e.detail.pointerType})`);
       });
 
@@ -390,10 +390,10 @@
 
       const intentCard = document.getElementById('intent-card');
       const intentLogEl = document.getElementById('intent-log');
-      intentCard.addEventListener('ui-hover-enter', (e) => {
+      intentCard.addEventListener('ui-hover-start', (e) => {
         appendLog(intentLogEl, `Enter after 500ms (${e.detail.pointerType})`);
       });
-      intentCard.addEventListener('ui-hover-leave', (e) => {
+      intentCard.addEventListener('ui-hover-end', (e) => {
         appendLog(intentLogEl, `Leave (${e.detail.pointerType})`);
       });
 
@@ -401,10 +401,10 @@
 
       const stickyCard = document.getElementById('sticky-card');
       const stickyLogEl = document.getElementById('sticky-log');
-      stickyCard.addEventListener('ui-hover-enter', (e) => {
+      stickyCard.addEventListener('ui-hover-start', (e) => {
         appendLog(stickyLogEl, `Enter (${e.detail.pointerType})`);
       });
-      stickyCard.addEventListener('ui-hover-leave', (e) => {
+      stickyCard.addEventListener('ui-hover-end', (e) => {
         appendLog(stickyLogEl, `Leave after 300ms delay (${e.detail.pointerType})`);
       });
 
@@ -412,10 +412,10 @@
 
       const combinedCard = document.getElementById('combined-card');
       const combinedLogEl = document.getElementById('combined-log');
-      combinedCard.addEventListener('ui-hover-enter', (e) => {
+      combinedCard.addEventListener('ui-hover-start', (e) => {
         appendLog(combinedLogEl, `Enter after 400ms (${e.detail.pointerType})`);
       });
-      combinedCard.addEventListener('ui-hover-leave', (e) => {
+      combinedCard.addEventListener('ui-hover-end', (e) => {
         appendLog(combinedLogEl, `Leave after 200ms (${e.detail.pointerType})`);
       });
     </script>

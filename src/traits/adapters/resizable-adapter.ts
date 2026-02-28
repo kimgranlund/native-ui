@@ -16,8 +16,16 @@ export const resizableAdapter: TraitAdapter<ResizeController> = {
   destroy(instance) { instance.destroy(); },
   update(instance, options) {
     if ('axis' in options) instance.axis = options['axis'] as 'horizontal' | 'vertical' | 'both';
-    if ('min' in options) instance.min = Number(options['min']);
-    if ('max' in options) instance.max = Number(options['max']);
+    if ('min' in options) {
+      const val = options['min'];
+      const n = Number(val);
+      if (val !== '' && !isNaN(n)) instance.min = n;
+    }
+    if ('max' in options) {
+      const val = options['max'];
+      const n = Number(val);
+      if (val !== '' && !isNaN(n)) instance.max = n;
+    }
     if ('disabled' in options) instance.disabled = options['disabled'] === 'true';
     if ('reverse' in options) instance.reverse = options['reverse'] === 'true';
   },

@@ -41,8 +41,8 @@ Public `--ui-*` custom properties consumed by this component:
 
 | Attribute | Type | Description |
 |-----------|------|-------------|
-| `value` | `string` | Tab value used for selection matching |
 | `disabled` | `boolean` | Disables this tab |
+| `value` | `string` | Tab value used for selection matching |
 
 ### Properties
 

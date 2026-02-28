@@ -48,7 +48,8 @@
   :where(ui-command-list) {
     overflow-y: auto;
     max-height: var(--ui-popover-max-height);
-    padding: var(--_space);
+    padding-block: var(--_space);
+    padding-inline: var(--_space);
   }
 
   /* ── Command Group ── */

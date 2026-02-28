@@ -103,10 +103,12 @@ export class SelectionController {
   }
 
   clear(): void {
+    // WHY: Skip dispatch if already empty to avoid spurious events (e.g. on destroy())
+    const wasEmpty = this.#selected.size === 0;
     this.#clearAttributes();
     this.#selected.clear();
     this.#anchor = null;
-    this.#dispatch();
+    if (!wasEmpty) this.#dispatch();
   }
 
   getSelection(): HTMLElement[] {

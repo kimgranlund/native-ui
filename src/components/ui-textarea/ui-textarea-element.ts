@@ -18,20 +18,22 @@ import { FormAssociable } from '../../core/form-associable.ts';
  * @fires ui-change - Fired on blur with `{ value }` detail
  */
 export class UITextarea extends FormAssociable(UIElement) {
-  static observedAttributes = ['value', 'placeholder', 'disabled', 'readonly', 'required', 'name', 'rows', 'maxlength', 'autogrow'];
+  static observedAttributes = ['value', 'placeholder', 'disabled', 'readonly', 'required', 'rows', 'maxlength', 'autogrow', 'pattern'];
 
   #internals: ElementInternals;
   #disabled = signal(false);
   #required = signal(false);
+  #maxlength = signal(NaN);
   #formValue = signal('');
+  #initialValue = '';
   #autoGrowRaf = 0;
+  #pattern: string | null = null;
 
   constructor() {
     super();
     this.#internals = this.attachInternals();
     this.#internals.role = 'textbox';
     this.#internals.ariaMultiLine = 'true';
-    this.setAttribute('aria-multiline', 'true');
   }
 
   // ── Value ──
@@ -125,8 +127,14 @@ export class UITextarea extends FormAssociable(UIElement) {
       case 'required':
         this.#required.value = val !== null;
         break;
+      case 'maxlength':
+        this.#maxlength.value = val !== null ? parseInt(val, 10) : NaN;
+        break;
       case 'autogrow':
         this.#autoGrow();
+        break;
+      case 'pattern':
+        this.#pattern = val;
         break;
     }
     super.attributeChangedCallback?.(name, old, val);
@@ -136,22 +144,42 @@ export class UITextarea extends FormAssociable(UIElement) {
 
   setup(): void {
     super.setup();
+    // WHY: Moved from constructor — spec forbids setAttribute in constructor
+    this.setAttribute('aria-multiline', 'true');
     if (!this.hasAttribute('contenteditable')) {
       this.setAttribute('contenteditable', 'plaintext-only');
     }
     // WHY: Sync signals from initial attributes (attributeChangedCallback fires before setup)
     this.#required.value = this.hasAttribute('required');
+    const maxlengthAttrInit = this.getAttribute('maxlength');
+    this.#maxlength.value = maxlengthAttrInit !== null ? parseInt(maxlengthAttrInit, 10) : NaN;
+    this.#pattern = this.getAttribute('pattern');
+    this.#initialValue = this.getAttribute('value') ?? this.textContent ?? '';
     this.#formValue.value = this.textContent ?? '';
     this.#updateEmptyState();
     this.#autoGrow();
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals, { manageTabindex: true }));
 
-    // Constraint validation: report valueMissing when required and empty
+    // Constraint validation: report valueMissing, tooLong, and patternMismatch
     this.addEffect(() => {
-      if (this.#required.value && this.#formValue.value === '') {
+      const val = this.#formValue.value;
+      const maxlength = this.#maxlength.value;
+      if (this.#required.value && val === '') {
         this.#internals.setValidity(
           { valueMissing: true },
           'Please fill out this field.',
+          this,
+        );
+      } else if (!isNaN(maxlength) && val.length > maxlength) {
+        this.#internals.setValidity(
+          { tooLong: true },
+          `Please shorten this text to ${maxlength} characters or less.`,
+          this,
+        );
+      } else if (this.#pattern !== null && val !== '' && !new RegExp(`^(?:${this.#pattern})$`).test(val)) {
+        this.#internals.setValidity(
+          { patternMismatch: true },
+          'Please match the requested format.',
           this,
         );
       } else {
@@ -178,11 +206,20 @@ export class UITextarea extends FormAssociable(UIElement) {
   }
 
   override onFormReset(): void {
-    this.textContent = '';
-    this.#formValue.value = '';
-    this.#internals.setFormValue('');
+    this.textContent = this.#initialValue;
+    this.#formValue.value = this.#initialValue;
+    this.#internals.setFormValue(this.#initialValue);
     this.#updateEmptyState();
+    this.#autoGrow();
     this.#disabled.value = this.hasAttribute('disabled');
+    // WHY: Re-sync contenteditable to match the reset disabled state.
+    // The disabled signal reset above triggers createDisabledEffect, but
+    // that effect does not manage contenteditable — we sync it explicitly here.
+    this.setAttribute('contenteditable', (this.#disabled.value || this.hasAttribute('readonly')) ? 'false' : 'plaintext-only');
+  }
+
+  override onFormStateRestore(state: string | FormData | null): void {
+    this.value = typeof state === 'string' ? state : '';
   }
 
   // ── Empty state (for CSS placeholder) ──
@@ -211,31 +248,14 @@ export class UITextarea extends FormAssociable(UIElement) {
 
   #onInput = (): void => {
     const val = this.textContent ?? '';
-
-    // Enforce maxlength
-    const maxlength = this.getAttribute('maxlength');
-    if (maxlength !== null) {
-      const max = parseInt(maxlength, 10);
-      if (!isNaN(max) && val.length > max) {
-        this.textContent = val.slice(0, max);
-        // Move cursor to end after truncation
-        const sel = window.getSelection();
-        if (sel) {
-          sel.selectAllChildren(this);
-          sel.collapseToEnd();
-        }
-      }
-    }
-
-    const finalVal = this.textContent ?? '';
-    this.#formValue.value = finalVal;
-    this.#internals.setFormValue(finalVal);
+    this.#formValue.value = val;
+    this.#internals.setFormValue(val);
     this.#updateEmptyState();
     this.#autoGrow();
     this.dispatchEvent(new CustomEvent('ui-input', {
       bubbles: true,
       composed: true,
-      detail: { value: finalVal },
+      detail: { value: val },
     }));
   };
 

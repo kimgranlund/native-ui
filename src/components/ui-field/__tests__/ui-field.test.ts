@@ -104,15 +104,31 @@ describe('ui-field', () => {
     expect(control.getAttribute('aria-labelledby')).toBe(label.id);
   });
 
-  it('sets aria-describedby on control including both description and error ids', () => {
+  it('sets aria-describedby with only description id initially (error added on invalid)', () => {
     const field = createField();
     const desc = field.querySelector('[slot="description"]') as HTMLElement;
     const error = field.querySelector('[slot="error"]') as HTMLElement;
     const control = field.querySelector('ui-input') as HTMLElement;
 
+    // Initially only description — error not referenced until validation fails
     const describedBy = control.getAttribute('aria-describedby') ?? '';
     expect(describedBy).toContain(desc.id);
-    expect(describedBy).toContain(error.id);
+    expect(describedBy).not.toContain(error.id);
+
+    // After invalid event, error id is added
+    field.dispatchEvent(new CustomEvent('ui-invalid', {
+      bubbles: true,
+      detail: { message: 'Required' },
+    }));
+    const updated = control.getAttribute('aria-describedby') ?? '';
+    expect(updated).toContain(desc.id);
+    expect(updated).toContain(error.id);
+
+    // After valid event, error id is removed
+    field.dispatchEvent(new CustomEvent('ui-valid', { bubbles: true }));
+    const cleared = control.getAttribute('aria-describedby') ?? '';
+    expect(cleared).toContain(desc.id);
+    expect(cleared).not.toContain(error.id);
   });
 
   it('sets aria-describedby even when only description slot is present', () => {

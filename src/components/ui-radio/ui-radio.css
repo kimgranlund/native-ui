@@ -122,12 +122,14 @@
 
   /* ── Active (pressed) ── */
 
-  :where(ui-radio)[pressed]::before {
+  :where(ui-radio)[pressed]::before,
+  :where(ui-radio)[force-active]::before {
     background: var(--_background-active, var(--_widget-active));
     border-color: var(--_border-color-active, var(--_border-active));
   }
 
-  :where(ui-radio)[aria-checked="true"][pressed]::before {
+  :where(ui-radio)[aria-checked="true"][pressed]::before,
+  :where(ui-radio)[aria-checked="true"][force-active]::before {
     background: var(--_surface-active);
     border-color: var(--_surface-active);
   }

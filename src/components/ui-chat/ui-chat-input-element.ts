@@ -11,7 +11,7 @@ import type { UITextarea } from '../ui-textarea/ui-textarea-element.ts';
  * @fires ui-send - Fired on submit with `{ value }` detail
  */
 export class UIChatInput extends UIElement {
-  static observedAttributes = ['disabled', 'no-enter-submit', 'no-auto-clear'];
+  static observedAttributes = ['disabled'];
 
   #internals: ElementInternals;
   #disabled = signal(false);
