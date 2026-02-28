@@ -4,13 +4,13 @@
 // guarantees they appear in dist/inspector.js.
 
 import { define } from './core/define.ts';
-import { UIElement } from './core/ui-element.ts';
 
 // ds-* sub-elements
 import { DSVariable } from './nav/inspector/ds-variable-element.ts';
 import { DSColors } from './nav/inspector/ds-colors-element.ts';
 import { DSColorSwatch } from './nav/inspector/ds-color-swatch-element.ts';
 import { DSThemes } from './nav/inspector/ds-themes-element.ts';
+import { DSInspector } from './nav/inspector/ds-inspector-element.ts';
 
 import { buildInspector } from './nav/inspector/build-inspector.ts';
 
@@ -23,16 +23,6 @@ define('ds-variable', DSVariable);
 define('ds-colors', DSColors);
 define('ds-color-swatch', DSColorSwatch);
 define('ds-themes', DSThemes);
-
-// ── <ds-inspector> wrapper ──
-
-class DSInspector extends UIElement {
-  setup(): void {
-    super.setup();
-    buildInspector(this);
-  }
-}
-
 define('ds-inspector', DSInspector);
 
 // ── Public API ──
