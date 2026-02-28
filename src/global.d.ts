@@ -63,7 +63,7 @@ import type { UICard } from './containers/ui-card/ui-card-element.ts';
 import type { UISection } from './containers/ui-section/ui-section-element.ts';
 import type { UIToolbar } from './containers/ui-toolbar/ui-toolbar-element.ts';
 import type { UILayoutSidebar } from './containers/ui-layout-sidebar/ui-layout-sidebar-element.ts';
-import type { UILayoutSidebarTrigger } from './containers/ui-layout-sidebar/ui-layout-sidebar-trigger-element.ts';
+import type { UILayoutSidebarItem } from './containers/ui-layout-sidebar/ui-layout-sidebar-item-element.ts';
 import type { UILayoutChat } from './containers/ui-layout-chat/ui-layout-chat-element.ts';
 import type { UILayoutInspector } from './containers/ui-layout-inspector/ui-layout-inspector-element.ts';
 import type { UIIcon } from './icons/ui-icon-element.ts';
@@ -156,7 +156,7 @@ declare global {
     'ui-section': UISection;
     'ui-toolbar': UIToolbar;
     'ui-layout-sidebar': UILayoutSidebar;
-    'ui-layout-sidebar-trigger': UILayoutSidebarTrigger;
+    'ui-layout-sidebar-item': UILayoutSidebarItem;
     'ui-layout-chat': UILayoutChat;
     'ui-layout-inspector': UILayoutInspector;
 

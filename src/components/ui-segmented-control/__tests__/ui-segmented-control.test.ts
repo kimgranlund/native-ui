@@ -157,6 +157,51 @@ describe('ui-segmented-control', () => {
   });
 });
 
+describe('ui-segmented-control (static HTML)', () => {
+  it('reflects initial value when created via innerHTML', () => {
+    document.body.innerHTML = `
+      <ui-segmented-control value="b">
+        <ui-segment value="a">A</ui-segment>
+        <ui-segment value="b">B</ui-segment>
+        <ui-segment value="c">C</ui-segment>
+      </ui-segmented-control>
+    `;
+    const el = document.querySelector('ui-segmented-control')!;
+    expect((el as any).value).toBe('b');
+  });
+
+  it('sets aria-checked on matching segment from innerHTML', async () => {
+    document.body.innerHTML = `
+      <ui-segmented-control value="b">
+        <ui-segment value="a">A</ui-segment>
+        <ui-segment value="b">B</ui-segment>
+        <ui-segment value="c">C</ui-segment>
+      </ui-segmented-control>
+    `;
+    await new Promise<void>(resolve => queueMicrotask(resolve));
+
+    const segments = document.querySelectorAll('ui-segment');
+    expect(segments[0].getAttribute('aria-checked')).toBe('false');
+    expect(segments[1].getAttribute('aria-checked')).toBe('true');
+    expect(segments[2].getAttribute('aria-checked')).toBe('false');
+  });
+
+  it('sets indicator CSS custom properties from innerHTML', async () => {
+    document.body.innerHTML = `
+      <ui-segmented-control value="b">
+        <ui-segment value="a">A</ui-segment>
+        <ui-segment value="b">B</ui-segment>
+        <ui-segment value="c">C</ui-segment>
+      </ui-segmented-control>
+    `;
+    await new Promise<void>(resolve => queueMicrotask(resolve));
+
+    const el = document.querySelector('ui-segmented-control')! as HTMLElement;
+    expect(el.style.getPropertyValue('--_indicator-index')).toBe('1');
+    expect(el.style.getPropertyValue('--_segment-count')).toBe('3');
+  });
+});
+
 describe('ui-segment', () => {
   it('value property reflects to attribute', () => {
     const seg = document.createElement('ui-segment');

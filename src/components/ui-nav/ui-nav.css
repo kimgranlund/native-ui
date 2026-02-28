@@ -7,11 +7,14 @@
      │  Uses ui-nav-item / ui-nav-group for children.           │
      ╰──────────────────────────────────────────────────────────╯ */
 
+  /* WHY: ui-nav is a transparent flex wrapper — no inline padding.
+     Inline padding is owned by leaf items (nav-item, summary).
+     Block padding is owned by nav-group margins. */
   :where(ui-nav) {
     display: flex;
     flex-direction: column;
     gap: 0;
-    padding: var(--_space);
+    padding: 0;
     outline: none;
   }
 
@@ -26,6 +29,7 @@
     display: flex;
     align-items: center;
     gap: calc(var(--_space) * 2);
+    padding-inline: calc(var(--_space-k) * var(--_space));
 
     min-height: var(--_min-height);
 
@@ -125,6 +129,7 @@
     display: flex;
     align-items: center;
     gap: calc(var(--_space) * 2);
+    padding-inline: calc(var(--_space-k) * var(--_space));
     cursor: pointer;
     user-select: none;
     list-style: none;
@@ -212,8 +217,11 @@
   /* WHY: Connector draws from below the header to the bottom of the group.
      Only shown when header contains an icon. Scoped via :has(). */
 
+  /* WHY: Insets account for the summary's padding-inline so the connector
+     line passes through the icon center and child text aligns with header text. */
   :where(ui-nav-group):has(:where(ui-nav-group-header) :where(ui-icon)) {
-    --_group-line-inset: calc(var(--_icon-size) / 2);
+    --_group-pad: calc(var(--_space-k) * var(--_space));
+    --_group-line-inset: calc(var(--_group-pad) + var(--_icon-size) / 2);
     --_group-child-inset: calc(var(--_icon-size) + var(--_space) * 2);
   }
 
@@ -257,6 +265,73 @@
 
   :where(ui-nav-group) > :where(details) > :where(ui-nav-item) {
     margin-inline-start: var(--_group-child-inset, 0);
+  }
+
+  /* ── Nav Group Flyout (collapsed sidebar) ── */
+  /* WHY: In collapsed mode, summary click opens a ui-listbox popover to the right
+     instead of expanding the <details>. Same pattern as sidebar-trigger menus. */
+
+  :where(ui-nav-group) > :where(ui-listbox.nav-group-flyout[popover]) {
+    position: fixed;
+    position-area: inline-end span-block-end;
+    position-try-fallbacks: --nav-flyout-flip-up;
+    margin: 0 0 0 var(--ui-popover-gap);
+    min-width: 200px;
+    max-height: var(--ui-popover-max-height);
+    overflow-y: auto;
+  }
+
+  @position-try --nav-flyout-flip-up {
+    position-area: inline-end span-block-start;
+  }
+
+  /* ── Container Query: Collapsed Sidebar ── */
+  /* WHY: Nav components own their own collapsed behavior via @container.
+     The sidebar aside declares container-name: sidebar. When it shrinks
+     to 48px (icon rail), nav responds to the width — not to [collapsed].
+     Threshold 80px: collapsed = 48px, min expanded = 160px. */
+
+  @container sidebar (max-width: 80px) {
+
+    /* Nav items hide entirely — only group headers (with icons) remain. */
+    :where(ui-nav-item) {
+      display: none;
+    }
+
+    /* Summary shrinks to icon-only. Reduced inline padding wraps tightly
+       around the icon; parent align-items: center handles horizontal centering. */
+    :where(ui-nav-group) > :where(details) > :where(summary) {
+      padding-inline: var(--_space);
+      border-radius: var(--_radius);
+    }
+
+    /* Hide chevron — no expand/collapse in icon rail (flyout instead). */
+    :where(ui-nav-group) > :where(details) > :where(summary)::after {
+      display: none;
+    }
+
+    /* Hide vertical connector line and sliding indicator. */
+    :where(ui-nav-group)::after,
+    :where(ui-nav-group)::before {
+      display: none;
+    }
+
+    /* Header collapses to icon-only. font-size: 0 hides text nodes
+       (can't be targeted by CSS). Icon overrides back to normal below. */
+    :where(ui-nav-group-header) {
+      flex: 0 0 auto;
+      font-size: 0;
+      gap: 0;
+    }
+
+    :where(ui-nav-group-header) :where(ui-icon) {
+      font-size: var(--_font-size, 1rem);
+    }
+
+    /* Collapse inter-group spacing in icon rail. */
+    :where(ui-nav-group) + :where(ui-nav-group) {
+      margin-block-start: 0;
+    }
   }
 
 }

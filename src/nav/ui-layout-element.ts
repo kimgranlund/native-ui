@@ -43,8 +43,11 @@ import '../icons/phosphor/sparkle.ts';
 import '../icons/phosphor/credit-card.ts';
 import '../icons/phosphor/bell.ts';
 import '../icons/phosphor/cpu.ts';
+import '../icons/phosphor/layout.ts';
 import '../icons/phosphor/code.ts';
 import '../icons/phosphor/code-fill.ts';
+import '../icons/phosphor/command.ts';
+import '../components/ui-kbd/ui-kbd.ts';
 
 interface SitemapEntry {
   title: string;
@@ -123,12 +126,12 @@ export class UILayout extends UIElement {
     const storedWidth = localStorage.getItem(STORAGE_WIDTH);
     if (storedWidth && !isCollapsed) sidebar.style.width = storedWidth;
 
-    // Header — system menu trigger + popover
+    // Header — system menu item + popover
     const header = document.createElement('ui-layout-sidebar-header');
 
-    const systemTrigger = document.createElement('ui-layout-sidebar-trigger');
+    const systemTrigger = document.createElement('ui-layout-sidebar-item');
     systemTrigger.innerHTML =
-      '<span class="nav-logo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="2"/><path d="M8 16V8l8 8V8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+      '<span class="nav-logo" slot="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="2"/><path d="M8 16V8l8 8V8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
       '<span slot="label">NativeUI</span>' +
       '<ui-icon name="caret-up-down" slot="trailing"></ui-icon>' +
       '<ui-listbox popover="manual">' +
@@ -144,12 +147,11 @@ export class UILayout extends UIElement {
         '</ui-option-group>' +
       '</ui-listbox>';
 
-    header.append(systemTrigger);
-
-    // Content area (scrollable middle)
-    const inner = document.createElement('ui-layout-sidebar-content');
-
-    // Search hint
+    // Search hint — wrapped in sidebar-item for consistent inline padding
+    const searchItem = document.createElement('ui-layout-sidebar-item');
+    const searchIcon = document.createElement('ui-icon');
+    searchIcon.setAttribute('name', 'magnifying-glass');
+    searchIcon.setAttribute('slot', 'icon');
     const searchHint = document.createElement('ui-button');
     searchHint.className = 'nav-search-hint';
     searchHint.setAttribute('size', 'md');
@@ -158,8 +160,14 @@ export class UILayout extends UIElement {
     searchHint.innerHTML =
       '<ui-icon name="magnifying-glass" slot="leading"></ui-icon>' +
       '<span slot="label">Search</span>' +
-      '<kbd slot="trailing">\u2318K</kbd>';
-    searchHint.addEventListener('click', () => openDialog());
+      '<ui-kbd slot="trailing"><ui-icon name="command"></ui-icon>K</ui-kbd>';
+    searchItem.addEventListener('click', () => openDialog());
+    searchItem.append(searchIcon, searchHint);
+
+    header.append(systemTrigger, searchItem);
+
+    // Content area (scrollable middle)
+    const inner = document.createElement('ui-layout-sidebar-content');
 
     // Nav links
     const nav = document.createElement('ui-nav') as HTMLElement;
@@ -187,7 +195,7 @@ export class UILayout extends UIElement {
 
     const groupIcons: Record<string, string> = {
       Components: 'cube',
-      Containers: 'package',
+      Containers: 'layout',
       Traits: 'lightning',
       Blocks: 'squares-four',
       Core: 'cpu',
@@ -240,14 +248,14 @@ export class UILayout extends UIElement {
     const resizeHandle = document.createElement('div');
     resizeHandle.className = 'layout-resize-handle';
 
-    inner.append(searchHint, nav);
+    inner.append(nav);
 
     // Footer — user menu trigger + popover
     const footer = document.createElement('ui-layout-sidebar-footer');
 
-    const userTrigger = document.createElement('ui-layout-sidebar-trigger');
+    const userTrigger = document.createElement('ui-layout-sidebar-item');
     userTrigger.innerHTML =
-      '<ui-icon name="user"></ui-icon>' +
+      '<ui-icon name="user" slot="icon"></ui-icon>' +
       '<span slot="label">User</span>' +
       '<ui-icon name="caret-up-down" slot="trailing"></ui-icon>' +
       '<ui-listbox popover="manual">' +

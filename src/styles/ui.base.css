@@ -23,6 +23,54 @@
     display: none;
   }
 
+  /* WHY: Custom elements render as unstyled inline text until define() runs.
+     visibility:hidden preserves layout — no reflow when the element upgrades.
+     Only targets elements that call define(); CSS-only containers are excluded
+     (they never become :defined so would be permanently hidden). */
+  :where(
+    ui-accordion, ui-accordion-item,
+    ui-avatar,
+    ui-badge,
+    ui-breadcrumb, ui-breadcrumb-item,
+    ui-button,
+    ui-calendar,
+    ui-card,
+    ui-chat-input,
+    ui-checkbox,
+    ui-combobox,
+    ui-command, ui-command-empty, ui-command-group, ui-command-input, ui-command-item, ui-command-list,
+    ui-controller,
+    ui-dialog,
+    ui-drawer,
+    ui-field,
+    ui-icon,
+    ui-input,
+    ui-input-otp,
+    ui-kbd,
+    ui-layout-chat,
+    ui-layout-inspector,
+    ui-layout-sidebar, ui-layout-sidebar-item,
+    ui-listbox,
+    ui-nav, ui-nav-group, ui-nav-group-header, ui-nav-item,
+    ui-option, ui-option-group, ui-option-group-header,
+    ui-pagination,
+    ui-radio, ui-radio-group,
+    ui-range,
+    ui-section,
+    ui-segment, ui-segmented-control,
+    ui-select,
+    ui-slide, ui-slideshow,
+    ui-switch,
+    ui-tab, ui-tab-panel, ui-tab-panels, ui-tabs,
+    ui-table, ui-table-body, ui-table-cell, ui-table-head, ui-table-header, ui-table-row,
+    ui-textarea,
+    ui-toolbar,
+    ui-tooltip,
+    ui-tree, ui-tree-item
+  ):not(:defined) {
+    visibility: hidden;
+  }
+
   /* ── Document Defaults ── */
 
   :where(:root) {

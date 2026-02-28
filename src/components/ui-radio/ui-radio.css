@@ -90,27 +90,15 @@
   }
 
   /* ── Selected ── */
-  /* WHY: Default selected fill uses accent so radio is visually distinct
-     without needing intent="accent". Unchecked borders stay neutral.
-     When an explicit [intent] is set, the intent selector's --_surface wins. */
 
   :where(ui-radio)[aria-checked="true"]::before {
-    background: var(--accent-surface);
-    border-color: var(--accent-surface);
-  }
-
-  :where(ui-radio)[aria-checked="true"]::after {
-    background: var(--accent-surface-ink);
-    transform: translateY(-50%) scale(1);
-  }
-
-  :where(ui-radio-group)[intent] :where(ui-radio)[aria-checked="true"]::before {
     background: var(--_surface);
     border-color: var(--_surface);
   }
 
-  :where(ui-radio-group)[intent] :where(ui-radio)[aria-checked="true"]::after {
+  :where(ui-radio)[aria-checked="true"]::after {
     background: var(--_surface-ink);
+    transform: translateY(-50%) scale(1);
   }
 
   /* ── Hover ── */
@@ -128,12 +116,6 @@
 
   :where(ui-radio)[aria-checked="true"]:hover::before,
   :where(ui-radio)[aria-checked="true"][force-hover]::before {
-    background: var(--accent-surface-hover);
-    border-color: var(--accent-surface-hover);
-  }
-
-  :where(ui-radio-group)[intent] :where(ui-radio)[aria-checked="true"]:hover::before,
-  :where(ui-radio-group)[intent] :where(ui-radio)[aria-checked="true"][force-hover]::before {
     background: var(--_surface-hover);
     border-color: var(--_surface-hover);
   }
@@ -146,11 +128,6 @@
   }
 
   :where(ui-radio)[aria-checked="true"][pressed]::before {
-    background: var(--accent-surface-active);
-    border-color: var(--accent-surface-active);
-  }
-
-  :where(ui-radio-group)[intent] :where(ui-radio)[aria-checked="true"][pressed]::before {
     background: var(--_surface-active);
     border-color: var(--_surface-active);
   }

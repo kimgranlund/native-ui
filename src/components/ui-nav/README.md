@@ -27,6 +27,8 @@ Public `--ui-*` custom properties consumed by this component:
 - `--ui-font-weight-button`
 - `--ui-font-weight-text`
 - `--ui-line-height-control`
+- `--ui-popover-gap`
+- `--ui-popover-max-height`
 
 ---
 
@@ -55,6 +57,8 @@ Public `--ui-*` custom properties consumed by this component:
 ## ui-nav-group
 
 > Collapsible group of navigation items using native details/summary.
+Exposes `openFlyout()` / `closeFlyout()` for collapsed-sidebar mode —
+the sidebar layout coordinator decides *when* to call them.
 
 **Class:** `UINavGroup`
 
@@ -63,6 +67,19 @@ Public `--ui-*` custom properties consumed by this component:
 | Attribute | Type | Description |
 |-----------|------|-------------|
 | `open` | `boolean` | Whether the group is expanded (defaults to true) |
+
+### Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `flyoutOpen` | `boolean` | yes |  |
+
+### Methods
+
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `openFlyout()` | `—` | `void` |
+| `closeFlyout()` | `—` | `void` |
 
 ---
 

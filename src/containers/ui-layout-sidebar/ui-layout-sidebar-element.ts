@@ -1,15 +1,34 @@
 import { UIElement } from '../../core/ui-element.ts';
 import { ResizeController } from '../../traits/resize-controller.ts';
+import type { UINavGroup } from '../../components/ui-nav/ui-nav-group-element.ts';
 
-/** Full-page layout with a resizable sidebar aside and content column. */
+/** Full-page layout with a resizable sidebar aside and content column.
+ *  Coordinates nav-group flyout popovers when the sidebar is collapsed. */
 export class UILayoutSidebar extends UIElement {
+  static observedAttributes = ['collapsed'];
+
   #sidebarResize: ResizeController | null = null;
+  #resizeObserver: ResizeObserver | null = null;
+
+  // Flyout coordination for collapsed sidebar mode
+  #activeGroup: UINavGroup | null = null;
+  #summaryListeners: Array<{ summary: HTMLElement; handler: (e: Event) => void }> = [];
+
+  attributeChangedCallback(name: string, old: string | null, val: string | null): void {
+    if (old === val) return;
+    // WHY: Guard with dataset.ready — attributeChangedCallback fires before
+    // connectedCallback/setup() when attributes are set pre-connection.
+    // #syncFlyoutMode() needs child nav-groups to be setup'd first.
+    if (name === 'collapsed' && this.dataset.ready !== undefined) this.#syncFlyoutMode();
+    super.attributeChangedCallback?.(name, old, val);
+  }
 
   setup(): void {
     super.setup();
 
-    // Sidebar resize
     const aside = this.querySelector(':scope > [slot="sidebar"]') as HTMLElement | null;
+
+    // Sidebar resize
     if (aside?.querySelector('.layout-resize-handle')) {
       this.#sidebarResize = new ResizeController(aside, {
         handleSelector: '.layout-resize-handle',
@@ -19,12 +38,120 @@ export class UILayoutSidebar extends UIElement {
       });
     }
 
+    // Measure header/footer heights for absolute overlay layout
+    if (aside) this.#observeOverlays(aside);
+
+    // ── Flyout coordination ──
+    // WHY: When the sidebar is collapsed, nav-group headers become icon buttons.
+    // Clicking them should open a flyout popover instead of toggling <details>.
+    // The sidebar coordinator owns this behavior — nav-group doesn't know about sidebars.
+    this.#syncFlyoutMode();
+
+    // WHY: When a group closes its own flyout (via ui-dismiss or option select),
+    // clear our active reference so the coordinator stays in sync.
+    this.addEventListener('ui-dismiss', this.#onGroupDismiss);
+
     this.dataset.ready = '';
   }
 
   teardown(): void {
+    this.removeEventListener('ui-dismiss', this.#onGroupDismiss);
+    this.#teardownFlyoutListeners();
+    this.#activeGroup = null;
+    this.#resizeObserver?.disconnect();
+    this.#resizeObserver = null;
     this.#sidebarResize?.destroy();
     this.#sidebarResize = null;
     super.teardown();
+  }
+
+  // ── Flyout coordination ──
+
+  /** Attach or detach summary click interception based on collapsed state. */
+  #syncFlyoutMode(): void {
+    this.#teardownFlyoutListeners();
+
+    if (!this.hasAttribute('collapsed')) {
+      // Expanded: close any open flyout, no interception needed
+      if (this.#activeGroup?.flyoutOpen) this.#activeGroup.closeFlyout();
+      this.#activeGroup = null;
+      return;
+    }
+
+    // Collapsed: intercept summary clicks on all nav-group descendants
+    const groups = this.querySelectorAll<UINavGroup>('ui-nav-group');
+    for (const group of groups) {
+      const summary = group.querySelector(':scope > details > summary') as HTMLElement | null;
+      if (!summary) continue;
+
+      const handler = (e: Event): void => {
+        // WHY: Prevent <details> from toggling — we handle interaction via popover.
+        e.preventDefault();
+
+        if (this.#activeGroup === group && group.flyoutOpen) {
+          group.closeFlyout();
+          this.#activeGroup = null;
+        } else {
+          // Close previous flyout (mutual exclusion)
+          if (this.#activeGroup?.flyoutOpen) this.#activeGroup.closeFlyout();
+          group.openFlyout();
+          this.#activeGroup = group;
+        }
+      };
+
+      summary.addEventListener('click', handler);
+      this.#summaryListeners.push({ summary, handler });
+    }
+  }
+
+  /** Remove all summary click listeners. */
+  #teardownFlyoutListeners(): void {
+    for (const { summary, handler } of this.#summaryListeners) {
+      summary.removeEventListener('click', handler);
+    }
+    this.#summaryListeners = [];
+  }
+
+  /** When a group closes its flyout internally (dismiss, option select),
+   *  clear our active reference so we stay in sync. */
+  #onGroupDismiss = (e: Event): void => {
+    const group = (e.target as HTMLElement)?.closest?.('ui-nav-group') as UINavGroup | null;
+    if (group && group === this.#activeGroup) {
+      this.#activeGroup = null;
+    }
+  };
+
+  /** Watch header/footer size changes and sync CSS custom properties + data
+   *  attributes so content gets correct padding offsets and fade masks. */
+  #observeOverlays(aside: HTMLElement): void {
+    const header = aside.querySelector('ui-layout-sidebar-header') as HTMLElement | null;
+    const footer = aside.querySelector('ui-layout-sidebar-footer') as HTMLElement | null;
+    const content = aside.querySelector('ui-layout-sidebar-content') as HTMLElement | null;
+    if (!content) return;
+
+    const sync = (): void => {
+      const hh = header ? header.offsetHeight : 0;
+      const fh = footer ? footer.offsetHeight : 0;
+      aside.style.setProperty('--_sidebar-header-height', `${hh}px`);
+      aside.style.setProperty('--_sidebar-footer-height', `${fh}px`);
+
+      if (header) content.dataset.hasHeader = '';
+      else delete content.dataset.hasHeader;
+      if (footer) content.dataset.hasFooter = '';
+      else delete content.dataset.hasFooter;
+    };
+
+    // Initial sync
+    sync();
+
+    // Re-sync when header/footer resize (e.g. collapsed mode changes height)
+    const targets: HTMLElement[] = [];
+    if (header) targets.push(header);
+    if (footer) targets.push(footer);
+
+    if (targets.length > 0) {
+      this.#resizeObserver = new ResizeObserver(sync);
+      for (const t of targets) this.#resizeObserver.observe(t);
+    }
   }
 }

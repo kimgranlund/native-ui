@@ -21,6 +21,7 @@
   { "title": "ui-input-otp", "path": "/src/components/ui-input-otp/ui-input-otp.html", "group": "Components" },
   { "title": "ui-avatar", "path": "/src/components/ui-avatar/ui-avatar.html", "group": "Components" },
   { "title": "ui-badge", "path": "/src/components/ui-badge/ui-badge.html", "group": "Components" },
+  { "title": "ui-kbd", "path": "/src/components/ui-kbd/ui-kbd.html", "group": "Components" },
   { "title": "ui-breadcrumb", "path": "/src/components/ui-breadcrumb/ui-breadcrumb.html", "group": "Components" },
   { "title": "ui-pagination", "path": "/src/components/ui-pagination/ui-pagination.html", "group": "Components" },
   { "title": "ui-drawer", "path": "/src/components/ui-drawer/ui-drawer.html", "group": "Components" },

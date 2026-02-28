@@ -58,14 +58,10 @@
     /* 0% = track-height (circle), 100% = full width */
     width: calc(var(--_track-height) + (100% - var(--_track-height)) * var(--_progress));
     border-radius: calc(var(--_track-height) / 2);
-    background: var(--accent-surface);
+    background: var(--_surface);
 
     transition:
       background var(--_duration) var(--_easing);
-  }
-
-  :where(ui-range)[intent]::after {
-    background: var(--_surface);
   }
 
   /* ── Thumb ── */
@@ -79,8 +75,8 @@
     width: var(--_thumb-size);
     height: var(--_thumb-size);
     border-radius: 50%;
-    background: var(--accent-surface-ink);
-    border: 2px solid var(--accent-surface);
+    background: var(--_surface-ink);
+    border: 2px solid var(--_surface);
     box-shadow: var(--ui-shadow-sm);
     pointer-events: none;
 
@@ -88,11 +84,6 @@
       box-shadow var(--_duration) var(--_easing),
       background var(--_duration) var(--_easing),
       border-color var(--_duration) var(--_easing);
-  }
-
-  :where(ui-range)[intent] > :where(.ui-range-thumb) {
-    background: var(--_surface-ink);
-    border-color: var(--_surface);
   }
 
   /* ── Focus ── */
@@ -107,22 +98,11 @@
 
   :where(ui-range):hover::after,
   :where(ui-range)[force-hover]::after {
-    background: var(--accent-surface-hover);
-  }
-
-  :where(ui-range)[intent]:hover::after,
-  :where(ui-range)[intent][force-hover]::after {
     background: var(--_surface-hover);
   }
 
   :where(ui-range):hover > :where(.ui-range-thumb),
   :where(ui-range)[force-hover] > :where(.ui-range-thumb) {
-    border-color: var(--accent-surface-hover);
-    box-shadow: var(--ui-shadow-sm), 0 0 0 4px var(--accent-surface);
-  }
-
-  :where(ui-range)[intent]:hover > :where(.ui-range-thumb),
-  :where(ui-range)[intent][force-hover] > :where(.ui-range-thumb) {
     border-color: var(--_surface-hover);
     box-shadow: var(--ui-shadow-sm), 0 0 0 4px var(--_surface);
   }
@@ -130,19 +110,10 @@
   /* ── Active (dragging) ── */
 
   :where(ui-range)[pressed]::after {
-    background: var(--accent-surface-active);
-  }
-
-  :where(ui-range)[intent][pressed]::after {
     background: var(--_surface-active);
   }
 
   :where(ui-range)[pressed] > :where(.ui-range-thumb) {
-    border-color: var(--accent-surface-active);
-    box-shadow: var(--ui-shadow-sm), 0 0 0 6px var(--accent-surface);
-  }
-
-  :where(ui-range)[intent][pressed] > :where(.ui-range-thumb) {
     border-color: var(--_surface-active);
     box-shadow: var(--ui-shadow-sm), 0 0 0 6px var(--_surface);
   }

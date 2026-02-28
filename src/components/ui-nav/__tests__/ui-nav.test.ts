@@ -1,6 +1,8 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import '../ui-nav.ts';
+import '../../ui-listbox/ui-listbox.ts';
+import '../../../containers/ui-layout-sidebar/ui-layout-sidebar.ts';
 
 // ── Helpers ──
 
@@ -38,6 +40,36 @@ function createGroupedNav(): HTMLElement {
   el.appendChild(group);
   document.body.appendChild(el);
   return el;
+}
+
+function createCollapsedSidebar(): { sidebar: HTMLElement; nav: HTMLElement; group: HTMLElement } {
+  const sidebar = document.createElement('ui-layout-sidebar');
+  sidebar.setAttribute('collapsed', '');
+  const slot = document.createElement('div');
+  slot.setAttribute('slot', 'sidebar');
+  sidebar.appendChild(slot);
+
+  const nav = document.createElement('ui-nav');
+  const group = document.createElement('ui-nav-group');
+  const header = document.createElement('ui-nav-group-header');
+  header.textContent = 'Section';
+  group.appendChild(header);
+
+  const item1 = document.createElement('ui-nav-item');
+  item1.setAttribute('value', 'a');
+  item1.textContent = 'A';
+  group.appendChild(item1);
+
+  const item2 = document.createElement('ui-nav-item');
+  item2.setAttribute('value', 'b');
+  item2.textContent = 'B';
+  group.appendChild(item2);
+
+  nav.appendChild(group);
+  slot.appendChild(nav);
+  document.body.appendChild(sidebar);
+
+  return { sidebar, nav, group };
 }
 
 afterEach(() => {
@@ -233,6 +265,222 @@ describe('ui-nav-group', () => {
     expect((nav as any).value).toBe('x');
     // ARIA: selected item in group gets aria-current="page"
     expect(item.getAttribute('aria-current')).toBe('page');
+  });
+});
+
+// ── ui-nav-group flyout public API ──
+
+describe('ui-nav-group flyout API', () => {
+  it('stamps flyout ui-listbox popover in setup', () => {
+    const nav = createGroupedNav();
+    const group = nav.querySelector('ui-nav-group')!;
+    const flyout = group.querySelector('ui-listbox.nav-group-flyout[popover]');
+    expect(flyout).not.toBeNull();
+  });
+
+  it('flyout is empty by default', () => {
+    const nav = createGroupedNav();
+    const group = nav.querySelector('ui-nav-group')!;
+    const flyout = group.querySelector('ui-listbox.nav-group-flyout')!;
+    expect(flyout.querySelectorAll('ui-option').length).toBe(0);
+  });
+
+  it('flyoutOpen is false by default', () => {
+    const nav = createGroupedNav();
+    const group = nav.querySelector('ui-nav-group')! as any;
+    expect(group.flyoutOpen).toBe(false);
+  });
+
+  it('openFlyout() stamps ui-option items and sets flyoutOpen', () => {
+    const nav = createGroupedNav();
+    const group = nav.querySelector('ui-nav-group')! as any;
+    const flyout = group.querySelector('ui-listbox.nav-group-flyout')!;
+
+    group.openFlyout();
+
+    expect(group.flyoutOpen).toBe(true);
+    expect(flyout.querySelectorAll('ui-option').length).toBe(2);
+    const options = flyout.querySelectorAll('ui-option');
+    expect(options[0].textContent).toBe('X');
+    expect(options[1].textContent).toBe('Y');
+  });
+
+  it('closeFlyout() clears flyout and resets flyoutOpen', () => {
+    const nav = createGroupedNav();
+    const group = nav.querySelector('ui-nav-group')! as any;
+    const flyout = group.querySelector('ui-listbox.nav-group-flyout')!;
+
+    group.openFlyout();
+    expect(flyout.querySelectorAll('ui-option').length).toBe(2);
+
+    group.closeFlyout();
+    expect(group.flyoutOpen).toBe(false);
+    expect(flyout.querySelectorAll('ui-option').length).toBe(0);
+  });
+
+  it('ui-dismiss clears flyout', () => {
+    const nav = createGroupedNav();
+    const group = nav.querySelector('ui-nav-group')! as any;
+    const flyout = group.querySelector('ui-listbox.nav-group-flyout')!;
+
+    group.openFlyout();
+    expect(flyout.querySelectorAll('ui-option').length).toBe(2);
+
+    group.dispatchEvent(new CustomEvent('ui-dismiss', { bubbles: true }));
+    expect(flyout.querySelectorAll('ui-option').length).toBe(0);
+  });
+
+  it('flyout option click dispatches ui-select (bubbles to nav) and closes flyout', async () => {
+    const nav = createGroupedNav();
+    const group = nav.querySelector('ui-nav-group')! as any;
+    const flyout = group.querySelector('ui-listbox.nav-group-flyout')!;
+    const selectHandler = vi.fn();
+    const changeHandler = vi.fn();
+    nav.addEventListener('ui-select', selectHandler);
+    nav.addEventListener('ui-change', changeHandler);
+
+    group.openFlyout();
+
+    const opt = flyout.querySelector('ui-option') as HTMLElement;
+    opt.click();
+
+    expect(selectHandler).toHaveBeenCalled();
+    expect(selectHandler.mock.calls[0][0].detail.value).toBe('x');
+
+    expect(changeHandler).toHaveBeenCalled();
+    expect(changeHandler.mock.calls[0][0].detail.value).toBe('x');
+
+    // Flyout closes after selection (deferred to microtask)
+    await Promise.resolve();
+    expect(flyout.querySelectorAll('ui-option').length).toBe(0);
+  });
+});
+
+// ── ui-nav-group flyout (sidebar coordinator) ──
+
+describe('ui-nav-group flyout (sidebar coordinator)', () => {
+  it('summary click in collapsed mode stamps ui-option items into flyout', () => {
+    const { group } = createCollapsedSidebar();
+    const summary = group.querySelector('summary')!;
+    const details = group.querySelector('details')!;
+    const flyout = group.querySelector('ui-listbox.nav-group-flyout')!;
+
+    // Before click: source items in details, flyout empty
+    expect(details.querySelectorAll('ui-nav-item').length).toBe(2);
+    expect(flyout.querySelectorAll('ui-option').length).toBe(0);
+
+    summary.click();
+
+    // After click: ui-option items stamped in flyout, originals untouched
+    expect(details.querySelectorAll('ui-nav-item').length).toBe(2);
+    expect(flyout.querySelectorAll('ui-option').length).toBe(2);
+
+    // Flyout options mirror source text
+    const options = flyout.querySelectorAll('ui-option');
+    expect(options[0].textContent).toBe('A');
+    expect(options[1].textContent).toBe('B');
+  });
+
+  it('summary click in expanded mode does not open flyout', () => {
+    const nav = createGroupedNav();
+    const group = nav.querySelector('ui-nav-group')!;
+    const flyout = group.querySelector('ui-listbox.nav-group-flyout')!;
+
+    const summary = group.querySelector('summary')!;
+    summary.click();
+
+    // No sidebar coordinator → summary click is native details toggle
+    expect(flyout.querySelectorAll('ui-option').length).toBe(0);
+  });
+
+  it('opening a flyout closes sibling flyouts', () => {
+    // Two groups in the same collapsed sidebar
+    const sidebar = document.createElement('ui-layout-sidebar');
+    sidebar.setAttribute('collapsed', '');
+    const slot = document.createElement('div');
+    slot.setAttribute('slot', 'sidebar');
+    sidebar.appendChild(slot);
+
+    const nav = document.createElement('ui-nav');
+
+    const group1 = document.createElement('ui-nav-group');
+    const h1 = document.createElement('ui-nav-group-header');
+    h1.textContent = 'G1';
+    group1.appendChild(h1);
+    const i1 = document.createElement('ui-nav-item');
+    i1.setAttribute('value', 'a');
+    i1.textContent = 'A';
+    group1.appendChild(i1);
+
+    const group2 = document.createElement('ui-nav-group');
+    const h2 = document.createElement('ui-nav-group-header');
+    h2.textContent = 'G2';
+    group2.appendChild(h2);
+    const i2 = document.createElement('ui-nav-item');
+    i2.setAttribute('value', 'b');
+    i2.textContent = 'B';
+    group2.appendChild(i2);
+
+    nav.appendChild(group1);
+    nav.appendChild(group2);
+    slot.appendChild(nav);
+    document.body.appendChild(sidebar);
+
+    const flyout1 = group1.querySelector('ui-listbox.nav-group-flyout')!;
+    const flyout2 = group2.querySelector('ui-listbox.nav-group-flyout')!;
+
+    // Open group1's flyout
+    group1.querySelector('summary')!.click();
+    expect(flyout1.querySelectorAll('ui-option').length).toBe(1);
+
+    // Open group2's flyout — group1's should close
+    group2.querySelector('summary')!.click();
+    expect(flyout2.querySelectorAll('ui-option').length).toBe(1);
+    expect(flyout1.querySelectorAll('ui-option').length).toBe(0);
+  });
+
+  it('uncollapsing closes any open flyout', () => {
+    const { sidebar, group } = createCollapsedSidebar();
+    const flyout = group.querySelector('ui-listbox.nav-group-flyout')!;
+
+    // Open flyout in collapsed mode
+    group.querySelector('summary')!.click();
+    expect(flyout.querySelectorAll('ui-option').length).toBe(2);
+
+    // Uncollapse
+    sidebar.removeAttribute('collapsed');
+
+    // Flyout should be closed
+    expect(flyout.querySelectorAll('ui-option').length).toBe(0);
+  });
+
+  it('flyout option click dispatches ui-select (bubbles to nav) and closes flyout', async () => {
+    const { group, nav } = createCollapsedSidebar();
+    const summary = group.querySelector('summary')!;
+    const flyout = group.querySelector('ui-listbox.nav-group-flyout')!;
+    const selectHandler = vi.fn();
+    const changeHandler = vi.fn();
+    nav.addEventListener('ui-select', selectHandler);
+    nav.addEventListener('ui-change', changeHandler);
+
+    // Open flyout
+    summary.click();
+
+    // Click flyout option
+    const opt = flyout.querySelector('ui-option') as HTMLElement;
+    opt.click();
+
+    // ui-select from option bubbles to nav
+    expect(selectHandler).toHaveBeenCalled();
+    expect(selectHandler.mock.calls[0][0].detail.value).toBe('a');
+
+    // ui-change fires on nav (from nav's ListNavigateController)
+    expect(changeHandler).toHaveBeenCalled();
+    expect(changeHandler.mock.calls[0][0].detail.value).toBe('a');
+
+    // Flyout closes after selection (deferred to microtask)
+    await Promise.resolve();
+    expect(flyout.querySelectorAll('ui-option').length).toBe(0);
   });
 });
 

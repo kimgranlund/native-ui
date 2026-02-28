@@ -65,7 +65,7 @@
 
   :where(ui-layout-chat) :where(.layout-resize-handle):hover,
   :where(ui-layout-chat[resizing]) :where(.layout-resize-handle) {
-    background: var(--neutral-border-muted);
+    background: var(--_border-muted);
   }
 
 }

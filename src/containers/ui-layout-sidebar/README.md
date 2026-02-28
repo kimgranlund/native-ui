@@ -3,13 +3,21 @@
 # ui-layout-sidebar
 
 > Full-page layout with a resizable sidebar aside and content column.
+Coordinates nav-group flyout popovers when the sidebar is collapsed.
 
 **Class:** `UILayoutSidebar`
+
+## Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `collapsed` | `string` |  |
 
 ## Slots
 
 | Slot |
 |------|
+| `icon` |
 | `label` |
 | `sidebar` |
 | `trailing` |
@@ -28,16 +36,19 @@ Public `--ui-*` custom properties consumed by this component:
 
 ---
 
-## ui-layout-sidebar-trigger
+## ui-layout-sidebar-item
 
-> Sidebar trigger button that toggles a popover listbox for navigation in collapsed state.
+> Generic sidebar row wrapper. Passive by default — provides inline padding for
+arbitrary content (buttons, links, custom elements). When a child
+`ui-listbox[popover]` is present, wires PopoverController for click-to-toggle.
 
-**Class:** `UILayoutSidebarTrigger`
+**Class:** `UILayoutSidebarItem`
 
 ### Slots
 
 | Slot |
 |------|
+| `icon` |
 | `label` |
 | `sidebar` |
 | `trailing` |

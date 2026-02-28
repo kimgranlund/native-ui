@@ -84,6 +84,7 @@ export { UIRange } from './components/ui-range/ui-range-element.ts';
 export { UIInputOtp } from './components/ui-input-otp/ui-input-otp-element.ts';
 export { UIAvatar } from './components/ui-avatar/ui-avatar-element.ts';
 export { UIBadge } from './components/ui-badge/ui-badge-element.ts';
+export { UIKbd } from './components/ui-kbd/ui-kbd-element.ts';
 export { UIBreadcrumb } from './components/ui-breadcrumb/ui-breadcrumb-element.ts';
 export { UIBreadcrumbItem } from './components/ui-breadcrumb/ui-breadcrumb-item-element.ts';
 export { UIPagination } from './components/ui-pagination/ui-pagination-element.ts';
@@ -104,7 +105,7 @@ export { UICard } from './containers/ui-card/ui-card-element.ts';
 export { UISection } from './containers/ui-section/ui-section-element.ts';
 export { UIToolbar } from './containers/ui-toolbar/ui-toolbar-element.ts';
 export { UILayoutSidebar } from './containers/ui-layout-sidebar/ui-layout-sidebar-element.ts';
-export { UILayoutSidebarTrigger } from './containers/ui-layout-sidebar/ui-layout-sidebar-trigger-element.ts';
+export { UILayoutSidebarItem } from './containers/ui-layout-sidebar/ui-layout-sidebar-item-element.ts';
 export { UILayoutChat } from './containers/ui-layout-chat/ui-layout-chat-element.ts';
 export { UILayoutInspector } from './containers/ui-layout-inspector/ui-layout-inspector-element.ts';
 

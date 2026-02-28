@@ -55,7 +55,7 @@
 
   :where(ui-layout-inspector) :where(.layout-resize-handle):hover,
   :where(ui-layout-inspector[resizing]) :where(.layout-resize-handle) {
-    background: var(--neutral-border-muted);
+    background: var(--_border-muted);
   }
 
 }

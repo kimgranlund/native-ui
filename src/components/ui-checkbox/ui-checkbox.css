@@ -84,34 +84,25 @@
   }
 
   /* ── Checked State ── */
-  /* WHY: Default checked fill uses accent so checkbox is visually distinct
-     without needing intent="accent". Unchecked borders stay neutral.
+  /* WHY: Default checked fill uses --_surface (accent by default via
+     intent="accent" being the implicit default for toggle controls).
      When an explicit [intent] is set, the intent selector's --_surface wins. */
 
   :where(ui-checkbox)[aria-checked="true"]::before {
-    background: var(--accent-surface);
-    border-color: var(--accent-surface);
-  }
-
-  :where(ui-checkbox)[aria-checked="true"]::after {
-    background: var(--accent-surface-ink);
-    transform: translateY(-50%) scale(1);
-  }
-
-  :where(ui-checkbox)[intent][aria-checked="true"]::before {
     background: var(--_surface);
     border-color: var(--_surface);
   }
 
-  :where(ui-checkbox)[intent][aria-checked="true"]::after {
+  :where(ui-checkbox)[aria-checked="true"]::after {
     background: var(--_surface-ink);
+    transform: translateY(-50%) scale(1);
   }
 
   /* ── Indeterminate State ── */
 
   :where(ui-checkbox)[aria-checked="mixed"]::before {
-    background: var(--accent-surface);
-    border-color: var(--accent-surface);
+    background: var(--_surface);
+    border-color: var(--_surface);
   }
 
   :where(ui-checkbox)[aria-checked="mixed"]::after {
@@ -119,17 +110,8 @@
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M228,128a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,128Z'/%3E%3C/svg%3E");
     mask-size: 75%;
     -webkit-mask-size: 75%;
-    background: var(--accent-surface-ink);
-    transform: translateY(-50%) scale(1);
-  }
-
-  :where(ui-checkbox)[intent][aria-checked="mixed"]::before {
-    background: var(--_surface);
-    border-color: var(--_surface);
-  }
-
-  :where(ui-checkbox)[intent][aria-checked="mixed"]::after {
     background: var(--_surface-ink);
+    transform: translateY(-50%) scale(1);
   }
 
   /* ── Hover ── */
@@ -149,14 +131,6 @@
   :where(ui-checkbox)[aria-checked="mixed"]:hover::before,
   :where(ui-checkbox)[aria-checked="true"][force-hover]::before,
   :where(ui-checkbox)[aria-checked="mixed"][force-hover]::before {
-    background: var(--accent-surface-hover);
-    border-color: var(--accent-surface-hover);
-  }
-
-  :where(ui-checkbox)[intent][aria-checked="true"]:hover::before,
-  :where(ui-checkbox)[intent][aria-checked="mixed"]:hover::before,
-  :where(ui-checkbox)[intent][aria-checked="true"][force-hover]::before,
-  :where(ui-checkbox)[intent][aria-checked="mixed"][force-hover]::before {
     background: var(--_surface-hover);
     border-color: var(--_surface-hover);
   }
@@ -170,12 +144,6 @@
 
   :where(ui-checkbox)[aria-checked="true"][pressed]::before,
   :where(ui-checkbox)[aria-checked="mixed"][pressed]::before {
-    background: var(--accent-surface-active);
-    border-color: var(--accent-surface-active);
-  }
-
-  :where(ui-checkbox)[intent][aria-checked="true"][pressed]::before,
-  :where(ui-checkbox)[intent][aria-checked="mixed"][pressed]::before {
     background: var(--_surface-active);
     border-color: var(--_surface-active);
   }

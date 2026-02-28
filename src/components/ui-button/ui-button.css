@@ -36,7 +36,7 @@
     font-weight: var(--_font-weight);
 
     border-radius: var(--_radius);
-    border: 1px solid var(--_border-color, var(--neutral-border-muted));
+    border: 1px solid var(--_border-color, var(--_border-muted));
 
     background: var(--_background, var(--_button));
     color: var(--_color, var(--_ink));
@@ -53,17 +53,17 @@
 
   :where(ui-button):hover,
   :where(ui-button)[force-hover] {
-    background: var(--_background-hover, var(--neutral-button-hover));
+    background: var(--_background-hover, var(--_button-hover));
     color: var(--_color-hover, var(--_ink-hover));
-    border-color: var(--_border-color-hover, var(--neutral-border-hover));
+    border-color: var(--_border-color-hover, var(--_border-hover));
   }
 
   :where(ui-button):active,
   :where(ui-button)[pressed],
   :where(ui-button)[force-active] {
-    background: var(--_background-active, var(--neutral-button-active));
+    background: var(--_background-active, var(--_button-active));
     color: var(--_color-active, var(--_ink-active));
-    border-color: var(--_border-color-active, var(--neutral-border-active));
+    border-color: var(--_border-color-active, var(--_border-active));
   }
 
   :where(ui-button):focus-visible,
@@ -73,9 +73,9 @@
   }
 
   :where(ui-button)[aria-disabled="true"] {
-    background: var(--_background-disabled, var(--neutral-button-disabled));
+    background: var(--_background-disabled, var(--_button-disabled));
     color: var(--_color-disabled, var(--_ink-disabled));
-    border-color: var(--_border-color-disabled, var(--neutral-border-muted));
+    border-color: var(--_border-color-disabled, var(--_border-muted));
     cursor: not-allowed;
     pointer-events: none;
   }

@@ -20,16 +20,16 @@
     content: '';
     width: var(--ui-layout-sidebar-width);
     flex-shrink: 0;
-    background: var(--neutral-body);
-    border-right: 1px solid var(--neutral-border-muted);
+    background: var(--_body);
+    border-right: 1px solid var(--_border-muted);
   }
 
   :where(ui-layout-sidebar):not([data-ready])[collapsed]::before {
     content: '';
     width: 48px;
     flex-shrink: 0;
-    background: var(--neutral-body);
-    border-right: 1px solid var(--neutral-border-muted);
+    background: var(--_body);
+    border-right: 1px solid var(--_border-muted);
   }
 
   /* ── Content Column ── */
@@ -45,16 +45,23 @@
   }
 
   /* ── Sidebar Aside ── */
+  /* WHY: position: relative creates the containing block for absolute
+     header/footer overlays. Content fills the full height and scrolls
+     underneath the pinned header/footer. */
 
   :where(ui-layout-sidebar) > :where([slot="sidebar"]) {
+    --_sidebar-header-height: 0px;
+    --_sidebar-footer-height: 0px;
+
+    container-name: sidebar;
+    container-type: inline-size;
+    position: sticky;
+    top: 0;
     width: var(--ui-layout-sidebar-width);
     min-width: 160px;
     max-width: 400px;
     height: 100dvh;
-    position: sticky;
-    top: 0;
-    display: flex;
-    flex-direction: column;
+    display: block;
     transition: width var(--_duration) var(--_easing), min-width var(--_duration) var(--_easing);
     overflow: hidden;
     z-index: 10;
@@ -66,7 +73,9 @@
   }
 
   /* ── Collapsed Icon Rail ── */
-  /* WHY: Collapsed = icon rail, not fully hidden. 48px fits icons (1rem) + padding. */
+  /* WHY: Collapsed = icon rail, not fully hidden. 48px fits icons (1rem) + padding.
+     [collapsed] drives the aside to 48px which triggers @container sidebar queries
+     in this file and in child component CSS (ui-nav.css, etc.). */
 
   :where(ui-layout-sidebar)[collapsed] > :where([slot="sidebar"]) {
     width: 48px;
@@ -87,11 +96,7 @@
 
   :where(ui-layout-sidebar) :where(.layout-resize-handle):hover,
   :where(ui-layout-sidebar) > :where([slot="sidebar"][resizing]) :where(.layout-resize-handle) {
-    background: var(--neutral-border-muted);
-  }
-
-  :where(ui-layout-sidebar)[collapsed] > :where([slot="sidebar"]) :where(.layout-resize-handle) {
-    display: none;
+    background: var(--_border-muted);
   }
 
   /* WHY: When collapsed to icon rail, the sidebar edge meets content — drop left padding. */
@@ -104,101 +109,89 @@
     padding-left: 0;
   }
 
-  /* ── Collapsed Icon-Rail Content ── */
-  /* WHY: When collapsed, sidebar slot becomes a narrow icon rail.
-     Text and trailing slots are hidden; only icons remain visible.
-     Nav items hide entirely — only group headers (with icons) stay. */
-
-  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-content) {
-    align-items: center;
-    padding: 0.5rem;
-  }
-
-  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-header),
-  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-footer) {
-    justify-content: center;
-    padding-inline: 0.5rem;
-  }
-
-  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-trigger) :where([slot="label"]),
-  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-layout-sidebar-trigger) :where([slot="trailing"]) {
-    display: none;
-  }
-
-  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-item) {
-    display: none;
-  }
-
-  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group) > :where(details) > :where(summary) {
-    justify-content: center;
-  }
-
-  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group) > :where(details) > :where(summary)::after {
-    display: none;
-  }
-
-  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group)::after,
-  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group)::before {
-    display: none;
-  }
-
-  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group-header) {
-    justify-content: center;
-    font-size: 0;
-    gap: 0;
-  }
-
-  /* WHY: Icon keeps its size even though parent font-size is 0. */
-  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group-header) :where(ui-icon) {
-    font-size: var(--_font-size, 1rem);
-  }
-
-  :where(ui-layout-sidebar)[collapsed] :where([slot="sidebar"]) :where(ui-nav-group) + :where(ui-nav-group) {
-    margin-block-start: 0;
-  }
-
   /* ── Sidebar Header ── */
+  /* WHY: Absolute-positioned overlay pinned to top of aside. Content scrolls
+     underneath it. z-index: 2 sits above content (z-index: 0). */
 
   :where(ui-layout-sidebar-header) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
     display: flex;
-    align-items: center;
-    min-height: var(--ui-layout-bar-height);
-    gap: calc(var(--_space) * 2);
-    padding-block: var(--_space);
-    padding-inline: calc(var(--_space-k) * var(--_space));
-    flex-shrink: 0;
+    flex-direction: column;
   }
 
   /* ── Sidebar Content ── */
+  /* WHY: Full height of the aside, scrollable. Padding-block offsets keep
+     content from starting behind header / ending behind footer.
+     Fade-out alpha mask dissolves content edges under the overlays. */
 
   :where(ui-layout-sidebar-content) {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--_space) * 2);
-    padding-block: var(--_space);
-    padding-inline: calc(var(--_space-k) * var(--_space));
-    flex: 1;
-    min-height: 0;
+    padding-block-start: var(--_sidebar-header-height);
+    padding-block-end: var(--_sidebar-footer-height);
     width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  /* WHY: When header is present, fade top edge. Content dissolves as it
+     scrolls under the header — transparent at top, fully visible by 1.25×
+     the header height. No opaque header background needed. */
+  :where(ui-layout-sidebar-content)[data-has-header] {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      black calc(var(--_sidebar-header-height) * 1.25),
+      black 100%
+    );
+  }
+
+  /* WHY: When footer is present, fade bottom edge. */
+  :where(ui-layout-sidebar-content)[data-has-footer] {
+    mask-image: linear-gradient(
+      to bottom,
+      black 0,
+      black calc(100% - var(--_sidebar-footer-height) * 1.25),
+      transparent 100%
+    );
+  }
+
+  /* WHY: When both header AND footer are present, fade both edges. */
+  :where(ui-layout-sidebar-content)[data-has-header][data-has-footer] {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      black calc(var(--_sidebar-header-height) * 1.25),
+      black calc(100% - var(--_sidebar-footer-height) * 1.25),
+      transparent 100%
+    );
   }
 
   /* ── Sidebar Footer ── */
+  /* WHY: Absolute-positioned overlay pinned to bottom of aside. */
 
   :where(ui-layout-sidebar-footer) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
     display: flex;
-    align-items: center;
-    min-height: var(--ui-layout-bar-height);
-    gap: calc(var(--_space) * 2);
-    padding-block: var(--_space);
-    padding-inline: calc(var(--_space-k) * var(--_space));
-    flex-shrink: 0;
+    flex-direction: column;
   }
 
-  /* ── Sidebar Trigger ── */
-  /* WHY: Menu trigger for sidebar header/footer. Styled like ui-nav-group-header:
-     bold text, icon support, hover color. Opens a popover on click. */
+  /* ── Sidebar Item ── */
+  /* WHY: Universal sidebar row element. Provides inline padding for any content
+     (buttons, links, icons). When a child ui-listbox[popover] is present, JS
+     wires PopoverController for click-to-toggle menu behavior.
+     Absorbs the old ui-layout-sidebar-trigger role — one element for all rows. */
 
-  :where(ui-layout-sidebar-trigger) {
+  :where(ui-layout-sidebar-item) {
     display: flex;
     align-items: center;
     flex: 1;
@@ -214,31 +207,47 @@
     user-select: none;
     border: none;
     background: none;
-    padding: var(--_space);
+    padding-block: var(--_space);
+    padding-inline: calc(var(--_space-k) * var(--_space));
     border-radius: var(--_radius);
     transition: color var(--_duration) var(--_easing);
   }
 
-  :where(ui-layout-sidebar-trigger):hover,
-  :where(ui-layout-sidebar-trigger)[force-hover] {
+  /* WHY: Items in header/footer match the breadcrumb bar height so the
+     first sidebar row aligns horizontally with the breadcrumb. */
+  :where(ui-layout-sidebar-header) > :where(ui-layout-sidebar-item),
+  :where(ui-layout-sidebar-footer) > :where(ui-layout-sidebar-item) {
+    min-height: var(--ui-layout-bar-height);
+  }
+
+  :where(ui-layout-sidebar-item):hover,
+  :where(ui-layout-sidebar-item)[force-hover] {
     color: var(--_ink-strong);
   }
 
-  :where(ui-layout-sidebar-trigger):focus-visible,
-  :where(ui-layout-sidebar-trigger)[force-focus-visible] {
+  :where(ui-layout-sidebar-item):focus-visible,
+  :where(ui-layout-sidebar-item)[force-focus-visible] {
     outline: 2px solid var(--ui-focus-ring);
     outline-offset: -2px;
   }
 
   /* WHY: Trailing caret pushes to end — same pattern as button justify="spread". */
-  :where(ui-layout-sidebar-trigger) > :where([slot="trailing"]) {
+  :where(ui-layout-sidebar-item) > :where([slot="trailing"]) {
     margin-inline-start: auto;
     flex-shrink: 0;
     color: var(--_ink-muted);
   }
 
+  /* WHY: When the item wraps a sub-component (e.g. ui-button) that provides
+     its own icon, hide [slot="icon"] in expanded mode — it only serves as the
+     bare collapsed-rail representation. Items without sub-components (just
+     icon + label + trailing) keep [slot="icon"] visible in both modes. */
+  :where(ui-layout-sidebar-item:has(> ui-button)) > :where([slot="icon"]) {
+    display: none;
+  }
+
   /* WHY: Title text truncates when sidebar narrows during resize. */
-  :where(ui-layout-sidebar-trigger) > :where([slot="label"]) {
+  :where(ui-layout-sidebar-item) > :where([slot="label"]) {
     flex: 1;
     min-width: 0;
     white-space: nowrap;
@@ -246,23 +255,65 @@
     text-overflow: ellipsis;
   }
 
-  /* ── Trigger Popover ── */
-  /* WHY: Popover opens to the right of the sidebar trigger.
+  /* ── Item Popover ── */
+  /* WHY: Popover opens to the right of the sidebar item.
      Default: top-aligned, grows downward (span-block-end).
      Flip: bottom-aligned, grows upward (span-block-start). */
 
-  :where(ui-layout-sidebar-trigger) > :where(ui-listbox[popover]) {
+  :where(ui-layout-sidebar-item) > :where(ui-listbox[popover]) {
     position: fixed;
     position-area: inline-end span-block-end;
-    position-try-fallbacks: --flip-up;
+    position-try-fallbacks: --sidebar-item-flip-up;
     margin: 0 0 0 var(--ui-popover-gap);
     min-width: 200px;
     max-height: var(--ui-popover-max-height);
     overflow-y: auto;
   }
 
-  @position-try --flip-up {
+  @position-try --sidebar-item-flip-up {
     position-area: inline-end span-block-start;
+  }
+
+  /* ── Container Query: Collapsed Sidebar ── */
+  /* WHY: Each component owns its own collapsed behavior via @container.
+     The aside is the container (container-name: sidebar). When it shrinks
+     to 48px (icon rail), components respond to the width, not to [collapsed].
+     Threshold 80px: collapsed = 48px, min expanded = 160px. */
+
+  @container sidebar (max-width: 80px) {
+
+    /* Resize handle — no dragging in icon rail */
+    :where(.layout-resize-handle) {
+      display: none;
+    }
+
+    /* Header/footer — center content horizontally */
+    :where(ui-layout-sidebar-header),
+    :where(ui-layout-sidebar-footer) {
+      align-items: center;
+    }
+
+    /* Content — center items in the 48px rail */
+    :where(ui-layout-sidebar-content) {
+      align-items: center;
+    }
+
+    /* Item — shrink to icon-only. Show [slot="icon"], hide everything else.
+       WHY: Sidebar items can contain complex children (buttons with slots,
+       links, etc.). Rather than overriding sub-component styles, the item
+       provides its own bare icon via [slot="icon"] for the collapsed rail. */
+    :where(ui-layout-sidebar-item) {
+      flex: 0 0 auto;
+      padding-inline: var(--_space);
+    }
+
+    :where(ui-layout-sidebar-item) > :where([slot="icon"]) {
+      display: block;
+    }
+
+    :where(ui-layout-sidebar-item) > :where(:not([slot="icon"]):not(ui-listbox[popover]):not(.nav-group-flyout)) {
+      display: none;
+    }
   }
 
 }

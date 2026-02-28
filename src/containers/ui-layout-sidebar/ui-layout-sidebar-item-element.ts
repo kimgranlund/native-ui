@@ -1,8 +1,10 @@
 import { UIElement } from '../../core/ui-element.ts';
 import { PopoverController } from '../../traits/popover-controller.ts';
 
-/** Sidebar trigger button that toggles a popover listbox for navigation in collapsed state. */
-export class UILayoutSidebarTrigger extends UIElement {
+/** Generic sidebar row wrapper. Passive by default — provides inline padding for
+ *  arbitrary content (buttons, links, custom elements). When a child
+ *  `ui-listbox[popover]` is present, wires PopoverController for click-to-toggle. */
+export class UILayoutSidebarItem extends UIElement {
   #popover: PopoverController | null = null;
   #open = false;
 

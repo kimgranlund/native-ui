@@ -71,7 +71,7 @@
     --ui-tooltip-max-width: 20rem;
 
     /* Popover (select / combobox / command) */
-    --ui-popover-max-height: 18rem;
+    --ui-popover-max-height: calc(100dvh - 2rem);
     --ui-popover-gap: 0.25rem;
 
     /* Drawer */
@@ -103,6 +103,18 @@
     --ui-badge-size-lg: 1.25rem;
     --ui-badge-size-xl: 1.375rem;
     --ui-badge-dot: 0.5rem;
+
+    /* Kbd */
+    --ui-kbd-font-xs: 0.625rem;
+    --ui-kbd-font-sm: 0.6875rem;
+    --ui-kbd-font-md: 0.6875rem;
+    --ui-kbd-font-lg: 0.75rem;
+    --ui-kbd-font-xl: 0.8125rem;
+    --ui-kbd-size-xs: 1rem;
+    --ui-kbd-size-sm: 1.125rem;
+    --ui-kbd-size-md: 1.25rem;
+    --ui-kbd-size-lg: 1.375rem;
+    --ui-kbd-size-xl: 1.5rem;
 
     /* Group header (option-group, table category) */
     --ui-group-header-font: 0.625rem;
@@ -217,6 +229,8 @@
   /* ── Intent (maps to color token families) ── */
 
   :root {
+    --_body: var(--neutral-body);
+
     --_card: var(--neutral-card);
     --_card-hover: var(--neutral-card-hover);
 
@@ -266,6 +280,22 @@
     --_ink-hover: var(--neutral-ink-hover);
     --_ink-active: var(--neutral-ink-active);
     --_ink-disabled: var(--neutral-ink-disabled);
+  }
+
+  /* ── Toggle control defaults ── */
+  /* WHY: Checkboxes, radios, switches, and range sliders use accent-colored
+     surface fills for their checked/active states by default.
+     [intent] selectors below override --_surface when an explicit intent is set. */
+
+  :where(ui-checkbox, ui-radio, ui-switch, ui-range) {
+    --_surface: var(--accent-surface);
+    --_surface-hover: var(--accent-surface-hover);
+    --_surface-active: var(--accent-surface-active);
+    --_surface-disabled: var(--accent-surface-disabled);
+    --_surface-ink: var(--accent-surface-ink);
+    --_surface-ink-hover: var(--accent-surface-ink-hover);
+    --_surface-ink-active: var(--accent-surface-ink-active);
+    --_surface-ink-disabled: var(--accent-surface-ink-disabled);
   }
 
   :where([intent="neutral"]) {

@@ -222,3 +222,74 @@ describe('ui-tab-panel', () => {
     expect(panel.getAttribute('value')).toBe('new');
   });
 });
+
+describe('ui-tabs (static HTML)', () => {
+  it('reflects initial value when created via innerHTML', () => {
+    document.body.innerHTML = `
+      <ui-tabs value="two">
+        <ui-tab value="one">One</ui-tab>
+        <ui-tab value="two">Two</ui-tab>
+        <ui-tab-panels>
+          <ui-tab-panel value="one">Content one</ui-tab-panel>
+          <ui-tab-panel value="two">Content two</ui-tab-panel>
+        </ui-tab-panels>
+      </ui-tabs>
+    `;
+    const el = document.querySelector('ui-tabs')!;
+    expect((el as any).value).toBe('two');
+  });
+
+  it('shows correct panel and hides others from innerHTML', async () => {
+    document.body.innerHTML = `
+      <ui-tabs value="two">
+        <ui-tab value="one">One</ui-tab>
+        <ui-tab value="two">Two</ui-tab>
+        <ui-tab-panels>
+          <ui-tab-panel value="one">Content one</ui-tab-panel>
+          <ui-tab-panel value="two">Content two</ui-tab-panel>
+        </ui-tab-panels>
+      </ui-tabs>
+    `;
+    await new Promise<void>(resolve => queueMicrotask(resolve));
+
+    const panels = document.querySelectorAll('ui-tab-panel');
+    expect(panels[0].hasAttribute('hidden')).toBe(true);
+    expect(panels[1].hasAttribute('hidden')).toBe(false);
+  });
+
+  it('sets aria-selected on matching tab from innerHTML', async () => {
+    document.body.innerHTML = `
+      <ui-tabs value="two">
+        <ui-tab value="one">One</ui-tab>
+        <ui-tab value="two">Two</ui-tab>
+        <ui-tab-panels>
+          <ui-tab-panel value="one">Content one</ui-tab-panel>
+          <ui-tab-panel value="two">Content two</ui-tab-panel>
+        </ui-tab-panels>
+      </ui-tabs>
+    `;
+    await new Promise<void>(resolve => queueMicrotask(resolve));
+
+    const tabs = document.querySelectorAll('ui-tab');
+    expect(tabs[0].getAttribute('aria-selected')).toBe('false');
+    expect(tabs[1].getAttribute('aria-selected')).toBe('true');
+  });
+
+  it('sets indicator CSS custom properties from innerHTML', async () => {
+    document.body.innerHTML = `
+      <ui-tabs value="two">
+        <ui-tab value="one">One</ui-tab>
+        <ui-tab value="two">Two</ui-tab>
+        <ui-tab-panels>
+          <ui-tab-panel value="one">Content one</ui-tab-panel>
+          <ui-tab-panel value="two">Content two</ui-tab-panel>
+        </ui-tab-panels>
+      </ui-tabs>
+    `;
+    await new Promise<void>(resolve => queueMicrotask(resolve));
+
+    const el = document.querySelector('ui-tabs')! as HTMLElement;
+    expect(el.style.getPropertyValue('--_indicator-index')).toBe('1');
+    expect(el.style.getPropertyValue('--_tab-count')).toBe('2');
+  });
+});

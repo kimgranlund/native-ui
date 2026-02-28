@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ui-kbd — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <style>
+      body {
+        background: var(--neutral-doc);
+        color: var(--neutral-950);
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        color: var(--neutral-ink-strong);
+      }
+
+      .demo-section {
+        background: var(--neutral-body);
+        border: 1px solid var(--neutral-border-muted);
+        border-radius: var(--_radius);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .demo-row + .demo-row {
+        margin-top: 0.75rem;
+      }
+
+      .demo-label {
+        font-size: 0.75rem;
+        color: var(--neutral-ink-muted);
+        min-width: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ui-layout><main>
+    <h1>&lt;ui-kbd&gt;</h1>
+    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+      Keyboard shortcut indicator. Own font/size scale like ui-badge.
+    </p>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span class="demo-label">xs</span>
+        <ui-kbd size="xs"><ui-icon name="command"></ui-icon></ui-kbd>
+        <ui-kbd size="xs">K</ui-kbd>
+        <ui-kbd size="xs">Shift</ui-kbd>
+        <ui-kbd size="xs"><ui-icon name="command"></ui-icon>K</ui-kbd>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">sm</span>
+        <ui-kbd size="sm"><ui-icon name="command"></ui-icon></ui-kbd>
+        <ui-kbd size="sm">K</ui-kbd>
+        <ui-kbd size="sm">Shift</ui-kbd>
+        <ui-kbd size="sm"><ui-icon name="command"></ui-icon>K</ui-kbd>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">md</span>
+        <ui-kbd size="md"><ui-icon name="command"></ui-icon></ui-kbd>
+        <ui-kbd size="md">K</ui-kbd>
+        <ui-kbd size="md">Shift</ui-kbd>
+        <ui-kbd size="md"><ui-icon name="command"></ui-icon>K</ui-kbd>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">lg</span>
+        <ui-kbd size="lg"><ui-icon name="command"></ui-icon></ui-kbd>
+        <ui-kbd size="lg">K</ui-kbd>
+        <ui-kbd size="lg">Shift</ui-kbd>
+        <ui-kbd size="lg"><ui-icon name="command"></ui-icon>K</ui-kbd>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">xl</span>
+        <ui-kbd size="xl"><ui-icon name="command"></ui-icon></ui-kbd>
+        <ui-kbd size="xl">K</ui-kbd>
+        <ui-kbd size="xl">Shift</ui-kbd>
+        <ui-kbd size="xl"><ui-icon name="command"></ui-icon>K</ui-kbd>
+      </div>
+    </div>
+
+    <!-- ── Standalone (default = md) ── -->
+
+    <h2>Standalone</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <ui-kbd><ui-icon name="command"></ui-icon></ui-kbd>
+        <ui-kbd>K</ui-kbd>
+        <ui-kbd>Shift</ui-kbd>
+        <ui-kbd><ui-icon name="key-return"></ui-icon></ui-kbd>
+        <ui-kbd>Esc</ui-kbd>
+        <ui-kbd><ui-icon name="command"></ui-icon>K</ui-kbd>
+        <ui-kbd><ui-icon name="option"></ui-icon></ui-kbd>
+        <ui-kbd><ui-icon name="control"></ui-icon></ui-kbd>
+        <ui-kbd><ui-icon name="backspace"></ui-icon></ui-kbd>
+      </div>
+    </div>
+
+    <!-- ── Combinations ── -->
+
+    <h2>Combinations</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span><ui-kbd><ui-icon name="command"></ui-icon></ui-kbd> + <ui-kbd>C</ui-kbd> — Copy</span>
+      </div>
+      <div class="demo-row">
+        <span><ui-kbd><ui-icon name="command"></ui-icon></ui-kbd> + <ui-kbd>V</ui-kbd> — Paste</span>
+      </div>
+      <div class="demo-row">
+        <span><ui-kbd><ui-icon name="control"></ui-icon></ui-kbd> + <ui-kbd>Shift</ui-kbd> + <ui-kbd>P</ui-kbd> — Command palette</span>
+      </div>
+    </div>
+
+    <!-- ── Inside buttons ── -->
+
+    <h2>Inside buttons</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <ui-button size="sm">Search <ui-kbd size="xs"><ui-icon name="command"></ui-icon>K</ui-kbd></ui-button>
+        <ui-button size="md">Save <ui-kbd size="sm"><ui-icon name="command"></ui-icon>S</ui-kbd></ui-button>
+        <ui-button size="lg">Open <ui-kbd size="sm"><ui-icon name="command"></ui-icon>O</ui-kbd></ui-button>
+      </div>
+      <div class="demo-row">
+        <ui-button size="md" intent="accent">Copy <ui-kbd size="sm"><ui-icon name="command"></ui-icon>C</ui-kbd></ui-button>
+        <ui-button size="md" intent="danger">Delete <ui-kbd size="sm"><ui-icon name="backspace"></ui-icon></ui-kbd></ui-button>
+      </div>
+    </div>
+
+    <!-- ── Inline with text ── -->
+
+    <h2>Inline with text</h2>
+    <div class="demo-section">
+      <p style="font-size: 0.875rem; line-height: 1.5;">
+        Press <ui-kbd><ui-icon name="command"></ui-icon>K</ui-kbd> to open search, <ui-kbd>Esc</ui-kbd> to close.
+      </p>
+    </div>
+
+    </main></ui-layout>
+    <script type="module">
+      import '../../nav/ui-layout.ts';
+      import './ui-kbd.ts';
+      import '../ui-button/ui-button.ts';
+      import '../../icons/ui-icon.ts';
+      import '../../icons/phosphor/command.ts';
+      import '../../icons/phosphor/option.ts';
+      import '../../icons/phosphor/control.ts';
+      import '../../icons/phosphor/key-return.ts';
+      import '../../icons/phosphor/backspace.ts';
+    </script>
+  </body>
+</html>

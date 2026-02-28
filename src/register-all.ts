@@ -72,7 +72,7 @@ import { UICard } from './containers/ui-card/ui-card-element.ts';
 import { UISection } from './containers/ui-section/ui-section-element.ts';
 import { UIToolbar } from './containers/ui-toolbar/ui-toolbar-element.ts';
 import { UILayoutSidebar } from './containers/ui-layout-sidebar/ui-layout-sidebar-element.ts';
-import { UILayoutSidebarTrigger } from './containers/ui-layout-sidebar/ui-layout-sidebar-trigger-element.ts';
+import { UILayoutSidebarItem } from './containers/ui-layout-sidebar/ui-layout-sidebar-item-element.ts';
 import { UILayoutChat } from './containers/ui-layout-chat/ui-layout-chat-element.ts';
 
 // Icons
@@ -138,6 +138,6 @@ define('ui-card', UICard);
 define('ui-section', UISection);
 define('ui-toolbar', UIToolbar);
 define('ui-layout-sidebar', UILayoutSidebar);
-define('ui-layout-sidebar-trigger', UILayoutSidebarTrigger);
+define('ui-layout-sidebar-item', UILayoutSidebarItem);
 define('ui-layout-chat', UILayoutChat);
 define('ui-icon', UIIcon);
