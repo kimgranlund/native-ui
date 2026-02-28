@@ -13,8 +13,6 @@ dist-ssr
 site
 *.local
 
-scripts
-
 # Secrets & credentials
 .env
 .env.*
