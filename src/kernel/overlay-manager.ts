@@ -7,9 +7,15 @@ import type { OverlayType, OverlayEntry } from './types.ts';
 let Z_INDEX = 1000;
 const Z_STEP = 10;
 
+export interface OverlayHandle {
+  readonly id: string;
+  readonly closed: Promise<void>;
+}
+
 export class OverlayManager {
   #stack: Signal<OverlayEntry[]> = signal([]);
   #listenersAttached = false;
+  #closeResolvers = new Map<string, () => void>();
 
   readonly stack: ReadonlySignal<readonly OverlayEntry[]> = computed(() => this.#stack.value);
   readonly topOverlay: ReadonlySignal<OverlayEntry | null> = computed(() => {
@@ -17,7 +23,7 @@ export class OverlayManager {
     return s.length > 0 ? s[s.length - 1]! : null;
   });
 
-  open(opts: { type: OverlayType; element: HTMLElement; owner?: HTMLElement }): string {
+  open(opts: { type: OverlayType; element: HTMLElement; owner?: HTMLElement }): OverlayHandle {
     const id = uid('overlay');
     const zIndex = this.getNextZIndex();
     const entry: OverlayEntry = Object.freeze({
@@ -28,9 +34,13 @@ export class OverlayManager {
       ...(opts.owner ? { owner: opts.owner } : {}),
     });
 
+    const closed = new Promise<void>(resolve => {
+      this.#closeResolvers.set(id, resolve);
+    });
+
     this.#stack.value = [...this.#stack.value, entry];
     this.#attachGlobalListeners();
-    return id;
+    return { id, closed };
   }
 
   close(id: string): void {
@@ -38,17 +48,30 @@ export class OverlayManager {
     const idx = stack.findIndex((e) => e.id === id);
     if (idx === -1) return;
     this.#stack.value = [...stack.slice(0, idx), ...stack.slice(idx + 1)];
+    this.#resolveClose(id);
     this.#maybeDetachGlobalListeners();
   }
 
   closeAll(): void {
+    const ids = this.#stack.value.map(e => e.id);
     this.#stack.value = [];
+    for (const id of ids) this.#resolveClose(id);
     this.#maybeDetachGlobalListeners();
   }
 
   closeType(type: OverlayType): void {
+    const closing = this.#stack.value.filter(e => e.type === type);
     this.#stack.value = this.#stack.value.filter((e) => e.type !== type);
+    for (const entry of closing) this.#resolveClose(entry.id);
     this.#maybeDetachGlobalListeners();
+  }
+
+  #resolveClose(id: string): void {
+    const resolve = this.#closeResolvers.get(id);
+    if (resolve) {
+      resolve();
+      this.#closeResolvers.delete(id);
+    }
   }
 
   isOpen(id: string): boolean {
@@ -65,7 +88,9 @@ export class OverlayManager {
   }
 
   destroy(): void {
+    const ids = this.#stack.value.map(e => e.id);
     this.#stack.value = [];
+    for (const id of ids) this.#resolveClose(id);
     this.#detachGlobalListeners();
   }
 

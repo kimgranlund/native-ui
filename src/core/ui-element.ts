@@ -11,6 +11,12 @@ export class UIElement extends HTMLElement {
   #pendingTraits = new Set<string>();
   #traitUnsub: (() => void) | null = null;
   #alive = false;
+  #readyResolve: (() => void) | null = null;
+
+  /** Resolves after setup() and any deferChildren microtask have completed. */
+  readonly ready: Promise<void> = new Promise(resolve => {
+    this.#readyResolve = resolve;
+  });
 
   addEffect(fn: () => void): void {
     this.#disposers.push(effect(fn));
@@ -27,6 +33,9 @@ export class UIElement extends HTMLElement {
     // WHY: Initialize trait controllers after setup() so component wiring runs first
     const traits = this.getAttribute('traits');
     if (traits !== null) this.#initTraitObserver(traits);
+    // WHY: Resolve ready after a microtask so deferChildren callbacks have fired.
+    // Consumers use `await el.ready` instead of whenDefined + rAF hacks.
+    queueMicrotask(() => this.#readyResolve?.());
   }
 
   disconnectedCallback(): void {

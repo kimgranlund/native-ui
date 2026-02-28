@@ -6,12 +6,12 @@ import { PopoverController } from '../../traits/popover-controller.ts';
  * Collapsible group of navigation items using native details/summary.
  * Exposes `openFlyout()` / `closeFlyout()` for collapsed-sidebar mode —
  * the sidebar layout coordinator decides *when* to call them.
- * @attr {boolean} open - Whether the group is expanded (defaults to true)
+ * @attr {boolean} open - Whether the group is expanded
  */
 export class UINavGroup extends UIElement {
   static observedAttributes = ['open'];
 
-  #open = signal(true);
+  #open = signal(false);
   #details: HTMLDetailsElement | null = null;
   #internals: ElementInternals;
   #observer: MutationObserver | null = null;
@@ -70,8 +70,8 @@ export class UINavGroup extends UIElement {
     this.appendChild(details);
     this.#details = details;
 
-    // WHY: Nav groups default open. Only close if author explicitly omits [open].
-    // Since signal defaults to true and most nav groups start open, just sync from signal.
+    // WHY: Sync <details> open state from signal. Defaults closed (matching <details>
+    // pattern) — author opts in via [open] attribute for SSR compatibility.
     this.addEffect(() => {
       const open = this.#open.value;
       if (this.#details) this.#details.open = open;

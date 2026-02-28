@@ -414,7 +414,7 @@ describe('Kernel Integration', () => {
       const dialog = document.createElement('div');
 
       // Open first overlay
-      const id1 = kernel.overlays.open({ type: 'popover', element: popover });
+      const { id: id1 } = kernel.overlays.open({ type: 'popover', element: popover });
       expect(kernel.overlays.stack.value.length).toBe(1);
       expect(kernel.overlays.isOpen(id1)).toBe(true);
 
@@ -423,7 +423,7 @@ describe('Kernel Integration', () => {
       expect(entry1!.type).toBe('popover');
 
       // Open second overlay
-      const id2 = kernel.overlays.open({ type: 'dialog', element: dialog });
+      const { id: id2 } = kernel.overlays.open({ type: 'dialog', element: dialog });
       expect(kernel.overlays.stack.value.length).toBe(2);
 
       const entry2 = kernel.overlays.getEntry(id2);

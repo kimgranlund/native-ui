@@ -31,9 +31,10 @@ const foundationCSS =
   foundationFiles.map(read).join('\n');
 
 // Component CSS — auto-discovered via directory scan
-// WHY: All component/container CSS uses :where() (zero specificity), so order between
-// files doesn't affect cascade. Auto-discovery prevents new components from being
-// silently excluded from the build.
+// WHY: Auto-discovery prevents new components from being silently excluded from the
+// build. All CSS uses :where() (zero specificity), so order only matters when two
+// rules target the same element — icon primitives load first so component container
+// query overrides win the source-order tiebreak.
 function discoverCSS(dirs) {
   const results = [];
   for (const dir of dirs) {
@@ -53,9 +54,11 @@ function discoverCSS(dirs) {
 }
 
 const componentFiles = [
-  ...discoverCSS(['src/components', 'src/containers']),
-  // These live outside the standard ui-*/ui-*.css pattern
+  // WHY: Icon CSS first — it's a primitive used by all components. Later component
+  // container query rules (e.g. sidebar collapsed) need to override icon display,
+  // and at equal :where() specificity source order is the tiebreaker.
   ...(existsSync(resolve(root, 'src/icons/ui-icon.css')) ? ['src/icons/ui-icon.css'] : []),
+  ...discoverCSS(['src/components', 'src/containers']),
   ...(existsSync(resolve(root, 'src/a2ui/a2ui.css')) ? ['src/a2ui/a2ui.css'] : []),
 ];
 

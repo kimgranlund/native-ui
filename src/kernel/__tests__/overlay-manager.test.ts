@@ -24,7 +24,7 @@ describe('OverlayManager', () => {
 
   it('open adds entry to stack', () => {
     const el = div();
-    const id = mgr.open({ type: 'popover', element: el });
+    const { id } = mgr.open({ type: 'popover', element: el });
     expect(id).toMatch(/^overlay-/);
     expect(mgr.stack.value.length).toBe(1);
     expect(mgr.stack.value[0]!.element).toBe(el);
@@ -41,7 +41,7 @@ describe('OverlayManager', () => {
 
   it('close removes by id', () => {
     const el = div();
-    const id = mgr.open({ type: 'popover', element: el });
+    const { id } = mgr.open({ type: 'popover', element: el });
     mgr.close(id);
     expect(mgr.stack.value.length).toBe(0);
     expect(mgr.topOverlay.value).toBeNull();
@@ -70,7 +70,7 @@ describe('OverlayManager', () => {
   });
 
   it('isOpen returns correct state', () => {
-    const id = mgr.open({ type: 'popover', element: div() });
+    const { id } = mgr.open({ type: 'popover', element: div() });
     expect(mgr.isOpen(id)).toBe(true);
     mgr.close(id);
     expect(mgr.isOpen(id)).toBe(false);
@@ -78,7 +78,7 @@ describe('OverlayManager', () => {
 
   it('getEntry returns entry or null', () => {
     const el = div();
-    const id = mgr.open({ type: 'drawer', element: el });
+    const { id } = mgr.open({ type: 'drawer', element: el });
     const entry = mgr.getEntry(id);
     expect(entry).not.toBeNull();
     expect(entry!.element).toBe(el);
@@ -86,8 +86,8 @@ describe('OverlayManager', () => {
   });
 
   it('assigns incrementing z-index', () => {
-    const id1 = mgr.open({ type: 'popover', element: div() });
-    const id2 = mgr.open({ type: 'dialog', element: div() });
+    const { id: id1 } = mgr.open({ type: 'popover', element: div() });
+    const { id: id2 } = mgr.open({ type: 'dialog', element: div() });
     const e1 = mgr.getEntry(id1)!;
     const e2 = mgr.getEntry(id2)!;
     expect(e2.zIndex).toBeGreaterThan(e1.zIndex);
@@ -96,7 +96,7 @@ describe('OverlayManager', () => {
   it('records owner element', () => {
     const el = div();
     const trigger = div();
-    const id = mgr.open({ type: 'popover', element: el, owner: trigger });
+    const { id } = mgr.open({ type: 'popover', element: el, owner: trigger });
     expect(mgr.getEntry(id)!.owner).toBe(trigger);
   });
 
@@ -108,8 +108,30 @@ describe('OverlayManager', () => {
   });
 
   it('entries are frozen', () => {
-    const id = mgr.open({ type: 'popover', element: div() });
+    const { id } = mgr.open({ type: 'popover', element: div() });
     const entry = mgr.getEntry(id)!;
     expect(Object.isFrozen(entry)).toBe(true);
+  });
+
+  it('closed promise resolves when overlay is closed', async () => {
+    const { id, closed } = mgr.open({ type: 'popover', element: div() });
+    let resolved = false;
+    closed.then(() => { resolved = true; });
+    expect(resolved).toBe(false);
+    mgr.close(id);
+    await closed;
+    expect(resolved).toBe(true);
+  });
+
+  it('closed promise resolves on closeAll', async () => {
+    const { closed } = mgr.open({ type: 'popover', element: div() });
+    mgr.closeAll();
+    await closed;
+  });
+
+  it('closed promise resolves on destroy', async () => {
+    const { closed } = mgr.open({ type: 'dialog', element: div() });
+    mgr.destroy();
+    await closed;
   });
 });

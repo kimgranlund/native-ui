@@ -23,6 +23,17 @@ export class DialogController {
     if (!this.#dialog || this.open) return;
     this.#dialog.showModal();
     this.host.toggleAttribute('open', true);
+    // WHY: Native dialog autofocus targets [autofocus] but custom elements
+    // inside the dialog may not have upgraded yet. Defer to microtask so
+    // elements are ready, then focus [autofocus] or first focusable descendant.
+    queueMicrotask(() => {
+      const af = this.#dialog?.querySelector<HTMLElement>('[autofocus]');
+      if (af) { af.focus(); return; }
+      const focusable = this.#dialog?.querySelector<HTMLElement>(
+        'ui-input, ui-textarea, ui-button, ui-select, ui-listbox, input, textarea, select, button, [tabindex]:not([tabindex="-1"])'
+      );
+      focusable?.focus();
+    });
   }
 
   close(): void {

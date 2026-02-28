@@ -234,10 +234,24 @@ describe('ui-nav-group', () => {
     expect(items.length).toBe(2);
   });
 
-  it('defaults to open', () => {
+  it('defaults to closed (matches <details> pattern)', () => {
     const nav = createGroupedNav();
     const group = nav.querySelector('ui-nav-group')! as any;
-    expect(group.open).toBe(true);
+    expect(group.open).toBe(false);
+    expect(group.querySelector('details')!.open).toBe(false);
+  });
+
+  it('opens when [open] attribute is set', () => {
+    const el = document.createElement('ui-nav');
+    const group = document.createElement('ui-nav-group');
+    group.setAttribute('open', '');
+    const header = document.createElement('ui-nav-group-header');
+    header.textContent = 'Section';
+    group.appendChild(header);
+    el.appendChild(group);
+    document.body.appendChild(el);
+
+    expect((group as any).open).toBe(true);
     expect(group.querySelector('details')!.open).toBe(true);
   });
 

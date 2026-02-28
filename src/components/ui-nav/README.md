@@ -78,7 +78,7 @@ the sidebar layout coordinator decides *when* to call them.
 
 | Attribute | Type | Description |
 |-----------|------|-------------|
-| `open` | `boolean` | Whether the group is expanded (defaults to true) |
+| `open` | `boolean` | Whether the group is expanded |
 
 ### Properties
 

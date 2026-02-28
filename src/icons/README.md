@@ -11,6 +11,7 @@
 | Attribute | Type | Description |
 |-----------|------|-------------|
 | `name` | `string` | Icon name from the Phosphor icon set |
+| `weight` | `string` | Icon weight: "regular" (default) or "fill" |
 | `size` | `string` | Icon size override |
 | `aria-label` | `string` | Accessible label (sets role="img" when present) |
 

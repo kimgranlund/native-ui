@@ -7,6 +7,7 @@ export { CommandHistory, createCommandHistory } from './command-history.ts';
 
 // Overlay
 export { OverlayManager, createOverlayManager } from './overlay-manager.ts';
+export type { OverlayHandle } from './overlay-manager.ts';
 
 // Focus
 export { FocusRouter, createFocusRouter } from './focus-router.ts';
