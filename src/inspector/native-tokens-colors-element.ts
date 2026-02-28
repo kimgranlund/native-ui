@@ -1,15 +1,15 @@
 import { UIElement } from '../core/ui-element.ts';
-import type { DSColorSwatch } from './ds-color-swatch-element.ts';
+import type { NativeTokensColorSwatch } from './native-tokens-color-swatch-element.ts';
 
-export interface DSColorEntry {
+export interface NativeTokensColorEntry {
   name: string;
   token: string;
 }
 
-export class DSColors extends UIElement {
+export class NativeTokensColors extends UIElement {
   static observedAttributes = ['data'];
 
-  #data: DSColorEntry[] = [];
+  #data: NativeTokensColorEntry[] = [];
 
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     if (old === val) return;
@@ -28,13 +28,13 @@ export class DSColors extends UIElement {
     this.#render();
 
     // Re-render when tokens change (theme switch or variable drag)
-    this.addEventListener('ds-change', this.#onUpdate);
-    this.addEventListener('ds-theme-change', this.#onUpdate);
+    this.addEventListener('native-tokens-change', this.#onUpdate);
+    this.addEventListener('native-tokens-theme-change', this.#onUpdate);
   }
 
   teardown(): void {
-    this.removeEventListener('ds-change', this.#onUpdate);
-    this.removeEventListener('ds-theme-change', this.#onUpdate);
+    this.removeEventListener('native-tokens-change', this.#onUpdate);
+    this.removeEventListener('native-tokens-theme-change', this.#onUpdate);
     this.innerHTML = '';
     super.teardown();
   }
@@ -51,10 +51,10 @@ export class DSColors extends UIElement {
     this.innerHTML = '';
 
     const strip = document.createElement('div');
-    strip.className = 'ds-colors-strip';
+    strip.className = 'native-tokens-colors-strip';
 
     for (const entry of this.#data) {
-      const swatch = document.createElement('ds-color-swatch') as DSColorSwatch;
+      const swatch = document.createElement('native-tokens-color-swatch') as NativeTokensColorSwatch;
       swatch.setAttribute('token', entry.token);
       swatch.setAttribute('name', entry.name);
       strip.appendChild(swatch);
@@ -64,6 +64,6 @@ export class DSColors extends UIElement {
   }
 
   #refreshSwatches(): void {
-    this.querySelectorAll<DSColorSwatch>('ds-color-swatch').forEach(s => s.refresh());
+    this.querySelectorAll<NativeTokensColorSwatch>('native-tokens-color-swatch').forEach(s => s.refresh());
   }
 }

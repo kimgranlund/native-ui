@@ -30,11 +30,6 @@ function srgbToLinear(c: number): number {
   return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
 }
 
-/** linear → sRGB (0–1 range). */
-// function linearToSrgb(c: number): number {
-//   return c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055;
-// }
-
 /** sRGB (0–255) → OKLCH via OKLab. Returns [L (0–1), C, H (degrees)]. */
 function rgbToOklch(r: number, g: number, b: number): [number, number, number] {
   // sRGB → linear
@@ -146,7 +141,7 @@ const COLOR_FORMATS: ColorFormat[] = [
 
 /* ── Element ── */
 
-export class DSColorSwatch extends UIElement {
+export class NativeTokensColorSwatch extends UIElement {
   static observedAttributes = ['token', 'name'];
 
   #popover: HTMLElement | null = null;
@@ -183,7 +178,7 @@ export class DSColorSwatch extends UIElement {
 
     // Render label
     const label = document.createElement('span');
-    label.className = 'ds-swatch-label';
+    label.className = 'native-tokens-swatch-label';
     label.textContent = this.name;
     this.#label = label;
     this.appendChild(label);
@@ -193,7 +188,7 @@ export class DSColorSwatch extends UIElement {
     this.style.setProperty('anchor-name', `--${this.#anchorName}`);
 
     const popover = document.createElement('div');
-    popover.className = 'ds-swatch-popover';
+    popover.className = 'native-tokens-swatch-popover';
     popover.setAttribute('popover', 'auto');
     popover.style.setProperty('position-anchor', `--${this.#anchorName}`);
     this.#popover = popover;
@@ -203,16 +198,16 @@ export class DSColorSwatch extends UIElement {
     this.addEventListener('click', this.#onClick);
 
     // Listen for theme/variable changes to refresh
-    this.addEventListener('ds-change', this.#onUpdate);
-    this.addEventListener('ds-theme-change', this.#onUpdate);
+    this.addEventListener('native-tokens-change', this.#onUpdate);
+    this.addEventListener('native-tokens-theme-change', this.#onUpdate);
 
     requestAnimationFrame(() => this.#syncContrast());
   }
 
   teardown(): void {
     this.removeEventListener('click', this.#onClick);
-    this.removeEventListener('ds-change', this.#onUpdate);
-    this.removeEventListener('ds-theme-change', this.#onUpdate);
+    this.removeEventListener('native-tokens-change', this.#onUpdate);
+    this.removeEventListener('native-tokens-theme-change', this.#onUpdate);
     this.#popover = null;
     this.#label = null;
     this.innerHTML = '';
@@ -233,7 +228,7 @@ export class DSColorSwatch extends UIElement {
 
   #onClick = (e: MouseEvent): void => {
     // Don't trigger if clicking inside the popover
-    if (this.#popover && (e.target as HTMLElement).closest('.ds-swatch-popover')) return;
+    if (this.#popover && (e.target as HTMLElement).closest('.native-tokens-swatch-popover')) return;
 
     if (!this.#popover) return;
     this.#buildPopoverContent();
@@ -257,7 +252,7 @@ export class DSColorSwatch extends UIElement {
 
     // Token name header
     const header = document.createElement('div');
-    header.className = 'ds-swatch-popover-header';
+    header.className = 'native-tokens-swatch-popover-header';
     header.textContent = this.token;
     this.#popover.appendChild(header);
 
@@ -266,15 +261,15 @@ export class DSColorSwatch extends UIElement {
       const value = fmt.fn(r, g, b, a);
 
       const row = document.createElement('button');
-      row.className = 'ds-swatch-popover-row';
+      row.className = 'native-tokens-swatch-popover-row';
       row.type = 'button';
 
       const labelSpan = document.createElement('span');
-      labelSpan.className = 'ds-swatch-popover-label';
+      labelSpan.className = 'native-tokens-swatch-popover-label';
       labelSpan.textContent = fmt.label;
 
       const valueSpan = document.createElement('span');
-      valueSpan.className = 'ds-swatch-popover-value';
+      valueSpan.className = 'native-tokens-swatch-popover-value';
       valueSpan.textContent = value;
 
       row.append(labelSpan, valueSpan);

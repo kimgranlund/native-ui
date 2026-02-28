@@ -1,9 +1,9 @@
-export { DSColorSwatch } from './ds-color-swatch-element.ts';
-export { DSColors } from './ds-colors-element.ts';
-export type { DSColorEntry } from './ds-colors-element.ts';
-export { DSVariable } from './ds-variable-element.ts';
-export type { DSVariableData } from './ds-variable-element.ts';
-export { DSThemes } from './ds-themes-element.ts';
-export type { DSThemeEntry } from './ds-themes-element.ts';
-export { DSInspector } from './ds-inspector-element.ts';
+export { NativeTokensColorSwatch } from './native-tokens-color-swatch-element.ts';
+export { NativeTokensColors } from './native-tokens-colors-element.ts';
+export type { NativeTokensColorEntry } from './native-tokens-colors-element.ts';
+export { NativeTokensVariable } from './native-tokens-variable-element.ts';
+export type { NativeTokensVariableData } from './native-tokens-variable-element.ts';
+export { NativeTokensThemes } from './native-tokens-themes-element.ts';
+export type { NativeTokensThemeEntry } from './native-tokens-themes-element.ts';
+export { NativeTokensInspector } from './native-tokens-inspector-element.ts';
 export { buildInspector } from './build-inspector.ts';

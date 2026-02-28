@@ -1,6 +1,6 @@
 import { UIElement } from '../core/ui-element.ts';
 
-export interface DSThemeEntry {
+export interface NativeTokensThemeEntry {
   name: string;
   value: string;
 }
@@ -18,10 +18,10 @@ const ENV_TOKENS = [
   'color-env-hue-danger', 'color-env-chroma-danger', 'color-env-lightness-danger',
 ];
 
-export class DSThemes extends UIElement {
+export class NativeTokensThemes extends UIElement {
   static observedAttributes = ['data'];
 
-  #data: DSThemeEntry[] = [];
+  #data: NativeTokensThemeEntry[] = [];
 
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     if (old === val) return;
@@ -80,8 +80,8 @@ export class DSThemes extends UIElement {
       root.removeAttribute('theme');
     }
 
-    // Dispatch so sibling ds-variable elements can sync their sliders
-    this.dispatchEvent(new CustomEvent('ds-theme-change', {
+    // Dispatch so sibling native-tokens-variable elements can sync their sliders
+    this.dispatchEvent(new CustomEvent('native-tokens-theme-change', {
       bubbles: true,
       detail: { theme: value },
     }));

@@ -1,6 +1,6 @@
 import { UIElement } from '../core/ui-element.ts';
 
-export interface DSVariableData {
+export interface NativeTokensVariableData {
   name: string;
   type: 'number';
   token: string;
@@ -10,10 +10,10 @@ export interface DSVariableData {
   max?: number;
 }
 
-export class DSVariable extends UIElement {
+export class NativeTokensVariable extends UIElement {
   static observedAttributes = ['data'];
 
-  #data: DSVariableData | null = null;
+  #data: NativeTokensVariableData | null = null;
   #range: HTMLElement | null = null;
   #valueDisplay: HTMLSpanElement | null = null;
 
@@ -33,11 +33,11 @@ export class DSVariable extends UIElement {
     }
     this.#render();
 
-    this.addEventListener('ds-theme-change', this.#onThemeChange);
+    this.addEventListener('native-tokens-theme-change', this.#onThemeChange);
   }
 
   teardown(): void {
-    this.removeEventListener('ds-theme-change', this.#onThemeChange);
+    this.removeEventListener('native-tokens-theme-change', this.#onThemeChange);
     this.innerHTML = '';
     this.#range = null;
     this.#valueDisplay = null;
@@ -70,10 +70,10 @@ export class DSVariable extends UIElement {
     this.innerHTML = '';
 
     const row = document.createElement('div');
-    row.className = 'ds-variable-row';
+    row.className = 'native-tokens-variable-row';
 
     const label = document.createElement('label');
-    label.className = 'ds-variable-label';
+    label.className = 'native-tokens-variable-label';
     label.textContent = d.name;
 
     // Dogfood <ui-range>
@@ -91,14 +91,14 @@ export class DSVariable extends UIElement {
 
     const step = d.step ?? 0.01;
     const valueSpan = document.createElement('span');
-    valueSpan.className = 'ds-variable-value';
+    valueSpan.className = 'native-tokens-variable-value';
     valueSpan.textContent = initial.toFixed(step < 0.01 ? 3 : 2);
 
     range.addEventListener('ui-input', ((e: CustomEvent) => {
       const val = e.detail.value as number;
       document.documentElement.style.setProperty(d.token, String(val));
       valueSpan.textContent = val.toFixed(step < 0.01 ? 3 : 2);
-      this.dispatchEvent(new CustomEvent('ds-change', {
+      this.dispatchEvent(new CustomEvent('native-tokens-change', {
         bubbles: true,
         detail: { token: d.token, value: val },
       }));

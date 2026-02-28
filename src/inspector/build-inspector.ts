@@ -1,15 +1,15 @@
 // Registration side-effect imports — needed for the dev server path
 // (ui-layout-element.ts imports this file directly, not src/inspector.ts).
 // In the dist build, src/inspector.ts has explicit define() calls that survive tree-shaking.
-import './ds-variable.ts';
-import './ds-colors.ts';
-import './ds-color-swatch.ts';
-import './ds-themes.ts';
+import './native-tokens-variable.ts';
+import './native-tokens-colors.ts';
+import './native-tokens-color-swatch.ts';
+import './native-tokens-themes.ts';
 import '../components/ui-range/ui-range.ts';
 import '../components/ui-select/ui-select.ts';
 
-import type { DSVariable } from './ds-variable-element.ts';
-import type { DSColors } from './ds-colors-element.ts';
+import type { NativeTokensVariable } from './native-tokens-variable-element.ts';
+import type { NativeTokensColors } from './native-tokens-colors-element.ts';
 
 /* ── Config (matches colors.html) ── */
 
@@ -44,10 +44,10 @@ const scrimStrengths = ['strongest', 'stronger', 'strong', 'base', 'weak', 'weak
 
 function createSection(title: string, family?: string): HTMLElement {
   const section = document.createElement('div');
-  section.className = 'ds-inspector-section';
+  section.className = 'native-tokens-inspector-section';
   if (family) section.dataset.family = family;
   const h = document.createElement('h3');
-  h.className = 'ds-inspector-heading';
+  h.className = 'native-tokens-inspector-heading';
   h.textContent = title;
   section.appendChild(h);
   return section;
@@ -55,19 +55,19 @@ function createSection(title: string, family?: string): HTMLElement {
 
 function createSubHeading(text: string): HTMLElement {
   const h = document.createElement('h4');
-  h.className = 'ds-inspector-subheading';
+  h.className = 'native-tokens-inspector-subheading';
   h.textContent = text;
   return h;
 }
 
 function createColorStrip(data: Array<{ name: string; token: string }>): HTMLElement {
-  const el = document.createElement('ds-colors');
+  const el = document.createElement('native-tokens-colors');
   el.setAttribute('data', JSON.stringify(data));
   return el;
 }
 
 function createVariable(param: { name: string; token: string; value: number; step?: number; min?: number; max?: number }): HTMLElement {
-  const el = document.createElement('ds-variable');
+  const el = document.createElement('native-tokens-variable');
   el.setAttribute('data', JSON.stringify({
     name: param.name,
     type: 'number',
@@ -85,9 +85,9 @@ function createVariable(param: { name: string; token: string; value: number; ste
 export function buildInspector(container: HTMLElement): void {
   // ── Toolbar (Theme + Family filter side-by-side) ──
   const toolbar = document.createElement('div');
-  toolbar.className = 'ds-inspector-toolbar';
+  toolbar.className = 'native-tokens-inspector-toolbar';
 
-  const themesEl = document.createElement('ds-themes');
+  const themesEl = document.createElement('native-tokens-themes');
   themesEl.setAttribute('data', JSON.stringify(themes));
   toolbar.appendChild(themesEl);
 
@@ -186,7 +186,7 @@ export function buildInspector(container: HTMLElement): void {
   // ── Family filter logic ──
   filterCtrl.addEventListener('ui-change', ((e: CustomEvent) => {
     const selected = e.detail.value as string;
-    const sections = container.querySelectorAll<HTMLElement>('.ds-inspector-section[data-family]');
+    const sections = container.querySelectorAll<HTMLElement>('.native-tokens-inspector-section[data-family]');
     for (const section of sections) {
       const family = section.dataset.family!;
       if (selected === 'all') {
@@ -200,14 +200,14 @@ export function buildInspector(container: HTMLElement): void {
     }
     // Refresh visible color strips after filter change
     requestAnimationFrame(() => {
-      container.querySelectorAll<DSColors>('ds-colors').forEach(c => c.refresh());
+      container.querySelectorAll<NativeTokensColors>('native-tokens-colors').forEach(c => c.refresh());
     });
   }) as EventListener);
 
-  // ── Global sync: theme change → sync all ds-variable sliders ──
-  container.addEventListener('ds-theme-change', () => {
+  // ── Global sync: theme change → sync all native-tokens-variable sliders ──
+  container.addEventListener('native-tokens-theme-change', () => {
     requestAnimationFrame(() => {
-      container.querySelectorAll<DSVariable>('ds-variable').forEach(v => v.sync());
+      container.querySelectorAll<NativeTokensVariable>('native-tokens-variable').forEach(v => v.sync());
     });
   });
 }

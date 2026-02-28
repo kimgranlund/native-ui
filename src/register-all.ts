@@ -75,7 +75,7 @@ import { UIToolbar } from './containers/ui-toolbar/ui-toolbar-element.ts';
 import { UILayoutSidebar } from './containers/ui-layout-sidebar/ui-layout-sidebar-element.ts';
 import { UILayoutSidebarItem } from './containers/ui-layout-sidebar/ui-layout-sidebar-item-element.ts';
 import { UILayoutChat } from './containers/ui-layout-chat/ui-layout-chat-element.ts';
-import { UILayoutInspector } from './containers/ui-layout-inspector/ui-layout-inspector-element.ts';
+// WHY: UILayoutInspector is opt-in via @nonoun/native-ui/inspector — not registered here.
 
 // Icons
 import { UIIcon } from './icons/ui-icon-element.ts';
@@ -143,5 +143,4 @@ define('ui-toolbar', UIToolbar);
 define('ui-layout-sidebar', UILayoutSidebar);
 define('ui-layout-sidebar-item', UILayoutSidebarItem);
 define('ui-layout-chat', UILayoutChat);
-define('ui-layout-inspector', UILayoutInspector);
 define('ui-icon', UIIcon);
