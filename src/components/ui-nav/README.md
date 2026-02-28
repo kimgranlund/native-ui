@@ -19,6 +19,12 @@
 |-------|-------------|
 | `ui-change` | Fired when selection changes with `{ value, label }` detail |
 
+## Slots
+
+| Slot |
+|------|
+| `icon` |
+
 ## CSS Tokens
 
 Public `--ui-*` custom properties consumed by this component:
@@ -52,6 +58,12 @@ Public `--ui-*` custom properties consumed by this component:
 |-------|-------------|
 | `ui-select` | Fired on click with `{ value, label }` detail |
 
+### Slots
+
+| Slot |
+|------|
+| `icon` |
+
 ---
 
 ## ui-nav-group
@@ -81,6 +93,12 @@ the sidebar layout coordinator decides *when* to call them.
 | `openFlyout()` | `—` | `void` |
 | `closeFlyout()` | `—` | `void` |
 
+### Slots
+
+| Slot |
+|------|
+| `icon` |
+
 ---
 
 ## ui-nav-group-header
@@ -88,6 +106,12 @@ the sidebar layout coordinator decides *when* to call them.
 > Non-interactive heading label for a navigation group.
 
 **Class:** `UINavGroupHeader`
+
+### Slots
+
+| Slot |
+|------|
+| `icon` |
 
 ## Usage
 

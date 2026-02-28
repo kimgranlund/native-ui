@@ -164,6 +164,18 @@
     user-select: none;
   }
 
+  /* WHY: Fixed-size icon well — matches ui-layout-sidebar-item [slot="icon"].
+     All sidebar icons align on the same 1.5rem column regardless of icon size.
+     JS wraps the first <ui-icon> child in a .icon-well span during setup(). */
+  :where(ui-nav-group-header) > :where(.icon-well) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+  }
+
   /* ── Chevron icon (right side of summary) ── */
 
   :where(ui-nav-group) > :where(details) > :where(summary)::after {
@@ -219,13 +231,14 @@
 
   /* WHY: Insets account for the summary's padding-inline so the connector
      line passes through the icon center and child text aligns with header text. */
-  :where(ui-nav-group):has(:where(ui-nav-group-header) :where(ui-icon)) {
+  :where(ui-nav-group):has(:where(ui-nav-group-header) :where(.icon-well)) {
     --_group-pad: calc(var(--_space-k) * var(--_space));
-    --_group-line-inset: calc(var(--_group-pad) + var(--_icon-size) / 2);
-    --_group-child-inset: calc(var(--_icon-size) + var(--_space) * 2);
+    --_group-icon-well: 1.5rem;
+    --_group-line-inset: calc(var(--_group-pad) + var(--_group-icon-well) / 2);
+    --_group-child-inset: calc(var(--_group-icon-well) + var(--_space) * 2);
   }
 
-  :where(ui-nav-group):has(:where(ui-nav-group-header) :where(ui-icon)):has(:where(details[open]))::after {
+  :where(ui-nav-group):has(:where(ui-nav-group-header) :where(.icon-well)):has(:where(details[open]))::after {
     content: '';
     position: absolute;
     inset-inline-start: var(--_group-line-inset);
@@ -240,7 +253,7 @@
   /* WHY: A ::before pseudo on the group slides along the connector line.
      JS sets --_indicator-index; :state(has-selection) gates visibility. */
 
-  :where(ui-nav-group):has(:where(ui-nav-group-header) :where(ui-icon)):has(:where(details[open])):state(has-selection)::before {
+  :where(ui-nav-group):has(:where(ui-nav-group-header) :where(.icon-well)):has(:where(details[open])):state(has-selection)::before {
     content: '';
     position: absolute;
     z-index: 1;
@@ -324,7 +337,7 @@
       gap: 0;
     }
 
-    :where(ui-nav-group-header) :where(ui-icon) {
+    :where(ui-nav-group-header) :where(.icon-well) :where(ui-icon) {
       font-size: var(--_font-size, 1rem);
     }
 

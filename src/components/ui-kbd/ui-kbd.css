@@ -17,7 +17,7 @@
     line-height: 1;
     min-height: var(--ui-kbd-size-md);
     padding-inline: 0.4em;
-    border-radius: 0.25rem;
+    border-radius: 0.5em;
     background: var(--_ground, var(--_body));
     border: 1px solid var(--_border-muted);
     color: var(--_ink-muted);

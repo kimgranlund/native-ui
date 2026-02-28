@@ -36,7 +36,7 @@ import '../containers/ui-layout-chat/ui-layout-chat.ts';
 import '../containers/ui-layout-inspector/ui-layout-inspector.ts';
 import '../icons/phosphor/caret-up-down.ts';
 import '../icons/phosphor/plus.ts';
-import '../icons/phosphor/user.ts';
+import '../icons/phosphor/user-circle.ts';
 import '../icons/phosphor/gear.ts';
 import '../icons/phosphor/sign-out.ts';
 import '../icons/phosphor/sparkle.ts';
@@ -131,14 +131,14 @@ export class UILayout extends UIElement {
 
     const systemTrigger = document.createElement('ui-layout-sidebar-item');
     systemTrigger.innerHTML =
-      '<span class="nav-logo" slot="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="2"/><path d="M8 16V8l8 8V8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+      '<span class="nav-logo" slot="icon"><svg width="20" height="20" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="96" fill="currentColor"/><path d="M285.324 112.64H418.909V122.415C401.804 122.415 379.811 160.291 379.811 196.131V325.644C379.811 363.52 387.142 389.585 399.36 389.585V399.36H303.244L148.48 198.167V299.578C148.48 348.451 180.247 389.585 226.676 389.585V399.36H93.0909V389.585C110.196 389.585 132.189 351.709 132.189 315.869V166.807C132.189 129.745 110.196 122.415 93.0909 122.415V112.64H246.225V122.415C223.011 122.415 243.375 173.324 275.142 212.422L363.52 321.164V212.422C363.52 163.549 331.753 122.415 285.324 122.415V112.64Z" fill="var(--_ground, var(--_body, white))"/></svg></span>' +
       '<span slot="label">NativeUI</span>' +
       '<ui-icon name="caret-up-down" slot="trailing"></ui-icon>' +
       '<ui-listbox popover="manual">' +
         '<ui-option-group>' +
           '<ui-option-group-header>Teams</ui-option-group-header>' +
           '<ui-option value="native-ui" selected>' +
-            '<span class="nav-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="2"/><path d="M8 16V8l8 8V8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+            '<span class="nav-logo"><svg width="16" height="16" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="96" fill="currentColor"/><path d="M285.324 112.64H418.909V122.415C401.804 122.415 379.811 160.291 379.811 196.131V325.644C379.811 363.52 387.142 389.585 399.36 389.585V399.36H303.244L148.48 198.167V299.578C148.48 348.451 180.247 389.585 226.676 389.585V399.36H93.0909V389.585C110.196 389.585 132.189 351.709 132.189 315.869V166.807C132.189 129.745 110.196 122.415 93.0909 122.415V112.64H246.225V122.415C223.011 122.415 243.375 173.324 275.142 212.422L363.52 321.164V212.422C363.52 163.549 331.753 122.415 285.324 122.415V112.64Z" fill="var(--_ground, var(--_body, white))"/></svg></span>' +
             'NativeUI' +
           '</ui-option>' +
         '</ui-option-group>' +
@@ -149,9 +149,9 @@ export class UILayout extends UIElement {
 
     // Search hint — wrapped in sidebar-item for consistent inline padding
     const searchItem = document.createElement('ui-layout-sidebar-item');
-    const searchIcon = document.createElement('ui-icon');
-    searchIcon.setAttribute('name', 'magnifying-glass');
-    searchIcon.setAttribute('slot', 'icon');
+    const searchIconWell = document.createElement('span');
+    searchIconWell.setAttribute('slot', 'icon');
+    searchIconWell.innerHTML = '<ui-icon name="magnifying-glass"></ui-icon>';
     const searchHint = document.createElement('ui-button');
     searchHint.className = 'nav-search-hint';
     searchHint.setAttribute('size', 'md');
@@ -162,7 +162,7 @@ export class UILayout extends UIElement {
       '<span slot="label">Search</span>' +
       '<ui-kbd slot="trailing"><ui-icon name="command"></ui-icon>K</ui-kbd>';
     searchItem.addEventListener('click', () => openDialog());
-    searchItem.append(searchIcon, searchHint);
+    searchItem.append(searchIconWell, searchHint);
 
     header.append(systemTrigger, searchItem);
 
@@ -255,7 +255,7 @@ export class UILayout extends UIElement {
 
     const userTrigger = document.createElement('ui-layout-sidebar-item');
     userTrigger.innerHTML =
-      '<ui-icon name="user" slot="icon"></ui-icon>' +
+      '<span slot="icon"><ui-icon name="user-circle"></ui-icon></span>' +
       '<span slot="label">User</span>' +
       '<ui-icon name="caret-up-down" slot="trailing"></ui-icon>' +
       '<ui-listbox popover="manual">' +

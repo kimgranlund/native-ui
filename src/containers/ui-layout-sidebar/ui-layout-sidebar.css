@@ -231,6 +231,20 @@
     outline-offset: -2px;
   }
 
+  /* WHY: Fixed-size icon well so all sidebar icons (header logo, nav group icons,
+     standalone icons) center-align on the same column width regardless of intrinsic
+     icon size. 1.5rem matches the sidebar's visual rhythm at default density.
+     Consumer wraps the icon: <span slot="icon"><ui-icon name="..."></ui-icon></span>
+     The wrapper is the well; the icon keeps its own --ui-icon-size dimensions. */
+  :where(ui-layout-sidebar-item) > :where([slot="icon"]) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+  }
+
   /* WHY: Trailing caret pushes to end — same pattern as button justify="spread". */
   :where(ui-layout-sidebar-item) > :where([slot="trailing"]) {
     margin-inline-start: auto;
@@ -308,7 +322,7 @@
     }
 
     :where(ui-layout-sidebar-item) > :where([slot="icon"]) {
-      display: block;
+      display: inline-flex;
     }
 
     :where(ui-layout-sidebar-item) > :where(:not([slot="icon"]):not(ui-listbox[popover]):not(.nav-group-flyout)) {
