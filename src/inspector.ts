@@ -12,18 +12,31 @@ import { DSColorSwatch } from './nav/inspector/ds-color-swatch-element.ts';
 import { DSThemes } from './nav/inspector/ds-themes-element.ts';
 import { DSInspector } from './nav/inspector/ds-inspector-element.ts';
 
+// Dogfooded ui-* components created via document.createElement by the
+// inspector sub-elements (ds-variable → ui-range, ds-themes → ui-combobox,
+// ui-combobox → ui-input + ui-listbox + ui-option).
+import { UIRange } from './components/ui-range/ui-range-element.ts';
+import { UICombobox } from './components/ui-combobox/ui-combobox-element.ts';
+import { UIInput } from './components/ui-input/ui-input-element.ts';
+import { UIListbox } from './components/ui-listbox/ui-listbox-element.ts';
+import { UIOption } from './components/ui-listbox/ui-option-element.ts';
+
 import { buildInspector } from './nav/inspector/build-inspector.ts';
 
-// ── Register ds-* elements ──
-// Dogfooded ui-* components (ui-range, ui-combobox, ui-input, ui-listbox,
-// ui-option) are expected to be registered by the consumer via the main
-// library import.  Only ds-* elements live here.
+// ── Register all elements ──
+// define() is a no-op if the tag is already registered, so these are safe
+// even when the consumer also imports @nonoun/native-ui/register.
 
 define('ds-variable', DSVariable);
 define('ds-colors', DSColors);
 define('ds-color-swatch', DSColorSwatch);
 define('ds-themes', DSThemes);
 define('ds-inspector', DSInspector);
+define('ui-range', UIRange);
+define('ui-combobox', UICombobox);
+define('ui-input', UIInput);
+define('ui-listbox', UIListbox);
+define('ui-option', UIOption);
 
 // ── Public API ──
 
