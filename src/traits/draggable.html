@@ -453,6 +453,12 @@
             <td><code>false</code></td>
             <td>Disables all drag behavior when true.</td>
           </tr>
+          <tr>
+            <td><code>draggable-animate</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Enable view-transition animation for preview mode grid reordering. Set <code>"false"</code> to disable.</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -628,13 +634,9 @@
       });
 
       // ── Preview mode — grid ──
+      // view-transition-name assignment is handled automatically by DragController
 
-      // WHY: Assign unique view-transition-name to each cell so the browser
-      // can track and animate them between positions during View Transitions
       const previewGrid = document.getElementById('preview-grid');
-      for (const [i, cell] of [...previewGrid.querySelectorAll('.grid-cell')].entries()) {
-        cell.style.viewTransitionName = `grid-cell-${i}`;
-      }
       previewGrid.addEventListener('ui-drop', (e) => {
         const { item, fromIndex, toIndex } = e.detail;
         previewLog(`Moved cell ${item.textContent.trim()} from position ${fromIndex} → ${toIndex}`);

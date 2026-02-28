@@ -4,6 +4,8 @@ export interface DragOptions {
   axis?: 'vertical' | 'horizontal' | 'both';
   mode?: 'drop' | 'slot' | 'preview';
   disabled?: boolean;
+  /** Enable view-transition animation for preview mode grid reordering (default: true). */
+  animate?: boolean;
 }
 
 /** Enables pointer-driven drag-and-drop with drop, slot, or preview reordering. */
@@ -14,6 +16,7 @@ export class DragController {
   axis: 'vertical' | 'horizontal' | 'both';
   mode: 'drop' | 'slot' | 'preview';
   disabled: boolean;
+  animate: boolean;
 
   #dragItem: HTMLElement | null = null;
   #ghost: HTMLElement | null = null;
@@ -38,6 +41,7 @@ export class DragController {
     this.axis = options.axis ?? 'both';
     this.mode = options.mode ?? 'drop';
     this.disabled = options.disabled ?? false;
+    this.animate = options.animate ?? true;
     this.attach();
   }
 
@@ -147,6 +151,9 @@ export class DragController {
         this.#previewOriginParent = this.#dragItem.parentElement;
         this.#previewOriginNext = this.#dragItem.nextElementSibling as HTMLElement | null;
         this.#lastPreviewIndex = -1;
+        // WHY: Assign view-transition-name to all sibling items so
+        // startViewTransition can animate grid reflows during DOM moves.
+        if (this.animate) this.#assignTransitionNames();
       }
       this.host.dispatchEvent(new CustomEvent('ui-drag-start', {
         bubbles: true,
@@ -362,8 +369,13 @@ export class DragController {
       }
     };
 
-    if (typeof document.startViewTransition === 'function') {
-      document.startViewTransition(doMove);
+    if (this.animate && typeof document.startViewTransition === 'function') {
+      document.startViewTransition(() => {
+        doMove();
+        // WHY: Reassign names after DOM move — indices shift when the dragged
+        // item is reinserted, so each sibling needs a fresh transition name.
+        this.#assignTransitionNames();
+      });
     } else {
       doMove();
     }
@@ -373,6 +385,22 @@ export class DragController {
       composed: true,
       detail: { item: this.#dragItem, index: insertIndex, insertBefore },
     }));
+  }
+
+  // ── Preview mode: view-transition-name management ──
+
+  #assignTransitionNames(): void {
+    const items = this.#getItems();
+    for (let i = 0; i < items.length; i++) {
+      items[i].style.viewTransitionName =
+        items[i] === this.#dragItem ? 'none' : `drag-item-${i}`;
+    }
+  }
+
+  #clearTransitionNames(): void {
+    for (const item of this.#getItems()) {
+      item.style.removeProperty('view-transition-name');
+    }
   }
 
   #restorePreview(): void {
@@ -387,8 +415,11 @@ export class DragController {
         parent.appendChild(item);
       }
     };
-    if (typeof document.startViewTransition === 'function') {
-      document.startViewTransition(doRestore);
+    if (this.animate && typeof document.startViewTransition === 'function') {
+      document.startViewTransition(() => {
+        doRestore();
+        this.#assignTransitionNames();
+      });
     } else {
       doRestore();
     }
@@ -542,6 +573,11 @@ export class DragController {
     }
     if (this.#dragItem) {
       this.#dragItem.removeAttribute('dragging');
+    }
+
+    // WHY: Clear view-transition-name from all items after drag ends
+    if (this.mode === 'preview' && this.animate) {
+      this.#clearTransitionNames();
     }
 
     const zones = this.#getDropZones();

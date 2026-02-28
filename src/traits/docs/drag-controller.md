@@ -19,6 +19,7 @@ new DragController(host: HTMLElement, options?: DragOptions)
 | `axis` | `'vertical' | 'horizontal' | 'both'` | no |  |
 | `mode` | `'drop' | 'slot' | 'preview'` | no |  |
 | `disabled` | `boolean` | no |  |
+| `animate` | `boolean` | no | Enable view-transition animation for preview mode grid reordering (default: true). |
 
 ## Events Dispatched
 

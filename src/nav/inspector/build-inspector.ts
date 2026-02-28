@@ -1,12 +1,5 @@
-// Import ds-* component registrations
-import './ds-variable.ts';
-import './ds-colors.ts';
-import './ds-color-swatch.ts';
-import './ds-themes.ts';
-
-// Import dogfooded component registrations
-import '../../components/ui-range/ui-range.ts';
-import '../../components/ui-combobox/ui-combobox.ts';
+// Element registrations are handled by the entry point (src/inspector.ts).
+// This module only contains the builder function.
 
 import type { DSVariable } from './ds-variable-element.ts';
 import type { DSColors } from './ds-colors-element.ts';

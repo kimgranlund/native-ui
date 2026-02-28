@@ -10,6 +10,7 @@ export const draggableAdapter: TraitAdapter<DragController> = {
       axis: (options['axis'] as 'vertical' | 'horizontal' | 'both') ?? 'both',
       mode: (options['mode'] as 'drop' | 'slot' | 'preview') ?? 'drop',
       disabled: options['disabled'] === 'true',
+      animate: options['animate'] !== 'false',
     });
   },
   destroy(instance) { instance.destroy(); },
@@ -19,5 +20,6 @@ export const draggableAdapter: TraitAdapter<DragController> = {
     if ('axis' in options) instance.axis = options['axis'] as 'vertical' | 'horizontal' | 'both';
     if ('mode' in options) instance.mode = options['mode'] as 'drop' | 'slot' | 'preview';
     if ('disabled' in options) instance.disabled = options['disabled'] === 'true';
+    if ('animate' in options) instance.animate = options['animate'] !== 'false';
   },
 };
