@@ -1,6 +1,7 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import '../ui-table.ts';
+import { TableStore } from '../table-store.ts';
 
 // ── Helpers ──
 
@@ -149,7 +150,6 @@ describe('ui-table store', () => {
 
   it('store can be replaced', () => {
     const table = createTable();
-    const { TableStore } = require('../table-store.ts');
     const newStore = new TableStore({ sortColumn: 'name', sortDirection: 'asc' });
     (table as any).store = newStore;
     expect((table as any).store.sortColumn.value).toBe('name');
