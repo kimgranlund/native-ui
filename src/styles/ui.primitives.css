@@ -73,6 +73,7 @@
     /* Popover (select / combobox / command) */
     --ui-popover-max-height: calc(100dvh - 2rem);
     --ui-popover-gap: 0.25rem;
+    --ui-popover-viewport-margin: 0.5rem;
 
     /* Drawer */
     --ui-drawer-width: 24rem;

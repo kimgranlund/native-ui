@@ -225,7 +225,7 @@
 /* ── ds-themes ── */
 
 :where(ds-themes) {
-  display: block;
+  display: contents;
 }
 
 } /* @layer ui */

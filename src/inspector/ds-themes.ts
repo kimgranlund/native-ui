@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '../core/define.ts';
 import { DSThemes } from './ds-themes-element.ts';
 
 define('ds-themes', DSThemes);

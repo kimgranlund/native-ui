@@ -12,7 +12,10 @@ export class DismissStack {
   #onPointerDown = (e: PointerEvent): void => {
     const top = this.#stack[this.#stack.length - 1];
     if (!top) return;
-    if (top.contains(e.target as Node)) return;
+    // WHY: composedPath() crosses shadow DOM boundaries — e.target is retargeted
+    // to the shadow host, so top.contains(e.target) always fails for elements
+    // rendered inside a shadow root (e.g. ui-select inside ui-layout's shadow DOM).
+    if (e.composedPath().includes(top)) return;
     top.dispatchEvent(new CustomEvent('ui-dismiss', { bubbles: true, composed: true }));
   };
 

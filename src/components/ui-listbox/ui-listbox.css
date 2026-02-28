@@ -25,6 +25,39 @@
     display: none;
   }
 
+  /* ── Popover Animation ──
+     WHY: Shared entry/exit transition for all popover listboxes.
+     Context CSS overrides --_popover-origin and --_popover-from
+     to match the popover's anchor direction (e.g. sidebar flyouts
+     open to the right → rotateY instead of rotateX). */
+
+  :where(ui-listbox[popover]) {
+    --_popover-origin: top center;
+    --_popover-from: perspective(800px) scale(0.96) rotateX(-20deg);
+
+    transform-origin: var(--_popover-origin);
+    opacity: 0;
+    transform: var(--_popover-from);
+
+    transition:
+      opacity var(--_duration) var(--_easing),
+      transform var(--_duration) var(--_easing),
+      display var(--_duration) var(--_easing) allow-discrete,
+      overlay var(--_duration) var(--_easing) allow-discrete;
+  }
+
+  :where(ui-listbox[popover]):popover-open {
+    opacity: 1;
+    transform: none;
+  }
+
+  @starting-style {
+    :where(ui-listbox[popover]):popover-open {
+      opacity: 0;
+      transform: var(--_popover-from);
+    }
+  }
+
   /* ── Option / Command Item Base ── */
 
   :where(ui-option, ui-command-item, [role="option"]) {

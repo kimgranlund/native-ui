@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '../core/define.ts';
 import { DSColors } from './ds-colors-element.ts';
 
 define('ds-colors', DSColors);

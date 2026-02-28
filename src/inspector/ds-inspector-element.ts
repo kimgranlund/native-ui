@@ -1,4 +1,4 @@
-import { UIElement } from '../../core/ui-element.ts';
+import { UIElement } from '../core/ui-element.ts';
 import { buildInspector } from './build-inspector.ts';
 
 /**

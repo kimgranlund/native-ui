@@ -1,4 +1,4 @@
-import { UIElement } from '../../core/ui-element.ts';
+import { UIElement } from '../core/ui-element.ts';
 import type { DSColorSwatch } from './ds-color-swatch-element.ts';
 
 export interface DSColorEntry {

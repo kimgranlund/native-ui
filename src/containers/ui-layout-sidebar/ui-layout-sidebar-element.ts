@@ -45,7 +45,11 @@ export class UILayoutSidebar extends UIElement {
     // WHY: When the sidebar is collapsed, nav-group headers become icon buttons.
     // Clicking them should open a flyout popover instead of toggling <details>.
     // The sidebar coordinator owns this behavior — nav-group doesn't know about sidebars.
-    this.#syncFlyoutMode();
+    // WHY: queueMicrotask — child ui-nav-group elements exist in the DOM but haven't
+    // had their setup() called yet (they stamp <details>/<summary> in setup). The browser
+    // processes connectedCallbacks in tree order, so the microtask runs after all children
+    // are fully initialized.
+    queueMicrotask(() => this.#syncFlyoutMode());
 
     // WHY: When a group closes its own flyout (via ui-dismiss or option select),
     // clear our active reference so the coordinator stays in sync.

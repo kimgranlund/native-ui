@@ -17,4 +17,21 @@
     cursor: text;
   }
 
+  /* ── Popover Listbox Positioning ──
+     WHY: Must come after ui-listbox.css base rule (which sets min-width: 0
+     for flex-child shrinking) so min-width: anchor-size(inline) wins by
+     source order — both are zero-specificity via :where(). */
+
+  :where(ui-combobox) > :where(ui-listbox[popover]) {
+    position: fixed;
+    position-area: block-end span-inline-end;
+    position-try-fallbacks: flip-block;
+    margin-block: var(--ui-popover-viewport-margin);
+    margin-inline: 0;
+    margin-block-start: var(--ui-popover-gap);
+    min-width: anchor-size(inline);
+    max-height: var(--ui-popover-max-height);
+    overflow-y: auto;
+  }
+
 }

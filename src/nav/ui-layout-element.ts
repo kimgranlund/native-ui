@@ -1,11 +1,11 @@
 import { UIElement } from '../core/ui-element.ts';
 import type { UILayoutChat } from '../containers/ui-layout-chat/ui-layout-chat-element.ts';
 import type { UILayoutInspector } from '../containers/ui-layout-inspector/ui-layout-inspector-element.ts';
-import { buildInspector } from './inspector/build-inspector.ts';
+import '../inspector/ds-inspector.ts';
 import foundationCss from '../styles/index.css?inline';
 import componentsCss from '../styles/components.css?inline';
 import layoutDevCss from '../styles/ui-layout.css?inline';
-import inspectorCss from './inspector/ds-inspector.css?inline';
+import inspectorCss from '../inspector/ds-inspector.css?inline';
 import sitemapData from './sitemap.json';
 
 // Import component registrations
@@ -434,8 +434,8 @@ export class UILayout extends UIElement {
     const inspector = document.createElement('ui-layout-inspector');
     const inspectorResizeHandle = document.createElement('div');
     inspectorResizeHandle.className = 'layout-resize-handle';
-    inspector.append(inspectorResizeHandle);
-    buildInspector(inspector);
+    const dsInspector = document.createElement('ds-inspector');
+    inspector.append(inspectorResizeHandle, dsInspector);
 
     // WHY: Sync toggle icon when inspector opens/closes programmatically.
     this.#inspectorObserver = new MutationObserver(() => {

@@ -1,5 +1,5 @@
-import { UIElement } from '../../core/ui-element.ts';
-import { uid } from '../../core/uid.ts';
+import { UIElement } from '../core/ui-element.ts';
+import { uid } from '../core/uid.ts';
 
 /* ── Color-space conversion helpers ── */
 

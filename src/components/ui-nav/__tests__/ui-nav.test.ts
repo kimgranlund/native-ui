@@ -42,7 +42,7 @@ function createGroupedNav(): HTMLElement {
   return el;
 }
 
-function createCollapsedSidebar(): { sidebar: HTMLElement; nav: HTMLElement; group: HTMLElement } {
+async function createCollapsedSidebar(): Promise<{ sidebar: HTMLElement; nav: HTMLElement; group: HTMLElement }> {
   const sidebar = document.createElement('ui-layout-sidebar');
   sidebar.setAttribute('collapsed', '');
   const slot = document.createElement('div');
@@ -68,6 +68,9 @@ function createCollapsedSidebar(): { sidebar: HTMLElement; nav: HTMLElement; gro
   nav.appendChild(group);
   slot.appendChild(nav);
   document.body.appendChild(sidebar);
+
+  // WHY: Flush microtask so sidebar's deferred #syncFlyoutMode() runs
+  await Promise.resolve();
 
   return { sidebar, nav, group };
 }
@@ -373,8 +376,8 @@ describe('ui-nav-group flyout API', () => {
 // ── ui-nav-group flyout (sidebar coordinator) ──
 
 describe('ui-nav-group flyout (sidebar coordinator)', () => {
-  it('summary click in collapsed mode stamps ui-option items into flyout', () => {
-    const { group } = createCollapsedSidebar();
+  it('summary click in collapsed mode stamps ui-option items into flyout', async () => {
+    const { group } = await createCollapsedSidebar();
     const summary = group.querySelector('summary')!;
     const details = group.querySelector('details')!;
     const flyout = group.querySelector('ui-listbox.nav-group-flyout')!;
@@ -407,7 +410,7 @@ describe('ui-nav-group flyout (sidebar coordinator)', () => {
     expect(flyout.querySelectorAll('ui-option').length).toBe(0);
   });
 
-  it('opening a flyout closes sibling flyouts', () => {
+  it('opening a flyout closes sibling flyouts', async () => {
     // Two groups in the same collapsed sidebar
     const sidebar = document.createElement('ui-layout-sidebar');
     sidebar.setAttribute('collapsed', '');
@@ -440,6 +443,9 @@ describe('ui-nav-group flyout (sidebar coordinator)', () => {
     slot.appendChild(nav);
     document.body.appendChild(sidebar);
 
+    // WHY: Flush microtask so sidebar's deferred #syncFlyoutMode() runs
+    await Promise.resolve();
+
     const flyout1 = group1.querySelector('ui-listbox.nav-group-flyout')!;
     const flyout2 = group2.querySelector('ui-listbox.nav-group-flyout')!;
 
@@ -453,8 +459,8 @@ describe('ui-nav-group flyout (sidebar coordinator)', () => {
     expect(flyout1.querySelectorAll('ui-option').length).toBe(0);
   });
 
-  it('uncollapsing closes any open flyout', () => {
-    const { sidebar, group } = createCollapsedSidebar();
+  it('uncollapsing closes any open flyout', async () => {
+    const { sidebar, group } = await createCollapsedSidebar();
     const flyout = group.querySelector('ui-listbox.nav-group-flyout')!;
 
     // Open flyout in collapsed mode
@@ -469,7 +475,7 @@ describe('ui-nav-group flyout (sidebar coordinator)', () => {
   });
 
   it('flyout option click dispatches ui-select (bubbles to nav) and closes flyout', async () => {
-    const { group, nav } = createCollapsedSidebar();
+    const { group, nav } = await createCollapsedSidebar();
     const summary = group.querySelector('summary')!;
     const flyout = group.querySelector('ui-listbox.nav-group-flyout')!;
     const selectHandler = vi.fn();

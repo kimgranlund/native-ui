@@ -130,21 +130,6 @@
 
 
 
-  /* ── Popover Anchor Positioning ──
-     Shared anchor-to-trigger positioning for dropdown popovers.
-     Coordinators (select, combobox) use this for their popover listbox. */
-
-  :where(ui-select) > :where(ui-listbox[popover]),
-  :where(ui-combobox) > :where(ui-listbox[popover]) {
-    position: fixed;
-    position-area: block-end span-inline-end;
-    position-try-fallbacks: flip-block;
-    margin: var(--ui-popover-gap) 0 0;
-    min-width: anchor-size(inline);
-    max-height: var(--ui-popover-max-height);
-    overflow-y: auto;
-  }
-
   /* ── Container-Level Disabled ──
      Containers that disable all children use aria-disabled="true".
      Disabled colors propagate via inheritance — children inherit the muted text.

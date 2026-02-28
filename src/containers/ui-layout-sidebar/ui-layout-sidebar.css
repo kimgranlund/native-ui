@@ -275,10 +275,14 @@
      Flip: bottom-aligned, grows upward (span-block-start). */
 
   :where(ui-layout-sidebar-item) > :where(ui-listbox[popover]) {
+    --_popover-origin: left center;
+    --_popover-from: perspective(800px) scale(0.96) rotateY(20deg);
+
     position: fixed;
     position-area: inline-end span-block-end;
     position-try-fallbacks: --sidebar-item-flip-up;
-    margin: 0;
+    margin-block: var(--ui-popover-viewport-margin);
+    margin-inline: 0;
     margin-inline-start: var(--ui-popover-gap);
     min-width: 200px;
     max-height: var(--ui-popover-max-height);
@@ -287,6 +291,10 @@
 
   @position-try --sidebar-item-flip-up {
     position-area: inline-end span-block-start;
+  }
+
+  @position-try --sidebar-item-flip-down {
+    position-area: inline-end span-block-end;
   }
 
   /* ── Container Query: Collapsed Sidebar ── */
@@ -328,6 +336,14 @@
 
     :where(ui-layout-sidebar-item) > :where(:not([slot="icon"]):not(ui-listbox[popover]):not(.nav-group-flyout)) {
       display: none;
+    }
+
+    /* WHY: In collapsed mode the sidebar item is a small icon — centering
+       the popover vertically with the anchor is more natural than top-aligning.
+       Fallbacks handle viewport clipping (top/bottom edge). */
+    :where(ui-layout-sidebar-item) > :where(ui-listbox[popover]) {
+      position-area: inline-end;
+      position-try-fallbacks: --sidebar-item-flip-up, --sidebar-item-flip-down;
     }
   }
 

@@ -14,12 +14,14 @@ function create(): HTMLElement {
   return el;
 }
 
-/** Create a collapsed sidebar with nav groups for flyout coordinator tests. */
-function createCollapsedWithGroups(): {
+/** Create a collapsed sidebar with nav groups for flyout coordinator tests.
+ *  WHY: async — sidebar defers #syncFlyoutMode to a microtask so child
+ *  nav-group setup() completes before flyout listeners are attached. */
+async function createCollapsedWithGroups(): Promise<{
   sidebar: HTMLElement;
   group1: HTMLElement;
   group2: HTMLElement;
-} {
+}> {
   const sidebar = document.createElement('ui-layout-sidebar');
   sidebar.setAttribute('collapsed', '');
   const slot = document.createElement('div');
@@ -50,6 +52,9 @@ function createCollapsedWithGroups(): {
   nav.appendChild(group2);
   slot.appendChild(nav);
   document.body.appendChild(sidebar);
+
+  // WHY: Flush microtask so sidebar's deferred #syncFlyoutMode() runs
+  await Promise.resolve();
 
   return { sidebar, group1, group2 };
 }
@@ -104,16 +109,16 @@ describe('ui-layout-sidebar-item', () => {
 // ── Flyout coordinator ──
 
 describe('ui-layout-sidebar flyout coordinator', () => {
-  it('collapsed sidebar intercepts summary click to open flyout', () => {
-    const { group1 } = createCollapsedWithGroups();
+  it('collapsed sidebar intercepts summary click to open flyout', async () => {
+    const { group1 } = await createCollapsedWithGroups();
     const flyout = group1.querySelector('ui-listbox.nav-group-flyout')!;
 
     group1.querySelector('summary')!.click();
     expect(flyout.querySelectorAll('ui-option').length).toBe(1);
   });
 
-  it('opening one group closes the other (mutual exclusion)', () => {
-    const { group1, group2 } = createCollapsedWithGroups();
+  it('opening one group closes the other (mutual exclusion)', async () => {
+    const { group1, group2 } = await createCollapsedWithGroups();
     const flyout1 = group1.querySelector('ui-listbox.nav-group-flyout')!;
     const flyout2 = group2.querySelector('ui-listbox.nav-group-flyout')!;
 
@@ -125,8 +130,8 @@ describe('ui-layout-sidebar flyout coordinator', () => {
     expect(flyout1.querySelectorAll('ui-option').length).toBe(0);
   });
 
-  it('clicking same summary again closes its flyout', () => {
-    const { group1 } = createCollapsedWithGroups();
+  it('clicking same summary again closes its flyout', async () => {
+    const { group1 } = await createCollapsedWithGroups();
     const flyout = group1.querySelector('ui-listbox.nav-group-flyout')!;
 
     group1.querySelector('summary')!.click();
@@ -136,8 +141,8 @@ describe('ui-layout-sidebar flyout coordinator', () => {
     expect(flyout.querySelectorAll('ui-option').length).toBe(0);
   });
 
-  it('uncollapsing closes any open flyout', () => {
-    const { sidebar, group1 } = createCollapsedWithGroups();
+  it('uncollapsing closes any open flyout', async () => {
+    const { sidebar, group1 } = await createCollapsedWithGroups();
     const flyout = group1.querySelector('ui-listbox.nav-group-flyout')!;
 
     group1.querySelector('summary')!.click();

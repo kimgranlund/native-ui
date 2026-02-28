@@ -1,4 +1,4 @@
-import { UIElement } from '../../core/ui-element.ts';
+import { UIElement } from '../core/ui-element.ts';
 
 export interface DSThemeEntry {
   name: string;
@@ -50,8 +50,7 @@ export class DSThemes extends UIElement {
 
     const current = document.documentElement.getAttribute('theme') ?? '';
 
-    // Dogfood <ui-combobox> (data-driven mode)
-    const combo = document.createElement('ui-combobox');
+    const combo = document.createElement('ui-select');
     combo.setAttribute('size', 'xs');
     combo.setAttribute('placeholder', 'Theme...');
     combo.setAttribute('options', JSON.stringify(

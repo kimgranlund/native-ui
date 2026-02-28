@@ -1,5 +1,12 @@
-// Element registrations are handled by the entry point (src/inspector.ts).
-// This module only contains the builder function.
+// Registration side-effect imports — needed for the dev server path
+// (ui-layout-element.ts imports this file directly, not src/inspector.ts).
+// In the dist build, src/inspector.ts has explicit define() calls that survive tree-shaking.
+import './ds-variable.ts';
+import './ds-colors.ts';
+import './ds-color-swatch.ts';
+import './ds-themes.ts';
+import '../components/ui-range/ui-range.ts';
+import '../components/ui-select/ui-select.ts';
 
 import type { DSVariable } from './ds-variable-element.ts';
 import type { DSColors } from './ds-colors-element.ts';
@@ -89,8 +96,7 @@ export function buildInspector(container: HTMLElement): void {
     ...families.map(f => ({ value: f, label: f.charAt(0).toUpperCase() + f.slice(1) })),
   ];
 
-  // Dogfood <ui-combobox> (data-driven mode)
-  const filterCtrl = document.createElement('ui-combobox');
+  const filterCtrl = document.createElement('ui-select');
   filterCtrl.setAttribute('size', 'xs');
   filterCtrl.setAttribute('placeholder', 'Family...');
   filterCtrl.setAttribute('options', JSON.stringify(filterOptions));

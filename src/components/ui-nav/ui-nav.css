@@ -281,10 +281,14 @@
      instead of expanding the <details>. Same pattern as sidebar-trigger menus. */
 
   :where(ui-nav-group) > :where(ui-listbox.nav-group-flyout[popover]) {
+    --_popover-origin: left center;
+    --_popover-from: perspective(800px) scale(0.96) rotateY(20deg);
+
     position: fixed;
     position-area: inline-end span-block-end;
     position-try-fallbacks: --nav-flyout-flip-up;
-    margin: 0;
+    margin-block: var(--ui-popover-viewport-margin);
+    margin-inline: 0;
     margin-inline-start: var(--ui-popover-gap);
     min-width: 200px;
     max-height: var(--ui-popover-max-height);
@@ -293,6 +297,10 @@
 
   @position-try --nav-flyout-flip-up {
     position-area: inline-end span-block-start;
+  }
+
+  @position-try --nav-flyout-flip-down {
+    position-area: inline-end span-block-end;
   }
 
   /* ── Container Query: Collapsed Sidebar ── */
@@ -336,6 +344,14 @@
 
     :where(ui-nav-group-header) :where(.icon-well) :where(ui-icon) {
       font-size: var(--_font-size, 1rem);
+    }
+
+    /* WHY: In collapsed mode the group is a small icon — centering
+       the flyout vertically with the anchor is more natural than top-aligning.
+       Fallbacks handle viewport clipping (top/bottom edge). */
+    :where(ui-nav-group) > :where(ui-listbox.nav-group-flyout[popover]) {
+      position-area: inline-end;
+      position-try-fallbacks: --nav-flyout-flip-up, --nav-flyout-flip-down;
     }
 
     /* Collapse inter-group spacing in icon rail. */

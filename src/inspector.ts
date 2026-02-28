@@ -6,22 +6,23 @@
 import { define } from './core/define.ts';
 
 // ds-* sub-elements
-import { DSVariable } from './nav/inspector/ds-variable-element.ts';
-import { DSColors } from './nav/inspector/ds-colors-element.ts';
-import { DSColorSwatch } from './nav/inspector/ds-color-swatch-element.ts';
-import { DSThemes } from './nav/inspector/ds-themes-element.ts';
-import { DSInspector } from './nav/inspector/ds-inspector-element.ts';
+import { DSVariable } from './inspector/ds-variable-element.ts';
+import { DSColors } from './inspector/ds-colors-element.ts';
+import { DSColorSwatch } from './inspector/ds-color-swatch-element.ts';
+import { DSThemes } from './inspector/ds-themes-element.ts';
+import { DSInspector } from './inspector/ds-inspector-element.ts';
 
 // Dogfooded ui-* components created via document.createElement by the
-// inspector sub-elements (ds-variable → ui-range, ds-themes → ui-combobox,
-// ui-combobox → ui-input + ui-listbox + ui-option).
+// inspector sub-elements (ds-variable → ui-range, ds-themes → ui-select,
+// ui-select → ui-button + ui-icon + ui-listbox + ui-option).
 import { UIRange } from './components/ui-range/ui-range-element.ts';
-import { UICombobox } from './components/ui-combobox/ui-combobox-element.ts';
-import { UIInput } from './components/ui-input/ui-input-element.ts';
+import { UISelect } from './components/ui-select/ui-select-element.ts';
+import { UIButton } from './components/ui-button/ui-button-element.ts';
+import { UIIcon } from './icons/ui-icon-element.ts';
 import { UIListbox } from './components/ui-listbox/ui-listbox-element.ts';
 import { UIOption } from './components/ui-listbox/ui-option-element.ts';
 
-import { buildInspector } from './nav/inspector/build-inspector.ts';
+import { buildInspector } from './inspector/build-inspector.ts';
 
 // ── Register all elements ──
 // define() is a no-op if the tag is already registered, so these are safe
@@ -33,8 +34,9 @@ define('ds-color-swatch', DSColorSwatch);
 define('ds-themes', DSThemes);
 define('ds-inspector', DSInspector);
 define('ui-range', UIRange);
-define('ui-combobox', UICombobox);
-define('ui-input', UIInput);
+define('ui-select', UISelect);
+define('ui-button', UIButton);
+define('ui-icon', UIIcon);
 define('ui-listbox', UIListbox);
 define('ui-option', UIOption);
 
@@ -48,6 +50,6 @@ export {
   DSInspector,
   buildInspector,
 };
-export type { DSVariableData } from './nav/inspector/ds-variable-element.ts';
-export type { DSColorEntry } from './nav/inspector/ds-colors-element.ts';
-export type { DSThemeEntry } from './nav/inspector/ds-themes-element.ts';
+export type { DSVariableData } from './inspector/ds-variable-element.ts';
+export type { DSColorEntry } from './inspector/ds-colors-element.ts';
+export type { DSThemeEntry } from './inspector/ds-themes-element.ts';

@@ -88,7 +88,7 @@ writeFileSync(resolve(dist, 'components-lean.css'), leanComponentsCSS);
 writeFileSync(resolve(dist, 'native-ui-lean.css'), foundationCSS + '\n' + leanComponentsCSS);
 
 // Inspector CSS — separate opt-in bundle
-const inspectorFile = 'src/nav/inspector/ds-inspector.css';
+const inspectorFile = 'src/inspector/ds-inspector.css';
 if (existsSync(resolve(root, inspectorFile))) {
   writeFileSync(resolve(dist, 'inspector.css'), read(inspectorFile));
 }

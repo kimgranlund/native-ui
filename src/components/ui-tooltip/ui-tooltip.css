@@ -14,7 +14,7 @@
     /* Default placement: above the anchor */
     position-area: block-start;
     position-try-fallbacks: flip-block, flip-inline;
-    margin: 0;
+    margin: var(--ui-popover-viewport-margin);
 
     max-width: var(--ui-tooltip-max-width);
     padding-block: calc(var(--_space) * 1.5);
@@ -36,8 +36,12 @@
     inset: unset;
     overflow: visible;
 
+    --_popover-origin: bottom center;
+    --_popover-from: perspective(800px) scale(0.96) rotateX(10deg);
+
+    transform-origin: var(--_popover-origin);
     opacity: 0;
-    transform: scale(0.96);
+    transform: var(--_popover-from);
     transition:
       opacity var(--_duration) var(--_easing),
       transform var(--_duration) var(--_easing),
@@ -49,35 +53,43 @@
 
   :where(ui-tooltip[popover]):popover-open {
     opacity: 1;
-    transform: scale(1);
+    transform: none;
   }
 
   /* Starting style for entry animation */
   @starting-style {
     :where(ui-tooltip[popover]):popover-open {
       opacity: 0;
-      transform: scale(0.96);
+      transform: var(--_popover-from);
     }
   }
 
   /* ── Placement Variants ── */
 
   :where(ui-tooltip[placement="top"]) {
+    --_popover-origin: bottom center;
+    --_popover-from: perspective(800px) scale(0.96) rotateX(10deg);
     position-area: block-start;
     margin-block-end: calc(var(--_space) * 2);
   }
 
   :where(ui-tooltip[placement="bottom"]) {
+    --_popover-origin: top center;
+    --_popover-from: perspective(800px) scale(0.96) rotateX(-10deg);
     position-area: block-end;
     margin-block-start: calc(var(--_space) * 2);
   }
 
   :where(ui-tooltip[placement="left"]) {
+    --_popover-origin: right center;
+    --_popover-from: perspective(800px) scale(0.96) rotateY(-10deg);
     position-area: inline-start;
     margin-inline-end: calc(var(--_space) * 2);
   }
 
   :where(ui-tooltip[placement="right"]) {
+    --_popover-origin: left center;
+    --_popover-from: perspective(800px) scale(0.96) rotateY(10deg);
     position-area: inline-end;
     margin-inline-start: calc(var(--_space) * 2);
   }

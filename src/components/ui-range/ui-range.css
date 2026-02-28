@@ -13,6 +13,8 @@
     min-width: 0;
     align-items: center;
     position: relative;
+    /* WHY: Isolate internal z-index (thumb z-index: 1) from parent stacking context */
+    isolation: isolate;
 
     min-height: var(--_track-height);
 
