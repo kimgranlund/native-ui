@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/nui-tokens",
-  "version": "0.2.10",
+  "version": "0.3.0",
   "description": "OKLCH color token inspector for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",
@@ -21,7 +21,7 @@
     "./dist/nui-tokens.js"
   ],
   "peerDependencies": {
-    "@nonoun/native-ui": ">=0.2.10"
+    "@nonoun/native-ui": ">=0.4.0"
   },
   "scripts": {
     "build": "npm run build:js && npm run build:css && npm run build:types",
