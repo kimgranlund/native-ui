@@ -30,5 +30,8 @@
     "build:css": "node scripts/build-css.mjs",
     "build:types": "tsc -p tsconfig.build.json",
     "build:cem": "cem analyze"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -28,5 +28,8 @@
     "build:js": "vite build",
     "build:css": "cp src/nui-tokens.css dist/nui-tokens.css",
     "build:types": "tsc -p tsconfig.build.json"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

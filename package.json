@@ -86,5 +86,8 @@
     "vite": "^8.0.0-beta.13"
   },
   "customElements": "dist/custom-elements.json",
-  "dependencies": {}
+  "dependencies": {},
+  "publishConfig": {
+    "access": "public"
+  }
 }
