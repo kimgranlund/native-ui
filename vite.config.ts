@@ -16,7 +16,6 @@ export default defineConfig(({ command }) => ({
         'kernel': resolve(__dirname, 'src/kernel.ts'),
         'traits': resolve(__dirname, 'src/traits-entry.ts'),
         'register-all': resolve(__dirname, 'src/register-all.ts'),
-        'inspector': resolve(__dirname, 'src/inspector.ts'),
       },
       formats: ['es'],
     },
@@ -33,8 +32,6 @@ export default defineConfig(({ command }) => ({
         manualChunks(id) {
           // Kernel and A2UI are a separate entry — let them stay isolated
           if (id.includes('/kernel/') || id.includes('/a2ui/')) return undefined;
-          // Inspector modules only used by the inspector entry — no redirect needed
-          if (id.includes('/inspector/')) return undefined;
           // Traits + core + reactivity → core.js (shared foundation)
           if (id.includes('/traits/') || id.includes('/core/') || id.includes('/reactivity/')) return 'core';
           // All component + container classes → components.js

@@ -1,11 +1,11 @@
 import { UIElement } from '../core/ui-element.ts';
 import type { UILayoutChat } from '../containers/ui-layout-chat/ui-layout-chat-element.ts';
 import type { UILayoutInspector } from '../containers/ui-layout-inspector/ui-layout-inspector-element.ts';
-import '../inspector/native-tokens-inspector.ts';
+import '@nonoun/nui-tokens';
 import foundationCss from '../styles/index.css?inline';
 import componentsCss from '../styles/components.css?inline';
 import layoutDevCss from '../styles/ui-layout.css?inline';
-import inspectorCss from '../inspector/native-tokens-inspector.css?inline';
+import inspectorCss from '../../packages/nui-tokens/src/nui-tokens.css?inline';
 import sitemapData from './sitemap.json';
 
 // Import component registrations
@@ -434,7 +434,7 @@ export class UILayout extends UIElement {
     const inspector = document.createElement('ui-layout-inspector');
     const inspectorResizeHandle = document.createElement('div');
     inspectorResizeHandle.className = 'layout-resize-handle';
-    const tokensInspector = document.createElement('native-tokens-inspector');
+    const tokensInspector = document.createElement('nui-tokens');
     inspector.append(inspectorResizeHandle, tokensInspector);
 
     // WHY: Sync toggle icon when inspector opens/closes programmatically.

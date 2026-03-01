@@ -1,6 +1,6 @@
-import { UIElement } from '../core/ui-element.ts';
+import { UIElement } from '@nonoun/native-ui';
 
-export interface NativeTokensThemeEntry {
+export interface NuiTokensThemeEntry {
   name: string;
   value: string;
 }
@@ -18,10 +18,10 @@ const ENV_TOKENS = [
   'color-env-hue-danger', 'color-env-chroma-danger', 'color-env-lightness-danger',
 ];
 
-export class NativeTokensThemes extends UIElement {
+export class NuiTokensThemes extends UIElement {
   static observedAttributes = ['data'];
 
-  #data: NativeTokensThemeEntry[] = [];
+  #data: NuiTokensThemeEntry[] = [];
 
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     if (old === val) return;
@@ -80,8 +80,8 @@ export class NativeTokensThemes extends UIElement {
       root.removeAttribute('theme');
     }
 
-    // Dispatch so sibling native-tokens-variable elements can sync their sliders
-    this.dispatchEvent(new CustomEvent('native-tokens-theme-change', {
+    // Dispatch so sibling nui-tokens-variable elements can sync their sliders
+    this.dispatchEvent(new CustomEvent('nui-tokens-theme-change', {
       bubbles: true,
       detail: { theme: value },
     }));

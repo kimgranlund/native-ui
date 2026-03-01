@@ -1,6 +1,6 @@
-import { UIElement } from '../core/ui-element.ts';
+import { UIElement } from '@nonoun/native-ui';
 
-export interface NativeTokensVariableData {
+export interface NuiTokensVariableData {
   name: string;
   type: 'number';
   token: string;
@@ -10,10 +10,10 @@ export interface NativeTokensVariableData {
   max?: number;
 }
 
-export class NativeTokensVariable extends UIElement {
+export class NuiTokensVariable extends UIElement {
   static observedAttributes = ['data'];
 
-  #data: NativeTokensVariableData | null = null;
+  #data: NuiTokensVariableData | null = null;
   #range: HTMLElement | null = null;
   #valueDisplay: HTMLSpanElement | null = null;
 
@@ -33,11 +33,11 @@ export class NativeTokensVariable extends UIElement {
     }
     this.#render();
 
-    this.addEventListener('native-tokens-theme-change', this.#onThemeChange);
+    this.addEventListener('nui-tokens-theme-change', this.#onThemeChange);
   }
 
   teardown(): void {
-    this.removeEventListener('native-tokens-theme-change', this.#onThemeChange);
+    this.removeEventListener('nui-tokens-theme-change', this.#onThemeChange);
     this.innerHTML = '';
     this.#range = null;
     this.#valueDisplay = null;
@@ -70,10 +70,10 @@ export class NativeTokensVariable extends UIElement {
     this.innerHTML = '';
 
     const row = document.createElement('div');
-    row.className = 'native-tokens-variable-row';
+    row.className = 'nui-tokens-variable-row';
 
     const label = document.createElement('label');
-    label.className = 'native-tokens-variable-label';
+    label.className = 'nui-tokens-variable-label';
     label.textContent = d.name;
 
     // Dogfood <ui-range>
@@ -91,14 +91,14 @@ export class NativeTokensVariable extends UIElement {
 
     const step = d.step ?? 0.01;
     const valueSpan = document.createElement('span');
-    valueSpan.className = 'native-tokens-variable-value';
+    valueSpan.className = 'nui-tokens-variable-value';
     valueSpan.textContent = initial.toFixed(step < 0.01 ? 3 : 2);
 
     range.addEventListener('ui-input', ((e: CustomEvent) => {
       const val = e.detail.value as number;
       document.documentElement.style.setProperty(d.token, String(val));
       valueSpan.textContent = val.toFixed(step < 0.01 ? 3 : 2);
-      this.dispatchEvent(new CustomEvent('native-tokens-change', {
+      this.dispatchEvent(new CustomEvent('nui-tokens-change', {
         bubbles: true,
         detail: { token: d.token, value: val },
       }));

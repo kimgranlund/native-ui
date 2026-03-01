@@ -1,13 +1,13 @@
 /* ──────────────────────────────────────────────────────────────────────────────
-   native-tokens-inspector — Design system inspector component styles.
-   Opt-in via: @import '@nonoun/native-ui/css/inspector';
+   nui-tokens — Design system token inspector styles.
+   Opt-in via: @import '@nonoun/nui-tokens/css';
    ────────────────────────────────────────────────────────────────────────────── */
 
 @layer ui {
 
 /* ── Toolbar ── */
 
-.native-tokens-inspector-toolbar {
+.nui-tokens-toolbar {
   position: sticky;
   top: 0;
   z-index: 1;
@@ -18,27 +18,27 @@
   background: var(--_ground, var(--_panel));
 }
 
-.native-tokens-inspector-toolbar > * {
+.nui-tokens-toolbar > * {
   flex: 1;
   min-width: 0;
 }
 
 /* ── Section Structure ── */
 
-.native-tokens-inspector-section {
+.nui-tokens-section {
   margin-block-end: 1rem;
 }
 
-.native-tokens-inspector-section[hidden] {
+.nui-tokens-section[hidden] {
   display: none;
 }
 
-.native-tokens-inspector-section + .native-tokens-inspector-section:not([hidden]) {
+.nui-tokens-section + .nui-tokens-section:not([hidden]) {
   padding-block-start: 0.5rem;
   border-block-start: 1px solid var(--neutral-border-muted);
 }
 
-.native-tokens-inspector-heading {
+.nui-tokens-heading {
   font-size: 0.6875rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -47,20 +47,20 @@
   margin: 0 0 0.5rem;
 }
 
-.native-tokens-inspector-subheading {
+.nui-tokens-subheading {
   font-size: 0.625rem;
   font-weight: 500;
   color: var(--neutral-ink-placeholder);
   margin: 0.5rem 0 0.25rem;
 }
 
-/* ── native-tokens-variable ── */
+/* ── nui-tokens-variable ── */
 
-:where(native-tokens-variable) {
+:where(nui-tokens-variable) {
   display: block;
 }
 
-.native-tokens-variable-row {
+.nui-tokens-variable-row {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -68,7 +68,7 @@
   padding-block: 0.125rem;
 }
 
-.native-tokens-variable-label {
+.nui-tokens-variable-label {
   font-size: 0.6875rem;
   color: var(--neutral-ink);
   white-space: nowrap;
@@ -78,7 +78,7 @@
   max-width: 5rem;
 }
 
-.native-tokens-variable-value {
+.nui-tokens-variable-value {
   font-size: 0.625rem;
   font-family: ui-monospace, monospace;
   color: var(--neutral-ink-muted);
@@ -90,22 +90,22 @@
   max-width: 5rem;
 }
 
-/* ── native-tokens-colors ── */
+/* ── nui-tokens-colors ── */
 
-:where(native-tokens-colors) {
+:where(nui-tokens-colors) {
   display: block;
 }
 
-.native-tokens-colors-strip {
+.nui-tokens-colors-strip {
   display: flex;
   gap: 2px;
   border-radius: 0.375rem;
   overflow: hidden;
 }
 
-/* ── native-tokens-color-swatch ── */
+/* ── nui-tokens-color-swatch ── */
 
-:where(native-tokens-color-swatch) {
+:where(nui-tokens-color-swatch) {
   flex: 1;
   aspect-ratio: 1;
   min-width: 0;
@@ -116,7 +116,7 @@
   cursor: pointer;
 }
 
-.native-tokens-swatch-label {
+.nui-tokens-swatch-label {
   font-size: 0.5rem;
   line-height: 1;
   text-align: center;
@@ -130,7 +130,7 @@
 
 /* ── Swatch Popover ── */
 
-.native-tokens-swatch-popover {
+.nui-tokens-swatch-popover {
   position: fixed;
   position-area: block-end;
   position-try-fallbacks: flip-block;
@@ -159,23 +159,23 @@
     overlay 150ms ease allow-discrete;
 }
 
-.native-tokens-swatch-popover:popover-open {
+.nui-tokens-swatch-popover:popover-open {
   opacity: 1;
   transform: scale(1);
 }
 
 @starting-style {
-  .native-tokens-swatch-popover:popover-open {
+  .nui-tokens-swatch-popover:popover-open {
     opacity: 0;
     transform: scale(0.96);
   }
 }
 
-.native-tokens-swatch-popover[popover]:not(:popover-open) {
+.nui-tokens-swatch-popover[popover]:not(:popover-open) {
   display: none;
 }
 
-.native-tokens-swatch-popover-header {
+.nui-tokens-swatch-popover-header {
   font-size: 0.5625rem;
   font-family: ui-monospace, monospace;
   color: var(--neutral-ink-muted);
@@ -187,7 +187,7 @@
   text-overflow: ellipsis;
 }
 
-.native-tokens-swatch-popover-row {
+.nui-tokens-swatch-popover-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -202,18 +202,18 @@
   text-align: left;
 }
 
-.native-tokens-swatch-popover-row:hover {
+.nui-tokens-swatch-popover-row:hover {
   background: var(--neutral-control);
 }
 
-.native-tokens-swatch-popover-label {
+.nui-tokens-swatch-popover-label {
   font-size: 0.5625rem;
   font-weight: 600;
   color: var(--neutral-ink-muted);
   min-width: 2.5rem;
 }
 
-.native-tokens-swatch-popover-value {
+.nui-tokens-swatch-popover-value {
   font-size: 0.5625rem;
   font-family: ui-monospace, monospace;
   color: var(--neutral-ink);
@@ -222,9 +222,9 @@
   text-overflow: ellipsis;
 }
 
-/* ── native-tokens-themes ── */
+/* ── nui-tokens-themes ── */
 
-:where(native-tokens-themes) {
+:where(nui-tokens-themes) {
   display: contents;
 }
 

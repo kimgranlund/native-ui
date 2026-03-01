@@ -1,15 +1,5 @@
-// Registration side-effect imports — needed for the dev server path
-// (ui-layout-element.ts imports this file directly, not src/inspector.ts).
-// In the dist build, src/inspector.ts has explicit define() calls that survive tree-shaking.
-import './native-tokens-variable.ts';
-import './native-tokens-colors.ts';
-import './native-tokens-color-swatch.ts';
-import './native-tokens-themes.ts';
-import '../components/ui-range/ui-range.ts';
-import '../components/ui-select/ui-select.ts';
-
-import type { NativeTokensVariable } from './native-tokens-variable-element.ts';
-import type { NativeTokensColors } from './native-tokens-colors-element.ts';
+import type { NuiTokensVariable } from './nui-tokens-variable-element.ts';
+import type { NuiTokensColors } from './nui-tokens-colors-element.ts';
 
 /* ── Config (matches colors.html) ── */
 
@@ -44,10 +34,10 @@ const scrimStrengths = ['strongest', 'stronger', 'strong', 'base', 'weak', 'weak
 
 function createSection(title: string, family?: string): HTMLElement {
   const section = document.createElement('div');
-  section.className = 'native-tokens-inspector-section';
+  section.className = 'nui-tokens-section';
   if (family) section.dataset.family = family;
   const h = document.createElement('h3');
-  h.className = 'native-tokens-inspector-heading';
+  h.className = 'nui-tokens-heading';
   h.textContent = title;
   section.appendChild(h);
   return section;
@@ -55,19 +45,19 @@ function createSection(title: string, family?: string): HTMLElement {
 
 function createSubHeading(text: string): HTMLElement {
   const h = document.createElement('h4');
-  h.className = 'native-tokens-inspector-subheading';
+  h.className = 'nui-tokens-subheading';
   h.textContent = text;
   return h;
 }
 
 function createColorStrip(data: Array<{ name: string; token: string }>): HTMLElement {
-  const el = document.createElement('native-tokens-colors');
+  const el = document.createElement('nui-tokens-colors');
   el.setAttribute('data', JSON.stringify(data));
   return el;
 }
 
 function createVariable(param: { name: string; token: string; value: number; step?: number; min?: number; max?: number }): HTMLElement {
-  const el = document.createElement('native-tokens-variable');
+  const el = document.createElement('nui-tokens-variable');
   el.setAttribute('data', JSON.stringify({
     name: param.name,
     type: 'number',
@@ -82,12 +72,12 @@ function createVariable(param: { name: string; token: string; value: number; ste
 
 /* ── Main builder ── */
 
-export function buildInspector(container: HTMLElement): void {
+export function buildTokens(container: HTMLElement): void {
   // ── Toolbar (Theme + Family filter side-by-side) ──
   const toolbar = document.createElement('div');
-  toolbar.className = 'native-tokens-inspector-toolbar';
+  toolbar.className = 'nui-tokens-toolbar';
 
-  const themesEl = document.createElement('native-tokens-themes');
+  const themesEl = document.createElement('nui-tokens-themes');
   themesEl.setAttribute('data', JSON.stringify(themes));
   toolbar.appendChild(themesEl);
 
@@ -186,7 +176,7 @@ export function buildInspector(container: HTMLElement): void {
   // ── Family filter logic ──
   filterCtrl.addEventListener('ui-change', ((e: CustomEvent) => {
     const selected = e.detail.value as string;
-    const sections = container.querySelectorAll<HTMLElement>('.native-tokens-inspector-section[data-family]');
+    const sections = container.querySelectorAll<HTMLElement>('.nui-tokens-section[data-family]');
     for (const section of sections) {
       const family = section.dataset.family!;
       if (selected === 'all') {
@@ -200,14 +190,14 @@ export function buildInspector(container: HTMLElement): void {
     }
     // Refresh visible color strips after filter change
     requestAnimationFrame(() => {
-      container.querySelectorAll<NativeTokensColors>('native-tokens-colors').forEach(c => c.refresh());
+      container.querySelectorAll<NuiTokensColors>('nui-tokens-colors').forEach(c => c.refresh());
     });
   }) as EventListener);
 
-  // ── Global sync: theme change → sync all native-tokens-variable sliders ──
-  container.addEventListener('native-tokens-theme-change', () => {
+  // ── Global sync: theme change → sync all nui-tokens-variable sliders ──
+  container.addEventListener('nui-tokens-theme-change', () => {
     requestAnimationFrame(() => {
-      container.querySelectorAll<NativeTokensVariable>('native-tokens-variable').forEach(v => v.sync());
+      container.querySelectorAll<NuiTokensVariable>('nui-tokens-variable').forEach(v => v.sync());
     });
   });
 }

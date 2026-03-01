@@ -1,0 +1,32 @@
+{
+  "name": "@nonoun/nui-tokens",
+  "version": "0.2.10",
+  "description": "OKLCH color token inspector for @nonoun/native-ui",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/nui-tokens.js",
+  "module": "./dist/nui-tokens.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/nui-tokens.js"
+    },
+    "./css": "./dist/nui-tokens.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "./dist/nui-tokens.js"
+  ],
+  "peerDependencies": {
+    "@nonoun/native-ui": ">=0.2.10"
+  },
+  "scripts": {
+    "build": "npm run build:js && npm run build:css && npm run build:types",
+    "build:js": "vite build",
+    "build:css": "cp src/nui-tokens.css dist/nui-tokens.css",
+    "build:types": "tsc -p tsconfig.build.json"
+  }
+}

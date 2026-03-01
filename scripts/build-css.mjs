@@ -87,16 +87,9 @@ writeFileSync(resolve(dist, 'native-ui.css'), foundationCSS + '\n' + componentsC
 writeFileSync(resolve(dist, 'components-lean.css'), leanComponentsCSS);
 writeFileSync(resolve(dist, 'native-ui-lean.css'), foundationCSS + '\n' + leanComponentsCSS);
 
-// Inspector CSS — separate opt-in bundle
-const inspectorFile = 'src/inspector/native-tokens-inspector.css';
-if (existsSync(resolve(root, inspectorFile))) {
-  writeFileSync(resolve(dist, 'inspector.css'), read(inspectorFile));
-}
-
 console.log('CSS build complete:');
 console.log(`  dist/foundation.css (${foundationFiles.length} files)`);
 console.log(`  dist/components.css (${componentFiles.length} files)`);
 console.log('  dist/native-ui.css');
 console.log(`  dist/components-lean.css (${debugSaved} bytes of force-* selectors stripped)`);
 console.log('  dist/native-ui-lean.css');
-console.log('  dist/inspector.css');
