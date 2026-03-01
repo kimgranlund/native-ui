@@ -7,6 +7,15 @@ export default defineConfig(({ command }) => ({
   define: {
     __DEV__: String(command !== 'build'),
   },
+  resolve: {
+    alias: command === 'serve' ? {
+      // WHY: In dev, workspace packages (nui-tokens) import from @nonoun/native-ui.
+      // Without this alias Vite resolves to dist/native-ui.js (built), creating a
+      // dual-module problem where the same classes load from both source and dist.
+      // Aliasing to the source entry keeps everything in one module graph.
+      '@nonoun/native-ui': resolve(__dirname, 'src/index.ts'),
+    } : {},
+  },
   // WHY: Don't copy public/ assets into dist/ — library build, not app build
   publicDir: false,
   build: {
@@ -27,7 +36,7 @@ export default defineConfig(({ command }) => ({
         // Hash-based names change every build, breaking external references.
         chunkFileNames: '[name].js',
         // WHY: Without manualChunks, Rolldown auto-splits shared code into
-        // meaninglessly named chunks (register-all2.js, ui-layout-inspector-element.js).
+        // meaninglessly named chunks (register-all2.js, nui-app-panel-element.js).
         // This groups shared modules into predictably named chunks.
         manualChunks(id) {
           // Kernel and A2UI are a separate entry — let them stay isolated

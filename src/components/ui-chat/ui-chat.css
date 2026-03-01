@@ -3,7 +3,7 @@
   /* ╭──────────────────────────────────────────────────────────╮
      │  ui-chat                                                 │
      │  Chat application shell with header / content / input /  │
-     │  footer sub-containers. Fills its parent (ui-layout-chat │
+     │  footer sub-containers. Fills its parent (nui-app-panel   │
      │  or any flex column).                                    │
      ╰──────────────────────────────────────────────────────────╯ */
 

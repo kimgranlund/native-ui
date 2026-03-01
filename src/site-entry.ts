@@ -26,7 +26,6 @@ import './components/ui-field/ui-field.ts';
 import './components/ui-input/ui-input.ts';
 import './components/ui-input-otp/ui-input-otp.ts';
 import './components/ui-listbox/ui-listbox.ts';
-import './components/ui-nav/ui-nav.ts';
 import './components/ui-pagination/ui-pagination.ts';
 import './components/ui-radio/ui-radio.ts';
 import './components/ui-range/ui-range.ts';
@@ -44,8 +43,8 @@ import './components/ui-tree/ui-tree.ts';
 import './containers/ui-card/ui-card.ts';
 import './containers/ui-section/ui-section.ts';
 import './containers/ui-toolbar/ui-toolbar.ts';
-import './containers/ui-layout-sidebar/ui-layout-sidebar.ts';
-import './containers/ui-layout-chat/ui-layout-chat.ts';
+// nui-app components (layout + nav)
+import '../packages/nui-app/src/index.ts';
 
 // Icon system
 import './icons/ui-icon.ts';

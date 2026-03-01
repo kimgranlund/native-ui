@@ -23,7 +23,7 @@ export class UIElement extends HTMLElement {
   }
 
   connectedCallback(): void {
-    // WHY: Guard against double setup(). When ui-layout moves DOM nodes,
+    // WHY: Guard against double setup(). When nui-app moves DOM nodes,
     // connectedCallback can fire twice without an intervening disconnectedCallback.
     // Without this guard, controllers/listeners are duplicated (e.g. double PressController
     // causes two ui-press events per click, immediately opening then closing popovers).

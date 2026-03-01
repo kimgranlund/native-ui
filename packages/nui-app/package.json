@@ -1,0 +1,34 @@
+{
+  "name": "@nonoun/nui-app",
+  "version": "0.1.0",
+  "description": "Application layout and navigation components for @nonoun/native-ui",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/nui-app.js",
+  "module": "./dist/nui-app.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/nui-app.js"
+    },
+    "./css": "./dist/nui-app.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "./dist/nui-app.js"
+  ],
+  "peerDependencies": {
+    "@nonoun/native-ui": ">=0.3.0"
+  },
+  "customElements": "dist/custom-elements.json",
+  "scripts": {
+    "build": "npm run build:js && npm run build:css && npm run build:types && npm run build:cem",
+    "build:js": "vite build",
+    "build:css": "node scripts/build-css.mjs",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build:cem": "cem analyze"
+  }
+}

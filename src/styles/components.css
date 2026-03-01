@@ -26,7 +26,6 @@
 @import '../components/ui-drawer/ui-drawer.css';
 @import '../components/ui-tree/ui-tree.css';
 @import '../components/ui-slideshow/ui-slideshow.css';
-@import '../components/ui-nav/ui-nav.css';
 @import '../components/ui-controller/ui-controller.css';
 @import '../icons/ui-icon.css';
 
@@ -42,13 +41,6 @@
 @import '../containers/ui-header/ui-header.css';
 @import '../containers/ui-body/ui-body.css';
 @import '../containers/ui-footer/ui-footer.css';
-@import '../containers/ui-layout-sidebar/ui-layout-sidebar.css';
-@import '../containers/ui-layout-breadcrumb/ui-layout-breadcrumb.css';
-@import '../containers/ui-layout-canvas/ui-layout-canvas.css';
-@import '../containers/ui-layout-body/ui-layout-body.css';
-@import '../containers/ui-layout-chat/ui-layout-chat.css';
-@import '../containers/ui-layout-inspector/ui-layout-inspector.css';
-
 /* Chat */
 @import '../components/ui-chat/ui-chat.css';
 

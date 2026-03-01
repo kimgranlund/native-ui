@@ -1,11 +1,13 @@
 import { UIElement } from '../core/ui-element.ts';
-import type { UILayoutChat } from '../containers/ui-layout-chat/ui-layout-chat-element.ts';
-import type { UILayoutInspector } from '../containers/ui-layout-inspector/ui-layout-inspector-element.ts';
-import '@nonoun/nui-tokens';
+import type { NuiAppPanel } from '../../packages/nui-app/src/nui-app-panel/nui-app-panel-element.ts';
+// WHY: Import source directly — the package entry resolves to dist/nui-tokens.js
+// which pulls in dist/native-ui.js, creating dual-module conflicts in Vite dev.
+import '../../packages/nui-tokens/src/index.ts';
 import foundationCss from '../styles/index.css?inline';
 import componentsCss from '../styles/components.css?inline';
 import layoutDevCss from '../styles/ui-layout.css?inline';
 import inspectorCss from '../../packages/nui-tokens/src/nui-tokens.css?inline';
+import nuiAppCss from '../../packages/nui-app/src/nui-app.css?inline';
 import sitemapData from './sitemap.json';
 
 // Import component registrations
@@ -29,11 +31,8 @@ import '../icons/phosphor/chat-dots.ts';
 import '../icons/phosphor/chat-dots-fill.ts';
 import '../icons/phosphor/sliders-horizontal.ts';
 import '../icons/phosphor/sliders-horizontal-fill.ts';
-import '../components/ui-nav/ui-nav.ts';
+import '../../packages/nui-app/src/index.ts';
 import '../components/ui-breadcrumb/ui-breadcrumb.ts';
-import '../containers/ui-layout-sidebar/ui-layout-sidebar.ts';
-import '../containers/ui-layout-chat/ui-layout-chat.ts';
-import '../containers/ui-layout-inspector/ui-layout-inspector.ts';
 import '../icons/phosphor/caret-up-down.ts';
 import '../icons/phosphor/plus.ts';
 import '../icons/phosphor/user-circle.ts';
@@ -67,19 +66,19 @@ const STORAGE_WIDTH = 'nav-sidebar-width';
 // during view transitions — prevents a flash of bare body background.
 const hostCss = ':host(:not([data-ready])) > * { visibility: hidden; }';
 const layoutSheet = new CSSStyleSheet();
-layoutSheet.replaceSync(hostCss + '\n' + foundationCss + '\n' + componentsCss + '\n' + layoutDevCss + '\n' + inspectorCss);
+layoutSheet.replaceSync(hostCss + '\n' + foundationCss + '\n' + componentsCss + '\n' + nuiAppCss + '\n' + layoutDevCss + '\n' + inspectorCss);
 
-export class UILayout extends UIElement {
+export class NuiApp extends UIElement {
   #keydownHandler: ((e: KeyboardEvent) => void) | null = null;
   #chatObserver: MutationObserver | null = null;
   #inspectorObserver: MutationObserver | null = null;
 
-  get chatPanel(): UILayoutChat | null {
-    return this.shadowRoot?.querySelector('ui-layout-chat') as UILayoutChat | null;
+  get chatPanel(): NuiAppPanel | null {
+    return this.shadowRoot?.querySelector('nui-app-panel[data-role="chat"]') as NuiAppPanel | null;
   }
 
-  get inspectorPanel(): UILayoutInspector | null {
-    return this.shadowRoot?.querySelector('ui-layout-inspector') as UILayoutInspector | null;
+  get inspectorPanel(): NuiAppPanel | null {
+    return this.shadowRoot?.querySelector('nui-app-panel[data-role="inspector"]') as NuiAppPanel | null;
   }
 
   constructor() {
@@ -96,7 +95,7 @@ export class UILayout extends UIElement {
       this.setAttribute('collapsed', '');
     }
     const width = localStorage.getItem(STORAGE_WIDTH);
-    if (width) this.style.setProperty('--ui-layout-sidebar-width', width);
+    if (width) this.style.setProperty('--nui-app-sidebar-width', width);
     const scheme = localStorage.getItem(STORAGE_COLOR_SCHEME);
     if (scheme) document.documentElement.style.colorScheme = scheme;
   }
@@ -114,7 +113,7 @@ export class UILayout extends UIElement {
 
     // ── Build layout ──
 
-    const layout = document.createElement('ui-layout-sidebar') as HTMLElement;
+    const layout = document.createElement('nui-sidebar') as HTMLElement;
     if (isCollapsed) layout.setAttribute('collapsed', '');
 
     // ── Sidebar aside ──
@@ -127,9 +126,9 @@ export class UILayout extends UIElement {
     if (storedWidth && !isCollapsed) sidebar.style.width = storedWidth;
 
     // Header — system menu item + popover
-    const header = document.createElement('ui-layout-sidebar-header');
+    const header = document.createElement('nui-sidebar-header');
 
-    const systemTrigger = document.createElement('ui-layout-sidebar-item');
+    const systemTrigger = document.createElement('nui-sidebar-item');
     systemTrigger.innerHTML =
       '<span class="nav-logo" slot="icon"><svg width="20" height="20" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="512" height="512" rx="96" fill="currentColor"/><path d="M285.324 112.64H418.909V122.415C401.804 122.415 379.811 160.291 379.811 196.131V325.644C379.811 363.52 387.142 389.585 399.36 389.585V399.36H303.244L148.48 198.167V299.578C148.48 348.451 180.247 389.585 226.676 389.585V399.36H93.0909V389.585C110.196 389.585 132.189 351.709 132.189 315.869V166.807C132.189 129.745 110.196 122.415 93.0909 122.415V112.64H246.225V122.415C223.011 122.415 243.375 173.324 275.142 212.422L363.52 321.164V212.422C363.52 163.549 331.753 122.415 285.324 122.415V112.64Z" fill="var(--_ground, var(--_body, white))"/></svg></span>' +
       '<span slot="label">NativeUI</span>' +
@@ -148,7 +147,7 @@ export class UILayout extends UIElement {
       '</ui-listbox>';
 
     // Search hint — wrapped in sidebar-item for consistent inline padding
-    const searchItem = document.createElement('ui-layout-sidebar-item');
+    const searchItem = document.createElement('nui-sidebar-item');
     const searchIconWell = document.createElement('span');
     searchIconWell.setAttribute('slot', 'icon');
     searchIconWell.innerHTML = '<ui-icon name="magnifying-glass"></ui-icon>';
@@ -167,10 +166,10 @@ export class UILayout extends UIElement {
     header.append(systemTrigger, searchItem);
 
     // Content area (scrollable middle)
-    const inner = document.createElement('ui-layout-sidebar-content');
+    const inner = document.createElement('nui-sidebar-content');
 
     // Nav links
-    const nav = document.createElement('ui-nav') as HTMLElement;
+    const nav = document.createElement('nui-sidebar-nav') as HTMLElement;
     nav.className = 'nav-links';
     nav.setAttribute('size', 'md');
 
@@ -203,7 +202,7 @@ export class UILayout extends UIElement {
     };
 
     for (const [groupName, entries] of groups) {
-      const group = document.createElement('ui-nav-group');
+      const group = document.createElement('nui-sidebar-group');
 
       // WHY: Default to collapsed for all groups except Components.
       // User-persisted state (from localStorage) overrides the default.
@@ -211,7 +210,7 @@ export class UILayout extends UIElement {
       const isOpen = groupStates[groupName] ?? defaultOpen;
       if (!isOpen) (group as unknown as { open: boolean }).open = false;
 
-      const groupHeader = document.createElement('ui-nav-group-header');
+      const groupHeader = document.createElement('nui-sidebar-group-header');
       const iconName = groupIcons[groupName];
       if (iconName) {
         const icon = document.createElement('ui-icon');
@@ -222,7 +221,7 @@ export class UILayout extends UIElement {
       group.appendChild(groupHeader);
 
       for (const entry of entries) {
-        const item = document.createElement('ui-nav-item');
+        const item = document.createElement('nui-sidebar-nav-item');
         item.setAttribute('value', entry.path);
         item.textContent = entry.title;
         if (currentPath === entry.path) activeValue = entry.path;
@@ -251,9 +250,9 @@ export class UILayout extends UIElement {
     inner.append(nav);
 
     // Footer — user menu trigger + popover
-    const footer = document.createElement('ui-layout-sidebar-footer');
+    const footer = document.createElement('nui-sidebar-footer');
 
-    const userTrigger = document.createElement('ui-layout-sidebar-item');
+    const userTrigger = document.createElement('nui-sidebar-item');
     userTrigger.innerHTML =
       '<span slot="icon"><ui-icon name="user-circle"></ui-icon></span>' +
       '<span slot="label">User</span>' +
@@ -284,7 +283,7 @@ export class UILayout extends UIElement {
 
     // Breadcrumb bar
     const currentEntry = sitemap.find(e => e.path === currentPath);
-    const breadcrumbBar = document.createElement('ui-layout-breadcrumb');
+    const breadcrumbBar = document.createElement('nui-app-breadcrumb');
 
     // Leading: sidebar toggle
     const sidebarToggle = document.createElement('ui-button');
@@ -336,7 +335,7 @@ export class UILayout extends UIElement {
     inspectorToggle.setAttribute('aria-label', 'Toggle inspector');
     inspectorToggle.innerHTML = '<ui-icon name="sliders-horizontal" size="md"></ui-icon>';
     inspectorToggle.addEventListener('click', () => {
-      const inspEl = layout.querySelector('ui-layout-inspector') as UILayoutInspector | null;
+      const inspEl = layout.querySelector('nui-app-panel[data-role="inspector"]') as NuiAppPanel | null;
       inspEl?.toggle();
     });
 
@@ -347,7 +346,7 @@ export class UILayout extends UIElement {
     chatToggle.setAttribute('aria-label', 'Toggle chat');
     chatToggle.innerHTML = '<ui-icon name="chat-dots" size="md"></ui-icon>';
     chatToggle.addEventListener('click', () => {
-      const chatEl = layout.querySelector('ui-layout-chat') as UILayoutChat | null;
+      const chatEl = layout.querySelector('nui-app-panel[data-role="chat"]') as NuiAppPanel | null;
       chatEl?.toggle();
     });
 
@@ -393,9 +392,9 @@ export class UILayout extends UIElement {
     breadcrumbBar.append(sidebarToggle, breadcrumb, trailingActions);
 
     // Canvas (body + chat)
-    const canvas = document.createElement('ui-layout-canvas');
+    const canvas = document.createElement('nui-app-canvas');
 
-    const body = document.createElement('ui-layout-body');
+    const body = document.createElement('nui-app-panel');
     // WHY: <slot> projects author's <main> from light DOM without moving it —
     // no disconnect→reconnect cycle on nested custom elements.
     const slot = document.createElement('slot');
@@ -431,7 +430,9 @@ export class UILayout extends UIElement {
     });
 
     // Inspector panel
-    const inspector = document.createElement('ui-layout-inspector');
+    const inspector = document.createElement('nui-app-panel');
+    inspector.setAttribute('aside', '');
+    inspector.dataset.role = 'inspector';
     const inspectorResizeHandle = document.createElement('div');
     inspectorResizeHandle.className = 'layout-resize-handle';
     const tokensInspector = document.createElement('nui-tokens');
@@ -447,7 +448,9 @@ export class UILayout extends UIElement {
     this.#inspectorObserver.observe(inspector, { attributes: true, attributeFilter: ['open'] });
 
     // Chat panel
-    const chat = document.createElement('ui-layout-chat');
+    const chat = document.createElement('nui-app-panel');
+    chat.setAttribute('aside', '');
+    chat.dataset.role = 'chat';
     const chatResizeHandle = document.createElement('div');
     chatResizeHandle.className = 'layout-resize-handle';
 

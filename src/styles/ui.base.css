@@ -47,11 +47,10 @@
     ui-input,
     ui-input-otp,
     ui-kbd,
-    ui-layout-chat,
-    ui-layout-inspector,
-    ui-layout-sidebar, ui-layout-sidebar-item,
     ui-listbox,
-    ui-nav, ui-nav-group, ui-nav-group-header, ui-nav-item,
+    nui-app-panel,
+    nui-sidebar, nui-sidebar-item,
+    nui-sidebar-nav, nui-sidebar-group, nui-sidebar-group-header, nui-sidebar-nav-item,
     ui-option, ui-option-group, ui-option-group-header,
     ui-pagination,
     ui-radio, ui-radio-group,
@@ -115,7 +114,7 @@
     ui-select, ui-combobox,
     ui-segmented-control, ui-segment,
     ui-tab, ui-accordion-item,
-    ui-tree-item, ui-nav-item,
+    ui-tree-item, nui-sidebar-nav-item,
     ui-breadcrumb-item, ui-table-row,
     ui-calendar, ui-range,
     ui-card, ui-slideshow
@@ -139,7 +138,7 @@
     ui-listbox, ui-command,
     ui-segmented-control, ui-tabs,
     ui-accordion, ui-tree,
-    ui-calendar, ui-pagination, ui-nav
+    ui-calendar, ui-pagination, nui-sidebar-nav
   )[aria-disabled="true"] {
     color: var(--_ink-disabled);
     pointer-events: none;

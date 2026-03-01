@@ -17,7 +17,7 @@
   { "title": "ui-input-otp", "path": "/src/components/ui-input-otp/ui-input-otp.html", "group": "Components" },
   { "title": "ui-kbd", "path": "/src/components/ui-kbd/ui-kbd.html", "group": "Components" },
   { "title": "ui-listbox", "path": "/src/components/ui-listbox/ui-listbox.html", "group": "Components" },
-  { "title": "ui-nav", "path": "/src/components/ui-nav/ui-nav.html", "group": "Components" },
+  { "title": "nui-sidebar-nav", "path": "/src/components/ui-nav/ui-nav.html", "group": "Components" },
   { "title": "ui-pagination", "path": "/src/components/ui-pagination/ui-pagination.html", "group": "Components" },
   { "title": "ui-radio", "path": "/src/components/ui-radio/ui-radio.html", "group": "Components" },
   { "title": "ui-range", "path": "/src/components/ui-range/ui-range.html", "group": "Components" },

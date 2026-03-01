@@ -1,6 +1,6 @@
-/* ui-layout — dev-only styles for sidebar chrome and command dialog.
-   Layout structure is handled by ui-layout-* components.
-   Injected into ui-layout's shadow root via ?inline import. */
+/* nui-app — dev-only styles for sidebar chrome and command dialog.
+   Layout structure is handled by nui-app-* components.
+   Injected into nui-app's shadow root via ?inline import. */
 
 /* ── Logo ── */
 
@@ -16,16 +16,16 @@
 }
 
 /* ── Nav links ── */
-/* WHY: No scroll rules needed — ui-layout-sidebar-content is the scroll container. */
+/* WHY: No scroll rules needed — nui-sidebar-content is the scroll container. */
 
 /* ── Breadcrumb colors ── */
 
-/* WHY: Inside shadow root — no ui-layout ancestor in the tree. */
-:where(ui-layout-breadcrumb) :where(ui-breadcrumb-item) {
+/* WHY: Inside shadow root — no nui-app ancestor in the tree. */
+:where(nui-app-breadcrumb) :where(ui-breadcrumb-item) {
   color: var(--neutral-ink-muted);
 }
 
-:where(ui-layout-breadcrumb) :where(ui-breadcrumb-item[current]) {
+:where(nui-app-breadcrumb) :where(ui-breadcrumb-item[current]) {
   color: var(--neutral-ink-strong);
 }
 

@@ -45,9 +45,9 @@
       resetKernel();
       const kernel = new Kernel({ allowUnregistered: true });
       const messages = [];
-      // WHY: UILayout.setup() is async — wait for the chat panel to exist.
-      const layout = document.querySelector('ui-layout');
-      await customElements.whenDefined('ui-layout');
+      // WHY: NuiApp.setup() is async — wait for the chat panel to exist.
+      const layout = document.querySelector('nui-app');
+      await customElements.whenDefined('nui-app');
       const chatPanel = await new Promise(resolve => {
         const check = () => {
           const el = layout.chatPanel;
@@ -401,7 +401,7 @@
     </script>
   </head>
   <body>
-    <ui-layout>
+    <nui-app>
       <div class="nav-main">
         <h1>A2UI Styled Components</h1>
         <p style="color: var(--neutral-ink-muted); margin-bottom: 1.5rem; font-size: 0.8125rem;">
@@ -409,6 +409,6 @@
           Each element carries a <code>[data-a2ui]</code> attribute and is styled via <code>a2ui.css</code>.
         </p>
       </div>
-    </ui-layout>
+    </nui-app>
   </body>
 </html>

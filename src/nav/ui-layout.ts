@@ -1,6 +1,6 @@
 import { define } from '../core/define.ts';
-import { UILayout } from './ui-layout-element.ts';
+import { NuiApp } from './ui-layout-element.ts';
 
-define('ui-layout', UILayout);
+define('nui-app', NuiApp);
 
-export { UILayout };
+export { NuiApp };

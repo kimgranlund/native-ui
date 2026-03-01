@@ -46,10 +46,6 @@ import type { UITooltip } from './components/ui-tooltip/ui-tooltip-element.ts';
 import type { UIBreadcrumb } from './components/ui-breadcrumb/ui-breadcrumb-element.ts';
 import type { UIBreadcrumbItem } from './components/ui-breadcrumb/ui-breadcrumb-item-element.ts';
 import type { UIPagination } from './components/ui-pagination/ui-pagination-element.ts';
-import type { UINav } from './components/ui-nav/ui-nav-element.ts';
-import type { UINavItem } from './components/ui-nav/ui-nav-item-element.ts';
-import type { UINavGroup } from './components/ui-nav/ui-nav-group-element.ts';
-import type { UINavGroupHeader } from './components/ui-nav/ui-nav-group-header-element.ts';
 import type { UITree } from './components/ui-tree/ui-tree-element.ts';
 import type { UITreeItem } from './components/ui-tree/ui-tree-item-element.ts';
 import type { UISlideshow } from './components/ui-slideshow/ui-slideshow-element.ts';
@@ -62,10 +58,6 @@ import type { UIChatInput } from './components/ui-chat/ui-chat-input-element.ts'
 import type { UICard } from './containers/ui-card/ui-card-element.ts';
 import type { UISection } from './containers/ui-section/ui-section-element.ts';
 import type { UIToolbar } from './containers/ui-toolbar/ui-toolbar-element.ts';
-import type { UILayoutSidebar } from './containers/ui-layout-sidebar/ui-layout-sidebar-element.ts';
-import type { UILayoutSidebarItem } from './containers/ui-layout-sidebar/ui-layout-sidebar-item-element.ts';
-import type { UILayoutChat } from './containers/ui-layout-chat/ui-layout-chat-element.ts';
-import type { UILayoutInspector } from './containers/ui-layout-inspector/ui-layout-inspector-element.ts';
 import type { UIIcon } from './icons/ui-icon-element.ts';
 
 declare global {
@@ -131,11 +123,6 @@ declare global {
     'ui-breadcrumb': UIBreadcrumb;
     'ui-breadcrumb-item': UIBreadcrumbItem;
     'ui-pagination': UIPagination;
-    'ui-nav': UINav;
-    'ui-nav-item': UINavItem;
-    'ui-nav-group': UINavGroup;
-    'ui-nav-group-header': UINavGroupHeader;
-
     // Components — Tree / Slideshow
     'ui-tree': UITree;
     'ui-tree-item': UITreeItem;
@@ -155,11 +142,6 @@ declare global {
     'ui-card': UICard;
     'ui-section': UISection;
     'ui-toolbar': UIToolbar;
-    'ui-layout-sidebar': UILayoutSidebar;
-    'ui-layout-sidebar-item': UILayoutSidebarItem;
-    'ui-layout-chat': UILayoutChat;
-    'ui-layout-inspector': UILayoutInspector;
-
     // Icons
     'ui-icon': UIIcon;
   }

@@ -1,0 +1,88 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  nui-app-panel                                           │
+     │  Layout panel — main content surface or collapsible      │
+     │  aside. Default: flex-1 scrollable body. [aside]:        │
+     │  fixed-width side panel with open/close + resize.        │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* ── Base (shared) ── */
+
+  :where(nui-app-panel) {
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: none;
+    background: var(--_ground, var(--_panel));
+    border-radius: var(--_radius);
+  }
+
+  :where(nui-app-panel)[show-scrollbar] {
+    scrollbar-width: thin;
+  }
+
+  /* ── Main mode (default) ── */
+
+  :where(nui-app-panel):not([aside]) {
+    flex: 1;
+    min-width: 0;
+    overflow-y: auto;
+    padding: calc(var(--_space-k) * var(--_space));
+  }
+
+  /* ── Aside mode ── */
+
+  :where(nui-app-panel)[aside] {
+    position: relative;
+    width: 0;
+    min-width: 0;
+    max-width: 480px;
+    overflow: clip;
+    padding: 0;
+    transition:
+      width var(--_duration) var(--_easing),
+      min-width var(--_duration) var(--_easing),
+      padding var(--_duration) var(--_easing),
+      margin var(--_duration) var(--_easing);
+  }
+
+  :where(nui-app-panel)[aside][open] {
+    width: 360px;
+    min-width: 280px;
+    margin-inline-start: calc(var(--_space) * 2);
+    overflow-y: auto;
+    padding: calc(var(--_space-k) * var(--_space));
+  }
+
+  /* WHY: When ui-chat manages its own sub-container padding and scroll,
+     the layout container delegates — no own padding, no own scroll.
+     overflow: visible lets CSS anchor-positioned popovers (ui-select etc.)
+     resolve through to the top layer. */
+  :where(nui-app-panel)[aside][open]:has(> ui-chat) {
+    padding: 0;
+    overflow: visible;
+  }
+
+  /* WHY: Disable width transition while dragging — it fights the pointer. */
+  :where(nui-app-panel)[aside][resizing] {
+    transition: none;
+  }
+
+  /* ── Resize Handle ── */
+
+  :where(nui-app-panel)[aside] :where(.layout-resize-handle) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 1;
+  }
+
+  :where(nui-app-panel)[aside] :where(.layout-resize-handle):hover,
+  :where(nui-app-panel)[aside][resizing] :where(.layout-resize-handle) {
+    background: var(--_border-muted);
+  }
+
+}

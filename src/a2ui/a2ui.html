@@ -76,7 +76,7 @@
     </style>
   </head>
   <body>
-    <ui-layout><main>
+    <nui-app><main>
     <h1>A2UI Protocol</h1>
     <p class="demo-desc">
       Google A2UI (Agent-to-UI) protocol compatibility layer. Bidirectional conversion between A2UI flat adjacency lists and native-ui component trees.
@@ -228,7 +228,7 @@
       <div class="log" id="emit-output" style="max-height: 16rem; white-space: pre-wrap; word-break: break-all;">Click an emit button to convert a Planner result to A2UI format...</div>
     </div>
 
-    </main></ui-layout>
+    </main></nui-app>
     <script type="module">
       import '../nav/ui-layout.ts';
       import '../components/ui-button/ui-button.ts';
@@ -262,9 +262,9 @@
       const typeCountEl = document.getElementById('type-count');
       const emitOutput = document.getElementById('emit-output');
 
-      // WHY: UILayout.setup() is async — wait for the chat panel to exist.
-      const layout = document.querySelector('ui-layout');
-      await customElements.whenDefined('ui-layout');
+      // WHY: NuiApp.setup() is async — wait for the chat panel to exist.
+      const layout = document.querySelector('nui-app');
+      await customElements.whenDefined('nui-app');
       const chatPanel = await new Promise(resolve => {
         const check = () => {
           const el = layout.chatPanel;

@@ -14,7 +14,7 @@ export class DismissStack {
     if (!top) return;
     // WHY: composedPath() crosses shadow DOM boundaries — e.target is retargeted
     // to the shadow host, so top.contains(e.target) always fails for elements
-    // rendered inside a shadow root (e.g. ui-select inside ui-layout's shadow DOM).
+    // rendered inside a shadow root (e.g. ui-select inside nui-app's shadow DOM).
     if (e.composedPath().includes(top)) return;
     top.dispatchEvent(new CustomEvent('ui-dismiss', { bubbles: true, composed: true }));
   };

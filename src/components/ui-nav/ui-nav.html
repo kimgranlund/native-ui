@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ui-nav — Component Demo</title>
+    <title>nui-sidebar-nav — Component Demo</title>
     <link rel="stylesheet" href="../../styles/index.css" />
     <link rel="stylesheet" href="../../styles/components.css" />
     <link rel="stylesheet" href="../../styles/demo.css" />
@@ -41,8 +41,8 @@
 </style>
   </head>
   <body>
-    <ui-layout><main>
-    <h1>&lt;ui-nav&gt;</h1>
+    <nui-app><main>
+    <h1>&lt;nui-sidebar-nav&gt;</h1>
     <p class="demo-desc">
       Navigation list with keyboard nav and selection. Transparent wrapper — items sit flush with no inline padding.
     </p>
@@ -54,31 +54,31 @@
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Flat items</span>
-          <ui-nav id="basic-nav" size="sm">
-            <ui-nav-item value="home">Home</ui-nav-item>
-            <ui-nav-item value="about">About</ui-nav-item>
-            <ui-nav-item value="blog">Blog</ui-nav-item>
-            <ui-nav-item value="contact">Contact</ui-nav-item>
-          </ui-nav>
+          <nui-sidebar-nav id="basic-nav" size="sm">
+            <nui-sidebar-nav-item value="home">Home</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="about">About</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="blog">Blog</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="contact">Contact</nui-sidebar-nav-item>
+          </nui-sidebar-nav>
           <div>Selected: <span class="value-display" id="basic-value">none</span></div>
         </div>
 
         <div class="demo-col">
           <span class="demo-col-label">With disabled item</span>
-          <ui-nav size="sm">
-            <ui-nav-item value="dashboard">Dashboard</ui-nav-item>
-            <ui-nav-item value="settings">Settings</ui-nav-item>
-            <ui-nav-item value="admin" disabled>Admin (restricted)</ui-nav-item>
-            <ui-nav-item value="logout">Log Out</ui-nav-item>
-          </ui-nav>
+          <nui-sidebar-nav size="sm">
+            <nui-sidebar-nav-item value="dashboard">Dashboard</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="settings">Settings</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="admin" disabled>Admin (restricted)</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="logout">Log Out</nui-sidebar-nav-item>
+          </nui-sidebar-nav>
         </div>
       </div>
-      <pre class="demo-code"><code>&lt;ui-nav&gt;
-  &lt;ui-nav-item value="home"&gt;Home&lt;/ui-nav-item&gt;
-  &lt;ui-nav-item value="about"&gt;About&lt;/ui-nav-item&gt;
-  &lt;ui-nav-item value="blog"&gt;Blog&lt;/ui-nav-item&gt;
-  &lt;ui-nav-item value="contact" disabled&gt;Contact&lt;/ui-nav-item&gt;
-&lt;/ui-nav&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+      <pre class="demo-code"><code>&lt;nui-sidebar-nav&gt;
+  &lt;nui-sidebar-nav-item value="home"&gt;Home&lt;/nui-sidebar-nav-item&gt;
+  &lt;nui-sidebar-nav-item value="about"&gt;About&lt;/nui-sidebar-nav-item&gt;
+  &lt;nui-sidebar-nav-item value="blog"&gt;Blog&lt;/nui-sidebar-nav-item&gt;
+  &lt;nui-sidebar-nav-item value="contact" disabled&gt;Contact&lt;/nui-sidebar-nav-item&gt;
+&lt;/nui-sidebar-nav&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
     </div>
 
     <!-- ── Grouped with Icons ── -->
@@ -88,57 +88,57 @@
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Sidebar nav pattern</span>
-          <ui-nav id="grouped-nav" size="sm">
-            <ui-nav-group>
-              <ui-nav-group-header><ui-icon name="house"></ui-icon> Getting Started</ui-nav-group-header>
-              <ui-nav-item value="install">Installation</ui-nav-item>
-              <ui-nav-item value="structure">Project Structure</ui-nav-item>
-            </ui-nav-group>
-            <ui-nav-group>
-              <ui-nav-group-header><ui-icon name="rocket-launch"></ui-icon> Build Your Application</ui-nav-group-header>
-              <ui-nav-item value="routing">Routing</ui-nav-item>
-              <ui-nav-item value="data">Data Fetching</ui-nav-item>
-              <ui-nav-item value="caching">Caching</ui-nav-item>
-              <ui-nav-item value="styling">Styling</ui-nav-item>
-              <ui-nav-item value="optimizing">Optimizing</ui-nav-item>
-            </ui-nav-group>
-            <ui-nav-group>
-              <ui-nav-group-header><ui-icon name="book-open"></ui-icon> Reference</ui-nav-group-header>
-              <ui-nav-item value="api">API Reference</ui-nav-item>
-              <ui-nav-item value="config">Configuration</ui-nav-item>
-              <ui-nav-item value="examples">Examples</ui-nav-item>
-            </ui-nav-group>
-          </ui-nav>
+          <nui-sidebar-nav id="grouped-nav" size="sm">
+            <nui-sidebar-group>
+              <nui-sidebar-group-header><ui-icon name="house"></ui-icon> Getting Started</nui-sidebar-group-header>
+              <nui-sidebar-nav-item value="install">Installation</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="structure">Project Structure</nui-sidebar-nav-item>
+            </nui-sidebar-group>
+            <nui-sidebar-group>
+              <nui-sidebar-group-header><ui-icon name="rocket-launch"></ui-icon> Build Your Application</nui-sidebar-group-header>
+              <nui-sidebar-nav-item value="routing">Routing</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="data">Data Fetching</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="caching">Caching</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="styling">Styling</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="optimizing">Optimizing</nui-sidebar-nav-item>
+            </nui-sidebar-group>
+            <nui-sidebar-group>
+              <nui-sidebar-group-header><ui-icon name="book-open"></ui-icon> Reference</nui-sidebar-group-header>
+              <nui-sidebar-nav-item value="api">API Reference</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="config">Configuration</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="examples">Examples</nui-sidebar-nav-item>
+            </nui-sidebar-group>
+          </nui-sidebar-nav>
           <div>Selected: <span class="value-display" id="grouped-value">none</span></div>
         </div>
 
         <div class="demo-col">
           <span class="demo-col-label">Without icons</span>
-          <ui-nav size="sm">
-            <ui-nav-group>
-              <ui-nav-group-header>Fruits</ui-nav-group-header>
-              <ui-nav-item value="apple">Apple</ui-nav-item>
-              <ui-nav-item value="banana">Banana</ui-nav-item>
-              <ui-nav-item value="cherry">Cherry</ui-nav-item>
-            </ui-nav-group>
-            <ui-nav-group>
-              <ui-nav-group-header>Vegetables</ui-nav-group-header>
-              <ui-nav-item value="carrot">Carrot</ui-nav-item>
-              <ui-nav-item value="broccoli">Broccoli</ui-nav-item>
-              <ui-nav-item value="spinach">Spinach</ui-nav-item>
-            </ui-nav-group>
-          </ui-nav>
+          <nui-sidebar-nav size="sm">
+            <nui-sidebar-group>
+              <nui-sidebar-group-header>Fruits</nui-sidebar-group-header>
+              <nui-sidebar-nav-item value="apple">Apple</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="banana">Banana</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="cherry">Cherry</nui-sidebar-nav-item>
+            </nui-sidebar-group>
+            <nui-sidebar-group>
+              <nui-sidebar-group-header>Vegetables</nui-sidebar-group-header>
+              <nui-sidebar-nav-item value="carrot">Carrot</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="broccoli">Broccoli</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="spinach">Spinach</nui-sidebar-nav-item>
+            </nui-sidebar-group>
+          </nui-sidebar-nav>
         </div>
       </div>
-      <pre class="demo-code"><code>&lt;ui-nav size="sm"&gt;
-  &lt;ui-nav-group&gt;
-    &lt;ui-nav-group-header&gt;
+      <pre class="demo-code"><code>&lt;nui-sidebar-nav size="sm"&gt;
+  &lt;nui-sidebar-group&gt;
+    &lt;nui-sidebar-group-header&gt;
       &lt;ui-icon name="house"&gt;&lt;/ui-icon&gt; Getting Started
-    &lt;/ui-nav-group-header&gt;
-    &lt;ui-nav-item value="install"&gt;Installation&lt;/ui-nav-item&gt;
-    &lt;ui-nav-item value="structure"&gt;Project Structure&lt;/ui-nav-item&gt;
-  &lt;/ui-nav-group&gt;
-&lt;/ui-nav&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+    &lt;/nui-sidebar-group-header&gt;
+    &lt;nui-sidebar-nav-item value="install"&gt;Installation&lt;/nui-sidebar-nav-item&gt;
+    &lt;nui-sidebar-nav-item value="structure"&gt;Project Structure&lt;/nui-sidebar-nav-item&gt;
+  &lt;/nui-sidebar-group&gt;
+&lt;/nui-sidebar-nav&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
     </div>
 
     <!-- ── Collapsible Groups ── -->
@@ -148,36 +148,36 @@
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Default open (all groups)</span>
-          <ui-nav size="sm">
-            <ui-nav-group>
-              <ui-nav-group-header><ui-icon name="house"></ui-icon> Overview</ui-nav-group-header>
-              <ui-nav-item value="intro">Introduction</ui-nav-item>
-              <ui-nav-item value="quickstart">Quick Start</ui-nav-item>
-            </ui-nav-group>
-            <ui-nav-group>
-              <ui-nav-group-header><ui-icon name="book-open"></ui-icon> Guides</ui-nav-group-header>
-              <ui-nav-item value="auth">Authentication</ui-nav-item>
-              <ui-nav-item value="deploy">Deployment</ui-nav-item>
-              <ui-nav-item value="testing">Testing</ui-nav-item>
-            </ui-nav-group>
-          </ui-nav>
+          <nui-sidebar-nav size="sm">
+            <nui-sidebar-group>
+              <nui-sidebar-group-header><ui-icon name="house"></ui-icon> Overview</nui-sidebar-group-header>
+              <nui-sidebar-nav-item value="intro">Introduction</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="quickstart">Quick Start</nui-sidebar-nav-item>
+            </nui-sidebar-group>
+            <nui-sidebar-group>
+              <nui-sidebar-group-header><ui-icon name="book-open"></ui-icon> Guides</nui-sidebar-group-header>
+              <nui-sidebar-nav-item value="auth">Authentication</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="deploy">Deployment</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="testing">Testing</nui-sidebar-nav-item>
+            </nui-sidebar-group>
+          </nui-sidebar-nav>
         </div>
 
         <div class="demo-col">
           <span class="demo-col-label">Without icons (text-only headers)</span>
-          <ui-nav size="sm">
-            <ui-nav-group>
-              <ui-nav-group-header>Section A</ui-nav-group-header>
-              <ui-nav-item value="a1">Item A1</ui-nav-item>
-              <ui-nav-item value="a2">Item A2</ui-nav-item>
-            </ui-nav-group>
-            <ui-nav-group>
-              <ui-nav-group-header>Section B</ui-nav-group-header>
-              <ui-nav-item value="b1">Item B1</ui-nav-item>
-              <ui-nav-item value="b2">Item B2</ui-nav-item>
-              <ui-nav-item value="b3">Item B3</ui-nav-item>
-            </ui-nav-group>
-          </ui-nav>
+          <nui-sidebar-nav size="sm">
+            <nui-sidebar-group>
+              <nui-sidebar-group-header>Section A</nui-sidebar-group-header>
+              <nui-sidebar-nav-item value="a1">Item A1</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="a2">Item A2</nui-sidebar-nav-item>
+            </nui-sidebar-group>
+            <nui-sidebar-group>
+              <nui-sidebar-group-header>Section B</nui-sidebar-group-header>
+              <nui-sidebar-nav-item value="b1">Item B1</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="b2">Item B2</nui-sidebar-nav-item>
+              <nui-sidebar-nav-item value="b3">Item B3</nui-sidebar-nav-item>
+            </nui-sidebar-group>
+          </nui-sidebar-nav>
         </div>
       </div>
     </div>
@@ -189,58 +189,58 @@
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">xs</span>
-          <ui-nav size="xs">
-            <ui-nav-item value="a">Item A</ui-nav-item>
-            <ui-nav-item value="b">Item B</ui-nav-item>
-            <ui-nav-item value="c">Item C</ui-nav-item>
-          </ui-nav>
+          <nui-sidebar-nav size="xs">
+            <nui-sidebar-nav-item value="a">Item A</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="b">Item B</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="c">Item C</nui-sidebar-nav-item>
+          </nui-sidebar-nav>
         </div>
         <div class="demo-col">
           <span class="demo-col-label">sm</span>
-          <ui-nav size="sm">
-            <ui-nav-item value="a">Item A</ui-nav-item>
-            <ui-nav-item value="b">Item B</ui-nav-item>
-            <ui-nav-item value="c">Item C</ui-nav-item>
-          </ui-nav>
+          <nui-sidebar-nav size="sm">
+            <nui-sidebar-nav-item value="a">Item A</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="b">Item B</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="c">Item C</nui-sidebar-nav-item>
+          </nui-sidebar-nav>
         </div>
         <div class="demo-col">
           <span class="demo-col-label">md</span>
-          <ui-nav size="md">
-            <ui-nav-item value="a">Item A</ui-nav-item>
-            <ui-nav-item value="b">Item B</ui-nav-item>
-            <ui-nav-item value="c">Item C</ui-nav-item>
-          </ui-nav>
+          <nui-sidebar-nav size="md">
+            <nui-sidebar-nav-item value="a">Item A</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="b">Item B</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="c">Item C</nui-sidebar-nav-item>
+          </nui-sidebar-nav>
         </div>
         <div class="demo-col">
           <span class="demo-col-label">lg</span>
-          <ui-nav size="lg">
-            <ui-nav-item value="a">Item A</ui-nav-item>
-            <ui-nav-item value="b">Item B</ui-nav-item>
-            <ui-nav-item value="c">Item C</ui-nav-item>
-          </ui-nav>
+          <nui-sidebar-nav size="lg">
+            <nui-sidebar-nav-item value="a">Item A</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="b">Item B</nui-sidebar-nav-item>
+            <nui-sidebar-nav-item value="c">Item C</nui-sidebar-nav-item>
+          </nui-sidebar-nav>
         </div>
       </div>
-      <pre class="demo-code"><code>&lt;ui-nav size="sm"&gt;...&lt;/ui-nav&gt;
-&lt;ui-nav size="md"&gt;...&lt;/ui-nav&gt;
-&lt;ui-nav size="lg"&gt;...&lt;/ui-nav&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+      <pre class="demo-code"><code>&lt;nui-sidebar-nav size="sm"&gt;...&lt;/nui-sidebar-nav&gt;
+&lt;nui-sidebar-nav size="md"&gt;...&lt;/nui-sidebar-nav&gt;
+&lt;nui-sidebar-nav size="lg"&gt;...&lt;/nui-sidebar-nav&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
     </div>
 
     <!-- ── Events ── -->
 
     <h2>Events</h2>
     <div class="demo-section" size="sm">
-      <ui-nav id="event-nav" style="max-width: 220px;">
-        <ui-nav-item value="home">Home</ui-nav-item>
-        <ui-nav-item value="docs">Documentation</ui-nav-item>
-        <ui-nav-item value="api">API Reference</ui-nav-item>
-        <ui-nav-item value="changelog">Changelog</ui-nav-item>
-      </ui-nav>
+      <nui-sidebar-nav id="event-nav" style="max-width: 220px;">
+        <nui-sidebar-nav-item value="home">Home</nui-sidebar-nav-item>
+        <nui-sidebar-nav-item value="docs">Documentation</nui-sidebar-nav-item>
+        <nui-sidebar-nav-item value="api">API Reference</nui-sidebar-nav-item>
+        <nui-sidebar-nav-item value="changelog">Changelog</nui-sidebar-nav-item>
+      </nui-sidebar-nav>
       <div class="log" id="event-log"></div>
-      <pre class="demo-code"><code>&lt;ui-nav id="my-nav"&gt;
-  &lt;ui-nav-item value="home"&gt;Home&lt;/ui-nav-item&gt;
-  &lt;ui-nav-item value="docs"&gt;Documentation&lt;/ui-nav-item&gt;
-  &lt;ui-nav-item value="api"&gt;API Reference&lt;/ui-nav-item&gt;
-&lt;/ui-nav&gt;
+      <pre class="demo-code"><code>&lt;nui-sidebar-nav id="my-nav"&gt;
+  &lt;nui-sidebar-nav-item value="home"&gt;Home&lt;/nui-sidebar-nav-item&gt;
+  &lt;nui-sidebar-nav-item value="docs"&gt;Documentation&lt;/nui-sidebar-nav-item&gt;
+  &lt;nui-sidebar-nav-item value="api"&gt;API Reference&lt;/nui-sidebar-nav-item&gt;
+&lt;/nui-sidebar-nav&gt;
 
 &lt;script&gt;
   myNav.addEventListener('ui-change', (e) =&gt; {
@@ -254,20 +254,20 @@
     <h2>Debug States (<code>force-*</code>)</h2>
     <div class="demo-section" size="sm">
       <p class="demo-caption">
-        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to individual <code>ui-nav-item</code> elements.
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to individual <code>nui-sidebar-nav-item</code> elements.
       </p>
-      <ui-nav style="max-width: 220px;">
-        <ui-nav-item value="hover" force-hover>Force hover</ui-nav-item>
-        <ui-nav-item value="active" force-active>Force active</ui-nav-item>
-        <ui-nav-item value="focus" force-focus-visible>Force focus-visible</ui-nav-item>
-        <ui-nav-item value="normal">Normal</ui-nav-item>
-      </ui-nav>
+      <nui-sidebar-nav style="max-width: 220px;">
+        <nui-sidebar-nav-item value="hover" force-hover>Force hover</nui-sidebar-nav-item>
+        <nui-sidebar-nav-item value="active" force-active>Force active</nui-sidebar-nav-item>
+        <nui-sidebar-nav-item value="focus" force-focus-visible>Force focus-visible</nui-sidebar-nav-item>
+        <nui-sidebar-nav-item value="normal">Normal</nui-sidebar-nav-item>
+      </nui-sidebar-nav>
     </div>
 
-    </main></ui-layout>
+    </main></nui-app>
     <script type="module">
       import '../../nav/ui-layout.ts';
-      import './ui-nav.ts';
+      import '../../../packages/nui-app/src/index.ts';
       import '../ui-button/ui-button.ts';
       import '../../icons/ui-icon.ts';
       import '../../icons/phosphor/house.ts';

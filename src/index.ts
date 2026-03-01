@@ -93,10 +93,6 @@ export { UITree } from './components/ui-tree/ui-tree-element.ts';
 export { UITreeItem } from './components/ui-tree/ui-tree-item-element.ts';
 export { UISlideshow } from './components/ui-slideshow/ui-slideshow-element.ts';
 export { UISlide } from './components/ui-slideshow/ui-slide-element.ts';
-export { UINav } from './components/ui-nav/ui-nav-element.ts';
-export { UINavItem } from './components/ui-nav/ui-nav-item-element.ts';
-export { UINavGroup } from './components/ui-nav/ui-nav-group-element.ts';
-export { UINavGroupHeader } from './components/ui-nav/ui-nav-group-header-element.ts';
 export { UIController } from './components/ui-controller/ui-controller-element.ts';
 export { UIChatInput } from './components/ui-chat/ui-chat-input-element.ts';
 
@@ -104,11 +100,6 @@ export { UIChatInput } from './components/ui-chat/ui-chat-input-element.ts';
 export { UICard } from './containers/ui-card/ui-card-element.ts';
 export { UISection } from './containers/ui-section/ui-section-element.ts';
 export { UIToolbar } from './containers/ui-toolbar/ui-toolbar-element.ts';
-export { UILayoutSidebar } from './containers/ui-layout-sidebar/ui-layout-sidebar-element.ts';
-export { UILayoutSidebarItem } from './containers/ui-layout-sidebar/ui-layout-sidebar-item-element.ts';
-export { UILayoutChat } from './containers/ui-layout-chat/ui-layout-chat-element.ts';
-export { UILayoutInspector } from './containers/ui-layout-inspector/ui-layout-inspector-element.ts';
-
 // Event detail types
 export type { UIPressDetail, UISelectDetail, UITextChangeDetail, UIRangeValueDetail, UIPickerChangeDetail, UIToggleChangeDetail, UIInputDetail, UIDisabledDetail, UIDragStartDetail, UIDragMoveDetail, UIDragOverDetail, UIDropDetail, UIDragCancelDetail, UIInvalidDetail, UIValidDetail, UIRangeChangeDetail, UIRangeSelectDetail, UIFileDropDetail, UITextDropDetail, UISearchDetail, UIClipDetail, UIIntersectDetail, UICopyDetail, UIVirtualChangeDetail, UISelectionChangeDetail, UIHoverDetail, UISortDetail, UISwipeDetail, UIResizeDetail, UIEditStartDetail, UIEditCommitDetail, UIEditCancelDetail, UISlideChangeDetail, UISendDetail, UIToastDetail, UITableSortDetail, UITableSelectDetail, UITableReorderDetail, UITableResizeDetail, UITableResizeEndDetail, UICalendarRangeDetail } from './events.ts';
 

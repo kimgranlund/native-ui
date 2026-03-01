@@ -61,10 +61,6 @@ import { UITree } from './components/ui-tree/ui-tree-element.ts';
 import { UITreeItem } from './components/ui-tree/ui-tree-item-element.ts';
 import { UISlideshow } from './components/ui-slideshow/ui-slideshow-element.ts';
 import { UISlide } from './components/ui-slideshow/ui-slide-element.ts';
-import { UINav } from './components/ui-nav/ui-nav-element.ts';
-import { UINavGroup } from './components/ui-nav/ui-nav-group-element.ts';
-import { UINavGroupHeader } from './components/ui-nav/ui-nav-group-header-element.ts';
-import { UINavItem } from './components/ui-nav/ui-nav-item-element.ts';
 import { UIChatInput } from './components/ui-chat/ui-chat-input-element.ts';
 import { UIController } from './components/ui-controller/ui-controller-element.ts';
 
@@ -72,11 +68,6 @@ import { UIController } from './components/ui-controller/ui-controller-element.t
 import { UICard } from './containers/ui-card/ui-card-element.ts';
 import { UISection } from './containers/ui-section/ui-section-element.ts';
 import { UIToolbar } from './containers/ui-toolbar/ui-toolbar-element.ts';
-import { UILayoutSidebar } from './containers/ui-layout-sidebar/ui-layout-sidebar-element.ts';
-import { UILayoutSidebarItem } from './containers/ui-layout-sidebar/ui-layout-sidebar-item-element.ts';
-import { UILayoutChat } from './containers/ui-layout-chat/ui-layout-chat-element.ts';
-// WHY: UILayoutInspector is opt-in via @nonoun/native-ui/inspector — not registered here.
-
 // Icons
 import { UIIcon } from './icons/ui-icon-element.ts';
 
@@ -131,16 +122,9 @@ define('ui-tree', UITree);
 define('ui-tree-item', UITreeItem);
 define('ui-slideshow', UISlideshow);
 define('ui-slide', UISlide);
-define('ui-nav', UINav);
-define('ui-nav-group', UINavGroup);
-define('ui-nav-group-header', UINavGroupHeader);
-define('ui-nav-item', UINavItem);
 define('ui-chat-input', UIChatInput);
 define('ui-controller', UIController);
 define('ui-card', UICard);
 define('ui-section', UISection);
 define('ui-toolbar', UIToolbar);
-define('ui-layout-sidebar', UILayoutSidebar);
-define('ui-layout-sidebar-item', UILayoutSidebarItem);
-define('ui-layout-chat', UILayoutChat);
 define('ui-icon', UIIcon);

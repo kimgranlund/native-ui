@@ -1,0 +1,682 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  nui-sidebar                                             │
+     │  Full-page layout: collapsible/resizable sidebar aside   │
+     │  + content column (breadcrumb, canvas, body, chat).      │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* ── Outer Layout ── */
+
+  :where(nui-sidebar) {
+    display: flex;
+    height: 100dvh;
+  }
+
+  /* WHY: Reserve sidebar width before JS builds the DOM — prevents layout shift.
+     Collapsed state is read synchronously in the constructor so CSS matches immediately.
+     Replaced by the real aside once [data-ready] is set. */
+  :where(nui-sidebar):not([data-ready]):not([collapsed])::before {
+    content: '';
+    width: var(--ui-layout-sidebar-width);
+    flex-shrink: 0;
+    background: var(--_body);
+    border-right: 1px solid var(--_border-muted);
+  }
+
+  :where(nui-sidebar):not([data-ready])[collapsed]::before {
+    content: '';
+    width: 48px;
+    flex-shrink: 0;
+    background: var(--_body);
+    border-right: 1px solid var(--_border-muted);
+  }
+
+  /* ── Content Column ── */
+  /* WHY: Everything except the aside forms a flex column. */
+
+  :where(nui-sidebar) > :where(:not([slot])) {
+    flex: 1 1 0%;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  /* ── Sidebar Aside ── */
+  /* WHY: position: relative creates the containing block for absolute
+     header/footer overlays. Content fills the full height and scrolls
+     underneath the pinned header/footer. */
+
+  :where(nui-sidebar) > :where([slot="sidebar"]) {
+    --_sidebar-header-height: 0px;
+    --_sidebar-footer-height: 0px;
+
+    container-name: sidebar;
+    container-type: inline-size;
+    position: sticky;
+    top: 0;
+    width: var(--ui-layout-sidebar-width);
+    min-width: 160px;
+    max-width: 400px;
+    height: 100dvh;
+    display: block;
+    transition: width var(--_duration) var(--_easing), min-width var(--_duration) var(--_easing);
+    overflow: hidden;
+    z-index: 10;
+  }
+
+  /* WHY: Disable width transition while dragging — it fights the pointer. */
+  :where(nui-sidebar) > :where([slot="sidebar"][resizing]) {
+    transition: none;
+  }
+
+  /* ── Collapsed Icon Rail ── */
+  /* WHY: Collapsed = icon rail, not fully hidden. 48px fits icons (1rem) + padding.
+     [collapsed] drives the aside to 48px which triggers @container sidebar queries
+     in this file and in child component CSS. */
+
+  :where(nui-sidebar)[collapsed] > :where([slot="sidebar"]) {
+    width: 48px;
+    min-width: 48px;
+  }
+
+  /* ── Resize Handle ── */
+
+  :where(nui-sidebar) :where(.layout-resize-handle) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 1;
+  }
+
+  :where(nui-sidebar) :where(.layout-resize-handle):hover,
+  :where(nui-sidebar) > :where([slot="sidebar"][resizing]) :where(.layout-resize-handle) {
+    background: var(--_border-muted);
+  }
+
+  /* WHY: When collapsed to icon rail, the sidebar edge meets content — drop left padding. */
+
+  :where(nui-sidebar)[collapsed] :where(nui-app-canvas) {
+    padding-inline-start: 0;
+  }
+
+  :where(nui-sidebar)[collapsed] :where(nui-app-breadcrumb) {
+    padding-inline-start: 0;
+  }
+
+  /* ── Sidebar Header ── */
+  /* WHY: Absolute-positioned overlay pinned to top of aside. Content scrolls
+     underneath it. z-index: 2 sits above content (z-index: 0). */
+
+  :where(nui-sidebar-header) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Sidebar Content ── */
+  /* WHY: Full height of the aside, scrollable. Padding-block offsets keep
+     content from starting behind header / ending behind footer.
+     Fade-out alpha mask dissolves content edges under the overlays. */
+
+  :where(nui-sidebar-content) {
+    display: flex;
+    flex-direction: column;
+    padding-block-start: var(--_sidebar-header-height);
+    padding-block-end: var(--_sidebar-footer-height);
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  /* WHY: When header is present, fade top edge. Content dissolves as it
+     scrolls under the header — transparent at top, fully visible by 1.25×
+     the header height. No opaque header background needed. */
+  :where(nui-sidebar-content)[data-has-header] {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      black calc(var(--_sidebar-header-height) * 1.25),
+      black 100%
+    );
+  }
+
+  /* WHY: When footer is present, fade bottom edge. */
+  :where(nui-sidebar-content)[data-has-footer] {
+    mask-image: linear-gradient(
+      to bottom,
+      black 0,
+      black calc(100% - var(--_sidebar-footer-height) * 1.25),
+      transparent 100%
+    );
+  }
+
+  /* WHY: When both header AND footer are present, fade both edges. */
+  :where(nui-sidebar-content)[data-has-header][data-has-footer] {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      black calc(var(--_sidebar-header-height) * 1.25),
+      black calc(100% - var(--_sidebar-footer-height) * 1.25),
+      transparent 100%
+    );
+  }
+
+  /* ── Sidebar Footer ── */
+  /* WHY: Absolute-positioned overlay pinned to bottom of aside. */
+
+  :where(nui-sidebar-footer) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Sidebar Item ── */
+  /* WHY: Universal sidebar row element. Provides inline padding for any content
+     (buttons, links, icons). When a child ui-listbox[popover] is present, JS
+     wires PopoverController for click-to-toggle menu behavior. */
+
+  :where(nui-sidebar-item) {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    gap: calc(var(--_space) * 2);
+    min-height: var(--_min-height);
+    font-size: var(--_font-size);
+    font-weight: var(--ui-font-weight-button);
+    letter-spacing: var(--_letter-spacing);
+    line-height: var(--ui-line-height-control);
+    color: var(--_ink);
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    background: none;
+    padding-block: var(--_space);
+    padding-inline: calc(var(--_space-k) * var(--_space));
+    border-radius: var(--_radius);
+    transition: color var(--_duration) var(--_easing);
+  }
+
+  /* WHY: Items in header/footer match the breadcrumb bar height so the
+     first sidebar row aligns horizontally with the breadcrumb. */
+  :where(nui-sidebar-header) > :where(nui-sidebar-item),
+  :where(nui-sidebar-footer) > :where(nui-sidebar-item) {
+    min-height: var(--ui-layout-bar-height);
+  }
+
+  :where(nui-sidebar-item):hover,
+  :where(nui-sidebar-item)[force-hover] {
+    color: var(--_ink-strong);
+  }
+
+  :where(nui-sidebar-item):focus-visible,
+  :where(nui-sidebar-item)[force-focus-visible] {
+    outline: 2px solid var(--ui-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* WHY: Fixed-size icon well so all sidebar icons center-align on the same
+     column width regardless of intrinsic icon size. 1.5rem matches the sidebar's
+     visual rhythm at default density. */
+  :where(nui-sidebar-item) > :where([slot="icon"]) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  /* WHY: Trailing caret pushes to end — same pattern as button justify="spread". */
+  :where(nui-sidebar-item) > :where([slot="trailing"]) {
+    margin-inline-start: auto;
+    flex-shrink: 0;
+    color: var(--_ink-muted);
+  }
+
+  /* WHY: When the item wraps a sub-component (e.g. ui-button) that provides
+     its own icon, hide [slot="icon"] in expanded mode — it only serves as the
+     bare collapsed-rail representation. */
+  :where(nui-sidebar-item:has(> ui-button)) > :where([slot="icon"]) {
+    display: none;
+  }
+
+  /* WHY: Title text truncates when sidebar narrows during resize. */
+  :where(nui-sidebar-item) > :where([slot="label"]) {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── Item Popover ── */
+  /* WHY: Popover opens to the right of the sidebar item.
+     Default: top-aligned, grows downward (span-block-end).
+     Flip: bottom-aligned, grows upward (span-block-start). */
+
+  :where(nui-sidebar-item) > :where(ui-listbox[popover]) {
+    --_popover-origin: left center;
+    --_popover-from: perspective(800px) scale(0.96) rotateY(20deg);
+
+    position: fixed;
+    position-area: inline-end span-block-end;
+    position-try-fallbacks: --sidebar-item-flip-up;
+    margin-block: var(--ui-popover-viewport-margin);
+    margin-inline: 0;
+    margin-inline-start: var(--ui-popover-gap);
+    min-width: 200px;
+    max-height: var(--ui-popover-max-height);
+    overflow-y: auto;
+  }
+
+  @position-try --sidebar-item-flip-up {
+    position-area: inline-end span-block-start;
+  }
+
+  @position-try --sidebar-item-flip-down {
+    position-area: inline-end span-block-end;
+  }
+
+  /* ── Container Query: Collapsed Sidebar ── */
+  /* WHY: Each component owns its own collapsed behavior via @container.
+     The aside is the container (container-name: sidebar). When it shrinks
+     to 48px (icon rail), components respond to the width, not to [collapsed].
+     Threshold 80px: collapsed = 48px, min expanded = 160px. */
+
+  @container sidebar (max-width: 80px) {
+
+    /* Resize handle — no dragging in icon rail */
+    :where(.layout-resize-handle) {
+      display: none;
+    }
+
+    /* Header/footer — center content horizontally */
+    :where(nui-sidebar-header),
+    :where(nui-sidebar-footer) {
+      align-items: center;
+    }
+
+    /* Content — center items in the 48px rail */
+    :where(nui-sidebar-content) {
+      align-items: center;
+    }
+
+    /* Item — shrink to icon-only. */
+    :where(nui-sidebar-item) {
+      flex: 0 0 auto;
+      padding-inline: var(--_space);
+    }
+
+    :where(nui-sidebar-item) > :where([slot="icon"]) {
+      display: inline-flex;
+    }
+
+    :where(nui-sidebar-item) > :where(:not([slot="icon"]):not(ui-listbox[popover]):not(.nav-group-flyout)) {
+      display: none;
+    }
+
+    /* WHY: In collapsed mode the sidebar item is a small icon — centering
+       the popover vertically with the anchor is more natural than top-aligning. */
+    :where(nui-sidebar-item) > :where(ui-listbox[popover]) {
+      position-area: inline-end;
+      position-try-fallbacks: --sidebar-item-flip-up, --sidebar-item-flip-down;
+    }
+  }
+
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  nui-sidebar-nav                                         │
+     │  Navigation list with keyboard nav + selection.          │
+     │  Transparent wrapper — no visual surface.                │
+     │  Uses nui-sidebar-nav-item / nui-sidebar-group.          │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* WHY: nui-sidebar-nav is a transparent flex wrapper — no inline padding.
+     Inline padding is owned by leaf items (nav-item, summary).
+     Block padding is owned by nav-group margins. */
+  :where(nui-sidebar-nav) {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    outline: none;
+  }
+
+  /* ── Nav Item ── */
+  /* WHY: Nav items share the same visual pattern as options (ghost row,
+     hover/active/selected states). */
+
+  :where(nui-sidebar-nav-item) {
+    --_font-weight: var(--ui-font-weight-text);
+    --_line-height: var(--ui-line-height-control);
+
+    display: flex;
+    align-items: center;
+    gap: calc(var(--_space) * 2);
+    padding-inline: calc(var(--_space-k) * var(--_space));
+
+    min-height: var(--_min-height);
+
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+    line-height: var(--_line-height);
+    font-weight: var(--_font-weight);
+
+    cursor: pointer;
+    user-select: none;
+    color: var(--_ink-muted);
+
+    transition:
+      background var(--_duration) var(--_easing),
+      color var(--_duration) var(--_easing),
+      border-color var(--_duration) var(--_easing),
+      opacity var(--_duration) var(--_easing),
+      transform var(--_duration) var(--_easing);
+  }
+
+  /* ── Nav Item States ── */
+
+  :where(nui-sidebar-nav-item):hover,
+  :where(nui-sidebar-nav-item)[force-hover] {
+    color: var(--_ink-hover);
+  }
+
+  :where(nui-sidebar-nav-item):active,
+  :where(nui-sidebar-nav-item)[force-active] {
+    color: var(--_ink-active);
+  }
+
+  :where(nui-sidebar-nav-item)[aria-current="page"] {
+    color: var(--_ink-strong);
+  }
+
+  :where(nui-sidebar-nav-item)[aria-disabled="true"] {
+    color: var(--_ink-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  :where(nui-sidebar-nav-item):focus-visible,
+  :where(nui-sidebar-nav-item)[force-focus-visible] {
+    outline: 2px solid var(--ui-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* ── Nav Group ── */
+  /* WHY: Groups stamp a native <details>/<summary> for collapsible behavior.
+     DOM structure: nui-sidebar-group > details > summary > nui-sidebar-group-header
+                                                          > nui-sidebar-nav-item* */
+
+  :where(nui-sidebar-group) {
+    --_indicator-index: 0;
+
+    display: block;
+    position: relative;
+  }
+
+  :where(nui-sidebar-group) + :where(nui-sidebar-group) {
+    margin-block-start: calc(var(--_space) * 2);
+  }
+
+  /* ── Details (native disclosure with animated open/close) ── */
+
+  :where(nui-sidebar-group) > :where(details) {
+    interpolate-size: allow-keywords;
+  }
+
+  :where(nui-sidebar-group) > :where(details)::details-content {
+    height: 0;
+    overflow: clip;
+    opacity: 0;
+
+    transition:
+      height var(--_duration) var(--_easing),
+      opacity var(--_duration) var(--_easing),
+      content-visibility var(--_duration) var(--_easing) allow-discrete;
+  }
+
+  :where(nui-sidebar-group) > :where(details[open])::details-content {
+    height: auto;
+    opacity: 1;
+  }
+
+  /* ── Summary (clickable header row) ── */
+
+  :where(nui-sidebar-group) > :where(details) > :where(summary) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--_space) * 2);
+    padding-inline: calc(var(--_space-k) * var(--_space));
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    outline: none;
+  }
+
+  /* WHY: Remove default marker in WebKit */
+  :where(nui-sidebar-group) > :where(details) > :where(summary)::-webkit-details-marker {
+    display: none;
+  }
+
+  :where(nui-sidebar-group) > :where(details) > :where(summary)::marker {
+    display: none;
+    content: '';
+  }
+
+  /* ── Nav Group Header ── */
+  /* WHY: Header sits inside <summary>. Bold text with optional icon. */
+
+  :where(nui-sidebar-group-header) {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: calc(var(--_space) * 2);
+    min-height: var(--_min-height);
+    font-size: var(--_font-size);
+    font-weight: var(--ui-font-weight-button);
+    letter-spacing: var(--_letter-spacing);
+    line-height: var(--ui-line-height-control);
+    color: var(--_ink);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* WHY: Fixed-size icon well — matches nui-sidebar-item [slot="icon"].
+     All sidebar icons align on the same 1.5rem column regardless of icon size.
+     JS wraps the first <ui-icon> child in a .icon-well span during setup(). */
+  :where(nui-sidebar-group-header) > :where(.icon-well) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  /* ── Chevron icon (right side of summary) ── */
+
+  :where(nui-sidebar-group) > :where(details) > :where(summary)::after {
+    content: '';
+    flex-shrink: 0;
+    width: var(--_icon-size);
+    height: var(--_icon-size);
+
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z' fill='currentColor'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z' fill='currentColor'/%3E%3C/svg%3E");
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    background: var(--_ink-muted);
+
+    transition:
+      transform var(--_duration) var(--_easing);
+  }
+
+  /* Chevron rotates when open */
+  :where(nui-sidebar-group) > :where(details[open]) > :where(summary)::after {
+    transform: rotate(180deg);
+  }
+
+  /* ── Selected group — has a child with aria-current ── */
+
+  :where(nui-sidebar-group):state(has-selection) > :where(details) > :where(summary) :where(nui-sidebar-group-header) {
+    color: var(--_ink-strong);
+  }
+
+  /* ── Summary Hover ── */
+
+  :where(nui-sidebar-group) > :where(details) > :where(summary):hover :where(nui-sidebar-group-header),
+  :where(nui-sidebar-group[force-hover]) > :where(details) > :where(summary) :where(nui-sidebar-group-header) {
+    color: var(--_ink-strong);
+  }
+
+  /* ── Summary Focus ── */
+
+  :where(nui-sidebar-group) > :where(details) > :where(summary):focus-visible,
+  :where(nui-sidebar-group[force-focus-visible]) > :where(details) > :where(summary) {
+    outline: 2px solid var(--ui-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* ── Vertical connector line (icon groups only) ── */
+
+  :where(nui-sidebar-group):has(:where(nui-sidebar-group-header) :where(.icon-well)) {
+    --_group-pad: calc(var(--_space-k) * var(--_space));
+    --_group-icon-well: 1.5rem;
+    --_group-line-inset: calc(var(--_group-pad) + var(--_group-icon-well) / 2);
+    --_group-child-inset: calc(var(--_group-icon-well) + var(--_space) * 2);
+  }
+
+  :where(nui-sidebar-group):has(:where(nui-sidebar-group-header) :where(.icon-well)):has(:where(details[open]))::after {
+    content: '';
+    position: absolute;
+    inset-inline-start: var(--_group-line-inset);
+    top: var(--_min-height);
+    bottom: 0;
+    width: 1px;
+    background: var(--_border-muted);
+    pointer-events: none;
+  }
+
+  /* ── Sliding indicator ── */
+
+  :where(nui-sidebar-group):has(:where(nui-sidebar-group-header) :where(.icon-well)):has(:where(details[open])):state(has-selection)::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    inset-inline-start: calc(var(--_group-line-inset, 0px) - 0.5px);
+    top: var(--_min-height);
+    height: var(--_min-height);
+    width: 2px;
+    border-radius: 1px;
+    background: var(--_surface);
+    pointer-events: none;
+    transform: translateY(calc(var(--_indicator-index) * var(--_min-height)));
+
+    transition:
+      transform var(--_duration) var(--_easing),
+      background var(--_duration) var(--_easing);
+  }
+
+  /* ── Grouped Child Items ── */
+
+  :where(nui-sidebar-group) > :where(details) > :where(nui-sidebar-nav-item) {
+    margin-inline-start: var(--_group-child-inset, 0);
+  }
+
+  /* ── Nav Group Flyout (collapsed sidebar) ── */
+
+  :where(nui-sidebar-group) > :where(ui-listbox.nav-group-flyout[popover]) {
+    --_popover-origin: left center;
+    --_popover-from: perspective(800px) scale(0.96) rotateY(20deg);
+
+    position: fixed;
+    position-area: inline-end span-block-end;
+    position-try-fallbacks: --nav-flyout-flip-up;
+    margin-block: var(--ui-popover-viewport-margin);
+    margin-inline: 0;
+    margin-inline-start: var(--ui-popover-gap);
+    min-width: 200px;
+    max-height: var(--ui-popover-max-height);
+    overflow-y: auto;
+  }
+
+  @position-try --nav-flyout-flip-up {
+    position-area: inline-end span-block-start;
+  }
+
+  @position-try --nav-flyout-flip-down {
+    position-area: inline-end span-block-end;
+  }
+
+  /* ── Container Query: Collapsed Sidebar (nav) ── */
+
+  @container sidebar (max-width: 80px) {
+
+    /* Nav items hide entirely — only group headers (with icons) remain. */
+    :where(nui-sidebar-nav-item) {
+      display: none;
+    }
+
+    /* Summary shrinks to icon-only. */
+    :where(nui-sidebar-group) > :where(details) > :where(summary) {
+      padding-inline: var(--_space);
+      border-radius: var(--_radius);
+    }
+
+    /* Hide chevron — no expand/collapse in icon rail (flyout instead). */
+    :where(nui-sidebar-group) > :where(details) > :where(summary)::after {
+      display: none;
+    }
+
+    /* Hide vertical connector line and sliding indicator. */
+    :where(nui-sidebar-group)::after,
+    :where(nui-sidebar-group)::before {
+      display: none;
+    }
+
+    /* Header collapses to icon-only. */
+    :where(nui-sidebar-group-header) {
+      flex: 0 0 auto;
+      font-size: 0;
+      gap: 0;
+    }
+
+    :where(nui-sidebar-group-header) :where(.icon-well) :where(ui-icon) {
+      font-size: var(--_font-size, 1rem);
+    }
+
+    /* WHY: In collapsed mode the group is a small icon — centering
+       the flyout vertically with the anchor is more natural. */
+    :where(nui-sidebar-group) > :where(ui-listbox.nav-group-flyout[popover]) {
+      position-area: inline-end;
+      position-try-fallbacks: --nav-flyout-flip-up, --nav-flyout-flip-down;
+    }
+
+    /* Collapse inter-group spacing in icon rail. */
+    :where(nui-sidebar-group) + :where(nui-sidebar-group) {
+      margin-block-start: 0;
+    }
+  }
+
+}
