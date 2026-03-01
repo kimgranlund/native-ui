@@ -30,6 +30,14 @@
 |-------|-------------|
 | `ui-change` | Fired when selection changes with `{ value, label }` detail |
 
+## CSS Tokens
+
+Public `--ui-*` custom properties consumed by this component:
+
+- `--ui-popover-gap`
+- `--ui-popover-max-height`
+- `--ui-popover-viewport-margin`
+
 ## Usage
 
 ```html

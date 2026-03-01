@@ -33,6 +33,7 @@ Public `--ui-*` custom properties consumed by this component:
 - `--ui-line-height-control`
 - `--ui-popover-gap`
 - `--ui-popover-max-height`
+- `--ui-popover-viewport-margin`
 
 ---
 

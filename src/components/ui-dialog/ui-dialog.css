@@ -34,4 +34,14 @@
     opacity: var(--ui-backdrop-opacity);
   }
 
+  /* ── Sizing API ──
+     WHY: Host pages set width and box-shadow directly on ui-card inside ui-dialog.
+     Expose custom properties so consumers can set these declaratively on ui-dialog
+     without reaching into children. */
+
+  :where(ui-dialog) > :where(dialog) > :where(*) {
+    width: var(--ui-dialog-width, auto);
+    box-shadow: var(--ui-dialog-shadow, none);
+  }
+
 }

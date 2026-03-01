@@ -20,6 +20,7 @@ Public `--ui-*` custom properties consumed by this component:
 
 - `--ui-font-weight-text`
 - `--ui-line-height-text`
+- `--ui-popover-viewport-margin`
 - `--ui-shadow-md`
 - `--ui-tooltip-max-width`
 

@@ -39,6 +39,15 @@
   :where(ui-icon[size="lg"]) { --ui-icon-size: var(--ui-icon-lg); }
   :where(ui-icon[size="xl"]) { --ui-icon-size: var(--ui-icon-xl); }
 
+  /* ── Intent (declarative color) ── */
+
+  :where(ui-icon[intent="accent"])  { --ui-icon-color: var(--accent-ink); }
+  :where(ui-icon[intent="success"]) { --ui-icon-color: var(--success-ink); }
+  :where(ui-icon[intent="warning"]) { --ui-icon-color: var(--warning-ink); }
+  :where(ui-icon[intent="danger"])  { --ui-icon-color: var(--danger-ink); }
+  :where(ui-icon[intent="info"])    { --ui-icon-color: var(--info-ink); }
+  :where(ui-icon[intent="muted"])   { --ui-icon-color: var(--neutral-ink-muted); }
+
   /* ── Forced Colors ── */
 
   @media (forced-colors: active) {

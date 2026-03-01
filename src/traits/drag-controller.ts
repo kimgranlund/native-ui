@@ -370,12 +370,16 @@ export class DragController {
     };
 
     if (this.animate && typeof document.startViewTransition === 'function') {
-      document.startViewTransition(() => {
+      // WHY: Catch AbortError — rapid drags start new transitions before the
+      // previous one finishes. The browser aborts the old transition, rejecting
+      // its promise. This is expected and harmless (T0020).
+      const t = document.startViewTransition(() => {
         doMove();
         // WHY: Reassign names after DOM move — indices shift when the dragged
         // item is reinserted, so each sibling needs a fresh transition name.
         this.#assignTransitionNames();
       });
+      t.finished.catch(() => {});
     } else {
       doMove();
     }
@@ -416,10 +420,11 @@ export class DragController {
       }
     };
     if (this.animate && typeof document.startViewTransition === 'function') {
-      document.startViewTransition(() => {
+      const t = document.startViewTransition(() => {
         doRestore();
         this.#assignTransitionNames();
       });
+      t.finished.catch(() => {});
     } else {
       doRestore();
     }
