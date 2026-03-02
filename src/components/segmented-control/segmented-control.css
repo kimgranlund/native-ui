@@ -9,9 +9,6 @@
     --n-line-height: var(--n-control-line-height);
     --n-background: var(--n-control);
     --n-border-color: var(--n-border-rest);
-
-    /* Indicator position (set by JS): 0-based index, segment count */
-    --n-indicator-index: 0;
     --n-segment-count: 1;
 
     position: relative;
@@ -45,28 +42,27 @@
   }
 
   /* ── Floating Indicator ── */
-  /* WHY: Absolute-positioned ::before sized via percentage calc from
-     --n-segment-count and --n-indicator-index. No JS layout measurement —
-     fully responsive to container resize. */
+  /* WHY: Real DOM element (not ::before) so JS can set transform directly.
+     CSS transitions on transform work reliably without @property registration,
+     which can fail in dynamic CSS injection contexts (Vite HMR, bundler <style>). */
 
-  :where(n-segmented-control)::before {
-    content: none;
+  :where(n-segmented-control) > :where(.n-segmented-indicator) {
+    display: none;
   }
 
-  :where(n-segmented-control):state(ready)::before {
-    content: '';
+  :where(n-segmented-control):state(ready) > :where(.n-segmented-indicator) {
+    display: block;
     position: absolute;
     top: var(--n-space);
     bottom: var(--n-space);
-    /* WHY: left must skip container padding so the indicator aligns with
-       grid columns. 100% = padding-box width, subtract 2×padding = content width. */
+    /* WHY: left skips container padding so indicator aligns with grid columns.
+       100% = padding-box width, subtract 2×padding = content width. */
     left: var(--n-space);
     width: calc((100% - var(--n-space) * 2) / var(--n-segment-count));
     border-radius: calc(var(--n-radius) - var(--n-space));
     background: var(--n-indicator-background, white);
-    /* WHY: translateX(N * 100%) moves by N indicator-widths — since all
-       columns are 1fr, each 100% equals one column. GPU-accelerated. */
-    transform: translateX(calc(var(--n-indicator-index) * 100%));
+    /* WHY: transform is set directly on the element by JS — no @property needed
+       for CSS transitions to animate transform on real DOM elements. */
 
     transition:
       transform var(--n-duration) var(--n-easing),
@@ -163,7 +159,7 @@
     width: auto;
   }
 
-  :where(n-segmented-control)[aria-disabled="true"]::before {
+  :where(n-segmented-control)[aria-disabled="true"] > :where(.n-segmented-indicator) {
     background: var(--n-panel-disabled);
   }
 

@@ -186,7 +186,7 @@ describe('n-segmented-control (static HTML)', () => {
     expect(segments[2].getAttribute('aria-checked')).toBe('false');
   });
 
-  it('sets indicator CSS custom properties from innerHTML', async () => {
+  it('creates indicator element with correct transform from innerHTML', async () => {
     document.body.innerHTML = `
       <n-segmented-control value="b">
         <n-segment value="a">A</n-segment>
@@ -197,7 +197,9 @@ describe('n-segmented-control (static HTML)', () => {
     await new Promise<void>(resolve => queueMicrotask(resolve));
 
     const el = document.querySelector('n-segmented-control')! as HTMLElement;
-    expect(el.style.getPropertyValue('--n-indicator-index')).toBe('1');
+    const indicator = el.querySelector('.n-segmented-indicator') as HTMLElement;
+    expect(indicator).toBeTruthy();
+    expect(indicator.style.getPropertyValue('transform')).toBe('translateX(100%)');
     expect(el.style.getPropertyValue('--n-segment-count')).toBe('3');
   });
 });

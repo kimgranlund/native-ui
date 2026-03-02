@@ -20,6 +20,7 @@ export class NSegmentedControl extends FormAssociable(NativeElement) {
   #required = signal(false);
   #initialValue: string | null = null;
   #nav!: ListNavigateController;
+  #indicator: HTMLDivElement | null = null;
 
   constructor() {
     super();
@@ -148,6 +149,8 @@ export class NSegmentedControl extends FormAssociable(NativeElement) {
   }
 
   teardown(): void {
+    this.#indicator?.remove();
+    this.#indicator = null;
     this.#nav.destroy();
     super.teardown();
   }
@@ -177,8 +180,22 @@ export class NSegmentedControl extends FormAssociable(NativeElement) {
       return;
     }
 
-    this.style.setProperty('--n-indicator-index', `${selectedIndex}`);
+    // WHY: Lazy-create a real DOM element instead of ::before — CSS transitions
+    // on transform work reliably without @property registration, which can fail
+    // in dynamic CSS injection contexts (Vite HMR, bundler <style> elements).
+    let el = this.#indicator;
+    if (!el) {
+      el = document.createElement('div');
+      el.className = 'n-segmented-indicator';
+      this.prepend(el);
+      this.#indicator = el;
+    }
+
+    // WHY: --n-segment-count stays on the host for CSS width calc.
+    // transform is set directly on the indicator — translateX(N * 100%)
+    // moves by N indicator-widths. GPU-accelerated, no @property needed.
     this.style.setProperty('--n-segment-count', `${count}`);
+    el.style.setProperty('transform', `translateX(${selectedIndex * 100}%)`);
     this.#internals.states.add('ready');
   }
 }

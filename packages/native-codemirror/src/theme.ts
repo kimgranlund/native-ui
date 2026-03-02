@@ -12,12 +12,16 @@ import { tags as t } from '@lezer/highlight';
 
 // ---------------------------------------------------------------------------
 // Color palette (one-dark inspired)
+// WHY: bg and text use CSS var() so they pick up NativeUI design tokens when
+// available (e.g. inside <native-editor>) while keeping one-dark hex fallbacks
+// for standalone use. Syntax accent colors stay hardcoded — they're curated
+// for dark-on-dark contrast and don't map to semantic UI tokens.
 // ---------------------------------------------------------------------------
 
-const bg = '#282c34';
-const darkBg = '#21252b';
-const text = '#abb2bf';
-const muted = '#7d8799';
+const bg = 'var(--n-code-bg, #282c34)';
+const darkBg = 'var(--n-code-bg-dark, #21252b)';
+const text = 'var(--n-code-text, #abb2bf)';
+const muted = 'var(--n-code-text-muted, #7d8799)';
 const cursor = '#528bff';
 const selection = '#3E4451';
 

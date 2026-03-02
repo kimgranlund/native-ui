@@ -15,6 +15,7 @@
     --n-code-bg: var(--n-control-neutral, #282c34);
     --n-code-bg-dark: var(--n-panel-neutral, #21252b);
     --n-code-bg-darker: var(--n-body-neutral, #1e2127);
+    --n-code-text: var(--n-ink-neutral, #abb2bf);
     --n-code-text-muted: var(--n-ink-muted-neutral, #7d8799);
     --n-code-accent: var(--n-ink-accent, #61afef);
     --n-code-border: var(--n-border-muted-neutral, #3e4451);

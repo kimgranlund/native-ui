@@ -8,8 +8,10 @@ export interface PresentOptions {
 /**
  * Shows content in a full-viewport dialog overlay with an optional close button.
  *
- * Moves the host element into a modal `<dialog>`, centers it within an inset
- * wrapper, and restores it to its original DOM position on dismiss.
+ * Wraps the host element in a modal `<dialog>` at its current DOM position.
+ * `showModal()` promotes to the top layer for rendering, so the dialog stays
+ * in the original DOM context — CSS custom properties inherit normally.
+ * On dismiss the host is unwrapped back to its original position.
  *
  * Events:
  * - `native:present` — dispatched after dialog opens
@@ -19,8 +21,6 @@ export class PresentController {
   readonly host: HTMLElement;
 
   #dialog: HTMLDialogElement | null = null;
-  #originalParent: HTMLElement | null = null;
-  #originalNext: Node | null = null;
   #inset: string;
   #closeButton: boolean;
 
@@ -37,9 +37,9 @@ export class PresentController {
   present(): void {
     if (this.open) return;
 
-    // Save original position so we can restore on dismiss
-    this.#originalParent = this.host.parentElement;
-    this.#originalNext = this.host.nextSibling;
+    // WHY: Save the host's next sibling so the dialog takes its exact position.
+    const parent = this.host.parentElement;
+    const next = this.host.nextSibling;
 
     // Create dialog
     const dialog = document.createElement('dialog');
@@ -83,10 +83,13 @@ export class PresentController {
       wrapper.appendChild(closeBtn);
     }
 
-    // Move host into wrapper
+    // WHY: Insert dialog where the host was, then move host inside it.
+    // showModal() promotes to the top layer for rendering, so the dialog
+    // doesn't need to be on document.body. Staying in place preserves
+    // CSS custom property inheritance from ancestor elements.
     wrapper.appendChild(this.host);
     dialog.appendChild(wrapper);
-    document.body.appendChild(dialog);
+    parent?.insertBefore(dialog, next);
     this.#dialog = dialog;
 
     // Wire backdrop + escape dismiss
@@ -101,20 +104,12 @@ export class PresentController {
   dismiss(): void {
     if (!this.open || !this.#dialog) return;
 
-    // Move host back to original position
-    if (this.#originalParent) {
-      if (this.#originalNext) {
-        this.#originalParent.insertBefore(this.host, this.#originalNext);
-      } else {
-        this.#originalParent.appendChild(this.host);
-      }
-    }
-
-    // Clean up dialog
+    // WHY: The dialog sits where the host was. Replace dialog with host
+    // to restore the original DOM structure.
     this.#dialog.close();
     this.#dialog.removeEventListener('cancel', this.#onCancel);
     this.#dialog.removeEventListener('click', this.#onClick);
-    this.#dialog.remove();
+    this.#dialog.replaceWith(this.host);
     this.#dialog = null;
 
     this.host.dispatchEvent(new CustomEvent('native:dismiss', { bubbles: true }));
