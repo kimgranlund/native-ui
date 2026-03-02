@@ -4,6 +4,12 @@
  * Dark theme inspired by one-dark, designed to harmonize with the
  * @nonoun/native-ui OKLCH design system. Uses EditorView.theme()
  * with { dark: true } and HighlightStyle.define() for syntax tokens.
+ *
+ * All colors flow through --n-code-* CSS custom properties (defined in
+ * codemirror.css). When native-ui foundation CSS is loaded, tokens like
+ * --n-body and --n-ink provide automatic theme integration. Without it,
+ * the one-dark hex fallbacks apply. Consumers can override any
+ * --n-code-* var directly on .cm-editor.
  */
 
 import { EditorView } from '@codemirror/view';
@@ -11,27 +17,29 @@ import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags as t } from '@lezer/highlight';
 
 // ---------------------------------------------------------------------------
-// Color palette (one-dark inspired)
-// WHY: bg and text use CSS var() so they pick up NativeUI design tokens when
-// available (e.g. inside <native-editor>) while keeping one-dark hex fallbacks
-// for standalone use. Syntax accent colors stay hardcoded — they're curated
-// for dark-on-dark contrast and don't map to semantic UI tokens.
+// Color palette — every value references a --n-code-* CSS var with hex fallback
 // ---------------------------------------------------------------------------
 
-const bg = 'var(--n-code-bg, #282c34)';
-const darkBg = 'var(--n-code-bg-dark, #21252b)';
-const text = 'var(--n-code-text, #abb2bf)';
-const muted = 'var(--n-code-text-muted, #7d8799)';
-const cursor = '#528bff';
-const selection = '#3E4451';
+// Chrome
+const bg         = 'var(--n-code-bg, #282c34)';
+const bgRaised   = 'var(--n-code-bg-raised, #21252b)';
+const text       = 'var(--n-code-text, #abb2bf)';
+const muted      = 'var(--n-code-text-muted, #7d8799)';
+const cursor     = 'var(--n-code-cursor, #528bff)';
+const selection  = 'var(--n-code-selection, #3E4451)';
+const lineActive = 'var(--n-code-line-active, #2c313a)';
+const bracket    = 'var(--n-code-bracket, #515a6b)';
+const border     = 'var(--n-code-border, #3E4451)';
+const button     = 'var(--n-code-button, #3E4451)';
 
-const violet = '#c678dd';
-const green = '#98c379';
-const blue = '#61afef';
-const coral = '#e06c75';
-const yellow = '#e5c07b';
-const cyan = '#56b6c2';
-const orange = '#d19a66';
+// Syntax
+const violet = 'var(--n-code-keyword, #c678dd)';
+const green  = 'var(--n-code-string, #98c379)';
+const blue   = 'var(--n-code-function, #61afef)';
+const coral  = 'var(--n-code-variable, #e06c75)';
+const yellow = 'var(--n-code-type, #e5c07b)';
+const cyan   = 'var(--n-code-operator, #56b6c2)';
+const orange = 'var(--n-code-number, #d19a66)';
 
 // ---------------------------------------------------------------------------
 // Editor chrome theme
@@ -66,19 +74,19 @@ export const NTheme = EditorView.theme(
     },
 
     '.cm-activeLine': {
-      backgroundColor: '#2c313a',
+      backgroundColor: lineActive,
     },
 
     // Gutters
     '.cm-gutters': {
-      backgroundColor: darkBg,
+      backgroundColor: bgRaised,
       color: muted,
       borderRight: 'none',
       paddingRight: '4px',
     },
 
     '.cm-activeLineGutter': {
-      backgroundColor: '#2c313a',
+      backgroundColor: lineActive,
       color: text,
     },
 
@@ -95,8 +103,8 @@ export const NTheme = EditorView.theme(
 
     // Matching brackets
     '&.cm-focused .cm-matchingBracket': {
-      backgroundColor: '#515a6b',
-      outline: '1px solid #515a6b',
+      backgroundColor: bracket,
+      outline: `1px solid ${bracket}`,
     },
 
     '&.cm-focused .cm-nonmatchingBracket': {
@@ -105,31 +113,31 @@ export const NTheme = EditorView.theme(
 
     // Search match
     '.cm-searchMatch': {
-      backgroundColor: 'rgba(229, 192, 123, 0.25)',
-      outline: '1px solid rgba(229, 192, 123, 0.4)',
+      backgroundColor: 'var(--n-code-search, rgba(229, 192, 123, 0.25))',
+      outline: '1px solid var(--n-code-search-outline, rgba(229, 192, 123, 0.4))',
     },
 
     '.cm-searchMatch.cm-searchMatch-selected': {
-      backgroundColor: 'rgba(97, 175, 239, 0.3)',
+      backgroundColor: 'var(--n-code-search-active, rgba(97, 175, 239, 0.3))',
     },
 
     // Tooltips / autocomplete
     '.cm-tooltip': {
-      backgroundColor: darkBg,
+      backgroundColor: bgRaised,
       color: text,
-      border: '1px solid #3E4451',
+      border: `1px solid ${border}`,
       borderRadius: '6px',
-      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
+      boxShadow: 'var(--n-code-shadow, 0 4px 16px rgba(0, 0, 0, 0.3))',
     },
 
     '.cm-tooltip .cm-tooltip-arrow::before': {
-      borderTopColor: '#3E4451',
-      borderBottomColor: '#3E4451',
+      borderTopColor: border,
+      borderBottomColor: border,
     },
 
     '.cm-tooltip .cm-tooltip-arrow::after': {
-      borderTopColor: darkBg,
-      borderBottomColor: darkBg,
+      borderTopColor: bgRaised,
+      borderBottomColor: bgRaised,
     },
 
     '.cm-tooltip-autocomplete': {
@@ -148,16 +156,16 @@ export const NTheme = EditorView.theme(
 
     // Panels (search bar, etc.)
     '.cm-panels': {
-      backgroundColor: darkBg,
+      backgroundColor: bgRaised,
       color: text,
     },
 
     '.cm-panels.cm-panels-top': {
-      borderBottom: '1px solid #3E4451',
+      borderBottom: `1px solid ${border}`,
     },
 
     '.cm-panels.cm-panels-bottom': {
-      borderTop: '1px solid #3E4451',
+      borderTop: `1px solid ${border}`,
     },
 
     '.cm-panel input, .cm-panel button, .cm-panel select': {
@@ -167,13 +175,13 @@ export const NTheme = EditorView.theme(
     '.cm-panel input': {
       backgroundColor: bg,
       color: text,
-      border: '1px solid #3E4451',
+      border: `1px solid ${border}`,
       borderRadius: '4px',
       padding: '2px 6px',
     },
 
     '.cm-panel button': {
-      backgroundColor: '#3E4451',
+      backgroundColor: button,
       color: text,
       border: 'none',
       borderRadius: '4px',
@@ -291,7 +299,7 @@ export const NHighlightStyle = HighlightStyle.define([
   { tag: t.strikethrough, textDecoration: 'line-through' },
 
   // Invalid
-  { tag: t.invalid, color: '#ffffff', backgroundColor: coral },
+  { tag: t.invalid, color: 'var(--n-code-invalid, #ffffff)', backgroundColor: coral },
 ]);
 
 export const NSyntaxHighlighting = syntaxHighlighting(NHighlightStyle);

@@ -11,15 +11,10 @@
   /* ------------------------------------------------------------------ */
 
   :where(native-editor) {
-    /* Code-editor chrome tokens — NativeUI first, one-dark fallbacks */
+    /* Host-level tokens — used by the host element itself */
     --n-code-bg: var(--n-control-neutral, #282c34);
-    --n-code-bg-dark: var(--n-panel-neutral, #21252b);
-    --n-code-bg-darker: var(--n-body-neutral, #1e2127);
-    --n-code-text: var(--n-ink-neutral, #abb2bf);
-    --n-code-text-muted: var(--n-ink-muted-neutral, #7d8799);
-    --n-code-accent: var(--n-ink-accent, #61afef);
+    --n-code-bg-raised: var(--n-panel-neutral, #21252b);
     --n-code-border: var(--n-border-muted-neutral, #3e4451);
-    --n-code-inline-bg: var(--n-card-neutral, #333843);
 
     display: grid;
     grid-template-rows: auto 1fr;
@@ -32,13 +27,25 @@
     outline: none;
   }
 
+  /* Override codemirror.css defaults for editor surface inside native-editor */
+  :where(native-editor) :where(.cm-editor) {
+    --n-code-bg:          var(--n-control-neutral, #282c34);
+    --n-code-bg-raised:   var(--n-panel-neutral, #21252b);
+    --n-code-bg-deeper:   var(--n-body-neutral, #1e2127);
+    --n-code-text:        var(--n-ink-neutral, #abb2bf);
+    --n-code-text-muted:  var(--n-ink-muted-neutral, #7d8799);
+    --n-code-accent:      var(--n-ink-accent, #61afef);
+    --n-code-border:      var(--n-border-muted-neutral, #3e4451);
+    --n-code-bg-inline:   var(--n-card-neutral, #333843);
+  }
+
   /* ------------------------------------------------------------------ */
   /*  Card header (toolbar chrome)                                       */
   /* ------------------------------------------------------------------ */
 
   :where(native-editor) > :where(n-card-header) {
     border-bottom: 1px solid var(--n-code-border);
-    background: var(--n-code-bg-dark);
+    background: var(--n-code-bg-raised);
     padding: 0;
   }
 
@@ -99,7 +106,7 @@
 
   :where(native-editor) :where(.md-code) {
     font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
-    background: var(--n-code-inline-bg);
+    background: var(--n-code-bg-inline);
     border-radius: 0.1875rem;
     padding: 0.0625rem 0.25rem;
   }
@@ -173,7 +180,7 @@
   /* ------------------------------------------------------------------ */
 
   :where(native-editor) :where(.md-code-block) {
-    background: var(--n-code-bg-darker);
+    background: var(--n-code-bg-deeper);
     font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
     font-size: 0.8125rem;
   }

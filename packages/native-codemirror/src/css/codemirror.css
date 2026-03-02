@@ -7,20 +7,59 @@
  * These styles handle structural concerns (scrolling, gutter borders,
  * scrollbar appearance, border-radius) that complement the JS-driven
  * EditorView.theme() in theme.ts.
+ *
+ * All colors flow through --n-code-* CSS custom properties defined here.
+ * When native-ui foundation CSS is loaded, tokens like --n-body, --n-ink
+ * provide automatic theme integration. Without it, hex fallbacks apply.
+ * Consumers can override any --n-code-* var directly on .cm-editor.
  */
 
 @layer ui {
   /* -----------------------------------------------------------------------
-   * Editor root
+   * Editor root — color bridge vars
    * --------------------------------------------------------------------- */
 
   :where(.cm-editor) {
-    /* CodeMirror chrome tokens */
-    --n-cm-scrollbar: #484c52;
-    --n-cm-scrollbar-hover: #5e6167;
-    --n-cm-match-bg: #314050;
+    /* Grounds */
+    --n-code-bg:              var(--n-color-neutral-base, #282c34);
+    --n-code-bg-raised:       var(--n-color-neutral-higher, #21252b);
+    --n-code-bg-deeper:       var(--n-color-neutral-lower, #1e2127);
+    --n-code-bg-inline:       var(--n-card, #333843);
 
-    /*border-radius: var(--n-radius, 8px);*/
+    /* Ink */
+    --n-code-text:            var(--n-ink, #abb2bf);
+    --n-code-text-muted:      var(--n-ink-muted, #7d8799);
+
+    /* Interactive */
+    --n-code-cursor:          var(--n-surface-accent, #528bff);
+    --n-code-selection:       var(--n-color-neutral-300, #3E4451);
+    --n-code-line-active:     var(--n-color-neutral-200, #2c313a);
+    --n-code-bracket:         var(--n-color-neutral-600, #515a6b);
+    --n-code-accent:          var(--n-surface-accent, #61afef);
+
+    /* Chrome */
+    --n-code-border:          var(--n-border, #3E4451);
+    --n-code-button:          var(--n-color-neutral-100-scrim, #3E4451);
+    --n-code-scrollbar:       var(--n-color-neutral-200-scrim, #484c52);
+    --n-code-scrollbar-hover: var(--n-color-neutral-300-scrim, #5e6167);
+    --n-code-match:           var(--n-color-accent-050-scrim, #314050);
+    --n-code-shadow:          0 4px 16px rgba(0, 0, 0, 0.3);
+
+    /* Search */
+    --n-code-search:          rgba(229, 192, 123, 0.25);
+    --n-code-search-outline:  rgba(229, 192, 123, 0.4);
+    --n-code-search-active:   rgba(97, 175, 239, 0.3);
+
+    /* Syntax palette — curated for dark-on-dark contrast */
+    --n-code-keyword:         #c678dd;
+    --n-code-string:          #98c379;
+    --n-code-function:        #61afef;
+    --n-code-variable:        #e06c75;
+    --n-code-type:            #e5c07b;
+    --n-code-operator:        #56b6c2;
+    --n-code-number:          #d19a66;
+    --n-code-invalid:         #ffffff;
+
     overflow: hidden;
     font-variant-ligatures: contextual;
     line-height: 1.6;
@@ -69,7 +108,7 @@
 
   :where(.cm-scroller) {
     scrollbar-width: thin;
-    scrollbar-color: var(--n-cm-scrollbar) transparent;
+    scrollbar-color: var(--n-code-scrollbar) transparent;
   }
 
   :where(.cm-scroller)::-webkit-scrollbar {
@@ -82,12 +121,12 @@
   }
 
   :where(.cm-scroller)::-webkit-scrollbar-thumb {
-    background: var(--n-cm-scrollbar);
+    background: var(--n-code-scrollbar);
     border-radius: 4px;
   }
 
   :where(.cm-scroller)::-webkit-scrollbar-thumb:hover {
-    background: var(--n-cm-scrollbar-hover);
+    background: var(--n-code-scrollbar-hover);
   }
 
   :where(.cm-scroller)::-webkit-scrollbar-corner {
@@ -172,7 +211,7 @@
    * --------------------------------------------------------------------- */
 
   :where(.cm-selectionMatch) {
-    background-color: var(--n-cm-match-bg);
+    background-color: var(--n-code-match);
     border-radius: 2px;
   }
 }
