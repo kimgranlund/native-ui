@@ -7,14 +7,16 @@ export type { ReactiveProp } from './reactive-prop.ts';
 export { ContextProvider, ContextConsumer, ContextRequestEvent } from './context.ts';
 export type { Lifecycle, Constructor } from './types.ts';
 export { FormAssociable } from './form-associable.ts';
-export { registerTrait, getTrait, getRegisteredTraitNames } from './trait-registry.ts';
-export type { TraitAdapter } from './trait-registry.ts';
-export { getTraitRuntime, DismissStack, ToastManager } from './trait-runtime.ts';
-export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from './trait-runtime.ts';
 export { parseTraitAttribute, collectTraitOptions } from './trait-options.ts';
-export { GestureRouter } from './gesture-router.ts';
-export type { GestureParticipant } from './gesture-router.ts';
 export { DataListController, createDataList } from './data-list.ts';
 export type { DataItem, DataListOptions } from './data-list.ts';
 export { parseDataOptions, fetchDataOptions } from './data-options.ts';
 export type { BaseOption } from './data-options.ts';
+
+// Re-exports from registries/ and traits/ — backwards compatibility
+export { registerTrait, getTrait, getRegisteredTraitNames } from '../registries/trait-registry.ts';
+export type { TraitAdapter } from '../registries/trait-registry.ts';
+export { getTraitRuntime, DismissStack, ToastManager } from '../traits/runtime.ts';
+export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from '../traits/runtime.ts';
+export { GestureRouter } from '../traits/gesture-router.ts';
+export type { GestureParticipant } from '../traits/gesture-router.ts';

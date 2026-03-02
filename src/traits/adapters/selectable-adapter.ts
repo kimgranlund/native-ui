@@ -1,4 +1,4 @@
-import type { TraitAdapter } from '../../core/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 import { SelectionController } from '../selection-controller.ts';
 
 export const selectableAdapter: TraitAdapter<SelectionController> = {

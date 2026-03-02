@@ -15,11 +15,11 @@ export { NativeElement } from './core/native-element.ts';
 export type { Lifecycle, Constructor } from './core/types.ts';
 export { define } from './core/define.ts';
 export { uid } from './core/uid.ts';
-export { registerTrait, getTrait, getRegisteredTraitNames } from './core/trait-registry.ts';
-export type { TraitAdapter } from './core/trait-registry.ts';
+export { registerTrait, getTrait, getRegisteredTraitNames } from './registries/trait-registry.ts';
+export type { TraitAdapter } from './registries/trait-registry.ts';
 export { parseTraitAttribute, collectTraitOptions } from './core/trait-options.ts';
-export { getTraitRuntime, DismissStack, ToastManager } from './core/trait-runtime.ts';
-export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from './core/trait-runtime.ts';
+export { getTraitRuntime, DismissStack, ToastManager } from './traits/runtime.ts';
+export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from './traits/runtime.ts';
 
 // Event detail types
 export type { NPressDetail, NSelectDetail, NTextChangeDetail, NRangeValueDetail, NPickerChangeDetail, NToggleChangeDetail, NInputDetail, NDisabledDetail, NDragStartDetail, NDragMoveDetail, NDragOverDetail, NDropDetail, NDragCancelDetail, NInvalidDetail, NValidDetail, NRangeChangeDetail, NRangeSelectDetail, NFileDropDetail, NTextDropDetail, NSearchDetail, NClipDetail, NIntersectDetail, NCopyDetail, NVirtualChangeDetail, NSelectionChangeDetail, NHoverDetail, NSortDetail, NSwipeDetail, NResizeDetail, NEditStartDetail, NEditCommitDetail, NEditCancelDetail, NSlideChangeDetail, NSendDetail, NToastDetail, NTableSortDetail, NTableSelectDetail, NTableReorderDetail, NTableResizeDetail, NTableResizeEndDetail, NCalendarRangeDetail } from './events.ts';

@@ -1,4 +1,4 @@
-import type { TraitAdapter } from '../../core/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 import { PresentController } from '../present-controller.ts';
 
 export const presentableAdapter: TraitAdapter<PresentController> = {

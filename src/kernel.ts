@@ -18,17 +18,9 @@ export { formWizard, confirmFlow, crudLifecycle, authFlow, toggleFlow } from './
 export { SCHEMA_CATALOG, getSchema, getSchemasForCategory, getSchemaAttribute } from './kernel/index.ts';
 export { Planner, createPlanner } from './kernel/index.ts';
 
-// A2UI Protocol
-export { A2UIAdapter, createA2UIAdapter } from './a2ui/index.ts';
-export { SurfaceManager, createSurfaceManager, resolveJsonPointer, setJsonPointer } from './a2ui/index.ts';
-export { a2uiToUINode, uiNodeToA2UI, conversionToPlan } from './a2ui/index.ts';
-export { resolveNativeTag, resolveA2UIType, COMPONENT_MAP, getSupportedTypes, textVariantTag, textFieldInputType, dateTimeInputType } from './a2ui/index.ts';
-export {
-  isDataBinding, isCreateSurface, isUpdateComponents, isUpdateDataModel,
-  isDeleteSurface, isCatalogRequest, isCatalogResponse,
-  isActionMessage, isErrorMessage, parseServerMessage,
-} from './a2ui/index.ts';
-export { WebSocketTransport, SSETransport, createWebSocketTransport, createSSETransport } from './a2ui/index.ts';
+// Plugin system
+export { PluginRegistry } from './registries/plugin-registry.ts';
+export type { PluginFactory } from './registries/plugin-registry.ts';
 
 export type {
   Command, CommandSource, CommandMeta, CommandHandler, CommandMiddleware, CommandFilter,
@@ -50,14 +42,3 @@ export type {
   UIIntent, ElementIntent, PlanResult, FormFieldIntent, ButtonIntent,
   CardIntent, DialogIntent, SettingIntent, TabIntent, NavItemIntent,
 } from './kernel/index.ts';
-
-export type {
-  A2UIAdapterOptions, SurfaceState,
-  ConversionResult, DataBindingEntry, ToUINodeOptions, ToA2UIOptions,
-  ComponentMapping, ChildStrategy,
-  A2UIProtocolVersion, A2UIServerMessage, A2UICreateSurface, A2UIUpdateComponents,
-  A2UIUpdateDataModel, A2UIDeleteSurface, A2UICatalogRequest, A2UICatalogResponse,
-  A2UIClientMessage, A2UIActionMessage, A2UIErrorMessage,
-  A2UIComponent, A2UIComponentAction, A2UIDataBinding, A2UIStandardType,
-  TransportState, TransportEvents, WebSocketTransportOptions, SSETransportOptions,
-} from './a2ui/index.ts';

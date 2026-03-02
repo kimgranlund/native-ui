@@ -110,26 +110,9 @@ export type {
   NavItemIntent,
 } from './planner.ts';
 
-// A2UI Protocol (re-exported from src/a2ui)
-export {
-  A2UIAdapter, createA2UIAdapter,
-  SurfaceManager, createSurfaceManager, resolveJsonPointer, setJsonPointer,
-  a2uiToUINode, uiNodeToA2UI, conversionToPlan,
-  resolveNativeTag, resolveA2UIType, COMPONENT_MAP, getSupportedTypes, textVariantTag, textFieldInputType, dateTimeInputType,
-  isDataBinding, isCreateSurface, isUpdateComponents, isUpdateDataModel, isDeleteSurface,
-  isCatalogRequest, isCatalogResponse, isActionMessage, isErrorMessage, parseServerMessage,
-  WebSocketTransport, SSETransport, createWebSocketTransport, createSSETransport,
-} from '../a2ui/index.ts';
-export type {
-  A2UIAdapterOptions, SurfaceState,
-  ConversionResult, DataBindingEntry, ToUINodeOptions, ToA2UIOptions,
-  ComponentMapping, ChildStrategy,
-  A2UIProtocolVersion, A2UIServerMessage, A2UICreateSurface, A2UIUpdateComponents,
-  A2UIUpdateDataModel, A2UIDeleteSurface, A2UICatalogRequest, A2UICatalogResponse,
-  A2UIClientMessage, A2UIActionMessage, A2UIErrorMessage,
-  A2UIComponent, A2UIComponentAction, A2UIDataBinding, A2UIStandardType,
-  TransportState, TransportEvents, WebSocketTransportOptions, SSETransportOptions,
-} from '../a2ui/index.ts';
+// Plugin system
+export { PluginRegistry } from '../registries/plugin-registry.ts';
+export type { PluginFactory } from '../registries/plugin-registry.ts';
 
 // Types
 export type {

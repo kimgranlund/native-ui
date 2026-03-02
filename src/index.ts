@@ -10,19 +10,21 @@ export { createDisabledEffect } from './core/index.ts';
 export { prop, syncProp } from './core/index.ts';
 export type { ReactiveProp } from './core/index.ts';
 export { ContextProvider, ContextConsumer, ContextRequestEvent } from './core/index.ts';
-export { registerTrait, getTrait, getRegisteredTraitNames } from './core/index.ts';
-export type { TraitAdapter } from './core/index.ts';
+export { registerTrait, getTrait, getRegisteredTraitNames } from './registries/trait-registry.ts';
+export type { TraitAdapter } from './registries/trait-registry.ts';
+export { PluginRegistry } from './registries/plugin-registry.ts';
+export type { PluginFactory } from './registries/plugin-registry.ts';
 export type { Lifecycle, Constructor } from './core/index.ts';
 export { DataListController, createDataList } from './core/index.ts';
 export type { DataItem, DataListOptions } from './core/index.ts';
 export { parseDataOptions, fetchDataOptions } from './core/index.ts';
 export type { BaseOption } from './core/index.ts';
 export { FormAssociable } from './core/index.ts';
-export { getTraitRuntime, DismissStack, ToastManager } from './core/index.ts';
-export type { TraitRuntime, RuntimeToastOptions } from './core/index.ts';
+export { getTraitRuntime, DismissStack, ToastManager } from './traits/runtime.ts';
+export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from './traits/runtime.ts';
 export { parseTraitAttribute, collectTraitOptions } from './core/index.ts';
-export { GestureRouter } from './core/index.ts';
-export type { GestureParticipant } from './core/index.ts';
+export { GestureRouter } from './traits/gesture-router.ts';
+export type { GestureParticipant } from './traits/gesture-router.ts';
 
 // Traits (controllers)
 export { DragController, RangeSelectController, ResizeController, VirtualScrollController, SelectionController, SearchController, SwipeController, EditController, ClipboardController } from './traits/index.ts';
@@ -105,5 +107,5 @@ export type { NPressDetail, NSelectDetail, NTextChangeDetail, NRangeValueDetail,
 
 // Icons
 export { NIcon } from './icons/icon-element.ts';
-export { registerIcon, getIcon, onIconRegistered } from './icons/registry.ts';
+export { registerIcon, getIcon, onIconRegistered } from './registries/icon-registry.ts';
 

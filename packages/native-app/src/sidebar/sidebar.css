@@ -52,9 +52,9 @@
   }
 
   /* ── Sidebar Aside ── */
-  /* WHY: position: relative creates the containing block for absolute
-     header/footer overlays. Content fills the full height and scrolls
-     underneath the pinned header/footer. */
+  /* WHY: position: sticky pins the aside during scroll. background: --n-body
+     ensures content behind the sidebar never bleeds through. The aside is also
+     the containing block for absolute header/footer overlays. */
 
   :where(n-sidebar) > :where([slot="sidebar"]) {
     --n-sidebar-header-height: 0px;
@@ -69,6 +69,7 @@
     max-width: 400px;
     height: 100dvh;
     display: block;
+    background: var(--n-body);
     transition: width var(--n-duration) var(--n-easing), min-width var(--n-duration) var(--n-easing);
     overflow: hidden;
     z-index: 10;

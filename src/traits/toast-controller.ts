@@ -1,5 +1,5 @@
-import { getTraitRuntime } from '../core/trait-runtime.ts';
-import type { ToastOptions } from '../core/trait-runtime.ts';
+import { getTraitRuntime } from './runtime.ts';
+import type { ToastOptions } from './runtime.ts';
 
 export type { ToastOptions };
 

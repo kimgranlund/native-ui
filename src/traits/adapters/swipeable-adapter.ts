@@ -1,4 +1,4 @@
-import type { TraitAdapter } from '../../core/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 import { SwipeController } from '../swipe-controller.ts';
 
 export const swipeableAdapter: TraitAdapter<SwipeController> = {

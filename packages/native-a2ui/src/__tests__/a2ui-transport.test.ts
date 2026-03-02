@@ -1,9 +1,9 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { WebSocketTransport, SSETransport, createWebSocketTransport, createSSETransport } from '../../a2ui/a2ui-transport.ts';
-import { A2UIAdapter, createA2UIAdapter } from '../../a2ui/a2ui-adapter.ts';
-import { Kernel, resetKernel } from '../../kernel/kernel.ts';
-import type { TransportState } from '../../a2ui/a2ui-transport.ts';
+import { WebSocketTransport, SSETransport, createWebSocketTransport, createSSETransport } from '../protocol/a2ui-transport.ts';
+import { A2UIAdapter, createA2UIAdapter } from '../protocol/a2ui-adapter.ts';
+import { Kernel, resetKernel } from '../../../../src/kernel/kernel.ts';
+import type { TransportState } from '../protocol/a2ui-transport.ts';
 
 describe('A2UI Transport', () => {
   let kernel: Kernel;

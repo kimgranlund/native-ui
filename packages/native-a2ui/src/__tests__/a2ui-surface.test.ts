@@ -1,8 +1,8 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { SurfaceManager, resolveJsonPointer, setJsonPointer, diffComponents } from '../../a2ui/a2ui-surface.ts';
-import { Kernel, resetKernel } from '../../kernel/kernel.ts';
-import type { A2UIActionMessage, A2UIComponent } from '../../a2ui/a2ui-types.ts';
+import { SurfaceManager, resolveJsonPointer, setJsonPointer, diffComponents } from '../protocol/a2ui-surface.ts';
+import { Kernel, resetKernel } from '../../../../src/kernel/kernel.ts';
+import type { A2UIActionMessage, A2UIComponent } from '../protocol/a2ui-types.ts';
 
 describe('A2UI Surface Manager', () => {
   let kernel: Kernel;

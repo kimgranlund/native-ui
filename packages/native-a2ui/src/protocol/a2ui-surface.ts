@@ -5,11 +5,8 @@
  * Each surface maps to one UIPlan in the kernel.
  */
 
-import { signal } from '../reactivity/signal.ts';
-import { computed } from '../reactivity/computed.ts';
-import { effect } from '../reactivity/effect.ts';
-import { uid } from '../core/uid.ts';
-import type { Signal, ReadonlySignal, Dispose } from '../reactivity/types.ts';
+import { signal, computed, effect, uid } from '@nonoun/native-ui';
+import type { Signal, ReadonlySignal, Dispose } from '@nonoun/native-ui';
 import type {
   A2UIServerMessage,
   A2UIActionMessage,
@@ -27,8 +24,8 @@ import {
 } from './a2ui-types.ts';
 import type { DataBindingEntry } from './a2ui-converter.ts';
 import { a2uiToUINode, conversionToPlan } from './a2ui-converter.ts';
-import type { Kernel } from '../kernel/kernel.ts';
-import type { PatchOp } from '../kernel/patch.ts';
+import type { A2UIKernelBridge as Kernel } from './kernel-bridge.ts';
+import type { PatchOp } from './kernel-bridge.ts';
 
 // ── Surface State ──
 

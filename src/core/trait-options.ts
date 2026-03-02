@@ -1,4 +1,4 @@
-import { getRegisteredTraitNames } from './trait-registry.ts';
+import { getRegisteredTraitNames } from '../registries/trait-registry.ts';
 
 /**
  * Parse a namespaced trait attribute like "draggable-axis" into

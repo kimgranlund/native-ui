@@ -1,12 +1,13 @@
 import { NativeElement, CopyController, ResizeController, PresentController } from '@nonoun/native-ui';
+import type { NCodemirror } from '@nonoun/native-codemirror';
+import '@nonoun/native-codemirror/register';
 import { createPlaygroundStore } from './playground-store.ts';
 import type { PlaygroundStore, ConsoleEntry } from './playground-store.ts';
-import { createEditor } from './editors.ts';
-import type { EditorInstance, TabName } from './editors.ts';
+import { getLanguageExtension, TAB_LABELS } from './editors.ts';
+import type { TabName } from './editors.ts';
 import { buildSrcdoc } from './iframe/template.ts';
 
 const TAB_NAMES: readonly TabName[] = ['html', 'css', 'js'] as const;
-const TAB_LABELS: Record<TabName, string> = { html: 'HTML', css: 'CSS', js: 'JS' };
 
 /**
  * Interactive code playground with live preview.
@@ -44,7 +45,7 @@ export class NPlayground extends NativeElement {
   ];
 
   #store!: PlaygroundStore;
-  #editors = new Map<TabName, EditorInstance>();
+  #editors = new Map<TabName, HTMLElement & NCodemirror>();
   #iframe: HTMLIFrameElement | null = null;
   #debounceTimer: ReturnType<typeof setTimeout> | undefined;
   #copyController!: CopyController;
@@ -87,7 +88,8 @@ export class NPlayground extends NativeElement {
     for (const tab of TAB_NAMES) {
       if (code[tab] !== undefined) {
         this.#store[tab].value = code[tab]!;
-        this.#editors.get(tab)?.setCode(code[tab]!);
+        const editor = this.#editors.get(tab);
+        if (editor) editor.value = code[tab]!;
       }
     }
     if (this.#store.autoRun.value) this.#scheduleRun();
@@ -230,9 +232,6 @@ export class NPlayground extends NativeElement {
 
     clearTimeout(this.#debounceTimer);
 
-    for (const editor of this.#editors.values()) {
-      editor.destroy();
-    }
     this.#editors.clear();
 
     this.#copyController.destroy();
@@ -306,12 +305,17 @@ export class NPlayground extends NativeElement {
     tabHeader.appendChild(tabBar);
     editorRegion.appendChild(tabHeader);
 
-    // Code panels (one per tab)
+    // Code panels (one per tab, each containing a <native-codemirror>)
     for (let i = 0; i < TAB_NAMES.length; i++) {
       const panel = document.createElement('div');
       panel.className = 'pg-code-panel';
       panel.setAttribute('role', 'tabpanel');
       panel.hidden = TAB_NAMES[i] !== this.#store.activeTab.value;
+
+      const editor = document.createElement('native-codemirror') as HTMLElement & NCodemirror;
+      panel.appendChild(editor);
+      this.#editors.set(TAB_NAMES[i], editor);
+
       editorRegion.appendChild(panel);
       this.#panels.push(panel);
     }
@@ -394,26 +398,24 @@ export class NPlayground extends NativeElement {
   #createEditors(): void {
     const readonly = this.#store.readonly.value;
 
-    for (let i = 0; i < TAB_NAMES.length; i++) {
-      const tab = TAB_NAMES[i];
-      const panel = this.#panels[i];
+    for (const tab of TAB_NAMES) {
+      const editor = this.#editors.get(tab);
+      if (!editor) continue;
+
       const storeSignal = this.#store[tab];
 
-      const editor = createEditor({
-        parent: panel,
-        initialCode: storeSignal.value,
-        language: tab,
-        readonly,
-        onChange: (code: string) => {
-          storeSignal.value = code;
-          this.dispatchEvent(new CustomEvent('playground:change', {
-            bubbles: true,
-            detail: { tab, code },
-          }));
-        },
-      });
+      editor.value = storeSignal.value;
+      editor.extensions = [getLanguageExtension(tab)];
+      if (readonly) editor.readOnly = true;
 
-      this.#editors.set(tab, editor);
+      editor.addEventListener('native:input', (e: Event) => {
+        const code = (e as CustomEvent).detail.value;
+        storeSignal.value = code;
+        this.dispatchEvent(new CustomEvent('playground:change', {
+          bubbles: true,
+          detail: { tab, code },
+        }));
+      });
     }
   }
 
@@ -498,9 +500,12 @@ export class NPlayground extends NativeElement {
     this.#store.css.value = initialCss;
     this.#store.js.value = initialJs;
 
-    this.#editors.get('html')?.setCode(initialHtml);
-    this.#editors.get('css')?.setCode(initialCss);
-    this.#editors.get('js')?.setCode(initialJs);
+    const htmlEditor = this.#editors.get('html');
+    const cssEditor = this.#editors.get('css');
+    const jsEditor = this.#editors.get('js');
+    if (htmlEditor) htmlEditor.value = initialHtml;
+    if (cssEditor) cssEditor.value = initialCss;
+    if (jsEditor) jsEditor.value = initialJs;
 
     this.dispatchEvent(new CustomEvent('playground:reset', {
       bubbles: true,

@@ -19,7 +19,8 @@ import { DataStore } from './data-runtime.ts';
 import { validateAccessibility } from './accessibility.ts';
 import { applyPatch } from './patch.ts';
 import { PolicyEngine } from './policy.ts';
-import { A2UIAdapter } from '../a2ui/a2ui-adapter.ts';
+import { PluginRegistry } from '../registries/plugin-registry.ts';
+import type { PluginFactory } from '../registries/plugin-registry.ts';
 import type { UIPatch, PatchResult } from './patch.ts';
 import type { A11yResult } from './accessibility.ts';
 
@@ -33,21 +34,21 @@ export class Kernel {
   readonly perf: PerfMetrics;
   readonly data: DataStore;
   readonly policy: PolicyEngine;
+  readonly plugins: PluginRegistry;
 
   #registry: Signal<Map<string, ComponentRegistration>> = signal(new Map());
   #options: KernelOptions;
-  #a2ui: A2UIAdapter | null = null;
 
   readonly registry: ReadonlySignal<Map<string, ComponentRegistration>> = computed(
     () => this.#registry.value,
   );
 
-  /** Lazy-initialized A2UI protocol adapter. Only created on first access. */
-  get a2ui(): A2UIAdapter {
-    if (!this.#a2ui) {
-      this.#a2ui = new A2UIAdapter(this);
-    }
-    return this.#a2ui;
+  /**
+   * A2UI protocol adapter. Requires `installA2UI(kernel)` from `@nonoun/native-a2ui`.
+   * Throws if the plugin has not been installed.
+   */
+  get a2ui(): unknown {
+    return this.plugins.get('a2ui');
   }
 
   constructor(options?: KernelOptions) {
@@ -61,6 +62,7 @@ export class Kernel {
     this.perf = new PerfMetrics();
     this.data = new DataStore();
     this.policy = new PolicyEngine();
+    this.plugins = new PluginRegistry();
 
     // Wire policy enforcement as bus middleware (first — blocks before logging)
     this.bus.use(this.policy.middleware());
@@ -73,6 +75,16 @@ export class Kernel {
         this.log.logCommand(command);
       });
     }
+  }
+
+  /** Register a plugin factory. Instance is created lazily on first `plugin()` call. */
+  use<T>(name: string, factory: PluginFactory<T>): void {
+    this.plugins.use(name, factory);
+  }
+
+  /** Get a plugin instance by name. Throws if not registered. */
+  plugin<T>(name: string): T {
+    return this.plugins.get<T>(name);
   }
 
   register(
@@ -131,7 +143,7 @@ export class Kernel {
   }
 
   destroy(): void {
-    this.#a2ui?.destroy();
+    this.plugins.destroy();
     this.overlays.destroy();
     this.focus.destroy();
     this.history.clear();

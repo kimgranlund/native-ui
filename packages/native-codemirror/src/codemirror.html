@@ -84,10 +84,100 @@
       <div class="log" id="change-log" style="max-height: 80px;"></div>
     </div>
 
+    <!-- ════════════════════════════════════════════════════════════════ -->
+    <!--  <native-codemirror> Element                                    -->
+    <!-- ════════════════════════════════════════════════════════════════ -->
+
+    <h2 style="margin-top: 3rem;">&lt;native-codemirror&gt; Element</h2>
+    <p class="demo-desc">
+      Declarative custom element wrapping CodeMirror 6.
+      Supports <code>value</code>, <code>placeholder</code>, <code>readonly</code>, <code>disabled</code>,
+      <code>line-numbers</code>, <code>line-wrapping</code>, and <code>tab-size</code> attributes.
+      Set the <code>extensions</code> property for language modes.
+    </p>
+
+    <!-- ── Element: Basic ── -->
+
+    <h3>Basic (with &lt;script type="text/plain"&gt; content)</h3>
+    <div class="demo-section">
+      <native-codemirror id="el-basic" style="height: 220px;">
+        <script type="text/plain">
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+console.log(greet('NativeUI'));</script>
+      </native-codemirror>
+    </div>
+
+    <!-- ── Element: Placeholder ── -->
+
+    <h3>Placeholder</h3>
+    <div class="demo-section">
+      <native-codemirror id="el-placeholder" placeholder="Start typing..." style="height: 120px;"></native-codemirror>
+    </div>
+
+    <!-- ── Element: Read-only ── -->
+
+    <h3>Read-only</h3>
+    <div class="demo-section">
+      <native-codemirror id="el-readonly" readonly style="height: 120px;">
+        <script type="text/plain">
+// This editor is read-only — you can select but not edit.
+const pi = 3.14159;</script>
+      </native-codemirror>
+    </div>
+
+    <!-- ── Element: Disabled ── -->
+
+    <h3>Disabled</h3>
+    <div class="demo-section">
+      <native-codemirror id="el-disabled" disabled style="height: 120px;">
+        <script type="text/plain">
+// Disabled — no interaction at all.
+const frozen = true;</script>
+      </native-codemirror>
+    </div>
+
+    <!-- ── Element: No line numbers ── -->
+
+    <h3>No Line Numbers</h3>
+    <div class="demo-section">
+      <native-codemirror id="el-no-ln" line-numbers="false" style="height: 120px;">
+        <script type="text/plain">
+// Line numbers hidden via line-numbers="false"
+const clean = true;</script>
+      </native-codemirror>
+    </div>
+
+    <!-- ── Element: Line wrapping ── -->
+
+    <h3>Line Wrapping</h3>
+    <div class="demo-section">
+      <native-codemirror id="el-wrap" line-wrapping style="height: 160px;">
+        <script type="text/plain">
+// This editor has line-wrapping enabled. Long lines will wrap instead of scrolling horizontally. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</script>
+      </native-codemirror>
+    </div>
+
+    <!-- ── Element: Events ── -->
+
+    <h3>Events</h3>
+    <p class="demo-hint">Type to see <code>native:input</code> events. Blur to see <code>native:change</code>.</p>
+    <div class="demo-section">
+      <native-codemirror id="el-events" style="height: 120px;">
+        <script type="text/plain">
+// Type here and watch the log below
+const x = 42;</script>
+      </native-codemirror>
+      <div class="log" id="el-event-log" style="max-height: 80px;"></div>
+    </div>
+
     </main></native-app>
 
     <script type="module">
       import '../../../src/nav/native-app.ts';
+      import './register.ts';
 
       import { createEditorView, EditorView } from './index.ts';
       import { javascript } from '@codemirror/lang-javascript';
@@ -300,6 +390,36 @@ console.log(greeting);`,
             }
           }),
         ],
+      });
+
+      // ── <native-codemirror> element demos ──
+
+      // Add JS language to the basic demo
+      const elBasic = document.getElementById('el-basic');
+      await customElements.whenDefined('native-codemirror');
+      await elBasic.ready;
+      elBasic.extensions = [javascript()];
+
+      // Events demo
+      const elEvents = document.getElementById('el-events');
+      const elLog = document.getElementById('el-event-log');
+      let elCount = 0;
+
+      elEvents.addEventListener('native:input', () => {
+        elCount++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${elCount} native:input — ${elEvents.value.length} chars`;
+        elLog.prepend(entry);
+        if (elLog.children.length > 30) elLog.lastChild.remove();
+      });
+
+      elEvents.addEventListener('native:change', (e) => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.style.fontWeight = 'bold';
+        entry.textContent = `native:change — committed (${e.detail.value.length} chars)`;
+        elLog.prepend(entry);
       });
     </script>
   </body>

@@ -1,4 +1,4 @@
-import type { TraitAdapter } from '../../core/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 import { EditController } from '../edit-controller.ts';
 
 export const editableAdapter: TraitAdapter<EditController> = {

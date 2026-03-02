@@ -143,6 +143,10 @@
         font-size: 0.75rem;
         color: var(--n-ink-muted-neutral);
       }
+
+      n-tab-panel {
+        padding: 0;
+      }
     </style>
   </head>
   <body>
@@ -190,7 +194,7 @@
       <n-tab-panel value="overview">
         <n-stack gap="4">
         <div class="detail-grid">
-          <n-card>
+          <div>
             <h2>Personal Information</h2>
             <n-stack gap="3">
               <div class="detail-item">
@@ -210,9 +214,9 @@
                 <span class="detail-value">San Francisco, CA</span>
               </div>
             </n-stack>
-          </n-card>
+          </div>
 
-          <n-card>
+          <div>
             <h2>Work Information</h2>
             <n-stack gap="3">
               <div class="detail-item">
@@ -232,11 +236,11 @@
                 <span class="detail-value">EMP-2023-0472</span>
               </div>
             </n-stack>
-          </n-card>
+          </div>
         </div>
 
         <!-- ── Recent Projects ── -->
-        <n-card>
+        <div>
           <h2>Recent Projects</h2>
           <n-table style="grid-template-columns: 2fr 1fr 100px 100px;">
             <n-table-head>
@@ -274,13 +278,13 @@
               </n-table-row>
             </n-table-body>
           </n-table>
-        </n-card>
+        </div>
         </n-stack>
       </n-tab-panel>
 
       <!-- ── Activity Panel ── -->
       <n-tab-panel value="activity">
-        <n-card>
+        <div>
           <h2>Recent Activity</h2>
           <div class="activity-item">
             <span class="activity-dot"></span>
@@ -331,14 +335,14 @@
               <span class="activity-time">Feb 15, 2026</span>
             </div>
           </div>
-        </n-card>
+        </div>
       </n-tab-panel>
 
       <!-- ── Settings Panel ── -->
       <n-tab-panel value="settings">
         <n-stack gap="4">
         <div class="detail-grid">
-          <n-card>
+          <div>
             <h2>Notifications</h2>
             <div class="settings-row">
               <div>
@@ -361,9 +365,9 @@
               </div>
               <n-switch></n-switch>
             </div>
-          </n-card>
+          </div>
 
-          <n-card>
+          <div>
             <h2>Security</h2>
             <div class="settings-row">
               <div>
@@ -392,10 +396,10 @@
                 <span slot="label">Manage</span>
               </n-button>
             </div>
-          </n-card>
+          </div>
         </div>
 
-        <n-card>
+        <div>
           <h2 style="color: var(--n-ink-strong-danger);">Danger Zone</h2>
           <div class="settings-row">
             <div>
@@ -416,7 +420,7 @@
               <span slot="label">Delete Account</span>
             </n-button>
           </div>
-        </n-card>
+        </div>
         </n-stack>
       </n-tab-panel>
     </n-tabs>
@@ -424,7 +428,7 @@
 
     </main></native-app>
     <script type="module">
-      import '../../../nav/layout.ts';
+      import '../../../nav/native-app.ts';
       import '../../../components/breadcrumb/breadcrumb.ts';
       import '../../../components/avatar/avatar.ts';
       import '../../../components/badge/badge.ts';

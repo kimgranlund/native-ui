@@ -1,15 +1,15 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { A2UIAdapter, createA2UIAdapter } from '../../a2ui/a2ui-adapter.ts';
-import { Kernel, resetKernel } from '../../kernel/kernel.ts';
+import { A2UIAdapter, createA2UIAdapter } from '../protocol/a2ui-adapter.ts';
+import { Kernel, resetKernel } from '../../../../src/kernel/kernel.ts';
 import type {
   A2UIClientMessage,
   A2UIActionMessage,
   A2UIErrorMessage,
   A2UICatalogResponse,
-} from '../../a2ui/a2ui-types.ts';
-import { isCatalogResponse } from '../../a2ui/a2ui-types.ts';
-import type { UIPlan, UINode } from '../../kernel/types.ts';
+} from '../protocol/a2ui-types.ts';
+import { isCatalogResponse } from '../protocol/a2ui-types.ts';
+import type { UIPlan, UINode } from '../../../../src/kernel/types.ts';
 
 describe('A2UI Adapter', () => {
   let kernel: Kernel;

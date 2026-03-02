@@ -1,4 +1,4 @@
-import type { TraitAdapter } from '../../core/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 import { DragController } from '../drag-controller.ts';
 
 export const draggableAdapter: TraitAdapter<DragController> = {

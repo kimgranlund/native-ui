@@ -1,4 +1,4 @@
-import type { TraitAdapter } from '../../core/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 import { ListNavigateController } from '../list-navigate-controller.ts';
 
 export const listNavigableAdapter: TraitAdapter<ListNavigateController> = {

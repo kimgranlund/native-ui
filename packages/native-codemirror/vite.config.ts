@@ -15,6 +15,7 @@ export default defineConfig({
     lib: {
       entry: {
         'native-codemirror': resolve(__dirname, 'src/index.ts'),
+        'register': resolve(__dirname, 'src/register.ts'),
       },
       formats: ['es'],
     },

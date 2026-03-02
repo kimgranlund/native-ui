@@ -17,6 +17,10 @@
     padding-block: calc(var(--n-space) * 2);
     padding-inline: calc(var(--n-space-k) * var(--n-space));
     min-width: 0;
+
+    font-size: var(--n-font-size);
+    line-height: var(--n-line-height);
+    box-sizing: border-box;
   }
 
   /* ── Justify ── */

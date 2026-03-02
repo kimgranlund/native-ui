@@ -8,7 +8,7 @@ import {
   textFieldInputType,
   getSupportedTypes,
   COMPONENT_MAP,
-} from '../../a2ui/a2ui-component-map.ts';
+} from '../protocol/a2ui-component-map.ts';
 
 describe('A2UI Component Map', () => {
   // ── Forward Mapping ──

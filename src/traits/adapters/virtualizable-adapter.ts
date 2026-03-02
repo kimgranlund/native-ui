@@ -1,4 +1,4 @@
-import type { TraitAdapter } from '../../core/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 import { VirtualScrollController } from '../virtual-scroll-controller.ts';
 
 export const virtualizableAdapter: TraitAdapter<VirtualScrollController> = {

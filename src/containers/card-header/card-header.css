@@ -18,6 +18,10 @@
     font-weight: var(--n-button-font-weight);
     color: var(--n-ink-strong);
     min-width: 0;
+
+    font-size: var(--n-font-size);
+    line-height: var(--n-line-height);
+    box-sizing: border-box;
   }
 
   /* ── Slots ── */

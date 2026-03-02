@@ -9,7 +9,7 @@ import {
   isActionMessage,
   isErrorMessage,
   parseServerMessage,
-} from '../../a2ui/a2ui-types.ts';
+} from '../protocol/a2ui-types.ts';
 import type {
   A2UIServerMessage,
   A2UIClientMessage,
@@ -19,7 +19,7 @@ import type {
   A2UIDeleteSurface,
   A2UIActionMessage,
   A2UIErrorMessage,
-} from '../../a2ui/a2ui-types.ts';
+} from '../protocol/a2ui-types.ts';
 
 describe('A2UI Types', () => {
   // ── isDataBinding ──

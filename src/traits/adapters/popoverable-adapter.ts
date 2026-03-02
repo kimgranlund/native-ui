@@ -1,4 +1,4 @@
-import type { TraitAdapter } from '../../core/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 import { PopoverController } from '../popover-controller.ts';
 
 export const popoverableAdapter: TraitAdapter<PopoverController> = {

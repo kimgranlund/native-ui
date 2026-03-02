@@ -1,5 +1,5 @@
 import { NativeElement } from '../../core/native-element.ts';
-import { getTrait, onTraitRegistered, getRegisteredTraitNames } from '../../core/trait-registry.ts';
+import { getTrait, onTraitRegistered, getRegisteredTraitNames } from '../../registries/trait-registry.ts';
 import { collectTraitOptions, parseTraitAttribute } from '../../core/trait-options.ts';
 
 /**

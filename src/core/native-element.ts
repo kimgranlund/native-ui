@@ -1,6 +1,6 @@
 import { effect } from '../reactivity/index.ts';
 import type { Dispose } from '../reactivity/types.ts';
-import { getTrait, onTraitRegistered } from './trait-registry.ts';
+import { getTrait, onTraitRegistered } from '../registries/trait-registry.ts';
 import { collectTraitOptions, parseTraitAttribute } from './trait-options.ts';
 
 /** Base custom element class with reactive effect lifecycle, child deferral, and trait protocol. */

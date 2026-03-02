@@ -55,7 +55,6 @@
 
   :where(native-editor) :where(.cm-scroller) {
     overflow: auto;
-    padding: 1rem;
   }
 
   :where(native-editor) :where(.cm-content) {

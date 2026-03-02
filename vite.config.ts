@@ -14,6 +14,7 @@ export default defineConfig(({ command }) => ({
       // problem where the same classes load from both source and dist.
       // Aliasing to source entries keeps everything in one module graph.
       '@nonoun/native-ui': resolve(__dirname, 'src/index.ts'),
+      '@nonoun/native-codemirror/register': resolve(__dirname, 'packages/native-codemirror/src/register.ts'),
       '@nonoun/native-codemirror': resolve(__dirname, 'packages/native-codemirror/src/index.ts'),
     } : {},
   },
@@ -45,10 +46,10 @@ export default defineConfig(({ command }) => ({
         // meaninglessly named chunks (register-all2.js, app-panel-element.js).
         // This groups shared modules into predictably named chunks.
         manualChunks(id) {
-          // Kernel and A2UI are a separate entry — let them stay isolated
-          if (id.includes('/kernel/') || id.includes('/a2ui/')) return undefined;
-          // Traits + core + reactivity → core.js (shared foundation)
-          if (id.includes('/traits/') || id.includes('/core/') || id.includes('/reactivity/')) return 'core';
+          // Kernel is a separate entry — let it stay isolated
+          if (id.includes('/kernel/')) return undefined;
+          // Traits + core + registries + reactivity → core.js (shared foundation)
+          if (id.includes('/traits/') || id.includes('/core/') || id.includes('/registries/') || id.includes('/reactivity/')) return 'core';
           // All component + container classes → components.js
           if (id.includes('/components/') || id.includes('/containers/')) return 'components';
           // Icons → n-icon.js

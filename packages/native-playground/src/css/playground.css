@@ -166,9 +166,14 @@
     display: none;
   }
 
+  /* Native-codemirror — fill panel, strip border-radius */
+  :where(native-playground) :where(native-codemirror) {
+    height: 100%;
+    border-radius: 0;
+  }
+
   /* CodeMirror overrides */
   :where(native-playground) :where(.cm-editor) {
-    height: 100%;
     font-size: 0.8125rem;
     /* Force dark color-scheme so contenteditable text inherits light-on-dark
        colors even when the parent page uses color-scheme: light dark */

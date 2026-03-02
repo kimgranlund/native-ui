@@ -50,4 +50,4 @@ import '../packages/native-app/src/index.ts';
 import './icons/icon.ts';
 
 // Dev layout
-import './nav/layout.ts';
+import './nav/native-app.ts';

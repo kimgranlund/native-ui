@@ -1,4 +1,4 @@
-import { getTraitRuntime } from '../core/trait-runtime.ts';
+import { getTraitRuntime } from './runtime.ts';
 
 /** Manages a dismiss layer that dispatches `native:dismiss` on outside click or Escape. */
 export class DismissController {

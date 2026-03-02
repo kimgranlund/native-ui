@@ -43,6 +43,3 @@
 @import '../containers/card-footer/card-footer.css';
 /* Chat */
 @import '../components/chat/chat.css';
-
-/* A2UI Protocol */
-@import '../a2ui/a2ui.css';

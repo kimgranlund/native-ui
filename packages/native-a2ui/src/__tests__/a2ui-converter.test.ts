@@ -1,8 +1,8 @@
 // @vitest-environment happy-dom
 import { describe, it, expect } from 'vitest';
-import { a2uiToUINode, uiNodeToA2UI, conversionToPlan } from '../../a2ui/a2ui-converter.ts';
-import type { A2UIComponent } from '../../a2ui/a2ui-types.ts';
-import type { UINode } from '../../kernel/types.ts';
+import { a2uiToUINode, uiNodeToA2UI, conversionToPlan } from '../protocol/a2ui-converter.ts';
+import type { A2UIComponent } from '../protocol/a2ui-types.ts';
+import type { UINode } from '../../../../src/kernel/types.ts';
 
 describe('A2UI Converter', () => {
   // ── Flat → Tree ──

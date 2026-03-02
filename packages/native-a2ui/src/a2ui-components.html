@@ -5,10 +5,10 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>A2UI Styled Components</title>
-    <link rel="stylesheet" href="../styles/index.css" />
-    <link rel="stylesheet" href="../styles/components.css" />
-    <link rel="stylesheet" href="../styles/demo.css" />
-    <link rel="stylesheet" href="../styles/n-layout.css" />
+    <link rel="stylesheet" href="../../../src/styles/index.css" />
+    <link rel="stylesheet" href="../../../src/styles/components.css" />
+    <link rel="stylesheet" href="../../../src/styles/demo.css" />
+    <link rel="stylesheet" href="../../../src/styles/n-layout.css" />
     <style>
       .nav-main {
         padding: 2rem;
@@ -28,26 +28,26 @@
       }
     </style>
     <script type="module">
-      import '../nav/layout.ts';
-      import '../register-all.ts';
+      import '../../../src/nav/native-app.ts';
+      import '../../../src/register-all.ts';
 
       // Icons used in this demo + icons stamped internally by components
-      import '../icons/phosphor/house.ts';
-      import '../icons/phosphor/gear.ts';
-      import '../icons/phosphor/bell.ts';
-      import '../icons/phosphor/magnifying-glass.ts';
-      import '../icons/phosphor/caret-up-down.ts';  // used by n-select data-driven mode
+      import '../../../src/icons/phosphor/house.ts';
+      import '../../../src/icons/phosphor/gear.ts';
+      import '../../../src/icons/phosphor/bell.ts';
+      import '../../../src/icons/phosphor/magnifying-glass.ts';
+      import '../../../src/icons/phosphor/caret-up-down.ts';  // used by n-select data-driven mode
 
-      import { Kernel, resetKernel } from '../kernel/kernel.ts';
-      import { createA2UIAdapter } from './a2ui-adapter.ts';
+      import { Kernel, resetKernel } from '../../../src/kernel/kernel.ts';
+      import { createA2UIAdapter } from './protocol/a2ui-adapter.ts';
 
       // ── Boot ──
       resetKernel();
       const kernel = new Kernel({ allowUnregistered: true });
       const messages = [];
       // WHY: NuiApp.setup() is async — wait for the chat panel to exist.
-      const layout = document.querySelector('n-app');
-      await customElements.whenDefined('n-app');
+      const layout = document.querySelector('native-app');
+      await customElements.whenDefined('native-app');
       const chatPanel = await new Promise(resolve => {
         const check = () => {
           const el = layout.chatPanel;

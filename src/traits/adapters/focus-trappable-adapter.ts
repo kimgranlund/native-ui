@@ -1,4 +1,4 @@
-import type { TraitAdapter } from '../../core/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 import { FocusTrapController } from '../focus-trap-controller.ts';
 
 export const focusTrappableAdapter: TraitAdapter<FocusTrapController> = {

@@ -1,4 +1,4 @@
-import { registerTrait } from '../core/trait-registry.ts';
+import { registerTrait } from '../registries/trait-registry.ts';
 import {
   pressableAdapter,
   hoverableAdapter,

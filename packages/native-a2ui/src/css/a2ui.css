@@ -1,0 +1,173 @@
+/**
+ * native-a2ui — A2UI Protocol Workbench
+ *
+ * Tool-specific styles for the workbench element.
+ * Loaded by consumers via: @import '@nonoun/native-a2ui/css'
+ */
+
+@layer ui {
+
+/* ── Host ── */
+
+:where(native-a2ui) {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 400px;
+  border: 1px solid var(--n-border-muted-neutral, #3e4451);
+  border-radius: var(--n-radius-md, 0.5rem);
+  overflow: hidden;
+  background: var(--n-body-neutral, #1e2127);
+  color: var(--n-ink-neutral, #abb2bf);
+}
+
+/* ── Toolbar ── */
+
+:where(native-a2ui) :where(.a2ui-toolbar) {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.5rem;
+  border-bottom: 1px solid var(--n-border-muted-neutral, #3e4451);
+  background: var(--n-panel-neutral, #21252b);
+  min-height: 2.25rem;
+}
+
+/* ── Layout Shell ── */
+
+:where(native-a2ui) :where(.a2ui-layout) {
+  display: grid;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* 2/1 layout: editor + preview on top, inspector below */
+:where(native-a2ui[layout="2/1"]) :where(.a2ui-layout),
+:where(native-a2ui:not([layout])) :where(.a2ui-layout) {
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr 1fr;
+}
+
+:where(native-a2ui[layout="2/1"]) :where(.a2ui-region-inspector),
+:where(native-a2ui:not([layout])) :where(.a2ui-region-inspector) {
+  grid-column: 1 / -1;
+}
+
+/* 1+1+1 layout: three columns */
+:where(native-a2ui[layout="1+1+1"]) :where(.a2ui-layout) {
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* ── Regions ── */
+
+:where(native-a2ui) :where(.a2ui-region) {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+:where(native-a2ui) :where(.a2ui-region-editor) {
+  border-right: 1px solid var(--n-border-muted-neutral, #3e4451);
+}
+
+:where(native-a2ui) :where(.a2ui-region-inspector) {
+  border-top: 1px solid var(--n-border-muted-neutral, #3e4451);
+  max-height: 280px;
+}
+
+/* ── Preview Toolbar ── */
+
+:where(native-a2ui) :where(.a2ui-preview-toolbar) {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  border-bottom: 1px solid var(--n-border-muted-neutral, #3e4451);
+  background: var(--n-panel-neutral, #21252b);
+  min-height: 2rem;
+}
+
+/* ── Preview Iframe ── */
+
+:where(native-a2ui) :where(.a2ui-preview-iframe) {
+  flex: 1;
+  border: none;
+  width: 100%;
+  min-height: 0;
+  background: var(--n-doc-neutral, #ffffff);
+}
+
+/* ── Editor ── */
+
+:where(native-a2ui) :where(.a2ui-editor) {
+  flex: 1;
+  min-height: 0;
+  border-radius: 0;
+}
+
+/* ── Inspector Tabs ── */
+
+:where(native-a2ui) :where(.a2ui-inspector) {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0.5rem;
+  font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+/* ── Log Entries ── */
+
+:where(native-a2ui) :where(.a2ui-log-entry) {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--n-border-muted-neutral, #3e4451);
+}
+
+:where(native-a2ui) :where(.a2ui-log-type) {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+:where(native-a2ui) :where(.a2ui-log-type--sent) { color: var(--n-ink-accent, #61afef); }
+:where(native-a2ui) :where(.a2ui-log-type--action) { color: var(--n-ink-success, #98c379); }
+:where(native-a2ui) :where(.a2ui-log-type--error) { color: var(--n-ink-danger, #e06c75); }
+:where(native-a2ui) :where(.a2ui-log-type--warning) { color: var(--n-ink-warning, #e5c07b); }
+
+/* ── Tree View ── */
+
+:where(native-a2ui) :where(.a2ui-tree-node) {
+  padding-left: 1rem;
+}
+
+:where(native-a2ui) :where(.a2ui-tree-label) {
+  cursor: default;
+}
+
+:where(native-a2ui) :where(.a2ui-tree-id) {
+  color: var(--n-ink-accent, #61afef);
+}
+
+:where(native-a2ui) :where(.a2ui-tree-type) {
+  color: var(--n-ink-muted-neutral, #7d8799);
+  margin-left: 0.375rem;
+}
+
+:where(native-a2ui) :where(.a2ui-tree-tag) {
+  color: var(--n-ink-success, #98c379);
+  margin-left: 0.375rem;
+}
+
+/* ── Cursor Highlight (sent/pending lines in editor) ── */
+
+:where(native-a2ui) :where(.cm-a2ui-sent) {
+  opacity: 0.5;
+}
+
+:where(native-a2ui) :where(.cm-a2ui-next) {
+  background: var(--n-surface-accent, rgba(97, 175, 239, 0.1));
+}
+
+} /* @layer ui */

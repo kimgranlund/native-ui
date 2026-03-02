@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>A2UI Protocol — Interaction OS Demo</title>
-    <link rel="stylesheet" href="../styles/index.css" />
-    <link rel="stylesheet" href="../styles/components.css" />
-    <link rel="stylesheet" href="../styles/demo.css" />
+    <link rel="stylesheet" href="../../../src/styles/index.css" />
+    <link rel="stylesheet" href="../../../src/styles/components.css" />
+    <link rel="stylesheet" href="../../../src/styles/demo.css" />
     <style>
 .demo-row {
         display: grid;
@@ -230,26 +230,26 @@
 
     </main></native-app>
     <script type="module">
-      import '../nav/layout.ts';
-      import '../components/button/button.ts';
-      import '../components/input/input.ts';
-      import '../components/checkbox/checkbox.ts';
-      import '../components/switch/switch.ts';
-      import '../components/select/select.ts';
-      import '../components/listbox/listbox.ts';
-      import '../components/listbox/option.ts';
-      import '../components/tabs/tabs.ts';
-      import '../components/dialog/dialog.ts';
-      import '../components/textarea/textarea.ts';
-      import '../components/range/range.ts';
-      import '../components/badge/badge.ts';
-      import '../components/avatar/avatar.ts';
-      import '../containers/card/card.ts';
-      import '../icons/icon.ts';
+      import '../../../src/nav/native-app.ts';
+      import '../../../src/components/button/button.ts';
+      import '../../../src/components/input/input.ts';
+      import '../../../src/components/checkbox/checkbox.ts';
+      import '../../../src/components/switch/switch.ts';
+      import '../../../src/components/select/select.ts';
+      import '../../../src/components/listbox/listbox.ts';
+      import '../../../src/components/listbox/option.ts';
+      import '../../../src/components/tabs/tabs.ts';
+      import '../../../src/components/dialog/dialog.ts';
+      import '../../../src/components/textarea/textarea.ts';
+      import '../../../src/components/range/range.ts';
+      import '../../../src/components/badge/badge.ts';
+      import '../../../src/components/avatar/avatar.ts';
+      import '../../../src/containers/card/card.ts';
+      import '../../../src/icons/icon.ts';
 
-      import { Kernel, resetKernel } from '../kernel/kernel.ts';
-      import { Planner } from '../kernel/planner.ts';
-      import { createA2UIAdapter } from './a2ui-adapter.ts';
+      import { Kernel, resetKernel } from '../../../src/kernel/kernel.ts';
+      import { Planner } from '../../../src/kernel/planner.ts';
+      import { createA2UIAdapter } from './protocol/a2ui-adapter.ts';
 
       // ── Setup ──
 
@@ -263,8 +263,8 @@
       const emitOutput = document.getElementById('emit-output');
 
       // WHY: NuiApp.setup() is async — wait for the chat panel to exist.
-      const layout = document.querySelector('n-app');
-      await customElements.whenDefined('n-app');
+      const layout = document.querySelector('native-app');
+      await customElements.whenDefined('native-app');
       const chatPanel = await new Promise(resolve => {
         const check = () => {
           const el = layout.chatPanel;

@@ -1,4 +1,4 @@
-import type { TraitAdapter } from '../../core/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 import { SearchController } from '../search-controller.ts';
 
 export const searchableAdapter: TraitAdapter<SearchController> = {

@@ -9,6 +9,7 @@ export default defineConfig({
     alias: {
       '@nonoun/native-ui/register': resolve(__dirname, '../../src/register-all.ts'),
       '@nonoun/native-ui': resolve(__dirname, '../../src/index.ts'),
+      '@nonoun/native-codemirror/register': resolve(__dirname, '../native-codemirror/src/register.ts'),
       '@nonoun/native-codemirror': resolve(__dirname, '../native-codemirror/src/index.ts'),
     },
   },

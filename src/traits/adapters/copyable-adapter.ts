@@ -1,4 +1,4 @@
-import type { TraitAdapter } from '../../core/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 import { CopyController } from '../copy-controller.ts';
 
 export const copyableAdapter: TraitAdapter<CopyController> = {

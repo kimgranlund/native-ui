@@ -1,8 +1,8 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, beforeEach } from 'vitest';
 import { parseTraitAttribute, collectTraitOptions } from '../trait-options.ts';
-import { registerTrait } from '../trait-registry.ts';
-import type { TraitAdapter } from '../trait-registry.ts';
+import { registerTrait } from '../../registries/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 
 // Register test traits (registry is module-level singleton)
 const registered = new Set<string>();

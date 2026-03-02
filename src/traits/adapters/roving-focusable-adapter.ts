@@ -1,4 +1,4 @@
-import type { TraitAdapter } from '../../core/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 import { RovingFocusController } from '../roving-focus-controller.ts';
 
 export const rovingFocusableAdapter: TraitAdapter<RovingFocusController> = {

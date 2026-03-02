@@ -1,4 +1,4 @@
-import type { TraitAdapter } from '../../core/trait-registry.ts';
+import type { TraitAdapter } from '../../registries/trait-registry.ts';
 import { DropZoneController } from '../drop-zone-controller.ts';
 
 export const droppableAdapter: TraitAdapter<DropZoneController> = {

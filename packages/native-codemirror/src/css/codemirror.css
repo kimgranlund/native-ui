@@ -16,6 +16,26 @@
 
 @layer ui {
   /* -----------------------------------------------------------------------
+   * Host element — <native-codemirror>
+   * --------------------------------------------------------------------- */
+
+  :where(native-codemirror) {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--n-radius, 0.5rem);
+  }
+
+  :where(native-codemirror) :where(.cm-editor) {
+    height: 100%;
+  }
+
+  :where(native-codemirror)[aria-disabled="true"] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* -----------------------------------------------------------------------
    * Editor root — color bridge vars
    * --------------------------------------------------------------------- */
 
@@ -33,7 +53,7 @@
     /* Interactive */
     --n-code-cursor:          var(--n-surface-accent, #528bff);
     --n-code-selection:       var(--n-color-neutral-300, #3E4451);
-    --n-code-line-active:     var(--n-color-neutral-200, #2c313a);
+    --n-code-line-active:     var(--n-color-neutral-200-scrim, #2c313a) !important;
     --n-code-bracket:         var(--n-color-neutral-600, #515a6b);
     --n-code-accent:          var(--n-surface-accent, #61afef);
 

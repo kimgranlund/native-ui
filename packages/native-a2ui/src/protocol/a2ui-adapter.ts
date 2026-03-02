@@ -19,9 +19,9 @@ import type { ToA2UIOptions } from './a2ui-converter.ts';
 import { getSupportedTypes } from './a2ui-component-map.ts';
 import { SurfaceManager } from './a2ui-surface.ts';
 import type { SurfaceState } from './a2ui-surface.ts';
-import type { Kernel } from '../kernel/kernel.ts';
-import type { UIPlan } from '../kernel/types.ts';
-import type { PlanResult } from '../kernel/planner.ts';
+import type { A2UIKernelBridge as Kernel } from './kernel-bridge.ts';
+import type { UIPlan } from './kernel-bridge.ts';
+import type { PlanResult } from './kernel-bridge.ts';
 
 // ── Options ──
 

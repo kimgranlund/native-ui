@@ -52,6 +52,12 @@ export { PresentController } from './present-controller.ts';
 export type { PresentOptions } from './present-controller.ts';
 export { registerAllTraits } from './register-all.ts';
 
+// ── Runtime ──
+export { getTraitRuntime, DismissStack, ToastManager } from './runtime.ts';
+export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from './runtime.ts';
+export { GestureRouter } from './gesture-router.ts';
+export type { GestureParticipant } from './gesture-router.ts';
+
 // ── Adapters (for selective registration via registerTrait()) ──
 export { pressableAdapter } from './adapters/pressable-adapter.ts';
 export { hoverableAdapter } from './adapters/hoverable-adapter.ts';
