@@ -1,5 +1,12 @@
 @layer ui {
 
+  :where(n-sidebar):not(:defined),
+  :where(n-sidebar-item):not(:defined),
+  :where(n-sidebar-nav):not(:defined),
+  :where(n-sidebar-group):not(:defined),
+  :where(n-sidebar-group-header):not(:defined),
+  :where(n-sidebar-nav-item):not(:defined) { visibility: hidden; }
+
   /* ╭──────────────────────────────────────────────────────────╮
      │  n-sidebar                                             │
      │  Full-page layout: collapsible/resizable sidebar aside   │
@@ -11,6 +18,7 @@
   :where(n-sidebar) {
     display: flex;
     height: 100dvh;
+    user-select: none;
   }
 
   /* WHY: Reserve sidebar width before JS builds the DOM — prevents layout shift.
@@ -18,7 +26,7 @@
      Replaced by the real aside once [data-ready] is set. */
   :where(n-sidebar):not([data-ready]):not([collapsed])::before {
     content: '';
-    width: var(--n-layout-sidebar-width);
+    width: var(--n-sidebar-width);
     flex-shrink: 0;
     background: var(--n-body);
     border-right: 1px solid var(--n-border-muted);
@@ -57,7 +65,7 @@
     container-type: inline-size;
     position: sticky;
     top: 0;
-    width: var(--n-layout-sidebar-width);
+    width: var(--n-sidebar-width);
     min-width: 160px;
     max-width: 400px;
     height: 100dvh;
@@ -216,7 +224,7 @@
      first sidebar row aligns horizontally with the breadcrumb. */
   :where(n-sidebar-header) > :where(n-sidebar-item),
   :where(n-sidebar-footer) > :where(n-sidebar-item) {
-    min-height: var(--n-layout-bar-height);
+    min-height: var(--n-sidebar-item-height);
   }
 
   :where(n-sidebar-item):hover,
@@ -356,6 +364,12 @@
     gap: 0;
     padding: 0;
     outline: none;
+    user-select: none;
+  }
+
+  :where(n-sidebar-nav)[aria-disabled="true"] {
+    color: var(--n-ink-disabled);
+    pointer-events: none;
   }
 
   /* ── Nav Item ── */
@@ -428,6 +442,7 @@
 
     display: block;
     position: relative;
+    user-select: none;
   }
 
   :where(n-sidebar-group) + :where(n-sidebar-group) {

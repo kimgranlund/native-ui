@@ -28,7 +28,7 @@
     "@nonoun/native-ui": ">=0.5.0"
   },
   "dependencies": {
-    "@nonoun/native-codemirror": "^0.1.0",
+    "@nonoun/native-codemirror": "^0.2.0",
     "@codemirror/lang-css": "^6.3.1",
     "@codemirror/lang-html": "^6.4.9",
     "@codemirror/lang-javascript": "^6.2.3"

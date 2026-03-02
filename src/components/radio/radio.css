@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-radio, n-radio-group):not(:defined) { visibility: hidden; }
+
   /* ── Radio Group ── */
 
   :where(n-radio-group) {
@@ -36,7 +38,7 @@
     --n-border-color: var(--n-border-muted);
     --n-border-color-hover: var(--n-border-hover);
     --n-border-color-active: var(--n-border-active);
-    --n-border-color-disabled: var(--n-border-disabled);
+    --n-border-color-disabled: transparent;
 
     position: relative;
     display: inline-flex;

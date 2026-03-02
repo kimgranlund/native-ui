@@ -1,8 +1,11 @@
 @layer ui {
 
+  :where(n-badge):not(:defined) { visibility: hidden; }
+
   /* ── Badge Base ── */
 
   :where(n-badge) {
+    white-space: nowrap;
     --n-font-weight: var(--n-button-font-weight);
     --n-radius: 9999px;
 
@@ -10,8 +13,8 @@
     align-items: center;
     justify-content: center;
 
-    min-width: calc(var(--n-widget-size-xs) + var(--n-space));
-    min-height: calc(var(--n-widget-size-xs) + var(--n-space));
+    min-width: calc(var(--n-widget-xs) + var(--n-space));
+    min-height: calc(var(--n-widget-xs) + var(--n-space));
     padding-inline: 0.375em;
 
     font-size: var(--n-widget-font);

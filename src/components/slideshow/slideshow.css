@@ -1,5 +1,8 @@
 @layer ui {
 
+  :where(n-slide):not(:defined),
+  :where(n-slideshow):not(:defined) { visibility: hidden; }
+
   /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      n-slideshow / n-slide
      CSS-first carousel using scroll-snap.
@@ -30,6 +33,14 @@
     position: relative;
     overflow: hidden;
     border-radius: var(--n-radius);
+    user-select: none;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
   }
 
   :where(n-slideshow[gap]) {
@@ -95,6 +106,7 @@
     min-width: 0;
     min-height: 0;
     overflow: hidden;
+    user-select: none;
   }
 
   /* Vertical slides need full height instead of full width */

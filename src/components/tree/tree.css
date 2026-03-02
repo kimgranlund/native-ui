@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-tree, n-tree-item):not(:defined) { visibility: hidden; }
+
   /* ── Tree Container ── */
 
   :where(n-tree) {
@@ -14,6 +16,12 @@
     padding-inline: var(--n-space);
     font-size: var(--n-font-size);
     line-height: var(--n-line-height);
+    user-select: none;
+  }
+
+  :where(n-tree)[aria-disabled="true"] {
+    color: var(--n-ink-disabled);
+    pointer-events: none;
   }
 
   /* ── Tree Item ── */
@@ -21,6 +29,13 @@
   :where(n-tree-item) {
     display: flex;
     flex-direction: column;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
   }
 
   /* ── Item row (label area) ── */

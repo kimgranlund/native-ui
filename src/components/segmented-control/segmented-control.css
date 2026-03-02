@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-segment, n-segmented-control):not(:defined) { visibility: hidden; }
+
   /* ── Segmented Control (container) ── */
 
   :where(n-segmented-control) {
@@ -25,8 +27,21 @@
     border-radius: var(--n-radius);
     border: 1px solid var(--n-border-color);
     background: var(--n-background);
+    white-space: nowrap;
 
     outline: none;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  :where(n-segmented-control)[aria-disabled="true"] {
+    color: var(--n-ink-disabled);
+    pointer-events: none;
   }
 
   /* ── Floating Indicator ── */
@@ -85,6 +100,13 @@
     cursor: pointer;
     user-select: none;
     outline: none;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
   }
 
   /* ── Segment States ── */

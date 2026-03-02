@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-accordion, n-accordion-item):not(:defined) { visibility: hidden; }
+
   /* ── Accordion Container ── */
 
   :where(n-accordion) {
@@ -10,12 +12,26 @@
     border: 1px solid var(--n-border-muted);
     border-radius: var(--n-radius);
     overflow: hidden;
+    user-select: none;
+  }
+
+  :where(n-accordion)[aria-disabled="true"] {
+    color: var(--n-ink-disabled);
+    pointer-events: none;
   }
 
   /* ── Accordion Item ── */
 
   :where(n-accordion-item) {
     display: block;
+    user-select: none;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
   }
 
   /* WHY: Shared borders between items — only top border on non-first items */

@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-input-otp):not(:defined) { visibility: hidden; }
+
   /* ── OTP Base ── */
 
   :where(n-input-otp) {
@@ -8,13 +10,14 @@
     --n-background: transparent;
     --n-border-color: var(--n-border);
     --n-border-color-hover: var(--n-border-hover);
-    --n-border-color-disabled: var(--n-border-disabled);
+    --n-border-color-disabled: transparent;
     --n-color: var(--n-ink);
     --n-color-disabled: var(--n-ink-disabled);
 
     display: inline-flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
+    user-select: none;
   }
 
   /* ── Cell ── */

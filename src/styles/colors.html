@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./components.css" />
     <style>
       body {
-        background: var(--neutral-dim);
+        background: var(--n-color-neutral-dim);
         transition:
           background 0.2s,
           color 0.2s;
@@ -29,7 +29,7 @@
         overflow-y: auto;
         z-index: 1000;
         padding: 2rem;
-        background: var(--neutral-100);
+        background: var(--n-color-neutral-100);
       }
 
       .header {
@@ -60,14 +60,14 @@
         position: relative;
         width: 44px;
         height: 24px;
-        background: var(--neutral-scrim);
+        background: var(--n-color-neutral-scrim);
         border-radius: 12px;
         cursor: pointer;
         transition: background 0.2s;
       }
 
       .toggle-track.active {
-        background: var(--accent);
+        background: var(--n-color-accent);
       }
 
       .toggle-thumb {
@@ -90,9 +90,9 @@
         font-weight: 600;
         font-family: inherit;
         padding: 0.25rem 0.5rem;
-        border: 1px solid var(--neutral-300-scrim);
+        border: 1px solid var(--n-color-neutral-300-scrim);
         border-radius: 0.375rem;
-        background: var(--neutral-high);
+        background: var(--n-color-neutral-high);
         color: inherit;
         cursor: pointer;
         text-transform: uppercase;
@@ -122,7 +122,7 @@
       .family-section {
         margin-bottom: 2.5rem;
         padding-bottom: 2rem;
-        border-bottom: 1px solid var(--neutral-300-scrim);
+        border-bottom: 1px solid var(--n-color-neutral-300-scrim);
       }
       .family-section:last-child {
         border-bottom: none;
@@ -210,7 +210,7 @@
 
       .slider-row input[type="range"] {
         flex: 1;
-        accent-color: var(--accent);
+        accent-color: var(--n-color-accent);
         cursor: pointer;
         -webkit-appearance: none;
         appearance: none;
@@ -223,7 +223,7 @@
         height: 6px;
         border: none;
         outline: none;
-        background: var(--track-fill, var(--accent));
+        background: var(--track-fill, var(--n-color-accent));
         border-radius: 3px;
       }
 
@@ -233,7 +233,7 @@
         height: 6px;
         border: none;
         border-radius: 50%;
-        background: var(--neutral-950);
+        background: var(--n-color-neutral-950);
         margin-top: 0;
         cursor: pointer;
       }
@@ -243,7 +243,7 @@
         height: 6px;
         border: none;
         border-radius: 50%;
-        background: var(--neutral-950);
+        background: var(--n-color-neutral-950);
         cursor: pointer;
       }
 
@@ -251,7 +251,7 @@
         height: 6px;
         border: none;
         outline: none;
-        background: var(--track-fill, var(--accent));
+        background: var(--track-fill, var(--n-color-accent));
         border-radius: 3px;
       }
 
@@ -330,7 +330,7 @@
     </style>
   </head>
   <body>
-    <n-app><main>
+    <native-app><main>
     <h1>Color Boiler Plate</h1>
     <header>
       <div class="header">
@@ -353,17 +353,17 @@
     <div class="demo-section">
     <pre class="demo-code"><code>/* ── Color Environment Parameters ── */
 :root {
-  --color-env-lightness-min: 0.25;
-  --color-env-lightness-max: 0.98;
-  --color-env-chroma: 0.15;
-  --color-env-alpha: 0.5;
+  --n-env-lightness-min: 0.25;
+  --n-env-lightness-max: 0.98;
+  --n-env-chroma: 0.15;
+  --n-env-alpha: 0.5;
 }
 
 /* ── Per-Family Hue Override ── */
 :root {
-  --color-env-hue-accent: 250;
-  --color-env-hue-success: 145;
-  --color-env-hue-danger: 25;
+  --n-env-hue-accent: 250;
+  --n-env-hue-success: 145;
+  --n-env-hue-danger: 25;
 }
 
 /* ── Using Semantic Tokens ── */
@@ -381,7 +381,7 @@
 
     <div id="families"></div>
 
-    </main></n-app>
+    </main></native-app>
     <script type="module">
       import '../nav/layout.ts';
       import '../components/button/button.ts';
@@ -409,15 +409,15 @@
       const families = ["neutral", "accent", "info", "success", "warning", "danger"];
 
       const envParams = [
-        { key: "color-env-lightness-min", label: "L min", min: 0, max: 1, step: 0.01, group: "Lightness" },
-        { key: "color-env-lightness-max", label: "L max", min: 0, max: 1, step: 0.01, group: "Lightness" },
-        { key: "color-env-lightness-delta", label: "L delta", min: 0, max: 0.15, step: 0.005, group: "Lightness" },
-        { key: "color-env-chroma", label: "C", min: 0, max: 0.5, step: 0.005, group: "Chroma" },
-        { key: "color-env-chroma-k-muted", label: "C muted", min: 0, max: 1, step: 0.01, group: "Chroma" },
-        { key: "color-env-chroma-k-vivid", label: "C vivid", min: 0, max: 1, step: 0.01, group: "Chroma" },
-        { key: "color-env-chroma-k-edge", label: "C edge", min: 0, max: 1, step: 0.01, group: "Chroma" },
-        { key: "color-env-alpha", label: "A", min: 0, max: 1, step: 0.01, group: "Alpha" },
-        { key: "color-env-alpha-delta", label: "A delta", min: 0, max: 0.15, step: 0.005, group: "Alpha" },
+        { key: "n-env-lightness-min", label: "L min", min: 0, max: 1, step: 0.01, group: "Lightness" },
+        { key: "n-env-lightness-max", label: "L max", min: 0, max: 1, step: 0.01, group: "Lightness" },
+        { key: "n-env-lightness-delta", label: "L delta", min: 0, max: 0.15, step: 0.005, group: "Lightness" },
+        { key: "n-env-chroma", label: "C", min: 0, max: 0.5, step: 0.005, group: "Chroma" },
+        { key: "n-env-chroma-k-muted", label: "C muted", min: 0, max: 1, step: 0.01, group: "Chroma" },
+        { key: "n-env-chroma-k-vivid", label: "C vivid", min: 0, max: 1, step: 0.01, group: "Chroma" },
+        { key: "n-env-chroma-k-edge", label: "C edge", min: 0, max: 1, step: 0.01, group: "Chroma" },
+        { key: "n-env-alpha", label: "A", min: 0, max: 1, step: 0.01, group: "Alpha" },
+        { key: "n-env-alpha-delta", label: "A delta", min: 0, max: 0.15, step: 0.005, group: "Alpha" },
       ];
 
       const familyParams = [
@@ -451,7 +451,7 @@
         const max = parseFloat(input.max);
         const pct = ((input.value - min) / (max - min)) * 100;
         const stop = `calc(3px + ${pct} * (100% - 6px) / 100)`;
-        input.style.setProperty("--track-fill", `linear-gradient(to right, var(--neutral-950) ${stop}, rgba(128,128,128,0.25) ${stop})`);
+        input.style.setProperty("--track-fill", `linear-gradient(to right, var(--n-color-neutral-950) ${stop}, rgba(128,128,128,0.25) ${stop})`);
       }
 
       const allSliders = [];
@@ -547,7 +547,7 @@
         sliderWrap.style.marginTop = "0.375rem";
         sliderWrap.style.marginBottom = "0.25rem";
         familyParams.forEach((p) => {
-          createSlider({ key: `color-env-${p.suffix}-${fam}`, label: p.label, min: p.min, max: p.max, step: p.step }, sliderWrap);
+          createSlider({ key: `n-env-${p.suffix}-${fam}`, label: p.label, min: p.min, max: p.max, step: p.step }, sliderWrap);
         });
         section.appendChild(sliderWrap);
 

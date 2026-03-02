@@ -1,49 +1,11 @@
-/* n-app — dev-only styles for sidebar chrome and command dialog.
+/* native-app — dev-only styles for sidebar chrome and command dialog.
    Layout structure is handled by n-app-* components.
-   Injected into n-app's shadow root via ?inline import. */
-
-/* ── Logo ── */
-
-.nav-logo {
-  display: flex;
-  flex-shrink: 0;
-}
-
-/* ── Search hint ── */
-
-.nav-search-hint {
-  color: var(--n-ink-muted-neutral);
-}
-
-/* ── Nav links ── */
-/* WHY: No scroll rules needed — n-sidebar-content is the scroll container. */
-
-/* ── Breadcrumb colors ── */
-
-/* WHY: Inside shadow root — no n-app ancestor in the tree. */
-:where(n-app-breadcrumb) :where(n-breadcrumb-item) {
-  color: var(--n-ink-muted-neutral);
-}
-
-:where(n-app-breadcrumb) :where(n-breadcrumb-item[current]) {
-  color: var(--n-ink-strong-neutral);
-}
+   Injected into native-app's shadow root via ?inline import. */
 
 /* ── Command Dialog ── */
 
-/* WHY: Thicker backdrop for command palette — draws focus to the search. */
-.nav-cmd-dialog > dialog::backdrop {
-  background: oklch(0% 0 0 / 0.5);
-}
-
-/* WHY: Override grid centering — align to top so n-command stays at a fixed
-   y-position and doesn't shift as the list filters/shrinks. */
-.nav-cmd-dialog > dialog {
-  place-items: start center;
-}
-
 /* WHY: Pin n-command to a fixed y-position so it doesn't shift as the list
-   filters/shrinks. */
+   filters/shrinks. place-items: start center lives in dialog.css via :has(). */
 .nav-cmd-dialog n-command {
   margin-top: 120px;
   border: 1px solid var(--n-border-muted-neutral);

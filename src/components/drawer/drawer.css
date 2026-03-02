@@ -1,7 +1,12 @@
 @layer ui {
 
+  :where(n-drawer):not(:defined) { visibility: hidden; }
+
   :where(n-drawer) {
     display: contents;
+    scrollbar-width: thin;
+    scrollbar-color: var(--n-border-muted-neutral) transparent;
+    overscroll-behavior: contain;
   }
 
   /* ── Dialog (native <dialog> reset) ──

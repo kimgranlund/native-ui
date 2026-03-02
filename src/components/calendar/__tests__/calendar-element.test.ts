@@ -1,6 +1,9 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import '../calendar.ts';
+// WHY: calendar stamps n-button + n-icon internally — ensure they're defined in test env
+import '../../button/button.ts';
+import '../../../icons/icon.ts';
 
 function create(attrs: Record<string, string> = {}): HTMLElement {
   const el = document.createElement('n-calendar');
@@ -41,7 +44,7 @@ describe('n-calendar element', () => {
 
   it('renders 42 day cells in day view', () => {
     const el = create();
-    const cells = el.querySelectorAll('.cal-cell');
+    const cells = el.querySelectorAll('.cal-grid n-button');
     // A 6-week grid always has 42 cells
     expect(cells.length).toBe(42);
   });
@@ -204,7 +207,7 @@ describe('n-calendar date selection', () => {
     el.addEventListener('native:change', handler);
 
     // Find a disabled cell (before min date)
-    const disabledCell = el.querySelector('.cal-cell[disabled]') as HTMLElement;
+    const disabledCell = el.querySelector('.cal-grid n-button[disabled]') as HTMLElement;
     if (disabledCell) {
       disabledCell.click();
       expect(handler).not.toHaveBeenCalled();
@@ -215,7 +218,7 @@ describe('n-calendar date selection', () => {
 describe('n-calendar min/max constraints', () => {
   it('disables dates before min', () => {
     const el = createAt(2025, 2, { min: '2025-03-10' });
-    const disabledCells = el.querySelectorAll('.cal-cell[disabled]');
+    const disabledCells = el.querySelectorAll('.cal-grid n-button[disabled]');
     // Days before March 10 (and outside-month days) should be disabled
     expect(disabledCells.length).toBeGreaterThan(0);
 
@@ -247,7 +250,7 @@ describe('n-calendar view navigation', () => {
     title.click();
 
     // Should now show 12 month cells
-    const cells = el.querySelectorAll('.cal-cell');
+    const cells = el.querySelectorAll('.cal-grid n-button');
     expect(cells.length).toBe(12);
     expect(el.getAttribute('view')).toBe('month');
   });
@@ -259,7 +262,7 @@ describe('n-calendar view navigation', () => {
     title.click(); // month -> year
 
     expect(el.getAttribute('view')).toBe('year');
-    const cells = el.querySelectorAll('.cal-cell');
+    const cells = el.querySelectorAll('.cal-grid n-button');
     // A decade view shows 12 cells (decade + 1 before + 1 after)
     expect(cells.length).toBe(12);
   });

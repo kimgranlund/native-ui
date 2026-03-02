@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-tab, n-tab-panel, n-tab-panels, n-tabs):not(:defined) { visibility: hidden; }
+
   /* ── Tabs Container (tablist) ── */
 
   :where(n-tabs) {
@@ -14,9 +16,15 @@
     min-width: 0;
 
     outline: none;
+    user-select: none;
 
     transition:
       border-color var(--n-duration) var(--n-easing);
+  }
+
+  :where(n-tabs)[aria-disabled="true"] {
+    color: var(--n-ink-disabled);
+    pointer-events: none;
   }
 
   /* ── Horizontal (default): grid — tabs row 1, panels row 2 ── */
@@ -133,6 +141,7 @@
     background: transparent;
     color: var(--n-ink-muted);
 
+    white-space: nowrap;
     cursor: pointer;
     user-select: none;
     outline: none;

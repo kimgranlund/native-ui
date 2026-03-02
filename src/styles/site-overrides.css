@@ -1,8 +1,8 @@
 /* Site build overrides — fix flash-prevention for static deployment.
-   In dev, n-app sets [data-ready] after building the shell.
+   In dev, native-app sets [data-ready] after building the shell.
    In production, if setup fails, content stays hidden forever.
    This ensures content is always visible in the static site. */
 
-n-app:not([data-ready]) > * {
+native-app:not([data-ready]) > * {
   visibility: visible !important;
 }

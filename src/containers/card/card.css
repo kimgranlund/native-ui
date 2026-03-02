@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-card):not(:defined) { visibility: hidden; }
+
   /* ── Base ── */
 
   :where(n-card) {

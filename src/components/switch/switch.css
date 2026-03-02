@@ -1,8 +1,11 @@
 @layer ui {
 
+  :where(n-switch):not(:defined) { visibility: hidden; }
+
   /* ── Switch Base ── */
 
   :where(n-switch) {
+    white-space: nowrap;
     --n-font-weight: var(--n-text-font-weight);
     --n-line-height: var(--n-control-line-height);
 

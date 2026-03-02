@@ -23,147 +23,19 @@
     display: none;
   }
 
-  /* WHY: Custom elements render as unstyled inline text until define() runs.
-     visibility:hidden preserves layout — no reflow when the element upgrades.
-     Only targets elements that call define(); CSS-only containers are excluded
-     (they never become :defined so would be permanently hidden). */
-  :where(
-    n-accordion, n-accordion-item,
-    n-avatar,
-    n-badge,
-    n-breadcrumb, n-breadcrumb-item,
-    n-button,
-    n-calendar,
-    n-card,
-    n-chat-input,
-    n-checkbox,
-    n-combobox,
-    n-command, n-command-empty, n-command-group, n-command-input, n-command-item, n-command-list,
-    n-controller,
-    n-dialog,
-    n-drawer,
-    n-field,
-    n-icon,
-    n-input,
-    n-input-otp,
-    n-kbd,
-    n-listbox,
-    n-app-panel,
-    n-sidebar, n-sidebar-item,
-    n-sidebar-nav, n-sidebar-group, n-sidebar-group-header, n-sidebar-nav-item,
-    n-option, n-option-group, n-option-group-header,
-    n-pagination,
-    n-radio, n-radio-group,
-    n-range,
-    n-section,
-    n-segment, n-segmented-control,
-    n-select,
-    n-slide, n-slideshow,
-    n-switch,
-    n-tab, n-tab-panel, n-tab-panels, n-tabs,
-    n-table, n-table-body, n-table-cell, n-table-head, n-table-header, n-table-row,
-    n-textarea,
-    n-toolbar,
-    n-tooltip,
-    n-tree, n-tree-item
-  ):not(:defined) {
-    visibility: hidden;
-  }
-
   /* ── Document Defaults ── */
 
-  :where(:root) {
+  :where(native-app) {
     color-scheme: light dark;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-  }
 
-  :where(body) {
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: var(--n-font-family);
     line-height: var(--n-text-line-height);
     background: var(--n-doc-neutral);
     color: var(--n-ink-neutral);
     min-height: 100dvh;
-  }
-
-  /* ── Control Defaults ──
-     All interactive/control-like elements default to nowrap so labels
-     never line-break. Uses :where() for zero specificity — components
-     that need wrapping (e.g. n-textarea) can override freely. */
-
-  :where(
-    button, [role="button"], .n-btn,
-    n-button, n-input, n-select, n-combobox,
-    n-checkbox, n-switch, n-range,
-    n-badge, n-tab, n-option, n-command-item,
-    n-segmented-control
-  ) {
-    white-space: nowrap;
-  }
-
-  /* ── Transition Defaults ──
-     Standard 5-property transition for interactive components.
-     Components inherit this automatically — override --n-duration / --n-easing
-     locally if needed, or set transition: none for instant response. */
-
-  :where(
-    n-button, n-input, n-textarea,
-    n-option, n-command-item,
-    n-listbox, n-command,
-    n-select, n-combobox,
-    n-segmented-control, n-segment,
-    n-tab, n-accordion-item,
-    n-tree-item, n-sidebar-nav-item,
-    n-breadcrumb-item, n-table-row,
-    n-calendar, n-range,
-    n-card, n-slideshow
-  ) {
-    transition:
-      background var(--n-duration) var(--n-easing),
-      color var(--n-duration) var(--n-easing),
-      border-color var(--n-duration) var(--n-easing),
-      opacity var(--n-duration) var(--n-easing),
-      transform var(--n-duration) var(--n-easing);
-  }
-
-
-
-  /* ── Container-Level Disabled ──
-     Containers that disable all children use aria-disabled="true".
-     Disabled colors propagate via inheritance — children inherit the muted text.
-     Components with additional disabled styles (cursor, bg) keep their own rules. */
-
-  :where(
-    n-listbox, n-command,
-    n-segmented-control, n-tabs,
-    n-accordion, n-tree,
-    n-calendar, n-pagination, n-sidebar-nav
-  )[aria-disabled="true"] {
-    color: var(--n-ink-disabled);
-    pointer-events: none;
-  }
-
-  /* ── Scroll Defaults ──
-     Modern scroll styling for all scrollable surfaces.
-     scrollbar-width: thin — narrow track, less visual noise.
-     scrollbar-color — thumb from neutral border, transparent track.
-     overscroll-behavior: contain — prevents scroll chaining on overlays. */
-
-  :where(
-    n-listbox, n-command-list,
-    n-textarea, n-drawer
-  ) {
-    scrollbar-width: thin;
-    scrollbar-color: var(--n-border-muted-neutral) transparent;
-  }
-
-  :where(
-    n-listbox[popover],
-    n-drawer,
-    n-dialog > dialog
-  ) {
-    overscroll-behavior: contain;
   }
 
   /* ── Reduced Motion ── */

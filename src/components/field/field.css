@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-field):not(:defined) { visibility: hidden; }
+
   /* ── Field Base ── */
 
   :where(n-field) {
@@ -11,6 +13,7 @@
     min-width: 0;
     flex-direction: column;
     gap: calc(var(--n-space) * 2);
+    user-select: none;
   }
 
   /* ── Label ── */

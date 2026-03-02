@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-kbd):not(:defined) { visibility: hidden; }
+
   /* ╭──────────────────────────────────────────────────────────╮
      │  n-kbd                                                   │
      │  Keyboard shortcut indicator. Own font/size scale         │
@@ -16,7 +18,7 @@
     font-family: ui-monospace, monospace;
     font-size: var(--n-widget-font);
     line-height: 1;
-    min-height: calc(var(--n-widget-size-xs) + var(--n-space));
+    min-height: calc(var(--n-widget-xs) + var(--n-space));
     padding-inline: 0.4em;
     border-radius: 0.5em;
     background: var(--n-ground);

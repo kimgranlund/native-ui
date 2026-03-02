@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-avatar):not(:defined) { visibility: hidden; }
+
   /* ── Avatar Base ── */
 
   :where(n-avatar) {

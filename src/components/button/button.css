@@ -1,8 +1,11 @@
 @layer ui {
 
+  :where(n-button):not(:defined) { visibility: hidden; }
+
   /* ── Base ── */
 
   :where(n-button) {
+    white-space: nowrap;
     --n-font-weight: var(--n-button-font-weight);
     --n-line-height: var(--n-control-line-height);
 
@@ -17,7 +20,7 @@
     --n-border-color: var(--n-border-muted);
     --n-border-color-hover: var(--n-border-hover);
     --n-border-color-active: var(--n-border-active);
-    --n-border-color-disabled: var(--n-border-muted);
+    --n-border-color-disabled: transparent;
 
     appearance: none;
     font: inherit;

@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-table, n-table-body, n-table-cell, n-table-head, n-table-header, n-table-row):not(:defined) { visibility: hidden; }
+
   /* ── Table Container ── */
 
   :where(n-table) {

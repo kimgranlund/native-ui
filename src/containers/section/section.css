@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-section):not(:defined) { visibility: hidden; }
+
   /* ── Base ── */
 
   :where(n-section) {

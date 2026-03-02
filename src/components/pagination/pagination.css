@@ -1,11 +1,18 @@
 @layer ui {
 
+  :where(n-pagination):not(:defined) { visibility: hidden; }
+
   /* ── Pagination Container ── */
 
   :where(n-pagination) {
     display: inline-flex;
     align-items: center;
     gap: calc(var(--n-space) * 1);
+  }
+
+  :where(n-pagination)[aria-disabled="true"] {
+    color: var(--n-ink-disabled);
+    pointer-events: none;
   }
 
   /* ── Page buttons ── */

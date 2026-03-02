@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-listbox, n-option, n-option-group, n-option-group-header):not(:defined) { visibility: hidden; }
+
   /* ── Listbox Base ── */
 
   :where(n-listbox, [role="listbox"]) {
@@ -20,6 +22,22 @@
     color: var(--n-color);
     overflow-y: auto;
     outline: none;
+    user-select: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--n-border-muted-neutral) transparent;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  :where(n-listbox)[aria-disabled="true"] {
+    color: var(--n-ink-disabled);
+    border-color: transparent;
+    pointer-events: none;
   }
 
   /* WHY: Author-layer display:flex (above) overrides UA popover display:none.
@@ -27,6 +45,10 @@
      (both have zero specificity via :where()). */
   :where(n-listbox[popover]):not(:popover-open) {
     display: none;
+  }
+
+  :where(n-listbox[popover]) {
+    overscroll-behavior: contain;
   }
 
   /* ── Popover Animation ──
@@ -92,9 +114,18 @@
 
     border-radius: calc(var(--n-radius) - var(--n-space));
     cursor: pointer;
+    user-select: none;
 
+    white-space: nowrap;
     background: var(--n-background);
     color: var(--n-color);
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
   }
 
   /* ── Option / Command Item States ── */

@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-tooltip):not(:defined) { visibility: hidden; }
+
   /* ── Tooltip Base ── */
   /* WHY: Tooltip is a child of its trigger, display:contents when closed
      so it doesn't affect the trigger's layout. Promoted to top-layer
@@ -7,6 +9,7 @@
 
   :where(n-tooltip) {
     display: contents;
+    user-select: none;
   }
 
   :where(n-tooltip[popover]) {

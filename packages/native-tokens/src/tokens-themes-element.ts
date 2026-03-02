@@ -5,17 +5,17 @@ export interface NTokensThemeEntry {
   value: string;
 }
 
-// All --color-env-* tokens that themes and sliders may set inline
+// All --n-env-* tokens that themes and sliders may set inline
 const ENV_TOKENS = [
-  'color-env-lightness-min', 'color-env-lightness-max', 'color-env-lightness-delta',
-  'color-env-chroma', 'color-env-chroma-k-muted', 'color-env-chroma-k-vivid', 'color-env-chroma-k-edge',
-  'color-env-alpha', 'color-env-alpha-delta',
-  'color-env-hue-neutral', 'color-env-chroma-neutral', 'color-env-lightness-neutral',
-  'color-env-hue-accent', 'color-env-chroma-accent', 'color-env-lightness-accent',
-  'color-env-hue-info', 'color-env-chroma-info', 'color-env-lightness-info',
-  'color-env-hue-success', 'color-env-chroma-success', 'color-env-lightness-success',
-  'color-env-hue-warning', 'color-env-chroma-warning', 'color-env-lightness-warning',
-  'color-env-hue-danger', 'color-env-chroma-danger', 'color-env-lightness-danger',
+  'n-env-lightness-min', 'n-env-lightness-max', 'n-env-lightness-delta',
+  'n-env-chroma', 'n-env-chroma-k-muted', 'n-env-chroma-k-vivid', 'n-env-chroma-k-edge',
+  'n-env-alpha', 'n-env-alpha-delta',
+  'n-env-hue-neutral', 'n-env-chroma-neutral', 'n-env-lightness-neutral',
+  'n-env-hue-accent', 'n-env-chroma-accent', 'n-env-lightness-accent',
+  'n-env-hue-info', 'n-env-chroma-info', 'n-env-lightness-info',
+  'n-env-hue-success', 'n-env-chroma-success', 'n-env-lightness-success',
+  'n-env-hue-warning', 'n-env-chroma-warning', 'n-env-lightness-warning',
+  'n-env-hue-danger', 'n-env-chroma-danger', 'n-env-lightness-danger',
 ];
 
 export class NTokensThemes extends NativeElement {
@@ -68,7 +68,7 @@ export class NTokensThemes extends NativeElement {
   #select(value: string): void {
     const root = document.documentElement;
 
-    // Clear all inline --color-env-* overrides so theme values take effect
+    // Clear all inline --n-env-* overrides so theme values take effect
     for (const token of ENV_TOKENS) {
       root.style.removeProperty('--' + token);
     }

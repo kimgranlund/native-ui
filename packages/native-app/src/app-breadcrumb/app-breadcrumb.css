@@ -12,7 +12,7 @@
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
-    min-height: var(--n-layout-bar-height);
+    min-height: var(--n-sidebar-item-height);
     gap: calc(var(--n-space) * 2);
     padding-block: var(--n-space);
     padding-inline: calc(var(--n-space-k) * var(--n-space));

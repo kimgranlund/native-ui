@@ -4,6 +4,9 @@
    ───────────────────────────────────────────────────────── */
 
 @layer ui {
+
+  :where(n-controller):not(:defined) { visibility: hidden; }
+
   :where(n-controller) {
     display: contents;
   }

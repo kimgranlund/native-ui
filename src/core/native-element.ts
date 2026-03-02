@@ -23,7 +23,7 @@ export class NativeElement extends HTMLElement {
   }
 
   connectedCallback(): void {
-    // WHY: Guard against double setup(). When n-app moves DOM nodes,
+    // WHY: Guard against double setup(). When native-app moves DOM nodes,
     // connectedCallback can fire twice without an intervening disconnectedCallback.
     // Without this guard, controllers/listeners are duplicated (e.g. double PressController
     // causes two native:press events per click, immediately opening then closing popovers).

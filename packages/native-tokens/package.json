@@ -26,7 +26,7 @@
   "scripts": {
     "build": "npm run build:js && npm run build:css && npm run build:types",
     "build:js": "vite build",
-    "build:css": "cp src/native-tokens.css dist/native-tokens.css",
+    "build:css": "cp src/tokens.css dist/native-tokens.css",
     "build:types": "tsc -p tsconfig.build.json"
   },
   "publishConfig": {

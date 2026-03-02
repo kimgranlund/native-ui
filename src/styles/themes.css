@@ -9,23 +9,23 @@
    ================================================================ */
 
 :where([theme="forest"]) {
-  --color-env-hue-neutral: 155;
-  --color-env-chroma-neutral: 0.25;
-  --color-env-hue-accent: 155;
-  --color-env-chroma-accent: 1.0;
+  --n-env-hue-neutral: 155;
+  --n-env-chroma-neutral: 0.25;
+  --n-env-hue-accent: 155;
+  --n-env-chroma-accent: 1.0;
 }
 
 :where([theme="rose"]) {
-  --color-env-hue-neutral: 350;
-  --color-env-chroma-neutral: 0.35;
-  --color-env-hue-accent: 350;
-  --color-env-chroma-accent: 1.0;
+  --n-env-hue-neutral: 350;
+  --n-env-chroma-neutral: 0.35;
+  --n-env-hue-accent: 350;
+  --n-env-chroma-accent: 1.0;
 }
 
 :where([theme="zinc"]) {
-  --color-env-hue-neutral: 240;
-  --color-env-chroma-neutral: 0.15;
-  --color-env-hue-accent: 240;
-  --color-env-chroma-accent: 1.0;
-  --color-env-chroma: 0.18;
+  --n-env-hue-neutral: 240;
+  --n-env-chroma-neutral: 0.15;
+  --n-env-hue-accent: 240;
+  --n-env-chroma-accent: 1.0;
+  --n-env-chroma: 0.18;
 }

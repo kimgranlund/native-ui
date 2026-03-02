@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-app-panel):not(:defined) { visibility: hidden; }
+
   /* ╭──────────────────────────────────────────────────────────╮
      │  n-app-panel                                           │
      │  Layout panel — main content surface or collapsible      │
@@ -17,6 +19,7 @@
     scrollbar-width: none;
     background: var(--n-ground);
     border-radius: var(--n-radius);
+    user-select: none;
   }
 
   :where(n-app-panel)[show-scrollbar] {

@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-dialog):not(:defined) { visibility: hidden; }
+
   :where(n-dialog) {
     display: contents;
   }
@@ -20,6 +22,7 @@
     height: 100vh;
     max-height: 100vh;
     overflow: hidden;
+    overscroll-behavior: contain;
     display: grid;
     place-items: center;
   }
@@ -42,6 +45,14 @@
   :where(n-dialog) > :where(dialog) > :where(*) {
     width: var(--n-dialog-width, auto);
     box-shadow: var(--n-dialog-shadow, none);
+  }
+
+  /* ── Command Dialog ──
+     WHY: Align to top so n-command stays at a fixed y-position
+     and doesn't shift as the list filters/shrinks. */
+
+  :where(n-dialog:has(n-command)) > :where(dialog) {
+    place-items: start center;
   }
 
 }

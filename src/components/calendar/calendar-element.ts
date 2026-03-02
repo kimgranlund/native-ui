@@ -187,13 +187,19 @@ export class NCalendar extends FormAssociable(NativeElement) {
   #stamp(): void {
     this.innerHTML = `
       <div class="cal-header">
-        <button type="button" class="cal-prev" aria-label="Previous" tabindex="-1"></button>
-        <button type="button" class="cal-title" tabindex="-1"></button>
-        <button type="button" class="cal-next" aria-label="Next" tabindex="-1"></button>
+        <n-button class="cal-prev" aria-label="Previous" tabindex="-1"><n-icon name="caret-left"></n-icon></n-button>
+        <n-button class="cal-title" tabindex="-1"></n-button>
+        <n-button class="cal-next" aria-label="Next" tabindex="-1"><n-icon name="caret-right"></n-icon></n-button>
       </div>
       <div class="cal-weekdays"></div>
       <div class="cal-grid" role="grid"></div>
     `;
+
+    // WHY: n-button's disabled effect sets tabindex="0" on enabled buttons.
+    // Calendar uses roving focus on the container — children must be tabindex="-1".
+    for (const btn of this.querySelectorAll('.cal-header n-button')) {
+      btn.setAttribute('tabindex', '-1');
+    }
 
     const prev = this.querySelector('.cal-prev') as HTMLElement | null;
     const next = this.querySelector('.cal-next') as HTMLElement | null;
@@ -225,7 +231,7 @@ export class NCalendar extends FormAssociable(NativeElement) {
 
       const days = this.#store.days.value;
       grid.innerHTML = days.map((cell, i) => {
-        let attrs = `class="cal-cell" data-date="${cell.date}" data-index="${i}" tabindex="-1"`;
+        let attrs = `data-date="${cell.date}" data-index="${i}" tabindex="-1"`;
         if (!cell.inMonth) attrs += ' data-outside';
         if (cell.isToday) attrs += ' data-today';
         if (cell.isSelected) attrs += ' data-selected';
@@ -234,7 +240,7 @@ export class NCalendar extends FormAssociable(NativeElement) {
         if (cell.isRangeStart) attrs += ' data-range-start';
         if (cell.isRangeEnd) attrs += ' data-range-end';
 
-        return `<button type="button" ${attrs}>${cell.day}</button>`;
+        return `<n-button ${attrs}>${cell.day}</n-button>`;
       }).join('');
 
     } else if (view === 'month') {
@@ -243,11 +249,11 @@ export class NCalendar extends FormAssociable(NativeElement) {
 
       const months = this.#store.months.value;
       grid.innerHTML = months.map(cell => {
-        let attrs = `class="cal-cell" data-month="${cell.month}" tabindex="-1"`;
+        let attrs = `data-month="${cell.month}" tabindex="-1"`;
         if (cell.isCurrent) attrs += ' data-today';
         if (cell.isSelected) attrs += ' data-selected';
 
-        return `<button type="button" ${attrs}>${cell.name}</button>`;
+        return `<n-button ${attrs}>${cell.name}</n-button>`;
       }).join('');
 
     } else {
@@ -256,13 +262,19 @@ export class NCalendar extends FormAssociable(NativeElement) {
 
       const years = this.#store.years.value;
       grid.innerHTML = years.map(cell => {
-        let attrs = `class="cal-cell" data-year="${cell.year}" tabindex="-1"`;
+        let attrs = `data-year="${cell.year}" tabindex="-1"`;
         if (!cell.inDecade) attrs += ' data-outside';
         if (cell.isCurrent) attrs += ' data-today';
         if (cell.isSelected) attrs += ' data-selected';
 
-        return `<button type="button" ${attrs}>${cell.year}</button>`;
+        return `<n-button ${attrs}>${cell.year}</n-button>`;
       }).join('');
+    }
+
+    // WHY: n-button's disabled effect sets tabindex="0" on enabled buttons.
+    // Calendar uses roving focus on the container — children must be tabindex="-1".
+    for (const btn of grid.querySelectorAll('n-button:not([disabled])')) {
+      btn.setAttribute('tabindex', '-1');
     }
   }
 
@@ -294,7 +306,7 @@ export class NCalendar extends FormAssociable(NativeElement) {
 
   #onGridClick(e: MouseEvent): void {
     if (this.#disabled.value) return;
-    const btn = (e.target as HTMLElement).closest('.cal-cell') as HTMLElement | null;
+    const btn = (e.target as HTMLElement).closest('n-button') as HTMLElement | null;
     if (!btn || btn.hasAttribute('disabled')) return;
 
     const date = btn.dataset.date;
@@ -356,7 +368,7 @@ export class NCalendar extends FormAssociable(NativeElement) {
   #onGridPointerMove(e: PointerEvent): void {
     if (this.#disabled.value) return;
     if (!this.range || this.#rangePhase !== 'selecting') return;
-    const btn = (e.target as HTMLElement).closest('.cal-cell') as HTMLElement | null;
+    const btn = (e.target as HTMLElement).closest('n-button') as HTMLElement | null;
     if (!btn || btn.hasAttribute('disabled')) return;
     const date = btn.dataset.date;
     if (!date) return;

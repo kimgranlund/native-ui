@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-toolbar):not(:defined) { visibility: hidden; }
+
   /* ── Base ── */
 
   :where(n-toolbar) {
@@ -16,6 +18,7 @@
     padding: var(--n-space);
     border-radius: var(--n-border-radius, var(--n-radius));
     border: 1px solid var(--n-border-color);
+    user-select: none;
   }
 
   /* WHY: n-button has width:100% for block contexts. Inside a toolbar,

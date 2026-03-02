@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-command, n-command-empty, n-command-group, n-command-input, n-command-item, n-command-list):not(:defined) { visibility: hidden; }
+
   /* ── Command Container ── */
 
   :where(n-command) {
@@ -16,6 +18,19 @@
     background: var(--n-background);
     color: var(--n-color);
     overflow: hidden;
+    user-select: none;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  :where(n-command)[aria-disabled="true"] {
+    color: var(--n-ink-disabled);
+    pointer-events: none;
   }
 
   /* ── Command Input ── */
@@ -27,6 +42,7 @@
     min-height: var(--n-size);
     padding-inline: calc(var(--n-space-k) * var(--n-space));
     border-bottom: 1px solid var(--n-border-color);
+    user-select: none;
   }
 
   :where(n-command-input) :where(input) {
@@ -54,6 +70,9 @@
     max-height: var(--n-popover-max-height);
     padding-block: var(--n-space);
     padding-inline: var(--n-space);
+    scrollbar-width: thin;
+    scrollbar-color: var(--n-border-muted-neutral) transparent;
+    user-select: none;
   }
 
   /* ── Command Group ── */
@@ -61,6 +80,7 @@
   :where(n-command-group) {
     display: flex;
     flex-direction: column;
+    user-select: none;
   }
 
   :where(n-command-group) > :where([slot="heading"]) {
@@ -79,6 +99,7 @@
     min-height: calc(var(--n-size) * 2);
     color: var(--n-ink-muted);
     font-size: var(--n-font-size);
+    user-select: none;
   }
 
   /* ── Popover hidden guard ── */

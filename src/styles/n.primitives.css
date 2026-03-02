@@ -2,8 +2,8 @@
    nonoun-css UI Primitives
 
    Two-tier token architecture:
-   1. Definitions (--n-*-{family})  — per-family tokens on :root (colors.tokens.css)
-   2. Resolved   (--n-*)            — intent/variant resolved, public API
+   1. Definitions (--n-*-{scale})  — scale tables, constants, named tokens on :root
+   2. Resolved   (--n-*)           — intent/variant resolved, public API
 
    Specificity hierarchy:
    - Component CSS: :where(n-*) at (0,0,0) — zero specificity
@@ -13,205 +13,157 @@
    ================================================================ */
 
 @layer ui {
-  /* ── Tier 1: Public Scale + Local Defaults (md) ── */
 
   :root {
-    /* Scale: xs */
+
+    --n-font-family: system-ui, -apple-system, sans-serif;
+    --n-font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
+
+
+    /* ═══════════════════════════════════════════
+       SCALES
+       Definition + resolved default per family
+       ═══════════════════════════════════════════ */
+
+    /* ─── Size (min-height) ─── */
+
     --n-size-xs: 1.5rem;
-    --n-font-xs: 0.75rem;
-    --n-tracking-xs: 0.01em;
-    --n-space-xs: 0.125rem;
-
-    /* Scale: sm */
     --n-size-sm: 1.75rem;
-    --n-font-sm: 0.8125rem;
-    --n-tracking-sm: 0.005em;
-    --n-space-sm: 0.1875rem;
-
-    /* Scale: md (default) */
     --n-size-md: 2.25rem;
-    --n-font-md: 0.875rem;
-    --n-tracking-md: 0em;
-    --n-space-md: 0.25rem;
-    --n-radius-md: 0.75rem;
-
-    /* Scale: lg */
     --n-size-lg: 2.75rem;
-    --n-font-lg: 0.9375rem;
-    --n-tracking-lg: -0.005em;
-    --n-space-lg: 0.25rem;
-
-    /* Scale: xl */
     --n-size-xl: 3.25rem;
-    --n-font-xl: 1rem;
-    --n-tracking-xl: -0.01em;
-    --n-space-xl: 0.25rem;
+    --n-size: var(--n-size-md);
 
-    /* Icon sizes */
+    /* ─── Font Size ─── */
+
+    --n-font-xs: 0.75rem;
+    --n-font-sm: 0.8125rem;
+    --n-font-md: 0.875rem;
+    --n-font-lg: 0.9375rem;
+    --n-font-xl: 1rem;
+    --n-font-size: var(--n-font-md);
+
+    /* ─── Letter Spacing ─── */
+
+    --n-tracking-xs: 0.01em;
+    --n-tracking-sm: 0.005em;
+    --n-tracking-md: 0em;
+    --n-tracking-lg: -0.005em;
+    --n-tracking-xl: -0.01em;
+    --n-letter-spacing: var(--n-tracking-md);
+
+    /* ─── Space ─── */
+
+    --n-space-xs: 0.125rem;
+    --n-space-sm: 0.1875rem;
+    --n-space-md: 0.25rem;
+    --n-space-lg: 0.25rem;
+    --n-space-xl: 0.25rem;
+    --n-space: var(--n-space-md);
+    --n-space-k: 4;
+
+    /* ─── Icon ─── */
+
     --n-icon-xs: 0.75rem;
     --n-icon-sm: 0.875rem;
     --n-icon-md: 1rem;
     --n-icon-lg: 1.125rem;
     --n-icon-xl: 1.25rem;
+    --n-icon-size: var(--n-icon-md);
 
-    /* Radius: sharp + round caps */
-    --n-radius-sharp: 0.125rem;
-    --n-radius-round: 1.125rem;
+    /* ─── Widget (checkbox, radio, switch, range, badge, kbd) ─── */
 
-    /* Typography */
-    --n-button-font-weight: 500;
-    --n-input-font-weight: 400;
-    --n-text-font-weight: 400;
-    --n-control-line-height: 1;
-    --n-control-line-height-dense: 1.25;
-    --n-control-line-height-relaxed: 1.5;
-    --n-control-line-height-spacious: 1.75;
-    --n-text-line-height: 1.5;
+    --n-widget-xs: 0.75rem;
+    --n-widget-sm: 1rem;
+    --n-widget-md: 1.25rem;
+    --n-widget-lg: 1.5rem;
+    --n-widget-xl: 1.75rem;
+    --n-widget-size: var(--n-widget-md);
 
-    /* Animation */
-    --n-duration: 0.225s;
-    --n-easing: cubic-bezier(0.2, 0, 0, 1);
-
-    /* Tooltip */
-    --n-tooltip-max-width: 20rem;
-
-    /* Popover (select / combobox / command) */
-    --n-popover-max-height: calc(100dvh - 2rem);
-    --n-popover-gap: 0.25rem;
-    --n-popover-viewport-margin: 0.5rem;
-
-    /* Drawer */
-    --n-drawer-width: 24rem;
-    --n-drawer-height: 24rem;
-
-    /* Layout sidebar */
-    --n-layout-sidebar-width: 240px;
-
-    /* Bar height (header, breadcrumb, sidebar header/footer) */
-    --n-layout-bar-height: 3.5rem;
-
-    /* Toggle widgets (checkbox / radio / switch / range) */
-    --n-widget-size-xs: 0.75rem;
-    --n-widget-size-sm: 1rem;
-    --n-widget-size-md: 1.25rem;
-    --n-widget-size-lg: 1.5rem;
-    --n-widget-size-xl: 1.75rem;
     --n-widget-font-xs: 0.5625rem;
     --n-widget-font-sm: 0.625rem;
     --n-widget-font-md: 0.625rem;
     --n-widget-font-lg: 0.625rem;
     --n-widget-font-xl: 0.75rem;
+    --n-widget-font: var(--n-widget-font-md);
 
-    /* Badge */
-    --n-badge-dot: 0.5rem;
+    /* ─── Radius ─── */
 
-    /* Group header (option-group, table category) */
-    --n-group-header-font: 0.625rem;
+    --n-radius-sharp: 0.125rem;
+    --n-radius-md: 0.75rem;
+    --n-radius-round: 1.125rem;
+    --n-radius: min(calc(var(--n-size) / 2), var(--n-radius-round));
 
-    /* Tabs indicator */
-    --n-tabs-indicator: 2px;
+    /* ─── Shadow ─── */
 
-    /* Focus ring */
-    --n-focus-ring: var(--accent-600-scrim);
-
-    /* Backdrop */
-    --n-backdrop-color: oklch(0% 0 0);
-    --n-backdrop-opacity: 0.3;
-
-    /* Shadows */
     --n-shadow-xs: 0 1px 2px oklch(0% 0 0 / 0.06), 0 1px 3px oklch(0% 0 0 / 0.1);
     --n-shadow-sm: 0 1px 3px oklch(0% 0 0 / 0.12);
     --n-shadow-md: 0 2px 4px oklch(0% 0 0 / 0.08), 0 4px 12px oklch(0% 0 0 / 0.12);
     --n-shadow-lg: 0 8px 32px oklch(0% 0 0 / 0.15);
     --n-shadow-xl: 0 16px 48px oklch(0% 0 0 / 0.15);
 
-    /* Geometry defaults (md) */
-    --n-size: var(--n-size-md);
-    --n-font-size: var(--n-font-md);
-    --n-letter-spacing: var(--n-tracking-md);
-    --n-space: var(--n-space-md);
-    --n-radius: min(calc(var(--n-size) / 2), var(--n-radius-round));
-    --n-space-k: 4;
-    --n-line-height: var(--n-text-line-height);
+    /* ═══════════════════════════════════════════
+       TYPOGRAPHY
+       ═══════════════════════════════════════════ */
+
+    --n-button-font-weight: 500;
+    --n-input-font-weight: 400;
+    --n-text-font-weight: 400;
     --n-font-weight: var(--n-text-font-weight);
-    --n-icon-size: var(--n-icon-md);
-    --n-widget-size: var(--n-widget-size-md);
-    --n-widget-font: var(--n-widget-font-md);
-  }
 
-  /* ── Tier 2: Size ── */
+    --n-control-line-height: 1;
+    --n-control-line-height-dense: 1.25;
+    --n-control-line-height-relaxed: 1.5;
+    --n-control-line-height-spacious: 1.75;
+    --n-text-line-height: 1.5;
+    --n-line-height: var(--n-text-line-height);
 
-  [size="xs"] {
-    --n-size: var(--n-size-xs);
-    --n-font-size: var(--n-font-xs);
-    --n-letter-spacing: var(--n-tracking-xs);
-    --n-space: var(--n-space-xs);
-    --n-icon-size: var(--n-icon-xs);
-    --n-widget-size: var(--n-widget-size-xs);
-    --n-widget-font: var(--n-widget-font-xs);
-  }
+    /* ═══════════════════════════════════════════
+       ANIMATION
+       ═══════════════════════════════════════════ */
 
-  [size="sm"] {
-    --n-size: var(--n-size-sm);
-    --n-font-size: var(--n-font-sm);
-    --n-letter-spacing: var(--n-tracking-sm);
-    --n-space: var(--n-space-sm);
-    --n-icon-size: var(--n-icon-sm);
-    --n-widget-size: var(--n-widget-size-sm);
-    --n-widget-font: var(--n-widget-font-sm);
-  }
+    --n-duration: 0.225s;
+    --n-easing: cubic-bezier(0.2, 0, 0, 1);
 
-  [size="md"] {
-    --n-size: var(--n-size-md);
-    --n-font-size: var(--n-font-md);
-    --n-letter-spacing: var(--n-tracking-md);
-    --n-space: var(--n-space-md);
-    --n-icon-size: var(--n-icon-md);
-    --n-widget-size: var(--n-widget-size-md);
-    --n-widget-font: var(--n-widget-font-md);
-  }
+    /* ═══════════════════════════════════════════
+       FOCUS & BACKDROP
+       ═══════════════════════════════════════════ */
 
-  [size="lg"] {
-    --n-size: var(--n-size-lg);
-    --n-font-size: var(--n-font-lg);
-    --n-letter-spacing: var(--n-tracking-lg);
-    --n-space: var(--n-space-lg);
-    --n-icon-size: var(--n-icon-lg);
-    --n-widget-size: var(--n-widget-size-lg);
-    --n-widget-font: var(--n-widget-font-lg);
-  }
+    --n-focus-ring: var(--n-color-accent-600-scrim);
+    --n-backdrop-color: oklch(0% 0 0);
+    --n-backdrop-opacity: 0.3;
 
-  [size="xl"] {
-    --n-size: var(--n-size-xl);
-    --n-font-size: var(--n-font-xl);
-    --n-letter-spacing: var(--n-tracking-xl);
-    --n-space: var(--n-space-xl);
-    --n-icon-size: var(--n-icon-xl);
-    --n-widget-size: var(--n-widget-size-xl);
-    --n-widget-font: var(--n-widget-font-xl);
-  }
+    /* ═══════════════════════════════════════════
+       COMPONENT CONSTANTS
+       ═══════════════════════════════════════════ */
 
-  /* ── Tier 2: Density ── */
+    /* ─── Tooltip ─── */
+    --n-tooltip-max-width: 20rem;
 
-  [density="compact"] { --n-space-k: 2; }
-  [density="default"] { --n-space-k: 4; }
-  [density="loose"]   { --n-space-k: 6; }
+    /* ─── Popover ─── */
+    --n-popover-max-height: calc(100dvh - 2rem);
+    --n-popover-gap: 0.25rem;
+    --n-popover-viewport-margin: 0.5rem;
 
-  /* ── Tier 2: Radius ── */
+    /* ─── Drawer ─── */
+    --n-drawer-width: 24rem;
+    --n-drawer-height: 24rem;
 
-  [radius="round"] {
-    --n-radius: min(calc(var(--n-size) / 2), var(--n-radius-round));
-  }
-  [radius="rounded"] {
-    --n-radius: calc(var(--n-space) * 2);
-  }
-  [radius="sharp"] {
-    --n-radius: var(--n-radius-sharp);
-  }
+    /* ─── Layout ─── */
+    --n-sidebar-width: 240px;
+    --n-sidebar-item-height: 3.5rem;
 
-  /* ── Intent (maps to color token families) ── */
+    /* ─── Badge ─── */
+    --n-badge-dot: 0.5rem;
 
-  :root {
+    /* ─── Group Header ─── */
+    --n-group-header-font: 0.625rem;
+
+    /* ─── Tabs ─── */
+    --n-tabs-indicator: 2px;
+
+    /* ─── Color → neutral ─── */
+
     --n-body: var(--n-body-neutral);
     --n-ground: var(--n-body);
 
@@ -233,7 +185,7 @@
     --n-control-active: var(--n-control-active-neutral);
     --n-control-disabled: var(--n-control-disabled-neutral);
 
-    --n-widget: var(--neutral-higher);
+    --n-widget: var(--n-color-neutral-higher);
     --n-widget-hover: var(--n-control-hover-neutral);
     --n-widget-active: var(--n-control-active-neutral);
     --n-widget-disabled: var(--n-control-disabled-neutral);
@@ -251,10 +203,9 @@
     --n-border: var(--n-border-neutral);
     --n-border-hover: var(--n-border-hover-neutral);
     --n-border-active: var(--n-border-active-neutral);
-    --n-border-disabled: var(--neutral-highest);
+    --n-border-disabled: var(--n-color-neutral-highest);
     --n-border-muted: var(--n-border-muted-neutral);
-    --n-border-rest: var(--neutral-highest);
-
+    --n-border-rest: var(--n-color-neutral-highest);
 
     --n-ink: var(--n-ink-neutral);
     --n-ink-strong: var(--n-ink-strong-neutral);
@@ -266,10 +217,85 @@
     --n-ink-disabled: var(--n-ink-disabled-neutral);
   }
 
-  /* ── Toggle control defaults ── */
-  /* WHY: Checkboxes, radios, switches, and range sliders use accent-colored
-     surface fills for their checked/active states by default.
-     [intent] selectors below override --n-surface when an explicit intent is set. */
+  /* ═══════════════════════════════════════════
+     ATTRIBUTE SELECTORS
+     Resolve tokens based on HTML attributes
+     ═══════════════════════════════════════════ */
+
+  /* ─── Size ─── */
+
+  [size="xs"] {
+    --n-size: var(--n-size-xs);
+    --n-font-size: var(--n-font-xs);
+    --n-letter-spacing: var(--n-tracking-xs);
+    --n-space: var(--n-space-xs);
+    --n-icon-size: var(--n-icon-xs);
+    --n-widget-size: var(--n-widget-xs);
+    --n-widget-font: var(--n-widget-font-xs);
+  }
+
+  [size="sm"] {
+    --n-size: var(--n-size-sm);
+    --n-font-size: var(--n-font-sm);
+    --n-letter-spacing: var(--n-tracking-sm);
+    --n-space: var(--n-space-sm);
+    --n-icon-size: var(--n-icon-sm);
+    --n-widget-size: var(--n-widget-sm);
+    --n-widget-font: var(--n-widget-font-sm);
+  }
+
+  [size="md"] {
+    --n-size: var(--n-size-md);
+    --n-font-size: var(--n-font-md);
+    --n-letter-spacing: var(--n-tracking-md);
+    --n-space: var(--n-space-md);
+    --n-icon-size: var(--n-icon-md);
+    --n-widget-size: var(--n-widget-md);
+    --n-widget-font: var(--n-widget-font-md);
+  }
+
+  [size="lg"] {
+    --n-size: var(--n-size-lg);
+    --n-font-size: var(--n-font-lg);
+    --n-letter-spacing: var(--n-tracking-lg);
+    --n-space: var(--n-space-lg);
+    --n-icon-size: var(--n-icon-lg);
+    --n-widget-size: var(--n-widget-lg);
+    --n-widget-font: var(--n-widget-font-lg);
+  }
+
+  [size="xl"] {
+    --n-size: var(--n-size-xl);
+    --n-font-size: var(--n-font-xl);
+    --n-letter-spacing: var(--n-tracking-xl);
+    --n-space: var(--n-space-xl);
+    --n-icon-size: var(--n-icon-xl);
+    --n-widget-size: var(--n-widget-xl);
+    --n-widget-font: var(--n-widget-font-xl);
+  }
+
+  /* ─── Density ─── */
+
+  [density="compact"] { --n-space-k: 2; }
+  [density="default"] { --n-space-k: 4; }
+  [density="loose"]   { --n-space-k: 6; }
+
+  /* ─── Radius ─── */
+
+  [radius="round"] {
+    --n-radius: min(calc(var(--n-size) / 2), var(--n-radius-round));
+  }
+  [radius="rounded"] {
+    --n-radius: calc(var(--n-space) * 2);
+  }
+  [radius="sharp"] {
+    --n-radius: var(--n-radius-sharp);
+  }
+
+  /* ─── Toggle Control Defaults ─── */
+  /* Checkboxes, radios, switches, range sliders, and calendars use
+     accent-colored surface fills for their checked/active states.
+     [intent] selectors below override --n-surface when explicit. */
 
   :where(n-checkbox, n-radio, n-switch, n-range, n-calendar) {
     --n-surface: var(--n-surface-accent);
@@ -281,6 +307,8 @@
     --n-surface-ink-active: var(--n-surface-ink-active-accent);
     --n-surface-ink-disabled: var(--n-surface-ink-disabled-accent);
   }
+
+  /* ─── Intent ─── */
 
   [intent="neutral"] {
     --n-card: var(--n-card-neutral);
@@ -297,7 +325,7 @@
     --n-control-hover: var(--n-control-hover-neutral);
     --n-control-active: var(--n-control-active-neutral);
     --n-control-disabled: var(--n-control-disabled-neutral);
-    --n-widget: var(--neutral-higher);
+    --n-widget: var(--n-color-neutral-higher);
     --n-widget-hover: var(--n-control-hover-neutral);
     --n-widget-active: var(--n-control-active-neutral);
     --n-widget-disabled: var(--n-control-disabled-neutral);
@@ -312,7 +340,7 @@
     --n-border: var(--n-border-neutral);
     --n-border-hover: var(--n-border-hover-neutral);
     --n-border-active: var(--n-border-active-neutral);
-    --n-border-disabled: var(--neutral-highest);
+    --n-border-disabled: var(--n-color-neutral-highest);
     --n-border-muted: var(--n-border-muted-neutral);
     --n-ink: var(--n-ink-neutral);
     --n-ink-strong: var(--n-ink-strong-neutral);
@@ -339,7 +367,7 @@
     --n-control-hover: var(--n-control-hover-accent);
     --n-control-active: var(--n-control-active-accent);
     --n-control-disabled: var(--n-control-disabled-accent);
-    --n-widget: var(--accent-higher);
+    --n-widget: var(--n-color-accent-higher);
     --n-widget-hover: var(--n-control-hover-accent);
     --n-widget-active: var(--n-control-active-accent);
     --n-widget-disabled: var(--n-control-disabled-accent);
@@ -354,7 +382,7 @@
     --n-border: var(--n-border-accent);
     --n-border-hover: var(--n-border-hover-accent);
     --n-border-active: var(--n-border-active-accent);
-    --n-border-disabled: var(--neutral-highest);
+    --n-border-disabled: var(--n-color-neutral-highest);
     --n-border-muted: var(--n-border-muted-accent);
     --n-ink: var(--n-ink-accent);
     --n-ink-strong: var(--n-ink-strong-accent);
@@ -381,7 +409,7 @@
     --n-control-hover: var(--n-control-hover-info);
     --n-control-active: var(--n-control-active-info);
     --n-control-disabled: var(--n-control-disabled-info);
-    --n-widget: var(--info-higher);
+    --n-widget: var(--n-color-info-higher);
     --n-widget-hover: var(--n-control-hover-info);
     --n-widget-active: var(--n-control-active-info);
     --n-widget-disabled: var(--n-control-disabled-info);
@@ -396,7 +424,7 @@
     --n-border: var(--n-border-info);
     --n-border-hover: var(--n-border-hover-info);
     --n-border-active: var(--n-border-active-info);
-    --n-border-disabled: var(--neutral-highest);
+    --n-border-disabled: var(--n-color-neutral-highest);
     --n-border-muted: var(--n-border-muted-info);
     --n-ink: var(--n-ink-info);
     --n-ink-strong: var(--n-ink-strong-info);
@@ -423,7 +451,7 @@
     --n-control-hover: var(--n-control-hover-success);
     --n-control-active: var(--n-control-active-success);
     --n-control-disabled: var(--n-control-disabled-success);
-    --n-widget: var(--success-higher);
+    --n-widget: var(--n-color-success-higher);
     --n-widget-hover: var(--n-control-hover-success);
     --n-widget-active: var(--n-control-active-success);
     --n-widget-disabled: var(--n-control-disabled-success);
@@ -438,7 +466,7 @@
     --n-border: var(--n-border-success);
     --n-border-hover: var(--n-border-hover-success);
     --n-border-active: var(--n-border-active-success);
-    --n-border-disabled: var(--neutral-highest);
+    --n-border-disabled: var(--n-color-neutral-highest);
     --n-border-muted: var(--n-border-muted-success);
     --n-ink: var(--n-ink-success);
     --n-ink-strong: var(--n-ink-strong-success);
@@ -465,7 +493,7 @@
     --n-control-hover: var(--n-control-hover-warning);
     --n-control-active: var(--n-control-active-warning);
     --n-control-disabled: var(--n-control-disabled-warning);
-    --n-widget: var(--warning-higher);
+    --n-widget: var(--n-color-warning-higher);
     --n-widget-hover: var(--n-control-hover-warning);
     --n-widget-active: var(--n-control-active-warning);
     --n-widget-disabled: var(--n-control-disabled-warning);
@@ -480,7 +508,7 @@
     --n-border: var(--n-border-warning);
     --n-border-hover: var(--n-border-hover-warning);
     --n-border-active: var(--n-border-active-warning);
-    --n-border-disabled: var(--neutral-highest);
+    --n-border-disabled: var(--n-color-neutral-highest);
     --n-border-muted: var(--n-border-muted-warning);
     --n-ink: var(--n-ink-warning);
     --n-ink-strong: var(--n-ink-strong-warning);
@@ -507,7 +535,7 @@
     --n-control-hover: var(--n-control-hover-danger);
     --n-control-active: var(--n-control-active-danger);
     --n-control-disabled: var(--n-control-disabled-danger);
-    --n-widget: var(--danger-higher);
+    --n-widget: var(--n-color-danger-higher);
     --n-widget-hover: var(--n-control-hover-danger);
     --n-widget-active: var(--n-control-active-danger);
     --n-widget-disabled: var(--n-control-disabled-danger);
@@ -522,7 +550,7 @@
     --n-border: var(--n-border-danger);
     --n-border-hover: var(--n-border-hover-danger);
     --n-border-active: var(--n-border-active-danger);
-    --n-border-disabled: var(--neutral-highest);
+    --n-border-disabled: var(--n-color-neutral-highest);
     --n-border-muted: var(--n-border-muted-danger);
     --n-ink: var(--n-ink-danger);
     --n-ink-strong: var(--n-ink-strong-danger);
@@ -534,7 +562,7 @@
     --n-ink-disabled: var(--n-ink-disabled-danger);
   }
 
-  /* ── Variant (maps intent colors to --n-background/--n-color/--n-border-color) ── */
+  /* ─── Variant ─── */
 
   [variant="primary"] {
     --n-background: var(--n-surface);
@@ -563,7 +591,7 @@
     --n-border-color: var(--n-border-muted);
     --n-border-color-hover: var(--n-border-hover);
     --n-border-color-active: var(--n-border-active);
-    --n-border-color-disabled: var(--n-border-disabled);
+    --n-border-color-disabled: transparent;
   }
 
   [variant="default"] {
@@ -578,7 +606,7 @@
     --n-border-color: var(--n-border-muted-neutral);
     --n-border-color-hover: var(--n-border-hover-neutral);
     --n-border-color-active: var(--n-border-active-neutral);
-    --n-border-color-disabled: var(--n-border-disabled);
+    --n-border-color-disabled: transparent;
   }
 
   [variant="ghost"] {
@@ -608,7 +636,7 @@
     --n-border-color: var(--n-border);
     --n-border-color-hover: var(--n-border-hover);
     --n-border-color-active: var(--n-border-active);
-    --n-border-color-disabled: var(--n-border-disabled);
+    --n-border-color-disabled: transparent;
   }
 
   [variant="selected"] {
@@ -623,7 +651,7 @@
     --n-border-color: transparent;
     --n-border-color-hover: var(--n-border-hover);
     --n-border-color-active: var(--n-border-active);
-    --n-border-color-disabled: var(--n-border-disabled);
+    --n-border-color-disabled: transparent;
   }
 
   [variant="plain"] {

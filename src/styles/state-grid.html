@@ -10,7 +10,7 @@
     <style>
       body {
         background: var(--n-doc-neutral);
-        color: var(--neutral-950);
+        color: var(--n-color-neutral-950);
       }
 
       main { padding: calc(var(--n-space) * 8); }
@@ -289,7 +289,7 @@
     </script>
   </head>
   <body>
-    <n-app><main>
+    <native-app><main>
       <h1>Component State Grid</h1>
       <p>Each card shows the CSS color tokens a component uses per state. Hover or click a state pill to highlight every component that resolves to the same <code>background</code>, <code>color</code>, and <code>border-color</code> values.</p>
 
@@ -298,7 +298,7 @@
         <div class="legend-item"><span class="legend-swatch" style="background: white; border-color: var(--n-border-muted-neutral);"></span> white</div>
         <div class="legend-item"><span class="legend-swatch" style="background: var(--n-panel-neutral);"></span> panel</div>
         <div class="legend-item"><span class="legend-swatch" style="background: var(--n-control-neutral);"></span> control</div>
-        <div class="legend-item"><span class="legend-swatch" style="background: var(--neutral-higher);"></span> button</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: var(--n-color-neutral-higher);"></span> button</div>
         <div class="legend-item"><span class="legend-swatch" style="background: transparent; border-color: var(--n-border-neutral);"></span> transparent</div>
       </n-panel>
 
@@ -354,7 +354,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
       </div>
 
       <div class="state-grid" id="grid"></div>
-    </main></n-app>
+    </main></native-app>
 
     <div class="hover-tooltip" id="tooltip"></div>
 
@@ -379,7 +379,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
           name: 'native:input',
           category: 'interactive',
           states: [
-            { state: 'rest (empty)', bg: '--n-control', color: '--n-ink', border: '--neutral-highest', group: 'interaction' },
+            { state: 'rest (empty)', bg: '--n-control', color: '--n-ink', border: '--n-color-neutral-highest', group: 'interaction' },
             { state: ':hover', bg: '--n-control-hover', color: '--n-ink-hover', border: '--n-border-muted', group: 'interaction' },
             { state: 'filled', bg: '--n-panel', color: '--n-ink-strong', border: 'transparent', group: 'value' },
             { state: 'filled:hover', bg: '--n-panel-hover', color: '--n-ink-strong', border: 'transparent', group: 'value' },
@@ -391,7 +391,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
           name: 'n-textarea',
           category: 'interactive',
           states: [
-            { state: 'rest (empty)', bg: '--n-control', color: '--n-ink', border: '--neutral-highest', group: 'interaction' },
+            { state: 'rest (empty)', bg: '--n-control', color: '--n-ink', border: '--n-color-neutral-highest', group: 'interaction' },
             { state: ':hover', bg: '--n-control-hover', color: '--n-ink-hover', border: '--n-border-muted', group: 'interaction' },
             { state: 'filled', bg: '--n-panel', color: '--n-ink-strong', border: 'transparent', group: 'value' },
             { state: 'filled:hover', bg: '--n-panel-hover', color: '--n-ink-strong', border: 'transparent', group: 'value' },
@@ -403,7 +403,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
           name: 'n-listbox',
           category: 'interactive',
           states: [
-            { state: 'container', bg: '--n-control', color: '--n-ink', border: '--neutral-highest', group: 'interaction' },
+            { state: 'container', bg: '--n-control', color: '--n-ink', border: '--n-color-neutral-highest', group: 'interaction' },
             { state: '[aria-disabled]', bg: 'opacity: 0.6', color: '—', border: '—', group: 'interaction' },
           ]
         },
@@ -424,7 +424,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
           name: 'n-command',
           category: 'composite',
           states: [
-            { state: 'container', bg: '--n-control', color: '--n-ink', border: '--neutral-highest', group: 'interaction' },
+            { state: 'container', bg: '--n-control', color: '--n-ink', border: '--n-color-neutral-highest', group: 'interaction' },
           ]
         },
         {
@@ -529,7 +529,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
           name: 'n-segmented-control',
           category: 'composite',
           states: [
-            { state: 'container', bg: '--n-control', color: '(inherit)', border: '--neutral-highest', group: 'interaction' },
+            { state: 'container', bg: '--n-control', color: '(inherit)', border: '--n-color-neutral-highest', group: 'interaction' },
           ]
         },
         {
@@ -654,7 +654,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
           name: 'n-input-otp',
           category: 'widget',
           states: [
-            { state: 'cell rest', bg: '--n-control', color: '--n-ink', border: '--neutral-highest', group: 'interaction' },
+            { state: 'cell rest', bg: '--n-control', color: '--n-ink', border: '--n-color-neutral-highest', group: 'interaction' },
             { state: 'cell:hover', bg: '--n-control-hover', color: '--n-ink-hover', border: 'none', group: 'interaction' },
             { state: 'cell:focus', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --n-focus-ring', group: 'interaction' },
             { state: '[aria-disabled]', bg: 'opacity: 0.5', color: '—', border: '—', group: 'interaction' },
@@ -680,7 +680,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
 
       // ── Token-to-swatch color mapping ──
       const tokenColors = {
-        '--n-button': 'var(--neutral-higher)',
+        '--n-button': 'var(--n-color-neutral-higher)',
         '--n-control': 'var(--n-control-neutral)',
         '--n-control-hover': 'var(--n-control-hover-neutral)',
         '--n-control-disabled': 'var(--n-control-disabled-neutral)',
@@ -719,8 +719,8 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
         '--n-border-muted-neutral': 'var(--n-border-muted-neutral)',
         '--n-border-hover-neutral': 'var(--n-border-hover-neutral)',
         '--n-border-active-neutral': 'var(--n-border-active-neutral)',
-        '--neutral-highest': 'var(--neutral-highest)',
-        '--n-focus-ring': 'var(--accent-600-scrim)',
+        '--n-color-neutral-highest': 'var(--n-color-neutral-highest)',
+        '--n-focus-ring': 'var(--n-color-accent-600-scrim)',
         '--n-modal-neutral': 'var(--n-modal-neutral)',
         '--n-ink-strong-neutral': 'var(--n-ink-strong-neutral)',
         '--n-border-color': 'var(--n-border-muted-neutral)',
@@ -731,7 +731,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
 
       // Reverse lookup: local token → resolved semantic token
       const tokenResolutions = {
-        '--n-button': '--neutral-higher',
+        '--n-button': '--n-color-neutral-higher',
         '--n-control': '--n-control-neutral',
         '--n-control-hover': '--n-control-hover-neutral',
         '--n-control-disabled': '--n-control-disabled-neutral',
@@ -759,7 +759,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
         '--n-border-active': '--n-border-active-neutral',
         '--n-border-disabled': '--n-border-disabled-neutral',
         '--n-border': '--n-border-neutral',
-        '--n-focus-ring': '--accent-600-scrim',
+        '--n-focus-ring': '--n-color-accent-600-scrim',
         '--n-border-color': '--n-border-muted-neutral',
       };
 

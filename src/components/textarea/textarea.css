@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-textarea):not(:defined) { visibility: hidden; }
+
   /* ── Textarea Base ── */
 
   :where(n-textarea) {
@@ -15,7 +17,7 @@
     --n-color-disabled: var(--n-ink-disabled);
     --n-border-color: var(--n-border-rest);
     --n-border-color-hover: var(--n-border-muted);
-    --n-border-color-disabled: var(--n-border-disabled);
+    --n-border-color-disabled: transparent;
 
     display: block;
     flex: 1 1 0%;
@@ -39,6 +41,8 @@
     outline: none;
     resize: vertical;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--n-border-muted-neutral) transparent;
     white-space: pre-wrap;
     word-break: break-word;
 

@@ -11,15 +11,15 @@ const themes = [
 ];
 
 const envParams = [
-  { name: 'L min', token: '--color-env-lightness-min', value: 0.15, step: 0.01, min: 0, max: 1, group: 'Lightness' },
-  { name: 'L max', token: '--color-env-lightness-max', value: 1.00, step: 0.01, min: 0, max: 1, group: 'Lightness' },
-  { name: 'L delta', token: '--color-env-lightness-delta', value: 0.015, step: 0.005, min: 0, max: 0.15, group: 'Lightness' },
-  { name: 'Chroma', token: '--color-env-chroma', value: 0.20, step: 0.005, min: 0, max: 0.5, group: 'Chroma' },
-  { name: 'C muted', token: '--color-env-chroma-k-muted', value: 0.125, step: 0.01, min: 0, max: 1, group: 'Chroma' },
-  { name: 'C vivid', token: '--color-env-chroma-k-vivid', value: 1.00, step: 0.01, min: 0, max: 1, group: 'Chroma' },
-  { name: 'C edge', token: '--color-env-chroma-k-edge', value: 0.05, step: 0.01, min: 0, max: 1, group: 'Chroma' },
-  { name: 'Alpha', token: '--color-env-alpha', value: 0.85, step: 0.01, min: 0, max: 1, group: 'Alpha' },
-  { name: 'A delta', token: '--color-env-alpha-delta', value: 0.02, step: 0.005, min: 0, max: 0.15, group: 'Alpha' },
+  { name: 'L min', token: '--n-env-lightness-min', value: 0.15, step: 0.01, min: 0, max: 1, group: 'Lightness' },
+  { name: 'L max', token: '--n-env-lightness-max', value: 1.00, step: 0.01, min: 0, max: 1, group: 'Lightness' },
+  { name: 'L delta', token: '--n-env-lightness-delta', value: 0.015, step: 0.005, min: 0, max: 0.15, group: 'Lightness' },
+  { name: 'Chroma', token: '--n-env-chroma', value: 0.20, step: 0.005, min: 0, max: 0.5, group: 'Chroma' },
+  { name: 'C muted', token: '--n-env-chroma-k-muted', value: 0.125, step: 0.01, min: 0, max: 1, group: 'Chroma' },
+  { name: 'C vivid', token: '--n-env-chroma-k-vivid', value: 1.00, step: 0.01, min: 0, max: 1, group: 'Chroma' },
+  { name: 'C edge', token: '--n-env-chroma-k-edge', value: 0.05, step: 0.01, min: 0, max: 1, group: 'Chroma' },
+  { name: 'Alpha', token: '--n-env-alpha', value: 0.85, step: 0.01, min: 0, max: 1, group: 'Alpha' },
+  { name: 'A delta', token: '--n-env-alpha-delta', value: 0.02, step: 0.005, min: 0, max: 0.15, group: 'Alpha' },
 ];
 
 const families = ['neutral', 'accent', 'info', 'success', 'warning', 'danger'] as const;
@@ -114,13 +114,13 @@ export function buildTokens(container: HTMLElement): void {
 
     // Family sliders
     section.appendChild(createVariable({
-      name: 'Hue', token: `--color-env-hue-${family}`, value: 230, step: 1, min: 0, max: 360,
+      name: 'Hue', token: `--n-env-hue-${family}`, value: 230, step: 1, min: 0, max: 360,
     }));
     section.appendChild(createVariable({
-      name: 'Chroma', token: `--color-env-chroma-${family}`, value: 0.5, step: 0.01, min: 0, max: 1,
+      name: 'Chroma', token: `--n-env-chroma-${family}`, value: 0.5, step: 0.01, min: 0, max: 1,
     }));
     section.appendChild(createVariable({
-      name: 'Lightness', token: `--color-env-lightness-${family}`, value: 0.5, step: 0.01, min: 0, max: 1,
+      name: 'Lightness', token: `--n-env-lightness-${family}`, value: 0.5, step: 0.01, min: 0, max: 1,
     }));
 
     // Surfaces

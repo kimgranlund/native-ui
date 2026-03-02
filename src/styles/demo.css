@@ -8,7 +8,7 @@
 
 body {
   background: var(--n-doc-neutral);
-  color: var(--neutral-950);
+  color: var(--n-color-neutral-950);
 }
 
 main {

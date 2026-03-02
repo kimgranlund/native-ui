@@ -1,5 +1,7 @@
 @layer ui {
 
+  :where(n-chat-input):not(:defined) { visibility: hidden; }
+
   /* ╭──────────────────────────────────────────────────────────╮
      │  n-chat                                                 │
      │  Chat application shell with header / content / input /  │
