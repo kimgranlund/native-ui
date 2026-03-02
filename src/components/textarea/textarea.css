@@ -38,6 +38,8 @@
     color: var(--n-color);
 
     cursor: text;
+    /* WHY: Override inherited user-select: none from n-field — contenteditable needs text selection */
+    user-select: text;
     outline: none;
     resize: vertical;
     overflow-y: auto;

@@ -11,37 +11,42 @@ function create(attrs: Record<string, string> = {}): HTMLElement {
   return el;
 }
 
+/** Return the inner editing surface (contenteditable span). */
+function surface(el: HTMLElement): HTMLElement {
+  return el.querySelector('.n-input-surface')!;
+}
+
 afterEach(() => {
   document.body.innerHTML = '';
   vi.restoreAllMocks();
 });
 
 describe('n-input — disabled interaction', () => {
-  it('contenteditable is false when disabled', () => {
+  it('surface contenteditable is false when disabled', () => {
     const el = create({ disabled: '' });
-    expect(el.getAttribute('contenteditable')).toBe('false');
+    expect(surface(el).getAttribute('contenteditable')).toBe('false');
     // ARIA: disabled input has aria-disabled
     expect(el.getAttribute('aria-disabled')).toBe('true');
   });
 
-  it('contenteditable restores to plaintext-only when enabled', () => {
+  it('surface contenteditable restores to plaintext-only when enabled', () => {
     const el = create({ disabled: '' });
     (el as any).disabled = false;
-    expect(el.getAttribute('contenteditable')).toBe('plaintext-only');
+    expect(surface(el).getAttribute('contenteditable')).toBe('plaintext-only');
     // ARIA: re-enabled input clears aria-disabled
     expect(el.hasAttribute('aria-disabled')).toBe(false);
   });
 
-  it('disabled + readonly: removing disabled keeps contenteditable false', () => {
+  it('disabled + readonly: removing disabled keeps surface contenteditable false', () => {
     const el = create({ disabled: '', readonly: '' });
     (el as any).disabled = false;
-    expect(el.getAttribute('contenteditable')).toBe('false');
+    expect(surface(el).getAttribute('contenteditable')).toBe('false');
   });
 
-  it('readonly + disabled: removing readonly keeps contenteditable false', () => {
+  it('readonly + disabled: removing readonly keeps surface contenteditable false', () => {
     const el = create({ disabled: '', readonly: '' });
     el.removeAttribute('readonly');
-    expect(el.getAttribute('contenteditable')).toBe('false');
+    expect(surface(el).getAttribute('contenteditable')).toBe('false');
   });
 
   it('value can still be set programmatically when disabled', () => {

@@ -5,7 +5,6 @@
   /* ── Input Base ── */
 
   :where(n-input) {
-    white-space: nowrap;
     --n-font-weight: var(--n-input-font-weight);
     --n-line-height: var(--n-control-line-height);
 
@@ -50,10 +49,28 @@
       transform var(--n-duration) var(--n-easing);
   }
 
-  /* ── Placeholder (shown when empty via CustomStateSet) ── */
+  /* ── Inner editing surface ── */
+  /* WHY: Browsers break contenteditable text insertion when the contenteditable
+     element uses display:flex and contains child elements (slot icons).
+     The surface is a child <span> that owns the contenteditable — the flex
+     host handles layout while the surface handles text editing. */
 
-  :where(n-input):state(empty)::before {
-    content: attr(placeholder);
+  :where(n-input) > :where(.n-input-surface) {
+    flex: 1;
+    min-width: 0;
+    outline: none;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: text;
+    user-select: text;
+  }
+
+  /* ── Placeholder (shown when empty via CustomStateSet) ── */
+  /* WHY: Placeholder lives on the surface's ::before — reads data-placeholder
+     which is synced from the host's placeholder attribute by JS. */
+
+  :where(n-input):state(empty) > :where(.n-input-surface)::before {
+    content: attr(data-placeholder);
     color: var(--n-ink-placeholder);
     pointer-events: none;
   }
@@ -101,7 +118,10 @@
     border-color: transparent;
   }
 
-  :where(n-input):focus,
+  /* WHY: :focus-within because actual focus lives on the inner surface,
+     not the host element. The host shows the focus ring when any
+     descendant (the surface) has focus. */
+  :where(n-input):focus-within,
   :where(n-input)[force-focus] {
     border-color: var(--n-focus-ring);
     outline: 1px solid var(--n-focus-ring);

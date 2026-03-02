@@ -398,7 +398,10 @@ export class NCombobox extends FormAssociable(NativeElement) {
     });
 
     // Event: click/focus on input → open
-    input?.addEventListener('focus', this.#onInputFocus);
+    // WHY: focusin (not focus) because n-input uses an inner contenteditable surface.
+    // focus does not bubble, so focusing the surface wouldn't reach this listener.
+    // focusin bubbles from the surface → n-input host → combobox.
+    input?.addEventListener('focusin', this.#onInputFocus);
 
     // Event: input typing → store.setQuery
     this.addEventListener('native:input', this.#onInput);
@@ -517,7 +520,7 @@ export class NCombobox extends FormAssociable(NativeElement) {
 
   teardown(): void {
     // WHY: Remove listeners from child elements to prevent stacking on re-setup
-    this.#input?.removeEventListener('focus', this.#onInputFocus);
+    this.#input?.removeEventListener('focusin', this.#onInputFocus);
     this.#input?.removeEventListener('keydown', this.#onInputKeydown);
     this.removeEventListener('native:input', this.#onInput);
     this.removeEventListener('native:change', this.#onChildChange);

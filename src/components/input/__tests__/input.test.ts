@@ -11,6 +11,11 @@ function create(attrs: Record<string, string> = {}): HTMLElement {
   return el;
 }
 
+/** Return the inner editing surface (contenteditable span). */
+function surface(el: HTMLElement): HTMLElement {
+  return el.querySelector('.n-input-surface')!;
+}
+
 afterEach(() => {
   document.body.innerHTML = '';
 });
@@ -20,16 +25,16 @@ describe('n-input', () => {
     expect(customElements.get('n-input')).toBeDefined();
   });
 
-  it('sets contenteditable="plaintext-only" on setup', () => {
+  it('creates inner .n-input-surface with contenteditable="plaintext-only"', () => {
     const el = create();
-    expect(el.getAttribute('contenteditable')).toBe('plaintext-only');
+    const s = surface(el);
+    expect(s).toBeTruthy();
+    expect(s.getAttribute('contenteditable')).toBe('plaintext-only');
   });
 
-  it('does not override contenteditable if already set', () => {
-    const el = document.createElement('n-input');
-    el.setAttribute('contenteditable', 'false');
-    document.body.appendChild(el);
-    expect(el.getAttribute('contenteditable')).toBe('false');
+  it('surface has tabindex="0" for focus', () => {
+    const el = create();
+    expect(surface(el).getAttribute('tabindex')).toBe('0');
   });
 
   // ── Value ──
@@ -123,15 +128,15 @@ describe('n-input', () => {
     expect(el.hasAttribute('aria-disabled')).toBe(false);
   });
 
-  it('disabled attribute sets contenteditable to false', () => {
+  it('disabled attribute sets surface contenteditable to false', () => {
     const el = create({ disabled: '' });
-    expect(el.getAttribute('contenteditable')).toBe('false');
+    expect(surface(el).getAttribute('contenteditable')).toBe('false');
   });
 
-  it('removing disabled attribute restores contenteditable to plaintext-only', () => {
+  it('removing disabled attribute restores surface contenteditable to plaintext-only', () => {
     const el = create({ disabled: '' });
     el.removeAttribute('disabled');
-    expect(el.getAttribute('contenteditable')).toBe('plaintext-only');
+    expect(surface(el).getAttribute('contenteditable')).toBe('plaintext-only');
   });
 
   // ── ReadOnly ──
@@ -153,17 +158,17 @@ describe('n-input', () => {
     expect(el.hasAttribute('readonly')).toBe(false);
   });
 
-  it('readOnly=true sets contenteditable to false', () => {
+  it('readOnly=true sets surface contenteditable to false', () => {
     const el = create();
     (el as any).readOnly = true;
-    expect(el.getAttribute('contenteditable')).toBe('false');
+    expect(surface(el).getAttribute('contenteditable')).toBe('false');
   });
 
-  it('readOnly=false restores contenteditable to plaintext-only', () => {
+  it('readOnly=false restores surface contenteditable to plaintext-only', () => {
     const el = create();
     (el as any).readOnly = true;
     (el as any).readOnly = false;
-    expect(el.getAttribute('contenteditable')).toBe('plaintext-only');
+    expect(surface(el).getAttribute('contenteditable')).toBe('plaintext-only');
   });
 
   // ── Required ──
@@ -192,7 +197,8 @@ describe('n-input', () => {
     const handler = vi.fn();
     el.addEventListener('native:input', handler);
 
-    el.dispatchEvent(new Event('input', { bubbles: true }));
+    // WHY: input events originate on the inner surface (contenteditable span)
+    surface(el).dispatchEvent(new Event('input', { bubbles: true }));
 
     expect(handler).toHaveBeenCalledTimes(1);
   });
@@ -203,7 +209,7 @@ describe('n-input', () => {
     const handler = vi.fn();
     el.addEventListener('native:input', handler);
 
-    el.dispatchEvent(new Event('input', { bubbles: true }));
+    surface(el).dispatchEvent(new Event('input', { bubbles: true }));
 
     expect(handler.mock.calls[0][0].detail).toEqual({ value: 'typed' });
   });
@@ -213,7 +219,8 @@ describe('n-input', () => {
     const handler = vi.fn();
     el.addEventListener('native:change', handler);
 
-    el.dispatchEvent(new Event('blur'));
+    // WHY: blur events originate on the inner surface
+    surface(el).dispatchEvent(new Event('blur'));
 
     expect(handler).toHaveBeenCalledTimes(1);
   });
@@ -224,7 +231,7 @@ describe('n-input', () => {
     const handler = vi.fn();
     el.addEventListener('native:change', handler);
 
-    el.dispatchEvent(new Event('blur'));
+    surface(el).dispatchEvent(new Event('blur'));
 
     expect(handler.mock.calls[0][0].detail).toEqual({ value: 'blurred' });
   });
@@ -234,7 +241,7 @@ describe('n-input', () => {
     const handler = vi.fn();
     document.body.addEventListener('native:input', handler);
 
-    el.dispatchEvent(new Event('input', { bubbles: true }));
+    surface(el).dispatchEvent(new Event('input', { bubbles: true }));
 
     expect(handler).toHaveBeenCalledTimes(1);
     document.body.removeEventListener('native:input', handler);
@@ -245,7 +252,7 @@ describe('n-input', () => {
     const handler = vi.fn();
     document.body.addEventListener('native:change', handler);
 
-    el.dispatchEvent(new Event('blur'));
+    surface(el).dispatchEvent(new Event('blur'));
 
     expect(handler).toHaveBeenCalledTimes(1);
     document.body.removeEventListener('native:change', handler);
@@ -264,7 +271,7 @@ describe('n-input', () => {
     const el = create();
     // Verify the element tracks empty state — empty value means empty state should be set
     (el as any).value = '';
-    el.dispatchEvent(new Event('input', { bubbles: true }));
+    surface(el).dispatchEvent(new Event('input', { bubbles: true }));
     // After input with empty value, element should still have empty string value
     expect((el as any).value).toBe('');
   });
@@ -321,30 +328,66 @@ describe('n-input', () => {
 
   // ── formDisabledCallback ──
 
-  it('formDisabledCallback sets disabled state and contenteditable', () => {
+  it('formDisabledCallback sets disabled state and surface contenteditable', () => {
     const el = create();
     (el as any).formDisabledCallback(true);
     expect((el as any).disabled).toBe(true);
-    expect(el.getAttribute('contenteditable')).toBe('false');
+    expect(surface(el).getAttribute('contenteditable')).toBe('false');
   });
 
-  it('formDisabledCallback restores contenteditable when re-enabled', () => {
+  it('formDisabledCallback restores surface contenteditable when re-enabled', () => {
     const el = create();
     (el as any).formDisabledCallback(true);
     (el as any).formDisabledCallback(false);
     expect((el as any).disabled).toBe(false);
-    expect(el.getAttribute('contenteditable')).toBe('plaintext-only');
+    expect(surface(el).getAttribute('contenteditable')).toBe('plaintext-only');
+  });
+
+  // ── Enter key ──
+
+  it('Enter key calls preventDefault to block line break insertion', () => {
+    const el = create();
+    const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+    // WHY: keydown listener is on the surface
+    surface(el).dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(true);
+  });
+
+  it('Enter key does not prevent default for non-Enter keys', () => {
+    const el = create();
+    const event = new KeyboardEvent('keydown', { key: 'a', bubbles: true, cancelable: true });
+    surface(el).dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  it('Enter key skips form submission when inside n-combobox', () => {
+    // WHY: n-combobox handles Enter for option selection — n-input must not also
+    // trigger form submission when inside a combobox.
+    const combobox = document.createElement('n-combobox');
+    const el = document.createElement('n-input');
+    combobox.appendChild(el);
+    document.body.appendChild(combobox);
+
+    const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+    surface(el).dispatchEvent(event);
+    // Enter still prevented (no <br> insertion) but no form submit attempt
+    expect(event.defaultPrevented).toBe(true);
+    expect(el.closest('n-combobox')).toBeTruthy();
   });
 
   // ── Slot children ──
 
-  it('sets slot children to contenteditable=false on setup', () => {
+  it('slot children render alongside surface without interference', () => {
     const el = document.createElement('n-input');
     const icon = document.createElement('n-icon');
     icon.setAttribute('slot', 'leading');
     el.appendChild(icon);
     document.body.appendChild(el);
 
-    expect(icon.getAttribute('contenteditable')).toBe('false');
+    // Surface exists and is contenteditable
+    expect(surface(el).getAttribute('contenteditable')).toBe('plaintext-only');
+    // Icon is a sibling of the surface, not inside it
+    expect(icon.parentElement).toBe(el);
+    expect(icon.closest('.n-input-surface')).toBeNull();
   });
 });
