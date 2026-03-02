@@ -11,41 +11,26 @@
   /* ------------------------------------------------------------------ */
 
   :where(native-editor) {
-    /* Host-level tokens — used by the host element itself */
-    --n-code-bg: var(--n-control-neutral, #282c34);
-    --n-code-bg-raised: var(--n-panel-neutral, #21252b);
-    --n-code-border: var(--n-border-muted-neutral, #3e4451);
-
     display: grid;
     grid-template-rows: auto 1fr;
     position: relative;
-    border: 1px solid var(--n-code-border);
+    border: 1px solid var(--n-border, #3e4451);
     border-radius: var(--n-radius, 0.5rem);
     overflow: hidden;
     min-height: 300px;
-    background: var(--n-code-bg);
+    background: var(--n-color-neutral-base, #282c34);
     outline: none;
   }
 
-  /* Override codemirror.css defaults for editor surface inside native-editor */
-  :where(native-editor) :where(.cm-editor) {
-    --n-code-bg:          var(--n-control-neutral, #282c34);
-    --n-code-bg-raised:   var(--n-panel-neutral, #21252b);
-    --n-code-bg-deeper:   var(--n-body-neutral, #1e2127);
-    --n-code-text:        var(--n-ink-neutral, #abb2bf);
-    --n-code-text-muted:  var(--n-ink-muted-neutral, #7d8799);
-    --n-code-accent:      var(--n-ink-accent, #61afef);
-    --n-code-border:      var(--n-border-muted-neutral, #3e4451);
-    --n-code-bg-inline:   var(--n-card-neutral, #333843);
-  }
+
 
   /* ------------------------------------------------------------------ */
   /*  Card header (toolbar chrome)                                       */
   /* ------------------------------------------------------------------ */
 
   :where(native-editor) > :where(n-card-header) {
-    border-bottom: 1px solid var(--n-code-border);
-    background: var(--n-code-bg-raised);
+    border-bottom: 1px solid var(--n-border, #3e4451);
+    background: var(--n-color-neutral-higher, #21252b);
     padding: 0;
   }
 
@@ -190,7 +175,7 @@
   /* ------------------------------------------------------------------ */
 
   :where(native-editor) :where(.md-hr) {
-    border-bottom: 1px solid var(--n-code-border);
+    border-bottom: 1px solid var(--n-border, #3e4451);
     margin: 0.5em 0;
   }
 
@@ -255,7 +240,7 @@
     height: 8px;
     border-right: 2px solid currentColor;
     border-bottom: 2px solid currentColor;
-    color: var(--n-code-border);
+    color: var(--n-border, #3e4451);
   }
 
 }
