@@ -1,0 +1,102 @@
+@layer ui {
+
+  /* ── Base ── */
+
+  :where(n-toolbar) {
+    --n-ground: var(--n-panel);
+    --n-background: var(--n-ground);
+    --n-border-color: var(--n-border-muted);
+
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    background: var(--n-background);
+    padding: var(--n-space);
+    border-radius: var(--n-border-radius, var(--n-radius));
+    border: 1px solid var(--n-border-color);
+  }
+
+  /* WHY: n-button has width:100% for block contexts. Inside a toolbar,
+     buttons must shrink-wrap to their content at intrinsic width.
+     Items that don't fit go into the overflow menu — no growing or shrinking.
+     Second selector targets children of display:contents groups (DOM grandchildren
+     that are layout-level flex items of the toolbar). */
+  :where(n-toolbar) > :where(:not(n-listbox)),
+  :where(n-toolbar) > :where(n-toolbar-group) > :where(*) {
+    flex: 0 0 auto;
+    width: auto;
+  }
+
+  /* ── Fill mode ── */
+
+  /* Per-item [fill] — lets a single child grow to fill available space.
+     Use on a spacer element to push trailing items to the edge. */
+  :where(n-toolbar) > :where([fill]),
+  :where(n-toolbar) > :where(n-toolbar-group) > :where([fill]) {
+    flex: 1 0 auto;
+  }
+
+  /* WHY: [fill] on the toolbar lets ALL items grow to distribute space evenly.
+     Default is intrinsic (compact); fill is opt-in. */
+  :where(n-toolbar[fill]) > :where(:not(n-listbox)),
+  :where(n-toolbar[fill]) > :where(n-toolbar-group) > :where(*) {
+    flex: 1 0 auto;
+  }
+
+  /* WHY: During overflow measurement, items must be at intrinsic width
+     so offsetWidth reflects true content size, not grown size. */
+  :where(n-toolbar[data-measuring]) > :where(:not(n-listbox)),
+  :where(n-toolbar[data-measuring]) > :where(n-toolbar-group) > :where(*) {
+    flex: 0 0 auto;
+  }
+
+  /* ── Toolbar group ── */
+
+  /* Groups use display:contents so children are direct flex items of the toolbar.
+     When the group overflows, switch to display:none to hide all children atomically. */
+  :where(n-toolbar-group) {
+    display: contents;
+  }
+
+  :where(n-toolbar-group[data-overflow]) {
+    display: none;
+  }
+
+  /* ── Overflow ── */
+
+  /* Hidden overflow items */
+  :where(n-toolbar) > :where([data-overflow]) {
+    display: none;
+  }
+
+  /* More button — compact, always at trailing edge.
+     order:99 fixes parser ordering (connectedCallback stamps before children exist).
+     flex:0 0 auto prevents the trigger from growing with content items. */
+  :where(n-toolbar) > :where([data-overflow-trigger]) {
+    flex: 0 0 auto;
+    order: 99;
+    margin-inline-start: auto;
+  }
+
+  /* Hide more button when no overflow */
+  :where(n-toolbar):not([data-overflowing]) > :where([data-overflow-trigger]) {
+    display: none;
+  }
+
+  /* ── Overflow popover ── */
+
+  :where(n-toolbar) > :where(n-listbox[popover]) {
+    position: fixed;
+    position-area: block-end span-inline-end;
+    position-try-fallbacks: flip-block;
+    margin: 0.25rem 0 0;
+    min-width: 10rem;
+  }
+
+  :where(n-toolbar) > :where(n-listbox[popover]):not(:popover-open) {
+    display: none;
+  }
+
+}

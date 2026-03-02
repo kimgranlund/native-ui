@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { FocusTrapController } from '../focus-trap-controller.ts';
 import { define } from '../../core/define.ts';
 
-class FocusTrapTestEl extends UIElement {
+class FocusTrapTestEl extends NativeElement {
   #trap: FocusTrapController | null = null;
   setup() { super.setup(); this.#trap = new FocusTrapController(this); }
   teardown() { this.disableFocusTrap(); this.#trap = null; super.teardown(); }

@@ -2,7 +2,7 @@
 
 # SwipeController
 
-> Detects touch/pointer swipe gestures and dispatches `ui-swipe` with direction and velocity.
+> Detects touch/pointer swipe gestures and dispatches `native:swipe` with direction and velocity.
 
 ## Constructor
 
@@ -30,7 +30,7 @@ new SwipeController(host: HTMLElement, options?: SwipeOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-swipe` | `{ direction, distance, velocity }` |
+| `native:swipe` | `{ direction, distance, velocity }` |
 
 ## Methods
 

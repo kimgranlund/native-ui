@@ -19,7 +19,7 @@
         font-weight: 600;
         margin-bottom: 0.5rem;
         margin-top: 1.25rem;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
       /* ── Grid ── */
 
@@ -37,15 +37,15 @@
         aspect-ratio: 1;
         border-radius: 0.25rem;
         font-size: 0.8125rem;
-        background: var(--neutral-panel);
-        color: var(--neutral-ink);
+        background: var(--n-panel-neutral);
+        color: var(--n-ink-neutral);
         cursor: pointer;
         transition: background 100ms ease, color 100ms ease;
       }
 
       .cell[range-selected] {
-        background: var(--accent-surface);
-        color: var(--accent-surface-ink);
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
       }
 
       .cell[range-start] {
@@ -72,7 +72,7 @@
       .day-header {
         text-align: center;
         font-size: 0.6875rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         font-weight: 600;
       }
 
@@ -90,7 +90,7 @@
         align-items: center;
         gap: 0.75rem;
         padding: 0.5rem 0.75rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         border-radius: 0.25rem;
         font-size: 0.875rem;
         cursor: pointer;
@@ -98,19 +98,19 @@
       }
 
       .list-item[range-selected] {
-        background: var(--accent-surface);
-        color: var(--accent-surface-ink);
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
       }
 
       .output {
         font-family: monospace;
         font-size: 0.75rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         max-height: 6rem;
         overflow-y: auto;
         margin-top: 0.75rem;
         padding: 0.5rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         border-radius: 0.25rem;
         min-height: 1.5rem;
       }
@@ -130,20 +130,20 @@
         text-align: left;
         font-weight: 600;
         padding: 0.5rem 0.75rem;
-        border-bottom: 2px solid var(--neutral-border-muted);
-        color: var(--neutral-ink-strong);
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
       }
 
       .api-table td {
         padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
         vertical-align: top;
       }
 
       .api-table code {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         padding: 0.0625rem 0.3125rem;
         border-radius: 0.1875rem;
       }
@@ -154,7 +154,7 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
 
     <h1>RangeSelectable</h1>
     <p class="demo-desc">
@@ -166,7 +166,7 @@
     <h2>Drag Mode — Calendar Grid (Provider)</h2>
     <div class="demo-section">
       <p class="demo-hint">
-        <code>&lt;ui-controller&gt;</code> wraps a grid and applies the range-selectable trait. Click and drag across cells to select a range. Release to commit.
+        <code>&lt;n-controller&gt;</code> wraps a grid and applies the range-selectable trait. Click and drag across cells to select a range. Release to commit.
       </p>
       <div class="day-headers">
         <div class="day-header">Su</div>
@@ -177,11 +177,11 @@
         <div class="day-header">Fr</div>
         <div class="day-header">Sa</div>
       </div>
-      <ui-controller traits="range-selectable" range-selectable-selector=".cell" range-selectable-mode="drag">
+      <n-controller traits="range-selectable" range-selectable-selector=".cell" range-selectable-mode="drag">
         <div id="drag-grid" class="grid-container"></div>
-      </ui-controller>
+      </n-controller>
       <div id="drag-output" class="output">Click and drag to select a range</div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="range-selectable"
+      <pre class="demo-code"><code>&lt;n-controller traits="range-selectable"
   range-selectable-selector=".cell"
   range-selectable-mode="drag"&gt;
   &lt;div class="grid-container"&gt;
@@ -189,14 +189,14 @@
     &lt;div class="cell"&gt;2&lt;/div&gt;
     &lt;!-- ... 28 cells --&gt;
   &lt;/div&gt;
-&lt;/ui-controller&gt;
+&lt;/n-controller&gt;
 
 &lt;script&gt;
-  grid.addEventListener('ui-range-select', (e) =&gt; {
+  grid.addEventListener('native:range-select', (e) =&gt; {
     const { startIndex, endIndex } = e.detail;
     log.textContent = `Selected days ${startIndex + 1}–${endIndex + 1}`;
   });
-&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Click Mode: Calendar Grid ── -->
@@ -217,7 +217,7 @@
       </div>
       <div id="click-grid" class="grid-container"></div>
       <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
-        <ui-button id="clear-btn" size="sm">Clear Range</ui-button>
+        <n-button id="clear-btn" size="sm">Clear Range</n-button>
       </div>
       <div id="click-output" class="output">Click a start date, hover to preview, click to commit</div>
       <pre class="demo-code"><code>import { RangeSelectController } from '../index.ts';
@@ -228,19 +228,19 @@ const ctrl = new RangeSelectController(grid, {
   mode: 'click',
 });
 
-grid.addEventListener('ui-range-change', (e) =&gt; {
+grid.addEventListener('native:range-change', (e) =&gt; {
   const { startIndex, endIndex } = e.detail;
   log.textContent = `Preview: days ${startIndex + 1}–${endIndex + 1}`;
 });
 
-grid.addEventListener('ui-range-select', (e) =&gt; {
+grid.addEventListener('native:range-select', (e) =&gt; {
   const { startIndex, endIndex } = e.detail;
   log.textContent = `Committed: days ${startIndex + 1}–${endIndex + 1}`;
 });
 
-clearBtn.addEventListener('ui-press', () =&gt; {
+clearBtn.addEventListener('native:press', () =&gt; {
   ctrl.clearRange();
-});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Drag Mode: Vertical List (Provider) ── -->
@@ -248,9 +248,9 @@ clearBtn.addEventListener('ui-press', () =&gt; {
     <h2>Drag Mode — Vertical List (Provider)</h2>
     <div class="demo-section">
       <p class="demo-hint">
-        <code>&lt;ui-controller&gt;</code> applies range-selectable to a vertical list. Click and drag to select a contiguous range of days.
+        <code>&lt;n-controller&gt;</code> applies range-selectable to a vertical list. Click and drag to select a contiguous range of days.
       </p>
-      <ui-controller traits="range-selectable" range-selectable-selector=".list-item">
+      <n-controller traits="range-selectable" range-selectable-selector=".list-item">
         <div id="list" class="list-container">
           <div class="list-item">Monday</div>
           <div class="list-item">Tuesday</div>
@@ -260,16 +260,16 @@ clearBtn.addEventListener('ui-press', () =&gt; {
           <div class="list-item">Saturday</div>
           <div class="list-item">Sunday</div>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="list-output" class="output">Click and drag to select a range</div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="range-selectable"
+      <pre class="demo-code"><code>&lt;n-controller traits="range-selectable"
   range-selectable-selector=".list-item"&gt;
   &lt;div class="list-container"&gt;
     &lt;div class="list-item"&gt;Monday&lt;/div&gt;
     &lt;div class="list-item"&gt;Tuesday&lt;/div&gt;
     &lt;!-- ... --&gt;
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── RangeSelectController: Attach to Any Element ── -->
@@ -296,10 +296,10 @@ const ctrl = new RangeSelectController(list, {
   mode: 'drag',
 });
 
-list.addEventListener('ui-range-select', (e) =&gt; {
+list.addEventListener('native:range-select', (e) =&gt; {
   const { startIndex, endIndex, items } = e.detail;
   log.textContent = `Selected ${items.length} items (${startIndex}–${endIndex})`;
-});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── API Reference ── -->
@@ -339,12 +339,12 @@ list.addEventListener('ui-range-select', (e) =&gt; {
         <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>ui-range-change</code></td>
+            <td><code>native:range-change</code></td>
             <td><code>{ startIndex, endIndex, items }</code></td>
             <td>During drag/hover, fires as range changes. Use for live preview.</td>
           </tr>
           <tr>
-            <td><code>ui-range-select</code></td>
+            <td><code>native:range-select</code></td>
             <td><code>{ startIndex, endIndex, items }</code></td>
             <td>Fired on release/commit. Use for final selection.</td>
           </tr>
@@ -376,7 +376,7 @@ list.addEventListener('ui-range-select', (e) =&gt; {
       </table>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
 
     <!-- Script 1: Register all traits BEFORE any component define() -->
     <script type="module">
@@ -386,10 +386,10 @@ list.addEventListener('ui-range-select', (e) =&gt; {
 
     <!-- Script 2: Import components (runs after traits are registered) -->
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../components/ui-controller/ui-controller.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../components/controller/controller.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
       import { RangeSelectController } from '../index.ts';
@@ -400,7 +400,7 @@ list.addEventListener('ui-range-select', (e) =&gt; {
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
@@ -430,7 +430,7 @@ list.addEventListener('ui-range-select', (e) =&gt; {
         }
       }
 
-      // Drag mode grid (cells inside ui-controller child div)
+      // Drag mode grid (cells inside n-controller child div)
       const dragGrid = document.getElementById('drag-grid');
       stampCells(dragGrid);
 
@@ -441,11 +441,11 @@ list.addEventListener('ui-range-select', (e) =&gt; {
       // ── Drag Mode: Calendar Grid (Provider) ──
 
       const dragOutput = document.getElementById('drag-output');
-      dragGrid.addEventListener('ui-range-select', (e) => {
+      dragGrid.addEventListener('native:range-select', (e) => {
         const { startIndex, endIndex } = e.detail;
         appendLog(dragOutput, `Selected days ${startIndex + 1}\u2013${endIndex + 1}`);
       });
-      dragGrid.addEventListener('ui-range-change', (e) => {
+      dragGrid.addEventListener('native:range-change', (e) => {
         const { startIndex, endIndex } = e.detail;
         dragOutput.textContent = `Dragging: days ${startIndex + 1}\u2013${endIndex + 1}`;
       });
@@ -459,17 +459,17 @@ list.addEventListener('ui-range-select', (e) =&gt; {
 
       const clickOutput = document.getElementById('click-output');
 
-      clickGrid.addEventListener('ui-range-change', (e) => {
+      clickGrid.addEventListener('native:range-change', (e) => {
         const { startIndex, endIndex } = e.detail;
         clickOutput.textContent = `Preview: days ${startIndex + 1}\u2013${endIndex + 1}`;
       });
 
-      clickGrid.addEventListener('ui-range-select', (e) => {
+      clickGrid.addEventListener('native:range-select', (e) => {
         const { startIndex, endIndex } = e.detail;
         appendLog(clickOutput, `Committed: days ${startIndex + 1}\u2013${endIndex + 1}`);
       });
 
-      document.getElementById('clear-btn').addEventListener('ui-press', () => {
+      document.getElementById('clear-btn').addEventListener('native:press', () => {
         clickCtrl.clearRange();
         clickOutput.textContent = 'Range cleared. Click a start date.';
       });
@@ -479,7 +479,7 @@ list.addEventListener('ui-range-select', (e) =&gt; {
       const listOutput = document.getElementById('list-output');
       const list = document.getElementById('list');
 
-      list.addEventListener('ui-range-select', (e) => {
+      list.addEventListener('native:range-select', (e) => {
         const { startIndex, endIndex, items } = e.detail;
         appendLog(listOutput, `Selected ${items.length} items (${startIndex}\u2013${endIndex})`);
       });
@@ -493,7 +493,7 @@ list.addEventListener('ui-range-select', (e) =&gt; {
       });
 
       const ctrlOutput = document.getElementById('ctrl-output');
-      ctrlList.addEventListener('ui-range-select', (e) => {
+      ctrlList.addEventListener('native:range-select', (e) => {
         const { startIndex, endIndex, items } = e.detail;
         appendLog(ctrlOutput, `Selected ${items.length} items (${startIndex}\u2013${endIndex})`);
       });

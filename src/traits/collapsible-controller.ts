@@ -2,7 +2,7 @@ export interface CollapsibleOptions {
   duration?: number;
 }
 
-/** Animates expand/collapse transitions on the host, dispatching `ui-expand` and `ui-collapse`. */
+/** Animates expand/collapse transitions on the host, dispatching `native:expand` and `native:collapse`. */
 export class CollapsibleController {
   readonly host: HTMLElement;
   duration: number;
@@ -38,7 +38,7 @@ export class CollapsibleController {
 
     this.#rafId = requestAnimationFrame(() => {
       const targetHeight = this.host.scrollHeight;
-      this.host.style.transition = `height ${this.duration}ms var(--ui-easing, ease)`;
+      this.host.style.transition = `height ${this.duration}ms var(--n-easing, ease)`;
       this.host.style.height = `${targetHeight}px`;
 
       const onEnd = () => {
@@ -47,7 +47,7 @@ export class CollapsibleController {
         this.host.style.removeProperty('overflow');
         this.host.style.removeProperty('transition');
         this.#animating = false;
-        this.host.dispatchEvent(new CustomEvent('ui-expand', { bubbles: true, composed: true }));
+        this.host.dispatchEvent(new CustomEvent('native:expand', { bubbles: true, composed: true }));
       };
       this.host.addEventListener('transitionend', onEnd, { once: true });
 
@@ -69,7 +69,7 @@ export class CollapsibleController {
     this.host.style.height = `${currentHeight}px`;
 
     this.#rafId = requestAnimationFrame(() => {
-      this.host.style.transition = `height ${this.duration}ms var(--ui-easing, ease)`;
+      this.host.style.transition = `height ${this.duration}ms var(--n-easing, ease)`;
       this.host.style.height = '0px';
 
       const onEnd = () => {
@@ -79,7 +79,7 @@ export class CollapsibleController {
         this.host.style.removeProperty('transition');
         this.#animating = false;
         this.host.setAttribute('collapsed', '');
-        this.host.dispatchEvent(new CustomEvent('ui-collapse', { bubbles: true, composed: true }));
+        this.host.dispatchEvent(new CustomEvent('native:collapse', { bubbles: true, composed: true }));
       };
       this.host.addEventListener('transitionend', onEnd, { once: true });
 

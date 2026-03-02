@@ -40,9 +40,9 @@ describe('parseDataOptions', () => {
 
   it('returns empty and warns for invalid JSON', () => {
     const spy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const result = parseDataOptions('not json', 'ui-select');
+    const result = parseDataOptions('not json', 'n-select');
     expect(result).toEqual([]);
-    expect(spy).toHaveBeenCalledWith('<ui-select>: invalid options JSON', 'not json');
+    expect(spy).toHaveBeenCalledWith('<n-select>: invalid options JSON', 'not json');
     spy.mockRestore();
   });
 
@@ -99,10 +99,10 @@ describe('fetchDataOptions', () => {
       new Response('Not Found', { status: 404 }),
     );
 
-    await fetchDataOptions('/api/test', null, target, 'ui-combobox');
+    await fetchDataOptions('/api/test', null, target, 'n-combobox');
 
     expect(target.value).toEqual([]);
-    expect(spy).toHaveBeenCalledWith('<ui-combobox>: fetch failed (404) for /api/test');
+    expect(spy).toHaveBeenCalledWith('<n-combobox>: fetch failed (404) for /api/test');
   });
 
   it('aborts previous controller', async () => {
@@ -163,8 +163,8 @@ describe('fetchDataOptions', () => {
 
     vi.spyOn(globalThis, 'fetch').mockRejectedValue(error);
 
-    await fetchDataOptions('/api/test', null, target, 'ui-select');
+    await fetchDataOptions('/api/test', null, target, 'n-select');
 
-    expect(spy).toHaveBeenCalledWith('<ui-select>: fetch error', error);
+    expect(spy).toHaveBeenCalledWith('<n-select>: fetch error', error);
   });
 });

@@ -1,0 +1,181 @@
+@layer ui {
+
+  /* ── Radio Group ── */
+
+  :where(n-radio-group) {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--n-space) * 2);
+    outline: none;
+  }
+
+  :where(n-radio-group[orientation="horizontal"]) {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  /* ── Radio Base ── */
+
+  :where(n-radio) {
+    --n-font-weight: var(--n-text-font-weight);
+    --n-line-height: var(--n-control-line-height);
+    --n-radius: 50%;
+
+    /* Circle size: shared widget scale for toggle controls */
+    --n-circle-size: var(--n-widget-size);
+    /* Inner dot */
+    --n-dot-size: calc(var(--n-circle-size) * 0.4);
+
+    --n-background: var(--n-widget);
+    --n-background-hover: var(--n-widget-hover);
+    --n-background-active: var(--n-widget-active);
+    --n-background-disabled: var(--n-widget-disabled);
+    --n-color: var(--n-ink);
+    --n-color-hover: var(--n-ink-hover);
+    --n-color-disabled: var(--n-ink-disabled);
+    --n-border-color: var(--n-border-muted);
+    --n-border-color-hover: var(--n-border-hover);
+    --n-border-color-active: var(--n-border-active);
+    --n-border-color-disabled: var(--n-border-disabled);
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    /* WHY: padding reserves space for the absolutely-positioned circle */
+    padding-inline-start: calc(var(--n-circle-size) + var(--n-space) * 2);
+    min-height: var(--n-circle-size);
+
+    font-size: var(--n-font-size);
+    letter-spacing: var(--n-letter-spacing);
+    line-height: var(--n-line-height);
+    font-weight: var(--n-font-weight);
+    color: var(--n-color);
+
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+
+    transition:
+      color var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Circle (outer ring) ── */
+  /* WHY: Absolutely positioned so text flows naturally after padding gap */
+
+  :where(n-radio)::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--n-circle-size);
+    height: var(--n-circle-size);
+    border-radius: var(--n-radius);
+    border: 1px solid var(--n-border-color);
+    background: var(--n-background);
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Dot (inner fill) ── */
+  /* WHY: Centered within the circle using calc offset from start + vertical center */
+
+  :where(n-radio)::after {
+    content: '';
+    position: absolute;
+    inset-inline-start: calc((var(--n-circle-size) - var(--n-dot-size)) / 2);
+    top: 50%;
+    transform: translateY(-50%) scale(0);
+    width: var(--n-dot-size);
+    height: var(--n-dot-size);
+    border-radius: var(--n-radius);
+    background: transparent;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Selected ── */
+
+  :where(n-radio)[aria-checked="true"]::before {
+    background: var(--n-surface);
+    border-color: var(--n-surface);
+  }
+
+  :where(n-radio)[aria-checked="true"]::after {
+    background: var(--n-surface-ink);
+    transform: translateY(-50%) scale(1);
+  }
+
+  /* ── Hover ── */
+
+  :where(n-radio):hover,
+  :where(n-radio)[force-hover] {
+    color: var(--n-color-hover);
+  }
+
+  :where(n-radio):hover::before,
+  :where(n-radio)[force-hover]::before {
+    background: var(--n-background-hover);
+    border-color: var(--n-border-color-hover);
+  }
+
+  :where(n-radio)[aria-checked="true"]:hover::before,
+  :where(n-radio)[aria-checked="true"][force-hover]::before {
+    background: var(--n-surface-hover);
+    border-color: var(--n-surface-hover);
+  }
+
+  /* ── Active (pressed) ── */
+
+  :where(n-radio)[pressed]::before,
+  :where(n-radio)[force-active]::before {
+    background: var(--n-background-active);
+    border-color: var(--n-border-color-active);
+  }
+
+  :where(n-radio)[aria-checked="true"][pressed]::before,
+  :where(n-radio)[aria-checked="true"][force-active]::before {
+    background: var(--n-surface-active);
+    border-color: var(--n-surface-active);
+  }
+
+  /* ── Focus ── */
+
+  :where(n-radio):focus-visible::before,
+  :where(n-radio)[force-focus-visible]::before {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* ── Disabled ── */
+
+  :where(n-radio)[aria-disabled="true"] {
+    color: var(--n-color-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  :where(n-radio)[aria-disabled="true"]::before {
+    background: var(--n-background-disabled);
+    border-color: var(--n-border-color-disabled);
+  }
+
+  :where(n-radio)[aria-disabled="true"][aria-checked="true"]::before {
+    background: var(--n-surface-disabled);
+    border-color: var(--n-surface-disabled);
+  }
+
+  :where(n-radio)[aria-disabled="true"]::after {
+    background: var(--n-surface-ink-disabled);
+  }
+
+  :where(n-radio[hidden]) { display: none; }
+
+}

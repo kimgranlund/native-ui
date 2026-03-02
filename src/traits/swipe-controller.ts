@@ -7,7 +7,7 @@ export interface SwipeOptions {
 
 export type SwipeDirection = 'left' | 'right' | 'up' | 'down';
 
-/** Detects touch/pointer swipe gestures and dispatches `ui-swipe` with direction and velocity. */
+/** Detects touch/pointer swipe gestures and dispatches `native:swipe` with direction and velocity. */
 export class SwipeController {
   readonly host: HTMLElement;
   threshold: number;
@@ -131,7 +131,7 @@ export class SwipeController {
         this.#attrTimer = null;
       }, 300);
 
-      this.host.dispatchEvent(new CustomEvent('ui-swipe', {
+      this.host.dispatchEvent(new CustomEvent('native:swipe', {
         bubbles: true,
         composed: true,
         detail: { direction: dir, distance: dist, velocity: vel },

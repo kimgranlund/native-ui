@@ -4,7 +4,7 @@ export interface RangeSelectOptions {
   disabled?: boolean;
 }
 
-/** Enables contiguous range selection via drag or click, dispatching `ui-range-change` and `ui-range-select`. */
+/** Enables contiguous range selection via drag or click, dispatching `native:range-change` and `native:range-select`. */
 export class RangeSelectController {
   readonly host: HTMLElement;
   selector: string;
@@ -215,7 +215,7 @@ export class RangeSelectController {
   #dispatchChange(): void {
     const items = this.#getItems();
     const [lo, hi] = this.#bounds();
-    this.host.dispatchEvent(new CustomEvent('ui-range-change', {
+    this.host.dispatchEvent(new CustomEvent('native:range-change', {
       bubbles: true,
       composed: true,
       detail: {
@@ -229,7 +229,7 @@ export class RangeSelectController {
   #commitRange(): void {
     const items = this.#getItems();
     const [lo, hi] = this.#bounds();
-    this.host.dispatchEvent(new CustomEvent('ui-range-select', {
+    this.host.dispatchEvent(new CustomEvent('native:range-select', {
       bubbles: true,
       composed: true,
       detail: {

@@ -1,0 +1,138 @@
+@layer ui {
+
+  /* ── Range Base ── */
+
+  :where(n-range) {
+    --n-progress: 0.5;
+
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    align-items: center;
+    position: relative;
+    /* WHY: Isolate internal z-index (thumb z-index: 1) from parent stacking context */
+    isolation: isolate;
+
+    min-height: var(--n-widget-size);
+
+    cursor: pointer;
+    outline: none;
+    touch-action: none;
+    user-select: none;
+  }
+
+  /* ── Track (background) ── */
+
+  :where(n-range)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: calc(var(--n-widget-size) / 2);
+    background: var(--n-widget);
+    border: 1px solid var(--n-border-muted);
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Fill ── */
+  /* WHY: Default fill uses accent so range is visually distinct without
+     needing intent="accent". Track background stays neutral.
+     When an explicit [intent] is set, the intent selector's --n-surface wins. */
+
+  :where(n-range)::after {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    /* 0% = track-height (circle), 100% = full width */
+    width: calc(var(--n-widget-size) + (100% - var(--n-widget-size)) * var(--n-progress));
+    border-radius: calc(var(--n-widget-size) / 2);
+    background: var(--n-surface);
+
+    transition:
+      background var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Thumb ── */
+
+  :where(n-range) > :where(.n-range-thumb) {
+    position: absolute;
+    inset-inline-start: calc((100% - var(--n-widget-size)) * var(--n-progress));
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    width: var(--n-widget-size);
+    height: var(--n-widget-size);
+    border-radius: 50%;
+    background: var(--n-surface-ink);
+    border: 2px solid var(--n-surface);
+    box-shadow: var(--n-shadow-sm);
+    pointer-events: none;
+
+    transition:
+      box-shadow var(--n-duration) var(--n-easing),
+      background var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Focus ── */
+
+  :where(n-range):focus-visible > :where(.n-range-thumb),
+  :where(n-range)[force-focus-visible] > :where(.n-range-thumb) {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* ── Hover ── */
+
+  :where(n-range):hover::after,
+  :where(n-range)[force-hover]::after {
+    background: var(--n-surface-hover);
+  }
+
+  :where(n-range):hover > :where(.n-range-thumb),
+  :where(n-range)[force-hover] > :where(.n-range-thumb) {
+    border-color: var(--n-surface-hover);
+    box-shadow: var(--n-shadow-sm), 0 0 0 4px var(--n-surface);
+  }
+
+  /* ── Active (dragging) ── */
+
+  :where(n-range)[pressed]::after,
+  :where(n-range)[force-active]::after {
+    background: var(--n-surface-active);
+  }
+
+  :where(n-range)[pressed] > :where(.n-range-thumb),
+  :where(n-range)[force-active] > :where(.n-range-thumb) {
+    border-color: var(--n-surface-active);
+    box-shadow: var(--n-shadow-sm), 0 0 0 6px var(--n-surface);
+  }
+
+  /* ── Disabled ── */
+
+  :where(n-range)[aria-disabled="true"] {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  :where(n-range)[aria-disabled="true"]::before {
+    background: var(--n-widget-disabled);
+  }
+
+  :where(n-range)[aria-disabled="true"]::after {
+    background: var(--n-surface-disabled);
+  }
+
+  :where(n-range)[aria-disabled="true"] > :where(.n-range-thumb) {
+    background: var(--n-surface-ink-disabled);
+    border-color: var(--n-surface-disabled);
+    box-shadow: none;
+  }
+
+  :where(n-range[hidden]) { display: none; }
+
+}

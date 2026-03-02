@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { CollapsibleController } from '../collapsible-controller.ts';
 import { define } from '../../core/define.ts';
 
-class CollapseTestEl extends UIElement {
+class CollapseTestEl extends NativeElement {
   disabled = false;
   #ctrl: CollapsibleController | null = null;
 
@@ -89,7 +89,7 @@ describe('Collapsible', () => {
   it('collapse() is a no-op when already collapsed', () => {
     const el = create(true);
     const handler = vi.fn();
-    el.addEventListener('ui-collapse', handler);
+    el.addEventListener('native:collapse', handler);
     el.collapse();
     // No event should fire since already collapsed
     expect(handler).not.toHaveBeenCalled();
@@ -98,7 +98,7 @@ describe('Collapsible', () => {
   it('expand() is a no-op when already expanded', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-expand', handler);
+    el.addEventListener('native:expand', handler);
     el.expand();
     expect(handler).not.toHaveBeenCalled();
   });
@@ -124,10 +124,10 @@ describe('Collapsible', () => {
     expect(el.collapseDuration).toBe(500);
   });
 
-  it('expand() dispatches ui-expand via timeout fallback', async () => {
+  it('expand() dispatches native:expand via timeout fallback', async () => {
     const el = create(true);
     const handler = vi.fn();
-    el.addEventListener('ui-expand', handler);
+    el.addEventListener('native:expand', handler);
     el.expand();
 
     // Wait for rAF + timeout fallback (duration=200 + 50ms buffer)
@@ -136,10 +136,10 @@ describe('Collapsible', () => {
     }, { timeout: 500 });
   });
 
-  it('collapse() dispatches ui-collapse via timeout fallback', async () => {
+  it('collapse() dispatches native:collapse via timeout fallback', async () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-collapse', handler);
+    el.addEventListener('native:collapse', handler);
     el.collapse();
 
     await vi.waitFor(() => {
@@ -150,7 +150,7 @@ describe('Collapsible', () => {
   it('expand event has bubbles and composed', async () => {
     const el = create(true);
     let event: Event | null = null;
-    el.addEventListener('ui-expand', (e) => { event = e; });
+    el.addEventListener('native:expand', (e) => { event = e; });
     el.expand();
 
     await vi.waitFor(() => {
@@ -163,7 +163,7 @@ describe('Collapsible', () => {
   it('collapse event has bubbles and composed', async () => {
     const el = create();
     let event: Event | null = null;
-    el.addEventListener('ui-collapse', (e) => { event = e; });
+    el.addEventListener('native:collapse', (e) => { event = e; });
     el.collapse();
 
     await vi.waitFor(() => {
@@ -177,7 +177,7 @@ describe('Collapsible', () => {
     const el = create();
     el.collapse(); // starts animating
     const spy = vi.fn();
-    el.addEventListener('ui-collapse', spy);
+    el.addEventListener('native:collapse', spy);
     el.collapse(); // should be ignored (animating guard)
     // Only the first collapse should proceed — spy won't fire for the second call
     expect(spy).not.toHaveBeenCalled(); // hasn't fired yet (still in rAF)

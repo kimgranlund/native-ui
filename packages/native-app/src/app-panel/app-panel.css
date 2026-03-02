@@ -1,0 +1,107 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  n-app-panel                                           │
+     │  Layout panel — main content surface or collapsible      │
+     │  aside. Default: flex-1 scrollable body. [aside]:        │
+     │  fixed-width side panel with open/close + resize.        │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* ── Base (shared) ── */
+
+  :where(n-app-panel) {
+    --n-ground: var(--n-panel);
+
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: none;
+    background: var(--n-ground);
+    border-radius: var(--n-radius);
+  }
+
+  :where(n-app-panel)[show-scrollbar] {
+    scrollbar-width: thin;
+  }
+
+  /* ── Main mode (default) ── */
+
+  :where(n-app-panel):not([aside]) {
+    flex: 1;
+    min-width: 0;
+    overflow-y: auto;
+    padding: calc(var(--n-space-k) * var(--n-space));
+  }
+
+  /* ── Aside mode ── */
+
+  :where(n-app-panel)[aside] {
+    position: relative;
+    width: 0;
+    min-width: 0;
+    max-width: 480px;
+    overflow: clip;
+    padding: 0;
+    transition:
+      width var(--n-duration) var(--n-easing),
+      min-width var(--n-duration) var(--n-easing),
+      padding var(--n-duration) var(--n-easing),
+      margin var(--n-duration) var(--n-easing);
+  }
+
+  :where(n-app-panel)[aside][open] {
+    width: 360px;
+    min-width: 280px;
+    margin-inline-start: calc(var(--n-space) * 2);
+    overflow-y: auto;
+    padding: calc(var(--n-space-k) * var(--n-space));
+  }
+
+  /* WHY: When n-chat manages its own sub-container padding and scroll,
+     the layout container delegates — no own padding, no own scroll.
+     overflow: visible lets CSS anchor-positioned popovers (n-select etc.)
+     resolve through to the top layer. */
+  :where(n-app-panel)[aside][open]:has(> n-chat) {
+    padding: 0;
+    overflow: visible;
+  }
+
+  /* WHY: Disable width transition while dragging — it fights the pointer. */
+  :where(n-app-panel)[aside][resizing] {
+    transition: none;
+  }
+
+  /* ── Resize Handle ── */
+
+  :where(n-app-panel)[aside] :where(.layout-resize-handle) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 1;
+  }
+
+  :where(n-app-panel)[aside] :where(.layout-resize-handle):hover,
+  :where(n-app-panel)[aside][resizing] :where(.layout-resize-handle) {
+    background: var(--n-border-muted);
+  }
+
+  /* ── Panel sub-container integration ── */
+  /* WHY: When n-panel-body is present, delegate overflow to it so
+     header/footer stay fixed while body scrolls. */
+
+  :where(n-app-panel):has(> n-panel-body) {
+    overflow: hidden;
+    padding: 0;
+  }
+
+  :where(n-app-panel) > :where(n-panel-header) {
+    border-bottom: 1px solid var(--n-border-muted);
+  }
+
+  :where(n-app-panel) > :where(n-panel-footer) {
+    border-top: 1px solid var(--n-border-muted);
+  }
+
+}

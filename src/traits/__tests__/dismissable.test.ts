@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { DismissController } from '../dismiss-controller.ts';
 import { define } from '../../core/define.ts';
 
-class DismissTestEl extends UIElement {
+class DismissTestEl extends NativeElement {
   #dismiss: DismissController | null = null;
   setup() { super.setup(); this.#dismiss = new DismissController(this); }
   teardown() { this.#dismiss?.destroy(); this.#dismiss = null; super.teardown(); }
@@ -41,25 +41,25 @@ afterEach(() => {
 });
 
 describe('Dismissable', () => {
-  it('dispatches ui-dismiss on Escape key', async () => {
+  it('dispatches native:dismiss on Escape key', async () => {
     const el = create();
     el.show();
     await flushRAF();
 
     const handler = vi.fn();
-    el.addEventListener('ui-dismiss', handler);
+    el.addEventListener('native:dismiss', handler);
 
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(handler).toHaveBeenCalledTimes(1);
   });
 
-  it('dispatches ui-dismiss on click outside', async () => {
+  it('dispatches native:dismiss on click outside', async () => {
     const el = create();
     el.show();
     await flushRAF();
 
     const handler = vi.fn();
-    el.addEventListener('ui-dismiss', handler);
+    el.addEventListener('native:dismiss', handler);
 
     // Click on document body (outside the element)
     document.dispatchEvent(new PointerEvent('pointerdown', {
@@ -77,7 +77,7 @@ describe('Dismissable', () => {
     await flushRAF();
 
     const handler = vi.fn();
-    el.addEventListener('ui-dismiss', handler);
+    el.addEventListener('native:dismiss', handler);
 
     // Click on the child (inside the element)
     child.dispatchEvent(new PointerEvent('pointerdown', {
@@ -94,7 +94,7 @@ describe('Dismissable', () => {
     el.hide();
 
     const handler = vi.fn();
-    el.addEventListener('ui-dismiss', handler);
+    el.addEventListener('native:dismiss', handler);
 
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(handler).not.toHaveBeenCalled();
@@ -111,8 +111,8 @@ describe('Dismissable', () => {
 
     const handler1 = vi.fn();
     const handler2 = vi.fn();
-    el1.addEventListener('ui-dismiss', handler1);
-    el2.addEventListener('ui-dismiss', handler2);
+    el1.addEventListener('native:dismiss', handler1);
+    el2.addEventListener('native:dismiss', handler2);
 
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(handler1).not.toHaveBeenCalled();
@@ -130,7 +130,7 @@ describe('Dismissable', () => {
     el2.hide(); // remove top layer
 
     const handler1 = vi.fn();
-    el1.addEventListener('ui-dismiss', handler1);
+    el1.addEventListener('native:dismiss', handler1);
 
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(handler1).toHaveBeenCalledTimes(1);
@@ -142,20 +142,20 @@ describe('Dismissable', () => {
     await flushRAF();
 
     const handler = vi.fn();
-    el.addEventListener('ui-dismiss', handler);
+    el.addEventListener('native:dismiss', handler);
 
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab' }));
     expect(handler).not.toHaveBeenCalled();
   });
 
-  it('ui-dismiss event has bubbles and composed', async () => {
+  it('native:dismiss event has bubbles and composed', async () => {
     const el = create();
     el.show();
     await flushRAF();
 
     let event: Event | null = null;
-    el.addEventListener('ui-dismiss', (e) => { event = e; });
+    el.addEventListener('native:dismiss', (e) => { event = e; });
 
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(event).not.toBeNull();
@@ -170,7 +170,7 @@ describe('Dismissable', () => {
     await flushRAF();
 
     const handler = vi.fn();
-    el.addEventListener('ui-dismiss', handler);
+    el.addEventListener('native:dismiss', handler);
 
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(handler).not.toHaveBeenCalled();
@@ -191,8 +191,8 @@ describe('Dismissable', () => {
 
     const handler1 = vi.fn();
     const handler2 = vi.fn();
-    el1.addEventListener('ui-dismiss', handler1);
-    el2.addEventListener('ui-dismiss', handler2);
+    el1.addEventListener('native:dismiss', handler1);
+    el2.addEventListener('native:dismiss', handler2);
 
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(handler1).toHaveBeenCalledTimes(1);
@@ -210,7 +210,7 @@ describe('DismissController', () => {
     await flushRAF();
 
     const handler = vi.fn();
-    el.addEventListener('ui-dismiss', handler);
+    el.addEventListener('native:dismiss', handler);
 
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(handler).not.toHaveBeenCalled();
@@ -225,7 +225,7 @@ describe('DismissController', () => {
     ctrl.disable();
 
     const handler = vi.fn();
-    el.addEventListener('ui-dismiss', handler);
+    el.addEventListener('native:dismiss', handler);
 
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(handler).not.toHaveBeenCalled();

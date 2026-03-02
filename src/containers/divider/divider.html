@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-divider — Container Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+.vertical-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        height: 4rem;
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-divider&gt;</h1>
+    <p class="demo-desc">
+      Horizontal or vertical rule between content sections. CSS-only container.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Horizontal (default)</h2>
+    <div class="demo-section">
+      <p>Content above the divider.</p>
+      <n-divider></n-divider>
+      <p>Content below the divider.</p>
+    <pre class="demo-code"><code>&lt;p&gt;Content above the divider.&lt;/p&gt;
+&lt;n-divider&gt;&lt;/n-divider&gt;
+&lt;p&gt;Content below the divider.&lt;/p&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── With Label ── -->
+
+    <h2>With Label</h2>
+    <div class="demo-section">
+      <p>Sign in with your account.</p>
+      <n-divider>or</n-divider>
+      <p>Continue as guest.</p>
+    </div>
+
+    <div class="demo-section">
+      <n-divider>or continue with</n-divider>
+    <pre class="demo-code"><code>&lt;n-divider&gt;or&lt;/n-divider&gt;
+
+&lt;n-divider&gt;or continue with&lt;/n-divider&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Vertical ── -->
+
+    <h2>Vertical</h2>
+    <div class="demo-section">
+      <div class="vertical-container">
+        <span>Left</span>
+        <n-divider orientation="vertical"></n-divider>
+        <span>Right</span>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <div class="vertical-container">
+        <span>One</span>
+        <n-divider orientation="vertical"></n-divider>
+        <span>Two</span>
+        <n-divider orientation="vertical"></n-divider>
+        <span>Three</span>
+      </div>
+      <pre class="demo-code"><code>&lt;div style="display: flex; align-items: center; gap: 1rem; height: 4rem;"&gt;
+  &lt;span&gt;Left&lt;/span&gt;
+  &lt;n-divider orientation="vertical"&gt;&lt;/n-divider&gt;
+  &lt;span&gt;Right&lt;/span&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Vertical With Label ── -->
+
+    <h2>Vertical With Label</h2>
+    <div class="demo-section">
+      <div class="vertical-container" style="height: 6rem;">
+        <span>Left</span>
+        <n-divider orientation="vertical">or</n-divider>
+        <span>Right</span>
+      </div>
+      <pre class="demo-code"><code>&lt;n-divider orientation="vertical"&gt;or&lt;/n-divider&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes (inherit from parent)</h2>
+    <div class="demo-section">
+      <h3>size="xs"</h3>
+      <div size="xs">
+        <n-divider>xs label</n-divider>
+      </div>
+      <h3>size="sm"</h3>
+      <div size="sm">
+        <n-divider>sm label</n-divider>
+      </div>
+      <h3>size="md"</h3>
+      <div size="md">
+        <n-divider>md label</n-divider>
+      </div>
+      <h3>size="lg"</h3>
+      <div size="lg">
+        <n-divider>lg label</n-divider>
+      </div>
+      <h3>size="xl"</h3>
+      <div size="xl">
+        <n-divider>xl label</n-divider>
+      </div>
+      <pre class="demo-code"><code>&lt;div size="sm"&gt;
+  &lt;n-divider&gt;sm label&lt;/n-divider&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Composition ── -->
+
+    <h2>Composition (with buttons)</h2>
+    <div class="demo-section">
+      <n-button variant="primary" intent="accent" style="width: 100%;"><span slot="label">Sign In</span></n-button>
+      <n-divider>or continue with</n-divider>
+      <div class="demo-actions">
+        <n-button style="flex: 1;"><n-icon name="google-logo" slot="leading"></n-icon><span slot="label">Google</span></n-button>
+        <n-button style="flex: 1;"><n-icon name="github-logo" slot="leading"></n-icon><span slot="label">GitHub</span></n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;n-button variant="primary" intent="accent" style="width: 100%;"&gt;Sign In&lt;/n-button&gt;
+&lt;n-divider&gt;or continue with&lt;/n-divider&gt;
+&lt;div class="demo-actions"&gt;
+  &lt;n-button style="flex: 1;"&gt;Google&lt;/n-button&gt;
+  &lt;n-button style="flex: 1;"&gt;GitHub&lt;/n-button&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import '../../components/button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/google-logo.ts';
+      import '../../icons/phosphor/github-logo.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

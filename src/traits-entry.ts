@@ -11,7 +11,7 @@ export { isSignal, isComputed, debugReactive } from './reactivity/index.ts';
 export type { Signal, ReadonlySignal, Dispose, ReactiveDebugInfo } from './reactivity/index.ts';
 
 // Core utilities used by trait consumers
-export { UIElement } from './core/ui-element.ts';
+export { NativeElement } from './core/native-element.ts';
 export type { Lifecycle, Constructor } from './core/types.ts';
 export { define } from './core/define.ts';
 export { uid } from './core/uid.ts';
@@ -22,7 +22,7 @@ export { getTraitRuntime, DismissStack, ToastManager } from './core/trait-runtim
 export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from './core/trait-runtime.ts';
 
 // Event detail types
-export type { UIPressDetail, UISelectDetail, UITextChangeDetail, UIRangeValueDetail, UIPickerChangeDetail, UIToggleChangeDetail, UIInputDetail, UIDisabledDetail, UIDragStartDetail, UIDragMoveDetail, UIDragOverDetail, UIDropDetail, UIDragCancelDetail, UIInvalidDetail, UIValidDetail, UIRangeChangeDetail, UIRangeSelectDetail, UIFileDropDetail, UITextDropDetail, UISearchDetail, UIClipDetail, UIIntersectDetail, UICopyDetail, UIVirtualChangeDetail, UISelectionChangeDetail, UIHoverDetail, UISortDetail, UISwipeDetail, UIResizeDetail, UIEditStartDetail, UIEditCommitDetail, UIEditCancelDetail, UISlideChangeDetail, UISendDetail, UIToastDetail, UITableSortDetail, UITableSelectDetail, UITableReorderDetail, UITableResizeDetail, UITableResizeEndDetail, UICalendarRangeDetail } from './events.ts';
+export type { NPressDetail, NSelectDetail, NTextChangeDetail, NRangeValueDetail, NPickerChangeDetail, NToggleChangeDetail, NInputDetail, NDisabledDetail, NDragStartDetail, NDragMoveDetail, NDragOverDetail, NDropDetail, NDragCancelDetail, NInvalidDetail, NValidDetail, NRangeChangeDetail, NRangeSelectDetail, NFileDropDetail, NTextDropDetail, NSearchDetail, NClipDetail, NIntersectDetail, NCopyDetail, NVirtualChangeDetail, NSelectionChangeDetail, NHoverDetail, NSortDetail, NSwipeDetail, NResizeDetail, NEditStartDetail, NEditCommitDetail, NEditCancelDetail, NSlideChangeDetail, NSendDetail, NToastDetail, NTableSortDetail, NTableSelectDetail, NTableReorderDetail, NTableResizeDetail, NTableResizeEndDetail, NCalendarRangeDetail } from './events.ts';
 
 // All controllers, types, adapters, and registerAllTraits
 export * from './traits/index.ts';

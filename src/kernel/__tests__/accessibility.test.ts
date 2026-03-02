@@ -63,7 +63,7 @@ describe('validateAccessibility', () => {
   it('flags custom interactive element without name', () => {
     const root: UINode = {
       id: 'btn',
-      tag: 'ui-button',
+      tag: 'n-button',
     };
     const result = validateAccessibility(root);
     expect(result.valid).toBe(false);
@@ -216,11 +216,11 @@ describe('validateAccessibility', () => {
       id: 'root',
       tag: 'div',
       children: [
-        { id: 'inp', tag: 'ui-input' },
+        { id: 'inp', tag: 'n-input' },
       ],
     };
     const result = validateAccessibility(root);
-    // ui-input is interactive + form — both trigger violations
+    // n-input is interactive + form — both trigger violations
     // interactive-needs-name is error, form-input-needs-label is warning
     expect(result.violations.some(v => v.severity === 'error')).toBe(true);
     expect(result.valid).toBe(false);

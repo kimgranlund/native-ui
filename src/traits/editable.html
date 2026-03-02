@@ -19,7 +19,7 @@
         font-weight: 600;
         margin-bottom: 0.5rem;
         margin-top: 1.25rem;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
       /* ── Editable Items ── */
 
@@ -34,8 +34,8 @@
         align-items: center;
         gap: 0.75rem;
         padding: 0.625rem 0.75rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.375rem;
         font-size: 0.875rem;
         cursor: default;
@@ -44,9 +44,9 @@
       }
 
       .edit-item[editing] {
-        background: var(--neutral-body);
-        border-color: var(--accent-border);
-        box-shadow: 0 0 0 2px var(--accent-surface);
+        background: var(--n-body-neutral);
+        border-color: var(--n-border-accent);
+        box-shadow: 0 0 0 2px var(--n-surface-accent);
         cursor: text;
       }
 
@@ -57,12 +57,12 @@
       .output {
         font-family: monospace;
         font-size: 0.75rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         max-height: 6rem;
         overflow-y: auto;
         margin-top: 0.75rem;
         padding: 0.5rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         border-radius: 0.25rem;
       }
       /* ── Pattern Badges ── */
@@ -80,8 +80,8 @@
       }
 
       .pattern-badge.provider {
-        background: var(--info-surface);
-        color: var(--info-surface-ink);
+        background: var(--n-surface-info);
+        color: var(--n-surface-ink-info);
       }
 
       /* ── API Reference ── */
@@ -100,20 +100,20 @@
         text-align: left;
         font-weight: 600;
         padding: 0.5rem 0.75rem;
-        border-bottom: 2px solid var(--neutral-border-muted);
-        color: var(--neutral-ink-strong);
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
       }
 
       .api-table td {
         padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
         vertical-align: top;
       }
 
       .api-table code {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         padding: 0.0625rem 0.3125rem;
         border-radius: 0.1875rem;
       }
@@ -124,7 +124,7 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
 
     <h1>Editable</h1>
     <p class="demo-desc">
@@ -136,18 +136,18 @@
     <h2>Double-Click to Edit <span class="pattern-badge provider">Provider</span></h2>
     <div class="demo-section">
       <p class="demo-hint">
-        <code>&lt;ui-controller&gt;</code> with <code>for=".edit-item"</code> applies an <code>EditController</code> to each matching item. Double-click to start editing. Press <strong>Enter</strong> to commit or <strong>Escape</strong> to cancel.
+        <code>&lt;n-controller&gt;</code> with <code>for=".edit-item"</code> applies an <code>EditController</code> to each matching item. Double-click to start editing. Press <strong>Enter</strong> to commit or <strong>Escape</strong> to cancel.
       </p>
-      <ui-controller traits="editable" editable-trigger="dblclick" for=".edit-item">
+      <n-controller traits="editable" editable-trigger="dblclick" for=".edit-item">
         <div id="dbl-list" class="edit-list">
           <div class="edit-item">Project Roadmap</div>
           <div class="edit-item">Sprint Planning</div>
           <div class="edit-item">Design Review</div>
           <div class="edit-item">Release Notes</div>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="dbl-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="editable"
+      <pre class="demo-code"><code>&lt;n-controller traits="editable"
   editable-trigger="dblclick"
   for=".edit-item"&gt;
   &lt;div class="edit-list"&gt;
@@ -156,12 +156,12 @@
     &lt;div class="edit-item"&gt;Design Review&lt;/div&gt;
     &lt;div class="edit-item"&gt;Release Notes&lt;/div&gt;
   &lt;/div&gt;
-&lt;/ui-controller&gt;
+&lt;/n-controller&gt;
 
 // Events bubble up from each item
-list.addEventListener('ui-edit-commit', (e) =&gt; {
+list.addEventListener('native:edit-commit', (e) =&gt; {
   const { value, previousValue } = e.detail;
-});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Click to Edit (Provider) ── -->
@@ -171,15 +171,15 @@ list.addEventListener('ui-edit-commit', (e) =&gt; {
       <p class="demo-hint">
         Trigger set to <code>'click'</code>. Single click activates editing mode. The <code>for</code> selector applies the trait to each matching descendant individually.
       </p>
-      <ui-controller traits="editable" editable-trigger="click" for=".edit-item">
+      <n-controller traits="editable" editable-trigger="click" for=".edit-item">
         <div id="click-list" class="edit-list">
           <div class="edit-item">Task Alpha</div>
           <div class="edit-item">Task Bravo</div>
           <div class="edit-item">Task Charlie</div>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="click-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="editable"
+      <pre class="demo-code"><code>&lt;n-controller traits="editable"
   editable-trigger="click"
   for=".edit-item"&gt;
   &lt;div class="edit-list"&gt;
@@ -187,7 +187,7 @@ list.addEventListener('ui-edit-commit', (e) =&gt; {
     &lt;div class="edit-item"&gt;Task Bravo&lt;/div&gt;
     &lt;div class="edit-item"&gt;Task Charlie&lt;/div&gt;
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── EditController Direct ── -->
@@ -195,7 +195,7 @@ list.addEventListener('ui-edit-commit', (e) =&gt; {
     <h2>EditController — Attach to Any Element</h2>
     <div class="demo-section">
       <p class="demo-hint">
-        Use <code>EditController</code> directly on any element without the trait adapter or <code>&lt;ui-controller&gt;</code>. Double-click to edit.
+        Use <code>EditController</code> directly on any element without the trait adapter or <code>&lt;n-controller&gt;</code>. Double-click to edit.
       </p>
       <div id="controller-item" class="edit-item">Editable paragraph — double-click me</div>
       <div id="ctrl-log" class="output"></div>
@@ -206,19 +206,19 @@ const editor = new EditController(item, {
   trigger: 'dblclick',
 });
 
-item.addEventListener('ui-edit-start', (e) =&gt; {
+item.addEventListener('native:edit-start', (e) =&gt; {
   log(`Editing: "${e.detail.value}"`);
 });
-item.addEventListener('ui-edit-commit', (e) =&gt; {
+item.addEventListener('native:edit-commit', (e) =&gt; {
   log(`Committed: "${e.detail.value}"`);
 });
-item.addEventListener('ui-edit-cancel', (e) =&gt; {
+item.addEventListener('native:edit-cancel', (e) =&gt; {
   log(`Cancelled: "${e.detail.value}"`);
 });
 
 // Properties: editor.isEditing, editor.originalValue, editor.currentValue
 // Methods: editor.startEdit(), editor.commitEdit(), editor.cancelEdit()
-// Later: editor.destroy();</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+// Later: editor.destroy();</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── API Reference ── -->
@@ -259,12 +259,12 @@ item.addEventListener('ui-edit-cancel', (e) =&gt; {
           <tr>
             <td><code>commitEdit()</code></td>
             <td><code>string</code></td>
-            <td>Commit the current value. Removes editing state and dispatches <code>ui-edit-commit</code>.</td>
+            <td>Commit the current value. Removes editing state and dispatches <code>native:edit-commit</code>.</td>
           </tr>
           <tr>
             <td><code>cancelEdit()</code></td>
             <td>—</td>
-            <td>Restore the original value. Removes editing state and dispatches <code>ui-edit-cancel</code>.</td>
+            <td>Restore the original value. Removes editing state and dispatches <code>native:edit-cancel</code>.</td>
           </tr>
           <tr>
             <td><code>destroy()</code></td>
@@ -305,17 +305,17 @@ item.addEventListener('ui-edit-cancel', (e) =&gt; {
         <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>ui-edit-start</code></td>
+            <td><code>native:edit-start</code></td>
             <td><code>{ value }</code></td>
             <td>Fired when editing begins. <code>value</code> is the original text.</td>
           </tr>
           <tr>
-            <td><code>ui-edit-commit</code></td>
+            <td><code>native:edit-commit</code></td>
             <td><code>{ value, previousValue }</code></td>
             <td>Fired when Enter is pressed or the element blurs. <code>value</code> is the new text.</td>
           </tr>
           <tr>
-            <td><code>ui-edit-cancel</code></td>
+            <td><code>native:edit-cancel</code></td>
             <td><code>{ value }</code></td>
             <td>Fired when Escape is pressed. Text is restored to <code>value</code> (original).</td>
           </tr>
@@ -342,7 +342,7 @@ item.addEventListener('ui-edit-cancel', (e) =&gt; {
       </table>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
 
     <!-- Script 1: Register all traits BEFORE any component define() -->
     <script type="module">
@@ -352,10 +352,10 @@ item.addEventListener('ui-edit-cancel', (e) =&gt; {
 
     <!-- Script 2: Import components and wire demos -->
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../components/ui-controller/ui-controller.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../components/controller/controller.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
       import { EditController } from '../index.ts';
@@ -366,7 +366,7 @@ item.addEventListener('ui-edit-cancel', (e) =&gt; {
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
@@ -386,19 +386,19 @@ item.addEventListener('ui-edit-cancel', (e) =&gt; {
       }
 
       // ── Double-Click to Edit (provider) ──
-      // ui-controller with for=".edit-item" applies EditController to each item.
+      // n-controller with for=".edit-item" applies EditController to each item.
       // Events bubble up from each item to the list container.
 
       const dblLogEl = document.getElementById('dbl-log');
       const dblList = document.getElementById('dbl-list');
 
-      dblList.addEventListener('ui-edit-start', (e) => {
+      dblList.addEventListener('native:edit-start', (e) => {
         appendLog(dblLogEl, `Editing: "${e.detail.value}"`);
       });
-      dblList.addEventListener('ui-edit-commit', (e) => {
+      dblList.addEventListener('native:edit-commit', (e) => {
         appendLog(dblLogEl, `Committed: "${e.detail.value}" (was "${e.detail.previousValue}")`);
       });
-      dblList.addEventListener('ui-edit-cancel', (e) => {
+      dblList.addEventListener('native:edit-cancel', (e) => {
         appendLog(dblLogEl, `Cancelled: "${e.detail.value}"`);
       });
 
@@ -407,13 +407,13 @@ item.addEventListener('ui-edit-cancel', (e) =&gt; {
       const clickLogEl = document.getElementById('click-log');
       const clickList = document.getElementById('click-list');
 
-      clickList.addEventListener('ui-edit-start', (e) => {
+      clickList.addEventListener('native:edit-start', (e) => {
         appendLog(clickLogEl, `Editing: "${e.detail.value}"`);
       });
-      clickList.addEventListener('ui-edit-commit', (e) => {
+      clickList.addEventListener('native:edit-commit', (e) => {
         appendLog(clickLogEl, `Committed: "${e.detail.value}" (was "${e.detail.previousValue}")`);
       });
-      clickList.addEventListener('ui-edit-cancel', (e) => {
+      clickList.addEventListener('native:edit-cancel', (e) => {
         appendLog(clickLogEl, `Cancelled: "${e.detail.value}"`);
       });
 
@@ -424,13 +424,13 @@ item.addEventListener('ui-edit-cancel', (e) =&gt; {
 
       const ctrlLogEl = document.getElementById('ctrl-log');
 
-      ctrlItem.addEventListener('ui-edit-start', (e) => {
+      ctrlItem.addEventListener('native:edit-start', (e) => {
         appendLog(ctrlLogEl, `Editing: "${e.detail.value}"`);
       });
-      ctrlItem.addEventListener('ui-edit-commit', (e) => {
+      ctrlItem.addEventListener('native:edit-commit', (e) => {
         appendLog(ctrlLogEl, `Committed: "${e.detail.value}" (was "${e.detail.previousValue}")`);
       });
-      ctrlItem.addEventListener('ui-edit-cancel', (e) => {
+      ctrlItem.addEventListener('native:edit-cancel', (e) => {
         appendLog(ctrlLogEl, `Cancelled: "${e.detail.value}"`);
       });
     </script>

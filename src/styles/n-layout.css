@@ -1,0 +1,66 @@
+/* n-app — dev-only styles for sidebar chrome and command dialog.
+   Layout structure is handled by n-app-* components.
+   Injected into n-app's shadow root via ?inline import. */
+
+/* ── Logo ── */
+
+.nav-logo {
+  display: flex;
+  flex-shrink: 0;
+}
+
+/* ── Search hint ── */
+
+.nav-search-hint {
+  color: var(--n-ink-muted-neutral);
+}
+
+/* ── Nav links ── */
+/* WHY: No scroll rules needed — n-sidebar-content is the scroll container. */
+
+/* ── Breadcrumb colors ── */
+
+/* WHY: Inside shadow root — no n-app ancestor in the tree. */
+:where(n-app-breadcrumb) :where(n-breadcrumb-item) {
+  color: var(--n-ink-muted-neutral);
+}
+
+:where(n-app-breadcrumb) :where(n-breadcrumb-item[current]) {
+  color: var(--n-ink-strong-neutral);
+}
+
+/* ── Command Dialog ── */
+
+/* WHY: Thicker backdrop for command palette — draws focus to the search. */
+.nav-cmd-dialog > dialog::backdrop {
+  background: oklch(0% 0 0 / 0.5);
+}
+
+/* WHY: Override grid centering — align to top so n-command stays at a fixed
+   y-position and doesn't shift as the list filters/shrinks. */
+.nav-cmd-dialog > dialog {
+  place-items: start center;
+}
+
+/* WHY: Pin n-command to a fixed y-position so it doesn't shift as the list
+   filters/shrinks. */
+.nav-cmd-dialog n-command {
+  margin-top: 120px;
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.75rem;
+  background: var(--n-body-neutral);
+  color: var(--n-ink-neutral);
+  width: min(480px, 90vw);
+  max-height: min(400px, 80vh);
+  overflow: hidden;
+  box-shadow: var(--n-shadow-xl);
+}
+
+/* WHY: top-layer loses inheritance — provide fallbacks */
+@supports not (color: light-dark(red, red)) {
+  .nav-cmd-dialog n-command {
+    background: #fff;
+    color: #1a1a1a;
+    border-color: #ddd;
+  }
+}

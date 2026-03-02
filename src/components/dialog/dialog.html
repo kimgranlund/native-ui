@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-dialog — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+n-dialog > n-card {
+        width: min(28rem, calc(100vw - 2rem));
+        box-shadow:
+          0 8px 30px oklch(0% 0 0 / 0.12),
+          0 2px 8px oklch(0% 0 0 / 0.06);
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-dialog&gt;</h1>
+    <p class="demo-desc">
+      Modal dialog built on native <code>&lt;dialog&gt;</code>. Opens via <code>showModal()</code>, closes on backdrop click, Escape, or programmatically. Content is promoted to the top layer with full token re-establishment.
+    </p>
+
+    <!-- ── Basic Dialog ── -->
+
+    <h2>Basic Dialog</h2>
+    <div class="demo-section">
+      <n-button id="open-basic">Open Dialog</n-button>
+      <n-dialog id="basic-dialog">
+        <n-card>
+          <n-card-header><span slot="label">Confirm Action</span></n-card-header>
+          <n-card-body>
+            <p class="demo-text">Are you sure you want to continue? This action cannot be undone.</p>
+          </n-card-body>
+          <n-card-footer>
+            <n-button id="basic-cancel">Cancel</n-button>
+            <n-button id="basic-confirm" intent="accent">Confirm</n-button>
+          </n-card-footer>
+        </n-card>
+      </n-dialog>
+      <pre class="demo-code"><code>&lt;n-button id="open-btn"&gt;Open Dialog&lt;/n-button&gt;
+
+&lt;n-dialog id="my-dialog"&gt;
+  &lt;n-card&gt;
+    &lt;n-card-header&gt;&lt;span slot="label"&gt;Confirm Action&lt;/span&gt;&lt;/n-card-header&gt;
+    &lt;n-card-body&gt;
+      &lt;p&gt;Are you sure you want to continue?&lt;/p&gt;
+    &lt;/n-card-body&gt;
+    &lt;n-card-footer&gt;
+      &lt;n-button id="cancel-btn"&gt;Cancel&lt;/n-button&gt;
+      &lt;n-button id="confirm-btn" intent="accent"&gt;Confirm&lt;/n-button&gt;
+    &lt;/n-card-footer&gt;
+  &lt;/n-card&gt;
+&lt;/n-dialog&gt;
+
+&lt;script&gt;
+  const dialog = document.getElementById('my-dialog');
+  document.getElementById('open-btn')
+    .addEventListener('native:press', () =&gt; dialog.showModal());
+  document.getElementById('cancel-btn')
+    .addEventListener('native:press', () =&gt; dialog.close());
+  document.getElementById('confirm-btn')
+    .addEventListener('native:press', () =&gt; dialog.close());
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Form Dialog ── -->
+
+    <h2>Form Dialog</h2>
+    <div class="demo-section">
+      <n-button id="open-form">Edit Profile</n-button>
+      <n-dialog id="form-dialog">
+        <n-card>
+          <n-card-header><span slot="label">Edit Profile</span></n-card-header>
+          <n-card-body>
+            <p style="font-size: 0.875rem; color: var(--n-ink-muted-neutral); margin: 0 0 0.75rem; line-height: 1.5;">Update your display name and email address.</p>
+            <n-stack gap="3">
+              <n-field>
+                <label slot="label">Name</label>
+                <n-input placeholder="Your name"></n-input>
+              </n-field>
+              <n-field>
+                <label slot="label">Email</label>
+                <n-input type="email" placeholder="you@example.com"></n-input>
+              </n-field>
+            </n-stack>
+          </n-card-body>
+          <n-card-footer>
+            <n-button id="form-cancel">Cancel</n-button>
+            <n-button id="form-save" intent="accent">Save Changes</n-button>
+          </n-card-footer>
+        </n-card>
+      </n-dialog>
+      <pre class="demo-code"><code>&lt;n-dialog id="form-dialog"&gt;
+  &lt;n-card&gt;
+    &lt;n-card-header&gt;&lt;span slot="label"&gt;Edit Profile&lt;/span&gt;&lt;/n-card-header&gt;
+    &lt;n-card-body&gt;
+      &lt;n-stack gap="3"&gt;
+        &lt;n-field&gt;
+          &lt;label slot="label"&gt;Name&lt;/label&gt;
+          &lt;n-input placeholder="Your name"&gt;&lt;/n-input&gt;
+        &lt;/n-field&gt;
+        &lt;n-field&gt;
+          &lt;label slot="label"&gt;Email&lt;/label&gt;
+          &lt;n-input type="email" placeholder="you@example.com"&gt;&lt;/n-input&gt;
+        &lt;/n-field&gt;
+      &lt;/n-stack&gt;
+    &lt;/n-card-body&gt;
+    &lt;n-card-footer&gt;
+      &lt;n-button&gt;Cancel&lt;/n-button&gt;
+      &lt;n-button intent="accent"&gt;Save Changes&lt;/n-button&gt;
+    &lt;/n-card-footer&gt;
+  &lt;/n-card&gt;
+&lt;/n-dialog&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── No Close on Backdrop ── -->
+
+    <h2>No Close on Backdrop</h2>
+    <div class="demo-section">
+      <p class="demo-text-sm">
+        This dialog has <code>no-close-on-backdrop</code> — clicking outside doesn't close it. You must use the button.
+      </p>
+      <n-button id="open-persistent">Open Persistent Dialog</n-button>
+      <n-dialog id="persistent-dialog" no-close-on-backdrop>
+        <n-card>
+          <n-card-header><span slot="label">Important Notice</span></n-card-header>
+          <n-card-body>
+            <p class="demo-text">This dialog can only be closed by clicking the button below. Clicking the backdrop or pressing Escape won't dismiss it.</p>
+          </n-card-body>
+          <n-card-footer>
+            <n-button id="persistent-close" intent="accent">Got it</n-button>
+          </n-card-footer>
+        </n-card>
+      </n-dialog>
+      <pre class="demo-code"><code>&lt;n-dialog no-close-on-backdrop&gt;
+  &lt;n-card&gt;
+    &lt;n-card-header&gt;&lt;span slot="label"&gt;Important Notice&lt;/span&gt;&lt;/n-card-header&gt;
+    &lt;n-card-body&gt;&lt;p&gt;Clicking outside won't close this dialog.&lt;/p&gt;&lt;/n-card-body&gt;
+    &lt;n-card-footer&gt;
+      &lt;n-button intent="accent"&gt;Got it&lt;/n-button&gt;
+    &lt;/n-card-footer&gt;
+  &lt;/n-card&gt;
+&lt;/n-dialog&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── No Close on Escape ── -->
+
+    <h2>No Close on Escape</h2>
+    <div class="demo-section">
+      <p class="demo-text-sm">
+        This dialog has <code>no-close-on-escape</code> — pressing Escape doesn't close it. Backdrop click still works.
+      </p>
+      <n-button id="open-no-esc">Open (no Escape close)</n-button>
+      <n-dialog id="no-esc-dialog" no-close-on-escape>
+        <n-card>
+          <n-card-header><span slot="label">Escape Disabled</span></n-card-header>
+          <n-card-body>
+            <p class="demo-text">Press Escape — nothing happens. Click the backdrop or the button to close.</p>
+          </n-card-body>
+          <n-card-footer>
+            <n-button id="no-esc-close">Close</n-button>
+          </n-card-footer>
+        </n-card>
+      </n-dialog>
+    </div>
+
+    <!-- ── Danger Dialog ── -->
+
+    <h2>Danger Variant</h2>
+    <div class="demo-section">
+      <n-button id="open-danger" intent="danger">Delete Account</n-button>
+      <n-dialog id="danger-dialog">
+        <n-card>
+          <n-card-header><span slot="label" style="color: var(--n-ink-strong-danger);">Delete Account</span></n-card-header>
+          <n-card-body>
+            <p class="demo-text">This will permanently delete your account and all associated data. This action cannot be reversed.</p>
+          </n-card-body>
+          <n-card-footer>
+            <n-button id="danger-cancel">Cancel</n-button>
+            <n-button id="danger-confirm" intent="danger">Delete Forever</n-button>
+          </n-card-footer>
+        </n-card>
+      </n-dialog>
+      <pre class="demo-code"><code>&lt;n-button intent="danger"&gt;Delete Account&lt;/n-button&gt;
+
+&lt;n-dialog id="danger-dialog"&gt;
+  &lt;n-card&gt;
+    &lt;n-card-header&gt;
+      &lt;span slot="label" style="color: var(--n-ink-strong-danger);"&gt;Delete Account&lt;/span&gt;
+    &lt;/n-card-header&gt;
+    &lt;n-card-body&gt;
+      &lt;p&gt;This will permanently delete your account.&lt;/p&gt;
+    &lt;/n-card-body&gt;
+    &lt;n-card-footer&gt;
+      &lt;n-button&gt;Cancel&lt;/n-button&gt;
+      &lt;n-button intent="danger"&gt;Delete Forever&lt;/n-button&gt;
+    &lt;/n-card-footer&gt;
+  &lt;/n-card&gt;
+&lt;/n-dialog&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import '../button/button.ts';
+      import '../input/input.ts';
+      import '../field/field.ts';
+      import '../../containers/card/card.ts';
+      import './dialog.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      function wire(openId, dialogId, closeIds) {
+        const dialog = document.getElementById(dialogId);
+        document.getElementById(openId).addEventListener('native:press', () => dialog.showModal());
+        for (const id of closeIds) {
+          document.getElementById(id).addEventListener('native:press', () => dialog.close());
+        }
+      }
+
+      wire('open-basic', 'basic-dialog', ['basic-cancel', 'basic-confirm']);
+      wire('open-form', 'form-dialog', ['form-cancel', 'form-save']);
+      wire('open-persistent', 'persistent-dialog', ['persistent-close']);
+      wire('open-no-esc', 'no-esc-dialog', ['no-esc-close']);
+      wire('open-danger', 'danger-dialog', ['danger-cancel', 'danger-confirm']);
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

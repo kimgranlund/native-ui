@@ -111,13 +111,13 @@ const DEFAULT_SLOT: SlotSchema = Object.freeze({
 const LEADING_SLOT: SlotSchema = Object.freeze({
   name: 'leading',
   description: 'Content placed before the main label (e.g. icon).',
-  allowedTags: Object.freeze(['ui-icon', 'span', 'img']),
+  allowedTags: Object.freeze(['n-icon', 'span', 'img']),
 });
 
 const TRAILING_SLOT: SlotSchema = Object.freeze({
   name: 'trailing',
   description: 'Content placed after the main label (e.g. icon, badge).',
-  allowedTags: Object.freeze(['ui-icon', 'span', 'img', 'ui-badge']),
+  allowedTags: Object.freeze(['n-icon', 'span', 'img', 'n-badge']),
 });
 
 // ── Helper ──
@@ -145,7 +145,7 @@ function freezeSchema(schema: ComponentSchema): ComponentSchema {
 // --- Form Components ---
 
 const UI_BUTTON: ComponentSchema = freezeSchema({
-  tag: 'ui-button',
+  tag: 'n-button',
   category: 'form',
   description: 'Interactive button with variant, intent, and size support. Supports leading/trailing icon slots.',
   attributes: [
@@ -175,14 +175,14 @@ const UI_BUTTON: ComponentSchema = freezeSchema({
     TRAILING_SLOT,
   ],
   events: [
-    freeze({ name: 'ui-press', description: 'Fired on activation (click, Enter, Space).' }),
+    freeze({ name: 'native:press', description: 'Fired on activation (click, Enter, Space).' }),
   ],
   aria: freeze({ role: 'button', autoLabeled: true }),
   formAssociated: true,
 });
 
 const UI_INPUT: ComponentSchema = freezeSchema({
-  tag: 'ui-input',
+  tag: 'n-input',
   category: 'form',
   description: 'Text input field using contenteditable. Supports leading/trailing slots for icons or actions.',
   attributes: [
@@ -210,17 +210,17 @@ const UI_INPUT: ComponentSchema = freezeSchema({
   ],
   slots: [LEADING_SLOT, TRAILING_SLOT],
   events: [
-    freeze({ name: 'ui-input', description: 'Fired on each keystroke / input change.' }),
-    freeze({ name: 'ui-change', description: 'Fired when value is committed (blur or Enter).' }),
+    freeze({ name: 'native:input', description: 'Fired on each keystroke / input change.' }),
+    freeze({ name: 'native:change', description: 'Fired when value is committed (blur or Enter).' }),
   ],
   aria: freeze({ role: 'textbox', requiredAttributes: Object.freeze(['aria-label']), autoLabeled: false }),
   formAssociated: true,
 });
 
 const UI_SELECT: ComponentSchema = freezeSchema({
-  tag: 'ui-select',
+  tag: 'n-select',
   category: 'form',
-  description: 'Dropdown select coordinator. Manual mode wraps ui-button + ui-listbox; data-driven mode stamps children from options/src attribute.',
+  description: 'Dropdown select coordinator. Manual mode wraps n-button + n-listbox; data-driven mode stamps children from options/src attribute.',
   attributes: [
     PLACEHOLDER_ATTR,
     SIZE_ATTR,
@@ -248,17 +248,17 @@ const UI_SELECT: ComponentSchema = freezeSchema({
   ],
   slots: [DEFAULT_SLOT],
   events: [
-    freeze({ name: 'ui-change', description: 'Fired when the selected value changes.', detail: '{ value: string }' }),
+    freeze({ name: 'native:change', description: 'Fired when the selected value changes.', detail: '{ value: string }' }),
   ],
   aria: freeze({ role: 'combobox', requiredAttributes: Object.freeze(['aria-label']), autoLabeled: false }),
-  allowedChildren: Object.freeze(['ui-button', 'ui-listbox']),
+  allowedChildren: Object.freeze(['n-button', 'n-listbox']),
   formAssociated: true,
 });
 
 const UI_COMBOBOX: ComponentSchema = freezeSchema({
-  tag: 'ui-combobox',
+  tag: 'n-combobox',
   category: 'form',
-  description: 'Filterable select coordinator. Wraps ui-input + ui-listbox with typeahead filtering.',
+  description: 'Filterable select coordinator. Wraps n-input + n-listbox with typeahead filtering.',
   attributes: [
     PLACEHOLDER_ATTR,
     SIZE_ATTR,
@@ -271,16 +271,16 @@ const UI_COMBOBOX: ComponentSchema = freezeSchema({
   ],
   slots: [DEFAULT_SLOT],
   events: [
-    freeze({ name: 'ui-change', description: 'Fired when the selected value changes.', detail: '{ value: string }' }),
-    freeze({ name: 'ui-input', description: 'Fired on filter text input.' }),
+    freeze({ name: 'native:change', description: 'Fired when the selected value changes.', detail: '{ value: string }' }),
+    freeze({ name: 'native:input', description: 'Fired on filter text input.' }),
   ],
   aria: freeze({ role: 'combobox', requiredAttributes: Object.freeze(['aria-label']), autoLabeled: false }),
-  allowedChildren: Object.freeze(['ui-input', 'ui-listbox']),
+  allowedChildren: Object.freeze(['n-input', 'n-listbox']),
   formAssociated: true,
 });
 
 const UI_CHECKBOX: ComponentSchema = freezeSchema({
-  tag: 'ui-checkbox',
+  tag: 'n-checkbox',
   category: 'form',
   description: 'Checkbox toggle with label content as default slot.',
   attributes: [
@@ -295,14 +295,14 @@ const UI_CHECKBOX: ComponentSchema = freezeSchema({
     freeze({ name: '', description: 'Label text content.' }),
   ],
   events: [
-    freeze({ name: 'ui-change', description: 'Fired when checked state changes.', detail: '{ checked: boolean }' }),
+    freeze({ name: 'native:change', description: 'Fired when checked state changes.', detail: '{ checked: boolean }' }),
   ],
   aria: freeze({ role: 'checkbox', autoLabeled: true }),
   formAssociated: true,
 });
 
 const UI_SWITCH: ComponentSchema = freezeSchema({
-  tag: 'ui-switch',
+  tag: 'n-switch',
   category: 'form',
   description: 'Toggle switch with on/off states. Self-labels from content.',
   attributes: [
@@ -317,14 +317,14 @@ const UI_SWITCH: ComponentSchema = freezeSchema({
     freeze({ name: '', description: 'Label text content.' }),
   ],
   events: [
-    freeze({ name: 'ui-change', description: 'Fired when toggled.', detail: '{ checked: boolean }' }),
+    freeze({ name: 'native:change', description: 'Fired when toggled.', detail: '{ checked: boolean }' }),
   ],
   aria: freeze({ role: 'switch', autoLabeled: true }),
   formAssociated: true,
 });
 
 const UI_TEXTAREA: ComponentSchema = freezeSchema({
-  tag: 'ui-textarea',
+  tag: 'n-textarea',
   category: 'form',
   description: 'Multi-line text input area.',
   attributes: [
@@ -347,15 +347,15 @@ const UI_TEXTAREA: ComponentSchema = freezeSchema({
   ],
   slots: [],
   events: [
-    freeze({ name: 'ui-input', description: 'Fired on each keystroke.' }),
-    freeze({ name: 'ui-change', description: 'Fired when value is committed.' }),
+    freeze({ name: 'native:input', description: 'Fired on each keystroke.' }),
+    freeze({ name: 'native:change', description: 'Fired when value is committed.' }),
   ],
   aria: freeze({ role: 'textbox', requiredAttributes: Object.freeze(['aria-label']), autoLabeled: false }),
   formAssociated: true,
 });
 
 const UI_RANGE: ComponentSchema = freezeSchema({
-  tag: 'ui-range',
+  tag: 'n-range',
   category: 'form',
   description: 'Slider range input for numeric values.',
   attributes: [
@@ -371,7 +371,7 @@ const UI_RANGE: ComponentSchema = freezeSchema({
   ],
   slots: [],
   events: [
-    freeze({ name: 'ui-change', description: 'Fired when value changes.', detail: '{ value: number }' }),
+    freeze({ name: 'native:change', description: 'Fired when value changes.', detail: '{ value: number }' }),
   ],
   aria: freeze({ role: 'slider', requiredAttributes: Object.freeze(['aria-label']), autoLabeled: false }),
   formAssociated: true,
@@ -380,9 +380,9 @@ const UI_RANGE: ComponentSchema = freezeSchema({
 // --- Display Components ---
 
 const UI_LISTBOX: ComponentSchema = freezeSchema({
-  tag: 'ui-listbox',
+  tag: 'n-listbox',
   category: 'display',
-  description: 'Scrollable list of selectable options. Used standalone or as a child of ui-select/ui-combobox.',
+  description: 'Scrollable list of selectable options. Used standalone or as a child of n-select/n-combobox.',
   attributes: [
     freeze({
       name: 'variant',
@@ -397,17 +397,17 @@ const UI_LISTBOX: ComponentSchema = freezeSchema({
   properties: [],
   slots: [DEFAULT_SLOT],
   events: [
-    freeze({ name: 'ui-select', description: 'Fired when an option is selected.', detail: '{ value: string }' }),
+    freeze({ name: 'native:select', description: 'Fired when an option is selected.', detail: '{ value: string }' }),
   ],
   aria: freeze({ role: 'listbox' }),
-  allowedChildren: Object.freeze(['ui-option', 'ui-option-group']),
+  allowedChildren: Object.freeze(['n-option', 'n-option-group']),
   formAssociated: false,
 });
 
 const UI_OPTION: ComponentSchema = freezeSchema({
-  tag: 'ui-option',
+  tag: 'n-option',
   category: 'display',
-  description: 'Single selectable option inside a ui-listbox.',
+  description: 'Single selectable option inside a n-listbox.',
   attributes: [
     freeze({ name: 'value', type: 'string', description: 'Option value submitted on selection.' }),
     DISABLED_ATTR,
@@ -419,14 +419,14 @@ const UI_OPTION: ComponentSchema = freezeSchema({
     TRAILING_SLOT,
   ],
   events: [
-    freeze({ name: 'ui-select', description: 'Fired when this option is selected.' }),
+    freeze({ name: 'native:select', description: 'Fired when this option is selected.' }),
   ],
   aria: freeze({ role: 'option', autoLabeled: true }),
   formAssociated: false,
 });
 
 const UI_BADGE: ComponentSchema = freezeSchema({
-  tag: 'ui-badge',
+  tag: 'n-badge',
   category: 'display',
   description: 'Small status indicator or label tag.',
   attributes: [
@@ -451,7 +451,7 @@ const UI_BADGE: ComponentSchema = freezeSchema({
 });
 
 const UI_AVATAR: ComponentSchema = freezeSchema({
-  tag: 'ui-avatar',
+  tag: 'n-avatar',
   category: 'display',
   description: 'User avatar image or fallback initials.',
   attributes: [
@@ -470,7 +470,7 @@ const UI_AVATAR: ComponentSchema = freezeSchema({
 });
 
 const UI_ICON: ComponentSchema = freezeSchema({
-  tag: 'ui-icon',
+  tag: 'n-icon',
   category: 'display',
   description: 'Phosphor icon element. Renders an SVG icon by name from the global registry.',
   attributes: [
@@ -491,7 +491,7 @@ const UI_ICON: ComponentSchema = freezeSchema({
 // --- Navigation Components ---
 
 const UI_TABS: ComponentSchema = freezeSchema({
-  tag: 'ui-tabs',
+  tag: 'n-tabs',
   category: 'navigation',
   description: 'Tab container that coordinates tab selection and panel visibility.',
   attributes: [
@@ -503,30 +503,30 @@ const UI_TABS: ComponentSchema = freezeSchema({
   ],
   slots: [DEFAULT_SLOT],
   events: [
-    freeze({ name: 'ui-change', description: 'Fired when the active tab changes.', detail: '{ value: string }' }),
+    freeze({ name: 'native:change', description: 'Fired when the active tab changes.', detail: '{ value: string }' }),
   ],
   aria: freeze({ role: 'tablist' }),
-  allowedChildren: Object.freeze(['ui-tab', 'ui-tab-panels']),
+  allowedChildren: Object.freeze(['n-tab', 'n-tab-panels']),
   formAssociated: false,
 });
 
 const UI_TAB_PANELS: ComponentSchema = freezeSchema({
-  tag: 'ui-tab-panels',
+  tag: 'n-tab-panels',
   category: 'navigation',
-  description: 'Container for tab panels within a ui-tabs component.',
+  description: 'Container for tab panels within a n-tabs component.',
   attributes: [],
   properties: [],
   slots: [DEFAULT_SLOT],
   events: [],
   aria: freeze({ role: 'presentation' }),
-  allowedChildren: Object.freeze(['ui-tab-panel']),
+  allowedChildren: Object.freeze(['n-tab-panel']),
   formAssociated: false,
 });
 
 // --- Overlay Components ---
 
 const UI_DIALOG: ComponentSchema = freezeSchema({
-  tag: 'ui-dialog',
+  tag: 'n-dialog',
   category: 'overlay',
   description: 'Modal dialog overlay. Wraps a native <dialog> and provides showModal()/close() API.',
   attributes: [
@@ -545,7 +545,7 @@ const UI_DIALOG: ComponentSchema = freezeSchema({
   slots: [DEFAULT_SLOT],
   events: [
     freeze({ name: 'close', description: 'Fired when the dialog is closed.' }),
-    freeze({ name: 'ui-dismiss', description: 'Fired when a dismiss action is triggered.' }),
+    freeze({ name: 'native:dismiss', description: 'Fired when a dismiss action is triggered.' }),
   ],
   aria: freeze({ role: 'dialog', requiredAttributes: Object.freeze(['aria-label']), autoLabeled: false }),
   formAssociated: false,
@@ -554,7 +554,7 @@ const UI_DIALOG: ComponentSchema = freezeSchema({
 // --- Container Components ---
 
 const UI_CARD: ComponentSchema = freezeSchema({
-  tag: 'ui-card',
+  tag: 'n-card',
   category: 'container',
   description: 'Bounded surface container with optional header and footer slots.',
   attributes: [
@@ -574,7 +574,7 @@ const UI_CARD: ComponentSchema = freezeSchema({
 });
 
 const UI_FIELD: ComponentSchema = freezeSchema({
-  tag: 'ui-field',
+  tag: 'n-field',
   category: 'form',
   description: 'Form field wrapper that pairs a label with a form control and displays validation messages.',
   attributes: [],
@@ -583,8 +583,8 @@ const UI_FIELD: ComponentSchema = freezeSchema({
   events: [],
   aria: freeze({}),
   allowedChildren: Object.freeze([
-    'label', 'ui-input', 'ui-select', 'ui-combobox', 'ui-checkbox',
-    'ui-switch', 'ui-textarea', 'ui-range', 'span',
+    'label', 'n-input', 'n-select', 'n-combobox', 'n-checkbox',
+    'n-switch', 'n-textarea', 'n-range', 'span',
   ]),
   formAssociated: false,
 });

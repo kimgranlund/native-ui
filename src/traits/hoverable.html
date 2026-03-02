@@ -19,7 +19,7 @@
         font-weight: 600;
         margin-bottom: 0.5rem;
         margin-top: 1.25rem;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
       /* ── Hover Cards ── */
 
@@ -28,21 +28,21 @@
         align-items: center;
         justify-content: center;
         padding: 1.5rem 1rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
         font-size: 0.875rem;
-        color: var(--neutral-ink);
+        color: var(--n-ink-neutral);
         transition: background 200ms ease, border-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
         user-select: none;
         cursor: default;
       }
 
       .hover-card[hovered] {
-        background: var(--accent-surface);
-        border-color: var(--accent-border);
-        color: var(--accent-surface-ink);
-        box-shadow: 0 0 0 3px var(--accent-surface);
+        background: var(--n-surface-accent);
+        border-color: var(--n-border-accent);
+        color: var(--n-surface-ink-accent);
+        box-shadow: 0 0 0 3px var(--n-surface-accent);
       }
 
       .hover-status {
@@ -51,26 +51,26 @@
         font-weight: 600;
         padding: 0.125rem 0.5rem;
         border-radius: 9999px;
-        background: var(--neutral-border-muted);
-        color: var(--neutral-ink-muted);
+        background: var(--n-border-muted-neutral);
+        color: var(--n-ink-muted-neutral);
         margin-left: 0.75rem;
         transition: background 200ms ease, color 200ms ease;
       }
 
       [hovered] .hover-status {
-        background: var(--accent-ink);
-        color: var(--accent-surface);
+        background: var(--n-ink-accent);
+        color: var(--n-surface-accent);
       }
 
       .output {
         font-family: monospace;
         font-size: 0.75rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         max-height: 6rem;
         overflow-y: auto;
         margin-top: 0.75rem;
         padding: 0.5rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         border-radius: 0.25rem;
       }
       /* ── API Reference ── */
@@ -89,20 +89,20 @@
         text-align: left;
         font-weight: 600;
         padding: 0.5rem 0.75rem;
-        border-bottom: 2px solid var(--neutral-border-muted);
-        color: var(--neutral-ink-strong);
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
       }
 
       .api-table td {
         padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
         vertical-align: top;
       }
 
       .api-table code {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         padding: 0.0625rem 0.3125rem;
         border-radius: 0.1875rem;
       }
@@ -113,11 +113,11 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
 
     <h1>Hoverable</h1>
     <p class="demo-desc">
-      Pointer hover state with configurable enter/leave delays. Sets <code>[hovered]</code> attribute and dispatches <code>ui-hover-start</code> / <code>ui-hover-end</code> events.
+      Pointer hover state with configurable enter/leave delays. Sets <code>[hovered]</code> attribute and dispatches <code>native:hover-start</code> / <code>native:hover-end</code> events.
     </p>
 
     <!-- ── Instant Hover ── -->
@@ -127,17 +127,17 @@
       <p class="demo-hint">
         Default 0ms delays. The <code>[hovered]</code> attribute toggles immediately on pointer enter/leave.
       </p>
-      <ui-controller traits="hoverable">
+      <n-controller traits="hoverable">
         <div class="hover-card" id="instant-card">
           Hover over me <span class="hover-status">idle</span>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="instant-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="hoverable"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="hoverable"&gt;
   &lt;div class="hover-card"&gt;
     Hover over me
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Hover Intent ── -->
@@ -147,17 +147,17 @@
       <p class="demo-hint">
         <code>hoverable-delay="500"</code> prevents accidental hover triggers. Pointer must rest on the element for 500ms before activation.
       </p>
-      <ui-controller traits="hoverable" hoverable-delay="500">
+      <n-controller traits="hoverable" hoverable-delay="500">
         <div class="hover-card" id="intent-card">
           Hover and wait 500ms <span class="hover-status">idle</span>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="intent-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="hoverable" hoverable-delay="500"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" hoverable-delay="500"&gt;
   &lt;div class="hover-card"&gt;
     Hover and wait 500ms
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Sticky Hover ── -->
@@ -167,17 +167,17 @@
       <p class="demo-hint">
         <code>hoverable-leave-delay="300"</code> so the hover state persists briefly after the pointer leaves. Useful for menus or tooltips with a gap between trigger and content.
       </p>
-      <ui-controller traits="hoverable" hoverable-leave-delay="300">
+      <n-controller traits="hoverable" hoverable-leave-delay="300">
         <div class="hover-card" id="sticky-card">
           Hover, then leave slowly <span class="hover-status">idle</span>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="sticky-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="hoverable" hoverable-leave-delay="300"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" hoverable-leave-delay="300"&gt;
   &lt;div class="hover-card"&gt;
     Hover, then leave slowly
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Combined Delays ── -->
@@ -187,17 +187,17 @@
       <p class="demo-hint">
         Both <code>hoverable-delay="400"</code> and <code>hoverable-leave-delay="200"</code>. Requires intent to activate and lingers briefly on leave.
       </p>
-      <ui-controller traits="hoverable" hoverable-delay="400" hoverable-leave-delay="200">
+      <n-controller traits="hoverable" hoverable-delay="400" hoverable-leave-delay="200">
         <div class="hover-card" id="combined-card">
           400ms enter + 200ms leave <span class="hover-status">idle</span>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="combined-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="hoverable" hoverable-delay="400" hoverable-leave-delay="200"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" hoverable-delay="400" hoverable-leave-delay="200"&gt;
   &lt;div class="hover-card"&gt;
     400ms enter + 200ms leave
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── API Reference ── -->
@@ -237,12 +237,12 @@
         <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>ui-hover-start</code></td>
+            <td><code>native:hover-start</code></td>
             <td><code>{ pointerType }</code></td>
             <td>Fired when hover activates (after delay, if configured). <code>pointerType</code> is <code>'mouse'</code>, <code>'pen'</code>, etc.</td>
           </tr>
           <tr>
-            <td><code>ui-hover-end</code></td>
+            <td><code>native:hover-end</code></td>
             <td><code>{ pointerType }</code></td>
             <td>Fired when hover deactivates (after leave delay, if configured).</td>
           </tr>
@@ -263,7 +263,7 @@
       </table>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
     <!-- WHY: registerAllTraits() must run BEFORE any define() call that
          triggers connectedCallback on elements with traits="..." already in
          the DOM. ES module imports are hoisted above top-level code within
@@ -273,12 +273,12 @@
       registerAllTraits();
     </script>
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
-      import '../components/ui-controller/ui-controller.ts';
+      import '../components/controller/controller.ts';
 
       // ── Copy buttons ──
 
@@ -287,7 +287,7 @@
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
@@ -299,8 +299,8 @@
 
       function bindStatus(el) {
         const badge = el.querySelector('.hover-status');
-        el.addEventListener('ui-hover-start', () => { badge.textContent = 'hovered'; });
-        el.addEventListener('ui-hover-end', () => { badge.textContent = 'idle'; });
+        el.addEventListener('native:hover-start', () => { badge.textContent = 'hovered'; });
+        el.addEventListener('native:hover-end', () => { badge.textContent = 'idle'; });
       }
 
       // ── Bind status badges ──
@@ -322,10 +322,10 @@
 
       const instantCard = document.getElementById('instant-card');
       const instantLogEl = document.getElementById('instant-log');
-      instantCard.addEventListener('ui-hover-start', (e) => {
+      instantCard.addEventListener('native:hover-start', (e) => {
         appendLog(instantLogEl, `Enter (${e.detail.pointerType})`);
       });
-      instantCard.addEventListener('ui-hover-end', (e) => {
+      instantCard.addEventListener('native:hover-end', (e) => {
         appendLog(instantLogEl, `Leave (${e.detail.pointerType})`);
       });
 
@@ -333,10 +333,10 @@
 
       const intentCard = document.getElementById('intent-card');
       const intentLogEl = document.getElementById('intent-log');
-      intentCard.addEventListener('ui-hover-start', (e) => {
+      intentCard.addEventListener('native:hover-start', (e) => {
         appendLog(intentLogEl, `Enter after 500ms (${e.detail.pointerType})`);
       });
-      intentCard.addEventListener('ui-hover-end', (e) => {
+      intentCard.addEventListener('native:hover-end', (e) => {
         appendLog(intentLogEl, `Leave (${e.detail.pointerType})`);
       });
 
@@ -344,10 +344,10 @@
 
       const stickyCard = document.getElementById('sticky-card');
       const stickyLogEl = document.getElementById('sticky-log');
-      stickyCard.addEventListener('ui-hover-start', (e) => {
+      stickyCard.addEventListener('native:hover-start', (e) => {
         appendLog(stickyLogEl, `Enter (${e.detail.pointerType})`);
       });
-      stickyCard.addEventListener('ui-hover-end', (e) => {
+      stickyCard.addEventListener('native:hover-end', (e) => {
         appendLog(stickyLogEl, `Leave after 300ms delay (${e.detail.pointerType})`);
       });
 
@@ -355,10 +355,10 @@
 
       const combinedCard = document.getElementById('combined-card');
       const combinedLogEl = document.getElementById('combined-log');
-      combinedCard.addEventListener('ui-hover-start', (e) => {
+      combinedCard.addEventListener('native:hover-start', (e) => {
         appendLog(combinedLogEl, `Enter after 400ms (${e.detail.pointerType})`);
       });
-      combinedCard.addEventListener('ui-hover-end', (e) => {
+      combinedCard.addEventListener('native:hover-end', (e) => {
         appendLog(combinedLogEl, `Leave after 200ms (${e.detail.pointerType})`);
       });
     </script>

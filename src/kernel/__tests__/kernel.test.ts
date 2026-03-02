@@ -47,28 +47,28 @@ describe('Kernel', () => {
 
   it('register adds to registry', () => {
     const k = new Kernel();
-    k.register('ui-button', HTMLElement);
-    expect(k.registry.value.has('ui-button')).toBe(true);
-    expect(k.registry.value.get('ui-button')!.elementClass).toBe(HTMLElement);
+    k.register('n-button', HTMLElement);
+    expect(k.registry.value.has('n-button')).toBe(true);
+    expect(k.registry.value.get('n-button')!.elementClass).toBe(HTMLElement);
   });
 
   it('register lowercases tag', () => {
     const k = new Kernel();
-    k.register('UI-Button', HTMLElement);
-    expect(k.registry.value.has('ui-button')).toBe(true);
+    k.register('N-Button', HTMLElement);
+    expect(k.registry.value.has('n-button')).toBe(true);
   });
 
   it('register with formAssociated', () => {
     const k = new Kernel();
-    k.register('ui-input', HTMLElement, { formAssociated: true });
-    expect(k.registry.value.get('ui-input')!.formAssociated).toBe(true);
+    k.register('n-input', HTMLElement, { formAssociated: true });
+    expect(k.registry.value.get('n-input')!.formAssociated).toBe(true);
   });
 
   it('registerAndDefine calls customElements.define', () => {
     const k = new Kernel();
     // Create a minimal custom element class
     class TestEl extends HTMLElement {}
-    const tag = `ui-test-${Math.random().toString(36).slice(2, 6)}`;
+    const tag = `n-test-${Math.random().toString(36).slice(2, 6)}`;
     k.registerAndDefine(tag, TestEl);
 
     expect(k.registry.value.has(tag)).toBe(true);
@@ -141,7 +141,7 @@ describe('Kernel', () => {
     const plan: UIPlan = {
       id: 'plan-3',
       version: 1,
-      root: { id: 'root', tag: 'ui-not-registered' },
+      root: { id: 'root', tag: 'n-not-registered' },
       source: 'generated',
       timestamp: Date.now(),
     };

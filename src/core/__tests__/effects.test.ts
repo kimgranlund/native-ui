@@ -65,9 +65,9 @@ describe('createDisabledEffect', () => {
     dispose();
   });
 
-  it('dispatches ui-disabled event on state change (not initial)', () => {
+  it('dispatches native:disabled event on state change (not initial)', () => {
     const events: boolean[] = [];
-    el.addEventListener('ui-disabled', ((e: CustomEvent) => {
+    el.addEventListener('native:disabled', ((e: CustomEvent) => {
       events.push(e.detail.disabled);
     }) as EventListener);
 
@@ -85,7 +85,7 @@ describe('createDisabledEffect', () => {
 
   it('does not dispatch event when value is unchanged', () => {
     const events: boolean[] = [];
-    el.addEventListener('ui-disabled', ((e: CustomEvent) => {
+    el.addEventListener('native:disabled', ((e: CustomEvent) => {
       events.push(e.detail.disabled);
     }) as EventListener);
 

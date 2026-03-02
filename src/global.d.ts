@@ -2,63 +2,63 @@
 // for all custom elements in the library.
 //
 // Usage:
-//   const btn = document.querySelector('ui-button'); // typed as UIButton | null
+//   const btn = document.querySelector('n-button'); // typed as NButton | null
 
-import type { UIButton } from './components/ui-button/ui-button-element.ts';
-import type { UIInput } from './components/ui-input/ui-input-element.ts';
-import type { UITextarea } from './components/ui-textarea/ui-textarea-element.ts';
-import type { UIRange } from './components/ui-range/ui-range-element.ts';
-import type { UIInputOtp } from './components/ui-input-otp/ui-input-otp-element.ts';
-import type { UICheckbox } from './components/ui-checkbox/ui-checkbox-element.ts';
-import type { UISwitch } from './components/ui-switch/ui-switch-element.ts';
-import type { UIRadio } from './components/ui-radio/ui-radio-element.ts';
-import type { UIRadioGroup } from './components/ui-radio/ui-radio-group-element.ts';
-import type { UIField } from './components/ui-field/ui-field-element.ts';
-import type { UIListbox } from './components/ui-listbox/ui-listbox-element.ts';
-import type { UIOption } from './components/ui-listbox/ui-option-element.ts';
-import type { UIOptionGroup } from './components/ui-listbox/ui-option-group-element.ts';
-import type { UIOptionGroupHeader } from './components/ui-listbox/ui-option-group-header-element.ts';
-import type { UISelect } from './components/ui-select/ui-select-element.ts';
-import type { UICombobox } from './components/ui-combobox/ui-combobox-element.ts';
-import type { UICommand } from './components/ui-command/ui-command-element.ts';
-import type { UICommandInput } from './components/ui-command/ui-command-input-element.ts';
-import type { UICommandList } from './components/ui-command/ui-command-list-element.ts';
-import type { UICommandItem } from './components/ui-command/ui-command-item-element.ts';
-import type { UICommandGroup } from './components/ui-command/ui-command-group-element.ts';
-import type { UICommandEmpty } from './components/ui-command/ui-command-empty-element.ts';
-import type { UISegmentedControl } from './components/ui-segmented-control/ui-segmented-control-element.ts';
-import type { UISegment } from './components/ui-segmented-control/ui-segment-element.ts';
-import type { UITabs } from './components/ui-tabs/ui-tabs-element.ts';
-import type { UITab } from './components/ui-tabs/ui-tab-element.ts';
-import type { UITabPanel } from './components/ui-tabs/ui-tab-panel-element.ts';
-import type { UITabPanels } from './components/ui-tabs/ui-tab-panels-element.ts';
-import type { UITable } from './components/ui-table/ui-table-element.ts';
-import type { UITableHead } from './components/ui-table/ui-table-head-element.ts';
-import type { UITableBody } from './components/ui-table/ui-table-body-element.ts';
-import type { UITableRow } from './components/ui-table/ui-table-row-element.ts';
-import type { UITableCell } from './components/ui-table/ui-table-cell-element.ts';
-import type { UITableHeader } from './components/ui-table/ui-table-header-element.ts';
-import type { UIAccordion } from './components/ui-accordion/ui-accordion-element.ts';
-import type { UIAccordionItem } from './components/ui-accordion/ui-accordion-item-element.ts';
-import type { UIDialog } from './components/ui-dialog/ui-dialog-element.ts';
-import type { UIDrawer } from './components/ui-drawer/ui-drawer-element.ts';
-import type { UITooltip } from './components/ui-tooltip/ui-tooltip-element.ts';
-import type { UIBreadcrumb } from './components/ui-breadcrumb/ui-breadcrumb-element.ts';
-import type { UIBreadcrumbItem } from './components/ui-breadcrumb/ui-breadcrumb-item-element.ts';
-import type { UIPagination } from './components/ui-pagination/ui-pagination-element.ts';
-import type { UITree } from './components/ui-tree/ui-tree-element.ts';
-import type { UITreeItem } from './components/ui-tree/ui-tree-item-element.ts';
-import type { UISlideshow } from './components/ui-slideshow/ui-slideshow-element.ts';
-import type { UISlide } from './components/ui-slideshow/ui-slide-element.ts';
-import type { UICalendar } from './components/ui-calendar/ui-calendar-element.ts';
-import type { UIAvatar } from './components/ui-avatar/ui-avatar-element.ts';
-import type { UIBadge } from './components/ui-badge/ui-badge-element.ts';
-import type { UIController } from './components/ui-controller/ui-controller-element.ts';
-import type { UIChatInput } from './components/ui-chat/ui-chat-input-element.ts';
-import type { UICard } from './containers/ui-card/ui-card-element.ts';
-import type { UISection } from './containers/ui-section/ui-section-element.ts';
-import type { UIToolbar } from './containers/ui-toolbar/ui-toolbar-element.ts';
-import type { UIIcon } from './icons/ui-icon-element.ts';
+import type { NButton } from './components/button/button-element.ts';
+import type { NInput } from './components/input/input-element.ts';
+import type { NTextarea } from './components/textarea/textarea-element.ts';
+import type { NRange } from './components/range/range-element.ts';
+import type { NInputOtp } from './components/input-otp/input-otp-element.ts';
+import type { NCheckbox } from './components/checkbox/checkbox-element.ts';
+import type { NSwitch } from './components/switch/switch-element.ts';
+import type { NRadio } from './components/radio/radio-element.ts';
+import type { NRadioGroup } from './components/radio/radio-group-element.ts';
+import type { NField } from './components/field/field-element.ts';
+import type { NListbox } from './components/listbox/listbox-element.ts';
+import type { NOption } from './components/listbox/option-element.ts';
+import type { NOptionGroup } from './components/listbox/option-group-element.ts';
+import type { NOptionGroupHeader } from './components/listbox/option-group-header-element.ts';
+import type { NSelect } from './components/select/select-element.ts';
+import type { NCombobox } from './components/combobox/combobox-element.ts';
+import type { NCommand } from './components/command/command-element.ts';
+import type { NCommandInput } from './components/command/command-input-element.ts';
+import type { NCommandList } from './components/command/command-list-element.ts';
+import type { NCommandItem } from './components/command/command-item-element.ts';
+import type { NCommandGroup } from './components/command/command-group-element.ts';
+import type { NCommandEmpty } from './components/command/command-empty-element.ts';
+import type { NSegmentedControl } from './components/segmented-control/segmented-control-element.ts';
+import type { NSegment } from './components/segmented-control/segment-element.ts';
+import type { NTabs } from './components/tabs/tabs-element.ts';
+import type { NTab } from './components/tabs/tab-element.ts';
+import type { NTabPanel } from './components/tabs/tab-panel-element.ts';
+import type { NTabPanels } from './components/tabs/tab-panels-element.ts';
+import type { NTable } from './components/table/table-element.ts';
+import type { NTableHead } from './components/table/table-head-element.ts';
+import type { NTableBody } from './components/table/table-body-element.ts';
+import type { NTableRow } from './components/table/table-row-element.ts';
+import type { NTableCell } from './components/table/table-cell-element.ts';
+import type { NTableHeader } from './components/table/table-header-element.ts';
+import type { NAccordion } from './components/accordion/accordion-element.ts';
+import type { NAccordionItem } from './components/accordion/accordion-item-element.ts';
+import type { NDialog } from './components/dialog/dialog-element.ts';
+import type { NDrawer } from './components/drawer/drawer-element.ts';
+import type { NTooltip } from './components/tooltip/tooltip-element.ts';
+import type { NBreadcrumb } from './components/breadcrumb/breadcrumb-element.ts';
+import type { NBreadcrumbItem } from './components/breadcrumb/breadcrumb-item-element.ts';
+import type { NPagination } from './components/pagination/pagination-element.ts';
+import type { NTree } from './components/tree/tree-element.ts';
+import type { NTreeItem } from './components/tree/tree-item-element.ts';
+import type { NSlideshow } from './components/slideshow/slideshow-element.ts';
+import type { NSlide } from './components/slideshow/slide-element.ts';
+import type { NCalendar } from './components/calendar/calendar-element.ts';
+import type { NAvatar } from './components/avatar/avatar-element.ts';
+import type { NBadge } from './components/badge/badge-element.ts';
+import type { NController } from './components/controller/controller-element.ts';
+import type { NChatInput } from './components/chat/chat-input-element.ts';
+import type { NCard } from './containers/card/card-element.ts';
+import type { NSection } from './containers/section/section-element.ts';
+import type { NToolbar } from './containers/toolbar/toolbar-element.ts';
+import type { NIcon } from './icons/icon-element.ts';
 
 declare global {
   // WHY: __DEV__ is replaced by Vite's `define` config — true in dev/test, false in builds.
@@ -67,82 +67,82 @@ declare global {
 
   interface HTMLElementTagNameMap {
     // Components — Form / Input
-    'ui-button': UIButton;
-    'ui-input': UIInput;
-    'ui-textarea': UITextarea;
-    'ui-range': UIRange;
-    'ui-input-otp': UIInputOtp;
-    'ui-checkbox': UICheckbox;
-    'ui-switch': UISwitch;
-    'ui-radio': UIRadio;
-    'ui-radio-group': UIRadioGroup;
-    'ui-field': UIField;
+    'n-button': NButton;
+    'n-input': NInput;
+    'n-textarea': NTextarea;
+    'n-range': NRange;
+    'n-input-otp': NInputOtp;
+    'n-checkbox': NCheckbox;
+    'n-switch': NSwitch;
+    'n-radio': NRadio;
+    'n-radio-group': NRadioGroup;
+    'n-field': NField;
 
     // Components — Listbox / Select / Combobox
-    'ui-listbox': UIListbox;
-    'ui-option': UIOption;
-    'ui-option-group': UIOptionGroup;
-    'ui-option-group-header': UIOptionGroupHeader;
-    'ui-select': UISelect;
-    'ui-combobox': UICombobox;
+    'n-listbox': NListbox;
+    'n-option': NOption;
+    'n-option-group': NOptionGroup;
+    'n-option-group-header': NOptionGroupHeader;
+    'n-select': NSelect;
+    'n-combobox': NCombobox;
 
     // Components — Command
-    'ui-command': UICommand;
-    'ui-command-input': UICommandInput;
-    'ui-command-list': UICommandList;
-    'ui-command-item': UICommandItem;
-    'ui-command-group': UICommandGroup;
-    'ui-command-empty': UICommandEmpty;
+    'n-command': NCommand;
+    'n-command-input': NCommandInput;
+    'n-command-list': NCommandList;
+    'n-command-item': NCommandItem;
+    'n-command-group': NCommandGroup;
+    'n-command-empty': NCommandEmpty;
 
     // Components — Segmented Control
-    'ui-segmented-control': UISegmentedControl;
-    'ui-segment': UISegment;
+    'n-segmented-control': NSegmentedControl;
+    'n-segment': NSegment;
 
     // Components — Tabs
-    'ui-tabs': UITabs;
-    'ui-tab': UITab;
-    'ui-tab-panel': UITabPanel;
-    'ui-tab-panels': UITabPanels;
+    'n-tabs': NTabs;
+    'n-tab': NTab;
+    'n-tab-panel': NTabPanel;
+    'n-tab-panels': NTabPanels;
 
     // Components — Table
-    'ui-table': UITable;
-    'ui-table-head': UITableHead;
-    'ui-table-body': UITableBody;
-    'ui-table-row': UITableRow;
-    'ui-table-cell': UITableCell;
-    'ui-table-header': UITableHeader;
+    'n-table': NTable;
+    'n-table-head': NTableHead;
+    'n-table-body': NTableBody;
+    'n-table-row': NTableRow;
+    'n-table-cell': NTableCell;
+    'n-table-header': NTableHeader;
 
     // Components — Disclosure / Overlay
-    'ui-accordion': UIAccordion;
-    'ui-accordion-item': UIAccordionItem;
-    'ui-dialog': UIDialog;
-    'ui-drawer': UIDrawer;
-    'ui-tooltip': UITooltip;
+    'n-accordion': NAccordion;
+    'n-accordion-item': NAccordionItem;
+    'n-dialog': NDialog;
+    'n-drawer': NDrawer;
+    'n-tooltip': NTooltip;
 
     // Components — Navigation
-    'ui-breadcrumb': UIBreadcrumb;
-    'ui-breadcrumb-item': UIBreadcrumbItem;
-    'ui-pagination': UIPagination;
+    'n-breadcrumb': NBreadcrumb;
+    'n-breadcrumb-item': NBreadcrumbItem;
+    'n-pagination': NPagination;
     // Components — Tree / Slideshow
-    'ui-tree': UITree;
-    'ui-tree-item': UITreeItem;
-    'ui-slideshow': UISlideshow;
-    'ui-slide': UISlide;
+    'n-tree': NTree;
+    'n-tree-item': NTreeItem;
+    'n-slideshow': NSlideshow;
+    'n-slide': NSlide;
 
     // Components — Calendar / Display
-    'ui-calendar': UICalendar;
-    'ui-avatar': UIAvatar;
-    'ui-badge': UIBadge;
+    'n-calendar': NCalendar;
+    'n-avatar': NAvatar;
+    'n-badge': NBadge;
 
     // Components — Utility
-    'ui-controller': UIController;
-    'ui-chat-input': UIChatInput;
+    'n-controller': NController;
+    'n-chat-input': NChatInput;
 
     // Containers
-    'ui-card': UICard;
-    'ui-section': UISection;
-    'ui-toolbar': UIToolbar;
+    'n-card': NCard;
+    'n-section': NSection;
+    'n-toolbar': NToolbar;
     // Icons
-    'ui-icon': UIIcon;
+    'n-icon': NIcon;
   }
 }

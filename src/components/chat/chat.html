@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-chat — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+.demo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        align-items: start;
+      }
+
+      .demo-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .demo-col-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--n-ink-muted-neutral);
+      }
+
+      .chat-frame {
+        height: 480px;
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
+        overflow: hidden;
+        background: var(--n-doc-neutral);
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-chat&gt;</h1>
+    <p class="demo-desc">
+      Chat application shell with header, scrollable content, composable input surface, and footer.
+    </p>
+
+    <!-- ── Full Chat Shell ── -->
+
+    <h2>Full Chat Shell</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+
+        <!-- Idle state -->
+        <div class="demo-col">
+          <span class="demo-col-label">Idle (empty input)</span>
+          <div class="chat-frame">
+            <n-chat>
+              <n-chat-header>
+                <span slot="leading"><n-icon name="chat-dots"></n-icon></span>
+                <span>Assistant</span>
+                <span slot="trailing"><n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button></span>
+              </n-chat-header>
+              <n-chat-content>
+                <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">Messages will appear here.</p>
+              </n-chat-content>
+              <n-chat-input>
+                <n-textarea placeholder="Ask anything" autogrow rows="3"></n-textarea>
+                <n-chat-input-actions>
+                  <n-button variant="ghost" inline><n-icon name="plus"></n-icon></n-button>
+                  <n-button variant="ghost" inline><n-icon name="microphone"></n-icon></n-button>
+                  <n-select value="haiku-4.5">
+                    <n-button variant="ghost" inline><n-icon name="dots-three-outline-fill"></n-icon></n-button>
+                    <n-listbox popover>
+                      <n-option-group>
+                        <n-option-group-header>Claude</n-option-group-header>
+                        <n-option value="opus-4.6">Opus 4.6</n-option>
+                        <n-option value="sonnet-4.6">Sonnet 4.6</n-option>
+                        <n-option value="haiku-4.5">Haiku 4.5</n-option>
+                      </n-option-group>
+                      <n-option-group>
+                        <n-option-group-header>ChatGPT</n-option-group-header>
+                        <n-option value="gpt-5.2">GPT-5.2</n-option>
+                        <n-option value="gpt-5.3-codex">GPT-5.3 Codex</n-option>
+                        <n-option value="gpt-5.2-codex">GPT-5.2 Codex</n-option>
+                      </n-option-group>
+                      <n-option-group>
+                        <n-option-group-header>Gemini</n-option-group-header>
+                        <n-option value="gemini-3.1-pro">Gemini 3.1 Pro</n-option>
+                        <n-option value="gemini-3-flash">Gemini 3 Flash</n-option>
+                      </n-option-group>
+                    </n-listbox>
+                  </n-select>
+                </n-chat-input-actions>
+              </n-chat-input>
+            </n-chat>
+          </div>
+        </div>
+
+        <!-- Typing state -->
+        <div class="demo-col">
+          <span class="demo-col-label">Typing (with send button)</span>
+          <div class="chat-frame">
+            <n-chat>
+              <n-chat-header>
+                <span slot="leading"><n-icon name="chat-dots"></n-icon></span>
+                <span>Assistant</span>
+                <span slot="trailing"><n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button></span>
+              </n-chat-header>
+              <n-chat-content>
+                <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">Messages will appear here.</p>
+              </n-chat-content>
+              <n-chat-input>
+                <n-textarea placeholder="Ask anything" autogrow rows="3"></n-textarea>
+                <n-chat-input-actions>
+                  <n-button variant="ghost" inline><n-icon name="plus"></n-icon></n-button>
+                  <n-button variant="ghost" inline><n-icon name="microphone"></n-icon></n-button>
+                  <n-select value="sonnet-4.6">
+                    <n-button variant="ghost" inline><n-icon name="dots-three-outline-fill"></n-icon></n-button>
+                    <n-listbox popover>
+                      <n-option-group>
+                        <n-option-group-header>Claude</n-option-group-header>
+                        <n-option value="opus-4.6">Opus 4.6</n-option>
+                        <n-option value="sonnet-4.6">Sonnet 4.6</n-option>
+                        <n-option value="haiku-4.5">Haiku 4.5</n-option>
+                      </n-option-group>
+                      <n-option-group>
+                        <n-option-group-header>ChatGPT</n-option-group-header>
+                        <n-option value="gpt-5.2">GPT-5.2</n-option>
+                        <n-option value="gpt-5.3-codex">GPT-5.3 Codex</n-option>
+                        <n-option value="gpt-5.2-codex">GPT-5.2 Codex</n-option>
+                      </n-option-group>
+                      <n-option-group>
+                        <n-option-group-header>Gemini</n-option-group-header>
+                        <n-option value="gemini-3.1-pro">Gemini 3.1 Pro</n-option>
+                        <n-option value="gemini-3-flash">Gemini 3 Flash</n-option>
+                      </n-option-group>
+                    </n-listbox>
+                  </n-select>
+                  <n-button variant="primary" intent="accent" radius="round" inline disabled class="submit-btn"><n-icon name="arrow-up"></n-icon></n-button>
+                </n-chat-input-actions>
+              </n-chat-input>
+            </n-chat>
+          </div>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-chat&gt;
+  &lt;n-chat-header&gt;
+    &lt;span slot="leading"&gt;&lt;n-icon name="chat-dots"&gt;&lt;/n-icon&gt;&lt;/span&gt;
+    &lt;span&gt;Assistant&lt;/span&gt;
+    &lt;span slot="trailing"&gt;&lt;n-button variant="ghost"&gt;&lt;n-icon name="dots-three"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;&lt;/span&gt;
+  &lt;/n-chat-header&gt;
+  &lt;n-chat-content&gt;...&lt;/n-chat-content&gt;
+  &lt;n-chat-input&gt;
+    &lt;n-textarea placeholder="Ask anything" autogrow rows="3"&gt;&lt;/n-textarea&gt;
+    &lt;n-chat-input-actions&gt;
+      &lt;n-button variant="ghost" inline&gt;&lt;n-icon name="plus"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+      &lt;n-button variant="ghost" inline&gt;&lt;n-icon name="microphone"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+    &lt;/n-chat-input-actions&gt;
+  &lt;/n-chat-input&gt;
+&lt;/n-chat&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Input Surface Only ── -->
+
+    <h2>Input Surface Only</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Standalone input</span>
+          <n-chat-input>
+            <n-textarea placeholder="Ask anything" autogrow rows="2"></n-textarea>
+            <n-chat-input-actions>
+              <n-button variant="ghost" inline><n-icon name="plus"></n-icon></n-button>
+              <n-button variant="ghost" inline><n-icon name="microphone"></n-icon></n-button>
+              <n-select value="gpt-5.2">
+                <n-button variant="ghost" inline><n-icon name="dots-three-outline-fill"></n-icon></n-button>
+                <n-listbox popover>
+                  <n-option-group>
+                    <n-option-group-header>Claude</n-option-group-header>
+                    <n-option value="opus-4.6">Opus 4.6</n-option>
+                    <n-option value="sonnet-4.6">Sonnet 4.6</n-option>
+                    <n-option value="haiku-4.5">Haiku 4.5</n-option>
+                  </n-option-group>
+                  <n-option-group>
+                    <n-option-group-header>ChatGPT</n-option-group-header>
+                    <n-option value="gpt-5.2">GPT-5.2</n-option>
+                    <n-option value="gpt-5.3-codex">GPT-5.3 Codex</n-option>
+                    <n-option value="gpt-5.2-codex">GPT-5.2 Codex</n-option>
+                  </n-option-group>
+                  <n-option-group>
+                    <n-option-group-header>Gemini</n-option-group-header>
+                    <n-option value="gemini-3.1-pro">Gemini 3.1 Pro</n-option>
+                    <n-option value="gemini-3-flash">Gemini 3 Flash</n-option>
+                  </n-option-group>
+                </n-listbox>
+              </n-select>
+            </n-chat-input-actions>
+          </n-chat-input>
+        </div>
+
+        <div class="demo-col">
+          <span class="demo-col-label">Compact (single row)</span>
+          <n-chat-input compact>
+            <n-textarea placeholder="Type a message..." autogrow rows="1"></n-textarea>
+            <n-chat-input-actions>
+              <n-button variant="ghost" inline><n-icon name="plus"></n-icon></n-button>
+              <n-button variant="ghost" inline><n-icon name="microphone"></n-icon></n-button>
+              <n-button variant="primary" intent="accent" radius="round" inline disabled class="submit-btn"><n-icon name="arrow-up"></n-icon></n-button>
+            </n-chat-input-actions>
+          </n-chat-input>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-chat-input&gt;
+  &lt;n-textarea placeholder="Ask anything" autogrow rows="2"&gt;&lt;/n-textarea&gt;
+  &lt;n-chat-input-actions&gt;
+    &lt;n-button variant="ghost" inline&gt;&lt;n-icon name="plus"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+  &lt;/n-chat-input-actions&gt;
+&lt;/n-chat-input&gt;
+
+&lt;!-- Compact --&gt;
+&lt;n-chat-input compact&gt;
+  &lt;n-textarea placeholder="Type a message..." autogrow rows="1"&gt;&lt;/n-textarea&gt;
+  &lt;n-chat-input-actions&gt;...&lt;/n-chat-input-actions&gt;
+&lt;/n-chat-input&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sub-containers ── -->
+
+    <h2>Sub-containers</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Header</span>
+          <n-chat-header>
+            <span slot="leading"><n-icon name="chat-dots"></n-icon></span>
+            <span>Chat Title</span>
+            <span slot="trailing"><n-button variant="ghost"><n-icon name="x"></n-icon></n-button></span>
+          </n-chat-header>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">Footer</span>
+          <n-chat-footer>
+            <n-button variant="ghost">Clear</n-button>
+            <n-button variant="primary">Send</n-button>
+          </n-chat-footer>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-chat-header&gt;
+  &lt;span slot="leading"&gt;&lt;n-icon name="chat-dots"&gt;&lt;/n-icon&gt;&lt;/span&gt;
+  &lt;span&gt;Chat Title&lt;/span&gt;
+  &lt;span slot="trailing"&gt;&lt;n-button variant="ghost"&gt;&lt;n-icon name="x"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;&lt;/span&gt;
+&lt;/n-chat-header&gt;
+
+&lt;n-chat-footer&gt;
+  &lt;n-button variant="ghost"&gt;Clear&lt;/n-button&gt;
+  &lt;n-button variant="primary"&gt;Send&lt;/n-button&gt;
+&lt;/n-chat-footer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import '../button/button.ts';
+      import '../textarea/textarea.ts';
+      import '../select/select.ts';
+      import '../listbox/listbox.ts';
+      import './chat-input.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/chat-dots.ts';
+      import '../../icons/phosphor/dots-three.ts';
+      import '../../icons/phosphor/dots-three-outline-fill.ts';
+      import '../../icons/phosphor/microphone.ts';
+      import '../../icons/phosphor/arrow-up.ts';
+      import '../../icons/phosphor/plus.ts';
+      import '../../icons/phosphor/x.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

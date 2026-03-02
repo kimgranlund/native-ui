@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-tooltip — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+.demo-section > .demo-code {
+        flex-basis: 100%;
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-tooltip&gt;</h1>
+    <p class="demo-desc">
+      Hover/focus-triggered informational popover with delay, anchor positioning, and fade animation.
+    </p>
+
+    <!-- ── Placements ── -->
+
+    <h2>Placements</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-button>
+          <span slot="label">Top (default)</span>
+          <n-tooltip placement="top">Tooltip above the button</n-tooltip>
+        </n-button>
+
+        <n-button>
+          <span slot="label">Bottom</span>
+          <n-tooltip placement="bottom">Tooltip below the button</n-tooltip>
+        </n-button>
+
+        <n-button>
+          <span slot="label">Left</span>
+          <n-tooltip placement="left">Tooltip to the left</n-tooltip>
+        </n-button>
+
+        <n-button>
+          <span slot="label">Right</span>
+          <n-tooltip placement="right">Tooltip to the right</n-tooltip>
+        </n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;n-button&gt;
+  &lt;span slot="label"&gt;Top (default)&lt;/span&gt;
+  &lt;n-tooltip placement="top"&gt;Tooltip above the button&lt;/n-tooltip&gt;
+&lt;/n-button&gt;
+
+&lt;n-button&gt;
+  &lt;span slot="label"&gt;Bottom&lt;/span&gt;
+  &lt;n-tooltip placement="bottom"&gt;Tooltip below&lt;/n-tooltip&gt;
+&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── On Different Elements ── -->
+
+    <h2>On Different Elements</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-button variant="primary" intent="accent">
+          <span slot="label">Primary Button</span>
+          <n-tooltip>Click to perform action</n-tooltip>
+        </n-button>
+
+        <n-button variant="ghost">
+          <n-icon name="info"></n-icon>
+          <n-tooltip placement="bottom">More information available</n-tooltip>
+        </n-button>
+
+        <span tabindex="0" style="text-decoration: underline dashed; cursor: help;">
+          Hover text
+          <n-tooltip>This is a plain text tooltip</n-tooltip>
+        </span>
+      </div>
+      <pre class="demo-code"><code>&lt;n-button variant="primary" intent="accent"&gt;
+  &lt;span slot="label"&gt;Primary Button&lt;/span&gt;
+  &lt;n-tooltip&gt;Click to perform action&lt;/n-tooltip&gt;
+&lt;/n-button&gt;
+
+&lt;span tabindex="0" style="cursor: help;"&gt;
+  Hover text
+  &lt;n-tooltip&gt;This is a plain text tooltip&lt;/n-tooltip&gt;
+&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Custom Delay ── -->
+
+    <h2>Custom Delay</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-button>
+          <span slot="label">Instant (0ms)</span>
+          <n-tooltip delay="0" placement="top">No delay!</n-tooltip>
+        </n-button>
+
+        <n-button>
+          <span slot="label">Default (500ms)</span>
+          <n-tooltip placement="top">Standard half-second delay</n-tooltip>
+        </n-button>
+
+        <n-button>
+          <span slot="label">Slow (1500ms)</span>
+          <n-tooltip delay="1500" placement="top">1.5 second delay</n-tooltip>
+        </n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;n-button&gt;
+  &lt;span slot="label"&gt;Instant (0ms)&lt;/span&gt;
+  &lt;n-tooltip delay="0"&gt;No delay!&lt;/n-tooltip&gt;
+&lt;/n-button&gt;
+
+&lt;n-button&gt;
+  &lt;span slot="label"&gt;Slow (1500ms)&lt;/span&gt;
+  &lt;n-tooltip delay="1500"&gt;1.5 second delay&lt;/n-tooltip&gt;
+&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-button size="xs">
+          <span slot="label">XS</span>
+          <n-tooltip>Extra small context</n-tooltip>
+        </n-button>
+
+        <n-button size="sm">
+          <span slot="label">SM</span>
+          <n-tooltip>Small context</n-tooltip>
+        </n-button>
+
+        <n-button size="md">
+          <span slot="label">MD</span>
+          <n-tooltip>Medium context</n-tooltip>
+        </n-button>
+
+        <n-button size="lg">
+          <span slot="label">LG</span>
+          <n-tooltip>Large context</n-tooltip>
+        </n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;n-button size="sm"&gt;
+  &lt;span slot="label"&gt;SM&lt;/span&gt;
+  &lt;n-tooltip&gt;Small context&lt;/n-tooltip&gt;
+&lt;/n-button&gt;
+
+&lt;n-button size="lg"&gt;
+  &lt;span slot="label"&gt;LG&lt;/span&gt;
+  &lt;n-tooltip&gt;Large context&lt;/n-tooltip&gt;
+&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Long Content ── -->
+
+    <h2>Long Content</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-button>
+          <span slot="label">Hover for details</span>
+          <n-tooltip placement="bottom">This is a much longer tooltip that wraps to multiple lines. It has a max-width constraint to keep it readable.</n-tooltip>
+        </n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;n-button&gt;
+  &lt;span slot="label"&gt;Hover for details&lt;/span&gt;
+  &lt;n-tooltip placement="bottom"&gt;This is a much longer tooltip
+that wraps to multiple lines.&lt;/n-tooltip&gt;
+&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './tooltip.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/info.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

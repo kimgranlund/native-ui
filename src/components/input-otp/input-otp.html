@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-input-otp — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-input-otp&gt;</h1>
+    <p class="demo-desc">
+      Segmented OTP input. Auto-advance on entry, backspace returns, paste fills all cells.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic (6 digits)</h2>
+    <div class="demo-section">
+      <n-field>
+        <label slot="label">Verification code</label>
+        <n-input-otp></n-input-otp>
+        <span slot="description">Enter the 6-digit code sent to your phone.</span>
+      </n-field>
+      <pre class="demo-code"><code>&lt;n-field&gt;
+  &lt;label slot="label"&gt;Verification code&lt;/label&gt;
+  &lt;n-input-otp&gt;&lt;/n-input-otp&gt;
+  &lt;span slot="description"&gt;Enter the 6-digit code.&lt;/span&gt;
+&lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── 4 Digits ── -->
+
+    <h2>4 Digits</h2>
+    <div class="demo-section">
+      <n-field>
+        <label slot="label">PIN</label>
+        <n-input-otp length="4"></n-input-otp>
+      </n-field>
+          <pre class="demo-code"><code>&lt;n-input-otp length="4"&gt;&lt;/n-input-otp&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Masked ── -->
+
+    <h2>Masked</h2>
+    <div class="demo-section">
+      <n-field>
+        <label slot="label">Security code</label>
+        <n-input-otp mask></n-input-otp>
+        <span slot="description">Characters are hidden for security.</span>
+      </n-field>
+          <pre class="demo-code"><code>&lt;n-input-otp mask&gt;&lt;/n-input-otp&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── With Value ── -->
+
+    <h2>Pre-filled</h2>
+    <div class="demo-section">
+      <n-field>
+        <label slot="label">Confirmation</label>
+        <n-input-otp value="123456"></n-input-otp>
+      </n-field>
+          <pre class="demo-code"><code>&lt;n-input-otp value="123456"&gt;&lt;/n-input-otp&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section">
+      <n-field disabled>
+        <label slot="label">Locked code</label>
+        <n-input-otp value="847291"></n-input-otp>
+      </n-field>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-field size="sm">
+          <label slot="label">Small</label>
+          <n-input-otp length="4"></n-input-otp>
+        </n-field>
+        <n-field>
+          <label slot="label">Default</label>
+          <n-input-otp length="4"></n-input-otp>
+        </n-field>
+        <n-field size="lg">
+          <label slot="label">Large</label>
+          <n-input-otp length="4"></n-input-otp>
+        </n-field>
+      </n-stack>
+      <pre class="demo-code"><code>&lt;n-input-otp length="4" size="sm"&gt;&lt;/n-input-otp&gt;
+&lt;n-input-otp length="4"&gt;&lt;/n-input-otp&gt;
+&lt;n-input-otp length="4" size="lg"&gt;&lt;/n-input-otp&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Live Value ── -->
+
+    <h2>Live Value</h2>
+    <div class="demo-section">
+      <n-field>
+        <label slot="label">Code: <span id="otp-value" class="demo-text-sm" style="font-variant-numeric: tabular-nums;">______</span></label>
+        <n-input-otp id="otp-live" length="6"></n-input-otp>
+      </n-field>
+      <pre class="demo-code"><code>&lt;n-input-otp id="otp-live" length="6"&gt;&lt;/n-input-otp&gt;
+
+&lt;script&gt;
+  otp.addEventListener('native:input', (e) =&gt; {
+    console.log(e.detail.value);
+  });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
+      </p>
+      <div class="demo-col-lg">
+        <div>
+          <div class="demo-state-label">force-hover</div>
+          <n-input-otp force-hover length="4"></n-input-otp>
+        </div>
+        <div>
+          <div class="demo-state-label">force-focus</div>
+          <n-input-otp force-focus length="4"></n-input-otp>
+        </div>
+      </div>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './input-otp.ts';
+      import '../field/field.ts';
+      import '../input/input.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      const otp = document.getElementById('otp-live');
+      const display = document.getElementById('otp-value');
+      otp?.addEventListener('native:input', (e) => {
+        const val = e.detail.value;
+        display.textContent = val.padEnd(6, '_');
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -19,15 +19,15 @@
         font-weight: 600;
         margin-bottom: 0.5rem;
         margin-top: 1.25rem;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 .press-box {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         padding: 0.75rem 1.5rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.375rem;
         cursor: pointer;
         user-select: none;
@@ -36,12 +36,12 @@
       }
 
       .press-box:hover {
-        background: var(--neutral-panel-hover);
+        background: var(--n-panel-hover-neutral);
       }
 
       .press-box[pressed] {
-        background: var(--accent-surface);
-        color: var(--accent-surface-ink);
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
         transform: scale(0.97);
       }
 
@@ -52,19 +52,19 @@
       }
 
       .press-box:focus-visible {
-        outline: 2px solid var(--ui-focus-ring);
+        outline: 2px solid var(--n-focus-ring);
         outline-offset: 2px;
       }
 
       .output {
         font-family: monospace;
         font-size: 0.75rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         max-height: 6rem;
         overflow-y: auto;
         margin-top: 0.75rem;
         padding: 0.5rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         border-radius: 0.25rem;
       }
       /* ── API Reference ── */
@@ -83,20 +83,20 @@
         text-align: left;
         font-weight: 600;
         padding: 0.5rem 0.75rem;
-        border-bottom: 2px solid var(--neutral-border-muted);
-        color: var(--neutral-ink-strong);
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
       }
 
       .api-table td {
         padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
         vertical-align: top;
       }
 
       .api-table code {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         padding: 0.0625rem 0.3125rem;
         border-radius: 0.1875rem;
       }
@@ -107,11 +107,11 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
 
     <h1>Pressable</h1>
     <p class="demo-desc">
-      Composable trait that handles pointer and keyboard press states. Sets a <code>[pressed]</code> attribute during press and dispatches <code>ui-press</code> on release. Supports pointer capture and Enter/Space keys.
+      Composable trait that handles pointer and keyboard press states. Sets a <code>[pressed]</code> attribute during press and dispatches <code>native:press</code> on release. Supports pointer capture and Enter/Space keys.
     </p>
 
     <!-- ── Basic Press (Provider) ── -->
@@ -119,47 +119,47 @@
     <h2>Basic Press (Provider)</h2>
     <div class="demo-section">
       <p class="demo-hint">
-        <code>&lt;ui-controller&gt;</code> wraps each element and applies the pressable trait. Click or press Enter/Space.
+        <code>&lt;n-controller&gt;</code> wraps each element and applies the pressable trait. Click or press Enter/Space.
       </p>
       <div class="demo-row" style="gap: 0.75rem;">
-        <ui-controller traits="pressable">
+        <n-controller traits="pressable">
           <div class="press-box" tabindex="0">Click or press Enter</div>
-        </ui-controller>
-        <ui-controller traits="pressable">
+        </n-controller>
+        <n-controller traits="pressable">
           <div class="press-box" tabindex="0">Another pressable</div>
-        </ui-controller>
-        <ui-controller traits="pressable" pressable-disabled="true">
+        </n-controller>
+        <n-controller traits="pressable" pressable-disabled="true">
           <div class="press-box" tabindex="0" disabled>Disabled</div>
-        </ui-controller>
+        </n-controller>
       </div>
       <div id="log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="pressable"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="pressable"&gt;
   &lt;div class="press-box" tabindex="0"&gt;
     Click or press Enter
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
-    <!-- ── On ui-button (Built-in) ── -->
+    <!-- ── On n-button (Built-in) ── -->
 
-    <h2>On ui-button (Built-in)</h2>
+    <h2>On n-button (Built-in)</h2>
     <div class="demo-section">
       <p class="demo-hint">
-        <code>ui-button</code> already uses the Pressable trait internally. The <code>ui-press</code> event and <code>[pressed]</code> attribute work out of the box.
+        <code>n-button</code> already uses the Pressable trait internally. The <code>native:press</code> event and <code>[pressed]</code> attribute work out of the box.
       </p>
       <div class="demo-row" style="gap: 0.75rem;">
-        <ui-button id="btn-1">Button Press</ui-button>
-        <ui-button id="btn-2" intent="accent">Accent Press</ui-button>
-        <ui-button id="btn-3" disabled>Disabled</ui-button>
+        <n-button id="btn-1">Button Press</n-button>
+        <n-button id="btn-2" intent="accent">Accent Press</n-button>
+        <n-button id="btn-3" disabled>Disabled</n-button>
       </div>
       <div id="btn-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-button&gt;Button Press&lt;/ui-button&gt;
+      <pre class="demo-code"><code>&lt;n-button&gt;Button Press&lt;/n-button&gt;
 
 &lt;script&gt;
-  button.addEventListener('ui-press', (e) =&gt; {
+  button.addEventListener('native:press', (e) =&gt; {
     console.log('pressed!', e.detail.pointerType);
   });
-&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Pointer Types ── -->
@@ -167,24 +167,24 @@
     <h2>Pointer Types</h2>
     <div class="demo-section">
       <p class="demo-text-sm">
-        The <code>ui-press</code> event includes a <code>pointerType</code> in its detail — <code>"mouse"</code>, <code>"touch"</code>, <code>"pen"</code>, or <code>"keyboard"</code>.
+        The <code>native:press</code> event includes a <code>pointerType</code> in its detail — <code>"mouse"</code>, <code>"touch"</code>, <code>"pen"</code>, or <code>"keyboard"</code>.
       </p>
-      <ui-controller traits="pressable">
+      <n-controller traits="pressable">
         <div class="press-box" id="type-box" tabindex="0">Press me (check log)</div>
-      </ui-controller>
+      </n-controller>
       <div id="type-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="pressable"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="pressable"&gt;
   &lt;div class="press-box" tabindex="0"&gt;
     Press me (check log)
   &lt;/div&gt;
-&lt;/ui-controller&gt;
+&lt;/n-controller&gt;
 
 &lt;script&gt;
-  box.addEventListener('ui-press', (e) =&gt; {
+  box.addEventListener('native:press', (e) =&gt; {
     console.log(e.detail.pointerType);
     // "mouse" | "touch" | "pen" | "keyboard"
   });
-&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── API Reference ── -->
@@ -212,7 +212,7 @@
         <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>ui-press</code></td>
+            <td><code>native:press</code></td>
             <td><code>{ pointerType }</code></td>
             <td>Fired on release. <code>pointerType</code> is <code>"mouse"</code>, <code>"touch"</code>, <code>"pen"</code>, or <code>"keyboard"</code>.</td>
           </tr>
@@ -233,7 +233,7 @@
       </table>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
 
     <!-- Script 1: Register all traits BEFORE any component define() -->
     <script type="module">
@@ -243,10 +243,10 @@
 
     <!-- Script 2: Import components (runs after traits are registered) -->
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../components/ui-controller/ui-controller.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../components/controller/controller.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
 // ── Copy buttons ──
@@ -256,7 +256,7 @@
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
@@ -278,9 +278,9 @@
       let count = 0;
       const logEl = document.getElementById('log');
       for (const box of document.querySelectorAll('.press-box')) {
-        box.addEventListener('ui-press', (e) => {
+        box.addEventListener('native:press', (e) => {
           count++;
-          appendLog(logEl, `#${count} ui-press — pointerType: "${e.detail.pointerType}"`);
+          appendLog(logEl, `#${count} native:press — pointerType: "${e.detail.pointerType}"`);
         });
       }
 
@@ -289,9 +289,9 @@
       let btnCount = 0;
       const btnLogEl = document.getElementById('btn-log');
       for (const btn of [document.getElementById('btn-1'), document.getElementById('btn-2'), document.getElementById('btn-3')]) {
-        btn.addEventListener('ui-press', (e) => {
+        btn.addEventListener('native:press', (e) => {
           btnCount++;
-          appendLog(btnLogEl, `#${btnCount} ui-press — pointerType: "${e.detail.pointerType}"`);
+          appendLog(btnLogEl, `#${btnCount} native:press — pointerType: "${e.detail.pointerType}"`);
         });
       }
 
@@ -299,7 +299,7 @@
 
       const typeBox = document.getElementById('type-box');
       const typeLogEl = document.getElementById('type-log');
-      typeBox.addEventListener('ui-press', (e) => {
+      typeBox.addEventListener('native:press', (e) => {
         appendLog(typeLogEl, `pointerType: "${e.detail.pointerType}"`);
       });
     </script>

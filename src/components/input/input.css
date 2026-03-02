@@ -1,0 +1,125 @@
+@layer ui {
+
+  /* ── Input Base ── */
+
+  :where(n-input) {
+    --n-font-weight: var(--n-input-font-weight);
+    --n-line-height: var(--n-control-line-height);
+
+    --n-background: var(--n-control);
+    --n-background-hover: var(--n-control-hover);
+    --n-background-disabled: var(--n-control-disabled);
+    --n-color: var(--n-ink);
+    --n-color-hover: var(--n-ink-hover);
+    --n-color-disabled: var(--n-ink-disabled);
+    --n-border-color: var(--n-border-rest);
+    --n-border-color-hover: var(--n-border-muted);
+    --n-border-color-disabled: var(--n-border-disabled);
+
+    display: flex;
+    width: 100%;
+    min-width: var(--n-size);
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+
+    min-height: var(--n-size);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+
+    font-size: var(--n-font-size);
+    letter-spacing: var(--n-letter-spacing);
+    /* WHY: line-height matches min-height (minus border) to vertically center text in contenteditable */
+    line-height: calc(var(--n-size) - 2px);
+    font-weight: var(--n-font-weight);
+
+    border-radius: var(--n-radius);
+    border: 1px solid var(--n-border-color);
+    background: var(--n-background);
+    color: var(--n-color);
+
+    cursor: text;
+    outline: none;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Placeholder (shown when empty via CustomStateSet) ── */
+
+  :where(n-input):state(empty)::before {
+    content: attr(placeholder);
+    color: var(--n-ink-placeholder);
+    pointer-events: none;
+  }
+
+  /* ── Slot children (icons) ── */
+
+  :where(n-input) > :where([slot]) {
+    flex-shrink: 0;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  :where(n-input) > :where([slot="leading"]) {
+    order: -1;
+  }
+
+  :where(n-input) > :where([slot="trailing"]) {
+    order: 1;
+    margin-inline-start: auto;
+  }
+
+  /* ── States ── */
+
+  :where(n-input):hover,
+  :where(n-input)[force-hover] {
+    background: var(--n-background-hover);
+    color: var(--n-color-hover);
+    border-color: var(--n-border-color-hover);
+  }
+
+  /* ── Filled state (elevated bg, no border, stronger text) ── */
+  /* WHY: When the input has content, bump elevation (control → panel),
+     text contrast (ink → ink-strong), and drop border so filled fields
+     look solid and elevated vs the outlined empty state. */
+
+  :where(n-input):not(:state(empty)) {
+    background: var(--n-panel);
+    color: var(--n-ink-strong);
+    border-color: transparent;
+  }
+
+  :where(n-input):not(:state(empty)):hover,
+  :where(n-input):not(:state(empty))[force-hover] {
+    background: var(--n-panel-hover);
+    border-color: transparent;
+  }
+
+  :where(n-input):focus,
+  :where(n-input)[force-focus] {
+    border-color: var(--n-focus-ring);
+    outline: 1px solid var(--n-focus-ring);
+    outline-offset: 0;
+  }
+
+  /* ── Inline mode ── */
+  /* WHY: Default is block (flex) so inputs fill available width in flex/grid layouts.
+     [inline] restores shrink-wrap for inline use cases. */
+
+  :where(n-input)[inline] {
+    display: inline-flex;
+    width: auto;
+  }
+
+  :where(n-input)[aria-disabled="true"] {
+    background: var(--n-background-disabled);
+    color: var(--n-color-disabled);
+    border-color: var(--n-border-color-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+}

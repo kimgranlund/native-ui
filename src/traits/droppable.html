@@ -19,7 +19,7 @@
         font-weight: 600;
         margin-bottom: 0.5rem;
         margin-top: 1.25rem;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
       /* ── Drop Zones ── */
 
@@ -31,25 +31,25 @@
         gap: 0.5rem;
         min-height: 8rem;
         padding: 1.5rem;
-        background: var(--neutral-panel);
-        border: 2px dashed var(--neutral-border-muted);
+        background: var(--n-panel-neutral);
+        border: 2px dashed var(--n-border-muted-neutral);
         border-radius: 0.5rem;
         font-size: 0.875rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         transition: border-color 200ms ease, background 200ms ease, color 200ms ease;
         text-align: center;
       }
 
       .drop-zone[drop-active] {
-        border-color: var(--accent-border);
-        background: var(--accent-surface);
-        color: var(--accent-surface-ink);
+        border-color: var(--n-border-accent);
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
       }
 
       #images-zone[drop-invalid] {
-        border-color: var(--danger-border, #e55);
-        background: var(--danger-surface, #fee);
-        color: var(--danger-surface-ink, #c33);
+        border-color: var(--n-border-danger, #e55);
+        background: var(--n-surface-danger, #fee);
+        color: var(--n-surface-ink-danger, #c33);
       }
 
       .drop-icon {
@@ -75,30 +75,30 @@
         align-items: center;
         justify-content: space-between;
         padding: 0.5rem 0.75rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.375rem;
         font-size: 0.8125rem;
       }
 
       .file-name {
         font-weight: 500;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 
       .file-size {
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         font-size: 0.75rem;
       }
 
       .dropped-text {
         margin-top: 0.75rem;
         padding: 0.75rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.375rem;
         font-size: 0.8125rem;
-        color: var(--neutral-ink);
+        color: var(--n-ink-neutral);
         white-space: pre-wrap;
         word-break: break-word;
         max-height: 6rem;
@@ -108,12 +108,12 @@
       .output {
         font-family: monospace;
         font-size: 0.75rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         max-height: 6rem;
         overflow-y: auto;
         margin-top: 0.75rem;
         padding: 0.5rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         border-radius: 0.25rem;
       }
       /* ── API Reference ── */
@@ -132,20 +132,20 @@
         text-align: left;
         font-weight: 600;
         padding: 0.5rem 0.75rem;
-        border-bottom: 2px solid var(--neutral-border-muted);
-        color: var(--neutral-ink-strong);
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
       }
 
       .api-table td {
         padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
         vertical-align: top;
       }
 
       .api-table code {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         padding: 0.0625rem 0.3125rem;
         border-radius: 0.1875rem;
       }
@@ -156,7 +156,7 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
 
     <h1>Droppable</h1>
     <p class="demo-desc">
@@ -168,30 +168,30 @@
     <h2>File Drop Zone (Provider)</h2>
     <div class="demo-section">
       <p class="demo-hint">
-        <code>&lt;ui-controller traits="droppable"&gt;</code> wraps a plain div. Drop any files onto the zone.
+        <code>&lt;n-controller traits="droppable"&gt;</code> wraps a plain div. Drop any files onto the zone.
       </p>
-      <ui-controller traits="droppable">
+      <n-controller traits="droppable">
         <div class="drop-zone" id="files-zone">
           <span class="drop-icon">&#128193;</span>
           <span>Drop files here</span>
           <span class="drop-hint">Any file type accepted</span>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="files-list" class="file-list" style="display: none;"></div>
       <div id="files-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="droppable"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="droppable"&gt;
   &lt;div class="drop-zone"&gt;
     Drop files here
   &lt;/div&gt;
-&lt;/ui-controller&gt;
+&lt;/n-controller&gt;
 
 &lt;script&gt;
-  zone.addEventListener('ui-file-drop', (e) =&gt; {
+  zone.addEventListener('native:file-drop', (e) =&gt; {
     for (const file of e.detail.files) {
       console.log(file.name, file.size);
     }
   });
-&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Image Only (Provider) ── -->
@@ -201,20 +201,20 @@
       <p class="demo-hint">
         <code>droppable-accept="image/*"</code> filter. Shows <code>[drop-invalid]</code> when a non-image is dragged over.
       </p>
-      <ui-controller traits="droppable" droppable-accept="image/*">
+      <n-controller traits="droppable" droppable-accept="image/*">
         <div class="drop-zone" id="images-zone">
           <span class="drop-icon">&#128247;</span>
           <span>Drop images here</span>
           <span class="drop-hint">Only image files accepted</span>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="images-list" class="file-list" style="display: none;"></div>
       <div id="images-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="droppable" droppable-accept="image/*"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="droppable" droppable-accept="image/*"&gt;
   &lt;div class="drop-zone"&gt;
     Drop images here
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Text Drop (Provider) ── -->
@@ -224,26 +224,26 @@
       <p class="demo-hint">
         Drop plain text from a browser selection. Select text elsewhere and drag it onto the zone.
       </p>
-      <ui-controller traits="droppable">
+      <n-controller traits="droppable">
         <div class="drop-zone" id="text-zone">
           <span class="drop-icon">&#128196;</span>
           <span>Drop text here</span>
           <span class="drop-hint">Select text in your browser and drag it here</span>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="text-content" class="dropped-text" style="display: none;"></div>
       <div id="text-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="droppable"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="droppable"&gt;
   &lt;div class="drop-zone"&gt;
     Drop text here
   &lt;/div&gt;
-&lt;/ui-controller&gt;
+&lt;/n-controller&gt;
 
 &lt;script&gt;
-  zone.addEventListener('ui-text-drop', (e) =&gt; {
+  zone.addEventListener('native:text-drop', (e) =&gt; {
     console.log('Dropped text:', e.detail.text);
   });
-&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Single File (Provider) ── -->
@@ -253,20 +253,20 @@
       <p class="demo-hint">
         <code>droppable-multiple="false"</code>. Only the first file is accepted when multiple are dropped.
       </p>
-      <ui-controller traits="droppable" droppable-multiple="false">
+      <n-controller traits="droppable" droppable-multiple="false">
         <div class="drop-zone" id="single-zone">
           <span class="drop-icon">&#128206;</span>
           <span>Drop a single file</span>
           <span class="drop-hint">Only the first file will be accepted</span>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="single-list" class="file-list" style="display: none;"></div>
       <div id="single-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="droppable" droppable-multiple="false"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="droppable" droppable-multiple="false"&gt;
   &lt;div class="drop-zone"&gt;
     Drop a single file
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── API Reference ── -->
@@ -306,12 +306,12 @@
         <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>ui-file-drop</code></td>
+            <td><code>native:file-drop</code></td>
             <td><code>{ files, dataTransfer }</code></td>
             <td>Fired when files are dropped. <code>files</code> is an array of <code>File</code> objects.</td>
           </tr>
           <tr>
-            <td><code>ui-text-drop</code></td>
+            <td><code>native:text-drop</code></td>
             <td><code>{ text }</code></td>
             <td>Fired when plain text is dropped (no files in the transfer).</td>
           </tr>
@@ -336,7 +336,7 @@
       </table>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
 
     <!-- Script 1: Register all traits BEFORE any component define() -->
     <script type="module">
@@ -346,10 +346,10 @@
 
     <!-- Script 2: Import components (runs after traits are registered) -->
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../components/ui-controller/ui-controller.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../components/controller/controller.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
 // ── Copy buttons ──
@@ -359,7 +359,7 @@
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
@@ -396,7 +396,7 @@
       // ── File Drop Zone ──
 
       const filesZone = document.getElementById('files-zone');
-      filesZone.addEventListener('ui-file-drop', (e) => {
+      filesZone.addEventListener('native:file-drop', (e) => {
         renderFiles(document.getElementById('files-list'), e.detail.files);
         for (const file of e.detail.files) {
           appendLog(document.getElementById('files-log'), `${file.name} (${formatSize(file.size)})`);
@@ -406,7 +406,7 @@
       // ── Image Only ──
 
       const imagesZone = document.getElementById('images-zone');
-      imagesZone.addEventListener('ui-file-drop', (e) => {
+      imagesZone.addEventListener('native:file-drop', (e) => {
         renderFiles(document.getElementById('images-list'), e.detail.files);
         for (const file of e.detail.files) {
           appendLog(document.getElementById('images-log'), `${file.name} (${file.type}, ${formatSize(file.size)})`);
@@ -416,7 +416,7 @@
       // ── Text Drop ──
 
       const textZone = document.getElementById('text-zone');
-      textZone.addEventListener('ui-text-drop', (e) => {
+      textZone.addEventListener('native:text-drop', (e) => {
         const contentEl = document.getElementById('text-content');
         contentEl.style.display = 'block';
         contentEl.textContent = e.detail.text;
@@ -426,7 +426,7 @@
       // ── Single File ──
 
       const singleZone = document.getElementById('single-zone');
-      singleZone.addEventListener('ui-file-drop', (e) => {
+      singleZone.addEventListener('native:file-drop', (e) => {
         renderFiles(document.getElementById('single-list'), e.detail.files);
         const file = e.detail.files[0];
         appendLog(document.getElementById('single-log'), `${file.name} (${formatSize(file.size)}) — only 1 file accepted`);

@@ -284,15 +284,15 @@ function resolveComponent(
       const tabValue = String(child.value ?? child.id ?? `tab-${i}`);
       const tabLabel = String(child.label ?? child.text ?? `Tab ${i + 1}`);
 
-      // Create <ui-tab value="...">Label</ui-tab>
+      // Create <n-tab value="...">Label</n-tab>
       children.push({
         id: `${childId}-tab`,
-        tag: 'ui-tab',
+        tag: 'n-tab',
         attributes: { value: tabValue },
         textContent: tabLabel,
       });
 
-      // Create <ui-tab-panel value="...">content</ui-tab-panel>
+      // Create <n-tab-panel value="...">content</n-tab-panel>
       // Recursively resolve the child's own children for the panel content
       const panelChildIds = child.children ?? (child.child ? [child.child] : undefined);
       const panelChildren = panelChildIds
@@ -303,7 +303,7 @@ function resolveComponent(
 
       panelNodes.push({
         id: `${childId}-panel`,
-        tag: 'ui-tab-panel',
+        tag: 'n-tab-panel',
         attributes: { value: tabValue },
         ...(panelChildren && panelChildren.length > 0 ? { children: panelChildren } : {}),
         ...(panelText && !panelChildren ? { textContent: panelText } : {}),
@@ -312,7 +312,7 @@ function resolveComponent(
     // Wrap panels in ui-tab-panels container
     children.push({
       id: `${id}-panels`,
-      tag: 'ui-tab-panels',
+      tag: 'n-tab-panels',
       children: panelNodes,
     });
     // Auto-select first tab

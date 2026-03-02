@@ -2,7 +2,7 @@
 
 # DropZoneController
 
-> Handles native drag-and-drop file/data reception, dispatching `ui-drop-enter`, `ui-drop-leave`, and `ui-drop` events.
+> Handles native drag-and-drop file/data reception, dispatching `native:drop-enter`, `native:drop-leave`, and `native:drop` events.
 
 ## Constructor
 
@@ -22,9 +22,9 @@ new DropZoneController(host: HTMLElement, options?: DropZoneOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-drop-enter` | `{ valid }` |
-| `ui-drop` | `{ type, files, dataTransfer }` |
-| `ui-drop-leave` | _(none)_ |
+| `native:drop-enter` | `{ valid }` |
+| `native:drop` | `{ type, files, dataTransfer }` |
+| `native:drop-leave` | _(none)_ |
 
 ## Methods
 

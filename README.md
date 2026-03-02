@@ -31,16 +31,16 @@ import '@nonoun/native-ui/register';
 **2b. Or import individual classes** (tree-shakeable):
 
 ```js
-import { UIButton, define } from '@nonoun/native-ui';
-define('ui-button', UIButton);
+import { NButton, define } from '@nonoun/native-ui';
+define('n-button', NButton);
 ```
 
 **3. Use in HTML:**
 
 ```html
-<ui-button variant="primary" intent="accent">Save</ui-button>
-<ui-input placeholder="Email" name="email"></ui-input>
-<ui-select placeholder="Country" options='[{"value":"us","label":"United States"}]'></ui-select>
+<n-button variant="primary" intent="accent">Save</n-button>
+<n-input placeholder="Email" name="email"></n-input>
+<n-select placeholder="Country" options='[{"value":"us","label":"United States"}]'></n-select>
 ```
 
 ## Entry Points
@@ -79,15 +79,15 @@ This means:
 
 ### Interactive
 
-`ui-button` `ui-input` `ui-textarea` `ui-select` `ui-combobox` `ui-command` `ui-checkbox` `ui-switch` `ui-radio` `ui-segmented-control` `ui-tabs` `ui-accordion` `ui-dialog` `ui-drawer` `ui-calendar` `ui-table` `ui-listbox` `ui-tree` `ui-range` `ui-input-otp` `ui-pagination` `ui-breadcrumb` `ui-slideshow` `ui-tooltip` `ui-avatar` `ui-badge` `ui-nav` `ui-chat` `ui-field`
+`n-button` `n-input` `n-textarea` `n-select` `n-combobox` `n-command` `n-checkbox` `n-switch` `n-radio` `n-segmented-control` `n-tabs` `n-accordion` `n-dialog` `n-drawer` `n-calendar` `n-table` `n-listbox` `n-tree` `n-range` `n-input-otp` `n-pagination` `n-breadcrumb` `n-slideshow` `n-tooltip` `n-avatar` `n-badge` `n-nav` `n-chat` `n-field`
 
 ### Containers
 
-`ui-card` `ui-panel` `ui-stack` `ui-grid` `ui-divider` `ui-inset` `ui-header` `ui-body` `ui-footer` `ui-section` `ui-toolbar` `ui-layout-sidebar` `ui-layout-breadcrumb` `ui-layout-canvas` `ui-layout-body` `ui-layout-chat`
+`n-card` `n-panel` `n-stack` `n-grid` `n-divider` `n-inset` `n-card-header` `n-card-body` `n-card-footer` `n-section` `n-toolbar` `n-layout-sidebar` `n-layout-breadcrumb` `n-layout-canvas` `n-layout-body` `n-layout-chat`
 
 ### Traits
 
-Composable behaviors available as controllers (imperative) or via `<ui-controller>` (declarative):
+Composable behaviors available as controllers (imperative) or via `<n-controller>` (declarative):
 
 `PressController` `DismissController` `PopoverController` `RovingFocusController` `FocusTrapController` `DragController` `DropZoneController` `RangeSelectController` `CollapsibleController` `ToastController` `ValidateController` `ResizeController` `VirtualScrollController` `CopyController` `SortController` `HoverController` `IntersectController` `SelectionController` `SearchController` `ClipboardController` `SwipeController` `EditController` `DialogController` `ListNavigateController`
 

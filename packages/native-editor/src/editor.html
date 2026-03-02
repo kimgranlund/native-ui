@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>native-editor — Package Demo</title>
+    <link rel="stylesheet" href="../../../src/styles/index.css" />
+    <link rel="stylesheet" href="../../../src/styles/components.css" />
+    <link rel="stylesheet" href="../../../src/styles/demo.css" />
+    <link rel="stylesheet" href="./css/editor.css" />
+    <style>
+      native-editor {
+        height: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;native-editor&gt;</h1>
+    <p class="demo-desc">
+      Markdown content editor with live preview and source modes.
+      Built on CodeMirror 6, renders a toolbar with formatting commands and an Obsidian-style live preview.
+    </p>
+
+    <!-- ── Default (Live Preview) ── -->
+
+    <h2>Default — Live Preview Mode</h2>
+    <div class="demo-section">
+      <native-editor id="demo-default">
+        <script type="text/markdown">
+# Hello World
+
+This is a **bold** and *italic* text with `inline code`.
+
+## Features
+
+- Toolbar with formatting commands
+- Live preview with decorations
+- Source mode toggle
+
+> Blockquotes are styled with a blue left border.
+
+### Links & Images
+
+Check out [NativeUI](https://github.com/nonoun/native-ui) for more info.
+
+---
+
+```js
+console.log('Code blocks are highlighted');
+```
+
+1. Ordered lists
+2. Work too
+3. With proper numbering
+        </script>
+      </native-editor>
+    <pre class="demo-code"><code>&lt;native-editor&gt;
+  &lt;script type="text/markdown"&gt;
+# Hello World
+
+This is a **bold** and *italic* text.
+  &lt;/script&gt;
+&lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Source Mode ── -->
+
+    <h2>Source Mode</h2>
+    <div class="demo-section">
+      <native-editor id="demo-source" mode="source">
+        <script type="text/markdown">
+# Source Mode
+
+In source mode, you see the **raw markdown** without live preview decorations.
+Syntax highlighting is provided by `@codemirror/lang-markdown`.
+
+- No inline styling
+- Just syntax colors
+- Full editing power
+        </script>
+      </native-editor>
+    <pre class="demo-code"><code>&lt;native-editor mode="source"&gt;
+  &lt;script type="text/markdown"&gt;
+# Source Mode
+Raw markdown without decorations.
+  &lt;/script&gt;
+&lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Placeholder ── -->
+
+    <h2>Placeholder</h2>
+    <div class="demo-section">
+      <native-editor id="demo-placeholder" placeholder="Start typing your markdown here..."></native-editor>
+    <pre class="demo-code"><code>&lt;native-editor placeholder="Start typing your markdown here..."&gt;&lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Read-only ── -->
+
+    <h2>Read-only</h2>
+    <div class="demo-section">
+      <native-editor id="demo-readonly" readonly>
+        <script type="text/markdown">
+# Read-only Document
+
+This editor is in **read-only** mode. You can select text but cannot edit.
+
+- Toolbar buttons are disabled
+- Content is not editable
+- Useful for preview/display
+        </script>
+      </native-editor>
+    <pre class="demo-code"><code>&lt;native-editor readonly&gt;
+  &lt;script type="text/markdown"&gt;
+# Read-only Document
+Content is not editable.
+  &lt;/script&gt;
+&lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section">
+      <native-editor id="demo-disabled" disabled>
+        <script type="text/markdown">
+# Disabled Editor
+
+This editor is completely disabled.
+        </script>
+      </native-editor>
+    <pre class="demo-code"><code>&lt;native-editor disabled&gt;...&lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Form Integration ── -->
+
+    <h2>Form Integration</h2>
+    <div class="demo-section">
+      <form id="demo-form" style="display: flex; flex-direction: column; gap: 1rem;">
+        <native-editor id="demo-form-editor" name="content" style="height: 250px;">
+          <script type="text/markdown">
+# Form Field
+
+This editor participates in form submission via `FormData`.
+          </script>
+        </native-editor>
+        <div class="demo-actions">
+          <n-button type="submit" variant="primary">Submit</n-button>
+          <n-button type="reset" variant="secondary">Reset</n-button>
+        </div>
+      </form>
+      <div class="log" id="form-output"></div>
+    <pre class="demo-code"><code>&lt;form&gt;
+  &lt;native-editor name="content"&gt;...&lt;/native-editor&gt;
+  &lt;n-button type="submit" variant="primary"&gt;Submit&lt;/n-button&gt;
+  &lt;n-button type="reset" variant="secondary"&gt;Reset&lt;/n-button&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+  form.addEventListener('submit', (e) =&gt; {
+    e.preventDefault();
+    const data = new FormData(form);
+    console.log(data.get('content'));
+  });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Change Events ── -->
+
+    <h2>Change Events</h2>
+    <div class="demo-section">
+      <native-editor id="demo-events" style="height: 200px;">
+        <script type="text/markdown">
+# Try editing
+
+Type something to see change events in the log below.
+        </script>
+      </native-editor>
+      <div class="log" id="event-log" style="max-height: 100px;"></div>
+    <pre class="demo-code"><code>&lt;native-editor id="editor"&gt;...&lt;/native-editor&gt;
+
+&lt;script&gt;
+  editor.addEventListener('change', (e) =&gt; {
+    console.log(e.detail.value.length, 'chars');
+  });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Data Gateway (src) ── -->
+
+    <h2>Data Gateway — Load from URL</h2>
+    <div class="demo-section">
+      <native-editor id="demo-gateway" style="height: 300px;"></native-editor>
+      <div class="demo-actions" style="margin-top: 0.75rem; align-items: center;">
+        <n-button id="gateway-save" variant="primary" disabled>Save</n-button>
+        <n-button id="gateway-reload" variant="secondary">Reload</n-button>
+        <span class="demo-text-sm" id="gateway-status"></span>
+      </div>
+    <pre class="demo-code"><code>&lt;native-editor id="editor" src="/api/content"&gt;&lt;/native-editor&gt;
+
+&lt;script&gt;
+  editor.addEventListener('dirty-change', (e) =&gt; {
+    saveBtn.disabled = !e.detail.dirty;
+  });
+  saveBtn.addEventListener('native:press', () =&gt; editor.save());
+  reloadBtn.addEventListener('native:press', () =&gt; editor.reload());
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    </main></n-app>
+
+    <script type="module">
+      import '../../../src/nav/layout.ts';
+      import '../../../src/components/button/button.ts';
+      import '../../../src/components/segmented-control/segmented-control.ts';
+      import '../../../src/containers/toolbar/toolbar.ts';
+      import '../../../src/components/listbox/listbox.ts';
+      import '../../../src/components/listbox/option.ts';
+      import '../../../src/icons/icon.ts';
+      import '../../../src/icons/custom/dots-three-bold.ts';
+      import '../../../src/icons/phosphor/copy.ts';
+      import '../../../src/icons/phosphor/check.ts';
+      // Toolbar icons
+      import '../../../src/icons/phosphor/text-b.ts';
+      import '../../../src/icons/phosphor/text-italic.ts';
+      import '../../../src/icons/phosphor/code.ts';
+      import '../../../src/icons/phosphor/text-h-one.ts';
+      import '../../../src/icons/phosphor/text-h-two.ts';
+      import '../../../src/icons/phosphor/text-h-three.ts';
+      import '../../../src/icons/phosphor/list-bullets.ts';
+      import '../../../src/icons/phosphor/list-numbers.ts';
+      import '../../../src/icons/phosphor/quotes.ts';
+      import '../../../src/icons/phosphor/link.ts';
+      import '../../../src/icons/phosphor/image.ts';
+      import '../../../src/icons/phosphor/arrows-out.ts';
+      import './register.ts';
+
+      // Form demo
+      const form = document.getElementById('demo-form');
+      const formOutput = document.getElementById('form-output');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const content = data.get('content');
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `FormData "content": ${content?.toString().slice(0, 100)}...`;
+        formOutput.prepend(entry);
+      });
+
+      // Event log demo
+      const eventEditor = document.getElementById('demo-events');
+      const eventLog = document.getElementById('event-log');
+      let count = 0;
+      eventEditor.addEventListener('change', (e) => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} change — ${e.detail.value.length} chars`;
+        eventLog.prepend(entry);
+        if (eventLog.children.length > 20) eventLog.lastChild.remove();
+      });
+
+      // Gateway demo
+      const gatewayEditor = document.getElementById('demo-gateway');
+      const gatewayStatus = document.getElementById('gateway-status');
+      const saveBtn = document.getElementById('gateway-save');
+      const reloadBtn = document.getElementById('gateway-reload');
+
+      gatewayEditor.value = '# Data Gateway Demo\n\nEdit this content, then observe the **dirty** state.\n\nThe save and reload buttons wire to `editor.save()` and `editor.reload()`.';
+
+      gatewayEditor.addEventListener('dirty-change', (e) => {
+        saveBtn.disabled = !e.detail.dirty;
+        gatewayStatus.textContent = e.detail.dirty ? 'Unsaved changes' : 'Clean';
+      });
+
+      gatewayEditor.addEventListener('native:save', () => {
+        gatewayStatus.textContent = 'Saved!';
+      });
+
+      gatewayEditor.addEventListener('native:error', (e) => {
+        gatewayStatus.textContent = `Error: ${e.detail.error}`;
+      });
+
+      saveBtn.addEventListener('native:press', () => gatewayEditor.save());
+      reloadBtn.addEventListener('native:press', () => gatewayEditor.reload());
+
+      // Copy buttons
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

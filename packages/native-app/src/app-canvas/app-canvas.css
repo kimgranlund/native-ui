@@ -1,0 +1,16 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  n-app-canvas                                          │
+     │  Structural flex row for body + chat panels.             │
+     │  No background, no radius — purely layout.               │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  :where(n-app-canvas) {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    padding: 0 calc(var(--n-space-k) * var(--n-space)) calc(var(--n-space-k) * var(--n-space));
+  }
+
+}

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
@@ -27,10 +27,10 @@
         font-size: 1rem;
         font-weight: 700;
         margin: 0;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 
-      ui-dialog > ui-card {
+      n-dialog > n-card {
         width: min(26rem, calc(100vw - 2rem));
         box-shadow:
           0 8px 30px oklch(0% 0 0 / 0.12),
@@ -47,18 +47,18 @@
       }
 
       .dialog-icon-info {
-        background: var(--info-surface);
-        color: var(--info-surface-ink);
+        background: var(--n-surface-info);
+        color: var(--n-surface-ink-info);
       }
 
       .dialog-icon-warning {
-        background: var(--warning-surface);
-        color: var(--warning-surface-ink);
+        background: var(--n-surface-warning);
+        color: var(--n-surface-ink-warning);
       }
 
       .dialog-icon-danger {
-        background: var(--danger-surface);
-        color: var(--danger-surface-ink);
+        background: var(--n-surface-danger);
+        color: var(--n-surface-ink-danger);
       }
 
       .trigger-row {
@@ -69,11 +69,11 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
-    <ui-stack gap="6">
+    <n-app><main>
+    <n-stack gap="6">
     <div>
       <h1>Confirmation Dialogs</h1>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Modal confirmation patterns for different severity levels. Each dialog
         clearly communicates the action, its consequences, and provides cancel/confirm options.
       </p>
@@ -81,118 +81,118 @@
 
     <!-- -- Trigger Buttons -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <h2>Trigger Dialogs</h2>
     <div class="trigger-row">
-      <ui-button id="open-info" intent="info">
-        <ui-icon name="info" slot="leading"></ui-icon>
+      <n-button id="open-info" intent="info">
+        <n-icon name="info" slot="leading"></n-icon>
         <span slot="label">Archive Project</span>
-      </ui-button>
-      <ui-button id="open-warning" intent="warning">
-        <ui-icon name="warning" slot="leading"></ui-icon>
+      </n-button>
+      <n-button id="open-warning" intent="warning">
+        <n-icon name="warning" slot="leading"></n-icon>
         <span slot="label">Unsaved Changes</span>
-      </ui-button>
-      <ui-button id="open-danger" intent="danger">
-        <ui-icon name="trash" slot="leading"></ui-icon>
+      </n-button>
+      <n-button id="open-danger" intent="danger">
+        <n-icon name="trash" slot="leading"></n-icon>
         <span slot="label">Delete Account</span>
-      </ui-button>
+      </n-button>
     </div>
-    </ui-stack>
+    </n-stack>
 
     <!-- -- Info Confirmation Dialog -- -->
 
-    <ui-dialog id="info-dialog">
-      <ui-card>
-        <ui-body>
+    <n-dialog id="info-dialog">
+      <n-card>
+        <n-card-body>
           <div class="dialog-icon dialog-icon-info">
-            <ui-icon name="info" aria-hidden="true"></ui-icon>
+            <n-icon name="info" aria-hidden="true"></n-icon>
           </div>
           <h3 style="font-size: 1.0625rem; font-weight: 700; margin: 0 0 0.25rem;">Archive project?</h3>
-          <p style="font-size: 0.875rem; color: var(--neutral-ink-muted); margin: 0; line-height: 1.5;">
+          <p style="font-size: 0.875rem; color: var(--n-ink-muted-neutral); margin: 0; line-height: 1.5;">
             This project will be moved to the archive. Team members will lose edit access,
             but all data and history will be preserved. You can restore it at any time from
             the archive.
           </p>
-        </ui-body>
-        <ui-footer>
-          <ui-button id="info-cancel">
+        </n-card-body>
+        <n-card-footer>
+          <n-button id="info-cancel">
             <span slot="label">Cancel</span>
-          </ui-button>
-          <ui-button id="info-confirm" intent="info">
+          </n-button>
+          <n-button id="info-confirm" intent="info">
             <span slot="label">Archive</span>
-          </ui-button>
-        </ui-footer>
-      </ui-card>
-    </ui-dialog>
+          </n-button>
+        </n-card-footer>
+      </n-card>
+    </n-dialog>
 
     <!-- -- Warning Confirmation Dialog -- -->
 
-    <ui-dialog id="warning-dialog">
-      <ui-card>
-        <ui-body>
+    <n-dialog id="warning-dialog">
+      <n-card>
+        <n-card-body>
           <div class="dialog-icon dialog-icon-warning">
-            <ui-icon name="warning" aria-hidden="true"></ui-icon>
+            <n-icon name="warning" aria-hidden="true"></n-icon>
           </div>
           <h3 style="font-size: 1.0625rem; font-weight: 700; margin: 0 0 0.25rem;">Unsaved changes</h3>
-          <p style="font-size: 0.875rem; color: var(--neutral-ink-muted); margin: 0; line-height: 1.5;">
+          <p style="font-size: 0.875rem; color: var(--n-ink-muted-neutral); margin: 0; line-height: 1.5;">
             You have unsaved changes that will be lost if you leave this page.
             Would you like to save your work before continuing?
           </p>
-        </ui-body>
-        <ui-footer>
-          <ui-button id="warning-discard">
+        </n-card-body>
+        <n-card-footer>
+          <n-button id="warning-discard">
             <span slot="label">Discard</span>
-          </ui-button>
-          <ui-button id="warning-save" intent="accent">
+          </n-button>
+          <n-button id="warning-save" intent="accent">
             <span slot="label">Save</span>
-          </ui-button>
-        </ui-footer>
-      </ui-card>
-    </ui-dialog>
+          </n-button>
+        </n-card-footer>
+      </n-card>
+    </n-dialog>
 
     <!-- -- Danger Confirmation Dialog -- -->
 
-    <ui-dialog id="danger-dialog">
-      <ui-card>
-        <ui-body>
+    <n-dialog id="danger-dialog">
+      <n-card>
+        <n-card-body>
           <div class="dialog-icon dialog-icon-danger">
-            <ui-icon name="trash" aria-hidden="true"></ui-icon>
+            <n-icon name="trash" aria-hidden="true"></n-icon>
           </div>
-          <h3 style="font-size: 1.0625rem; font-weight: 700; margin: 0 0 0.25rem; color: var(--danger-ink-strong);">Delete account?</h3>
-          <p style="font-size: 0.875rem; color: var(--neutral-ink-muted); margin: 0; line-height: 1.5;">
+          <h3 style="font-size: 1.0625rem; font-weight: 700; margin: 0 0 0.25rem; color: var(--n-ink-strong-danger);">Delete account?</h3>
+          <p style="font-size: 0.875rem; color: var(--n-ink-muted-neutral); margin: 0; line-height: 1.5;">
             This action cannot be undone. All your data, projects, and settings
             will be permanently removed. Any active subscriptions will be cancelled immediately.
           </p>
-        </ui-body>
-        <ui-footer>
-          <ui-button id="danger-cancel">
+        </n-card-body>
+        <n-card-footer>
+          <n-button id="danger-cancel">
             <span slot="label">Cancel</span>
-          </ui-button>
-          <ui-button id="danger-confirm" intent="danger">
-            <ui-icon name="trash" slot="leading"></ui-icon>
+          </n-button>
+          <n-button id="danger-confirm" intent="danger">
+            <n-icon name="trash" slot="leading"></n-icon>
             <span slot="label">Delete</span>
-          </ui-button>
-        </ui-footer>
-      </ui-card>
-    </ui-dialog>
-    </ui-stack>
+          </n-button>
+        </n-card-footer>
+      </n-card>
+    </n-dialog>
+    </n-stack>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../components/ui-dialog/ui-dialog.ts';
-      import '../../../containers/ui-card/ui-card.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/button/button.ts';
+      import '../../../components/dialog/dialog.ts';
+      import '../../../containers/card/card.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/info.ts';
       import '../../../icons/phosphor/warning.ts';
       import '../../../icons/phosphor/trash.ts';
 
       function wire(openId, dialogId, closeIds) {
         const dialog = document.getElementById(dialogId);
-        document.getElementById(openId).addEventListener('ui-press', () => dialog.showModal());
+        document.getElementById(openId).addEventListener('native:press', () => dialog.showModal());
         for (const id of closeIds) {
-          document.getElementById(id).addEventListener('ui-press', () => dialog.close());
+          document.getElementById(id).addEventListener('native:press', () => dialog.close());
         }
       }
 

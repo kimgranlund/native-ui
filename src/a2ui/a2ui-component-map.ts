@@ -34,9 +34,9 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Button',
-    nativeTag: 'ui-button',
+    nativeTag: 'n-button',
     childStrategy: 'slot-label',
-    actionEvent: 'ui-press',
+    actionEvent: 'native:press',
     defaultAttributes: { size: 'sm' },
     variantMap: {
       primary: 'primary',
@@ -45,9 +45,9 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'TextField',
-    nativeTag: 'ui-input',
+    nativeTag: 'n-input',
     childStrategy: 'none',
-    actionEvent: 'ui-input',
+    actionEvent: 'native:input',
     defaultAttributes: { size: 'sm' },
     propertyMap: {
       value: 'value',
@@ -56,9 +56,9 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'TextArea',
-    nativeTag: 'ui-textarea',
+    nativeTag: 'n-textarea',
     childStrategy: 'none',
-    actionEvent: 'ui-input',
+    actionEvent: 'native:input',
     defaultAttributes: { size: 'sm', rows: '2' },
     propertyMap: {
       value: 'value',
@@ -68,23 +68,23 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'CheckBox',
-    nativeTag: 'ui-checkbox',
+    nativeTag: 'n-checkbox',
     childStrategy: 'textContent',
-    actionEvent: 'ui-change',
+    actionEvent: 'native:change',
     defaultAttributes: { size: 'sm' },
   },
   {
     a2uiType: 'Switch',
-    nativeTag: 'ui-switch',
+    nativeTag: 'n-switch',
     childStrategy: 'textContent',
-    actionEvent: 'ui-change',
+    actionEvent: 'native:change',
     defaultAttributes: { size: 'sm' },
   },
   {
     a2uiType: 'ChoicePicker',
-    nativeTag: 'ui-select',
+    nativeTag: 'n-select',
     childStrategy: 'children',
-    actionEvent: 'ui-change',
+    actionEvent: 'native:change',
     defaultAttributes: { size: 'sm' },
     propertyMap: {
       placeholder: 'placeholder',
@@ -92,9 +92,9 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Slider',
-    nativeTag: 'ui-range',
+    nativeTag: 'n-range',
     childStrategy: 'none',
-    actionEvent: 'ui-change',
+    actionEvent: 'native:change',
     defaultAttributes: { size: 'sm' },
     propertyMap: {
       min: 'min',
@@ -104,9 +104,9 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'DateTimeInput',
-    nativeTag: 'ui-input',
+    nativeTag: 'n-input',
     childStrategy: 'none',
-    actionEvent: 'ui-change',
+    actionEvent: 'native:change',
     defaultAttributes: { size: 'sm' },
     propertyMap: {
       value: 'value',
@@ -126,29 +126,29 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Card',
-    nativeTag: 'ui-card',
+    nativeTag: 'n-card',
     childStrategy: 'children',
   },
   {
     a2uiType: 'Modal',
-    nativeTag: 'ui-dialog',
+    nativeTag: 'n-dialog',
     childStrategy: 'children',
-    actionEvent: 'ui-dismiss',
+    actionEvent: 'native:dismiss',
   },
   {
     a2uiType: 'Tabs',
-    nativeTag: 'ui-tabs',
+    nativeTag: 'n-tabs',
     childStrategy: 'children',
   },
   {
     a2uiType: 'List',
-    nativeTag: 'ui-listbox',
+    nativeTag: 'n-listbox',
     childStrategy: 'children',
-    actionEvent: 'ui-select',
+    actionEvent: 'native:select',
   },
   {
     a2uiType: 'ListItem',
-    nativeTag: 'ui-option',
+    nativeTag: 'n-option',
     childStrategy: 'textContent',
   },
   {
@@ -162,7 +162,7 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Icon',
-    nativeTag: 'ui-icon',
+    nativeTag: 'n-icon',
     childStrategy: 'none',
     defaultAttributes: { 'aria-hidden': 'true' },
     propertyMap: {
@@ -171,17 +171,17 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Divider',
-    nativeTag: 'ui-divider',
+    nativeTag: 'n-divider',
     childStrategy: 'none',
   },
   {
     a2uiType: 'Badge',
-    nativeTag: 'ui-badge',
+    nativeTag: 'n-badge',
     childStrategy: 'textContent',
   },
   {
     a2uiType: 'Avatar',
-    nativeTag: 'ui-avatar',
+    nativeTag: 'n-avatar',
     childStrategy: 'none',
     propertyMap: {
       src: 'src',
@@ -190,9 +190,9 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Select',
-    nativeTag: 'ui-select',
+    nativeTag: 'n-select',
     childStrategy: 'children',
-    actionEvent: 'ui-change',
+    actionEvent: 'native:change',
     propertyMap: {
       placeholder: 'placeholder',
     },
@@ -227,7 +227,7 @@ for (const m of mappings) {
   forwardMap.set(m.a2uiType, m);
   // Only add to reverse map if the tag is unique or is a custom element.
   // div/span are ambiguous — handled by resolveA2UIType with data-a2ui attribute.
-  // First mapping wins for shared tags (TextField before DateTimeInput for ui-input).
+  // First mapping wins for shared tags (TextField before DateTimeInput for n-input).
   if (m.nativeTag !== 'div' && m.nativeTag !== 'span' && !reverseMap.has(m.nativeTag)) {
     reverseMap.set(m.nativeTag, m);
   }

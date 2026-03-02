@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
@@ -27,15 +27,15 @@
         font-size: 1rem;
         font-weight: 700;
         margin: 0;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 
       .sidebar-preview {
         display: flex;
         gap: 1px;
-        background: var(--neutral-border-muted);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
+        background: var(--n-border-muted-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
         overflow: hidden;
         min-height: 32rem;
       }
@@ -43,7 +43,7 @@
       .sidebar-nav {
         width: 16rem;
         flex-shrink: 0;
-        background: var(--neutral-body);
+        background: var(--n-body-neutral);
         display: flex;
         flex-direction: column;
         padding: 1rem 0.75rem;
@@ -62,8 +62,8 @@
         width: 2rem;
         height: 2rem;
         border-radius: 0.375rem;
-        background: var(--accent-surface);
-        color: var(--accent-surface-ink);
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -81,7 +81,7 @@
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         padding: 0.5rem 0.5rem 0.25rem;
       }
 
@@ -93,21 +93,21 @@
         border-radius: 0.375rem;
         font-size: 0.875rem;
         font-weight: 500;
-        color: var(--neutral-ink);
+        color: var(--n-ink-neutral);
         cursor: pointer;
         text-decoration: none;
       }
 
       .sidebar-nav-item:hover {
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
       }
 
       .sidebar-nav-item[aria-current="page"] {
-        background: var(--accent-surface);
-        color: var(--accent-surface-ink);
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
       }
 
-      .sidebar-nav-item ui-icon {
+      .sidebar-nav-item n-icon {
         flex-shrink: 0;
       }
 
@@ -117,7 +117,7 @@
 
       .sidebar-footer {
         margin-top: auto;
-        border-top: 1px solid var(--neutral-border-muted);
+        border-top: 1px solid var(--n-border-muted-neutral);
         padding-top: 0.75rem;
       }
 
@@ -130,7 +130,7 @@
       }
 
       .sidebar-user:hover {
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         cursor: pointer;
       }
 
@@ -147,7 +147,7 @@
 
       .sidebar-user-email {
         font-size: 0.6875rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -155,12 +155,12 @@
 
       .sidebar-content {
         flex: 1;
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         padding: 1.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         font-size: 0.875rem;
       }
 
@@ -207,11 +207,11 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
-    <ui-stack gap="6">
+    <n-app><main>
+    <n-stack gap="6">
     <div>
       <h1>Application Sidebar</h1>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Vertical navigation sidebar with brand, sections, collapsible groups, and user footer.
         Two variants: full-width and compact (icon-only).
       </p>
@@ -219,7 +219,7 @@
 
     <!-- ── Full Sidebar ── -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <h2>Full Sidebar</h2>
     <div class="sidebar-preview">
       <nav class="sidebar-nav" aria-label="Application navigation">
@@ -229,16 +229,16 @@
         </div>
 
         <a href="#" class="sidebar-nav-item" aria-current="page">
-          <ui-icon name="house"></ui-icon>
+          <n-icon name="house"></n-icon>
           Dashboard
         </a>
 
         <span class="sidebar-section-label">Workspace</span>
 
         <a href="#" class="sidebar-nav-item">
-          <ui-icon name="folder"></ui-icon>
+          <n-icon name="folder"></n-icon>
           Projects
-          <ui-badge class="sidebar-badge" size="xs">12</ui-badge>
+          <n-badge class="sidebar-badge" size="xs">12</n-badge>
         </a>
 
         <div class="sidebar-sub-items">
@@ -247,37 +247,37 @@
         </div>
 
         <a href="#" class="sidebar-nav-item">
-          <ui-icon name="users"></ui-icon>
+          <n-icon name="users"></n-icon>
           Team Members
         </a>
 
         <a href="#" class="sidebar-nav-item">
-          <ui-icon name="chart-bar"></ui-icon>
+          <n-icon name="chart-bar"></n-icon>
           Reports
         </a>
 
         <a href="#" class="sidebar-nav-item">
-          <ui-icon name="calendar"></ui-icon>
+          <n-icon name="calendar"></n-icon>
           Calendar
         </a>
 
         <span class="sidebar-section-label">Settings</span>
 
         <a href="#" class="sidebar-nav-item">
-          <ui-icon name="gear"></ui-icon>
+          <n-icon name="gear"></n-icon>
           Settings
         </a>
 
         <div class="sidebar-footer">
           <div class="sidebar-user">
-            <ui-avatar name="Kim Granlund" size="sm" intent="accent"></ui-avatar>
+            <n-avatar name="Kim Granlund" size="sm" intent="accent"></n-avatar>
             <div class="sidebar-user-info">
               <div class="sidebar-user-name">Kim Granlund</div>
               <div class="sidebar-user-email">kim@example.com</div>
             </div>
-            <ui-button variant="ghost" size="xs" aria-label="Sign out">
-              <ui-icon name="sign-out"></ui-icon>
-            </ui-button>
+            <n-button variant="ghost" size="xs" aria-label="Sign out">
+              <n-icon name="sign-out"></n-icon>
+            </n-button>
           </div>
         </div>
       </nav>
@@ -285,11 +285,11 @@
         Main content area
       </div>
     </div>
-    </ui-stack>
+    </n-stack>
 
     <!-- ── Compact Sidebar ── -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <h2>Compact (Icon-only)</h2>
     <div class="sidebar-preview" style="min-height: 28rem;">
       <nav class="sidebar-nav sidebar-compact" aria-label="Compact navigation">
@@ -298,42 +298,42 @@
         </div>
 
         <a href="#" class="sidebar-nav-item" aria-current="page" aria-label="Dashboard">
-          <ui-icon name="house"></ui-icon>
+          <n-icon name="house"></n-icon>
         </a>
         <a href="#" class="sidebar-nav-item" aria-label="Projects">
-          <ui-icon name="folder"></ui-icon>
+          <n-icon name="folder"></n-icon>
         </a>
         <a href="#" class="sidebar-nav-item" aria-label="Team">
-          <ui-icon name="users"></ui-icon>
+          <n-icon name="users"></n-icon>
         </a>
         <a href="#" class="sidebar-nav-item" aria-label="Reports">
-          <ui-icon name="chart-bar"></ui-icon>
+          <n-icon name="chart-bar"></n-icon>
         </a>
         <a href="#" class="sidebar-nav-item" aria-label="Calendar">
-          <ui-icon name="calendar"></ui-icon>
+          <n-icon name="calendar"></n-icon>
         </a>
         <a href="#" class="sidebar-nav-item" aria-label="Settings">
-          <ui-icon name="gear"></ui-icon>
+          <n-icon name="gear"></n-icon>
         </a>
 
         <div class="sidebar-footer">
-          <ui-avatar name="Kim Granlund" size="sm" intent="accent"></ui-avatar>
+          <n-avatar name="Kim Granlund" size="sm" intent="accent"></n-avatar>
         </div>
       </nav>
       <div class="sidebar-content">
         Main content area
       </div>
     </div>
-    </ui-stack>
-    </ui-stack>
+    </n-stack>
+    </n-stack>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../components/ui-avatar/ui-avatar.ts';
-      import '../../../components/ui-badge/ui-badge.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/button/button.ts';
+      import '../../../components/avatar/avatar.ts';
+      import '../../../components/badge/badge.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/house.ts';
       import '../../../icons/phosphor/folder.ts';
       import '../../../icons/phosphor/users.ts';

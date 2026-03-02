@@ -2,7 +2,7 @@
 
 # CollapsibleController
 
-> Animates expand/collapse transitions on the host, dispatching `ui-expand` and `ui-collapse`.
+> Animates expand/collapse transitions on the host, dispatching `native:expand` and `native:collapse`.
 
 ## Constructor
 
@@ -26,8 +26,8 @@ new CollapsibleController(host: HTMLElement, options?: CollapsibleOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-expand` | _(none)_ |
-| `ui-collapse` | _(none)_ |
+| `native:expand` | _(none)_ |
+| `native:collapse` | _(none)_ |
 
 ## Methods
 

@@ -9,45 +9,45 @@
 import './site-register-traits.ts';
 
 // All component registrations
-import './components/ui-accordion/ui-accordion.ts';
-import './components/ui-avatar/ui-avatar.ts';
-import './components/ui-badge/ui-badge.ts';
-import './components/ui-breadcrumb/ui-breadcrumb.ts';
-import './components/ui-button/ui-button.ts';
-import './components/ui-calendar/ui-calendar.ts';
-import './components/ui-chat/ui-chat-input.ts';
-import './components/ui-checkbox/ui-checkbox.ts';
-import './components/ui-combobox/ui-combobox.ts';
-import './components/ui-command/index.ts';
-import './components/ui-controller/ui-controller.ts';
-import './components/ui-dialog/ui-dialog.ts';
-import './components/ui-drawer/ui-drawer.ts';
-import './components/ui-field/ui-field.ts';
-import './components/ui-input/ui-input.ts';
-import './components/ui-input-otp/ui-input-otp.ts';
-import './components/ui-listbox/ui-listbox.ts';
-import './components/ui-pagination/ui-pagination.ts';
-import './components/ui-radio/ui-radio.ts';
-import './components/ui-range/ui-range.ts';
-import './components/ui-segmented-control/ui-segmented-control.ts';
-import './components/ui-select/ui-select.ts';
-import './components/ui-slideshow/ui-slideshow.ts';
-import './components/ui-switch/ui-switch.ts';
-import './components/ui-table/ui-table.ts';
-import './components/ui-tabs/ui-tabs.ts';
-import './components/ui-textarea/ui-textarea.ts';
-import './components/ui-tooltip/ui-tooltip.ts';
-import './components/ui-tree/ui-tree.ts';
+import './components/accordion/accordion.ts';
+import './components/avatar/avatar.ts';
+import './components/badge/badge.ts';
+import './components/breadcrumb/breadcrumb.ts';
+import './components/button/button.ts';
+import './components/calendar/calendar.ts';
+import './components/chat/chat-input.ts';
+import './components/checkbox/checkbox.ts';
+import './components/combobox/combobox.ts';
+import './components/command/index.ts';
+import './components/controller/controller.ts';
+import './components/dialog/dialog.ts';
+import './components/drawer/drawer.ts';
+import './components/field/field.ts';
+import './components/input/input.ts';
+import './components/input-otp/input-otp.ts';
+import './components/listbox/listbox.ts';
+import './components/pagination/pagination.ts';
+import './components/radio/radio.ts';
+import './components/range/range.ts';
+import './components/segmented-control/segmented-control.ts';
+import './components/select/select.ts';
+import './components/slideshow/slideshow.ts';
+import './components/switch/switch.ts';
+import './components/table/table.ts';
+import './components/tabs/tabs.ts';
+import './components/textarea/textarea.ts';
+import './components/tooltip/tooltip.ts';
+import './components/tree/tree.ts';
 
 // Container registrations
-import './containers/ui-card/ui-card.ts';
-import './containers/ui-section/ui-section.ts';
-import './containers/ui-toolbar/ui-toolbar.ts';
-// nui-app components (layout + nav)
-import '../packages/nui-app/src/index.ts';
+import './containers/card/card.ts';
+import './containers/section/section.ts';
+import './containers/toolbar/toolbar.ts';
+// native-app components (layout + nav)
+import '../packages/native-app/src/index.ts';
 
 // Icon system
-import './icons/ui-icon.ts';
+import './icons/icon.ts';
 
 // Dev layout
-import './nav/ui-layout.ts';
+import './nav/layout.ts';

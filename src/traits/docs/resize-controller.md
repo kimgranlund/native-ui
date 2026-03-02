@@ -2,7 +2,7 @@
 
 # ResizeController
 
-> Handles pointer-driven element resizing via a drag handle, dispatching `ui-resize-start`, `ui-resize-move`, and `ui-resize-end`.
+> Handles pointer-driven element resizing via a drag handle, dispatching `native:resize-start`, `native:resize-move`, and `native:resize-end`.
 
 ## Constructor
 
@@ -25,9 +25,9 @@ new ResizeController(host: HTMLElement, options?: ResizeOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-resize-start` | `{ width, height }` |
-| `ui-resize-move` | `{ width, height }` |
-| `ui-resize-end` | `{ width, height }` |
+| `native:resize-start` | `{ width, height }` |
+| `native:resize-move` | `{ width, height }` |
+| `native:resize-end` | `{ width, height }` |
 
 ## Methods
 

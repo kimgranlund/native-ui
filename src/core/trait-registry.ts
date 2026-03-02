@@ -15,7 +15,7 @@ export function registerTrait(adapter: TraitAdapter): void {
     return;
   }
   registry.set(adapter.name, adapter);
-  // WHY: Notify waiting ui-controller elements that a trait they requested is now available
+  // WHY: Notify waiting n-controller elements that a trait they requested is now available
   for (const fn of listeners) fn(adapter.name);
 }
 

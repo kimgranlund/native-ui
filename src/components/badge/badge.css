@@ -1,0 +1,55 @@
+@layer ui {
+
+  /* ── Badge Base ── */
+
+  :where(n-badge) {
+    --n-font-weight: var(--n-button-font-weight);
+    --n-radius: 9999px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: calc(var(--n-widget-size-xs) + var(--n-space));
+    min-height: calc(var(--n-widget-size-xs) + var(--n-space));
+    padding-inline: 0.375em;
+
+    font-size: var(--n-widget-font);
+    font-weight: var(--n-font-weight);
+    line-height: 1;
+    letter-spacing: var(--n-letter-spacing);
+
+    border-radius: var(--n-radius);
+
+    background: var(--n-surface);
+    color: var(--n-surface-ink);
+
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  /* ── Floating ── */
+
+  :where(n-badge[floating]) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    translate: 50% -50%;
+    z-index: 1;
+  }
+
+  /* ── Dot ── */
+
+  :where(n-badge[dot]) {
+    width: var(--n-badge-dot);
+    height: var(--n-badge-dot);
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    font-size: 0;
+    background: var(--n-ink);
+  }
+
+  :where(n-badge[hidden]) { display: none; }
+
+}

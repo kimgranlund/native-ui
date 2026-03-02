@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-drawer — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-drawer&gt;</h1>
+    <p class="demo-desc">
+      Slide-in panel from any edge. Uses native <code>&lt;dialog&gt;</code> for top-layer + inert.
+    </p>
+
+    <!-- ── Right (default) ── -->
+
+    <h2>Right (default)</h2>
+    <div class="demo-section">
+      <n-button id="open-right"><span slot="label">Open Right Drawer</span></n-button>
+      <n-drawer id="drawer-right">
+        <n-card-header>
+          <span slot="label">Settings</span>
+          <n-button slot="trailing" variant="ghost" id="close-right"><n-icon name="x"></n-icon></n-button>
+        </n-card-header>
+        <n-card-body>
+          <n-field>
+            <label slot="label">Display name</label>
+            <n-input placeholder="Kim Granlund"></n-input>
+          </n-field>
+          <n-field>
+            <label slot="label">Email</label>
+            <n-input placeholder="kim@example.com"></n-input>
+          </n-field>
+          <n-switch>Dark mode</n-switch>
+        </n-card-body>
+      </n-drawer>
+      <pre class="demo-code"><code>&lt;n-button id="open-right"&gt;
+  &lt;span slot="label"&gt;Open Right Drawer&lt;/span&gt;
+&lt;/n-button&gt;
+
+&lt;n-drawer id="drawer-right"&gt;
+  &lt;n-card-header&gt;
+    &lt;span slot="label"&gt;Settings&lt;/span&gt;
+    &lt;n-button slot="trailing" variant="ghost" id="close-right"&gt;
+      &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
+    &lt;/n-button&gt;
+  &lt;/n-card-header&gt;
+  &lt;n-card-body&gt;
+    &lt;n-field&gt;
+      &lt;label slot="label"&gt;Display name&lt;/label&gt;
+      &lt;n-input placeholder="Kim Granlund"&gt;&lt;/n-input&gt;
+    &lt;/n-field&gt;
+  &lt;/n-card-body&gt;
+&lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Left ── -->
+
+    <h2>Left</h2>
+    <div class="demo-section">
+      <n-button id="open-left"><span slot="label">Open Left Drawer</span></n-button>
+      <n-drawer id="drawer-left" side="left">
+        <n-card-header>
+          <span slot="label">Documentation</span>
+          <n-button slot="trailing" variant="ghost" id="close-left"><n-icon name="x"></n-icon></n-button>
+        </n-card-header>
+        <n-card-body>
+          <n-nav>
+            <n-option-group>
+              <n-option-group-header><n-icon name="house"></n-icon> Getting Started</n-option-group-header>
+              <n-option value="install">Installation</n-option>
+              <n-option value="structure">Project Structure</n-option>
+            </n-option-group>
+            <n-option-group>
+              <n-option-group-header><n-icon name="rocket-launch"></n-icon> Build Your Application</n-option-group-header>
+              <n-option value="routing">Routing</n-option>
+              <n-option value="data">Data Fetching</n-option>
+              <n-option value="caching">Caching</n-option>
+              <n-option value="styling">Styling</n-option>
+              <n-option value="optimizing">Optimizing</n-option>
+            </n-option-group>
+            <n-option-group>
+              <n-option-group-header><n-icon name="book-open"></n-icon> Reference</n-option-group-header>
+              <n-option value="api">API Reference</n-option>
+              <n-option value="config">Configuration</n-option>
+              <n-option value="examples">Examples</n-option>
+            </n-option-group>
+          </n-nav>
+        </n-card-body>
+      </n-drawer>
+      <pre class="demo-code"><code>&lt;n-drawer id="drawer-left" side="left"&gt;
+  &lt;n-card-header&gt;
+    &lt;span slot="label"&gt;Documentation&lt;/span&gt;
+    &lt;n-button slot="trailing" variant="ghost"&gt;
+      &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
+    &lt;/n-button&gt;
+  &lt;/n-card-header&gt;
+  &lt;n-card-body&gt;...&lt;/n-card-body&gt;
+&lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Bottom ── -->
+
+    <h2>Bottom</h2>
+    <div class="demo-section">
+      <n-button id="open-bottom"><span slot="label">Open Bottom Drawer</span></n-button>
+      <n-drawer id="drawer-bottom" side="bottom">
+        <n-card-header>
+          <span slot="label">Filters</span>
+          <n-button slot="trailing" variant="ghost" id="close-bottom"><n-icon name="x"></n-icon></n-button>
+        </n-card-header>
+        <n-card-body>
+          <n-stack direction="row" gap="2" wrap>
+            <n-checkbox>In Stock</n-checkbox>
+            <n-checkbox>On Sale</n-checkbox>
+            <n-checkbox>Free Shipping</n-checkbox>
+          </n-stack>
+        </n-card-body>
+      </n-drawer>
+      <pre class="demo-code"><code>&lt;n-drawer id="drawer-bottom" side="bottom"&gt;
+  &lt;n-card-header&gt;
+    &lt;span slot="label"&gt;Filters&lt;/span&gt;
+    &lt;n-button slot="trailing" variant="ghost"&gt;
+      &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
+    &lt;/n-button&gt;
+  &lt;/n-card-header&gt;
+  &lt;n-card-body&gt;
+    &lt;n-stack direction="row" gap="2" wrap&gt;
+      &lt;n-checkbox&gt;In Stock&lt;/n-checkbox&gt;
+      &lt;n-checkbox&gt;On Sale&lt;/n-checkbox&gt;
+    &lt;/n-stack&gt;
+  &lt;/n-card-body&gt;
+&lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Top ── -->
+
+    <h2>Top</h2>
+    <div class="demo-section">
+      <n-button id="open-top"><span slot="label">Open Top Drawer</span></n-button>
+      <n-drawer id="drawer-top" side="top">
+        <n-card-header>
+          <span slot="label">Announcement</span>
+          <n-button slot="trailing" variant="ghost" id="close-top"><n-icon name="x"></n-icon></n-button>
+        </n-card-header>
+        <n-card-body>
+          <p class="demo-text">This drawer slides in from the top edge.</p>
+        </n-card-body>
+      </n-drawer>
+    </div>
+
+    <!-- ── With Footer ── -->
+
+    <h2>With Footer</h2>
+    <div class="demo-section">
+      <p class="demo-hint">Header and footer stay fixed while the body scrolls independently.</p>
+      <n-button id="open-card-footer"><span slot="label">Open Drawer with Footer</span></n-button>
+      <n-drawer id="drawer-footer">
+        <n-card-header>
+          <span slot="label">Edit Profile</span>
+          <n-button slot="trailing" variant="ghost" id="close-footer"><n-icon name="x"></n-icon></n-button>
+        </n-card-header>
+        <n-card-body>
+          <n-field>
+            <label slot="label">Display name</label>
+            <n-input placeholder="Kim Granlund"></n-input>
+          </n-field>
+          <n-field>
+            <label slot="label">Email</label>
+            <n-input placeholder="kim@example.com"></n-input>
+          </n-field>
+          <n-field>
+            <label slot="label">Bio</label>
+            <n-textarea placeholder="Tell us about yourself..." rows="4"></n-textarea>
+          </n-field>
+          <n-switch>Dark mode</n-switch>
+          <p class="demo-text-sm">Additional content to demonstrate scrolling within the body region while header and footer remain fixed.</p>
+          <p class="demo-text-sm">Scroll down to verify that the header and footer remain fixed while this body content scrolls independently.</p>
+        </n-card-body>
+        <n-card-footer justify="spread">
+          <n-button variant="ghost" id="cancel-footer"><span slot="label">Cancel</span></n-button>
+          <n-button variant="primary" intent="accent"><span slot="label">Save Changes</span></n-button>
+        </n-card-footer>
+      </n-drawer>
+      <pre class="demo-code"><code>&lt;n-drawer id="drawer-footer"&gt;
+  &lt;n-card-header&gt;
+    &lt;span slot="label"&gt;Edit Profile&lt;/span&gt;
+    &lt;n-button slot="trailing" variant="ghost"&gt;
+      &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
+    &lt;/n-button&gt;
+  &lt;/n-card-header&gt;
+  &lt;n-card-body&gt;
+    &lt;n-field&gt;
+      &lt;label slot="label"&gt;Display name&lt;/label&gt;
+      &lt;n-input placeholder="Kim Granlund"&gt;&lt;/n-input&gt;
+    &lt;/n-field&gt;
+  &lt;/n-card-body&gt;
+  &lt;n-card-footer justify="spread"&gt;
+    &lt;n-button variant="ghost"&gt;Cancel&lt;/n-button&gt;
+    &lt;n-button variant="primary" intent="accent"&gt;Save Changes&lt;/n-button&gt;
+  &lt;/n-card-footer&gt;
+&lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Close Prevention ── -->
+
+    <h2>Close Prevention</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-button id="open-no-escape"><span slot="label">No Close on Escape</span></n-button>
+        <n-button id="open-no-backdrop"><span slot="label">No Close on Backdrop</span></n-button>
+        <n-button id="open-persistent"><span slot="label">Persistent (both)</span></n-button>
+      </div>
+      <n-drawer id="drawer-no-escape" no-close-on-escape>
+        <n-card-header>
+          <span slot="label">No Escape Close</span>
+          <n-button slot="trailing" variant="ghost" id="close-no-escape"><n-icon name="x"></n-icon></n-button>
+        </n-card-header>
+        <n-card-body>
+          <p class="demo-text">Pressing Escape won't close this drawer. Use the close button.</p>
+        </n-card-body>
+      </n-drawer>
+      <n-drawer id="drawer-no-backdrop" no-close-on-backdrop>
+        <n-card-header>
+          <span slot="label">No Backdrop Close</span>
+          <n-button slot="trailing" variant="ghost" id="close-no-backdrop"><n-icon name="x"></n-icon></n-button>
+        </n-card-header>
+        <n-card-body>
+          <p class="demo-text">Clicking the backdrop won't close this drawer. Use the close button or Escape.</p>
+        </n-card-body>
+      </n-drawer>
+      <n-drawer id="drawer-persistent" no-close-on-escape no-close-on-backdrop>
+        <n-card-header>
+          <span slot="label">Persistent Drawer</span>
+          <n-button slot="trailing" variant="ghost" id="close-persistent"><n-icon name="x"></n-icon></n-button>
+        </n-card-header>
+        <n-card-body>
+          <p class="demo-text">Neither Escape nor backdrop click will close this. Only the close button works.</p>
+        </n-card-body>
+      </n-drawer>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './drawer.ts';
+      import '../button/button.ts';
+      import '../input/input.ts';
+      import '../field/field.ts';
+      import '../switch/switch.ts';
+      import '../checkbox/checkbox.ts';
+      import '../textarea/textarea.ts';
+      import '../../icons/icon.ts';
+      import '../nav/nav.ts';
+      import '../listbox/listbox.ts';
+      import '../../icons/phosphor/x.ts';
+      import '../../icons/phosphor/house.ts';
+      import '../../icons/phosphor/rocket-launch.ts';
+      import '../../icons/phosphor/book-open.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      function wire(openId, closeId, drawerId) {
+        const open = document.getElementById(openId);
+        const close = document.getElementById(closeId);
+        const drawer = document.getElementById(drawerId);
+        open?.addEventListener('native:press', () => drawer?.showModal());
+        close?.addEventListener('native:press', () => drawer?.close());
+      }
+      wire('open-right', 'close-right', 'drawer-right');
+      wire('open-left', 'close-left', 'drawer-left');
+      wire('open-bottom', 'close-bottom', 'drawer-bottom');
+      wire('open-top', 'close-top', 'drawer-top');
+      wire('open-card-footer', 'close-footer', 'drawer-footer');
+      document.getElementById('cancel-footer')?.addEventListener('native:press', () => {
+        document.getElementById('drawer-footer')?.close();
+      });
+      wire('open-no-escape', 'close-no-escape', 'drawer-no-escape');
+      wire('open-no-backdrop', 'close-no-backdrop', 'drawer-no-backdrop');
+      wire('open-persistent', 'close-persistent', 'drawer-persistent');
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -84,7 +84,7 @@ export class DragController {
     if (this.disabled || !this.selector || this.#ghost) return;
     const target = (e.target as HTMLElement).closest?.(this.selector) as HTMLElement | null;
     if (!target || !this.host.contains(target)) return;
-    target.style.outline = '2px solid var(--ui-focus-ring, highlight)';
+    target.style.outline = '2px solid var(--n-focus-ring, highlight)';
     target.style.outlineOffset = '2px';
   };
 
@@ -155,7 +155,7 @@ export class DragController {
         // startViewTransition can animate grid reflows during DOM moves.
         if (this.animate) this.#assignTransitionNames();
       }
-      this.host.dispatchEvent(new CustomEvent('ui-drag-start', {
+      this.host.dispatchEvent(new CustomEvent('native:drag-start', {
         bubbles: true,
         composed: true,
         detail: { item: this.#dragItem, index: this.#dragIndex },
@@ -168,7 +168,7 @@ export class DragController {
     const dy = e.clientY - this.#startY;
     this.#ghost!.style.transform = `translate(${dx}px, ${dy}px) scale(0.9)`;
 
-    this.host.dispatchEvent(new CustomEvent('ui-drag-move', {
+    this.host.dispatchEvent(new CustomEvent('native:drag-move', {
       bubbles: true,
       composed: true,
       detail: { item: this.#dragItem, x: e.clientX, y: e.clientY },
@@ -256,9 +256,9 @@ export class DragController {
     }
     if (overZone) {
       overZone.setAttribute('drag-over', '');
-      overZone.style.outline = '2px solid var(--ui-focus-ring, highlight)';
+      overZone.style.outline = '2px solid var(--n-focus-ring, highlight)';
       overZone.style.outlineOffset = '2px';
-      this.host.dispatchEvent(new CustomEvent('ui-drag-over', {
+      this.host.dispatchEvent(new CustomEvent('native:drag-over', {
         bubbles: true,
         composed: true,
         detail: { item: this.#dragItem, target: overZone, index: overIndex },
@@ -300,7 +300,7 @@ export class DragController {
 
     const insertBefore = clampedIndex < liveItems.length ? liveItems[clampedIndex] : null;
 
-    this.host.dispatchEvent(new CustomEvent('ui-drag-over', {
+    this.host.dispatchEvent(new CustomEvent('native:drag-over', {
       bubbles: true,
       composed: true,
       detail: { item: this.#dragItem, index: insertIndex, insertBefore },
@@ -384,7 +384,7 @@ export class DragController {
       doMove();
     }
 
-    this.host.dispatchEvent(new CustomEvent('ui-drag-over', {
+    this.host.dispatchEvent(new CustomEvent('native:drag-over', {
       bubbles: true,
       composed: true,
       detail: { item: this.#dragItem, index: insertIndex, insertBefore },
@@ -447,7 +447,7 @@ export class DragController {
           ? liveItems[this.#lastSlotIndex]
           : null;
 
-        this.host.dispatchEvent(new CustomEvent('ui-drop', {
+        this.host.dispatchEvent(new CustomEvent('native:drop', {
           bubbles: true,
           composed: true,
           detail: {
@@ -465,7 +465,7 @@ export class DragController {
         this.#previewOriginParent = null;
         this.#previewOriginNext = null;
 
-        this.host.dispatchEvent(new CustomEvent('ui-drop', {
+        this.host.dispatchEvent(new CustomEvent('native:drop', {
           bubbles: true,
           composed: true,
           detail: {
@@ -479,7 +479,7 @@ export class DragController {
         const overZone = zones.find(z => z.hasAttribute('drag-over')) ?? null;
         const toIndex = overZone ? zones.indexOf(overZone) : -1;
 
-        this.host.dispatchEvent(new CustomEvent('ui-drop', {
+        this.host.dispatchEvent(new CustomEvent('native:drop', {
           bubbles: true,
           composed: true,
           detail: {
@@ -499,7 +499,7 @@ export class DragController {
     if (!this.#dragItem) return;
     this.#restorePreview();
     if (this.#ghost) {
-      this.host.dispatchEvent(new CustomEvent('ui-drag-cancel', {
+      this.host.dispatchEvent(new CustomEvent('native:drag-cancel', {
         bubbles: true,
         composed: true,
         detail: { item: this.#dragItem },
@@ -512,10 +512,10 @@ export class DragController {
     if (e.key === 'Escape' && this.#dragItem) {
       e.preventDefault();
       this.#restorePreview();
-      // WHY: Only dispatch ui-drag-cancel if a drag is actually in progress (ghost exists).
+      // WHY: Only dispatch native:drag-cancel if a drag is actually in progress (ghost exists).
       // Without a ghost, the pointer hasn't moved yet — no drag started, no cancel needed.
       if (this.#ghost) {
-        this.host.dispatchEvent(new CustomEvent('ui-drag-cancel', {
+        this.host.dispatchEvent(new CustomEvent('native:drag-cancel', {
           bubbles: true,
           composed: true,
           detail: { item: this.#dragItem },

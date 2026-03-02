@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { PopoverController } from '../popover-controller.ts';
 import { define } from '../../core/define.ts';
 
-class PopoverTestEl extends UIElement {
+class PopoverTestEl extends NativeElement {
   #popover: PopoverController | null = null;
   setup() { super.setup(); this.#popover = new PopoverController(this); }
   teardown() { this.#popover?.destroy(); this.#popover = null; super.teardown(); }

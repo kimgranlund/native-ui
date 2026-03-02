@@ -304,9 +304,9 @@
       .demo-code {
         display: none;
         position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
         padding: 0.75rem;
         margin: 0;
         margin-top: 0.75rem;
@@ -315,14 +315,14 @@
         line-height: 1.5;
         overflow-x: auto;
         white-space: pre;
-        color: var(--neutral-ink);
+        color: var(--n-ink-neutral);
       }
 
       .demo-code[visible] {
         display: block;
       }
 
-      .demo-code > ui-button {
+      .demo-code > n-button {
         position: absolute;
         top: 0.375rem;
         right: 0.375rem;
@@ -330,7 +330,7 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
     <h1>Color Boiler Plate</h1>
     <header>
       <div class="header">
@@ -368,24 +368,24 @@
 
 /* ── Using Semantic Tokens ── */
 .card {
-  background: var(--accent-panel);
-  color: var(--accent-ink);
-  border: 1px solid var(--accent-border-muted);
+  background: var(--n-panel-accent);
+  color: var(--n-ink-accent);
+  border: 1px solid var(--n-border-muted-accent);
 }
 
 .surface-fill {
-  background: var(--accent-surface);
-  color: var(--accent-surface-ink);
-}</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+  background: var(--n-surface-accent);
+  color: var(--n-surface-ink-accent);
+}</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <div id="families"></div>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
 // ── Copy buttons ──
@@ -395,7 +395,7 @@
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);

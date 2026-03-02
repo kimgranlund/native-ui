@@ -21,48 +21,48 @@ describe('A2UI Component Map', () => {
       expect(m!.childStrategy).toBe('textContent');
     });
 
-    it('maps Button to ui-button', () => {
+    it('maps Button to n-button', () => {
       const m = resolveNativeTag('Button');
-      expect(m!.nativeTag).toBe('ui-button');
+      expect(m!.nativeTag).toBe('n-button');
       expect(m!.childStrategy).toBe('slot-label');
-      expect(m!.actionEvent).toBe('ui-press');
+      expect(m!.actionEvent).toBe('native:press');
     });
 
-    it('maps TextField to ui-input', () => {
+    it('maps TextField to n-input', () => {
       const m = resolveNativeTag('TextField');
-      expect(m!.nativeTag).toBe('ui-input');
+      expect(m!.nativeTag).toBe('n-input');
       expect(m!.defaultAttributes).toEqual({ size: 'sm' });
     });
 
-    it('maps TextArea to ui-textarea', () => {
+    it('maps TextArea to n-textarea', () => {
       const m = resolveNativeTag('TextArea');
-      expect(m!.nativeTag).toBe('ui-textarea');
+      expect(m!.nativeTag).toBe('n-textarea');
     });
 
-    it('maps CheckBox to ui-checkbox', () => {
+    it('maps CheckBox to n-checkbox', () => {
       const m = resolveNativeTag('CheckBox');
-      expect(m!.nativeTag).toBe('ui-checkbox');
+      expect(m!.nativeTag).toBe('n-checkbox');
       expect(m!.childStrategy).toBe('textContent');
     });
 
-    it('maps Switch to ui-switch', () => {
+    it('maps Switch to n-switch', () => {
       const m = resolveNativeTag('Switch');
-      expect(m!.nativeTag).toBe('ui-switch');
+      expect(m!.nativeTag).toBe('n-switch');
     });
 
-    it('maps ChoicePicker to ui-select', () => {
+    it('maps ChoicePicker to n-select', () => {
       const m = resolveNativeTag('ChoicePicker');
-      expect(m!.nativeTag).toBe('ui-select');
+      expect(m!.nativeTag).toBe('n-select');
     });
 
-    it('maps Slider to ui-range', () => {
+    it('maps Slider to n-range', () => {
       const m = resolveNativeTag('Slider');
-      expect(m!.nativeTag).toBe('ui-range');
+      expect(m!.nativeTag).toBe('n-range');
     });
 
-    it('maps DateTimeInput to ui-input', () => {
+    it('maps DateTimeInput to n-input', () => {
       const m = resolveNativeTag('DateTimeInput');
-      expect(m!.nativeTag).toBe('ui-input');
+      expect(m!.nativeTag).toBe('n-input');
     });
 
     it('maps Row to div', () => {
@@ -75,29 +75,29 @@ describe('A2UI Component Map', () => {
       expect(m!.nativeTag).toBe('div');
     });
 
-    it('maps Card to ui-card', () => {
+    it('maps Card to n-card', () => {
       const m = resolveNativeTag('Card');
-      expect(m!.nativeTag).toBe('ui-card');
+      expect(m!.nativeTag).toBe('n-card');
     });
 
-    it('maps Modal to ui-dialog', () => {
+    it('maps Modal to n-dialog', () => {
       const m = resolveNativeTag('Modal');
-      expect(m!.nativeTag).toBe('ui-dialog');
+      expect(m!.nativeTag).toBe('n-dialog');
     });
 
-    it('maps Tabs to ui-tabs', () => {
+    it('maps Tabs to n-tabs', () => {
       const m = resolveNativeTag('Tabs');
-      expect(m!.nativeTag).toBe('ui-tabs');
+      expect(m!.nativeTag).toBe('n-tabs');
     });
 
-    it('maps List to ui-listbox', () => {
+    it('maps List to n-listbox', () => {
       const m = resolveNativeTag('List');
-      expect(m!.nativeTag).toBe('ui-listbox');
+      expect(m!.nativeTag).toBe('n-listbox');
     });
 
-    it('maps ListItem to ui-option', () => {
+    it('maps ListItem to n-option', () => {
       const m = resolveNativeTag('ListItem');
-      expect(m!.nativeTag).toBe('ui-option');
+      expect(m!.nativeTag).toBe('n-option');
     });
 
     it('maps Image to img', () => {
@@ -106,30 +106,30 @@ describe('A2UI Component Map', () => {
       expect(m!.propertyMap?.url).toBe('src');
     });
 
-    it('maps Icon to ui-icon', () => {
+    it('maps Icon to n-icon', () => {
       const m = resolveNativeTag('Icon');
-      expect(m!.nativeTag).toBe('ui-icon');
+      expect(m!.nativeTag).toBe('n-icon');
       expect(m!.defaultAttributes?.['aria-hidden']).toBe('true');
     });
 
-    it('maps Divider to ui-divider', () => {
+    it('maps Divider to n-divider', () => {
       const m = resolveNativeTag('Divider');
-      expect(m!.nativeTag).toBe('ui-divider');
+      expect(m!.nativeTag).toBe('n-divider');
     });
 
-    it('maps Badge to ui-badge', () => {
+    it('maps Badge to n-badge', () => {
       const m = resolveNativeTag('Badge');
-      expect(m!.nativeTag).toBe('ui-badge');
+      expect(m!.nativeTag).toBe('n-badge');
     });
 
-    it('maps Avatar to ui-avatar', () => {
+    it('maps Avatar to n-avatar', () => {
       const m = resolveNativeTag('Avatar');
-      expect(m!.nativeTag).toBe('ui-avatar');
+      expect(m!.nativeTag).toBe('n-avatar');
     });
 
-    it('maps Select to ui-select', () => {
+    it('maps Select to n-select', () => {
       const m = resolveNativeTag('Select');
-      expect(m!.nativeTag).toBe('ui-select');
+      expect(m!.nativeTag).toBe('n-select');
     });
 
     it('maps Video to video', () => {
@@ -156,60 +156,60 @@ describe('A2UI Component Map', () => {
   // ── Reverse Mapping ──
 
   describe('resolveA2UIType', () => {
-    it('maps ui-button to Button', () => {
-      expect(resolveA2UIType('ui-button')).toBe('Button');
+    it('maps n-button to Button', () => {
+      expect(resolveA2UIType('n-button')).toBe('Button');
     });
 
-    it('maps ui-input to TextField', () => {
-      expect(resolveA2UIType('ui-input')).toBe('TextField');
+    it('maps n-input to TextField', () => {
+      expect(resolveA2UIType('n-input')).toBe('TextField');
     });
 
-    it('maps ui-checkbox to CheckBox', () => {
-      expect(resolveA2UIType('ui-checkbox')).toBe('CheckBox');
+    it('maps n-checkbox to CheckBox', () => {
+      expect(resolveA2UIType('n-checkbox')).toBe('CheckBox');
     });
 
-    it('maps ui-switch to Switch', () => {
-      expect(resolveA2UIType('ui-switch')).toBe('Switch');
+    it('maps n-switch to Switch', () => {
+      expect(resolveA2UIType('n-switch')).toBe('Switch');
     });
 
-    it('maps ui-range to Slider', () => {
-      expect(resolveA2UIType('ui-range')).toBe('Slider');
+    it('maps n-range to Slider', () => {
+      expect(resolveA2UIType('n-range')).toBe('Slider');
     });
 
-    it('maps ui-card to Card', () => {
-      expect(resolveA2UIType('ui-card')).toBe('Card');
+    it('maps n-card to Card', () => {
+      expect(resolveA2UIType('n-card')).toBe('Card');
     });
 
-    it('maps ui-dialog to Modal', () => {
-      expect(resolveA2UIType('ui-dialog')).toBe('Modal');
+    it('maps n-dialog to Modal', () => {
+      expect(resolveA2UIType('n-dialog')).toBe('Modal');
     });
 
-    it('maps ui-tabs to Tabs', () => {
-      expect(resolveA2UIType('ui-tabs')).toBe('Tabs');
+    it('maps n-tabs to Tabs', () => {
+      expect(resolveA2UIType('n-tabs')).toBe('Tabs');
     });
 
-    it('maps ui-listbox to List', () => {
-      expect(resolveA2UIType('ui-listbox')).toBe('List');
+    it('maps n-listbox to List', () => {
+      expect(resolveA2UIType('n-listbox')).toBe('List');
     });
 
-    it('maps ui-option to ListItem', () => {
-      expect(resolveA2UIType('ui-option')).toBe('ListItem');
+    it('maps n-option to ListItem', () => {
+      expect(resolveA2UIType('n-option')).toBe('ListItem');
     });
 
-    it('maps ui-icon to Icon', () => {
-      expect(resolveA2UIType('ui-icon')).toBe('Icon');
+    it('maps n-icon to Icon', () => {
+      expect(resolveA2UIType('n-icon')).toBe('Icon');
     });
 
-    it('maps ui-divider to Divider', () => {
-      expect(resolveA2UIType('ui-divider')).toBe('Divider');
+    it('maps n-divider to Divider', () => {
+      expect(resolveA2UIType('n-divider')).toBe('Divider');
     });
 
-    it('maps ui-badge to Badge', () => {
-      expect(resolveA2UIType('ui-badge')).toBe('Badge');
+    it('maps n-badge to Badge', () => {
+      expect(resolveA2UIType('n-badge')).toBe('Badge');
     });
 
-    it('maps ui-avatar to Avatar', () => {
-      expect(resolveA2UIType('ui-avatar')).toBe('Avatar');
+    it('maps n-avatar to Avatar', () => {
+      expect(resolveA2UIType('n-avatar')).toBe('Avatar');
     });
 
     it('maps span to Text', () => {

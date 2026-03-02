@@ -1,0 +1,149 @@
+@layer ui {
+
+  :where(n-drawer) {
+    display: contents;
+  }
+
+  /* ── Dialog (native <dialog> reset) ──
+     WHY: Override UA <dialog> styles (border, padding, dimensions).
+     CSS custom properties inherit from :root through the DOM tree normally —
+     top-layer rendering promotion does NOT break inheritance. */
+
+  :where(n-drawer) > :where(dialog) {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: var(--n-ink);
+    padding: 0;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    display: grid;
+    place-items: stretch end;
+  }
+
+  /* WHY: Author-layer display:grid overrides UA dialog:not([open]) display:none */
+  :where(n-drawer) > :where(dialog):not([open]) {
+    display: none;
+  }
+
+  /* ── Backdrop ── */
+  /* WHY: Animate backdrop opacity on open for a smooth reveal. */
+
+  :where(n-drawer) > :where(dialog)::backdrop {
+    background: var(--n-backdrop-color);
+    opacity: var(--n-backdrop-opacity);
+    animation: drawer-backdrop-in var(--n-duration) ease-out;
+  }
+
+  @keyframes drawer-backdrop-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ── Drawer panel (child of dialog) ── */
+
+  :where(n-drawer) > :where(dialog) > :where(n-drawer-panel) {
+    display: flex;
+    flex-direction: column;
+    background: var(--n-panel);
+    overflow: hidden;
+    box-shadow: var(--n-shadow-lg);
+  }
+
+  /* ── Sub-containers ── */
+  /* WHY: When n-card-header/n-card-body/n-card-footer are used inside a drawer, the panel
+     delegates overflow to n-card-body and adds contextual dividers. */
+
+  :where(n-drawer) :where(n-drawer-panel):has(> n-card-body) {
+    overflow: hidden;
+  }
+
+  :where(n-drawer) :where(n-drawer-panel) > :where(n-card-header) {
+    border-bottom: 1px solid var(--n-border-muted);
+  }
+
+  :where(n-drawer) :where(n-drawer-panel) > :where(n-card-footer) {
+    border-top: 1px solid var(--n-border-muted);
+  }
+
+  /* ── Side: right (default) ── */
+
+  :where(n-drawer) > :where(dialog) > :where(n-drawer-panel) {
+    width: min(var(--n-drawer-width), 90vw);
+    height: 100%;
+    animation: drawer-slide-right var(--n-duration) ease-out;
+  }
+
+  /* ── Side: left ── */
+
+  :where(n-drawer[side="left"]) > :where(dialog) {
+    place-items: stretch start;
+  }
+
+  :where(n-drawer[side="left"]) > :where(dialog) > :where(n-drawer-panel) {
+    animation-name: drawer-slide-left;
+  }
+
+  /* ── Side: top ── */
+
+  :where(n-drawer[side="top"]) > :where(dialog) {
+    place-items: start stretch;
+  }
+
+  :where(n-drawer[side="top"]) > :where(dialog) > :where(n-drawer-panel) {
+    animation-name: drawer-slide-top;
+  }
+
+  :where(n-drawer[side="top"]) > :where(dialog) > :where(n-drawer-panel),
+  :where(n-drawer[side="bottom"]) > :where(dialog) > :where(n-drawer-panel) {
+    width: 100%;
+    height: min(var(--n-drawer-height), 90vh);
+  }
+
+  /* ── Side: bottom ── */
+
+  :where(n-drawer[side="bottom"]) > :where(dialog) {
+    place-items: end stretch;
+  }
+
+  :where(n-drawer[side="bottom"]) > :where(dialog) > :where(n-drawer-panel) {
+    animation-name: drawer-slide-bottom;
+  }
+
+  /* ── Slide animations ──
+     WHY: Each side animates from its edge direction using transform.
+     Transform is GPU-composited — no layout thrash. */
+
+  @keyframes drawer-slide-right {
+    from { transform: translateX(100%); }
+    to   { transform: translateX(0); }
+  }
+
+  @keyframes drawer-slide-left {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(0); }
+  }
+
+  @keyframes drawer-slide-top {
+    from { transform: translateY(-100%); }
+    to   { transform: translateY(0); }
+  }
+
+  @keyframes drawer-slide-bottom {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+  }
+
+  /* ── Reduced motion ── */
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(n-drawer) > :where(dialog)::backdrop,
+    :where(n-drawer) > :where(dialog) > :where(n-drawer-panel) {
+      animation-duration: 0.01ms;
+    }
+  }
+
+}

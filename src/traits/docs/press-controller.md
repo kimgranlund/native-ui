@@ -2,7 +2,7 @@
 
 # PressController
 
-> Handles pointer and keyboard press interactions, dispatching `ui-press` events.
+> Handles pointer and keyboard press interactions, dispatching `native:press` events.
 
 ## Constructor
 
@@ -20,7 +20,7 @@ new PressController(host: HTMLElement, options?: PressOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-press` | `{ pointerType }` |
+| `native:press` | `{ pointerType }` |
 
 ## Methods
 

@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-button — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-button&gt;</h1>
+    <p class="demo-desc">
+      Custom element with Pressable trait, form association, and signal-backed attributes.
+    </p>
+
+    <!-- ── Custom Element vs Native ── -->
+
+    <h2>Custom Element vs Native Button</h2>
+    <div class="demo-section">
+      <h3>n-button (Custom Element)</h3>
+      <div class="demo-row">
+        <n-button variant="primary" size="sm"><span slot="label">Primary</span></n-button>
+        <n-button variant="secondary" size="sm"><span slot="label">Secondary</span></n-button>
+        <n-button variant="outline" size="sm"><span slot="label">Outline</span></n-button>
+        <n-button variant="ghost" size="sm"><span slot="label">Ghost</span></n-button>
+        <n-button variant="default" size="sm"><span slot="label">Default</span></n-button>
+        <n-button variant="selected" size="sm"><span slot="label">Selected</span></n-button>
+      </div>
+
+      <h3>Native button (same CSS)</h3>
+      <div class="demo-row">
+        <button variant="primary" size="sm"><span slot="label">Primary</span></button>
+        <button variant="secondary" size="sm"><span slot="label">Secondary</span></button>
+        <button variant="outline" size="sm"><span slot="label">Outline</span></button>
+        <button variant="ghost" size="sm"><span slot="label">Ghost</span></button>
+        <button variant="default" size="sm"><span slot="label">Default</span></button>
+        <button variant="selected" size="sm"><span slot="label">Selected</span></button>
+      </div>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span class="demo-label">xs</span>
+        <n-button size="xs" variant="primary"><span slot="label">Button</span></n-button>
+        <n-button size="xs" variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button size="xs" variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">sm</span>
+        <n-button size="sm" variant="primary"><span slot="label">Button</span></n-button>
+        <n-button size="sm" variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button size="sm" variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">md</span>
+        <n-button size="md" variant="primary"><span slot="label">Button</span></n-button>
+        <n-button size="md" variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button size="md" variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">lg</span>
+        <n-button size="lg" variant="primary"><span slot="label">Button</span></n-button>
+        <n-button size="lg" variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button size="lg" variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">xl</span>
+        <n-button size="xl" variant="primary"><span slot="label">Button</span></n-button>
+        <n-button size="xl" variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button size="xl" variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;n-button size="sm" variant="primary"&gt;
+  &lt;span slot="label"&gt;Small&lt;/span&gt;
+&lt;/n-button&gt;
+
+&lt;n-button size="lg" variant="primary"&gt;
+  &lt;span slot="label"&gt;Large&lt;/span&gt;
+&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Intents ── -->
+
+    <h2>Intents</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <n-button variant="primary" intent="neutral"><span slot="label">Neutral</span></n-button>
+        <n-button variant="primary" intent="accent"><span slot="label">Accent</span></n-button>
+        <n-button variant="primary" intent="info"><span slot="label">Info</span></n-button>
+        <n-button variant="primary" intent="success"><span slot="label">Success</span></n-button>
+        <n-button variant="primary" intent="warning"><span slot="label">Warning</span></n-button>
+        <n-button variant="primary" intent="danger"><span slot="label">Danger</span></n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;n-button variant="primary" intent="accent"&gt;
+  &lt;span slot="label"&gt;Accent&lt;/span&gt;
+&lt;/n-button&gt;
+
+&lt;n-button variant="primary" intent="danger"&gt;
+  &lt;span slot="label"&gt;Danger&lt;/span&gt;
+&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <n-button variant="primary" disabled><span slot="label">Primary</span></n-button>
+        <n-button variant="secondary" disabled><span slot="label">Secondary</span></n-button>
+        <n-button variant="outline" disabled><span slot="label">Outline</span></n-button>
+        <n-button variant="ghost" disabled><span slot="label">Ghost</span></n-button>
+        <n-button variant="default" disabled><span slot="label">Default</span></n-button>
+        <n-button variant="selected" disabled><span slot="label">Selected</span></n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;n-button variant="primary" disabled&gt;
+  &lt;span slot="label"&gt;Disabled&lt;/span&gt;
+&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Press Events ── -->
+
+    <h2>Press Events</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <n-button variant="primary" id="press-btn"><span slot="label">Click or press Enter/Space</span></n-button>
+      </div>
+      <div class="log" id="press-log"></div>
+      <pre class="demo-code"><code>&lt;n-button variant="primary" id="my-btn"&gt;
+  &lt;span slot="label"&gt;Click me&lt;/span&gt;
+&lt;/n-button&gt;
+
+&lt;script&gt;
+  document.getElementById('my-btn')
+    .addEventListener('native:press', (e) =&gt; {
+      console.log('pressed', e.detail.pointerType);
+    });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Form Association ── -->
+
+    <h2>Form Association</h2>
+    <div class="demo-section" size="sm">
+      <form id="demo-form">
+        <input type="text" name="demo" value="hello" style="margin-bottom: 0.5rem; padding: 0.25rem 0.5rem; border: 1px solid var(--n-border-muted-neutral); border-radius: 0.375rem; font-family: inherit;" />
+        <div class="demo-row">
+          <n-button variant="primary" type="submit"><span slot="label">Submit</span></n-button>
+          <n-button variant="secondary" type="reset"><span slot="label">Reset</span></n-button>
+          <n-button variant="ghost"><span slot="label">Button (no form action)</span></n-button>
+        </div>
+      </form>
+      <div class="log" id="form-log"></div>
+      <pre class="demo-code"><code>&lt;form&gt;
+  &lt;n-button variant="primary" type="submit"&gt;
+    &lt;span slot="label"&gt;Submit&lt;/span&gt;
+  &lt;/n-button&gt;
+  &lt;n-button variant="secondary" type="reset"&gt;
+    &lt;span slot="label"&gt;Reset&lt;/span&gt;
+  &lt;/n-button&gt;
+&lt;/form&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Variants ── -->
+
+    <h2>Variants</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <span class="demo-label">primary</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">secondary</span>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">outline</span>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">ghost</span>
+        <n-button variant="ghost"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">default</span>
+        <n-button variant="default"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">selected</span>
+        <n-button variant="selected"><span slot="label">Button</span></n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;n-button variant="primary"&gt;&lt;span slot="label"&gt;Primary&lt;/span&gt;&lt;/n-button&gt;
+&lt;n-button variant="secondary"&gt;&lt;span slot="label"&gt;Secondary&lt;/span&gt;&lt;/n-button&gt;
+&lt;n-button variant="outline"&gt;&lt;span slot="label"&gt;Outline&lt;/span&gt;&lt;/n-button&gt;
+&lt;n-button variant="ghost"&gt;&lt;span slot="label"&gt;Ghost&lt;/span&gt;&lt;/n-button&gt;
+&lt;n-button variant="default"&gt;&lt;span slot="label"&gt;Default&lt;/span&gt;&lt;/n-button&gt;
+&lt;n-button variant="selected"&gt;&lt;span slot="label"&gt;Selected&lt;/span&gt;&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section">
+      <h3>xs</h3>
+      <div class="demo-row" size="xs" density="compact">
+        <span class="demo-label">compact</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row" size="xs" density="default">
+        <span class="demo-label">default</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row" size="xs" density="loose">
+        <span class="demo-label">loose</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+
+      <h3>sm</h3>
+      <div class="demo-row" size="sm" density="compact">
+        <span class="demo-label">compact</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row" size="sm" density="default">
+        <span class="demo-label">default</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row" size="sm" density="loose">
+        <span class="demo-label">loose</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+
+      <h3>md</h3>
+      <div class="demo-row" size="md" density="compact">
+        <span class="demo-label">compact</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row" size="md" density="default">
+        <span class="demo-label">default</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row" size="md" density="loose">
+        <span class="demo-label">loose</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+
+      <h3>lg</h3>
+      <div class="demo-row" size="lg" density="compact">
+        <span class="demo-label">compact</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row" size="lg" density="default">
+        <span class="demo-label">default</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row" size="lg" density="loose">
+        <span class="demo-label">loose</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+
+      <h3>xl</h3>
+      <div class="demo-row" size="xl" density="compact">
+        <span class="demo-label">compact</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row" size="xl" density="default">
+        <span class="demo-label">default</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row" size="xl" density="loose">
+        <span class="demo-label">loose</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+    </div>
+
+    <!-- ── Radius ── -->
+
+    <h2>Radius</h2>
+    <div class="demo-section" size="md">
+      <div class="demo-row" radius="sharp">
+        <span class="demo-label">sharp</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row" radius="default">
+        <span class="demo-label">default</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+      <div class="demo-row" radius="round">
+        <span class="demo-label">round</span>
+        <n-button variant="primary"><span slot="label">Button</span></n-button>
+        <n-button variant="secondary"><span slot="label">Button</span></n-button>
+        <n-button variant="outline"><span slot="label">Button</span></n-button>
+      </div>
+    </div>
+
+    <!-- ── Cascading ── -->
+
+    <h2>Cascading</h2>
+    <div class="demo-section">
+      <h3>Parent size="md", child overrides</h3>
+      <div class="demo-row" size="md" intent="accent">
+        <n-button variant="primary"><span slot="label">Inherited md</span></n-button>
+        <n-button variant="primary" size="xs"><span slot="label">Override xs</span></n-button>
+        <n-button variant="primary" size="lg"><span slot="label">Override lg</span></n-button>
+      </div>
+
+      <h3>Parent intent="accent", child overrides</h3>
+      <div class="demo-row" size="sm" intent="accent">
+        <n-button variant="primary"><span slot="label">Accent</span></n-button>
+        <n-button variant="primary" intent="danger"><span slot="label">Danger</span></n-button>
+        <n-button variant="primary" intent="success"><span slot="label">Success</span></n-button>
+      </div>
+
+      <h3>Section cascading all attributes</h3>
+      <section size="sm" density="compact" radius="round" intent="accent">
+        <div class="demo-row">
+          <n-button variant="primary"><span slot="label">All inherited</span></n-button>
+          <n-button variant="secondary"><span slot="label">All inherited</span></n-button>
+          <n-button variant="outline"><span slot="label">All inherited</span></n-button>
+          <n-button variant="ghost"><span slot="label">All inherited</span></n-button>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── Variants x Intents ── -->
+
+    <h2>Variants x Intents</h2>
+    <div class="demo-section" size="sm">
+      <h3>Primary</h3>
+      <div class="demo-row">
+        <n-button variant="primary" intent="neutral"><span slot="label">Neutral</span></n-button>
+        <n-button variant="primary" intent="accent"><span slot="label">Accent</span></n-button>
+        <n-button variant="primary" intent="info"><span slot="label">Info</span></n-button>
+        <n-button variant="primary" intent="success"><span slot="label">Success</span></n-button>
+        <n-button variant="primary" intent="warning"><span slot="label">Warning</span></n-button>
+        <n-button variant="primary" intent="danger"><span slot="label">Danger</span></n-button>
+      </div>
+      <h3>Secondary</h3>
+      <div class="demo-row">
+        <n-button variant="secondary" intent="neutral"><span slot="label">Neutral</span></n-button>
+        <n-button variant="secondary" intent="accent"><span slot="label">Accent</span></n-button>
+        <n-button variant="secondary" intent="info"><span slot="label">Info</span></n-button>
+        <n-button variant="secondary" intent="success"><span slot="label">Success</span></n-button>
+        <n-button variant="secondary" intent="warning"><span slot="label">Warning</span></n-button>
+        <n-button variant="secondary" intent="danger"><span slot="label">Danger</span></n-button>
+      </div>
+      <h3>Outline</h3>
+      <div class="demo-row">
+        <n-button variant="outline" intent="neutral"><span slot="label">Neutral</span></n-button>
+        <n-button variant="outline" intent="accent"><span slot="label">Accent</span></n-button>
+        <n-button variant="outline" intent="info"><span slot="label">Info</span></n-button>
+        <n-button variant="outline" intent="success"><span slot="label">Success</span></n-button>
+        <n-button variant="outline" intent="warning"><span slot="label">Warning</span></n-button>
+        <n-button variant="outline" intent="danger"><span slot="label">Danger</span></n-button>
+      </div>
+      <h3>Ghost</h3>
+      <div class="demo-row">
+        <n-button variant="ghost" intent="neutral"><span slot="label">Neutral</span></n-button>
+        <n-button variant="ghost" intent="accent"><span slot="label">Accent</span></n-button>
+        <n-button variant="ghost" intent="info"><span slot="label">Info</span></n-button>
+        <n-button variant="ghost" intent="success"><span slot="label">Success</span></n-button>
+        <n-button variant="ghost" intent="warning"><span slot="label">Warning</span></n-button>
+        <n-button variant="ghost" intent="danger"><span slot="label">Danger</span></n-button>
+      </div>
+      <h3>Default</h3>
+      <div class="demo-row">
+        <n-button variant="default" intent="neutral"><span slot="label">Neutral</span></n-button>
+        <n-button variant="default" intent="accent"><span slot="label">Accent</span></n-button>
+        <n-button variant="default" intent="info"><span slot="label">Info</span></n-button>
+        <n-button variant="default" intent="success"><span slot="label">Success</span></n-button>
+        <n-button variant="default" intent="warning"><span slot="label">Warning</span></n-button>
+        <n-button variant="default" intent="danger"><span slot="label">Danger</span></n-button>
+      </div>
+      <h3>Selected</h3>
+      <div class="demo-row">
+        <n-button variant="selected" intent="neutral"><span slot="label">Neutral</span></n-button>
+        <n-button variant="selected" intent="accent"><span slot="label">Accent</span></n-button>
+        <n-button variant="selected" intent="info"><span slot="label">Info</span></n-button>
+        <n-button variant="selected" intent="success"><span slot="label">Success</span></n-button>
+        <n-button variant="selected" intent="warning"><span slot="label">Warning</span></n-button>
+        <n-button variant="selected" intent="danger"><span slot="label">Danger</span></n-button>
+      </div>
+    </div>
+
+    <!-- ── Justify: spread ── -->
+
+    <h2>Justify: spread</h2>
+    <div class="demo-section" size="md" style="max-width: 20rem;">
+      <n-stack gap="2">
+        <n-button justify="spread">
+          <n-icon name="heart" slot="leading"></n-icon>
+          <span slot="label">Favorites</span>
+          <n-icon name="arrow-right" slot="trailing"></n-icon>
+        </n-button>
+        <n-button variant="outline" justify="spread">
+          <n-icon name="pencil-simple" slot="leading"></n-icon>
+          <span slot="label">Edit Profile</span>
+          <n-icon name="arrow-right" slot="trailing"></n-icon>
+        </n-button>
+      </n-stack>
+      <p style="font-size: 0.75rem; color: var(--n-ink-muted-neutral); margin-top: 0.75rem;">
+        <code>justify="spread"</code> switches to <code>auto 1fr auto</code> columns so the label fills available space and trailing icon pushes to the far edge. Used as dropdown triggers in <code>&lt;n-select&gt;</code>.
+      </p>
+      <pre class="demo-code"><code>&lt;n-button justify="spread"&gt;
+  &lt;n-icon name="heart" slot="leading"&gt;&lt;/n-icon&gt;
+  &lt;span slot="label"&gt;Favorites&lt;/span&gt;
+  &lt;n-icon name="arrow-right" slot="trailing"&gt;&lt;/n-icon&gt;
+&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Icon Only ── -->
+
+    <h2>Icon Only</h2>
+    <div class="demo-section" size="md">
+      <div class="demo-row">
+        <n-button variant="primary" aria-label="Add"><n-icon name="plus"></n-icon></n-button>
+        <n-button variant="secondary" aria-label="Close"><n-icon name="x"></n-icon></n-button>
+        <n-button variant="ghost" aria-label="Favorite"><n-icon name="heart"></n-icon></n-button>
+        <n-button variant="outline" aria-label="Next"><n-icon name="arrow-right"></n-icon></n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;n-button variant="primary" aria-label="Add"&gt;
+  &lt;n-icon name="plus"&gt;&lt;/n-icon&gt;
+&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Slots ── -->
+
+    <h2>Slot Variations</h2>
+    <div class="demo-section" size="md">
+      <h3>Full (leading + label + trailing)</h3>
+      <div class="demo-row">
+        <n-button variant="primary">
+          <n-icon name="plus" slot="leading"></n-icon>
+          <span slot="label">Add Item</span>
+          <n-icon name="arrow-right" slot="trailing"></n-icon>
+        </n-button>
+        <n-button variant="secondary">
+          <n-icon name="plus" slot="leading"></n-icon>
+          <span slot="label">Add Item</span>
+          <n-icon name="arrow-right" slot="trailing"></n-icon>
+        </n-button>
+      </div>
+      <h3>Label + Trailing</h3>
+      <div class="demo-row">
+        <n-button variant="primary">
+          <span slot="label">Next</span>
+          <n-icon name="arrow-right" slot="trailing"></n-icon>
+        </n-button>
+        <n-button variant="secondary">
+          <span slot="label">Next</span>
+          <n-icon name="arrow-right" slot="trailing"></n-icon>
+        </n-button>
+      </div>
+      <h3>Leading + Label</h3>
+      <div class="demo-row">
+        <n-button variant="primary">
+          <n-icon name="heart" slot="leading"></n-icon>
+          <span slot="label">Favorite</span>
+        </n-button>
+        <n-button variant="secondary">
+          <n-icon name="heart" slot="leading"></n-icon>
+          <span slot="label">Favorite</span>
+        </n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;n-button variant="primary"&gt;
+  &lt;n-icon name="plus" slot="leading"&gt;&lt;/n-icon&gt;
+  &lt;span slot="label"&gt;Add Item&lt;/span&gt;
+  &lt;n-icon name="arrow-right" slot="trailing"&gt;&lt;/n-icon&gt;
+&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section" size="md">
+      <p class="demo-caption">
+        Attribute-driven pseudo-state overrides for DevTools debugging, Storybook-style state demos, and visual testing.
+      </p>
+      <h3>force-hover</h3>
+      <div class="demo-row">
+        <n-button variant="primary" force-hover><span slot="label">Primary</span></n-button>
+        <n-button variant="secondary" force-hover><span slot="label">Secondary</span></n-button>
+        <n-button variant="outline" force-hover><span slot="label">Outline</span></n-button>
+        <n-button variant="ghost" force-hover><span slot="label">Ghost</span></n-button>
+      </div>
+      <h3>force-active</h3>
+      <div class="demo-row">
+        <n-button variant="primary" force-active><span slot="label">Primary</span></n-button>
+        <n-button variant="secondary" force-active><span slot="label">Secondary</span></n-button>
+        <n-button variant="outline" force-active><span slot="label">Outline</span></n-button>
+        <n-button variant="ghost" force-active><span slot="label">Ghost</span></n-button>
+      </div>
+      <h3>force-focus-visible</h3>
+      <div class="demo-row">
+        <n-button variant="primary" force-focus-visible><span slot="label">Primary</span></n-button>
+        <n-button variant="secondary" force-focus-visible><span slot="label">Secondary</span></n-button>
+        <n-button variant="outline" force-focus-visible><span slot="label">Outline</span></n-button>
+        <n-button variant="ghost" force-focus-visible><span slot="label">Ghost</span></n-button>
+      </div>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/plus.ts';
+      import '../../icons/phosphor/arrow-right.ts';
+      import '../../icons/phosphor/x.ts';
+      import '../../icons/phosphor/heart.ts';
+      import '../../icons/phosphor/pencil-simple.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Press event logging
+      const pressBtn = document.getElementById('press-btn');
+      const pressLog = document.getElementById('press-log');
+      let pressCount = 0;
+
+      pressBtn.addEventListener('native:press', (e) => {
+        pressCount++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${pressCount} native:press — pointerType: ${e.detail.pointerType}`;
+        pressLog.prepend(entry);
+      });
+
+      // Form logging
+      const form = document.getElementById('demo-form');
+      const formLog = document.getElementById('form-log');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `submit — value: "${new FormData(form).get('demo')}"`;
+        formLog.prepend(entry);
+      });
+
+      form.addEventListener('reset', () => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = 'reset';
+        formLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

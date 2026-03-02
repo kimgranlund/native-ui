@@ -1,0 +1,139 @@
+@layer ui {
+
+  /* ── Base ── */
+
+  :where(n-button) {
+    --n-font-weight: var(--n-button-font-weight);
+    --n-line-height: var(--n-control-line-height);
+
+    --n-background: var(--n-button);
+    --n-background-hover: var(--n-button-hover);
+    --n-background-active: var(--n-button-active);
+    --n-background-disabled: var(--n-button-disabled);
+    --n-color: var(--n-ink);
+    --n-color-hover: var(--n-ink-hover);
+    --n-color-active: var(--n-ink-active);
+    --n-color-disabled: var(--n-ink-disabled);
+    --n-border-color: var(--n-border-muted);
+    --n-border-color-hover: var(--n-border-hover);
+    --n-border-color-active: var(--n-border-active);
+    --n-border-color-disabled: var(--n-border-muted);
+
+    appearance: none;
+    font: inherit;
+    cursor: pointer;
+    user-select: none;
+    box-sizing: border-box;
+
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: auto;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    gap: calc(var(--n-space) * 2);
+
+    min-height: var(--n-size);
+    padding-block: var(--n-space);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+
+    font-size: var(--n-font-size);
+    letter-spacing: var(--n-letter-spacing);
+    line-height: var(--n-line-height);
+    font-weight: var(--n-font-weight);
+
+    border-radius: var(--n-radius);
+    border: 1px solid var(--n-border-color);
+
+    background: var(--n-background);
+    color: var(--n-color);
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  /* ── States ── */
+
+  :where(n-button):hover,
+  :where(n-button)[force-hover] {
+    background: var(--n-background-hover);
+    color: var(--n-color-hover);
+    border-color: var(--n-border-color-hover);
+  }
+
+  :where(n-button):active,
+  :where(n-button)[pressed],
+  :where(n-button)[force-active] {
+    background: var(--n-background-active);
+    color: var(--n-color-active);
+    border-color: var(--n-border-color-active);
+  }
+
+  :where(n-button):focus-visible,
+  :where(n-button)[force-focus-visible] {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: 2px;
+  }
+
+  :where(n-button)[aria-disabled="true"] {
+    background: var(--n-background-disabled);
+    color: var(--n-color-disabled);
+    border-color: var(--n-border-color-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* ── Slots ── */
+
+  /* WHY: Upgrade to 3-column grid only when slot structure is present */
+  :where(n-button):where(:has(> [slot])) {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  :where(n-button) > :where([slot="leading"]) {
+    grid-column: 1;
+  }
+
+  :where(n-button) > :where([slot="label"]) {
+    grid-column: 2;
+  }
+
+  :where(n-button) > :where([slot="trailing"]) {
+    grid-column: 3;
+  }
+
+  /* ── Justify: spread — label fills, text left-aligned ── */
+
+  /* WHY: Spread mode (dropdown triggers) — label fills available space,
+     truncates with ellipsis when width-constrained. */
+  :where(n-button):where([justify="spread"]) > :where([slot="label"]) {
+    justify-self: stretch;
+    text-align: start;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ── Inline mode ── */
+  /* WHY: Default is block (grid) so buttons fill available width in flex/grid layouts.
+     [inline] restores shrink-wrap for buttons placed inline with text. */
+
+  :where(n-button)[inline] {
+    display: inline-grid;
+    width: auto;
+  }
+
+  /* ── Icon-only mode ── */
+
+  :where(n-button):where(:has(> n-icon:only-child)) {
+    grid-template-columns: auto;
+    min-width: var(--n-size);
+    padding-inline: var(--n-space);
+  }
+
+}

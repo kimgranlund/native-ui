@@ -1,4 +1,4 @@
-export { UIElement } from './ui-element.ts';
+export { NativeElement } from './native-element.ts';
 export { define } from './define.ts';
 export { uid } from './uid.ts';
 export { createDisabledEffect } from './effects.ts';

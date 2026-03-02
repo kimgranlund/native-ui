@@ -1,0 +1,197 @@
+@layer ui {
+
+  /* ── Checkbox Base ── */
+
+  :where(n-checkbox) {
+    --n-font-weight: var(--n-text-font-weight);
+    --n-line-height: var(--n-control-line-height);
+    --n-radius: calc(var(--n-space) * 2);
+
+    /* Box size: shared widget scale for toggle controls */
+    --n-box-size: var(--n-widget-size);
+
+    --n-background: var(--n-widget);
+    --n-background-hover: var(--n-widget-hover);
+    --n-background-active: var(--n-widget-active);
+    --n-background-disabled: var(--n-widget-disabled);
+    --n-color: var(--n-ink);
+    --n-color-hover: var(--n-ink-hover);
+    --n-color-disabled: var(--n-ink-disabled);
+    --n-border-color: var(--n-border-muted);
+    --n-border-color-hover: var(--n-border-hover);
+    --n-border-color-active: var(--n-border-active);
+    --n-border-color-disabled: var(--n-border-disabled);
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    /* WHY: padding reserves space for the absolutely-positioned box + icon */
+    padding-inline-start: calc(var(--n-box-size) + var(--n-space) * 2);
+    min-height: var(--n-box-size);
+
+    font-size: var(--n-font-size);
+    letter-spacing: var(--n-letter-spacing);
+    line-height: var(--n-line-height);
+    font-weight: var(--n-font-weight);
+    color: var(--n-color);
+
+    cursor: pointer;
+    user-select: none;
+
+    transition:
+      color var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Checkbox Box (the visual square) ── */
+  /* WHY: Absolutely positioned so the text content flows naturally
+     after the padding-inline-start gap */
+
+  :where(n-checkbox)::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--n-box-size);
+    height: var(--n-box-size);
+    border-radius: var(--n-radius);
+    border: 1px solid var(--n-border-color);
+    background: var(--n-background);
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Check / Dash Icon ── */
+  /* WHY: Overlays the box exactly, using mask-image for the icon shape.
+     Uses Phosphor Bold weight for better visibility at small sizes. */
+
+  :where(n-checkbox)::after {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 50%;
+    transform: translateY(-50%) scale(0);
+    width: var(--n-box-size);
+    height: var(--n-box-size);
+
+    /* Check mark via mask (Phosphor Bold) */
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E");
+    mask-size: 75%;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E");
+    -webkit-mask-size: 75%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+
+    background: transparent;
+    transition:
+      background var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Checked State ── */
+  /* WHY: Default checked fill uses --n-surface (accent by default via
+     intent="accent" being the implicit default for toggle controls).
+     When an explicit [intent] is set, the intent selector's --n-surface wins. */
+
+  :where(n-checkbox)[aria-checked="true"]::before {
+    background: var(--n-surface);
+    border-color: var(--n-surface);
+  }
+
+  :where(n-checkbox)[aria-checked="true"]::after {
+    background: var(--n-surface-ink);
+    transform: translateY(-50%) scale(1);
+  }
+
+  /* ── Indeterminate State ── */
+
+  :where(n-checkbox)[aria-checked="mixed"]::before {
+    background: var(--n-surface);
+    border-color: var(--n-surface);
+  }
+
+  :where(n-checkbox)[aria-checked="mixed"]::after {
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M228,128a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,128Z'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M228,128a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,128Z'/%3E%3C/svg%3E");
+    mask-size: 75%;
+    -webkit-mask-size: 75%;
+    background: var(--n-surface-ink);
+    transform: translateY(-50%) scale(1);
+  }
+
+  /* ── Hover ── */
+
+  :where(n-checkbox):hover,
+  :where(n-checkbox)[force-hover] {
+    color: var(--n-color-hover);
+  }
+
+  :where(n-checkbox):hover::before,
+  :where(n-checkbox)[force-hover]::before {
+    background: var(--n-background-hover);
+    border-color: var(--n-border-color-hover);
+  }
+
+  :where(n-checkbox)[aria-checked="true"]:hover::before,
+  :where(n-checkbox)[aria-checked="mixed"]:hover::before,
+  :where(n-checkbox)[aria-checked="true"][force-hover]::before,
+  :where(n-checkbox)[aria-checked="mixed"][force-hover]::before {
+    background: var(--n-surface-hover);
+    border-color: var(--n-surface-hover);
+  }
+
+  /* ── Active (pressed) ── */
+
+  :where(n-checkbox)[pressed]::before,
+  :where(n-checkbox)[force-active]::before {
+    background: var(--n-background-active);
+    border-color: var(--n-border-color-active);
+  }
+
+  :where(n-checkbox)[aria-checked="true"][pressed]::before,
+  :where(n-checkbox)[aria-checked="mixed"][pressed]::before,
+  :where(n-checkbox)[aria-checked="true"][force-active]::before,
+  :where(n-checkbox)[aria-checked="mixed"][force-active]::before {
+    background: var(--n-surface-active);
+    border-color: var(--n-surface-active);
+  }
+
+  /* ── Focus ── */
+
+  :where(n-checkbox):focus-visible::before,
+  :where(n-checkbox)[force-focus-visible]::before {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* ── Disabled ── */
+
+  :where(n-checkbox)[aria-disabled="true"] {
+    color: var(--n-color-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  :where(n-checkbox)[aria-disabled="true"]::before {
+    background: var(--n-background-disabled);
+    border-color: var(--n-border-color-disabled);
+  }
+
+  :where(n-checkbox)[aria-disabled="true"][aria-checked="true"]::before,
+  :where(n-checkbox)[aria-disabled="true"][aria-checked="mixed"]::before {
+    background: var(--n-surface-disabled);
+    border-color: var(--n-surface-disabled);
+  }
+
+  :where(n-checkbox)[aria-disabled="true"]::after {
+    background: var(--n-surface-ink-disabled);
+  }
+
+}

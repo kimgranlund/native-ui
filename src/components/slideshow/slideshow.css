@@ -1,0 +1,268 @@
+@layer ui {
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+     n-slideshow / n-slide
+     CSS-first carousel using scroll-snap.
+
+     DOM structure (JS-stamped):
+       n-slideshow
+         div[part="track"]
+           n-slide …
+         div[part="controls"]
+           button[part="prev"]
+           button[part="next"]
+         div[part="indicators"]
+           button[part="dot"] …
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+  /* ── Slideshow Wrapper ── */
+
+  :where(n-slideshow) {
+    --n-slideshow-gap: 0px;
+    --n-per-view: 1;
+    --n-slideshow-peek: 0px;
+
+    display: grid;
+    flex: 1 1 0%;
+    min-width: 0;
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--n-radius);
+  }
+
+  :where(n-slideshow[gap]) {
+    --n-slideshow-gap: calc(var(--n-space) * 4);
+  }
+
+  :where(n-slideshow[peek]) {
+    --n-slideshow-peek: calc(var(--n-space-k) * var(--n-space) * 2);
+  }
+
+  /* ── Track ── */
+
+  :where(n-slideshow) > :where([part="track"]) {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    gap: var(--n-slideshow-gap);
+    padding-inline: var(--n-slideshow-peek);
+    scroll-padding-inline: var(--n-slideshow-peek);
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  :where(n-slideshow) > :where([part="track"])::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Drag-to-scroll cursor */
+  :where(n-slideshow) > :where([part="track"]) {
+    cursor: grab;
+  }
+
+  :where(n-slideshow) > :where([part="track"][data-dragging]) {
+    cursor: grabbing;
+    user-select: none;
+  }
+
+  /* ── Vertical ── */
+
+  :where(n-slideshow[direction="vertical"]) > :where([part="track"]) {
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    overscroll-behavior-x: auto;
+    overscroll-behavior-y: contain;
+    padding-inline: 0;
+    scroll-padding-inline: 0;
+    padding-block: var(--n-slideshow-peek);
+    scroll-padding-block: var(--n-slideshow-peek);
+  }
+
+  /* ── Slide ── */
+
+  :where(n-slide) {
+    flex: 0 0 calc(
+      (100% - (var(--n-per-view) - 1) * var(--n-slideshow-gap)) / var(--n-per-view)
+    );
+    scroll-snap-align: start;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* Vertical slides need full height instead of full width */
+  :where(n-slideshow[direction="vertical"]) > :where([part="track"]) > :where(n-slide) {
+    flex: 0 0 100%;
+  }
+
+  /* ── Controls ── */
+
+  :where(n-slideshow) > :where([part="controls"]) {
+    display: none;
+  }
+
+  :where(n-slideshow[controls]) > :where([part="controls"]) {
+    display: contents;
+  }
+
+  :where(n-slideshow) :where([part="prev"]),
+  :where(n-slideshow) :where([part="next"]) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+
+    appearance: none;
+    border: none;
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--n-size);
+    height: var(--n-size);
+    border-radius: 50%;
+    background: var(--n-panel);
+    color: var(--n-ink);
+    border: 1px solid var(--n-border-muted);
+    box-shadow: var(--n-shadow-sm);
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  :where(n-slideshow) :where([part="prev"]) {
+    inset-inline-start: calc(var(--n-space) * 2);
+  }
+
+  :where(n-slideshow) :where([part="next"]) {
+    inset-inline-end: calc(var(--n-space) * 2);
+  }
+
+  :where(n-slideshow) :where([part="prev"]):hover,
+  :where(n-slideshow) :where([part="next"]):hover,
+  :where(n-slideshow[force-hover]) :where([part="prev"]),
+  :where(n-slideshow[force-hover]) :where([part="next"]) {
+    background: var(--n-panel-hover);
+    color: var(--n-ink-hover);
+    border-color: var(--n-border-hover);
+  }
+
+  :where(n-slideshow) :where([part="prev"]):focus-visible,
+  :where(n-slideshow) :where([part="next"]):focus-visible,
+  :where(n-slideshow[force-focus-visible]) :where([part="prev"]),
+  :where(n-slideshow[force-focus-visible]) :where([part="next"]) {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: 2px;
+  }
+
+  :where(n-slideshow) :where([part="prev"]):disabled,
+  :where(n-slideshow) :where([part="next"]):disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* ── Indicators ── */
+
+  :where(n-slideshow) > :where([part="indicators"]) {
+    display: none;
+    grid-row: 2;
+    grid-column: 1;
+  }
+
+  :where(n-slideshow[indicators]) > :where([part="indicators"]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--n-space) * 2);
+    padding-block: calc(var(--n-space) * 3);
+  }
+
+  :where(n-slideshow) :where([part="dot"]) {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    /* Base size is the active pill; inactive state scales down via transform.
+       GPU composited — only transform + background animate. */
+    width: calc(var(--n-space) * 5);
+    height: calc(var(--n-space) * 2);
+    border-radius: var(--n-space);
+    background: var(--n-border);
+    flex-shrink: 0;
+    transform: scale(0.4, 1);
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  :where(n-slideshow) :where([part="dot"])[active] {
+    background: var(--n-surface);
+    transform: scale(1);
+  }
+
+  :where(n-slideshow) :where([part="dot"]):hover:not([active]),
+  :where(n-slideshow[force-hover]) :where([part="dot"]):not([active]) {
+    background: var(--n-border-hover);
+    transform: scale(0.48, 1.2);
+  }
+
+  :where(n-slideshow) :where([part="dot"]):focus-visible,
+  :where(n-slideshow[force-focus-visible]) :where([part="dot"]) {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* ── Disabled ── */
+
+  :where(n-slideshow)[aria-disabled="true"] > :where([part="track"]) {
+    pointer-events: none;
+  }
+
+  :where(n-slideshow)[aria-disabled="true"] > :where([part="controls"]) {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  /* ── Visually Hidden (live region) ── */
+
+  :where(n-slideshow) :where([data-visually-hidden]) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  /* ── Reduced Motion ── */
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(n-slideshow) > :where([part="track"]) {
+      scroll-behavior: auto;
+    }
+
+    :where(n-slideshow) :where([part="prev"]),
+    :where(n-slideshow) :where([part="next"]),
+    :where(n-slideshow) :where([part="dot"]) {
+      transition: none;
+    }
+  }
+
+  :where(n-slideshow[hidden]) { display: none; }
+
+}

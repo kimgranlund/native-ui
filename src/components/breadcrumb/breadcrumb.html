@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-breadcrumb — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-breadcrumb&gt;</h1>
+    <p class="demo-desc">
+      Path-based navigation with separator between items. Last item with <code>current</code> is non-interactive.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <div class="demo-section">
+      <n-breadcrumb>
+        <n-breadcrumb-item href="/">Home</n-breadcrumb-item>
+        <n-breadcrumb-item href="/products">Products</n-breadcrumb-item>
+        <n-breadcrumb-item current>Widget Pro</n-breadcrumb-item>
+      </n-breadcrumb>
+      <pre class="demo-code"><code>&lt;n-breadcrumb&gt;
+  &lt;n-breadcrumb-item href="/"&gt;Home&lt;/n-breadcrumb-item&gt;
+  &lt;n-breadcrumb-item href="/products"&gt;Products&lt;/n-breadcrumb-item&gt;
+  &lt;n-breadcrumb-item current&gt;Widget Pro&lt;/n-breadcrumb-item&gt;
+&lt;/n-breadcrumb&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Deep path ── -->
+
+    <h2>Deep Path</h2>
+    <div class="demo-section">
+      <n-breadcrumb>
+        <n-breadcrumb-item href="/">Home</n-breadcrumb-item>
+        <n-breadcrumb-item href="/docs">Documentation</n-breadcrumb-item>
+        <n-breadcrumb-item href="/docs/components">Components</n-breadcrumb-item>
+        <n-breadcrumb-item href="/docs/components/buttons">Buttons</n-breadcrumb-item>
+        <n-breadcrumb-item current>Primary Button</n-breadcrumb-item>
+      </n-breadcrumb>
+      <pre class="demo-code"><code>&lt;n-breadcrumb&gt;
+  &lt;n-breadcrumb-item href="/"&gt;Home&lt;/n-breadcrumb-item&gt;
+  &lt;n-breadcrumb-item href="/docs"&gt;Documentation&lt;/n-breadcrumb-item&gt;
+  &lt;n-breadcrumb-item href="/docs/components"&gt;Components&lt;/n-breadcrumb-item&gt;
+  &lt;n-breadcrumb-item href="/docs/components/buttons"&gt;Buttons&lt;/n-breadcrumb-item&gt;
+  &lt;n-breadcrumb-item current&gt;Primary Button&lt;/n-breadcrumb-item&gt;
+&lt;/n-breadcrumb&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-breadcrumb size="sm">
+          <n-breadcrumb-item href="/">Home</n-breadcrumb-item>
+          <n-breadcrumb-item current>Settings</n-breadcrumb-item>
+        </n-breadcrumb>
+        <n-breadcrumb>
+          <n-breadcrumb-item href="/">Home</n-breadcrumb-item>
+          <n-breadcrumb-item current>Settings</n-breadcrumb-item>
+        </n-breadcrumb>
+        <n-breadcrumb size="lg">
+          <n-breadcrumb-item href="/">Home</n-breadcrumb-item>
+          <n-breadcrumb-item current>Settings</n-breadcrumb-item>
+        </n-breadcrumb>
+      </n-stack>
+      <pre class="demo-code"><code>&lt;n-breadcrumb size="sm"&gt;
+  &lt;n-breadcrumb-item href="/"&gt;Home&lt;/n-breadcrumb-item&gt;
+  &lt;n-breadcrumb-item current&gt;Settings&lt;/n-breadcrumb-item&gt;
+&lt;/n-breadcrumb&gt;
+
+&lt;n-breadcrumb size="lg"&gt;
+  &lt;n-breadcrumb-item href="/"&gt;Home&lt;/n-breadcrumb-item&gt;
+  &lt;n-breadcrumb-item current&gt;Settings&lt;/n-breadcrumb-item&gt;
+&lt;/n-breadcrumb&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
+      </p>
+      <n-breadcrumb>
+        <n-breadcrumb-item href="/" force-hover>Force hover</n-breadcrumb-item>
+        <n-breadcrumb-item href="/" force-focus-visible>Force focus-visible</n-breadcrumb-item>
+        <n-breadcrumb-item current>Current</n-breadcrumb-item>
+      </n-breadcrumb>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './breadcrumb.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

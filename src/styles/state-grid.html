@@ -9,28 +9,28 @@
     <link rel="stylesheet" href="./components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
-      main { padding: calc(var(--_space) * 8); }
+      main { padding: calc(var(--n-space) * 8); }
 
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
-        margin-bottom: var(--_space);
-        color: var(--neutral-ink-strong);
+        margin-bottom: var(--n-space);
+        color: var(--n-ink-strong-neutral);
       }
 
       h1 + p {
         font-size: 0.8125rem;
-        color: var(--neutral-ink-muted);
-        margin-bottom: calc(var(--_space) * 6);
+        color: var(--n-ink-muted-neutral);
+        margin-bottom: calc(var(--n-space) * 6);
       }
 
       /* ── Toolbar ── */
       #toolbar {
-        margin-bottom: calc(var(--_space) * 4);
+        margin-bottom: calc(var(--n-space) * 4);
       }
 
       #state-filter {
@@ -41,37 +41,37 @@
       .state-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-        gap: calc(var(--_space) * 3);
+        gap: calc(var(--n-space) * 3);
       }
 
       /* ── Card state overrides ── */
-      .state-grid > ui-card {
+      .state-grid > n-card {
         transition: box-shadow 0.2s, border-color 0.2s, opacity 0.2s;
       }
 
-      .state-grid > ui-card.dimmed {
+      .state-grid > n-card.dimmed {
         opacity: 0.35;
       }
 
-      .state-grid > ui-card.highlighted {
-        border-color: var(--accent-surface);
-        box-shadow: 0 0 0 2px var(--accent-surface);
+      .state-grid > n-card.highlighted {
+        border-color: var(--n-surface-accent);
+        box-shadow: 0 0 0 2px var(--n-surface-accent);
       }
 
-      .state-grid > ui-card.cat-hidden {
+      .state-grid > n-card.cat-hidden {
         display: none;
       }
 
       .comp-card-name {
         font-size: 0.875rem;
         font-weight: 600;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 
       .comp-card-body {
         display: flex;
         flex-direction: column;
-        gap: calc(var(--_space) * 1.5);
+        gap: calc(var(--n-space) * 1.5);
       }
 
       /* ── State group labels ── */
@@ -80,8 +80,8 @@
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: var(--neutral-ink-muted);
-        margin-top: calc(var(--_space) / 2);
+        color: var(--n-ink-muted-neutral);
+        margin-top: calc(var(--n-space) / 2);
       }
 
       .state-group-label:first-child {
@@ -92,57 +92,57 @@
       .state-row {
         display: flex;
         flex-wrap: wrap;
-        gap: var(--_space);
+        gap: var(--n-space);
       }
 
       /* ── State pill ── */
       .state-pill {
         display: inline-flex;
         align-items: center;
-        gap: var(--_space);
-        padding: var(--_space) calc(var(--_space) * 2);
+        gap: var(--n-space);
+        padding: var(--n-space) calc(var(--n-space) * 2);
         border-radius: 1rem;
         font-size: 0.6875rem;
         font-weight: 500;
         cursor: pointer;
-        border: 1px solid var(--neutral-border-muted);
-        background: var(--neutral-body);
-        color: var(--neutral-ink);
+        border: 1px solid var(--n-border-muted-neutral);
+        background: var(--n-body-neutral);
+        color: var(--n-ink-neutral);
         transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
         white-space: nowrap;
         outline: none;
       }
 
       .state-pill:hover {
-        background: var(--neutral-panel-hover);
-        border-color: var(--neutral-border);
+        background: var(--n-panel-hover-neutral);
+        border-color: var(--n-border-neutral);
       }
 
       .state-pill:focus-visible {
-        outline: 2px solid var(--ui-focus-ring);
+        outline: 2px solid var(--n-focus-ring);
         outline-offset: 1px;
       }
 
       /* Selection group pills get a subtle accent tint */
       .state-pill[data-group="selection"] {
-        background: oklch(from var(--accent-surface) l c h / 0.15);
-        border-color: oklch(from var(--accent-surface) l c h / 0.3);
+        background: oklch(from var(--n-surface-accent) l c h / 0.15);
+        border-color: oklch(from var(--n-surface-accent) l c h / 0.3);
       }
 
       /* Value group pills get a subtle info tint */
       .state-pill[data-group="value"] {
-        background: oklch(from var(--info-surface) l c h / 0.15);
-        border-color: oklch(from var(--info-surface) l c h / 0.3);
+        background: oklch(from var(--n-surface-info) l c h / 0.15);
+        border-color: oklch(from var(--n-surface-info) l c h / 0.3);
       }
 
       .state-pill.active-highlight {
-        background: var(--accent-surface);
-        color: var(--accent-surface-ink);
-        border-color: var(--accent-surface);
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
+        border-color: var(--n-surface-accent);
       }
 
       .state-pill.locked-source {
-        box-shadow: 0 0 0 2px var(--ui-focus-ring);
+        box-shadow: 0 0 0 2px var(--n-focus-ring);
       }
 
       .state-pill.filter-dim {
@@ -163,9 +163,9 @@
       .legend-item {
         display: flex;
         align-items: center;
-        gap: calc(var(--_space) * 1.5);
+        gap: calc(var(--n-space) * 1.5);
         font-size: 0.6875rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
       }
 
       .legend-swatch {
@@ -178,7 +178,7 @@
       /* ── Empty state text ── */
       .no-states {
         font-size: 0.6875rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         font-style: italic;
       }
 
@@ -187,11 +187,11 @@
         position: fixed;
         z-index: 100;
         pointer-events: none;
-        background: var(--neutral-modal);
-        color: var(--neutral-ink-strong);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: calc(var(--_space) * 2) calc(var(--_space) * 3);
+        background: var(--n-modal-neutral);
+        color: var(--n-ink-strong-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
+        padding: calc(var(--n-space) * 2) calc(var(--n-space) * 3);
         font-size: 0.6875rem;
         line-height: 1.5;
         box-shadow: 0 4px 12px oklch(0% 0 0 / 0.12);
@@ -205,13 +205,13 @@
       .hover-tooltip .tt-row {
         display: flex;
         align-items: center;
-        gap: calc(var(--_space) * 1.5);
+        gap: calc(var(--n-space) * 1.5);
       }
 
-      .hover-tooltip .tt-row + .tt-row { margin-top: var(--_space); }
+      .hover-tooltip .tt-row + .tt-row { margin-top: var(--n-space); }
 
       .hover-tooltip .tt-label {
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         min-width: 5rem;
       }
 
@@ -221,14 +221,14 @@
       }
 
       .hover-tooltip .tt-resolved {
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         font-size: 0.5625rem;
       }
 
       .hover-tooltip .tt-match-header {
-        margin-top: calc(var(--_space) * 2);
+        margin-top: calc(var(--n-space) * 2);
         font-weight: 600;
-        color: var(--accent-ink);
+        color: var(--n-ink-accent);
         font-size: 0.625rem;
       }
 
@@ -237,39 +237,39 @@
       .demo-code {
         display: none;
         position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
-        padding: calc(var(--_space) * 3);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
+        padding: calc(var(--n-space) * 3);
         margin: 0;
-        margin-top: calc(var(--_space) * 3);
+        margin-top: calc(var(--n-space) * 3);
         font-family: ui-monospace, monospace;
         font-size: 0.8125rem;
         line-height: 1.5;
         overflow-x: auto;
         white-space: pre;
-        color: var(--neutral-ink);
+        color: var(--n-ink-neutral);
       }
 
       .demo-code[visible] {
         display: block;
       }
 
-      .demo-code > ui-button {
+      .demo-code > n-button {
         position: absolute;
-        top: var(--_space);
-        right: var(--_space);
+        top: var(--n-space);
+        right: var(--n-space);
       }
     </style>
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-segmented-control/ui-segmented-control.ts';
-      import '../components/ui-input/ui-input.ts';
-      import '../components/ui-badge/ui-badge.ts';
-      import '../containers/ui-card/ui-card.ts';
-      import '../containers/ui-toolbar/ui-toolbar.ts';
-      import '../icons/ui-icon.ts';
-      import '../components/ui-button/ui-button.ts';
+      import '../nav/layout.ts';
+      import '../components/segmented-control/segmented-control.ts';
+      import '../components/input/input.ts';
+      import '../components/badge/badge.ts';
+      import '../containers/card/card.ts';
+      import '../containers/toolbar/toolbar.ts';
+      import '../icons/icon.ts';
+      import '../components/button/button.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
 // ── Copy buttons ──
@@ -279,7 +279,7 @@
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
@@ -289,72 +289,72 @@
     </script>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
       <h1>Component State Grid</h1>
       <p>Each card shows the CSS color tokens a component uses per state. Hover or click a state pill to highlight every component that resolves to the same <code>background</code>, <code>color</code>, and <code>border-color</code> values.</p>
 
-      <ui-panel bordered size="sm" style="flex-direction: row; flex-wrap: wrap; gap: calc(var(--_space) * 4); margin-bottom: calc(var(--_space) * 4);">
-        <div class="legend-item"><span class="legend-swatch" style="background: var(--accent-surface);"></span> accent-surface</div>
-        <div class="legend-item"><span class="legend-swatch" style="background: white; border-color: var(--neutral-border-muted);"></span> white</div>
-        <div class="legend-item"><span class="legend-swatch" style="background: var(--neutral-panel);"></span> panel</div>
-        <div class="legend-item"><span class="legend-swatch" style="background: var(--neutral-control);"></span> control</div>
+      <n-panel bordered size="sm" style="flex-direction: row; flex-wrap: wrap; gap: calc(var(--n-space) * 4); margin-bottom: calc(var(--n-space) * 4);">
+        <div class="legend-item"><span class="legend-swatch" style="background: var(--n-surface-accent);"></span> accent-surface</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: white; border-color: var(--n-border-muted-neutral);"></span> white</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: var(--n-panel-neutral);"></span> panel</div>
+        <div class="legend-item"><span class="legend-swatch" style="background: var(--n-control-neutral);"></span> control</div>
         <div class="legend-item"><span class="legend-swatch" style="background: var(--neutral-higher);"></span> button</div>
-        <div class="legend-item"><span class="legend-swatch" style="background: transparent; border-color: var(--neutral-border);"></span> transparent</div>
-      </ui-panel>
+        <div class="legend-item"><span class="legend-swatch" style="background: transparent; border-color: var(--n-border-neutral);"></span> transparent</div>
+      </n-panel>
 
       <!-- Toolbar: category filters + state search -->
-      <ui-toolbar id="toolbar" size="sm">
-        <ui-segmented-control id="cat-filters" value="all" size="sm">
-          <ui-segment value="all">All</ui-segment>
-          <ui-segment value="interactive">Interactive</ui-segment>
-          <ui-segment value="widget">Widget</ui-segment>
-          <ui-segment value="composite">Composite</ui-segment>
-          <ui-segment value="coordinator">Coordinator</ui-segment>
-          <ui-segment value="display">Display</ui-segment>
-          <ui-segment value="container">Container</ui-segment>
-        </ui-segmented-control>
-        <ui-divider orientation="vertical"></ui-divider>
-        <ui-input id="state-filter" placeholder="Filter states... (e.g. disabled, hover, active)" size="sm">
-          <ui-icon name="magnifying-glass" slot="leading"></ui-icon>
-        </ui-input>
-      </ui-toolbar>
+      <n-toolbar id="toolbar" size="sm">
+        <n-segmented-control id="cat-filters" value="all" size="sm">
+          <n-segment value="all">All</n-segment>
+          <n-segment value="interactive">Interactive</n-segment>
+          <n-segment value="widget">Widget</n-segment>
+          <n-segment value="composite">Composite</n-segment>
+          <n-segment value="coordinator">Coordinator</n-segment>
+          <n-segment value="display">Display</n-segment>
+          <n-segment value="container">Container</n-segment>
+        </n-segmented-control>
+        <n-divider orientation="vertical"></n-divider>
+        <n-input id="state-filter" placeholder="Filter states... (e.g. disabled, hover, active)" size="sm">
+          <n-icon name="magnifying-glass" slot="leading"></n-icon>
+        </n-input>
+      </n-toolbar>
 
       <div class="demo-section">
       <pre class="demo-code"><code>/* ── State Token Resolution ── */
-/* Components read local tokens (--_*) set by attribute selectors */
+/* Components set explicit defaults; attribute selectors override */
 
 /* Rest state */
-background: var(--_background);
-color: var(--_color);
-border-color: var(--_border-color);
+background: var(--n-background);
+color: var(--n-color);
+border-color: var(--n-border-color);
 
-/* Hover state — fallback chain */
-background: var(--_background-hover, var(--_background));
-color: var(--_color-hover, var(--_color));
-border-color: var(--_border-color-hover, var(--_border-color));
+/* Hover state */
+background: var(--n-background-hover);
+color: var(--n-color-hover);
+border-color: var(--n-border-color-hover);
 
 /* Disabled state */
-color: var(--_ink-disabled);
-pointer-events: none;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+color: var(--n-ink-disabled);
+pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
 
       <pre class="demo-code"><code>/* ── Intent → Variant Resolution Flow ── */
 /* 1. [intent] sets the color family */
 :where([intent="accent"]) {
-  --_panel: var(--accent-panel);
-  --_surface: var(--accent-surface);
-  --_ink: var(--accent-ink);
+  --n-panel: var(--n-panel-accent);
+  --n-surface: var(--n-surface-accent);
+  --n-ink: var(--n-ink-accent);
 }
 
 /* 2. [variant] picks the role from the family */
 :where([variant="primary"]) {
-  --_background: var(--_surface);
-  --_color: var(--_surface-ink);
-  --_border-color: transparent;
-}</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+  --n-background: var(--n-surface);
+  --n-color: var(--n-surface-ink);
+  --n-border-color: transparent;
+}</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
       </div>
 
       <div class="state-grid" id="grid"></div>
-    </main></nui-app>
+    </main></n-app>
 
     <div class="hover-tooltip" id="tooltip"></div>
 
@@ -365,365 +365,365 @@ pointer-events: none;</code><ui-button class="copy-btn" size="sm" variant="ghost
 
       const components = [
         {
-          name: 'ui-button',
+          name: 'n-button',
           category: 'interactive',
           states: [
-            { state: 'rest (default)', bg: '--_button', color: '--_ink', border: '--neutral-border-muted', group: 'interaction' },
-            { state: ':hover', bg: '--neutral-panel-hover', color: '--_ink-hover', border: '--neutral-border-hover', group: 'interaction' },
-            { state: ':active', bg: '--neutral-panel-active', color: '--_ink-active', border: '--neutral-border-active', group: 'interaction' },
-            { state: ':focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
-            { state: ':disabled', bg: '--neutral-panel-disabled', color: '--_ink-disabled', border: '--neutral-border-muted', group: 'interaction' },
+            { state: 'rest (default)', bg: '--n-button', color: '--n-ink', border: '--n-border-muted-neutral', group: 'interaction' },
+            { state: ':hover', bg: '--n-panel-hover-neutral', color: '--n-ink-hover', border: '--n-border-hover-neutral', group: 'interaction' },
+            { state: ':active', bg: '--n-panel-active-neutral', color: '--n-ink-active', border: '--n-border-active-neutral', group: 'interaction' },
+            { state: ':focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --n-focus-ring', group: 'interaction' },
+            { state: ':disabled', bg: '--n-panel-disabled-neutral', color: '--n-ink-disabled', border: '--n-border-muted-neutral', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-input',
+          name: 'native:input',
           category: 'interactive',
           states: [
-            { state: 'rest (empty)', bg: '--_control', color: '--_ink', border: '--neutral-highest', group: 'interaction' },
-            { state: ':hover', bg: '--_control-hover', color: '--_ink-hover', border: '--_border-muted', group: 'interaction' },
-            { state: 'filled', bg: '--_panel', color: '--_ink-strong', border: 'transparent', group: 'value' },
-            { state: 'filled:hover', bg: '--_panel-hover', color: '--_ink-strong', border: 'transparent', group: 'value' },
-            { state: ':focus', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
-            { state: '[disabled]', bg: '--_control-disabled', color: '--_ink-disabled', border: '--_border-disabled', group: 'interaction' },
+            { state: 'rest (empty)', bg: '--n-control', color: '--n-ink', border: '--neutral-highest', group: 'interaction' },
+            { state: ':hover', bg: '--n-control-hover', color: '--n-ink-hover', border: '--n-border-muted', group: 'interaction' },
+            { state: 'filled', bg: '--n-panel', color: '--n-ink-strong', border: 'transparent', group: 'value' },
+            { state: 'filled:hover', bg: '--n-panel-hover', color: '--n-ink-strong', border: 'transparent', group: 'value' },
+            { state: ':focus', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --n-focus-ring', group: 'interaction' },
+            { state: '[disabled]', bg: '--n-control-disabled', color: '--n-ink-disabled', border: '--n-border-disabled', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-textarea',
+          name: 'n-textarea',
           category: 'interactive',
           states: [
-            { state: 'rest (empty)', bg: '--_control', color: '--_ink', border: '--neutral-highest', group: 'interaction' },
-            { state: ':hover', bg: '--_control-hover', color: '--_ink-hover', border: '--_border-muted', group: 'interaction' },
-            { state: 'filled', bg: '--_panel', color: '--_ink-strong', border: 'transparent', group: 'value' },
-            { state: 'filled:hover', bg: '--_panel-hover', color: '--_ink-strong', border: 'transparent', group: 'value' },
-            { state: ':focus', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
-            { state: '[disabled]', bg: '--_control-disabled', color: '--_ink-disabled', border: '--_border-disabled', group: 'interaction' },
+            { state: 'rest (empty)', bg: '--n-control', color: '--n-ink', border: '--neutral-highest', group: 'interaction' },
+            { state: ':hover', bg: '--n-control-hover', color: '--n-ink-hover', border: '--n-border-muted', group: 'interaction' },
+            { state: 'filled', bg: '--n-panel', color: '--n-ink-strong', border: 'transparent', group: 'value' },
+            { state: 'filled:hover', bg: '--n-panel-hover', color: '--n-ink-strong', border: 'transparent', group: 'value' },
+            { state: ':focus', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --n-focus-ring', group: 'interaction' },
+            { state: '[disabled]', bg: '--n-control-disabled', color: '--n-ink-disabled', border: '--n-border-disabled', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-listbox',
+          name: 'n-listbox',
           category: 'interactive',
           states: [
-            { state: 'container', bg: '--_control', color: '--_ink', border: '--neutral-highest', group: 'interaction' },
+            { state: 'container', bg: '--n-control', color: '--n-ink', border: '--neutral-highest', group: 'interaction' },
             { state: '[aria-disabled]', bg: 'opacity: 0.6', color: '—', border: '—', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-option',
+          name: 'n-option',
           category: 'interactive',
           states: [
-            { state: 'rest', bg: 'transparent', color: '--_ink', border: 'none', group: 'interaction' },
-            { state: ':hover', bg: '--neutral-panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
-            { state: ':active', bg: '--neutral-panel-active', color: '--_ink-active', border: 'none', group: 'interaction' },
-            { state: '[active]', bg: '--neutral-panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
-            { state: ':focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
-            { state: '[aria-selected]', bg: 'white', color: '--_ink-inverse', border: 'none', group: 'selection' },
-            { state: '[aria-disabled]', bg: 'transparent', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+            { state: 'rest', bg: 'transparent', color: '--n-ink', border: 'none', group: 'interaction' },
+            { state: ':hover', bg: '--n-panel-hover-neutral', color: '--n-ink-hover', border: 'none', group: 'interaction' },
+            { state: ':active', bg: '--n-panel-active-neutral', color: '--n-ink-active', border: 'none', group: 'interaction' },
+            { state: '[active]', bg: '--n-panel-hover-neutral', color: '--n-ink-hover', border: 'none', group: 'interaction' },
+            { state: ':focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --n-focus-ring', group: 'interaction' },
+            { state: '[aria-selected]', bg: 'white', color: '--n-ink-inverse', border: 'none', group: 'selection' },
+            { state: '[aria-disabled]', bg: 'transparent', color: '--n-ink-disabled', border: 'none', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-command',
+          name: 'n-command',
           category: 'composite',
           states: [
-            { state: 'container', bg: '--_control', color: '--_ink', border: '--neutral-highest', group: 'interaction' },
+            { state: 'container', bg: '--n-control', color: '--n-ink', border: '--neutral-highest', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-command-item',
+          name: 'n-command-item',
           category: 'interactive',
           states: [
-            { state: 'rest', bg: 'transparent', color: '--_ink', border: 'none', group: 'interaction' },
-            { state: ':hover', bg: '--neutral-panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
-            { state: ':active', bg: '--neutral-panel-active', color: '--_ink-active', border: 'none', group: 'interaction' },
-            { state: '[active]', bg: '--neutral-panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
-            { state: ':focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
-            { state: '[aria-selected]', bg: 'white', color: '--_ink-inverse', border: 'none', group: 'selection' },
-            { state: '[aria-disabled]', bg: 'transparent', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+            { state: 'rest', bg: 'transparent', color: '--n-ink', border: 'none', group: 'interaction' },
+            { state: ':hover', bg: '--n-panel-hover-neutral', color: '--n-ink-hover', border: 'none', group: 'interaction' },
+            { state: ':active', bg: '--n-panel-active-neutral', color: '--n-ink-active', border: 'none', group: 'interaction' },
+            { state: '[active]', bg: '--n-panel-hover-neutral', color: '--n-ink-hover', border: 'none', group: 'interaction' },
+            { state: ':focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --n-focus-ring', group: 'interaction' },
+            { state: '[aria-selected]', bg: 'white', color: '--n-ink-inverse', border: 'none', group: 'selection' },
+            { state: '[aria-disabled]', bg: 'transparent', color: '--n-ink-disabled', border: 'none', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-select',
+          name: 'n-select',
           category: 'coordinator',
           states: [
             { state: '(coordinator)', bg: 'display: contents', color: '—', border: '—', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-combobox',
+          name: 'n-combobox',
           category: 'coordinator',
           states: [
             { state: '(coordinator)', bg: 'display: contents', color: '—', border: '—', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-checkbox',
+          name: 'n-checkbox',
           category: 'widget',
           states: [
-            { state: 'rest (unchecked)', bg: '--_widget', color: '--_ink', border: '--_border-muted', group: 'interaction' },
-            { state: ':hover', bg: '--_widget-hover', color: '--_ink-hover', border: '--_border-hover', group: 'interaction' },
-            { state: '[pressed]', bg: '--_widget-active', color: '(unchanged)', border: '--_border-active', group: 'interaction' },
-            { state: '[aria-checked] box', bg: '--accent-surface', color: '--accent-surface-ink', border: '--accent-surface', group: 'selection' },
-            { state: 'checked:hover box', bg: '--accent-surface-hover', color: '--accent-surface-ink', border: '--accent-surface-hover', group: 'selection' },
-            { state: '[aria-checked=mixed]', bg: '--accent-surface', color: '--accent-surface-ink', border: '--accent-surface', group: 'selection' },
-            { state: '[aria-disabled]', bg: '--_widget-disabled', color: '--_ink-disabled', border: '--_border-disabled', group: 'interaction' },
+            { state: 'rest (unchecked)', bg: '--n-widget', color: '--n-ink', border: '--n-border-muted', group: 'interaction' },
+            { state: ':hover', bg: '--n-widget-hover', color: '--n-ink-hover', border: '--n-border-hover', group: 'interaction' },
+            { state: '[pressed]', bg: '--n-widget-active', color: '(unchanged)', border: '--n-border-active', group: 'interaction' },
+            { state: '[aria-checked] box', bg: '--n-surface-accent', color: '--n-surface-ink-accent', border: '--n-surface-accent', group: 'selection' },
+            { state: 'checked:hover box', bg: '--n-surface-hover-accent', color: '--n-surface-ink-accent', border: '--n-surface-hover-accent', group: 'selection' },
+            { state: '[aria-checked=mixed]', bg: '--n-surface-accent', color: '--n-surface-ink-accent', border: '--n-surface-accent', group: 'selection' },
+            { state: '[aria-disabled]', bg: '--n-widget-disabled', color: '--n-ink-disabled', border: '--n-border-disabled', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-switch',
+          name: 'n-switch',
           category: 'widget',
           states: [
-            { state: 'rest (off)', bg: '--_widget', color: '--_ink', border: '--_border-muted', group: 'interaction' },
-            { state: ':hover track', bg: '--_widget-hover', color: '--_ink-hover', border: '--_border-hover', group: 'interaction' },
-            { state: '[pressed] track', bg: '--_widget-active', color: '(unchanged)', border: '--_border-active', group: 'interaction' },
-            { state: '[aria-checked] track', bg: '--accent-surface', color: '--accent-surface-ink', border: '--accent-surface', group: 'selection' },
-            { state: 'checked:hover', bg: '--accent-surface-hover', color: '--accent-surface-ink', border: '--accent-surface-hover', group: 'selection' },
-            { state: '[aria-disabled]', bg: '--_widget-disabled', color: '--_ink-disabled', border: '--_border-disabled', group: 'interaction' },
+            { state: 'rest (off)', bg: '--n-widget', color: '--n-ink', border: '--n-border-muted', group: 'interaction' },
+            { state: ':hover track', bg: '--n-widget-hover', color: '--n-ink-hover', border: '--n-border-hover', group: 'interaction' },
+            { state: '[pressed] track', bg: '--n-widget-active', color: '(unchanged)', border: '--n-border-active', group: 'interaction' },
+            { state: '[aria-checked] track', bg: '--n-surface-accent', color: '--n-surface-ink-accent', border: '--n-surface-accent', group: 'selection' },
+            { state: 'checked:hover', bg: '--n-surface-hover-accent', color: '--n-surface-ink-accent', border: '--n-surface-hover-accent', group: 'selection' },
+            { state: '[aria-disabled]', bg: '--n-widget-disabled', color: '--n-ink-disabled', border: '--n-border-disabled', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-radio',
+          name: 'n-radio',
           category: 'widget',
           states: [
-            { state: 'rest (unchecked)', bg: '--_widget', color: '--_ink', border: '--_border-muted', group: 'interaction' },
-            { state: ':hover', bg: '--_widget-hover', color: '--_ink-hover', border: '--_border-hover', group: 'interaction' },
-            { state: '[pressed]', bg: '--_widget-active', color: '(unchanged)', border: '--_border-active', group: 'interaction' },
-            { state: '[aria-checked] circle', bg: '--accent-surface', color: '--accent-surface-ink', border: '--accent-surface', group: 'selection' },
-            { state: 'checked:hover circle', bg: '--accent-surface-hover', color: '--accent-surface-ink', border: '--accent-surface-hover', group: 'selection' },
-            { state: '[aria-disabled]', bg: '--_widget-disabled', color: '--_ink-disabled', border: '--_border-disabled', group: 'interaction' },
+            { state: 'rest (unchecked)', bg: '--n-widget', color: '--n-ink', border: '--n-border-muted', group: 'interaction' },
+            { state: ':hover', bg: '--n-widget-hover', color: '--n-ink-hover', border: '--n-border-hover', group: 'interaction' },
+            { state: '[pressed]', bg: '--n-widget-active', color: '(unchanged)', border: '--n-border-active', group: 'interaction' },
+            { state: '[aria-checked] circle', bg: '--n-surface-accent', color: '--n-surface-ink-accent', border: '--n-surface-accent', group: 'selection' },
+            { state: 'checked:hover circle', bg: '--n-surface-hover-accent', color: '--n-surface-ink-accent', border: '--n-surface-hover-accent', group: 'selection' },
+            { state: '[aria-disabled]', bg: '--n-widget-disabled', color: '--n-ink-disabled', border: '--n-border-disabled', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-range',
+          name: 'n-range',
           category: 'widget',
           states: [
-            { state: 'track bg', bg: '--_widget', color: '—', border: '--_border-muted', group: 'interaction' },
-            { state: 'fill', bg: '--accent-surface', color: '—', border: 'none', group: 'selection' },
-            { state: 'fill:hover', bg: '--accent-surface-hover', color: '—', border: 'none', group: 'selection' },
-            { state: 'fill [pressed]', bg: '--accent-surface-active', color: '—', border: 'none', group: 'selection' },
-            { state: 'thumb', bg: '--accent-surface-ink', color: '—', border: '--accent-surface', group: 'selection' },
+            { state: 'track bg', bg: '--n-widget', color: '—', border: '--n-border-muted', group: 'interaction' },
+            { state: 'fill', bg: '--n-surface-accent', color: '—', border: 'none', group: 'selection' },
+            { state: 'fill:hover', bg: '--n-surface-hover-accent', color: '—', border: 'none', group: 'selection' },
+            { state: 'fill [pressed]', bg: '--n-surface-active-accent', color: '—', border: 'none', group: 'selection' },
+            { state: 'thumb', bg: '--n-surface-ink-accent', color: '—', border: '--n-surface-accent', group: 'selection' },
             { state: '[aria-disabled]', bg: 'opacity: 0.5', color: '—', border: '—', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-tab',
+          name: 'n-tab',
           category: 'interactive',
           states: [
-            { state: 'rest', bg: 'transparent', color: '--_ink-muted', border: 'none', group: 'interaction' },
-            { state: ':hover', bg: 'transparent', color: '--_ink-hover', border: 'none', group: 'interaction' },
-            { state: '[pressed]', bg: 'transparent', color: '--_ink-active', border: 'none', group: 'interaction' },
-            { state: '[aria-selected]', bg: 'transparent', color: '--_surface-ink', border: 'none', group: 'selection' },
-            { state: '[aria-disabled]', bg: 'transparent', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+            { state: 'rest', bg: 'transparent', color: '--n-ink-muted', border: 'none', group: 'interaction' },
+            { state: ':hover', bg: 'transparent', color: '--n-ink-hover', border: 'none', group: 'interaction' },
+            { state: '[pressed]', bg: 'transparent', color: '--n-ink-active', border: 'none', group: 'interaction' },
+            { state: '[aria-selected]', bg: 'transparent', color: '--n-surface-ink', border: 'none', group: 'selection' },
+            { state: '[aria-disabled]', bg: 'transparent', color: '--n-ink-disabled', border: 'none', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-segment',
+          name: 'n-segment',
           category: 'interactive',
           states: [
-            { state: 'rest', bg: 'transparent', color: '--_ink-muted', border: 'none', group: 'interaction' },
-            { state: ':hover', bg: 'transparent', color: '--_ink-hover', border: 'none', group: 'interaction' },
-            { state: '[pressed]', bg: 'transparent', color: '--_ink-active', border: 'none', group: 'interaction' },
-            { state: '[aria-checked] + pill', bg: 'white', color: '--_ink-inverse', border: 'shadow', group: 'selection' },
-            { state: '[aria-disabled]', bg: 'transparent', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+            { state: 'rest', bg: 'transparent', color: '--n-ink-muted', border: 'none', group: 'interaction' },
+            { state: ':hover', bg: 'transparent', color: '--n-ink-hover', border: 'none', group: 'interaction' },
+            { state: '[pressed]', bg: 'transparent', color: '--n-ink-active', border: 'none', group: 'interaction' },
+            { state: '[aria-checked] + pill', bg: 'white', color: '--n-ink-inverse', border: 'shadow', group: 'selection' },
+            { state: '[aria-disabled]', bg: 'transparent', color: '--n-ink-disabled', border: 'none', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-segmented-control',
+          name: 'n-segmented-control',
           category: 'composite',
           states: [
-            { state: 'container', bg: '--_control', color: '(inherit)', border: '--neutral-highest', group: 'interaction' },
+            { state: 'container', bg: '--n-control', color: '(inherit)', border: '--neutral-highest', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-table',
+          name: 'n-table',
           category: 'composite',
           states: [
-            { state: 'container', bg: '(transparent)', color: '--_ink', border: '--_border-muted', group: 'interaction' },
-            { state: 'header row', bg: '--_panel', color: '--_ink-strong', border: '--_border-color', group: 'interaction' },
-            { state: 'body row:hover', bg: '--_panel-hover', color: '(inherit)', border: '(inherit)', group: 'interaction' },
-            { state: 'header:focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
-            { state: 'row:focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
-            { state: 'row [selected]', bg: '--accent-surface', color: '--accent-surface-ink', border: '(inherit)', group: 'selection' },
-            { state: 'row [selected]:hover', bg: '--accent-surface-hover', color: '--accent-surface-ink-hover', border: '(inherit)', group: 'selection' },
+            { state: 'container', bg: '(transparent)', color: '--n-ink', border: '--n-border-muted', group: 'interaction' },
+            { state: 'header row', bg: '--n-panel', color: '--n-ink-strong', border: '--n-border-color', group: 'interaction' },
+            { state: 'body row:hover', bg: '--n-panel-hover', color: '(inherit)', border: '(inherit)', group: 'interaction' },
+            { state: 'header:focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --n-focus-ring', group: 'interaction' },
+            { state: 'row:focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --n-focus-ring', group: 'interaction' },
+            { state: 'row [selected]', bg: '--n-surface-accent', color: '--n-surface-ink-accent', border: '(inherit)', group: 'selection' },
+            { state: 'row [selected]:hover', bg: '--n-surface-hover-accent', color: '--n-surface-ink-hover-accent', border: '(inherit)', group: 'selection' },
           ]
         },
         {
-          name: 'ui-calendar',
+          name: 'n-calendar',
           category: 'composite',
           states: [
-            { state: 'container', bg: '--_panel', color: '--_ink', border: '--_border-muted', group: 'interaction' },
-            { state: 'cell:hover', bg: '--_panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
-            { state: '[data-selected]', bg: '--accent-surface', color: '--accent-surface-ink', border: 'none', group: 'selection' },
-            { state: '[data-in-range]', bg: '--accent-surface', color: '--accent-surface-ink', border: 'none', group: 'selection' },
-            { state: '[data-today]', bg: '(transparent)', color: '(inherit)', border: 'inset --_border-muted', group: 'value' },
-            { state: 'cell:disabled', bg: '(transparent)', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+            { state: 'container', bg: '--n-panel', color: '--n-ink', border: '--n-border-muted', group: 'interaction' },
+            { state: 'cell:hover', bg: '--n-panel-hover', color: '--n-ink-hover', border: 'none', group: 'interaction' },
+            { state: '[data-selected]', bg: '--n-surface-accent', color: '--n-surface-ink-accent', border: 'none', group: 'selection' },
+            { state: '[data-in-range]', bg: '--n-surface-accent', color: '--n-surface-ink-accent', border: 'none', group: 'selection' },
+            { state: '[data-today]', bg: '(transparent)', color: '(inherit)', border: 'inset --n-border-muted', group: 'value' },
+            { state: 'cell:disabled', bg: '(transparent)', color: '--n-ink-disabled', border: 'none', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-tree-item',
+          name: 'n-tree-item',
           category: 'composite',
           states: [
-            { state: 'rest', bg: 'transparent', color: '--_ink', border: 'none', group: 'interaction' },
-            { state: ':hover', bg: '--neutral-panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
-            { state: ':focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
-            { state: '[selected]', bg: '--_surface', color: '--_surface-ink', border: 'none', group: 'selection' },
-            { state: '[disabled]', bg: '(transparent)', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+            { state: 'rest', bg: 'transparent', color: '--n-ink', border: 'none', group: 'interaction' },
+            { state: ':hover', bg: '--n-panel-hover-neutral', color: '--n-ink-hover', border: 'none', group: 'interaction' },
+            { state: ':focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --n-focus-ring', group: 'interaction' },
+            { state: '[selected]', bg: '--n-surface', color: '--n-surface-ink', border: 'none', group: 'selection' },
+            { state: '[disabled]', bg: '(transparent)', color: '--n-ink-disabled', border: 'none', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-tree',
+          name: 'n-tree',
           category: 'composite',
           states: [
             { state: '[aria-disabled]', bg: 'opacity: 0.6', color: '—', border: '—', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-accordion-item',
+          name: 'n-accordion-item',
           category: 'composite',
           states: [
-            { state: 'summary rest', bg: 'transparent', color: '--_ink-strong', border: 'none', group: 'interaction' },
-            { state: 'summary:hover', bg: '--_panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
-            { state: 'summary:focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
-            { state: '[aria-disabled]', bg: '(transparent)', color: '--_ink-disabled', border: 'none', group: 'interaction' },
+            { state: 'summary rest', bg: 'transparent', color: '--n-ink-strong', border: 'none', group: 'interaction' },
+            { state: 'summary:hover', bg: '--n-panel-hover', color: '--n-ink-hover', border: 'none', group: 'interaction' },
+            { state: 'summary:focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --n-focus-ring', group: 'interaction' },
+            { state: '[aria-disabled]', bg: '(transparent)', color: '--n-ink-disabled', border: 'none', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-accordion',
+          name: 'n-accordion',
           category: 'composite',
           states: [
             { state: '[aria-disabled]', bg: 'opacity: 0.6', color: '—', border: '—', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-breadcrumb-item',
+          name: 'n-breadcrumb-item',
           category: 'interactive',
           states: [
-            { state: 'rest', bg: 'transparent', color: '--_ink-muted', border: 'none', group: 'interaction' },
-            { state: ':hover', bg: 'transparent', color: '--_ink', border: 'none', group: 'interaction' },
-            { state: '[current]', bg: 'transparent', color: '--_ink-strong', border: 'none', group: 'value' },
+            { state: 'rest', bg: 'transparent', color: '--n-ink-muted', border: 'none', group: 'interaction' },
+            { state: ':hover', bg: 'transparent', color: '--n-ink', border: 'none', group: 'interaction' },
+            { state: '[current]', bg: 'transparent', color: '--n-ink-strong', border: 'none', group: 'value' },
           ]
         },
         {
-          name: 'ui-pagination',
+          name: 'n-pagination',
           category: 'composite',
           states: [
-            { state: '[aria-current=page]', bg: '--_surface', color: '--_surface-ink', border: 'none', group: 'selection' },
+            { state: '[aria-current=page]', bg: '--n-surface', color: '--n-surface-ink', border: 'none', group: 'selection' },
           ]
         },
         {
-          name: 'ui-dialog',
+          name: 'n-dialog',
           category: 'coordinator',
           states: [
             { state: '(coordinator)', bg: 'display: contents', color: '—', border: '—', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-drawer',
+          name: 'n-drawer',
           category: 'coordinator',
           states: [
             { state: '[side] (structural)', bg: 'native dialog', color: '—', border: '—', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-tooltip',
+          name: 'n-tooltip',
           category: 'display',
           states: [
-            { state: 'popover', bg: '--neutral-modal', color: '--neutral-ink-strong', border: 'none', group: 'interaction' },
+            { state: 'popover', bg: '--n-modal-neutral', color: '--n-ink-strong-neutral', border: 'none', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-avatar',
+          name: 'n-avatar',
           category: 'display',
           states: []
         },
         {
-          name: 'ui-badge',
+          name: 'n-badge',
           category: 'display',
           states: [
-            { state: 'rest', bg: '--_surface', color: '--_surface-ink', border: 'none', group: 'interaction' },
+            { state: 'rest', bg: '--n-surface', color: '--n-surface-ink', border: 'none', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-slideshow',
+          name: 'n-slideshow',
           category: 'composite',
           states: [
-            { state: 'prev/next:hover', bg: '--neutral-panel-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
-            { state: 'dot [active]', bg: '--_ink', color: '—', border: 'none', group: 'selection' },
+            { state: 'prev/next:hover', bg: '--n-panel-hover-neutral', color: '--n-ink-hover', border: 'none', group: 'interaction' },
+            { state: 'dot [active]', bg: '--n-ink', color: '—', border: 'none', group: 'selection' },
             { state: '[aria-disabled]', bg: 'opacity: 0.6', color: '—', border: '—', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-input-otp',
+          name: 'n-input-otp',
           category: 'widget',
           states: [
-            { state: 'cell rest', bg: '--_control', color: '--_ink', border: '--neutral-highest', group: 'interaction' },
-            { state: 'cell:hover', bg: '--_control-hover', color: '--_ink-hover', border: 'none', group: 'interaction' },
-            { state: 'cell:focus', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --ui-focus-ring', group: 'interaction' },
+            { state: 'cell rest', bg: '--n-control', color: '--n-ink', border: '--neutral-highest', group: 'interaction' },
+            { state: 'cell:hover', bg: '--n-control-hover', color: '--n-ink-hover', border: 'none', group: 'interaction' },
+            { state: 'cell:focus', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --n-focus-ring', group: 'interaction' },
             { state: '[aria-disabled]', bg: 'opacity: 0.5', color: '—', border: '—', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-card',
+          name: 'n-card',
           category: 'container',
           states: [
-            { state: '[interactive]:hover', bg: '(inherit)', color: '(inherit)', border: 'outline: --ui-focus-ring', group: 'interaction' },
+            { state: '[interactive]:hover', bg: '(inherit)', color: '(inherit)', border: 'outline: --n-focus-ring', group: 'interaction' },
           ]
         },
         {
-          name: 'ui-field',
+          name: 'n-field',
           category: 'interactive',
           states: [
             { state: '[invalid]', bg: '(unchanged)', color: 'error slot shown', border: '(unchanged)', group: 'value' },
             { state: '[required]', bg: '(unchanged)', color: '* shown', border: '(unchanged)', group: 'value' },
-            { state: '[disabled]', bg: '(unchanged)', color: '--_ink-muted', border: '(unchanged)', group: 'interaction' },
+            { state: '[disabled]', bg: '(unchanged)', color: '--n-ink-muted', border: '(unchanged)', group: 'interaction' },
           ]
         },
       ];
 
       // ── Token-to-swatch color mapping ──
       const tokenColors = {
-        '--_button': 'var(--neutral-higher)',
-        '--_control': 'var(--neutral-control)',
-        '--_control-hover': 'var(--neutral-control-hover)',
-        '--_control-disabled': 'var(--neutral-control-disabled)',
-        '--_widget': 'var(--neutral-control)',
-        '--_widget-hover': 'var(--neutral-control-hover)',
-        '--_widget-active': 'var(--neutral-control-active)',
-        '--_widget-disabled': 'var(--neutral-control-disabled)',
-        '--_panel': 'var(--neutral-panel)',
-        '--_panel-hover': 'var(--neutral-panel-hover)',
-        '--_panel-disabled': 'var(--neutral-panel-disabled)',
-        '--neutral-panel-hover': 'var(--neutral-panel-hover)',
-        '--neutral-panel-active': 'var(--neutral-panel-active)',
-        '--neutral-panel-disabled': 'var(--neutral-panel-disabled)',
-        '--_ink': 'var(--neutral-ink)',
-        '--_ink-hover': 'var(--neutral-ink-hover)',
-        '--_ink-active': 'var(--neutral-ink-active)',
-        '--_ink-strong': 'var(--neutral-ink-strong)',
-        '--_ink-muted': 'var(--neutral-ink-muted)',
-        '--_ink-inverse': 'var(--neutral-ink-inverse)',
-        '--_ink-disabled': 'var(--neutral-ink-disabled)',
-        '--_ink-placeholder': 'var(--neutral-ink-placeholder)',
-        '--_surface': 'var(--accent-surface)',
-        '--_surface-hover': 'var(--accent-surface-hover)',
-        '--_surface-ink': 'var(--accent-surface-ink)',
-        '--_surface-ink-hover': 'var(--accent-surface-ink-hover)',
-        '--accent-surface': 'var(--accent-surface)',
-        '--accent-surface-hover': 'var(--accent-surface-hover)',
-        '--accent-surface-active': 'var(--accent-surface-active)',
-        '--accent-surface-ink': 'var(--accent-surface-ink)',
-        '--accent-surface-ink-hover': 'var(--accent-surface-ink-hover)',
-        '--_border-muted': 'var(--neutral-border-muted)',
-        '--_border-hover': 'var(--neutral-border-hover)',
-        '--_border-active': 'var(--neutral-border-active)',
-        '--_border-disabled': 'var(--neutral-border-disabled)',
-        '--_border': 'var(--neutral-border)',
-        '--neutral-border-muted': 'var(--neutral-border-muted)',
-        '--neutral-border-hover': 'var(--neutral-border-hover)',
-        '--neutral-border-active': 'var(--neutral-border-active)',
+        '--n-button': 'var(--neutral-higher)',
+        '--n-control': 'var(--n-control-neutral)',
+        '--n-control-hover': 'var(--n-control-hover-neutral)',
+        '--n-control-disabled': 'var(--n-control-disabled-neutral)',
+        '--n-widget': 'var(--n-control-neutral)',
+        '--n-widget-hover': 'var(--n-control-hover-neutral)',
+        '--n-widget-active': 'var(--n-control-active-neutral)',
+        '--n-widget-disabled': 'var(--n-control-disabled-neutral)',
+        '--n-panel': 'var(--n-panel-neutral)',
+        '--n-panel-hover': 'var(--n-panel-hover-neutral)',
+        '--n-panel-disabled': 'var(--n-panel-disabled-neutral)',
+        '--n-panel-hover-neutral': 'var(--n-panel-hover-neutral)',
+        '--n-panel-active-neutral': 'var(--n-panel-active-neutral)',
+        '--n-panel-disabled-neutral': 'var(--n-panel-disabled-neutral)',
+        '--n-ink': 'var(--n-ink-neutral)',
+        '--n-ink-hover': 'var(--n-ink-hover-neutral)',
+        '--n-ink-active': 'var(--n-ink-active-neutral)',
+        '--n-ink-strong': 'var(--n-ink-strong-neutral)',
+        '--n-ink-muted': 'var(--n-ink-muted-neutral)',
+        '--n-ink-inverse': 'var(--n-ink-inverse-neutral)',
+        '--n-ink-disabled': 'var(--n-ink-disabled-neutral)',
+        '--n-ink-placeholder': 'var(--n-ink-placeholder-neutral)',
+        '--n-surface': 'var(--n-surface-accent)',
+        '--n-surface-hover': 'var(--n-surface-hover-accent)',
+        '--n-surface-ink': 'var(--n-surface-ink-accent)',
+        '--n-surface-ink-hover': 'var(--n-surface-ink-hover-accent)',
+        '--n-surface-accent': 'var(--n-surface-accent)',
+        '--n-surface-hover-accent': 'var(--n-surface-hover-accent)',
+        '--n-surface-active-accent': 'var(--n-surface-active-accent)',
+        '--n-surface-ink-accent': 'var(--n-surface-ink-accent)',
+        '--n-surface-ink-hover-accent': 'var(--n-surface-ink-hover-accent)',
+        '--n-border-muted': 'var(--n-border-muted-neutral)',
+        '--n-border-hover': 'var(--n-border-hover-neutral)',
+        '--n-border-active': 'var(--n-border-active-neutral)',
+        '--n-border-disabled': 'var(--n-border-disabled-neutral)',
+        '--n-border': 'var(--n-border-neutral)',
+        '--n-border-muted-neutral': 'var(--n-border-muted-neutral)',
+        '--n-border-hover-neutral': 'var(--n-border-hover-neutral)',
+        '--n-border-active-neutral': 'var(--n-border-active-neutral)',
         '--neutral-highest': 'var(--neutral-highest)',
-        '--ui-focus-ring': 'var(--accent-600-scrim)',
-        '--neutral-modal': 'var(--neutral-modal)',
-        '--neutral-ink-strong': 'var(--neutral-ink-strong)',
-        '--_border-color': 'var(--neutral-border-muted)',
+        '--n-focus-ring': 'var(--accent-600-scrim)',
+        '--n-modal-neutral': 'var(--n-modal-neutral)',
+        '--n-ink-strong-neutral': 'var(--n-ink-strong-neutral)',
+        '--n-border-color': 'var(--n-border-muted-neutral)',
         'white': 'white',
         'transparent': 'transparent',
         'none': 'transparent',
@@ -731,36 +731,36 @@ pointer-events: none;</code><ui-button class="copy-btn" size="sm" variant="ghost
 
       // Reverse lookup: local token → resolved semantic token
       const tokenResolutions = {
-        '--_button': '--neutral-higher',
-        '--_control': '--neutral-control',
-        '--_control-hover': '--neutral-control-hover',
-        '--_control-disabled': '--neutral-control-disabled',
-        '--_widget': '--neutral-control',
-        '--_widget-hover': '--neutral-control-hover',
-        '--_widget-active': '--neutral-control-active',
-        '--_widget-disabled': '--neutral-control-disabled',
-        '--_panel': '--neutral-panel',
-        '--_panel-hover': '--neutral-panel-hover',
-        '--_panel-disabled': '--neutral-panel-disabled',
-        '--_ink': '--neutral-ink',
-        '--_ink-hover': '--neutral-ink-hover',
-        '--_ink-active': '--neutral-ink-active',
-        '--_ink-strong': '--neutral-ink-strong',
-        '--_ink-muted': '--neutral-ink-muted',
-        '--_ink-inverse': '--neutral-ink-inverse',
-        '--_ink-disabled': '--neutral-ink-disabled',
-        '--_ink-placeholder': '--neutral-ink-placeholder',
-        '--_surface': '--accent-surface',
-        '--_surface-hover': '--accent-surface-hover',
-        '--_surface-ink': '--accent-surface-ink',
-        '--_surface-ink-hover': '--accent-surface-ink-hover',
-        '--_border-muted': '--neutral-border-muted',
-        '--_border-hover': '--neutral-border-hover',
-        '--_border-active': '--neutral-border-active',
-        '--_border-disabled': '--neutral-border-disabled',
-        '--_border': '--neutral-border',
-        '--ui-focus-ring': '--accent-600-scrim',
-        '--_border-color': '--neutral-border-muted',
+        '--n-button': '--neutral-higher',
+        '--n-control': '--n-control-neutral',
+        '--n-control-hover': '--n-control-hover-neutral',
+        '--n-control-disabled': '--n-control-disabled-neutral',
+        '--n-widget': '--n-control-neutral',
+        '--n-widget-hover': '--n-control-hover-neutral',
+        '--n-widget-active': '--n-control-active-neutral',
+        '--n-widget-disabled': '--n-control-disabled-neutral',
+        '--n-panel': '--n-panel-neutral',
+        '--n-panel-hover': '--n-panel-hover-neutral',
+        '--n-panel-disabled': '--n-panel-disabled-neutral',
+        '--n-ink': '--n-ink-neutral',
+        '--n-ink-hover': '--n-ink-hover-neutral',
+        '--n-ink-active': '--n-ink-active-neutral',
+        '--n-ink-strong': '--n-ink-strong-neutral',
+        '--n-ink-muted': '--n-ink-muted-neutral',
+        '--n-ink-inverse': '--n-ink-inverse-neutral',
+        '--n-ink-disabled': '--n-ink-disabled-neutral',
+        '--n-ink-placeholder': '--n-ink-placeholder-neutral',
+        '--n-surface': '--n-surface-accent',
+        '--n-surface-hover': '--n-surface-hover-accent',
+        '--n-surface-ink': '--n-surface-ink-accent',
+        '--n-surface-ink-hover': '--n-surface-ink-hover-accent',
+        '--n-border-muted': '--n-border-muted-neutral',
+        '--n-border-hover': '--n-border-hover-neutral',
+        '--n-border-active': '--n-border-active-neutral',
+        '--n-border-disabled': '--n-border-disabled-neutral',
+        '--n-border': '--n-border-neutral',
+        '--n-focus-ring': '--accent-600-scrim',
+        '--n-border-color': '--n-border-muted-neutral',
       };
 
       function getSwatchColor(token) {
@@ -824,7 +824,7 @@ pointer-events: none;</code><ui-button class="copy-btn" size="sm" variant="ghost
 
       let activeCat = 'all';
 
-      catFilterControl.addEventListener('ui-change', (e) => {
+      catFilterControl.addEventListener('native:change', (e) => {
         activeCat = e.detail.value;
         applyCategoryFilter();
       });
@@ -844,7 +844,7 @@ pointer-events: none;</code><ui-button class="copy-btn" size="sm" variant="ghost
       const stateFilterInput = document.getElementById('state-filter');
       let stateFilterText = '';
 
-      stateFilterInput.addEventListener('ui-input', (e) => {
+      stateFilterInput.addEventListener('native:input', (e) => {
         stateFilterText = (e.detail.value || '').trim().toLowerCase();
         applyStateFilter();
       });
@@ -875,7 +875,7 @@ pointer-events: none;</code><ui-button class="copy-btn" size="sm" variant="ghost
       };
 
       for (const comp of components) {
-        const card = document.createElement('ui-card');
+        const card = document.createElement('n-card');
         card.dataset.comp = comp.name;
         card.dataset.category = comp.category;
 
@@ -915,7 +915,7 @@ pointer-events: none;</code><ui-button class="copy-btn" size="sm" variant="ghost
         card.innerHTML = `
           <div slot="header">
             <span class="comp-card-name">${comp.name}</span>
-            <ui-badge size="xs"${badgeAttr}>${categoryLabels[comp.category]}</ui-badge>
+            <n-badge size="xs"${badgeAttr}>${categoryLabels[comp.category]}</n-badge>
           </div>
           <div class="comp-card-body">${bodyHTML}</div>
         `;
@@ -1006,7 +1006,7 @@ pointer-events: none;</code><ui-button class="copy-btn" size="sm" variant="ghost
         const otherMatches = matches.filter(m => m.comp !== comp || m.state !== state);
         const totalMatches = matches.length;
 
-        let html = `<div style="font-weight:600;margin-bottom:calc(var(--_space) * 1.5);">${comp} \u2192 ${state}</div>`;
+        let html = `<div style="font-weight:600;margin-bottom:calc(var(--n-space) * 1.5);">${comp} \u2192 ${state}</div>`;
 
         if (totalMatches > 1) {
           html += `<div class="tt-match-header">Shared by ${totalMatches} component states</div>`;
@@ -1017,12 +1017,12 @@ pointer-events: none;</code><ui-button class="copy-btn" size="sm" variant="ghost
         html += `<div class="tt-row"><span class="tt-label">border:</span> ${createSwatch(border)} <span class="tt-value">${border}</span>${resolvedNote(border)}</div>`;
 
         if (otherMatches.length > 0) {
-          html += `<div style="margin-top:calc(var(--_space) * 2);border-top:1px solid var(--neutral-border-muted);padding-top:calc(var(--_space) * 1.5);">`;
+          html += `<div style="margin-top:calc(var(--n-space) * 2);border-top:1px solid var(--n-border-muted-neutral);padding-top:calc(var(--n-space) * 1.5);">`;
           for (const m of otherMatches.slice(0, 8)) {
             html += `<div class="tt-row"><span class="tt-value">${m.comp} \u2192 ${m.state}</span></div>`;
           }
           if (otherMatches.length > 8) {
-            html += `<div class="tt-row" style="color:var(--neutral-ink-muted)">+${otherMatches.length - 8} more</div>`;
+            html += `<div class="tt-row" style="color:var(--n-ink-muted-neutral)">+${otherMatches.length - 8} more</div>`;
           }
           html += '</div>';
         }

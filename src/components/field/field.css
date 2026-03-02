@@ -1,0 +1,67 @@
+@layer ui {
+
+  /* ── Field Base ── */
+
+  :where(n-field) {
+    --n-font-weight: var(--n-button-font-weight);
+    --n-line-height: var(--n-control-line-height);
+
+    display: flex;
+    flex: 0 1 0%;
+    min-width: 0;
+    flex-direction: column;
+    gap: calc(var(--n-space) * 2);
+  }
+
+  /* ── Label ── */
+
+  :where(n-field) > :where([slot="label"]) {
+    font-size: var(--n-font-size);
+    font-weight: var(--n-font-weight);
+    line-height: var(--n-line-height);
+    color: var(--n-ink-strong);
+    cursor: default;
+  }
+
+  /* Required asterisk */
+
+  :where(n-field[required]) > :where([slot="label"])::after {
+    content: ' *';
+    color: var(--n-ink-muted);
+  }
+
+  /* ── Description ── */
+
+  :where(n-field) > :where([slot="description"]) {
+    font-size: calc(var(--n-font-size) * 0.875);
+    line-height: 1.4;
+    color: var(--n-ink-muted);
+  }
+
+  /* ── Error ── */
+
+  :where(n-field) > :where([slot="error"]) {
+    font-size: calc(var(--n-font-size) * 0.875);
+    line-height: 1.4;
+    color: var(--n-ink-muted);
+    display: none;
+  }
+
+  :where(n-field[invalid]) > :where([slot="error"]) {
+    display: block;
+  }
+
+  /* ── Disabled ── */
+
+  :where(n-field[aria-disabled="true"]) > :where([slot="label"]) {
+    color: var(--n-ink-disabled);
+    cursor: not-allowed;
+  }
+
+  :where(n-field[aria-disabled="true"]) > :where([slot="description"]) {
+    color: var(--n-ink-disabled);
+  }
+
+  :where(n-field[hidden]) { display: none; }
+
+}

@@ -8,7 +8,7 @@ export interface ResizeOptions {
   reverse?: boolean;
 }
 
-/** Handles pointer-driven element resizing via a drag handle, dispatching `ui-resize-start`, `ui-resize-move`, and `ui-resize-end`. */
+/** Handles pointer-driven element resizing via a drag handle, dispatching `native:resize-start`, `native:resize-move`, and `native:resize-end`. */
 export class ResizeController {
   readonly host: HTMLElement;
   handleSelector: string;
@@ -78,7 +78,7 @@ export class ResizeController {
     document.addEventListener('pointercancel', this.#onPointerCancel);
     document.addEventListener('keydown', this.#onKeyDown);
 
-    this.host.dispatchEvent(new CustomEvent('ui-resize-start', {
+    this.host.dispatchEvent(new CustomEvent('native:resize-start', {
       bubbles: true,
       composed: true,
       detail: { width: this.#startWidth, height: this.#startHeight },
@@ -103,7 +103,7 @@ export class ResizeController {
     }
 
     const rect = this.host.getBoundingClientRect();
-    this.host.dispatchEvent(new CustomEvent('ui-resize-move', {
+    this.host.dispatchEvent(new CustomEvent('native:resize-move', {
       bubbles: true,
       composed: true,
       detail: { width: rect.width, height: rect.height },
@@ -114,7 +114,7 @@ export class ResizeController {
     if (!this.#isResizing) return;
 
     const rect = this.host.getBoundingClientRect();
-    this.host.dispatchEvent(new CustomEvent('ui-resize-end', {
+    this.host.dispatchEvent(new CustomEvent('native:resize-end', {
       bubbles: true,
       composed: true,
       detail: { width: rect.width, height: rect.height },

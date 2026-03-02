@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-field — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-field&gt;</h1>
+    <p class="demo-desc">
+      Form field wrapper with label, description, error message, and ARIA wiring.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-field>
+          <label slot="label">Email address</label>
+          <n-input placeholder="you@example.com"></n-input>
+          <span slot="description">We'll never share your email.</span>
+        </n-field>
+        <n-field>
+          <label slot="label">Password</label>
+          <n-input placeholder="Enter password" type="password"></n-input>
+        </n-field>
+      </n-stack>
+      <pre class="demo-code"><code>&lt;n-field&gt;
+  &lt;label slot="label"&gt;Email address&lt;/label&gt;
+  &lt;n-input placeholder="you@example.com"&gt;&lt;/n-input&gt;
+  &lt;span slot="description"&gt;We'll never share your email.&lt;/span&gt;
+&lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Required ── -->
+
+    <h2>Required</h2>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-field required>
+          <label slot="label">Full name</label>
+          <n-input placeholder="Jane Doe"></n-input>
+          <span slot="description">As it appears on your ID.</span>
+        </n-field>
+        <n-field required>
+          <label slot="label">Email</label>
+          <n-input placeholder="you@example.com"></n-input>
+        </n-field>
+      </n-stack>
+      <pre class="demo-code"><code>&lt;n-field required&gt;
+  &lt;label slot="label"&gt;Full name&lt;/label&gt;
+  &lt;n-input placeholder="Jane Doe"&gt;&lt;/n-input&gt;
+  &lt;span slot="description"&gt;As it appears on your ID.&lt;/span&gt;
+&lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── With Error ── -->
+
+    <h2>With Error</h2>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-field required invalid>
+          <label slot="label">Username</label>
+          <n-input placeholder="Choose a username" invalid></n-input>
+          <span slot="error">Username is already taken.</span>
+        </n-field>
+        <n-field invalid>
+          <label slot="label">Website</label>
+          <n-input placeholder="https://example.com"></n-input>
+          <span slot="description">Your personal website or blog.</span>
+          <span slot="error">Please enter a valid URL.</span>
+        </n-field>
+      </n-stack>
+      <pre class="demo-code"><code>&lt;n-field required invalid&gt;
+  &lt;label slot="label"&gt;Username&lt;/label&gt;
+  &lt;n-input placeholder="Choose a username" invalid&gt;&lt;/n-input&gt;
+  &lt;span slot="error"&gt;Username is already taken.&lt;/span&gt;
+&lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section">
+      <n-field disabled>
+        <label slot="label">Account ID</label>
+        <n-input placeholder="Auto-generated" value="acct_29x8f"></n-input>
+        <span slot="description">This field cannot be changed.</span>
+      </n-field>
+    </div>
+
+    <!-- ── With Other Controls ── -->
+
+    <h2>With Other Controls</h2>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-field>
+          <label slot="label">Theme preference</label>
+          <n-select value="system" placeholder="Select theme" options='[{"value":"system","label":"System"},{"value":"light","label":"Light"},{"value":"dark","label":"Dark"}]'></n-select>
+          <span slot="description">Choose how the app appears.</span>
+        </n-field>
+        <n-field>
+          <label slot="label">Marketing emails</label>
+          <n-checkbox>Send me product updates</n-checkbox>
+        </n-field>
+        <n-field>
+          <label slot="label">Notifications</label>
+          <n-switch>Enable push notifications</n-switch>
+        </n-field>
+      </n-stack>
+      <pre class="demo-code"><code>&lt;n-field&gt;
+  &lt;label slot="label"&gt;Theme preference&lt;/label&gt;
+  &lt;n-select placeholder="Select theme"
+    options='[{"value":"system","label":"System"},...]'&gt;
+  &lt;/n-select&gt;
+  &lt;span slot="description"&gt;Choose how the app appears.&lt;/span&gt;
+&lt;/n-field&gt;
+
+&lt;n-field&gt;
+  &lt;label slot="label"&gt;Notifications&lt;/label&gt;
+  &lt;n-switch&gt;Enable push notifications&lt;/n-switch&gt;
+&lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-field size="sm">
+          <label slot="label">Small field</label>
+          <n-input placeholder="Small input"></n-input>
+        </n-field>
+        <n-field>
+          <label slot="label">Default field</label>
+          <n-input placeholder="Default input"></n-input>
+        </n-field>
+        <n-field size="lg">
+          <label slot="label">Large field</label>
+          <n-input placeholder="Large input"></n-input>
+        </n-field>
+      </n-stack>
+    </div>
+
+    <!-- ── Form Composition ── -->
+
+    <h2>Form Composition</h2>
+    <div class="demo-section" style="max-width: 28rem;">
+      <n-card>
+        <n-card-header>
+          <span slot="label">Create Account</span>
+        </n-card-header>
+        <n-card-body>
+          <n-stack gap="4">
+            <n-field required>
+              <label slot="label">Full name</label>
+              <n-input placeholder="Jane Doe"></n-input>
+            </n-field>
+            <n-field required>
+              <label slot="label">Email</label>
+              <n-input placeholder="you@example.com"></n-input>
+              <span slot="description">We'll send a confirmation link.</span>
+            </n-field>
+            <n-field required>
+              <label slot="label">Password</label>
+              <n-input placeholder="At least 8 characters" type="password"></n-input>
+            </n-field>
+          </n-stack>
+        </n-card-body>
+        <n-card-footer>
+          <n-button variant="ghost"><span slot="label">Cancel</span></n-button>
+          <n-button variant="primary" intent="accent"><span slot="label">Create Account</span></n-button>
+        </n-card-footer>
+      </n-card>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './field.ts';
+      import '../input/input.ts';
+      import '../select/select.ts';
+      import '../listbox/listbox.ts';
+      import '../listbox/option.ts';
+      import '../../icons/phosphor/caret-up-down.ts';
+      import '../checkbox/checkbox.ts';
+      import '../switch/switch.ts';
+      import '../button/button.ts';
+      import '../../containers/card/card.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

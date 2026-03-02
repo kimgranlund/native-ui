@@ -4,7 +4,7 @@ export interface SelectionOptions {
   disabled?: boolean;
 }
 
-/** Manages single or multi-select item state with Ctrl/Shift modifiers, dispatching `ui-selection-change`. */
+/** Manages single or multi-select item state with Ctrl/Shift modifiers, dispatching `native:selection-change`. */
 export class SelectionController {
   readonly host: HTMLElement;
   selector: string;
@@ -142,7 +142,7 @@ export class SelectionController {
   }
 
   #dispatch(): void {
-    this.host.dispatchEvent(new CustomEvent('ui-selection-change', {
+    this.host.dispatchEvent(new CustomEvent('native:selection-change', {
       bubbles: true,
       composed: true,
       detail: { selected: [...this.#selected], count: this.#selected.size },

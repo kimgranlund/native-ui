@@ -1,0 +1,221 @@
+@layer ui {
+
+  /* ── Tabs Container (tablist) ── */
+
+  :where(n-tabs) {
+    --n-font-weight: var(--n-button-font-weight);
+    --n-line-height: var(--n-control-line-height);
+
+    /* Indicator position (set by JS): 0-based index, tab count */
+    --n-indicator-index: 0;
+    --n-tab-count: 1;
+
+    position: relative;
+    min-width: 0;
+
+    outline: none;
+
+    transition:
+      border-color var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Horizontal (default): grid — tabs row 1, panels row 2 ── */
+  /* WHY: repeat(--n-tab-count, 1fr) creates explicit columns so 1 / -1
+     spans work and the percentage-based indicator aligns to grid slots. */
+
+  :where(n-tabs:not([orientation="vertical"])) {
+    display: grid;
+    grid-template-columns: repeat(var(--n-tab-count), 1fr);
+    grid-template-rows: auto 1fr;
+  }
+
+  :where(n-tabs:not([orientation="vertical"])) > :where(n-tab) {
+    grid-row: 1;
+  }
+
+  :where(n-tabs:not([orientation="vertical"])) > :where(n-tab-panels) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  /* Horizontal separator line — positioned at bottom of tab row */
+  :where(n-tabs:not([orientation="vertical"]))::before {
+    content: '';
+    position: absolute;
+    top: var(--n-size);
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--n-border-muted);
+    transform: translateY(-100%);
+  }
+
+  /* Horizontal sliding underline indicator */
+  :where(n-tabs:not([orientation="vertical"]))::after {
+    content: none;
+  }
+
+  :where(n-tabs:not([orientation="vertical"])):state(ready)::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    top: var(--n-size);
+    left: 0;
+    width: calc(100% / var(--n-tab-count));
+    height: var(--n-tabs-indicator);
+    background: var(--n-surface);
+    border-radius: 1px;
+    transform: translateY(-100%) translateX(calc(var(--n-indicator-index) * 100%));
+
+    transition:
+      transform var(--n-duration) var(--n-easing),
+      background var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Vertical: grid — tabs column + panels column ── */
+
+  :where(n-tabs[orientation="vertical"]) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    border-inline-start: 1px solid var(--n-border-muted);
+  }
+
+  :where(n-tabs[orientation="vertical"])::before {
+    display: none;
+  }
+
+  :where(n-tabs[orientation="vertical"]) > :where(n-tab-panels) {
+    grid-column: 2;
+    grid-row: 1 / span 999;
+  }
+
+  /* Vertical sliding side indicator */
+  :where(n-tabs[orientation="vertical"])::after {
+    content: none;
+  }
+
+  :where(n-tabs[orientation="vertical"]):state(ready)::after {
+    content: '';
+    position: absolute;
+    inset-inline-start: -1px;
+    top: 0;
+    height: var(--n-size);
+    width: var(--n-tabs-indicator);
+    background: var(--n-surface);
+    border-radius: 1px;
+    transform: translateY(calc(var(--n-indicator-index) * var(--n-size)));
+
+    transition:
+      transform var(--n-duration) var(--n-easing),
+      background var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Tab ── */
+
+  :where(n-tab) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--n-space) * 2);
+
+    position: relative;
+    z-index: 1;
+
+    min-height: var(--n-size);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+
+    font-size: var(--n-font-size);
+    letter-spacing: var(--n-letter-spacing);
+    line-height: var(--n-line-height);
+    font-weight: var(--n-font-weight);
+
+    background: transparent;
+    color: var(--n-ink-muted);
+
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Tab States ── */
+
+  :where(n-tab):hover,
+  :where(n-tab)[force-hover] {
+    color: var(--n-ink-hover);
+  }
+
+  :where(n-tab)[pressed],
+  :where(n-tab)[force-active] {
+    color: var(--n-ink-active);
+  }
+
+  :where(n-tab)[aria-selected="true"] {
+    color: var(--n-surface-ink);
+  }
+
+  :where(n-tab)[aria-selected="true"]:hover,
+  :where(n-tab)[aria-selected="true"][force-hover] {
+    color: var(--n-surface-ink-hover);
+  }
+
+  /* ── Tab Focus ── */
+
+  :where(n-tab):focus-visible,
+  :where(n-tab)[force-focus-visible] {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* ── Tab Disabled ── */
+
+  :where(n-tab)[aria-disabled="true"] {
+    color: var(--n-ink-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* ── Vertical Tab Overrides (after base rules so cascade wins) ── */
+
+  :where(n-tabs[orientation="vertical"]) > :where(n-tab) {
+    grid-column: 1;
+    justify-content: start;
+  }
+
+  /* ── Tab Panels Container ── */
+
+  :where(n-tab-panels) {
+    display: block;
+  }
+
+  /* ── Tab Panel ── */
+
+  :where(n-tab-panel) {
+    display: block;
+    padding: calc(var(--n-space) * 4);
+    outline: none;
+  }
+
+  :where(n-tab-panel[hidden]) {
+    display: none;
+  }
+
+  /* ── Hidden ── */
+
+  :where(n-tabs)[hidden] {
+    display: none;
+  }
+
+  /* ── Inline mode ── */
+
+  :where(n-tabs)[inline] {
+    display: inline-grid;
+  }
+
+}

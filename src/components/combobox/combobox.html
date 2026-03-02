@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-combobox — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-combobox&gt;</h1>
+    <p class="demo-desc">
+      Coordinator element that wires a text input + filterable popover listbox into a combobox.
+    </p>
+
+    <!-- ── Basic Usage ── -->
+
+    <h2>Basic Usage</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-combobox>
+          <n-input placeholder="Search fruits...">
+            <n-icon name="magnifying-glass" slot="leading"></n-icon>
+          </n-input>
+          <n-listbox popover>
+            <n-option value="apple" label="Apple">Apple</n-option>
+            <n-option value="banana" label="Banana">Banana</n-option>
+            <n-option value="cherry" label="Cherry">Cherry</n-option>
+            <n-option value="grape" label="Grape">Grape</n-option>
+            <n-option value="lemon" label="Lemon">Lemon</n-option>
+            <n-option value="mango" label="Mango">Mango</n-option>
+            <n-option value="orange" label="Orange">Orange</n-option>
+            <n-option value="peach" label="Peach">Peach</n-option>
+            <n-option value="pear" label="Pear">Pear</n-option>
+            <n-option value="strawberry" label="Strawberry">Strawberry</n-option>
+          </n-listbox>
+        </n-combobox>
+      </div>
+      <pre class="demo-code"><code>&lt;n-combobox&gt;
+  &lt;n-input placeholder="Search fruits..."&gt;
+    &lt;n-icon name="magnifying-glass" slot="leading"&gt;&lt;/n-icon&gt;
+  &lt;/n-input&gt;
+  &lt;n-listbox popover&gt;
+    &lt;n-option value="apple" label="Apple"&gt;Apple&lt;/n-option&gt;
+    &lt;n-option value="banana" label="Banana"&gt;Banana&lt;/n-option&gt;
+    &lt;n-option value="cherry" label="Cherry"&gt;Cherry&lt;/n-option&gt;
+  &lt;/n-listbox&gt;
+&lt;/n-combobox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span class="demo-label">sm</span>
+        <n-combobox size="sm">
+          <n-input placeholder="Small..."></n-input>
+          <n-listbox popover>
+            <n-option value="a" label="Alpha">Alpha</n-option>
+            <n-option value="b" label="Bravo">Bravo</n-option>
+            <n-option value="c" label="Charlie">Charlie</n-option>
+          </n-listbox>
+        </n-combobox>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">md</span>
+        <n-combobox size="md">
+          <n-input placeholder="Medium..."></n-input>
+          <n-listbox popover>
+            <n-option value="a" label="Alpha">Alpha</n-option>
+            <n-option value="b" label="Bravo">Bravo</n-option>
+            <n-option value="c" label="Charlie">Charlie</n-option>
+          </n-listbox>
+        </n-combobox>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">lg</span>
+        <n-combobox size="lg">
+          <n-input placeholder="Large..."></n-input>
+          <n-listbox popover>
+            <n-option value="a" label="Alpha">Alpha</n-option>
+            <n-option value="b" label="Bravo">Bravo</n-option>
+            <n-option value="c" label="Charlie">Charlie</n-option>
+          </n-listbox>
+        </n-combobox>
+      </div>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section">
+      <h3>compact</h3>
+      <div class="demo-row" density="compact">
+        <n-combobox size="sm">
+          <n-input placeholder="Small compact..."></n-input>
+          <n-listbox popover>
+            <n-option value="a" label="Alpha">Alpha</n-option>
+            <n-option value="b" label="Bravo">Bravo</n-option>
+          </n-listbox>
+        </n-combobox>
+        <n-combobox>
+          <n-input placeholder="Medium compact..."></n-input>
+          <n-listbox popover>
+            <n-option value="a" label="Alpha">Alpha</n-option>
+            <n-option value="b" label="Bravo">Bravo</n-option>
+          </n-listbox>
+        </n-combobox>
+      </div>
+      <h3>default</h3>
+      <div class="demo-row">
+        <n-combobox size="sm">
+          <n-input placeholder="Small default..."></n-input>
+          <n-listbox popover>
+            <n-option value="a" label="Alpha">Alpha</n-option>
+            <n-option value="b" label="Bravo">Bravo</n-option>
+          </n-listbox>
+        </n-combobox>
+        <n-combobox>
+          <n-input placeholder="Medium default..."></n-input>
+          <n-listbox popover>
+            <n-option value="a" label="Alpha">Alpha</n-option>
+            <n-option value="b" label="Bravo">Bravo</n-option>
+          </n-listbox>
+        </n-combobox>
+      </div>
+      <h3>loose</h3>
+      <div class="demo-row" density="loose">
+        <n-combobox size="sm">
+          <n-input placeholder="Small loose..."></n-input>
+          <n-listbox popover>
+            <n-option value="a" label="Alpha">Alpha</n-option>
+            <n-option value="b" label="Bravo">Bravo</n-option>
+          </n-listbox>
+        </n-combobox>
+        <n-combobox>
+          <n-input placeholder="Medium loose..."></n-input>
+          <n-listbox popover>
+            <n-option value="a" label="Alpha">Alpha</n-option>
+            <n-option value="b" label="Bravo">Bravo</n-option>
+          </n-listbox>
+        </n-combobox>
+      </div>
+    </div>
+
+    <!-- ── Many Options (Scrollable) ── -->
+
+    <h2>Many Options (Scrollable)</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <n-combobox>
+          <n-input placeholder="Search countries...">
+            <n-icon name="magnifying-glass" slot="leading"></n-icon>
+          </n-input>
+          <n-listbox popover>
+            <n-option value="ar" label="Argentina">Argentina</n-option>
+            <n-option value="au" label="Australia">Australia</n-option>
+            <n-option value="br" label="Brazil">Brazil</n-option>
+            <n-option value="ca" label="Canada">Canada</n-option>
+            <n-option value="cn" label="China">China</n-option>
+            <n-option value="de" label="Germany">Germany</n-option>
+            <n-option value="fr" label="France">France</n-option>
+            <n-option value="in" label="India">India</n-option>
+            <n-option value="it" label="Italy">Italy</n-option>
+            <n-option value="jp" label="Japan">Japan</n-option>
+            <n-option value="kr" label="South Korea">South Korea</n-option>
+            <n-option value="mx" label="Mexico">Mexico</n-option>
+            <n-option value="nl" label="Netherlands">Netherlands</n-option>
+            <n-option value="no" label="Norway">Norway</n-option>
+            <n-option value="se" label="Sweden">Sweden</n-option>
+            <n-option value="gb" label="United Kingdom">United Kingdom</n-option>
+            <n-option value="us" label="United States">United States</n-option>
+          </n-listbox>
+        </n-combobox>
+      </div>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section" size="sm">
+      <h3>Disabled combobox</h3>
+      <div class="demo-row">
+        <n-combobox disabled>
+          <n-input placeholder="Disabled combobox..."></n-input>
+          <n-listbox popover>
+            <n-option value="a" label="Alpha">Alpha</n-option>
+            <n-option value="b" label="Bravo">Bravo</n-option>
+          </n-listbox>
+        </n-combobox>
+      </div>
+
+      <h3>Disabled individual options</h3>
+      <div class="demo-row">
+        <n-combobox>
+          <n-input placeholder="Some options disabled..."></n-input>
+          <n-listbox popover>
+            <n-option value="available" label="Available">Available</n-option>
+            <n-option value="unavailable" label="Unavailable" disabled>Unavailable</n-option>
+            <n-option value="restricted" label="Restricted" disabled>Restricted</n-option>
+            <n-option value="open" label="Open">Open</n-option>
+          </n-listbox>
+        </n-combobox>
+      </div>
+    </div>
+
+    <!-- ── Pre-selected Value ── -->
+
+    <h2>Pre-selected Value</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <n-combobox value="cherry">
+          <n-input placeholder="Search fruits..."></n-input>
+          <n-listbox popover>
+            <n-option value="apple" label="Apple">Apple</n-option>
+            <n-option value="banana" label="Banana">Banana</n-option>
+            <n-option value="cherry" label="Cherry">Cherry</n-option>
+            <n-option value="grape" label="Grape">Grape</n-option>
+          </n-listbox>
+        </n-combobox>
+      </div>
+      <pre class="demo-code"><code>&lt;n-combobox value="cherry"&gt;
+  &lt;n-input placeholder="Search fruits..."&gt;&lt;/n-input&gt;
+  &lt;n-listbox popover&gt;
+    &lt;n-option value="apple" label="Apple"&gt;Apple&lt;/n-option&gt;
+    &lt;n-option value="cherry" label="Cherry"&gt;Cherry&lt;/n-option&gt;
+  &lt;/n-listbox&gt;
+&lt;/n-combobox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Events ── -->
+
+    <h2>Events</h2>
+    <div class="demo-section" size="sm">
+      <n-combobox id="event-combobox">
+        <n-input placeholder="Type to filter..."></n-input>
+        <n-listbox popover>
+          <n-option value="red" label="Red">Red</n-option>
+          <n-option value="green" label="Green">Green</n-option>
+          <n-option value="blue" label="Blue">Blue</n-option>
+          <n-option value="yellow" label="Yellow">Yellow</n-option>
+          <n-option value="purple" label="Purple">Purple</n-option>
+        </n-listbox>
+      </n-combobox>
+      <div class="log" id="event-log"></div>
+      <pre class="demo-code"><code>&lt;n-combobox id="my-combo"&gt;
+  &lt;n-input placeholder="Type to filter..."&gt;&lt;/n-input&gt;
+  &lt;n-listbox popover&gt;
+    &lt;n-option value="red" label="Red"&gt;Red&lt;/n-option&gt;
+    &lt;n-option value="green" label="Green"&gt;Green&lt;/n-option&gt;
+    &lt;n-option value="blue" label="Blue"&gt;Blue&lt;/n-option&gt;
+  &lt;/n-listbox&gt;
+&lt;/n-combobox&gt;
+
+&lt;script&gt;
+  document.getElementById('my-combo')
+    .addEventListener('native:change', (e) =&gt; {
+      console.log(e.detail.value, e.detail.label);
+    });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Form Association ── -->
+
+    <h2>Form Association</h2>
+    <div class="demo-section" size="sm">
+      <form id="demo-form">
+        <div class="demo-col-sm" style="margin-bottom: 0.75rem;">
+          <n-combobox name="country">
+            <n-input placeholder="Country...">
+              <n-icon name="magnifying-glass" slot="leading"></n-icon>
+            </n-input>
+            <n-listbox popover>
+              <n-option value="us" label="United States">United States</n-option>
+              <n-option value="gb" label="United Kingdom">United Kingdom</n-option>
+              <n-option value="ca" label="Canada">Canada</n-option>
+              <n-option value="au" label="Australia">Australia</n-option>
+            </n-listbox>
+          </n-combobox>
+          <n-combobox name="language">
+            <n-input placeholder="Language..."></n-input>
+            <n-listbox popover>
+              <n-option value="en" label="English">English</n-option>
+              <n-option value="es" label="Spanish">Spanish</n-option>
+              <n-option value="fr" label="French">French</n-option>
+              <n-option value="de" label="German">German</n-option>
+              <n-option value="ja" label="Japanese">Japanese</n-option>
+            </n-listbox>
+          </n-combobox>
+        </div>
+        <div class="demo-row">
+          <n-button variant="primary" type="submit"><span slot="label">Submit</span></n-button>
+          <n-button variant="secondary" type="reset"><span slot="label">Reset</span></n-button>
+        </div>
+      </form>
+      <div class="log" id="form-log"></div>
+      <pre class="demo-code"><code>&lt;form&gt;
+  &lt;n-combobox name="country"&gt;
+    &lt;n-input placeholder="Country..."&gt;
+      &lt;n-icon name="magnifying-glass" slot="leading"&gt;&lt;/n-icon&gt;
+    &lt;/n-input&gt;
+    &lt;n-listbox popover&gt;
+      &lt;n-option value="us" label="United States"&gt;United States&lt;/n-option&gt;
+      &lt;n-option value="gb" label="United Kingdom"&gt;United Kingdom&lt;/n-option&gt;
+    &lt;/n-listbox&gt;
+  &lt;/n-combobox&gt;
+  &lt;n-button type="submit"&gt;Submit&lt;/n-button&gt;
+&lt;/form&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './combobox.ts';
+      import '../button/button.ts';
+      import '../input/input.ts';
+      import '../listbox/listbox.ts';
+      import '../listbox/option.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/magnifying-glass.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Event logging
+      const eventCombobox = document.getElementById('event-combobox');
+      const eventLog = document.getElementById('event-log');
+      let count = 0;
+
+      eventCombobox.addEventListener('native:change', (e) => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} native:change — value: "${e.detail.value}", label: "${e.detail.label}"`;
+        eventLog.prepend(entry);
+      });
+
+      // Form logging
+      const form = document.getElementById('demo-form');
+      const formLog = document.getElementById('form-log');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `submit — ${[...data.entries()].map(([k, v]) => `${k}: "${v}"`).join(', ')}`;
+        formLog.prepend(entry);
+      });
+
+      form.addEventListener('reset', () => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = 'reset';
+        formLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

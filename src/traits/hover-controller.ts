@@ -4,7 +4,7 @@ export interface HoverOptions {
   disabled?: boolean;
 }
 
-/** Tracks pointer enter/leave with configurable delays, dispatching `ui-hover-start` and `ui-hover-end`. */
+/** Tracks pointer enter/leave with configurable delays, dispatching `native:hover-start` and `native:hover-end`. */
 export class HoverController {
   readonly host: HTMLElement;
   delay: number;
@@ -50,14 +50,14 @@ export class HoverController {
     if (this.delay > 0) {
       this.#enterTimer = setTimeout(() => {
         this.host.toggleAttribute('hovered', true);
-        this.host.dispatchEvent(new CustomEvent('ui-hover-start', {
+        this.host.dispatchEvent(new CustomEvent('native:hover-start', {
           bubbles: true, composed: true,
           detail: { pointerType: e.pointerType },
         }));
       }, this.delay);
     } else {
       this.host.toggleAttribute('hovered', true);
-      this.host.dispatchEvent(new CustomEvent('ui-hover-start', {
+      this.host.dispatchEvent(new CustomEvent('native:hover-start', {
         bubbles: true, composed: true,
         detail: { pointerType: e.pointerType },
       }));
@@ -70,14 +70,14 @@ export class HoverController {
     if (this.leaveDelay > 0) {
       this.#leaveTimer = setTimeout(() => {
         this.host.removeAttribute('hovered');
-        this.host.dispatchEvent(new CustomEvent('ui-hover-end', {
+        this.host.dispatchEvent(new CustomEvent('native:hover-end', {
           bubbles: true, composed: true,
           detail: { pointerType: e.pointerType },
         }));
       }, this.leaveDelay);
     } else {
       this.host.removeAttribute('hovered');
-      this.host.dispatchEvent(new CustomEvent('ui-hover-end', {
+      this.host.dispatchEvent(new CustomEvent('native:hover-end', {
         bubbles: true, composed: true,
         detail: { pointerType: e.pointerType },
       }));

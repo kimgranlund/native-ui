@@ -4,7 +4,7 @@ export interface SearchOptions {
   disabled?: boolean;
 }
 
-/** Filters child items by a text query, toggling visibility and dispatching `ui-search`. */
+/** Filters child items by a text query, toggling visibility and dispatching `native:search`. */
 export class SearchController {
   readonly host: HTMLElement;
   selector: string;
@@ -53,7 +53,7 @@ export class SearchController {
         item.setAttribute('search-match', '');
         matches.push(item);
       }
-      this.host.dispatchEvent(new CustomEvent('ui-search', {
+      this.host.dispatchEvent(new CustomEvent('native:search', {
         bubbles: true,
         composed: true,
         detail: { query, matchCount: matches.length, total },
@@ -76,7 +76,7 @@ export class SearchController {
       }
     }
 
-    this.host.dispatchEvent(new CustomEvent('ui-search', {
+    this.host.dispatchEvent(new CustomEvent('native:search', {
       bubbles: true,
       composed: true,
       detail: { query, matchCount: matches.length, total },

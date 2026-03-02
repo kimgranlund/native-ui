@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-slideshow — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+.nav-main {
+        padding: 2rem;
+        max-width: 52rem;
+      }
+/* Slide content for demos */
+      .slide-content {
+        min-height: 12rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 700;
+        border-radius: 0.5rem;
+      }
+
+      .slide-1 { background: var(--n-surface-accent); color: var(--n-surface-ink-accent); }
+      .slide-2 { background: var(--n-surface-info); color: var(--n-surface-ink-info); }
+      .slide-3 { background: var(--n-surface-success); color: var(--n-surface-ink-success); }
+      .slide-4 { background: var(--n-surface-warning); color: var(--n-surface-ink-warning); }
+      .slide-5 { background: var(--n-surface-danger); color: var(--n-surface-ink-danger); }
+
+      .slide-short {
+        min-height: 8rem;
+        font-size: 1.25rem;
+      }
+
+      /* Vertical demo needs explicit height */
+      .vertical-demo {
+        height: 16rem;
+      }
+
+      /* Image slides */
+      .slide-img {
+        min-height: 14rem;
+        background-size: cover;
+        background-position: center;
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main class="nav-main">
+    <h1>&lt;n-slideshow&gt;</h1>
+    <p class="demo-desc">
+      CSS-first carousel using scroll-snap, IntersectionObserver, and zero JS for touch/swipe.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic (swipe to navigate)</h2>
+    <div class="demo-section">
+      <n-slideshow>
+        <n-slide><div class="slide-content slide-1">1</div></n-slide>
+        <n-slide><div class="slide-content slide-2">2</div></n-slide>
+        <n-slide><div class="slide-content slide-3">3</div></n-slide>
+      </n-slideshow>
+    <pre class="demo-code"><code>&lt;n-slideshow&gt;
+  &lt;n-slide&gt;&lt;div&gt;Slide 1&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;Slide 2&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;Slide 3&lt;/div&gt;&lt;/n-slide&gt;
+&lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Controls + Indicators ── -->
+
+    <h2>Controls + Indicators</h2>
+    <div class="demo-section">
+      <n-slideshow controls indicators>
+        <n-slide><div class="slide-content slide-1">Slide 1</div></n-slide>
+        <n-slide><div class="slide-content slide-2">Slide 2</div></n-slide>
+        <n-slide><div class="slide-content slide-3">Slide 3</div></n-slide>
+        <n-slide><div class="slide-content slide-4">Slide 4</div></n-slide>
+      </n-slideshow>
+    <pre class="demo-code"><code>&lt;n-slideshow controls indicators&gt;
+  &lt;n-slide&gt;&lt;div&gt;Slide 1&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;Slide 2&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;Slide 3&lt;/div&gt;&lt;/n-slide&gt;
+&lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Autoplay + Loop ── -->
+
+    <h2>Autoplay + Loop</h2>
+    <div class="demo-section">
+      <n-slideshow controls indicators autoplay interval="3000" loop>
+        <n-slide><div class="slide-content slide-1">A</div></n-slide>
+        <n-slide><div class="slide-content slide-2">B</div></n-slide>
+        <n-slide><div class="slide-content slide-3">C</div></n-slide>
+      </n-slideshow>
+    <pre class="demo-code"><code>&lt;n-slideshow controls indicators autoplay interval="3000" loop&gt;
+  &lt;n-slide&gt;&lt;div&gt;A&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;B&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;C&lt;/div&gt;&lt;/n-slide&gt;
+&lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Vertical ── -->
+
+    <h2>Vertical</h2>
+    <div class="demo-section">
+      <n-slideshow direction="vertical" controls indicators class="vertical-demo">
+        <n-slide><div class="slide-content slide-1">Top</div></n-slide>
+        <n-slide><div class="slide-content slide-2">Middle</div></n-slide>
+        <n-slide><div class="slide-content slide-3">Bottom</div></n-slide>
+      </n-slideshow>
+    <pre class="demo-code"><code>&lt;n-slideshow direction="vertical" controls indicators&gt;
+  &lt;n-slide&gt;&lt;div&gt;Top&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;Middle&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;Bottom&lt;/div&gt;&lt;/n-slide&gt;
+&lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Peek ── -->
+
+    <h2>Peek (adjacent slides visible)</h2>
+    <div class="demo-section">
+      <n-slideshow controls indicators peek>
+        <n-slide><div class="slide-content slide-1">1</div></n-slide>
+        <n-slide><div class="slide-content slide-2">2</div></n-slide>
+        <n-slide><div class="slide-content slide-3">3</div></n-slide>
+        <n-slide><div class="slide-content slide-4">4</div></n-slide>
+        <n-slide><div class="slide-content slide-5">5</div></n-slide>
+      </n-slideshow>
+    <pre class="demo-code"><code>&lt;n-slideshow controls indicators peek&gt;
+  &lt;n-slide&gt;&lt;div&gt;1&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;2&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;3&lt;/div&gt;&lt;/n-slide&gt;
+&lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Per-view 3 with gap ── -->
+
+    <h2>Per-view 3 + Gap</h2>
+    <div class="demo-section">
+      <n-slideshow controls indicators per-view="3" gap>
+        <n-slide><div class="slide-content slide-short slide-1">1</div></n-slide>
+        <n-slide><div class="slide-content slide-short slide-2">2</div></n-slide>
+        <n-slide><div class="slide-content slide-short slide-3">3</div></n-slide>
+        <n-slide><div class="slide-content slide-short slide-4">4</div></n-slide>
+        <n-slide><div class="slide-content slide-short slide-5">5</div></n-slide>
+        <n-slide><div class="slide-content slide-short slide-1">6</div></n-slide>
+      </n-slideshow>
+    <pre class="demo-code"><code>&lt;n-slideshow controls indicators per-view="3" gap&gt;
+  &lt;n-slide&gt;&lt;div&gt;1&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;2&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;3&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;4&lt;/div&gt;&lt;/n-slide&gt;
+&lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Per-view 2 + Peek + Gap ── -->
+
+    <h2>Per-view 2 + Peek + Gap</h2>
+    <div class="demo-section">
+      <n-slideshow controls indicators per-view="2" peek gap>
+        <n-slide><div class="slide-content slide-short slide-1">1</div></n-slide>
+        <n-slide><div class="slide-content slide-short slide-2">2</div></n-slide>
+        <n-slide><div class="slide-content slide-short slide-3">3</div></n-slide>
+        <n-slide><div class="slide-content slide-short slide-4">4</div></n-slide>
+      </n-slideshow>
+    <pre class="demo-code"><code>&lt;n-slideshow controls indicators per-view="2" peek gap&gt;
+  &lt;n-slide&gt;&lt;div&gt;1&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;2&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;3&lt;/div&gt;&lt;/n-slide&gt;
+&lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Intent colors ── -->
+
+    <h2>Intent (accent)</h2>
+    <div class="demo-section">
+      <n-slideshow controls indicators intent="accent">
+        <n-slide><div class="slide-content slide-1">Accent 1</div></n-slide>
+        <n-slide><div class="slide-content slide-2">Accent 2</div></n-slide>
+        <n-slide><div class="slide-content slide-3">Accent 3</div></n-slide>
+      </n-slideshow>
+    <pre class="demo-code"><code>&lt;n-slideshow controls indicators intent="accent"&gt;
+  &lt;n-slide&gt;&lt;div&gt;Slide 1&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;Slide 2&lt;/div&gt;&lt;/n-slide&gt;
+&lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Event log ── -->
+
+    <h2>Event log</h2>
+    <div class="demo-section">
+      <n-slideshow controls indicators id="event-demo">
+        <n-slide><div class="slide-content slide-1">A</div></n-slide>
+        <n-slide><div class="slide-content slide-2">B</div></n-slide>
+        <n-slide><div class="slide-content slide-3">C</div></n-slide>
+      </n-slideshow>
+      <pre id="event-log" class="demo-event-log"></pre>
+    <pre class="demo-code"><code>&lt;n-slideshow controls indicators id="my-slideshow"&gt;
+  &lt;n-slide&gt;&lt;div&gt;A&lt;/div&gt;&lt;/n-slide&gt;
+  &lt;n-slide&gt;&lt;div&gt;B&lt;/div&gt;&lt;/n-slide&gt;
+&lt;/n-slideshow&gt;
+
+&lt;script&gt;
+  document.getElementById('my-slideshow')
+    .addEventListener('native:slide-change', (e) =&gt; {
+      console.log('index:', e.detail.index);
+    });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to the host element, targets internal controls and indicators.
+      </p>
+      <div class="demo-wrap">
+        <div>
+          <div class="demo-state-label">force-hover</div>
+          <n-slideshow controls indicators force-hover style="max-width: 280px;">
+            <n-slide><div class="slide-content slide-1">A</div></n-slide>
+            <n-slide><div class="slide-content slide-2">B</div></n-slide>
+          </n-slideshow>
+        </div>
+        <div>
+          <div class="demo-state-label">force-focus-visible</div>
+          <n-slideshow controls indicators force-focus-visible style="max-width: 280px;">
+            <n-slide><div class="slide-content slide-1">A</div></n-slide>
+            <n-slide><div class="slide-content slide-2">B</div></n-slide>
+          </n-slideshow>
+        </div>
+      </div>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './slideshow.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      const demo = document.getElementById('event-demo');
+      const log = document.getElementById('event-log');
+      demo.addEventListener('native:slide-change', (e) => {
+        const { index } = e.detail;
+        log.textContent = `native:slide-change → index: ${index}\n` + log.textContent;
+        if (log.textContent.length > 500) log.textContent = log.textContent.slice(0, 500);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

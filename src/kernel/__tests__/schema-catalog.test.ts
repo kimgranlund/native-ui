@@ -26,9 +26,9 @@ describe('SCHEMA_CATALOG', () => {
     expect(SCHEMA_CATALOG.size).toBe(18);
   });
 
-  it('all tags start with "ui-"', () => {
+  it('all tags start with "n-"', () => {
     for (const tag of SCHEMA_CATALOG.keys()) {
-      expect(tag).toMatch(/^ui-/);
+      expect(tag).toMatch(/^n-/);
     }
   });
 
@@ -116,22 +116,22 @@ describe('individual schemas', () => {
 
 describe('getSchema', () => {
   it('finds known components', () => {
-    expect(getSchema('ui-button')).toBeDefined();
-    expect(getSchema('ui-input')).toBeDefined();
-    expect(getSchema('ui-select')).toBeDefined();
-    expect(getSchema('ui-listbox')).toBeDefined();
-    expect(getSchema('ui-icon')).toBeDefined();
-    expect(getSchema('ui-dialog')).toBeDefined();
+    expect(getSchema('n-button')).toBeDefined();
+    expect(getSchema('n-input')).toBeDefined();
+    expect(getSchema('n-select')).toBeDefined();
+    expect(getSchema('n-listbox')).toBeDefined();
+    expect(getSchema('n-icon')).toBeDefined();
+    expect(getSchema('n-dialog')).toBeDefined();
   });
 
   it('returns the correct schema for a tag', () => {
-    const schema = getSchema('ui-button');
-    expect(schema?.tag).toBe('ui-button');
+    const schema = getSchema('n-button');
+    expect(schema?.tag).toBe('n-button');
     expect(schema?.category).toBe('form');
   });
 
   it('returns undefined for unknown tags', () => {
-    expect(getSchema('ui-nonexistent')).toBeUndefined();
+    expect(getSchema('n-nonexistent')).toBeUndefined();
     expect(getSchema('div')).toBeUndefined();
     expect(getSchema('')).toBeUndefined();
     expect(getSchema('button')).toBeUndefined();
@@ -163,22 +163,22 @@ describe('getSchemasForCategory', () => {
     const navigation = getSchemasForCategory('navigation');
     // tabs, tab-panels
     expect(navigation.length).toBe(2);
-    expect(navigation.map((s) => s.tag)).toContain('ui-tabs');
-    expect(navigation.map((s) => s.tag)).toContain('ui-tab-panels');
+    expect(navigation.map((s) => s.tag)).toContain('n-tabs');
+    expect(navigation.map((s) => s.tag)).toContain('n-tab-panels');
   });
 
   it('returns correct count for overlay category', () => {
     const overlay = getSchemasForCategory('overlay');
     // dialog
     expect(overlay.length).toBe(1);
-    expect(overlay[0]!.tag).toBe('ui-dialog');
+    expect(overlay[0]!.tag).toBe('n-dialog');
   });
 
   it('returns correct count for container category', () => {
     const container = getSchemasForCategory('container');
     // card
     expect(container.length).toBe(1);
-    expect(container[0]!.tag).toBe('ui-card');
+    expect(container[0]!.tag).toBe('n-card');
   });
 
   it('returns empty array for unused categories', () => {
@@ -200,38 +200,38 @@ describe('getSchemasForCategory', () => {
 
 describe('getSchemaAttribute', () => {
   it('finds known attributes on known components', () => {
-    const variant = getSchemaAttribute('ui-button', 'variant');
+    const variant = getSchemaAttribute('n-button', 'variant');
     expect(variant).toBeDefined();
     expect(variant!.name).toBe('variant');
     expect(variant!.type).toBe('enum');
   });
 
-  it('finds the "size" attribute on ui-button', () => {
-    const size = getSchemaAttribute('ui-button', 'size');
+  it('finds the "size" attribute on n-button', () => {
+    const size = getSchemaAttribute('n-button', 'size');
     expect(size).toBeDefined();
     expect(size!.type).toBe('enum');
     expect(size!.values).toContain('md');
   });
 
-  it('finds the "placeholder" attribute on ui-input', () => {
-    const ph = getSchemaAttribute('ui-input', 'placeholder');
+  it('finds the "placeholder" attribute on n-input', () => {
+    const ph = getSchemaAttribute('n-input', 'placeholder');
     expect(ph).toBeDefined();
     expect(ph!.type).toBe('string');
   });
 
-  it('finds the "name" attribute on ui-icon', () => {
-    const name = getSchemaAttribute('ui-icon', 'name');
+  it('finds the "name" attribute on n-icon', () => {
+    const name = getSchemaAttribute('n-icon', 'name');
     expect(name).toBeDefined();
     expect(name!.type).toBe('string');
   });
 
   it('returns undefined for unknown attributes on known tags', () => {
-    expect(getSchemaAttribute('ui-button', 'nonexistent')).toBeUndefined();
-    expect(getSchemaAttribute('ui-icon', 'variant')).toBeUndefined();
+    expect(getSchemaAttribute('n-button', 'nonexistent')).toBeUndefined();
+    expect(getSchemaAttribute('n-icon', 'variant')).toBeUndefined();
   });
 
   it('returns undefined for unknown tags', () => {
-    expect(getSchemaAttribute('ui-nonexistent', 'variant')).toBeUndefined();
+    expect(getSchemaAttribute('n-nonexistent', 'variant')).toBeUndefined();
     expect(getSchemaAttribute('div', 'class')).toBeUndefined();
   });
 });
@@ -239,9 +239,9 @@ describe('getSchemaAttribute', () => {
 // ── 6. Shared Attributes ──
 
 describe('shared attributes', () => {
-  it('SIZE_ATTR appears on ui-button and ui-input', () => {
-    const btnSize = getSchemaAttribute('ui-button', 'size');
-    const inpSize = getSchemaAttribute('ui-input', 'size');
+  it('SIZE_ATTR appears on n-button and n-input', () => {
+    const btnSize = getSchemaAttribute('n-button', 'size');
+    const inpSize = getSchemaAttribute('n-input', 'size');
     expect(btnSize).toBeDefined();
     expect(inpSize).toBeDefined();
     expect(btnSize!.values).toEqual(inpSize!.values);
@@ -249,9 +249,9 @@ describe('shared attributes', () => {
     expect(inpSize!.default).toBe('md');
   });
 
-  it('INTENT_ATTR appears on ui-button and ui-input', () => {
-    const btnIntent = getSchemaAttribute('ui-button', 'intent');
-    const inpIntent = getSchemaAttribute('ui-input', 'intent');
+  it('INTENT_ATTR appears on n-button and n-input', () => {
+    const btnIntent = getSchemaAttribute('n-button', 'intent');
+    const inpIntent = getSchemaAttribute('n-input', 'intent');
     expect(btnIntent).toBeDefined();
     expect(inpIntent).toBeDefined();
     expect(btnIntent!.values).toEqual(inpIntent!.values);
@@ -260,24 +260,24 @@ describe('shared attributes', () => {
     expect(btnIntent!.values).toContain('danger');
   });
 
-  it('DENSITY_ATTR appears on ui-button and ui-input', () => {
-    const btnDensity = getSchemaAttribute('ui-button', 'density');
-    const inpDensity = getSchemaAttribute('ui-input', 'density');
+  it('DENSITY_ATTR appears on n-button and n-input', () => {
+    const btnDensity = getSchemaAttribute('n-button', 'density');
+    const inpDensity = getSchemaAttribute('n-input', 'density');
     expect(btnDensity).toBeDefined();
     expect(inpDensity).toBeDefined();
     expect(btnDensity!.values).toEqual(['compact', 'default', 'loose']);
   });
 
-  it('RADIUS_ATTR appears on ui-button and ui-input', () => {
-    const btnRadius = getSchemaAttribute('ui-button', 'radius');
-    const inpRadius = getSchemaAttribute('ui-input', 'radius');
+  it('RADIUS_ATTR appears on n-button and n-input', () => {
+    const btnRadius = getSchemaAttribute('n-button', 'radius');
+    const inpRadius = getSchemaAttribute('n-input', 'radius');
     expect(btnRadius).toBeDefined();
     expect(inpRadius).toBeDefined();
     expect(btnRadius!.values).toEqual(['none', 'sm', 'round']);
   });
 
   it('DISABLED_ATTR appears on multiple form components', () => {
-    const tags = ['ui-button', 'ui-input', 'ui-select', 'ui-combobox', 'ui-checkbox', 'ui-switch'];
+    const tags = ['n-button', 'n-input', 'n-select', 'n-combobox', 'n-checkbox', 'n-switch'];
     for (const tag of tags) {
       const disabled = getSchemaAttribute(tag, 'disabled');
       expect(disabled).toBeDefined();
@@ -285,9 +285,9 @@ describe('shared attributes', () => {
     }
   });
 
-  it('PLACEHOLDER_ATTR appears on ui-input and ui-select', () => {
-    const inpPh = getSchemaAttribute('ui-input', 'placeholder');
-    const selPh = getSchemaAttribute('ui-select', 'placeholder');
+  it('PLACEHOLDER_ATTR appears on n-input and n-select', () => {
+    const inpPh = getSchemaAttribute('n-input', 'placeholder');
+    const selPh = getSchemaAttribute('n-select', 'placeholder');
     expect(inpPh).toBeDefined();
     expect(selPh).toBeDefined();
     expect(inpPh!.type).toBe('string');
@@ -296,8 +296,8 @@ describe('shared attributes', () => {
 
   it('shared attributes reference the same frozen values array', () => {
     // SIZE_ATTR is the same object, so values arrays should be identical references
-    const btnSize = getSchemaAttribute('ui-button', 'size');
-    const inpSize = getSchemaAttribute('ui-input', 'size');
+    const btnSize = getSchemaAttribute('n-button', 'size');
+    const inpSize = getSchemaAttribute('n-input', 'size');
     expect(btnSize!.values).toBe(inpSize!.values);
     expect(Object.isFrozen(btnSize!.values!)).toBe(true);
   });
@@ -305,8 +305,8 @@ describe('shared attributes', () => {
 
 // ── 7. Specific Component Schemas ──
 
-describe('ui-button schema', () => {
-  const schema = getSchema('ui-button')!;
+describe('n-button schema', () => {
+  const schema = getSchema('n-button')!;
 
   it('has variant attribute with correct enum values', () => {
     const variant = schema.attributes.find((a) => a.name === 'variant')!;
@@ -319,8 +319,8 @@ describe('ui-button schema', () => {
     expect(variant.default).toBe('default');
   });
 
-  it('has ui-press event', () => {
-    const press = schema.events.find((e) => e.name === 'ui-press');
+  it('has native:press event', () => {
+    const press = schema.events.find((e) => e.name === 'native:press');
     expect(press).toBeDefined();
   });
 
@@ -346,8 +346,8 @@ describe('ui-button schema', () => {
   });
 });
 
-describe('ui-input schema', () => {
-  const schema = getSchema('ui-input')!;
+describe('n-input schema', () => {
+  const schema = getSchema('n-input')!;
 
   it('has placeholder attribute', () => {
     const ph = schema.attributes.find((a) => a.name === 'placeholder');
@@ -355,10 +355,10 @@ describe('ui-input schema', () => {
     expect(ph!.type).toBe('string');
   });
 
-  it('has ui-input and ui-change events', () => {
+  it('has native:input and native:change events', () => {
     const eventNames = schema.events.map((e) => e.name);
-    expect(eventNames).toContain('ui-input');
-    expect(eventNames).toContain('ui-change');
+    expect(eventNames).toContain('native:input');
+    expect(eventNames).toContain('native:change');
   });
 
   it('is formAssociated', () => {
@@ -386,13 +386,13 @@ describe('ui-input schema', () => {
   });
 });
 
-describe('ui-select schema', () => {
-  const schema = getSchema('ui-select')!;
+describe('n-select schema', () => {
+  const schema = getSchema('n-select')!;
 
-  it('has allowedChildren including ui-button and ui-listbox', () => {
+  it('has allowedChildren including n-button and n-listbox', () => {
     expect(schema.allowedChildren).toBeDefined();
-    expect(schema.allowedChildren).toContain('ui-button');
-    expect(schema.allowedChildren).toContain('ui-listbox');
+    expect(schema.allowedChildren).toContain('n-button');
+    expect(schema.allowedChildren).toContain('n-listbox');
   });
 
   it('is formAssociated', () => {
@@ -406,8 +406,8 @@ describe('ui-select schema', () => {
     expect(src).toBeDefined();
   });
 
-  it('has ui-change event with detail', () => {
-    const change = schema.events.find((e) => e.name === 'ui-change');
+  it('has native:change event with detail', () => {
+    const change = schema.events.find((e) => e.name === 'native:change');
     expect(change).toBeDefined();
     expect(change!.detail).toBeDefined();
   });
@@ -424,13 +424,13 @@ describe('ui-select schema', () => {
   });
 });
 
-describe('ui-listbox schema', () => {
-  const schema = getSchema('ui-listbox')!;
+describe('n-listbox schema', () => {
+  const schema = getSchema('n-listbox')!;
 
-  it('has allowedChildren including ui-option', () => {
+  it('has allowedChildren including n-option', () => {
     expect(schema.allowedChildren).toBeDefined();
-    expect(schema.allowedChildren).toContain('ui-option');
-    expect(schema.allowedChildren).toContain('ui-option-group');
+    expect(schema.allowedChildren).toContain('n-option');
+    expect(schema.allowedChildren).toContain('n-option-group');
   });
 
   it('is display category', () => {
@@ -441,8 +441,8 @@ describe('ui-listbox schema', () => {
     expect(schema.formAssociated).toBe(false);
   });
 
-  it('has ui-select event', () => {
-    const select = schema.events.find((e) => e.name === 'ui-select');
+  it('has native:select event', () => {
+    const select = schema.events.find((e) => e.name === 'native:select');
     expect(select).toBeDefined();
   });
 
@@ -454,8 +454,8 @@ describe('ui-listbox schema', () => {
   });
 });
 
-describe('ui-icon schema', () => {
-  const schema = getSchema('ui-icon')!;
+describe('n-icon schema', () => {
+  const schema = getSchema('n-icon')!;
 
   it('has autoLabeled = false', () => {
     expect(schema.aria.autoLabeled).toBe(false);
@@ -488,13 +488,13 @@ describe('ui-icon schema', () => {
   });
 });
 
-describe('ui-dialog schema', () => {
-  const schema = getSchema('ui-dialog')!;
+describe('n-dialog schema', () => {
+  const schema = getSchema('n-dialog')!;
 
-  it('has close and ui-dismiss events', () => {
+  it('has close and native:dismiss events', () => {
     const eventNames = schema.events.map((e) => e.name);
     expect(eventNames).toContain('close');
-    expect(eventNames).toContain('ui-dismiss');
+    expect(eventNames).toContain('native:dismiss');
   });
 
   it('is overlay category', () => {
@@ -519,23 +519,23 @@ describe('ui-dialog schema', () => {
   });
 });
 
-describe('ui-combobox schema', () => {
-  const schema = getSchema('ui-combobox')!;
+describe('n-combobox schema', () => {
+  const schema = getSchema('n-combobox')!;
 
-  it('has allowedChildren including ui-input and ui-listbox', () => {
-    expect(schema.allowedChildren).toContain('ui-input');
-    expect(schema.allowedChildren).toContain('ui-listbox');
+  it('has allowedChildren including n-input and n-listbox', () => {
+    expect(schema.allowedChildren).toContain('n-input');
+    expect(schema.allowedChildren).toContain('n-listbox');
   });
 
-  it('has ui-change and ui-input events', () => {
+  it('has native:change and native:input events', () => {
     const eventNames = schema.events.map((e) => e.name);
-    expect(eventNames).toContain('ui-change');
-    expect(eventNames).toContain('ui-input');
+    expect(eventNames).toContain('native:change');
+    expect(eventNames).toContain('native:input');
   });
 });
 
-describe('ui-option schema', () => {
-  const schema = getSchema('ui-option')!;
+describe('n-option schema', () => {
+  const schema = getSchema('n-option')!;
 
   it('has value attribute', () => {
     const value = schema.attributes.find((a) => a.name === 'value');
@@ -552,8 +552,8 @@ describe('ui-option schema', () => {
   });
 });
 
-describe('ui-card schema', () => {
-  const schema = getSchema('ui-card')!;
+describe('n-card schema', () => {
+  const schema = getSchema('n-card')!;
 
   it('is container category', () => {
     expect(schema.category).toBe('container');
@@ -571,16 +571,16 @@ describe('ui-card schema', () => {
   });
 });
 
-describe('ui-tabs schema', () => {
-  const schema = getSchema('ui-tabs')!;
+describe('n-tabs schema', () => {
+  const schema = getSchema('n-tabs')!;
 
   it('is navigation category', () => {
     expect(schema.category).toBe('navigation');
   });
 
-  it('has allowedChildren including ui-tab and ui-tab-panels', () => {
-    expect(schema.allowedChildren).toContain('ui-tab');
-    expect(schema.allowedChildren).toContain('ui-tab-panels');
+  it('has allowedChildren including n-tab and n-tab-panels', () => {
+    expect(schema.allowedChildren).toContain('n-tab');
+    expect(schema.allowedChildren).toContain('n-tab-panels');
   });
 
   it('has role=tablist', () => {
@@ -588,8 +588,8 @@ describe('ui-tabs schema', () => {
   });
 });
 
-describe('ui-badge schema', () => {
-  const schema = getSchema('ui-badge')!;
+describe('n-badge schema', () => {
+  const schema = getSchema('n-badge')!;
 
   it('is display category', () => {
     expect(schema.category).toBe('display');
@@ -607,17 +607,17 @@ describe('ui-badge schema', () => {
   });
 });
 
-describe('ui-field schema', () => {
-  const schema = getSchema('ui-field')!;
+describe('n-field schema', () => {
+  const schema = getSchema('n-field')!;
 
   it('is form category', () => {
     expect(schema.category).toBe('form');
   });
 
   it('has allowedChildren for form controls', () => {
-    expect(schema.allowedChildren).toContain('ui-input');
-    expect(schema.allowedChildren).toContain('ui-select');
-    expect(schema.allowedChildren).toContain('ui-combobox');
+    expect(schema.allowedChildren).toContain('n-input');
+    expect(schema.allowedChildren).toContain('n-select');
+    expect(schema.allowedChildren).toContain('n-combobox');
     expect(schema.allowedChildren).toContain('label');
   });
 
@@ -626,8 +626,8 @@ describe('ui-field schema', () => {
   });
 });
 
-describe('ui-checkbox schema', () => {
-  const schema = getSchema('ui-checkbox')!;
+describe('n-checkbox schema', () => {
+  const schema = getSchema('n-checkbox')!;
 
   it('has role=checkbox', () => {
     expect(schema.aria.role).toBe('checkbox');
@@ -644,8 +644,8 @@ describe('ui-checkbox schema', () => {
   });
 });
 
-describe('ui-switch schema', () => {
-  const schema = getSchema('ui-switch')!;
+describe('n-switch schema', () => {
+  const schema = getSchema('n-switch')!;
 
   it('has role=switch', () => {
     expect(schema.aria.role).toBe('switch');
@@ -662,8 +662,8 @@ describe('ui-switch schema', () => {
   });
 });
 
-describe('ui-range schema', () => {
-  const schema = getSchema('ui-range')!;
+describe('n-range schema', () => {
+  const schema = getSchema('n-range')!;
 
   it('has min, max, step attributes', () => {
     const min = schema.attributes.find((a) => a.name === 'min');
@@ -688,8 +688,8 @@ describe('ui-range schema', () => {
   });
 });
 
-describe('ui-avatar schema', () => {
-  const schema = getSchema('ui-avatar')!;
+describe('n-avatar schema', () => {
+  const schema = getSchema('n-avatar')!;
 
   it('has src and alt attributes', () => {
     const src = schema.attributes.find((a) => a.name === 'src');
@@ -707,8 +707,8 @@ describe('ui-avatar schema', () => {
   });
 });
 
-describe('ui-textarea schema', () => {
-  const schema = getSchema('ui-textarea')!;
+describe('n-textarea schema', () => {
+  const schema = getSchema('n-textarea')!;
 
   it('has role=textbox', () => {
     expect(schema.aria.role).toBe('textbox');
@@ -718,85 +718,85 @@ describe('ui-textarea schema', () => {
     expect(schema.slots.length).toBe(0);
   });
 
-  it('has ui-input and ui-change events', () => {
+  it('has native:input and native:change events', () => {
     const eventNames = schema.events.map((e) => e.name);
-    expect(eventNames).toContain('ui-input');
-    expect(eventNames).toContain('ui-change');
+    expect(eventNames).toContain('native:input');
+    expect(eventNames).toContain('native:change');
   });
 });
 
 // ── 8. Aria Requirements ──
 
 describe('aria requirements', () => {
-  it('ui-input requires aria-label', () => {
-    const schema = getSchema('ui-input')!;
+  it('n-input requires aria-label', () => {
+    const schema = getSchema('n-input')!;
     expect(schema.aria.requiredAttributes).toContain('aria-label');
     expect(schema.aria.autoLabeled).toBe(false);
   });
 
-  it('ui-select requires aria-label', () => {
-    const schema = getSchema('ui-select')!;
+  it('n-select requires aria-label', () => {
+    const schema = getSchema('n-select')!;
     expect(schema.aria.requiredAttributes).toContain('aria-label');
     expect(schema.aria.autoLabeled).toBe(false);
   });
 
-  it('ui-combobox requires aria-label', () => {
-    const schema = getSchema('ui-combobox')!;
+  it('n-combobox requires aria-label', () => {
+    const schema = getSchema('n-combobox')!;
     expect(schema.aria.requiredAttributes).toContain('aria-label');
     expect(schema.aria.autoLabeled).toBe(false);
   });
 
-  it('ui-dialog requires aria-label', () => {
-    const schema = getSchema('ui-dialog')!;
+  it('n-dialog requires aria-label', () => {
+    const schema = getSchema('n-dialog')!;
     expect(schema.aria.requiredAttributes).toContain('aria-label');
     expect(schema.aria.autoLabeled).toBe(false);
   });
 
-  it('ui-textarea requires aria-label', () => {
-    const schema = getSchema('ui-textarea')!;
+  it('n-textarea requires aria-label', () => {
+    const schema = getSchema('n-textarea')!;
     expect(schema.aria.requiredAttributes).toContain('aria-label');
     expect(schema.aria.autoLabeled).toBe(false);
   });
 
-  it('ui-range requires aria-label', () => {
-    const schema = getSchema('ui-range')!;
+  it('n-range requires aria-label', () => {
+    const schema = getSchema('n-range')!;
     expect(schema.aria.requiredAttributes).toContain('aria-label');
     expect(schema.aria.autoLabeled).toBe(false);
   });
 
-  it('ui-button is autoLabeled', () => {
-    const schema = getSchema('ui-button')!;
+  it('n-button is autoLabeled', () => {
+    const schema = getSchema('n-button')!;
     expect(schema.aria.autoLabeled).toBe(true);
   });
 
-  it('ui-checkbox is autoLabeled', () => {
-    const schema = getSchema('ui-checkbox')!;
+  it('n-checkbox is autoLabeled', () => {
+    const schema = getSchema('n-checkbox')!;
     expect(schema.aria.autoLabeled).toBe(true);
   });
 
-  it('ui-switch is autoLabeled', () => {
-    const schema = getSchema('ui-switch')!;
+  it('n-switch is autoLabeled', () => {
+    const schema = getSchema('n-switch')!;
     expect(schema.aria.autoLabeled).toBe(true);
   });
 
-  it('ui-option is autoLabeled', () => {
-    const schema = getSchema('ui-option')!;
+  it('n-option is autoLabeled', () => {
+    const schema = getSchema('n-option')!;
     expect(schema.aria.autoLabeled).toBe(true);
   });
 
-  it('ui-badge is autoLabeled', () => {
-    const schema = getSchema('ui-badge')!;
+  it('n-badge is autoLabeled', () => {
+    const schema = getSchema('n-badge')!;
     expect(schema.aria.autoLabeled).toBe(true);
   });
 
-  it('ui-icon is NOT autoLabeled (requires aria-hidden)', () => {
-    const schema = getSchema('ui-icon')!;
+  it('n-icon is NOT autoLabeled (requires aria-hidden)', () => {
+    const schema = getSchema('n-icon')!;
     expect(schema.aria.autoLabeled).toBe(false);
     expect(schema.aria.requiredAttributes).toContain('aria-hidden');
   });
 
-  it('ui-avatar requires aria-label', () => {
-    const schema = getSchema('ui-avatar')!;
+  it('n-avatar requires aria-label', () => {
+    const schema = getSchema('n-avatar')!;
     expect(schema.aria.requiredAttributes).toContain('aria-label');
   });
 

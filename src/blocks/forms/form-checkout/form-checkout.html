@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
@@ -75,13 +75,13 @@
       .summary-line.total {
         font-weight: 700;
         font-size: 1rem;
-        border-top: 1px solid var(--neutral-border-muted);
+        border-top: 1px solid var(--n-border-muted-neutral);
         margin-top: 0.5rem;
         padding-top: 0.75rem;
       }
 
       .item-name {
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 
       .item-price {
@@ -90,17 +90,17 @@
       }
 
       .item-qty {
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         font-size: 0.8125rem;
       }
     </style>
   </head>
   <body>
-    <nui-app><main>
-    <ui-stack gap="6">
+    <n-app><main>
+    <n-stack gap="6">
     <div>
       <h1>Checkout</h1>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Complete your purchase by filling in the details below.
       </p>
     </div>
@@ -108,124 +108,124 @@
     <form id="checkout-form">
       <div class="checkout-layout">
         <!-- ── Left Column: Shipping + Payment ── -->
-        <ui-stack gap="6">
+        <n-stack gap="6">
           <!-- ── Shipping Information ── -->
-          <ui-card>
-            <ui-header>
-              <ui-icon name="package" slot="leading"></ui-icon>
+          <n-card>
+            <n-card-header>
+              <n-icon name="package" slot="leading"></n-icon>
               <span slot="label">Shipping Information</span>
-            </ui-header>
-            <ui-body>
-              <ui-stack gap="4">
+            </n-card-header>
+            <n-card-body>
+              <n-stack gap="4">
                 <div class="grid-2">
-                  <ui-field required>
+                  <n-field required>
                     <label slot="label">First name</label>
-                    <ui-input placeholder="Jane" name="first_name"></ui-input>
-                  </ui-field>
-                  <ui-field required>
+                    <n-input placeholder="Jane" name="first_name"></n-input>
+                  </n-field>
+                  <n-field required>
                     <label slot="label">Last name</label>
-                    <ui-input placeholder="Doe" name="last_name"></ui-input>
-                  </ui-field>
+                    <n-input placeholder="Doe" name="last_name"></n-input>
+                  </n-field>
                 </div>
 
-                <ui-field required>
+                <n-field required>
                   <label slot="label">Street address</label>
-                  <ui-input placeholder="123 Main Street, Apt 4B" name="address">
-                    <ui-icon name="map-pin" slot="leading"></ui-icon>
-                  </ui-input>
-                </ui-field>
+                  <n-input placeholder="123 Main Street, Apt 4B" name="address">
+                    <n-icon name="map-pin" slot="leading"></n-icon>
+                  </n-input>
+                </n-field>
 
                 <div class="grid-3">
-                  <ui-field required>
+                  <n-field required>
                     <label slot="label">City</label>
-                    <ui-input placeholder="San Francisco" name="city"></ui-input>
-                  </ui-field>
-                  <ui-field required>
+                    <n-input placeholder="San Francisco" name="city"></n-input>
+                  </n-field>
+                  <n-field required>
                     <label slot="label">State</label>
-                    <ui-input placeholder="CA" name="state"></ui-input>
-                  </ui-field>
-                  <ui-field required>
+                    <n-input placeholder="CA" name="state"></n-input>
+                  </n-field>
+                  <n-field required>
                     <label slot="label">ZIP code</label>
-                    <ui-input placeholder="94102" name="zip"></ui-input>
-                  </ui-field>
+                    <n-input placeholder="94102" name="zip"></n-input>
+                  </n-field>
                 </div>
 
-                <ui-field required>
+                <n-field required>
                   <label slot="label">Country</label>
-                  <ui-select name="country">
-                    <ui-button justify="spread">
+                  <n-select name="country">
+                    <n-button justify="spread">
                       <span slot="label">Select country</span>
-                      <ui-icon name="caret-up-down" slot="trailing"></ui-icon>
-                    </ui-button>
-                    <ui-listbox popover>
-                      <ui-option value="us">United States</ui-option>
-                      <ui-option value="ca">Canada</ui-option>
-                      <ui-option value="gb">United Kingdom</ui-option>
-                      <ui-option value="de">Germany</ui-option>
-                      <ui-option value="fr">France</ui-option>
-                      <ui-option value="au">Australia</ui-option>
-                    </ui-listbox>
-                  </ui-select>
-                </ui-field>
-              </ui-stack>
-            </ui-body>
-          </ui-card>
+                      <n-icon name="caret-up-down" slot="trailing"></n-icon>
+                    </n-button>
+                    <n-listbox popover>
+                      <n-option value="us">United States</n-option>
+                      <n-option value="ca">Canada</n-option>
+                      <n-option value="gb">United Kingdom</n-option>
+                      <n-option value="de">Germany</n-option>
+                      <n-option value="fr">France</n-option>
+                      <n-option value="au">Australia</n-option>
+                    </n-listbox>
+                  </n-select>
+                </n-field>
+              </n-stack>
+            </n-card-body>
+          </n-card>
 
           <!-- ── Payment Method ── -->
-          <ui-card>
-            <ui-header>
-              <ui-icon name="credit-card" slot="leading"></ui-icon>
+          <n-card>
+            <n-card-header>
+              <n-icon name="credit-card" slot="leading"></n-icon>
               <span slot="label">Payment Method</span>
-            </ui-header>
-            <ui-body>
-              <ui-stack gap="4">
-                <ui-field>
+            </n-card-header>
+            <n-card-body>
+              <n-stack gap="4">
+                <n-field>
                   <label slot="label">Payment type</label>
-                  <ui-radio-group name="payment_method" value="credit-card" orientation="horizontal">
-                    <ui-radio value="credit-card">Credit Card</ui-radio>
-                    <ui-radio value="paypal">PayPal</ui-radio>
-                    <ui-radio value="bank-transfer">Bank Transfer</ui-radio>
-                  </ui-radio-group>
-                </ui-field>
+                  <n-radio-group name="payment_method" value="credit-card" orientation="horizontal">
+                    <n-radio value="credit-card">Credit Card</n-radio>
+                    <n-radio value="paypal">PayPal</n-radio>
+                    <n-radio value="bank-transfer">Bank Transfer</n-radio>
+                  </n-radio-group>
+                </n-field>
 
-                <ui-field required>
+                <n-field required>
                   <label slot="label">Card number</label>
-                  <ui-input placeholder="4242 4242 4242 4242" name="card_number">
-                    <ui-icon name="credit-card" slot="leading"></ui-icon>
-                  </ui-input>
-                </ui-field>
+                  <n-input placeholder="4242 4242 4242 4242" name="card_number">
+                    <n-icon name="credit-card" slot="leading"></n-icon>
+                  </n-input>
+                </n-field>
 
                 <div class="grid-2">
-                  <ui-field required>
+                  <n-field required>
                     <label slot="label">Expiry date</label>
-                    <ui-input placeholder="MM / YY" name="card_expiry"></ui-input>
-                  </ui-field>
-                  <ui-field required>
+                    <n-input placeholder="MM / YY" name="card_expiry"></n-input>
+                  </n-field>
+                  <n-field required>
                     <label slot="label">CVV</label>
-                    <ui-input placeholder="123" name="card_cvv"></ui-input>
-                  </ui-field>
+                    <n-input placeholder="123" name="card_cvv"></n-input>
+                  </n-field>
                 </div>
 
-                <ui-field required>
+                <n-field required>
                   <label slot="label">Name on card</label>
-                  <ui-input placeholder="Jane Doe" name="card_name"></ui-input>
-                </ui-field>
+                  <n-input placeholder="Jane Doe" name="card_name"></n-input>
+                </n-field>
 
-                <ui-checkbox name="save_card">Save card for future purchases</ui-checkbox>
-              </ui-stack>
-            </ui-body>
-          </ui-card>
-        </ui-stack>
+                <n-checkbox name="save_card">Save card for future purchases</n-checkbox>
+              </n-stack>
+            </n-card-body>
+          </n-card>
+        </n-stack>
 
         <!-- ── Right Column: Order Summary ── -->
         <div>
-          <ui-card>
-            <ui-header>
-              <ui-icon name="receipt" slot="leading"></ui-icon>
+          <n-card>
+            <n-card-header>
+              <n-icon name="receipt" slot="leading"></n-icon>
               <span slot="label">Order Summary</span>
-            </ui-header>
-            <ui-body>
-              <ui-stack gap="2">
+            </n-card-header>
+            <n-card-body>
+              <n-stack gap="2">
                 <div class="summary-line">
                   <div>
                     <span class="item-name">Wireless Headphones</span>
@@ -248,18 +248,18 @@
                   <span class="item-price">$29.99</span>
                 </div>
 
-                <ui-divider></ui-divider>
+                <n-divider></n-divider>
 
                 <div class="summary-line">
-                  <span style="color: var(--neutral-ink-muted);">Subtotal</span>
+                  <span style="color: var(--n-ink-muted-neutral);">Subtotal</span>
                   <span class="item-price">$204.97</span>
                 </div>
                 <div class="summary-line">
-                  <span style="color: var(--neutral-ink-muted);">Shipping</span>
+                  <span style="color: var(--n-ink-muted-neutral);">Shipping</span>
                   <span class="item-price">$9.99</span>
                 </div>
                 <div class="summary-line">
-                  <span style="color: var(--neutral-ink-muted);">Tax</span>
+                  <span style="color: var(--n-ink-muted-neutral);">Tax</span>
                   <span class="item-price">$17.42</span>
                 </div>
 
@@ -267,38 +267,38 @@
                   <span>Total</span>
                   <span class="item-price">$232.38</span>
                 </div>
-              </ui-stack>
-            </ui-body>
-            <ui-footer justify="center">
-              <ui-stack gap="3" align="stretch">
-                <ui-button variant="primary" intent="accent" type="submit" form="checkout-form">
-                  <ui-icon name="shopping-cart" slot="leading"></ui-icon>
+              </n-stack>
+            </n-card-body>
+            <n-card-footer justify="center">
+              <n-stack gap="3" align="stretch">
+                <n-button variant="primary" intent="accent" type="submit" form="checkout-form">
+                  <n-icon name="shopping-cart" slot="leading"></n-icon>
                   <span slot="label">Place Order</span>
-                </ui-button>
-                <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); text-align: center; margin: 0;">
+                </n-button>
+                <p style="font-size: 0.75rem; color: var(--n-ink-muted-neutral); text-align: center; margin: 0;">
                   Your payment information is encrypted and secure.
                 </p>
-              </ui-stack>
-            </ui-footer>
-          </ui-card>
+              </n-stack>
+            </n-card-footer>
+          </n-card>
         </div>
       </div>
     </form>
-    </ui-stack>
+    </n-stack>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-field/ui-field.ts';
-      import '../../../components/ui-input/ui-input.ts';
-      import '../../../components/ui-select/ui-select.ts';
-      import '../../../components/ui-listbox/ui-listbox.ts';
-      import '../../../components/ui-listbox/ui-option.ts';
-      import '../../../components/ui-radio/ui-radio.ts';
-      import '../../../components/ui-checkbox/ui-checkbox.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../containers/ui-card/ui-card.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/field/field.ts';
+      import '../../../components/input/input.ts';
+      import '../../../components/select/select.ts';
+      import '../../../components/listbox/listbox.ts';
+      import '../../../components/listbox/option.ts';
+      import '../../../components/radio/radio.ts';
+      import '../../../components/checkbox/checkbox.ts';
+      import '../../../components/button/button.ts';
+      import '../../../containers/card/card.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/package.ts';
       import '../../../icons/phosphor/map-pin.ts';
       import '../../../icons/phosphor/credit-card.ts';

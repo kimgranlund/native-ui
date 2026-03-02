@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="../../../styles/index.css" />
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
-      body { background: var(--neutral-doc); color: var(--neutral-950); }
+      body { background: var(--n-doc-neutral); color: var(--neutral-950); }
       main { padding: 2rem; }
       h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
-      h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; margin-top: 2rem; color: var(--neutral-ink-strong); }
+      h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; margin-top: 2rem; color: var(--n-ink-strong-neutral); }
 
       .settings-container {
         max-width: 40rem;
@@ -25,14 +25,14 @@
 
       .settings-section-description {
         font-size: 0.8125rem;
-        color: var(--neutral-ink-muted);
-        margin: calc(var(--_space) * 1) 0 0;
+        color: var(--n-ink-muted-neutral);
+        margin: calc(var(--n-space) * 1) 0 0;
       }
 
       .avatar-row {
         display: flex;
         align-items: center;
-        gap: calc(var(--_space) * 4);
+        gap: calc(var(--n-space) * 4);
       }
 
       .avatar-info {
@@ -48,18 +48,18 @@
 
       .avatar-hint {
         font-size: 0.75rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
       }
 
       .notification-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-block: calc(var(--_space) * 3);
+        padding-block: calc(var(--n-space) * 3);
       }
 
       .notification-row + .notification-row {
-        border-top: 1px solid var(--neutral-border-muted);
+        border-top: 1px solid var(--n-border-muted-neutral);
       }
 
       .notification-label {
@@ -69,28 +69,28 @@
 
       .notification-description {
         font-size: 0.75rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         margin-top: 0.125rem;
       }
 
       .section-actions {
         display: flex;
         justify-content: flex-end;
-        padding-top: calc(var(--_space) * 2);
+        padding-top: calc(var(--n-space) * 2);
       }
 
       .danger-zone {
-        background: var(--danger-panel);
-        border: 1px solid var(--danger-border-muted);
-        border-radius: var(--_radius);
-        padding: calc(var(--_space-k) * var(--_space));
+        background: var(--n-panel-danger);
+        border: 1px solid var(--n-border-muted-danger);
+        border-radius: var(--n-radius);
+        padding: calc(var(--n-space-k) * var(--n-space));
       }
 
       .danger-zone-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: calc(var(--_space) * 4);
+        gap: calc(var(--n-space) * 4);
         flex-wrap: wrap;
       }
 
@@ -102,21 +102,21 @@
       .danger-zone-heading {
         font-size: 0.875rem;
         font-weight: 600;
-        color: var(--danger-ink-strong);
+        color: var(--n-ink-strong-danger);
         margin: 0;
       }
 
       .danger-zone-description {
         font-size: 0.75rem;
-        color: var(--danger-ink-muted);
-        margin: calc(var(--_space) * 1) 0 0;
+        color: var(--n-ink-muted-danger);
+        margin: calc(var(--n-space) * 1) 0 0;
       }
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
     <h1>Account Settings</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem; margin-bottom: 1.5rem;">
       Full account settings page with profile, notification, security, and danger zone sections.
     </p>
 
@@ -124,125 +124,125 @@
 
       <!-- ── Profile Section ── -->
 
-      <ui-stack gap="0">
-        <ui-section>
+      <n-stack gap="0">
+        <n-section>
           <span slot="heading">Profile</span>
           <span slot="description">Your public profile information. This is visible to other users.</span>
 
-          <ui-stack gap="4">
+          <n-stack gap="4">
             <div class="avatar-row">
-              <ui-avatar name="Kim Granlund" size="lg" intent="accent"></ui-avatar>
+              <n-avatar name="Kim Granlund" size="lg" intent="accent"></n-avatar>
               <div class="avatar-info">
                 <span class="avatar-name">Kim Granlund</span>
                 <span class="avatar-hint">JPG, PNG or GIF. 1MB max.</span>
               </div>
-              <ui-button size="sm">
+              <n-button size="sm">
                 <span slot="label">Change</span>
-              </ui-button>
+              </n-button>
             </div>
 
-            <ui-field required>
+            <n-field required>
               <label slot="label">Display name</label>
-              <ui-input placeholder="Your display name" value="Kim Granlund" name="display_name"></ui-input>
-            </ui-field>
+              <n-input placeholder="Your display name" value="Kim Granlund" name="display_name"></n-input>
+            </n-field>
 
-            <ui-field>
+            <n-field>
               <label slot="label">Email</label>
-              <ui-input type="email" placeholder="you@example.com" value="kim@nonoun.com" name="email">
-                <ui-icon name="envelope" slot="leading"></ui-icon>
-              </ui-input>
+              <n-input type="email" placeholder="you@example.com" value="kim@nonoun.com" name="email">
+                <n-icon name="envelope" slot="leading"></n-icon>
+              </n-input>
               <span slot="description">Used for notifications and account recovery.</span>
-            </ui-field>
+            </n-field>
 
-            <ui-field>
+            <n-field>
               <label slot="label">Bio</label>
-              <ui-textarea placeholder="Write a few sentences about yourself..." name="bio" rows="3">Product designer focused on design systems, interaction patterns, and accessible interfaces.</ui-textarea>
-            </ui-field>
+              <n-textarea placeholder="Write a few sentences about yourself..." name="bio" rows="3">Product designer focused on design systems, interaction patterns, and accessible interfaces.</n-textarea>
+            </n-field>
 
             <div class="section-actions">
-              <ui-button variant="primary" intent="accent">
+              <n-button variant="primary" intent="accent">
                 <span slot="label">Save Profile</span>
-              </ui-button>
+              </n-button>
             </div>
-          </ui-stack>
-        </ui-section>
+          </n-stack>
+        </n-section>
 
         <!-- ── Notifications Section ── -->
 
-        <ui-section divider>
+        <n-section divider>
           <span slot="heading">Notifications</span>
           <span slot="description">Choose how and when you want to be notified.</span>
 
-          <ui-stack gap="0">
+          <n-stack gap="0">
             <div class="notification-row">
               <div>
                 <div class="notification-label">Email notifications</div>
                 <div class="notification-description">Receive email updates about account activity and mentions.</div>
               </div>
-              <ui-switch name="notif_email" checked </ui-switch>
+              <n-switch name="notif_email" checked </n-switch>
             </div>
             <div class="notification-row">
               <div>
                 <div class="notification-label">Push notifications</div>
                 <div class="notification-description">Get push notifications on your desktop and mobile devices.</div>
               </div>
-              <ui-switch name="notif_push" </ui-switch>
+              <n-switch name="notif_push" </n-switch>
             </div>
             <div class="notification-row">
               <div>
                 <div class="notification-label">Marketing emails</div>
                 <div class="notification-description">Receive tips, product updates, and promotional offers.</div>
               </div>
-              <ui-switch name="notif_marketing" </ui-switch>
+              <n-switch name="notif_marketing" </n-switch>
             </div>
 
             <div class="section-actions">
-              <ui-button variant="primary" intent="accent">
+              <n-button variant="primary" intent="accent">
                 <span slot="label">Save Preferences</span>
-              </ui-button>
+              </n-button>
             </div>
-          </ui-stack>
-        </ui-section>
+          </n-stack>
+        </n-section>
 
         <!-- ── Security Section ── -->
 
-        <ui-section divider>
+        <n-section divider>
           <span slot="heading">Security</span>
           <span slot="description">Update your password. We recommend using a strong, unique password.</span>
 
           <form>
-            <ui-stack gap="4">
-              <ui-field required>
+            <n-stack gap="4">
+              <n-field required>
                 <label slot="label">Current password</label>
-                <ui-input type="password" placeholder="Enter current password" name="current_password">
-                  <ui-icon name="lock" slot="leading"></ui-icon>
-                </ui-input>
-              </ui-field>
-              <ui-field required>
+                <n-input type="password" placeholder="Enter current password" name="current_password">
+                  <n-icon name="lock" slot="leading"></n-icon>
+                </n-input>
+              </n-field>
+              <n-field required>
                 <label slot="label">New password</label>
-                <ui-input type="password" placeholder="Enter new password" name="new_password">
-                  <ui-icon name="lock" slot="leading"></ui-icon>
-                </ui-input>
+                <n-input type="password" placeholder="Enter new password" name="new_password">
+                  <n-icon name="lock" slot="leading"></n-icon>
+                </n-input>
                 <span slot="description">Must be at least 8 characters with one uppercase and one number.</span>
-              </ui-field>
-              <ui-field required>
+              </n-field>
+              <n-field required>
                 <label slot="label">Confirm new password</label>
-                <ui-input type="password" placeholder="Repeat new password" name="confirm_password">
-                  <ui-icon name="lock" slot="leading"></ui-icon>
-                </ui-input>
-              </ui-field>
+                <n-input type="password" placeholder="Repeat new password" name="confirm_password">
+                  <n-icon name="lock" slot="leading"></n-icon>
+                </n-input>
+              </n-field>
               <div class="section-actions">
-                <ui-button variant="primary" intent="accent" type="submit">
+                <n-button variant="primary" intent="accent" type="submit">
                   <span slot="label">Update Password</span>
-                </ui-button>
+                </n-button>
               </div>
-            </ui-stack>
+            </n-stack>
           </form>
-        </ui-section>
+        </n-section>
 
         <!-- ── Danger Zone ── -->
 
-        <ui-section divider>
+        <n-section divider>
           <span slot="heading">Danger Zone</span>
 
           <div class="danger-zone">
@@ -253,28 +253,28 @@
                   Permanently remove your account and all associated data. This action cannot be undone.
                 </p>
               </div>
-              <ui-button variant="primary" intent="danger">
-                <ui-icon name="trash" slot="leading"></ui-icon>
+              <n-button variant="primary" intent="danger">
+                <n-icon name="trash" slot="leading"></n-icon>
                 <span slot="label">Delete Account</span>
-              </ui-button>
+              </n-button>
             </div>
           </div>
-        </ui-section>
+        </n-section>
 
-      </ui-stack>
+      </n-stack>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../components/ui-input/ui-input.ts';
-      import '../../../components/ui-field/ui-field.ts';
-      import '../../../components/ui-textarea/ui-textarea.ts';
-      import '../../../components/ui-switch/ui-switch.ts';
-      import '../../../components/ui-avatar/ui-avatar.ts';
-      import '../../../containers/ui-section/ui-section.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/button/button.ts';
+      import '../../../components/input/input.ts';
+      import '../../../components/field/field.ts';
+      import '../../../components/textarea/textarea.ts';
+      import '../../../components/switch/switch.ts';
+      import '../../../components/avatar/avatar.ts';
+      import '../../../containers/section/section.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/envelope.ts';
       import '../../../icons/phosphor/lock.ts';
       import '../../../icons/phosphor/trash.ts';

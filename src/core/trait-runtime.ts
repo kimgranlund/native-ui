@@ -14,9 +14,9 @@ export class DismissStack {
     if (!top) return;
     // WHY: composedPath() crosses shadow DOM boundaries — e.target is retargeted
     // to the shadow host, so top.contains(e.target) always fails for elements
-    // rendered inside a shadow root (e.g. ui-select inside nui-app's shadow DOM).
+    // rendered inside a shadow root (e.g. n-select inside n-app's shadow DOM).
     if (e.composedPath().includes(top)) return;
-    top.dispatchEvent(new CustomEvent('ui-dismiss', { bubbles: true, composed: true }));
+    top.dispatchEvent(new CustomEvent('native:dismiss', { bubbles: true, composed: true }));
   };
 
   #onKeyDown = (e: KeyboardEvent): void => {
@@ -24,7 +24,7 @@ export class DismissStack {
     const top = this.#stack[this.#stack.length - 1];
     if (!top) return;
     e.preventDefault();
-    top.dispatchEvent(new CustomEvent('ui-dismiss', { bubbles: true, composed: true }));
+    top.dispatchEvent(new CustomEvent('native:dismiss', { bubbles: true, composed: true }));
   };
 
   push(el: HTMLElement): void {
@@ -80,7 +80,7 @@ export class ToastManager {
   #getContainer(): HTMLElement {
     if (this.#container && this.#container.isConnected) return this.#container;
     this.#container = document.createElement('div');
-    this.#container.className = 'ui-toast-container';
+    this.#container.className = 'n-toast-container';
     this.#container.setAttribute('role', 'status');
     this.#container.setAttribute('aria-live', 'polite');
     this.#container.setAttribute('aria-atomic', 'false');
@@ -104,19 +104,19 @@ export class ToastManager {
     const c = this.#getContainer();
 
     const el = document.createElement('div');
-    el.className = 'ui-toast';
+    el.className = 'n-toast';
     el.setAttribute('intent', intent);
     el.setAttribute('role', 'alert');
     el.style.cssText = 'pointer-events: auto;';
 
     const msg = document.createElement('span');
-    msg.className = 'ui-toast-message';
+    msg.className = 'n-toast-message';
     msg.textContent = message;
     el.appendChild(msg);
 
     if (dismissible) {
       const close = document.createElement('button');
-      close.className = 'ui-toast-close';
+      close.className = 'n-toast-close';
       close.setAttribute('aria-label', 'Dismiss');
       close.textContent = '\u00d7';
       close.addEventListener('click', () => this.dismiss(id));
@@ -128,7 +128,7 @@ export class ToastManager {
     const timer = duration > 0 ? setTimeout(() => this.dismiss(id), duration) : null;
     this.#toasts.push({ id, el, timer });
 
-    host.dispatchEvent(new CustomEvent('ui-toast', {
+    host.dispatchEvent(new CustomEvent('native:toast', {
       bubbles: true,
       composed: true,
       detail: { id, message, intent },

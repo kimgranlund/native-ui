@@ -47,10 +47,10 @@ describe('Kernel Integration', () => {
       expect(form).not.toBeNull();
 
       // Verify form contains expected child elements
-      const inputs = container.querySelectorAll('ui-input');
+      const inputs = container.querySelectorAll('n-input');
       expect(inputs.length).toBe(2);
 
-      const button = container.querySelector('ui-button');
+      const button = container.querySelector('n-button');
       expect(button).not.toBeNull();
       expect(button!.textContent).toBe('Sign In');
 
@@ -556,15 +556,15 @@ describe('Kernel Integration', () => {
             attributes: { role: 'toolbar', 'aria-label': 'Actions' },
             children: [
               {
-                component: 'ui-button',
+                component: 'n-button',
                 label: 'Save',
-                events: { 'ui-press': 'doc.save' },
+                events: { 'native:press': 'doc.save' },
               },
               {
-                component: 'ui-button',
+                component: 'n-button',
                 label: 'Delete',
                 attributes: { intent: 'danger' },
-                events: { 'ui-press': 'doc.delete' },
+                events: { 'native:press': 'doc.delete' },
               },
             ],
           },
@@ -577,7 +577,7 @@ describe('Kernel Integration', () => {
       const elements = kernel.executePlan(result.plan, container);
       expect(elements.size).toBeGreaterThan(0);
 
-      const buttons = container.querySelectorAll('ui-button');
+      const buttons = container.querySelectorAll('n-button');
       expect(buttons.length).toBe(2);
 
       // Step 3: Wire command handlers and simulate interaction
@@ -588,7 +588,7 @@ describe('Kernel Integration', () => {
 
       // Simulate button press by dispatching the event on the DOM element
       const saveButton = buttons[0] as HTMLElement;
-      saveButton.dispatchEvent(new CustomEvent('ui-press', { bubbles: true }));
+      saveButton.dispatchEvent(new CustomEvent('native:press', { bubbles: true }));
       expect(saveHandler).toHaveBeenCalledOnce();
 
       // Step 4: Dispatch an undoable command through the bus

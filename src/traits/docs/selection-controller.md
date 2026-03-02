@@ -2,7 +2,7 @@
 
 # SelectionController
 
-> Manages single or multi-select item state with Ctrl/Shift modifiers, dispatching `ui-selection-change`.
+> Manages single or multi-select item state with Ctrl/Shift modifiers, dispatching `native:selection-change`.
 
 ## Constructor
 
@@ -22,7 +22,7 @@ new SelectionController(host: HTMLElement, options?: SelectionOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-selection-change` | `{ selected, count }` |
+| `native:selection-change` | `{ selected, count }` |
 
 ## Methods
 

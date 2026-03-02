@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
@@ -27,7 +27,7 @@
         font-size: 1rem;
         font-weight: 700;
         margin: 0;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 
       .nav-bar {
@@ -35,9 +35,9 @@
         align-items: center;
         gap: 0.75rem;
         padding: 0.5rem 1rem;
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
+        background: var(--n-body-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
         min-height: 3rem;
       }
 
@@ -51,8 +51,8 @@
         flex-shrink: 0;
       }
 
-      .nav-brand ui-icon {
-        color: var(--accent-ink-strong);
+      .nav-brand n-icon {
+        color: var(--n-ink-strong-accent);
       }
 
       .nav-center {
@@ -96,11 +96,11 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
-    <ui-stack gap="6">
+    <n-app><main>
+    <n-stack gap="6">
     <div>
       <h1>Top Navigation Bar</h1>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Horizontal application header with brand, navigation, search, and user controls.
         Demonstrates two layout variants: breadcrumb-centered and search-centered.
       </p>
@@ -108,128 +108,128 @@
 
     <!-- -- With Breadcrumb -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <h2>With Breadcrumb Navigation</h2>
     <nav class="nav-bar" aria-label="Main navigation">
       <div class="nav-brand">
-        <ui-icon name="house" aria-hidden="true"></ui-icon>
+        <n-icon name="house" aria-hidden="true"></n-icon>
         Acme Inc
       </div>
 
-      <ui-divider orientation="vertical"></ui-divider>
+      <n-divider orientation="vertical"></n-divider>
 
       <div class="nav-center">
-        <ui-breadcrumb size="sm">
-          <ui-breadcrumb-item href="/">Dashboard</ui-breadcrumb-item>
-          <ui-breadcrumb-item href="/projects">Projects</ui-breadcrumb-item>
-          <ui-breadcrumb-item current>Alpha</ui-breadcrumb-item>
-        </ui-breadcrumb>
+        <n-breadcrumb size="sm">
+          <n-breadcrumb-item href="/">Dashboard</n-breadcrumb-item>
+          <n-breadcrumb-item href="/projects">Projects</n-breadcrumb-item>
+          <n-breadcrumb-item current>Alpha</n-breadcrumb-item>
+        </n-breadcrumb>
       </div>
 
       <div class="nav-actions">
-        <ui-button variant="ghost" size="sm" aria-label="Search">
-          <ui-icon name="magnifying-glass"></ui-icon>
-        </ui-button>
+        <n-button variant="ghost" size="sm" aria-label="Search">
+          <n-icon name="magnifying-glass"></n-icon>
+        </n-button>
         <div class="icon-badge-wrapper">
-          <ui-button variant="ghost" size="sm" aria-label="Notifications">
-            <ui-icon name="bell"></ui-icon>
-          </ui-button>
-          <ui-badge intent="danger" floating>3</ui-badge>
+          <n-button variant="ghost" size="sm" aria-label="Notifications">
+            <n-icon name="bell"></n-icon>
+          </n-button>
+          <n-badge intent="danger" floating>3</n-badge>
         </div>
-        <ui-divider orientation="vertical"></ui-divider>
+        <n-divider orientation="vertical"></n-divider>
         <div class="nav-user">
-          <ui-avatar name="Kim Granlund" size="sm"></ui-avatar>
+          <n-avatar name="Kim Granlund" size="sm"></n-avatar>
           <span class="nav-user-name">Kim Granlund</span>
-          <ui-icon name="caret-down" aria-hidden="true" style="color: var(--neutral-ink-muted);"></ui-icon>
+          <n-icon name="caret-down" aria-hidden="true" style="color: var(--n-ink-muted-neutral);"></n-icon>
         </div>
       </div>
     </nav>
-    </ui-stack>
+    </n-stack>
 
     <!-- -- With Search Input -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <h2>With Search Input</h2>
     <nav class="nav-bar" aria-label="Main navigation with search">
       <div class="nav-brand">
-        <ui-icon name="house" aria-hidden="true"></ui-icon>
+        <n-icon name="house" aria-hidden="true"></n-icon>
         Acme Inc
       </div>
 
-      <ui-divider orientation="vertical"></ui-divider>
+      <n-divider orientation="vertical"></n-divider>
 
       <div class="nav-center">
         <div class="search-input-wrapper">
-          <ui-input size="sm" placeholder="Search projects, people, tasks...">
-            <ui-icon name="magnifying-glass" slot="leading"></ui-icon>
-          </ui-input>
+          <n-input size="sm" placeholder="Search projects, people, tasks...">
+            <n-icon name="magnifying-glass" slot="leading"></n-icon>
+          </n-input>
         </div>
       </div>
 
       <div class="nav-actions">
         <div class="icon-badge-wrapper">
-          <ui-button variant="ghost" size="sm" aria-label="Notifications">
-            <ui-icon name="bell"></ui-icon>
-          </ui-button>
-          <ui-badge intent="danger" floating>3</ui-badge>
+          <n-button variant="ghost" size="sm" aria-label="Notifications">
+            <n-icon name="bell"></n-icon>
+          </n-button>
+          <n-badge intent="danger" floating>3</n-badge>
         </div>
-        <ui-divider orientation="vertical"></ui-divider>
+        <n-divider orientation="vertical"></n-divider>
         <div class="nav-user">
-          <ui-avatar name="Kim Granlund" size="sm"></ui-avatar>
+          <n-avatar name="Kim Granlund" size="sm"></n-avatar>
           <span class="nav-user-name">Kim Granlund</span>
-          <ui-icon name="caret-down" aria-hidden="true" style="color: var(--neutral-ink-muted);"></ui-icon>
+          <n-icon name="caret-down" aria-hidden="true" style="color: var(--n-ink-muted-neutral);"></n-icon>
         </div>
       </div>
     </nav>
-    </ui-stack>
+    </n-stack>
 
     <!-- -- Compact Variant -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <h2>Compact (density)</h2>
     <nav class="nav-bar" aria-label="Compact navigation" density="compact">
       <div class="nav-brand">
-        <ui-icon name="house" aria-hidden="true"></ui-icon>
+        <n-icon name="house" aria-hidden="true"></n-icon>
         Acme Inc
       </div>
 
-      <ui-divider orientation="vertical"></ui-divider>
+      <n-divider orientation="vertical"></n-divider>
 
       <div class="nav-center">
-        <ui-breadcrumb size="sm">
-          <ui-breadcrumb-item href="/">Dashboard</ui-breadcrumb-item>
-          <ui-breadcrumb-item current>Overview</ui-breadcrumb-item>
-        </ui-breadcrumb>
+        <n-breadcrumb size="sm">
+          <n-breadcrumb-item href="/">Dashboard</n-breadcrumb-item>
+          <n-breadcrumb-item current>Overview</n-breadcrumb-item>
+        </n-breadcrumb>
       </div>
 
       <div class="nav-actions">
-        <ui-button variant="ghost" size="sm" aria-label="Search">
-          <ui-icon name="magnifying-glass"></ui-icon>
-        </ui-button>
+        <n-button variant="ghost" size="sm" aria-label="Search">
+          <n-icon name="magnifying-glass"></n-icon>
+        </n-button>
         <div class="icon-badge-wrapper">
-          <ui-button variant="ghost" size="sm" aria-label="Notifications">
-            <ui-icon name="bell"></ui-icon>
-          </ui-button>
-          <ui-badge intent="danger" floating>3</ui-badge>
+          <n-button variant="ghost" size="sm" aria-label="Notifications">
+            <n-icon name="bell"></n-icon>
+          </n-button>
+          <n-badge intent="danger" floating>3</n-badge>
         </div>
-        <ui-divider orientation="vertical"></ui-divider>
+        <n-divider orientation="vertical"></n-divider>
         <div class="nav-user">
-          <ui-avatar name="Kim Granlund" size="xs"></ui-avatar>
+          <n-avatar name="Kim Granlund" size="xs"></n-avatar>
         </div>
       </div>
     </nav>
-    </ui-stack>
-    </ui-stack>
+    </n-stack>
+    </n-stack>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../components/ui-input/ui-input.ts';
-      import '../../../components/ui-avatar/ui-avatar.ts';
-      import '../../../components/ui-badge/ui-badge.ts';
-      import '../../../components/ui-breadcrumb/ui-breadcrumb.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/button/button.ts';
+      import '../../../components/input/input.ts';
+      import '../../../components/avatar/avatar.ts';
+      import '../../../components/badge/badge.ts';
+      import '../../../components/breadcrumb/breadcrumb.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/house.ts';
       import '../../../icons/phosphor/magnifying-glass.ts';
       import '../../../icons/phosphor/bell.ts';

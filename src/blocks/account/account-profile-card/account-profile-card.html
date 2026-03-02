@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="../../../styles/index.css" />
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
-      body { background: var(--neutral-doc); color: var(--neutral-950); }
+      body { background: var(--n-doc-neutral); color: var(--neutral-950); }
       main { padding: 2rem; }
       h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
-      h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; margin-top: 2rem; color: var(--neutral-ink-strong); }
+      h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; margin-top: 2rem; color: var(--n-ink-strong-neutral); }
 
       .profile-card-wrapper {
         max-width: 22rem;
@@ -22,7 +22,7 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: calc(var(--_space) * 3);
+        gap: calc(var(--n-space) * 3);
       }
 
       .profile-name {
@@ -33,17 +33,17 @@
 
       .profile-role {
         font-size: 0.8125rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         margin: -0.25rem 0 0;
       }
 
       .profile-stats {
         display: flex;
         justify-content: center;
-        gap: calc(var(--_space) * 8);
-        padding-block: calc(var(--_space) * 4);
-        border-top: 1px solid var(--neutral-border-muted);
-        border-bottom: 1px solid var(--neutral-border-muted);
+        gap: calc(var(--n-space) * 8);
+        padding-block: calc(var(--n-space) * 4);
+        border-top: 1px solid var(--n-border-muted-neutral);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
       }
 
       .stat {
@@ -61,14 +61,14 @@
 
       .stat-label {
         font-size: 0.6875rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         text-transform: uppercase;
         letter-spacing: 0.04em;
       }
 
       .profile-actions {
         display: flex;
-        gap: calc(var(--_space) * 2);
+        gap: calc(var(--n-space) * 2);
         width: 100%;
       }
 
@@ -79,14 +79,14 @@
       .demo-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
-        gap: calc(var(--_space) * 6);
+        gap: calc(var(--n-space) * 6);
       }
 
       /* ── Horizontal variant ── */
       .profile-horizontal {
         display: flex;
         align-items: center;
-        gap: calc(var(--_space) * 4);
+        gap: calc(var(--n-space) * 4);
       }
 
       .profile-horizontal-info {
@@ -102,21 +102,21 @@
 
       .profile-horizontal-role {
         font-size: 0.8125rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         margin: 0.125rem 0 0;
       }
 
       .profile-horizontal-actions {
         display: flex;
-        gap: calc(var(--_space) * 2);
+        gap: calc(var(--n-space) * 2);
         flex-shrink: 0;
       }
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
     <h1>Profile Card</h1>
-    <p style="color: var(--neutral-ink-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">
+    <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem; margin-bottom: 1.5rem;">
       Compact profile display card with avatar, stats, and action buttons.
     </p>
 
@@ -124,15 +124,15 @@
 
     <h2>Standard</h2>
     <div class="profile-card-wrapper">
-      <ui-card>
-        <ui-stack gap="4" align="center">
+      <n-card>
+        <n-stack gap="4" align="center">
           <div class="profile-header">
-            <ui-avatar name="Kim Granlund" size="xl" intent="accent"></ui-avatar>
+            <n-avatar name="Kim Granlund" size="xl" intent="accent"></n-avatar>
             <div>
               <p class="profile-name">Kim Granlund</p>
               <p class="profile-role">Product Designer</p>
             </div>
-            <ui-badge intent="success">Pro</ui-badge>
+            <n-badge intent="success">Pro</n-badge>
           </div>
 
           <div class="profile-stats">
@@ -151,27 +151,27 @@
           </div>
 
           <div class="profile-actions">
-            <ui-button variant="primary" intent="accent">
-              <ui-icon name="user-plus" slot="leading"></ui-icon>
+            <n-button variant="primary" intent="accent">
+              <n-icon name="user-plus" slot="leading"></n-icon>
               <span slot="label">Follow</span>
-            </ui-button>
-            <ui-button variant="secondary">
-              <ui-icon name="chat-circle" slot="leading"></ui-icon>
+            </n-button>
+            <n-button variant="secondary">
+              <n-icon name="chat-circle" slot="leading"></n-icon>
               <span slot="label">Message</span>
-            </ui-button>
+            </n-button>
           </div>
-        </ui-stack>
-      </ui-card>
+        </n-stack>
+      </n-card>
     </div>
 
     <!-- ── Multiple Cards ── -->
 
     <h2>Team Grid</h2>
     <div class="demo-grid">
-      <ui-card>
-        <ui-stack gap="4" align="center">
+      <n-card>
+        <n-stack gap="4" align="center">
           <div class="profile-header">
-            <ui-avatar name="Alex Morgan" size="lg" intent="info"></ui-avatar>
+            <n-avatar name="Alex Morgan" size="lg" intent="info"></n-avatar>
             <div>
               <p class="profile-name">Alex Morgan</p>
               <p class="profile-role">Engineering Lead</p>
@@ -192,20 +192,20 @@
             </div>
           </div>
           <div class="profile-actions">
-            <ui-button variant="primary" intent="accent">
+            <n-button variant="primary" intent="accent">
               <span slot="label">Follow</span>
-            </ui-button>
-            <ui-button variant="secondary">
+            </n-button>
+            <n-button variant="secondary">
               <span slot="label">Message</span>
-            </ui-button>
+            </n-button>
           </div>
-        </ui-stack>
-      </ui-card>
+        </n-stack>
+      </n-card>
 
-      <ui-card>
-        <ui-stack gap="4" align="center">
+      <n-card>
+        <n-stack gap="4" align="center">
           <div class="profile-header">
-            <ui-avatar name="Sara Chen" size="lg" intent="success"></ui-avatar>
+            <n-avatar name="Sara Chen" size="lg" intent="success"></n-avatar>
             <div>
               <p class="profile-name">Sara Chen</p>
               <p class="profile-role">UX Researcher</p>
@@ -226,20 +226,20 @@
             </div>
           </div>
           <div class="profile-actions">
-            <ui-button variant="primary" intent="accent">
+            <n-button variant="primary" intent="accent">
               <span slot="label">Follow</span>
-            </ui-button>
-            <ui-button variant="secondary">
+            </n-button>
+            <n-button variant="secondary">
               <span slot="label">Message</span>
-            </ui-button>
+            </n-button>
           </div>
-        </ui-stack>
-      </ui-card>
+        </n-stack>
+      </n-card>
 
-      <ui-card>
-        <ui-stack gap="4" align="center">
+      <n-card>
+        <n-stack gap="4" align="center">
           <div class="profile-header">
-            <ui-avatar name="James Rivera" size="lg" intent="warning"></ui-avatar>
+            <n-avatar name="James Rivera" size="lg" intent="warning"></n-avatar>
             <div>
               <p class="profile-name">James Rivera</p>
               <p class="profile-role">Frontend Developer</p>
@@ -260,75 +260,75 @@
             </div>
           </div>
           <div class="profile-actions">
-            <ui-button variant="primary" intent="accent">
+            <n-button variant="primary" intent="accent">
               <span slot="label">Follow</span>
-            </ui-button>
-            <ui-button variant="secondary">
+            </n-button>
+            <n-button variant="secondary">
               <span slot="label">Message</span>
-            </ui-button>
+            </n-button>
           </div>
-        </ui-stack>
-      </ui-card>
+        </n-stack>
+      </n-card>
     </div>
 
     <!-- ── Compact Horizontal Variant ── -->
 
     <h2>Compact Horizontal</h2>
     <div style="max-width: 28rem;">
-      <ui-stack gap="2">
-        <ui-card>
+      <n-stack gap="2">
+        <n-card>
           <div class="profile-horizontal">
-            <ui-avatar name="Kim Granlund" intent="accent"></ui-avatar>
+            <n-avatar name="Kim Granlund" intent="accent"></n-avatar>
             <div class="profile-horizontal-info">
               <p class="profile-horizontal-name">Kim Granlund</p>
               <p class="profile-horizontal-role">Product Designer</p>
             </div>
             <div class="profile-horizontal-actions">
-              <ui-button variant="primary" intent="accent" size="sm">
+              <n-button variant="primary" intent="accent" size="sm">
                 <span slot="label">Follow</span>
-              </ui-button>
+              </n-button>
             </div>
           </div>
-        </ui-card>
-        <ui-card>
+        </n-card>
+        <n-card>
           <div class="profile-horizontal">
-            <ui-avatar name="Alex Morgan" intent="info"></ui-avatar>
+            <n-avatar name="Alex Morgan" intent="info"></n-avatar>
             <div class="profile-horizontal-info">
               <p class="profile-horizontal-name">Alex Morgan</p>
               <p class="profile-horizontal-role">Engineering Lead</p>
             </div>
             <div class="profile-horizontal-actions">
-              <ui-button variant="secondary" size="sm">
+              <n-button variant="secondary" size="sm">
                 <span slot="label">Following</span>
-              </ui-button>
+              </n-button>
             </div>
           </div>
-        </ui-card>
-        <ui-card>
+        </n-card>
+        <n-card>
           <div class="profile-horizontal">
-            <ui-avatar name="Sara Chen" intent="success"></ui-avatar>
+            <n-avatar name="Sara Chen" intent="success"></n-avatar>
             <div class="profile-horizontal-info">
               <p class="profile-horizontal-name">Sara Chen</p>
               <p class="profile-horizontal-role">UX Researcher</p>
             </div>
             <div class="profile-horizontal-actions">
-              <ui-button variant="primary" intent="accent" size="sm">
+              <n-button variant="primary" intent="accent" size="sm">
                 <span slot="label">Follow</span>
-              </ui-button>
+              </n-button>
             </div>
           </div>
-        </ui-card>
-      </ui-stack>
+        </n-card>
+      </n-stack>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../components/ui-avatar/ui-avatar.ts';
-      import '../../../components/ui-badge/ui-badge.ts';
-      import '../../../containers/ui-card/ui-card.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/button/button.ts';
+      import '../../../components/avatar/avatar.ts';
+      import '../../../components/badge/badge.ts';
+      import '../../../containers/card/card.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/user-plus.ts';
       import '../../../icons/phosphor/chat-circle.ts';
     </script>

@@ -32,7 +32,7 @@ new ListNavigateController(host: HTMLElement, options?: ListNavigateOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-change` | _(none)_ |
+| `native:change` | _(none)_ |
 
 ## Methods
 

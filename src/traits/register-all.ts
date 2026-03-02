@@ -24,11 +24,12 @@ import {
   clippableAdapter,
   swipeableAdapter,
   editableAdapter,
+  presentableAdapter,
 } from './adapters/index.ts';
 
 /**
  * Register all built-in trait adapters with the global trait registry.
- * Call once at app startup to enable `traits="..."` attribute on UIElement subclasses.
+ * Call once at app startup to enable `traits="..."` attribute on NativeElement subclasses.
  */
 export function registerAllTraits(): void {
   registerTrait(pressableAdapter);
@@ -55,4 +56,5 @@ export function registerAllTraits(): void {
   registerTrait(clippableAdapter);
   registerTrait(swipeableAdapter);
   registerTrait(editableAdapter);
+  registerTrait(presentableAdapter);
 }

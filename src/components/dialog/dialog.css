@@ -1,0 +1,47 @@
+@layer ui {
+
+  :where(n-dialog) {
+    display: contents;
+  }
+
+  /* ── Dialog (native <dialog> reset) ──
+     WHY: Override UA <dialog> styles (border, padding, dimensions).
+     CSS custom properties inherit from :root through the DOM tree normally —
+     top-layer rendering promotion does NOT break inheritance. */
+
+  :where(n-dialog) > :where(dialog) {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: var(--n-ink);
+    padding: 0;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+  }
+
+  /* WHY: Author-layer display:grid overrides UA dialog:not([open]) display:none */
+  :where(n-dialog) > :where(dialog):not([open]) {
+    display: none;
+  }
+
+  :where(n-dialog) > :where(dialog)::backdrop {
+    background: var(--n-backdrop-color);
+    opacity: var(--n-backdrop-opacity);
+  }
+
+  /* ── Sizing API ──
+     WHY: Host pages set width and box-shadow directly on n-card inside n-dialog.
+     Expose custom properties so consumers can set these declaratively on n-dialog
+     without reaching into children. */
+
+  :where(n-dialog) > :where(dialog) > :where(*) {
+    width: var(--n-dialog-width, auto);
+    box-shadow: var(--n-dialog-shadow, none);
+  }
+
+}

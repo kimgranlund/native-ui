@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-listbox — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+.demo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.5rem;
+        align-items: start;
+      }
+
+      .demo-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .demo-col-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--n-ink-muted-neutral);
+      }
+.value-display {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        color: var(--n-ink-accent);
+        background: var(--n-panel-accent);
+        border-radius: 0.25rem;
+        padding: 0.25rem 0.5rem;
+        display: inline-block;
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-listbox&gt; + &lt;n-option&gt;</h1>
+    <p class="demo-desc">
+      Listbox with roving focus, keyboard navigation, and selection management.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic Listbox</h2>
+    <div class="demo-section" intent="neutral">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Default (single select)</span>
+          <n-listbox id="basic-listbox" variant="secondary">
+            <n-option value="apple">Apple</n-option>
+            <n-option value="banana">Banana</n-option>
+            <n-option value="cherry">Cherry</n-option>
+            <n-option value="date">Date</n-option>
+            <n-option value="elderberry">Elderberry</n-option>
+          </n-listbox>
+          <div>Selected: <span class="value-display" id="basic-value">none</span></div>
+        </div>
+
+        <div class="demo-col">
+          <span class="demo-col-label">With disabled option</span>
+          <n-listbox variant="secondary">
+            <n-option value="a">Available</n-option>
+            <n-option value="b" disabled>Disabled</n-option>
+            <n-option value="c">Available</n-option>
+            <n-option value="d" disabled>Disabled</n-option>
+            <n-option value="e">Available</n-option>
+          </n-listbox>
+        </div>
+
+        <div class="demo-col">
+          <span class="demo-col-label">Pre-selected</span>
+          <n-listbox id="preselected-listbox" variant="secondary">
+            <n-option value="small">Small</n-option>
+            <n-option value="medium">Medium</n-option>
+            <n-option value="large">Large</n-option>
+          </n-listbox>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-listbox&gt;
+  &lt;n-option value="apple"&gt;Apple&lt;/n-option&gt;
+  &lt;n-option value="banana"&gt;Banana&lt;/n-option&gt;
+  &lt;n-option value="cherry"&gt;Cherry&lt;/n-option&gt;
+  &lt;n-option value="date" disabled&gt;Date&lt;/n-option&gt;
+&lt;/n-listbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Grouped Options ── -->
+
+    <h2>Grouped Options</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">With icons</span>
+          <n-listbox variant="ghost" size="sm">
+            <n-option-group>
+              <n-option-group-header><n-icon name="house"></n-icon> Getting Started</n-option-group-header>
+              <n-option value="install">Installation</n-option>
+              <n-option value="structure">Project Structure</n-option>
+            </n-option-group>
+            <n-option-group>
+              <n-option-group-header><n-icon name="rocket-launch"></n-icon> Build Your Application</n-option-group-header>
+              <n-option value="routing">Routing</n-option>
+              <n-option value="data">Data Fetching</n-option>
+              <n-option value="caching">Caching</n-option>
+              <n-option value="styling">Styling</n-option>
+              <n-option value="optimizing">Optimizing</n-option>
+            </n-option-group>
+            <n-option-group>
+              <n-option-group-header><n-icon name="book-open"></n-icon> Reference</n-option-group-header>
+              <n-option value="api">API Reference</n-option>
+              <n-option value="config">Configuration</n-option>
+              <n-option value="examples">Examples</n-option>
+            </n-option-group>
+          </n-listbox>
+        </div>
+
+        <div class="demo-col">
+          <span class="demo-col-label">Without icons</span>
+          <n-listbox variant="ghost" size="sm">
+            <n-option-group>
+              <n-option-group-header>Fruits</n-option-group-header>
+              <n-option value="apple">Apple</n-option>
+              <n-option value="banana">Banana</n-option>
+              <n-option value="cherry">Cherry</n-option>
+            </n-option-group>
+            <n-option-group>
+              <n-option-group-header>Vegetables</n-option-group-header>
+              <n-option value="carrot">Carrot</n-option>
+              <n-option value="broccoli">Broccoli</n-option>
+              <n-option value="spinach">Spinach</n-option>
+            </n-option-group>
+          </n-listbox>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-listbox variant="ghost" size="sm"&gt;
+  &lt;n-option-group&gt;
+    &lt;n-option-group-header&gt;
+      &lt;n-icon name="house"&gt;&lt;/n-icon&gt; Getting Started
+    &lt;/n-option-group-header&gt;
+    &lt;n-option value="install"&gt;Installation&lt;/n-option&gt;
+    &lt;n-option value="structure"&gt;Project Structure&lt;/n-option&gt;
+  &lt;/n-option-group&gt;
+&lt;/n-listbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">xs</span>
+          <n-listbox size="xs" variant="secondary">
+            <n-option value="1">Option One</n-option>
+            <n-option value="2">Option Two</n-option>
+            <n-option value="3">Option Three</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">sm</span>
+          <n-listbox size="sm" variant="secondary">
+            <n-option value="1">Option One</n-option>
+            <n-option value="2">Option Two</n-option>
+            <n-option value="3">Option Three</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">md</span>
+          <n-listbox size="md" variant="secondary">
+            <n-option value="1">Option One</n-option>
+            <n-option value="2">Option Two</n-option>
+            <n-option value="3">Option Three</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">lg</span>
+          <n-listbox size="lg" variant="secondary">
+            <n-option value="1">Option One</n-option>
+            <n-option value="2">Option Two</n-option>
+            <n-option value="3">Option Three</n-option>
+          </n-listbox>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-listbox size="sm"&gt;...&lt;/n-listbox&gt;
+&lt;n-listbox size="md"&gt;...&lt;/n-listbox&gt;
+&lt;n-listbox size="lg"&gt;...&lt;/n-listbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Intents ── -->
+
+    <h2>Intents</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Neutral</span>
+          <n-listbox intent="neutral" variant="secondary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">Accent</span>
+          <n-listbox intent="accent" variant="secondary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">Danger</span>
+          <n-listbox intent="danger" variant="secondary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Variants ── -->
+
+    <h2>Variants</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">primary</span>
+          <n-listbox variant="primary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">secondary</span>
+          <n-listbox variant="secondary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">outline</span>
+          <n-listbox variant="outline">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">ghost</span>
+          <n-listbox variant="ghost">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">default</span>
+          <n-listbox variant="default">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section" size="md">
+      <div class="demo-grid">
+        <div class="demo-col" density="loose">
+          <span class="demo-col-label">loose</span>
+          <n-listbox variant="secondary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col" density="default">
+          <span class="demo-col-label">default</span>
+          <n-listbox variant="secondary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col" density="compact">
+          <span class="demo-col-label">compact</span>
+          <n-listbox variant="secondary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Radius ── -->
+
+    <h2>Radius</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-grid">
+        <div class="demo-col" radius="sharp">
+          <span class="demo-col-label">sharp</span>
+          <n-listbox variant="secondary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col" radius="default">
+          <span class="demo-col-label">default</span>
+          <n-listbox variant="secondary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col" radius="round">
+          <span class="demo-col-label">round</span>
+          <n-listbox variant="secondary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+            <n-option value="c">Option C</n-option>
+          </n-listbox>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Cascading ── -->
+
+    <h2>Cascading</h2>
+    <div class="demo-section">
+      <h3>Parent size="md", child overrides</h3>
+      <div class="demo-grid" size="md" intent="accent">
+        <div class="demo-col">
+          <span class="demo-col-label">Inherited md</span>
+          <n-listbox variant="secondary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">Override xs</span>
+          <n-listbox size="xs" variant="secondary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+          </n-listbox>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">Override lg</span>
+          <n-listbox size="lg" variant="secondary">
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+          </n-listbox>
+        </div>
+      </div>
+
+      <h3>Section cascading all attributes</h3>
+      <section size="sm" density="compact" radius="round" intent="accent">
+        <div class="demo-grid">
+          <div class="demo-col">
+            <span class="demo-col-label">All inherited</span>
+            <n-listbox variant="secondary">
+              <n-option value="a">Option A</n-option>
+              <n-option value="b">Option B</n-option>
+              <n-option value="c">Option C</n-option>
+            </n-listbox>
+          </div>
+          <div class="demo-col">
+            <span class="demo-col-label">All inherited (outline)</span>
+            <n-listbox variant="outline">
+              <n-option value="a">Option A</n-option>
+              <n-option value="b">Option B</n-option>
+              <n-option value="c">Option C</n-option>
+            </n-listbox>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── Events ── -->
+
+    <h2>Events</h2>
+    <div class="demo-section" size="sm">
+      <n-listbox id="event-listbox" variant="secondary" style="max-width: 220px;">
+        <n-option value="red">Red</n-option>
+        <n-option value="green">Green</n-option>
+        <n-option value="blue">Blue</n-option>
+        <n-option value="yellow">Yellow</n-option>
+      </n-listbox>
+      <div class="log" id="event-log"></div>
+      <pre class="demo-code"><code>&lt;n-listbox id="my-listbox"&gt;
+  &lt;n-option value="red"&gt;Red&lt;/n-option&gt;
+  &lt;n-option value="green"&gt;Green&lt;/n-option&gt;
+  &lt;n-option value="blue"&gt;Blue&lt;/n-option&gt;
+&lt;/n-listbox&gt;
+
+&lt;script&gt;
+  myListbox.addEventListener('native:change', (e) =&gt; {
+    console.log(e.detail.value);
+  });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section" size="sm">
+      <p class="demo-caption">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to individual <code>n-option</code> elements.
+      </p>
+      <n-listbox variant="secondary" style="max-width: 220px;">
+        <n-option value="hover" force-hover>Force hover</n-option>
+        <n-option value="active" force-active>Force active</n-option>
+        <n-option value="focus" force-focus-visible>Force focus-visible</n-option>
+        <n-option value="normal">Normal</n-option>
+      </n-listbox>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './listbox.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/house.ts';
+      import '../../icons/phosphor/rocket-launch.ts';
+      import '../../icons/phosphor/book-open.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Basic listbox value tracking
+      const basicListbox = document.getElementById('basic-listbox');
+      const basicValue = document.getElementById('basic-value');
+
+      basicListbox.addEventListener('native:change', (e) => {
+        basicValue.textContent = e.detail.value;
+      });
+
+      // Pre-select "medium"
+      const preListbox = document.getElementById('preselected-listbox');
+      preListbox.addEventListener('native:change', () => {});
+      // Programmatic select after registration
+      requestAnimationFrame(() => {
+        preListbox.controller.select('medium');
+      });
+
+      // Event logging
+      const eventListbox = document.getElementById('event-listbox');
+      const eventLog = document.getElementById('event-log');
+      let eventCount = 0;
+
+      eventListbox.addEventListener('native:select', (e) => {
+        eventCount++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${eventCount} n-select — value: "${e.detail.value}", label: "${e.detail.label}"`;
+        eventLog.prepend(entry);
+      });
+
+      eventListbox.addEventListener('native:change', (e) => {
+        eventCount++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${eventCount} native:change — value: "${e.detail.value}", label: "${e.detail.label}"`;
+        eventLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

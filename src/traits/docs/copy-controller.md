@@ -2,7 +2,7 @@
 
 # CopyController
 
-> Copies a value to the clipboard and shows visual feedback, dispatching `ui-copy`.
+> Copies a value to the clipboard and shows visual feedback, dispatching `native:copy`.
 
 ## Constructor
 
@@ -21,7 +21,7 @@ new CopyController(host: HTMLElement, options?: CopyOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-copy` | `{ value }` |
+| `native:copy` | `{ value }` |
 
 ## Methods
 

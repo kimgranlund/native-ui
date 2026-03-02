@@ -19,13 +19,13 @@
         font-weight: 600;
         margin-bottom: 0.5rem;
         margin-top: 1.25rem;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 .resize-panel {
         display: block;
         position: relative;
-        background: var(--accent-surface);
-        color: var(--accent-surface-ink);
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
         border-radius: 0.5rem;
         padding: 1rem;
         font-size: 0.875rem;
@@ -39,7 +39,7 @@
 
       .resize-handle {
         position: absolute;
-        background: var(--accent-surface-ink);
+        background: var(--n-surface-ink-accent);
         opacity: 0.3;
         border-radius: 2px;
         transition: opacity 150ms ease;
@@ -81,10 +81,10 @@
       .output {
         font-family: monospace;
         font-size: 0.75rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         margin-top: 0.75rem;
         padding: 0.5rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         border-radius: 0.25rem;
         min-height: 1.5rem;
       }
@@ -104,20 +104,20 @@
         text-align: left;
         font-weight: 600;
         padding: 0.5rem 0.75rem;
-        border-bottom: 2px solid var(--neutral-border-muted);
-        color: var(--neutral-ink-strong);
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
       }
 
       .api-table td {
         padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
         vertical-align: top;
       }
 
       .api-table code {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         padding: 0.0625rem 0.3125rem;
         border-radius: 0.1875rem;
       }
@@ -128,25 +128,25 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
 
     <h1>Resizable</h1>
     <p class="demo-desc">
-      Composable trait for drag-to-resize functionality. Configure axis constraints, min/max sizes, and handle selectors. Dispatches <code>ui-resize-start</code>, <code>ui-resize-move</code>, and <code>ui-resize-end</code> events. Press Escape to cancel.
+      Composable trait for drag-to-resize functionality. Configure axis constraints, min/max sizes, and handle selectors. Dispatches <code>native:resize-start</code>, <code>native:resize-move</code>, and <code>native:resize-end</code> events. Press Escape to cancel.
     </p>
 
     <!-- ── Horizontal Resize ── -->
 
     <h2>Horizontal Resize</h2>
     <div class="demo-section">
-      <ui-controller traits="resizable" resizable-handle-selector=".resize-handle-right" resizable-axis="horizontal" resizable-min="150" resizable-max="500">
+      <n-controller traits="resizable" resizable-handle-selector=".resize-handle-right" resizable-axis="horizontal" resizable-min="150" resizable-max="500">
         <div id="h-panel" class="resize-panel" style="width: 300px;">
           Drag the right edge to resize horizontally.
           <div class="resize-handle resize-handle-right"></div>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="h-output" class="output">Width: 300px</div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="resizable"
+      <pre class="demo-code"><code>&lt;n-controller traits="resizable"
   resizable-handle-selector=".resize-handle-right"
   resizable-axis="horizontal"
   resizable-min="150"
@@ -155,21 +155,21 @@
     Drag the right edge to resize horizontally.
     &lt;div class="resize-handle resize-handle-right"&gt;&lt;/div&gt;
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Vertical Resize ── -->
 
     <h2>Vertical Resize</h2>
     <div class="demo-section">
-      <ui-controller traits="resizable" resizable-handle-selector=".resize-handle-bottom" resizable-axis="vertical" resizable-min="60" resizable-max="400">
+      <n-controller traits="resizable" resizable-handle-selector=".resize-handle-bottom" resizable-axis="vertical" resizable-min="60" resizable-max="400">
         <div id="v-panel" class="resize-panel" style="height: 120px;">
           Drag the bottom edge to resize vertically.
           <div class="resize-handle resize-handle-bottom"></div>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="v-output" class="output">Height: 120px</div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="resizable"
+      <pre class="demo-code"><code>&lt;n-controller traits="resizable"
   resizable-handle-selector=".resize-handle-bottom"
   resizable-axis="vertical"
   resizable-min="60"
@@ -178,21 +178,21 @@
     Drag the bottom edge to resize vertically.
     &lt;div class="resize-handle resize-handle-bottom"&gt;&lt;/div&gt;
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Both Axes ── -->
 
     <h2>Both Axes (with min/max)</h2>
     <div class="demo-section">
-      <ui-controller traits="resizable" resizable-handle-selector=".resize-handle-corner" resizable-axis="both" resizable-min="150" resizable-max="500">
+      <n-controller traits="resizable" resizable-handle-selector=".resize-handle-corner" resizable-axis="both" resizable-min="150" resizable-max="500">
         <div id="both-panel" class="resize-panel" style="width: 300px; height: 120px;">
           Drag the corner to resize in both directions. Clamped to 150-500px.
           <div class="resize-handle resize-handle-corner"></div>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="both-output" class="output">300 x 120</div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="resizable"
+      <pre class="demo-code"><code>&lt;n-controller traits="resizable"
   resizable-handle-selector=".resize-handle-corner"
   resizable-axis="both"
   resizable-min="150"
@@ -201,7 +201,7 @@
     Drag the corner to resize in both directions.
     &lt;div class="resize-handle resize-handle-corner"&gt;&lt;/div&gt;
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── API Reference ── -->
@@ -253,17 +253,17 @@
         <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>ui-resize-start</code></td>
+            <td><code>native:resize-start</code></td>
             <td><code>{ width, height }</code></td>
             <td>Fired on first pointer move after handle pointerdown.</td>
           </tr>
           <tr>
-            <td><code>ui-resize-move</code></td>
+            <td><code>native:resize-move</code></td>
             <td><code>{ width, height }</code></td>
             <td>Fired on every pointer move during resize.</td>
           </tr>
           <tr>
-            <td><code>ui-resize-end</code></td>
+            <td><code>native:resize-end</code></td>
             <td><code>{ width, height }</code></td>
             <td>Fired on pointer up.</td>
           </tr>
@@ -285,7 +285,7 @@
       </table>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
 
     <!-- Script 1: Register all traits BEFORE any component define() -->
     <script type="module">
@@ -295,10 +295,10 @@
 
     <!-- Script 2: Import components (runs after traits are registered) -->
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../components/ui-controller/ui-controller.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../components/controller/controller.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
 // ── Copy buttons ──
@@ -308,7 +308,7 @@
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
@@ -328,21 +328,21 @@
       // ── Horizontal ──
 
       const hOut = document.getElementById('h-output');
-      document.getElementById('h-panel').addEventListener('ui-resize-move', (e) => {
+      document.getElementById('h-panel').addEventListener('native:resize-move', (e) => {
         hOut.textContent = `Width: ${Math.round(e.detail.width)}px`;
       });
 
       // ── Vertical ──
 
       const vOut = document.getElementById('v-output');
-      document.getElementById('v-panel').addEventListener('ui-resize-move', (e) => {
+      document.getElementById('v-panel').addEventListener('native:resize-move', (e) => {
         vOut.textContent = `Height: ${Math.round(e.detail.height)}px`;
       });
 
       // ── Both axes ──
 
       const bothOut = document.getElementById('both-output');
-      document.getElementById('both-panel').addEventListener('ui-resize-move', (e) => {
+      document.getElementById('both-panel').addEventListener('native:resize-move', (e) => {
         bothOut.textContent = `${Math.round(e.detail.width)} x ${Math.round(e.detail.height)}`;
       });
     </script>

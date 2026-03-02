@@ -9,7 +9,7 @@ export interface ValidateOptions {
   internals?: ElementInternals;
 }
 
-/** Runs validation rules against a value and dispatches `ui-valid` or `ui-invalid` events. */
+/** Runs validation rules against a value and dispatches `native:valid` or `native:invalid` events. */
 export class ValidateController {
   readonly host: HTMLElement;
   rules: ValidationRule[];
@@ -39,7 +39,7 @@ export class ValidateController {
         this.host.setAttribute('aria-invalid', 'true');
         // WHY: Bridge to Constraint Validation API so form.checkValidity() aggregates errors
         this.#internals?.setValidity({ customError: true }, rule.message, this.host);
-        this.host.dispatchEvent(new CustomEvent('ui-invalid', {
+        this.host.dispatchEvent(new CustomEvent('native:invalid', {
           bubbles: true,
           composed: true,
           detail: { message: rule.message, value: val },
@@ -53,7 +53,7 @@ export class ValidateController {
     this.host.removeAttribute('invalid');
     this.host.removeAttribute('aria-invalid');
     this.#internals?.setValidity({});
-    this.host.dispatchEvent(new CustomEvent('ui-valid', {
+    this.host.dispatchEvent(new CustomEvent('native:valid', {
       bubbles: true,
       composed: true,
       detail: { value: val },

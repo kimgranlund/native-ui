@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { SortController } from '../sort-controller.ts';
 import { define } from '../../core/define.ts';
 
-class SortTestEl extends UIElement {
+class SortTestEl extends NativeElement {
   disabled = false;
   #ctrl: SortController | null = null;
   #initialSelector = '';
@@ -79,10 +79,10 @@ describe('Sortable', () => {
     expect(el.sortDirection).toBe('asc');
   });
 
-  it('dispatches ui-sort event on click', () => {
+  it('dispatches native:sort event on click', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-sort', handler);
+    el.addEventListener('native:sort', handler);
     headers(el)[0].click();
     expect(handler).toHaveBeenCalledTimes(1);
     expect(handler.mock.calls[0][0].detail.column).toBe('Name');
@@ -92,7 +92,7 @@ describe('Sortable', () => {
   it('cycles asc → desc → none on same column', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-sort', handler);
+    el.addEventListener('native:sort', handler);
 
     headers(el)[0].click(); // asc
     expect(el.sortDirection).toBe('asc');
@@ -149,7 +149,7 @@ describe('Sortable', () => {
     const el = create();
     el.sortableDisabled = true;
     const handler = vi.fn();
-    el.addEventListener('ui-sort', handler);
+    el.addEventListener('native:sort', handler);
     headers(el)[0].click();
     expect(handler).not.toHaveBeenCalled();
     expect(el.sortColumn).toBeNull();
@@ -167,7 +167,7 @@ describe('Sortable', () => {
     const el = create();
     el.teardown();
     const handler = vi.fn();
-    el.addEventListener('ui-sort', handler);
+    el.addEventListener('native:sort', handler);
     headers(el)[0].click();
     expect(handler).not.toHaveBeenCalled();
   });

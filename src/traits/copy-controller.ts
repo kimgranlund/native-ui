@@ -3,7 +3,7 @@ export interface CopyOptions {
   feedbackDuration?: number;
 }
 
-/** Copies a value to the clipboard and shows visual feedback, dispatching `ui-copy`. */
+/** Copies a value to the clipboard and shows visual feedback, dispatching `native:copy`. */
 export class CopyController {
   readonly host: HTMLElement;
   value: string | (() => string);
@@ -23,7 +23,7 @@ export class CopyController {
     this.host.toggleAttribute('copied', true);
     clearTimeout(this.#timer);
     this.#timer = setTimeout(() => this.host.removeAttribute('copied'), this.feedbackDuration);
-    this.host.dispatchEvent(new CustomEvent('ui-copy', {
+    this.host.dispatchEvent(new CustomEvent('native:copy', {
       bubbles: true,
       composed: true,
       detail: { value: val },

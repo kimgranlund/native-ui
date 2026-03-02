@@ -1,0 +1,1560 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-controller — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 48rem;
+      }
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--n-ink-strong-neutral);
+      }
+.demo-hint {
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        margin-bottom: 0.75rem;
+      }
+      /* ── Pattern Badges ── */
+
+      .pattern-badge {
+        display: inline-block;
+        font-size: 0.625rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.125rem 0.5rem;
+        border-radius: 9999px;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+
+      .pattern-badge.injection {
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
+      }
+
+      .pattern-badge.provider {
+        background: var(--n-surface-info);
+        color: var(--n-surface-ink-info);
+      }
+
+      /* ── Hover/Press demo items ── */
+
+      .demo-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.25rem 1rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        color: var(--n-ink-neutral);
+        transition: background 200ms ease, border-color 200ms ease, color 200ms ease, box-shadow 200ms ease, transform 100ms ease;
+        user-select: none;
+        cursor: default;
+      }
+
+      .demo-card[hovered] {
+        background: var(--n-surface-accent);
+        border-color: var(--n-border-accent);
+        color: var(--n-surface-ink-accent);
+        box-shadow: 0 0 0 3px var(--n-surface-accent);
+      }
+
+      .demo-card[pressed] {
+        background: var(--n-surface-accent);
+        border-color: var(--n-border-accent);
+        color: var(--n-surface-ink-accent);
+        transform: scale(0.97);
+      }
+
+      /* ── Drag items ── */
+
+      .drag-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 0.75rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.375rem;
+        cursor: grab;
+        user-select: none;
+        transition: opacity 150ms ease;
+      }
+
+      .drag-item[dragging] {
+        opacity: 0.3;
+      }
+
+      .drag-item .handle {
+        color: var(--n-ink-muted-neutral);
+        font-size: 0.875rem;
+      }
+
+      .drag-item .label {
+        flex: 1;
+      }
+
+      .drag-placeholder {
+        height: 3px;
+        background: var(--n-surface-accent);
+        border-radius: 2px;
+        margin: 0.125rem 0;
+      }
+
+      /* ── Drag horizontal cards ── */
+
+      .drag-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 5rem;
+        height: 5rem;
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
+        border-radius: 0.5rem;
+        font-weight: 700;
+        cursor: grab;
+        user-select: none;
+        transition: opacity 150ms ease;
+      }
+
+      .drag-card[dragging] {
+        opacity: 0.3;
+      }
+
+      #drag-horiz-list > .drag-placeholder {
+        width: 3px;
+        height: 5rem;
+        margin: 0 0.125rem;
+      }
+
+      /* ── Resizable ── */
+
+      .resize-box {
+        position: relative;
+        width: 240px;
+        min-height: 120px;
+        padding: 1rem;
+        padding-right: 1.5rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.375rem;
+        font-size: 0.8125rem;
+        color: var(--n-ink-neutral);
+        overflow: hidden;
+      }
+
+      .resize-handle {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 8px;
+        height: 100%;
+        cursor: col-resize;
+        background: transparent;
+        transition: background 150ms ease;
+      }
+
+      .resize-handle:hover,
+      .resize-box[resizing] .resize-handle {
+        background: var(--n-surface-accent);
+      }
+
+      .resize-box-v {
+        position: relative;
+        width: 100%;
+        height: 120px;
+        padding: 1rem;
+        padding-bottom: 1.5rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.375rem;
+        font-size: 0.8125rem;
+        color: var(--n-ink-neutral);
+        overflow: hidden;
+      }
+
+      .resize-handle-v {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 8px;
+        width: 100%;
+        cursor: row-resize;
+        background: transparent;
+        transition: background 150ms ease;
+      }
+
+      .resize-handle-v:hover,
+      .resize-box-v[resizing] .resize-handle-v {
+        background: var(--n-surface-accent);
+      }
+
+      /* ── Selectable ── */
+
+      .select-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.375rem;
+        font-size: 0.8125rem;
+        cursor: pointer;
+        user-select: none;
+        transition: background 150ms ease, border-color 150ms ease;
+      }
+
+      .select-item[aria-selected="true"] {
+        background: var(--n-surface-accent);
+        border-color: var(--n-border-accent);
+        color: var(--n-surface-ink-accent);
+      }
+
+      .select-item::before {
+        content: '';
+        width: 1rem;
+        height: 1rem;
+        border: 2px solid var(--n-border-neutral);
+        border-radius: 0.25rem;
+        flex-shrink: 0;
+        transition: background 150ms ease, border-color 150ms ease;
+      }
+
+      .select-item[aria-selected="true"]::before {
+        background: var(--n-ink-accent);
+        border-color: var(--n-ink-accent);
+      }
+
+      /* ── Editable ── */
+
+      .edit-item {
+        padding: 0.5rem 0.75rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        cursor: text;
+        transition: border-color 150ms ease, box-shadow 150ms ease;
+      }
+
+      .edit-item[editing] {
+        border-color: var(--n-border-accent);
+        box-shadow: 0 0 0 3px var(--n-surface-accent);
+        outline: none;
+      }
+
+      /* ── Copyable ── */
+
+      .copy-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 0.75rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.375rem;
+        font-family: ui-monospace, monospace;
+        font-size: 0.8125rem;
+        cursor: pointer;
+        user-select: all;
+        transition: border-color 200ms ease;
+      }
+
+      .copy-item[copied] {
+        border-color: var(--n-border-success);
+      }
+
+      .copy-item .copy-label {
+        flex: 1;
+      }
+
+      .copy-item .copy-feedback {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        color: var(--n-ink-success);
+        opacity: 0;
+        transition: opacity 200ms ease;
+      }
+
+      .copy-item[copied] .copy-feedback {
+        opacity: 1;
+      }
+
+      /* ── Sortable table ── */
+
+      .sort-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .sort-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
+        cursor: pointer;
+        user-select: none;
+        transition: color 150ms ease;
+      }
+
+      .sort-table th:hover {
+        color: var(--n-ink-accent);
+      }
+
+      .sort-table th[aria-sort]::after {
+        margin-left: 0.25rem;
+        font-size: 0.625rem;
+      }
+
+      .sort-table th[aria-sort="ascending"]::after {
+        content: ' \u25B2';
+      }
+
+      .sort-table th[aria-sort="descending"]::after {
+        content: ' \u25BC';
+      }
+
+      .sort-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--n-border-muted-neutral);
+      }
+
+      /* ── Collapsible ── */
+
+      .collapse-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        padding: 0.75rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.375rem 0.375rem 0 0;
+        cursor: pointer;
+        user-select: none;
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
+
+      .collapse-trigger .arrow {
+        transition: transform 200ms ease;
+      }
+
+      .collapse-trigger[collapsed] .arrow {
+        transform: rotate(-90deg);
+      }
+
+      .collapse-content {
+        padding: 0.75rem;
+        background: var(--n-body-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-top: none;
+        border-radius: 0 0 0.375rem 0.375rem;
+        font-size: 0.8125rem;
+        color: var(--n-ink-muted-neutral);
+        overflow: hidden;
+      }
+
+      /* ── Swipeable ── */
+
+      .swipe-card {
+        position: relative;
+        padding: 1.5rem 1rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        text-align: center;
+        user-select: none;
+        touch-action: pan-y;
+        overflow: hidden;
+      }
+
+      .swipe-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+      }
+
+      .swipe-dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: var(--n-border-muted-neutral);
+        transition: background 200ms ease;
+      }
+
+      .swipe-dot.active {
+        background: var(--n-ink-accent);
+      }
+
+      /* ── Flex containers ── */
+
+      .flex-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .flex-row {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      /* ── Output log ── */
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--n-panel-neutral);
+        border-radius: 0.25rem;
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--n-border-muted-neutral);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--n-panel-neutral);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+
+      /* ── Dynamic children demo ── */
+
+      #dynamic-list .demo-card {
+        padding: 0.625rem 0.75rem;
+      }
+    </style>
+  </head>
+  <body>
+    <n-app><main>
+
+    <h1>n-controller</h1>
+    <p class="demo-desc">
+      Two patterns for applying traits declaratively. <strong>Injection</strong> adds <code>traits="..."</code> directly on a component.
+      <strong>Provider</strong> uses <code>&lt;n-controller&gt;</code> to apply traits to children, with options on the controller element.
+    </p>
+
+    <!-- ══════════════════════════════════════════════
+         INJECTION PATTERN — SIMPLE
+         ══════════════════════════════════════════════ -->
+
+    <h2>Injection — Simple <span class="pattern-badge injection">Injection</span></h2>
+
+    <!-- ── Hoverable injection ── -->
+
+    <h3>Hoverable</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>traits="hoverable"</code> on a NativeElement subclass. Options come from the element's own attributes.
+      </p>
+      <div class="flex-row">
+        <inject-demo traits="hoverable" class="demo-card" style="flex: 1;">
+          Instant hover
+        </inject-demo>
+        <inject-demo traits="hoverable" hoverable-delay="400" class="demo-card" style="flex: 1;">
+          400ms delay
+        </inject-demo>
+        <inject-demo traits="hoverable" hoverable-leave-delay="300" class="demo-card" style="flex: 1;">
+          300ms sticky
+        </inject-demo>
+      </div>
+      <div id="inject-hover-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;inject-demo traits="hoverable"&gt;
+  Instant hover
+&lt;/inject-demo&gt;
+
+&lt;inject-demo traits="hoverable" hoverable-delay="400"&gt;
+  400ms delay
+&lt;/inject-demo&gt;
+
+&lt;inject-demo traits="hoverable" hoverable-leave-delay="300"&gt;
+  300ms sticky
+&lt;/inject-demo&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Pressable + Multi-trait ── -->
+
+    <h3>Pressable &amp; Multi-Trait</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        Space-separated names: <code>traits="hoverable pressable"</code>. Both controllers on one element.
+      </p>
+      <div class="flex-row">
+        <inject-demo traits="pressable" class="demo-card" style="flex: 1; cursor: pointer;">
+          Pressable only
+        </inject-demo>
+        <inject-demo traits="hoverable pressable" class="demo-card" style="flex: 1; cursor: pointer;">
+          Hoverable + Pressable
+        </inject-demo>
+      </div>
+      <div id="inject-press-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;inject-demo traits="pressable"&gt;
+  Pressable only
+&lt;/inject-demo&gt;
+
+&lt;inject-demo traits="hoverable pressable"&gt;
+  Hoverable + Pressable
+&lt;/inject-demo&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── getTraitController ── -->
+
+    <h3>getTraitController() — Runtime Access</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        Call <code>el.getTraitController('hoverable')</code> to modify the controller at runtime.
+      </p>
+      <div class="flex-row" style="align-items: center;">
+        <inject-demo id="runtime-ctrl" traits="hoverable" class="demo-card" style="flex: 1;">
+          Hover me (delay changes at runtime)
+        </inject-demo>
+        <n-button id="set-delay-btn" size="sm">Set delay 1000ms</n-button>
+        <n-button id="reset-delay-btn" size="sm" variant="ghost">Reset</n-button>
+      </div>
+      <div id="inject-runtime-log" class="output"></div>
+      <pre class="demo-code"><code>const hover = el.getTraitController('hoverable');
+hover.delay = 1000; // now requires 1s hover intent</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         INJECTION PATTERN — COMPLEX
+         ══════════════════════════════════════════════ -->
+
+    <h2>Injection — Complex Traits <span class="pattern-badge injection">Injection</span></h2>
+
+    <!-- ── Copyable ── -->
+
+    <h3>Copyable</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>traits="copyable"</code> with <code>copyable-value</code>. Click to copy. Sets <code>[copied]</code> attribute for 2s feedback.
+      </p>
+      <div class="flex-col">
+        <inject-demo traits="copyable pressable" copyable-value="npm install @nonoun/native-ui" class="copy-item">
+          <span class="copy-label">npm install @nonoun/native-ui</span>
+          <span class="copy-feedback">Copied!</span>
+        </inject-demo>
+        <inject-demo traits="copyable pressable" copyable-value="sk-proj-abc123..." copyable-feedback-duration="3000" class="copy-item">
+          <span class="copy-label">sk-proj-abc123...</span>
+          <span class="copy-feedback">Copied!</span>
+        </inject-demo>
+      </div>
+      <div id="copy-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;inject-demo traits="copyable pressable"
+  copyable-value="npm install @nonoun/native-ui"&gt;
+  npm install @nonoun/native-ui
+&lt;/inject-demo&gt;
+
+&lt;inject-demo traits="copyable pressable"
+  copyable-value="sk-proj-abc123..."
+  copyable-feedback-duration="3000"&gt;
+  sk-proj-abc123...
+&lt;/inject-demo&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Editable ── -->
+
+    <h3>Editable</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>traits="editable"</code> — double-click to edit, Enter to commit, Escape to cancel. Configurable trigger via <code>editable-trigger</code>.
+      </p>
+      <div class="flex-col">
+        <inject-demo traits="editable" class="edit-item">
+          Double-click me to edit
+        </inject-demo>
+        <inject-demo traits="editable" editable-trigger="click" class="edit-item">
+          Single click to edit (editable-trigger="click")
+        </inject-demo>
+      </div>
+      <div id="edit-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;inject-demo traits="editable"&gt;
+  Double-click me to edit
+&lt;/inject-demo&gt;
+
+&lt;inject-demo traits="editable" editable-trigger="click"&gt;
+  Single click to edit
+&lt;/inject-demo&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Swipeable ── -->
+
+    <h3>Swipeable</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>traits="swipeable"</code> — swipe left/right (mouse or touch). Configurable threshold and axis.
+      </p>
+      <inject-demo id="swipe-demo" traits="swipeable" swipeable-axis="horizontal" swipeable-threshold="40" class="swipe-card">
+        <div id="swipe-page">Swipe left or right</div>
+        <div class="swipe-indicator">
+          <span class="swipe-dot" id="dot-0"></span>
+          <span class="swipe-dot active" id="dot-1"></span>
+          <span class="swipe-dot" id="dot-2"></span>
+        </div>
+      </inject-demo>
+      <div id="swipe-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;inject-demo traits="swipeable"
+  swipeable-axis="horizontal"
+  swipeable-threshold="40"&gt;
+  Swipe left or right
+&lt;/inject-demo&gt;
+
+el.addEventListener('native:swipe', (e) =&gt; {
+  const { direction, distance, velocity } = e.detail;
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         PROVIDER PATTERN — SIMPLE
+         ══════════════════════════════════════════════ -->
+
+    <h2>Provider — Simple <span class="pattern-badge provider">Provider</span></h2>
+
+    <!-- ── Wrapper mode ── -->
+
+    <h3>Wrapper Mode (default)</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        No <code>for</code> — traits apply to first element child. Options live on the <code>&lt;n-controller&gt;</code>.
+      </p>
+      <n-controller traits="hoverable" hoverable-delay="200">
+        <div class="demo-card">
+          Wrapped child gets hoverable (200ms delay)
+        </div>
+      </n-controller>
+      <div id="wrapper-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" hoverable-delay="200"&gt;
+  &lt;div class="demo-card"&gt;
+    Wrapped child gets hoverable (200ms delay)
+  &lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Selector mode: hoverable ── -->
+
+    <h3>Selector Mode — Hoverable</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>for=".card"</code> applies <code>hoverable</code> to all matching descendants. One controller, many targets.
+      </p>
+      <n-controller traits="hoverable" hoverable-delay="100" for=".card">
+        <div class="flex-row">
+          <div class="card demo-card" style="flex: 1;">Card A</div>
+          <div class="card demo-card" style="flex: 1;">Card B</div>
+          <div class="card demo-card" style="flex: 1;">Card C</div>
+        </div>
+      </n-controller>
+      <div id="selector-hover-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" hoverable-delay="100" for=".card"&gt;
+  &lt;div class="flex-row"&gt;
+    &lt;div class="card"&gt;Card A&lt;/div&gt;
+    &lt;div class="card"&gt;Card B&lt;/div&gt;
+    &lt;div class="card"&gt;Card C&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Dynamic children ── -->
+
+    <h3>Dynamic Children (auto-wiring)</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        MutationObserver auto-wires traits when new children matching the selector are added.
+      </p>
+      <n-controller traits="hoverable pressable" for=".dynamic-item">
+        <div id="dynamic-list" class="flex-col"></div>
+      </n-controller>
+      <div style="margin-top: 0.75rem;">
+        <n-button id="add-item-btn" size="sm">Add Item</n-button>
+        <n-button id="clear-items-btn" size="sm" variant="ghost">Clear</n-button>
+      </div>
+      <div id="dynamic-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller traits="hoverable pressable" for=".dynamic-item"&gt;
+  &lt;div id="dynamic-list"&gt;&lt;/div&gt;
+&lt;/n-controller&gt;
+
+// New items automatically get hoverable + pressable
+const item = document.createElement('div');
+item.className = 'dynamic-item';
+list.appendChild(item);</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Live option updates ── -->
+
+    <h3>Live Option Updates</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        Changing <code>hoverable-delay</code> on the controller updates all managed targets via <code>update()</code>.
+      </p>
+      <n-controller id="live-ctrl" traits="hoverable" hoverable-delay="0" for=".live-target">
+        <div class="flex-row">
+          <div class="live-target demo-card" style="flex: 1;">Target A</div>
+          <div class="live-target demo-card" style="flex: 1;">Target B</div>
+        </div>
+      </n-controller>
+      <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem; align-items: center;">
+        <span style="font-size: 0.75rem; color: var(--n-ink-muted-neutral);">Hover delay:</span>
+        <n-button id="delay-0" size="sm" variant="ghost">0ms</n-button>
+        <n-button id="delay-300" size="sm" variant="ghost">300ms</n-button>
+        <n-button id="delay-800" size="sm" variant="ghost">800ms</n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;n-controller id="ctrl" traits="hoverable" hoverable-delay="0" for=".target"&gt;
+  ...
+&lt;/n-controller&gt;
+
+// Change delay at runtime — all targets update
+ctrl.setAttribute('hoverable-delay', '800');</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         PROVIDER PATTERN — COMPLEX
+         ══════════════════════════════════════════════ -->
+
+    <h2>Provider — Complex Traits <span class="pattern-badge provider">Provider</span></h2>
+
+    <!-- ── Draggable: vertical slot ── -->
+
+    <h3>Draggable — Vertical Reorder (slot)</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>draggable-mode="slot"</code> shows a gap indicator. Drop inserts at that position. All options on the controller.
+      </p>
+      <n-controller
+        traits="draggable"
+        for="#drag-provider-list"
+        draggable-selector=".drag-item"
+        draggable-axis="vertical"
+        draggable-mode="slot"
+      >
+        <div id="drag-provider-list" class="flex-col">
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Research</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Prototype</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Build</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Test</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Ship</span></div>
+        </div>
+      </n-controller>
+      <div id="drag-provider-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller
+  traits="draggable"
+  for="#list"
+  draggable-selector=".drag-item"
+  draggable-axis="vertical"
+  draggable-mode="slot"
+&gt;
+  &lt;div id="list"&gt;
+    &lt;div class="drag-item"&gt;Research&lt;/div&gt;
+    &lt;div class="drag-item"&gt;Prototype&lt;/div&gt;
+    ...
+  &lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Draggable: horizontal ── -->
+
+    <h3>Draggable — Horizontal Cards (slot)</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>draggable-axis="horizontal"</code> for a row of cards. Same slot mode — vertical placeholder becomes horizontal.
+      </p>
+      <n-controller
+        traits="draggable"
+        for="#drag-horiz-list"
+        draggable-selector=".drag-card"
+        draggable-axis="horizontal"
+        draggable-mode="slot"
+      >
+        <div id="drag-horiz-list" class="demo-actions">
+          <div class="drag-card">A</div>
+          <div class="drag-card">B</div>
+          <div class="drag-card">C</div>
+          <div class="drag-card">D</div>
+        </div>
+      </n-controller>
+      <pre class="demo-code"><code>&lt;n-controller
+  traits="draggable"
+  for="#row"
+  draggable-selector=".drag-card"
+  draggable-axis="horizontal"
+  draggable-mode="slot"
+&gt;
+  &lt;div id="row" class="demo-actions"&gt;
+    &lt;div class="drag-card"&gt;A&lt;/div&gt;
+    &lt;div class="drag-card"&gt;B&lt;/div&gt;
+    ...
+  &lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Draggable: drop swap ── -->
+
+    <h3>Draggable — Swap (drop)</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>draggable-mode="drop"</code> highlights the target. Consumer decides the swap logic on <code>native:drop</code>.
+      </p>
+      <n-controller
+        traits="draggable"
+        for="#drag-swap-list"
+        draggable-selector=".drag-item"
+        draggable-axis="vertical"
+        draggable-mode="drop"
+      >
+        <div id="drag-swap-list" class="flex-col">
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Design</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Develop</span></div>
+          <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Deploy</span></div>
+        </div>
+      </n-controller>
+      <div id="drag-swap-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller
+  traits="draggable"
+  for="#list"
+  draggable-selector=".drag-item"
+  draggable-mode="drop"
+&gt;
+  ...
+&lt;/n-controller&gt;
+
+list.addEventListener('native:drop', (e) =&gt; {
+  const { item, target } = e.detail;
+  // Swap DOM positions
+  const ph = document.createElement('div');
+  item.before(ph);
+  target.before(item);
+  ph.replaceWith(target);
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Resizable ── -->
+
+    <h3>Resizable</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>traits="resizable"</code> with <code>resizable-handle-selector</code>, <code>resizable-axis</code>, <code>resizable-min</code>, <code>resizable-max</code>. Drag the edge handle to resize.
+      </p>
+      <div class="flex-col" style="gap: 1rem;">
+        <n-controller
+          traits="resizable"
+          for="#resize-h"
+          resizable-handle-selector=".resize-handle"
+          resizable-axis="horizontal"
+          resizable-min="120"
+          resizable-max="500"
+        >
+          <div id="resize-h" class="resize-box">
+            <div>Horizontal resize</div>
+            <div style="font-size: 0.75rem; color: var(--n-ink-muted-neutral); margin-top: 0.25rem;">min: 120px, max: 500px</div>
+            <div class="resize-handle"></div>
+          </div>
+        </n-controller>
+
+        <n-controller
+          traits="resizable"
+          for="#resize-v"
+          resizable-handle-selector=".resize-handle-v"
+          resizable-axis="vertical"
+          resizable-min="60"
+          resizable-max="300"
+        >
+          <div id="resize-v" class="resize-box-v">
+            <div>Vertical resize</div>
+            <div style="font-size: 0.75rem; color: var(--n-ink-muted-neutral); margin-top: 0.25rem;">min: 60px, max: 300px</div>
+            <div class="resize-handle-v"></div>
+          </div>
+        </n-controller>
+      </div>
+      <div id="resize-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller
+  traits="resizable"
+  for="#panel"
+  resizable-handle-selector=".resize-handle"
+  resizable-axis="horizontal"
+  resizable-min="120"
+  resizable-max="500"
+&gt;
+  &lt;div id="panel"&gt;
+    Horizontal resize
+    &lt;div class="resize-handle"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Selectable ── -->
+
+    <h3>Selectable — Multi-Select List</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>traits="selectable"</code> with <code>selectable-mode="multiple"</code>. Click to select, Ctrl+click to toggle, Shift+click for range. Sets <code>aria-selected</code> on items.
+      </p>
+      <n-controller
+        traits="selectable"
+        for="#select-list"
+        selectable-selector=".select-item"
+        selectable-mode="multiple"
+      >
+        <div id="select-list" class="flex-col">
+          <div class="select-item" data-value="inbox">Inbox</div>
+          <div class="select-item" data-value="sent">Sent</div>
+          <div class="select-item" data-value="drafts">Drafts</div>
+          <div class="select-item" data-value="archive">Archive</div>
+          <div class="select-item" data-value="spam">Spam</div>
+          <div class="select-item" data-value="trash">Trash</div>
+        </div>
+      </n-controller>
+      <div id="select-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller
+  traits="selectable"
+  for="#list"
+  selectable-selector=".select-item"
+  selectable-mode="multiple"
+&gt;
+  &lt;div id="list"&gt;
+    &lt;div class="select-item"&gt;Inbox&lt;/div&gt;
+    &lt;div class="select-item"&gt;Sent&lt;/div&gt;
+    ...
+  &lt;/div&gt;
+&lt;/n-controller&gt;
+
+list.addEventListener('native:selection-change', (e) =&gt; {
+  const { selected, count } = e.detail;
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sortable ── -->
+
+    <h3>Sortable — Table Headers</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>traits="sortable"</code> with <code>sortable-selector="th"</code>. Click headers to cycle: ascending → descending → none. Sets <code>aria-sort</code> on the active header.
+      </p>
+      <n-controller
+        traits="sortable"
+        for="#sort-table"
+        sortable-selector="th"
+      >
+        <table id="sort-table" class="sort-table">
+          <thead>
+            <tr>
+              <th data-key="name">Name</th>
+              <th data-key="role">Role</th>
+              <th data-key="status">Status</th>
+            </tr>
+          </thead>
+          <tbody id="sort-tbody">
+            <tr><td>Alice</td><td>Engineer</td><td>Active</td></tr>
+            <tr><td>Bob</td><td>Designer</td><td>Away</td></tr>
+            <tr><td>Carol</td><td>PM</td><td>Active</td></tr>
+            <tr><td>Dan</td><td>Engineer</td><td>Offline</td></tr>
+            <tr><td>Eve</td><td>Designer</td><td>Active</td></tr>
+          </tbody>
+        </table>
+      </n-controller>
+      <div id="sort-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller
+  traits="sortable"
+  for="#table"
+  sortable-selector="th"
+&gt;
+  &lt;table id="table"&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th data-key="name"&gt;Name&lt;/th&gt;
+        &lt;th data-key="role"&gt;Role&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;...&lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/n-controller&gt;
+
+table.addEventListener('native:sort', (e) =&gt; {
+  const { column, direction } = e.detail;
+  // Sort rows by column...
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Editable (provider) ── -->
+
+    <h3>Editable — Inline Edit List</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>traits="editable"</code> via provider makes every <code>.edit-item</code> editable. Double-click to edit, Enter to commit, Escape to cancel.
+      </p>
+      <n-controller
+        traits="editable"
+        for="#edit-list"
+        editable-trigger="dblclick"
+      >
+        <div id="edit-list" class="flex-col">
+          <div class="edit-item">Todo: Write documentation</div>
+          <div class="edit-item">Todo: Review pull requests</div>
+          <div class="edit-item">Todo: Update dependencies</div>
+        </div>
+      </n-controller>
+      <div id="edit-provider-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller
+  traits="editable"
+  for="#list"
+  editable-trigger="dblclick"
+&gt;
+  &lt;div id="list"&gt;
+    &lt;div class="edit-item"&gt;Todo: Write documentation&lt;/div&gt;
+    &lt;div class="edit-item"&gt;Todo: Review pull requests&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/n-controller&gt;
+
+list.addEventListener('native:edit-commit', (e) =&gt; {
+  const { value, previousValue } = e.detail;
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Collapsible (provider) ── -->
+
+    <h3>Collapsible — Accordion Sections</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>traits="collapsible"</code> with <code>collapsible-duration="300"</code>. Each section gets its own controller via wrapper mode.
+      </p>
+      <div class="flex-col" style="gap: 0;">
+        <div>
+          <div class="collapse-trigger" id="c-trigger-1">
+            <span>Section 1 — Getting Started</span>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <n-controller traits="collapsible" collapsible-duration="300">
+            <div class="collapse-content" id="c-content-1">
+              Install the package, import the components you need, and add the CSS to your page.
+              The design system works with any framework or vanilla HTML.
+            </div>
+          </n-controller>
+        </div>
+        <div>
+          <div class="collapse-trigger" id="c-trigger-2">
+            <span>Section 2 — Configuration</span>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <n-controller traits="collapsible" collapsible-duration="300">
+            <div class="collapse-content" id="c-content-2">
+              Configure colors via CSS custom properties on <code>:root</code>. All components inherit
+              from the semantic token system automatically.
+            </div>
+          </n-controller>
+        </div>
+        <div>
+          <div class="collapse-trigger" id="c-trigger-3">
+            <span>Section 3 — Advanced</span>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <n-controller traits="collapsible" collapsible-duration="300">
+            <div class="collapse-content" id="c-content-3">
+              Use trait controllers for drag-and-drop, selection, editing, and more.
+              Compose multiple traits on a single element for complex interactions.
+            </div>
+          </n-controller>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;div class="collapse-trigger" id="trigger"&gt;Section 1&lt;/div&gt;
+&lt;n-controller traits="collapsible" collapsible-duration="300"&gt;
+  &lt;div class="collapse-content" id="content"&gt;
+    Content here...
+  &lt;/div&gt;
+&lt;/n-controller&gt;
+
+trigger.addEventListener('click', () =&gt; {
+  const ctrl = content
+    .closest('n-controller')
+    .querySelector(':scope &gt; *');
+  // Toggle via controller
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Multi-trait provider ── -->
+
+    <h3>Multi-Trait — Hoverable + Pressable on All</h3>
+    <div class="demo-section">
+      <p class="demo-hint">
+        <code>traits="hoverable pressable"</code> applies both traits to every matching descendant.
+      </p>
+      <n-controller traits="hoverable pressable" for=".multi-target">
+        <div class="flex-row">
+          <div class="multi-target demo-card" style="flex: 1; cursor: pointer;">Alpha</div>
+          <div class="multi-target demo-card" style="flex: 1; cursor: pointer;">Bravo</div>
+          <div class="multi-target demo-card" style="flex: 1; cursor: pointer;">Charlie</div>
+        </div>
+      </n-controller>
+      <div id="multi-provider-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller traits="hoverable pressable" for=".multi-target"&gt;
+  &lt;div class="multi-target"&gt;Alpha&lt;/div&gt;
+  &lt;div class="multi-target"&gt;Bravo&lt;/div&gt;
+  &lt;div class="multi-target"&gt;Charlie&lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         COMPARISON TABLE
+         ══════════════════════════════════════════════ -->
+
+    <h2>Pattern Comparison</h2>
+
+    <div class="api-section">
+      <table class="api-table">
+        <thead>
+          <tr><th>Aspect</th><th>Injection</th><th>Provider</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Syntax</td>
+            <td><code>&lt;el traits="hoverable"&gt;</code></td>
+            <td><code>&lt;n-controller traits="hoverable" for=".x"&gt;</code></td>
+          </tr>
+          <tr>
+            <td>Options source</td>
+            <td>On the element itself</td>
+            <td>On the <code>&lt;n-controller&gt;</code></td>
+          </tr>
+          <tr>
+            <td>Targets</td>
+            <td>The element itself</td>
+            <td>Matched descendants (or first child)</td>
+          </tr>
+          <tr>
+            <td>Dynamic</td>
+            <td>Watches <code>traits</code> attribute changes</td>
+            <td>Watches child additions/removals</td>
+          </tr>
+          <tr>
+            <td>Requires NativeElement</td>
+            <td>Yes (connectedCallback reads <code>traits</code>)</td>
+            <td>No — targets can be plain <code>HTMLElement</code></td>
+          </tr>
+          <tr>
+            <td>Access controller</td>
+            <td><code>el.getTraitController('name')</code></td>
+            <td>Via adapter internals</td>
+          </tr>
+          <tr>
+            <td>Best for</td>
+            <td>Self-contained components</td>
+            <td>Applying traits to plain HTML / third-party elements</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         API REFERENCE
+         ══════════════════════════════════════════════ -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Available Traits</h3>
+      <table class="api-table">
+        <thead><tr><th>Name</th><th>Controller</th><th>Key Options</th></tr></thead>
+        <tbody>
+          <tr><td><code>pressable</code></td><td><code>PressController</code></td><td><code>disabled</code></td></tr>
+          <tr><td><code>hoverable</code></td><td><code>HoverController</code></td><td><code>delay</code>, <code>leave-delay</code>, <code>disabled</code></td></tr>
+          <tr><td><code>draggable</code></td><td><code>DragController</code></td><td><code>selector</code>, <code>axis</code>, <code>mode</code>, <code>drop-zone-selector</code>, <code>disabled</code></td></tr>
+          <tr><td><code>resizable</code></td><td><code>ResizeController</code></td><td><code>handle-selector</code>, <code>axis</code>, <code>min</code>, <code>max</code>, <code>disabled</code></td></tr>
+          <tr><td><code>selectable</code></td><td><code>SelectionController</code></td><td><code>selector</code>, <code>mode</code>, <code>disabled</code></td></tr>
+          <tr><td><code>editable</code></td><td><code>EditController</code></td><td><code>trigger</code>, <code>disabled</code></td></tr>
+          <tr><td><code>copyable</code></td><td><code>CopyController</code></td><td><code>value</code>, <code>feedback-duration</code></td></tr>
+          <tr><td><code>sortable</code></td><td><code>SortController</code></td><td><code>selector</code>, <code>disabled</code></td></tr>
+          <tr><td><code>collapsible</code></td><td><code>CollapsibleController</code></td><td><code>duration</code></td></tr>
+          <tr><td><code>swipeable</code></td><td><code>SwipeController</code></td><td><code>threshold</code>, <code>velocity-threshold</code>, <code>axis</code>, <code>disabled</code></td></tr>
+          <tr><td><code>intersectable</code></td><td><code>IntersectController</code></td><td><code>threshold</code>, <code>margin</code>, <code>once</code>, <code>disabled</code></td></tr>
+          <tr><td><code>droppable</code></td><td><code>DropZoneController</code></td><td><code>accept</code>, <code>disabled</code>, <code>multiple</code></td></tr>
+          <tr><td><code>range-selectable</code></td><td><code>RangeSelectController</code></td><td><code>selector</code>, <code>mode</code>, <code>disabled</code></td></tr>
+          <tr><td><code>roving-focusable</code></td><td><code>RovingFocusController</code></td><td><code>selector</code>, <code>orientation</code>, <code>wrap</code>, <code>disabled</code></td></tr>
+          <tr><td><code>searchable</code></td><td><code>SearchController</code></td><td><code>selector</code>, <code>text-field</code>, <code>disabled</code></td></tr>
+          <tr><td><code>virtualizable</code></td><td><code>VirtualScrollController</code></td><td><code>item-height</code>, <code>overscan</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Prerequisite</h3>
+      <table class="api-table">
+        <thead><tr><th>Setup</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>registerAllTraits()</code></td>
+            <td>Call once at app startup to register all built-in trait adapters. Required for both patterns.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></n-app>
+    <!-- WHY: registerAllTraits() must run BEFORE any define() call that
+         triggers connectedCallback on elements with traits="..." already in
+         the DOM. ES module imports are hoisted above top-level code within
+         a single module, so we use a separate script to guarantee ordering. -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import '../../components/button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+      import './controller.ts';
+      import { NativeElement, define } from '../../index.ts';
+
+      // ── Minimal NativeElement for injection demos ──
+
+      class InjectDemo extends NativeElement {}
+      define('inject-demo', InjectDemo);
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Helper: event logging ──
+
+      function appendLog(el, msg) {
+        if (!el) return;
+        const line = document.createElement('div');
+        line.textContent = msg;
+        el.appendChild(line);
+        el.scrollTop = el.scrollHeight;
+        while (el.children.length > 20) el.removeChild(el.firstChild);
+      }
+
+      // ═══════════════════════════════════════════
+      // INJECTION — SIMPLE
+      // ═══════════════════════════════════════════
+
+      // ── Hoverable log ──
+
+      const injectHoverLog = document.getElementById('inject-hover-log');
+      for (const el of document.querySelectorAll('inject-demo[traits*="hoverable"]:not([traits*="pressable"])')) {
+        el.addEventListener('native:hover-start', () => appendLog(injectHoverLog, `Enter: "${el.textContent.trim()}"`));
+        el.addEventListener('native:hover-end', () => appendLog(injectHoverLog, `Leave: "${el.textContent.trim()}"`));
+      }
+
+      // ── Pressable + multi log ──
+
+      const injectPressLog = document.getElementById('inject-press-log');
+      for (const el of document.querySelectorAll('#inject-press-log').values()) break; // skip
+      document.querySelectorAll('inject-demo[traits="pressable"], inject-demo[traits="hoverable pressable"]').forEach((el) => {
+        el.addEventListener('native:press', () => appendLog(injectPressLog, `Press: "${el.textContent.trim()}"`));
+        el.addEventListener('native:hover-start', () => appendLog(injectPressLog, `Hover: "${el.textContent.trim()}"`));
+        el.addEventListener('native:hover-end', () => appendLog(injectPressLog, `Leave: "${el.textContent.trim()}"`));
+      });
+
+      // ── Runtime access ──
+
+      const runtimeEl = document.getElementById('runtime-ctrl');
+      const runtimeLog = document.getElementById('inject-runtime-log');
+
+      runtimeEl.addEventListener('native:hover-start', () => appendLog(runtimeLog, 'Hover enter'));
+      runtimeEl.addEventListener('native:hover-end', () => appendLog(runtimeLog, 'Hover leave'));
+
+      document.getElementById('set-delay-btn').addEventListener('native:press', () => {
+        const hover = runtimeEl.getTraitController('hoverable');
+        if (hover) { hover.delay = 1000; appendLog(runtimeLog, 'Set delay to 1000ms'); }
+      });
+
+      document.getElementById('reset-delay-btn').addEventListener('native:press', () => {
+        const hover = runtimeEl.getTraitController('hoverable');
+        if (hover) { hover.delay = 0; appendLog(runtimeLog, 'Reset delay to 0ms'); }
+      });
+
+      // ═══════════════════════════════════════════
+      // INJECTION — COMPLEX
+      // ═══════════════════════════════════════════
+
+      // ── Copyable ──
+
+      const copyLog = document.getElementById('copy-log');
+      for (const el of document.querySelectorAll('inject-demo[traits*="copyable"]')) {
+        el.addEventListener('native:press', () => {
+          const ctrl = el.getTraitController('copyable');
+          if (ctrl) ctrl.copy();
+        });
+        el.addEventListener('native:copy', (e) => {
+          appendLog(copyLog, `Copied: "${e.detail.value}"`);
+        });
+      }
+
+      // ── Editable ──
+
+      const editLog = document.getElementById('edit-log');
+      for (const el of document.querySelectorAll('inject-demo[traits*="editable"]')) {
+        el.addEventListener('native:edit-start', () => appendLog(editLog, 'Editing started'));
+        el.addEventListener('native:edit-commit', (e) => appendLog(editLog, `Committed: "${e.detail.value}"`));
+        el.addEventListener('native:edit-cancel', () => appendLog(editLog, 'Edit cancelled'));
+      }
+
+      // ── Swipeable ──
+
+      const swipeLog = document.getElementById('swipe-log');
+      const swipePages = ['Page 1 of 3', 'Page 2 of 3', 'Page 3 of 3'];
+      let swipeIndex = 1;
+      const swipePageEl = document.getElementById('swipe-page');
+      const dots = [document.getElementById('dot-0'), document.getElementById('dot-1'), document.getElementById('dot-2')];
+
+      function updateSwipeUI() {
+        swipePageEl.textContent = swipePages[swipeIndex];
+        dots.forEach((d, i) => d.classList.toggle('active', i === swipeIndex));
+      }
+
+      document.getElementById('swipe-demo').addEventListener('native:swipe', (e) => {
+        const { direction, distance, velocity } = e.detail;
+        appendLog(swipeLog, `Swipe ${direction} (dist: ${Math.round(distance)}px, vel: ${velocity.toFixed(2)})`);
+        if (direction === 'left' && swipeIndex < 2) swipeIndex++;
+        else if (direction === 'right' && swipeIndex > 0) swipeIndex--;
+        updateSwipeUI();
+      });
+
+      // ═══════════════════════════════════════════
+      // PROVIDER — SIMPLE
+      // ═══════════════════════════════════════════
+
+      // ── Wrapper mode ──
+
+      const wrapperLog = document.getElementById('wrapper-log');
+      const wrapperCard = document.querySelector('n-controller[traits="hoverable"][hoverable-delay="200"] > .demo-card');
+      if (wrapperCard) {
+        wrapperCard.addEventListener('native:hover-start', () => appendLog(wrapperLog, 'Hover enter'));
+        wrapperCard.addEventListener('native:hover-end', () => appendLog(wrapperLog, 'Hover leave'));
+      }
+
+      // ── Selector hoverable ──
+
+      const selectorHoverLog = document.getElementById('selector-hover-log');
+      for (const card of document.querySelectorAll('.card.demo-card')) {
+        card.addEventListener('native:hover-start', () => appendLog(selectorHoverLog, `Enter: "${card.textContent.trim()}"`));
+        card.addEventListener('native:hover-end', () => appendLog(selectorHoverLog, `Leave: "${card.textContent.trim()}"`));
+      }
+
+      // ── Dynamic children ──
+
+      const dynamicLog = document.getElementById('dynamic-log');
+      const dynamicList = document.getElementById('dynamic-list');
+      let itemCounter = 0;
+
+      document.getElementById('add-item-btn').addEventListener('native:press', () => {
+        itemCounter++;
+        const item = document.createElement('div');
+        item.className = 'dynamic-item demo-card';
+        item.style.cursor = 'pointer';
+        item.textContent = `Item ${itemCounter}`;
+        dynamicList.appendChild(item);
+        appendLog(dynamicLog, `Added "Item ${itemCounter}" — traits auto-wired`);
+        item.addEventListener('native:hover-start', () => appendLog(dynamicLog, `Hover: "${item.textContent}"`));
+        item.addEventListener('native:press', () => appendLog(dynamicLog, `Press: "${item.textContent}"`));
+      });
+
+      document.getElementById('clear-items-btn').addEventListener('native:press', () => {
+        dynamicList.innerHTML = '';
+        itemCounter = 0;
+        appendLog(dynamicLog, 'Cleared all items');
+      });
+
+      // ── Live option updates ──
+
+      const liveCtrl = document.getElementById('live-ctrl');
+      document.getElementById('delay-0').addEventListener('native:press', () => liveCtrl.setAttribute('hoverable-delay', '0'));
+      document.getElementById('delay-300').addEventListener('native:press', () => liveCtrl.setAttribute('hoverable-delay', '300'));
+      document.getElementById('delay-800').addEventListener('native:press', () => liveCtrl.setAttribute('hoverable-delay', '800'));
+
+      // ═══════════════════════════════════════════
+      // PROVIDER — COMPLEX
+      // ═══════════════════════════════════════════
+
+      // ── Draggable: vertical slot ──
+
+      const dragProviderLog = document.getElementById('drag-provider-log');
+      const dragList = document.getElementById('drag-provider-list');
+      dragList.addEventListener('native:drop', (e) => {
+        const { item, insertBefore, fromIndex, toIndex } = e.detail;
+        if (toIndex === -1) return;
+        if (insertBefore) insertBefore.before(item);
+        else dragList.appendChild(item);
+        appendLog(dragProviderLog, `Moved "${item.querySelector('.label').textContent}" from ${fromIndex} to ${toIndex}`);
+      });
+
+      // ── Draggable: horizontal slot ──
+
+      const dragHorizList = document.getElementById('drag-horiz-list');
+      dragHorizList.addEventListener('native:drop', (e) => {
+        const { item, insertBefore } = e.detail;
+        if (insertBefore) insertBefore.before(item);
+        else dragHorizList.appendChild(item);
+      });
+
+      // ── Draggable: drop swap ──
+
+      const dragSwapLog = document.getElementById('drag-swap-log');
+      const dragSwapList = document.getElementById('drag-swap-list');
+      dragSwapList.addEventListener('native:drop', (e) => {
+        const { item, target } = e.detail;
+        if (!target || target === item) return;
+        const itemLabel = item.querySelector('.label').textContent;
+        const targetLabel = target.querySelector('.label').textContent;
+        const ph = document.createElement('div');
+        item.before(ph);
+        target.before(item);
+        ph.replaceWith(target);
+        appendLog(dragSwapLog, `Swapped "${itemLabel}" ↔ "${targetLabel}"`);
+      });
+
+      // ── Resizable ──
+
+      const resizeLog = document.getElementById('resize-log');
+      const resizeH = document.getElementById('resize-h');
+      const resizeV = document.getElementById('resize-v');
+
+      resizeH.addEventListener('native:resize-move', (e) => {
+        appendLog(resizeLog, `Horizontal: ${Math.round(e.detail.width)}px`);
+      });
+
+      resizeV.addEventListener('native:resize-move', (e) => {
+        appendLog(resizeLog, `Vertical: ${Math.round(e.detail.height)}px`);
+      });
+
+      // ── Selectable ──
+
+      const selectLog = document.getElementById('select-log');
+      const selectList = document.getElementById('select-list');
+      selectList.addEventListener('native:selection-change', (e) => {
+        const { selected, count } = e.detail;
+        const names = selected.map(el => el.textContent.trim());
+        appendLog(selectLog, `Selected (${count}): ${names.join(', ') || 'none'}`);
+      });
+
+      // ── Sortable ──
+
+      const sortLog = document.getElementById('sort-log');
+      const sortTable = document.getElementById('sort-table');
+      const sortTbody = document.getElementById('sort-tbody');
+
+      sortTable.addEventListener('native:sort', (e) => {
+        const { column, direction } = e.detail;
+        appendLog(sortLog, `Sort: ${column} ${direction}`);
+
+        if (direction === 'none') return;
+
+        const rows = [...sortTbody.querySelectorAll('tr')];
+        const headers = [...sortTable.querySelectorAll('th')];
+        const colIndex = headers.findIndex(th => th.dataset.key === column);
+        if (colIndex === -1) return;
+
+        rows.sort((a, b) => {
+          const aText = a.cells[colIndex].textContent.trim();
+          const bText = b.cells[colIndex].textContent.trim();
+          const cmp = aText.localeCompare(bText);
+          return direction === 'descending' ? -cmp : cmp;
+        });
+
+        for (const row of rows) sortTbody.appendChild(row);
+      });
+
+      // ── Editable (provider) ──
+
+      const editProviderLog = document.getElementById('edit-provider-log');
+      const editList = document.getElementById('edit-list');
+      editList.addEventListener('native:edit-start', () => appendLog(editProviderLog, 'Editing started'));
+      editList.addEventListener('native:edit-commit', (e) => appendLog(editProviderLog, `Committed: "${e.detail.value}"`));
+      editList.addEventListener('native:edit-cancel', () => appendLog(editProviderLog, 'Edit cancelled'));
+
+      // ── Collapsible ──
+
+      for (let i = 1; i <= 3; i++) {
+        const trigger = document.getElementById(`c-trigger-${i}`);
+        const content = document.getElementById(`c-content-${i}`);
+        // WHY: The collapsible controller is on the content element (wrapper mode).
+        // We listen for clicks on the trigger and toggle the content's controller.
+        trigger.addEventListener('click', () => {
+          // Dispatch toggle via the content's controller
+          content.dispatchEvent(new CustomEvent('native:collapse-toggle', { bubbles: true }));
+        });
+
+        content.addEventListener('native:collapse', () => trigger.setAttribute('collapsed', ''));
+        content.addEventListener('native:expand', () => trigger.removeAttribute('collapsed'));
+      }
+
+      // ── Multi-trait provider ──
+
+      const multiProviderLog = document.getElementById('multi-provider-log');
+      for (const el of document.querySelectorAll('.multi-target')) {
+        el.addEventListener('native:hover-start', () => appendLog(multiProviderLog, `Hover: "${el.textContent.trim()}"`));
+        el.addEventListener('native:hover-end', () => appendLog(multiProviderLog, `Leave: "${el.textContent.trim()}"`));
+        el.addEventListener('native:press', () => appendLog(multiProviderLog, `Press: "${el.textContent.trim()}"`));
+      }
+    </script>
+  </body>
+</html>

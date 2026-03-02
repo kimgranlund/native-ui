@@ -1,0 +1,37 @@
+{
+  "name": "@nonoun/native-app",
+  "version": "0.2.0",
+  "description": "Application layout and navigation components for @nonoun/native-ui",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/native-app.js",
+  "module": "./dist/native-app.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/native-app.js"
+    },
+    "./css": "./dist/native-app.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "./dist/native-app.js"
+  ],
+  "peerDependencies": {
+    "@nonoun/native-ui": ">=0.5.0"
+  },
+  "customElements": "dist/custom-elements.json",
+  "scripts": {
+    "build": "npm run build:js && npm run build:css && npm run build:types && npm run build:cem",
+    "build:js": "vite build",
+    "build:css": "node scripts/build-css.mjs",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build:cem": "cem analyze"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

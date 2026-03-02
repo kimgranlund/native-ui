@@ -1,6 +1,6 @@
 import { getTraitRuntime } from '../core/trait-runtime.ts';
 
-/** Manages a dismiss layer that dispatches `ui-dismiss` on outside click or Escape. */
+/** Manages a dismiss layer that dispatches `native:dismiss` on outside click or Escape. */
 export class DismissController {
   readonly host: HTMLElement;
 

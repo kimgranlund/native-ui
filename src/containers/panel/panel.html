@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-panel — Container Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+.sidebar-demo {
+        display: flex;
+        gap: 1rem;
+        height: 16rem;
+      }
+
+      .sidebar-demo > n-panel {
+        width: 14rem;
+        flex-shrink: 0;
+      }
+
+      .sidebar-demo > .content-area {
+        flex: 1;
+        padding: 1rem;
+        font-size: 0.875rem;
+        color: var(--n-ink-muted-neutral);
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-panel&gt;</h1>
+    <p class="demo-desc">
+      Section surface for sidebars, toolbars, and content areas. Less bounded than card. CSS-only container.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <div class="demo-section">
+      <n-panel>
+        <p>A basic panel with default padding and panel-elevation background.</p>
+      </n-panel>
+    <pre class="demo-code"><code>&lt;n-panel&gt;
+  &lt;p&gt;A basic panel with default padding and panel-elevation background.&lt;/p&gt;
+&lt;/n-panel&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Bordered ── -->
+
+    <h2>Bordered</h2>
+    <div class="demo-section">
+      <n-panel bordered>
+        <p>A panel with a visible border.</p>
+      </n-panel>
+    <pre class="demo-code"><code>&lt;n-panel bordered&gt;
+  &lt;p&gt;A panel with a visible border.&lt;/p&gt;
+&lt;/n-panel&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sidebar Layout ── -->
+
+    <h2>Sidebar Layout</h2>
+    <div class="demo-section">
+      <div class="sidebar-demo">
+        <n-panel bordered>
+          <n-stack gap="1">
+            <n-button variant="ghost" justify="spread" style="width: 100%;"><n-icon name="house" slot="leading"></n-icon><span slot="label">Dashboard</span></n-button>
+            <n-button variant="ghost" justify="spread" style="width: 100%;"><n-icon name="folder" slot="leading"></n-icon><span slot="label">Projects</span></n-button>
+            <n-button variant="ghost" justify="spread" style="width: 100%;"><n-icon name="gear" slot="leading"></n-icon><span slot="label">Settings</span></n-button>
+          </n-stack>
+        </n-panel>
+        <div class="content-area">
+          Main content area. The panel serves as a sidebar surface.
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-panel bordered&gt;
+  &lt;n-stack gap="1"&gt;
+    &lt;n-button variant="ghost" justify="spread"&gt;
+      &lt;n-icon name="house" slot="leading"&gt;&lt;/n-icon&gt;
+      &lt;span slot="label"&gt;Dashboard&lt;/span&gt;
+    &lt;/n-button&gt;
+    &lt;n-button variant="ghost" justify="spread"&gt;...&lt;/n-button&gt;
+  &lt;/n-stack&gt;
+&lt;/n-panel&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-panel bordered size="sm">
+          <p style="margin: 0; font-size: 0.8125rem;">Small panel — compact padding</p>
+        </n-panel>
+        <n-panel bordered size="lg">
+          <p>Large panel — spacious padding</p>
+        </n-panel>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-panel bordered size="sm"&gt;
+  &lt;p&gt;Small panel&lt;/p&gt;
+&lt;/n-panel&gt;
+
+&lt;n-panel bordered size="lg"&gt;
+  &lt;p&gt;Large panel&lt;/p&gt;
+&lt;/n-panel&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── No Padding ── -->
+
+    <h2>No Padding</h2>
+    <div class="demo-section">
+      <n-panel bordered padded="false">
+        <p>This panel has <code>padded="false"</code> — no internal padding. Content touches the edges.</p>
+      </n-panel>
+    <pre class="demo-code"><code>&lt;n-panel bordered padded="false"&gt;
+  &lt;p&gt;No internal padding. Content touches the edges.&lt;/p&gt;
+&lt;/n-panel&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import '../../components/button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/house.ts';
+      import '../../icons/phosphor/folder.ts';
+      import '../../icons/phosphor/gear.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

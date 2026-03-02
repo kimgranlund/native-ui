@@ -2,7 +2,7 @@
 
 # RangeSelectController
 
-> Enables contiguous range selection via drag or click, dispatching `ui-range-change` and `ui-range-select`.
+> Enables contiguous range selection via drag or click, dispatching `native:range-change` and `native:range-select`.
 
 ## Constructor
 
@@ -22,8 +22,8 @@ new RangeSelectController(host: HTMLElement, options?: RangeSelectOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-range-change` | `{ startIndex, endIndex, items, hi + 1) }` |
-| `ui-range-select` | `{ startIndex, endIndex, items, hi + 1) }` |
+| `native:range-change` | `{ startIndex, endIndex, items, hi + 1) }` |
+| `native:range-select` | `{ startIndex, endIndex, items, hi + 1) }` |
 
 ## Methods
 

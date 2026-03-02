@@ -2,7 +2,7 @@
 
 # SearchController
 
-> Filters child items by a text query, toggling visibility and dispatching `ui-search`.
+> Filters child items by a text query, toggling visibility and dispatching `native:search`.
 
 ## Constructor
 
@@ -28,7 +28,7 @@ new SearchController(host: HTMLElement, options?: SearchOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-search` | `{ query, matchCount, total }` |
+| `native:search` | `{ query, matchCount, total }` |
 
 ## Methods
 

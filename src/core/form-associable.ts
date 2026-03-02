@@ -12,7 +12,7 @@ import type { Constructor } from './types.ts';
  * requires `static formAssociated = true` on the class constructor.
  *
  * ```ts
- * class UIInput extends FormAssociable(UIElement) {
+ * class NInput extends FormAssociable(NativeElement) {
  *   #internals = this.attachInternals();
  *   onFormDisabled(disabled: boolean) { this.#disabled.value = disabled; }
  *   onFormReset() { this.textContent = ''; }

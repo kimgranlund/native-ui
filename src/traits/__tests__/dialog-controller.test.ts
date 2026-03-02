@@ -65,16 +65,16 @@ describe('DialogController', () => {
     expect(() => ctrl.close()).not.toThrow();
   });
 
-  it('responds to ui-dismiss event', () => {
+  it('responds to native:dismiss event', () => {
     ctrl.showModal();
-    host.dispatchEvent(new CustomEvent('ui-dismiss'));
+    host.dispatchEvent(new CustomEvent('native:dismiss'));
     expect(host.hasAttribute('open')).toBe(false);
   });
 
   it('no-close-on-escape prevents dismiss from closing', () => {
     host.setAttribute('no-close-on-escape', '');
     ctrl.showModal();
-    host.dispatchEvent(new CustomEvent('ui-dismiss'));
+    host.dispatchEvent(new CustomEvent('native:dismiss'));
     // Should remain open because no-close-on-escape is set
     expect(host.hasAttribute('open')).toBe(true);
   });

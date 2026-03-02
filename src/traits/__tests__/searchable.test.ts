@@ -1,12 +1,12 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { SearchController } from '../search-controller.ts';
 import { define } from '../../core/define.ts';
 
 // ── Trait tests ──
 
-class SearchTestEl extends UIElement {
+class SearchTestEl extends NativeElement {
   disabled = false;
   #ctrl: SearchController | null = null;
 
@@ -84,10 +84,10 @@ describe('Searchable', () => {
     expect(hidden.length).toBe(4);
   });
 
-  it('dispatches ui-search event', () => {
+  it('dispatches native:search event', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-search', handler);
+    el.addEventListener('native:search', handler);
     el.searchableQuery = 'berry';
     expect(handler).toHaveBeenCalledTimes(1);
     expect(handler.mock.calls[0][0].detail.query).toBe('berry');
@@ -214,11 +214,11 @@ describe('SearchController', () => {
     expect(result).toBe('Hello');
   });
 
-  it('dispatches ui-search event on filter', () => {
+  it('dispatches native:search event on filter', () => {
     const host = createHost();
     const ctrl = new SearchController(host, { selector: '.item' });
     const handler = vi.fn();
-    host.addEventListener('ui-search', handler);
+    host.addEventListener('native:search', handler);
     ctrl.filter('ban');
     expect(handler).toHaveBeenCalledTimes(1);
     expect(handler.mock.calls[0][0].detail.query).toBe('ban');

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
@@ -61,7 +61,7 @@
 
       .table-info {
         font-size: 0.8125rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
       }
 
       .action-cell {
@@ -71,194 +71,194 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
-    <ui-stack gap="6">
+    <n-app><main>
+    <n-stack gap="6">
 
     <!-- ── Page Header ── -->
     <div class="page-header">
       <div class="page-header-text">
         <h1 style="margin-bottom: 0;">Users</h1>
-        <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+        <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
           Manage your team members and their account permissions.
         </p>
       </div>
-      <ui-button variant="primary" intent="accent" size="sm">
-        <ui-icon name="plus" slot="leading"></ui-icon>
+      <n-button variant="primary" intent="accent" size="sm">
+        <n-icon name="plus" slot="leading"></n-icon>
         <span slot="label">New User</span>
-      </ui-button>
+      </n-button>
     </div>
 
     <!-- ── Toolbar ── -->
-    <ui-card>
+    <n-card>
       <div class="toolbar-row">
         <div class="search-input">
-          <ui-input size="sm" placeholder="Search users...">
-            <ui-icon name="magnifying-glass" slot="leading"></ui-icon>
-          </ui-input>
+          <n-input size="sm" placeholder="Search users...">
+            <n-icon name="magnifying-glass" slot="leading"></n-icon>
+          </n-input>
         </div>
-        <ui-select size="sm" placeholder="All statuses"
+        <n-select size="sm" placeholder="All statuses"
           options='[{"value":"all","label":"All Statuses"},{"value":"active","label":"Active"},{"value":"inactive","label":"Inactive"}]'>
-        </ui-select>
-        <ui-select size="sm" placeholder="All roles"
+        </n-select>
+        <n-select size="sm" placeholder="All roles"
           options='[{"value":"all","label":"All Roles"},{"value":"admin","label":"Admin"},{"value":"editor","label":"Editor"},{"value":"viewer","label":"Viewer"}]'>
-        </ui-select>
+        </n-select>
       </div>
 
       <!-- ── Data Table ── -->
-      <ui-table style="grid-template-columns: 2fr 2fr 100px 100px 120px;">
-        <ui-table-head>
-          <ui-table-row>
-            <ui-table-header sortable column="name">Name</ui-table-header>
-            <ui-table-header sortable column="email">Email</ui-table-header>
-            <ui-table-header>Status</ui-table-header>
-            <ui-table-header sortable column="role">Role</ui-table-header>
-            <ui-table-header>Actions</ui-table-header>
-          </ui-table-row>
-        </ui-table-head>
-        <ui-table-body>
-          <ui-table-row>
-            <ui-table-cell>Emma Thompson</ui-table-cell>
-            <ui-table-cell>emma.thompson@company.com</ui-table-cell>
-            <ui-table-cell><ui-badge intent="success">Active</ui-badge></ui-table-cell>
-            <ui-table-cell>Admin</ui-table-cell>
-            <ui-table-cell>
+      <n-table style="grid-template-columns: 2fr 2fr 100px 100px 120px;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header sortable column="name">Name</n-table-header>
+            <n-table-header sortable column="email">Email</n-table-header>
+            <n-table-header>Status</n-table-header>
+            <n-table-header sortable column="role">Role</n-table-header>
+            <n-table-header>Actions</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell>Emma Thompson</n-table-cell>
+            <n-table-cell>emma.thompson@company.com</n-table-cell>
+            <n-table-cell><n-badge intent="success">Active</n-badge></n-table-cell>
+            <n-table-cell>Admin</n-table-cell>
+            <n-table-cell>
               <div class="action-cell">
-                <ui-button variant="ghost" size="xs" aria-label="Edit"><ui-icon name="pencil-simple"></ui-icon></ui-button>
-                <ui-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><ui-icon name="trash"></ui-icon></ui-button>
+                <n-button variant="ghost" size="xs" aria-label="Edit"><n-icon name="pencil-simple"></n-icon></n-button>
+                <n-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><n-icon name="trash"></n-icon></n-button>
               </div>
-            </ui-table-cell>
-          </ui-table-row>
-          <ui-table-row>
-            <ui-table-cell>Liam Chen</ui-table-cell>
-            <ui-table-cell>liam.chen@company.com</ui-table-cell>
-            <ui-table-cell><ui-badge intent="success">Active</ui-badge></ui-table-cell>
-            <ui-table-cell>Editor</ui-table-cell>
-            <ui-table-cell>
+            </n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Liam Chen</n-table-cell>
+            <n-table-cell>liam.chen@company.com</n-table-cell>
+            <n-table-cell><n-badge intent="success">Active</n-badge></n-table-cell>
+            <n-table-cell>Editor</n-table-cell>
+            <n-table-cell>
               <div class="action-cell">
-                <ui-button variant="ghost" size="xs" aria-label="Edit"><ui-icon name="pencil-simple"></ui-icon></ui-button>
-                <ui-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><ui-icon name="trash"></ui-icon></ui-button>
+                <n-button variant="ghost" size="xs" aria-label="Edit"><n-icon name="pencil-simple"></n-icon></n-button>
+                <n-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><n-icon name="trash"></n-icon></n-button>
               </div>
-            </ui-table-cell>
-          </ui-table-row>
-          <ui-table-row>
-            <ui-table-cell>Olivia Martinez</ui-table-cell>
-            <ui-table-cell>olivia.martinez@company.com</ui-table-cell>
-            <ui-table-cell><ui-badge intent="success">Active</ui-badge></ui-table-cell>
-            <ui-table-cell>Viewer</ui-table-cell>
-            <ui-table-cell>
+            </n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Olivia Martinez</n-table-cell>
+            <n-table-cell>olivia.martinez@company.com</n-table-cell>
+            <n-table-cell><n-badge intent="success">Active</n-badge></n-table-cell>
+            <n-table-cell>Viewer</n-table-cell>
+            <n-table-cell>
               <div class="action-cell">
-                <ui-button variant="ghost" size="xs" aria-label="Edit"><ui-icon name="pencil-simple"></ui-icon></ui-button>
-                <ui-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><ui-icon name="trash"></ui-icon></ui-button>
+                <n-button variant="ghost" size="xs" aria-label="Edit"><n-icon name="pencil-simple"></n-icon></n-button>
+                <n-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><n-icon name="trash"></n-icon></n-button>
               </div>
-            </ui-table-cell>
-          </ui-table-row>
-          <ui-table-row>
-            <ui-table-cell>Noah Williams</ui-table-cell>
-            <ui-table-cell>noah.williams@company.com</ui-table-cell>
-            <ui-table-cell><ui-badge>Inactive</ui-badge></ui-table-cell>
-            <ui-table-cell>Editor</ui-table-cell>
-            <ui-table-cell>
+            </n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Noah Williams</n-table-cell>
+            <n-table-cell>noah.williams@company.com</n-table-cell>
+            <n-table-cell><n-badge>Inactive</n-badge></n-table-cell>
+            <n-table-cell>Editor</n-table-cell>
+            <n-table-cell>
               <div class="action-cell">
-                <ui-button variant="ghost" size="xs" aria-label="Edit"><ui-icon name="pencil-simple"></ui-icon></ui-button>
-                <ui-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><ui-icon name="trash"></ui-icon></ui-button>
+                <n-button variant="ghost" size="xs" aria-label="Edit"><n-icon name="pencil-simple"></n-icon></n-button>
+                <n-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><n-icon name="trash"></n-icon></n-button>
               </div>
-            </ui-table-cell>
-          </ui-table-row>
-          <ui-table-row>
-            <ui-table-cell>Ava Johansson</ui-table-cell>
-            <ui-table-cell>ava.johansson@company.com</ui-table-cell>
-            <ui-table-cell><ui-badge intent="success">Active</ui-badge></ui-table-cell>
-            <ui-table-cell>Admin</ui-table-cell>
-            <ui-table-cell>
+            </n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Ava Johansson</n-table-cell>
+            <n-table-cell>ava.johansson@company.com</n-table-cell>
+            <n-table-cell><n-badge intent="success">Active</n-badge></n-table-cell>
+            <n-table-cell>Admin</n-table-cell>
+            <n-table-cell>
               <div class="action-cell">
-                <ui-button variant="ghost" size="xs" aria-label="Edit"><ui-icon name="pencil-simple"></ui-icon></ui-button>
-                <ui-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><ui-icon name="trash"></ui-icon></ui-button>
+                <n-button variant="ghost" size="xs" aria-label="Edit"><n-icon name="pencil-simple"></n-icon></n-button>
+                <n-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><n-icon name="trash"></n-icon></n-button>
               </div>
-            </ui-table-cell>
-          </ui-table-row>
-          <ui-table-row>
-            <ui-table-cell>James Nakamura</ui-table-cell>
-            <ui-table-cell>james.nakamura@company.com</ui-table-cell>
-            <ui-table-cell><ui-badge intent="success">Active</ui-badge></ui-table-cell>
-            <ui-table-cell>Viewer</ui-table-cell>
-            <ui-table-cell>
+            </n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>James Nakamura</n-table-cell>
+            <n-table-cell>james.nakamura@company.com</n-table-cell>
+            <n-table-cell><n-badge intent="success">Active</n-badge></n-table-cell>
+            <n-table-cell>Viewer</n-table-cell>
+            <n-table-cell>
               <div class="action-cell">
-                <ui-button variant="ghost" size="xs" aria-label="Edit"><ui-icon name="pencil-simple"></ui-icon></ui-button>
-                <ui-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><ui-icon name="trash"></ui-icon></ui-button>
+                <n-button variant="ghost" size="xs" aria-label="Edit"><n-icon name="pencil-simple"></n-icon></n-button>
+                <n-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><n-icon name="trash"></n-icon></n-button>
               </div>
-            </ui-table-cell>
-          </ui-table-row>
-          <ui-table-row>
-            <ui-table-cell>Sofia Rossi</ui-table-cell>
-            <ui-table-cell>sofia.rossi@company.com</ui-table-cell>
-            <ui-table-cell><ui-badge>Inactive</ui-badge></ui-table-cell>
-            <ui-table-cell>Editor</ui-table-cell>
-            <ui-table-cell>
+            </n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Sofia Rossi</n-table-cell>
+            <n-table-cell>sofia.rossi@company.com</n-table-cell>
+            <n-table-cell><n-badge>Inactive</n-badge></n-table-cell>
+            <n-table-cell>Editor</n-table-cell>
+            <n-table-cell>
               <div class="action-cell">
-                <ui-button variant="ghost" size="xs" aria-label="Edit"><ui-icon name="pencil-simple"></ui-icon></ui-button>
-                <ui-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><ui-icon name="trash"></ui-icon></ui-button>
+                <n-button variant="ghost" size="xs" aria-label="Edit"><n-icon name="pencil-simple"></n-icon></n-button>
+                <n-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><n-icon name="trash"></n-icon></n-button>
               </div>
-            </ui-table-cell>
-          </ui-table-row>
-          <ui-table-row>
-            <ui-table-cell>Alexander Petrov</ui-table-cell>
-            <ui-table-cell>alex.petrov@company.com</ui-table-cell>
-            <ui-table-cell><ui-badge intent="success">Active</ui-badge></ui-table-cell>
-            <ui-table-cell>Viewer</ui-table-cell>
-            <ui-table-cell>
+            </n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Alexander Petrov</n-table-cell>
+            <n-table-cell>alex.petrov@company.com</n-table-cell>
+            <n-table-cell><n-badge intent="success">Active</n-badge></n-table-cell>
+            <n-table-cell>Viewer</n-table-cell>
+            <n-table-cell>
               <div class="action-cell">
-                <ui-button variant="ghost" size="xs" aria-label="Edit"><ui-icon name="pencil-simple"></ui-icon></ui-button>
-                <ui-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><ui-icon name="trash"></ui-icon></ui-button>
+                <n-button variant="ghost" size="xs" aria-label="Edit"><n-icon name="pencil-simple"></n-icon></n-button>
+                <n-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><n-icon name="trash"></n-icon></n-button>
               </div>
-            </ui-table-cell>
-          </ui-table-row>
-          <ui-table-row>
-            <ui-table-cell>Mia Andersson</ui-table-cell>
-            <ui-table-cell>mia.andersson@company.com</ui-table-cell>
-            <ui-table-cell><ui-badge intent="success">Active</ui-badge></ui-table-cell>
-            <ui-table-cell>Editor</ui-table-cell>
-            <ui-table-cell>
+            </n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Mia Andersson</n-table-cell>
+            <n-table-cell>mia.andersson@company.com</n-table-cell>
+            <n-table-cell><n-badge intent="success">Active</n-badge></n-table-cell>
+            <n-table-cell>Editor</n-table-cell>
+            <n-table-cell>
               <div class="action-cell">
-                <ui-button variant="ghost" size="xs" aria-label="Edit"><ui-icon name="pencil-simple"></ui-icon></ui-button>
-                <ui-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><ui-icon name="trash"></ui-icon></ui-button>
+                <n-button variant="ghost" size="xs" aria-label="Edit"><n-icon name="pencil-simple"></n-icon></n-button>
+                <n-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><n-icon name="trash"></n-icon></n-button>
               </div>
-            </ui-table-cell>
-          </ui-table-row>
-          <ui-table-row>
-            <ui-table-cell>Daniel O'Brien</ui-table-cell>
-            <ui-table-cell>daniel.obrien@company.com</ui-table-cell>
-            <ui-table-cell><ui-badge intent="success">Active</ui-badge></ui-table-cell>
-            <ui-table-cell>Viewer</ui-table-cell>
-            <ui-table-cell>
+            </n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Daniel O'Brien</n-table-cell>
+            <n-table-cell>daniel.obrien@company.com</n-table-cell>
+            <n-table-cell><n-badge intent="success">Active</n-badge></n-table-cell>
+            <n-table-cell>Viewer</n-table-cell>
+            <n-table-cell>
               <div class="action-cell">
-                <ui-button variant="ghost" size="xs" aria-label="Edit"><ui-icon name="pencil-simple"></ui-icon></ui-button>
-                <ui-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><ui-icon name="trash"></ui-icon></ui-button>
+                <n-button variant="ghost" size="xs" aria-label="Edit"><n-icon name="pencil-simple"></n-icon></n-button>
+                <n-button variant="ghost" size="xs" intent="danger" aria-label="Delete"><n-icon name="trash"></n-icon></n-button>
               </div>
-            </ui-table-cell>
-          </ui-table-row>
-        </ui-table-body>
-      </ui-table>
+            </n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
 
       <!-- ── Table Footer ── -->
       <div class="table-footer">
         <span class="table-info">Showing 1-10 of 87 users</span>
-        <ui-pagination total="9" value="1" size="sm"></ui-pagination>
+        <n-pagination total="9" value="1" size="sm"></n-pagination>
       </div>
-    </ui-card>
-    </ui-stack>
+    </n-card>
+    </n-stack>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-table/ui-table.ts';
-      import '../../../components/ui-input/ui-input.ts';
-      import '../../../components/ui-select/ui-select.ts';
-      import '../../../components/ui-listbox/ui-listbox.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../components/ui-badge/ui-badge.ts';
-      import '../../../components/ui-pagination/ui-pagination.ts';
-      import '../../../containers/ui-card/ui-card.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/table/table.ts';
+      import '../../../components/input/input.ts';
+      import '../../../components/select/select.ts';
+      import '../../../components/listbox/listbox.ts';
+      import '../../../components/button/button.ts';
+      import '../../../components/badge/badge.ts';
+      import '../../../components/pagination/pagination.ts';
+      import '../../../containers/card/card.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/plus.ts';
       import '../../../icons/phosphor/magnifying-glass.ts';
       import '../../../icons/phosphor/caret-up-down.ts';

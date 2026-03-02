@@ -1,12 +1,12 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { SwipeController } from '../swipe-controller.ts';
 import { define } from '../../core/define.ts';
 
 // ── Trait tests ──
 
-class SwipeTestEl extends UIElement {
+class SwipeTestEl extends NativeElement {
   disabled = false;
   #ctrl: SwipeController | null = null;
 
@@ -128,12 +128,12 @@ describe('SwipeController', () => {
     ctrl.destroy();
   });
 
-  it('dispatches ui-swipe on successful right swipe', () => {
+  it('dispatches native:swipe on successful right swipe', () => {
     vi.useFakeTimers();
     const host = createHost();
     const ctrl = new SwipeController(host, { threshold: 30, velocityThreshold: 0.1 });
     const handler = vi.fn();
-    host.addEventListener('ui-swipe', handler);
+    host.addEventListener('native:swipe', handler);
 
     // Mock Date.now for velocity calculation
     const startTime = 1000;
@@ -151,12 +151,12 @@ describe('SwipeController', () => {
     vi.useRealTimers();
   });
 
-  it('dispatches ui-swipe for left swipe', () => {
+  it('dispatches native:swipe for left swipe', () => {
     vi.useFakeTimers();
     const host = createHost();
     const ctrl = new SwipeController(host, { threshold: 30, velocityThreshold: 0.1 });
     const handler = vi.fn();
-    host.addEventListener('ui-swipe', handler);
+    host.addEventListener('native:swipe', handler);
 
     vi.spyOn(Date, 'now').mockReturnValueOnce(1000);
     host.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 100, clientY: 0, isPrimary: true }));
@@ -176,7 +176,7 @@ describe('SwipeController', () => {
     const host = createHost();
     const ctrl = new SwipeController(host, { threshold: 100, velocityThreshold: 0.1 });
     const handler = vi.fn();
-    host.addEventListener('ui-swipe', handler);
+    host.addEventListener('native:swipe', handler);
 
     vi.spyOn(Date, 'now').mockReturnValueOnce(1000);
     host.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 0, clientY: 0, isPrimary: true }));
@@ -195,7 +195,7 @@ describe('SwipeController', () => {
     const host = createHost();
     const ctrl = new SwipeController(host, { threshold: 30, velocityThreshold: 10 });
     const handler = vi.fn();
-    host.addEventListener('ui-swipe', handler);
+    host.addEventListener('native:swipe', handler);
 
     vi.spyOn(Date, 'now').mockReturnValueOnce(1000);
     host.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 0, clientY: 0, isPrimary: true }));
@@ -215,7 +215,7 @@ describe('SwipeController', () => {
     const host = createHost();
     const ctrl = new SwipeController(host, { threshold: 30, velocityThreshold: 0.1, axis: 'vertical' });
     const handler = vi.fn();
-    host.addEventListener('ui-swipe', handler);
+    host.addEventListener('native:swipe', handler);
 
     vi.spyOn(Date, 'now').mockReturnValueOnce(1000);
     host.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 0, clientY: 0, isPrimary: true }));
@@ -235,7 +235,7 @@ describe('SwipeController', () => {
     const host = createHost();
     const ctrl = new SwipeController(host, { threshold: 30, velocityThreshold: 0.1, axis: 'vertical' });
     const handler = vi.fn();
-    host.addEventListener('ui-swipe', handler);
+    host.addEventListener('native:swipe', handler);
 
     vi.spyOn(Date, 'now').mockReturnValueOnce(1000);
     host.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 0, clientY: 100, isPrimary: true }));
@@ -255,7 +255,7 @@ describe('SwipeController', () => {
     const host = createHost();
     const ctrl = new SwipeController(host, { threshold: 30, velocityThreshold: 0.1, axis: 'both' });
     const handler = vi.fn();
-    host.addEventListener('ui-swipe', handler);
+    host.addEventListener('native:swipe', handler);
 
     // More vertical movement
     vi.spyOn(Date, 'now').mockReturnValueOnce(1000);

@@ -1,0 +1,40 @@
+{
+  "name": "@nonoun/native-codemirror",
+  "version": "0.2.0",
+  "description": "Shared CodeMirror 6 integration layer for @nonoun/native-ui ecosystem",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/native-codemirror.js",
+  "module": "./dist/native-codemirror.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/native-codemirror.js"
+    },
+    "./css": "./dist/native-codemirror.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "@nonoun/native-ui": ">=0.5.0"
+  },
+  "dependencies": {
+    "@codemirror/autocomplete": "^6.18.6",
+    "@codemirror/commands": "^6.8.1",
+    "@codemirror/language": "^6.11.0",
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/view": "^6.36.8",
+    "@lezer/highlight": "^1.2.3"
+  },
+  "scripts": {
+    "build": "npm run build:js && npm run build:css && npm run build:types",
+    "build:js": "vite build",
+    "build:css": "cp src/css/native-codemirror.css dist/native-codemirror.css",
+    "build:types": "tsc -p tsconfig.build.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

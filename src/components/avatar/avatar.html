@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-avatar — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-avatar&gt;</h1>
+    <p class="demo-desc">
+      User/entity image with initials fallback. Shows image, initials from name, or placeholder.
+    </p>
+
+    <!-- ── Initials ── -->
+
+    <h2>Initials</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-avatar name="Kim Granlund"></n-avatar>
+        <n-avatar name="Jane Doe"></n-avatar>
+        <n-avatar name="Alice"></n-avatar>
+        <n-avatar name="Bob Smith"></n-avatar>
+      </div>
+      <pre class="demo-code"><code>&lt;n-avatar name="Kim Granlund"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="Jane Doe"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="Alice"&gt;&lt;/n-avatar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Fallback (no name, no src) ── -->
+
+    <h2>Fallback</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-avatar></n-avatar>
+      </div>
+      <pre class="demo-code"><code>&lt;!-- No name or src: shows generic placeholder --&gt;
+&lt;n-avatar&gt;&lt;/n-avatar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Image (broken src shows initials) ── -->
+
+    <h2>Image (broken src falls back)</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-avatar src="/nonexistent-image.jpg" name="Fallback User"></n-avatar>
+      </div>
+      <pre class="demo-code"><code>&lt;!-- Broken src falls back to initials from name --&gt;
+&lt;n-avatar src="/photo.jpg" name="Fallback User"&gt;&lt;/n-avatar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-avatar name="XS" size="xs"></n-avatar>
+        <n-avatar name="SM" size="sm"></n-avatar>
+        <n-avatar name="MD" size="md"></n-avatar>
+        <n-avatar name="LG" size="lg"></n-avatar>
+        <n-avatar name="XL" size="xl"></n-avatar>
+      </div>
+      <pre class="demo-code"><code>&lt;n-avatar name="XS" size="xs"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="SM" size="sm"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="MD" size="md"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="LG" size="lg"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="XL" size="xl"&gt;&lt;/n-avatar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Intents ── -->
+
+    <h2>Intents</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-avatar name="Default"></n-avatar>
+        <n-avatar name="Accent" intent="accent"></n-avatar>
+        <n-avatar name="Info" intent="info"></n-avatar>
+        <n-avatar name="Success" intent="success"></n-avatar>
+        <n-avatar name="Warning" intent="warning"></n-avatar>
+        <n-avatar name="Danger" intent="danger"></n-avatar>
+      </div>
+      <pre class="demo-code"><code>&lt;n-avatar name="Accent" intent="accent"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="Success" intent="success"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="Danger" intent="danger"&gt;&lt;/n-avatar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Radius ── -->
+
+    <h2>Radius</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-avatar name="Circle"></n-avatar>
+        <n-avatar name="Round" radius="round"></n-avatar>
+        <n-avatar name="Sharp" radius="sharp"></n-avatar>
+      </div>
+      <pre class="demo-code"><code>&lt;n-avatar name="Circle"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="Round" radius="round"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="Sharp" radius="sharp"&gt;&lt;/n-avatar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Group composition ── -->
+
+    <h2>Avatar Group</h2>
+    <div class="demo-section">
+      <div class="demo-row" style="gap: -0.5rem;">
+        <n-avatar name="Alice Johnson" style="outline: 2px solid var(--n-body-neutral);"></n-avatar>
+        <n-avatar name="Bob Smith" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);"></n-avatar>
+        <n-avatar name="Charlie Doe" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);"></n-avatar>
+        <n-avatar style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);">+3</n-avatar>
+      </div>
+      <pre class="demo-code"><code>&lt;!-- Overlapping avatar group with outline ring --&gt;
+&lt;div style="display: flex;"&gt;
+  &lt;n-avatar name="Alice" style="outline: 2px solid var(--n-body-neutral);"&gt;&lt;/n-avatar&gt;
+  &lt;n-avatar name="Bob" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);"&gt;&lt;/n-avatar&gt;
+  &lt;n-avatar style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);"&gt;+3&lt;/n-avatar&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './avatar.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+@layer ui {
+
+  /* ── Tree Container ── */
+
+  :where(n-tree) {
+    --n-font-weight: var(--n-button-font-weight);
+    --n-line-height: var(--n-control-line-height);
+
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    flex-direction: column;
+    padding-block: var(--n-space);
+    padding-inline: var(--n-space);
+    font-size: var(--n-font-size);
+    line-height: var(--n-line-height);
+  }
+
+  /* ── Tree Item ── */
+
+  :where(n-tree-item) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Item row (label area) ── */
+
+  :where(n-tree-item) > :where([slot="label"]) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+
+    min-height: var(--n-size);
+    /* WHY: Each nesting level indents by icon-size + gap so child text
+       aligns with the parent's text (past the caret icon). */
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-inline-start: calc(var(--n-space-k) * var(--n-space) + var(--n-tree-depth, 0) * (var(--n-icon-size) + var(--n-space) * 2));
+
+    font-size: var(--n-font-size);
+    letter-spacing: var(--n-letter-spacing);
+    line-height: var(--n-line-height);
+    font-weight: var(--n-text-font-weight);
+
+    border-radius: calc(var(--n-radius) - var(--n-space));
+    background: transparent;
+    color: var(--n-ink);
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  :where(n-tree-item) > :where([slot="label"]):hover,
+  :where(n-tree-item[force-hover]) > :where([slot="label"]) {
+    background: var(--n-panel-hover);
+    color: var(--n-ink-hover);
+  }
+
+  :where(n-tree-item) > :where([slot="label"]):focus-visible,
+  :where(n-tree-item[force-focus-visible]) > :where([slot="label"]) {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* ── Selected ── */
+
+  :where(n-tree-item[aria-selected="true"]) > :where([slot="label"]) {
+    background: var(--n-surface);
+    color: var(--n-surface-ink);
+    font-weight: var(--n-font-weight);
+  }
+
+  /* ── Expand caret icon ── */
+
+  :where(n-tree-item) > :where([slot="label"]) > :where(.n-tree-caret) {
+    flex-shrink: 0;
+    color: currentColor;
+  }
+
+  /* ── Children group ── */
+
+  :where(n-tree-item) > :where(.n-tree-children) {
+    display: none;
+  }
+
+  :where(n-tree-item[expanded]) > :where(.n-tree-children) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Disabled ── */
+
+  :where(n-tree-item[aria-disabled="true"]) > :where([slot="label"]) {
+    color: var(--n-ink-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  :where(n-tree[hidden]) { display: none; }
+
+}

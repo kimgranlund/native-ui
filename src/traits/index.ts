@@ -46,6 +46,10 @@ export { ListNavigateController } from './list-navigate-controller.ts';
 export type { ListNavigateOptions } from './list-navigate-controller.ts';
 export { DialogController } from './dialog-controller.ts';
 export type { DialogOptions } from './dialog-controller.ts';
+export { GatewayController } from './gateway-controller.ts';
+export type { GatewayOptions } from './gateway-controller.ts';
+export { PresentController } from './present-controller.ts';
+export type { PresentOptions } from './present-controller.ts';
 export { registerAllTraits } from './register-all.ts';
 
 // ── Adapters (for selective registration via registerTrait()) ──
@@ -73,3 +77,4 @@ export { searchableAdapter } from './adapters/searchable-adapter.ts';
 export { clippableAdapter } from './adapters/clippable-adapter.ts';
 export { swipeableAdapter } from './adapters/swipeable-adapter.ts';
 export { editableAdapter } from './adapters/editable-adapter.ts';
+export { presentableAdapter } from './adapters/presentable-adapter.ts';

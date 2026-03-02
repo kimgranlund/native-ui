@@ -1,0 +1,168 @@
+@layer ui {
+
+  /* ── Listbox Base ── */
+
+  :where(n-listbox, [role="listbox"]) {
+    --n-background: var(--n-control);
+    --n-color: var(--n-ink);
+    --n-border-color: var(--n-border-rest);
+
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0;
+    padding-block: var(--n-space);
+    padding-inline: var(--n-space);
+    border-radius: var(--n-radius);
+    border: 1px solid var(--n-border-color);
+    background: var(--n-background);
+    color: var(--n-color);
+    overflow-y: auto;
+    outline: none;
+  }
+
+  /* WHY: Author-layer display:flex (above) overrides UA popover display:none.
+     This rule must come AFTER the base rule so it wins by source order
+     (both have zero specificity via :where()). */
+  :where(n-listbox[popover]):not(:popover-open) {
+    display: none;
+  }
+
+  /* ── Popover Animation ──
+     WHY: Shared entry/exit transition for all popover listboxes.
+     Context CSS overrides --n-popover-origin and --n-popover-from
+     to match the popover's anchor direction (e.g. sidebar flyouts
+     open to the right → rotateY instead of rotateX). */
+
+  :where(n-listbox[popover]) {
+    --n-popover-origin: top center;
+    --n-popover-from: perspective(800px) scale(0.96) rotateX(-20deg);
+
+    transform-origin: var(--n-popover-origin);
+    opacity: 0;
+    transform: var(--n-popover-from);
+
+    transition:
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing),
+      display var(--n-duration) var(--n-easing) allow-discrete,
+      overlay var(--n-duration) var(--n-easing) allow-discrete;
+  }
+
+  :where(n-listbox[popover]):popover-open {
+    opacity: 1;
+    transform: none;
+  }
+
+  @starting-style {
+    :where(n-listbox[popover]):popover-open {
+      opacity: 0;
+      transform: var(--n-popover-from);
+    }
+  }
+
+  /* ── Option / Command Item Base ── */
+
+  :where(n-option, n-command-item, [role="option"]) {
+    --n-font-weight: var(--n-text-font-weight);
+    --n-line-height: var(--n-control-line-height);
+
+    /* Defaults: ghost-like — transparent at rest, panel on hover */
+    --n-background: transparent;
+    --n-background-hover: var(--n-panel-hover);
+    --n-background-active: var(--n-panel-active);
+    --n-background-disabled: transparent;
+    --n-color: var(--n-ink);
+    --n-color-hover: var(--n-ink-hover);
+    --n-color-active: var(--n-ink-active);
+    --n-color-disabled: var(--n-ink-disabled);
+
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+
+    min-height: var(--n-size);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+
+    font-size: var(--n-font-size);
+    letter-spacing: var(--n-letter-spacing);
+    line-height: var(--n-line-height);
+    font-weight: var(--n-font-weight);
+
+    border-radius: calc(var(--n-radius) - var(--n-space));
+    cursor: pointer;
+
+    background: var(--n-background);
+    color: var(--n-color);
+  }
+
+  /* ── Option / Command Item States ── */
+
+  :where(n-option, n-command-item, [role="option"]):hover,
+  :where(n-option, n-command-item, [role="option"])[force-hover] {
+    background: var(--n-background-hover);
+    color: var(--n-color-hover);
+  }
+
+  :where(n-option, n-command-item, [role="option"])[active] {
+    background: var(--n-background-hover);
+    color: var(--n-color-hover);
+  }
+
+  :where(n-option, n-command-item, [role="option"]):active,
+  :where(n-option, n-command-item, [role="option"])[force-active] {
+    background: var(--n-background-active);
+    color: var(--n-color-active);
+  }
+
+  :where(n-option, n-command-item, [role="option"])[aria-selected="true"] {
+    background: var(--n-background-hover);
+    color: var(--n-color-hover);
+  }
+
+  :where(n-option, n-command-item, [role="option"])[aria-disabled="true"] {
+    background: var(--n-background-disabled);
+    color: var(--n-color-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  :where(n-option, n-command-item, [role="option"]):focus-visible,
+  :where(n-option, n-command-item, [role="option"])[force-focus-visible] {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* ── Option Group ── */
+  /* WHY: Group is purely structural — small uppercase label header,
+     flat child options with no indentation. */
+
+  :where(n-option-group) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  :where(n-option-group) + :where(n-option-group) {
+    margin-block-start: calc(var(--n-space) * 2);
+  }
+
+  /* ── Group Header — small uppercase label ── */
+
+  :where(n-option-group-header) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    min-height: var(--n-size);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    font-size: var(--n-group-header-font);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: var(--n-control-line-height);
+    color: var(--n-ink-muted);
+    cursor: default;
+    user-select: none;
+  }
+
+}

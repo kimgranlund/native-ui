@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { VirtualScrollController } from '../virtual-scroll-controller.ts';
 import { define } from '../../core/define.ts';
 
-class VirtualTestEl extends UIElement {
+class VirtualTestEl extends NativeElement {
   disabled = false;
   #ctrl: VirtualScrollController | null = null;
 
@@ -73,8 +73,8 @@ describe('Virtualizable', () => {
 
     el.enableVirtualization(scrollEl, container, 100);
 
-    const topSpacer = container.querySelector('.ui-virtual-spacer-top');
-    const bottomSpacer = container.querySelector('.ui-virtual-spacer-bottom');
+    const topSpacer = container.querySelector('.n-virtual-spacer-top');
+    const bottomSpacer = container.querySelector('.n-virtual-spacer-bottom');
     expect(topSpacer).not.toBeNull();
     expect(bottomSpacer).not.toBeNull();
   });
@@ -89,8 +89,8 @@ describe('Virtualizable', () => {
     el.enableVirtualization(scrollEl, container, 100);
     el.disableVirtualization();
 
-    const topSpacer = container.querySelector('.ui-virtual-spacer-top');
-    const bottomSpacer = container.querySelector('.ui-virtual-spacer-bottom');
+    const topSpacer = container.querySelector('.n-virtual-spacer-top');
+    const bottomSpacer = container.querySelector('.n-virtual-spacer-bottom');
     expect(topSpacer).toBeNull();
     expect(bottomSpacer).toBeNull();
   });
@@ -148,7 +148,7 @@ describe('Virtualizable', () => {
     el.enableVirtualization(scrollEl, container, 100);
     el.teardown();
 
-    const topSpacer = container.querySelector('.ui-virtual-spacer-top');
+    const topSpacer = container.querySelector('.n-virtual-spacer-top');
     expect(topSpacer).toBeNull();
   });
 });
@@ -172,8 +172,8 @@ describe('VirtualScrollController', () => {
     const ctrl = new VirtualScrollController(host, { itemHeight: 30, overscan: 3 });
     ctrl.enable(scrollEl, container, 100);
 
-    expect(container.querySelector('.ui-virtual-spacer-top')).not.toBeNull();
-    expect(container.querySelector('.ui-virtual-spacer-bottom')).not.toBeNull();
+    expect(container.querySelector('.n-virtual-spacer-top')).not.toBeNull();
+    expect(container.querySelector('.n-virtual-spacer-bottom')).not.toBeNull();
     ctrl.destroy();
   });
 
@@ -194,7 +194,7 @@ describe('VirtualScrollController', () => {
     ctrl.destroy();
   });
 
-  it('dispatches ui-virtual-change event on enable', () => {
+  it('dispatches native:virtual-change event on enable', () => {
     const host = createHost();
     const scrollEl = document.createElement('div');
     const container = document.createElement('div');
@@ -202,7 +202,7 @@ describe('VirtualScrollController', () => {
     document.body.appendChild(scrollEl);
 
     let detail: any = null;
-    host.addEventListener('ui-virtual-change', (e: Event) => {
+    host.addEventListener('native:virtual-change', (e: Event) => {
       detail = (e as CustomEvent).detail;
     });
 
@@ -243,8 +243,8 @@ describe('VirtualScrollController', () => {
     ctrl.enable(scrollEl, container, 100);
     ctrl.disable();
 
-    expect(container.querySelector('.ui-virtual-spacer-top')).toBeNull();
-    expect(container.querySelector('.ui-virtual-spacer-bottom')).toBeNull();
+    expect(container.querySelector('.n-virtual-spacer-top')).toBeNull();
+    expect(container.querySelector('.n-virtual-spacer-bottom')).toBeNull();
     ctrl.destroy();
   });
 

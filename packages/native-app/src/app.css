@@ -1,0 +1,7 @@
+@import './sidebar/sidebar.css';
+@import './app-breadcrumb/app-breadcrumb.css';
+@import './app-canvas/app-canvas.css';
+@import './app-panel/app-panel.css';
+@import './panel-header/panel-header.css';
+@import './panel-body/panel-body.css';
+@import './panel-footer/panel-footer.css';

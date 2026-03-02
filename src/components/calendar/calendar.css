@@ -1,0 +1,254 @@
+@layer ui {
+
+  /* ── Calendar Container ── */
+
+  :where(n-calendar) {
+    --n-font-weight: var(--n-text-font-weight);
+    --n-line-height: var(--n-text-line-height);
+
+    --n-background: var(--n-panel);
+    --n-border-color: var(--n-border-muted);
+    --n-color: var(--n-ink);
+
+    display: inline-flex;
+    flex-direction: column;
+    gap: calc(var(--n-space));
+    padding-block: calc(var(--n-space) * 2);
+    padding-inline: calc(var(--n-space) * 2);
+    border: 1px solid var(--n-border-color);
+    border-radius: var(--n-radius);
+    background: var(--n-background);
+    color: var(--n-color);
+    font-size: var(--n-font-size);
+    outline: none;
+    user-select: none;
+  }
+
+  :where(n-calendar):focus-visible,
+  :where(n-calendar)[force-focus-visible] {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* ── Header ── */
+
+  :where(n-calendar) :where(.cal-header) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(var(--n-space));
+  }
+
+  /* ── Header Buttons (prev/next/title) ── */
+
+  :where(n-calendar) :where(.cal-prev, .cal-next, .cal-title) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--n-ink);
+    cursor: pointer;
+    border-radius: calc(var(--n-radius) - var(--n-space));
+    font-family: inherit;
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  :where(n-calendar) :where(.cal-prev, .cal-next, .cal-title):hover,
+  :where(n-calendar[force-hover]) :where(.cal-prev, .cal-next, .cal-title) {
+    background: var(--n-panel-hover);
+    color: var(--n-ink-hover);
+  }
+
+  :where(n-calendar) :where(.cal-prev, .cal-next) {
+    width: calc(var(--n-size) * 0.7);
+    height: calc(var(--n-size) * 0.7);
+    padding: 0;
+  }
+
+  /* WHY: Chevron arrows via CSS mask — inherits currentColor */
+
+  :where(n-calendar) :where(.cal-prev)::after,
+  :where(n-calendar) :where(.cal-next)::after {
+    content: '';
+    width: 0.75em;
+    height: 0.75em;
+    background: currentColor;
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M10 3L5 8l5 5' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+  }
+
+  :where(n-calendar) :where(.cal-next)::after {
+    transform: rotate(180deg);
+  }
+
+  :where(n-calendar) :where(.cal-title) {
+    flex: 1;
+    padding: calc(var(--n-space)) calc(var(--n-space) * 2);
+    font-size: var(--n-font-size);
+    font-weight: var(--n-button-font-weight);
+    letter-spacing: var(--n-letter-spacing);
+    color: var(--n-ink-strong);
+    text-align: center;
+  }
+
+  /* ── Weekday Labels ── */
+
+  :where(n-calendar) :where(.cal-weekdays) {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  :where(n-calendar) :where(.cal-weekday) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(var(--n-size) * 0.6);
+    font-size: calc(var(--n-font-size) * 0.85);
+    font-weight: var(--n-button-font-weight);
+    color: var(--n-ink-muted);
+  }
+
+  /* ── Grid ── */
+
+  :where(n-calendar) :where(.cal-grid) {
+    display: grid;
+    gap: 1px;
+  }
+
+  /* Day view: 7 columns */
+  :where(n-calendar[view="day"]) :where(.cal-grid) {
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  /* Month view: 4 columns */
+  :where(n-calendar[view="month"]) :where(.cal-grid) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Year view: 4 columns */
+  :where(n-calendar[view="year"]) :where(.cal-grid) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* ── Cell (shared) ── */
+
+  :where(n-calendar) :where(.cal-cell) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--n-ink);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--n-font-size);
+    border-radius: calc(var(--n-radius) - var(--n-space));
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  /* Day cells: aspect-ratio 1 for square shape */
+  :where(n-calendar) :where(.cal-cell:not([data-month]):not([data-year])) {
+    aspect-ratio: 1;
+    min-width: calc(var(--n-size) * 0.7);
+  }
+
+  /* Month/Year cells: wider rectangle */
+  :where(n-calendar) :where(.cal-cell[data-month], .cal-cell[data-year]) {
+    min-height: calc(var(--n-size) * 0.8);
+    padding: calc(var(--n-space)) calc(var(--n-space) * 2);
+  }
+
+  /* ── Cell States ── */
+
+  :where(n-calendar) :where(.cal-cell):hover:not(:disabled),
+  :where(n-calendar[force-hover]) :where(.cal-cell):not(:disabled) {
+    background: var(--n-panel-hover);
+    color: var(--n-ink-hover);
+  }
+
+  /* Outside month — muted */
+  :where(n-calendar) :where([data-outside]) {
+    color: var(--n-ink-muted);
+  }
+
+  /* Today — button variant="selected" pattern: white bg + ink-inverse */
+  :where(n-calendar) :where([data-today]) {
+    background: white;
+    color: var(--n-ink-inverse);
+    font-weight: var(--n-button-font-weight);
+    box-shadow: inset 0 0 0 1px var(--n-border-muted);
+  }
+
+  :where(n-calendar) :where([data-today]):hover:not(:disabled),
+  :where(n-calendar[force-hover]) :where([data-today]):not(:disabled) {
+    background: var(--n-panel-hover);
+    color: var(--n-ink-hover);
+  }
+
+  /* Selected — accent surface */
+  :where(n-calendar) :where([data-selected]) {
+    background: var(--n-surface);
+    color: var(--n-surface-ink);
+    font-weight: var(--n-button-font-weight);
+  }
+
+  :where(n-calendar) :where([data-selected]):hover:not(:disabled),
+  :where(n-calendar[force-hover]) :where([data-selected]):not(:disabled) {
+    background: var(--n-surface-hover);
+    color: var(--n-surface-ink-hover);
+  }
+
+  /* Disabled — uses native :disabled pseudo-class */
+  :where(n-calendar) :where(.cal-cell):disabled {
+    color: var(--n-ink-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* ── Range States ── */
+
+  :where(n-calendar) :where([data-in-range]) {
+    background: var(--n-surface);
+    color: var(--n-surface-ink);
+    border-radius: 0;
+  }
+
+  :where(n-calendar) :where([data-in-range]):hover:not(:disabled),
+  :where(n-calendar[force-hover]) :where([data-in-range]):not(:disabled) {
+    background: var(--n-surface-hover);
+    color: var(--n-surface-ink-hover);
+  }
+
+  :where(n-calendar) :where([data-range-start]) {
+    border-start-start-radius: calc(var(--n-radius) - var(--n-space));
+    border-end-start-radius: calc(var(--n-radius) - var(--n-space));
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
+  }
+
+  :where(n-calendar) :where([data-range-end]) {
+    border-start-start-radius: 0;
+    border-end-start-radius: 0;
+    border-start-end-radius: calc(var(--n-radius) - var(--n-space));
+    border-end-end-radius: calc(var(--n-radius) - var(--n-space));
+  }
+
+  :where(n-calendar) :where([data-range-start][data-range-end]) {
+    border-radius: calc(var(--n-radius) - var(--n-space));
+  }
+
+}

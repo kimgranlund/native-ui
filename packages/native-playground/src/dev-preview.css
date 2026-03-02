@@ -1,0 +1,4 @@
+/* Dev-only: combined CSS for playground iframe preview.
+   In production, consumers point css-url to their hosted native-ui.css. */
+@import '../../../src/styles/index.css';
+@import '../../../src/styles/components.css';

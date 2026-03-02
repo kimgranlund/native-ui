@@ -190,7 +190,7 @@ describe('A2UI Surface Manager', () => {
         },
       }, container);
 
-      expect(container.querySelector('ui-button')).not.toBeNull();
+      expect(container.querySelector('n-button')).not.toBeNull();
     });
   });
 

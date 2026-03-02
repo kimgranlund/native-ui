@@ -4,7 +4,7 @@ export interface DropZoneOptions {
   multiple?: boolean;
 }
 
-/** Handles native drag-and-drop file/data reception, dispatching `ui-drop-enter`, `ui-drop-leave`, and `ui-drop` events. */
+/** Handles native drag-and-drop file/data reception, dispatching `native:drop-enter`, `native:drop-leave`, and `native:drop` events. */
 export class DropZoneController {
   readonly host: HTMLElement;
   accept: string;
@@ -68,7 +68,7 @@ export class DropZoneController {
       this.host.removeAttribute('drop-active');
     }
     if (this.#dragCounter === 1) {
-      this.host.dispatchEvent(new CustomEvent('ui-drop-enter', {
+      this.host.dispatchEvent(new CustomEvent('native:drop-enter', {
         bubbles: true, composed: true,
         detail: { valid },
       }));
@@ -87,7 +87,7 @@ export class DropZoneController {
       this.#dragCounter = 0;
       this.host.removeAttribute('drop-active');
       this.host.removeAttribute('drop-invalid');
-      this.host.dispatchEvent(new CustomEvent('ui-drop-leave', {
+      this.host.dispatchEvent(new CustomEvent('native:drop-leave', {
         bubbles: true, composed: true,
       }));
     }
@@ -105,7 +105,7 @@ export class DropZoneController {
     if (e.dataTransfer.files.length > 0) {
       let files = Array.from(e.dataTransfer.files);
       if (!this.multiple) files = files.slice(0, 1);
-      this.host.dispatchEvent(new CustomEvent('ui-drop', {
+      this.host.dispatchEvent(new CustomEvent('native:drop', {
         bubbles: true, composed: true,
         detail: { type: 'file', files, dataTransfer: e.dataTransfer },
       }));
@@ -115,7 +115,7 @@ export class DropZoneController {
     // Text drop
     const text = e.dataTransfer.getData('text/plain');
     if (text) {
-      this.host.dispatchEvent(new CustomEvent('ui-drop', {
+      this.host.dispatchEvent(new CustomEvent('native:drop', {
         bubbles: true, composed: true,
         detail: { type: 'text', text },
       }));

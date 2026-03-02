@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
@@ -27,7 +27,7 @@
         font-size: 1rem;
         font-weight: 700;
         margin: 0;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 
       .wizard-wrapper {
@@ -47,7 +47,7 @@
         justify-content: space-between;
         margin-top: 1.5rem;
         padding-top: 1rem;
-        border-top: 1px solid var(--neutral-border-muted);
+        border-top: 1px solid var(--n-border-muted-neutral);
       }
 
       .step-actions .right {
@@ -59,7 +59,7 @@
         display: flex;
         justify-content: space-between;
         padding: 0.5rem 0;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
         font-size: 0.875rem;
       }
 
@@ -68,7 +68,7 @@
       }
 
       .review-label {
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
       }
 
       .review-value {
@@ -77,128 +77,128 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
-    <ui-stack gap="6">
+    <n-app><main>
+    <n-stack gap="6">
     <div>
       <h1>Create Account</h1>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Complete the steps below to set up your new account.
       </p>
     </div>
 
     <div class="wizard-wrapper">
-      <ui-card>
-        <ui-header>
-          <ui-segmented-control id="step-indicator" value="personal" slot="label" style="width: 100%;">
-            <ui-segment value="personal">1. Personal</ui-segment>
-            <ui-segment value="address">2. Address</ui-segment>
-            <ui-segment value="review">3. Review</ui-segment>
-          </ui-segmented-control>
-        </ui-header>
+      <n-card>
+        <n-card-header>
+          <n-segmented-control id="step-indicator" value="personal" slot="label" style="width: 100%;">
+            <n-segment value="personal">1. Personal</n-segment>
+            <n-segment value="address">2. Address</n-segment>
+            <n-segment value="review">3. Review</n-segment>
+          </n-segmented-control>
+        </n-card-header>
 
         <!-- ── Step 1: Personal Information ── -->
         <div class="step-panel" id="step-personal" active>
-          <ui-body><ui-stack gap="4">
-            <ui-field required>
+          <n-card-body><n-stack gap="4">
+            <n-field required>
               <label slot="label">Full name</label>
-              <ui-input placeholder="Jane Doe" id="input-name" name="name">
-                <ui-icon name="user" slot="leading"></ui-icon>
-              </ui-input>
-            </ui-field>
+              <n-input placeholder="Jane Doe" id="input-name" name="name">
+                <n-icon name="user" slot="leading"></n-icon>
+              </n-input>
+            </n-field>
 
-            <ui-field required>
+            <n-field required>
               <label slot="label">Email address</label>
-              <ui-input placeholder="you@example.com" id="input-email" name="email">
-                <ui-icon name="envelope" slot="leading"></ui-icon>
-              </ui-input>
+              <n-input placeholder="you@example.com" id="input-email" name="email">
+                <n-icon name="envelope" slot="leading"></n-icon>
+              </n-input>
               <span slot="description">We'll send a verification link to this address.</span>
-            </ui-field>
+            </n-field>
 
-            <ui-field required>
+            <n-field required>
               <label slot="label">Phone number</label>
-              <ui-input placeholder="+1 (555) 000-0000" id="input-phone" name="phone">
-                <ui-icon name="phone" slot="leading"></ui-icon>
-              </ui-input>
-            </ui-field>
-          </ui-stack>
+              <n-input placeholder="+1 (555) 000-0000" id="input-phone" name="phone">
+                <n-icon name="phone" slot="leading"></n-icon>
+              </n-input>
+            </n-field>
+          </n-stack>
 
           <div class="step-actions">
             <div></div>
             <div class="right">
-              <ui-button variant="primary" intent="accent" id="btn-next-1">
+              <n-button variant="primary" intent="accent" id="btn-next-1">
                 <span slot="label">Next</span>
-                <ui-icon name="arrow-right" slot="trailing"></ui-icon>
-              </ui-button>
+                <n-icon name="arrow-right" slot="trailing"></n-icon>
+              </n-button>
             </div>
           </div>
-          </ui-body>
+          </n-card-body>
         </div>
 
         <!-- ── Step 2: Address ── -->
         <div class="step-panel" id="step-address">
-          <ui-body><ui-stack gap="4">
-            <ui-field required>
+          <n-card-body><n-stack gap="4">
+            <n-field required>
               <label slot="label">Street address</label>
-              <ui-input placeholder="123 Main Street" id="input-address" name="address">
-                <ui-icon name="map-pin" slot="leading"></ui-icon>
-              </ui-input>
-            </ui-field>
+              <n-input placeholder="123 Main Street" id="input-address" name="address">
+                <n-icon name="map-pin" slot="leading"></n-icon>
+              </n-input>
+            </n-field>
 
-            <ui-field required>
+            <n-field required>
               <label slot="label">City</label>
-              <ui-input placeholder="San Francisco" id="input-city" name="city"></ui-input>
-            </ui-field>
+              <n-input placeholder="San Francisco" id="input-city" name="city"></n-input>
+            </n-field>
 
-            <ui-field required>
+            <n-field required>
               <label slot="label">State / Region</label>
-              <ui-select id="input-state" name="state">
-                <ui-button justify="spread">
+              <n-select id="input-state" name="state">
+                <n-button justify="spread">
                   <span slot="label">Select state</span>
-                  <ui-icon name="caret-up-down" slot="trailing"></ui-icon>
-                </ui-button>
-                <ui-listbox popover>
-                  <ui-option value="ca">California</ui-option>
-                  <ui-option value="ny">New York</ui-option>
-                  <ui-option value="tx">Texas</ui-option>
-                  <ui-option value="wa">Washington</ui-option>
-                  <ui-option value="il">Illinois</ui-option>
-                </ui-listbox>
-              </ui-select>
-            </ui-field>
+                  <n-icon name="caret-up-down" slot="trailing"></n-icon>
+                </n-button>
+                <n-listbox popover>
+                  <n-option value="ca">California</n-option>
+                  <n-option value="ny">New York</n-option>
+                  <n-option value="tx">Texas</n-option>
+                  <n-option value="wa">Washington</n-option>
+                  <n-option value="il">Illinois</n-option>
+                </n-listbox>
+              </n-select>
+            </n-field>
 
-            <ui-field required>
+            <n-field required>
               <label slot="label">ZIP code</label>
-              <ui-input placeholder="94102" id="input-zip" name="zip"></ui-input>
-            </ui-field>
-          </ui-stack>
+              <n-input placeholder="94102" id="input-zip" name="zip"></n-input>
+            </n-field>
+          </n-stack>
 
           <div class="step-actions">
-            <ui-button variant="ghost" id="btn-prev-2">
-              <ui-icon name="arrow-left" slot="leading"></ui-icon>
+            <n-button variant="ghost" id="btn-prev-2">
+              <n-icon name="arrow-left" slot="leading"></n-icon>
               <span slot="label">Previous</span>
-            </ui-button>
+            </n-button>
             <div class="right">
-              <ui-button variant="primary" intent="accent" id="btn-next-2">
+              <n-button variant="primary" intent="accent" id="btn-next-2">
                 <span slot="label">Next</span>
-                <ui-icon name="arrow-right" slot="trailing"></ui-icon>
-              </ui-button>
+                <n-icon name="arrow-right" slot="trailing"></n-icon>
+              </n-button>
             </div>
           </div>
-          </ui-body>
+          </n-card-body>
         </div>
 
         <!-- ── Step 3: Review ── -->
         <div class="step-panel" id="step-review">
-          <ui-body>
-          <ui-stack gap="4">
+          <n-card-body>
+          <n-stack gap="4">
           <div>
             <h2>Review your information</h2>
-            <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+            <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
             Please verify that all details are correct before submitting.
           </p>
           </div>
 
-          <ui-stack gap="2">
+          <n-stack gap="2">
             <div class="review-row">
               <span class="review-label">Name</span>
               <span class="review-value" id="review-name">--</span>
@@ -227,39 +227,39 @@
               <span class="review-label">ZIP</span>
               <span class="review-value" id="review-zip">--</span>
             </div>
-          </ui-stack>
-          </ui-stack>
+          </n-stack>
+          </n-stack>
 
           <div class="step-actions">
-            <ui-button variant="ghost" id="btn-prev-3">
-              <ui-icon name="arrow-left" slot="leading"></ui-icon>
+            <n-button variant="ghost" id="btn-prev-3">
+              <n-icon name="arrow-left" slot="leading"></n-icon>
               <span slot="label">Previous</span>
-            </ui-button>
+            </n-button>
             <div class="right">
-              <ui-button variant="primary" intent="accent" id="btn-submit">
-                <ui-icon name="check" slot="leading"></ui-icon>
+              <n-button variant="primary" intent="accent" id="btn-submit">
+                <n-icon name="check" slot="leading"></n-icon>
                 <span slot="label">Create Account</span>
-              </ui-button>
+              </n-button>
             </div>
           </div>
-          </ui-body>
+          </n-card-body>
         </div>
-      </ui-card>
+      </n-card>
     </div>
-    </ui-stack>
+    </n-stack>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-field/ui-field.ts';
-      import '../../../components/ui-input/ui-input.ts';
-      import '../../../components/ui-select/ui-select.ts';
-      import '../../../components/ui-listbox/ui-listbox.ts';
-      import '../../../components/ui-listbox/ui-option.ts';
-      import '../../../components/ui-segmented-control/ui-segmented-control.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../containers/ui-card/ui-card.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/field/field.ts';
+      import '../../../components/input/input.ts';
+      import '../../../components/select/select.ts';
+      import '../../../components/listbox/listbox.ts';
+      import '../../../components/listbox/option.ts';
+      import '../../../components/segmented-control/segmented-control.ts';
+      import '../../../components/button/button.ts';
+      import '../../../containers/card/card.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/user.ts';
       import '../../../icons/phosphor/envelope.ts';
       import '../../../icons/phosphor/phone.ts';
@@ -305,17 +305,17 @@
       }
 
       // Segmented control click navigation
-      indicator.addEventListener('ui-change', (e) => {
+      indicator.addEventListener('native:change', (e) => {
         const idx = steps.indexOf(e.detail.value);
         if (idx >= 0) goToStep(idx);
       });
 
       // Button navigation
-      document.getElementById('btn-next-1')?.addEventListener('ui-press', () => goToStep(1));
-      document.getElementById('btn-prev-2')?.addEventListener('ui-press', () => goToStep(0));
-      document.getElementById('btn-next-2')?.addEventListener('ui-press', () => goToStep(2));
-      document.getElementById('btn-prev-3')?.addEventListener('ui-press', () => goToStep(1));
-      document.getElementById('btn-submit')?.addEventListener('ui-press', () => {
+      document.getElementById('btn-next-1')?.addEventListener('native:press', () => goToStep(1));
+      document.getElementById('btn-prev-2')?.addEventListener('native:press', () => goToStep(0));
+      document.getElementById('btn-next-2')?.addEventListener('native:press', () => goToStep(2));
+      document.getElementById('btn-prev-3')?.addEventListener('native:press', () => goToStep(1));
+      document.getElementById('btn-submit')?.addEventListener('native:press', () => {
         alert('Account created successfully!');
       });
     </script>

@@ -2,7 +2,7 @@
 
 # HoverController
 
-> Tracks pointer enter/leave with configurable delays, dispatching `ui-hover-start` and `ui-hover-end`.
+> Tracks pointer enter/leave with configurable delays, dispatching `native:hover-start` and `native:hover-end`.
 
 ## Constructor
 
@@ -22,8 +22,8 @@ new HoverController(host: HTMLElement, options?: HoverOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-hover-start` | `{ pointerType }` |
-| `ui-hover-end` | `{ pointerType }` |
+| `native:hover-start` | `{ pointerType }` |
+| `native:hover-end` | `{ pointerType }` |
 
 ## Methods
 

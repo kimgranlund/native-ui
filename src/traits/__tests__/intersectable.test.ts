@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi, beforeEach } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { IntersectController } from '../intersect-controller.ts';
 import { define } from '../../core/define.ts';
 
@@ -20,7 +20,7 @@ class MockIntersectionObserver {
   unobserve = vi.fn();
 }
 
-class IntersectTestEl extends UIElement {
+class IntersectTestEl extends NativeElement {
   disabled = false;
   #ctrl: IntersectController | null = null;
 
@@ -113,10 +113,10 @@ describe('Intersectable', () => {
     expect(el.hasAttribute('intersecting')).toBe(false);
   });
 
-  it('dispatches ui-intersect event with details', () => {
+  it('dispatches native:intersect event with details', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-intersect', handler);
+    el.addEventListener('native:intersect', handler);
     triggerIntersect(true, 0.75);
     expect(handler).toHaveBeenCalledTimes(1);
     expect(handler.mock.calls[0][0].detail.isIntersecting).toBe(true);

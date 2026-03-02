@@ -1,11 +1,11 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../ui-element.ts';
+import { NativeElement } from '../native-element.ts';
 import { signal } from '../../reactivity/signal.ts';
 import { define } from '../define.ts';
 
 // Register a test element
-class TestElement extends UIElement {
+class TestElement extends NativeElement {
   setupCount = 0;
   teardownCount = 0;
   effects: (() => void)[] = [];
@@ -21,9 +21,9 @@ class TestElement extends UIElement {
     super.teardown();
   }
 }
-define('test-ui-element', TestElement);
+define('test-n-element', TestElement);
 
-class TestDeferElement extends UIElement {
+class TestDeferElement extends NativeElement {
   deferCalled = false;
 
   setup(): void {
@@ -39,22 +39,22 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-describe('UIElement — lifecycle', () => {
+describe('NativeElement — lifecycle', () => {
   it('calls setup() on connectedCallback', () => {
-    const el = document.createElement('test-ui-element') as TestElement;
+    const el = document.createElement('test-n-element') as TestElement;
     document.body.appendChild(el);
     expect(el.setupCount).toBe(1);
   });
 
   it('calls teardown() on disconnectedCallback', () => {
-    const el = document.createElement('test-ui-element') as TestElement;
+    const el = document.createElement('test-n-element') as TestElement;
     document.body.appendChild(el);
     el.remove();
     expect(el.teardownCount).toBe(1);
   });
 
   it('guards against double setup on reconnect without disconnect', () => {
-    const el = document.createElement('test-ui-element') as TestElement;
+    const el = document.createElement('test-n-element') as TestElement;
     document.body.appendChild(el);
     // Simulate second connectedCallback without disconnectedCallback
     el.connectedCallback();
@@ -62,7 +62,7 @@ describe('UIElement — lifecycle', () => {
   });
 
   it('allows setup after disconnect + reconnect', () => {
-    const el = document.createElement('test-ui-element') as TestElement;
+    const el = document.createElement('test-n-element') as TestElement;
     document.body.appendChild(el);
     el.remove();
     document.body.appendChild(el);
@@ -71,11 +71,11 @@ describe('UIElement — lifecycle', () => {
   });
 });
 
-describe('UIElement — addEffect', () => {
+describe('NativeElement — addEffect', () => {
   it('runs effect on connect', () => {
     const s = signal(0);
     let effectValue = -1;
-    const el = document.createElement('test-ui-element') as TestElement;
+    const el = document.createElement('test-n-element') as TestElement;
     el.effects = [() => { effectValue = s.value; }];
     document.body.appendChild(el);
     expect(effectValue).toBe(0);
@@ -84,7 +84,7 @@ describe('UIElement — addEffect', () => {
   it('effect reacts to signal changes', () => {
     const s = signal(0);
     let effectValue = -1;
-    const el = document.createElement('test-ui-element') as TestElement;
+    const el = document.createElement('test-n-element') as TestElement;
     el.effects = [() => { effectValue = s.value; }];
     document.body.appendChild(el);
     s.value = 42;
@@ -94,7 +94,7 @@ describe('UIElement — addEffect', () => {
   it('disposes effects on disconnect', () => {
     const s = signal(0);
     let effectValue = -1;
-    const el = document.createElement('test-ui-element') as TestElement;
+    const el = document.createElement('test-n-element') as TestElement;
     el.effects = [() => { effectValue = s.value; }];
     document.body.appendChild(el);
     el.remove();
@@ -103,7 +103,7 @@ describe('UIElement — addEffect', () => {
   });
 });
 
-describe('UIElement — deferChildren', () => {
+describe('NativeElement — deferChildren', () => {
   it('runs immediately when children exist', () => {
     const el = document.createElement('test-defer-element') as TestDeferElement;
     el.innerHTML = '<span>child</span>';
@@ -128,16 +128,16 @@ describe('UIElement — deferChildren', () => {
   });
 });
 
-describe('UIElement — attributeChangedCallback', () => {
+describe('NativeElement — attributeChangedCallback', () => {
   it('exists as no-op by default', () => {
-    const el = document.createElement('test-ui-element') as TestElement;
+    const el = document.createElement('test-n-element') as TestElement;
     expect(() => el.attributeChangedCallback('foo', null, 'bar')).not.toThrow();
   });
 });
 
-describe('UIElement — getTraitController', () => {
+describe('NativeElement — getTraitController', () => {
   it('returns null when no trait is active', () => {
-    const el = document.createElement('test-ui-element') as TestElement;
+    const el = document.createElement('test-n-element') as TestElement;
     document.body.appendChild(el);
     expect(el.getTraitController('pressable')).toBeNull();
   });

@@ -1,12 +1,12 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { EditController } from '../edit-controller.ts';
 import { define } from '../../core/define.ts';
 
 // ── Trait tests ──
 
-class EditTestEl extends UIElement {
+class EditTestEl extends NativeElement {
   disabled = false;
   #ctrl: EditController | null = null;
 
@@ -69,7 +69,7 @@ describe('Editable', () => {
   it('startEdit enters editing mode', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-edit-start', handler);
+    el.addEventListener('native:edit-start', handler);
     el.startEdit();
     expect(el.isEditing).toBe(true);
     expect(el.hasAttribute('editing')).toBe(true);
@@ -82,7 +82,7 @@ describe('Editable', () => {
     const el = create();
     el.startEdit();
     const handler = vi.fn();
-    el.addEventListener('ui-edit-commit', handler);
+    el.addEventListener('native:edit-commit', handler);
     const value = el.commitEdit();
     expect(el.isEditing).toBe(false);
     expect(el.hasAttribute('editing')).toBe(false);
@@ -97,7 +97,7 @@ describe('Editable', () => {
     el.startEdit();
     el.textContent = 'Modified';
     const handler = vi.fn();
-    el.addEventListener('ui-edit-cancel', handler);
+    el.addEventListener('native:edit-cancel', handler);
     el.cancelEdit();
     expect(el.textContent).toBe('Hello World');
     expect(el.isEditing).toBe(false);
@@ -134,7 +134,7 @@ describe('EditController', () => {
     const host = createHost();
     const ctrl = new EditController(host, { trigger: 'dblclick' });
     const handler = vi.fn();
-    host.addEventListener('ui-edit-start', handler);
+    host.addEventListener('native:edit-start', handler);
     host.dispatchEvent(new Event('dblclick', { bubbles: true }));
     expect(ctrl.isEditing).toBe(true);
     expect(handler).toHaveBeenCalledTimes(1);
@@ -154,7 +154,7 @@ describe('EditController', () => {
     const ctrl = new EditController(host);
     ctrl.startEdit();
     const handler = vi.fn();
-    host.addEventListener('ui-edit-commit', handler);
+    host.addEventListener('native:edit-commit', handler);
     host.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
     expect(ctrl.isEditing).toBe(false);
     expect(handler).toHaveBeenCalledTimes(1);
@@ -176,7 +176,7 @@ describe('EditController', () => {
     ctrl.startEdit();
     host.textContent = 'Changed';
     const handler = vi.fn();
-    host.addEventListener('ui-edit-cancel', handler);
+    host.addEventListener('native:edit-cancel', handler);
     host.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
     expect(ctrl.isEditing).toBe(false);
     expect(host.textContent).toBe('Edit Me');
@@ -189,7 +189,7 @@ describe('EditController', () => {
     const ctrl = new EditController(host);
     ctrl.startEdit();
     const handler = vi.fn();
-    host.addEventListener('ui-edit-commit', handler);
+    host.addEventListener('native:edit-commit', handler);
     host.dispatchEvent(new Event('blur'));
     expect(ctrl.isEditing).toBe(false);
     expect(handler).toHaveBeenCalledTimes(1);
@@ -241,7 +241,7 @@ describe('EditController', () => {
     const ctrl = new EditController(host);
     ctrl.startEdit();
     const handler = vi.fn();
-    host.addEventListener('ui-edit-start', handler);
+    host.addEventListener('native:edit-start', handler);
     ctrl.startEdit(); // second call — should be ignored
     expect(handler).not.toHaveBeenCalled();
     ctrl.destroy();
@@ -269,7 +269,7 @@ describe('EditController', () => {
     const host = createHost();
     const ctrl = new EditController(host);
     const handler = vi.fn();
-    host.addEventListener('ui-edit-commit', handler);
+    host.addEventListener('native:edit-commit', handler);
     host.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
     expect(handler).not.toHaveBeenCalled();
     ctrl.destroy();

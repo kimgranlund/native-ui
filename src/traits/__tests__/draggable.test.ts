@@ -1,12 +1,12 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { DragController } from '../drag-controller.ts';
 import { define } from '../../core/define.ts';
 
 // ── Test element using DragController ──
 
-class DragTestEl extends UIElement {
+class DragTestEl extends NativeElement {
   #drag: DragController | null = null;
   #selector = '';
   #axis: 'vertical' | 'horizontal' | 'both' = 'both';
@@ -76,7 +76,7 @@ describe('Draggable — drop mode', () => {
     const el = create();
     el.dragDisabled = true;
     const handler = vi.fn();
-    el.addEventListener('ui-drag-start', handler);
+    el.addEventListener('native:drag-start', handler);
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     expect(handler).not.toHaveBeenCalled();
   });
@@ -85,7 +85,7 @@ describe('Draggable — drop mode', () => {
     const el = create();
     el.dragSelector = '';
     const handler = vi.fn();
-    el.addEventListener('ui-drag-start', handler);
+    el.addEventListener('native:drag-start', handler);
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     expect(handler).not.toHaveBeenCalled();
   });
@@ -93,7 +93,7 @@ describe('Draggable — drop mode', () => {
   it('ignores non-primary button', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-drag-start', handler);
+    el.addEventListener('native:drag-start', handler);
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 2 }));
     expect(handler).not.toHaveBeenCalled();
   });
@@ -108,10 +108,10 @@ describe('Draggable — drop mode', () => {
     expect(items(el)[1].hasAttribute('dragging')).toBe(true);
   });
 
-  it('dispatches ui-drag-start on first move', () => {
+  it('dispatches native:drag-start on first move', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-drag-start', handler);
+    el.addEventListener('native:drag-start', handler);
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
     expect(handler).toHaveBeenCalledTimes(1);
@@ -119,10 +119,10 @@ describe('Draggable — drop mode', () => {
     expect(handler.mock.calls[0][0].detail.index).toBe(0);
   });
 
-  it('dispatches ui-drop on pointerup after drag', () => {
+  it('dispatches native:drop on pointerup after drag', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-drop', handler);
+    el.addEventListener('native:drop', handler);
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
     document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
@@ -130,19 +130,19 @@ describe('Draggable — drop mode', () => {
     expect(handler.mock.calls[0][0].detail.fromIndex).toBe(0);
   });
 
-  it('does not dispatch ui-drop without movement', () => {
+  it('does not dispatch native:drop without movement', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-drop', handler);
+    el.addEventListener('native:drop', handler);
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
     expect(handler).not.toHaveBeenCalled();
   });
 
-  it('dispatches ui-drag-cancel on Escape', () => {
+  it('dispatches native:drag-cancel on Escape', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-drag-cancel', handler);
+    el.addEventListener('native:drag-cancel', handler);
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
@@ -174,10 +174,10 @@ describe('Draggable — slot mode', () => {
     expect(el.querySelector('.drag-placeholder')).toBeNull();
   });
 
-  it('dispatches ui-drop with insertBefore in slot mode', () => {
+  it('dispatches native:drop with insertBefore in slot mode', () => {
     const el = create('slot');
     const handler = vi.fn();
-    el.addEventListener('ui-drop', handler);
+    el.addEventListener('native:drop', handler);
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
     document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
@@ -227,7 +227,7 @@ describe('DragController', () => {
     const host = createHost();
     const ctrl = new DragController(host, { selector: '.item', axis: 'vertical', mode: 'drop' });
     const handler = vi.fn();
-    host.addEventListener('ui-drag-start', handler);
+    host.addEventListener('native:drag-start', handler);
 
     items(host)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
@@ -239,11 +239,11 @@ describe('DragController', () => {
     ctrl.destroy();
   });
 
-  it('dispatches ui-drop on host element', () => {
+  it('dispatches native:drop on host element', () => {
     const host = createHost();
     const ctrl = new DragController(host, { selector: '.item', mode: 'drop' });
     const handler = vi.fn();
-    host.addEventListener('ui-drop', handler);
+    host.addEventListener('native:drop', handler);
 
     items(host)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
@@ -257,7 +257,7 @@ describe('DragController', () => {
     const host = createHost();
     const ctrl = new DragController(host, { selector: '.item', disabled: true });
     const handler = vi.fn();
-    host.addEventListener('ui-drag-start', handler);
+    host.addEventListener('native:drag-start', handler);
 
     items(host)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
@@ -271,7 +271,7 @@ describe('DragController', () => {
     const ctrl = new DragController(host, { selector: '.item' });
     ctrl.disabled = true;
     const handler = vi.fn();
-    host.addEventListener('ui-drag-start', handler);
+    host.addEventListener('native:drag-start', handler);
 
     items(host)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
@@ -286,7 +286,7 @@ describe('DragController', () => {
     ctrl.detach();
 
     const handler = vi.fn();
-    host.addEventListener('ui-drag-start', handler);
+    host.addEventListener('native:drag-start', handler);
 
     items(host)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
@@ -302,7 +302,7 @@ describe('DragController', () => {
     ctrl.attach();
 
     const handler = vi.fn();
-    host.addEventListener('ui-drag-start', handler);
+    host.addEventListener('native:drag-start', handler);
 
     items(host)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
@@ -317,7 +317,7 @@ describe('DragController', () => {
     const host = createHost();
     const ctrl = new DragController(host, { selector: '.item', axis: 'vertical', mode: 'slot' });
     const handler = vi.fn();
-    host.addEventListener('ui-drop', handler);
+    host.addEventListener('native:drop', handler);
 
     items(host)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
@@ -387,10 +387,10 @@ describe('Draggable — preview mode', () => {
     expect(item0.hasAttribute('dragging')).toBe(false);
   });
 
-  it('dispatches ui-drop with fromIndex and toIndex', () => {
+  it('dispatches native:drop with fromIndex and toIndex', () => {
     const el = create('preview');
     const handler = vi.fn();
-    el.addEventListener('ui-drop', handler);
+    el.addEventListener('native:drop', handler);
 
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
@@ -416,10 +416,10 @@ describe('Draggable — preview mode', () => {
     expect(item0.nextElementSibling).toBe(originalNext);
   });
 
-  it('dispatches ui-drag-cancel on Escape', () => {
+  it('dispatches native:drag-cancel on Escape', () => {
     const el = create('preview');
     const handler = vi.fn();
-    el.addEventListener('ui-drag-cancel', handler);
+    el.addEventListener('native:drag-cancel', handler);
 
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
@@ -442,7 +442,7 @@ describe('Draggable — preview mode', () => {
     const host = createHost();
     const ctrl = new DragController(host, { selector: '.item', mode: 'preview' });
     const handler = vi.fn();
-    host.addEventListener('ui-drop', handler);
+    host.addEventListener('native:drop', handler);
 
     items(host)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));

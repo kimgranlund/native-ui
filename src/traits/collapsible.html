@@ -26,8 +26,8 @@
 
       .collapse-content {
         padding: 1rem;
-        background: var(--accent-surface);
-        color: var(--accent-surface-ink);
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
         border-radius: 0.5rem;
         margin-top: 0.75rem;
         font-size: 0.875rem;
@@ -37,28 +37,28 @@
       #log {
         font-family: monospace;
         font-size: 0.75rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         max-height: 8rem;
         overflow-y: auto;
         margin-top: 0.75rem;
         padding: 0.5rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         border-radius: 0.25rem;
       }
 </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
     <h1>Collapsible</h1>
     <p class="demo-desc">
-      Composable trait for animated show/hide with smooth height transitions. Dispatches <code>ui-expand</code> and <code>ui-collapse</code> events.
+      Composable trait for animated show/hide with smooth height transitions. Dispatches <code>native:expand</code> and <code>native:collapse</code> events.
     </p>
 
     <!-- ── Basic Toggle ── -->
 
     <h2>Basic Toggle</h2>
     <div class="demo-section">
-      <ui-button id="toggle-btn">Toggle Content</ui-button>
+      <n-button id="toggle-btn">Toggle Content</n-button>
       <collapse-demo traits="collapsible" id="section1">
         <div class="collapse-content">
           <p>This content smoothly animates open and closed using the Collapsible trait.</p>
@@ -66,12 +66,12 @@
         </div>
       </collapse-demo>
       <div id="log"></div>
-    <pre class="demo-code"><code>&lt;!-- Declarative: ui-controller with collapsible trait --&gt;
-&lt;ui-controller traits="collapsible"&gt;
+    <pre class="demo-code"><code>&lt;!-- Declarative: n-controller with collapsible trait --&gt;
+&lt;n-controller traits="collapsible"&gt;
   &lt;div id="my-section"&gt;
     &lt;p&gt;Collapsible content here&lt;/p&gt;
   &lt;/div&gt;
-&lt;/ui-controller&gt;
+&lt;/n-controller&gt;
 
 &lt;script&gt;
   // Toggle programmatically
@@ -79,52 +79,52 @@
   el.getTraitController('collapsible').toggle();
 
   // Listen for events
-  el.addEventListener('ui-expand', () =&gt; console.log('Expanded'));
-  el.addEventListener('ui-collapse', () =&gt; console.log('Collapsed'));
-&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+  el.addEventListener('native:expand', () =&gt; console.log('Expanded'));
+  el.addEventListener('native:collapse', () =&gt; console.log('Collapsed'));
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Initially Collapsed ── -->
 
     <h2>Initially Collapsed</h2>
     <div class="demo-section">
-      <ui-button id="expand-btn">Expand</ui-button>
+      <n-button id="expand-btn">Expand</n-button>
       <collapse-demo traits="collapsible" id="section2" collapsed>
         <div class="collapse-content">
           <p>I was hidden on page load. Click "Expand" to reveal me with a smooth animation.</p>
         </div>
       </collapse-demo>
     <pre class="demo-code"><code>&lt;!-- Start collapsed with the collapsed attribute --&gt;
-&lt;ui-controller traits="collapsible"&gt;
+&lt;n-controller traits="collapsible"&gt;
   &lt;div collapsed&gt;
     &lt;p&gt;Hidden on page load&lt;/p&gt;
   &lt;/div&gt;
-&lt;/ui-controller&gt;
+&lt;/n-controller&gt;
 
 &lt;script&gt;
   // Expand/collapse individually
   const ctrl = el.getTraitController('collapsible');
   if (ctrl.collapsed) ctrl.expand();
   else ctrl.collapse();
-&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Custom Duration ── -->
 
     <h2>Custom Duration (500ms)</h2>
     <div class="demo-section">
-      <ui-button id="slow-btn">Toggle Slow</ui-button>
+      <n-button id="slow-btn">Toggle Slow</n-button>
       <collapse-demo traits="collapsible" collapsible-duration="500" id="section3">
         <div class="collapse-content">
           <p>This section uses a custom <code>collapsible-duration="500"</code> for a slower, more dramatic animation.</p>
         </div>
       </collapse-demo>
     <pre class="demo-code"><code>&lt;!-- Custom animation duration (default: 200ms) --&gt;
-&lt;ui-controller traits="collapsible" collapsible-duration="500"&gt;
+&lt;n-controller traits="collapsible" collapsible-duration="500"&gt;
   &lt;div&gt;
     &lt;p&gt;Slower 500ms animation&lt;/p&gt;
   &lt;/div&gt;
-&lt;/ui-controller&gt;
+&lt;/n-controller&gt;
 
 &lt;!-- Imperative: CollapsibleController --&gt;
 &lt;script&gt;
@@ -134,7 +134,7 @@
     duration: 500
   });
   ctrl.toggle();
-&lt;/script&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── API Reference ── -->
@@ -144,44 +144,44 @@
       <table style="width: 100%; border-collapse: collapse; font-size: 0.8125rem;">
         <thead>
           <tr>
-            <th style="text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid var(--neutral-border-muted); color: var(--neutral-ink-strong);">Property / Method</th>
-            <th style="text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid var(--neutral-border-muted); color: var(--neutral-ink-strong);">Description</th>
+            <th style="text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid var(--n-border-muted-neutral); color: var(--n-ink-strong-neutral);">Property / Method</th>
+            <th style="text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid var(--n-border-muted-neutral); color: var(--n-ink-strong-neutral);">Description</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);"><code>toggle()</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);">Toggle between expanded and collapsed</td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>toggle()</code></td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Toggle between expanded and collapsed</td>
           </tr>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);"><code>expand()</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);">Expand the content</td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>expand()</code></td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Expand the content</td>
           </tr>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);"><code>collapse()</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);">Collapse the content</td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>collapse()</code></td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Collapse the content</td>
           </tr>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);"><code>collapsed</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);">Boolean — current collapsed state</td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>collapsed</code></td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Boolean — current collapsed state</td>
           </tr>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);"><code>collapsible-duration</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);">Animation duration in ms (default: 200)</td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>collapsible-duration</code></td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Animation duration in ms (default: 200)</td>
           </tr>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);"><code>ui-expand</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);">Event dispatched after expand animation completes</td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>native:expand</code></td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Event dispatched after expand animation completes</td>
           </tr>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);"><code>ui-collapse</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--neutral-border-muted);">Event dispatched after collapse animation completes</td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>native:collapse</code></td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Event dispatched after collapse animation completes</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
     <!-- WHY: registerAllTraits() must run BEFORE any define() call that
          triggers connectedCallback on elements with traits="..." already in
          the DOM. ES module imports are hoisted above top-level code within
@@ -191,18 +191,18 @@
       registerAllTraits();
     </script>
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
-      import { UIElement, define } from '../index.ts';
+      import { NativeElement, define } from '../index.ts';
 
-      // ── Minimal UIElement shell for injection demos ──
+      // ── Minimal NativeElement shell for injection demos ──
       // No custom logic — traits="collapsible" does all the work.
       // getTraitController('collapsible') provides programmatic access.
 
-      class CollapseDemo extends UIElement {}
+      class CollapseDemo extends NativeElement {}
       define('collapse-demo', CollapseDemo);
 
       // ── Event logging ──
@@ -220,16 +220,16 @@
       // ── Basic toggle ──
 
       const section1 = document.getElementById('section1');
-      document.getElementById('toggle-btn').addEventListener('ui-press', () => {
+      document.getElementById('toggle-btn').addEventListener('native:press', () => {
         section1.getTraitController('collapsible').toggle();
       });
-      section1.addEventListener('ui-expand', () => log('Expanded'));
-      section1.addEventListener('ui-collapse', () => log('Collapsed'));
+      section1.addEventListener('native:expand', () => log('Expanded'));
+      section1.addEventListener('native:collapse', () => log('Collapsed'));
 
       // ── Initially collapsed ──
 
       const section2 = document.getElementById('section2');
-      document.getElementById('expand-btn').addEventListener('ui-press', () => {
+      document.getElementById('expand-btn').addEventListener('native:press', () => {
         const ctrl = section2.getTraitController('collapsible');
         if (ctrl.collapsed) {
           ctrl.expand();
@@ -241,7 +241,7 @@
       // ── Custom duration (500ms) ──
 
       const section3 = document.getElementById('section3');
-      document.getElementById('slow-btn').addEventListener('ui-press', () => {
+      document.getElementById('slow-btn').addEventListener('native:press', () => {
         section3.getTraitController('collapsible').toggle();
       });
 // ── Copy buttons ──
@@ -251,7 +251,7 @@
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
@@ -27,12 +27,12 @@
         font-size: 1rem;
         font-weight: 700;
         margin: 0;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 
       .dialog-panel {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-body-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.75rem;
         box-shadow:
           0 8px 30px oklch(0% 0 0 / 0.12),
@@ -44,12 +44,12 @@
       .shortcut {
         font-family: ui-monospace, monospace;
         font-size: 0.625rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.25rem;
         padding: 0.125rem 0.375rem;
         margin-left: auto;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
       }
 
       .trigger-area {
@@ -58,33 +58,33 @@
         align-items: center;
         gap: 0.75rem;
         padding: 3rem 2rem;
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-body-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.75rem;
         text-align: center;
       }
 
       .trigger-hint {
         font-size: 0.8125rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
       }
 
       .trigger-hint kbd {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.25rem;
         padding: 0.125rem 0.375rem;
       }
     </style>
   </head>
   <body>
-    <nui-app><main>
-    <ui-stack gap="6">
+    <n-app><main>
+    <n-stack gap="6">
     <div>
       <h1>Command Palette</h1>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Quick-access command palette in a dialog overlay. Searchable, keyboard navigable,
         and grouped by category. Opens via button click or <kbd>Ctrl+K</kbd> shortcut.
       </p>
@@ -92,13 +92,13 @@
 
     <!-- -- Trigger Area -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <h2>Open Command Palette</h2>
     <div class="trigger-area">
-      <ui-button id="open-palette" intent="accent" size="lg">
-        <ui-icon name="magnifying-glass" slot="leading"></ui-icon>
+      <n-button id="open-palette" intent="accent" size="lg">
+        <n-icon name="magnifying-glass" slot="leading"></n-icon>
         <span slot="label">Open Command Palette</span>
-      </ui-button>
+      </n-button>
       <p class="trigger-hint">
         or press <kbd>Ctrl</kbd> + <kbd>K</kbd> anywhere on the page
       </p>
@@ -106,109 +106,109 @@
 
     <!-- -- Dialog with Command Palette -- -->
 
-    <ui-dialog id="palette-dialog">
+    <n-dialog id="palette-dialog">
       <div class="dialog-panel">
-        <ui-command id="palette-command">
-          <ui-command-input>
-            <ui-icon name="magnifying-glass"></ui-icon>
+        <n-command id="palette-command">
+          <n-command-input>
+            <n-icon name="magnifying-glass"></n-icon>
             <input type="text" placeholder="Type a command or search..." />
-          </ui-command-input>
-          <ui-command-list>
-            <ui-command-group>
+          </n-command-input>
+          <n-command-list>
+            <n-command-group>
               <div slot="heading">Recent</div>
-              <ui-command-item value="go-dashboard" keywords="home overview">
-                <ui-icon name="house"></ui-icon> Dashboard
-              </ui-command-item>
-              <ui-command-item value="go-settings" keywords="preferences config">
-                <ui-icon name="gear"></ui-icon> Settings
-              </ui-command-item>
-              <ui-command-item value="go-profile" keywords="account user">
-                <ui-icon name="user"></ui-icon> Profile
-              </ui-command-item>
-            </ui-command-group>
-            <ui-command-group>
+              <n-command-item value="go-dashboard" keywords="home overview">
+                <n-icon name="house"></n-icon> Dashboard
+              </n-command-item>
+              <n-command-item value="go-settings" keywords="preferences config">
+                <n-icon name="gear"></n-icon> Settings
+              </n-command-item>
+              <n-command-item value="go-profile" keywords="account user">
+                <n-icon name="user"></n-icon> Profile
+              </n-command-item>
+            </n-command-group>
+            <n-command-group>
               <div slot="heading">Actions</div>
-              <ui-command-item value="create-project" keywords="new add">
-                <ui-icon name="plus"></ui-icon> Create new project
+              <n-command-item value="create-project" keywords="new add">
+                <n-icon name="plus"></n-icon> Create new project
                 <span class="shortcut">Ctrl+N</span>
-              </ui-command-item>
-              <ui-command-item value="invite-member" keywords="team add user">
-                <ui-icon name="user-plus"></ui-icon> Invite team member
-              </ui-command-item>
-              <ui-command-item value="export-data" keywords="download csv">
-                <ui-icon name="arrow-right"></ui-icon> Export data
-              </ui-command-item>
-            </ui-command-group>
-            <ui-command-group>
+              </n-command-item>
+              <n-command-item value="invite-member" keywords="team add user">
+                <n-icon name="user-plus"></n-icon> Invite team member
+              </n-command-item>
+              <n-command-item value="export-data" keywords="download csv">
+                <n-icon name="arrow-right"></n-icon> Export data
+              </n-command-item>
+            </n-command-group>
+            <n-command-group>
               <div slot="heading">Navigation</div>
-              <ui-command-item value="nav-dashboard" keywords="home">
-                <ui-icon name="house"></ui-icon> Go to Dashboard
+              <n-command-item value="nav-dashboard" keywords="home">
+                <n-icon name="house"></n-icon> Go to Dashboard
                 <span class="shortcut">G D</span>
-              </ui-command-item>
-              <ui-command-item value="nav-projects" keywords="work tasks">
-                <ui-icon name="folder"></ui-icon> Go to Projects
+              </n-command-item>
+              <n-command-item value="nav-projects" keywords="work tasks">
+                <n-icon name="folder"></n-icon> Go to Projects
                 <span class="shortcut">G P</span>
-              </ui-command-item>
-              <ui-command-item value="nav-settings" keywords="preferences">
-                <ui-icon name="gear"></ui-icon> Go to Settings
+              </n-command-item>
+              <n-command-item value="nav-settings" keywords="preferences">
+                <n-icon name="gear"></n-icon> Go to Settings
                 <span class="shortcut">G S</span>
-              </ui-command-item>
-            </ui-command-group>
-          </ui-command-list>
-          <ui-command-empty>No matching commands found.</ui-command-empty>
-        </ui-command>
+              </n-command-item>
+            </n-command-group>
+          </n-command-list>
+          <n-command-empty>No matching commands found.</n-command-empty>
+        </n-command>
       </div>
-    </ui-dialog>
-    </ui-stack>
+    </n-dialog>
+    </n-stack>
 
     <!-- -- Inline Preview -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <div>
       <h2>Inline Preview</h2>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">
         The same command palette rendered inline for reference.
       </p>
     </div>
     <div style="max-width: 32rem;">
-      <ui-command>
-        <ui-command-input>
-          <ui-icon name="magnifying-glass"></ui-icon>
+      <n-command>
+        <n-command-input>
+          <n-icon name="magnifying-glass"></n-icon>
           <input type="text" placeholder="Type a command or search..." />
-        </ui-command-input>
-        <ui-command-list>
-          <ui-command-group>
+        </n-command-input>
+        <n-command-list>
+          <n-command-group>
             <div slot="heading">Recent</div>
-            <ui-command-item value="preview-dashboard">
-              <ui-icon name="house"></ui-icon> Dashboard
-            </ui-command-item>
-            <ui-command-item value="preview-settings">
-              <ui-icon name="gear"></ui-icon> Settings
-            </ui-command-item>
-          </ui-command-group>
-          <ui-command-group>
+            <n-command-item value="preview-dashboard">
+              <n-icon name="house"></n-icon> Dashboard
+            </n-command-item>
+            <n-command-item value="preview-settings">
+              <n-icon name="gear"></n-icon> Settings
+            </n-command-item>
+          </n-command-group>
+          <n-command-group>
             <div slot="heading">Actions</div>
-            <ui-command-item value="preview-create">
-              <ui-icon name="plus"></ui-icon> Create new project
-            </ui-command-item>
-            <ui-command-item value="preview-invite">
-              <ui-icon name="user-plus"></ui-icon> Invite team member
-            </ui-command-item>
-          </ui-command-group>
-        </ui-command-list>
-        <ui-command-empty>No results.</ui-command-empty>
-      </ui-command>
+            <n-command-item value="preview-create">
+              <n-icon name="plus"></n-icon> Create new project
+            </n-command-item>
+            <n-command-item value="preview-invite">
+              <n-icon name="user-plus"></n-icon> Invite team member
+            </n-command-item>
+          </n-command-group>
+        </n-command-list>
+        <n-command-empty>No results.</n-command-empty>
+      </n-command>
     </div>
-    </ui-stack>
-    </ui-stack>
+    </n-stack>
+    </n-stack>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../components/ui-dialog/ui-dialog.ts';
-      import '../../../components/ui-command/ui-command.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/button/button.ts';
+      import '../../../components/dialog/dialog.ts';
+      import '../../../components/command/command.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/magnifying-glass.ts';
       import '../../../icons/phosphor/house.ts';
       import '../../../icons/phosphor/gear.ts';
@@ -222,7 +222,7 @@
       const command = document.getElementById('palette-command');
 
       // Open via button
-      document.getElementById('open-palette').addEventListener('ui-press', () => {
+      document.getElementById('open-palette').addEventListener('native:press', () => {
         dialog.showModal();
         // Focus the input after dialog opens
         requestAnimationFrame(() => {
@@ -244,12 +244,12 @@
       });
 
       // Close dialog on command selection
-      command.addEventListener('ui-change', (e) => {
+      command.addEventListener('native:change', (e) => {
         dialog.close();
       });
 
-      // Close dialog on Escape (ui-dismiss from command)
-      command.addEventListener('ui-dismiss', () => {
+      // Close dialog on Escape (native:dismiss from command)
+      command.addEventListener('native:dismiss', () => {
         dialog.close();
       });
     </script>

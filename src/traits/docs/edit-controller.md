@@ -2,7 +2,7 @@
 
 # EditController
 
-> Enables inline text editing on the host element, dispatching `ui-edit-start` and `ui-edit-end`.
+> Enables inline text editing on the host element, dispatching `native:edit-start`, `native:edit-commit`, and `native:edit-cancel`.
 
 ## Constructor
 
@@ -29,9 +29,9 @@ new EditController(host: HTMLElement, options?: EditOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-edit-start` | `{ value }` |
-| `ui-edit-commit` | `{ value, previousValue }` |
-| `ui-edit-cancel` | `{ value }` |
+| `native:edit-start` | `{ value }` |
+| `native:edit-commit` | `{ value, previousValue }` |
+| `native:edit-cancel` | `{ value }` |
 
 ## Methods
 

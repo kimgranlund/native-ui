@@ -1,0 +1,104 @@
+@layer ui {
+
+  /* ── Tooltip Base ── */
+  /* WHY: Tooltip is a child of its trigger, display:contents when closed
+     so it doesn't affect the trigger's layout. Promoted to top-layer
+     via [popover] when shown. */
+
+  :where(n-tooltip) {
+    display: contents;
+  }
+
+  :where(n-tooltip[popover]) {
+    position: fixed;
+    /* Default placement: above the anchor */
+    position-area: block-start;
+    position-try-fallbacks: flip-block, flip-inline;
+    margin: var(--n-popover-viewport-margin);
+
+    max-width: var(--n-tooltip-max-width);
+    padding-block: calc(var(--n-space) * 1.5);
+    padding-inline: calc(var(--n-space-k) * var(--n-space) * 0.75);
+
+    font-size: var(--n-font-size);
+    letter-spacing: var(--n-letter-spacing);
+    line-height: var(--n-text-line-height);
+    font-weight: var(--n-text-font-weight);
+
+    color: var(--n-surface-ink);
+    background: var(--n-surface);
+    border: 1px solid var(--n-border-muted);
+    border-radius: calc(var(--n-radius) * 0.6);
+
+    box-shadow: var(--n-shadow-md);
+
+    /* WHY: Override UA popover styles */
+    inset: unset;
+    overflow: visible;
+
+    --n-popover-origin: bottom center;
+    --n-popover-from: perspective(800px) scale(0.96) rotateX(10deg);
+
+    transform-origin: var(--n-popover-origin);
+    opacity: 0;
+    transform: var(--n-popover-from);
+    transition:
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing),
+      display var(--n-duration) var(--n-easing) allow-discrete,
+      overlay var(--n-duration) var(--n-easing) allow-discrete;
+  }
+
+  /* ── Open State ── */
+
+  :where(n-tooltip[popover]):popover-open {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Starting style for entry animation */
+  @starting-style {
+    :where(n-tooltip[popover]):popover-open {
+      opacity: 0;
+      transform: var(--n-popover-from);
+    }
+  }
+
+  /* ── Placement Variants ── */
+
+  :where(n-tooltip[placement="top"]) {
+    --n-popover-origin: bottom center;
+    --n-popover-from: perspective(800px) scale(0.96) rotateX(10deg);
+    position-area: block-start;
+    margin-block-end: calc(var(--n-space) * 2);
+  }
+
+  :where(n-tooltip[placement="bottom"]) {
+    --n-popover-origin: top center;
+    --n-popover-from: perspective(800px) scale(0.96) rotateX(-10deg);
+    position-area: block-end;
+    margin-block-start: calc(var(--n-space) * 2);
+  }
+
+  :where(n-tooltip[placement="left"]) {
+    --n-popover-origin: right center;
+    --n-popover-from: perspective(800px) scale(0.96) rotateY(-10deg);
+    position-area: inline-start;
+    margin-inline-end: calc(var(--n-space) * 2);
+  }
+
+  :where(n-tooltip[placement="right"]) {
+    --n-popover-origin: left center;
+    --n-popover-from: perspective(800px) scale(0.96) rotateY(10deg);
+    position-area: inline-end;
+    margin-inline-start: calc(var(--n-space) * 2);
+  }
+
+  /* ── Hidden (not :popover-open) ── */
+  /* WHY: Override author display so UA display:none takes effect */
+
+  :where(n-tooltip[popover]):not(:popover-open) {
+    display: none;
+  }
+
+}

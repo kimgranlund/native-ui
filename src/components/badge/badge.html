@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-badge — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+.demo-row + .demo-row {
+        margin-top: 0.75rem;
+      }
+
+      .demo-label {
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        min-width: 2rem;
+      }
+
+      .icon-badge-wrapper {
+        position: relative;
+        display: inline-flex;
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-badge&gt;</h1>
+    <p class="demo-desc">
+      Small count or status indicator. Can be standalone, overlaid (floating), or a dot.
+    </p>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span class="demo-label">xs</span>
+        <n-badge size="xs">3</n-badge>
+        <n-badge size="xs">42</n-badge>
+        <n-badge size="xs">New</n-badge>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">sm</span>
+        <n-badge size="sm">3</n-badge>
+        <n-badge size="sm">42</n-badge>
+        <n-badge size="sm">New</n-badge>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">md</span>
+        <n-badge size="md">3</n-badge>
+        <n-badge size="md">42</n-badge>
+        <n-badge size="md">New</n-badge>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">lg</span>
+        <n-badge size="lg">3</n-badge>
+        <n-badge size="lg">42</n-badge>
+        <n-badge size="lg">New</n-badge>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">xl</span>
+        <n-badge size="xl">3</n-badge>
+        <n-badge size="xl">42</n-badge>
+        <n-badge size="xl">New</n-badge>
+      </div>
+      <pre class="demo-code"><code>&lt;n-badge size="sm"&gt;3&lt;/n-badge&gt;
+&lt;n-badge size="md"&gt;42&lt;/n-badge&gt;
+&lt;n-badge size="lg"&gt;New&lt;/n-badge&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Intents ── -->
+
+    <h2>Intents</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-badge>Default</n-badge>
+        <n-badge intent="accent">Accent</n-badge>
+        <n-badge intent="info">Info</n-badge>
+        <n-badge intent="success">Success</n-badge>
+        <n-badge intent="warning">Warning</n-badge>
+        <n-badge intent="danger">Danger</n-badge>
+      </div>
+      <pre class="demo-code"><code>&lt;n-badge&gt;Default&lt;/n-badge&gt;
+&lt;n-badge intent="accent"&gt;Accent&lt;/n-badge&gt;
+&lt;n-badge intent="success"&gt;Success&lt;/n-badge&gt;
+&lt;n-badge intent="danger"&gt;Danger&lt;/n-badge&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Variants ── -->
+
+    <h2>Variants</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span class="demo-label">solid</span>
+        <n-badge intent="accent">Accent</n-badge>
+        <n-badge intent="info">Info</n-badge>
+        <n-badge intent="success">Success</n-badge>
+        <n-badge intent="warning">Warning</n-badge>
+        <n-badge intent="danger">Danger</n-badge>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">outline</span>
+        <n-badge variant="outline" intent="accent">Accent</n-badge>
+        <n-badge variant="outline" intent="info">Info</n-badge>
+        <n-badge variant="outline" intent="success">Success</n-badge>
+        <n-badge variant="outline" intent="warning">Warning</n-badge>
+        <n-badge variant="outline" intent="danger">Danger</n-badge>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">ghost</span>
+        <n-badge variant="ghost" intent="accent">Accent</n-badge>
+        <n-badge variant="ghost" intent="info">Info</n-badge>
+        <n-badge variant="ghost" intent="success">Success</n-badge>
+        <n-badge variant="ghost" intent="warning">Warning</n-badge>
+        <n-badge variant="ghost" intent="danger">Danger</n-badge>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">default</span>
+        <n-badge variant="default">Default</n-badge>
+        <n-badge variant="default" intent="accent">Accent</n-badge>
+        <n-badge variant="default" intent="info">Info</n-badge>
+        <n-badge variant="default" intent="success">Success</n-badge>
+        <n-badge variant="default" intent="warning">Warning</n-badge>
+        <n-badge variant="default" intent="danger">Danger</n-badge>
+      </div>
+      <pre class="demo-code"><code>&lt;n-badge intent="accent"&gt;Solid (default)&lt;/n-badge&gt;
+&lt;n-badge variant="outline" intent="accent"&gt;Outline&lt;/n-badge&gt;
+&lt;n-badge variant="ghost" intent="accent"&gt;Ghost&lt;/n-badge&gt;
+&lt;n-badge variant="default"&gt;Default&lt;/n-badge&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes × Intents ── -->
+
+    <h2>Sizes × Intents</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span class="demo-label">xs</span>
+        <n-badge size="xs">7</n-badge>
+        <n-badge size="xs" intent="accent">3</n-badge>
+        <n-badge size="xs" intent="info">New</n-badge>
+        <n-badge size="xs" intent="success">OK</n-badge>
+        <n-badge size="xs" intent="warning">!</n-badge>
+        <n-badge size="xs" intent="danger">5</n-badge>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">sm</span>
+        <n-badge size="sm">7</n-badge>
+        <n-badge size="sm" intent="accent">3</n-badge>
+        <n-badge size="sm" intent="info">New</n-badge>
+        <n-badge size="sm" intent="success">OK</n-badge>
+        <n-badge size="sm" intent="warning">!</n-badge>
+        <n-badge size="sm" intent="danger">5</n-badge>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">md</span>
+        <n-badge size="md">7</n-badge>
+        <n-badge size="md" intent="accent">3</n-badge>
+        <n-badge size="md" intent="info">New</n-badge>
+        <n-badge size="md" intent="success">OK</n-badge>
+        <n-badge size="md" intent="warning">!</n-badge>
+        <n-badge size="md" intent="danger">5</n-badge>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">lg</span>
+        <n-badge size="lg">7</n-badge>
+        <n-badge size="lg" intent="accent">3</n-badge>
+        <n-badge size="lg" intent="info">New</n-badge>
+        <n-badge size="lg" intent="success">OK</n-badge>
+        <n-badge size="lg" intent="warning">!</n-badge>
+        <n-badge size="lg" intent="danger">5</n-badge>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">xl</span>
+        <n-badge size="xl">7</n-badge>
+        <n-badge size="xl" intent="accent">3</n-badge>
+        <n-badge size="xl" intent="info">New</n-badge>
+        <n-badge size="xl" intent="success">OK</n-badge>
+        <n-badge size="xl" intent="warning">!</n-badge>
+        <n-badge size="xl" intent="danger">5</n-badge>
+      </div>
+    </div>
+
+    <!-- ── Radius ── -->
+
+    <h2>Radius</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span class="demo-label">sharp</span>
+        <n-badge radius="sharp" intent="accent">3</n-badge>
+        <n-badge radius="sharp" intent="info">New</n-badge>
+        <n-badge radius="sharp" intent="danger">5</n-badge>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">default (pill)</span>
+        <n-badge intent="accent">3</n-badge>
+        <n-badge intent="info">New</n-badge>
+        <n-badge intent="danger">5</n-badge>
+      </div>
+    </div>
+
+    <!-- ── Floating ── -->
+
+    <h2>Floating (on icons)</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <div class="icon-badge-wrapper">
+          <n-button variant="ghost"><n-icon name="bell"></n-icon></n-button>
+          <n-badge intent="danger" floating>5</n-badge>
+        </div>
+        <div class="icon-badge-wrapper">
+          <n-button variant="ghost"><n-icon name="envelope-simple"></n-icon></n-button>
+          <n-badge intent="accent" floating>12</n-badge>
+        </div>
+        <div class="icon-badge-wrapper">
+          <n-button variant="ghost"><n-icon name="chat-circle"></n-icon></n-button>
+          <n-badge intent="success" floating dot></n-badge>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;!-- Position: relative wrapper + floating badge --&gt;
+&lt;div style="position: relative; display: inline-flex;"&gt;
+  &lt;n-button variant="ghost"&gt;
+    &lt;n-icon name="bell"&gt;&lt;/n-icon&gt;
+  &lt;/n-button&gt;
+  &lt;n-badge intent="danger" floating&gt;5&lt;/n-badge&gt;
+&lt;/div&gt;
+
+&lt;!-- Dot indicator (no content) --&gt;
+&lt;div style="position: relative; display: inline-flex;"&gt;
+  &lt;n-button variant="ghost"&gt;
+    &lt;n-icon name="chat-circle"&gt;&lt;/n-icon&gt;
+  &lt;/n-button&gt;
+  &lt;n-badge intent="success" floating dot&gt;&lt;/n-badge&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Floating on Avatar ── -->
+
+    <h2>Floating (on avatar)</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <div class="icon-badge-wrapper">
+          <n-avatar name="Kim Granlund"></n-avatar>
+          <n-badge intent="success" floating dot></n-badge>
+        </div>
+        <div class="icon-badge-wrapper">
+          <n-avatar name="Jane Doe"></n-avatar>
+          <n-badge intent="danger" floating>3</n-badge>
+        </div>
+        <div class="icon-badge-wrapper">
+          <n-avatar name="Alex Smith"></n-avatar>
+          <n-badge intent="warning" floating>!</n-badge>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Dot ── -->
+
+    <h2>Dot indicator</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-badge dot></n-badge>
+        <n-badge intent="accent" dot></n-badge>
+        <n-badge intent="info" dot></n-badge>
+        <n-badge intent="success" dot></n-badge>
+        <n-badge intent="warning" dot></n-badge>
+        <n-badge intent="danger" dot></n-badge>
+      </div>
+      <pre class="demo-code"><code>&lt;n-badge dot&gt;&lt;/n-badge&gt;
+&lt;n-badge intent="success" dot&gt;&lt;/n-badge&gt;
+&lt;n-badge intent="danger" dot&gt;&lt;/n-badge&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Max ── -->
+
+    <h2>Max (truncation)</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-badge max="99">150</n-badge>
+        <n-badge max="9" intent="danger">12</n-badge>
+        <n-badge max="99" intent="accent">5</n-badge>
+        <n-badge max="999" intent="info">1234</n-badge>
+      </div>
+      <pre class="demo-code"><code>&lt;!-- Clamps display to max value --&gt;
+&lt;n-badge max="99"&gt;150&lt;/n-badge&gt;   &lt;!-- shows "99+" --&gt;
+&lt;n-badge max="9" intent="danger"&gt;12&lt;/n-badge&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Inline with text ── -->
+
+    <h2>Inline with text</h2>
+    <div class="demo-section">
+      <p class="demo-text">
+        Messages <n-badge intent="accent">3</n-badge> &nbsp;
+        Notifications <n-badge intent="danger">12</n-badge> &nbsp;
+        Updates <n-badge intent="info">New</n-badge> &nbsp;
+        Status <n-badge intent="success">OK</n-badge>
+      </p>
+    </div>
+
+    <!-- ── Inline with buttons ── -->
+
+    <h2>Inline with buttons</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-button size="sm">Inbox <n-badge intent="accent" size="xs">3</n-badge></n-button>
+        <n-button size="md">Alerts <n-badge intent="danger" size="xs">7</n-badge></n-button>
+        <n-button size="lg" intent="accent">Tasks <n-badge variant="outline" size="sm">12</n-badge></n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;n-button&gt;
+  Inbox &lt;n-badge intent="accent" size="xs"&gt;3&lt;/n-badge&gt;
+&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './badge.ts';
+      import '../button/button.ts';
+      import '../avatar/avatar.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/bell.ts';
+      import '../../icons/phosphor/envelope-simple.ts';
+      import '../../icons/phosphor/chat-circle.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

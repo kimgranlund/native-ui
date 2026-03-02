@@ -37,13 +37,13 @@ describe('validatePlan', () => {
   });
 
   it('accepts valid plan with registered custom elements', () => {
-    const registry = makeRegistry('ui-button', 'ui-select');
+    const registry = makeRegistry('n-button', 'n-select');
     const plan = makePlan({
       id: 'root',
       tag: 'div',
       children: [
-        { id: 'btn', tag: 'ui-button', attributes: { variant: 'primary' } },
-        { id: 'sel', tag: 'ui-select', attributes: { placeholder: 'Pick' } },
+        { id: 'btn', tag: 'n-button', attributes: { variant: 'primary' } },
+        { id: 'sel', tag: 'n-select', attributes: { placeholder: 'Pick' } },
       ],
     });
     const result = validatePlan(plan, registry);
@@ -52,7 +52,7 @@ describe('validatePlan', () => {
 
   it('rejects unregistered custom elements', () => {
     const result = validatePlan(
-      makePlan({ id: 'root', tag: 'ui-unknown' }),
+      makePlan({ id: 'root', tag: 'n-unknown' }),
       makeRegistry(),
     );
     expect(result.valid).toBe(false);
@@ -61,7 +61,7 @@ describe('validatePlan', () => {
 
   it('allows unregistered when option set', () => {
     const result = validatePlan(
-      makePlan({ id: 'root', tag: 'ui-unknown' }),
+      makePlan({ id: 'root', tag: 'n-unknown' }),
       makeRegistry(),
       { allowUnregistered: true },
     );
@@ -142,8 +142,8 @@ describe('validatePlan', () => {
 describe('validateNode', () => {
   it('validates a single node', () => {
     const errors = validateNode(
-      { id: 'btn', tag: 'ui-button' },
-      makeRegistry('ui-button'),
+      { id: 'btn', tag: 'n-button' },
+      makeRegistry('n-button'),
     );
     expect(errors).toEqual([]);
   });

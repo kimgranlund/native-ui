@@ -19,11 +19,11 @@
         font-weight: 600;
         margin-bottom: 0.5rem;
         margin-top: 1.25rem;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 .pop-content {
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.375rem;
         padding: 0.75rem 1rem;
         font-size: 0.8125rem;
@@ -57,20 +57,20 @@
         text-align: left;
         font-weight: 600;
         padding: 0.5rem 0.75rem;
-        border-bottom: 2px solid var(--neutral-border-muted);
-        color: var(--neutral-ink-strong);
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
       }
 
       .api-table td {
         padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
         vertical-align: top;
       }
 
       .api-table code {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         padding: 0.0625rem 0.3125rem;
         border-radius: 0.1875rem;
       }
@@ -81,7 +81,7 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
 
     <h1>Popoverable</h1>
     <p class="demo-desc">
@@ -96,7 +96,7 @@
         Uses <code>PopoverController</code> directly to wire an anchor button to a popover panel. Click outside or press Escape to close.
       </p>
       <div id="pop-1" style="display: inline-block; position: relative;">
-        <ui-button id="pop-trigger-1">Toggle Popover</ui-button>
+        <n-button id="pop-trigger-1">Toggle Popover</n-button>
         <div class="pop-content" id="pop-content-1" popover="manual">
           <p>This popover is anchored to the button using CSS Anchor positioning. Click outside or press Escape to close.</p>
         </div>
@@ -109,16 +109,16 @@ const open = signal(false);
 
 popover.wirePopover(anchor, panel);
 
-anchor.addEventListener('ui-press', () =&gt; {
+anchor.addEventListener('native:press', () =&gt; {
   open.value = !open.value;
 });
 
-host.addEventListener('ui-dismiss', () =&gt; {
+host.addEventListener('native:dismiss', () =&gt; {
   open.value = false;
 });
 
 // In an effect:
-popover.syncPopover(open.value);</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+popover.syncPopover(open.value);</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Multiple Popovers ── -->
@@ -130,13 +130,13 @@ popover.syncPopover(open.value);</code><ui-button class="copy-btn" size="sm" var
       </p>
       <div class="demo-actions" style="gap: 0.75rem;">
         <div id="pop-2" style="display: inline-block; position: relative;">
-          <ui-button id="pop-trigger-2">Popover A</ui-button>
+          <n-button id="pop-trigger-2">Popover A</n-button>
           <div class="pop-content" id="pop-content-2" popover="manual">
             <p><strong>Popover A</strong> — First layer</p>
           </div>
         </div>
         <div id="pop-3" style="display: inline-block; position: relative;">
-          <ui-button id="pop-trigger-3">Popover B</ui-button>
+          <n-button id="pop-trigger-3">Popover B</n-button>
           <div class="pop-content" id="pop-content-3" popover="manual">
             <p><strong>Popover B</strong> — Second layer</p>
           </div>
@@ -144,20 +144,20 @@ popover.syncPopover(open.value);</code><ui-button class="copy-btn" size="sm" var
       </div>
     </div>
 
-    <!-- ── Built-in: ui-select ── -->
+    <!-- ── Built-in: n-select ── -->
 
-    <h2>Built-in: ui-select</h2>
+    <h2>Built-in: n-select</h2>
     <div class="demo-section">
       <p class="demo-hint">
-        <code>ui-select</code> uses Popoverable internally to anchor its dropdown listbox to the trigger button. CSS Anchor Positioning and dismiss-on-click-outside are handled automatically.
+        <code>n-select</code> uses Popoverable internally to anchor its dropdown listbox to the trigger button. CSS Anchor Positioning and dismiss-on-click-outside are handled automatically.
       </p>
-      <ui-select placeholder="Pick a framework" options='[{"value":"react","label":"React"},{"value":"vue","label":"Vue"},{"value":"svelte","label":"Svelte"},{"value":"lit","label":"Lit"}]' style="max-width: 16rem;"></ui-select>
-      <pre class="demo-code"><code>&lt;ui-select placeholder="Pick a framework"
+      <n-select placeholder="Pick a framework" options='[{"value":"react","label":"React"},{"value":"vue","label":"Vue"},{"value":"svelte","label":"Svelte"},{"value":"lit","label":"Lit"}]' style="max-width: 16rem;"></n-select>
+      <pre class="demo-code"><code>&lt;n-select placeholder="Pick a framework"
   options='[
     {"value":"react","label":"React"},
     {"value":"vue","label":"Vue"},
     {"value":"svelte","label":"Svelte"}
-  ]'&gt;&lt;/ui-select&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+  ]'&gt;&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── API Reference ── -->
@@ -191,7 +191,7 @@ popover.syncPopover(open.value);</code><ui-button class="copy-btn" size="sm" var
         <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>ui-dismiss</code></td>
+            <td><code>native:dismiss</code></td>
             <td>—</td>
             <td>Inherited from Dismissable. Fired when click-outside or Escape occurs while the popover is the topmost layer.</td>
           </tr>
@@ -216,7 +216,7 @@ popover.syncPopover(open.value);</code><ui-button class="copy-btn" size="sm" var
       </table>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
 
     <!-- Script 1: Register all traits BEFORE any component define() -->
     <script type="module">
@@ -226,11 +226,11 @@ popover.syncPopover(open.value);</code><ui-button class="copy-btn" size="sm" var
 
     <!-- Script 2: Import components (runs after traits are registered) -->
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../components/ui-select/ui-select.ts';
-      import '../components/ui-controller/ui-controller.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../components/select/select.ts';
+      import '../components/controller/controller.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
       import '../icons/phosphor/caret-up-down.ts';
@@ -242,7 +242,7 @@ popover.syncPopover(open.value);</code><ui-button class="copy-btn" size="sm" var
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
@@ -261,11 +261,11 @@ popover.syncPopover(open.value);</code><ui-button class="copy-btn" size="sm" var
 
         popover.wirePopover(trigger, content);
 
-        trigger.addEventListener('ui-press', () => {
+        trigger.addEventListener('native:press', () => {
           open.value = !open.value;
         });
 
-        host.addEventListener('ui-dismiss', () => {
+        host.addEventListener('native:dismiss', () => {
           open.value = false;
         });
 

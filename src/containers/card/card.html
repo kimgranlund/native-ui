@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-card — Container Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-card&gt;</h1>
+    <p class="demo-desc">
+      Bounded content surface with optional header, body, and footer.
+    </p>
+
+    <!-- ── Simple ── -->
+
+    <h2>Simple</h2>
+    <div class="demo-section">
+      <n-card style="max-width: 24rem;">
+        <p>A simple card with just body content. No header or footer.</p>
+      </n-card>
+    <pre class="demo-code"><code>&lt;n-card&gt;
+  &lt;p&gt;A simple card with just body content.&lt;/p&gt;
+&lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Structured ── -->
+
+    <h2>Structured (header + body + footer)</h2>
+    <div class="demo-section">
+      <n-card style="max-width: 24rem;">
+        <n-card-header>
+          <span slot="label">Card Title</span>
+          <n-button slot="trailing" variant="ghost"><n-icon name="dots-three"></n-icon></n-button>
+        </n-card-header>
+        <n-card-body>
+          <p>Card body content goes here. This demonstrates the structured layout with header, body, and footer sections.</p>
+        </n-card-body>
+        <n-card-footer>
+          <n-button variant="ghost"><span slot="label">Cancel</span></n-button>
+          <n-button variant="primary" intent="accent"><span slot="label">Save</span></n-button>
+        </n-card-footer>
+      </n-card>
+    <pre class="demo-code"><code>&lt;n-card&gt;
+  &lt;n-card-header&gt;
+    &lt;span slot="label"&gt;Card Title&lt;/span&gt;
+    &lt;n-button slot="trailing" variant="ghost"&gt;...&lt;/n-button&gt;
+  &lt;/n-card-header&gt;
+  &lt;n-card-body&gt;
+    &lt;p&gt;Card body content goes here.&lt;/p&gt;
+  &lt;/n-card-body&gt;
+  &lt;n-card-footer&gt;
+    &lt;n-button variant="ghost"&gt;Cancel&lt;/n-button&gt;
+    &lt;n-button variant="primary" intent="accent"&gt;Save&lt;/n-button&gt;
+  &lt;/n-card-footer&gt;
+&lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Media ── -->
+
+    <h2>With Media</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-card style="max-width: 18rem;">
+          <div slot="media" style="height: 10rem; background: linear-gradient(135deg, var(--n-surface-accent), var(--n-surface-info));"></div>
+          <n-card-body>
+            <h3 style="margin: 0 0 0.25rem; text-transform: none; letter-spacing: 0; color: inherit;">Product Name</h3>
+            <p class="demo-text-sm">A short description of the product.</p>
+          </n-card-body>
+          <n-card-footer>
+            <n-button variant="primary" intent="accent" size="sm"><span slot="label">Buy Now</span></n-button>
+          </n-card-footer>
+        </n-card>
+        <n-card style="max-width: 18rem;">
+          <div slot="media" style="height: 10rem; background: linear-gradient(135deg, var(--n-surface-success), var(--n-surface-warning));"></div>
+          <n-card-body>
+            <h3 style="margin: 0 0 0.25rem; text-transform: none; letter-spacing: 0; color: inherit;">Another Product</h3>
+            <p class="demo-text-sm">Another description text.</p>
+          </n-card-body>
+          <n-card-footer>
+            <n-button variant="primary" intent="accent" size="sm"><span slot="label">Buy Now</span></n-button>
+          </n-card-footer>
+        </n-card>
+      </div>
+      <pre class="demo-code"><code>&lt;n-card&gt;
+  &lt;div slot="media" style="height: 10rem; background: ..."&gt;&lt;/div&gt;
+  &lt;n-card-body&gt;
+    &lt;h3&gt;Product Name&lt;/h3&gt;
+    &lt;p&gt;A short description.&lt;/p&gt;
+  &lt;/n-card-body&gt;
+  &lt;n-card-footer&gt;
+    &lt;n-button variant="primary" intent="accent" size="sm"&gt;Buy Now&lt;/n-button&gt;
+  &lt;/n-card-footer&gt;
+&lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Header with Slots ── -->
+
+    <h2>Header with Leading & Trailing</h2>
+    <div class="demo-section">
+      <n-card style="max-width: 28rem;">
+        <n-card-header>
+          <n-badge slot="leading" intent="accent">New</n-badge>
+          <span slot="label">Card with Actions</span>
+          <n-button slot="trailing" variant="ghost"><n-icon name="dots-three"></n-icon></n-button>
+        </n-card-header>
+        <n-card-body>
+          <p>The header uses a 3-column grid: leading / label / trailing. The card adds contextual divider borders automatically.</p>
+        </n-card-body>
+        <n-card-footer justify="spread">
+          <n-button variant="ghost"><span slot="label">Cancel</span></n-button>
+          <n-button variant="primary" intent="accent"><span slot="label">Save</span></n-button>
+        </n-card-footer>
+      </n-card>
+    <pre class="demo-code"><code>&lt;n-card&gt;
+  &lt;n-card-header&gt;
+    &lt;n-badge slot="leading" intent="accent"&gt;New&lt;/n-badge&gt;
+    &lt;span slot="label"&gt;Card with Actions&lt;/span&gt;
+    &lt;n-button slot="trailing" variant="ghost"&gt;...&lt;/n-button&gt;
+  &lt;/n-card-header&gt;
+  &lt;n-card-body&gt;...&lt;/n-card-body&gt;
+  &lt;n-card-footer justify="spread"&gt;
+    &lt;n-button variant="ghost"&gt;Cancel&lt;/n-button&gt;
+    &lt;n-button variant="primary" intent="accent"&gt;Save&lt;/n-button&gt;
+  &lt;/n-card-footer&gt;
+&lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Interactive ── -->
+
+    <h2>Interactive</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-card interactive style="max-width: 16rem;">
+          <p>Click this card. It has hover and focus states.</p>
+        </n-card>
+        <n-card interactive style="max-width: 16rem;">
+          <p>Another interactive card. Tab to focus.</p>
+        </n-card>
+      </div>
+      <pre class="demo-code"><code>&lt;n-card interactive&gt;
+  &lt;p&gt;Click this card. It has hover and focus states.&lt;/p&gt;
+&lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes (inherit from parent)</h2>
+    <div class="demo-section">
+      <h3>size="sm"</h3>
+      <n-card size="sm" style="max-width: 20rem;">
+        <n-card-header><span slot="label">Small Card</span></n-card-header>
+        <n-card-body><p>Compact padding.</p></n-card-body>
+      </n-card>
+      <h3>size="lg"</h3>
+      <n-card size="lg" style="max-width: 20rem;">
+        <n-card-header><span slot="label">Large Card</span></n-card-header>
+        <n-card-body><p>Spacious padding.</p></n-card-body>
+      </n-card>
+    <pre class="demo-code"><code>&lt;n-card size="sm"&gt;
+  &lt;n-card-header&gt;&lt;span slot="label"&gt;Small Card&lt;/span&gt;&lt;/n-card-header&gt;
+  &lt;n-card-body&gt;&lt;p&gt;Compact padding.&lt;/p&gt;&lt;/n-card-body&gt;
+&lt;/n-card&gt;
+
+&lt;n-card size="lg"&gt;
+  &lt;n-card-header&gt;&lt;span slot="label"&gt;Large Card&lt;/span&gt;&lt;/n-card-header&gt;
+  &lt;n-card-body&gt;&lt;p&gt;Spacious padding.&lt;/p&gt;&lt;/n-card-body&gt;
+&lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Grid Composition ── -->
+
+    <h2>Grid Composition</h2>
+    <div class="demo-section">
+      <n-grid cols="3" gap="4">
+        <n-card>
+          <n-card-header><span slot="label">Revenue</span></n-card-header>
+          <n-card-body><p style="margin: 0; font-size: 1.5rem; font-weight: 700;">$45,231</p></n-card-body>
+        </n-card>
+        <n-card>
+          <n-card-header><span slot="label">Users</span></n-card-header>
+          <n-card-body><p style="margin: 0; font-size: 1.5rem; font-weight: 700;">2,350</p></n-card-body>
+        </n-card>
+        <n-card>
+          <n-card-header><span slot="label">Conversion</span></n-card-header>
+          <n-card-body><p style="margin: 0; font-size: 1.5rem; font-weight: 700;">3.2%</p></n-card-body>
+        </n-card>
+      </n-grid>
+    <pre class="demo-code"><code>&lt;n-grid cols="3" gap="4"&gt;
+  &lt;n-card&gt;
+    &lt;n-card-header&gt;&lt;span slot="label"&gt;Revenue&lt;/span&gt;&lt;/n-card-header&gt;
+    &lt;n-card-body&gt;&lt;p&gt;$45,231&lt;/p&gt;&lt;/n-card-body&gt;
+  &lt;/n-card&gt;
+  &lt;n-card&gt;...&lt;/n-card&gt;
+  &lt;n-card&gt;...&lt;/n-card&gt;
+&lt;/n-grid&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './card.ts';
+      import '../../components/button/button.ts';
+      import '../../components/badge/badge.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/dots-three.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

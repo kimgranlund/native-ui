@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
@@ -27,7 +27,7 @@
         font-size: 1rem;
         font-weight: 700;
         margin: 0;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 
       .profile-header {
@@ -52,7 +52,7 @@
 
       .profile-meta {
         font-size: 0.875rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         margin-top: 0.25rem;
       }
 
@@ -82,7 +82,7 @@
       .detail-label {
         font-size: 0.75rem;
         font-weight: 500;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         text-transform: uppercase;
         letter-spacing: 0.03em;
       }
@@ -96,7 +96,7 @@
         display: flex;
         gap: 0.75rem;
         padding: 0.75rem 0;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
         font-size: 0.875rem;
       }
 
@@ -118,7 +118,7 @@
       }
 
       .activity-time {
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         font-size: 0.75rem;
       }
 
@@ -127,7 +127,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 0.75rem 0;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
       }
 
       .settings-row:last-child {
@@ -141,58 +141,58 @@
 
       .settings-description {
         font-size: 0.75rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
       }
     </style>
   </head>
   <body>
-    <nui-app><main>
-    <ui-stack gap="6">
+    <n-app><main>
+    <n-stack gap="6">
 
     <!-- ── Breadcrumb ── -->
-    <ui-breadcrumb>
-      <ui-breadcrumb-item href="/">Dashboard</ui-breadcrumb-item>
-      <ui-breadcrumb-item href="/users">Users</ui-breadcrumb-item>
-      <ui-breadcrumb-item current>Kim Granlund</ui-breadcrumb-item>
-    </ui-breadcrumb>
+    <n-breadcrumb>
+      <n-breadcrumb-item href="/">Dashboard</n-breadcrumb-item>
+      <n-breadcrumb-item href="/users">Users</n-breadcrumb-item>
+      <n-breadcrumb-item current>Kim Granlund</n-breadcrumb-item>
+    </n-breadcrumb>
 
     <!-- ── Profile Header ── -->
-    <ui-card>
+    <n-card>
       <div class="profile-header">
-        <ui-avatar name="Kim Granlund" size="xl" intent="accent"></ui-avatar>
+        <n-avatar name="Kim Granlund" size="xl" intent="accent"></n-avatar>
         <div class="profile-info">
           <div class="profile-name">
             Kim Granlund
-            <ui-badge intent="success">Active</ui-badge>
+            <n-badge intent="success">Active</n-badge>
           </div>
           <div class="profile-meta">Senior Product Designer &middot; Design Team &middot; Joined Mar 2023</div>
         </div>
         <div class="profile-actions">
-          <ui-button size="sm">
-            <ui-icon name="pencil-simple" slot="leading"></ui-icon>
+          <n-button size="sm">
+            <n-icon name="pencil-simple" slot="leading"></n-icon>
             <span slot="label">Edit</span>
-          </ui-button>
-          <ui-button size="sm" intent="danger">
-            <ui-icon name="trash" slot="leading"></ui-icon>
+          </n-button>
+          <n-button size="sm" intent="danger">
+            <n-icon name="trash" slot="leading"></n-icon>
             <span slot="label">Delete</span>
-          </ui-button>
+          </n-button>
         </div>
       </div>
-    </ui-card>
+    </n-card>
 
     <!-- ── Tabs ── -->
-    <ui-tabs value="overview">
-      <ui-tab value="overview">Overview</ui-tab>
-      <ui-tab value="activity">Activity</ui-tab>
-      <ui-tab value="settings">Settings</ui-tab>
+    <n-tabs value="overview">
+      <n-tab value="overview">Overview</n-tab>
+      <n-tab value="activity">Activity</n-tab>
+      <n-tab value="settings">Settings</n-tab>
 
       <!-- ── Overview Panel ── -->
-      <ui-tab-panel value="overview">
-        <ui-stack gap="4">
+      <n-tab-panel value="overview">
+        <n-stack gap="4">
         <div class="detail-grid">
-          <ui-card>
+          <n-card>
             <h2>Personal Information</h2>
-            <ui-stack gap="3">
+            <n-stack gap="3">
               <div class="detail-item">
                 <span class="detail-label">Full Name</span>
                 <span class="detail-value">Kim Granlund</span>
@@ -209,12 +209,12 @@
                 <span class="detail-label">Location</span>
                 <span class="detail-value">San Francisco, CA</span>
               </div>
-            </ui-stack>
-          </ui-card>
+            </n-stack>
+          </n-card>
 
-          <ui-card>
+          <n-card>
             <h2>Work Information</h2>
-            <ui-stack gap="3">
+            <n-stack gap="3">
               <div class="detail-item">
                 <span class="detail-label">Department</span>
                 <span class="detail-value">Design</span>
@@ -231,56 +231,56 @@
                 <span class="detail-label">Employee ID</span>
                 <span class="detail-value">EMP-2023-0472</span>
               </div>
-            </ui-stack>
-          </ui-card>
+            </n-stack>
+          </n-card>
         </div>
 
         <!-- ── Recent Projects ── -->
-        <ui-card>
+        <n-card>
           <h2>Recent Projects</h2>
-          <ui-table style="grid-template-columns: 2fr 1fr 100px 100px;">
-            <ui-table-head>
-              <ui-table-row>
-                <ui-table-header>Project</ui-table-header>
-                <ui-table-header>Team</ui-table-header>
-                <ui-table-header>Status</ui-table-header>
-                <ui-table-header>Hours</ui-table-header>
-              </ui-table-row>
-            </ui-table-head>
-            <ui-table-body>
-              <ui-table-row>
-                <ui-table-cell>Design System v3.0</ui-table-cell>
-                <ui-table-cell>Platform</ui-table-cell>
-                <ui-table-cell><ui-badge intent="success">Active</ui-badge></ui-table-cell>
-                <ui-table-cell>142</ui-table-cell>
-              </ui-table-row>
-              <ui-table-row>
-                <ui-table-cell>Mobile App Redesign</ui-table-cell>
-                <ui-table-cell>Mobile</ui-table-cell>
-                <ui-table-cell><ui-badge intent="info">In Review</ui-badge></ui-table-cell>
-                <ui-table-cell>86</ui-table-cell>
-              </ui-table-row>
-              <ui-table-row>
-                <ui-table-cell>Dashboard Analytics</ui-table-cell>
-                <ui-table-cell>Data</ui-table-cell>
-                <ui-table-cell><ui-badge>Completed</ui-badge></ui-table-cell>
-                <ui-table-cell>64</ui-table-cell>
-              </ui-table-row>
-              <ui-table-row>
-                <ui-table-cell>Onboarding Flow</ui-table-cell>
-                <ui-table-cell>Growth</ui-table-cell>
-                <ui-table-cell><ui-badge>Completed</ui-badge></ui-table-cell>
-                <ui-table-cell>38</ui-table-cell>
-              </ui-table-row>
-            </ui-table-body>
-          </ui-table>
-        </ui-card>
-        </ui-stack>
-      </ui-tab-panel>
+          <n-table style="grid-template-columns: 2fr 1fr 100px 100px;">
+            <n-table-head>
+              <n-table-row>
+                <n-table-header>Project</n-table-header>
+                <n-table-header>Team</n-table-header>
+                <n-table-header>Status</n-table-header>
+                <n-table-header>Hours</n-table-header>
+              </n-table-row>
+            </n-table-head>
+            <n-table-body>
+              <n-table-row>
+                <n-table-cell>Design System v3.0</n-table-cell>
+                <n-table-cell>Platform</n-table-cell>
+                <n-table-cell><n-badge intent="success">Active</n-badge></n-table-cell>
+                <n-table-cell>142</n-table-cell>
+              </n-table-row>
+              <n-table-row>
+                <n-table-cell>Mobile App Redesign</n-table-cell>
+                <n-table-cell>Mobile</n-table-cell>
+                <n-table-cell><n-badge intent="info">In Review</n-badge></n-table-cell>
+                <n-table-cell>86</n-table-cell>
+              </n-table-row>
+              <n-table-row>
+                <n-table-cell>Dashboard Analytics</n-table-cell>
+                <n-table-cell>Data</n-table-cell>
+                <n-table-cell><n-badge>Completed</n-badge></n-table-cell>
+                <n-table-cell>64</n-table-cell>
+              </n-table-row>
+              <n-table-row>
+                <n-table-cell>Onboarding Flow</n-table-cell>
+                <n-table-cell>Growth</n-table-cell>
+                <n-table-cell><n-badge>Completed</n-badge></n-table-cell>
+                <n-table-cell>38</n-table-cell>
+              </n-table-row>
+            </n-table-body>
+          </n-table>
+        </n-card>
+        </n-stack>
+      </n-tab-panel>
 
       <!-- ── Activity Panel ── -->
-      <ui-tab-panel value="activity">
-        <ui-card>
+      <n-tab-panel value="activity">
+        <n-card>
           <h2>Recent Activity</h2>
           <div class="activity-item">
             <span class="activity-dot"></span>
@@ -331,109 +331,109 @@
               <span class="activity-time">Feb 15, 2026</span>
             </div>
           </div>
-        </ui-card>
-      </ui-tab-panel>
+        </n-card>
+      </n-tab-panel>
 
       <!-- ── Settings Panel ── -->
-      <ui-tab-panel value="settings">
-        <ui-stack gap="4">
+      <n-tab-panel value="settings">
+        <n-stack gap="4">
         <div class="detail-grid">
-          <ui-card>
+          <n-card>
             <h2>Notifications</h2>
             <div class="settings-row">
               <div>
                 <div class="settings-label">Email notifications</div>
                 <div class="settings-description">Receive email updates about activity</div>
               </div>
-              <ui-switch checked></ui-switch>
+              <n-switch checked></n-switch>
             </div>
             <div class="settings-row">
               <div>
                 <div class="settings-label">Push notifications</div>
                 <div class="settings-description">Receive push notifications on your device</div>
               </div>
-              <ui-switch checked></ui-switch>
+              <n-switch checked></n-switch>
             </div>
             <div class="settings-row">
               <div>
                 <div class="settings-label">Weekly digest</div>
                 <div class="settings-description">Get a weekly summary of activity</div>
               </div>
-              <ui-switch></ui-switch>
+              <n-switch></n-switch>
             </div>
-          </ui-card>
+          </n-card>
 
-          <ui-card>
+          <n-card>
             <h2>Security</h2>
             <div class="settings-row">
               <div>
                 <div class="settings-label">Two-factor authentication</div>
                 <div class="settings-description">Add an extra layer of security</div>
               </div>
-              <ui-button size="xs">
+              <n-button size="xs">
                 <span slot="label">Enable</span>
-              </ui-button>
+              </n-button>
             </div>
             <div class="settings-row">
               <div>
                 <div class="settings-label">Password</div>
                 <div class="settings-description">Last changed 30 days ago</div>
               </div>
-              <ui-button size="xs">
+              <n-button size="xs">
                 <span slot="label">Change</span>
-              </ui-button>
+              </n-button>
             </div>
             <div class="settings-row">
               <div>
                 <div class="settings-label">Active sessions</div>
                 <div class="settings-description">2 devices currently signed in</div>
               </div>
-              <ui-button size="xs">
+              <n-button size="xs">
                 <span slot="label">Manage</span>
-              </ui-button>
+              </n-button>
             </div>
-          </ui-card>
+          </n-card>
         </div>
 
-        <ui-card>
-          <h2 style="color: var(--danger-ink-strong);">Danger Zone</h2>
+        <n-card>
+          <h2 style="color: var(--n-ink-strong-danger);">Danger Zone</h2>
           <div class="settings-row">
             <div>
               <div class="settings-label">Deactivate account</div>
               <div class="settings-description">Temporarily disable this user's access to the platform</div>
             </div>
-            <ui-button size="xs" intent="danger">
+            <n-button size="xs" intent="danger">
               <span slot="label">Deactivate</span>
-            </ui-button>
+            </n-button>
           </div>
           <div class="settings-row">
             <div>
               <div class="settings-label">Delete account</div>
               <div class="settings-description">Permanently remove this user and all associated data</div>
             </div>
-            <ui-button variant="primary" size="xs" intent="danger">
-              <ui-icon name="trash" slot="leading"></ui-icon>
+            <n-button variant="primary" size="xs" intent="danger">
+              <n-icon name="trash" slot="leading"></n-icon>
               <span slot="label">Delete Account</span>
-            </ui-button>
+            </n-button>
           </div>
-        </ui-card>
-        </ui-stack>
-      </ui-tab-panel>
-    </ui-tabs>
-    </ui-stack>
+        </n-card>
+        </n-stack>
+      </n-tab-panel>
+    </n-tabs>
+    </n-stack>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-breadcrumb/ui-breadcrumb.ts';
-      import '../../../components/ui-avatar/ui-avatar.ts';
-      import '../../../components/ui-badge/ui-badge.ts';
-      import '../../../components/ui-tabs/ui-tabs.ts';
-      import '../../../components/ui-table/ui-table.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../components/ui-switch/ui-switch.ts';
-      import '../../../containers/ui-card/ui-card.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/breadcrumb/breadcrumb.ts';
+      import '../../../components/avatar/avatar.ts';
+      import '../../../components/badge/badge.ts';
+      import '../../../components/tabs/tabs.ts';
+      import '../../../components/table/table.ts';
+      import '../../../components/button/button.ts';
+      import '../../../components/switch/switch.ts';
+      import '../../../containers/card/card.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/pencil-simple.ts';
       import '../../../icons/phosphor/trash.ts';
     </script>

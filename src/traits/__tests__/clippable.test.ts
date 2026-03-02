@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi, beforeEach } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { ClipboardController } from '../clipboard-controller.ts';
 import { define } from '../../core/define.ts';
 
@@ -23,7 +23,7 @@ beforeEach(() => {
 
 // ── Trait tests ──
 
-class ClipTestEl extends UIElement {
+class ClipTestEl extends NativeElement {
   disabled = false;
   #ctrl: ClipboardController | null = null;
 
@@ -97,7 +97,7 @@ describe('Clippable', () => {
     const el = create();
     selectItems(el, [0, 2]);
     const handler = vi.fn();
-    el.addEventListener('ui-clip-copy', handler);
+    el.addEventListener('native:clip-copy', handler);
     const data = await el.clipCopy();
     expect(mockWriteText).toHaveBeenCalled();
     expect(data).toContain('Item 0');
@@ -109,17 +109,17 @@ describe('Clippable', () => {
     const el = create();
     selectItems(el, [1]);
     const handler = vi.fn();
-    el.addEventListener('ui-clip-cut', handler);
+    el.addEventListener('native:clip-cut', handler);
     await el.clipCut();
     expect(items(el)[1].hasAttribute('clip-cut')).toBe(true);
     expect(handler).toHaveBeenCalledTimes(1);
   });
 
-  it('clipPaste reads from clipboard and dispatches ui-clip-paste', async () => {
+  it('clipPaste reads from clipboard and dispatches native:clip-paste', async () => {
     const el = create();
     clipboardText = 'pasted content';
     const handler = vi.fn();
-    el.addEventListener('ui-clip-paste', handler);
+    el.addEventListener('native:clip-paste', handler);
     const data = await el.clipPaste();
     expect(data).toBe('pasted content');
     expect(handler).toHaveBeenCalledTimes(1);
@@ -185,7 +185,7 @@ describe('ClipboardController', () => {
     const ctrl = new ClipboardController(host, { selector: '.item' });
     clipboardText = 'pasted text';
     const handler = vi.fn();
-    host.addEventListener('ui-clip-paste', handler);
+    host.addEventListener('native:clip-paste', handler);
     const data = await ctrl.paste();
     expect(data).toBe('pasted text');
     expect(handler).toHaveBeenCalledTimes(1);
@@ -236,7 +236,7 @@ describe('ClipboardController', () => {
     const ctrl = new ClipboardController(host, { selector: '.item' });
     items(host)[0].setAttribute('selected', '');
     const handler = vi.fn();
-    host.addEventListener('ui-clip-copy', handler);
+    host.addEventListener('native:clip-copy', handler);
     host.dispatchEvent(new KeyboardEvent('keydown', { key: 'c', ctrlKey: true, bubbles: true, cancelable: true }));
     // Wait for the async copy
     await new Promise(r => setTimeout(r, 0));
@@ -248,7 +248,7 @@ describe('ClipboardController', () => {
     const host = createHost();
     const ctrl = new ClipboardController(host, { selector: '.item' });
     const handler = vi.fn();
-    host.addEventListener('ui-clip-copy', handler);
+    host.addEventListener('native:clip-copy', handler);
     host.dispatchEvent(new KeyboardEvent('keydown', { key: 'c', ctrlKey: true, bubbles: true }));
     expect(handler).not.toHaveBeenCalled();
     ctrl.destroy();
@@ -260,7 +260,7 @@ describe('ClipboardController', () => {
     ctrl.detach();
     items(host)[0].setAttribute('selected', '');
     const handler = vi.fn();
-    host.addEventListener('ui-clip-copy', handler);
+    host.addEventListener('native:clip-copy', handler);
     host.dispatchEvent(new KeyboardEvent('keydown', { key: 'c', ctrlKey: true, bubbles: true }));
     expect(handler).not.toHaveBeenCalled();
     ctrl.destroy();

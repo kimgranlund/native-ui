@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-icon — Component Demo</title>
+    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/components.css" />
+    <link rel="stylesheet" href="../styles/demo.css" />
+    <style>
+.demo-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        align-items: start;
+      }
+
+      .demo-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .demo-col-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--n-ink-muted-neutral);
+      }
+
+      .icon-row {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .icon-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.75rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.375rem;
+        min-width: 5rem;
+      }
+
+      .icon-card-label {
+        font-size: 0.625rem;
+        color: var(--n-ink-muted-neutral);
+        font-family: ui-monospace, monospace;
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-icon&gt;</h1>
+    <p class="demo-desc">
+      Phosphor icon element with registry, late-registration, and accessibility support.
+    </p>
+
+    <!-- ── Basic Icons ── -->
+
+    <h2>Basic Icons</h2>
+    <div class="demo-section">
+      <div class="icon-row">
+        <div class="icon-card">
+          <n-icon name="house"></n-icon>
+          <span class="icon-card-label">house</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="gear"></n-icon>
+          <span class="icon-card-label">gear</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="bell"></n-icon>
+          <span class="icon-card-label">bell</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="magnifying-glass"></n-icon>
+          <span class="icon-card-label">magnifying-glass</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="heart"></n-icon>
+          <span class="icon-card-label">heart</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="star"></n-icon>
+          <span class="icon-card-label">star</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="check"></n-icon>
+          <span class="icon-card-label">check</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="x"></n-icon>
+          <span class="icon-card-label">x</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="trash"></n-icon>
+          <span class="icon-card-label">trash</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="pencil-simple"></n-icon>
+          <span class="icon-card-label">pencil-simple</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">xs (0.75rem)</span>
+          <n-icon name="house" size="xs"></n-icon>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">sm (0.875rem)</span>
+          <n-icon name="house" size="sm"></n-icon>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">md (1rem, default)</span>
+          <n-icon name="house" size="md"></n-icon>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">lg (1.125rem)</span>
+          <n-icon name="house" size="lg"></n-icon>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">xl (1.25rem)</span>
+          <n-icon name="house" size="xl"></n-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Color Inheritance ── -->
+
+    <h2>Color Inheritance</h2>
+    <div class="demo-section">
+      <div class="icon-row">
+        <span style="color: var(--n-ink-accent);">
+          <n-icon name="heart"></n-icon> Accent
+        </span>
+        <span style="color: var(--n-ink-success);">
+          <n-icon name="check-circle"></n-icon> Success
+        </span>
+        <span style="color: var(--n-ink-warning);">
+          <n-icon name="warning"></n-icon> Warning
+        </span>
+        <span style="color: var(--n-ink-danger);">
+          <n-icon name="x-circle"></n-icon> Danger
+        </span>
+        <span style="color: var(--n-ink-info);">
+          <n-icon name="info"></n-icon> Info
+        </span>
+      </div>
+    </div>
+
+    <!-- ── Accessibility ── -->
+
+    <h2>Accessibility</h2>
+    <div class="demo-section">
+      <h3>Decorative (default — aria-hidden="true")</h3>
+      <div class="icon-row">
+        <n-icon name="house"></n-icon>
+        <span style="font-size: 0.75rem; color: var(--n-ink-muted-neutral); font-family: ui-monospace, monospace;">
+          → aria-hidden="true", no role
+        </span>
+      </div>
+
+      <h3>Meaningful (aria-label present)</h3>
+      <div class="icon-row">
+        <n-icon name="check-circle" aria-label="Approved"></n-icon>
+        <span style="font-size: 0.75rem; color: var(--n-ink-muted-neutral); font-family: ui-monospace, monospace;">
+          → role="img", aria-label="Approved"
+        </span>
+      </div>
+    </div>
+
+    <!-- ── Inside Buttons ── -->
+
+    <h2>Inside Buttons</h2>
+    <div class="demo-section" intent="accent" size="sm">
+      <div class="icon-row">
+        <n-button variant="primary">
+          <n-icon name="plus"></n-icon>
+          <span slot="label">Add Item</span>
+        </n-button>
+        <n-button variant="secondary">
+          <n-icon name="pencil-simple"></n-icon>
+          <span slot="label">Edit</span>
+        </n-button>
+        <n-button variant="outline">
+          <n-icon name="trash"></n-icon>
+          <span slot="label">Delete</span>
+        </n-button>
+        <n-button variant="ghost" aria-label="Close">
+          <n-icon name="x"></n-icon>
+        </n-button>
+      </div>
+    </div>
+
+    <!-- ── Dynamic Name Change ── -->
+
+    <h2>Dynamic Name Change</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <n-icon id="dynamic-icon" name="house" size="xl"></n-icon>
+          <n-select id="icon-picker" size="sm">
+            <n-button justify="spread"><span slot="label">house</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+            <n-listbox popover>
+              <n-option value="house" selected>house</n-option>
+              <n-option value="gear">gear</n-option>
+              <n-option value="bell">bell</n-option>
+              <n-option value="heart">heart</n-option>
+              <n-option value="star">star</n-option>
+              <n-option value="magnifying-glass">magnifying-glass</n-option>
+              <n-option value="check">check</n-option>
+              <n-option value="x">x</n-option>
+            </n-listbox>
+          </n-select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Late Registration ── -->
+
+    <h2>Late Registration</h2>
+    <div class="demo-section">
+      <p class="demo-hint" style="margin-bottom: 0.5rem;">
+        The icon below has name="late-demo" but the icon hasn't been registered yet.
+        Click the button to register it dynamically.
+      </p>
+      <div class="icon-row" style="margin-bottom: 0.5rem;">
+        <n-icon id="late-icon" name="late-demo" size="xl"></n-icon>
+        <n-button id="register-btn" variant="secondary" size="sm">Register "late-demo" icon</n-button>
+      </div>
+      <div class="log" id="late-log"></div>
+    </div>
+
+    <!-- ── Navigation Icons ── -->
+
+    <h2>Navigation Icons</h2>
+    <div class="demo-section">
+      <div class="icon-row">
+        <div class="icon-card">
+          <n-icon name="caret-up"></n-icon>
+          <span class="icon-card-label">caret-up</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="caret-down"></n-icon>
+          <span class="icon-card-label">caret-down</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="caret-left"></n-icon>
+          <span class="icon-card-label">caret-left</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="caret-right"></n-icon>
+          <span class="icon-card-label">caret-right</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="arrow-up"></n-icon>
+          <span class="icon-card-label">arrow-up</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="arrow-down"></n-icon>
+          <span class="icon-card-label">arrow-down</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="arrow-left"></n-icon>
+          <span class="icon-card-label">arrow-left</span>
+        </div>
+        <div class="icon-card">
+          <n-icon name="arrow-right"></n-icon>
+          <span class="icon-card-label">arrow-right</span>
+        </div>
+      </div>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../nav/layout.ts';
+      import './icon.ts';
+      import '../components/button/button.ts';
+      import '../components/select/select.ts';
+      import '../components/listbox/listbox.ts';
+
+      // Register specific icons for the demo
+      import './phosphor/house.ts';
+      import './phosphor/gear.ts';
+      import './phosphor/bell.ts';
+      import './phosphor/magnifying-glass.ts';
+      import './phosphor/heart.ts';
+      import './phosphor/star.ts';
+      import './phosphor/check.ts';
+      import './phosphor/x.ts';
+      import './phosphor/trash.ts';
+      import './phosphor/pencil-simple.ts';
+      import './phosphor/plus.ts';
+      import './phosphor/caret-up.ts';
+      import './phosphor/caret-down.ts';
+      import './phosphor/caret-left.ts';
+      import './phosphor/caret-right.ts';
+      import './phosphor/arrow-up.ts';
+      import './phosphor/arrow-down.ts';
+      import './phosphor/arrow-left.ts';
+      import './phosphor/arrow-right.ts';
+      import './phosphor/caret-up-down.ts';
+      import './phosphor/check-circle.ts';
+      import './phosphor/warning.ts';
+      import './phosphor/x-circle.ts';
+      import './phosphor/info.ts';
+
+      // Dynamic name change
+      const dynamicIcon = document.getElementById('dynamic-icon');
+      const iconPicker = document.getElementById('icon-picker');
+      iconPicker.addEventListener('native:change', (e) => {
+        dynamicIcon.setAttribute('name', e.detail.value);
+      });
+
+      // Late registration demo
+      import { registerIcon } from './registry.ts';
+
+      const registerBtn = document.getElementById('register-btn');
+      const lateLog = document.getElementById('late-log');
+
+      function log(msg) {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = msg;
+        lateLog.prepend(entry);
+      }
+
+      log('n-icon[name="late-demo"] created — icon not yet registered, renders empty.');
+
+      registerBtn.addEventListener('native:press', () => {
+        registerIcon('late-demo', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>');
+        log('registerIcon("late-demo", ...) called — icon should now appear!');
+        registerBtn.disabled = true;
+      });
+    </script>
+  </body>
+</html>

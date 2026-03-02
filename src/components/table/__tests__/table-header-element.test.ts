@@ -1,0 +1,105 @@
+// @vitest-environment happy-dom
+import { describe, it, expect, afterEach, vi } from 'vitest';
+import '../table.ts';
+
+function createHeader(attrs: Record<string, string> = {}): HTMLElement {
+  const table = document.createElement('n-table');
+  const head = document.createElement('n-table-head');
+  const row = document.createElement('n-table-row');
+  const header = document.createElement('n-table-header');
+  for (const [k, v] of Object.entries(attrs)) {
+    header.setAttribute(k, v);
+  }
+  header.textContent = 'Name';
+  row.appendChild(header);
+  head.appendChild(row);
+  table.appendChild(head);
+  document.body.appendChild(table);
+  return header;
+}
+
+afterEach(() => {
+  document.body.innerHTML = '';
+});
+
+describe('n-table-header', () => {
+  it('is registered as a custom element', () => {
+    expect(customElements.get('n-table-header')).toBeDefined();
+  });
+
+  it('column getter reads attribute', () => {
+    const h = createHeader({ column: 'name' }) as any;
+    expect(h.column).toBe('name');
+  });
+
+  it('sortable getter reads attribute', () => {
+    const h = createHeader() as any;
+    expect(h.sortable).toBe(false);
+    h.setAttribute('sortable', '');
+    expect(h.sortable).toBe(true);
+  });
+
+  it('sort property reflects to attribute', () => {
+    const h = createHeader({ sortable: '' }) as any;
+    expect(h.sort).toBe('none');
+    h.sort = 'asc';
+    expect(h.getAttribute('sort')).toBe('asc');
+  });
+
+  it('sortable header gets tabindex=0', () => {
+    const h = createHeader({ sortable: '', column: 'name' });
+    expect(h.getAttribute('tabindex')).toBe('0');
+  });
+
+  it('non-sortable header has no tabindex', () => {
+    const h = createHeader({ column: 'name' });
+    expect(h.hasAttribute('tabindex')).toBe(false);
+  });
+
+  it('dispatches native:sort on click when sortable', () => {
+    const h = createHeader({ sortable: '', column: 'age' });
+    const handler = vi.fn();
+    h.addEventListener('native:sort', handler);
+
+    h.dispatchEvent(new Event('click'));
+    expect(handler).toHaveBeenCalledTimes(1);
+    expect(handler.mock.calls[0][0].detail.column).toBe('age');
+  });
+
+  it('does not dispatch native:sort on click when not sortable', () => {
+    const h = createHeader({ column: 'age' });
+    const handler = vi.fn();
+    h.addEventListener('native:sort', handler);
+
+    h.dispatchEvent(new Event('click'));
+    expect(handler).not.toHaveBeenCalled();
+  });
+
+  it('dispatches native:sort on Enter key', () => {
+    const h = createHeader({ sortable: '', column: 'name' });
+    const handler = vi.fn();
+    h.addEventListener('native:sort', handler);
+
+    h.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    expect(handler).toHaveBeenCalledTimes(1);
+  });
+
+  it('dispatches native:sort on Space key', () => {
+    const h = createHeader({ sortable: '', column: 'name' });
+    const handler = vi.fn();
+    h.addEventListener('native:sort', handler);
+
+    h.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+    expect(handler).toHaveBeenCalledTimes(1);
+  });
+
+  it('native:sort event bubbles and is composed', () => {
+    const h = createHeader({ sortable: '', column: 'x' });
+    let event: CustomEvent | null = null;
+    h.addEventListener('native:sort', (e) => { event = e as CustomEvent; });
+
+    h.dispatchEvent(new Event('click'));
+    expect(event!.bubbles).toBe(true);
+    expect(event!.composed).toBe(true);
+  });
+});

@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-switch — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+.demo-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-switch&gt;</h1>
+    <p class="demo-desc">
+      Toggle switch with Pressable trait, form association, and sliding thumb animation.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <div class="demo-section">
+      <div class="demo-col">
+        <n-switch>Airplane mode</n-switch>
+        <n-switch checked>Dark mode</n-switch>
+        <n-switch>Notifications</n-switch>
+      </div>
+      <pre class="demo-code"><code>&lt;n-switch&gt;Airplane mode&lt;/n-switch&gt;
+&lt;n-switch checked&gt;Dark mode&lt;/n-switch&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span class="demo-label">xs</span>
+        <n-switch size="xs" checked>Extra small</n-switch>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">sm</span>
+        <n-switch size="sm" checked>Small</n-switch>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">md</span>
+        <n-switch size="md" checked>Medium</n-switch>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">lg</span>
+        <n-switch size="lg" checked>Large</n-switch>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">xl</span>
+        <n-switch size="xl" checked>Extra large</n-switch>
+      </div>
+      <pre class="demo-code"><code>&lt;n-switch size="xs"&gt;Extra small&lt;/n-switch&gt;
+&lt;n-switch size="sm"&gt;Small&lt;/n-switch&gt;
+&lt;n-switch size="md"&gt;Medium&lt;/n-switch&gt;
+&lt;n-switch size="lg"&gt;Large&lt;/n-switch&gt;
+&lt;n-switch size="xl"&gt;Extra large&lt;/n-switch&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section">
+      <h3>compact</h3>
+      <div class="demo-col" density="compact">
+        <n-switch size="sm" checked>Small compact</n-switch>
+        <n-switch checked>Medium compact</n-switch>
+        <n-switch size="lg" checked>Large compact</n-switch>
+      </div>
+      <h3>default</h3>
+      <div class="demo-col">
+        <n-switch size="sm" checked>Small default</n-switch>
+        <n-switch checked>Medium default</n-switch>
+        <n-switch size="lg" checked>Large default</n-switch>
+      </div>
+      <h3>loose</h3>
+      <div class="demo-col" density="loose">
+        <n-switch size="sm" checked>Small loose</n-switch>
+        <n-switch checked>Medium loose</n-switch>
+        <n-switch size="lg" checked>Large loose</n-switch>
+      </div>
+      <pre class="demo-code"><code>&lt;div density="compact"&gt;
+  &lt;n-switch checked&gt;Compact&lt;/n-switch&gt;
+&lt;/div&gt;
+&lt;n-switch checked&gt;Default&lt;/n-switch&gt;
+&lt;div density="loose"&gt;
+  &lt;n-switch checked&gt;Loose&lt;/n-switch&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Intents ── -->
+
+    <h2>Intents</h2>
+    <div class="demo-section">
+      <div class="demo-col">
+        <n-switch intent="neutral" checked>Neutral</n-switch>
+        <n-switch intent="accent" checked>Accent</n-switch>
+        <n-switch intent="info" checked>Info</n-switch>
+        <n-switch intent="success" checked>Success</n-switch>
+        <n-switch intent="warning" checked>Warning</n-switch>
+        <n-switch intent="danger" checked>Danger</n-switch>
+      </div>
+      <pre class="demo-code"><code>&lt;n-switch intent="accent" checked&gt;Accent&lt;/n-switch&gt;
+&lt;n-switch intent="success" checked&gt;Success&lt;/n-switch&gt;
+&lt;n-switch intent="danger" checked&gt;Danger&lt;/n-switch&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section">
+      <div class="demo-col">
+        <n-switch disabled>Off disabled</n-switch>
+        <n-switch disabled checked>On disabled</n-switch>
+      </div>
+      <pre class="demo-code"><code>&lt;n-switch disabled&gt;Off disabled&lt;/n-switch&gt;
+&lt;n-switch disabled checked&gt;On disabled&lt;/n-switch&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Events ── -->
+
+    <h2>Change Events</h2>
+    <div class="demo-section">
+      <div class="demo-col">
+        <n-switch id="event-sw">Toggle me</n-switch>
+      </div>
+      <div class="log" id="event-log"></div>
+    <pre class="demo-code"><code>&lt;n-switch id="my-switch"&gt;Toggle me&lt;/n-switch&gt;
+
+&lt;script&gt;
+  document.getElementById('my-switch')
+    .addEventListener('native:change', (e) =&gt; {
+      console.log('checked:', e.detail.checked);
+    });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Form Association ── -->
+
+    <h2>Form Association</h2>
+    <div class="demo-section">
+      <form id="demo-form">
+        <div class="demo-col" style="margin-bottom: 1rem;">
+          <n-switch name="notifications" value="yes" checked>Enable notifications</n-switch>
+          <n-switch name="analytics" value="yes">Send analytics</n-switch>
+          <n-switch name="beta" value="yes">Beta features</n-switch>
+        </div>
+        <div class="demo-row">
+          <n-button variant="primary" type="submit"><span slot="label">Submit</span></n-button>
+          <n-button variant="secondary" type="reset"><span slot="label">Reset</span></n-button>
+        </div>
+      </form>
+      <div class="log" id="form-log"></div>
+    <pre class="demo-code"><code>&lt;form&gt;
+  &lt;n-switch name="notifications" value="yes" checked&gt;Enable notifications&lt;/n-switch&gt;
+  &lt;n-switch name="analytics" value="yes"&gt;Send analytics&lt;/n-switch&gt;
+  &lt;n-button variant="primary" type="submit"&gt;
+    &lt;span slot="label"&gt;Submit&lt;/span&gt;
+  &lt;/n-button&gt;
+&lt;/form&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Cascading ── -->
+
+    <h2>Cascading</h2>
+    <div class="demo-section">
+      <h3>Parent size="sm", intent="success"</h3>
+      <div class="demo-col" size="sm" intent="success">
+        <n-switch checked>Inherited sm success</n-switch>
+        <n-switch checked size="lg">Override lg</n-switch>
+        <n-switch checked intent="danger">Override danger</n-switch>
+      </div>
+      <pre class="demo-code"><code>&lt;div size="sm" intent="success"&gt;
+  &lt;n-switch checked&gt;Inherited sm success&lt;/n-switch&gt;
+  &lt;n-switch checked size="lg"&gt;Override lg&lt;/n-switch&gt;
+  &lt;n-switch checked intent="danger"&gt;Override danger&lt;/n-switch&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
+      </p>
+      <div class="demo-row">
+        <n-switch force-hover>Force hover</n-switch>
+        <n-switch force-hover checked>Force hover (checked)</n-switch>
+        <n-switch force-focus-visible>Force focus-visible</n-switch>
+        <n-switch force-focus-visible checked>Force focus-visible (checked)</n-switch>
+      </div>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './switch.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Change event logging
+      const eventSw = document.getElementById('event-sw');
+      const eventLog = document.getElementById('event-log');
+      let count = 0;
+
+      eventSw.addEventListener('native:change', (e) => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} native:change — checked: ${e.detail.checked}, value: "${e.detail.value}"`;
+        eventLog.prepend(entry);
+      });
+
+      // Form logging
+      const form = document.getElementById('demo-form');
+      const formLog = document.getElementById('form-log');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const entries = [...data.entries()].map(([k, v]) => `${k}=${v}`).join(', ');
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `submit — ${entries || '(empty)'}`;
+        formLog.prepend(entry);
+      });
+
+      form.addEventListener('reset', () => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = 'reset';
+        formLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

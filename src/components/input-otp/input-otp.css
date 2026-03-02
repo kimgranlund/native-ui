@@ -1,0 +1,109 @@
+@layer ui {
+
+  /* ── OTP Base ── */
+
+  :where(n-input-otp) {
+    --n-font-weight: var(--n-button-font-weight);
+    --n-line-height: var(--n-control-line-height);
+    --n-background: transparent;
+    --n-border-color: var(--n-border);
+    --n-border-color-hover: var(--n-border-hover);
+    --n-border-color-disabled: var(--n-border-disabled);
+    --n-color: var(--n-ink);
+    --n-color-disabled: var(--n-ink-disabled);
+
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+  }
+
+  /* ── Cell ── */
+
+  :where(n-input-otp) > :where(.n-otp-cell) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: var(--n-size);
+    height: var(--n-size);
+
+    font-size: var(--n-font-size);
+    font-weight: var(--n-font-weight);
+    line-height: var(--n-line-height);
+    letter-spacing: var(--n-letter-spacing);
+    color: var(--n-color);
+    text-align: center;
+
+    border: 1px solid var(--n-border-color);
+    border-radius: var(--n-radius);
+    background: var(--n-background);
+
+    cursor: text;
+    caret-color: transparent;
+    outline: none;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Cell hover ── */
+
+  :where(n-input-otp):not([aria-disabled="true"]) > :where(.n-otp-cell):hover,
+  :where(n-input-otp[force-hover]):not([aria-disabled="true"]) > :where(.n-otp-cell) {
+    border-color: var(--n-border-color-hover);
+  }
+
+  /* ── Cell focus ── */
+
+  :where(n-input-otp) > :where(.n-otp-cell):focus,
+  :where(n-input-otp[force-focus]) > :where(.n-otp-cell) {
+    border-color: var(--n-focus-ring);
+    outline: 1px solid var(--n-focus-ring);
+    outline-offset: 0;
+  }
+
+  /* ── Caret blink on focused empty cell ── */
+
+  :where(n-input-otp) > :where(.n-otp-cell[data-empty]):focus::after,
+  :where(n-input-otp[force-focus]) > :where(.n-otp-cell[data-empty])::after {
+    content: '';
+    width: 1px;
+    height: 1.2em;
+    background: var(--n-color);
+    animation: n-otp-blink 1s step-end infinite;
+  }
+
+  @keyframes n-otp-blink {
+    50% { opacity: 0; }
+  }
+
+  /* ── Mask mode ── */
+
+  :where(n-input-otp[mask]) > :where(.n-otp-cell:not([data-empty]))::after {
+    content: '';
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  :where(n-input-otp[mask]) > :where(.n-otp-cell) {
+    color: transparent;
+  }
+
+  /* ── Disabled ── */
+
+  :where(n-input-otp[aria-disabled="true"]) > :where(.n-otp-cell) {
+    color: var(--n-color-disabled);
+    border-color: var(--n-border-color-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  :where(n-input-otp[hidden]) { display: none; }
+
+}

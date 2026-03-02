@@ -2,7 +2,7 @@
 
 # ValidateController
 
-> Runs validation rules against a value and dispatches `ui-valid` or `ui-invalid` events.
+> Runs validation rules against a value and dispatches `native:valid` or `native:invalid` events.
 
 ## Constructor
 
@@ -28,8 +28,8 @@ new ValidateController(host: HTMLElement, options?: ValidateOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-invalid` | `{ message, value }` |
-| `ui-valid` | `{ value }` |
+| `native:invalid` | `{ message, value }` |
+| `native:valid` | `{ value }` |
 
 ## Methods
 

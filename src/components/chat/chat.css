@@ -1,0 +1,191 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  n-chat                                                 │
+     │  Chat application shell with header / content / input /  │
+     │  footer sub-containers. Fills its parent (n-app-panel   │
+     │  or any flex column).                                    │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  :where(n-chat) {
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    min-height: 0;
+    flex-direction: column;
+  }
+
+  /* ── Sub-container borders & spacing ── */
+
+  :where(n-chat) > :where(n-chat-header) {
+    border-bottom: 1px solid var(--n-border-muted);
+  }
+
+  :where(n-chat) > :where(n-chat-footer) {
+    border-top: 1px solid var(--n-border-muted);
+  }
+
+  /* Input inset: padding on the chat shell so the input floats inside */
+  :where(n-chat) > :where(n-chat-input) {
+    margin-inline: calc(var(--n-space-k) * var(--n-space));
+    margin-bottom: calc(var(--n-space-k) * var(--n-space));
+  }
+
+  /* ── n-chat-header ── */
+  /* Grid with leading / label / trailing slots. Mirrors n-card-header. */
+
+  :where(n-chat-header) {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    min-height: calc(var(--n-size) + var(--n-space) * 2);
+    padding-block: var(--n-space);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    font-weight: var(--n-button-font-weight);
+    color: var(--n-ink-strong);
+    min-width: 0;
+  }
+
+  :where(n-chat-header[compact]) {
+    min-height: var(--n-size);
+    padding-block: 0;
+  }
+
+  :where(n-chat-header):has(> [slot="leading"]):has(> [slot="trailing"]) {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  :where(n-chat-header):has(> [slot="leading"]):not(:has(> [slot="trailing"])) {
+    grid-template-columns: auto 1fr;
+  }
+
+  :where(n-chat-header):not(:has(> [slot="leading"])):has(> [slot="trailing"]) {
+    grid-template-columns: 1fr auto;
+  }
+
+  /* ── n-chat-content ── */
+  /* Scrollable message stream. Fills remaining space. */
+
+  :where(n-chat-content) {
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    min-height: 0;
+    flex-direction: column;
+    gap: calc(var(--n-space) * 2);
+    padding-block: var(--n-space);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  :where(n-chat-content)[show-scrollbar] {
+    scrollbar-width: thin;
+  }
+
+  /* ── n-chat-input ── */
+  /* Rounded surface containing textarea + actions row.
+     WHY: Single surface wraps everything — textarea fills the top,
+     actions row sits bottom-right. Compact mode lays out as a
+     single horizontal row. */
+
+  :where(n-chat-input) {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--n-control);
+    border: 1px solid var(--n-border-muted);
+    border-radius: var(--n-radius);
+  }
+
+  /* Compact: single row — textarea and actions side by side */
+  :where(n-chat-input[compact]) {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  /* Textarea inside input — transparent, borderless, fills space.
+     WHY: Override custom properties so all states (hover, filled, focus)
+     resolve to transparent. The wrapper provides the visual surface. */
+  :where(n-chat-input) > :where(n-textarea) {
+    --n-background: transparent;
+    --n-background-hover: transparent;
+    --n-background-active: transparent;
+    --n-border-color: transparent;
+    --n-border-color-hover: transparent;
+    --n-border-color-active: transparent;
+
+    border: none;
+    border-radius: 0;
+    resize: none;
+  }
+
+  :where(n-chat-input) > :where(n-textarea):not(:state(empty)),
+  :where(n-chat-input) > :where(n-textarea):not(:state(empty)):hover {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  :where(n-chat-input) > :where(n-textarea):focus {
+    border-color: transparent;
+    outline: none;
+  }
+
+  /* ── n-chat-input-attachments ── */
+  /* Optional attachment zone above the textarea. */
+
+  :where(n-chat-input-attachments) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--n-space) * 2);
+    padding-block: var(--n-space);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+  }
+
+  /* ── n-chat-input-actions ── */
+  /* Bottom action row: [+][model][mic][submit] — right-aligned. */
+
+  :where(n-chat-input-actions) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: calc(var(--n-space) * 2);
+    padding-block: var(--n-space);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    min-width: 0;
+  }
+
+  /* In compact mode, actions shrink-wrap with no extra padding */
+  :where(n-chat-input[compact]) > :where(n-chat-input-actions) {
+    flex: none;
+    padding-block: 0;
+    padding-inline-start: 0;
+  }
+
+  /* ── n-chat-footer ── */
+  /* Footer row — follows n-card-footer pattern. Hidden when empty. */
+
+  :where(n-chat-footer) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: calc(var(--n-space) * 2);
+    min-height: calc(var(--n-size) + var(--n-space) * 2);
+    padding-block: var(--n-space);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    min-width: 0;
+  }
+
+  :where(n-chat-footer[compact]) {
+    min-height: var(--n-size);
+    padding-block: 0;
+  }
+
+  :where(n-chat-footer):empty {
+    display: none;
+  }
+
+  :where(n-chat[hidden]) { display: none; }
+
+}

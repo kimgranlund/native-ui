@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-textarea — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+.demo-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .demo-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--n-ink-muted-neutral);
+        margin-bottom: 0.25rem;
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-textarea&gt;</h1>
+    <p class="demo-desc">
+      Multi-line text input with contenteditable, autogrow, rows presets, and maxlength.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <div class="demo-section">
+      <n-textarea placeholder="Tell us about yourself..."></n-textarea>
+        <pre class="demo-code"><code>&lt;n-textarea placeholder="Tell us about yourself..."&gt;&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── With Value ── -->
+
+    <h2>With Value</h2>
+    <div class="demo-section">
+      <n-textarea rows="4">This is a textarea with some initial content. It supports multi-line text editing with all the same styling as n-input.</n-textarea>
+        <pre class="demo-code"><code>&lt;n-textarea rows="4"&gt;Initial content here.&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Variants ── -->
+
+    <h2>Variants</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <div>
+          <div class="demo-label">secondary (default)</div>
+          <n-textarea placeholder="Secondary textarea"></n-textarea>
+        </div>
+        <div>
+          <div class="demo-label">outline</div>
+          <n-textarea variant="outline" placeholder="Outline textarea"></n-textarea>
+        </div>
+        <div>
+          <div class="demo-label">ghost</div>
+          <n-textarea variant="ghost" placeholder="Ghost textarea"></n-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-textarea placeholder="Secondary (default)"&gt;&lt;/n-textarea&gt;
+&lt;n-textarea variant="outline" placeholder="Outline"&gt;&lt;/n-textarea&gt;
+&lt;n-textarea variant="ghost" placeholder="Ghost"&gt;&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <div size="sm">
+          <div class="demo-label">sm</div>
+          <n-textarea placeholder="Small textarea"></n-textarea>
+        </div>
+        <div>
+          <div class="demo-label">md (default)</div>
+          <n-textarea placeholder="Medium textarea"></n-textarea>
+        </div>
+        <div size="lg">
+          <div class="demo-label">lg</div>
+          <n-textarea placeholder="Large textarea"></n-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;div size="sm"&gt;
+  &lt;n-textarea placeholder="Small"&gt;&lt;/n-textarea&gt;
+&lt;/div&gt;
+&lt;n-textarea placeholder="Medium (default)"&gt;&lt;/n-textarea&gt;
+&lt;div size="lg"&gt;
+  &lt;n-textarea placeholder="Large"&gt;&lt;/n-textarea&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <div density="compact">
+          <div class="demo-label">compact</div>
+          <n-textarea placeholder="Compact textarea"></n-textarea>
+        </div>
+        <div>
+          <div class="demo-label">default</div>
+          <n-textarea placeholder="Default textarea"></n-textarea>
+        </div>
+        <div density="loose">
+          <div class="demo-label">loose</div>
+          <n-textarea placeholder="Loose textarea"></n-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;div density="compact"&gt;
+  &lt;n-textarea placeholder="Compact"&gt;&lt;/n-textarea&gt;
+&lt;/div&gt;
+&lt;n-textarea placeholder="Default"&gt;&lt;/n-textarea&gt;
+&lt;div density="loose"&gt;
+  &lt;n-textarea placeholder="Loose"&gt;&lt;/n-textarea&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Rows ── -->
+
+    <h2>Rows</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <div>
+          <div class="demo-label">rows="1"</div>
+          <n-textarea rows="1" placeholder="Single line height"></n-textarea>
+        </div>
+        <div>
+          <div class="demo-label">rows="2"</div>
+          <n-textarea rows="2" placeholder="Two rows"></n-textarea>
+        </div>
+        <div>
+          <div class="demo-label">rows="3" (default)</div>
+          <n-textarea placeholder="Three rows (default)"></n-textarea>
+        </div>
+        <div>
+          <div class="demo-label">rows="5"</div>
+          <n-textarea rows="5" placeholder="Five rows"></n-textarea>
+        </div>
+        <div>
+          <div class="demo-label">rows="8"</div>
+          <n-textarea rows="8" placeholder="Eight rows"></n-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-textarea rows="1" placeholder="Single line"&gt;&lt;/n-textarea&gt;
+&lt;n-textarea rows="3" placeholder="Three rows (default)"&gt;&lt;/n-textarea&gt;
+&lt;n-textarea rows="5" placeholder="Five rows"&gt;&lt;/n-textarea&gt;
+&lt;n-textarea rows="8" placeholder="Eight rows"&gt;&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Autogrow ── -->
+
+    <h2>Autogrow</h2>
+    <div class="demo-section">
+      <n-textarea placeholder="Type here — grows as you type..." autogrow></n-textarea>
+        <pre class="demo-code"><code>&lt;n-textarea placeholder="Type here..." autogrow&gt;&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Maxlength ── -->
+
+    <h2>Maxlength</h2>
+    <div class="demo-section">
+      <n-textarea placeholder="Max 100 characters..." maxlength="100"></n-textarea>
+      <p class="demo-hint" style="margin-top: 0.5rem; margin-bottom: 0;">Limited to 100 characters. Excess input is truncated.</p>
+        <pre class="demo-code"><code>&lt;n-textarea placeholder="Max 100 characters..." maxlength="100"&gt;&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Intents ── -->
+
+    <h2>Intents</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <div intent="neutral">
+          <div class="demo-label">neutral</div>
+          <n-textarea placeholder="Neutral"></n-textarea>
+        </div>
+        <div intent="accent">
+          <div class="demo-label">accent</div>
+          <n-textarea placeholder="Accent"></n-textarea>
+        </div>
+        <div intent="info">
+          <div class="demo-label">info</div>
+          <n-textarea placeholder="Info"></n-textarea>
+        </div>
+        <div intent="success">
+          <div class="demo-label">success</div>
+          <n-textarea placeholder="Success"></n-textarea>
+        </div>
+        <div intent="warning">
+          <div class="demo-label">warning</div>
+          <n-textarea placeholder="Warning"></n-textarea>
+        </div>
+        <div intent="danger">
+          <div class="demo-label">danger</div>
+          <n-textarea placeholder="Danger"></n-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;div intent="accent"&gt;
+  &lt;n-textarea placeholder="Accent"&gt;&lt;/n-textarea&gt;
+&lt;/div&gt;
+&lt;div intent="success"&gt;
+  &lt;n-textarea placeholder="Success"&gt;&lt;/n-textarea&gt;
+&lt;/div&gt;
+&lt;div intent="danger"&gt;
+  &lt;n-textarea placeholder="Danger"&gt;&lt;/n-textarea&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Disabled & Readonly ── -->
+
+    <h2>Disabled &amp; Readonly</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <div>
+          <div class="demo-label">disabled</div>
+          <n-textarea disabled>This content cannot be edited.</n-textarea>
+        </div>
+        <div>
+          <div class="demo-label">readonly</div>
+          <n-textarea readonly>This content is read-only but selectable.</n-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-textarea disabled&gt;Cannot be edited.&lt;/n-textarea&gt;
+&lt;n-textarea readonly&gt;Read-only but selectable.&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Radius ── -->
+
+    <h2>Radius</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <div radius="sharp">
+          <div class="demo-label">sharp</div>
+          <n-textarea placeholder="Sharp radius"></n-textarea>
+        </div>
+        <div>
+          <div class="demo-label">default</div>
+          <n-textarea placeholder="Default radius"></n-textarea>
+        </div>
+        <div radius="round">
+          <div class="demo-label">round</div>
+          <n-textarea placeholder="Round radius"></n-textarea>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;div radius="sharp"&gt;
+  &lt;n-textarea placeholder="Sharp"&gt;&lt;/n-textarea&gt;
+&lt;/div&gt;
+&lt;n-textarea placeholder="Default"&gt;&lt;/n-textarea&gt;
+&lt;div radius="round"&gt;
+  &lt;n-textarea placeholder="Round"&gt;&lt;/n-textarea&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Events ── -->
+
+    <h2>Events</h2>
+    <div class="demo-section">
+      <n-textarea id="event-textarea" placeholder="Type to see events..."></n-textarea>
+      <div class="log" id="event-log"></div>
+    <pre class="demo-code"><code>&lt;n-textarea id="my-textarea" placeholder="Type..."&gt;&lt;/n-textarea&gt;
+
+&lt;script&gt;
+  const ta = document.getElementById('my-textarea');
+  ta.addEventListener('native:input', (e) =&gt; {
+    console.log('input:', e.detail.value);
+  });
+  ta.addEventListener('native:change', (e) =&gt; {
+    console.log('change:', e.detail.value);
+  });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Form Association ── -->
+
+    <h2>Form Association</h2>
+    <div class="demo-section">
+      <form id="demo-form">
+        <div class="demo-col" style="margin-bottom: 0.75rem;">
+          <n-textarea name="bio" placeholder="Write your bio..."></n-textarea>
+          <n-textarea name="notes" placeholder="Additional notes..." rows="2"></n-textarea>
+        </div>
+        <div class="demo-actions">
+          <n-button variant="primary" type="submit"><span slot="label">Submit</span></n-button>
+          <n-button variant="secondary" type="reset"><span slot="label">Reset</span></n-button>
+        </div>
+      </form>
+      <div class="log" id="form-log"></div>
+    <pre class="demo-code"><code>&lt;form&gt;
+  &lt;n-textarea name="bio" placeholder="Write your bio..."&gt;&lt;/n-textarea&gt;
+  &lt;n-button variant="primary" type="submit"&gt;
+    &lt;span slot="label"&gt;Submit&lt;/span&gt;
+  &lt;/n-button&gt;
+&lt;/form&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── With n-field ── -->
+
+    <h2>With n-field</h2>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-field>
+          <label slot="label">Bio</label>
+          <n-textarea placeholder="Tell us about yourself..."></n-textarea>
+        </n-field>
+        <n-field required>
+          <label slot="label">Feedback</label>
+          <n-textarea placeholder="Required field..." rows="4"></n-textarea>
+          <span slot="description">We appreciate your feedback.</span>
+        </n-field>
+        <n-field disabled>
+          <label slot="label">Locked</label>
+          <n-textarea>This field is disabled via n-field.</n-textarea>
+        </n-field>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-field&gt;
+  &lt;label slot="label"&gt;Bio&lt;/label&gt;
+  &lt;n-textarea placeholder="Tell us about yourself..."&gt;&lt;/n-textarea&gt;
+&lt;/n-field&gt;
+&lt;n-field required&gt;
+  &lt;label slot="label"&gt;Feedback&lt;/label&gt;
+  &lt;n-textarea placeholder="Required..." rows="4"&gt;&lt;/n-textarea&gt;
+  &lt;span slot="description"&gt;We appreciate your feedback.&lt;/span&gt;
+&lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
+      </p>
+      <div class="demo-row">
+        <div>
+          <div class="demo-label">force-hover</div>
+          <n-textarea force-hover placeholder="Force hover"></n-textarea>
+        </div>
+        <div>
+          <div class="demo-label">force-focus</div>
+          <n-textarea force-focus placeholder="Force focus"></n-textarea>
+        </div>
+      </div>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './textarea.ts';
+      import '../field/field.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Event logging
+      const eventTextarea = document.getElementById('event-textarea');
+      const eventLog = document.getElementById('event-log');
+      let count = 0;
+
+      eventTextarea.addEventListener('native:input', (e) => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} n-input — value: "${e.detail.value}"`;
+        eventLog.prepend(entry);
+      });
+
+      eventTextarea.addEventListener('native:change', (e) => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} native:change — value: "${e.detail.value}"`;
+        eventLog.prepend(entry);
+      });
+
+      // Form logging
+      const form = document.getElementById('demo-form');
+      const formLog = document.getElementById('form-log');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `submit — ${[...data.entries()].map(([k, v]) => `${k}: "${v}"`).join(', ')}`;
+        formLog.prepend(entry);
+      });
+
+      form.addEventListener('reset', () => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = 'reset';
+        formLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

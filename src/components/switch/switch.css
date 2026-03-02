@@ -1,0 +1,172 @@
+@layer ui {
+
+  /* ── Switch Base ── */
+
+  :where(n-switch) {
+    --n-font-weight: var(--n-text-font-weight);
+    --n-line-height: var(--n-control-line-height);
+
+    --n-track-width: calc(var(--n-widget-size) * 1.75);
+    --n-thumb-size: calc(var(--n-widget-size) - var(--n-space));
+    --n-thumb-offset: calc(var(--n-space) / 2);
+
+    /* Defaults: unchecked = muted outline variant */
+    --n-track-bg: var(--n-widget);
+    --n-track-bg-hover: var(--n-widget-hover);
+    --n-track-bg-active: var(--n-widget-active);
+    --n-track-bg-disabled: var(--n-widget-disabled);
+    --n-track-border: var(--n-border-muted);
+    --n-track-border-hover: var(--n-border-hover);
+    --n-track-border-active: var(--n-border-active);
+    --n-track-border-disabled: var(--n-border-disabled);
+    --n-thumb-bg: var(--n-ink-muted);
+    --n-thumb-bg-disabled: var(--n-border-disabled);
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    /* WHY: padding reserves space for the absolutely-positioned track */
+    padding-inline-start: calc(var(--n-track-width) + var(--n-space) * 2);
+    min-height: var(--n-widget-size);
+
+    font-size: var(--n-font-size);
+    letter-spacing: var(--n-letter-spacing);
+    line-height: var(--n-line-height);
+    font-weight: var(--n-font-weight);
+    color: var(--n-ink);
+
+    cursor: pointer;
+    user-select: none;
+
+    transition:
+      color var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Track (the pill-shaped container) ── */
+  /* WHY: Absolutely positioned so the text content flows naturally
+     after the padding-inline-start gap */
+
+  :where(n-switch)::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--n-track-width);
+    height: var(--n-widget-size);
+    border-radius: calc(var(--n-widget-size) / 2);
+    border: 1px solid var(--n-track-border);
+    background: var(--n-track-bg);
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Thumb (the sliding circle) — GPU composited via transform ── */
+  /* WHY: Positioned inside the track area, slides left/right on check.
+     Uses translateX for the slide so the animation stays on the compositor. */
+
+  :where(n-switch)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    inset-inline-start: var(--n-thumb-offset);
+    transform: translateY(-50%);
+    width: var(--n-thumb-size);
+    height: var(--n-thumb-size);
+    border-radius: 50%;
+    background: var(--n-thumb-bg);
+
+    transition:
+      transform var(--n-duration) var(--n-easing),
+      background var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Checked State ── */
+  /* WHY: Default checked fill uses accent so switch is visually distinct
+     without needing intent="accent". Unchecked track stays neutral.
+     When an explicit [intent] is set, the intent selector's --n-surface wins. */
+
+  :where(n-switch)[aria-checked="true"]::before {
+    background: var(--n-surface);
+    border-color: var(--n-surface);
+  }
+
+  :where(n-switch)[aria-checked="true"]::after {
+    /* Slide thumb to the right via translateX — GPU composited */
+    transform: translateY(-50%) translateX(calc(var(--n-track-width) - var(--n-thumb-size) - var(--n-thumb-offset) * 2));
+    background: var(--n-surface-ink);
+  }
+
+  /* ── Hover ── */
+
+  :where(n-switch):hover,
+  :where(n-switch)[force-hover] {
+    color: var(--n-ink-hover);
+  }
+
+  :where(n-switch):hover::before,
+  :where(n-switch)[force-hover]::before {
+    background: var(--n-track-bg-hover);
+    border-color: var(--n-track-border-hover);
+  }
+
+  :where(n-switch)[aria-checked="true"]:hover::before,
+  :where(n-switch)[aria-checked="true"][force-hover]::before {
+    background: var(--n-surface-hover);
+    border-color: var(--n-surface-hover);
+  }
+
+  /* ── Active (pressed) ── */
+
+  :where(n-switch)[pressed]::before,
+  :where(n-switch)[force-active]::before {
+    background: var(--n-track-bg-active);
+    border-color: var(--n-track-border-active);
+  }
+
+  :where(n-switch)[aria-checked="true"][pressed]::before,
+  :where(n-switch)[aria-checked="true"][force-active]::before {
+    background: var(--n-surface-active);
+    border-color: var(--n-surface-active);
+  }
+
+  /* ── Focus ── */
+
+  :where(n-switch):focus-visible::before,
+  :where(n-switch)[force-focus-visible]::before {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* ── Disabled ── */
+
+  :where(n-switch)[aria-disabled="true"] {
+    color: var(--n-ink-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  :where(n-switch)[aria-disabled="true"]::before {
+    background: var(--n-track-bg-disabled);
+    border-color: var(--n-track-border-disabled);
+  }
+
+  :where(n-switch)[aria-disabled="true"]::after {
+    background: var(--n-thumb-bg-disabled);
+  }
+
+  :where(n-switch)[aria-disabled="true"][aria-checked="true"]::before {
+    background: var(--n-surface-disabled);
+    border-color: var(--n-surface-disabled);
+  }
+
+  :where(n-switch)[aria-disabled="true"][aria-checked="true"]::after {
+    background: var(--n-surface-ink-disabled);
+  }
+
+}

@@ -3,7 +3,7 @@ export interface EditOptions {
   disabled?: boolean;
 }
 
-/** Enables inline text editing on the host element, dispatching `ui-edit-start` and `ui-edit-end`. */
+/** Enables inline text editing on the host element, dispatching `native:edit-start`, `native:edit-commit`, and `native:edit-cancel`. */
 export class EditController {
   readonly host: HTMLElement;
   trigger: 'click' | 'dblclick';
@@ -58,7 +58,7 @@ export class EditController {
       sel.selectAllChildren(this.host);
       sel.collapseToEnd();
     }
-    this.host.dispatchEvent(new CustomEvent('ui-edit-start', {
+    this.host.dispatchEvent(new CustomEvent('native:edit-start', {
       bubbles: true, composed: true,
       detail: { value: this.#originalValue },
     }));
@@ -70,7 +70,7 @@ export class EditController {
     this.#isEditing = false;
     this.host.removeAttribute('contenteditable');
     this.host.removeAttribute('editing');
-    this.host.dispatchEvent(new CustomEvent('ui-edit-commit', {
+    this.host.dispatchEvent(new CustomEvent('native:edit-commit', {
       bubbles: true, composed: true,
       detail: { value, previousValue: this.#originalValue },
     }));
@@ -83,7 +83,7 @@ export class EditController {
     this.#isEditing = false;
     this.host.removeAttribute('contenteditable');
     this.host.removeAttribute('editing');
-    this.host.dispatchEvent(new CustomEvent('ui-edit-cancel', {
+    this.host.dispatchEvent(new CustomEvent('native:edit-cancel', {
       bubbles: true, composed: true,
       detail: { value: this.#originalValue },
     }));

@@ -25,11 +25,11 @@ new DragController(host: HTMLElement, options?: DragOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-drag-start` | `{ item, index }` |
-| `ui-drag-move` | `{ item, x, y }` |
-| `ui-drag-over` | `{ item, target, index }` |
-| `ui-drop` | `{ item, fromIndex, toIndex, insertBefore }` |
-| `ui-drag-cancel` | `{ item }` |
+| `native:drag-start` | `{ item, index }` |
+| `native:drag-move` | `{ item, x, y }` |
+| `native:drag-over` | `{ item, target, index }` |
+| `native:drop` | `{ item, fromIndex, toIndex, insertBefore }` |
+| `native:drag-cancel` | `{ item }` |
 
 ## Methods
 

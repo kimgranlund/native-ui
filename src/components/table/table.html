@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-table — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 48rem;
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-table&gt;</h1>
+    <p class="demo-desc">
+      Data table with sortable columns and selectable rows. Uses CSS grid with <code>subgrid</code> for column alignment.
+    </p>
+
+    <!-- ── Basic Table ── -->
+
+    <h2>Basic Table</h2>
+    <div class="demo-section">
+      <n-table style="grid-template-columns: 1fr 1fr 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Name</n-table-header>
+            <n-table-header>Role</n-table-header>
+            <n-table-header>Status</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell>Alice Johnson</n-table-cell>
+            <n-table-cell>Engineer</n-table-cell>
+            <n-table-cell>Active</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Bob Smith</n-table-cell>
+            <n-table-cell>Designer</n-table-cell>
+            <n-table-cell>Active</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Carol White</n-table-cell>
+            <n-table-cell>Manager</n-table-cell>
+            <n-table-cell>Away</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    <pre class="demo-code"><code>&lt;n-table style="grid-template-columns: 1fr 1fr 1fr;"&gt;
+  &lt;n-table-head&gt;
+    &lt;n-table-row&gt;
+      &lt;n-table-header&gt;Name&lt;/n-table-header&gt;
+      &lt;n-table-header&gt;Role&lt;/n-table-header&gt;
+      &lt;n-table-header&gt;Status&lt;/n-table-header&gt;
+    &lt;/n-table-row&gt;
+  &lt;/n-table-head&gt;
+  &lt;n-table-body&gt;
+    &lt;n-table-row&gt;
+      &lt;n-table-cell&gt;Alice&lt;/n-table-cell&gt;
+      &lt;n-table-cell&gt;Engineer&lt;/n-table-cell&gt;
+      &lt;n-table-cell&gt;Active&lt;/n-table-cell&gt;
+    &lt;/n-table-row&gt;
+  &lt;/n-table-body&gt;
+&lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sortable Columns ── -->
+
+    <h2>Sortable Columns</h2>
+    <div class="demo-section">
+      <n-table id="sortable-table" style="grid-template-columns: 2fr 1fr 80px;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header sortable column="name">Name</n-table-header>
+            <n-table-header sortable column="language">Language</n-table-header>
+            <n-table-header sortable column="stars">Stars</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body id="sortable-body">
+        </n-table-body>
+      </n-table>
+    <pre class="demo-code"><code>&lt;n-table style="grid-template-columns: 2fr 1fr 80px;"&gt;
+  &lt;n-table-head&gt;
+    &lt;n-table-row&gt;
+      &lt;n-table-header sortable column="name"&gt;Name&lt;/n-table-header&gt;
+      &lt;n-table-header sortable column="lang"&gt;Language&lt;/n-table-header&gt;
+      &lt;n-table-header sortable column="stars"&gt;Stars&lt;/n-table-header&gt;
+    &lt;/n-table-row&gt;
+  &lt;/n-table-head&gt;
+  &lt;n-table-body&gt;...&lt;/n-table-body&gt;
+&lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Selectable Rows ── -->
+
+    <h2>Selectable Rows</h2>
+    <div class="demo-section">
+      <n-table selectable style="grid-template-columns: 1fr 1fr 100px;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Product</n-table-header>
+            <n-table-header>Category</n-table-header>
+            <n-table-header>Price</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row value="keyboard">
+            <n-table-cell>Mechanical Keyboard</n-table-cell>
+            <n-table-cell>Peripherals</n-table-cell>
+            <n-table-cell>$149</n-table-cell>
+          </n-table-row>
+          <n-table-row value="monitor">
+            <n-table-cell>4K Monitor</n-table-cell>
+            <n-table-cell>Displays</n-table-cell>
+            <n-table-cell>$499</n-table-cell>
+          </n-table-row>
+          <n-table-row value="mouse">
+            <n-table-cell>Wireless Mouse</n-table-cell>
+            <n-table-cell>Peripherals</n-table-cell>
+            <n-table-cell>$79</n-table-cell>
+          </n-table-row>
+          <n-table-row value="headphones">
+            <n-table-cell>Studio Headphones</n-table-cell>
+            <n-table-cell>Audio</n-table-cell>
+            <n-table-cell>$299</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+      <div class="log" id="selection-log"></div>
+    <pre class="demo-code"><code>&lt;n-table selectable style="grid-template-columns: 1fr 1fr 100px;"&gt;
+  &lt;n-table-head&gt;
+    &lt;n-table-row&gt;
+      &lt;n-table-header&gt;Product&lt;/n-table-header&gt;
+      &lt;n-table-header&gt;Category&lt;/n-table-header&gt;
+      &lt;n-table-header&gt;Price&lt;/n-table-header&gt;
+    &lt;/n-table-row&gt;
+  &lt;/n-table-head&gt;
+  &lt;n-table-body&gt;
+    &lt;n-table-row value="keyboard"&gt;
+      &lt;n-table-cell&gt;Keyboard&lt;/n-table-cell&gt;
+      &lt;n-table-cell&gt;Peripherals&lt;/n-table-cell&gt;
+      &lt;n-table-cell&gt;$149&lt;/n-table-cell&gt;
+    &lt;/n-table-row&gt;
+  &lt;/n-table-body&gt;
+&lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <h3>sm</h3>
+      <n-table size="sm" style="grid-template-columns: 1fr 1fr 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Key</n-table-header>
+            <n-table-header>Value</n-table-header>
+            <n-table-header>Type</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell>NODE_ENV</n-table-cell>
+            <n-table-cell>production</n-table-cell>
+            <n-table-cell>string</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>PORT</n-table-cell>
+            <n-table-cell>3000</n-table-cell>
+            <n-table-cell>number</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+
+      <h3>md (default)</h3>
+      <n-table style="grid-template-columns: 1fr 1fr 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Key</n-table-header>
+            <n-table-header>Value</n-table-header>
+            <n-table-header>Type</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell>NODE_ENV</n-table-cell>
+            <n-table-cell>production</n-table-cell>
+            <n-table-cell>string</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>PORT</n-table-cell>
+            <n-table-cell>3000</n-table-cell>
+            <n-table-cell>number</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+
+      <h3>lg</h3>
+      <n-table size="lg" style="grid-template-columns: 1fr 1fr 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Key</n-table-header>
+            <n-table-header>Value</n-table-header>
+            <n-table-header>Type</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell>NODE_ENV</n-table-cell>
+            <n-table-cell>production</n-table-cell>
+            <n-table-cell>string</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>PORT</n-table-cell>
+            <n-table-cell>3000</n-table-cell>
+            <n-table-cell>number</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    <pre class="demo-code"><code>&lt;n-table size="sm" style="grid-template-columns: 1fr 1fr 1fr;"&gt;...&lt;/n-table&gt;
+&lt;n-table style="grid-template-columns: 1fr 1fr 1fr;"&gt;...&lt;/n-table&gt;
+&lt;n-table size="lg" style="grid-template-columns: 1fr 1fr 1fr;"&gt;...&lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Plain Variant ── -->
+
+    <h2>Plain Variant</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Editorial / documentation tables that sit inline with prose. No outer border, no radius, no header fill, no row hover.
+      </p>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto 1fr 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Token</n-table-header>
+            <n-table-header>Resolves</n-table-header>
+            <n-table-header>Usage</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><code>--n-size</code></n-table-cell>
+            <n-table-cell>Size scale vertical sizing</n-table-cell>
+            <n-table-cell>All interactive components</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>--n-font-size</code></n-table-cell>
+            <n-table-cell>Size scale typography</n-table-cell>
+            <n-table-cell>Text content, labels</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>--n-space</code></n-table-cell>
+            <n-table-cell>Size scale spacing unit</n-table-cell>
+            <n-table-cell>Padding, gaps, margins</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>--n-radius</code></n-table-cell>
+            <n-table-cell>Radius attribute override</n-table-cell>
+            <n-table-cell>Border radius on containers</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    <pre class="demo-code"><code>&lt;n-table variant="plain" size="sm" style="grid-template-columns: auto 1fr 1fr;"&gt;
+  &lt;n-table-head&gt;
+    &lt;n-table-row&gt;
+      &lt;n-table-header&gt;Token&lt;/n-table-header&gt;
+      &lt;n-table-header&gt;Resolves&lt;/n-table-header&gt;
+      &lt;n-table-header&gt;Usage&lt;/n-table-header&gt;
+    &lt;/n-table-row&gt;
+  &lt;/n-table-head&gt;
+  &lt;n-table-body&gt;...&lt;/n-table-body&gt;
+&lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Colspan Rows ── -->
+
+    <h2>Colspan Rows</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Full-width category headers that opt out of subgrid. Hidden automatically when the table is sorted.
+      </p>
+      <n-table id="colspan-table" style="grid-template-columns: 2fr 1fr 80px;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header sortable column="name">Name</n-table-header>
+            <n-table-header sortable column="role">Role</n-table-header>
+            <n-table-header sortable column="salary">Salary</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row colspan>
+            <n-table-cell>Engineering</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Alice Johnson</n-table-cell>
+            <n-table-cell>Senior Engineer</n-table-cell>
+            <n-table-cell>$180k</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Bob Smith</n-table-cell>
+            <n-table-cell>Staff Engineer</n-table-cell>
+            <n-table-cell>$210k</n-table-cell>
+          </n-table-row>
+          <n-table-row colspan>
+            <n-table-cell>Design</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Carol White</n-table-cell>
+            <n-table-cell>Lead Designer</n-table-cell>
+            <n-table-cell>$165k</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Dan Lee</n-table-cell>
+            <n-table-cell>UX Researcher</n-table-cell>
+            <n-table-cell>$140k</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    <pre class="demo-code"><code>&lt;n-table style="grid-template-columns: 2fr 1fr 80px;"&gt;
+  &lt;n-table-body&gt;
+    &lt;n-table-row colspan&gt;
+      &lt;n-table-cell&gt;Engineering&lt;/n-table-cell&gt;
+    &lt;/n-table-row&gt;
+    &lt;n-table-row&gt;
+      &lt;n-table-cell&gt;Alice&lt;/n-table-cell&gt;
+      &lt;n-table-cell&gt;Engineer&lt;/n-table-cell&gt;
+      &lt;n-table-cell&gt;$180k&lt;/n-table-cell&gt;
+    &lt;/n-table-row&gt;
+  &lt;/n-table-body&gt;
+&lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sticky Header ── -->
+
+    <h2>Sticky Header</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Header row stays fixed when scrolling vertically. Requires constrained height on the table.
+      </p>
+      <n-table sticky-header style="grid-template-columns: 1fr 1fr 100px; max-height: 200px;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Name</n-table-header>
+            <n-table-header>Department</n-table-header>
+            <n-table-header>Status</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body id="sticky-body">
+        </n-table-body>
+      </n-table>
+    <pre class="demo-code"><code>&lt;n-table sticky-header style="grid-template-columns: 1fr 1fr 100px; max-height: 200px;"&gt;
+  &lt;n-table-head&gt;
+    &lt;n-table-row&gt;
+      &lt;n-table-header&gt;Name&lt;/n-table-header&gt;
+      &lt;n-table-header&gt;Department&lt;/n-table-header&gt;
+      &lt;n-table-header&gt;Status&lt;/n-table-header&gt;
+    &lt;/n-table-row&gt;
+  &lt;/n-table-head&gt;
+  &lt;n-table-body&gt;...&lt;/n-table-body&gt;
+&lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sticky Column ── -->
+
+    <h2>Sticky Column</h2>
+    <div class="demo-section" style="max-width: 400px;">
+      <p class="demo-caption">
+        First column stays fixed when scrolling horizontally. Requires constrained width.
+      </p>
+      <n-table sticky-column style="grid-template-columns: 120px 150px 150px 150px 150px;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Name</n-table-header>
+            <n-table-header>Q1</n-table-header>
+            <n-table-header>Q2</n-table-header>
+            <n-table-header>Q3</n-table-header>
+            <n-table-header>Q4</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell>Alice</n-table-cell>
+            <n-table-cell>$42,500</n-table-cell>
+            <n-table-cell>$48,200</n-table-cell>
+            <n-table-cell>$51,800</n-table-cell>
+            <n-table-cell>$55,100</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Bob</n-table-cell>
+            <n-table-cell>$38,100</n-table-cell>
+            <n-table-cell>$41,300</n-table-cell>
+            <n-table-cell>$43,700</n-table-cell>
+            <n-table-cell>$46,200</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Carol</n-table-cell>
+            <n-table-cell>$55,000</n-table-cell>
+            <n-table-cell>$58,400</n-table-cell>
+            <n-table-cell>$62,100</n-table-cell>
+            <n-table-cell>$67,800</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    <pre class="demo-code"><code>&lt;n-table sticky-column style="grid-template-columns: 120px 150px 150px 150px;"&gt;
+  &lt;n-table-head&gt;
+    &lt;n-table-row&gt;
+      &lt;n-table-header&gt;Name&lt;/n-table-header&gt;
+      &lt;n-table-header&gt;Q1&lt;/n-table-header&gt;
+      &lt;n-table-header&gt;Q2&lt;/n-table-header&gt;
+      &lt;n-table-header&gt;Q3&lt;/n-table-header&gt;
+    &lt;/n-table-row&gt;
+  &lt;/n-table-head&gt;
+  &lt;n-table-body&gt;...&lt;/n-table-body&gt;
+&lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sticky Colspan Rows ── -->
+
+    <h2>Sticky Colspan Rows</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Section headers stick below the table header as you scroll, like iOS section headers.
+        Each section header pushes the previous one up.
+      </p>
+      <n-table sticky-header style="grid-template-columns: 2fr 1fr 80px; max-height: 280px;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Name</n-table-header>
+            <n-table-header>Role</n-table-header>
+            <n-table-header>Salary</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body id="sticky-colspan-body">
+        </n-table-body>
+      </n-table>
+    <pre class="demo-code"><code>&lt;n-table sticky-header style="grid-template-columns: 2fr 1fr 80px; max-height: 280px;"&gt;
+  &lt;n-table-body&gt;
+    &lt;n-table-row colspan sticky&gt;
+      &lt;n-table-cell&gt;Section Header&lt;/n-table-cell&gt;
+    &lt;/n-table-row&gt;
+    &lt;n-table-row&gt;...&lt;/n-table-row&gt;
+  &lt;/n-table-body&gt;
+&lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Reorderable Rows ── -->
+
+    <h2>Reorderable Rows</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Drag rows to reorder. DOM is auto-reordered unless the <code>native:table-reorder</code> event is cancelled.
+      </p>
+      <n-table reorderable style="grid-template-columns: 1fr 1fr 100px;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Task</n-table-header>
+            <n-table-header>Priority</n-table-header>
+            <n-table-header>Status</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row value="task-1">
+            <n-table-cell>Implement auth</n-table-cell>
+            <n-table-cell>High</n-table-cell>
+            <n-table-cell>In Progress</n-table-cell>
+          </n-table-row>
+          <n-table-row value="task-2">
+            <n-table-cell>Design system tokens</n-table-cell>
+            <n-table-cell>Medium</n-table-cell>
+            <n-table-cell>Done</n-table-cell>
+          </n-table-row>
+          <n-table-row value="task-3">
+            <n-table-cell>Write tests</n-table-cell>
+            <n-table-cell>High</n-table-cell>
+            <n-table-cell>Todo</n-table-cell>
+          </n-table-row>
+          <n-table-row value="task-4">
+            <n-table-cell>Deploy to staging</n-table-cell>
+            <n-table-cell>Low</n-table-cell>
+            <n-table-cell>Todo</n-table-cell>
+          </n-table-row>
+          <n-table-row value="task-5">
+            <n-table-cell>Code review</n-table-cell>
+            <n-table-cell>Medium</n-table-cell>
+            <n-table-cell>In Progress</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+      <div class="log" id="reorder-log"></div>
+    <pre class="demo-code"><code>&lt;n-table reorderable style="grid-template-columns: 1fr 1fr 100px;"&gt;
+  &lt;n-table-body&gt;
+    &lt;n-table-row value="task-1"&gt;
+      &lt;n-table-cell&gt;Implement auth&lt;/n-table-cell&gt;
+      &lt;n-table-cell&gt;High&lt;/n-table-cell&gt;
+      &lt;n-table-cell&gt;In Progress&lt;/n-table-cell&gt;
+    &lt;/n-table-row&gt;
+  &lt;/n-table-body&gt;
+&lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Resizable Columns ── -->
+
+    <h2>Resizable Columns</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Drag the right edge of any header cell to resize columns.
+      </p>
+      <n-table resizable style="grid-template-columns: 2fr 1fr 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Name</n-table-header>
+            <n-table-header>Role</n-table-header>
+            <n-table-header>Status</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell>Alice Johnson</n-table-cell>
+            <n-table-cell>Engineer</n-table-cell>
+            <n-table-cell>Active</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Bob Smith</n-table-cell>
+            <n-table-cell>Designer</n-table-cell>
+            <n-table-cell>Active</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Carol White</n-table-cell>
+            <n-table-cell>Manager</n-table-cell>
+            <n-table-cell>Away</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+      <div class="log" id="resize-log"></div>
+    <pre class="demo-code"><code>&lt;n-table resizable style="grid-template-columns: 2fr 1fr 1fr;"&gt;
+  &lt;n-table-head&gt;
+    &lt;n-table-row&gt;
+      &lt;n-table-header&gt;Name&lt;/n-table-header&gt;
+      &lt;n-table-header&gt;Role&lt;/n-table-header&gt;
+      &lt;n-table-header&gt;Status&lt;/n-table-header&gt;
+    &lt;/n-table-row&gt;
+  &lt;/n-table-head&gt;
+  &lt;n-table-body&gt;...&lt;/n-table-body&gt;
+&lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sortable + Resizable ── -->
+
+    <h2>Sortable + Resizable</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Click header text to sort, drag header edge to resize. Both coexist without conflict.
+      </p>
+      <n-table resizable id="sort-resize-table" style="grid-template-columns: 2fr 1fr 80px;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header sortable column="name">Name</n-table-header>
+            <n-table-header sortable column="language">Language</n-table-header>
+            <n-table-header sortable column="stars">Stars</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body id="sort-resize-body">
+        </n-table-body>
+      </n-table>
+    <pre class="demo-code"><code>&lt;n-table resizable style="grid-template-columns: 2fr 1fr 80px;"&gt;
+  &lt;n-table-head&gt;
+    &lt;n-table-row&gt;
+      &lt;n-table-header sortable column="name"&gt;Name&lt;/n-table-header&gt;
+      &lt;n-table-header sortable column="lang"&gt;Language&lt;/n-table-header&gt;
+      &lt;n-table-header sortable column="stars"&gt;Stars&lt;/n-table-header&gt;
+    &lt;/n-table-row&gt;
+  &lt;/n-table-head&gt;
+  &lt;n-table-body&gt;...&lt;/n-table-body&gt;
+&lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to individual rows and headers.
+      </p>
+      <n-table style="grid-template-columns: 1fr 1fr 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Name</n-table-header>
+            <n-table-header>State</n-table-header>
+            <n-table-header>Status</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row force-hover>
+            <n-table-cell>Force hover</n-table-cell>
+            <n-table-cell>force-hover</n-table-cell>
+            <n-table-cell>Row</n-table-cell>
+          </n-table-row>
+          <n-table-row force-focus>
+            <n-table-cell>Force focus</n-table-cell>
+            <n-table-cell>force-focus</n-table-cell>
+            <n-table-cell>Row</n-table-cell>
+          </n-table-row>
+          <n-table-row force-focus-visible>
+            <n-table-cell>Force focus-visible</n-table-cell>
+            <n-table-cell>force-focus-visible</n-table-cell>
+            <n-table-cell>Row</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Normal</n-table-cell>
+            <n-table-cell>none</n-table-cell>
+            <n-table-cell>Row</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './table.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // ── Sortable demo: populate + sort logic ──
+      const repos = [
+        { name: 'React', language: 'JavaScript', stars: 228 },
+        { name: 'Vue', language: 'TypeScript', stars: 208 },
+        { name: 'Angular', language: 'TypeScript', stars: 96 },
+        { name: 'Svelte', language: 'JavaScript', stars: 80 },
+        { name: 'Solid', language: 'TypeScript', stars: 33 },
+      ];
+
+      const sortableTable = document.getElementById('sortable-table');
+      const sortableBody = document.getElementById('sortable-body');
+
+      function renderSortableRows(data) {
+        sortableBody.innerHTML = '';
+        for (const item of data) {
+          sortableBody.innerHTML += `
+            <n-table-row>
+              <n-table-cell>${item.name}</n-table-cell>
+              <n-table-cell>${item.language}</n-table-cell>
+              <n-table-cell>${item.stars}k</n-table-cell>
+            </n-table-row>`;
+        }
+      }
+
+      renderSortableRows(repos);
+
+      sortableTable.addEventListener('native:table-sort', (e) => {
+        const { column, direction } = e.detail;
+        if (direction === 'none') {
+          renderSortableRows(repos);
+          return;
+        }
+        const sorted = [...repos].sort((a, b) => {
+          const aVal = a[column];
+          const bVal = b[column];
+          if (typeof aVal === 'string') {
+            return direction === 'asc'
+              ? aVal.localeCompare(bVal)
+              : bVal.localeCompare(aVal);
+          }
+          return direction === 'asc' ? aVal - bVal : bVal - aVal;
+        });
+        renderSortableRows(sorted);
+      });
+
+      // ── Selectable demo ──
+      const selectionLog = document.getElementById('selection-log');
+      let selCount = 0;
+      document.querySelector('n-table[selectable]').addEventListener('native:table-select', (e) => {
+        selCount++;
+        const { allSelected } = e.detail;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${selCount} native:table-select — ${allSelected.length ? allSelected.join(', ') : '(none)'}`;
+        selectionLog.prepend(entry);
+      });
+
+      // ── Colspan demo: sort logic ──
+      const colspanTable = document.getElementById('colspan-table');
+      const colspanRows = [
+        { name: 'Alice Johnson', role: 'Senior Engineer', salary: '$180k', group: 'Engineering' },
+        { name: 'Bob Smith', role: 'Staff Engineer', salary: '$210k', group: 'Engineering' },
+        { name: 'Carol White', role: 'Lead Designer', salary: '$165k', group: 'Design' },
+        { name: 'Dan Lee', role: 'UX Researcher', salary: '$140k', group: 'Design' },
+      ];
+
+      colspanTable.addEventListener('native:table-sort', (e) => {
+        const { column, direction } = e.detail;
+        const body = colspanTable.querySelector('n-table-body');
+        body.innerHTML = '';
+
+        if (direction === 'none') {
+          // Restore grouped view with colspan headers
+          const groups = {};
+          for (const r of colspanRows) {
+            (groups[r.group] ??= []).push(r);
+          }
+          for (const [group, members] of Object.entries(groups)) {
+            body.innerHTML += `<n-table-row colspan><n-table-cell>${group}</n-table-cell></n-table-row>`;
+            for (const m of members) {
+              body.innerHTML += `<n-table-row>
+                <n-table-cell>${m.name}</n-table-cell>
+                <n-table-cell>${m.role}</n-table-cell>
+                <n-table-cell>${m.salary}</n-table-cell>
+              </n-table-row>`;
+            }
+          }
+          return;
+        }
+
+        const sorted = [...colspanRows].sort((a, b) => {
+          const aVal = a[column];
+          const bVal = b[column];
+          return direction === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+        });
+        for (const m of sorted) {
+          body.innerHTML += `<n-table-row>
+            <n-table-cell>${m.name}</n-table-cell>
+            <n-table-cell>${m.role}</n-table-cell>
+            <n-table-cell>${m.salary}</n-table-cell>
+          </n-table-row>`;
+        }
+      });
+
+      // ── Sticky header demo: populate rows ──
+      const stickyBody = document.getElementById('sticky-body');
+      const people = [
+        ['Alice Johnson', 'Engineering', 'Active'],
+        ['Bob Smith', 'Design', 'Active'],
+        ['Carol White', 'Engineering', 'Away'],
+        ['Dan Lee', 'Marketing', 'Active'],
+        ['Eve Chen', 'Engineering', 'Active'],
+        ['Frank Wu', 'Design', 'Away'],
+        ['Grace Kim', 'Marketing', 'Active'],
+        ['Hank Brown', 'Engineering', 'Active'],
+        ['Iris Patel', 'Design', 'Active'],
+        ['Jake Ross', 'Marketing', 'Away'],
+      ];
+      for (const [name, dept, status] of people) {
+        stickyBody.innerHTML += `
+          <n-table-row>
+            <n-table-cell>${name}</n-table-cell>
+            <n-table-cell>${dept}</n-table-cell>
+            <n-table-cell>${status}</n-table-cell>
+          </n-table-row>`;
+      }
+
+      // ── Sticky colspan demo: populate groups ──
+      const stickyColspanBody = document.getElementById('sticky-colspan-body');
+      const teams = {
+        Engineering: [
+          ['Alice Johnson', 'Staff Engineer', '$210k'],
+          ['Bob Smith', 'Senior Engineer', '$180k'],
+          ['Eve Chen', 'Engineer', '$145k'],
+          ['Hank Brown', 'Senior Engineer', '$175k'],
+        ],
+        Design: [
+          ['Carol White', 'Lead Designer', '$165k'],
+          ['Frank Wu', 'Senior Designer', '$155k'],
+          ['Iris Patel', 'UX Researcher', '$140k'],
+        ],
+        Marketing: [
+          ['Dan Lee', 'Marketing Lead', '$160k'],
+          ['Grace Kim', 'Content Strategist', '$130k'],
+          ['Jake Ross', 'Growth Analyst', '$125k'],
+        ],
+      };
+      for (const [team, members] of Object.entries(teams)) {
+        stickyColspanBody.innerHTML += `<n-table-row colspan sticky><n-table-cell>${team}</n-table-cell></n-table-row>`;
+        for (const [name, role, salary] of members) {
+          stickyColspanBody.innerHTML += `
+            <n-table-row>
+              <n-table-cell>${name}</n-table-cell>
+              <n-table-cell>${role}</n-table-cell>
+              <n-table-cell>${salary}</n-table-cell>
+            </n-table-row>`;
+        }
+      }
+
+      // ── Reorderable demo: log events ──
+      const reorderLog = document.getElementById('reorder-log');
+      let reorderCount = 0;
+      document.querySelector('n-table[reorderable]').addEventListener('native:table-reorder', (e) => {
+        reorderCount++;
+        const { fromIndex, toIndex } = e.detail;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${reorderCount} native:table-reorder — row ${fromIndex} → ${toIndex}`;
+        reorderLog.prepend(entry);
+      });
+
+      // ── Resize demo: log events ──
+      const resizeLog = document.getElementById('resize-log');
+      let resizeCount = 0;
+      document.querySelector('n-table[resizable]').addEventListener('native:table-resize-end', (e) => {
+        resizeCount++;
+        const { column, width, allWidths } = e.detail;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${resizeCount} col ${column} → ${Math.round(width)}px  [${allWidths.map(w => Math.round(w)).join(', ')}]`;
+        resizeLog.prepend(entry);
+      });
+
+      // ── Sortable + Resizable demo: populate + sort ──
+      const sortResizeTable = document.getElementById('sort-resize-table');
+      const sortResizeBody = document.getElementById('sort-resize-body');
+
+      function renderSortResizeRows(data) {
+        sortResizeBody.innerHTML = '';
+        for (const item of data) {
+          sortResizeBody.innerHTML += `
+            <n-table-row>
+              <n-table-cell>${item.name}</n-table-cell>
+              <n-table-cell>${item.language}</n-table-cell>
+              <n-table-cell>${item.stars}k</n-table-cell>
+            </n-table-row>`;
+        }
+      }
+
+      renderSortResizeRows(repos);
+
+      sortResizeTable.addEventListener('native:table-sort', (e) => {
+        const { column, direction } = e.detail;
+        if (direction === 'none') {
+          renderSortResizeRows(repos);
+          return;
+        }
+        const sorted = [...repos].sort((a, b) => {
+          const aVal = a[column];
+          const bVal = b[column];
+          if (typeof aVal === 'string') {
+            return direction === 'asc'
+              ? aVal.localeCompare(bVal)
+              : bVal.localeCompare(aVal);
+          }
+          return direction === 'asc' ? aVal - bVal : bVal - aVal;
+        });
+        renderSortResizeRows(sorted);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

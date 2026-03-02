@@ -2,7 +2,7 @@
 
 # VirtualScrollController
 
-> Virtualizes a scrollable list by rendering only visible items, dispatching `ui-virtual-change`.
+> Virtualizes a scrollable list by rendering only visible items, dispatching `native:virtual-change`.
 
 ## Constructor
 
@@ -28,7 +28,7 @@ new VirtualScrollController(host: HTMLElement, options?: VirtualScrollOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-virtual-change` | `{ start, end, totalCount }` |
+| `native:virtual-change` | `{ start, end, totalCount }` |
 
 ## Methods
 

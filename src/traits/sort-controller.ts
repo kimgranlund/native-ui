@@ -5,7 +5,7 @@ export interface SortOptions {
   disabled?: boolean;
 }
 
-/** Manages column sort state and dispatches `ui-sort` events. */
+/** Manages column sort state and dispatches `native:sort` events. */
 export class SortController {
   readonly host: HTMLElement;
   selector: string;
@@ -68,7 +68,7 @@ export class SortController {
       }
     }
 
-    this.host.dispatchEvent(new CustomEvent('ui-sort', {
+    this.host.dispatchEvent(new CustomEvent('native:sort', {
       bubbles: true,
       composed: true,
       detail: { column: this.#sortColumn, direction: this.#sortDirection },

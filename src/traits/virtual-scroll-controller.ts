@@ -3,7 +3,7 @@ export interface VirtualScrollOptions {
   overscan?: number;
 }
 
-/** Virtualizes a scrollable list by rendering only visible items, dispatching `ui-virtual-change`. */
+/** Virtualizes a scrollable list by rendering only visible items, dispatching `native:virtual-change`. */
 export class VirtualScrollController {
   readonly host: HTMLElement;
   itemHeight: number;
@@ -36,11 +36,11 @@ export class VirtualScrollController {
     this.#totalCount = totalCount;
 
     this.#spacerTop = document.createElement('div');
-    this.#spacerTop.className = 'ui-virtual-spacer-top';
+    this.#spacerTop.className = 'n-virtual-spacer-top';
     this.#spacerTop.setAttribute('aria-hidden', 'true');
 
     this.#spacerBottom = document.createElement('div');
-    this.#spacerBottom.className = 'ui-virtual-spacer-bottom';
+    this.#spacerBottom.className = 'n-virtual-spacer-bottom';
     this.#spacerBottom.setAttribute('aria-hidden', 'true');
 
     container.prepend(this.#spacerTop);
@@ -105,7 +105,7 @@ export class VirtualScrollController {
     this.#spacerTop.style.height = `${start * this.itemHeight}px`;
     this.#spacerBottom.style.height = `${Math.max(0, (this.#totalCount - end) * this.itemHeight)}px`;
 
-    this.host.dispatchEvent(new CustomEvent('ui-virtual-change', {
+    this.host.dispatchEvent(new CustomEvent('native:virtual-change', {
       bubbles: true,
       composed: true,
       detail: { start, end, totalCount: this.#totalCount },

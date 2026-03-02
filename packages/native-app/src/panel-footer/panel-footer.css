@@ -1,0 +1,36 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  n-panel-footer                                         │
+     │  Sub-container footer for n-app-panel. Actions align    │
+     │  to the end by default; use justify attribute to change.│
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* ── Base ── */
+
+  :where(n-panel-footer) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: calc(var(--n-space) * 2);
+    padding-block: calc(var(--n-space) * 2);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    min-width: 0;
+  }
+
+  /* ── Justify ── */
+
+  :where(n-panel-footer)[justify="start"]  { justify-content: flex-start; }
+  :where(n-panel-footer)[justify="center"] { justify-content: center; }
+  :where(n-panel-footer)[justify="spread"] { justify-content: space-between; }
+
+  /* ── Sticky ── */
+
+  :where(n-panel-footer)[sticky] {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    background: inherit;
+  }
+
+}

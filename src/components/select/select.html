@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-select — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-select&gt;</h1>
+    <p class="demo-desc">
+      Coordinator element that wires a button trigger + popover listbox into a dropdown select.
+    </p>
+
+    <!-- ── Basic Usage ── -->
+
+    <h2>Basic Usage</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-select>
+          <n-button justify="spread">
+            <span slot="label">Choose a fruit</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="apple">Apple</n-option>
+            <n-option value="banana">Banana</n-option>
+            <n-option value="cherry">Cherry</n-option>
+            <n-option value="grape">Grape</n-option>
+            <n-option value="orange">Orange</n-option>
+          </n-listbox>
+        </n-select>
+      </div>
+      <pre class="demo-code"><code>&lt;n-select&gt;
+  &lt;n-button justify="spread"&gt;
+    &lt;span slot="label"&gt;Choose a fruit&lt;/span&gt;
+    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
+  &lt;/n-button&gt;
+  &lt;n-listbox popover&gt;
+    &lt;n-option value="apple"&gt;Apple&lt;/n-option&gt;
+    &lt;n-option value="banana"&gt;Banana&lt;/n-option&gt;
+    &lt;n-option value="cherry"&gt;Cherry&lt;/n-option&gt;
+  &lt;/n-listbox&gt;
+&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Pre-selected Value ── -->
+
+    <h2>Pre-selected Value</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <n-select value="banana">
+          <n-button justify="spread">
+            <span slot="label">Choose a fruit</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="apple">Apple</n-option>
+            <n-option value="banana">Banana</n-option>
+            <n-option value="cherry">Cherry</n-option>
+          </n-listbox>
+        </n-select>
+      </div>
+      <pre class="demo-code"><code>&lt;n-select value="banana"&gt;
+  &lt;n-button justify="spread"&gt;
+    &lt;span slot="label"&gt;Choose a fruit&lt;/span&gt;
+    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
+  &lt;/n-button&gt;
+  &lt;n-listbox popover&gt;
+    &lt;n-option value="apple"&gt;Apple&lt;/n-option&gt;
+    &lt;n-option value="banana"&gt;Banana&lt;/n-option&gt;
+  &lt;/n-listbox&gt;
+&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span class="demo-label">xs</span>
+        <n-select size="xs">
+          <n-button justify="spread">
+            <span slot="label">Extra small</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+          </n-listbox>
+        </n-select>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">sm</span>
+        <n-select size="sm">
+          <n-button justify="spread">
+            <span slot="label">Small</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+          </n-listbox>
+        </n-select>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">md</span>
+        <n-select size="md">
+          <n-button justify="spread">
+            <span slot="label">Medium</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+          </n-listbox>
+        </n-select>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">lg</span>
+        <n-select size="lg">
+          <n-button justify="spread">
+            <span slot="label">Large</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+          </n-listbox>
+        </n-select>
+      </div>
+      <pre class="demo-code"><code>&lt;n-select size="sm"&gt;
+  &lt;n-button justify="spread"&gt;
+    &lt;span slot="label"&gt;Small&lt;/span&gt;
+    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
+  &lt;/n-button&gt;
+  &lt;n-listbox popover&gt;
+    &lt;n-option value="a"&gt;Option A&lt;/n-option&gt;
+  &lt;/n-listbox&gt;
+&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section">
+      <h3>xs</h3>
+      <div class="demo-row" size="xs" density="compact">
+        <span class="demo-label">compact</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Compact</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+      <div class="demo-row" size="xs" density="default">
+        <span class="demo-label">default</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Default</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+      <div class="demo-row" size="xs" density="loose">
+        <span class="demo-label">loose</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Loose</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+
+      <h3>sm</h3>
+      <div class="demo-row" size="sm" density="compact">
+        <span class="demo-label">compact</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Compact</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+      <div class="demo-row" size="sm" density="default">
+        <span class="demo-label">default</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Default</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+      <div class="demo-row" size="sm" density="loose">
+        <span class="demo-label">loose</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Loose</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+
+      <h3>md</h3>
+      <div class="demo-row" size="md" density="compact">
+        <span class="demo-label">compact</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Compact</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+      <div class="demo-row" size="md" density="default">
+        <span class="demo-label">default</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Default</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+      <div class="demo-row" size="md" density="loose">
+        <span class="demo-label">loose</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Loose</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+
+      <h3>lg</h3>
+      <div class="demo-row" size="lg" density="compact">
+        <span class="demo-label">compact</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Compact</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+      <div class="demo-row" size="lg" density="default">
+        <span class="demo-label">default</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Default</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+      <div class="demo-row" size="lg" density="loose">
+        <span class="demo-label">loose</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Loose</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+
+      <h3>xl</h3>
+      <div class="demo-row" size="xl" density="compact">
+        <span class="demo-label">compact</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Compact</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+      <div class="demo-row" size="xl" density="default">
+        <span class="demo-label">default</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Default</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+      <div class="demo-row" size="xl" density="loose">
+        <span class="demo-label">loose</span>
+        <n-select>
+          <n-button justify="spread"><span slot="label">Loose</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+          <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
+        </n-select>
+      </div>
+      <pre class="demo-code"><code>&lt;div density="compact"&gt;
+  &lt;n-select&gt;...&lt;/n-select&gt;
+&lt;/div&gt;
+
+&lt;div density="loose"&gt;
+  &lt;n-select&gt;...&lt;/n-select&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Variants ── -->
+
+    <h2>Button Variants</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <n-select>
+          <n-button justify="spread">
+            <span slot="label">Outline</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="a">Alpha</n-option>
+            <n-option value="b">Bravo</n-option>
+          </n-listbox>
+        </n-select>
+        <n-select>
+          <n-button variant="secondary" justify="spread">
+            <span slot="label">Secondary</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="a">Alpha</n-option>
+            <n-option value="b">Bravo</n-option>
+          </n-listbox>
+        </n-select>
+        <n-select>
+          <n-button variant="default" justify="spread">
+            <span slot="label">Default</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="a">Alpha</n-option>
+            <n-option value="b">Bravo</n-option>
+          </n-listbox>
+        </n-select>
+        <n-select>
+          <n-button variant="ghost" justify="spread">
+            <span slot="label">Ghost</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="a">Alpha</n-option>
+            <n-option value="b">Bravo</n-option>
+          </n-listbox>
+        </n-select>
+      </div>
+      <pre class="demo-code"><code>&lt;n-select&gt;
+  &lt;n-button variant="secondary" justify="spread"&gt;
+    &lt;span slot="label"&gt;Secondary&lt;/span&gt;
+    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
+  &lt;/n-button&gt;
+  &lt;n-listbox popover&gt;
+    &lt;n-option value="a"&gt;Alpha&lt;/n-option&gt;
+  &lt;/n-listbox&gt;
+&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <n-select disabled>
+          <n-button disabled justify="spread">
+            <span slot="label">Disabled</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="a">Alpha</n-option>
+          </n-listbox>
+        </n-select>
+      </div>
+      <pre class="demo-code"><code>&lt;n-select disabled&gt;
+  &lt;n-button disabled justify="spread"&gt;
+    &lt;span slot="label"&gt;Disabled&lt;/span&gt;
+    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
+  &lt;/n-button&gt;
+  &lt;n-listbox popover&gt;
+    &lt;n-option value="a"&gt;Alpha&lt;/n-option&gt;
+  &lt;/n-listbox&gt;
+&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Disabled Options ── -->
+
+    <h2>Disabled Options</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <n-select>
+          <n-button justify="spread">
+            <span slot="label">Choose role</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="viewer">Viewer</n-option>
+            <n-option value="editor">Editor</n-option>
+            <n-option value="admin" disabled>Admin (restricted)</n-option>
+            <n-option value="owner" disabled>Owner (restricted)</n-option>
+          </n-listbox>
+        </n-select>
+      </div>
+      <pre class="demo-code"><code>&lt;n-select&gt;
+  &lt;n-button justify="spread"&gt;
+    &lt;span slot="label"&gt;Choose role&lt;/span&gt;
+    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
+  &lt;/n-button&gt;
+  &lt;n-listbox popover&gt;
+    &lt;n-option value="viewer"&gt;Viewer&lt;/n-option&gt;
+    &lt;n-option value="admin" disabled&gt;Admin&lt;/n-option&gt;
+  &lt;/n-listbox&gt;
+&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Events ── -->
+
+    <h2>Events</h2>
+    <div class="demo-section" size="sm">
+      <n-select id="event-select">
+        <n-button justify="spread">
+          <span slot="label">Choose color</span>
+          <n-icon name="caret-up-down" slot="trailing"></n-icon>
+        </n-button>
+        <n-listbox popover>
+          <n-option value="red" label="Red">Red</n-option>
+          <n-option value="green" label="Green">Green</n-option>
+          <n-option value="blue" label="Blue">Blue</n-option>
+        </n-listbox>
+      </n-select>
+      <div class="log" id="event-log"></div>
+    <pre class="demo-code"><code>&lt;n-select id="color-select"&gt;
+  &lt;n-button justify="spread"&gt;
+    &lt;span slot="label"&gt;Choose color&lt;/span&gt;
+    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
+  &lt;/n-button&gt;
+  &lt;n-listbox popover&gt;
+    &lt;n-option value="red"&gt;Red&lt;/n-option&gt;
+    &lt;n-option value="blue"&gt;Blue&lt;/n-option&gt;
+  &lt;/n-listbox&gt;
+&lt;/n-select&gt;
+
+&lt;script&gt;
+  document.getElementById('color-select')
+    .addEventListener('native:change', (e) =&gt; {
+      console.log(e.detail.value, e.detail.label);
+    });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Form Association ── -->
+
+    <h2>Form Association</h2>
+    <div class="demo-section" size="sm">
+      <form id="demo-form">
+        <div class="demo-col-sm" style="margin-bottom: 0.75rem;">
+          <n-select name="color">
+            <n-button justify="spread">
+              <span slot="label">Favorite color</span>
+              <n-icon name="caret-up-down" slot="trailing"></n-icon>
+            </n-button>
+            <n-listbox popover>
+              <n-option value="red">Red</n-option>
+              <n-option value="green">Green</n-option>
+              <n-option value="blue">Blue</n-option>
+            </n-listbox>
+          </n-select>
+          <n-select name="size">
+            <n-button justify="spread">
+              <span slot="label">T-Shirt size</span>
+              <n-icon name="caret-up-down" slot="trailing"></n-icon>
+            </n-button>
+            <n-listbox popover>
+              <n-option value="xs">Extra Small</n-option>
+              <n-option value="sm">Small</n-option>
+              <n-option value="md">Medium</n-option>
+              <n-option value="lg">Large</n-option>
+              <n-option value="xl">Extra Large</n-option>
+            </n-listbox>
+          </n-select>
+        </div>
+        <div class="demo-row">
+          <n-button variant="primary" type="submit"><span slot="label">Submit</span></n-button>
+          <n-button variant="secondary" type="reset"><span slot="label">Reset</span></n-button>
+        </div>
+      </form>
+      <div class="log" id="form-log"></div>
+    <pre class="demo-code"><code>&lt;form&gt;
+  &lt;n-select name="color"&gt;
+    &lt;n-button justify="spread"&gt;
+      &lt;span slot="label"&gt;Favorite color&lt;/span&gt;
+      &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
+    &lt;/n-button&gt;
+    &lt;n-listbox popover&gt;
+      &lt;n-option value="red"&gt;Red&lt;/n-option&gt;
+      &lt;n-option value="blue"&gt;Blue&lt;/n-option&gt;
+    &lt;/n-listbox&gt;
+  &lt;/n-select&gt;
+  &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Data-Driven: Inline JSON ── -->
+
+    <h2>Data-Driven: Inline JSON</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <n-select
+          placeholder="Choose a country"
+          options='[{"value":"us","label":"United States"},{"value":"gb","label":"United Kingdom"},{"value":"de","label":"Germany"},{"value":"fr","label":"France"},{"value":"jp","label":"Japan"}]'
+        ></n-select>
+      </div>
+      <pre class="demo-code"><code>&lt;n-select
+  placeholder="Choose a country"
+  options='[{"value":"us","label":"United States"},{"value":"gb","label":"United Kingdom"}]'
+&gt;&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Data-Driven: Pre-selected ── -->
+
+    <h2>Data-Driven: Pre-selected Value</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <n-select
+          placeholder="Choose a country"
+          value="de"
+          options='[{"value":"us","label":"United States"},{"value":"gb","label":"United Kingdom"},{"value":"de","label":"Germany"},{"value":"fr","label":"France"}]'
+        ></n-select>
+      </div>
+      <pre class="demo-code"><code>&lt;n-select
+  placeholder="Choose a country"
+  value="de"
+  options='[{"value":"us","label":"United States"},{"value":"de","label":"Germany"}]'
+&gt;&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Data-Driven: Disabled Options ── -->
+
+    <h2>Data-Driven: Disabled Options</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <n-select
+          placeholder="Choose a role"
+          options='[{"value":"viewer","label":"Viewer"},{"value":"editor","label":"Editor"},{"value":"admin","label":"Admin (restricted)","disabled":true},{"value":"owner","label":"Owner (restricted)","disabled":true}]'
+        ></n-select>
+      </div>
+      <pre class="demo-code"><code>&lt;n-select
+  placeholder="Choose a role"
+  options='[{"value":"viewer","label":"Viewer"},{"value":"admin","label":"Admin","disabled":true}]'
+&gt;&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Data-Driven: Dynamic Update ── -->
+
+    <h2>Data-Driven: Dynamic Update</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-row">
+        <n-select id="dynamic-select" placeholder="Choose a fruit" options="[]"></n-select>
+      </div>
+      <div class="demo-row" style="margin-top: 0.75rem;">
+        <n-button id="load-fruits" size="sm" variant="secondary"><span slot="label">Load fruits</span></n-button>
+        <n-button id="load-colors" size="sm" variant="secondary"><span slot="label">Load colors</span></n-button>
+      </div>
+      <div class="log" id="dynamic-log"></div>
+    <pre class="demo-code"><code>&lt;n-select id="my-select" placeholder="Choose a fruit" options="[]"&gt;&lt;/n-select&gt;
+
+&lt;script&gt;
+  const sel = document.getElementById('my-select');
+  sel.options = [
+    { value: 'apple', label: 'Apple' },
+    { value: 'banana', label: 'Banana' },
+  ];
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './select.ts';
+      import '../button/button.ts';
+      import '../listbox/listbox.ts';
+      import '../listbox/option.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/caret-up-down.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Event logging
+      const eventSelect = document.getElementById('event-select');
+      const eventLog = document.getElementById('event-log');
+      let count = 0;
+
+      eventSelect.addEventListener('native:change', (e) => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} native:change — value: "${e.detail.value}", label: "${e.detail.label}"`;
+        eventLog.prepend(entry);
+      });
+
+      // Form logging
+      const form = document.getElementById('demo-form');
+      const formLog = document.getElementById('form-log');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `submit — ${[...data.entries()].map(([k, v]) => `${k}: "${v}"`).join(', ')}`;
+        formLog.prepend(entry);
+      });
+
+      form.addEventListener('reset', () => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = 'reset';
+        formLog.prepend(entry);
+      });
+
+      // Dynamic update demo
+      const dynamicSelect = document.getElementById('dynamic-select');
+      const dynamicLog = document.getElementById('dynamic-log');
+
+      document.getElementById('load-fruits').addEventListener('native:press', () => {
+        dynamicSelect.options = [
+          { value: 'apple', label: 'Apple' },
+          { value: 'banana', label: 'Banana' },
+          { value: 'cherry', label: 'Cherry' },
+          { value: 'grape', label: 'Grape' },
+        ];
+        dynamicSelect.placeholder = 'Choose a fruit';
+      });
+
+      document.getElementById('load-colors').addEventListener('native:press', () => {
+        dynamicSelect.options = [
+          { value: 'red', label: 'Red' },
+          { value: 'green', label: 'Green' },
+          { value: 'blue', label: 'Blue' },
+        ];
+        dynamicSelect.placeholder = 'Choose a color';
+      });
+
+      dynamicSelect.addEventListener('native:change', (e) => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `native:change — value: "${e.detail.value}", label: "${e.detail.label}"`;
+        dynamicLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

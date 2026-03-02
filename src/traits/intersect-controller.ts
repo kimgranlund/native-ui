@@ -6,7 +6,7 @@ export interface IntersectOptions {
   disabled?: boolean;
 }
 
-/** Observes intersection visibility changes on the host, dispatching `ui-intersect`. */
+/** Observes intersection visibility changes on the host, dispatching `native:intersect`. */
 export class IntersectController {
   readonly host: HTMLElement;
   threshold: number;
@@ -61,7 +61,7 @@ export class IntersectController {
     for (const entry of entries) {
       const intersecting = entry.isIntersecting;
       this.host.toggleAttribute('intersecting', intersecting);
-      this.host.dispatchEvent(new CustomEvent('ui-intersect', {
+      this.host.dispatchEvent(new CustomEvent('native:intersect', {
         bubbles: true,
         composed: true,
         detail: { isIntersecting: intersecting, ratio: entry.intersectionRatio },

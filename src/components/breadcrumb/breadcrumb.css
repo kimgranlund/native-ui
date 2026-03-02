@@ -1,0 +1,71 @@
+@layer ui {
+
+  /* ── Breadcrumb Container ── */
+
+  :where(n-breadcrumb) {
+    --n-font-weight: var(--n-button-font-weight);
+    --n-line-height: var(--n-control-line-height);
+
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: calc(var(--n-space) * 1);
+    font-size: var(--n-font-size);
+    line-height: var(--n-line-height);
+  }
+
+  /* ── Breadcrumb Item ── */
+
+  :where(n-breadcrumb-item) {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 1);
+    color: var(--n-ink-muted);
+    text-decoration: none;
+    cursor: pointer;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  :where(n-breadcrumb-item):hover,
+  :where(n-breadcrumb-item)[force-hover] {
+    color: var(--n-ink);
+    text-decoration: underline;
+  }
+
+  :where(n-breadcrumb-item):focus-visible,
+  :where(n-breadcrumb-item)[force-focus-visible] {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: 2px;
+    border-radius: calc(var(--n-radius) * 0.25);
+  }
+
+  /* ── Current item ── */
+
+  :where(n-breadcrumb-item[current]) {
+    color: var(--n-ink-strong);
+    font-weight: var(--n-font-weight);
+    cursor: default;
+    text-decoration: none;
+    pointer-events: none;
+  }
+
+  /* ── Separator ── */
+
+  :where(n-breadcrumb-item):not(:last-child)::after {
+    content: var(--n-breadcrumb-separator, '/');
+    color: var(--n-ink-muted);
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  :where(n-breadcrumb[hidden]) { display: none; }
+
+}

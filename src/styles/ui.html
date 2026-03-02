@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
@@ -22,7 +22,7 @@
         font-weight: 700;
         margin-bottom: 1rem;
         margin-top: 2rem;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 
       h3 {
@@ -32,7 +32,7 @@
         letter-spacing: 0.05em;
         margin-bottom: 0.5rem;
         margin-top: 1.5rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
       }
 
       .demo-row {
@@ -50,13 +50,13 @@
         letter-spacing: 0.04em;
         width: 5rem;
         flex-shrink: 0;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
       }
 
       .demo-section {
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
+        background: var(--n-body-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
         padding: 1.5rem;
         margin-bottom: 1rem;
       }
@@ -72,9 +72,9 @@
       .demo-code {
         display: none;
         position: relative;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: var(--_radius);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
         padding: 0.75rem;
         margin: 0;
         margin-top: 0.75rem;
@@ -83,14 +83,14 @@
         line-height: 1.5;
         overflow-x: auto;
         white-space: pre;
-        color: var(--neutral-ink);
+        color: var(--n-ink-neutral);
       }
 
       .demo-code[visible] {
         display: block;
       }
 
-      .demo-code > ui-button {
+      .demo-code > n-button {
         position: absolute;
         top: 0.375rem;
         right: 0.375rem;
@@ -98,7 +98,7 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
     <h1>UI Boiler Plate</h1>
 
     <!-- ── Sizes ── -->
@@ -181,11 +181,11 @@
         </button>
       </div>
       <pre class="demo-code"><code>&lt;!-- Size attribute cascades to children --&gt;
-&lt;ui-button size="xs" variant="primary"&gt;Extra Small&lt;/ui-button&gt;
-&lt;ui-button size="sm" variant="primary"&gt;Small&lt;/ui-button&gt;
-&lt;ui-button size="md" variant="primary"&gt;Medium&lt;/ui-button&gt;
-&lt;ui-button size="lg" variant="primary"&gt;Large&lt;/ui-button&gt;
-&lt;ui-button size="xl" variant="primary"&gt;Extra Large&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;n-button size="xs" variant="primary"&gt;Extra Small&lt;/n-button&gt;
+&lt;n-button size="sm" variant="primary"&gt;Small&lt;/n-button&gt;
+&lt;n-button size="md" variant="primary"&gt;Medium&lt;/n-button&gt;
+&lt;n-button size="lg" variant="primary"&gt;Large&lt;/n-button&gt;
+&lt;n-button size="xl" variant="primary"&gt;Extra Large&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Density ── -->
@@ -291,16 +291,16 @@
         <button variant="secondary"><span slot="label">Button</span></button>
         <button variant="outline"><span slot="label">Button</span></button>
       </div>
-      <pre class="demo-code"><code>&lt;!-- Density controls inline padding via --_space-k multiplier --&gt;
+      <pre class="demo-code"><code>&lt;!-- Density controls inline padding via --n-space-k multiplier --&gt;
 &lt;div density="compact"&gt;
-  &lt;ui-button variant="primary"&gt;Compact&lt;/ui-button&gt;
+  &lt;n-button variant="primary"&gt;Compact&lt;/n-button&gt;
 &lt;/div&gt;
 &lt;div density="default"&gt;
-  &lt;ui-button variant="primary"&gt;Default&lt;/ui-button&gt;
+  &lt;n-button variant="primary"&gt;Default&lt;/n-button&gt;
 &lt;/div&gt;
 &lt;div density="loose"&gt;
-  &lt;ui-button variant="primary"&gt;Loose&lt;/ui-button&gt;
-&lt;/div&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+  &lt;n-button variant="primary"&gt;Loose&lt;/n-button&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Radius ── -->
@@ -326,9 +326,9 @@
         <button variant="outline"><span slot="label">Button</span></button>
       </div>
       <pre class="demo-code"><code>&lt;!-- Radius attribute: sharp | round | pill --&gt;
-&lt;ui-button radius="sharp" variant="primary"&gt;Sharp&lt;/ui-button&gt;
-&lt;ui-button radius="round" variant="primary"&gt;Round&lt;/ui-button&gt;
-&lt;ui-button radius="pill" variant="primary"&gt;Pill&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;n-button radius="sharp" variant="primary"&gt;Sharp&lt;/n-button&gt;
+&lt;n-button radius="round" variant="primary"&gt;Round&lt;/n-button&gt;
+&lt;n-button radius="pill" variant="primary"&gt;Pill&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Variants x Intents ── -->
@@ -385,11 +385,11 @@
         <button variant="outline" intent="danger"><span slot="label">Danger</span></button>
       </div>
       <pre class="demo-code"><code>&lt;!-- Variant x Intent matrix --&gt;
-&lt;ui-button variant="primary" intent="accent"&gt;Accent Primary&lt;/ui-button&gt;
-&lt;ui-button variant="secondary" intent="danger"&gt;Danger Secondary&lt;/ui-button&gt;
-&lt;ui-button variant="ghost" intent="success"&gt;Success Ghost&lt;/ui-button&gt;
-&lt;ui-button variant="outline" intent="warning"&gt;Warning Outline&lt;/ui-button&gt;
-&lt;ui-button variant="default" intent="info"&gt;Info Default&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;n-button variant="primary" intent="accent"&gt;Accent Primary&lt;/n-button&gt;
+&lt;n-button variant="secondary" intent="danger"&gt;Danger Secondary&lt;/n-button&gt;
+&lt;n-button variant="ghost" intent="success"&gt;Success Ghost&lt;/n-button&gt;
+&lt;n-button variant="outline" intent="warning"&gt;Warning Outline&lt;/n-button&gt;
+&lt;n-button variant="default" intent="info"&gt;Info Default&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Slot Variations ── -->
@@ -399,14 +399,14 @@
       <h3>Full (leading + label + trailing)</h3>
       <div class="demo-row">
         <button variant="primary">
-          <ui-icon name="plus" slot="leading"></ui-icon>
+          <n-icon name="plus" slot="leading"></n-icon>
           <span slot="label">Add Item</span>
-          <ui-icon name="arrow-right" slot="trailing"></ui-icon>
+          <n-icon name="arrow-right" slot="trailing"></n-icon>
         </button>
         <button variant="secondary">
-          <ui-icon name="plus" slot="leading"></ui-icon>
+          <n-icon name="plus" slot="leading"></n-icon>
           <span slot="label">Add Item</span>
-          <ui-icon name="arrow-right" slot="trailing"></ui-icon>
+          <n-icon name="arrow-right" slot="trailing"></n-icon>
         </button>
       </div>
 
@@ -414,11 +414,11 @@
       <div class="demo-row">
         <button variant="primary">
           <span slot="label">Next</span>
-          <ui-icon name="arrow-right" slot="trailing"></ui-icon>
+          <n-icon name="arrow-right" slot="trailing"></n-icon>
         </button>
         <button variant="secondary">
           <span slot="label">Next</span>
-          <ui-icon name="arrow-right" slot="trailing"></ui-icon>
+          <n-icon name="arrow-right" slot="trailing"></n-icon>
         </button>
       </div>
 
@@ -435,29 +435,29 @@
       <h3>Icon Only</h3>
       <div class="demo-row">
         <button variant="primary" aria-label="Add">
-          <ui-icon name="plus"></ui-icon>
+          <n-icon name="plus"></n-icon>
         </button>
         <button variant="secondary" aria-label="Edit">
-          <ui-icon name="pencil-simple"></ui-icon>
+          <n-icon name="pencil-simple"></n-icon>
         </button>
         <button variant="ghost" aria-label="Close">
-          <ui-icon name="x"></ui-icon>
+          <n-icon name="x"></n-icon>
         </button>
         <button variant="outline" aria-label="Favorite">
-          <ui-icon name="heart"></ui-icon>
+          <n-icon name="heart"></n-icon>
         </button>
       </div>
       <pre class="demo-code"><code>&lt;!-- Slot variations: leading, label, trailing --&gt;
-&lt;ui-button variant="primary"&gt;
-  &lt;ui-icon name="plus" slot="leading"&gt;&lt;/ui-icon&gt;
+&lt;n-button variant="primary"&gt;
+  &lt;n-icon name="plus" slot="leading"&gt;&lt;/n-icon&gt;
   &lt;span slot="label"&gt;Add Item&lt;/span&gt;
-  &lt;ui-icon name="arrow-right" slot="trailing"&gt;&lt;/ui-icon&gt;
-&lt;/ui-button&gt;
+  &lt;n-icon name="arrow-right" slot="trailing"&gt;&lt;/n-icon&gt;
+&lt;/n-button&gt;
 
 &lt;!-- Icon-only button --&gt;
-&lt;ui-button variant="ghost" aria-label="Close"&gt;
-  &lt;ui-icon name="x"&gt;&lt;/ui-icon&gt;
-&lt;/ui-button&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;n-button variant="ghost" aria-label="Close"&gt;
+  &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
+&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Cascading ── -->
@@ -489,13 +489,13 @@
       </section>
     <pre class="demo-code"><code>&lt;!-- Attributes cascade from parent to children --&gt;
 &lt;section size="sm" density="compact" radius="round" intent="accent"&gt;
-  &lt;ui-button variant="primary"&gt;Inherits all&lt;/ui-button&gt;
-  &lt;ui-button variant="secondary"&gt;Inherits all&lt;/ui-button&gt;
+  &lt;n-button variant="primary"&gt;Inherits all&lt;/n-button&gt;
+  &lt;n-button variant="secondary"&gt;Inherits all&lt;/n-button&gt;
 
   &lt;!-- Child can override any attribute --&gt;
-  &lt;ui-button variant="primary" intent="danger"&gt;Override intent&lt;/ui-button&gt;
-  &lt;ui-button variant="primary" size="lg"&gt;Override size&lt;/ui-button&gt;
-&lt;/section&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+  &lt;n-button variant="primary" intent="danger"&gt;Override intent&lt;/n-button&gt;
+  &lt;n-button variant="primary" size="lg"&gt;Override size&lt;/n-button&gt;
+&lt;/section&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Disabled ── -->
@@ -510,20 +510,20 @@
         <button variant="outline" disabled><span slot="label">Outline</span></button>
       </div>
       <pre class="demo-code"><code>&lt;!-- Disabled state --&gt;
-&lt;ui-button disabled variant="primary"&gt;Disabled Primary&lt;/ui-button&gt;
-&lt;ui-button disabled variant="secondary"&gt;Disabled Secondary&lt;/ui-button&gt;
-&lt;ui-button disabled variant="ghost"&gt;Disabled Ghost&lt;/ui-button&gt;
+&lt;n-button disabled variant="primary"&gt;Disabled Primary&lt;/n-button&gt;
+&lt;n-button disabled variant="secondary"&gt;Disabled Secondary&lt;/n-button&gt;
+&lt;n-button disabled variant="ghost"&gt;Disabled Ghost&lt;/n-button&gt;
 
 &lt;!-- Disabled via fieldset --&gt;
 &lt;fieldset disabled&gt;
-  &lt;ui-input placeholder="Disabled by fieldset"&gt;&lt;/ui-input&gt;
-&lt;/fieldset&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+  &lt;n-input placeholder="Disabled by fieldset"&gt;&lt;/n-input&gt;
+&lt;/fieldset&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/plus.ts';
       import '../icons/phosphor/arrow-right.ts';
       import '../icons/phosphor/pencil-simple.ts';
@@ -538,7 +538,7 @@
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);

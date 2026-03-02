@@ -19,7 +19,7 @@
         font-weight: 600;
         margin-bottom: 0.5rem;
         margin-top: 1.25rem;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
       /* ── Copy Cards ── */
 
@@ -28,8 +28,8 @@
         align-items: center;
         justify-content: space-between;
         padding: 0.75rem 1rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.375rem;
         cursor: pointer;
         user-select: none;
@@ -38,13 +38,13 @@
       }
 
       .copy-card:hover {
-        border-color: var(--neutral-border);
+        border-color: var(--n-border-neutral);
       }
 
       .copy-card[copied] {
-        border-color: var(--accent-border);
-        background: var(--accent-surface);
-        color: var(--accent-surface-ink);
+        border-color: var(--n-border-accent);
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
       }
 
       .copy-indicator {
@@ -52,12 +52,12 @@
         align-items: center;
         gap: 0.375rem;
         font-size: 0.75rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         transition: color 150ms ease;
       }
 
       [copied] .copy-indicator {
-        color: var(--accent-surface-ink);
+        color: var(--n-surface-ink-accent);
       }
 
       .copy-label {
@@ -67,12 +67,12 @@
       .output {
         font-family: monospace;
         font-size: 0.75rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         max-height: 6rem;
         overflow-y: auto;
         margin-top: 0.75rem;
         padding: 0.5rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         border-radius: 0.25rem;
       }
       /* ── Pattern Badges ── */
@@ -90,13 +90,13 @@
       }
 
       .pattern-badge.injection {
-        background: var(--accent-surface);
-        color: var(--accent-surface-ink);
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
       }
 
       .pattern-badge.provider {
-        background: var(--info-surface);
-        color: var(--info-surface-ink);
+        background: var(--n-surface-info);
+        color: var(--n-surface-ink-info);
       }
 
       /* ── API Reference ── */
@@ -115,20 +115,20 @@
         text-align: left;
         font-weight: 600;
         padding: 0.5rem 0.75rem;
-        border-bottom: 2px solid var(--neutral-border-muted);
-        color: var(--neutral-ink-strong);
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
       }
 
       .api-table td {
         padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
         vertical-align: top;
       }
 
       .api-table code {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         padding: 0.0625rem 0.3125rem;
         border-radius: 0.1875rem;
       }
@@ -139,11 +139,11 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
 
     <h1>Copyable</h1>
     <p class="demo-desc">
-      One-click copy-to-clipboard with visual confirmation feedback. Sets the <code>[copied]</code> attribute during the feedback window and dispatches <code>ui-copy</code>.
+      One-click copy-to-clipboard with visual confirmation feedback. Sets the <code>[copied]</code> attribute during the feedback window and dispatches <code>native:copy</code>.
     </p>
 
     <!-- ── Basic Copy (Injection) ── -->
@@ -151,11 +151,11 @@
     <h2>Basic Copy <span class="pattern-badge injection">Injection</span></h2>
     <div class="demo-section">
       <p class="demo-hint">
-        <code>traits="copyable pressable"</code> on a minimal UIElement shell. Click triggers copy via <code>ui-press</code>. The <code>[copied]</code> attribute provides visual feedback for 2 seconds.
+        <code>traits="copyable pressable"</code> on a minimal NativeElement shell. Click triggers copy via <code>native:press</code>. The <code>[copied]</code> attribute provides visual feedback for 2 seconds.
       </p>
       <copy-demo traits="copyable pressable" copyable-value="npm install native-ui" class="copy-card">
         <span class="copy-label">npm install native-ui</span>
-        <span class="copy-indicator"><ui-icon name="copy"></ui-icon> Copy</span>
+        <span class="copy-indicator"><n-icon name="copy"></n-icon> Copy</span>
       </copy-demo>
       <div id="basic-log" class="output"></div>
       <pre class="demo-code"><code>&lt;copy-demo traits="copyable pressable"
@@ -164,14 +164,14 @@
   &lt;span class="copy-indicator"&gt;Copy&lt;/span&gt;
 &lt;/copy-demo&gt;
 
-// Minimal UIElement shell
-class CopyDemo extends UIElement {}
+// Minimal NativeElement shell
+class CopyDemo extends NativeElement {}
 define('copy-demo', CopyDemo);
 
-// Wire ui-press → copy
-el.addEventListener('ui-press', () =&gt; {
+// Wire native:press → copy
+el.addEventListener('native:press', () =&gt; {
   el.getTraitController('copyable')?.copy();
-});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Copy with Getter ── -->
@@ -183,7 +183,7 @@ el.addEventListener('ui-press', () =&gt; {
       </p>
       <copy-demo id="getter-demo" traits="pressable" class="copy-card">
         <span class="copy-label">Copy current timestamp</span>
-        <span class="copy-indicator"><ui-icon name="copy"></ui-icon> Copy</span>
+        <span class="copy-indicator"><n-icon name="copy"></n-icon> Copy</span>
       </copy-demo>
       <div id="getter-log" class="output"></div>
       <pre class="demo-code"><code>import { CopyController } from '../index.ts';
@@ -193,7 +193,7 @@ const copy = new CopyController(el, {
   value: () =&gt; new Date().toISOString(),
 });
 
-el.addEventListener('ui-press', () =&gt; copy.copy());</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+el.addEventListener('native:press', () =&gt; copy.copy());</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Custom Duration (Injection) ── -->
@@ -205,7 +205,7 @@ el.addEventListener('ui-press', () =&gt; copy.copy());</code><ui-button class="c
       </p>
       <copy-demo traits="copyable pressable" copyable-value="Quick feedback copy" copyable-feedback-duration="500" class="copy-card">
         <span class="copy-label">Quick feedback copy</span>
-        <span class="copy-indicator"><ui-icon name="copy"></ui-icon> Copy</span>
+        <span class="copy-indicator"><n-icon name="copy"></n-icon> Copy</span>
       </copy-demo>
       <div id="fast-log" class="output"></div>
       <pre class="demo-code"><code>&lt;copy-demo traits="copyable pressable"
@@ -213,7 +213,7 @@ el.addEventListener('ui-press', () =&gt; copy.copy());</code><ui-button class="c
   copyable-feedback-duration="500"&gt;
   &lt;span class="copy-label"&gt;Quick feedback copy&lt;/span&gt;
   &lt;span class="copy-indicator"&gt;Copy&lt;/span&gt;
-&lt;/copy-demo&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/copy-demo&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Provider Pattern ── -->
@@ -221,22 +221,22 @@ el.addEventListener('ui-press', () =&gt; copy.copy());</code><ui-button class="c
     <h2>Provider Pattern <span class="pattern-badge provider">Provider</span></h2>
     <div class="demo-section">
       <p class="demo-hint">
-        <code>&lt;ui-controller&gt;</code> applies copyable to a plain <code>&lt;div&gt;</code>. No UIElement subclass needed for the target. The controller manages <code>[copied]</code> feedback; a click listener triggers <code>copy()</code>.
+        <code>&lt;n-controller&gt;</code> applies copyable to a plain <code>&lt;div&gt;</code>. No NativeElement subclass needed for the target. The controller manages <code>[copied]</code> feedback; a click listener triggers <code>copy()</code>.
       </p>
-      <ui-controller id="provider-ctrl" traits="copyable" copyable-value="npx create-native-ui@latest">
+      <n-controller id="provider-ctrl" traits="copyable" copyable-value="npx create-native-ui@latest">
         <div id="provider-card" class="copy-card">
           <span class="copy-label">npx create-native-ui@latest</span>
-          <span class="copy-indicator"><ui-icon name="copy"></ui-icon> Copy</span>
+          <span class="copy-indicator"><n-icon name="copy"></n-icon> Copy</span>
         </div>
-      </ui-controller>
+      </n-controller>
       <div id="provider-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;ui-controller traits="copyable"
+      <pre class="demo-code"><code>&lt;n-controller traits="copyable"
   copyable-value="npx create-native-ui@latest"&gt;
   &lt;div class="copy-card"&gt;
     &lt;span class="copy-label"&gt;npx create-native-ui@latest&lt;/span&gt;
     &lt;span class="copy-indicator"&gt;Copy&lt;/span&gt;
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── API Reference ── -->
@@ -272,7 +272,7 @@ el.addEventListener('ui-press', () =&gt; copy.copy());</code><ui-button class="c
           <tr>
             <td><code>copy()</code></td>
             <td><code>Promise&lt;void&gt;</code></td>
-            <td>Writes the value to the clipboard, sets <code>[copied]</code>, and dispatches <code>ui-copy</code>.</td>
+            <td>Writes the value to the clipboard, sets <code>[copied]</code>, and dispatches <code>native:copy</code>.</td>
           </tr>
         </tbody>
       </table>
@@ -284,7 +284,7 @@ el.addEventListener('ui-press', () =&gt; copy.copy());</code><ui-button class="c
         <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>ui-copy</code></td>
+            <td><code>native:copy</code></td>
             <td><code>{ value: string }</code></td>
             <td>Fired after a successful copy. <code>detail.value</code> contains the copied string.</td>
           </tr>
@@ -305,7 +305,7 @@ el.addEventListener('ui-press', () =&gt; copy.copy());</code><ui-button class="c
       </table>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
 
     <!-- Script 1: Register all traits BEFORE any component define() -->
     <script type="module">
@@ -315,17 +315,17 @@ el.addEventListener('ui-press', () =&gt; copy.copy());</code><ui-button class="c
 
     <!-- Script 2: Import components and wire demos -->
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../components/ui-controller/ui-controller.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../components/controller/controller.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
-      import { UIElement, define, CopyController } from '../index.ts';
+      import { NativeElement, define, CopyController } from '../index.ts';
 
-      // ── Minimal UIElement shell for injection demos ──
+      // ── Minimal NativeElement shell for injection demos ──
 
-      class CopyDemo extends UIElement {}
+      class CopyDemo extends NativeElement {}
       define('copy-demo', CopyDemo);
 // ── Copy buttons ──
 
@@ -334,7 +334,7 @@ el.addEventListener('ui-press', () =&gt; copy.copy());</code><ui-button class="c
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
@@ -353,16 +353,16 @@ el.addEventListener('ui-press', () =&gt; copy.copy());</code><ui-button class="c
         while (el.children.length > 20) el.removeChild(el.firstChild);
       }
 
-      // ── Basic Copy (injection) — wire ui-press → copy ──
+      // ── Basic Copy (injection) — wire native:press → copy ──
 
       for (const el of document.querySelectorAll('copy-demo[traits*="copyable"]')) {
-        el.addEventListener('ui-press', () => {
+        el.addEventListener('native:press', () => {
           el.getTraitController('copyable')?.copy();
         });
       }
 
       const basicLogEl = document.getElementById('basic-log');
-      document.querySelector('copy-demo[copyable-value="npm install native-ui"]').addEventListener('ui-copy', (e) => {
+      document.querySelector('copy-demo[copyable-value="npm install native-ui"]').addEventListener('native:copy', (e) => {
         appendLog(basicLogEl, `Copied: "${e.detail.value}"`);
       });
 
@@ -373,23 +373,23 @@ el.addEventListener('ui-press', () =&gt; copy.copy());</code><ui-button class="c
         value: () => new Date().toISOString(),
       });
 
-      getterEl.addEventListener('ui-press', () => getterCopy.copy());
+      getterEl.addEventListener('native:press', () => getterCopy.copy());
 
       const getterLogEl = document.getElementById('getter-log');
-      getterEl.addEventListener('ui-copy', (e) => {
+      getterEl.addEventListener('native:copy', (e) => {
         appendLog(getterLogEl, `Copied: "${e.detail.value}"`);
       });
 
       // ── Custom Duration (injection) — log ──
 
       const fastLogEl = document.getElementById('fast-log');
-      document.querySelector('copy-demo[copyable-feedback-duration="500"]').addEventListener('ui-copy', (e) => {
+      document.querySelector('copy-demo[copyable-feedback-duration="500"]').addEventListener('native:copy', (e) => {
         appendLog(fastLogEl, `Copied: "${e.detail.value}"`);
       });
 
       // ── Provider Pattern — wire click → copy ──
-      // The CopyController is managed by ui-controller on the first child.
-      // Since targets are plain divs (not UIElement), we read the value from
+      // The CopyController is managed by n-controller on the first child.
+      // Since targets are plain divs (not NativeElement), we read the value from
       // the controller attribute and invoke clipboard API directly.
 
       const providerCard = document.getElementById('provider-card');
@@ -398,11 +398,11 @@ el.addEventListener('ui-press', () =&gt; copy.copy());</code><ui-button class="c
         await navigator.clipboard.writeText(value);
         providerCard.toggleAttribute('copied', true);
         setTimeout(() => providerCard.removeAttribute('copied'), 2000);
-        providerCard.dispatchEvent(new CustomEvent('ui-copy', { bubbles: true, detail: { value } }));
+        providerCard.dispatchEvent(new CustomEvent('native:copy', { bubbles: true, detail: { value } }));
       });
 
       const providerLogEl = document.getElementById('provider-log');
-      providerCard.addEventListener('ui-copy', (e) => {
+      providerCard.addEventListener('native:copy', (e) => {
         appendLog(providerLogEl, `Copied: "${e.detail.value}"`);
       });
     </script>

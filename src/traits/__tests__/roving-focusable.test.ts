@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { RovingFocusController } from '../roving-focus-controller.ts';
 import { define } from '../../core/define.ts';
 
-class RovingTestEl extends UIElement {
+class RovingTestEl extends NativeElement {
   #roving: RovingFocusController | null = null;
   setup(): void {
     super.setup();
@@ -121,7 +121,7 @@ describe('RovingFocusable', () => {
 });
 
 describe('RovingFocusable — horizontal orientation', () => {
-  class HorizTestEl extends UIElement {
+  class HorizTestEl extends NativeElement {
     #roving: RovingFocusController | null = null;
     setup(): void {
       super.setup();
@@ -173,7 +173,7 @@ describe('RovingFocusable — horizontal orientation', () => {
 });
 
 describe('RovingFocusable — no-wrap', () => {
-  class NoWrapTestEl extends UIElement {
+  class NoWrapTestEl extends NativeElement {
     #roving: RovingFocusController | null = null;
     setup(): void {
       super.setup();

@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { PressController } from '../press-controller.ts';
 import { define } from '../../core/define.ts';
 
-class PressTestEl extends UIElement {
+class PressTestEl extends NativeElement {
   disabled = false;
   #press: PressController | null = null;
   setup() { super.setup(); this.#press = new PressController(this); }
@@ -32,10 +32,10 @@ describe('Pressable — pointer', () => {
     expect(el.hasAttribute('pressed')).toBe(true);
   });
 
-  it('removes pressed and dispatches ui-press on pointerup', () => {
+  it('removes pressed and dispatches native:press on pointerup', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-press', handler);
+    el.addEventListener('native:press', handler);
     el.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     el.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
     expect(el.hasAttribute('pressed')).toBe(false);
@@ -46,7 +46,7 @@ describe('Pressable — pointer', () => {
   it('ignores non-primary button', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-press', handler);
+    el.addEventListener('native:press', handler);
     el.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 2 }));
     expect(el.hasAttribute('pressed')).toBe(false);
     el.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
@@ -57,7 +57,7 @@ describe('Pressable — pointer', () => {
     const el = create();
     el.disabled = true;
     const handler = vi.fn();
-    el.addEventListener('ui-press', handler);
+    el.addEventListener('native:press', handler);
     el.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     expect(el.hasAttribute('pressed')).toBe(false);
     el.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
@@ -80,20 +80,20 @@ describe('Pressable — pointer', () => {
     expect(el.hasAttribute('pressed')).toBe(false);
   });
 
-  it('does not dispatch ui-press without prior pointerdown', () => {
+  it('does not dispatch native:press without prior pointerdown', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-press', handler);
+    el.addEventListener('native:press', handler);
     el.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
     expect(handler).not.toHaveBeenCalled();
   });
 });
 
 describe('Pressable — keyboard', () => {
-  it('sets pressed on Enter keydown and dispatches ui-press on keyup', () => {
+  it('sets pressed on Enter keydown and dispatches native:press on keyup', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-press', handler);
+    el.addEventListener('native:press', handler);
     el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
     expect(el.hasAttribute('pressed')).toBe(true);
     el.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', bubbles: true }));
@@ -102,10 +102,10 @@ describe('Pressable — keyboard', () => {
     expect(handler.mock.calls[0][0].detail.pointerType).toBe('keyboard');
   });
 
-  it('sets pressed on Space keydown and dispatches ui-press on keyup', () => {
+  it('sets pressed on Space keydown and dispatches native:press on keyup', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-press', handler);
+    el.addEventListener('native:press', handler);
     const keydown = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true });
     el.dispatchEvent(keydown);
     expect(el.hasAttribute('pressed')).toBe(true);
@@ -125,7 +125,7 @@ describe('Pressable — keyboard', () => {
   it('ignores irrelevant keys', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-press', handler);
+    el.addEventListener('native:press', handler);
     el.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', bubbles: true }));
     expect(el.hasAttribute('pressed')).toBe(false);
     el.dispatchEvent(new KeyboardEvent('keyup', { key: 'a', bubbles: true }));
@@ -153,7 +153,7 @@ describe('Pressable — teardown', () => {
     const el = create();
     el.teardown();
     const handler = vi.fn();
-    el.addEventListener('ui-press', handler);
+    el.addEventListener('native:press', handler);
     el.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     el.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
     expect(handler).not.toHaveBeenCalled();

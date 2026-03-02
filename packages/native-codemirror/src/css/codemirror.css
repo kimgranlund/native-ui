@@ -1,0 +1,157 @@
+/**
+ * n-codemirror.css
+ *
+ * CodeMirror chrome styles for NativeUI integration.
+ * Scoped to @layer ui with zero-specificity :where() selectors.
+ *
+ * These styles handle structural concerns (scrolling, gutter borders,
+ * scrollbar appearance, border-radius) that complement the JS-driven
+ * EditorView.theme() in theme.ts.
+ */
+
+@layer ui {
+  /* -----------------------------------------------------------------------
+   * Editor root
+   * --------------------------------------------------------------------- */
+
+  :where(.cm-editor) {
+    /* CodeMirror chrome tokens */
+    --n-cm-scrollbar: #484c52;
+    --n-cm-scrollbar-hover: #5e6167;
+    --n-cm-match-bg: #314050;
+
+    border-radius: var(--n-radius, 8px);
+    overflow: hidden;
+    font-variant-ligatures: contextual;
+    line-height: 1.6;
+  }
+
+  :where(.cm-editor.cm-focused) {
+    outline: none;
+  }
+
+  /* -----------------------------------------------------------------------
+   * Scroller
+   * --------------------------------------------------------------------- */
+
+  :where(.cm-scroller) {
+    overflow: auto;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code',
+      ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  /* -----------------------------------------------------------------------
+   * Gutters
+   * --------------------------------------------------------------------- */
+
+  :where(.cm-gutters) {
+    border-right: none;
+    user-select: none;
+  }
+
+  :where(.cm-gutter) {
+    min-width: 2ch;
+  }
+
+  /* -----------------------------------------------------------------------
+   * Scrollbar styling (thin, muted)
+   * --------------------------------------------------------------------- */
+
+  :where(.cm-scroller) {
+    scrollbar-width: thin;
+    scrollbar-color: var(--n-cm-scrollbar) transparent;
+  }
+
+  :where(.cm-scroller)::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  :where(.cm-scroller)::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  :where(.cm-scroller)::-webkit-scrollbar-thumb {
+    background: var(--n-cm-scrollbar);
+    border-radius: 4px;
+  }
+
+  :where(.cm-scroller)::-webkit-scrollbar-thumb:hover {
+    background: var(--n-cm-scrollbar-hover);
+  }
+
+  :where(.cm-scroller)::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* -----------------------------------------------------------------------
+   * Panels (search, go-to-line, etc.)
+   * --------------------------------------------------------------------- */
+
+  :where(.cm-panels) {
+    border-radius: 0;
+  }
+
+  :where(.cm-search) {
+    padding: 8px 12px;
+    gap: 4px;
+  }
+
+  :where(.cm-search) :where(label) {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* -----------------------------------------------------------------------
+   * Tooltip / autocomplete panel
+   * --------------------------------------------------------------------- */
+
+  :where(.cm-tooltip) {
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  :where(.cm-tooltip-autocomplete) {
+    border-radius: 6px;
+  }
+
+  :where(.cm-tooltip-autocomplete) :where(ul) {
+    padding: 4px 0;
+  }
+
+  :where(.cm-completionIcon) {
+    padding-right: 4px;
+    opacity: 0.6;
+  }
+
+  /* -----------------------------------------------------------------------
+   * Fold placeholder
+   * --------------------------------------------------------------------- */
+
+  :where(.cm-foldPlaceholder) {
+    padding: 0 4px;
+    border-radius: 3px;
+  }
+
+  /* -----------------------------------------------------------------------
+   * Content area
+   * --------------------------------------------------------------------- */
+
+  :where(.cm-content) {
+    padding: 8px 0;
+  }
+
+  :where(.cm-line) {
+    padding: 0 12px 0 4px;
+  }
+
+  /* -----------------------------------------------------------------------
+   * Selection
+   * --------------------------------------------------------------------- */
+
+  :where(.cm-selectionMatch) {
+    background-color: var(--n-cm-match-bg);
+    border-radius: 2px;
+  }
+}

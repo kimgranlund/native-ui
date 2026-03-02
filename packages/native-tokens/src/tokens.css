@@ -1,0 +1,233 @@
+/* ──────────────────────────────────────────────────────────────────────────────
+   native-tokens — Design system token inspector styles.
+   Opt-in via: @import '@nonoun/native-tokens/css';
+   ────────────────────────────────────────────────────────────────────────────── */
+
+@layer ui {
+
+/* ── Toolbar ── */
+
+.native-tokens-toolbar {
+  --n-ground: var(--n-panel);
+
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  gap: 0.5rem;
+  padding-block: 0.5rem;
+  margin-block-end: 0.5rem;
+  background: var(--n-ground);
+}
+
+.native-tokens-toolbar > * {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Section Structure ── */
+
+.native-tokens-section {
+  margin-block-end: 1rem;
+}
+
+.native-tokens-section[hidden] {
+  display: none;
+}
+
+.native-tokens-section + .native-tokens-section:not([hidden]) {
+  padding-block-start: 0.5rem;
+  border-block-start: 1px solid var(--n-border-muted-neutral);
+}
+
+.native-tokens-heading {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--n-ink-muted-neutral);
+  margin: 0 0 0.5rem;
+}
+
+.native-tokens-subheading {
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: var(--n-ink-placeholder-neutral);
+  margin: 0.5rem 0 0.25rem;
+}
+
+/* ── native-tokens-variable ── */
+
+:where(native-tokens-variable) {
+  display: block;
+}
+
+.native-tokens-variable-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding-block: 0.125rem;
+}
+
+.native-tokens-variable-label {
+  font-size: 0.6875rem;
+  color: var(--n-ink-neutral);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 3rem;
+  max-width: 5rem;
+}
+
+.native-tokens-variable-value {
+  font-size: 0.625rem;
+  font-family: ui-monospace, monospace;
+  color: var(--n-ink-muted-neutral);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 3rem;
+  max-width: 5rem;
+}
+
+/* ── native-tokens-colors ── */
+
+:where(native-tokens-colors) {
+  display: block;
+}
+
+.native-tokens-colors-strip {
+  display: flex;
+  gap: 2px;
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+/* ── native-tokens-color-swatch ── */
+
+:where(native-tokens-color-swatch) {
+  flex: 1;
+  aspect-ratio: 1;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.native-tokens-swatch-label {
+  font-size: 0.5rem;
+  line-height: 1;
+  text-align: center;
+  padding: 2px 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  pointer-events: none;
+}
+
+/* ── Swatch Popover ── */
+
+.native-tokens-swatch-popover {
+  position: fixed;
+  position-area: block-end;
+  position-try-fallbacks: flip-block;
+  margin: 0.25rem 0 0;
+
+  min-width: 12rem;
+  padding: 0.375rem;
+
+  font-size: 0.6875rem;
+  color: var(--n-ink-neutral);
+  background: var(--n-modal-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem;
+  box-shadow: var(--n-shadow-md);
+
+  /* Override UA popover styles */
+  inset: unset;
+  overflow: visible;
+
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease,
+    display 150ms ease allow-discrete,
+    overlay 150ms ease allow-discrete;
+}
+
+.native-tokens-swatch-popover:popover-open {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@starting-style {
+  .native-tokens-swatch-popover:popover-open {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+.native-tokens-swatch-popover[popover]:not(:popover-open) {
+  display: none;
+}
+
+.native-tokens-swatch-popover-header {
+  font-size: 0.5625rem;
+  font-family: ui-monospace, monospace;
+  color: var(--n-ink-muted-neutral);
+  padding: 0.125rem 0.25rem 0.375rem;
+  border-bottom: 1px solid var(--n-border-muted-neutral);
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.native-tokens-swatch-popover-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.25rem;
+  border: none;
+  border-radius: 0.25rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.native-tokens-swatch-popover-row:hover {
+  background: var(--n-control-neutral);
+}
+
+.native-tokens-swatch-popover-label {
+  font-size: 0.5625rem;
+  font-weight: 600;
+  color: var(--n-ink-muted-neutral);
+  min-width: 2.5rem;
+}
+
+.native-tokens-swatch-popover-value {
+  font-size: 0.5625rem;
+  font-family: ui-monospace, monospace;
+  color: var(--n-ink-neutral);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── native-tokens-themes ── */
+
+:where(native-tokens-themes) {
+  display: contents;
+}
+
+} /* @layer ui */

@@ -12,8 +12,8 @@
 .log {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.375rem;
         padding: 0.75rem;
         max-height: 12rem;
@@ -21,19 +21,19 @@
         margin-top: 0.5rem;
       }
 .log-entry.cmd {
-        color: var(--accent-ink);
+        color: var(--n-ink-accent);
       }
 
       .log-entry.undo {
-        color: var(--warning-ink);
+        color: var(--n-ink-warning);
       }
 
       .log-entry.error {
-        color: var(--danger-ink);
+        color: var(--n-ink-danger);
       }
 
       .log-entry.success {
-        color: var(--success-ink);
+        color: var(--n-ink-success);
       }
 
       .status-bar {
@@ -44,36 +44,28 @@
         font-family: ui-monospace, monospace;
         margin-top: 0.75rem;
         padding: 0.5rem 0.75rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.375rem;
       }
 
       .status-bar .label {
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
       }
 
       .status-bar .value {
-        color: var(--accent-ink);
+        color: var(--n-ink-accent);
         font-weight: 600;
       }
 
       .plan-input {
-        width: 100%;
-        min-height: 10rem;
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        padding: 0.75rem;
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: 0.375rem;
-        background: var(--neutral-panel);
-        color: var(--neutral-ink);
-        resize: vertical;
         tab-size: 2;
       }
 
       .plan-output {
-        border: 2px dashed var(--neutral-border-muted);
+        border: 2px dashed var(--n-border-muted-neutral);
         border-radius: 0.5rem;
         padding: 1.5rem;
         min-height: 4rem;
@@ -82,7 +74,7 @@
 
       .plan-output:empty::before {
         content: 'Plan output will render here...';
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         font-size: 0.875rem;
       }
 
@@ -96,16 +88,16 @@
       .shortcut-list kbd {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.25rem;
         padding: 0.125rem 0.375rem;
       }
 
       .overlay-demo-box {
         position: fixed;
-        background: var(--neutral-card);
-        border: 1px solid var(--neutral-border);
+        background: var(--n-card-neutral);
+        border: 1px solid var(--n-border-neutral);
         border-radius: 0.5rem;
         padding: 1.5rem;
         box-shadow: 0 8px 32px oklch(0% 0 0 / 0.15);
@@ -121,12 +113,12 @@
       .overlay-demo-box p {
         margin: 0 0 0.75rem;
         font-size: 0.8125rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
       }
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
     <h1>Kernel — Interaction OS</h1>
     <p class="demo-desc">
       20 kernel modules: command bus, undo/redo, focus router, overlays, plan executor, patch protocol, accessibility, observability, workflow engine, policy system, component integration, data binding, workflow templates, schema catalog, and GenUI planner.
@@ -136,19 +128,19 @@
 
     <h2>Command Bus</h2>
     <div class="demo-section" size="sm">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         Dispatch commands through the bus. Handlers receive typed payloads. Middleware can intercept, log, or transform commands.
       </p>
       <div class="demo-row">
-        <ui-button variant="primary" id="cmd-increment">
+        <n-button variant="primary" id="cmd-increment">
           <span slot="label">Increment Counter</span>
-        </ui-button>
-        <ui-button variant="secondary" id="cmd-decrement">
+        </n-button>
+        <n-button variant="secondary" id="cmd-decrement">
           <span slot="label">Decrement Counter</span>
-        </ui-button>
-        <ui-button id="cmd-reset">
+        </n-button>
+        <n-button id="cmd-reset">
           <span slot="label">Reset</span>
-        </ui-button>
+        </n-button>
       </div>
       <div class="status-bar" id="counter-status">
         <span><span class="label">Counter:</span> <span class="value" id="counter-value">0</span></span>
@@ -161,16 +153,16 @@
 
     <h2>Undo / Redo</h2>
     <div class="demo-section" size="sm">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         Commands with undo metadata are tracked. Use Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z or the buttons below.
       </p>
       <div class="demo-row">
-        <ui-button id="btn-undo" disabled>
+        <n-button id="btn-undo" disabled>
           <span slot="label">Undo</span>
-        </ui-button>
-        <ui-button id="btn-redo" disabled>
+        </n-button>
+        <n-button id="btn-redo" disabled>
           <span slot="label">Redo</span>
-        </ui-button>
+        </n-button>
       </div>
       <div class="status-bar">
         <span><span class="label">Undo stack:</span> <span class="value" id="undo-count">0</span></span>
@@ -182,7 +174,7 @@
 
     <h2>Focus Router (Keyboard Shortcuts)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         Global keyboard shortcuts registered through the focus router. Try pressing the keys below (click outside any input first).
       </p>
       <div class="shortcut-list" id="shortcut-list"></div>
@@ -193,19 +185,19 @@
 
     <h2>Overlay Manager</h2>
     <div class="demo-section" size="sm">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         Centralized overlay stack with z-index arbitration. Escape closes the top overlay. Click outside to dismiss.
       </p>
       <div class="demo-row">
-        <ui-button variant="primary" id="overlay-open-popover">
+        <n-button variant="primary" id="overlay-open-popover">
           <span slot="label">Open Popover</span>
-        </ui-button>
-        <ui-button variant="secondary" id="overlay-open-dialog">
+        </n-button>
+        <n-button variant="secondary" id="overlay-open-dialog">
           <span slot="label">Open Dialog</span>
-        </ui-button>
-        <ui-button id="overlay-close-all">
+        </n-button>
+        <n-button id="overlay-close-all">
           <span slot="label">Close All</span>
-        </ui-button>
+        </n-button>
       </div>
       <div class="status-bar">
         <span><span class="label">Stack depth:</span> <span class="value" id="overlay-depth">0</span></span>
@@ -217,20 +209,20 @@
 
     <h2>Plan Executor (GenUI)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         Validate and render a declarative UI schema. Events wire to the command bus. Edit the JSON and click "Execute Plan".
       </p>
-      <textarea class="plan-input" id="plan-input"></textarea>
+      <n-textarea class="plan-input" id="plan-input" rows="10"></n-textarea>
       <div class="demo-row" style="margin-top: 0.75rem;">
-        <ui-button variant="primary" id="plan-execute" size="sm">
+        <n-button variant="primary" id="plan-execute" size="sm">
           <span slot="label">Execute Plan</span>
-        </ui-button>
-        <ui-button id="plan-clear" size="sm">
+        </n-button>
+        <n-button id="plan-clear" size="sm">
           <span slot="label">Clear Output</span>
-        </ui-button>
-        <ui-button variant="ghost" id="plan-reset" size="sm">
+        </n-button>
+        <n-button variant="ghost" id="plan-reset" size="sm">
           <span slot="label">Reset JSON</span>
-        </ui-button>
+        </n-button>
       </div>
       <h3>Rendered Output</h3>
       <div class="plan-output" id="plan-output"></div>
@@ -241,22 +233,22 @@
 
     <h2>Patch Protocol</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         Apply incremental patches to a rendered plan. Execute a plan above first, then try patching it.
       </p>
       <div class="demo-row">
-        <ui-button variant="primary" id="patch-text" size="sm">
+        <n-button variant="primary" id="patch-text" size="sm">
           <span slot="label">Patch Text</span>
-        </ui-button>
-        <ui-button variant="secondary" id="patch-add" size="sm">
+        </n-button>
+        <n-button variant="secondary" id="patch-add" size="sm">
           <span slot="label">Add Child</span>
-        </ui-button>
-        <ui-button id="patch-remove" size="sm">
+        </n-button>
+        <n-button id="patch-remove" size="sm">
           <span slot="label">Remove Child</span>
-        </ui-button>
-        <ui-button variant="ghost" id="patch-attr" size="sm">
+        </n-button>
+        <n-button variant="ghost" id="patch-attr" size="sm">
           <span slot="label">Set Attribute</span>
-        </ui-button>
+        </n-button>
       </div>
       <div class="log" id="patch-log"></div>
     </div>
@@ -265,19 +257,19 @@
 
     <h2>Accessibility Validation</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         Validate a plan against accessibility rules before rendering. Try plans with and without proper labeling.
       </p>
       <div class="demo-row">
-        <ui-button variant="primary" id="a11y-check-plan" size="sm">
+        <n-button variant="primary" id="a11y-check-plan" size="sm">
           <span slot="label">Validate Current Plan</span>
-        </ui-button>
-        <ui-button variant="secondary" id="a11y-check-bad" size="sm">
+        </n-button>
+        <n-button variant="secondary" id="a11y-check-bad" size="sm">
           <span slot="label">Validate Bad Plan</span>
-        </ui-button>
-        <ui-button id="a11y-audit-dom" size="sm">
+        </n-button>
+        <n-button id="a11y-audit-dom" size="sm">
           <span slot="label">Audit Live DOM</span>
-        </ui-button>
+        </n-button>
       </div>
       <div class="log" id="a11y-log"></div>
     </div>
@@ -286,19 +278,19 @@
 
     <h2>Observability</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         All kernel activity is logged. View the event log and performance metrics.
       </p>
       <div class="demo-row">
-        <ui-button variant="primary" id="obs-show-log" size="sm">
+        <n-button variant="primary" id="obs-show-log" size="sm">
           <span slot="label">Show Event Log</span>
-        </ui-button>
-        <ui-button variant="secondary" id="obs-show-perf" size="sm">
+        </n-button>
+        <n-button variant="secondary" id="obs-show-perf" size="sm">
           <span slot="label">Show Perf Metrics</span>
-        </ui-button>
-        <ui-button id="obs-clear" size="sm">
+        </n-button>
+        <n-button id="obs-clear" size="sm">
           <span slot="label">Clear Log</span>
-        </ui-button>
+        </n-button>
       </div>
       <div class="status-bar">
         <span><span class="label">Log entries:</span> <span class="value" id="obs-count">0</span></span>
@@ -311,22 +303,22 @@
 
     <h2>Workflow Engine (Statechart)</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         A traffic light statechart: green → yellow → red → green. Guards, context, and transition history included.
       </p>
       <div class="demo-row">
-        <ui-button variant="primary" id="wf-start" size="sm">
+        <n-button variant="primary" id="wf-start" size="sm">
           <span slot="label">Start</span>
-        </ui-button>
-        <ui-button variant="secondary" id="wf-next" size="sm">
+        </n-button>
+        <n-button variant="secondary" id="wf-next" size="sm">
           <span slot="label">Next Light</span>
-        </ui-button>
-        <ui-button id="wf-stop" size="sm">
+        </n-button>
+        <n-button id="wf-stop" size="sm">
           <span slot="label">Stop</span>
-        </ui-button>
-        <ui-button variant="ghost" id="wf-snapshot" size="sm">
+        </n-button>
+        <n-button variant="ghost" id="wf-snapshot" size="sm">
           <span slot="label">Snapshot</span>
-        </ui-button>
+        </n-button>
       </div>
       <div class="status-bar">
         <span><span class="label">State:</span> <span class="value" id="wf-state">-</span></span>
@@ -340,30 +332,30 @@
 
     <h2>Policy &amp; Capability</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         Grant/revoke capabilities and add deny rules. The policy engine middleware blocks unauthorized commands on the bus.
       </p>
       <div class="demo-row">
-        <ui-button variant="primary" id="pol-grant" size="sm">
+        <n-button variant="primary" id="pol-grant" size="sm">
           <span slot="label">Grant "admin"</span>
-        </ui-button>
-        <ui-button variant="secondary" id="pol-revoke" size="sm">
+        </n-button>
+        <n-button variant="secondary" id="pol-revoke" size="sm">
           <span slot="label">Revoke "admin"</span>
-        </ui-button>
-        <ui-button id="pol-deny-rule" size="sm">
+        </n-button>
+        <n-button id="pol-deny-rule" size="sm">
           <span slot="label">Add Deny Rule</span>
-        </ui-button>
-        <ui-button variant="ghost" id="pol-remove-rule" size="sm">
+        </n-button>
+        <n-button variant="ghost" id="pol-remove-rule" size="sm">
           <span slot="label">Remove Deny Rule</span>
-        </ui-button>
+        </n-button>
       </div>
       <div class="demo-row">
-        <ui-button variant="primary" id="pol-dispatch-open" size="sm">
+        <n-button variant="primary" id="pol-dispatch-open" size="sm">
           <span slot="label">Dispatch (open)</span>
-        </ui-button>
-        <ui-button variant="secondary" id="pol-dispatch-protected" size="sm">
+        </n-button>
+        <n-button variant="secondary" id="pol-dispatch-protected" size="sm">
           <span slot="label">Dispatch (needs admin)</span>
-        </ui-button>
+        </n-button>
       </div>
       <div class="status-bar">
         <span><span class="label">Denied:</span> <span class="value" id="pol-denied">0</span></span>
@@ -376,19 +368,19 @@
 
     <h2>Component Integration</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         The component manifest describes all 49 native-ui components. Use the event bridge to auto-route component events to the command bus.
       </p>
       <div class="demo-row">
-        <ui-button variant="primary" id="ci-show-manifest" size="sm">
+        <n-button variant="primary" id="ci-show-manifest" size="sm">
           <span slot="label">Show Manifest</span>
-        </ui-button>
-        <ui-button variant="secondary" id="ci-by-category" size="sm">
+        </n-button>
+        <n-button variant="secondary" id="ci-by-category" size="sm">
           <span slot="label">By Category</span>
-        </ui-button>
-        <ui-button id="ci-install-bridge" size="sm">
+        </n-button>
+        <n-button id="ci-install-bridge" size="sm">
           <span slot="label">Install Event Bridge</span>
-        </ui-button>
+        </n-button>
       </div>
       <div class="status-bar">
         <span><span class="label">Components:</span> <span class="value" id="ci-count">-</span></span>
@@ -401,30 +393,30 @@
 
     <h2>Workflow Templates</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         Pre-built workflow definitions for common patterns. Select a template and run it through the workflow engine.
       </p>
       <div class="demo-row">
-        <ui-button variant="primary" id="wft-form-wizard" size="sm">
+        <n-button variant="primary" id="wft-form-wizard" size="sm">
           <span slot="label">Form Wizard</span>
-        </ui-button>
-        <ui-button variant="secondary" id="wft-crud" size="sm">
+        </n-button>
+        <n-button variant="secondary" id="wft-crud" size="sm">
           <span slot="label">CRUD Lifecycle</span>
-        </ui-button>
-        <ui-button id="wft-auth" size="sm">
+        </n-button>
+        <n-button id="wft-auth" size="sm">
           <span slot="label">Auth Flow</span>
-        </ui-button>
-        <ui-button variant="ghost" id="wft-toggle" size="sm">
+        </n-button>
+        <n-button variant="ghost" id="wft-toggle" size="sm">
           <span slot="label">Toggle</span>
-        </ui-button>
+        </n-button>
       </div>
       <div class="demo-row">
-        <ui-button variant="primary" id="wft-send" size="sm" disabled>
+        <n-button variant="primary" id="wft-send" size="sm" disabled>
           <span slot="label">Send Event</span>
-        </ui-button>
-        <ui-button id="wft-stop" size="sm" disabled>
+        </n-button>
+        <n-button id="wft-stop" size="sm" disabled>
           <span slot="label">Stop</span>
-        </ui-button>
+        </n-button>
       </div>
       <div class="status-bar">
         <span><span class="label">Template:</span> <span class="value" id="wft-name">-</span></span>
@@ -438,22 +430,22 @@
 
     <h2>Schema Catalog</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         Introspect the component schema catalog. Each schema describes attributes, properties, slots, events, and ARIA requirements.
       </p>
       <div class="demo-row">
-        <ui-button variant="primary" id="sc-list-all" size="sm">
+        <n-button variant="primary" id="sc-list-all" size="sm">
           <span slot="label">List All Schemas</span>
-        </ui-button>
-        <ui-button variant="secondary" id="sc-inspect-button" size="sm">
-          <span slot="label">Inspect ui-button</span>
-        </ui-button>
-        <ui-button id="sc-inspect-input" size="sm">
-          <span slot="label">Inspect ui-input</span>
-        </ui-button>
-        <ui-button variant="ghost" id="sc-inspect-select" size="sm">
-          <span slot="label">Inspect ui-select</span>
-        </ui-button>
+        </n-button>
+        <n-button variant="secondary" id="sc-inspect-button" size="sm">
+          <span slot="label">Inspect n-button</span>
+        </n-button>
+        <n-button id="sc-inspect-input" size="sm">
+          <span slot="label">Inspect n-input</span>
+        </n-button>
+        <n-button variant="ghost" id="sc-inspect-select" size="sm">
+          <span slot="label">Inspect n-select</span>
+        </n-button>
       </div>
       <div class="log" id="sc-log" style="max-height: 20rem;"></div>
     </div>
@@ -462,45 +454,45 @@
 
     <h2>GenUI Planner</h2>
     <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--neutral-ink-muted); margin-bottom: 1rem;">
+      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         Generate validated UI plans from structured intents. The planner auto-adds ARIA attributes, validates accessibility, and produces frozen plans ready for the executor.
       </p>
       <h3>Quick Builders</h3>
       <div class="demo-row">
-        <ui-button variant="primary" id="gp-login-form" size="sm">
+        <n-button variant="primary" id="gp-login-form" size="sm">
           <span slot="label">Login Form</span>
-        </ui-button>
-        <ui-button variant="secondary" id="gp-contact-form" size="sm">
+        </n-button>
+        <n-button variant="secondary" id="gp-contact-form" size="sm">
           <span slot="label">Contact Form</span>
-        </ui-button>
-        <ui-button id="gp-action-bar" size="sm">
+        </n-button>
+        <n-button id="gp-action-bar" size="sm">
           <span slot="label">Action Bar</span>
-        </ui-button>
-        <ui-button variant="primary" id="gp-card" size="sm" intent="info">
+        </n-button>
+        <n-button variant="primary" id="gp-card" size="sm" intent="info">
           <span slot="label">Card</span>
-        </ui-button>
-        <ui-button variant="secondary" id="gp-dialog" size="sm" intent="warning">
+        </n-button>
+        <n-button variant="secondary" id="gp-dialog" size="sm" intent="warning">
           <span slot="label">Dialog</span>
-        </ui-button>
-        <ui-button id="gp-settings" size="sm">
+        </n-button>
+        <n-button id="gp-settings" size="sm">
           <span slot="label">Settings</span>
-        </ui-button>
-        <ui-button variant="primary" id="gp-tabs" size="sm" intent="success">
+        </n-button>
+        <n-button variant="primary" id="gp-tabs" size="sm" intent="success">
           <span slot="label">Tabs</span>
-        </ui-button>
-        <ui-button variant="secondary" id="gp-nav" size="sm">
+        </n-button>
+        <n-button variant="secondary" id="gp-nav" size="sm">
           <span slot="label">Nav List</span>
-        </ui-button>
+        </n-button>
       </div>
       <h3>Custom Intent</h3>
-      <textarea class="plan-input" id="gp-intent-input" style="min-height: 8rem;"></textarea>
+      <n-textarea class="plan-input" id="gp-intent-input" rows="8"></n-textarea>
       <div class="demo-row" style="margin-top: 0.75rem;">
-        <ui-button variant="primary" id="gp-generate" size="sm">
+        <n-button variant="primary" id="gp-generate" size="sm">
           <span slot="label">Generate Plan</span>
-        </ui-button>
-        <ui-button variant="secondary" id="gp-execute" size="sm" disabled>
+        </n-button>
+        <n-button variant="secondary" id="gp-execute" size="sm" disabled>
           <span slot="label">Execute Generated Plan</span>
-        </ui-button>
+        </n-button>
       </div>
       <div class="status-bar">
         <span><span class="label">Valid:</span> <span class="value" id="gp-valid">-</span></span>
@@ -514,22 +506,22 @@
       <div class="log" id="gp-log"></div>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../components/ui-input/ui-input.ts';
-      import '../components/ui-select/ui-select.ts';
-      import '../components/ui-listbox/ui-listbox.ts';
-      import '../components/ui-combobox/ui-combobox.ts';
-      import '../components/ui-textarea/ui-textarea.ts';
-      import '../components/ui-field/ui-field.ts';
-      import '../components/ui-checkbox/ui-checkbox.ts';
-      import '../components/ui-switch/ui-switch.ts';
-      import '../components/ui-tabs/ui-tabs.ts';
-      import '../containers/ui-card/ui-card.ts';
-      import '../components/ui-dialog/ui-dialog.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../components/input/input.ts';
+      import '../components/select/select.ts';
+      import '../components/listbox/listbox.ts';
+      import '../components/combobox/combobox.ts';
+      import '../components/textarea/textarea.ts';
+      import '../components/field/field.ts';
+      import '../components/checkbox/checkbox.ts';
+      import '../components/switch/switch.ts';
+      import '../components/tabs/tabs.ts';
+      import '../containers/card/card.ts';
+      import '../components/dialog/dialog.ts';
+      import '../icons/icon.ts';
       import { Kernel, resetKernel } from './kernel.ts';
       import { WorkflowEngine } from './workflow.ts';
       import { validateAccessibility, auditDOM } from './accessibility.ts';
@@ -599,21 +591,21 @@
       });
 
       // Wire buttons
-      document.getElementById('cmd-increment').addEventListener('ui-press', () => {
+      document.getElementById('cmd-increment').addEventListener('native:press', () => {
         kernel.bus.dispatch('counter.increment', null, {
           undoType: 'counter.set',
           undoPayload: counter,
         });
       });
 
-      document.getElementById('cmd-decrement').addEventListener('ui-press', () => {
+      document.getElementById('cmd-decrement').addEventListener('native:press', () => {
         kernel.bus.dispatch('counter.decrement', null, {
           undoType: 'counter.set',
           undoPayload: counter,
         });
       });
 
-      document.getElementById('cmd-reset').addEventListener('ui-press', () => {
+      document.getElementById('cmd-reset').addEventListener('native:press', () => {
         kernel.bus.dispatch('counter.reset', null);
       });
 
@@ -634,8 +626,8 @@
         if (cmd) logCmd(`Redo: ${cmd.type}`, 'undo');
       }
 
-      btnUndo.addEventListener('ui-press', doUndo);
-      btnRedo.addEventListener('ui-press', doRedo);
+      btnUndo.addEventListener('native:press', doUndo);
+      btnRedo.addEventListener('native:press', doRedo);
 
       // Reactive undo/redo status
       effect(() => {
@@ -722,7 +714,7 @@
 
         const descEl = document.createElement('div');
         descEl.textContent = s.description;
-        descEl.style.color = 'var(--neutral-ink-muted)';
+        descEl.style.color = 'var(--n-ink-muted-neutral)';
         descEl.style.fontSize = '0.8125rem';
         shortcutList.appendChild(descEl);
       }
@@ -759,7 +751,7 @@
         p.textContent = message;
         box.appendChild(p);
 
-        const closeBtn = document.createElement('ui-button');
+        const closeBtn = document.createElement('n-button');
         closeBtn.setAttribute('size', 'xs');
         closeBtn.innerHTML = '<span slot="label">Close</span>';
         box.appendChild(closeBtn);
@@ -770,7 +762,7 @@
 
         box.style.zIndex = String(kernel.overlays.getEntry(id)?.zIndex ?? 1000);
 
-        closeBtn.addEventListener('ui-press', () => {
+        closeBtn.addEventListener('native:press', () => {
           kernel.overlays.close(id);
           box.remove();
         });
@@ -786,7 +778,7 @@
         return id;
       }
 
-      document.getElementById('overlay-open-popover').addEventListener('ui-press', (e) => {
+      document.getElementById('overlay-open-popover').addEventListener('native:press', (e) => {
         const rect = e.target.getBoundingClientRect();
         createOverlayBox(
           'popover',
@@ -797,7 +789,7 @@
         );
       });
 
-      document.getElementById('overlay-open-dialog').addEventListener('ui-press', (e) => {
+      document.getElementById('overlay-open-dialog').addEventListener('native:press', (e) => {
         const rect = e.target.getBoundingClientRect();
         createOverlayBox(
           'dialog',
@@ -808,7 +800,7 @@
         );
       });
 
-      document.getElementById('overlay-close-all').addEventListener('ui-press', () => {
+      document.getElementById('overlay-close-all').addEventListener('native:press', () => {
         // Remove all overlay DOM elements
         for (const entry of kernel.overlays.stack.value) {
           entry.element.remove();
@@ -826,7 +818,7 @@
         root: {
           id: 'card',
           tag: 'div',
-          attributes: { style: 'background: var(--neutral-card); border: 1px solid var(--neutral-border-muted); border-radius: 0.5rem; padding: 1.5rem;' },
+          attributes: { style: 'background: var(--n-card-neutral); border: 1px solid var(--n-border-muted-neutral); border-radius: 0.5rem; padding: 1.5rem;' },
           children: [
             {
               id: 'heading',
@@ -837,7 +829,7 @@
             {
               id: 'description',
               tag: 'p',
-              attributes: { style: 'margin: 0 0 1rem; font-size: 0.875rem; color: var(--neutral-ink-muted);' },
+              attributes: { style: 'margin: 0 0 1rem; font-size: 0.875rem; color: var(--n-ink-muted-neutral);' },
               textContent: 'This card was rendered from a JSON plan by the PlanExecutor.',
             },
             {
@@ -847,18 +839,18 @@
               children: [
                 {
                   id: 'btn-confirm',
-                  tag: 'ui-button',
+                  tag: 'n-button',
                   attributes: { variant: 'primary', size: 'sm' },
-                  events: { 'ui-press': 'plan.confirm' },
+                  events: { 'native:press': 'plan.confirm' },
                   children: [
                     { id: 'btn-confirm-label', tag: 'span', attributes: { slot: 'label' }, textContent: 'Confirm' },
                   ],
                 },
                 {
                   id: 'btn-cancel',
-                  tag: 'ui-button',
+                  tag: 'n-button',
                   attributes: { size: 'sm' },
-                  events: { 'ui-press': 'plan.cancel' },
+                  events: { 'native:press': 'plan.cancel' },
                   children: [
                     { id: 'btn-cancel-label', tag: 'span', attributes: { slot: 'label' }, textContent: 'Cancel' },
                   ],
@@ -899,7 +891,7 @@
 
       let currentPlanId = null;
 
-      document.getElementById('plan-execute').addEventListener('ui-press', () => {
+      document.getElementById('plan-execute').addEventListener('native:press', () => {
         // Teardown previous
         if (currentPlanId) {
           kernel.executor.teardown(currentPlanId);
@@ -919,7 +911,7 @@
         }
       });
 
-      document.getElementById('plan-clear').addEventListener('ui-press', () => {
+      document.getElementById('plan-clear').addEventListener('native:press', () => {
         if (currentPlanId) {
           kernel.executor.teardown(currentPlanId);
           currentPlanId = null;
@@ -928,7 +920,7 @@
         logPlan('Output cleared');
       });
 
-      document.getElementById('plan-reset').addEventListener('ui-press', () => {
+      document.getElementById('plan-reset').addEventListener('native:press', () => {
         planInput.value = JSON.stringify(defaultPlan, null, 2);
         logPlan('JSON reset to default');
       });
@@ -945,7 +937,7 @@
         patchLog.prepend(entry);
       }
 
-      document.getElementById('patch-text').addEventListener('ui-press', () => {
+      document.getElementById('patch-text').addEventListener('native:press', () => {
         if (!currentPlanId) { logPatch('No active plan — execute a plan first', 'error'); return; }
         const result = kernel.patchPlan({
           planId: currentPlanId,
@@ -956,7 +948,7 @@
         logPatch(`set-text: applied=${result.applied}, errors=${result.errors.length}`);
       });
 
-      document.getElementById('patch-add').addEventListener('ui-press', () => {
+      document.getElementById('patch-add').addEventListener('native:press', () => {
         if (!currentPlanId) { logPatch('No active plan — execute a plan first', 'error'); return; }
         const childId = `added-${++patchCounter}`;
         const result = kernel.patchPlan({
@@ -968,7 +960,7 @@
         logPatch(`add: "${childId}" → applied=${result.applied}, errors=${result.errors.length}`);
       });
 
-      document.getElementById('patch-remove').addEventListener('ui-press', () => {
+      document.getElementById('patch-remove').addEventListener('native:press', () => {
         if (!currentPlanId) { logPatch('No active plan — execute a plan first', 'error'); return; }
         const result = kernel.patchPlan({
           planId: currentPlanId,
@@ -979,11 +971,11 @@
         logPatch(`remove "description": applied=${result.applied}, errors=${result.errors.length}`, result.errors.length ? 'error' : 'cmd');
       });
 
-      document.getElementById('patch-attr').addEventListener('ui-press', () => {
+      document.getElementById('patch-attr').addEventListener('native:press', () => {
         if (!currentPlanId) { logPatch('No active plan — execute a plan first', 'error'); return; }
         const result = kernel.patchPlan({
           planId: currentPlanId,
-          ops: [{ type: 'set-attribute', targetId: 'card', name: 'style', value: 'background: var(--accent-panel); border: 1px solid var(--accent-border-muted); border-radius: 0.5rem; padding: 1.5rem;' }],
+          ops: [{ type: 'set-attribute', targetId: 'card', name: 'style', value: 'background: var(--n-panel-accent); border: 1px solid var(--n-border-muted-accent); border-radius: 0.5rem; padding: 1.5rem;' }],
           source: 'human',
           timestamp: Date.now(),
         });
@@ -1001,7 +993,7 @@
         a11yLog.prepend(entry);
       }
 
-      document.getElementById('a11y-check-plan').addEventListener('ui-press', () => {
+      document.getElementById('a11y-check-plan').addEventListener('native:press', () => {
         try {
           const plan = JSON.parse(planInput.value);
           const result = kernel.validatePlanAccessibility(plan);
@@ -1014,7 +1006,7 @@
         }
       });
 
-      document.getElementById('a11y-check-bad').addEventListener('ui-press', () => {
+      document.getElementById('a11y-check-bad').addEventListener('native:press', () => {
         const badPlan = {
           id: 'bad-a11y', version: 1, source: 'generated', timestamp: Date.now(),
           root: {
@@ -1032,7 +1024,7 @@
         }
       });
 
-      document.getElementById('a11y-audit-dom').addEventListener('ui-press', () => {
+      document.getElementById('a11y-audit-dom').addEventListener('native:press', () => {
         const root = document.querySelector('.plan-output');
         if (!root || !root.firstElementChild) { logA11y('No rendered plan to audit', 'error'); return; }
         const result = auditDOM(root);
@@ -1055,7 +1047,7 @@
 
       effect(() => { renderObsStatus(); });
 
-      document.getElementById('obs-show-log').addEventListener('ui-press', () => {
+      document.getElementById('obs-show-log').addEventListener('native:press', () => {
         obsLog.innerHTML = '';
         const entries = kernel.log.query({ limit: 20 });
         for (const e of entries) {
@@ -1069,7 +1061,7 @@
         }
       });
 
-      document.getElementById('obs-show-perf').addEventListener('ui-press', () => {
+      document.getElementById('obs-show-perf').addEventListener('native:press', () => {
         obsLog.innerHTML = '';
         const labels = new Set(kernel.perf.samples.value.map(s => s.label));
         for (const label of labels) {
@@ -1085,7 +1077,7 @@
         }
       });
 
-      document.getElementById('obs-clear').addEventListener('ui-press', () => {
+      document.getElementById('obs-clear').addEventListener('native:press', () => {
         kernel.log.clear();
         kernel.perf.clear();
         obsLog.innerHTML = '<div class="log-entry">Cleared.</div>';
@@ -1137,12 +1129,12 @@
         wfCyclesEl.textContent = String(wfEngine.getContext('cycles') ?? 0);
       });
 
-      document.getElementById('wf-start').addEventListener('ui-press', () => {
+      document.getElementById('wf-start').addEventListener('native:press', () => {
         wfEngine.start();
         logWf(`Started → ${wfEngine.currentState.value}`);
       });
 
-      document.getElementById('wf-next').addEventListener('ui-press', () => {
+      document.getElementById('wf-next').addEventListener('native:press', () => {
         const record = wfEngine.send('NEXT');
         if (record) {
           logWf(`Transition: ${record.from} → ${record.to} (event: ${record.event})`);
@@ -1151,12 +1143,12 @@
         }
       });
 
-      document.getElementById('wf-stop').addEventListener('ui-press', () => {
+      document.getElementById('wf-stop').addEventListener('native:press', () => {
         wfEngine.stop();
         logWf('Stopped', 'undo');
       });
 
-      document.getElementById('wf-snapshot').addEventListener('ui-press', () => {
+      document.getElementById('wf-snapshot').addEventListener('native:press', () => {
         const snap = wfEngine.snapshot();
         logWf(`Snapshot: state=${snap.currentState}, history=${snap.history.length} transitions, context=${JSON.stringify(snap.context)}`);
       });
@@ -1182,20 +1174,20 @@
         polLastEl.textContent = last ? (last.allowed ? 'ALLOW' : `DENY: ${last.reason}`) : '-';
       });
 
-      document.getElementById('pol-grant').addEventListener('ui-press', () => {
+      document.getElementById('pol-grant').addEventListener('native:press', () => {
         if (adminCapId) { logPol('Already granted', 'undo'); return; }
         adminCapId = kernel.policy.grant({ name: 'admin', patterns: ['admin.*'] });
         logPol(`Granted "admin" capability (id: ${adminCapId})`);
       });
 
-      document.getElementById('pol-revoke').addEventListener('ui-press', () => {
+      document.getElementById('pol-revoke').addEventListener('native:press', () => {
         if (!adminCapId) { logPol('No admin capability to revoke', 'undo'); return; }
         kernel.policy.revoke(adminCapId);
         logPol(`Revoked "admin" (id: ${adminCapId})`);
         adminCapId = null;
       });
 
-      document.getElementById('pol-deny-rule').addEventListener('ui-press', () => {
+      document.getElementById('pol-deny-rule').addEventListener('native:press', () => {
         if (denyRuleId) { logPol('Deny rule already active', 'undo'); return; }
         denyRuleId = kernel.policy.addRule({
           effect: 'deny',
@@ -1206,7 +1198,7 @@
         logPol(`Added deny rule for "secret.*" (id: ${denyRuleId})`);
       });
 
-      document.getElementById('pol-remove-rule').addEventListener('ui-press', () => {
+      document.getElementById('pol-remove-rule').addEventListener('native:press', () => {
         if (!denyRuleId) { logPol('No deny rule to remove', 'undo'); return; }
         kernel.policy.removeRule(denyRuleId);
         logPol(`Removed deny rule (id: ${denyRuleId})`);
@@ -1217,12 +1209,12 @@
       kernel.bus.on('admin.action', () => logPol('Handler: admin.action executed'));
       kernel.bus.on('secret.action', () => logPol('Handler: secret.action executed'));
 
-      document.getElementById('pol-dispatch-open').addEventListener('ui-press', () => {
+      document.getElementById('pol-dispatch-open').addEventListener('native:press', () => {
         kernel.bus.dispatch('open.action', null);
         logPol('Dispatched open.action');
       });
 
-      document.getElementById('pol-dispatch-protected').addEventListener('ui-press', () => {
+      document.getElementById('pol-dispatch-protected').addEventListener('native:press', () => {
         kernel.bus.dispatch('admin.action', null, { capabilities: ['admin'] });
         const last = kernel.policy.lastDecision.value;
         logPol(`Dispatched admin.action → ${last?.allowed ? 'ALLOWED' : 'DENIED'}`, last?.allowed ? 'cmd' : 'error');
@@ -1244,7 +1236,7 @@
         ciLog.prepend(entry);
       }
 
-      document.getElementById('ci-show-manifest').addEventListener('ui-press', () => {
+      document.getElementById('ci-show-manifest').addEventListener('native:press', () => {
         ciLog.innerHTML = '';
         for (const d of COMPONENT_MANIFEST) {
           const div = document.createElement('div');
@@ -1254,7 +1246,7 @@
         }
       });
 
-      document.getElementById('ci-by-category').addEventListener('ui-press', () => {
+      document.getElementById('ci-by-category').addEventListener('native:press', () => {
         ciLog.innerHTML = '';
         for (const cat of ['form', 'display', 'navigation', 'overlay', 'container']) {
           const items = getDescriptorsByCategory(cat);
@@ -1265,7 +1257,7 @@
         }
       });
 
-      document.getElementById('ci-install-bridge').addEventListener('ui-press', () => {
+      document.getElementById('ci-install-bridge').addEventListener('native:press', () => {
         if (bridgeDispose) {
           bridgeDispose();
           bridgeDispose = null;
@@ -1275,7 +1267,7 @@
         }
         bridgeDispose = installEventBridge(kernel);
         ciBridgeStatusEl.textContent = 'active';
-        logCi('Event bridge installed — all ui-* events now route to command bus');
+        logCi('Event bridge installed — all native:* events now route to command bus');
 
         // Listen for bridge-routed commands
         kernel.bus.on((cmd) => cmd.type.includes('.press') || cmd.type.includes('.change'), (cmd) => {
@@ -1319,27 +1311,27 @@
         });
       }
 
-      document.getElementById('wft-form-wizard').addEventListener('ui-press', () => {
+      document.getElementById('wft-form-wizard').addEventListener('native:press', () => {
         const def = formWizard({ steps: ['personal', 'address', 'payment', 'review'] });
         startTemplate('Form Wizard', def);
       });
 
-      document.getElementById('wft-crud').addEventListener('ui-press', () => {
+      document.getElementById('wft-crud').addEventListener('native:press', () => {
         const def = crudLifecycle({ allowDelete: true });
         startTemplate('CRUD Lifecycle', def);
       });
 
-      document.getElementById('wft-auth').addEventListener('ui-press', () => {
+      document.getElementById('wft-auth').addEventListener('native:press', () => {
         const def = authFlow({ mfaRequired: true });
         startTemplate('Auth Flow (MFA)', def);
       });
 
-      document.getElementById('wft-toggle').addEventListener('ui-press', () => {
+      document.getElementById('wft-toggle').addEventListener('native:press', () => {
         const def = toggleFlow();
         startTemplate('Toggle', def);
       });
 
-      document.getElementById('wft-send').addEventListener('ui-press', () => {
+      document.getElementById('wft-send').addEventListener('native:press', () => {
         if (!wftEngine) return;
         const events = wftEngine.getAvailableEvents();
         if (events.length === 0) {
@@ -1356,7 +1348,7 @@
         }
       });
 
-      document.getElementById('wft-stop').addEventListener('ui-press', () => {
+      document.getElementById('wft-stop').addEventListener('native:press', () => {
         if (wftEngine) {
           wftEngine.stop();
           wftSendBtn.disabled = true;
@@ -1376,7 +1368,7 @@
         scLog.appendChild(entry);
       }
 
-      document.getElementById('sc-list-all').addEventListener('ui-press', () => {
+      document.getElementById('sc-list-all').addEventListener('native:press', () => {
         scLog.innerHTML = '';
         for (const [tag, schema] of SCHEMA_CATALOG) {
           logSc(`${tag} [${schema.category}] — ${schema.description}`, 'cmd');
@@ -1439,9 +1431,9 @@
         }
       }
 
-      document.getElementById('sc-inspect-button').addEventListener('ui-press', () => inspectSchema('ui-button'));
-      document.getElementById('sc-inspect-input').addEventListener('ui-press', () => inspectSchema('ui-input'));
-      document.getElementById('sc-inspect-select').addEventListener('ui-press', () => inspectSchema('ui-select'));
+      document.getElementById('sc-inspect-button').addEventListener('native:press', () => inspectSchema('n-button'));
+      document.getElementById('sc-inspect-input').addEventListener('native:press', () => inspectSchema('native:input'));
+      document.getElementById('sc-inspect-select').addEventListener('native:press', () => inspectSchema('n-select'));
 
       // ── GenUI Planner ──
 
@@ -1495,23 +1487,23 @@
         type: 'form',
         title: 'User Profile',
         elements: [
-          { component: 'ui-input', label: 'Display Name', attributes: { placeholder: 'Enter your name' } },
-          { component: 'ui-input', label: 'Email', attributes: { placeholder: 'name@example.com' } },
+          { component: 'native:input', label: 'Display Name', attributes: { placeholder: 'Enter your name' } },
+          { component: 'native:input', label: 'Email', attributes: { placeholder: 'name@example.com' } },
           {
-            component: 'ui-select', label: 'Country',
+            component: 'n-select', label: 'Country',
             children: [
-              { component: 'ui-option', label: 'United States', attributes: { value: 'us' } },
-              { component: 'ui-option', label: 'Canada', attributes: { value: 'ca' } },
-              { component: 'ui-option', label: 'United Kingdom', attributes: { value: 'uk' } },
+              { component: 'n-option', label: 'United States', attributes: { value: 'us' } },
+              { component: 'n-option', label: 'Canada', attributes: { value: 'ca' } },
+              { component: 'n-option', label: 'United Kingdom', attributes: { value: 'uk' } },
             ],
           },
-          { component: 'ui-button', label: 'Save Profile', attributes: { variant: 'primary', intent: 'accent' }, events: { 'ui-press': 'profile.save' } },
+          { component: 'n-button', label: 'Save Profile', attributes: { variant: 'primary', intent: 'accent' }, events: { 'native:press': 'profile.save' } },
         ],
       };
 
       document.getElementById('gp-intent-input').value = JSON.stringify(defaultIntent, null, 2);
 
-      document.getElementById('gp-login-form').addEventListener('ui-press', () => {
+      document.getElementById('gp-login-form').addEventListener('native:press', () => {
         const result = Planner.form([
           { name: 'Email', type: 'email', placeholder: 'name@example.com', required: true },
           { name: 'Password', type: 'password', placeholder: 'Enter password', required: true },
@@ -1520,7 +1512,7 @@
         logGp('Generated: Login form (Planner.form)', 'success');
       });
 
-      document.getElementById('gp-contact-form').addEventListener('ui-press', () => {
+      document.getElementById('gp-contact-form').addEventListener('native:press', () => {
         const result = Planner.form([
           { name: 'Full Name', type: 'text', placeholder: 'Your name', required: true },
           { name: 'Email', type: 'email', placeholder: 'name@example.com', required: true },
@@ -1535,7 +1527,7 @@
         logGp('Generated: Contact form (Planner.form)', 'success');
       });
 
-      document.getElementById('gp-action-bar').addEventListener('ui-press', () => {
+      document.getElementById('gp-action-bar').addEventListener('native:press', () => {
         const result = Planner.actions([
           { label: 'Save', command: 'doc.save', variant: 'primary', intent: 'accent' },
           { label: 'Preview', command: 'doc.preview', variant: 'secondary' },
@@ -1545,7 +1537,7 @@
         logGp('Generated: Action bar (Planner.actions)', 'success');
       });
 
-      document.getElementById('gp-card').addEventListener('ui-press', () => {
+      document.getElementById('gp-card').addEventListener('native:press', () => {
         const result = Planner.card({
           heading: 'Welcome to native-ui',
           body: 'A web component library with a pure CSS design system built on OKLCH color science, CSS custom property inheritance, and zero-specificity attribute selectors.',
@@ -1558,7 +1550,7 @@
         logGp('Generated: Content card (Planner.card)', 'success');
       });
 
-      document.getElementById('gp-dialog').addEventListener('ui-press', () => {
+      document.getElementById('gp-dialog').addEventListener('native:press', () => {
         const result = Planner.dialog({
           title: 'Delete Project?',
           body: 'This action cannot be undone. All files and settings will be permanently removed.',
@@ -1572,7 +1564,7 @@
         logGp('Generated: Confirmation dialog (Planner.dialog)', 'success');
       });
 
-      document.getElementById('gp-settings').addEventListener('ui-press', () => {
+      document.getElementById('gp-settings').addEventListener('native:press', () => {
         const result = Planner.settings([
           { label: 'Push notifications', name: 'push', description: 'Receive alerts for new messages and updates', checked: true, command: 'settings.push' },
           { label: 'Dark mode', name: 'dark-mode', description: 'Switch to a darker color scheme', command: 'settings.darkMode' },
@@ -1583,7 +1575,7 @@
         logGp('Generated: Settings toggles (Planner.settings)', 'success');
       });
 
-      document.getElementById('gp-tabs').addEventListener('ui-press', () => {
+      document.getElementById('gp-tabs').addEventListener('native:press', () => {
         const result = Planner.tabs([
           { label: 'Overview', value: 'overview', content: 'The Interaction OS Kernel provides command bus, undo/redo, focus routing, overlay management, and plan execution.' },
           { label: 'Components', value: 'components', content: '27 interactive components, 8 containers, and 22 composable traits — all built on native web standards.' },
@@ -1593,7 +1585,7 @@
         logGp('Generated: Tab panel (Planner.tabs)', 'success');
       });
 
-      document.getElementById('gp-nav').addEventListener('ui-press', () => {
+      document.getElementById('gp-nav').addEventListener('native:press', () => {
         const result = Planner.nav([
           { label: 'Dashboard', value: 'dashboard', icon: 'house', group: 'Main' },
           { label: 'Analytics', value: 'analytics', icon: 'chart-bar', group: 'Main' },
@@ -1606,7 +1598,7 @@
         logGp('Generated: Navigation list (Planner.nav)', 'success');
       });
 
-      document.getElementById('gp-generate').addEventListener('ui-press', () => {
+      document.getElementById('gp-generate').addEventListener('native:press', () => {
         try {
           const intent = JSON.parse(document.getElementById('gp-intent-input').value);
           const result = planner.generate(intent);
@@ -1617,7 +1609,7 @@
         }
       });
 
-      document.getElementById('gp-execute').addEventListener('ui-press', () => {
+      document.getElementById('gp-execute').addEventListener('native:press', () => {
         if (!gpLastResult) return;
         // Teardown previous
         if (gpCurrentPlanId) {

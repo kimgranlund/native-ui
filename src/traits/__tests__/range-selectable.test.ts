@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { RangeSelectController } from '../range-select-controller.ts';
 import { define } from '../../core/define.ts';
 
-class RangeTestEl extends UIElement {
+class RangeTestEl extends NativeElement {
   #range: RangeSelectController | null = null;
   #selector = '';
   #mode: 'drag' | 'click' = 'drag';
@@ -70,7 +70,7 @@ describe('RangeSelectable — drag mode', () => {
     const el = create();
     el.rangeDisabled = true;
     const handler = vi.fn();
-    el.addEventListener('ui-range-select', handler);
+    el.addEventListener('native:range-select', handler);
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     expect(handler).not.toHaveBeenCalled();
   });
@@ -79,7 +79,7 @@ describe('RangeSelectable — drag mode', () => {
     const el = create();
     el.rangeSelector = '';
     const handler = vi.fn();
-    el.addEventListener('ui-range-select', handler);
+    el.addEventListener('native:range-select', handler);
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     expect(handler).not.toHaveBeenCalled();
   });
@@ -87,7 +87,7 @@ describe('RangeSelectable — drag mode', () => {
   it('ignores non-primary button', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-range-select', handler);
+    el.addEventListener('native:range-select', handler);
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 2 }));
     expect(handler).not.toHaveBeenCalled();
   });
@@ -100,10 +100,10 @@ describe('RangeSelectable — drag mode', () => {
     expect(items(el)[2].hasAttribute('range-end')).toBe(true);
   });
 
-  it('dispatches ui-range-select on pointerup', () => {
+  it('dispatches native:range-select on pointerup', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-range-select', handler);
+    el.addEventListener('native:range-select', handler);
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
     expect(handler).toHaveBeenCalledTimes(1);
@@ -142,14 +142,14 @@ describe('RangeSelectable — click mode', () => {
     expect(items(el)[1].hasAttribute('range-end')).toBe(true);
     // No commit event yet
     const handler = vi.fn();
-    el.addEventListener('ui-range-select', handler);
+    el.addEventListener('native:range-select', handler);
     expect(handler).not.toHaveBeenCalled();
   });
 
   it('hover in selecting phase updates range preview', () => {
     const el = create('click');
     const changeHandler = vi.fn();
-    el.addEventListener('ui-range-change', changeHandler);
+    el.addEventListener('native:range-change', changeHandler);
 
     // First click: pick start
     items(el)[1].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
@@ -171,7 +171,7 @@ describe('RangeSelectable — click mode', () => {
   it('second click commits range', () => {
     const el = create('click');
     const selectHandler = vi.fn();
-    el.addEventListener('ui-range-select', selectHandler);
+    el.addEventListener('native:range-select', selectHandler);
 
     // First click: pick start at index 1
     items(el)[1].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
@@ -241,11 +241,11 @@ describe('RangeSelectController', () => {
     ctrl.destroy();
   });
 
-  it('controller dispatches ui-range-select on pointerup', () => {
+  it('controller dispatches native:range-select on pointerup', () => {
     const host = createHost();
     const ctrl = new RangeSelectController(host, { selector: '.item' });
     const handler = vi.fn();
-    host.addEventListener('ui-range-select', handler);
+    host.addEventListener('native:range-select', handler);
 
     hostItems(host)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));

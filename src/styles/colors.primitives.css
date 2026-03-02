@@ -2,8 +2,8 @@
    nonoun-css Design Tokens — Color System
 
    Naming convention:
-     --name       input (tunable) or public output token
-     --_name      derived intermediate (internal, do not consume)
+     --{family}-*     color primitives (elevation, ramp steps, scrims)
+     --n-C-*, --n-L-* intermediate color math (chroma, lightness)
 
    11-step scale: 050 100 200 300 400 500 600 700 800 900 950
    Anchor at 500 (peak chroma). Symmetric about anchor.
@@ -62,100 +62,100 @@
          300,700 = t-3    400,600 = t-4    500 = t-5
     */
 
-    --_C-t-0: calc(var(--color-env-chroma) * var(--color-env-chroma-k-edge));
-    --_C-t-1: calc(var(--color-env-chroma) * (4 / 5 * var(--color-env-chroma-k-edge) + 1 / 5 * var(--color-env-chroma-k-vivid)));
-    --_C-t-2: calc(var(--color-env-chroma) * (3 / 5 * var(--color-env-chroma-k-edge) + 2 / 5 * var(--color-env-chroma-k-vivid)));
-    --_C-t-3: calc(var(--color-env-chroma) * (2 / 5 * var(--color-env-chroma-k-edge) + 3 / 5 * var(--color-env-chroma-k-vivid)));
-    --_C-t-4: calc(var(--color-env-chroma) * (1 / 5 * var(--color-env-chroma-k-edge) + 4 / 5 * var(--color-env-chroma-k-vivid)));
-    --_C-t-5: calc(var(--color-env-chroma) * var(--color-env-chroma-k-vivid));
+    --n-C-t-0: calc(var(--color-env-chroma) * var(--color-env-chroma-k-edge));
+    --n-C-t-1: calc(var(--color-env-chroma) * (4 / 5 * var(--color-env-chroma-k-edge) + 1 / 5 * var(--color-env-chroma-k-vivid)));
+    --n-C-t-2: calc(var(--color-env-chroma) * (3 / 5 * var(--color-env-chroma-k-edge) + 2 / 5 * var(--color-env-chroma-k-vivid)));
+    --n-C-t-3: calc(var(--color-env-chroma) * (2 / 5 * var(--color-env-chroma-k-edge) + 3 / 5 * var(--color-env-chroma-k-vivid)));
+    --n-C-t-4: calc(var(--color-env-chroma) * (1 / 5 * var(--color-env-chroma-k-edge) + 4 / 5 * var(--color-env-chroma-k-vivid)));
+    --n-C-t-5: calc(var(--color-env-chroma) * var(--color-env-chroma-k-vivid));
 
     /* ── Computed chroma: muted (flat, for backgrounds) ── */
 
-    --_C-muted: calc(var(--color-env-chroma) * var(--color-env-chroma-k-muted));
+    --n-C-muted: calc(var(--color-env-chroma) * var(--color-env-chroma-k-muted));
 
-    --_C-neutral-muted: calc(var(--_C-muted) * var(--color-env-chroma-neutral));
-    --_C-accent-muted:  calc(var(--_C-muted) * var(--color-env-chroma-accent));
-    --_C-info-muted:    calc(var(--_C-muted) * var(--color-env-chroma-info));
-    --_C-success-muted: calc(var(--_C-muted) * var(--color-env-chroma-success));
-    --_C-warning-muted: calc(var(--_C-muted) * var(--color-env-chroma-warning));
-    --_C-danger-muted:  calc(var(--_C-muted) * var(--color-env-chroma-danger));
+    --n-C-neutral-muted: calc(var(--n-C-muted) * var(--color-env-chroma-neutral));
+    --n-C-accent-muted:  calc(var(--n-C-muted) * var(--color-env-chroma-accent));
+    --n-C-info-muted:    calc(var(--n-C-muted) * var(--color-env-chroma-info));
+    --n-C-success-muted: calc(var(--n-C-muted) * var(--color-env-chroma-success));
+    --n-C-warning-muted: calc(var(--n-C-muted) * var(--color-env-chroma-warning));
+    --n-C-danger-muted:  calc(var(--n-C-muted) * var(--color-env-chroma-danger));
 
     /* ── Per-step chroma for solids (11 steps per family) ──
        C(n) = C-t-{i} × {family}-chroma
        Symmetric: 050,950=t-0  100,900=t-1  200,800=t-2  300,700=t-3  400,600=t-4  500=t-5
     */
 
-    --_C-neutral-1: calc(var(--_C-t-0) * var(--color-env-chroma-neutral));
-    --_C-neutral-2: calc(var(--_C-t-1) * var(--color-env-chroma-neutral));
-    --_C-neutral-3: calc(var(--_C-t-2) * var(--color-env-chroma-neutral));
-    --_C-neutral-4: calc(var(--_C-t-3) * var(--color-env-chroma-neutral));
-    --_C-neutral-5: calc(var(--_C-t-4) * var(--color-env-chroma-neutral));
-    --_C-neutral-6: calc(var(--_C-t-5) * var(--color-env-chroma-neutral));
-    --_C-neutral-7: calc(var(--_C-t-4) * var(--color-env-chroma-neutral));
-    --_C-neutral-8: calc(var(--_C-t-3) * var(--color-env-chroma-neutral));
-    --_C-neutral-9: calc(var(--_C-t-2) * var(--color-env-chroma-neutral));
-    --_C-neutral-10: calc(var(--_C-t-1) * var(--color-env-chroma-neutral));
-    --_C-neutral-11: calc(var(--_C-t-0) * var(--color-env-chroma-neutral));
+    --n-C-neutral-1: calc(var(--n-C-t-0) * var(--color-env-chroma-neutral));
+    --n-C-neutral-2: calc(var(--n-C-t-1) * var(--color-env-chroma-neutral));
+    --n-C-neutral-3: calc(var(--n-C-t-2) * var(--color-env-chroma-neutral));
+    --n-C-neutral-4: calc(var(--n-C-t-3) * var(--color-env-chroma-neutral));
+    --n-C-neutral-5: calc(var(--n-C-t-4) * var(--color-env-chroma-neutral));
+    --n-C-neutral-6: calc(var(--n-C-t-5) * var(--color-env-chroma-neutral));
+    --n-C-neutral-7: calc(var(--n-C-t-4) * var(--color-env-chroma-neutral));
+    --n-C-neutral-8: calc(var(--n-C-t-3) * var(--color-env-chroma-neutral));
+    --n-C-neutral-9: calc(var(--n-C-t-2) * var(--color-env-chroma-neutral));
+    --n-C-neutral-10: calc(var(--n-C-t-1) * var(--color-env-chroma-neutral));
+    --n-C-neutral-11: calc(var(--n-C-t-0) * var(--color-env-chroma-neutral));
 
-    --_C-accent-1: calc(var(--_C-t-0) * var(--color-env-chroma-accent));
-    --_C-accent-2: calc(var(--_C-t-1) * var(--color-env-chroma-accent));
-    --_C-accent-3: calc(var(--_C-t-2) * var(--color-env-chroma-accent));
-    --_C-accent-4: calc(var(--_C-t-3) * var(--color-env-chroma-accent));
-    --_C-accent-5: calc(var(--_C-t-4) * var(--color-env-chroma-accent));
-    --_C-accent-6: calc(var(--_C-t-5) * var(--color-env-chroma-accent));
-    --_C-accent-7: calc(var(--_C-t-4) * var(--color-env-chroma-accent));
-    --_C-accent-8: calc(var(--_C-t-3) * var(--color-env-chroma-accent));
-    --_C-accent-9: calc(var(--_C-t-2) * var(--color-env-chroma-accent));
-    --_C-accent-10: calc(var(--_C-t-1) * var(--color-env-chroma-accent));
-    --_C-accent-11: calc(var(--_C-t-0) * var(--color-env-chroma-accent));
+    --n-C-accent-1: calc(var(--n-C-t-0) * var(--color-env-chroma-accent));
+    --n-C-accent-2: calc(var(--n-C-t-1) * var(--color-env-chroma-accent));
+    --n-C-accent-3: calc(var(--n-C-t-2) * var(--color-env-chroma-accent));
+    --n-C-accent-4: calc(var(--n-C-t-3) * var(--color-env-chroma-accent));
+    --n-C-accent-5: calc(var(--n-C-t-4) * var(--color-env-chroma-accent));
+    --n-C-accent-6: calc(var(--n-C-t-5) * var(--color-env-chroma-accent));
+    --n-C-accent-7: calc(var(--n-C-t-4) * var(--color-env-chroma-accent));
+    --n-C-accent-8: calc(var(--n-C-t-3) * var(--color-env-chroma-accent));
+    --n-C-accent-9: calc(var(--n-C-t-2) * var(--color-env-chroma-accent));
+    --n-C-accent-10: calc(var(--n-C-t-1) * var(--color-env-chroma-accent));
+    --n-C-accent-11: calc(var(--n-C-t-0) * var(--color-env-chroma-accent));
 
-    --_C-info-1: calc(var(--_C-t-0) * var(--color-env-chroma-info));
-    --_C-info-2: calc(var(--_C-t-1) * var(--color-env-chroma-info));
-    --_C-info-3: calc(var(--_C-t-2) * var(--color-env-chroma-info));
-    --_C-info-4: calc(var(--_C-t-3) * var(--color-env-chroma-info));
-    --_C-info-5: calc(var(--_C-t-4) * var(--color-env-chroma-info));
-    --_C-info-6: calc(var(--_C-t-5) * var(--color-env-chroma-info));
-    --_C-info-7: calc(var(--_C-t-4) * var(--color-env-chroma-info));
-    --_C-info-8: calc(var(--_C-t-3) * var(--color-env-chroma-info));
-    --_C-info-9: calc(var(--_C-t-2) * var(--color-env-chroma-info));
-    --_C-info-10: calc(var(--_C-t-1) * var(--color-env-chroma-info));
-    --_C-info-11: calc(var(--_C-t-0) * var(--color-env-chroma-info));
+    --n-C-info-1: calc(var(--n-C-t-0) * var(--color-env-chroma-info));
+    --n-C-info-2: calc(var(--n-C-t-1) * var(--color-env-chroma-info));
+    --n-C-info-3: calc(var(--n-C-t-2) * var(--color-env-chroma-info));
+    --n-C-info-4: calc(var(--n-C-t-3) * var(--color-env-chroma-info));
+    --n-C-info-5: calc(var(--n-C-t-4) * var(--color-env-chroma-info));
+    --n-C-info-6: calc(var(--n-C-t-5) * var(--color-env-chroma-info));
+    --n-C-info-7: calc(var(--n-C-t-4) * var(--color-env-chroma-info));
+    --n-C-info-8: calc(var(--n-C-t-3) * var(--color-env-chroma-info));
+    --n-C-info-9: calc(var(--n-C-t-2) * var(--color-env-chroma-info));
+    --n-C-info-10: calc(var(--n-C-t-1) * var(--color-env-chroma-info));
+    --n-C-info-11: calc(var(--n-C-t-0) * var(--color-env-chroma-info));
 
-    --_C-success-1: calc(var(--_C-t-0) * var(--color-env-chroma-success));
-    --_C-success-2: calc(var(--_C-t-1) * var(--color-env-chroma-success));
-    --_C-success-3: calc(var(--_C-t-2) * var(--color-env-chroma-success));
-    --_C-success-4: calc(var(--_C-t-3) * var(--color-env-chroma-success));
-    --_C-success-5: calc(var(--_C-t-4) * var(--color-env-chroma-success));
-    --_C-success-6: calc(var(--_C-t-5) * var(--color-env-chroma-success));
-    --_C-success-7: calc(var(--_C-t-4) * var(--color-env-chroma-success));
-    --_C-success-8: calc(var(--_C-t-3) * var(--color-env-chroma-success));
-    --_C-success-9: calc(var(--_C-t-2) * var(--color-env-chroma-success));
-    --_C-success-10: calc(var(--_C-t-1) * var(--color-env-chroma-success));
-    --_C-success-11: calc(var(--_C-t-0) * var(--color-env-chroma-success));
+    --n-C-success-1: calc(var(--n-C-t-0) * var(--color-env-chroma-success));
+    --n-C-success-2: calc(var(--n-C-t-1) * var(--color-env-chroma-success));
+    --n-C-success-3: calc(var(--n-C-t-2) * var(--color-env-chroma-success));
+    --n-C-success-4: calc(var(--n-C-t-3) * var(--color-env-chroma-success));
+    --n-C-success-5: calc(var(--n-C-t-4) * var(--color-env-chroma-success));
+    --n-C-success-6: calc(var(--n-C-t-5) * var(--color-env-chroma-success));
+    --n-C-success-7: calc(var(--n-C-t-4) * var(--color-env-chroma-success));
+    --n-C-success-8: calc(var(--n-C-t-3) * var(--color-env-chroma-success));
+    --n-C-success-9: calc(var(--n-C-t-2) * var(--color-env-chroma-success));
+    --n-C-success-10: calc(var(--n-C-t-1) * var(--color-env-chroma-success));
+    --n-C-success-11: calc(var(--n-C-t-0) * var(--color-env-chroma-success));
 
-    --_C-warning-1: calc(var(--_C-t-0) * var(--color-env-chroma-warning));
-    --_C-warning-2: calc(var(--_C-t-1) * var(--color-env-chroma-warning));
-    --_C-warning-3: calc(var(--_C-t-2) * var(--color-env-chroma-warning));
-    --_C-warning-4: calc(var(--_C-t-3) * var(--color-env-chroma-warning));
-    --_C-warning-5: calc(var(--_C-t-4) * var(--color-env-chroma-warning));
-    --_C-warning-6: calc(var(--_C-t-5) * var(--color-env-chroma-warning));
-    --_C-warning-7: calc(var(--_C-t-4) * var(--color-env-chroma-warning));
-    --_C-warning-8: calc(var(--_C-t-3) * var(--color-env-chroma-warning));
-    --_C-warning-9: calc(var(--_C-t-2) * var(--color-env-chroma-warning));
-    --_C-warning-10: calc(var(--_C-t-1) * var(--color-env-chroma-warning));
-    --_C-warning-11: calc(var(--_C-t-0) * var(--color-env-chroma-warning));
+    --n-C-warning-1: calc(var(--n-C-t-0) * var(--color-env-chroma-warning));
+    --n-C-warning-2: calc(var(--n-C-t-1) * var(--color-env-chroma-warning));
+    --n-C-warning-3: calc(var(--n-C-t-2) * var(--color-env-chroma-warning));
+    --n-C-warning-4: calc(var(--n-C-t-3) * var(--color-env-chroma-warning));
+    --n-C-warning-5: calc(var(--n-C-t-4) * var(--color-env-chroma-warning));
+    --n-C-warning-6: calc(var(--n-C-t-5) * var(--color-env-chroma-warning));
+    --n-C-warning-7: calc(var(--n-C-t-4) * var(--color-env-chroma-warning));
+    --n-C-warning-8: calc(var(--n-C-t-3) * var(--color-env-chroma-warning));
+    --n-C-warning-9: calc(var(--n-C-t-2) * var(--color-env-chroma-warning));
+    --n-C-warning-10: calc(var(--n-C-t-1) * var(--color-env-chroma-warning));
+    --n-C-warning-11: calc(var(--n-C-t-0) * var(--color-env-chroma-warning));
 
-    --_C-danger-1: calc(var(--_C-t-0) * var(--color-env-chroma-danger));
-    --_C-danger-2: calc(var(--_C-t-1) * var(--color-env-chroma-danger));
-    --_C-danger-3: calc(var(--_C-t-2) * var(--color-env-chroma-danger));
-    --_C-danger-4: calc(var(--_C-t-3) * var(--color-env-chroma-danger));
-    --_C-danger-5: calc(var(--_C-t-4) * var(--color-env-chroma-danger));
-    --_C-danger-6: calc(var(--_C-t-5) * var(--color-env-chroma-danger));
-    --_C-danger-7: calc(var(--_C-t-4) * var(--color-env-chroma-danger));
-    --_C-danger-8: calc(var(--_C-t-3) * var(--color-env-chroma-danger));
-    --_C-danger-9: calc(var(--_C-t-2) * var(--color-env-chroma-danger));
-    --_C-danger-10: calc(var(--_C-t-1) * var(--color-env-chroma-danger));
-    --_C-danger-11: calc(var(--_C-t-0) * var(--color-env-chroma-danger));
+    --n-C-danger-1: calc(var(--n-C-t-0) * var(--color-env-chroma-danger));
+    --n-C-danger-2: calc(var(--n-C-t-1) * var(--color-env-chroma-danger));
+    --n-C-danger-3: calc(var(--n-C-t-2) * var(--color-env-chroma-danger));
+    --n-C-danger-4: calc(var(--n-C-t-3) * var(--color-env-chroma-danger));
+    --n-C-danger-5: calc(var(--n-C-t-4) * var(--color-env-chroma-danger));
+    --n-C-danger-6: calc(var(--n-C-t-5) * var(--color-env-chroma-danger));
+    --n-C-danger-7: calc(var(--n-C-t-4) * var(--color-env-chroma-danger));
+    --n-C-danger-8: calc(var(--n-C-t-3) * var(--color-env-chroma-danger));
+    --n-C-danger-9: calc(var(--n-C-t-2) * var(--color-env-chroma-danger));
+    --n-C-danger-10: calc(var(--n-C-t-1) * var(--color-env-chroma-danger));
+    --n-C-danger-11: calc(var(--n-C-t-0) * var(--color-env-chroma-danger));
 
     /* ── Solid lightness ramps (11 steps per family) ──
        Internal 13-step ramp from L-max → lightness → L-min in 6 intervals per half.
@@ -165,95 +165,95 @@
        600=step8  700=step9  800=step10  900=step11  950=step12
     */
 
-    --_L-neutral-1: calc(var(--color-env-lightness-max) - 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral)));
-    --_L-neutral-2: calc(var(--color-env-lightness-max) - 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral)));
-    --_L-neutral-3: calc(var(--color-env-lightness-max) - 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral)));
-    --_L-neutral-4: calc(var(--color-env-lightness-max) - 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral)));
-    --_L-neutral-5: calc(var(--color-env-lightness-max) - 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral)));
-    --_L-neutral-6: var(--color-env-lightness-neutral);
-    --_L-neutral-7: calc(var(--color-env-lightness-neutral) - 1 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min)));
-    --_L-neutral-8: calc(var(--color-env-lightness-neutral) - 2 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min)));
-    --_L-neutral-9: calc(var(--color-env-lightness-neutral) - 3 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min)));
-    --_L-neutral-10: calc(var(--color-env-lightness-neutral) - 4 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min)));
-    --_L-neutral-11: calc(var(--color-env-lightness-neutral) - 5 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min)));
+    --n-L-neutral-1: calc(var(--color-env-lightness-max) - 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral)));
+    --n-L-neutral-2: calc(var(--color-env-lightness-max) - 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral)));
+    --n-L-neutral-3: calc(var(--color-env-lightness-max) - 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral)));
+    --n-L-neutral-4: calc(var(--color-env-lightness-max) - 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral)));
+    --n-L-neutral-5: calc(var(--color-env-lightness-max) - 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral)));
+    --n-L-neutral-6: var(--color-env-lightness-neutral);
+    --n-L-neutral-7: calc(var(--color-env-lightness-neutral) - 1 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min)));
+    --n-L-neutral-8: calc(var(--color-env-lightness-neutral) - 2 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min)));
+    --n-L-neutral-9: calc(var(--color-env-lightness-neutral) - 3 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min)));
+    --n-L-neutral-10: calc(var(--color-env-lightness-neutral) - 4 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min)));
+    --n-L-neutral-11: calc(var(--color-env-lightness-neutral) - 5 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min)));
 
-    --_L-accent-1: calc(var(--color-env-lightness-max) - 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent)));
-    --_L-accent-2: calc(var(--color-env-lightness-max) - 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent)));
-    --_L-accent-3: calc(var(--color-env-lightness-max) - 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent)));
-    --_L-accent-4: calc(var(--color-env-lightness-max) - 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent)));
-    --_L-accent-5: calc(var(--color-env-lightness-max) - 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent)));
-    --_L-accent-6: var(--color-env-lightness-accent);
-    --_L-accent-7: calc(var(--color-env-lightness-accent) - 1 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min)));
-    --_L-accent-8: calc(var(--color-env-lightness-accent) - 2 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min)));
-    --_L-accent-9: calc(var(--color-env-lightness-accent) - 3 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min)));
-    --_L-accent-10: calc(var(--color-env-lightness-accent) - 4 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min)));
-    --_L-accent-11: calc(var(--color-env-lightness-accent) - 5 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min)));
+    --n-L-accent-1: calc(var(--color-env-lightness-max) - 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent)));
+    --n-L-accent-2: calc(var(--color-env-lightness-max) - 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent)));
+    --n-L-accent-3: calc(var(--color-env-lightness-max) - 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent)));
+    --n-L-accent-4: calc(var(--color-env-lightness-max) - 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent)));
+    --n-L-accent-5: calc(var(--color-env-lightness-max) - 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent)));
+    --n-L-accent-6: var(--color-env-lightness-accent);
+    --n-L-accent-7: calc(var(--color-env-lightness-accent) - 1 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min)));
+    --n-L-accent-8: calc(var(--color-env-lightness-accent) - 2 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min)));
+    --n-L-accent-9: calc(var(--color-env-lightness-accent) - 3 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min)));
+    --n-L-accent-10: calc(var(--color-env-lightness-accent) - 4 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min)));
+    --n-L-accent-11: calc(var(--color-env-lightness-accent) - 5 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min)));
 
-    --_L-info-1: calc(var(--color-env-lightness-max) - 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info)));
-    --_L-info-2: calc(var(--color-env-lightness-max) - 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info)));
-    --_L-info-3: calc(var(--color-env-lightness-max) - 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info)));
-    --_L-info-4: calc(var(--color-env-lightness-max) - 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info)));
-    --_L-info-5: calc(var(--color-env-lightness-max) - 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info)));
-    --_L-info-6: var(--color-env-lightness-info);
-    --_L-info-7: calc(var(--color-env-lightness-info) - 1 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min)));
-    --_L-info-8: calc(var(--color-env-lightness-info) - 2 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min)));
-    --_L-info-9: calc(var(--color-env-lightness-info) - 3 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min)));
-    --_L-info-10: calc(var(--color-env-lightness-info) - 4 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min)));
-    --_L-info-11: calc(var(--color-env-lightness-info) - 5 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min)));
+    --n-L-info-1: calc(var(--color-env-lightness-max) - 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info)));
+    --n-L-info-2: calc(var(--color-env-lightness-max) - 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info)));
+    --n-L-info-3: calc(var(--color-env-lightness-max) - 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info)));
+    --n-L-info-4: calc(var(--color-env-lightness-max) - 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info)));
+    --n-L-info-5: calc(var(--color-env-lightness-max) - 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info)));
+    --n-L-info-6: var(--color-env-lightness-info);
+    --n-L-info-7: calc(var(--color-env-lightness-info) - 1 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min)));
+    --n-L-info-8: calc(var(--color-env-lightness-info) - 2 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min)));
+    --n-L-info-9: calc(var(--color-env-lightness-info) - 3 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min)));
+    --n-L-info-10: calc(var(--color-env-lightness-info) - 4 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min)));
+    --n-L-info-11: calc(var(--color-env-lightness-info) - 5 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min)));
 
-    --_L-success-1: calc(var(--color-env-lightness-max) - 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success)));
-    --_L-success-2: calc(var(--color-env-lightness-max) - 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success)));
-    --_L-success-3: calc(var(--color-env-lightness-max) - 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success)));
-    --_L-success-4: calc(var(--color-env-lightness-max) - 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success)));
-    --_L-success-5: calc(var(--color-env-lightness-max) - 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success)));
-    --_L-success-6: var(--color-env-lightness-success);
-    --_L-success-7: calc(var(--color-env-lightness-success) - 1 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min)));
-    --_L-success-8: calc(var(--color-env-lightness-success) - 2 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min)));
-    --_L-success-9: calc(var(--color-env-lightness-success) - 3 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min)));
-    --_L-success-10: calc(var(--color-env-lightness-success) - 4 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min)));
-    --_L-success-11: calc(var(--color-env-lightness-success) - 5 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min)));
+    --n-L-success-1: calc(var(--color-env-lightness-max) - 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success)));
+    --n-L-success-2: calc(var(--color-env-lightness-max) - 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success)));
+    --n-L-success-3: calc(var(--color-env-lightness-max) - 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success)));
+    --n-L-success-4: calc(var(--color-env-lightness-max) - 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success)));
+    --n-L-success-5: calc(var(--color-env-lightness-max) - 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success)));
+    --n-L-success-6: var(--color-env-lightness-success);
+    --n-L-success-7: calc(var(--color-env-lightness-success) - 1 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min)));
+    --n-L-success-8: calc(var(--color-env-lightness-success) - 2 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min)));
+    --n-L-success-9: calc(var(--color-env-lightness-success) - 3 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min)));
+    --n-L-success-10: calc(var(--color-env-lightness-success) - 4 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min)));
+    --n-L-success-11: calc(var(--color-env-lightness-success) - 5 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min)));
 
-    --_L-warning-1: calc(var(--color-env-lightness-max) - 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning)));
-    --_L-warning-2: calc(var(--color-env-lightness-max) - 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning)));
-    --_L-warning-3: calc(var(--color-env-lightness-max) - 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning)));
-    --_L-warning-4: calc(var(--color-env-lightness-max) - 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning)));
-    --_L-warning-5: calc(var(--color-env-lightness-max) - 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning)));
-    --_L-warning-6: var(--color-env-lightness-warning);
-    --_L-warning-7: calc(var(--color-env-lightness-warning) - 1 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min)));
-    --_L-warning-8: calc(var(--color-env-lightness-warning) - 2 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min)));
-    --_L-warning-9: calc(var(--color-env-lightness-warning) - 3 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min)));
-    --_L-warning-10: calc(var(--color-env-lightness-warning) - 4 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min)));
-    --_L-warning-11: calc(var(--color-env-lightness-warning) - 5 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min)));
+    --n-L-warning-1: calc(var(--color-env-lightness-max) - 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning)));
+    --n-L-warning-2: calc(var(--color-env-lightness-max) - 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning)));
+    --n-L-warning-3: calc(var(--color-env-lightness-max) - 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning)));
+    --n-L-warning-4: calc(var(--color-env-lightness-max) - 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning)));
+    --n-L-warning-5: calc(var(--color-env-lightness-max) - 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning)));
+    --n-L-warning-6: var(--color-env-lightness-warning);
+    --n-L-warning-7: calc(var(--color-env-lightness-warning) - 1 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min)));
+    --n-L-warning-8: calc(var(--color-env-lightness-warning) - 2 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min)));
+    --n-L-warning-9: calc(var(--color-env-lightness-warning) - 3 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min)));
+    --n-L-warning-10: calc(var(--color-env-lightness-warning) - 4 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min)));
+    --n-L-warning-11: calc(var(--color-env-lightness-warning) - 5 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min)));
 
-    --_L-danger-1: calc(var(--color-env-lightness-max) - 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger)));
-    --_L-danger-2: calc(var(--color-env-lightness-max) - 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger)));
-    --_L-danger-3: calc(var(--color-env-lightness-max) - 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger)));
-    --_L-danger-4: calc(var(--color-env-lightness-max) - 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger)));
-    --_L-danger-5: calc(var(--color-env-lightness-max) - 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger)));
-    --_L-danger-6: var(--color-env-lightness-danger);
-    --_L-danger-7: calc(var(--color-env-lightness-danger) - 1 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min)));
-    --_L-danger-8: calc(var(--color-env-lightness-danger) - 2 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min)));
-    --_L-danger-9: calc(var(--color-env-lightness-danger) - 3 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min)));
-    --_L-danger-10: calc(var(--color-env-lightness-danger) - 4 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min)));
-    --_L-danger-11: calc(var(--color-env-lightness-danger) - 5 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min)));
+    --n-L-danger-1: calc(var(--color-env-lightness-max) - 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger)));
+    --n-L-danger-2: calc(var(--color-env-lightness-max) - 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger)));
+    --n-L-danger-3: calc(var(--color-env-lightness-max) - 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger)));
+    --n-L-danger-4: calc(var(--color-env-lightness-max) - 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger)));
+    --n-L-danger-5: calc(var(--color-env-lightness-max) - 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger)));
+    --n-L-danger-6: var(--color-env-lightness-danger);
+    --n-L-danger-7: calc(var(--color-env-lightness-danger) - 1 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min)));
+    --n-L-danger-8: calc(var(--color-env-lightness-danger) - 2 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min)));
+    --n-L-danger-9: calc(var(--color-env-lightness-danger) - 3 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min)));
+    --n-L-danger-10: calc(var(--color-env-lightness-danger) - 4 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min)));
+    --n-L-danger-11: calc(var(--color-env-lightness-danger) - 5 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min)));
 
     /* ── Background lightness ramps (shared across families) ── */
 
-    --_L-light-1: var(--color-env-lightness-max);
-    --_L-light-2: calc(var(--color-env-lightness-max) - 1 * var(--color-env-lightness-delta));
-    --_L-light-3: calc(var(--color-env-lightness-max) - 2 * var(--color-env-lightness-delta));
-    --_L-light-4: calc(var(--color-env-lightness-max) - 3 * var(--color-env-lightness-delta));
-    --_L-light-5: calc(var(--color-env-lightness-max) - 4 * var(--color-env-lightness-delta));
-    --_L-light-6: calc(var(--color-env-lightness-max) - 5 * var(--color-env-lightness-delta));
-    --_L-light-7: calc(var(--color-env-lightness-max) - 6 * var(--color-env-lightness-delta));
+    --n-L-light-1: var(--color-env-lightness-max);
+    --n-L-light-2: calc(var(--color-env-lightness-max) - 1 * var(--color-env-lightness-delta));
+    --n-L-light-3: calc(var(--color-env-lightness-max) - 2 * var(--color-env-lightness-delta));
+    --n-L-light-4: calc(var(--color-env-lightness-max) - 3 * var(--color-env-lightness-delta));
+    --n-L-light-5: calc(var(--color-env-lightness-max) - 4 * var(--color-env-lightness-delta));
+    --n-L-light-6: calc(var(--color-env-lightness-max) - 5 * var(--color-env-lightness-delta));
+    --n-L-light-7: calc(var(--color-env-lightness-max) - 6 * var(--color-env-lightness-delta));
 
-    --_L-dark-1: var(--color-env-lightness-min);
-    --_L-dark-2: calc(var(--color-env-lightness-min) + 1 * var(--color-env-lightness-delta));
-    --_L-dark-3: calc(var(--color-env-lightness-min) + 2 * var(--color-env-lightness-delta));
-    --_L-dark-4: calc(var(--color-env-lightness-min) + 3 * var(--color-env-lightness-delta));
-    --_L-dark-5: calc(var(--color-env-lightness-min) + 4 * var(--color-env-lightness-delta));
-    --_L-dark-6: calc(var(--color-env-lightness-min) + 5 * var(--color-env-lightness-delta));
-    --_L-dark-7: calc(var(--color-env-lightness-min) + 6 * var(--color-env-lightness-delta));
+    --n-L-dark-1: var(--color-env-lightness-min);
+    --n-L-dark-2: calc(var(--color-env-lightness-min) + 1 * var(--color-env-lightness-delta));
+    --n-L-dark-3: calc(var(--color-env-lightness-min) + 2 * var(--color-env-lightness-delta));
+    --n-L-dark-4: calc(var(--color-env-lightness-min) + 3 * var(--color-env-lightness-delta));
+    --n-L-dark-5: calc(var(--color-env-lightness-min) + 4 * var(--color-env-lightness-delta));
+    --n-L-dark-6: calc(var(--color-env-lightness-min) + 5 * var(--color-env-lightness-delta));
+    --n-L-dark-7: calc(var(--color-env-lightness-min) + 6 * var(--color-env-lightness-delta));
 
     /* ── Color ramp — Raw (1–11, mode-independent) ──
        1 = L-max (lightest), 6 = anchor (peak chroma), 11 = L-min (darkest).
@@ -261,77 +261,77 @@
        These are the raw oklch values; use the semantic 050–950 tokens below for light-dark awareness.
     */
 
-    --neutral-1: oklch(var(--_L-neutral-1) var(--_C-neutral-1) var(--color-env-hue-neutral));
-    --neutral-2: oklch(var(--_L-neutral-2) var(--_C-neutral-2) var(--color-env-hue-neutral));
-    --neutral-3: oklch(var(--_L-neutral-3) var(--_C-neutral-3) var(--color-env-hue-neutral));
-    --neutral-4: oklch(var(--_L-neutral-4) var(--_C-neutral-4) var(--color-env-hue-neutral));
-    --neutral-5: oklch(var(--_L-neutral-5) var(--_C-neutral-5) var(--color-env-hue-neutral));
-    --neutral-6: oklch(var(--_L-neutral-6) var(--_C-neutral-6) var(--color-env-hue-neutral));
-    --neutral-7: oklch(var(--_L-neutral-7) var(--_C-neutral-7) var(--color-env-hue-neutral));
-    --neutral-8: oklch(var(--_L-neutral-8) var(--_C-neutral-8) var(--color-env-hue-neutral));
-    --neutral-9: oklch(var(--_L-neutral-9) var(--_C-neutral-9) var(--color-env-hue-neutral));
-    --neutral-10: oklch(var(--_L-neutral-10) var(--_C-neutral-10) var(--color-env-hue-neutral));
-    --neutral-11: oklch(var(--_L-neutral-11) var(--_C-neutral-11) var(--color-env-hue-neutral));
+    --neutral-1: oklch(var(--n-L-neutral-1) var(--n-C-neutral-1) var(--color-env-hue-neutral));
+    --neutral-2: oklch(var(--n-L-neutral-2) var(--n-C-neutral-2) var(--color-env-hue-neutral));
+    --neutral-3: oklch(var(--n-L-neutral-3) var(--n-C-neutral-3) var(--color-env-hue-neutral));
+    --neutral-4: oklch(var(--n-L-neutral-4) var(--n-C-neutral-4) var(--color-env-hue-neutral));
+    --neutral-5: oklch(var(--n-L-neutral-5) var(--n-C-neutral-5) var(--color-env-hue-neutral));
+    --neutral-6: oklch(var(--n-L-neutral-6) var(--n-C-neutral-6) var(--color-env-hue-neutral));
+    --neutral-7: oklch(var(--n-L-neutral-7) var(--n-C-neutral-7) var(--color-env-hue-neutral));
+    --neutral-8: oklch(var(--n-L-neutral-8) var(--n-C-neutral-8) var(--color-env-hue-neutral));
+    --neutral-9: oklch(var(--n-L-neutral-9) var(--n-C-neutral-9) var(--color-env-hue-neutral));
+    --neutral-10: oklch(var(--n-L-neutral-10) var(--n-C-neutral-10) var(--color-env-hue-neutral));
+    --neutral-11: oklch(var(--n-L-neutral-11) var(--n-C-neutral-11) var(--color-env-hue-neutral));
 
-    --accent-1: oklch(var(--_L-accent-1) var(--_C-accent-1) var(--color-env-hue-accent));
-    --accent-2: oklch(var(--_L-accent-2) var(--_C-accent-2) var(--color-env-hue-accent));
-    --accent-3: oklch(var(--_L-accent-3) var(--_C-accent-3) var(--color-env-hue-accent));
-    --accent-4: oklch(var(--_L-accent-4) var(--_C-accent-4) var(--color-env-hue-accent));
-    --accent-5: oklch(var(--_L-accent-5) var(--_C-accent-5) var(--color-env-hue-accent));
-    --accent-6: oklch(var(--_L-accent-6) var(--_C-accent-6) var(--color-env-hue-accent));
-    --accent-7: oklch(var(--_L-accent-7) var(--_C-accent-7) var(--color-env-hue-accent));
-    --accent-8: oklch(var(--_L-accent-8) var(--_C-accent-8) var(--color-env-hue-accent));
-    --accent-9: oklch(var(--_L-accent-9) var(--_C-accent-9) var(--color-env-hue-accent));
-    --accent-10: oklch(var(--_L-accent-10) var(--_C-accent-10) var(--color-env-hue-accent));
-    --accent-11: oklch(var(--_L-accent-11) var(--_C-accent-11) var(--color-env-hue-accent));
+    --accent-1: oklch(var(--n-L-accent-1) var(--n-C-accent-1) var(--color-env-hue-accent));
+    --accent-2: oklch(var(--n-L-accent-2) var(--n-C-accent-2) var(--color-env-hue-accent));
+    --accent-3: oklch(var(--n-L-accent-3) var(--n-C-accent-3) var(--color-env-hue-accent));
+    --accent-4: oklch(var(--n-L-accent-4) var(--n-C-accent-4) var(--color-env-hue-accent));
+    --accent-5: oklch(var(--n-L-accent-5) var(--n-C-accent-5) var(--color-env-hue-accent));
+    --accent-6: oklch(var(--n-L-accent-6) var(--n-C-accent-6) var(--color-env-hue-accent));
+    --accent-7: oklch(var(--n-L-accent-7) var(--n-C-accent-7) var(--color-env-hue-accent));
+    --accent-8: oklch(var(--n-L-accent-8) var(--n-C-accent-8) var(--color-env-hue-accent));
+    --accent-9: oklch(var(--n-L-accent-9) var(--n-C-accent-9) var(--color-env-hue-accent));
+    --accent-10: oklch(var(--n-L-accent-10) var(--n-C-accent-10) var(--color-env-hue-accent));
+    --accent-11: oklch(var(--n-L-accent-11) var(--n-C-accent-11) var(--color-env-hue-accent));
 
-    --info-1: oklch(var(--_L-info-1) var(--_C-info-1) var(--color-env-hue-info));
-    --info-2: oklch(var(--_L-info-2) var(--_C-info-2) var(--color-env-hue-info));
-    --info-3: oklch(var(--_L-info-3) var(--_C-info-3) var(--color-env-hue-info));
-    --info-4: oklch(var(--_L-info-4) var(--_C-info-4) var(--color-env-hue-info));
-    --info-5: oklch(var(--_L-info-5) var(--_C-info-5) var(--color-env-hue-info));
-    --info-6: oklch(var(--_L-info-6) var(--_C-info-6) var(--color-env-hue-info));
-    --info-7: oklch(var(--_L-info-7) var(--_C-info-7) var(--color-env-hue-info));
-    --info-8: oklch(var(--_L-info-8) var(--_C-info-8) var(--color-env-hue-info));
-    --info-9: oklch(var(--_L-info-9) var(--_C-info-9) var(--color-env-hue-info));
-    --info-10: oklch(var(--_L-info-10) var(--_C-info-10) var(--color-env-hue-info));
-    --info-11: oklch(var(--_L-info-11) var(--_C-info-11) var(--color-env-hue-info));
+    --info-1: oklch(var(--n-L-info-1) var(--n-C-info-1) var(--color-env-hue-info));
+    --info-2: oklch(var(--n-L-info-2) var(--n-C-info-2) var(--color-env-hue-info));
+    --info-3: oklch(var(--n-L-info-3) var(--n-C-info-3) var(--color-env-hue-info));
+    --info-4: oklch(var(--n-L-info-4) var(--n-C-info-4) var(--color-env-hue-info));
+    --info-5: oklch(var(--n-L-info-5) var(--n-C-info-5) var(--color-env-hue-info));
+    --info-6: oklch(var(--n-L-info-6) var(--n-C-info-6) var(--color-env-hue-info));
+    --info-7: oklch(var(--n-L-info-7) var(--n-C-info-7) var(--color-env-hue-info));
+    --info-8: oklch(var(--n-L-info-8) var(--n-C-info-8) var(--color-env-hue-info));
+    --info-9: oklch(var(--n-L-info-9) var(--n-C-info-9) var(--color-env-hue-info));
+    --info-10: oklch(var(--n-L-info-10) var(--n-C-info-10) var(--color-env-hue-info));
+    --info-11: oklch(var(--n-L-info-11) var(--n-C-info-11) var(--color-env-hue-info));
 
-    --success-1: oklch(var(--_L-success-1) var(--_C-success-1) var(--color-env-hue-success));
-    --success-2: oklch(var(--_L-success-2) var(--_C-success-2) var(--color-env-hue-success));
-    --success-3: oklch(var(--_L-success-3) var(--_C-success-3) var(--color-env-hue-success));
-    --success-4: oklch(var(--_L-success-4) var(--_C-success-4) var(--color-env-hue-success));
-    --success-5: oklch(var(--_L-success-5) var(--_C-success-5) var(--color-env-hue-success));
-    --success-6: oklch(var(--_L-success-6) var(--_C-success-6) var(--color-env-hue-success));
-    --success-7: oklch(var(--_L-success-7) var(--_C-success-7) var(--color-env-hue-success));
-    --success-8: oklch(var(--_L-success-8) var(--_C-success-8) var(--color-env-hue-success));
-    --success-9: oklch(var(--_L-success-9) var(--_C-success-9) var(--color-env-hue-success));
-    --success-10: oklch(var(--_L-success-10) var(--_C-success-10) var(--color-env-hue-success));
-    --success-11: oklch(var(--_L-success-11) var(--_C-success-11) var(--color-env-hue-success));
+    --success-1: oklch(var(--n-L-success-1) var(--n-C-success-1) var(--color-env-hue-success));
+    --success-2: oklch(var(--n-L-success-2) var(--n-C-success-2) var(--color-env-hue-success));
+    --success-3: oklch(var(--n-L-success-3) var(--n-C-success-3) var(--color-env-hue-success));
+    --success-4: oklch(var(--n-L-success-4) var(--n-C-success-4) var(--color-env-hue-success));
+    --success-5: oklch(var(--n-L-success-5) var(--n-C-success-5) var(--color-env-hue-success));
+    --success-6: oklch(var(--n-L-success-6) var(--n-C-success-6) var(--color-env-hue-success));
+    --success-7: oklch(var(--n-L-success-7) var(--n-C-success-7) var(--color-env-hue-success));
+    --success-8: oklch(var(--n-L-success-8) var(--n-C-success-8) var(--color-env-hue-success));
+    --success-9: oklch(var(--n-L-success-9) var(--n-C-success-9) var(--color-env-hue-success));
+    --success-10: oklch(var(--n-L-success-10) var(--n-C-success-10) var(--color-env-hue-success));
+    --success-11: oklch(var(--n-L-success-11) var(--n-C-success-11) var(--color-env-hue-success));
 
-    --warning-1: oklch(var(--_L-warning-1) var(--_C-warning-1) var(--color-env-hue-warning));
-    --warning-2: oklch(var(--_L-warning-2) var(--_C-warning-2) var(--color-env-hue-warning));
-    --warning-3: oklch(var(--_L-warning-3) var(--_C-warning-3) var(--color-env-hue-warning));
-    --warning-4: oklch(var(--_L-warning-4) var(--_C-warning-4) var(--color-env-hue-warning));
-    --warning-5: oklch(var(--_L-warning-5) var(--_C-warning-5) var(--color-env-hue-warning));
-    --warning-6: oklch(var(--_L-warning-6) var(--_C-warning-6) var(--color-env-hue-warning));
-    --warning-7: oklch(var(--_L-warning-7) var(--_C-warning-7) var(--color-env-hue-warning));
-    --warning-8: oklch(var(--_L-warning-8) var(--_C-warning-8) var(--color-env-hue-warning));
-    --warning-9: oklch(var(--_L-warning-9) var(--_C-warning-9) var(--color-env-hue-warning));
-    --warning-10: oklch(var(--_L-warning-10) var(--_C-warning-10) var(--color-env-hue-warning));
-    --warning-11: oklch(var(--_L-warning-11) var(--_C-warning-11) var(--color-env-hue-warning));
+    --warning-1: oklch(var(--n-L-warning-1) var(--n-C-warning-1) var(--color-env-hue-warning));
+    --warning-2: oklch(var(--n-L-warning-2) var(--n-C-warning-2) var(--color-env-hue-warning));
+    --warning-3: oklch(var(--n-L-warning-3) var(--n-C-warning-3) var(--color-env-hue-warning));
+    --warning-4: oklch(var(--n-L-warning-4) var(--n-C-warning-4) var(--color-env-hue-warning));
+    --warning-5: oklch(var(--n-L-warning-5) var(--n-C-warning-5) var(--color-env-hue-warning));
+    --warning-6: oklch(var(--n-L-warning-6) var(--n-C-warning-6) var(--color-env-hue-warning));
+    --warning-7: oklch(var(--n-L-warning-7) var(--n-C-warning-7) var(--color-env-hue-warning));
+    --warning-8: oklch(var(--n-L-warning-8) var(--n-C-warning-8) var(--color-env-hue-warning));
+    --warning-9: oklch(var(--n-L-warning-9) var(--n-C-warning-9) var(--color-env-hue-warning));
+    --warning-10: oklch(var(--n-L-warning-10) var(--n-C-warning-10) var(--color-env-hue-warning));
+    --warning-11: oklch(var(--n-L-warning-11) var(--n-C-warning-11) var(--color-env-hue-warning));
 
-    --danger-1: oklch(var(--_L-danger-1) var(--_C-danger-1) var(--color-env-hue-danger));
-    --danger-2: oklch(var(--_L-danger-2) var(--_C-danger-2) var(--color-env-hue-danger));
-    --danger-3: oklch(var(--_L-danger-3) var(--_C-danger-3) var(--color-env-hue-danger));
-    --danger-4: oklch(var(--_L-danger-4) var(--_C-danger-4) var(--color-env-hue-danger));
-    --danger-5: oklch(var(--_L-danger-5) var(--_C-danger-5) var(--color-env-hue-danger));
-    --danger-6: oklch(var(--_L-danger-6) var(--_C-danger-6) var(--color-env-hue-danger));
-    --danger-7: oklch(var(--_L-danger-7) var(--_C-danger-7) var(--color-env-hue-danger));
-    --danger-8: oklch(var(--_L-danger-8) var(--_C-danger-8) var(--color-env-hue-danger));
-    --danger-9: oklch(var(--_L-danger-9) var(--_C-danger-9) var(--color-env-hue-danger));
-    --danger-10: oklch(var(--_L-danger-10) var(--_C-danger-10) var(--color-env-hue-danger));
-    --danger-11: oklch(var(--_L-danger-11) var(--_C-danger-11) var(--color-env-hue-danger));
+    --danger-1: oklch(var(--n-L-danger-1) var(--n-C-danger-1) var(--color-env-hue-danger));
+    --danger-2: oklch(var(--n-L-danger-2) var(--n-C-danger-2) var(--color-env-hue-danger));
+    --danger-3: oklch(var(--n-L-danger-3) var(--n-C-danger-3) var(--color-env-hue-danger));
+    --danger-4: oklch(var(--n-L-danger-4) var(--n-C-danger-4) var(--color-env-hue-danger));
+    --danger-5: oklch(var(--n-L-danger-5) var(--n-C-danger-5) var(--color-env-hue-danger));
+    --danger-6: oklch(var(--n-L-danger-6) var(--n-C-danger-6) var(--color-env-hue-danger));
+    --danger-7: oklch(var(--n-L-danger-7) var(--n-C-danger-7) var(--color-env-hue-danger));
+    --danger-8: oklch(var(--n-L-danger-8) var(--n-C-danger-8) var(--color-env-hue-danger));
+    --danger-9: oklch(var(--n-L-danger-9) var(--n-C-danger-9) var(--color-env-hue-danger));
+    --danger-10: oklch(var(--n-L-danger-10) var(--n-C-danger-10) var(--color-env-hue-danger));
+    --danger-11: oklch(var(--n-L-danger-11) var(--n-C-danger-11) var(--color-env-hue-danger));
 
     /* ── Color ramp — Semantic (light-dark aware) ──
        050 = lightest in light mode / darkest in dark mode.
@@ -424,77 +424,77 @@
        Same L/C/H as solid raw ramp, at env-A opacity.
     */
 
-    --neutral-1-scrim: oklch(var(--_L-neutral-1) var(--_C-neutral-1) var(--color-env-hue-neutral) / var(--color-env-alpha));
-    --neutral-2-scrim: oklch(var(--_L-neutral-2) var(--_C-neutral-2) var(--color-env-hue-neutral) / var(--color-env-alpha));
-    --neutral-3-scrim: oklch(var(--_L-neutral-3) var(--_C-neutral-3) var(--color-env-hue-neutral) / var(--color-env-alpha));
-    --neutral-4-scrim: oklch(var(--_L-neutral-4) var(--_C-neutral-4) var(--color-env-hue-neutral) / var(--color-env-alpha));
-    --neutral-5-scrim: oklch(var(--_L-neutral-5) var(--_C-neutral-5) var(--color-env-hue-neutral) / var(--color-env-alpha));
-    --neutral-6-scrim: oklch(var(--_L-neutral-6) var(--_C-neutral-6) var(--color-env-hue-neutral) / var(--color-env-alpha));
-    --neutral-7-scrim: oklch(var(--_L-neutral-7) var(--_C-neutral-7) var(--color-env-hue-neutral) / var(--color-env-alpha));
-    --neutral-8-scrim: oklch(var(--_L-neutral-8) var(--_C-neutral-8) var(--color-env-hue-neutral) / var(--color-env-alpha));
-    --neutral-9-scrim: oklch(var(--_L-neutral-9) var(--_C-neutral-9) var(--color-env-hue-neutral) / var(--color-env-alpha));
-    --neutral-10-scrim: oklch(var(--_L-neutral-10) var(--_C-neutral-10) var(--color-env-hue-neutral) / var(--color-env-alpha));
-    --neutral-11-scrim: oklch(var(--_L-neutral-11) var(--_C-neutral-11) var(--color-env-hue-neutral) / var(--color-env-alpha));
+    --neutral-1-scrim: oklch(var(--n-L-neutral-1) var(--n-C-neutral-1) var(--color-env-hue-neutral) / var(--color-env-alpha));
+    --neutral-2-scrim: oklch(var(--n-L-neutral-2) var(--n-C-neutral-2) var(--color-env-hue-neutral) / var(--color-env-alpha));
+    --neutral-3-scrim: oklch(var(--n-L-neutral-3) var(--n-C-neutral-3) var(--color-env-hue-neutral) / var(--color-env-alpha));
+    --neutral-4-scrim: oklch(var(--n-L-neutral-4) var(--n-C-neutral-4) var(--color-env-hue-neutral) / var(--color-env-alpha));
+    --neutral-5-scrim: oklch(var(--n-L-neutral-5) var(--n-C-neutral-5) var(--color-env-hue-neutral) / var(--color-env-alpha));
+    --neutral-6-scrim: oklch(var(--n-L-neutral-6) var(--n-C-neutral-6) var(--color-env-hue-neutral) / var(--color-env-alpha));
+    --neutral-7-scrim: oklch(var(--n-L-neutral-7) var(--n-C-neutral-7) var(--color-env-hue-neutral) / var(--color-env-alpha));
+    --neutral-8-scrim: oklch(var(--n-L-neutral-8) var(--n-C-neutral-8) var(--color-env-hue-neutral) / var(--color-env-alpha));
+    --neutral-9-scrim: oklch(var(--n-L-neutral-9) var(--n-C-neutral-9) var(--color-env-hue-neutral) / var(--color-env-alpha));
+    --neutral-10-scrim: oklch(var(--n-L-neutral-10) var(--n-C-neutral-10) var(--color-env-hue-neutral) / var(--color-env-alpha));
+    --neutral-11-scrim: oklch(var(--n-L-neutral-11) var(--n-C-neutral-11) var(--color-env-hue-neutral) / var(--color-env-alpha));
 
-    --accent-1-scrim: oklch(var(--_L-accent-1) var(--_C-accent-1) var(--color-env-hue-accent) / var(--color-env-alpha));
-    --accent-2-scrim: oklch(var(--_L-accent-2) var(--_C-accent-2) var(--color-env-hue-accent) / var(--color-env-alpha));
-    --accent-3-scrim: oklch(var(--_L-accent-3) var(--_C-accent-3) var(--color-env-hue-accent) / var(--color-env-alpha));
-    --accent-4-scrim: oklch(var(--_L-accent-4) var(--_C-accent-4) var(--color-env-hue-accent) / var(--color-env-alpha));
-    --accent-5-scrim: oklch(var(--_L-accent-5) var(--_C-accent-5) var(--color-env-hue-accent) / var(--color-env-alpha));
-    --accent-6-scrim: oklch(var(--_L-accent-6) var(--_C-accent-6) var(--color-env-hue-accent) / var(--color-env-alpha));
-    --accent-7-scrim: oklch(var(--_L-accent-7) var(--_C-accent-7) var(--color-env-hue-accent) / var(--color-env-alpha));
-    --accent-8-scrim: oklch(var(--_L-accent-8) var(--_C-accent-8) var(--color-env-hue-accent) / var(--color-env-alpha));
-    --accent-9-scrim: oklch(var(--_L-accent-9) var(--_C-accent-9) var(--color-env-hue-accent) / var(--color-env-alpha));
-    --accent-10-scrim: oklch(var(--_L-accent-10) var(--_C-accent-10) var(--color-env-hue-accent) / var(--color-env-alpha));
-    --accent-11-scrim: oklch(var(--_L-accent-11) var(--_C-accent-11) var(--color-env-hue-accent) / var(--color-env-alpha));
+    --accent-1-scrim: oklch(var(--n-L-accent-1) var(--n-C-accent-1) var(--color-env-hue-accent) / var(--color-env-alpha));
+    --accent-2-scrim: oklch(var(--n-L-accent-2) var(--n-C-accent-2) var(--color-env-hue-accent) / var(--color-env-alpha));
+    --accent-3-scrim: oklch(var(--n-L-accent-3) var(--n-C-accent-3) var(--color-env-hue-accent) / var(--color-env-alpha));
+    --accent-4-scrim: oklch(var(--n-L-accent-4) var(--n-C-accent-4) var(--color-env-hue-accent) / var(--color-env-alpha));
+    --accent-5-scrim: oklch(var(--n-L-accent-5) var(--n-C-accent-5) var(--color-env-hue-accent) / var(--color-env-alpha));
+    --accent-6-scrim: oklch(var(--n-L-accent-6) var(--n-C-accent-6) var(--color-env-hue-accent) / var(--color-env-alpha));
+    --accent-7-scrim: oklch(var(--n-L-accent-7) var(--n-C-accent-7) var(--color-env-hue-accent) / var(--color-env-alpha));
+    --accent-8-scrim: oklch(var(--n-L-accent-8) var(--n-C-accent-8) var(--color-env-hue-accent) / var(--color-env-alpha));
+    --accent-9-scrim: oklch(var(--n-L-accent-9) var(--n-C-accent-9) var(--color-env-hue-accent) / var(--color-env-alpha));
+    --accent-10-scrim: oklch(var(--n-L-accent-10) var(--n-C-accent-10) var(--color-env-hue-accent) / var(--color-env-alpha));
+    --accent-11-scrim: oklch(var(--n-L-accent-11) var(--n-C-accent-11) var(--color-env-hue-accent) / var(--color-env-alpha));
 
-    --info-1-scrim: oklch(var(--_L-info-1) var(--_C-info-1) var(--color-env-hue-info) / var(--color-env-alpha));
-    --info-2-scrim: oklch(var(--_L-info-2) var(--_C-info-2) var(--color-env-hue-info) / var(--color-env-alpha));
-    --info-3-scrim: oklch(var(--_L-info-3) var(--_C-info-3) var(--color-env-hue-info) / var(--color-env-alpha));
-    --info-4-scrim: oklch(var(--_L-info-4) var(--_C-info-4) var(--color-env-hue-info) / var(--color-env-alpha));
-    --info-5-scrim: oklch(var(--_L-info-5) var(--_C-info-5) var(--color-env-hue-info) / var(--color-env-alpha));
-    --info-6-scrim: oklch(var(--_L-info-6) var(--_C-info-6) var(--color-env-hue-info) / var(--color-env-alpha));
-    --info-7-scrim: oklch(var(--_L-info-7) var(--_C-info-7) var(--color-env-hue-info) / var(--color-env-alpha));
-    --info-8-scrim: oklch(var(--_L-info-8) var(--_C-info-8) var(--color-env-hue-info) / var(--color-env-alpha));
-    --info-9-scrim: oklch(var(--_L-info-9) var(--_C-info-9) var(--color-env-hue-info) / var(--color-env-alpha));
-    --info-10-scrim: oklch(var(--_L-info-10) var(--_C-info-10) var(--color-env-hue-info) / var(--color-env-alpha));
-    --info-11-scrim: oklch(var(--_L-info-11) var(--_C-info-11) var(--color-env-hue-info) / var(--color-env-alpha));
+    --info-1-scrim: oklch(var(--n-L-info-1) var(--n-C-info-1) var(--color-env-hue-info) / var(--color-env-alpha));
+    --info-2-scrim: oklch(var(--n-L-info-2) var(--n-C-info-2) var(--color-env-hue-info) / var(--color-env-alpha));
+    --info-3-scrim: oklch(var(--n-L-info-3) var(--n-C-info-3) var(--color-env-hue-info) / var(--color-env-alpha));
+    --info-4-scrim: oklch(var(--n-L-info-4) var(--n-C-info-4) var(--color-env-hue-info) / var(--color-env-alpha));
+    --info-5-scrim: oklch(var(--n-L-info-5) var(--n-C-info-5) var(--color-env-hue-info) / var(--color-env-alpha));
+    --info-6-scrim: oklch(var(--n-L-info-6) var(--n-C-info-6) var(--color-env-hue-info) / var(--color-env-alpha));
+    --info-7-scrim: oklch(var(--n-L-info-7) var(--n-C-info-7) var(--color-env-hue-info) / var(--color-env-alpha));
+    --info-8-scrim: oklch(var(--n-L-info-8) var(--n-C-info-8) var(--color-env-hue-info) / var(--color-env-alpha));
+    --info-9-scrim: oklch(var(--n-L-info-9) var(--n-C-info-9) var(--color-env-hue-info) / var(--color-env-alpha));
+    --info-10-scrim: oklch(var(--n-L-info-10) var(--n-C-info-10) var(--color-env-hue-info) / var(--color-env-alpha));
+    --info-11-scrim: oklch(var(--n-L-info-11) var(--n-C-info-11) var(--color-env-hue-info) / var(--color-env-alpha));
 
-    --success-1-scrim: oklch(var(--_L-success-1) var(--_C-success-1) var(--color-env-hue-success) / var(--color-env-alpha));
-    --success-2-scrim: oklch(var(--_L-success-2) var(--_C-success-2) var(--color-env-hue-success) / var(--color-env-alpha));
-    --success-3-scrim: oklch(var(--_L-success-3) var(--_C-success-3) var(--color-env-hue-success) / var(--color-env-alpha));
-    --success-4-scrim: oklch(var(--_L-success-4) var(--_C-success-4) var(--color-env-hue-success) / var(--color-env-alpha));
-    --success-5-scrim: oklch(var(--_L-success-5) var(--_C-success-5) var(--color-env-hue-success) / var(--color-env-alpha));
-    --success-6-scrim: oklch(var(--_L-success-6) var(--_C-success-6) var(--color-env-hue-success) / var(--color-env-alpha));
-    --success-7-scrim: oklch(var(--_L-success-7) var(--_C-success-7) var(--color-env-hue-success) / var(--color-env-alpha));
-    --success-8-scrim: oklch(var(--_L-success-8) var(--_C-success-8) var(--color-env-hue-success) / var(--color-env-alpha));
-    --success-9-scrim: oklch(var(--_L-success-9) var(--_C-success-9) var(--color-env-hue-success) / var(--color-env-alpha));
-    --success-10-scrim: oklch(var(--_L-success-10) var(--_C-success-10) var(--color-env-hue-success) / var(--color-env-alpha));
-    --success-11-scrim: oklch(var(--_L-success-11) var(--_C-success-11) var(--color-env-hue-success) / var(--color-env-alpha));
+    --success-1-scrim: oklch(var(--n-L-success-1) var(--n-C-success-1) var(--color-env-hue-success) / var(--color-env-alpha));
+    --success-2-scrim: oklch(var(--n-L-success-2) var(--n-C-success-2) var(--color-env-hue-success) / var(--color-env-alpha));
+    --success-3-scrim: oklch(var(--n-L-success-3) var(--n-C-success-3) var(--color-env-hue-success) / var(--color-env-alpha));
+    --success-4-scrim: oklch(var(--n-L-success-4) var(--n-C-success-4) var(--color-env-hue-success) / var(--color-env-alpha));
+    --success-5-scrim: oklch(var(--n-L-success-5) var(--n-C-success-5) var(--color-env-hue-success) / var(--color-env-alpha));
+    --success-6-scrim: oklch(var(--n-L-success-6) var(--n-C-success-6) var(--color-env-hue-success) / var(--color-env-alpha));
+    --success-7-scrim: oklch(var(--n-L-success-7) var(--n-C-success-7) var(--color-env-hue-success) / var(--color-env-alpha));
+    --success-8-scrim: oklch(var(--n-L-success-8) var(--n-C-success-8) var(--color-env-hue-success) / var(--color-env-alpha));
+    --success-9-scrim: oklch(var(--n-L-success-9) var(--n-C-success-9) var(--color-env-hue-success) / var(--color-env-alpha));
+    --success-10-scrim: oklch(var(--n-L-success-10) var(--n-C-success-10) var(--color-env-hue-success) / var(--color-env-alpha));
+    --success-11-scrim: oklch(var(--n-L-success-11) var(--n-C-success-11) var(--color-env-hue-success) / var(--color-env-alpha));
 
-    --warning-1-scrim: oklch(var(--_L-warning-1) var(--_C-warning-1) var(--color-env-hue-warning) / var(--color-env-alpha));
-    --warning-2-scrim: oklch(var(--_L-warning-2) var(--_C-warning-2) var(--color-env-hue-warning) / var(--color-env-alpha));
-    --warning-3-scrim: oklch(var(--_L-warning-3) var(--_C-warning-3) var(--color-env-hue-warning) / var(--color-env-alpha));
-    --warning-4-scrim: oklch(var(--_L-warning-4) var(--_C-warning-4) var(--color-env-hue-warning) / var(--color-env-alpha));
-    --warning-5-scrim: oklch(var(--_L-warning-5) var(--_C-warning-5) var(--color-env-hue-warning) / var(--color-env-alpha));
-    --warning-6-scrim: oklch(var(--_L-warning-6) var(--_C-warning-6) var(--color-env-hue-warning) / var(--color-env-alpha));
-    --warning-7-scrim: oklch(var(--_L-warning-7) var(--_C-warning-7) var(--color-env-hue-warning) / var(--color-env-alpha));
-    --warning-8-scrim: oklch(var(--_L-warning-8) var(--_C-warning-8) var(--color-env-hue-warning) / var(--color-env-alpha));
-    --warning-9-scrim: oklch(var(--_L-warning-9) var(--_C-warning-9) var(--color-env-hue-warning) / var(--color-env-alpha));
-    --warning-10-scrim: oklch(var(--_L-warning-10) var(--_C-warning-10) var(--color-env-hue-warning) / var(--color-env-alpha));
-    --warning-11-scrim: oklch(var(--_L-warning-11) var(--_C-warning-11) var(--color-env-hue-warning) / var(--color-env-alpha));
+    --warning-1-scrim: oklch(var(--n-L-warning-1) var(--n-C-warning-1) var(--color-env-hue-warning) / var(--color-env-alpha));
+    --warning-2-scrim: oklch(var(--n-L-warning-2) var(--n-C-warning-2) var(--color-env-hue-warning) / var(--color-env-alpha));
+    --warning-3-scrim: oklch(var(--n-L-warning-3) var(--n-C-warning-3) var(--color-env-hue-warning) / var(--color-env-alpha));
+    --warning-4-scrim: oklch(var(--n-L-warning-4) var(--n-C-warning-4) var(--color-env-hue-warning) / var(--color-env-alpha));
+    --warning-5-scrim: oklch(var(--n-L-warning-5) var(--n-C-warning-5) var(--color-env-hue-warning) / var(--color-env-alpha));
+    --warning-6-scrim: oklch(var(--n-L-warning-6) var(--n-C-warning-6) var(--color-env-hue-warning) / var(--color-env-alpha));
+    --warning-7-scrim: oklch(var(--n-L-warning-7) var(--n-C-warning-7) var(--color-env-hue-warning) / var(--color-env-alpha));
+    --warning-8-scrim: oklch(var(--n-L-warning-8) var(--n-C-warning-8) var(--color-env-hue-warning) / var(--color-env-alpha));
+    --warning-9-scrim: oklch(var(--n-L-warning-9) var(--n-C-warning-9) var(--color-env-hue-warning) / var(--color-env-alpha));
+    --warning-10-scrim: oklch(var(--n-L-warning-10) var(--n-C-warning-10) var(--color-env-hue-warning) / var(--color-env-alpha));
+    --warning-11-scrim: oklch(var(--n-L-warning-11) var(--n-C-warning-11) var(--color-env-hue-warning) / var(--color-env-alpha));
 
-    --danger-1-scrim: oklch(var(--_L-danger-1) var(--_C-danger-1) var(--color-env-hue-danger) / var(--color-env-alpha));
-    --danger-2-scrim: oklch(var(--_L-danger-2) var(--_C-danger-2) var(--color-env-hue-danger) / var(--color-env-alpha));
-    --danger-3-scrim: oklch(var(--_L-danger-3) var(--_C-danger-3) var(--color-env-hue-danger) / var(--color-env-alpha));
-    --danger-4-scrim: oklch(var(--_L-danger-4) var(--_C-danger-4) var(--color-env-hue-danger) / var(--color-env-alpha));
-    --danger-5-scrim: oklch(var(--_L-danger-5) var(--_C-danger-5) var(--color-env-hue-danger) / var(--color-env-alpha));
-    --danger-6-scrim: oklch(var(--_L-danger-6) var(--_C-danger-6) var(--color-env-hue-danger) / var(--color-env-alpha));
-    --danger-7-scrim: oklch(var(--_L-danger-7) var(--_C-danger-7) var(--color-env-hue-danger) / var(--color-env-alpha));
-    --danger-8-scrim: oklch(var(--_L-danger-8) var(--_C-danger-8) var(--color-env-hue-danger) / var(--color-env-alpha));
-    --danger-9-scrim: oklch(var(--_L-danger-9) var(--_C-danger-9) var(--color-env-hue-danger) / var(--color-env-alpha));
-    --danger-10-scrim: oklch(var(--_L-danger-10) var(--_C-danger-10) var(--color-env-hue-danger) / var(--color-env-alpha));
-    --danger-11-scrim: oklch(var(--_L-danger-11) var(--_C-danger-11) var(--color-env-hue-danger) / var(--color-env-alpha));
+    --danger-1-scrim: oklch(var(--n-L-danger-1) var(--n-C-danger-1) var(--color-env-hue-danger) / var(--color-env-alpha));
+    --danger-2-scrim: oklch(var(--n-L-danger-2) var(--n-C-danger-2) var(--color-env-hue-danger) / var(--color-env-alpha));
+    --danger-3-scrim: oklch(var(--n-L-danger-3) var(--n-C-danger-3) var(--color-env-hue-danger) / var(--color-env-alpha));
+    --danger-4-scrim: oklch(var(--n-L-danger-4) var(--n-C-danger-4) var(--color-env-hue-danger) / var(--color-env-alpha));
+    --danger-5-scrim: oklch(var(--n-L-danger-5) var(--n-C-danger-5) var(--color-env-hue-danger) / var(--color-env-alpha));
+    --danger-6-scrim: oklch(var(--n-L-danger-6) var(--n-C-danger-6) var(--color-env-hue-danger) / var(--color-env-alpha));
+    --danger-7-scrim: oklch(var(--n-L-danger-7) var(--n-C-danger-7) var(--color-env-hue-danger) / var(--color-env-alpha));
+    --danger-8-scrim: oklch(var(--n-L-danger-8) var(--n-C-danger-8) var(--color-env-hue-danger) / var(--color-env-alpha));
+    --danger-9-scrim: oklch(var(--n-L-danger-9) var(--n-C-danger-9) var(--color-env-hue-danger) / var(--color-env-alpha));
+    --danger-10-scrim: oklch(var(--n-L-danger-10) var(--n-C-danger-10) var(--color-env-hue-danger) / var(--color-env-alpha));
+    --danger-11-scrim: oklch(var(--n-L-danger-11) var(--n-C-danger-11) var(--color-env-hue-danger) / var(--color-env-alpha));
 
     /* ── Scrim ramp — Semantic (light-dark aware) ── */
 
@@ -575,104 +575,104 @@
        Strongest = anchor color at full alpha.  Weakest = L-extreme at minimal alpha.
        L: strongest = anchor, weakest = L-max (tint) or L-min (shade), 6 intervals.
        Alpha: strongest = 7/7, weakest = 1/7 of color-env-alpha.
-       Chroma = anchor chroma (--_C-{fam}-6) throughout.
+       Chroma = anchor chroma (--n-C-{fam}-6) throughout.
     */
 
-    --neutral-scrim-tint-strongest: oklch(var(--color-env-lightness-neutral) var(--_C-neutral-6) var(--color-env-hue-neutral) / var(--color-env-alpha));
-    --neutral-scrim-tint-stronger:  oklch(calc(var(--color-env-lightness-neutral) + 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral))) var(--_C-neutral-6) var(--color-env-hue-neutral) / calc(6 / 7 * var(--color-env-alpha)));
-    --neutral-scrim-tint-strong:    oklch(calc(var(--color-env-lightness-neutral) + 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral))) var(--_C-neutral-6) var(--color-env-hue-neutral) / calc(5 / 7 * var(--color-env-alpha)));
-    --neutral-scrim-tint-base:      oklch(calc(var(--color-env-lightness-neutral) + 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral))) var(--_C-neutral-6) var(--color-env-hue-neutral) / calc(4 / 7 * var(--color-env-alpha)));
-    --neutral-scrim-tint-weak:      oklch(calc(var(--color-env-lightness-neutral) + 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral))) var(--_C-neutral-6) var(--color-env-hue-neutral) / calc(3 / 7 * var(--color-env-alpha)));
-    --neutral-scrim-tint-weaker:    oklch(calc(var(--color-env-lightness-neutral) + 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral))) var(--_C-neutral-6) var(--color-env-hue-neutral) / calc(2 / 7 * var(--color-env-alpha)));
-    --neutral-scrim-tint-weakest:   oklch(var(--color-env-lightness-max) var(--_C-neutral-6) var(--color-env-hue-neutral) / calc(1 / 7 * var(--color-env-alpha)));
+    --neutral-scrim-tint-strongest: oklch(var(--color-env-lightness-neutral) var(--n-C-neutral-6) var(--color-env-hue-neutral) / var(--color-env-alpha));
+    --neutral-scrim-tint-stronger:  oklch(calc(var(--color-env-lightness-neutral) + 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral))) var(--n-C-neutral-6) var(--color-env-hue-neutral) / calc(6 / 7 * var(--color-env-alpha)));
+    --neutral-scrim-tint-strong:    oklch(calc(var(--color-env-lightness-neutral) + 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral))) var(--n-C-neutral-6) var(--color-env-hue-neutral) / calc(5 / 7 * var(--color-env-alpha)));
+    --neutral-scrim-tint-base:      oklch(calc(var(--color-env-lightness-neutral) + 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral))) var(--n-C-neutral-6) var(--color-env-hue-neutral) / calc(4 / 7 * var(--color-env-alpha)));
+    --neutral-scrim-tint-weak:      oklch(calc(var(--color-env-lightness-neutral) + 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral))) var(--n-C-neutral-6) var(--color-env-hue-neutral) / calc(3 / 7 * var(--color-env-alpha)));
+    --neutral-scrim-tint-weaker:    oklch(calc(var(--color-env-lightness-neutral) + 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-neutral))) var(--n-C-neutral-6) var(--color-env-hue-neutral) / calc(2 / 7 * var(--color-env-alpha)));
+    --neutral-scrim-tint-weakest:   oklch(var(--color-env-lightness-max) var(--n-C-neutral-6) var(--color-env-hue-neutral) / calc(1 / 7 * var(--color-env-alpha)));
 
-    --neutral-scrim-shade-strongest: oklch(var(--color-env-lightness-neutral) var(--_C-neutral-6) var(--color-env-hue-neutral) / var(--color-env-alpha));
-    --neutral-scrim-shade-stronger:  oklch(calc(var(--color-env-lightness-neutral) - 1 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min))) var(--_C-neutral-6) var(--color-env-hue-neutral) / calc(6 / 7 * var(--color-env-alpha)));
-    --neutral-scrim-shade-strong:    oklch(calc(var(--color-env-lightness-neutral) - 2 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min))) var(--_C-neutral-6) var(--color-env-hue-neutral) / calc(5 / 7 * var(--color-env-alpha)));
-    --neutral-scrim-shade-base:      oklch(calc(var(--color-env-lightness-neutral) - 3 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min))) var(--_C-neutral-6) var(--color-env-hue-neutral) / calc(4 / 7 * var(--color-env-alpha)));
-    --neutral-scrim-shade-weak:      oklch(calc(var(--color-env-lightness-neutral) - 4 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min))) var(--_C-neutral-6) var(--color-env-hue-neutral) / calc(3 / 7 * var(--color-env-alpha)));
-    --neutral-scrim-shade-weaker:    oklch(calc(var(--color-env-lightness-neutral) - 5 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min))) var(--_C-neutral-6) var(--color-env-hue-neutral) / calc(2 / 7 * var(--color-env-alpha)));
-    --neutral-scrim-shade-weakest:   oklch(var(--color-env-lightness-min) var(--_C-neutral-6) var(--color-env-hue-neutral) / calc(1 / 7 * var(--color-env-alpha)));
+    --neutral-scrim-shade-strongest: oklch(var(--color-env-lightness-neutral) var(--n-C-neutral-6) var(--color-env-hue-neutral) / var(--color-env-alpha));
+    --neutral-scrim-shade-stronger:  oklch(calc(var(--color-env-lightness-neutral) - 1 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min))) var(--n-C-neutral-6) var(--color-env-hue-neutral) / calc(6 / 7 * var(--color-env-alpha)));
+    --neutral-scrim-shade-strong:    oklch(calc(var(--color-env-lightness-neutral) - 2 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min))) var(--n-C-neutral-6) var(--color-env-hue-neutral) / calc(5 / 7 * var(--color-env-alpha)));
+    --neutral-scrim-shade-base:      oklch(calc(var(--color-env-lightness-neutral) - 3 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min))) var(--n-C-neutral-6) var(--color-env-hue-neutral) / calc(4 / 7 * var(--color-env-alpha)));
+    --neutral-scrim-shade-weak:      oklch(calc(var(--color-env-lightness-neutral) - 4 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min))) var(--n-C-neutral-6) var(--color-env-hue-neutral) / calc(3 / 7 * var(--color-env-alpha)));
+    --neutral-scrim-shade-weaker:    oklch(calc(var(--color-env-lightness-neutral) - 5 / 6 * (var(--color-env-lightness-neutral) - var(--color-env-lightness-min))) var(--n-C-neutral-6) var(--color-env-hue-neutral) / calc(2 / 7 * var(--color-env-alpha)));
+    --neutral-scrim-shade-weakest:   oklch(var(--color-env-lightness-min) var(--n-C-neutral-6) var(--color-env-hue-neutral) / calc(1 / 7 * var(--color-env-alpha)));
 
-    --accent-scrim-tint-strongest: oklch(var(--color-env-lightness-accent) var(--_C-accent-6) var(--color-env-hue-accent) / var(--color-env-alpha));
-    --accent-scrim-tint-stronger:  oklch(calc(var(--color-env-lightness-accent) + 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent))) var(--_C-accent-6) var(--color-env-hue-accent) / calc(6 / 7 * var(--color-env-alpha)));
-    --accent-scrim-tint-strong:    oklch(calc(var(--color-env-lightness-accent) + 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent))) var(--_C-accent-6) var(--color-env-hue-accent) / calc(5 / 7 * var(--color-env-alpha)));
-    --accent-scrim-tint-base:      oklch(calc(var(--color-env-lightness-accent) + 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent))) var(--_C-accent-6) var(--color-env-hue-accent) / calc(4 / 7 * var(--color-env-alpha)));
-    --accent-scrim-tint-weak:      oklch(calc(var(--color-env-lightness-accent) + 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent))) var(--_C-accent-6) var(--color-env-hue-accent) / calc(3 / 7 * var(--color-env-alpha)));
-    --accent-scrim-tint-weaker:    oklch(calc(var(--color-env-lightness-accent) + 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent))) var(--_C-accent-6) var(--color-env-hue-accent) / calc(2 / 7 * var(--color-env-alpha)));
-    --accent-scrim-tint-weakest:   oklch(var(--color-env-lightness-max) var(--_C-accent-6) var(--color-env-hue-accent) / calc(1 / 7 * var(--color-env-alpha)));
+    --accent-scrim-tint-strongest: oklch(var(--color-env-lightness-accent) var(--n-C-accent-6) var(--color-env-hue-accent) / var(--color-env-alpha));
+    --accent-scrim-tint-stronger:  oklch(calc(var(--color-env-lightness-accent) + 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent))) var(--n-C-accent-6) var(--color-env-hue-accent) / calc(6 / 7 * var(--color-env-alpha)));
+    --accent-scrim-tint-strong:    oklch(calc(var(--color-env-lightness-accent) + 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent))) var(--n-C-accent-6) var(--color-env-hue-accent) / calc(5 / 7 * var(--color-env-alpha)));
+    --accent-scrim-tint-base:      oklch(calc(var(--color-env-lightness-accent) + 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent))) var(--n-C-accent-6) var(--color-env-hue-accent) / calc(4 / 7 * var(--color-env-alpha)));
+    --accent-scrim-tint-weak:      oklch(calc(var(--color-env-lightness-accent) + 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent))) var(--n-C-accent-6) var(--color-env-hue-accent) / calc(3 / 7 * var(--color-env-alpha)));
+    --accent-scrim-tint-weaker:    oklch(calc(var(--color-env-lightness-accent) + 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-accent))) var(--n-C-accent-6) var(--color-env-hue-accent) / calc(2 / 7 * var(--color-env-alpha)));
+    --accent-scrim-tint-weakest:   oklch(var(--color-env-lightness-max) var(--n-C-accent-6) var(--color-env-hue-accent) / calc(1 / 7 * var(--color-env-alpha)));
 
-    --accent-scrim-shade-strongest: oklch(var(--color-env-lightness-accent) var(--_C-accent-6) var(--color-env-hue-accent) / var(--color-env-alpha));
-    --accent-scrim-shade-stronger:  oklch(calc(var(--color-env-lightness-accent) - 1 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min))) var(--_C-accent-6) var(--color-env-hue-accent) / calc(6 / 7 * var(--color-env-alpha)));
-    --accent-scrim-shade-strong:    oklch(calc(var(--color-env-lightness-accent) - 2 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min))) var(--_C-accent-6) var(--color-env-hue-accent) / calc(5 / 7 * var(--color-env-alpha)));
-    --accent-scrim-shade-base:      oklch(calc(var(--color-env-lightness-accent) - 3 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min))) var(--_C-accent-6) var(--color-env-hue-accent) / calc(4 / 7 * var(--color-env-alpha)));
-    --accent-scrim-shade-weak:      oklch(calc(var(--color-env-lightness-accent) - 4 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min))) var(--_C-accent-6) var(--color-env-hue-accent) / calc(3 / 7 * var(--color-env-alpha)));
-    --accent-scrim-shade-weaker:    oklch(calc(var(--color-env-lightness-accent) - 5 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min))) var(--_C-accent-6) var(--color-env-hue-accent) / calc(2 / 7 * var(--color-env-alpha)));
-    --accent-scrim-shade-weakest:   oklch(var(--color-env-lightness-min) var(--_C-accent-6) var(--color-env-hue-accent) / calc(1 / 7 * var(--color-env-alpha)));
+    --accent-scrim-shade-strongest: oklch(var(--color-env-lightness-accent) var(--n-C-accent-6) var(--color-env-hue-accent) / var(--color-env-alpha));
+    --accent-scrim-shade-stronger:  oklch(calc(var(--color-env-lightness-accent) - 1 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min))) var(--n-C-accent-6) var(--color-env-hue-accent) / calc(6 / 7 * var(--color-env-alpha)));
+    --accent-scrim-shade-strong:    oklch(calc(var(--color-env-lightness-accent) - 2 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min))) var(--n-C-accent-6) var(--color-env-hue-accent) / calc(5 / 7 * var(--color-env-alpha)));
+    --accent-scrim-shade-base:      oklch(calc(var(--color-env-lightness-accent) - 3 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min))) var(--n-C-accent-6) var(--color-env-hue-accent) / calc(4 / 7 * var(--color-env-alpha)));
+    --accent-scrim-shade-weak:      oklch(calc(var(--color-env-lightness-accent) - 4 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min))) var(--n-C-accent-6) var(--color-env-hue-accent) / calc(3 / 7 * var(--color-env-alpha)));
+    --accent-scrim-shade-weaker:    oklch(calc(var(--color-env-lightness-accent) - 5 / 6 * (var(--color-env-lightness-accent) - var(--color-env-lightness-min))) var(--n-C-accent-6) var(--color-env-hue-accent) / calc(2 / 7 * var(--color-env-alpha)));
+    --accent-scrim-shade-weakest:   oklch(var(--color-env-lightness-min) var(--n-C-accent-6) var(--color-env-hue-accent) / calc(1 / 7 * var(--color-env-alpha)));
 
-    --info-scrim-tint-strongest: oklch(var(--color-env-lightness-info) var(--_C-info-6) var(--color-env-hue-info) / var(--color-env-alpha));
-    --info-scrim-tint-stronger:  oklch(calc(var(--color-env-lightness-info) + 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info))) var(--_C-info-6) var(--color-env-hue-info) / calc(6 / 7 * var(--color-env-alpha)));
-    --info-scrim-tint-strong:    oklch(calc(var(--color-env-lightness-info) + 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info))) var(--_C-info-6) var(--color-env-hue-info) / calc(5 / 7 * var(--color-env-alpha)));
-    --info-scrim-tint-base:      oklch(calc(var(--color-env-lightness-info) + 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info))) var(--_C-info-6) var(--color-env-hue-info) / calc(4 / 7 * var(--color-env-alpha)));
-    --info-scrim-tint-weak:      oklch(calc(var(--color-env-lightness-info) + 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info))) var(--_C-info-6) var(--color-env-hue-info) / calc(3 / 7 * var(--color-env-alpha)));
-    --info-scrim-tint-weaker:    oklch(calc(var(--color-env-lightness-info) + 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info))) var(--_C-info-6) var(--color-env-hue-info) / calc(2 / 7 * var(--color-env-alpha)));
-    --info-scrim-tint-weakest:   oklch(var(--color-env-lightness-max) var(--_C-info-6) var(--color-env-hue-info) / calc(1 / 7 * var(--color-env-alpha)));
+    --info-scrim-tint-strongest: oklch(var(--color-env-lightness-info) var(--n-C-info-6) var(--color-env-hue-info) / var(--color-env-alpha));
+    --info-scrim-tint-stronger:  oklch(calc(var(--color-env-lightness-info) + 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info))) var(--n-C-info-6) var(--color-env-hue-info) / calc(6 / 7 * var(--color-env-alpha)));
+    --info-scrim-tint-strong:    oklch(calc(var(--color-env-lightness-info) + 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info))) var(--n-C-info-6) var(--color-env-hue-info) / calc(5 / 7 * var(--color-env-alpha)));
+    --info-scrim-tint-base:      oklch(calc(var(--color-env-lightness-info) + 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info))) var(--n-C-info-6) var(--color-env-hue-info) / calc(4 / 7 * var(--color-env-alpha)));
+    --info-scrim-tint-weak:      oklch(calc(var(--color-env-lightness-info) + 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info))) var(--n-C-info-6) var(--color-env-hue-info) / calc(3 / 7 * var(--color-env-alpha)));
+    --info-scrim-tint-weaker:    oklch(calc(var(--color-env-lightness-info) + 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-info))) var(--n-C-info-6) var(--color-env-hue-info) / calc(2 / 7 * var(--color-env-alpha)));
+    --info-scrim-tint-weakest:   oklch(var(--color-env-lightness-max) var(--n-C-info-6) var(--color-env-hue-info) / calc(1 / 7 * var(--color-env-alpha)));
 
-    --info-scrim-shade-strongest: oklch(var(--color-env-lightness-info) var(--_C-info-6) var(--color-env-hue-info) / var(--color-env-alpha));
-    --info-scrim-shade-stronger:  oklch(calc(var(--color-env-lightness-info) - 1 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min))) var(--_C-info-6) var(--color-env-hue-info) / calc(6 / 7 * var(--color-env-alpha)));
-    --info-scrim-shade-strong:    oklch(calc(var(--color-env-lightness-info) - 2 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min))) var(--_C-info-6) var(--color-env-hue-info) / calc(5 / 7 * var(--color-env-alpha)));
-    --info-scrim-shade-base:      oklch(calc(var(--color-env-lightness-info) - 3 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min))) var(--_C-info-6) var(--color-env-hue-info) / calc(4 / 7 * var(--color-env-alpha)));
-    --info-scrim-shade-weak:      oklch(calc(var(--color-env-lightness-info) - 4 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min))) var(--_C-info-6) var(--color-env-hue-info) / calc(3 / 7 * var(--color-env-alpha)));
-    --info-scrim-shade-weaker:    oklch(calc(var(--color-env-lightness-info) - 5 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min))) var(--_C-info-6) var(--color-env-hue-info) / calc(2 / 7 * var(--color-env-alpha)));
-    --info-scrim-shade-weakest:   oklch(var(--color-env-lightness-min) var(--_C-info-6) var(--color-env-hue-info) / calc(1 / 7 * var(--color-env-alpha)));
+    --info-scrim-shade-strongest: oklch(var(--color-env-lightness-info) var(--n-C-info-6) var(--color-env-hue-info) / var(--color-env-alpha));
+    --info-scrim-shade-stronger:  oklch(calc(var(--color-env-lightness-info) - 1 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min))) var(--n-C-info-6) var(--color-env-hue-info) / calc(6 / 7 * var(--color-env-alpha)));
+    --info-scrim-shade-strong:    oklch(calc(var(--color-env-lightness-info) - 2 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min))) var(--n-C-info-6) var(--color-env-hue-info) / calc(5 / 7 * var(--color-env-alpha)));
+    --info-scrim-shade-base:      oklch(calc(var(--color-env-lightness-info) - 3 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min))) var(--n-C-info-6) var(--color-env-hue-info) / calc(4 / 7 * var(--color-env-alpha)));
+    --info-scrim-shade-weak:      oklch(calc(var(--color-env-lightness-info) - 4 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min))) var(--n-C-info-6) var(--color-env-hue-info) / calc(3 / 7 * var(--color-env-alpha)));
+    --info-scrim-shade-weaker:    oklch(calc(var(--color-env-lightness-info) - 5 / 6 * (var(--color-env-lightness-info) - var(--color-env-lightness-min))) var(--n-C-info-6) var(--color-env-hue-info) / calc(2 / 7 * var(--color-env-alpha)));
+    --info-scrim-shade-weakest:   oklch(var(--color-env-lightness-min) var(--n-C-info-6) var(--color-env-hue-info) / calc(1 / 7 * var(--color-env-alpha)));
 
-    --success-scrim-tint-strongest: oklch(var(--color-env-lightness-success) var(--_C-success-6) var(--color-env-hue-success) / var(--color-env-alpha));
-    --success-scrim-tint-stronger:  oklch(calc(var(--color-env-lightness-success) + 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success))) var(--_C-success-6) var(--color-env-hue-success) / calc(6 / 7 * var(--color-env-alpha)));
-    --success-scrim-tint-strong:    oklch(calc(var(--color-env-lightness-success) + 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success))) var(--_C-success-6) var(--color-env-hue-success) / calc(5 / 7 * var(--color-env-alpha)));
-    --success-scrim-tint-base:      oklch(calc(var(--color-env-lightness-success) + 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success))) var(--_C-success-6) var(--color-env-hue-success) / calc(4 / 7 * var(--color-env-alpha)));
-    --success-scrim-tint-weak:      oklch(calc(var(--color-env-lightness-success) + 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success))) var(--_C-success-6) var(--color-env-hue-success) / calc(3 / 7 * var(--color-env-alpha)));
-    --success-scrim-tint-weaker:    oklch(calc(var(--color-env-lightness-success) + 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success))) var(--_C-success-6) var(--color-env-hue-success) / calc(2 / 7 * var(--color-env-alpha)));
-    --success-scrim-tint-weakest:   oklch(var(--color-env-lightness-max) var(--_C-success-6) var(--color-env-hue-success) / calc(1 / 7 * var(--color-env-alpha)));
+    --success-scrim-tint-strongest: oklch(var(--color-env-lightness-success) var(--n-C-success-6) var(--color-env-hue-success) / var(--color-env-alpha));
+    --success-scrim-tint-stronger:  oklch(calc(var(--color-env-lightness-success) + 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success))) var(--n-C-success-6) var(--color-env-hue-success) / calc(6 / 7 * var(--color-env-alpha)));
+    --success-scrim-tint-strong:    oklch(calc(var(--color-env-lightness-success) + 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success))) var(--n-C-success-6) var(--color-env-hue-success) / calc(5 / 7 * var(--color-env-alpha)));
+    --success-scrim-tint-base:      oklch(calc(var(--color-env-lightness-success) + 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success))) var(--n-C-success-6) var(--color-env-hue-success) / calc(4 / 7 * var(--color-env-alpha)));
+    --success-scrim-tint-weak:      oklch(calc(var(--color-env-lightness-success) + 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success))) var(--n-C-success-6) var(--color-env-hue-success) / calc(3 / 7 * var(--color-env-alpha)));
+    --success-scrim-tint-weaker:    oklch(calc(var(--color-env-lightness-success) + 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-success))) var(--n-C-success-6) var(--color-env-hue-success) / calc(2 / 7 * var(--color-env-alpha)));
+    --success-scrim-tint-weakest:   oklch(var(--color-env-lightness-max) var(--n-C-success-6) var(--color-env-hue-success) / calc(1 / 7 * var(--color-env-alpha)));
 
-    --success-scrim-shade-strongest: oklch(var(--color-env-lightness-success) var(--_C-success-6) var(--color-env-hue-success) / var(--color-env-alpha));
-    --success-scrim-shade-stronger:  oklch(calc(var(--color-env-lightness-success) - 1 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min))) var(--_C-success-6) var(--color-env-hue-success) / calc(6 / 7 * var(--color-env-alpha)));
-    --success-scrim-shade-strong:    oklch(calc(var(--color-env-lightness-success) - 2 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min))) var(--_C-success-6) var(--color-env-hue-success) / calc(5 / 7 * var(--color-env-alpha)));
-    --success-scrim-shade-base:      oklch(calc(var(--color-env-lightness-success) - 3 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min))) var(--_C-success-6) var(--color-env-hue-success) / calc(4 / 7 * var(--color-env-alpha)));
-    --success-scrim-shade-weak:      oklch(calc(var(--color-env-lightness-success) - 4 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min))) var(--_C-success-6) var(--color-env-hue-success) / calc(3 / 7 * var(--color-env-alpha)));
-    --success-scrim-shade-weaker:    oklch(calc(var(--color-env-lightness-success) - 5 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min))) var(--_C-success-6) var(--color-env-hue-success) / calc(2 / 7 * var(--color-env-alpha)));
-    --success-scrim-shade-weakest:   oklch(var(--color-env-lightness-min) var(--_C-success-6) var(--color-env-hue-success) / calc(1 / 7 * var(--color-env-alpha)));
+    --success-scrim-shade-strongest: oklch(var(--color-env-lightness-success) var(--n-C-success-6) var(--color-env-hue-success) / var(--color-env-alpha));
+    --success-scrim-shade-stronger:  oklch(calc(var(--color-env-lightness-success) - 1 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min))) var(--n-C-success-6) var(--color-env-hue-success) / calc(6 / 7 * var(--color-env-alpha)));
+    --success-scrim-shade-strong:    oklch(calc(var(--color-env-lightness-success) - 2 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min))) var(--n-C-success-6) var(--color-env-hue-success) / calc(5 / 7 * var(--color-env-alpha)));
+    --success-scrim-shade-base:      oklch(calc(var(--color-env-lightness-success) - 3 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min))) var(--n-C-success-6) var(--color-env-hue-success) / calc(4 / 7 * var(--color-env-alpha)));
+    --success-scrim-shade-weak:      oklch(calc(var(--color-env-lightness-success) - 4 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min))) var(--n-C-success-6) var(--color-env-hue-success) / calc(3 / 7 * var(--color-env-alpha)));
+    --success-scrim-shade-weaker:    oklch(calc(var(--color-env-lightness-success) - 5 / 6 * (var(--color-env-lightness-success) - var(--color-env-lightness-min))) var(--n-C-success-6) var(--color-env-hue-success) / calc(2 / 7 * var(--color-env-alpha)));
+    --success-scrim-shade-weakest:   oklch(var(--color-env-lightness-min) var(--n-C-success-6) var(--color-env-hue-success) / calc(1 / 7 * var(--color-env-alpha)));
 
-    --warning-scrim-tint-strongest: oklch(var(--color-env-lightness-warning) var(--_C-warning-6) var(--color-env-hue-warning) / var(--color-env-alpha));
-    --warning-scrim-tint-stronger:  oklch(calc(var(--color-env-lightness-warning) + 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning))) var(--_C-warning-6) var(--color-env-hue-warning) / calc(6 / 7 * var(--color-env-alpha)));
-    --warning-scrim-tint-strong:    oklch(calc(var(--color-env-lightness-warning) + 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning))) var(--_C-warning-6) var(--color-env-hue-warning) / calc(5 / 7 * var(--color-env-alpha)));
-    --warning-scrim-tint-base:      oklch(calc(var(--color-env-lightness-warning) + 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning))) var(--_C-warning-6) var(--color-env-hue-warning) / calc(4 / 7 * var(--color-env-alpha)));
-    --warning-scrim-tint-weak:      oklch(calc(var(--color-env-lightness-warning) + 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning))) var(--_C-warning-6) var(--color-env-hue-warning) / calc(3 / 7 * var(--color-env-alpha)));
-    --warning-scrim-tint-weaker:    oklch(calc(var(--color-env-lightness-warning) + 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning))) var(--_C-warning-6) var(--color-env-hue-warning) / calc(2 / 7 * var(--color-env-alpha)));
-    --warning-scrim-tint-weakest:   oklch(var(--color-env-lightness-max) var(--_C-warning-6) var(--color-env-hue-warning) / calc(1 / 7 * var(--color-env-alpha)));
+    --warning-scrim-tint-strongest: oklch(var(--color-env-lightness-warning) var(--n-C-warning-6) var(--color-env-hue-warning) / var(--color-env-alpha));
+    --warning-scrim-tint-stronger:  oklch(calc(var(--color-env-lightness-warning) + 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning))) var(--n-C-warning-6) var(--color-env-hue-warning) / calc(6 / 7 * var(--color-env-alpha)));
+    --warning-scrim-tint-strong:    oklch(calc(var(--color-env-lightness-warning) + 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning))) var(--n-C-warning-6) var(--color-env-hue-warning) / calc(5 / 7 * var(--color-env-alpha)));
+    --warning-scrim-tint-base:      oklch(calc(var(--color-env-lightness-warning) + 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning))) var(--n-C-warning-6) var(--color-env-hue-warning) / calc(4 / 7 * var(--color-env-alpha)));
+    --warning-scrim-tint-weak:      oklch(calc(var(--color-env-lightness-warning) + 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning))) var(--n-C-warning-6) var(--color-env-hue-warning) / calc(3 / 7 * var(--color-env-alpha)));
+    --warning-scrim-tint-weaker:    oklch(calc(var(--color-env-lightness-warning) + 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-warning))) var(--n-C-warning-6) var(--color-env-hue-warning) / calc(2 / 7 * var(--color-env-alpha)));
+    --warning-scrim-tint-weakest:   oklch(var(--color-env-lightness-max) var(--n-C-warning-6) var(--color-env-hue-warning) / calc(1 / 7 * var(--color-env-alpha)));
 
-    --warning-scrim-shade-strongest: oklch(var(--color-env-lightness-warning) var(--_C-warning-6) var(--color-env-hue-warning) / var(--color-env-alpha));
-    --warning-scrim-shade-stronger:  oklch(calc(var(--color-env-lightness-warning) - 1 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min))) var(--_C-warning-6) var(--color-env-hue-warning) / calc(6 / 7 * var(--color-env-alpha)));
-    --warning-scrim-shade-strong:    oklch(calc(var(--color-env-lightness-warning) - 2 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min))) var(--_C-warning-6) var(--color-env-hue-warning) / calc(5 / 7 * var(--color-env-alpha)));
-    --warning-scrim-shade-base:      oklch(calc(var(--color-env-lightness-warning) - 3 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min))) var(--_C-warning-6) var(--color-env-hue-warning) / calc(4 / 7 * var(--color-env-alpha)));
-    --warning-scrim-shade-weak:      oklch(calc(var(--color-env-lightness-warning) - 4 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min))) var(--_C-warning-6) var(--color-env-hue-warning) / calc(3 / 7 * var(--color-env-alpha)));
-    --warning-scrim-shade-weaker:    oklch(calc(var(--color-env-lightness-warning) - 5 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min))) var(--_C-warning-6) var(--color-env-hue-warning) / calc(2 / 7 * var(--color-env-alpha)));
-    --warning-scrim-shade-weakest:   oklch(var(--color-env-lightness-min) var(--_C-warning-6) var(--color-env-hue-warning) / calc(1 / 7 * var(--color-env-alpha)));
+    --warning-scrim-shade-strongest: oklch(var(--color-env-lightness-warning) var(--n-C-warning-6) var(--color-env-hue-warning) / var(--color-env-alpha));
+    --warning-scrim-shade-stronger:  oklch(calc(var(--color-env-lightness-warning) - 1 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min))) var(--n-C-warning-6) var(--color-env-hue-warning) / calc(6 / 7 * var(--color-env-alpha)));
+    --warning-scrim-shade-strong:    oklch(calc(var(--color-env-lightness-warning) - 2 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min))) var(--n-C-warning-6) var(--color-env-hue-warning) / calc(5 / 7 * var(--color-env-alpha)));
+    --warning-scrim-shade-base:      oklch(calc(var(--color-env-lightness-warning) - 3 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min))) var(--n-C-warning-6) var(--color-env-hue-warning) / calc(4 / 7 * var(--color-env-alpha)));
+    --warning-scrim-shade-weak:      oklch(calc(var(--color-env-lightness-warning) - 4 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min))) var(--n-C-warning-6) var(--color-env-hue-warning) / calc(3 / 7 * var(--color-env-alpha)));
+    --warning-scrim-shade-weaker:    oklch(calc(var(--color-env-lightness-warning) - 5 / 6 * (var(--color-env-lightness-warning) - var(--color-env-lightness-min))) var(--n-C-warning-6) var(--color-env-hue-warning) / calc(2 / 7 * var(--color-env-alpha)));
+    --warning-scrim-shade-weakest:   oklch(var(--color-env-lightness-min) var(--n-C-warning-6) var(--color-env-hue-warning) / calc(1 / 7 * var(--color-env-alpha)));
 
-    --danger-scrim-tint-strongest: oklch(var(--color-env-lightness-danger) var(--_C-danger-6) var(--color-env-hue-danger) / var(--color-env-alpha));
-    --danger-scrim-tint-stronger:  oklch(calc(var(--color-env-lightness-danger) + 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger))) var(--_C-danger-6) var(--color-env-hue-danger) / calc(6 / 7 * var(--color-env-alpha)));
-    --danger-scrim-tint-strong:    oklch(calc(var(--color-env-lightness-danger) + 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger))) var(--_C-danger-6) var(--color-env-hue-danger) / calc(5 / 7 * var(--color-env-alpha)));
-    --danger-scrim-tint-base:      oklch(calc(var(--color-env-lightness-danger) + 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger))) var(--_C-danger-6) var(--color-env-hue-danger) / calc(4 / 7 * var(--color-env-alpha)));
-    --danger-scrim-tint-weak:      oklch(calc(var(--color-env-lightness-danger) + 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger))) var(--_C-danger-6) var(--color-env-hue-danger) / calc(3 / 7 * var(--color-env-alpha)));
-    --danger-scrim-tint-weaker:    oklch(calc(var(--color-env-lightness-danger) + 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger))) var(--_C-danger-6) var(--color-env-hue-danger) / calc(2 / 7 * var(--color-env-alpha)));
-    --danger-scrim-tint-weakest:   oklch(var(--color-env-lightness-max) var(--_C-danger-6) var(--color-env-hue-danger) / calc(1 / 7 * var(--color-env-alpha)));
+    --danger-scrim-tint-strongest: oklch(var(--color-env-lightness-danger) var(--n-C-danger-6) var(--color-env-hue-danger) / var(--color-env-alpha));
+    --danger-scrim-tint-stronger:  oklch(calc(var(--color-env-lightness-danger) + 1 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger))) var(--n-C-danger-6) var(--color-env-hue-danger) / calc(6 / 7 * var(--color-env-alpha)));
+    --danger-scrim-tint-strong:    oklch(calc(var(--color-env-lightness-danger) + 2 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger))) var(--n-C-danger-6) var(--color-env-hue-danger) / calc(5 / 7 * var(--color-env-alpha)));
+    --danger-scrim-tint-base:      oklch(calc(var(--color-env-lightness-danger) + 3 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger))) var(--n-C-danger-6) var(--color-env-hue-danger) / calc(4 / 7 * var(--color-env-alpha)));
+    --danger-scrim-tint-weak:      oklch(calc(var(--color-env-lightness-danger) + 4 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger))) var(--n-C-danger-6) var(--color-env-hue-danger) / calc(3 / 7 * var(--color-env-alpha)));
+    --danger-scrim-tint-weaker:    oklch(calc(var(--color-env-lightness-danger) + 5 / 6 * (var(--color-env-lightness-max) - var(--color-env-lightness-danger))) var(--n-C-danger-6) var(--color-env-hue-danger) / calc(2 / 7 * var(--color-env-alpha)));
+    --danger-scrim-tint-weakest:   oklch(var(--color-env-lightness-max) var(--n-C-danger-6) var(--color-env-hue-danger) / calc(1 / 7 * var(--color-env-alpha)));
 
-    --danger-scrim-shade-strongest: oklch(var(--color-env-lightness-danger) var(--_C-danger-6) var(--color-env-hue-danger) / var(--color-env-alpha));
-    --danger-scrim-shade-stronger:  oklch(calc(var(--color-env-lightness-danger) - 1 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min))) var(--_C-danger-6) var(--color-env-hue-danger) / calc(6 / 7 * var(--color-env-alpha)));
-    --danger-scrim-shade-strong:    oklch(calc(var(--color-env-lightness-danger) - 2 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min))) var(--_C-danger-6) var(--color-env-hue-danger) / calc(5 / 7 * var(--color-env-alpha)));
-    --danger-scrim-shade-base:      oklch(calc(var(--color-env-lightness-danger) - 3 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min))) var(--_C-danger-6) var(--color-env-hue-danger) / calc(4 / 7 * var(--color-env-alpha)));
-    --danger-scrim-shade-weak:      oklch(calc(var(--color-env-lightness-danger) - 4 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min))) var(--_C-danger-6) var(--color-env-hue-danger) / calc(3 / 7 * var(--color-env-alpha)));
-    --danger-scrim-shade-weaker:    oklch(calc(var(--color-env-lightness-danger) - 5 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min))) var(--_C-danger-6) var(--color-env-hue-danger) / calc(2 / 7 * var(--color-env-alpha)));
-    --danger-scrim-shade-weakest:   oklch(var(--color-env-lightness-min) var(--_C-danger-6) var(--color-env-hue-danger) / calc(1 / 7 * var(--color-env-alpha)));
+    --danger-scrim-shade-strongest: oklch(var(--color-env-lightness-danger) var(--n-C-danger-6) var(--color-env-hue-danger) / var(--color-env-alpha));
+    --danger-scrim-shade-stronger:  oklch(calc(var(--color-env-lightness-danger) - 1 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min))) var(--n-C-danger-6) var(--color-env-hue-danger) / calc(6 / 7 * var(--color-env-alpha)));
+    --danger-scrim-shade-strong:    oklch(calc(var(--color-env-lightness-danger) - 2 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min))) var(--n-C-danger-6) var(--color-env-hue-danger) / calc(5 / 7 * var(--color-env-alpha)));
+    --danger-scrim-shade-base:      oklch(calc(var(--color-env-lightness-danger) - 3 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min))) var(--n-C-danger-6) var(--color-env-hue-danger) / calc(4 / 7 * var(--color-env-alpha)));
+    --danger-scrim-shade-weak:      oklch(calc(var(--color-env-lightness-danger) - 4 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min))) var(--n-C-danger-6) var(--color-env-hue-danger) / calc(3 / 7 * var(--color-env-alpha)));
+    --danger-scrim-shade-weaker:    oklch(calc(var(--color-env-lightness-danger) - 5 / 6 * (var(--color-env-lightness-danger) - var(--color-env-lightness-min))) var(--n-C-danger-6) var(--color-env-hue-danger) / calc(2 / 7 * var(--color-env-alpha)));
+    --danger-scrim-shade-weakest:   oklch(var(--color-env-lightness-min) var(--n-C-danger-6) var(--color-env-hue-danger) / calc(1 / 7 * var(--color-env-alpha)));
 
     /* ── Scrim anchor aliases (bare name = step 500) ── */
 
@@ -687,99 +687,99 @@
        Same step in both modes → visual layer stays consistent.
     */
 
-    --neutral-lowest:  light-dark(oklch(var(--_L-light-1) var(--_C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--_L-dark-1) var(--_C-neutral-muted) var(--color-env-hue-neutral)));
-    --neutral-lower:   light-dark(oklch(var(--_L-light-2) var(--_C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--_L-dark-2) var(--_C-neutral-muted) var(--color-env-hue-neutral)));
-    --neutral-low:     light-dark(oklch(var(--_L-light-3) var(--_C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--_L-dark-3) var(--_C-neutral-muted) var(--color-env-hue-neutral)));
-    --neutral-base:    light-dark(oklch(var(--_L-light-4) var(--_C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--_L-dark-4) var(--_C-neutral-muted) var(--color-env-hue-neutral)));
-    --neutral-high:    light-dark(oklch(var(--_L-light-5) var(--_C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--_L-dark-5) var(--_C-neutral-muted) var(--color-env-hue-neutral)));
-    --neutral-higher:  light-dark(oklch(var(--_L-light-6) var(--_C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--_L-dark-6) var(--_C-neutral-muted) var(--color-env-hue-neutral)));
-    --neutral-highest: light-dark(oklch(var(--_L-light-7) var(--_C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--_L-dark-7) var(--_C-neutral-muted) var(--color-env-hue-neutral)));
+    --neutral-lowest:  light-dark(oklch(var(--n-L-light-1) var(--n-C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--n-L-dark-1) var(--n-C-neutral-muted) var(--color-env-hue-neutral)));
+    --neutral-lower:   light-dark(oklch(var(--n-L-light-2) var(--n-C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--n-L-dark-2) var(--n-C-neutral-muted) var(--color-env-hue-neutral)));
+    --neutral-low:     light-dark(oklch(var(--n-L-light-3) var(--n-C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--n-L-dark-3) var(--n-C-neutral-muted) var(--color-env-hue-neutral)));
+    --neutral-base:    light-dark(oklch(var(--n-L-light-4) var(--n-C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--n-L-dark-4) var(--n-C-neutral-muted) var(--color-env-hue-neutral)));
+    --neutral-high:    light-dark(oklch(var(--n-L-light-5) var(--n-C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--n-L-dark-5) var(--n-C-neutral-muted) var(--color-env-hue-neutral)));
+    --neutral-higher:  light-dark(oklch(var(--n-L-light-6) var(--n-C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--n-L-dark-6) var(--n-C-neutral-muted) var(--color-env-hue-neutral)));
+    --neutral-highest: light-dark(oklch(var(--n-L-light-7) var(--n-C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--n-L-dark-7) var(--n-C-neutral-muted) var(--color-env-hue-neutral)));
 
-    --accent-lowest:  light-dark(oklch(var(--_L-light-1) var(--_C-accent-muted) var(--color-env-hue-accent)), oklch(var(--_L-dark-1) var(--_C-accent-muted) var(--color-env-hue-accent)));
-    --accent-lower:   light-dark(oklch(var(--_L-light-2) var(--_C-accent-muted) var(--color-env-hue-accent)), oklch(var(--_L-dark-2) var(--_C-accent-muted) var(--color-env-hue-accent)));
-    --accent-low:     light-dark(oklch(var(--_L-light-3) var(--_C-accent-muted) var(--color-env-hue-accent)), oklch(var(--_L-dark-3) var(--_C-accent-muted) var(--color-env-hue-accent)));
-    --accent-base:    light-dark(oklch(var(--_L-light-4) var(--_C-accent-muted) var(--color-env-hue-accent)), oklch(var(--_L-dark-4) var(--_C-accent-muted) var(--color-env-hue-accent)));
-    --accent-high:    light-dark(oklch(var(--_L-light-5) var(--_C-accent-muted) var(--color-env-hue-accent)), oklch(var(--_L-dark-5) var(--_C-accent-muted) var(--color-env-hue-accent)));
-    --accent-higher:  light-dark(oklch(var(--_L-light-6) var(--_C-accent-muted) var(--color-env-hue-accent)), oklch(var(--_L-dark-6) var(--_C-accent-muted) var(--color-env-hue-accent)));
-    --accent-highest: light-dark(oklch(var(--_L-light-7) var(--_C-accent-muted) var(--color-env-hue-accent)), oklch(var(--_L-dark-7) var(--_C-accent-muted) var(--color-env-hue-accent)));
+    --accent-lowest:  light-dark(oklch(var(--n-L-light-1) var(--n-C-accent-muted) var(--color-env-hue-accent)), oklch(var(--n-L-dark-1) var(--n-C-accent-muted) var(--color-env-hue-accent)));
+    --accent-lower:   light-dark(oklch(var(--n-L-light-2) var(--n-C-accent-muted) var(--color-env-hue-accent)), oklch(var(--n-L-dark-2) var(--n-C-accent-muted) var(--color-env-hue-accent)));
+    --accent-low:     light-dark(oklch(var(--n-L-light-3) var(--n-C-accent-muted) var(--color-env-hue-accent)), oklch(var(--n-L-dark-3) var(--n-C-accent-muted) var(--color-env-hue-accent)));
+    --accent-base:    light-dark(oklch(var(--n-L-light-4) var(--n-C-accent-muted) var(--color-env-hue-accent)), oklch(var(--n-L-dark-4) var(--n-C-accent-muted) var(--color-env-hue-accent)));
+    --accent-high:    light-dark(oklch(var(--n-L-light-5) var(--n-C-accent-muted) var(--color-env-hue-accent)), oklch(var(--n-L-dark-5) var(--n-C-accent-muted) var(--color-env-hue-accent)));
+    --accent-higher:  light-dark(oklch(var(--n-L-light-6) var(--n-C-accent-muted) var(--color-env-hue-accent)), oklch(var(--n-L-dark-6) var(--n-C-accent-muted) var(--color-env-hue-accent)));
+    --accent-highest: light-dark(oklch(var(--n-L-light-7) var(--n-C-accent-muted) var(--color-env-hue-accent)), oklch(var(--n-L-dark-7) var(--n-C-accent-muted) var(--color-env-hue-accent)));
 
-    --info-lowest:  light-dark(oklch(var(--_L-light-1) var(--_C-info-muted) var(--color-env-hue-info)), oklch(var(--_L-dark-1) var(--_C-info-muted) var(--color-env-hue-info)));
-    --info-lower:   light-dark(oklch(var(--_L-light-2) var(--_C-info-muted) var(--color-env-hue-info)), oklch(var(--_L-dark-2) var(--_C-info-muted) var(--color-env-hue-info)));
-    --info-low:     light-dark(oklch(var(--_L-light-3) var(--_C-info-muted) var(--color-env-hue-info)), oklch(var(--_L-dark-3) var(--_C-info-muted) var(--color-env-hue-info)));
-    --info-base:    light-dark(oklch(var(--_L-light-4) var(--_C-info-muted) var(--color-env-hue-info)), oklch(var(--_L-dark-4) var(--_C-info-muted) var(--color-env-hue-info)));
-    --info-high:    light-dark(oklch(var(--_L-light-5) var(--_C-info-muted) var(--color-env-hue-info)), oklch(var(--_L-dark-5) var(--_C-info-muted) var(--color-env-hue-info)));
-    --info-higher:  light-dark(oklch(var(--_L-light-6) var(--_C-info-muted) var(--color-env-hue-info)), oklch(var(--_L-dark-6) var(--_C-info-muted) var(--color-env-hue-info)));
-    --info-highest: light-dark(oklch(var(--_L-light-7) var(--_C-info-muted) var(--color-env-hue-info)), oklch(var(--_L-dark-7) var(--_C-info-muted) var(--color-env-hue-info)));
+    --info-lowest:  light-dark(oklch(var(--n-L-light-1) var(--n-C-info-muted) var(--color-env-hue-info)), oklch(var(--n-L-dark-1) var(--n-C-info-muted) var(--color-env-hue-info)));
+    --info-lower:   light-dark(oklch(var(--n-L-light-2) var(--n-C-info-muted) var(--color-env-hue-info)), oklch(var(--n-L-dark-2) var(--n-C-info-muted) var(--color-env-hue-info)));
+    --info-low:     light-dark(oklch(var(--n-L-light-3) var(--n-C-info-muted) var(--color-env-hue-info)), oklch(var(--n-L-dark-3) var(--n-C-info-muted) var(--color-env-hue-info)));
+    --info-base:    light-dark(oklch(var(--n-L-light-4) var(--n-C-info-muted) var(--color-env-hue-info)), oklch(var(--n-L-dark-4) var(--n-C-info-muted) var(--color-env-hue-info)));
+    --info-high:    light-dark(oklch(var(--n-L-light-5) var(--n-C-info-muted) var(--color-env-hue-info)), oklch(var(--n-L-dark-5) var(--n-C-info-muted) var(--color-env-hue-info)));
+    --info-higher:  light-dark(oklch(var(--n-L-light-6) var(--n-C-info-muted) var(--color-env-hue-info)), oklch(var(--n-L-dark-6) var(--n-C-info-muted) var(--color-env-hue-info)));
+    --info-highest: light-dark(oklch(var(--n-L-light-7) var(--n-C-info-muted) var(--color-env-hue-info)), oklch(var(--n-L-dark-7) var(--n-C-info-muted) var(--color-env-hue-info)));
 
-    --success-lowest:  light-dark(oklch(var(--_L-light-1) var(--_C-success-muted) var(--color-env-hue-success)), oklch(var(--_L-dark-1) var(--_C-success-muted) var(--color-env-hue-success)));
-    --success-lower:   light-dark(oklch(var(--_L-light-2) var(--_C-success-muted) var(--color-env-hue-success)), oklch(var(--_L-dark-2) var(--_C-success-muted) var(--color-env-hue-success)));
-    --success-low:     light-dark(oklch(var(--_L-light-3) var(--_C-success-muted) var(--color-env-hue-success)), oklch(var(--_L-dark-3) var(--_C-success-muted) var(--color-env-hue-success)));
-    --success-base:    light-dark(oklch(var(--_L-light-4) var(--_C-success-muted) var(--color-env-hue-success)), oklch(var(--_L-dark-4) var(--_C-success-muted) var(--color-env-hue-success)));
-    --success-high:    light-dark(oklch(var(--_L-light-5) var(--_C-success-muted) var(--color-env-hue-success)), oklch(var(--_L-dark-5) var(--_C-success-muted) var(--color-env-hue-success)));
-    --success-higher:  light-dark(oklch(var(--_L-light-6) var(--_C-success-muted) var(--color-env-hue-success)), oklch(var(--_L-dark-6) var(--_C-success-muted) var(--color-env-hue-success)));
-    --success-highest: light-dark(oklch(var(--_L-light-7) var(--_C-success-muted) var(--color-env-hue-success)), oklch(var(--_L-dark-7) var(--_C-success-muted) var(--color-env-hue-success)));
+    --success-lowest:  light-dark(oklch(var(--n-L-light-1) var(--n-C-success-muted) var(--color-env-hue-success)), oklch(var(--n-L-dark-1) var(--n-C-success-muted) var(--color-env-hue-success)));
+    --success-lower:   light-dark(oklch(var(--n-L-light-2) var(--n-C-success-muted) var(--color-env-hue-success)), oklch(var(--n-L-dark-2) var(--n-C-success-muted) var(--color-env-hue-success)));
+    --success-low:     light-dark(oklch(var(--n-L-light-3) var(--n-C-success-muted) var(--color-env-hue-success)), oklch(var(--n-L-dark-3) var(--n-C-success-muted) var(--color-env-hue-success)));
+    --success-base:    light-dark(oklch(var(--n-L-light-4) var(--n-C-success-muted) var(--color-env-hue-success)), oklch(var(--n-L-dark-4) var(--n-C-success-muted) var(--color-env-hue-success)));
+    --success-high:    light-dark(oklch(var(--n-L-light-5) var(--n-C-success-muted) var(--color-env-hue-success)), oklch(var(--n-L-dark-5) var(--n-C-success-muted) var(--color-env-hue-success)));
+    --success-higher:  light-dark(oklch(var(--n-L-light-6) var(--n-C-success-muted) var(--color-env-hue-success)), oklch(var(--n-L-dark-6) var(--n-C-success-muted) var(--color-env-hue-success)));
+    --success-highest: light-dark(oklch(var(--n-L-light-7) var(--n-C-success-muted) var(--color-env-hue-success)), oklch(var(--n-L-dark-7) var(--n-C-success-muted) var(--color-env-hue-success)));
 
-    --warning-lowest:  light-dark(oklch(var(--_L-light-1) var(--_C-warning-muted) var(--color-env-hue-warning)), oklch(var(--_L-dark-1) var(--_C-warning-muted) var(--color-env-hue-warning)));
-    --warning-lower:   light-dark(oklch(var(--_L-light-2) var(--_C-warning-muted) var(--color-env-hue-warning)), oklch(var(--_L-dark-2) var(--_C-warning-muted) var(--color-env-hue-warning)));
-    --warning-low:     light-dark(oklch(var(--_L-light-3) var(--_C-warning-muted) var(--color-env-hue-warning)), oklch(var(--_L-dark-3) var(--_C-warning-muted) var(--color-env-hue-warning)));
-    --warning-base:    light-dark(oklch(var(--_L-light-4) var(--_C-warning-muted) var(--color-env-hue-warning)), oklch(var(--_L-dark-4) var(--_C-warning-muted) var(--color-env-hue-warning)));
-    --warning-high:    light-dark(oklch(var(--_L-light-5) var(--_C-warning-muted) var(--color-env-hue-warning)), oklch(var(--_L-dark-5) var(--_C-warning-muted) var(--color-env-hue-warning)));
-    --warning-higher:  light-dark(oklch(var(--_L-light-6) var(--_C-warning-muted) var(--color-env-hue-warning)), oklch(var(--_L-dark-6) var(--_C-warning-muted) var(--color-env-hue-warning)));
-    --warning-highest: light-dark(oklch(var(--_L-light-7) var(--_C-warning-muted) var(--color-env-hue-warning)), oklch(var(--_L-dark-7) var(--_C-warning-muted) var(--color-env-hue-warning)));
+    --warning-lowest:  light-dark(oklch(var(--n-L-light-1) var(--n-C-warning-muted) var(--color-env-hue-warning)), oklch(var(--n-L-dark-1) var(--n-C-warning-muted) var(--color-env-hue-warning)));
+    --warning-lower:   light-dark(oklch(var(--n-L-light-2) var(--n-C-warning-muted) var(--color-env-hue-warning)), oklch(var(--n-L-dark-2) var(--n-C-warning-muted) var(--color-env-hue-warning)));
+    --warning-low:     light-dark(oklch(var(--n-L-light-3) var(--n-C-warning-muted) var(--color-env-hue-warning)), oklch(var(--n-L-dark-3) var(--n-C-warning-muted) var(--color-env-hue-warning)));
+    --warning-base:    light-dark(oklch(var(--n-L-light-4) var(--n-C-warning-muted) var(--color-env-hue-warning)), oklch(var(--n-L-dark-4) var(--n-C-warning-muted) var(--color-env-hue-warning)));
+    --warning-high:    light-dark(oklch(var(--n-L-light-5) var(--n-C-warning-muted) var(--color-env-hue-warning)), oklch(var(--n-L-dark-5) var(--n-C-warning-muted) var(--color-env-hue-warning)));
+    --warning-higher:  light-dark(oklch(var(--n-L-light-6) var(--n-C-warning-muted) var(--color-env-hue-warning)), oklch(var(--n-L-dark-6) var(--n-C-warning-muted) var(--color-env-hue-warning)));
+    --warning-highest: light-dark(oklch(var(--n-L-light-7) var(--n-C-warning-muted) var(--color-env-hue-warning)), oklch(var(--n-L-dark-7) var(--n-C-warning-muted) var(--color-env-hue-warning)));
 
-    --danger-lowest:  light-dark(oklch(var(--_L-light-1) var(--_C-danger-muted) var(--color-env-hue-danger)), oklch(var(--_L-dark-1) var(--_C-danger-muted) var(--color-env-hue-danger)));
-    --danger-lower:   light-dark(oklch(var(--_L-light-2) var(--_C-danger-muted) var(--color-env-hue-danger)), oklch(var(--_L-dark-2) var(--_C-danger-muted) var(--color-env-hue-danger)));
-    --danger-low:     light-dark(oklch(var(--_L-light-3) var(--_C-danger-muted) var(--color-env-hue-danger)), oklch(var(--_L-dark-3) var(--_C-danger-muted) var(--color-env-hue-danger)));
-    --danger-base:    light-dark(oklch(var(--_L-light-4) var(--_C-danger-muted) var(--color-env-hue-danger)), oklch(var(--_L-dark-4) var(--_C-danger-muted) var(--color-env-hue-danger)));
-    --danger-high:    light-dark(oklch(var(--_L-light-5) var(--_C-danger-muted) var(--color-env-hue-danger)), oklch(var(--_L-dark-5) var(--_C-danger-muted) var(--color-env-hue-danger)));
-    --danger-higher:  light-dark(oklch(var(--_L-light-6) var(--_C-danger-muted) var(--color-env-hue-danger)), oklch(var(--_L-dark-6) var(--_C-danger-muted) var(--color-env-hue-danger)));
-    --danger-highest: light-dark(oklch(var(--_L-light-7) var(--_C-danger-muted) var(--color-env-hue-danger)), oklch(var(--_L-dark-7) var(--_C-danger-muted) var(--color-env-hue-danger)));
+    --danger-lowest:  light-dark(oklch(var(--n-L-light-1) var(--n-C-danger-muted) var(--color-env-hue-danger)), oklch(var(--n-L-dark-1) var(--n-C-danger-muted) var(--color-env-hue-danger)));
+    --danger-lower:   light-dark(oklch(var(--n-L-light-2) var(--n-C-danger-muted) var(--color-env-hue-danger)), oklch(var(--n-L-dark-2) var(--n-C-danger-muted) var(--color-env-hue-danger)));
+    --danger-low:     light-dark(oklch(var(--n-L-light-3) var(--n-C-danger-muted) var(--color-env-hue-danger)), oklch(var(--n-L-dark-3) var(--n-C-danger-muted) var(--color-env-hue-danger)));
+    --danger-base:    light-dark(oklch(var(--n-L-light-4) var(--n-C-danger-muted) var(--color-env-hue-danger)), oklch(var(--n-L-dark-4) var(--n-C-danger-muted) var(--color-env-hue-danger)));
+    --danger-high:    light-dark(oklch(var(--n-L-light-5) var(--n-C-danger-muted) var(--color-env-hue-danger)), oklch(var(--n-L-dark-5) var(--n-C-danger-muted) var(--color-env-hue-danger)));
+    --danger-higher:  light-dark(oklch(var(--n-L-light-6) var(--n-C-danger-muted) var(--color-env-hue-danger)), oklch(var(--n-L-dark-6) var(--n-C-danger-muted) var(--color-env-hue-danger)));
+    --danger-highest: light-dark(oklch(var(--n-L-light-7) var(--n-C-danger-muted) var(--color-env-hue-danger)), oklch(var(--n-L-dark-7) var(--n-C-danger-muted) var(--color-env-hue-danger)));
 
     /* ── Background — Brightness aliases ──
        Flipped step mapping across modes → "brightest" is always brightest.
     */
 
-    --neutral-brightest: light-dark(oklch(var(--_L-light-1) var(--_C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--_L-dark-7) var(--_C-neutral-muted) var(--color-env-hue-neutral)));
-    --neutral-brighter:  light-dark(oklch(var(--_L-light-2) var(--_C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--_L-dark-6) var(--_C-neutral-muted) var(--color-env-hue-neutral)));
-    --neutral-bright:    light-dark(oklch(var(--_L-light-3) var(--_C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--_L-dark-5) var(--_C-neutral-muted) var(--color-env-hue-neutral)));
-    --neutral-dim:       light-dark(oklch(var(--_L-light-5) var(--_C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--_L-dark-3) var(--_C-neutral-muted) var(--color-env-hue-neutral)));
-    --neutral-dimmer:    light-dark(oklch(var(--_L-light-6) var(--_C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--_L-dark-2) var(--_C-neutral-muted) var(--color-env-hue-neutral)));
-    --neutral-dimmest:   light-dark(oklch(var(--_L-light-7) var(--_C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--_L-dark-1) var(--_C-neutral-muted) var(--color-env-hue-neutral)));
+    --neutral-brightest: light-dark(oklch(var(--n-L-light-1) var(--n-C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--n-L-dark-7) var(--n-C-neutral-muted) var(--color-env-hue-neutral)));
+    --neutral-brighter:  light-dark(oklch(var(--n-L-light-2) var(--n-C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--n-L-dark-6) var(--n-C-neutral-muted) var(--color-env-hue-neutral)));
+    --neutral-bright:    light-dark(oklch(var(--n-L-light-3) var(--n-C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--n-L-dark-5) var(--n-C-neutral-muted) var(--color-env-hue-neutral)));
+    --neutral-dim:       light-dark(oklch(var(--n-L-light-5) var(--n-C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--n-L-dark-3) var(--n-C-neutral-muted) var(--color-env-hue-neutral)));
+    --neutral-dimmer:    light-dark(oklch(var(--n-L-light-6) var(--n-C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--n-L-dark-2) var(--n-C-neutral-muted) var(--color-env-hue-neutral)));
+    --neutral-dimmest:   light-dark(oklch(var(--n-L-light-7) var(--n-C-neutral-muted) var(--color-env-hue-neutral)), oklch(var(--n-L-dark-1) var(--n-C-neutral-muted) var(--color-env-hue-neutral)));
 
-    --accent-brightest: light-dark(oklch(var(--_L-light-1) var(--_C-accent-muted) var(--color-env-hue-accent)), oklch(var(--_L-dark-7) var(--_C-accent-muted) var(--color-env-hue-accent)));
-    --accent-brighter:  light-dark(oklch(var(--_L-light-2) var(--_C-accent-muted) var(--color-env-hue-accent)), oklch(var(--_L-dark-6) var(--_C-accent-muted) var(--color-env-hue-accent)));
-    --accent-bright:    light-dark(oklch(var(--_L-light-3) var(--_C-accent-muted) var(--color-env-hue-accent)), oklch(var(--_L-dark-5) var(--_C-accent-muted) var(--color-env-hue-accent)));
-    --accent-dim:       light-dark(oklch(var(--_L-light-5) var(--_C-accent-muted) var(--color-env-hue-accent)), oklch(var(--_L-dark-3) var(--_C-accent-muted) var(--color-env-hue-accent)));
-    --accent-dimmer:    light-dark(oklch(var(--_L-light-6) var(--_C-accent-muted) var(--color-env-hue-accent)), oklch(var(--_L-dark-2) var(--_C-accent-muted) var(--color-env-hue-accent)));
-    --accent-dimmest:   light-dark(oklch(var(--_L-light-7) var(--_C-accent-muted) var(--color-env-hue-accent)), oklch(var(--_L-dark-1) var(--_C-accent-muted) var(--color-env-hue-accent)));
+    --accent-brightest: light-dark(oklch(var(--n-L-light-1) var(--n-C-accent-muted) var(--color-env-hue-accent)), oklch(var(--n-L-dark-7) var(--n-C-accent-muted) var(--color-env-hue-accent)));
+    --accent-brighter:  light-dark(oklch(var(--n-L-light-2) var(--n-C-accent-muted) var(--color-env-hue-accent)), oklch(var(--n-L-dark-6) var(--n-C-accent-muted) var(--color-env-hue-accent)));
+    --accent-bright:    light-dark(oklch(var(--n-L-light-3) var(--n-C-accent-muted) var(--color-env-hue-accent)), oklch(var(--n-L-dark-5) var(--n-C-accent-muted) var(--color-env-hue-accent)));
+    --accent-dim:       light-dark(oklch(var(--n-L-light-5) var(--n-C-accent-muted) var(--color-env-hue-accent)), oklch(var(--n-L-dark-3) var(--n-C-accent-muted) var(--color-env-hue-accent)));
+    --accent-dimmer:    light-dark(oklch(var(--n-L-light-6) var(--n-C-accent-muted) var(--color-env-hue-accent)), oklch(var(--n-L-dark-2) var(--n-C-accent-muted) var(--color-env-hue-accent)));
+    --accent-dimmest:   light-dark(oklch(var(--n-L-light-7) var(--n-C-accent-muted) var(--color-env-hue-accent)), oklch(var(--n-L-dark-1) var(--n-C-accent-muted) var(--color-env-hue-accent)));
 
-    --info-brightest: light-dark(oklch(var(--_L-light-1) var(--_C-info-muted) var(--color-env-hue-info)), oklch(var(--_L-dark-7) var(--_C-info-muted) var(--color-env-hue-info)));
-    --info-brighter:  light-dark(oklch(var(--_L-light-2) var(--_C-info-muted) var(--color-env-hue-info)), oklch(var(--_L-dark-6) var(--_C-info-muted) var(--color-env-hue-info)));
-    --info-bright:    light-dark(oklch(var(--_L-light-3) var(--_C-info-muted) var(--color-env-hue-info)), oklch(var(--_L-dark-5) var(--_C-info-muted) var(--color-env-hue-info)));
-    --info-dim:       light-dark(oklch(var(--_L-light-5) var(--_C-info-muted) var(--color-env-hue-info)), oklch(var(--_L-dark-3) var(--_C-info-muted) var(--color-env-hue-info)));
-    --info-dimmer:    light-dark(oklch(var(--_L-light-6) var(--_C-info-muted) var(--color-env-hue-info)), oklch(var(--_L-dark-2) var(--_C-info-muted) var(--color-env-hue-info)));
-    --info-dimmest:   light-dark(oklch(var(--_L-light-7) var(--_C-info-muted) var(--color-env-hue-info)), oklch(var(--_L-dark-1) var(--_C-info-muted) var(--color-env-hue-info)));
+    --info-brightest: light-dark(oklch(var(--n-L-light-1) var(--n-C-info-muted) var(--color-env-hue-info)), oklch(var(--n-L-dark-7) var(--n-C-info-muted) var(--color-env-hue-info)));
+    --info-brighter:  light-dark(oklch(var(--n-L-light-2) var(--n-C-info-muted) var(--color-env-hue-info)), oklch(var(--n-L-dark-6) var(--n-C-info-muted) var(--color-env-hue-info)));
+    --info-bright:    light-dark(oklch(var(--n-L-light-3) var(--n-C-info-muted) var(--color-env-hue-info)), oklch(var(--n-L-dark-5) var(--n-C-info-muted) var(--color-env-hue-info)));
+    --info-dim:       light-dark(oklch(var(--n-L-light-5) var(--n-C-info-muted) var(--color-env-hue-info)), oklch(var(--n-L-dark-3) var(--n-C-info-muted) var(--color-env-hue-info)));
+    --info-dimmer:    light-dark(oklch(var(--n-L-light-6) var(--n-C-info-muted) var(--color-env-hue-info)), oklch(var(--n-L-dark-2) var(--n-C-info-muted) var(--color-env-hue-info)));
+    --info-dimmest:   light-dark(oklch(var(--n-L-light-7) var(--n-C-info-muted) var(--color-env-hue-info)), oklch(var(--n-L-dark-1) var(--n-C-info-muted) var(--color-env-hue-info)));
 
-    --success-brightest: light-dark(oklch(var(--_L-light-1) var(--_C-success-muted) var(--color-env-hue-success)), oklch(var(--_L-dark-7) var(--_C-success-muted) var(--color-env-hue-success)));
-    --success-brighter:  light-dark(oklch(var(--_L-light-2) var(--_C-success-muted) var(--color-env-hue-success)), oklch(var(--_L-dark-6) var(--_C-success-muted) var(--color-env-hue-success)));
-    --success-bright:    light-dark(oklch(var(--_L-light-3) var(--_C-success-muted) var(--color-env-hue-success)), oklch(var(--_L-dark-5) var(--_C-success-muted) var(--color-env-hue-success)));
-    --success-dim:       light-dark(oklch(var(--_L-light-5) var(--_C-success-muted) var(--color-env-hue-success)), oklch(var(--_L-dark-3) var(--_C-success-muted) var(--color-env-hue-success)));
-    --success-dimmer:    light-dark(oklch(var(--_L-light-6) var(--_C-success-muted) var(--color-env-hue-success)), oklch(var(--_L-dark-2) var(--_C-success-muted) var(--color-env-hue-success)));
-    --success-dimmest:   light-dark(oklch(var(--_L-light-7) var(--_C-success-muted) var(--color-env-hue-success)), oklch(var(--_L-dark-1) var(--_C-success-muted) var(--color-env-hue-success)));
+    --success-brightest: light-dark(oklch(var(--n-L-light-1) var(--n-C-success-muted) var(--color-env-hue-success)), oklch(var(--n-L-dark-7) var(--n-C-success-muted) var(--color-env-hue-success)));
+    --success-brighter:  light-dark(oklch(var(--n-L-light-2) var(--n-C-success-muted) var(--color-env-hue-success)), oklch(var(--n-L-dark-6) var(--n-C-success-muted) var(--color-env-hue-success)));
+    --success-bright:    light-dark(oklch(var(--n-L-light-3) var(--n-C-success-muted) var(--color-env-hue-success)), oklch(var(--n-L-dark-5) var(--n-C-success-muted) var(--color-env-hue-success)));
+    --success-dim:       light-dark(oklch(var(--n-L-light-5) var(--n-C-success-muted) var(--color-env-hue-success)), oklch(var(--n-L-dark-3) var(--n-C-success-muted) var(--color-env-hue-success)));
+    --success-dimmer:    light-dark(oklch(var(--n-L-light-6) var(--n-C-success-muted) var(--color-env-hue-success)), oklch(var(--n-L-dark-2) var(--n-C-success-muted) var(--color-env-hue-success)));
+    --success-dimmest:   light-dark(oklch(var(--n-L-light-7) var(--n-C-success-muted) var(--color-env-hue-success)), oklch(var(--n-L-dark-1) var(--n-C-success-muted) var(--color-env-hue-success)));
 
-    --warning-brightest: light-dark(oklch(var(--_L-light-1) var(--_C-warning-muted) var(--color-env-hue-warning)), oklch(var(--_L-dark-7) var(--_C-warning-muted) var(--color-env-hue-warning)));
-    --warning-brighter:  light-dark(oklch(var(--_L-light-2) var(--_C-warning-muted) var(--color-env-hue-warning)), oklch(var(--_L-dark-6) var(--_C-warning-muted) var(--color-env-hue-warning)));
-    --warning-bright:    light-dark(oklch(var(--_L-light-3) var(--_C-warning-muted) var(--color-env-hue-warning)), oklch(var(--_L-dark-5) var(--_C-warning-muted) var(--color-env-hue-warning)));
-    --warning-dim:       light-dark(oklch(var(--_L-light-5) var(--_C-warning-muted) var(--color-env-hue-warning)), oklch(var(--_L-dark-3) var(--_C-warning-muted) var(--color-env-hue-warning)));
-    --warning-dimmer:    light-dark(oklch(var(--_L-light-6) var(--_C-warning-muted) var(--color-env-hue-warning)), oklch(var(--_L-dark-2) var(--_C-warning-muted) var(--color-env-hue-warning)));
-    --warning-dimmest:   light-dark(oklch(var(--_L-light-7) var(--_C-warning-muted) var(--color-env-hue-warning)), oklch(var(--_L-dark-1) var(--_C-warning-muted) var(--color-env-hue-warning)));
+    --warning-brightest: light-dark(oklch(var(--n-L-light-1) var(--n-C-warning-muted) var(--color-env-hue-warning)), oklch(var(--n-L-dark-7) var(--n-C-warning-muted) var(--color-env-hue-warning)));
+    --warning-brighter:  light-dark(oklch(var(--n-L-light-2) var(--n-C-warning-muted) var(--color-env-hue-warning)), oklch(var(--n-L-dark-6) var(--n-C-warning-muted) var(--color-env-hue-warning)));
+    --warning-bright:    light-dark(oklch(var(--n-L-light-3) var(--n-C-warning-muted) var(--color-env-hue-warning)), oklch(var(--n-L-dark-5) var(--n-C-warning-muted) var(--color-env-hue-warning)));
+    --warning-dim:       light-dark(oklch(var(--n-L-light-5) var(--n-C-warning-muted) var(--color-env-hue-warning)), oklch(var(--n-L-dark-3) var(--n-C-warning-muted) var(--color-env-hue-warning)));
+    --warning-dimmer:    light-dark(oklch(var(--n-L-light-6) var(--n-C-warning-muted) var(--color-env-hue-warning)), oklch(var(--n-L-dark-2) var(--n-C-warning-muted) var(--color-env-hue-warning)));
+    --warning-dimmest:   light-dark(oklch(var(--n-L-light-7) var(--n-C-warning-muted) var(--color-env-hue-warning)), oklch(var(--n-L-dark-1) var(--n-C-warning-muted) var(--color-env-hue-warning)));
 
-    --danger-brightest: light-dark(oklch(var(--_L-light-1) var(--_C-danger-muted) var(--color-env-hue-danger)), oklch(var(--_L-dark-7) var(--_C-danger-muted) var(--color-env-hue-danger)));
-    --danger-brighter:  light-dark(oklch(var(--_L-light-2) var(--_C-danger-muted) var(--color-env-hue-danger)), oklch(var(--_L-dark-6) var(--_C-danger-muted) var(--color-env-hue-danger)));
-    --danger-bright:    light-dark(oklch(var(--_L-light-3) var(--_C-danger-muted) var(--color-env-hue-danger)), oklch(var(--_L-dark-5) var(--_C-danger-muted) var(--color-env-hue-danger)));
-    --danger-dim:       light-dark(oklch(var(--_L-light-5) var(--_C-danger-muted) var(--color-env-hue-danger)), oklch(var(--_L-dark-3) var(--_C-danger-muted) var(--color-env-hue-danger)));
-    --danger-dimmer:    light-dark(oklch(var(--_L-light-6) var(--_C-danger-muted) var(--color-env-hue-danger)), oklch(var(--_L-dark-2) var(--_C-danger-muted) var(--color-env-hue-danger)));
-    --danger-dimmest:   light-dark(oklch(var(--_L-light-7) var(--_C-danger-muted) var(--color-env-hue-danger)), oklch(var(--_L-dark-1) var(--_C-danger-muted) var(--color-env-hue-danger)));
+    --danger-brightest: light-dark(oklch(var(--n-L-light-1) var(--n-C-danger-muted) var(--color-env-hue-danger)), oklch(var(--n-L-dark-7) var(--n-C-danger-muted) var(--color-env-hue-danger)));
+    --danger-brighter:  light-dark(oklch(var(--n-L-light-2) var(--n-C-danger-muted) var(--color-env-hue-danger)), oklch(var(--n-L-dark-6) var(--n-C-danger-muted) var(--color-env-hue-danger)));
+    --danger-bright:    light-dark(oklch(var(--n-L-light-3) var(--n-C-danger-muted) var(--color-env-hue-danger)), oklch(var(--n-L-dark-5) var(--n-C-danger-muted) var(--color-env-hue-danger)));
+    --danger-dim:       light-dark(oklch(var(--n-L-light-5) var(--n-C-danger-muted) var(--color-env-hue-danger)), oklch(var(--n-L-dark-3) var(--n-C-danger-muted) var(--color-env-hue-danger)));
+    --danger-dimmer:    light-dark(oklch(var(--n-L-light-6) var(--n-C-danger-muted) var(--color-env-hue-danger)), oklch(var(--n-L-dark-2) var(--n-C-danger-muted) var(--color-env-hue-danger)));
+    --danger-dimmest:   light-dark(oklch(var(--n-L-light-7) var(--n-C-danger-muted) var(--color-env-hue-danger)), oklch(var(--n-L-dark-1) var(--n-C-danger-muted) var(--color-env-hue-danger)));
 
   }
 }

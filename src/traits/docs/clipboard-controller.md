@@ -2,7 +2,7 @@
 
 # ClipboardController
 
-> Handles keyboard-driven cut/copy/paste operations on selected items, dispatching `ui-clip`.
+> Handles keyboard-driven cut/copy/paste operations on selected items, dispatching `native:clip-copy`, `native:clip-cut`, and `native:clip-paste`.
 
 ## Constructor
 
@@ -28,9 +28,9 @@ new ClipboardController(host: HTMLElement, options?: ClipboardOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-clip-copy` | `{ items, data }` |
-| `ui-clip-cut` | `{ items, data }` |
-| `ui-clip-paste` | `{ data }` |
+| `native:clip-copy` | `{ items, data }` |
+| `native:clip-cut` | `{ items, data }` |
+| `native:clip-paste` | `{ data }` |
 
 ## Methods
 

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-pagination — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-pagination&gt;</h1>
+    <p class="demo-desc">
+      Page navigation. Stamps prev/next + page numbers with ellipsis truncation.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <div class="demo-section">
+      <n-pagination total="10" value="1"></n-pagination>
+        <pre class="demo-code"><code>&lt;n-pagination total="10" value="1"&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Middle page ── -->
+
+    <h2>Middle Page</h2>
+    <div class="demo-section">
+      <n-pagination total="20" value="10"></n-pagination>
+        <pre class="demo-code"><code>&lt;n-pagination total="20" value="10"&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Few pages ── -->
+
+    <h2>Few Pages</h2>
+    <div class="demo-section">
+      <n-pagination total="3" value="2"></n-pagination>
+        <pre class="demo-code"><code>&lt;n-pagination total="3" value="2"&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Many pages ── -->
+
+    <h2>Many Pages</h2>
+    <div class="demo-section">
+      <n-pagination total="100" value="50" siblings="2"></n-pagination>
+        <pre class="demo-code"><code>&lt;n-pagination total="100" value="50" siblings="2"&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Boundaries ── -->
+
+    <h2>Boundaries</h2>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <div>
+          <p class="demo-hint" style="margin-bottom: 0.5rem;">boundaries="2" (show 2 pages at each edge)</p>
+          <n-pagination total="50" value="25" boundaries="2"></n-pagination>
+        </div>
+        <div>
+          <p class="demo-hint" style="margin-bottom: 0.5rem;">boundaries="0" (no boundary pages)</p>
+          <n-pagination total="50" value="25" boundaries="0"></n-pagination>
+        </div>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-pagination total="50" value="25" boundaries="2"&gt;&lt;/n-pagination&gt;
+&lt;n-pagination total="50" value="25" boundaries="0"&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-pagination total="10" value="3" size="sm"></n-pagination>
+        <n-pagination total="10" value="3"></n-pagination>
+        <n-pagination total="10" value="3" size="lg"></n-pagination>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-pagination total="10" value="3" size="sm"&gt;&lt;/n-pagination&gt;
+&lt;n-pagination total="10" value="3"&gt;&lt;/n-pagination&gt;
+&lt;n-pagination total="10" value="3" size="lg"&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Live ── -->
+
+    <h2>Live (click to navigate)</h2>
+    <div class="demo-section">
+      <p class="demo-text-sm">
+        Current page: <strong id="page-display">5</strong>
+      </p>
+      <n-pagination id="live-pagination" total="15" value="5"></n-pagination>
+    <pre class="demo-code"><code>&lt;n-pagination total="15" value="5"&gt;&lt;/n-pagination&gt;
+
+&lt;script&gt;
+  const pag = document.querySelector('n-pagination');
+  pag.addEventListener('native:change', (e) =&gt; {
+    console.log('Page:', e.detail.value);
+  });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section">
+      <n-pagination total="10" value="5" disabled></n-pagination>
+        <pre class="demo-code"><code>&lt;n-pagination total="10" value="5" disabled&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './pagination.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/caret-left.ts';
+      import '../../icons/phosphor/caret-right.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      const pag = document.getElementById('live-pagination');
+      const display = document.getElementById('page-display');
+      pag?.addEventListener('native:change', (e) => {
+        display.textContent = String(e.detail.value);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -41,9 +41,9 @@ const INTERACTIVE_ROLES: ReadonlySet<string> = new Set([
 ]);
 
 const INTERACTIVE_CUSTOM_ELEMENTS: ReadonlySet<string> = new Set([
-  'ui-button', 'ui-checkbox', 'ui-switch', 'ui-radio', 'ui-input',
-  'ui-select', 'ui-combobox', 'ui-range', 'ui-textarea', 'ui-tab',
-  'ui-option', 'ui-command-item', 'ui-tree-item',
+  'n-button', 'n-checkbox', 'n-switch', 'n-radio', 'n-input',
+  'n-select', 'n-combobox', 'n-range', 'n-textarea', 'n-tab',
+  'n-option', 'n-command-item', 'n-tree-item',
 ]);
 
 const FORM_HTML_TAGS: ReadonlySet<string> = new Set([
@@ -51,7 +51,7 @@ const FORM_HTML_TAGS: ReadonlySet<string> = new Set([
 ]);
 
 const FORM_CUSTOM_ELEMENTS: ReadonlySet<string> = new Set([
-  'ui-input', 'ui-select', 'ui-combobox', 'ui-textarea', 'ui-range',
+  'n-input', 'n-select', 'n-combobox', 'n-textarea', 'n-range',
 ]);
 
 const HEADING_TAGS: ReadonlySet<string> = new Set([

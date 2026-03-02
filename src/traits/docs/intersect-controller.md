@@ -2,7 +2,7 @@
 
 # IntersectController
 
-> Observes intersection visibility changes on the host, dispatching `ui-intersect`.
+> Observes intersection visibility changes on the host, dispatching `native:intersect`.
 
 ## Constructor
 
@@ -24,7 +24,7 @@ new IntersectController(host: HTMLElement, options?: IntersectOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-intersect` | `{ isIntersecting, ratio }` |
+| `native:intersect` | `{ isIntersecting, ratio }` |
 
 ## Methods
 

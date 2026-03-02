@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { ValidateController } from '../validate-controller.ts';
 import { define } from '../../core/define.ts';
 
-class ValidateTestEl extends UIElement {
+class ValidateTestEl extends NativeElement {
   disabled = false;
   #ctrl: ValidateController | null = null;
 
@@ -94,21 +94,21 @@ describe('Validatable', () => {
     expect(el.hasAttribute('aria-invalid')).toBe(false);
   });
 
-  it('dispatches ui-invalid event', () => {
+  it('dispatches native:invalid event', () => {
     const el = create();
     el.validationRules = [{ test: (v) => v.length > 0, message: 'Required' }];
     const handler = vi.fn();
-    el.addEventListener('ui-invalid', handler);
+    el.addEventListener('native:invalid', handler);
     el.validate('');
     expect(handler).toHaveBeenCalledTimes(1);
     expect(handler.mock.calls[0][0].detail.message).toBe('Required');
   });
 
-  it('dispatches ui-valid event', () => {
+  it('dispatches native:valid event', () => {
     const el = create();
     el.validationRules = [{ test: (v) => v.length > 0, message: 'Required' }];
     const handler = vi.fn();
-    el.addEventListener('ui-valid', handler);
+    el.addEventListener('native:valid', handler);
     el.validate('ok');
     expect(handler).toHaveBeenCalledTimes(1);
   });

@@ -1,28 +1,28 @@
 @import 'colors.primitives.css';
 @import 'colors.tokens.css';
 @import 'themes.css';
-@import 'ui.base.css';
-@import 'ui.primitives.css';
+@import 'n.base.css';
+@import 'n.primitives.css';
 
 /* ── Layout Flash Prevention ──
-   Hide nui-app content until the custom element is defined and ready.
+   Hide n-app content until the custom element is defined and ready.
    Without this, the raw <main> content flashes before the sidebar shell builds.
    :not(:defined) matches until customElements.define() runs.
-   [data-ready] is set by nui-app after it finishes building the shell.
+   [data-ready] is set by n-app after it finishes building the shell.
 
    Uses color-scheme-aware background + hidden children (not visibility:hidden)
    so the element still paints the correct surface during view transitions —
    prevents a flash of bare body background between old→new page snapshots. */
 
-nui-app:not(:defined),
-nui-app:not([data-ready]) {
+n-app:not(:defined),
+n-app:not([data-ready]) {
   display: block;
   min-height: 100dvh;
-  background: var(--neutral-doc);
+  background: var(--n-doc-neutral);
 }
 
-nui-app:not(:defined) > *,
-nui-app:not([data-ready]) > * {
+n-app:not(:defined) > *,
+n-app:not([data-ready]) > * {
   visibility: hidden;
 }
 
@@ -45,7 +45,7 @@ nui-app:not([data-ready]) > * {
 }
 
 /* Shell persists — named so it's excluded from root snapshot */
-nui-app {
+n-app {
   view-transition-name: shell;
 }
 

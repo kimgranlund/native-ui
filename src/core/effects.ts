@@ -23,7 +23,7 @@ export function createDisabledEffect(
     }
 
     if (prev !== undefined && prev !== val) {
-      el.dispatchEvent(new CustomEvent('ui-disabled', {
+      el.dispatchEvent(new CustomEvent('native:disabled', {
         bubbles: true,
         composed: true,
         detail: { disabled: val },

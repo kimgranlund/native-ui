@@ -19,13 +19,13 @@
         font-weight: 600;
         margin-bottom: 0.5rem;
         margin-top: 1.25rem;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 .trap-region {
         display: block;
         padding: 1.5rem;
-        background: var(--neutral-panel);
-        border: 2px solid var(--ui-focus-ring);
+        background: var(--n-panel-neutral);
+        border: 2px solid var(--n-focus-ring);
         border-radius: 0.5rem;
         margin-top: 0.75rem;
       }
@@ -48,19 +48,8 @@
         font-weight: 600;
       }
 
-      .trap-form input {
-        padding: 0.5rem 0.75rem;
-        border: 1px solid var(--neutral-border-muted);
-        border-radius: 0.25rem;
+      .trap-form n-input {
         font-size: 0.875rem;
-        background: var(--neutral-body);
-        color: var(--neutral-ink);
-        font-family: inherit;
-      }
-
-      .trap-form input:focus-visible {
-        outline: 2px solid var(--ui-focus-ring);
-        outline-offset: 1px;
       }
 
       .trap-actions {
@@ -84,20 +73,20 @@
         text-align: left;
         font-weight: 600;
         padding: 0.5rem 0.75rem;
-        border-bottom: 2px solid var(--neutral-border-muted);
-        color: var(--neutral-ink-strong);
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
       }
 
       .api-table td {
         padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
         vertical-align: top;
       }
 
       .api-table code {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         padding: 0.0625rem 0.3125rem;
         border-radius: 0.1875rem;
       }
@@ -108,7 +97,7 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
 
     <h1>FocusTrappable</h1>
     <p class="demo-desc">
@@ -122,7 +111,7 @@
       <p class="demo-hint">
         Uses <code>FocusTrapController</code> directly on a plain element. Tab cycles between the inputs and buttons.
       </p>
-      <ui-button id="open-trap">Open Trapped Region</ui-button>
+      <n-button id="open-trap">Open Trapped Region</n-button>
       <div class="trap-region" id="trap" hidden>
         <p class="demo-text-sm">
           Focus is trapped here. Tab cycles between the inputs and buttons. Click "Close" to release.
@@ -130,16 +119,16 @@
         <div class="trap-form">
           <label>
             Name
-            <input type="text" placeholder="Your name" autofocus />
+            <n-input placeholder="Your name" autofocus></n-input>
           </label>
           <label>
             Email
-            <input type="email" placeholder="you@example.com" />
+            <n-input placeholder="you@example.com"></n-input>
           </label>
         </div>
         <div class="trap-actions">
-          <ui-button id="save-btn" intent="accent">Save</ui-button>
-          <ui-button id="close-btn">Close</ui-button>
+          <n-button id="save-btn" intent="accent">Save</n-button>
+          <n-button id="close-btn">Close</n-button>
         </div>
       </div>
       <pre class="demo-code"><code>import { FocusTrapController } from '@nonoun/native-ui';
@@ -155,7 +144,7 @@ function show() {
 function hide() {
   trap.disable(); // restores focus to previous element
   region.setAttribute('hidden', '');
-}</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+}</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Without Autofocus ── -->
@@ -165,33 +154,33 @@ function hide() {
       <p class="demo-hint">
         When no <code>[autofocus]</code> element exists, focus goes to the first focusable child.
       </p>
-      <ui-button id="open-trap2">Open Trap (no autofocus)</ui-button>
+      <n-button id="open-trap2">Open Trap (no autofocus)</n-button>
       <div class="trap-region" id="trap2" hidden>
         <div class="trap-actions">
-          <ui-button>First</ui-button>
-          <ui-button>Second</ui-button>
-          <ui-button id="close-btn2">Close</ui-button>
+          <n-button>First</n-button>
+          <n-button>Second</n-button>
+          <n-button id="close-btn2">Close</n-button>
         </div>
       </div>
     </div>
 
-    <!-- ── Built-in: ui-dialog ── -->
+    <!-- ── Built-in: n-dialog ── -->
 
-    <h2>Built-in: ui-dialog</h2>
+    <h2>Built-in: n-dialog</h2>
     <div class="demo-section">
       <p class="demo-hint">
-        <code>ui-dialog</code> uses FocusTrappable internally. When a modal dialog opens, focus is automatically trapped within it.
+        <code>n-dialog</code> uses FocusTrappable internally. When a modal dialog opens, focus is automatically trapped within it.
       </p>
-      <ui-button id="open-dialog">Open Dialog</ui-button>
-      <ui-dialog id="demo-dialog">
-        <ui-card style="width: 20rem; padding: 1.5rem;">
+      <n-button id="open-dialog">Open Dialog</n-button>
+      <n-dialog id="demo-dialog">
+        <n-card style="width: 20rem; padding: 1.5rem;">
           <p style="margin-bottom: 1rem;">Focus is trapped inside this dialog. Tab only cycles between these buttons.</p>
           <div class="trap-actions">
-            <ui-button intent="accent">Action</ui-button>
-            <ui-button id="close-dialog">Close</ui-button>
+            <n-button intent="accent">Action</n-button>
+            <n-button id="close-dialog">Close</n-button>
           </div>
-        </ui-card>
-      </ui-dialog>
+        </n-card>
+      </n-dialog>
     </div>
 
     <!-- ── API Reference ── -->
@@ -236,7 +225,7 @@ function hide() {
       </table>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
 
     <!-- Script 1: Register all traits BEFORE any component define() -->
     <script type="module">
@@ -246,12 +235,13 @@ function hide() {
 
     <!-- Script 2: Import components (runs after traits are registered) -->
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../components/ui-dialog/ui-dialog.ts';
-      import '../components/ui-controller/ui-controller.ts';
-      import '../containers/ui-card/ui-card.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../components/input/input.ts';
+      import '../components/dialog/dialog.ts';
+      import '../components/controller/controller.ts';
+      import '../containers/card/card.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
       import { FocusTrapController } from '../index.ts';
@@ -262,7 +252,7 @@ function hide() {
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
@@ -285,20 +275,20 @@ function hide() {
         trapEl.setAttribute('hidden', '');
       }
 
-      document.getElementById('open-trap').addEventListener('ui-press', () => showTrap());
-      document.getElementById('close-btn').addEventListener('ui-press', () => hideTrap());
-      document.getElementById('save-btn').addEventListener('ui-press', () => hideTrap());
+      document.getElementById('open-trap').addEventListener('native:press', () => showTrap());
+      document.getElementById('close-btn').addEventListener('native:press', () => hideTrap());
+      document.getElementById('save-btn').addEventListener('native:press', () => hideTrap());
 
       // ── No Autofocus Demo ──
 
       const trap2El = document.getElementById('trap2');
       const trap2 = new FocusTrapController(trap2El);
 
-      document.getElementById('open-trap2').addEventListener('ui-press', () => {
+      document.getElementById('open-trap2').addEventListener('native:press', () => {
         trap2El.removeAttribute('hidden');
         trap2.enable();
       });
-      document.getElementById('close-btn2').addEventListener('ui-press', () => {
+      document.getElementById('close-btn2').addEventListener('native:press', () => {
         trap2.disable();
         trap2El.setAttribute('hidden', '');
       });
@@ -306,8 +296,8 @@ function hide() {
       // ── Dialog Demo ──
 
       const dialog = document.getElementById('demo-dialog');
-      document.getElementById('open-dialog').addEventListener('ui-press', () => dialog.showModal());
-      document.getElementById('close-dialog').addEventListener('ui-press', () => dialog.close());
+      document.getElementById('open-dialog').addEventListener('native:press', () => dialog.showModal());
+      document.getElementById('close-dialog').addEventListener('native:press', () => dialog.close());
     </script>
   </body>
 </html>

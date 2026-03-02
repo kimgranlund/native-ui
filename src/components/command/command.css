@@ -1,0 +1,103 @@
+@layer ui {
+
+  /* ── Command Container ── */
+
+  :where(n-command) {
+    --n-background: var(--n-control);
+    --n-color: var(--n-ink);
+    --n-border-color: var(--n-border-rest);
+
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    flex-direction: column;
+    border-radius: var(--n-radius);
+    border: 1px solid var(--n-border-color);
+    background: var(--n-background);
+    color: var(--n-color);
+    overflow: hidden;
+  }
+
+  /* ── Command Input ── */
+
+  :where(n-command-input) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    min-height: var(--n-size);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    border-bottom: 1px solid var(--n-border-color);
+  }
+
+  :where(n-command-input) :where(input) {
+    flex: 1;
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: var(--n-font-size);
+    font-weight: var(--n-font-weight);
+    line-height: var(--n-line-height);
+    letter-spacing: var(--n-letter-spacing);
+    outline: none;
+    min-width: 0;
+  }
+
+  :where(n-command-input) :where(input)::placeholder {
+    color: var(--n-ink-placeholder);
+  }
+
+  /* ── Command List ── */
+
+  :where(n-command-list) {
+    overflow-y: auto;
+    max-height: var(--n-popover-max-height);
+    padding-block: var(--n-space);
+    padding-inline: var(--n-space);
+  }
+
+  /* ── Command Group ── */
+
+  :where(n-command-group) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  :where(n-command-group) > :where([slot="heading"]) {
+    font-size: var(--n-font-size);
+    font-weight: var(--n-button-font-weight);
+    letter-spacing: var(--n-letter-spacing);
+    color: var(--n-ink-muted);
+  }
+
+  /* ── Command Empty ── */
+
+  :where(n-command-empty) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(var(--n-size) * 2);
+    color: var(--n-ink-muted);
+    font-size: var(--n-font-size);
+  }
+
+  /* ── Popover hidden guard ── */
+  /* WHY: author display: flex overrides UA display: none on [popover] */
+
+  :where(n-command[popover]):not(:popover-open) {
+    display: none;
+  }
+
+  /* ── Hidden ── */
+
+  :where(n-command)[hidden] {
+    display: none;
+  }
+
+  /* ── Auto-hide logic ── */
+
+  :where(n-command-group):where(:not(:has(n-command-item:not([hidden])))) {
+    display: none;
+  }
+
+}

@@ -22,7 +22,7 @@ function simpleIntent(elements: readonly ElementIntent[], overrides?: Partial<UI
   };
 }
 
-/** Extract the label text from a ui-button node (which uses <span slot="label"> child). */
+/** Extract the label text from a n-button node (which uses <span slot="label"> child). */
 function getButtonLabel(node: UINode): string | undefined {
   const labelChild = node.children?.find(
     (c) => c.tag === 'span' && c.attributes?.['slot'] === 'label',
@@ -39,7 +39,7 @@ describe('createPlanner factory', () => {
   });
 
   it('creates a Planner with a registry', () => {
-    const registry = makeRegistry('ui-button');
+    const registry = makeRegistry('n-button');
     const planner = createPlanner(registry);
     expect(planner).toBeInstanceOf(Planner);
   });
@@ -98,19 +98,19 @@ describe('generate() basics', () => {
 describe('single element intent', () => {
   it('generates a node with correct tag', () => {
     const planner = createPlanner();
-    const result = planner.generate(simpleIntent([{ component: 'ui-button', label: 'Click me' }]));
+    const result = planner.generate(simpleIntent([{ component: 'n-button', label: 'Click me' }]));
     // Single non-structural element is wrapped in a div
     const root = result.plan.root;
     expect(root.tag).toBe('div');
     expect(root.children).toHaveLength(1);
-    expect(root.children![0]!.tag).toBe('ui-button');
+    expect(root.children![0]!.tag).toBe('n-button');
   });
 
   it('generates unique IDs for nodes', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent([
-      { component: 'ui-button', label: 'A' },
-      { component: 'ui-button', label: 'B' },
+      { component: 'n-button', label: 'A' },
+      { component: 'n-button', label: 'B' },
     ]));
     const root = result.plan.root;
     const ids = new Set([root.id, ...root.children!.map((c) => c.id)]);
@@ -133,7 +133,7 @@ describe('single element intent', () => {
   it('applies properties from intent', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent([
-      { component: 'ui-input', label: 'Name', properties: { value: 'hello' } },
+      { component: 'n-input', label: 'Name', properties: { value: 'hello' } },
     ]));
     const root = result.plan.root;
     const input = root.children![0]!;
@@ -143,11 +143,11 @@ describe('single element intent', () => {
   it('applies events from intent', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent([
-      { component: 'ui-button', label: 'Save', events: { 'ui-press': 'save-item' } },
+      { component: 'n-button', label: 'Save', events: { 'native:press': 'save-item' } },
     ]));
     const root = result.plan.root;
     const button = root.children![0]!;
-    expect(button.events).toEqual({ 'ui-press': 'save-item' });
+    expect(button.events).toEqual({ 'native:press': 'save-item' });
   });
 });
 
@@ -155,9 +155,9 @@ describe('multiple elements', () => {
   it('wraps in a div when multiple elements', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent([
-      { component: 'ui-button', label: 'A' },
-      { component: 'ui-button', label: 'B' },
-      { component: 'ui-button', label: 'C' },
+      { component: 'n-button', label: 'A' },
+      { component: 'n-button', label: 'B' },
+      { component: 'n-button', label: 'C' },
     ]));
     const root = result.plan.root;
     expect(root.tag).toBe('div');
@@ -181,10 +181,10 @@ describe('multiple elements', () => {
     const result = planner.generate(simpleIntent([
       { component: 'h1', label: 'Title' },
       { component: 'p' },
-      { component: 'ui-button', label: 'Go' },
+      { component: 'n-button', label: 'Go' },
     ]));
     const tags = result.plan.root.children!.map((c) => c.tag);
-    expect(tags).toEqual(['h1', 'p', 'ui-button']);
+    expect(tags).toEqual(['h1', 'p', 'n-button']);
   });
 });
 
@@ -201,10 +201,10 @@ describe('structural root optimization', () => {
 
   it('wraps a single non-structural element in a div', () => {
     const planner = createPlanner();
-    const result = planner.generate(simpleIntent([{ component: 'ui-button', label: 'Click' }]));
+    const result = planner.generate(simpleIntent([{ component: 'n-button', label: 'Click' }]));
     expect(result.plan.root.tag).toBe('div');
     expect(result.plan.root.children).toHaveLength(1);
-    expect(result.plan.root.children![0]!.tag).toBe('ui-button');
+    expect(result.plan.root.children![0]!.tag).toBe('n-button');
   });
 
   it('wraps a single <span> in a div', () => {
@@ -236,11 +236,11 @@ describe('structural root optimization', () => {
 });
 
 describe('label handling', () => {
-  it('ui-button gets label as <span slot="label"> child (not textContent)', () => {
+  it('n-button gets label as <span slot="label"> child (not textContent)', () => {
     const planner = createPlanner();
-    const result = planner.generate(simpleIntent([{ component: 'ui-button', label: 'Submit' }]));
+    const result = planner.generate(simpleIntent([{ component: 'n-button', label: 'Submit' }]));
     const button = result.plan.root.children![0]!;
-    // ui-button uses <span slot="label"> for its label text
+    // n-button uses <span slot="label"> for its label text
     expect(getButtonLabel(button)).toBe('Submit');
     expect(button.textContent).toBeUndefined();
     // Should NOT have aria-label since it's self-labeling via slot
@@ -248,7 +248,7 @@ describe('label handling', () => {
   });
 
   it('other self-labeling tags get label as textContent', () => {
-    for (const tag of ['h1', 'h2', 'p', 'span', 'li', 'label', 'ui-option', 'ui-command-item']) {
+    for (const tag of ['h1', 'h2', 'p', 'span', 'li', 'label', 'n-option', 'n-command-item']) {
       const planner = createPlanner();
       const result = planner.generate(simpleIntent([{ component: tag, label: 'Test' }]));
       const child = result.plan.root.children![0]!;
@@ -258,15 +258,15 @@ describe('label handling', () => {
 
   it('non-self-labeling components get label as aria-label attribute', () => {
     const planner = createPlanner();
-    const result = planner.generate(simpleIntent([{ component: 'ui-input', label: 'Email' }]));
+    const result = planner.generate(simpleIntent([{ component: 'n-input', label: 'Email' }]));
     const input = result.plan.root.children![0]!;
     expect(input.attributes!['aria-label']).toBe('Email');
     expect(input.textContent).toBeUndefined();
   });
 
-  it('ui-select gets label as aria-label', () => {
+  it('n-select gets label as aria-label', () => {
     const planner = createPlanner();
-    const result = planner.generate(simpleIntent([{ component: 'ui-select', label: 'Country' }]));
+    const result = planner.generate(simpleIntent([{ component: 'n-select', label: 'Country' }]));
     const select = result.plan.root.children![0]!;
     expect(select.attributes!['aria-label']).toBe('Country');
   });
@@ -274,7 +274,7 @@ describe('label handling', () => {
   it('intent title becomes aria-label on wrapper div', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent(
-      [{ component: 'ui-button', label: 'A' }, { component: 'ui-button', label: 'B' }],
+      [{ component: 'n-button', label: 'A' }, { component: 'n-button', label: 'B' }],
       { title: 'Action Bar' },
     ));
     expect(result.plan.root.tag).toBe('div');
@@ -284,7 +284,7 @@ describe('label handling', () => {
   it('does not add aria-label when existing aria-label is present on non-self-labeling element', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent([
-      { component: 'ui-input', label: 'Name', attributes: { 'aria-label': 'Full name field' } },
+      { component: 'n-input', label: 'Name', attributes: { 'aria-label': 'Full name field' } },
     ]));
     const input = result.plan.root.children![0]!;
     expect(input.attributes!['aria-label']).toBe('Full name field');
@@ -292,19 +292,19 @@ describe('label handling', () => {
 });
 
 describe('auto-ARIA', () => {
-  it('ui-icon elements get aria-hidden="true" when unlabeled', () => {
+  it('n-icon elements get aria-hidden="true" when unlabeled', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent([
-      { component: 'ui-icon', attributes: { name: 'house' } },
+      { component: 'n-icon', attributes: { name: 'house' } },
     ]));
     const icon = result.plan.root.children![0]!;
     expect(icon.attributes!['aria-hidden']).toBe('true');
   });
 
-  it('ui-icon elements do NOT get aria-hidden="true" when they have a label', () => {
+  it('n-icon elements do NOT get aria-hidden="true" when they have a label', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent([
-      { component: 'ui-icon', label: 'Home icon', attributes: { name: 'house' } },
+      { component: 'n-icon', label: 'Home icon', attributes: { name: 'house' } },
     ]));
     const icon = result.plan.root.children![0]!;
     // The icon-specific code skips aria-hidden="true", but the schema's
@@ -314,10 +314,10 @@ describe('auto-ARIA', () => {
     expect(icon.attributes!['aria-hidden']).toBe('false');
   });
 
-  it('ui-icon elements do NOT get aria-hidden="true" when they have aria-label attribute', () => {
+  it('n-icon elements do NOT get aria-hidden="true" when they have aria-label attribute', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent([
-      { component: 'ui-icon', attributes: { name: 'house', 'aria-label': 'Home' } },
+      { component: 'n-icon', attributes: { name: 'house', 'aria-label': 'Home' } },
     ]));
     const icon = result.plan.root.children![0]!;
     // Same as above: schema requiredAttributes adds default 'false'
@@ -327,7 +327,7 @@ describe('auto-ARIA', () => {
 
   it('adds role from schema when not already set', () => {
     const planner = createPlanner();
-    const result = planner.generate(simpleIntent([{ component: 'ui-button', label: 'OK' }]));
+    const result = planner.generate(simpleIntent([{ component: 'n-button', label: 'OK' }]));
     const button = result.plan.root.children![0]!;
     expect(button.attributes!['role']).toBe('button');
   });
@@ -335,7 +335,7 @@ describe('auto-ARIA', () => {
   it('does not overwrite existing role', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent([
-      { component: 'ui-button', label: 'OK', attributes: { role: 'menuitem' } },
+      { component: 'n-button', label: 'OK', attributes: { role: 'menuitem' } },
     ]));
     const button = result.plan.root.children![0]!;
     expect(button.attributes!['role']).toBe('menuitem');
@@ -343,10 +343,10 @@ describe('auto-ARIA', () => {
 
   it('adds required ARIA attributes with defaults', () => {
     const planner = createPlanner();
-    // ui-input schema has requiredAttributes: ['aria-label'] — that gets filled by the label handling
-    // ui-select schema has role: 'combobox' and requiredAttributes: ['aria-label']
+    // n-input schema has requiredAttributes: ['aria-label'] — that gets filled by the label handling
+    // n-select schema has role: 'combobox' and requiredAttributes: ['aria-label']
     const result = planner.generate(simpleIntent([
-      { component: 'ui-select', label: 'Pick one' },
+      { component: 'n-select', label: 'Pick one' },
     ]));
     const select = result.plan.root.children![0]!;
     expect(select.attributes!['role']).toBe('combobox');
@@ -381,18 +381,18 @@ describe('children / nesting', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent([
       {
-        component: 'ui-button',
+        component: 'n-button',
         label: 'Click',
         children: [
-          { component: 'ui-icon', attributes: { name: 'arrow-right' }, slot: 'trailing' },
+          { component: 'n-icon', attributes: { name: 'arrow-right' }, slot: 'trailing' },
         ],
       },
     ]));
     const button = result.plan.root.children![0]!;
-    // ui-button children: [<span slot="label">, <ui-icon slot="trailing">]
+    // n-button children: [<span slot="label">, <n-icon slot="trailing">]
     expect(button.children).toHaveLength(2);
     expect(getButtonLabel(button)).toBe('Click');
-    const icon = button.children!.find((c) => c.tag === 'ui-icon')!;
+    const icon = button.children!.find((c) => c.tag === 'n-icon')!;
     expect(icon.slot).toBe('trailing');
   });
 
@@ -501,7 +501,7 @@ describe('warnings', () => {
     const planner = createPlanner();
     const result = planner.generate({
       type: 'form',
-      elements: [{ component: 'ui-input' }],
+      elements: [{ component: 'n-input' }],
     });
     expect(result.warnings.some((w) => w.includes('missing a label'))).toBe(true);
   });
@@ -513,18 +513,18 @@ describe('warnings', () => {
       elements: [
         {
           component: 'div',
-          children: [{ component: 'ui-select' }],
+          children: [{ component: 'n-select' }],
         },
       ],
     });
-    expect(result.warnings.some((w) => w.includes('ui-select') && w.includes('missing a label'))).toBe(true);
+    expect(result.warnings.some((w) => w.includes('n-select') && w.includes('missing a label'))).toBe(true);
   });
 
   it('does not warn about form elements with label', () => {
     const planner = createPlanner();
     const result = planner.generate({
       type: 'form',
-      elements: [{ component: 'ui-input', label: 'Name' }],
+      elements: [{ component: 'n-input', label: 'Name' }],
     });
     expect(result.warnings.filter((w) => w.includes('missing a label'))).toHaveLength(0);
   });
@@ -533,7 +533,7 @@ describe('warnings', () => {
     const planner = createPlanner();
     const result = planner.generate({
       type: 'form',
-      elements: [{ component: 'ui-input', attributes: { 'aria-label': 'Name' } }],
+      elements: [{ component: 'n-input', attributes: { 'aria-label': 'Name' } }],
     });
     expect(result.warnings.filter((w) => w.includes('missing a label'))).toHaveLength(0);
   });
@@ -542,7 +542,7 @@ describe('warnings', () => {
     const planner = createPlanner();
     const result = planner.generate({
       type: 'form',
-      elements: [{ component: 'ui-input', attributes: { 'aria-labelledby': 'name-label' } }],
+      elements: [{ component: 'n-input', attributes: { 'aria-labelledby': 'name-label' } }],
     });
     expect(result.warnings.filter((w) => w.includes('missing a label'))).toHaveLength(0);
   });
@@ -551,7 +551,7 @@ describe('warnings', () => {
     const planner = createPlanner();
     const result = planner.generate({
       type: 'display',
-      elements: [{ component: 'ui-input' }],
+      elements: [{ component: 'n-input' }],
     });
     // Form element label warnings only fire for form intents
     expect(result.warnings.filter((w) => w.includes('Form element') && w.includes('missing a label'))).toHaveLength(0);
@@ -559,7 +559,7 @@ describe('warnings', () => {
 
   it('warns about unlabeled buttons', () => {
     const planner = createPlanner();
-    const result = planner.generate(simpleIntent([{ component: 'ui-button' }]));
+    const result = planner.generate(simpleIntent([{ component: 'n-button' }]));
     expect(result.warnings.some((w) => w.includes('Button') && w.includes('no text content'))).toBe(true);
   });
 
@@ -571,14 +571,14 @@ describe('warnings', () => {
 
   it('does not warn about buttons with label', () => {
     const planner = createPlanner();
-    const result = planner.generate(simpleIntent([{ component: 'ui-button', label: 'OK' }]));
+    const result = planner.generate(simpleIntent([{ component: 'n-button', label: 'OK' }]));
     expect(result.warnings.filter((w) => w.includes('no text content'))).toHaveLength(0);
   });
 
   it('does not warn about buttons with aria-label', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent([
-      { component: 'ui-button', attributes: { 'aria-label': 'Close' } },
+      { component: 'n-button', attributes: { 'aria-label': 'Close' } },
     ]));
     expect(result.warnings.filter((w) => w.includes('no text content'))).toHaveLength(0);
   });
@@ -610,13 +610,13 @@ describe('warnings', () => {
 
   it('warns about unknown custom elements', () => {
     const planner = createPlanner();
-    const result = planner.generate(simpleIntent([{ component: 'ui-custom-unknown' }]));
+    const result = planner.generate(simpleIntent([{ component: 'n-custom-unknown' }]));
     expect(result.warnings.some((w) => w.includes('not in the schema catalog'))).toBe(true);
   });
 
   it('does not warn about known custom elements', () => {
     const planner = createPlanner();
-    const result = planner.generate(simpleIntent([{ component: 'ui-button', label: 'OK' }]));
+    const result = planner.generate(simpleIntent([{ component: 'n-button', label: 'OK' }]));
     expect(result.warnings.filter((w) => w.includes('not in the schema catalog'))).toHaveLength(0);
   });
 
@@ -641,16 +641,16 @@ describe('Planner.form() static builder', () => {
     expect(root.attributes!['novalidate']).toBe('');
   });
 
-  it('generates ui-field + ui-input for text fields', () => {
+  it('generates n-field + n-input for text fields', () => {
     const result = Planner.form([{ name: 'Username', placeholder: 'Enter name' }]);
     const root = result.plan.root;
-    // form > [ui-field, ui-button(submit)]
-    const fields = root.children!.filter((c) => c.tag === 'ui-field');
+    // form > [n-field, n-button(submit)]
+    const fields = root.children!.filter((c) => c.tag === 'n-field');
     expect(fields).toHaveLength(1);
     const field = fields[0]!;
-    // Field contains a label and a ui-input
+    // Field contains a label and a n-input
     const label = field.children!.find((c) => c.tag === 'label');
-    const input = field.children!.find((c) => c.tag === 'ui-input');
+    const input = field.children!.find((c) => c.tag === 'n-input');
     expect(label).toBeDefined();
     expect(label!.textContent).toBe('Username');
     expect(label!.slot).toBe('label');
@@ -659,15 +659,15 @@ describe('Planner.form() static builder', () => {
     expect(input!.attributes!['placeholder']).toBe('Enter name');
   });
 
-  it('generates ui-field + ui-textarea for textarea type', () => {
+  it('generates n-field + n-textarea for textarea type', () => {
     const result = Planner.form([{ name: 'Bio', type: 'textarea' }]);
     const root = result.plan.root;
-    const field = root.children!.find((c) => c.tag === 'ui-field')!;
-    const textarea = field.children!.find((c) => c.tag === 'ui-textarea');
+    const field = root.children!.find((c) => c.tag === 'n-field')!;
+    const textarea = field.children!.find((c) => c.tag === 'n-textarea');
     expect(textarea).toBeDefined();
   });
 
-  it('generates ui-field + ui-select (data-driven) for select type with options', () => {
+  it('generates n-field + n-select (data-driven) for select type with options', () => {
     const result = Planner.form([
       {
         name: 'Country',
@@ -679,10 +679,10 @@ describe('Planner.form() static builder', () => {
       },
     ]);
     const root = result.plan.root;
-    const field = root.children!.find((c) => c.tag === 'ui-field')!;
-    const select = field.children!.find((c) => c.tag === 'ui-select');
+    const field = root.children!.find((c) => c.tag === 'n-field')!;
+    const select = field.children!.find((c) => c.tag === 'n-select');
     expect(select).toBeDefined();
-    // Data-driven mode: options are set as JSON attribute, no ui-option children
+    // Data-driven mode: options are set as JSON attribute, no n-option children
     const optionsAttr = select!.attributes!['options'];
     expect(optionsAttr).toBeDefined();
     const parsed = JSON.parse(optionsAttr);
@@ -697,7 +697,7 @@ describe('Planner.form() static builder', () => {
   it('adds submit button with correct variant and intent', () => {
     const result = Planner.form([{ name: 'Name' }]);
     const root = result.plan.root;
-    const submitBtn = root.children!.find((c) => c.tag === 'ui-button');
+    const submitBtn = root.children!.find((c) => c.tag === 'n-button');
     expect(submitBtn).toBeDefined();
     expect(getButtonLabel(submitBtn!)).toBe('Submit');
     expect(submitBtn!.attributes!['variant']).toBe('primary');
@@ -707,8 +707,8 @@ describe('Planner.form() static builder', () => {
   it('adds submit button with custom command', () => {
     const result = Planner.form([{ name: 'Name' }], { submitCommand: 'save-form' });
     const root = result.plan.root;
-    const submitBtn = root.children!.find((c) => c.tag === 'ui-button');
-    expect(submitBtn!.events!['ui-press']).toBe('save-form');
+    const submitBtn = root.children!.find((c) => c.tag === 'n-button');
+    expect(submitBtn!.events!['native:press']).toBe('save-form');
   });
 
   it('respects title option', () => {
@@ -720,23 +720,23 @@ describe('Planner.form() static builder', () => {
   it('respects submitLabel option', () => {
     const result = Planner.form([{ name: 'Name' }], { submitLabel: 'Register' });
     const root = result.plan.root;
-    const submitBtn = root.children!.find((c) => c.tag === 'ui-button');
+    const submitBtn = root.children!.find((c) => c.tag === 'n-button');
     expect(getButtonLabel(submitBtn!)).toBe('Register');
   });
 
   it('adds required attribute when field.required is true', () => {
     const result = Planner.form([{ name: 'Email', type: 'email', required: true }]);
     const root = result.plan.root;
-    const field = root.children!.find((c) => c.tag === 'ui-field')!;
-    const input = field.children!.find((c) => c.tag === 'ui-input');
+    const field = root.children!.find((c) => c.tag === 'n-field')!;
+    const input = field.children!.find((c) => c.tag === 'n-input');
     expect(input!.attributes!['required']).toBe('');
   });
 
   it('uses default text type when type is not specified', () => {
     const result = Planner.form([{ name: 'Name' }]);
     const root = result.plan.root;
-    const field = root.children!.find((c) => c.tag === 'ui-field')!;
-    const input = field.children!.find((c) => c.tag === 'ui-input');
+    const field = root.children!.find((c) => c.tag === 'n-field')!;
+    const input = field.children!.find((c) => c.tag === 'n-input');
     expect(input!.attributes!['type']).toBe('text');
   });
 });
@@ -763,12 +763,12 @@ describe('Planner.actions() static builder', () => {
     const buttons = result.plan.root.children!;
 
     expect(getButtonLabel(buttons[0]!)).toBe('Save');
-    expect(buttons[0]!.events!['ui-press']).toBe('save-item');
+    expect(buttons[0]!.events!['native:press']).toBe('save-item');
     expect(buttons[0]!.attributes!['variant']).toBe('primary');
     expect(buttons[0]!.attributes!['intent']).toBe('accent');
 
     expect(getButtonLabel(buttons[1]!)).toBe('Delete');
-    expect(buttons[1]!.events!['ui-press']).toBe('delete-item');
+    expect(buttons[1]!.events!['native:press']).toBe('delete-item');
     expect(buttons[1]!.attributes!['variant']).toBe('outline');
     expect(buttons[1]!.attributes!['intent']).toBe('danger');
   });
@@ -826,8 +826,8 @@ describe('deep freeze', () => {
   it('child nodes are frozen', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent([
-      { component: 'ui-button', label: 'A' },
-      { component: 'ui-button', label: 'B' },
+      { component: 'n-button', label: 'A' },
+      { component: 'n-button', label: 'B' },
     ]));
     for (const child of result.plan.root.children!) {
       expect(Object.isFrozen(child)).toBe(true);
@@ -879,12 +879,12 @@ describe('ID generation', () => {
   it('IDs are based on tag names', () => {
     const planner = createPlanner();
     const result = planner.generate(simpleIntent([
-      { component: 'ui-button', label: 'A' },
-      { component: 'ui-input', label: 'B' },
+      { component: 'n-button', label: 'A' },
+      { component: 'n-input', label: 'B' },
     ]));
     const ids = result.plan.root.children!.map((c) => c.id);
-    expect(ids[0]).toMatch(/^ui-button-/);
-    expect(ids[1]).toMatch(/^ui-input-/);
+    expect(ids[0]).toMatch(/^n-button-/);
+    expect(ids[1]).toMatch(/^n-input-/);
   });
 
   it('ID counter resets between generate calls', () => {
@@ -938,7 +938,7 @@ describe('edge cases', () => {
     const root = result.plan.root;
     expect(root.tag).toBe('form');
     // Should only have the submit button
-    const buttons = root.children!.filter((c) => c.tag === 'ui-button');
+    const buttons = root.children!.filter((c) => c.tag === 'n-button');
     expect(buttons).toHaveLength(1);
   });
 
@@ -967,13 +967,13 @@ describe('edge cases', () => {
 // ── New Quick Builder Tests ──
 
 describe('Planner.card() static builder', () => {
-  it('creates a ui-card root with body content', () => {
+  it('creates a n-card root with body content', () => {
     const result = Planner.card({ body: 'Hello world' });
     const root = result.plan.root;
-    // Single non-structural element (ui-card) is wrapped in a div
+    // Single non-structural element (n-card) is wrapped in a div
     expect(root.children).toHaveLength(1);
     const card = root.children![0]!;
-    expect(card.tag).toBe('ui-card');
+    expect(card.tag).toBe('n-card');
     // Body is a <p> child
     const body = card.children!.find((c) => c.tag === 'p');
     expect(body).toBeDefined();
@@ -1045,7 +1045,7 @@ describe('Planner.card() static builder', () => {
 });
 
 describe('Planner.dialog() static builder', () => {
-  it('creates a ui-dialog root with panel structure', () => {
+  it('creates a n-dialog root with panel structure', () => {
     const result = Planner.dialog({
       title: 'Confirm Action',
       body: 'Are you sure?',
@@ -1054,7 +1054,7 @@ describe('Planner.dialog() static builder', () => {
     const root = result.plan.root;
     // composite intent wraps in div
     const dialog = root.children![0]!;
-    expect(dialog.tag).toBe('ui-dialog');
+    expect(dialog.tag).toBe('n-dialog');
     // Dialog contains a styled panel div
     const panel = dialog.children![0]!;
     expect(panel.tag).toBe('div');
@@ -1101,7 +1101,7 @@ describe('Planner.dialog() static builder', () => {
     const confirmBtn = btnRow!.children![btnRow!.children!.length - 1]!;
     expect(confirmBtn.attributes!['variant']).toBe('primary');
     expect(confirmBtn.attributes!['intent']).toBe('danger');
-    expect(confirmBtn.events!['ui-press']).toBe('confirm');
+    expect(confirmBtn.events!['native:press']).toBe('confirm');
   });
 
   it('omits cancel button when cancelLabel and cancelCommand are not provided', () => {
@@ -1144,7 +1144,7 @@ describe('Planner.dialog() static builder', () => {
 });
 
 describe('Planner.settings() static builder', () => {
-  it('creates a vertical list of ui-switch elements', () => {
+  it('creates a vertical list of n-switch elements', () => {
     const result = Planner.settings([
       { label: 'Notifications', name: 'notifications' },
       { label: 'Dark mode', name: 'dark-mode', checked: true },
@@ -1154,7 +1154,7 @@ describe('Planner.settings() static builder', () => {
     const container = root.tag === 'div' && root.children ? root : root.children![0]!;
     expect(container.attributes!['style']).toContain('flex-direction: column');
 
-    const switches = container.children!.filter((c) => c.tag === 'ui-switch');
+    const switches = container.children!.filter((c) => c.tag === 'n-switch');
     expect(switches).toHaveLength(2);
     expect(switches[0]!.textContent).toBe('Notifications');
     expect(switches[0]!.attributes!['name']).toBe('notifications');
@@ -1170,7 +1170,7 @@ describe('Planner.settings() static builder', () => {
     // The switch is wrapped in a div with a description p
     const wrapper = container.children![0]!;
     expect(wrapper.tag).toBe('div');
-    const switchEl = wrapper.children!.find((c) => c.tag === 'ui-switch');
+    const switchEl = wrapper.children!.find((c) => c.tag === 'n-switch');
     const desc = wrapper.children!.find((c) => c.tag === 'p');
     expect(switchEl).toBeDefined();
     expect(switchEl!.textContent).toBe('WiFi');
@@ -1185,7 +1185,7 @@ describe('Planner.settings() static builder', () => {
     const root = result.plan.root;
     const container = root.tag === 'div' && root.children ? root : root.children![0]!;
     const switchEl = container.children![0]!;
-    expect(switchEl.events!['ui-change']).toBe('toggle-sync');
+    expect(switchEl.events!['native:change']).toBe('toggle-sync');
   });
 
   it('respects title option', () => {
@@ -1207,28 +1207,28 @@ describe('Planner.settings() static builder', () => {
 });
 
 describe('Planner.tabs() static builder', () => {
-  it('creates ui-tabs with ui-tab and ui-tab-panel children', () => {
+  it('creates n-tabs with n-tab and n-tab-panel children', () => {
     const result = Planner.tabs([
       { label: 'Overview', value: 'overview', content: 'Overview content' },
       { label: 'Details', value: 'details', content: 'Details content' },
     ]);
     const root = result.plan.root;
-    // ui-tabs is not structural, so it's wrapped
-    const tabs = root.tag === 'ui-tabs' ? root : root.children![0]!;
-    expect(tabs.tag).toBe('ui-tabs');
+    // n-tabs is not structural, so it's wrapped
+    const tabs = root.tag === 'n-tabs' ? root : root.children![0]!;
+    expect(tabs.tag).toBe('n-tabs');
 
     // Tab triggers
-    const tabEls = tabs.children!.filter((c) => c.tag === 'ui-tab');
+    const tabEls = tabs.children!.filter((c) => c.tag === 'n-tab');
     expect(tabEls).toHaveLength(2);
     expect(tabEls[0]!.textContent).toBe('Overview');
     expect(tabEls[0]!.attributes!['value']).toBe('overview');
     expect(tabEls[1]!.textContent).toBe('Details');
     expect(tabEls[1]!.attributes!['value']).toBe('details');
 
-    // Tab panels wrapped in ui-tab-panels container
-    const panelsContainer = tabs.children!.find((c) => c.tag === 'ui-tab-panels');
+    // Tab panels wrapped in n-tab-panels container
+    const panelsContainer = tabs.children!.find((c) => c.tag === 'n-tab-panels');
     expect(panelsContainer).toBeDefined();
-    const panelEls = panelsContainer!.children!.filter((c) => c.tag === 'ui-tab-panel');
+    const panelEls = panelsContainer!.children!.filter((c) => c.tag === 'n-tab-panel');
     expect(panelEls).toHaveLength(2);
     expect(panelEls[0]!.attributes!['value']).toBe('overview');
     expect(panelEls[1]!.attributes!['value']).toBe('details');
@@ -1239,7 +1239,7 @@ describe('Planner.tabs() static builder', () => {
       { label: 'A', value: 'a', content: 'A content' },
       { label: 'B', value: 'b', content: 'B content' },
     ]);
-    const tabs = result.plan.root.tag === 'ui-tabs' ? result.plan.root : result.plan.root.children![0]!;
+    const tabs = result.plan.root.tag === 'n-tabs' ? result.plan.root : result.plan.root.children![0]!;
     expect(tabs.attributes!['value']).toBe('a');
   });
 
@@ -1251,7 +1251,7 @@ describe('Planner.tabs() static builder', () => {
       ],
       { defaultValue: 'b' },
     );
-    const tabs = result.plan.root.tag === 'ui-tabs' ? result.plan.root : result.plan.root.children![0]!;
+    const tabs = result.plan.root.tag === 'n-tabs' ? result.plan.root : result.plan.root.children![0]!;
     expect(tabs.attributes!['value']).toBe('b');
   });
 
@@ -1260,7 +1260,7 @@ describe('Planner.tabs() static builder', () => {
       [{ label: 'A', value: 'a', content: 'A' }],
       { orientation: 'vertical' },
     );
-    const tabs = result.plan.root.tag === 'ui-tabs' ? result.plan.root : result.plan.root.children![0]!;
+    const tabs = result.plan.root.tag === 'n-tabs' ? result.plan.root : result.plan.root.children![0]!;
     expect(tabs.attributes!['orientation']).toBe('vertical');
   });
 
@@ -1269,8 +1269,8 @@ describe('Planner.tabs() static builder', () => {
       { label: 'Active', value: 'active', content: 'Content' },
       { label: 'Disabled', value: 'disabled', content: 'No access', disabled: true },
     ]);
-    const tabs = result.plan.root.tag === 'ui-tabs' ? result.plan.root : result.plan.root.children![0]!;
-    const tabEls = tabs.children!.filter((c) => c.tag === 'ui-tab');
+    const tabs = result.plan.root.tag === 'n-tabs' ? result.plan.root : result.plan.root.children![0]!;
+    const tabEls = tabs.children!.filter((c) => c.tag === 'n-tab');
     expect(tabEls[1]!.attributes!['disabled']).toBe('');
   });
 
@@ -1283,33 +1283,33 @@ describe('Planner.tabs() static builder', () => {
 });
 
 describe('Planner.nav() static builder', () => {
-  it('creates a ui-listbox with ui-option children', () => {
+  it('creates a n-listbox with n-option children', () => {
     const result = Planner.nav([
       { label: 'Home', value: 'home' },
       { label: 'Settings', value: 'settings' },
     ]);
     const root = result.plan.root;
-    // ui-listbox is not structural → wrapped in div
-    const listbox = root.tag === 'ui-listbox' ? root : root.children![0]!;
-    expect(listbox.tag).toBe('ui-listbox');
+    // n-listbox is not structural → wrapped in div
+    const listbox = root.tag === 'n-listbox' ? root : root.children![0]!;
+    expect(listbox.tag).toBe('n-listbox');
 
-    const options = listbox.children!.filter((c) => c.tag === 'ui-option');
+    const options = listbox.children!.filter((c) => c.tag === 'n-option');
     expect(options).toHaveLength(2);
     expect(options[0]!.textContent).toBe('Home');
     expect(options[0]!.attributes!['value']).toBe('home');
     expect(options[1]!.textContent).toBe('Settings');
   });
 
-  it('groups items by group field using ui-option-group', () => {
+  it('groups items by group field using n-option-group', () => {
     const result = Planner.nav([
       { label: 'Dashboard', value: 'dashboard', group: 'Main' },
       { label: 'Analytics', value: 'analytics', group: 'Main' },
       { label: 'Profile', value: 'profile', group: 'Account' },
     ]);
     const root = result.plan.root;
-    const listbox = root.tag === 'ui-listbox' ? root : root.children![0]!;
+    const listbox = root.tag === 'n-listbox' ? root : root.children![0]!;
 
-    const groups = listbox.children!.filter((c) => c.tag === 'ui-option-group');
+    const groups = listbox.children!.filter((c) => c.tag === 'n-option-group');
     expect(groups).toHaveLength(2);
 
     // First group: "Main"
@@ -1317,14 +1317,14 @@ describe('Planner.nav() static builder', () => {
     const mainHeading = mainGroup.children!.find((c) => c.slot === 'heading');
     expect(mainHeading).toBeDefined();
     expect(mainHeading!.textContent).toBe('Main');
-    const mainOptions = mainGroup.children!.filter((c) => c.tag === 'ui-option');
+    const mainOptions = mainGroup.children!.filter((c) => c.tag === 'n-option');
     expect(mainOptions).toHaveLength(2);
 
     // Second group: "Account"
     const accountGroup = groups[1]!;
     const accountHeading = accountGroup.children!.find((c) => c.slot === 'heading');
     expect(accountHeading!.textContent).toBe('Account');
-    const accountOptions = accountGroup.children!.filter((c) => c.tag === 'ui-option');
+    const accountOptions = accountGroup.children!.filter((c) => c.tag === 'n-option');
     expect(accountOptions).toHaveLength(1);
   });
 
@@ -1333,10 +1333,10 @@ describe('Planner.nav() static builder', () => {
       { label: 'Home', value: 'home', icon: 'house' },
     ]);
     const root = result.plan.root;
-    const listbox = root.tag === 'ui-listbox' ? root : root.children![0]!;
+    const listbox = root.tag === 'n-listbox' ? root : root.children![0]!;
     const option = listbox.children![0]!;
     expect(option.children).toBeDefined();
-    const icon = option.children!.find((c) => c.tag === 'ui-icon');
+    const icon = option.children!.find((c) => c.tag === 'n-icon');
     expect(icon).toBeDefined();
     expect(icon!.attributes!['name']).toBe('house');
     expect(icon!.attributes!['slot']).toBe('leading');
@@ -1348,16 +1348,16 @@ describe('Planner.nav() static builder', () => {
       { label: 'Dashboard', value: 'dashboard', group: 'Main' },
     ]);
     const root = result.plan.root;
-    const listbox = root.tag === 'ui-listbox' ? root : root.children![0]!;
+    const listbox = root.tag === 'n-listbox' ? root : root.children![0]!;
 
-    // First child: ungrouped ui-option
+    // First child: ungrouped n-option
     const firstChild = listbox.children![0]!;
-    expect(firstChild.tag).toBe('ui-option');
+    expect(firstChild.tag).toBe('n-option');
     expect(firstChild.textContent).toBe('Home');
 
-    // Second child: grouped in ui-option-group
+    // Second child: grouped in n-option-group
     const secondChild = listbox.children![1]!;
-    expect(secondChild.tag).toBe('ui-option-group');
+    expect(secondChild.tag).toBe('n-option-group');
   });
 
   it('sets aria-label on listbox', () => {
@@ -1366,14 +1366,14 @@ describe('Planner.nav() static builder', () => {
       { title: 'Site Navigation' },
     );
     const root = result.plan.root;
-    const listbox = root.tag === 'ui-listbox' ? root : root.children![0]!;
+    const listbox = root.tag === 'n-listbox' ? root : root.children![0]!;
     expect(listbox.attributes!['aria-label']).toBe('Site Navigation');
   });
 
   it('uses default "Navigation" aria-label when no title', () => {
     const result = Planner.nav([{ label: 'Home', value: 'home' }]);
     const root = result.plan.root;
-    const listbox = root.tag === 'ui-listbox' ? root : root.children![0]!;
+    const listbox = root.tag === 'n-listbox' ? root : root.children![0]!;
     expect(listbox.attributes!['aria-label']).toBe('Navigation');
   });
 

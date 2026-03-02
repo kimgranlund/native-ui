@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
@@ -27,7 +27,7 @@
         font-size: 1rem;
         font-weight: 700;
         margin: 0;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 
       .empty-state {
@@ -36,13 +36,13 @@
         align-items: center;
         text-align: center;
         padding: 3rem 2rem;
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-body-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.75rem;
       }
 
-      .empty-state ui-icon {
-        color: var(--neutral-ink-muted);
+      .empty-state n-icon {
+        color: var(--n-ink-muted-neutral);
         margin-bottom: 1rem;
       }
 
@@ -54,7 +54,7 @@
 
       .empty-state p {
         font-size: 0.875rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         margin: 0 0 1.25rem;
         max-width: 24rem;
         line-height: 1.5;
@@ -62,11 +62,11 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
-    <ui-stack gap="6">
+    <n-app><main>
+    <n-stack gap="6">
     <div>
       <h1>Empty States</h1>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Placeholder patterns shown when content areas have no data.
         Each variant communicates context and offers a clear next action.
       </p>
@@ -74,64 +74,64 @@
 
     <!-- -- No Data -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <h2>No Data</h2>
     <div class="empty-state">
-      <ui-icon name="folder" size="xl" aria-hidden="true"></ui-icon>
+      <n-icon name="folder" size="xl" aria-hidden="true"></n-icon>
       <h3>No projects yet</h3>
       <p>Create your first project to get started. Projects help you organize tasks, track progress, and collaborate with your team.</p>
-      <ui-button intent="accent">
-        <ui-icon name="plus" slot="leading"></ui-icon>
+      <n-button intent="accent">
+        <n-icon name="plus" slot="leading"></n-icon>
         <span slot="label">Create Project</span>
-      </ui-button>
+      </n-button>
     </div>
-    </ui-stack>
+    </n-stack>
 
     <!-- -- No Search Results -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <h2>No Search Results</h2>
     <div class="empty-state">
-      <ui-icon name="magnifying-glass" size="xl" aria-hidden="true"></ui-icon>
+      <n-icon name="magnifying-glass" size="xl" aria-hidden="true"></n-icon>
       <h3>No results found</h3>
       <p>We couldn't find anything matching "quarterly report". Try adjusting your search terms or clearing filters.</p>
-      <ui-stack direction="row" gap="3">
-        <ui-button id="clear-search-btn">
-          <ui-icon name="x" slot="leading"></ui-icon>
+      <n-stack direction="row" gap="3">
+        <n-button id="clear-search-btn">
+          <n-icon name="x" slot="leading"></n-icon>
           <span slot="label">Clear Search</span>
-        </ui-button>
-        <ui-button id="browse-all-btn">
+        </n-button>
+        <n-button id="browse-all-btn">
           <span slot="label">Browse All</span>
-        </ui-button>
-      </ui-stack>
+        </n-button>
+      </n-stack>
     </div>
-    </ui-stack>
+    </n-stack>
 
     <!-- -- Error State -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <h2>Error State</h2>
     <div class="empty-state">
-      <ui-icon name="warning" size="xl" aria-hidden="true" style="color: var(--danger-ink-strong);"></ui-icon>
+      <n-icon name="warning" size="xl" aria-hidden="true" style="color: var(--n-ink-strong-danger);"></n-icon>
       <h3>Something went wrong</h3>
       <p>We couldn't load your projects. This might be a temporary issue. Please check your connection and try again.</p>
-      <ui-stack direction="row" gap="3">
-        <ui-button intent="accent" id="retry-btn">
+      <n-stack direction="row" gap="3">
+        <n-button intent="accent" id="retry-btn">
           <span slot="label">Try Again</span>
-        </ui-button>
-        <ui-button id="support-btn">
+        </n-button>
+        <n-button id="support-btn">
           <span slot="label">Contact Support</span>
-        </ui-button>
-      </ui-stack>
+        </n-button>
+      </n-stack>
     </div>
-    </ui-stack>
-    </ui-stack>
+    </n-stack>
+    </n-stack>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/button/button.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/folder.ts';
       import '../../../icons/phosphor/plus.ts';
       import '../../../icons/phosphor/magnifying-glass.ts';

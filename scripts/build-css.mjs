@@ -22,8 +22,8 @@ const foundationFiles = [
   'src/styles/colors.primitives.css',
   'src/styles/colors.tokens.css',
   'src/styles/themes.css',
-  'src/styles/ui.base.css',
-  'src/styles/ui.primitives.css',
+  'src/styles/n.base.css',
+  'src/styles/n.primitives.css',
 ];
 
 const foundationCSS =
@@ -44,7 +44,7 @@ function discoverCSS(dirs) {
       const sub = resolve(abs, entry);
       if (!statSync(sub).isDirectory()) continue;
       for (const file of readdirSync(sub)) {
-        if (file.endsWith('.css') && file.startsWith('ui-')) {
+        if (file.endsWith('.css')) {
           results.push(`${dir}/${entry}/${file}`);
         }
       }
@@ -57,7 +57,7 @@ const componentFiles = [
   // WHY: Icon CSS first — it's a primitive used by all components. Later component
   // container query rules (e.g. sidebar collapsed) need to override icon display,
   // and at equal :where() specificity source order is the tiebreaker.
-  ...(existsSync(resolve(root, 'src/icons/ui-icon.css')) ? ['src/icons/ui-icon.css'] : []),
+  ...(existsSync(resolve(root, 'src/icons/icon.css')) ? ['src/icons/icon.css'] : []),
   ...discoverCSS(['src/components', 'src/containers']),
   ...(existsSync(resolve(root, 'src/a2ui/a2ui.css')) ? ['src/a2ui/a2ui.css'] : []),
 ];
@@ -67,7 +67,7 @@ const componentsCSS = componentFiles.map(read).join('\n');
 // Strip force-* debug selector lines from CSS to produce lean output.
 // WHY: force-hover, force-active, force-focus, force-focus-visible are dev-only
 // attribute selectors for state debugging. They always appear as comma-separated
-// alternatives (e.g. `:where(ui-button):hover,\n:where(ui-button)[force-hover]`).
+// alternatives (e.g. `:where(n-button):hover,\n:where(n-button)[force-hover]`).
 // Stripping the force-* line and its trailing/leading comma produces valid CSS.
 function stripDebugSelectors(css) {
   // Match lines containing [force-*] that are selector alternatives.

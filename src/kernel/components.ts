@@ -41,76 +41,76 @@ function desc(
 
 export const COMPONENT_MANIFEST: readonly ComponentDescriptor[] = Object.freeze([
   // Form components
-  desc('ui-button', 'components/ui-button', 'form', true, ['ui-press']),
-  desc('ui-input', 'components/ui-input', 'form', true, ['ui-input', 'ui-change']),
-  desc('ui-checkbox', 'components/ui-checkbox', 'form', true, ['ui-change']),
-  desc('ui-switch', 'components/ui-switch', 'form', true, ['ui-change']),
-  desc('ui-radio-group', 'components/ui-radio-group', 'form', true, ['ui-change']),
-  desc('ui-select', 'components/ui-select', 'form', true, ['ui-change']),
-  desc('ui-combobox', 'components/ui-combobox', 'form', true, ['ui-change', 'ui-input']),
-  desc('ui-textarea', 'components/ui-textarea', 'form', true, ['ui-input', 'ui-change']),
-  desc('ui-range', 'components/ui-range', 'form', true, ['ui-change']),
-  desc('ui-segmented-control', 'components/ui-segmented-control', 'form', true, ['ui-change']),
-  desc('ui-input-otp', 'components/ui-input-otp', 'form', true, ['ui-change']),
-  desc('ui-calendar', 'components/ui-calendar', 'form', true, ['ui-change']),
+  desc('n-button', 'components/button', 'form', true, ['native:press']),
+  desc('n-input', 'components/input', 'form', true, ['native:input', 'native:change']),
+  desc('n-checkbox', 'components/checkbox', 'form', true, ['native:change']),
+  desc('n-switch', 'components/switch', 'form', true, ['native:change']),
+  desc('n-radio-group', 'components/radio-group', 'form', true, ['native:change']),
+  desc('n-select', 'components/select', 'form', true, ['native:change']),
+  desc('n-combobox', 'components/combobox', 'form', true, ['native:change', 'native:input']),
+  desc('n-textarea', 'components/textarea', 'form', true, ['native:input', 'native:change']),
+  desc('n-range', 'components/range', 'form', true, ['native:change']),
+  desc('n-segmented-control', 'components/segmented-control', 'form', true, ['native:change']),
+  desc('n-input-otp', 'components/input-otp', 'form', true, ['native:change']),
+  desc('n-calendar', 'components/calendar', 'form', true, ['native:change']),
 
   // Display components
-  desc('ui-listbox', 'components/ui-listbox', 'display', false, ['ui-select']),
-  desc('ui-option', 'components/ui-option', 'display', false, ['ui-select']),
-  desc('ui-option-group', 'components/ui-option-group', 'display', false, []),
-  desc('ui-badge', 'components/ui-badge', 'display', false, []),
-  desc('ui-avatar', 'components/ui-avatar', 'display', false, []),
-  desc('ui-icon', 'icons/ui-icon', 'display', false, []),
+  desc('n-listbox', 'components/listbox', 'display', false, ['native:select']),
+  desc('n-option', 'components/option', 'display', false, ['native:select']),
+  desc('n-option-group', 'components/option-group', 'display', false, []),
+  desc('n-badge', 'components/badge', 'display', false, []),
+  desc('n-avatar', 'components/avatar', 'display', false, []),
+  desc('n-icon', 'icons/n-icon', 'display', false, []),
 
   // Navigation components
-  desc('ui-tabs', 'components/ui-tabs', 'navigation', false, ['ui-change']),
-  desc('ui-tab', 'components/ui-tab', 'navigation', false, ['ui-select']),
-  desc('ui-tab-panel', 'components/ui-tab-panel', 'navigation', false, []),
-  desc('ui-tab-panels', 'components/ui-tab-panels', 'navigation', false, []),
-  desc('ui-breadcrumb', 'components/ui-breadcrumb', 'navigation', false, []),
-  desc('ui-breadcrumb-item', 'components/ui-breadcrumb-item', 'navigation', false, ['ui-press']),
-  desc('ui-pagination', 'components/ui-pagination', 'navigation', false, ['ui-change']),
-  desc('ui-tree', 'components/ui-tree', 'navigation', false, ['ui-change']),
-  desc('ui-tree-item', 'components/ui-tree-item', 'navigation', false, ['ui-select']),
+  desc('n-tabs', 'components/tabs', 'navigation', false, ['native:change']),
+  desc('n-tab', 'components/tab', 'navigation', false, ['native:select']),
+  desc('n-tab-panel', 'components/tab-panel', 'navigation', false, []),
+  desc('n-tab-panels', 'components/tab-panels', 'navigation', false, []),
+  desc('n-breadcrumb', 'components/breadcrumb', 'navigation', false, []),
+  desc('n-breadcrumb-item', 'components/breadcrumb-item', 'navigation', false, ['native:press']),
+  desc('n-pagination', 'components/pagination', 'navigation', false, ['native:change']),
+  desc('n-tree', 'components/tree', 'navigation', false, ['native:change']),
+  desc('n-tree-item', 'components/tree-item', 'navigation', false, ['native:select']),
 
   // Overlay components
-  desc('ui-dialog', 'components/ui-dialog', 'overlay', false, ['close', 'ui-dismiss']),
-  desc('ui-drawer', 'components/ui-drawer', 'overlay', false, ['close', 'ui-dismiss']),
-  desc('ui-tooltip', 'components/ui-tooltip', 'overlay', false, []),
-  desc('ui-accordion', 'components/ui-accordion', 'overlay', false, []),
-  desc('ui-accordion-item', 'components/ui-accordion-item', 'overlay', false, [
-    'ui-expand',
-    'ui-collapse',
+  desc('n-dialog', 'components/dialog', 'overlay', false, ['close', 'native:dismiss']),
+  desc('n-drawer', 'components/drawer', 'overlay', false, ['close', 'native:dismiss']),
+  desc('n-tooltip', 'components/tooltip', 'overlay', false, []),
+  desc('n-accordion', 'components/accordion', 'overlay', false, []),
+  desc('n-accordion-item', 'components/accordion-item', 'overlay', false, [
+    'native:expand',
+    'native:collapse',
   ]),
 
   // Command palette
-  desc('ui-command', 'components/ui-command', 'navigation', false, ['ui-change']),
-  desc('ui-command-input', 'components/ui-command', 'form', false, ['ui-input']),
-  desc('ui-command-list', 'components/ui-command', 'display', false, []),
-  desc('ui-command-item', 'components/ui-command', 'display', false, ['ui-select']),
-  desc('ui-command-group', 'components/ui-command', 'display', false, []),
-  desc('ui-command-empty', 'components/ui-command', 'display', false, []),
+  desc('n-command', 'components/command', 'navigation', false, ['native:change']),
+  desc('n-command-input', 'components/command', 'form', false, ['native:input']),
+  desc('n-command-list', 'components/command', 'display', false, []),
+  desc('n-command-item', 'components/command', 'display', false, ['native:select']),
+  desc('n-command-group', 'components/command', 'display', false, []),
+  desc('n-command-empty', 'components/command', 'display', false, []),
 
   // Table
-  desc('ui-table', 'components/ui-table', 'display', false, ['ui-sort', 'ui-row-select']),
-  desc('ui-table-head', 'components/ui-table', 'display', false, []),
-  desc('ui-table-body', 'components/ui-table', 'display', false, []),
-  desc('ui-table-row', 'components/ui-table', 'display', false, []),
-  desc('ui-table-cell', 'components/ui-table', 'display', false, []),
-  desc('ui-table-header', 'components/ui-table', 'display', false, ['ui-sort']),
+  desc('n-table', 'components/table', 'display', false, ['native:sort', 'native:row-select']),
+  desc('n-table-head', 'components/table', 'display', false, []),
+  desc('n-table-body', 'components/table', 'display', false, []),
+  desc('n-table-row', 'components/table', 'display', false, []),
+  desc('n-table-cell', 'components/table', 'display', false, []),
+  desc('n-table-header', 'components/table', 'display', false, ['native:sort']),
 
   // Containers
-  desc('ui-card', 'containers/ui-card', 'container', false, []),
-  desc('ui-section', 'containers/ui-section', 'container', false, [
-    'ui-expand',
-    'ui-collapse',
+  desc('n-card', 'containers/card', 'container', false, []),
+  desc('n-section', 'containers/section', 'container', false, [
+    'native:expand',
+    'native:collapse',
   ]),
-  desc('ui-toolbar', 'containers/ui-toolbar', 'container', false, []),
+  desc('n-toolbar', 'containers/toolbar', 'container', false, []),
 
   // Other
-  desc('ui-field', 'components/ui-field', 'form', false, []),
-  desc('ui-radio', 'components/ui-radio', 'form', false, ['ui-select']),
-  desc('ui-segment', 'components/ui-segment', 'form', false, ['ui-select']),
+  desc('n-field', 'components/field', 'form', false, []),
+  desc('n-radio', 'components/radio', 'form', false, ['native:select']),
+  desc('n-segment', 'components/segment', 'form', false, ['native:select']),
 ]);
 
 // ── Tag-keyed lookup index ──
@@ -159,15 +159,15 @@ export function registerAll(
 // ── Event Bridge ──
 
 const BRIDGE_EVENTS = Object.freeze([
-  'ui-press',
-  'ui-change',
-  'ui-select',
-  'ui-input',
-  'ui-dismiss',
-  'ui-expand',
-  'ui-collapse',
-  'ui-sort',
-  'ui-row-select',
+  'native:press',
+  'native:change',
+  'native:select',
+  'native:input',
+  'native:dismiss',
+  'native:expand',
+  'native:collapse',
+  'native:sort',
+  'native:row-select',
 ] as const);
 
 export function installEventBridge(
@@ -189,7 +189,7 @@ export function installEventBridge(
         if (!el?.tagName) return;
 
         const tag = el.tagName.toLowerCase();
-        const commandType = `${tag}.${eventName.replace('ui-', '')}`;
+        const commandType = `${tag}.${eventName.replace('native:', '')}`;
         const planId =
           el.closest('[data-plan-id]')?.getAttribute('data-plan-id') ??
           undefined;

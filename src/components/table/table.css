@@ -1,0 +1,349 @@
+@layer ui {
+
+  /* ── Table Container ── */
+
+  :where(n-table) {
+    --n-font-weight: var(--n-text-font-weight);
+    --n-line-height: var(--n-text-line-height);
+
+    --n-background: var(--n-panel);
+    --n-border-color: var(--n-border-muted);
+    --n-color: var(--n-ink);
+
+    display: grid;
+    flex: 1 1 0%;
+    min-width: 0;
+    border: 1px solid var(--n-border-color);
+    border-radius: var(--n-radius);
+    overflow: hidden;
+
+    font-size: var(--n-font-size);
+    letter-spacing: var(--n-letter-spacing);
+    line-height: var(--n-line-height);
+    color: var(--n-color);
+  }
+
+  /* ── Head & Body (row groups) ── */
+
+  :where(n-table-head, n-table-body) {
+    display: contents;
+  }
+
+  /* ── Row ── */
+
+  :where(n-table-row) {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+    align-items: center;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Header Row ── */
+
+  :where(n-table-head) > :where(n-table-row) {
+    background: var(--n-panel);
+    border-bottom: 1px solid var(--n-border-color);
+  }
+
+  /* ── Body Rows ── */
+
+  :where(n-table-body) > :where(n-table-row) {
+    background: transparent;
+  }
+
+  :where(n-table-body) > :where(n-table-row):hover,
+  :where(n-table-body) > :where(n-table-row)[force-hover] {
+    background: var(--n-panel-hover);
+  }
+
+  :where(n-table-body) > :where(n-table-row) + :where(n-table-row) {
+    border-top: 1px solid var(--n-border-color);
+  }
+
+  /* ── Selected Row ── */
+
+  :where(n-table-body) > :where(n-table-row)[aria-selected="true"] {
+    background: var(--n-surface);
+    color: var(--n-surface-ink);
+  }
+
+  :where(n-table-body) > :where(n-table-row)[aria-selected="true"]:hover,
+  :where(n-table-body) > :where(n-table-row)[aria-selected="true"][force-hover] {
+    background: var(--n-surface-hover);
+    color: var(--n-surface-ink-hover);
+  }
+
+  /* ── Selectable Table Rows ── */
+
+  :where(n-table[selectable]) :where(n-table-body) > :where(n-table-row) {
+    cursor: pointer;
+  }
+
+  :where(n-table[selectable]) :where(n-table-body) > :where(n-table-row):focus-visible,
+  :where(n-table[selectable]) :where(n-table-body) > :where(n-table-row)[force-focus-visible] {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* ── Cell ── */
+
+  :where(n-table-cell, n-table-header) {
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-block: calc(var(--n-space) * 2);
+  }
+
+  /* ── Header Cell ── */
+
+  :where(n-table-header) {
+    font-weight: var(--n-button-font-weight);
+    color: var(--n-ink-strong);
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  /* ── Sortable Header ── */
+
+  :where(n-table-header)[sortable] {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space));
+  }
+
+  :where(n-table-header)[sortable]:hover,
+  :where(n-table-header)[sortable][force-hover] {
+    color: var(--n-ink-hover);
+  }
+
+  :where(n-table-header)[sortable]:focus-visible,
+  :where(n-table-header)[sortable][force-focus-visible] {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* ── Sort Indicator ── */
+  /* WHY: Arrow drawn via CSS mask so it inherits currentColor.
+     Rotates to point up (asc) or down (desc). Hidden when sort="none". */
+
+  :where(n-table-header)[sortable]::after {
+    content: '';
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+    background: currentColor;
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M205.66,117.66a8,8,0,0,1-11.32,0L136,59.31V216a8,8,0,0,1-16,0V59.31L61.66,117.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0l72,72A8,8,0,0,1,205.66,117.66Z'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M205.66,117.66a8,8,0,0,1-11.32,0L136,59.31V216a8,8,0,0,1-16,0V59.31L61.66,117.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0l72,72A8,8,0,0,1,205.66,117.66Z'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    opacity: 0;
+    transition:
+      transform var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing);
+  }
+
+  :where(n-table-header)[sort="asc"]::after {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+
+  :where(n-table-header)[sort="desc"]::after {
+    opacity: 1;
+    transform: rotate(180deg);
+  }
+
+  /* ── Body Cell ── */
+
+  :where(n-table-cell) {
+    font-weight: var(--n-font-weight);
+  }
+
+  /* ── Plain Variant ── */
+  /* WHY: Editorial / documentation tables that sit inline with prose.
+     No outer border, no radius, no header fill, no row hover. */
+
+  :where(n-table[variant="plain"]) {
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  :where(n-table[variant="plain"]) :where(n-table-head) > :where(n-table-row) {
+    background: transparent;
+    border-bottom: 2px solid var(--n-border-color);
+  }
+
+  :where(n-table[variant="plain"]) :where(n-table-body) > :where(n-table-row):hover,
+  :where(n-table[variant="plain"]) :where(n-table-body) > :where(n-table-row)[force-hover] {
+    background: transparent;
+  }
+
+  :where(n-table[variant="plain"]) :where(n-table-header) {
+    color: var(--n-ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: smaller;
+  }
+
+  :where(n-table[variant="plain"]) :where(n-table-cell:first-child, n-table-header:first-child) {
+    padding-inline-start: 0;
+  }
+
+  /* ── Colspan Row ── */
+  /* WHY: A spanning row opts out of subgrid so its content fills the full width.
+     Used for category headers, section dividers, or full-width messages.
+     grid-column: 1 / -1 is inherited from the base row rule. */
+
+  :where(n-table-row)[colspan] {
+    grid-template-columns: 1fr;
+  }
+
+  :where(n-table-body) > :where(n-table-row)[colspan] {
+    background: var(--n-panel);
+    font-size: var(--n-group-header-font);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--n-ink-muted);
+  }
+
+  :where(n-table-body) > :where(n-table-row)[colspan]:hover,
+  :where(n-table-body) > :where(n-table-row)[colspan][force-hover] {
+    background: var(--n-panel);
+  }
+
+  :where(n-table[selectable]) :where(n-table-body) > :where(n-table-row)[colspan] {
+    cursor: default;
+  }
+
+  :where(n-table-row)[hidden] {
+    display: none;
+  }
+
+  /* ── Sticky Colspan Row ── */
+  /* WHY: Category headers stick below the sticky header row when scrolling.
+     --n-header-height is measured and set by JS (ResizeObserver) on <n-table>.
+     Falls back to 0px when no header is present. Scoped to [sticky-header]
+     because without it the table has overflow: hidden — no scroll context. */
+
+  :where(n-table[sticky-header]) :where(n-table-row)[colspan][sticky] {
+    position: sticky;
+    top: var(--n-header-height, 0px);
+    z-index: 2;
+  }
+
+  /* ── Sticky Header & Column ── */
+
+  :where(n-table[sticky-header]) {
+    overflow-y: auto;
+  }
+
+  :where(n-table[sticky-column]) {
+    overflow-x: auto;
+  }
+
+  :where(n-table[sticky-header]) :where(n-table-head) > :where(n-table-row) {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+  }
+
+  :where(n-table[sticky-column]) :where(n-table-header:first-child) {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: var(--n-panel);
+  }
+
+  :where(n-table[sticky-column]) :where(n-table-cell:first-child) {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--n-panel);
+  }
+
+  :where(n-table[sticky-header][sticky-column]) :where(n-table-head) > :where(n-table-row) > :where(n-table-header:first-child) {
+    z-index: 4;
+  }
+
+  :where(n-table[sticky-column]) :where(n-table-body) > :where(n-table-row):hover > :where(n-table-cell:first-child),
+  :where(n-table[sticky-column]) :where(n-table-body) > :where(n-table-row)[force-hover] > :where(n-table-cell:first-child) {
+    background: var(--n-panel-hover);
+  }
+
+  :where(n-table[sticky-column]) :where(n-table-body) > :where(n-table-row)[aria-selected="true"] > :where(n-table-cell:first-child) {
+    background: var(--n-surface);
+  }
+
+  /* WHY: Plain variant sets overflow:visible; sticky overrides it. */
+  :where(n-table[variant="plain"][sticky-header]) { overflow-y: auto; }
+  :where(n-table[variant="plain"][sticky-column]) { overflow-x: auto; }
+
+  /* ── Resizable Columns ── */
+  /* WHY: Injected handle divs at right edge of each header cell.
+     Cannot use ::after — sortable headers already use it for sort arrow. */
+
+  :where(n-table[resizable]) :where(n-table-header) {
+    position: relative;
+  }
+
+  :where(n-table) :where(.table-resize-handle) {
+    position: absolute;
+    top: 0;
+    right: -2px;
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 5;
+    background: transparent;
+    transition: background var(--n-duration) var(--n-easing);
+  }
+
+  :where(n-table) :where(.table-resize-handle):hover {
+    background: var(--n-border-muted);
+  }
+
+  :where(n-table[resizing]) :where(.table-resize-handle) {
+    background: var(--n-focus-ring);
+  }
+
+  :where(n-table[resizing]) {
+    user-select: none;
+    cursor: col-resize;
+  }
+
+  /* ── Reorderable Rows ── */
+  /* WHY: Drag-to-reorder rows. DragController (slot mode) manages ghost + placeholder.
+     Cursor hints signal draggability. Colspan rows are excluded from drag. */
+
+  :where(n-table[reorderable]) :where(n-table-body) > :where(n-table-row):not([colspan]) {
+    cursor: grab;
+  }
+
+  :where(n-table[reorderable]) :where(n-table-body) > :where(n-table-row):not([colspan]):active,
+  :where(n-table[reorderable]) :where(n-table-body) > :where(n-table-row):not([colspan])[force-active] {
+    cursor: grabbing;
+  }
+
+  :where(n-table-body) > :where(n-table-row)[dragging] {
+    opacity: 0.4;
+  }
+
+  /* WHY: Placeholder spans all columns (grid-column: 1 / -1) because n-table-body
+     has display: contents — its children participate in the parent n-table grid.
+     Styled as a thin accent line to indicate insertion point. */
+  :where(n-table-body) > :where(.drag-placeholder) {
+    grid-column: 1 / -1;
+    height: 2px;
+    background: var(--n-focus-ring);
+    border-radius: 1px;
+    margin-block: calc(var(--n-space) * -1);
+    position: relative;
+    z-index: 1;
+  }
+
+}

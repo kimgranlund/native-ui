@@ -1,0 +1,64 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  n-panel-header                                         │
+     │  Sub-container header for n-app-panel. Same slot        │
+     │  pattern as n-card-header (leading / label / trailing)  │
+     │  but styled for panel context.                          │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* ── Base ── */
+
+  :where(n-panel-header) {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    padding-block: calc(var(--n-space) * 2);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    font-weight: var(--n-button-font-weight);
+    color: var(--n-ink-strong);
+    min-width: 0;
+  }
+
+  /* ── Slots ── */
+
+  :where(n-panel-header):has(> [slot="leading"]):has(> [slot="trailing"]) {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  :where(n-panel-header):has(> [slot="leading"]):not(:has(> [slot="trailing"])) {
+    grid-template-columns: auto 1fr;
+  }
+
+  :where(n-panel-header):not(:has(> [slot="leading"])):has(> [slot="trailing"]) {
+    grid-template-columns: 1fr auto;
+  }
+
+  :where(n-panel-header) > :where([slot="leading"]) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+  }
+
+  :where(n-panel-header) > :where([slot="label"]),
+  :where(n-panel-header) > :where(:not([slot])) {
+    min-width: 0;
+  }
+
+  :where(n-panel-header) > :where([slot="trailing"]) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+  }
+
+  /* ── Sticky ── */
+
+  :where(n-panel-header)[sticky] {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: inherit;
+  }
+
+}

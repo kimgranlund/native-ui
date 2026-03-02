@@ -1,0 +1,99 @@
+@layer ui {
+
+  /* ── Base ── */
+
+  :where(n-card) {
+    --n-ground: var(--n-card);
+    --n-ground-hover: var(--n-card-hover);
+
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    flex-direction: column;
+    background: var(--n-ground);
+    border: 1px solid var(--n-border-muted);
+    border-radius: var(--n-radius);
+    overflow: hidden;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      color var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing),
+      box-shadow var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Header ── */
+
+  :where(n-card) > :where([slot="header"]) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(var(--n-space) * 2);
+    padding-block: calc(var(--n-space) * 2);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    border-bottom: 1px solid var(--n-border-muted);
+    font-weight: var(--n-button-font-weight);
+    color: var(--n-ink-strong);
+  }
+
+  /* ── Media ── */
+  /* WHY: Full-bleed image at top, no padding, no border-radius (overflow: hidden on host handles corners) */
+
+  :where(n-card) > :where([slot="media"]) {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Body (default slot) ── */
+
+  :where(n-card) > :where(:not([slot])) {
+    padding-block: calc(var(--n-space) * 2);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+  }
+
+  /* ── Footer ── */
+
+  :where(n-card) > :where([slot="footer"]) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: calc(var(--n-space) * 2);
+    padding-block: calc(var(--n-space) * 2);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    border-top: 1px solid var(--n-border-muted);
+  }
+
+  /* ── Sub-containers ── */
+  /* WHY: Parent-context borders — sub-containers are unopinionated about dividers,
+     the card adds them contextually. */
+
+  :where(n-card) > :where(n-card-header) {
+    border-bottom: 1px solid var(--n-border-muted);
+  }
+
+  :where(n-card) > :where(n-card-footer) {
+    border-top: 1px solid var(--n-border-muted);
+  }
+
+  /* ── Interactive ── */
+
+  :where(n-card)[interactive] {
+    cursor: pointer;
+  }
+
+  :where(n-card)[interactive]:hover,
+  :where(n-card)[interactive][force-hover] {
+    background: var(--n-ground-hover);
+    border-color: var(--n-border-hover);
+  }
+
+  :where(n-card)[interactive]:focus-visible,
+  :where(n-card)[interactive][force-focus-visible] {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: 2px;
+  }
+
+}

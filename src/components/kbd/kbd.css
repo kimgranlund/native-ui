@@ -1,0 +1,31 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  n-kbd                                                   │
+     │  Keyboard shortcut indicator. Own font/size scale         │
+     │  (like n-badge) — zero-attribute = md.                   │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  :where(n-kbd) {
+    --n-icon-size: 1.125em;
+    --n-ground: var(--n-body);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: ui-monospace, monospace;
+    font-size: var(--n-widget-font);
+    line-height: 1;
+    min-height: calc(var(--n-widget-size-xs) + var(--n-space));
+    padding-inline: 0.4em;
+    border-radius: 0.5em;
+    background: var(--n-ground);
+    border: 1px solid var(--n-border-muted);
+    color: var(--n-ink-muted);
+    white-space: nowrap;
+    user-select: none;
+    flex-shrink: 0;
+    vertical-align: baseline;
+  }
+
+}

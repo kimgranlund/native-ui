@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { ListNavigateController } from '../list-navigate-controller.ts';
 import { define } from '../../core/define.ts';
 import { signal } from '../../reactivity/signal.ts';
@@ -8,7 +8,7 @@ import type { Signal } from '../../reactivity/types.ts';
 
 // ── Test element using ListNavigateController ──
 
-class NavTestEl extends UIElement {
+class NavTestEl extends NativeElement {
   #disabled = signal(false);
   #nav: ListNavigateController | null = null;
 
@@ -37,7 +37,7 @@ if (!customElements.get('nav-test')) {
 
 // ── Test element with aria-checked ──
 
-class CheckedTestEl extends UIElement {
+class CheckedTestEl extends NativeElement {
   #nav: ListNavigateController | null = null;
 
   get listValue(): Signal<string | null> { return this.#nav!.listValue; }
@@ -61,7 +61,7 @@ if (!customElements.get('checked-test')) {
 
 // ── Test element with autoSync = false ──
 
-class NoSyncTestEl extends UIElement {
+class NoSyncTestEl extends NativeElement {
   #nav: ListNavigateController | null = null;
 
   get listValue(): Signal<string | null> { return this.#nav!.listValue; }
@@ -83,7 +83,7 @@ if (!customElements.get('nosync-test')) {
 
 // ── Test element with onChildSelect override ──
 
-class OverrideTestEl extends UIElement {
+class OverrideTestEl extends NativeElement {
   lastDetail: { value: string; label: string } | null = null;
   #nav: ListNavigateController | null = null;
 
@@ -123,7 +123,7 @@ function createNav(count: number): NavTestEl {
 }
 
 function fireSelect(target: HTMLElement, value: string, label: string): void {
-  target.dispatchEvent(new CustomEvent('ui-select', {
+  target.dispatchEvent(new CustomEvent('native:select', {
     bubbles: true,
     composed: true,
     detail: { value, label },
@@ -137,17 +137,17 @@ afterEach(() => {
 describe('ListNavigable', () => {
   // ── Value tracking ──
 
-  it('updates listValue on ui-select event', () => {
+  it('updates listValue on native:select event', () => {
     const el = createNav(3);
     const item = el.querySelector('[role="option"]') as HTMLElement;
     fireSelect(item, 'item-0', 'Item 0');
     expect(el.listValue.value).toBe('item-0');
   });
 
-  it('dispatches ui-change on ui-select', () => {
+  it('dispatches native:change on native:select', () => {
     const el = createNav(3);
     let received: { value: string; label: string } | null = null;
-    el.addEventListener('ui-change', ((e: CustomEvent) => {
+    el.addEventListener('native:change', ((e: CustomEvent) => {
       received = e.detail;
     }) as EventListener);
 
@@ -157,10 +157,10 @@ describe('ListNavigable', () => {
     expect(received).toEqual({ value: 'item-1', label: 'Item 1' });
   });
 
-  it('ui-change event is cancelable', () => {
+  it('native:change event is cancelable', () => {
     const el = createNav(3);
     let cancelable = false;
-    el.addEventListener('ui-change', ((e: CustomEvent) => {
+    el.addEventListener('native:change', ((e: CustomEvent) => {
       cancelable = e.cancelable;
     }) as EventListener);
 
@@ -171,7 +171,7 @@ describe('ListNavigable', () => {
 
   // ── Disabled guard ──
 
-  it('ignores ui-select when disabled', () => {
+  it('ignores n-select when disabled', () => {
     const el = createNav(3);
     el.disabled = true;
 
@@ -269,7 +269,7 @@ describe('ListNavigable', () => {
     expect(el.listValue.value).toBeNull();
   });
 
-  it('does not dispatch ui-change when onChildSelect is overridden without super', () => {
+  it('does not dispatch native:change when onChildSelect is overridden without super', () => {
     const el = document.createElement('override-test') as OverrideTestEl;
     const item = document.createElement('div');
     item.setAttribute('role', 'option');
@@ -278,7 +278,7 @@ describe('ListNavigable', () => {
     document.body.appendChild(el);
 
     let received = false;
-    el.addEventListener('ui-change', () => { received = true; });
+    el.addEventListener('native:change', () => { received = true; });
     fireSelect(item, 'x', 'X');
 
     expect(received).toBe(false);
@@ -307,7 +307,7 @@ describe('ListNavigable', () => {
     const el = createNav(3);
     document.body.removeChild(el);
 
-    // After teardown, ui-select should not update value
+    // After teardown, n-select should not update value
     // Re-attach so we can fire events
     document.body.appendChild(el);
     const item = el.querySelector('[role="option"]') as HTMLElement;

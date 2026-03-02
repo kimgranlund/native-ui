@@ -1,12 +1,12 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { SelectionController } from '../selection-controller.ts';
 import { define } from '../../core/define.ts';
 
 // ── Trait tests ──
 
-class SelectTestEl extends UIElement {
+class SelectTestEl extends NativeElement {
   disabled = false;
   #ctrl: SelectionController | null = null;
 
@@ -75,7 +75,7 @@ describe('Selectable', () => {
   it('selects an item on click', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-selection-change', handler);
+    el.addEventListener('native:selection-change', handler);
     items(el)[0].click();
     expect(handler).toHaveBeenCalledTimes(1);
     expect(handler.mock.calls[0][0].detail.count).toBe(1);
@@ -121,7 +121,7 @@ describe('Selectable', () => {
   it('Ctrl+A selects all in multiple mode', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-selection-change', handler);
+    el.addEventListener('native:selection-change', handler);
     el.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', ctrlKey: true, bubbles: true, cancelable: true }));
     expect(el.getSelection()).toHaveLength(5);
   });
@@ -227,11 +227,11 @@ describe('SelectionController', () => {
     ctrl.destroy();
   });
 
-  it('dispatches ui-selection-change on each operation', () => {
+  it('dispatches native:selection-change on each operation', () => {
     const host = createHost();
     const ctrl = new SelectionController(host, { selector: '.item' });
     const handler = vi.fn();
-    host.addEventListener('ui-selection-change', handler);
+    host.addEventListener('native:selection-change', handler);
     ctrl.select(items(host)[0]);
     expect(handler).toHaveBeenCalledTimes(1);
     expect(handler.mock.calls[0][0].detail.count).toBe(1);

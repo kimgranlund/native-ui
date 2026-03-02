@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
@@ -27,16 +27,16 @@
         font-size: 1rem;
         font-weight: 700;
         margin: 0;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
     </style>
   </head>
   <body>
-    <nui-app><main>
-    <ui-stack gap="6">
+    <n-app><main>
+    <n-stack gap="6">
     <div>
       <h1>Toast Notifications</h1>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Trigger toast notifications with different intents, durations, and content lengths.
         Each button demonstrates a specific toast configuration via the Toastable trait.
       </p>
@@ -44,104 +44,104 @@
 
     <!-- -- Intent Variants -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <div>
       <h2>Intent Variants</h2>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">
         One button per intent. Click to trigger a toast styled for that intent.
       </p>
     </div>
-    <ui-grid columns="auto-fill" min="10rem" gap="3">
-      <ui-stack gap="2">
-        <ui-button id="toast-default" size="md" style="width: 100%;">
-          <ui-icon name="bell" slot="leading"></ui-icon>
+    <n-grid columns="auto-fill" min="10rem" gap="3">
+      <n-stack gap="2">
+        <n-button id="toast-default" size="md" style="width: 100%;">
+          <n-icon name="bell" slot="leading"></n-icon>
           <span slot="label">Default</span>
-        </ui-button>
-        <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0;">Neutral notification</p>
-      </ui-stack>
+        </n-button>
+        <p style="font-size: 0.75rem; color: var(--n-ink-muted-neutral); margin: 0;">Neutral notification</p>
+      </n-stack>
 
-      <ui-stack gap="2">
-        <ui-button id="toast-info" intent="info" size="md" style="width: 100%;">
-          <ui-icon name="info" slot="leading"></ui-icon>
+      <n-stack gap="2">
+        <n-button id="toast-info" intent="info" size="md" style="width: 100%;">
+          <n-icon name="info" slot="leading"></n-icon>
           <span slot="label">Info</span>
-        </ui-button>
-        <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0;">Informational message</p>
-      </ui-stack>
+        </n-button>
+        <p style="font-size: 0.75rem; color: var(--n-ink-muted-neutral); margin: 0;">Informational message</p>
+      </n-stack>
 
-      <ui-stack gap="2">
-        <ui-button id="toast-success" intent="success" size="md" style="width: 100%;">
-          <ui-icon name="check" slot="leading"></ui-icon>
+      <n-stack gap="2">
+        <n-button id="toast-success" intent="success" size="md" style="width: 100%;">
+          <n-icon name="check" slot="leading"></n-icon>
           <span slot="label">Success</span>
-        </ui-button>
-        <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0;">Action completed</p>
-      </ui-stack>
+        </n-button>
+        <p style="font-size: 0.75rem; color: var(--n-ink-muted-neutral); margin: 0;">Action completed</p>
+      </n-stack>
 
-      <ui-stack gap="2">
-        <ui-button id="toast-warning" intent="warning" size="md" style="width: 100%;">
-          <ui-icon name="warning" slot="leading"></ui-icon>
+      <n-stack gap="2">
+        <n-button id="toast-warning" intent="warning" size="md" style="width: 100%;">
+          <n-icon name="warning" slot="leading"></n-icon>
           <span slot="label">Warning</span>
-        </ui-button>
-        <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0;">Caution needed</p>
-      </ui-stack>
+        </n-button>
+        <p style="font-size: 0.75rem; color: var(--n-ink-muted-neutral); margin: 0;">Caution needed</p>
+      </n-stack>
 
-      <ui-stack gap="2">
-        <ui-button id="toast-danger" intent="danger" size="md" style="width: 100%;">
-          <ui-icon name="warning-circle" slot="leading"></ui-icon>
+      <n-stack gap="2">
+        <n-button id="toast-danger" intent="danger" size="md" style="width: 100%;">
+          <n-icon name="warning-circle" slot="leading"></n-icon>
           <span slot="label">Danger</span>
-        </ui-button>
-        <p style="font-size: 0.75rem; color: var(--neutral-ink-muted); margin: 0;">Error or failure</p>
-      </ui-stack>
-    </ui-grid>
-    </ui-stack>
+        </n-button>
+        <p style="font-size: 0.75rem; color: var(--n-ink-muted-neutral); margin: 0;">Error or failure</p>
+      </n-stack>
+    </n-grid>
+    </n-stack>
 
     <!-- -- Special Cases -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <div>
       <h2>Special Cases</h2>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">
         Long messages and non-dismissible toasts to test edge cases.
       </p>
     </div>
-    <ui-stack direction="row" gap="3" wrap>
-      <ui-button id="toast-long">
-        <ui-icon name="file-text" slot="leading"></ui-icon>
+    <n-stack direction="row" gap="3" wrap>
+      <n-button id="toast-long">
+        <n-icon name="file-text" slot="leading"></n-icon>
         <span slot="label">Long Message</span>
-      </ui-button>
-      <ui-button id="toast-sticky">
-        <ui-icon name="lock" slot="leading"></ui-icon>
+      </n-button>
+      <n-button id="toast-sticky">
+        <n-icon name="lock" slot="leading"></n-icon>
         <span slot="label">Non-dismissible (sticky)</span>
-      </ui-button>
-    </ui-stack>
-    </ui-stack>
+      </n-button>
+    </n-stack>
+    </n-stack>
 
     <!-- -- Batch Operations -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <div>
       <h2>Batch Operations</h2>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.8125rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">
         Spawn multiple toasts at once or dismiss them all.
       </p>
     </div>
-    <ui-stack direction="row" gap="3" wrap>
-      <ui-button id="toast-batch" intent="accent">
-        <ui-icon name="plus" slot="leading"></ui-icon>
+    <n-stack direction="row" gap="3" wrap>
+      <n-button id="toast-batch" intent="accent">
+        <n-icon name="plus" slot="leading"></n-icon>
         <span slot="label">Spawn 5 Toasts</span>
-      </ui-button>
-      <ui-button id="toast-clear">
-        <ui-icon name="x" slot="leading"></ui-icon>
+      </n-button>
+      <n-button id="toast-clear">
+        <n-icon name="x" slot="leading"></n-icon>
         <span slot="label">Dismiss All</span>
-      </ui-button>
-    </ui-stack>
-    </ui-stack>
-    </ui-stack>
+      </n-button>
+    </n-stack>
+    </n-stack>
+    </n-stack>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/button/button.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/bell.ts';
       import '../../../icons/phosphor/info.ts';
       import '../../../icons/phosphor/check.ts';
@@ -151,10 +151,10 @@
       import '../../../icons/phosphor/lock.ts';
       import '../../../icons/phosphor/plus.ts';
       import '../../../icons/phosphor/x.ts';
-      import { UIElement, define, ToastController } from '../../../index.ts';
+      import { NativeElement, define, ToastController } from '../../../index.ts';
 
       // Custom element with ToastController to host toast calls
-      class ToastDemo extends UIElement {
+      class ToastDemo extends NativeElement {
         #toaster;
         setup() {
           super.setup();
@@ -170,24 +170,24 @@
       document.body.appendChild(host);
 
       // Intent variant buttons
-      document.getElementById('toast-default').addEventListener('ui-press', () => {
+      document.getElementById('toast-default').addEventListener('native:press', () => {
         host.toast({ message: 'This is a default notification.' });
       });
-      document.getElementById('toast-info').addEventListener('ui-press', () => {
+      document.getElementById('toast-info').addEventListener('native:press', () => {
         host.toast({ message: 'A new version is available. Refresh to update.', intent: 'info' });
       });
-      document.getElementById('toast-success').addEventListener('ui-press', () => {
+      document.getElementById('toast-success').addEventListener('native:press', () => {
         host.toast({ message: 'Project saved successfully!', intent: 'success' });
       });
-      document.getElementById('toast-warning').addEventListener('ui-press', () => {
+      document.getElementById('toast-warning').addEventListener('native:press', () => {
         host.toast({ message: 'Your session will expire in 5 minutes.', intent: 'warning' });
       });
-      document.getElementById('toast-danger').addEventListener('ui-press', () => {
+      document.getElementById('toast-danger').addEventListener('native:press', () => {
         host.toast({ message: 'Failed to delete the resource. Please try again.', intent: 'danger' });
       });
 
       // Long message
-      document.getElementById('toast-long').addEventListener('ui-press', () => {
+      document.getElementById('toast-long').addEventListener('native:press', () => {
         host.toast({
           message: 'This is a much longer toast notification message designed to test how the toast component handles multi-line content and text wrapping behavior within the container.',
           intent: 'info',
@@ -196,7 +196,7 @@
       });
 
       // Non-dismissible (sticky) toast
-      document.getElementById('toast-sticky').addEventListener('ui-press', () => {
+      document.getElementById('toast-sticky').addEventListener('native:press', () => {
         host.toast({
           message: 'This toast will not auto-dismiss. You must close it manually.',
           intent: 'warning',
@@ -205,7 +205,7 @@
       });
 
       // Batch spawn
-      document.getElementById('toast-batch').addEventListener('ui-press', () => {
+      document.getElementById('toast-batch').addEventListener('native:press', () => {
         const intents = ['info', 'success', 'warning', 'danger', 'info'];
         const messages = [
           'Syncing project data...',
@@ -222,7 +222,7 @@
       });
 
       // Dismiss all
-      document.getElementById('toast-clear').addEventListener('ui-press', () => {
+      document.getElementById('toast-clear').addEventListener('native:press', () => {
         host.dismissAllToasts();
       });
     </script>

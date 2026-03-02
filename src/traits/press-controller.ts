@@ -2,7 +2,7 @@ export interface PressOptions {
   disabled?: boolean | (() => boolean);
 }
 
-/** Handles pointer and keyboard press interactions, dispatching `ui-press` events. */
+/** Handles pointer and keyboard press interactions, dispatching `native:press` events. */
 export class PressController {
   readonly host: HTMLElement;
   disabled: boolean | (() => boolean);
@@ -63,7 +63,7 @@ export class PressController {
     if (!this.#hasCapture) return;
     this.#hasCapture = false;
     this.host.removeAttribute('pressed');
-    this.host.dispatchEvent(new CustomEvent('ui-press', {
+    this.host.dispatchEvent(new CustomEvent('native:press', {
       bubbles: true,
       composed: true,
       detail: { pointerType: this.#lastPointerType },
@@ -94,7 +94,7 @@ export class PressController {
     this.host.removeAttribute('pressed');
     // WHY: Check disabled on keyup — element may have become disabled during keypress
     if (this.#isDisabled()) return;
-    this.host.dispatchEvent(new CustomEvent('ui-press', {
+    this.host.dispatchEvent(new CustomEvent('native:press', {
       bubbles: true,
       composed: true,
       detail: { pointerType: 'keyboard' },

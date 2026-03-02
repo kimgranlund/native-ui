@@ -1,71 +1,71 @@
-// Event detail type interfaces for all ui-* custom events.
+// Event detail type interfaces for all native:* custom events.
 //
 // Usage:
-//   element.addEventListener('ui-press', (e: CustomEvent<UIPressDetail>) => {
+//   element.addEventListener('native:press', (e: CustomEvent<NPressDetail>) => {
 //     console.log(e.detail.pointerType);
 //   });
 
 // ── Press ──
-export interface UIPressDetail {
+export interface NPressDetail {
   pointerType: string;
 }
 
 // ── Select (child → coordinator) ──
-export interface UISelectDetail {
+export interface NSelectDetail {
   value: string;
   label: string;
 }
 
 // ── Change (component public event — shape varies by component) ──
 
-export interface UITextChangeDetail {
+export interface NTextChangeDetail {
   value: string;
 }
 
-export interface UIRangeValueDetail {
+export interface NRangeValueDetail {
   value: number;
 }
 
-export interface UIPickerChangeDetail {
+export interface NPickerChangeDetail {
   value: string;
   label: string;
 }
 
-export interface UIToggleChangeDetail {
+export interface NToggleChangeDetail {
   checked: boolean;
   value: string;
 }
 
 // ── Input (live keystroke events) ──
-export interface UIInputDetail {
+export interface NInputDetail {
   value: string;
 }
 
 // ── Disabled ──
-export interface UIDisabledDetail {
+export interface NDisabledDetail {
   disabled: boolean;
 }
 
 // ── Drag / Drop ──
-export interface UIDragStartDetail {
+export interface NDragStartDetail {
   item: HTMLElement;
   index: number;
 }
 
-export interface UIDragMoveDetail {
+export interface NDragMoveDetail {
   item: HTMLElement;
   x: number;
   y: number;
 }
 
-export interface UIDragOverDetail {
+export interface NDragOverDetail {
   item: HTMLElement | null;
   target?: HTMLElement;
   index: number;
   insertBefore?: HTMLElement | null;
 }
 
-export interface UIDropDetail {
+export interface NDropDetail {
   item: HTMLElement;
   target?: HTMLElement | null;
   fromIndex: number;
@@ -73,168 +73,168 @@ export interface UIDropDetail {
   insertBefore?: HTMLElement | null;
 }
 
-export interface UIDragCancelDetail {
+export interface NDragCancelDetail {
   item: HTMLElement;
 }
 
 // ── Validate ──
-export interface UIInvalidDetail {
+export interface NInvalidDetail {
   message: string;
   value: string;
 }
 
-export interface UIValidDetail {
+export interface NValidDetail {
   value: string;
 }
 
 // ── Range Selection ──
-export interface UIRangeChangeDetail {
+export interface NRangeChangeDetail {
   startIndex: number;
   endIndex: number;
   items: HTMLElement[];
 }
 
-export interface UIRangeSelectDetail {
+export interface NRangeSelectDetail {
   startIndex: number;
   endIndex: number;
   items: HTMLElement[];
 }
 
 // ── Drop Zone ──
-export interface UIFileDropDetail {
+export interface NFileDropDetail {
   files: File[];
   dataTransfer: DataTransfer;
 }
 
-export interface UITextDropDetail {
+export interface NTextDropDetail {
   text: string;
 }
 
 // ── Search ──
-export interface UISearchDetail {
+export interface NSearchDetail {
   query: string;
   matchCount: number;
   total: number;
 }
 
 // ── Clipboard ──
-export interface UIClipDetail {
+export interface NClipDetail {
   items: HTMLElement[];
   data: string;
   action: 'copy' | 'cut' | 'paste';
 }
 
 // ── Intersect ──
-export interface UIIntersectDetail {
+export interface NIntersectDetail {
   isIntersecting: boolean;
   ratio: number;
 }
 
 // ── Copy ──
-export interface UICopyDetail {
+export interface NCopyDetail {
   value: string;
 }
 
 // ── Virtual Scroll ──
-export interface UIVirtualChangeDetail {
+export interface NVirtualChangeDetail {
   start: number;
   end: number;
   totalCount: number;
 }
 
 // ── Selection ──
-export interface UISelectionChangeDetail {
+export interface NSelectionChangeDetail {
   selected: HTMLElement[];
   count: number;
 }
 
 // ── Hover ──
-export interface UIHoverDetail {
+export interface NHoverDetail {
   pointerType: string;
 }
 
 // ── Sort ──
-export interface UISortDetail {
+export interface NSortDetail {
   column: string | null;
   direction: 'asc' | 'desc' | 'none';
 }
 
 // ── Swipe ──
-export interface UISwipeDetail {
+export interface NSwipeDetail {
   direction: 'left' | 'right' | 'up' | 'down';
   distance: number;
   velocity: number;
 }
 
 // ── Resize ──
-export interface UIResizeDetail {
+export interface NResizeDetail {
   width: number;
   height: number;
 }
 
 // ── Edit ──
-export interface UIEditStartDetail {
+export interface NEditStartDetail {
   value: string;
 }
 
-export interface UIEditCommitDetail {
+export interface NEditCommitDetail {
   value: string;
   previousValue: string;
 }
 
-export interface UIEditCancelDetail {
+export interface NEditCancelDetail {
   value: string;
 }
 
 // ── Slideshow ──
-export interface UISlideChangeDetail {
+export interface NSlideChangeDetail {
   index: number;
   slide: HTMLElement;
 }
 
 // ── Chat ──
-export interface UISendDetail {
+export interface NSendDetail {
   value: string;
 }
 
 // ── Toast ──
-export interface UIToastDetail {
+export interface NToastDetail {
   id: number;
   message: string;
   intent: 'info' | 'success' | 'warning' | 'danger';
 }
 
 // ── Table (component-specific) ──
-export interface UITableSortDetail {
+export interface NTableSortDetail {
   column: string | null;
   direction: 'asc' | 'desc' | 'none';
 }
 
-export interface UITableSelectDetail {
+export interface NTableSelectDetail {
   value: string;
   selected: boolean;
   allSelected: string[];
 }
 
-export interface UITableReorderDetail {
+export interface NTableReorderDetail {
   row: HTMLElement;
   fromIndex: number;
   toIndex: number;
 }
 
-export interface UITableResizeDetail {
+export interface NTableResizeDetail {
   column: number;
   width: number;
 }
 
-export interface UITableResizeEndDetail {
+export interface NTableResizeEndDetail {
   column: number;
   width: number;
   allWidths: number[];
 }
 
 // ── Calendar (range mode) ──
-export interface UICalendarRangeDetail {
+export interface NCalendarRangeDetail {
   start: string | null;
   end: string | null;
 }

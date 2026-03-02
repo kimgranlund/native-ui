@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
@@ -29,85 +29,85 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
-    <ui-stack gap="6">
+    <n-app><main>
+    <n-stack gap="6">
     <div>
       <h1>Contact Us</h1>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Have a question or feedback? Fill out the form below and we'll get back to you within 24 hours.
       </p>
     </div>
 
     <div class="form-wrapper">
-      <ui-card>
-        <ui-header>
+      <n-card>
+        <n-card-header>
           <span slot="label">Send us a message</span>
-        </ui-header>
-        <ui-body>
+        </n-card-header>
+        <n-card-body>
           <form id="contact-form">
-            <ui-stack gap="4">
-              <ui-field required>
+            <n-stack gap="4">
+              <n-field required>
                 <label slot="label">Full name</label>
-                <ui-input placeholder="Jane Doe" name="name">
-                  <ui-icon name="user" slot="leading"></ui-icon>
-                </ui-input>
-              </ui-field>
+                <n-input placeholder="Jane Doe" name="name">
+                  <n-icon name="user" slot="leading"></n-icon>
+                </n-input>
+              </n-field>
 
-              <ui-field required>
+              <n-field required>
                 <label slot="label">Email address</label>
-                <ui-input placeholder="you@example.com" name="email">
-                  <ui-icon name="envelope" slot="leading"></ui-icon>
-                </ui-input>
+                <n-input placeholder="you@example.com" name="email">
+                  <n-icon name="envelope" slot="leading"></n-icon>
+                </n-input>
                 <span slot="description">We'll never share your email with anyone else.</span>
-              </ui-field>
+              </n-field>
 
-              <ui-field required>
+              <n-field required>
                 <label slot="label">Subject</label>
-                <ui-select name="subject" placeholder="Select a topic">
-                  <ui-button justify="spread">
+                <n-select name="subject" placeholder="Select a topic">
+                  <n-button justify="spread">
                     <span slot="label">Select a topic</span>
-                    <ui-icon name="caret-up-down" slot="trailing"></ui-icon>
-                  </ui-button>
-                  <ui-listbox popover>
-                    <ui-option value="general">General Inquiry</ui-option>
-                    <ui-option value="support">Technical Support</ui-option>
-                    <ui-option value="sales">Sales</ui-option>
-                    <ui-option value="partnership">Partnership</ui-option>
-                  </ui-listbox>
-                </ui-select>
-              </ui-field>
+                    <n-icon name="caret-up-down" slot="trailing"></n-icon>
+                  </n-button>
+                  <n-listbox popover>
+                    <n-option value="general">General Inquiry</n-option>
+                    <n-option value="support">Technical Support</n-option>
+                    <n-option value="sales">Sales</n-option>
+                    <n-option value="partnership">Partnership</n-option>
+                  </n-listbox>
+                </n-select>
+              </n-field>
 
-              <ui-field required>
+              <n-field required>
                 <label slot="label">Message</label>
-                <ui-textarea placeholder="Tell us how we can help..." rows="5" name="message" autogrow></ui-textarea>
+                <n-textarea placeholder="Tell us how we can help..." rows="5" name="message" autogrow></n-textarea>
                 <span slot="description">Minimum 20 characters.</span>
-              </ui-field>
-            </ui-stack>
+              </n-field>
+            </n-stack>
           </form>
-        </ui-body>
-        <ui-footer>
-          <ui-button variant="ghost"><span slot="label">Cancel</span></ui-button>
-          <ui-button variant="primary" intent="accent" type="submit" form="contact-form">
-            <ui-icon name="envelope" slot="leading"></ui-icon>
+        </n-card-body>
+        <n-card-footer>
+          <n-button variant="ghost"><span slot="label">Cancel</span></n-button>
+          <n-button variant="primary" intent="accent" type="submit" form="contact-form">
+            <n-icon name="envelope" slot="leading"></n-icon>
             <span slot="label">Send Message</span>
-          </ui-button>
-        </ui-footer>
-      </ui-card>
+          </n-button>
+        </n-card-footer>
+      </n-card>
     </div>
-    </ui-stack>
+    </n-stack>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-field/ui-field.ts';
-      import '../../../components/ui-input/ui-input.ts';
-      import '../../../components/ui-textarea/ui-textarea.ts';
-      import '../../../components/ui-select/ui-select.ts';
-      import '../../../components/ui-listbox/ui-listbox.ts';
-      import '../../../components/ui-listbox/ui-option.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../containers/ui-card/ui-card.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/field/field.ts';
+      import '../../../components/input/input.ts';
+      import '../../../components/textarea/textarea.ts';
+      import '../../../components/select/select.ts';
+      import '../../../components/listbox/listbox.ts';
+      import '../../../components/listbox/option.ts';
+      import '../../../components/button/button.ts';
+      import '../../../containers/card/card.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/user.ts';
       import '../../../icons/phosphor/envelope.ts';
       import '../../../icons/phosphor/caret-up-down.ts';

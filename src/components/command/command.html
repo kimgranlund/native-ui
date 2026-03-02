@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-command — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+.demo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+        align-items: start;
+      }
+
+      .demo-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .demo-col-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--n-ink-muted-neutral);
+      }
+.shortcut {
+        font-family: ui-monospace, monospace;
+        font-size: 0.625rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.25rem;
+        padding: 0.125rem 0.375rem;
+        margin-left: auto;
+        color: var(--n-ink-muted-neutral);
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-command&gt;</h1>
+    <p class="demo-desc">
+      Command palette with search filtering, keyboard navigation, and grouped items.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic Command Palette</h2>
+    <div class="demo-section" intent="neutral" variant="secondary">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Simple list</span>
+          <n-command id="basic-command">
+            <n-command-input>
+              <n-icon name="magnifying-glass"></n-icon>
+              <input type="text" placeholder="Type to search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="new-file"><n-icon name="plus"></n-icon> New File</n-command-item>
+              <n-command-item value="open-file"><n-icon name="folder-open"></n-icon> Open File</n-command-item>
+              <n-command-item value="save"><n-icon name="floppy-disk"></n-icon> Save</n-command-item>
+              <n-command-item value="save-as"><n-icon name="floppy-disk"></n-icon> Save As...</n-command-item>
+              <n-command-item value="close"><n-icon name="x"></n-icon> Close Tab</n-command-item>
+              <n-command-item value="settings"><n-icon name="gear"></n-icon> Settings</n-command-item>
+            </n-command-list>
+            <n-command-empty>No results found.</n-command-empty>
+          </n-command>
+          <div class="log" id="basic-log"></div>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-command&gt;
+  &lt;n-command-input&gt;
+    &lt;n-icon name="magnifying-glass"&gt;&lt;/n-icon&gt;
+    &lt;input type="text" placeholder="Type to search..." /&gt;
+  &lt;/n-command-input&gt;
+  &lt;n-command-list&gt;
+    &lt;n-command-item value="new-file"&gt;&lt;n-icon name="plus"&gt;&lt;/n-icon&gt; New File&lt;/n-command-item&gt;
+    &lt;n-command-item value="open-file"&gt;&lt;n-icon name="folder-open"&gt;&lt;/n-icon&gt; Open File&lt;/n-command-item&gt;
+    &lt;n-command-item value="save"&gt;&lt;n-icon name="floppy-disk"&gt;&lt;/n-icon&gt; Save&lt;/n-command-item&gt;
+  &lt;/n-command-list&gt;
+  &lt;n-command-empty&gt;No results found.&lt;/n-command-empty&gt;
+&lt;/n-command&gt;
+
+&lt;script&gt;
+  command.addEventListener('native:change', (e) =&gt; {
+    console.log(e.detail.value, e.detail.label);
+  });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Grouped ── -->
+
+    <h2>Grouped Commands</h2>
+    <div class="demo-section" intent="neutral" variant="secondary">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">With groups and shortcuts</span>
+          <n-command id="grouped-command">
+            <n-command-input>
+              <n-icon name="magnifying-glass"></n-icon>
+              <input type="text" placeholder="Search commands..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-group>
+                <div slot="heading">File</div>
+                <n-command-item value="new-file" keywords="create">
+                  <n-icon name="plus"></n-icon> New File <span class="shortcut">Cmd+N</span>
+                </n-command-item>
+                <n-command-item value="open-file" keywords="browse load">
+                  <n-icon name="folder-open"></n-icon> Open File <span class="shortcut">Cmd+O</span>
+                </n-command-item>
+                <n-command-item value="save" keywords="write store">
+                  <n-icon name="floppy-disk"></n-icon> Save <span class="shortcut">Cmd+S</span>
+                </n-command-item>
+              </n-command-group>
+              <n-command-group>
+                <div slot="heading">Edit</div>
+                <n-command-item value="undo" keywords="revert">
+                  <n-icon name="arrow-counter-clockwise"></n-icon> Undo <span class="shortcut">Cmd+Z</span>
+                </n-command-item>
+                <n-command-item value="redo">
+                  <n-icon name="arrow-clockwise"></n-icon> Redo <span class="shortcut">Cmd+Shift+Z</span>
+                </n-command-item>
+                <n-command-item value="copy" keywords="clipboard">
+                  <n-icon name="copy"></n-icon> Copy <span class="shortcut">Cmd+C</span>
+                </n-command-item>
+                <n-command-item value="paste" keywords="clipboard">
+                  <n-icon name="clipboard-text"></n-icon> Paste <span class="shortcut">Cmd+V</span>
+                </n-command-item>
+              </n-command-group>
+              <n-command-group>
+                <div slot="heading">View</div>
+                <n-command-item value="zoom-in" keywords="magnify enlarge">
+                  <n-icon name="magnifying-glass-plus"></n-icon> Zoom In <span class="shortcut">Cmd++</span>
+                </n-command-item>
+                <n-command-item value="zoom-out" keywords="shrink reduce">
+                  <n-icon name="magnifying-glass-minus"></n-icon> Zoom Out <span class="shortcut">Cmd+-</span>
+                </n-command-item>
+                <n-command-item value="fullscreen" keywords="maximize expand">
+                  <n-icon name="arrows-out"></n-icon> Toggle Fullscreen <span class="shortcut">F11</span>
+                </n-command-item>
+              </n-command-group>
+            </n-command-list>
+            <n-command-empty>No matching commands.</n-command-empty>
+          </n-command>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-command&gt;
+  &lt;n-command-input&gt;
+    &lt;n-icon name="magnifying-glass"&gt;&lt;/n-icon&gt;
+    &lt;input type="text" placeholder="Search commands..." /&gt;
+  &lt;/n-command-input&gt;
+  &lt;n-command-list&gt;
+    &lt;n-command-group&gt;
+      &lt;div slot="heading"&gt;File&lt;/div&gt;
+      &lt;n-command-item value="new-file" keywords="create"&gt;
+        &lt;n-icon name="plus"&gt;&lt;/n-icon&gt; New File
+      &lt;/n-command-item&gt;
+      &lt;n-command-item value="save" keywords="write store"&gt;
+        &lt;n-icon name="floppy-disk"&gt;&lt;/n-icon&gt; Save
+      &lt;/n-command-item&gt;
+    &lt;/n-command-group&gt;
+    &lt;n-command-group&gt;
+      &lt;div slot="heading"&gt;Edit&lt;/div&gt;
+      &lt;n-command-item value="undo"&gt;
+        &lt;n-icon name="arrow-counter-clockwise"&gt;&lt;/n-icon&gt; Undo
+      &lt;/n-command-item&gt;
+    &lt;/n-command-group&gt;
+  &lt;/n-command-list&gt;
+  &lt;n-command-empty&gt;No matching commands.&lt;/n-command-empty&gt;
+&lt;/n-command&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── With Disabled Items ── -->
+
+    <h2>Disabled Items</h2>
+    <div class="demo-section" intent="neutral" variant="secondary">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Some items disabled</span>
+          <n-command>
+            <n-command-input>
+              <n-icon name="magnifying-glass"></n-icon>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="cut"><n-icon name="scissors"></n-icon> Cut</n-command-item>
+              <n-command-item value="copy"><n-icon name="copy"></n-icon> Copy</n-command-item>
+              <n-command-item value="paste" disabled><n-icon name="clipboard-text"></n-icon> Paste (clipboard empty)</n-command-item>
+              <n-command-item value="delete"><n-icon name="trash"></n-icon> Delete</n-command-item>
+              <n-command-item value="select-all"><n-icon name="selection-all"></n-icon> Select All</n-command-item>
+            </n-command-list>
+          </n-command>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-command-item value="paste" disabled&gt;
+  &lt;n-icon name="clipboard-text"&gt;&lt;/n-icon&gt; Paste (clipboard empty)
+&lt;/n-command-item&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section" variant="secondary">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">sm</span>
+          <n-command size="sm">
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">md (default)</span>
+          <n-command size="md">
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">lg</span>
+          <n-command size="lg">
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Variants ── -->
+
+    <h2>Variants</h2>
+    <div class="demo-section" size="sm">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">secondary</span>
+          <n-command variant="secondary">
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">outline</span>
+          <n-command variant="outline">
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">default</span>
+          <n-command variant="default">
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section" size="md" variant="secondary">
+      <div class="demo-grid">
+        <div class="demo-col" density="loose">
+          <span class="demo-col-label">loose</span>
+          <n-command>
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+        </div>
+        <div class="demo-col" density="default">
+          <span class="demo-col-label">default</span>
+          <n-command>
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+        </div>
+        <div class="demo-col" density="compact">
+          <span class="demo-col-label">compact</span>
+          <n-command>
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Radius ── -->
+
+    <h2>Radius</h2>
+    <div class="demo-section" size="sm" variant="secondary">
+      <div class="demo-grid">
+        <div class="demo-col" radius="sharp">
+          <span class="demo-col-label">sharp</span>
+          <n-command>
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+        </div>
+        <div class="demo-col" radius="default">
+          <span class="demo-col-label">default</span>
+          <n-command>
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+        </div>
+        <div class="demo-col" radius="round">
+          <span class="demo-col-label">round</span>
+          <n-command>
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Cascading ── -->
+
+    <h2>Cascading</h2>
+    <div class="demo-section">
+      <h3>Section cascading all attributes</h3>
+      <section size="sm" density="compact" radius="round" intent="accent">
+        <div class="demo-grid">
+          <div class="demo-col">
+            <span class="demo-col-label">All inherited (secondary)</span>
+            <n-command variant="secondary">
+              <n-command-input>
+                <input type="text" placeholder="Search..." />
+              </n-command-input>
+              <n-command-list>
+                <n-command-item value="a">Alpha</n-command-item>
+                <n-command-item value="b">Bravo</n-command-item>
+                <n-command-item value="c">Charlie</n-command-item>
+              </n-command-list>
+            </n-command>
+          </div>
+          <div class="demo-col">
+            <span class="demo-col-label">All inherited (outline)</span>
+            <n-command variant="outline">
+              <n-command-input>
+                <input type="text" placeholder="Search..." />
+              </n-command-input>
+              <n-command-list>
+                <n-command-item value="a">Alpha</n-command-item>
+                <n-command-item value="b">Bravo</n-command-item>
+                <n-command-item value="c">Charlie</n-command-item>
+              </n-command-list>
+            </n-command>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── Keyboard Instructions ── -->
+
+    <h2>Keyboard Navigation</h2>
+    <div class="demo-section">
+      <table style="font-size: 0.8125rem; border-collapse: collapse; width: 100%;">
+        <thead>
+          <tr style="text-align: left; border-bottom: 1px solid var(--n-border-muted-neutral);">
+            <th style="padding: 0.5rem; font-weight: 600;">Key</th>
+            <th style="padding: 0.5rem; font-weight: 600;">Action</th>
+          </tr>
+        </thead>
+        <tbody style="color: var(--n-ink-muted-neutral);">
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>Arrow Down</code></td><td style="padding: 0.375rem 0.5rem;">Move to next item</td></tr>
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>Arrow Up</code></td><td style="padding: 0.375rem 0.5rem;">Move to previous item</td></tr>
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>Home</code></td><td style="padding: 0.375rem 0.5rem;">Jump to first item</td></tr>
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>End</code></td><td style="padding: 0.375rem 0.5rem;">Jump to last item</td></tr>
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>Enter</code></td><td style="padding: 0.375rem 0.5rem;">Select active item</td></tr>
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>Escape</code></td><td style="padding: 0.375rem 0.5rem;">Dismiss (fires native:dismiss event)</td></tr>
+          <tr><td style="padding: 0.375rem 0.5rem;"><code>Type</code></td><td style="padding: 0.375rem 0.5rem;">Filter items by search text</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './command.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/magnifying-glass.ts';
+      import '../../icons/phosphor/plus.ts';
+      import '../../icons/phosphor/folder-open.ts';
+      import '../../icons/phosphor/floppy-disk.ts';
+      import '../../icons/phosphor/x.ts';
+      import '../../icons/phosphor/gear.ts';
+      import '../../icons/phosphor/arrow-counter-clockwise.ts';
+      import '../../icons/phosphor/arrow-clockwise.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/clipboard-text.ts';
+      import '../../icons/phosphor/magnifying-glass-plus.ts';
+      import '../../icons/phosphor/magnifying-glass-minus.ts';
+      import '../../icons/phosphor/arrows-out.ts';
+      import '../../icons/phosphor/scissors.ts';
+      import '../../icons/phosphor/trash.ts';
+      import '../../icons/phosphor/selection-all.ts';
+      import '../../icons/phosphor/check.ts';
+      import '../button/button.ts';
+
+      // Basic command event logging
+      const basicCommand = document.getElementById('basic-command');
+      const basicLog = document.getElementById('basic-log');
+      let count = 0;
+
+      basicCommand.addEventListener('native:change', (e) => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} native:change — value: "${e.detail.value}", label: "${e.detail.label}"`;
+        basicLog.prepend(entry);
+      });
+
+      basicCommand.addEventListener('native:dismiss', () => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} native:dismiss`;
+        basicLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

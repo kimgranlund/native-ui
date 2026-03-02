@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-sidebar-nav — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+.demo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.5rem;
+        align-items: start;
+      }
+
+      .demo-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .demo-col-label {
+        font-size: 0.625rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--n-ink-muted-neutral);
+      }
+.value-display {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        color: var(--n-ink-accent);
+        background: var(--n-panel-accent);
+        border-radius: 0.25rem;
+        padding: 0.25rem 0.5rem;
+        display: inline-block;
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-sidebar-nav&gt;</h1>
+    <p class="demo-desc">
+      Navigation list with keyboard nav and selection. Transparent wrapper — items sit flush with no inline padding.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic Nav</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Flat items</span>
+          <n-sidebar-nav id="basic-nav" size="sm">
+            <n-sidebar-nav-item value="home">Home</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="about">About</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="blog">Blog</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="contact">Contact</n-sidebar-nav-item>
+          </n-sidebar-nav>
+          <div>Selected: <span class="value-display" id="basic-value">none</span></div>
+        </div>
+
+        <div class="demo-col">
+          <span class="demo-col-label">With disabled item</span>
+          <n-sidebar-nav size="sm">
+            <n-sidebar-nav-item value="dashboard">Dashboard</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="settings">Settings</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="admin" disabled>Admin (restricted)</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="logout">Log Out</n-sidebar-nav-item>
+          </n-sidebar-nav>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-sidebar-nav&gt;
+  &lt;n-sidebar-nav-item value="home"&gt;Home&lt;/n-sidebar-nav-item&gt;
+  &lt;n-sidebar-nav-item value="about"&gt;About&lt;/n-sidebar-nav-item&gt;
+  &lt;n-sidebar-nav-item value="blog"&gt;Blog&lt;/n-sidebar-nav-item&gt;
+  &lt;n-sidebar-nav-item value="contact" disabled&gt;Contact&lt;/n-sidebar-nav-item&gt;
+&lt;/n-sidebar-nav&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Grouped with Icons ── -->
+
+    <h2>Grouped with Icons</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Sidebar nav pattern</span>
+          <n-sidebar-nav id="grouped-nav" size="sm">
+            <n-sidebar-group>
+              <n-sidebar-group-header><n-icon name="house"></n-icon> Getting Started</n-sidebar-group-header>
+              <n-sidebar-nav-item value="install">Installation</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="structure">Project Structure</n-sidebar-nav-item>
+            </n-sidebar-group>
+            <n-sidebar-group>
+              <n-sidebar-group-header><n-icon name="rocket-launch"></n-icon> Build Your Application</n-sidebar-group-header>
+              <n-sidebar-nav-item value="routing">Routing</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="data">Data Fetching</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="caching">Caching</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="styling">Styling</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="optimizing">Optimizing</n-sidebar-nav-item>
+            </n-sidebar-group>
+            <n-sidebar-group>
+              <n-sidebar-group-header><n-icon name="book-open"></n-icon> Reference</n-sidebar-group-header>
+              <n-sidebar-nav-item value="api">API Reference</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="config">Configuration</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="examples">Examples</n-sidebar-nav-item>
+            </n-sidebar-group>
+          </n-sidebar-nav>
+          <div>Selected: <span class="value-display" id="grouped-value">none</span></div>
+        </div>
+
+        <div class="demo-col">
+          <span class="demo-col-label">Without icons</span>
+          <n-sidebar-nav size="sm">
+            <n-sidebar-group>
+              <n-sidebar-group-header>Fruits</n-sidebar-group-header>
+              <n-sidebar-nav-item value="apple">Apple</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="banana">Banana</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="cherry">Cherry</n-sidebar-nav-item>
+            </n-sidebar-group>
+            <n-sidebar-group>
+              <n-sidebar-group-header>Vegetables</n-sidebar-group-header>
+              <n-sidebar-nav-item value="carrot">Carrot</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="broccoli">Broccoli</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="spinach">Spinach</n-sidebar-nav-item>
+            </n-sidebar-group>
+          </n-sidebar-nav>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-sidebar-nav size="sm"&gt;
+  &lt;n-sidebar-group&gt;
+    &lt;n-sidebar-group-header&gt;
+      &lt;n-icon name="house"&gt;&lt;/n-icon&gt; Getting Started
+    &lt;/n-sidebar-group-header&gt;
+    &lt;n-sidebar-nav-item value="install"&gt;Installation&lt;/n-sidebar-nav-item&gt;
+    &lt;n-sidebar-nav-item value="structure"&gt;Project Structure&lt;/n-sidebar-nav-item&gt;
+  &lt;/n-sidebar-group&gt;
+&lt;/n-sidebar-nav&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Collapsible Groups ── -->
+
+    <h2>Collapsible Groups</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Default open (all groups)</span>
+          <n-sidebar-nav size="sm">
+            <n-sidebar-group>
+              <n-sidebar-group-header><n-icon name="house"></n-icon> Overview</n-sidebar-group-header>
+              <n-sidebar-nav-item value="intro">Introduction</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="quickstart">Quick Start</n-sidebar-nav-item>
+            </n-sidebar-group>
+            <n-sidebar-group>
+              <n-sidebar-group-header><n-icon name="book-open"></n-icon> Guides</n-sidebar-group-header>
+              <n-sidebar-nav-item value="auth">Authentication</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="deploy">Deployment</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="testing">Testing</n-sidebar-nav-item>
+            </n-sidebar-group>
+          </n-sidebar-nav>
+        </div>
+
+        <div class="demo-col">
+          <span class="demo-col-label">Without icons (text-only headers)</span>
+          <n-sidebar-nav size="sm">
+            <n-sidebar-group>
+              <n-sidebar-group-header>Section A</n-sidebar-group-header>
+              <n-sidebar-nav-item value="a1">Item A1</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="a2">Item A2</n-sidebar-nav-item>
+            </n-sidebar-group>
+            <n-sidebar-group>
+              <n-sidebar-group-header>Section B</n-sidebar-group-header>
+              <n-sidebar-nav-item value="b1">Item B1</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="b2">Item B2</n-sidebar-nav-item>
+              <n-sidebar-nav-item value="b3">Item B3</n-sidebar-nav-item>
+            </n-sidebar-group>
+          </n-sidebar-nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">xs</span>
+          <n-sidebar-nav size="xs">
+            <n-sidebar-nav-item value="a">Item A</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="b">Item B</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="c">Item C</n-sidebar-nav-item>
+          </n-sidebar-nav>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">sm</span>
+          <n-sidebar-nav size="sm">
+            <n-sidebar-nav-item value="a">Item A</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="b">Item B</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="c">Item C</n-sidebar-nav-item>
+          </n-sidebar-nav>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">md</span>
+          <n-sidebar-nav size="md">
+            <n-sidebar-nav-item value="a">Item A</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="b">Item B</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="c">Item C</n-sidebar-nav-item>
+          </n-sidebar-nav>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">lg</span>
+          <n-sidebar-nav size="lg">
+            <n-sidebar-nav-item value="a">Item A</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="b">Item B</n-sidebar-nav-item>
+            <n-sidebar-nav-item value="c">Item C</n-sidebar-nav-item>
+          </n-sidebar-nav>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-sidebar-nav size="sm"&gt;...&lt;/n-sidebar-nav&gt;
+&lt;n-sidebar-nav size="md"&gt;...&lt;/n-sidebar-nav&gt;
+&lt;n-sidebar-nav size="lg"&gt;...&lt;/n-sidebar-nav&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Events ── -->
+
+    <h2>Events</h2>
+    <div class="demo-section" size="sm">
+      <n-sidebar-nav id="event-nav" style="max-width: 220px;">
+        <n-sidebar-nav-item value="home">Home</n-sidebar-nav-item>
+        <n-sidebar-nav-item value="docs">Documentation</n-sidebar-nav-item>
+        <n-sidebar-nav-item value="api">API Reference</n-sidebar-nav-item>
+        <n-sidebar-nav-item value="changelog">Changelog</n-sidebar-nav-item>
+      </n-sidebar-nav>
+      <div class="log" id="event-log"></div>
+      <pre class="demo-code"><code>&lt;n-sidebar-nav id="my-nav"&gt;
+  &lt;n-sidebar-nav-item value="home"&gt;Home&lt;/n-sidebar-nav-item&gt;
+  &lt;n-sidebar-nav-item value="docs"&gt;Documentation&lt;/n-sidebar-nav-item&gt;
+  &lt;n-sidebar-nav-item value="api"&gt;API Reference&lt;/n-sidebar-nav-item&gt;
+&lt;/n-sidebar-nav&gt;
+
+&lt;script&gt;
+  myNav.addEventListener('native:change', (e) =&gt; {
+    console.log(e.detail.value);
+  });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section" size="sm">
+      <p class="demo-caption">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to individual <code>n-sidebar-nav-item</code> elements.
+      </p>
+      <n-sidebar-nav style="max-width: 220px;">
+        <n-sidebar-nav-item value="hover" force-hover>Force hover</n-sidebar-nav-item>
+        <n-sidebar-nav-item value="active" force-active>Force active</n-sidebar-nav-item>
+        <n-sidebar-nav-item value="focus" force-focus-visible>Force focus-visible</n-sidebar-nav-item>
+        <n-sidebar-nav-item value="normal">Normal</n-sidebar-nav-item>
+      </n-sidebar-nav>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import '../../../packages/n-app/src/index.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/house.ts';
+      import '../../icons/phosphor/rocket-launch.ts';
+      import '../../icons/phosphor/book-open.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Basic nav value tracking
+      const basicNav = document.getElementById('basic-nav');
+      const basicValue = document.getElementById('basic-value');
+      basicNav.addEventListener('native:change', (e) => {
+        basicValue.textContent = e.detail.value;
+      });
+
+      // Grouped nav value tracking
+      const groupedNav = document.getElementById('grouped-nav');
+      const groupedValue = document.getElementById('grouped-value');
+      groupedNav.addEventListener('native:change', (e) => {
+        groupedValue.textContent = e.detail.value;
+      });
+
+      // Event logging
+      const eventNav = document.getElementById('event-nav');
+      const eventLog = document.getElementById('event-log');
+      let eventCount = 0;
+
+      eventNav.addEventListener('native:change', (e) => {
+        eventCount++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${eventCount} native:change — value: "${e.detail.value}"`;
+        eventLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

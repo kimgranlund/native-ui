@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-toolbar — Container Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+.editor-area {
+        margin-top: 0.75rem;
+        padding: 0.75rem;
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.25rem;
+        min-height: 4rem;
+        font-size: 0.875rem;
+        color: var(--n-ink-muted-neutral);
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-toolbar&gt;</h1>
+    <p class="demo-desc">
+      Horizontal action bar for grouping related controls. Minimal custom element with role="toolbar" and roving keyboard focus.
+    </p>
+
+    <!-- ── Text Formatting ── -->
+
+    <h2>Text Formatting</h2>
+    <div class="demo-section">
+      <n-toolbar aria-label="Text formatting">
+        <n-button variant="ghost"><n-icon name="text-b"></n-icon></n-button>
+        <n-button variant="ghost"><n-icon name="text-italic"></n-icon></n-button>
+        <n-button variant="ghost"><n-icon name="text-underline"></n-icon></n-button>
+        <n-button variant="ghost"><n-icon name="text-strikethrough"></n-icon></n-button>
+        <n-divider orientation="vertical"></n-divider>
+        <n-button variant="ghost"><n-icon name="text-align-left"></n-icon></n-button>
+        <n-button variant="ghost"><n-icon name="text-align-center"></n-icon></n-button>
+        <n-button variant="ghost"><n-icon name="text-align-right"></n-icon></n-button>
+        <n-divider orientation="vertical"></n-divider>
+        <n-button variant="ghost"><n-icon name="list-bullets"></n-icon></n-button>
+        <n-button variant="ghost"><n-icon name="list-numbers"></n-icon></n-button>
+      </n-toolbar>
+      <div class="editor-area">The quick brown fox jumps over the lazy dog.</div>
+    <pre class="demo-code"><code>&lt;n-toolbar aria-label="Text formatting"&gt;
+  &lt;n-button variant="ghost"&gt;&lt;n-icon name="text-b"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+  &lt;n-button variant="ghost"&gt;&lt;n-icon name="text-italic"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+  &lt;n-divider orientation="vertical"&gt;&lt;/n-divider&gt;
+  &lt;n-button variant="ghost"&gt;&lt;n-icon name="text-align-left"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+&lt;/n-toolbar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Document Actions ── -->
+
+    <h2>Document Actions</h2>
+    <div class="demo-section">
+      <n-toolbar aria-label="Document actions">
+        <n-button variant="ghost"><n-icon name="floppy-disk" slot="leading"></n-icon><span slot="label">Save</span></n-button>
+        <n-button variant="ghost"><n-icon name="download" slot="leading"></n-icon><span slot="label">Export</span></n-button>
+        <n-button variant="ghost"><n-icon name="printer" slot="leading"></n-icon><span slot="label">Print</span></n-button>
+        <n-divider orientation="vertical"></n-divider>
+        <n-button variant="ghost"><n-icon name="arrow-counter-clockwise" slot="leading"></n-icon><span slot="label">Undo</span></n-button>
+        <n-button variant="ghost"><n-icon name="arrow-clockwise" slot="leading"></n-icon><span slot="label">Redo</span></n-button>
+      </n-toolbar>
+    <pre class="demo-code"><code>&lt;n-toolbar aria-label="Document actions"&gt;
+  &lt;n-button variant="ghost"&gt;
+    &lt;n-icon name="floppy-disk" slot="leading"&gt;&lt;/n-icon&gt;
+    &lt;span slot="label"&gt;Save&lt;/span&gt;
+  &lt;/n-button&gt;
+  &lt;n-divider orientation="vertical"&gt;&lt;/n-divider&gt;
+  &lt;n-button variant="ghost"&gt;
+    &lt;n-icon name="arrow-counter-clockwise" slot="leading"&gt;&lt;/n-icon&gt;
+    &lt;span slot="label"&gt;Undo&lt;/span&gt;
+  &lt;/n-button&gt;
+&lt;/n-toolbar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Media Controls ── -->
+
+    <h2>Media Controls</h2>
+    <div class="demo-section">
+      <n-toolbar aria-label="Media playback">
+        <n-button variant="ghost"><n-icon name="skip-back"></n-icon></n-button>
+        <n-button variant="ghost"><n-icon name="play"></n-icon></n-button>
+        <n-button variant="ghost"><n-icon name="skip-forward"></n-icon></n-button>
+        <n-divider orientation="vertical"></n-divider>
+        <n-button variant="ghost"><n-icon name="speaker-high"></n-icon></n-button>
+        <n-button variant="ghost"><n-icon name="shuffle"></n-icon></n-button>
+        <n-button variant="ghost"><n-icon name="repeat"></n-icon></n-button>
+      </n-toolbar>
+    <pre class="demo-code"><code>&lt;n-toolbar aria-label="Media playback"&gt;
+  &lt;n-button variant="ghost"&gt;&lt;n-icon name="skip-back"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+  &lt;n-button variant="ghost"&gt;&lt;n-icon name="play"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+  &lt;n-button variant="ghost"&gt;&lt;n-icon name="skip-forward"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+  &lt;n-divider orientation="vertical"&gt;&lt;/n-divider&gt;
+  &lt;n-button variant="ghost"&gt;&lt;n-icon name="speaker-high"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+&lt;/n-toolbar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-toolbar aria-label="Small toolbar" size="sm">
+          <n-button variant="ghost"><n-icon name="magnifying-glass"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="funnel"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="sort-ascending"></n-icon></n-button>
+        </n-toolbar>
+        <n-toolbar aria-label="Default toolbar">
+          <n-button variant="ghost"><n-icon name="magnifying-glass"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="funnel"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="sort-ascending"></n-icon></n-button>
+        </n-toolbar>
+        <n-toolbar aria-label="Large toolbar" size="lg">
+          <n-button variant="ghost"><n-icon name="magnifying-glass"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="funnel"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="sort-ascending"></n-icon></n-button>
+        </n-toolbar>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-toolbar aria-label="Small" size="sm"&gt;...&lt;/n-toolbar&gt;
+&lt;n-toolbar aria-label="Default"&gt;...&lt;/n-toolbar&gt;
+&lt;n-toolbar aria-label="Large" size="lg"&gt;...&lt;/n-toolbar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-toolbar aria-label="Compact" density="compact">
+          <n-button variant="ghost"><n-icon name="copy"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="scissors"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="clipboard"></n-icon></n-button>
+        </n-toolbar>
+        <n-toolbar aria-label="Default density">
+          <n-button variant="ghost"><n-icon name="copy"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="scissors"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="clipboard"></n-icon></n-button>
+        </n-toolbar>
+        <n-toolbar aria-label="Loose" density="loose">
+          <n-button variant="ghost"><n-icon name="copy"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="scissors"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="clipboard"></n-icon></n-button>
+        </n-toolbar>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-toolbar density="compact"&gt;...&lt;/n-toolbar&gt;
+&lt;n-toolbar&gt;...&lt;/n-toolbar&gt;
+&lt;n-toolbar density="loose"&gt;...&lt;/n-toolbar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Plain Variant ── -->
+
+    <h2>Plain Variant</h2>
+    <p class="demo-desc">
+      <code>variant="plain"</code> strips background, border, and radius so the toolbar can embed inside containers like <code>&lt;n-card&gt;</code> headers without doubling chrome.
+    </p>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-toolbar aria-label="Default toolbar">
+          <n-button variant="ghost"><n-icon name="text-b"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="text-italic"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="text-underline"></n-icon></n-button>
+        </n-toolbar>
+        <n-toolbar variant="plain" aria-label="Plain toolbar">
+          <n-button variant="ghost"><n-icon name="text-b"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="text-italic"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="text-underline"></n-icon></n-button>
+        </n-toolbar>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;!-- Default: panel background + border + radius --&gt;
+&lt;n-toolbar&gt;...&lt;/n-toolbar&gt;
+
+&lt;!-- Plain: transparent, no border, no radius --&gt;
+&lt;n-toolbar variant="plain"&gt;...&lt;/n-toolbar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Fill Mode ── -->
+
+    <h2>Fill Mode</h2>
+    <p class="demo-desc">
+      <code>[fill]</code> distributes available space evenly across items. Default is compact (intrinsic width).
+    </p>
+    <div class="demo-section">
+      <n-stack gap="4">
+        <n-toolbar aria-label="Compact toolbar (default)">
+          <n-button variant="ghost"><n-icon name="floppy-disk" slot="leading"></n-icon><span slot="label">Save</span></n-button>
+          <n-button variant="ghost"><n-icon name="download" slot="leading"></n-icon><span slot="label">Export</span></n-button>
+          <n-button variant="ghost"><n-icon name="printer" slot="leading"></n-icon><span slot="label">Print</span></n-button>
+        </n-toolbar>
+        <n-toolbar fill aria-label="Fill toolbar">
+          <n-button variant="ghost"><n-icon name="floppy-disk" slot="leading"></n-icon><span slot="label">Save</span></n-button>
+          <n-button variant="ghost"><n-icon name="download" slot="leading"></n-icon><span slot="label">Export</span></n-button>
+          <n-button variant="ghost"><n-icon name="printer" slot="leading"></n-icon><span slot="label">Print</span></n-button>
+        </n-toolbar>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;!-- Default: intrinsic width --&gt;
+&lt;n-toolbar&gt;...&lt;/n-toolbar&gt;
+
+&lt;!-- Fill: items grow to distribute space --&gt;
+&lt;n-toolbar fill&gt;...&lt;/n-toolbar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Responsive Overflow ── -->
+
+    <h2>Responsive Overflow</h2>
+    <p class="demo-desc">
+      Resize the container to see items collapse into a &bull;&bull;&bull; overflow menu.
+    </p>
+    <div class="demo-section">
+      <div style="resize: horizontal; overflow: hidden; border: 1px dashed var(--n-border-muted-neutral); padding: 0.5rem; min-width: 120px; max-width: 100%;">
+        <n-toolbar aria-label="Overflow demo">
+          <n-button variant="ghost"><n-icon name="text-b"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="text-italic"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="text-underline"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="text-strikethrough"></n-icon></n-button>
+          <n-divider orientation="vertical"></n-divider>
+          <n-button variant="ghost"><n-icon name="text-align-left"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="text-align-center"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="text-align-right"></n-icon></n-button>
+          <n-divider orientation="vertical"></n-divider>
+          <n-button variant="ghost"><n-icon name="list-bullets"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="list-numbers"></n-icon></n-button>
+          <n-divider orientation="vertical"></n-divider>
+          <n-button variant="ghost"><n-icon name="floppy-disk" slot="leading"></n-icon><span slot="label">Save</span></n-button>
+          <n-button variant="ghost"><n-icon name="download" slot="leading"></n-icon><span slot="label">Export</span></n-button>
+          <n-button variant="ghost"><n-icon name="printer" slot="leading"></n-icon><span slot="label">Print</span></n-button>
+        </n-toolbar>
+      </div>
+    <pre class="demo-code"><code>&lt;!-- Resize the container to trigger overflow --&gt;
+&lt;div style="resize: horizontal; overflow: hidden; width: 400px;"&gt;
+  &lt;n-toolbar aria-label="Overflow demo"&gt;
+    &lt;n-button variant="ghost"&gt;&lt;n-icon name="text-b"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+    &lt;n-button variant="ghost"&gt;&lt;n-icon name="text-italic"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+    &lt;!-- ... more items ... --&gt;
+  &lt;/n-toolbar&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Grouped Overflow ── -->
+
+    <h2>Grouped Overflow</h2>
+    <p class="demo-desc">
+      <code>&lt;n-toolbar-group&gt;</code> keeps related actions together &mdash; the entire group overflows as one unit instead of splitting.
+    </p>
+    <div class="demo-section">
+      <div style="resize: horizontal; overflow: hidden; border: 1px dashed var(--n-border-muted-neutral); padding: 0.5rem; min-width: 120px; max-width: 100%;">
+        <n-toolbar aria-label="Grouped overflow demo">
+          <n-toolbar-group>
+            <n-button variant="ghost"><n-icon name="text-b"></n-icon></n-button>
+            <n-button variant="ghost"><n-icon name="text-italic"></n-icon></n-button>
+            <n-button variant="ghost"><n-icon name="text-underline"></n-icon></n-button>
+            <n-button variant="ghost"><n-icon name="text-strikethrough"></n-icon></n-button>
+          </n-toolbar-group>
+          <n-divider orientation="vertical"></n-divider>
+          <n-toolbar-group>
+            <n-button variant="ghost"><n-icon name="text-align-left"></n-icon></n-button>
+            <n-button variant="ghost"><n-icon name="text-align-center"></n-icon></n-button>
+            <n-button variant="ghost"><n-icon name="text-align-right"></n-icon></n-button>
+          </n-toolbar-group>
+          <n-divider orientation="vertical"></n-divider>
+          <n-toolbar-group>
+            <n-button variant="ghost"><n-icon name="list-bullets"></n-icon></n-button>
+            <n-button variant="ghost"><n-icon name="list-numbers"></n-icon></n-button>
+          </n-toolbar-group>
+          <n-divider orientation="vertical"></n-divider>
+          <n-toolbar-group>
+            <n-button variant="ghost"><n-icon name="floppy-disk" slot="leading"></n-icon><span slot="label">Save</span></n-button>
+            <n-button variant="ghost"><n-icon name="download" slot="leading"></n-icon><span slot="label">Export</span></n-button>
+            <n-button variant="ghost"><n-icon name="printer" slot="leading"></n-icon><span slot="label">Print</span></n-button>
+          </n-toolbar-group>
+        </n-toolbar>
+      </div>
+    <pre class="demo-code"><code>&lt;n-toolbar aria-label="Grouped overflow"&gt;
+  &lt;n-toolbar-group&gt;
+    &lt;n-button variant="ghost"&gt;&lt;n-icon name="text-b"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+    &lt;n-button variant="ghost"&gt;&lt;n-icon name="text-italic"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+    &lt;n-button variant="ghost"&gt;&lt;n-icon name="text-underline"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+  &lt;/n-toolbar-group&gt;
+  &lt;n-divider orientation="vertical"&gt;&lt;/n-divider&gt;
+  &lt;n-toolbar-group&gt;
+    &lt;n-button variant="ghost"&gt;&lt;n-icon name="text-align-left"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+    &lt;n-button variant="ghost"&gt;&lt;n-icon name="text-align-center"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+  &lt;/n-toolbar-group&gt;
+&lt;/n-toolbar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './toolbar.ts';
+      import '../../components/button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/text-b.ts';
+      import '../../icons/phosphor/text-italic.ts';
+      import '../../icons/phosphor/text-underline.ts';
+      import '../../icons/phosphor/text-strikethrough.ts';
+      import '../../icons/phosphor/text-align-left.ts';
+      import '../../icons/phosphor/text-align-center.ts';
+      import '../../icons/phosphor/text-align-right.ts';
+      import '../../icons/phosphor/list-bullets.ts';
+      import '../../icons/phosphor/list-numbers.ts';
+      import '../../icons/phosphor/floppy-disk.ts';
+      import '../../icons/phosphor/download.ts';
+      import '../../icons/phosphor/printer.ts';
+      import '../../icons/phosphor/arrow-counter-clockwise.ts';
+      import '../../icons/phosphor/arrow-clockwise.ts';
+      import '../../icons/phosphor/skip-back.ts';
+      import '../../icons/phosphor/play.ts';
+      import '../../icons/phosphor/skip-forward.ts';
+      import '../../icons/phosphor/speaker-high.ts';
+      import '../../icons/phosphor/shuffle.ts';
+      import '../../icons/phosphor/repeat.ts';
+      import '../../icons/phosphor/magnifying-glass.ts';
+      import '../../icons/phosphor/funnel.ts';
+      import '../../icons/phosphor/sort-ascending.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/scissors.ts';
+      import '../../icons/phosphor/clipboard.ts';
+      import '../../icons/phosphor/check.ts';
+      import '../../icons/custom/dots-three-bold.ts';
+      import '../../components/listbox/listbox.ts';
+      import '../../components/listbox/option.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

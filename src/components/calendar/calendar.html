@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-calendar — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+.output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--n-panel-neutral);
+        border-radius: 0.25rem;
+        min-height: 1.5rem;
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-calendar&gt;</h1>
+    <p class="demo-desc">
+      Date selection with day, month, and year views. Supports single selection, date range, min/max constraints, and keyboard navigation.
+    </p>
+
+    <!-- ── Single Select ── -->
+
+    <h2>Single Select</h2>
+    <div class="demo-section">
+      <n-calendar id="single"></n-calendar>
+      <div id="single-output" class="output">Select a date      <pre class="demo-code"><code>&lt;n-calendar&gt;&lt;/n-calendar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+</div>
+    </div>
+
+    <!-- ── With Initial Value ── -->
+
+    <h2>Initial Value</h2>
+    <div class="demo-section">
+      <n-calendar value="2026-02-14"></n-calendar>
+      <pre class="demo-code"><code>&lt;n-calendar value="2026-02-14"&gt;&lt;/n-calendar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Min/Max Constraints ── -->
+
+    <h2>Min/Max Constraints</h2>
+    <div class="demo-section">
+      <n-calendar min="2026-02-10" max="2026-02-25"></n-calendar>
+      <p class="demo-hint" style="margin-top: 0.5rem; margin-bottom: 0;">
+        Only dates between Feb 10–25 are selectable.
+      </p>
+      <pre class="demo-code"><code>&lt;n-calendar min="2026-02-10" max="2026-02-25"&gt;&lt;/n-calendar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Range Selection ── -->
+
+    <h2>Range Selection</h2>
+    <div class="demo-section">
+      <n-calendar id="range-cal" range></n-calendar>
+      <div id="range-output" class="output">Click a start date, hover to preview range, click to commit. Click again to clear.      <pre class="demo-code"><code>&lt;n-calendar range&gt;&lt;/n-calendar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+</div>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-wrap" style="align-items: start;">
+        <div>
+          <p class="demo-state-label">sm</p>
+          <n-calendar size="sm"></n-calendar>
+        </div>
+        <div>
+          <p class="demo-state-label">md (default)</p>
+          <n-calendar></n-calendar>
+        </div>
+        <div>
+          <p class="demo-state-label">lg</p>
+          <n-calendar size="lg"></n-calendar>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-calendar size="sm"&gt;&lt;/n-calendar&gt;
+&lt;n-calendar&gt;&lt;/n-calendar&gt;
+&lt;n-calendar size="lg"&gt;&lt;/n-calendar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section">
+      <n-calendar value="2026-02-20" disabled></n-calendar>
+      <pre class="demo-code"><code>&lt;n-calendar value="2026-02-20" disabled&gt;&lt;/n-calendar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to the host element, targets internal cells and buttons.
+      </p>
+      <div class="demo-wrap">
+        <div>
+          <div class="demo-state-label">force-hover</div>
+          <n-calendar value="2026-02-20" force-hover></n-calendar>
+        </div>
+        <div>
+          <div class="demo-state-label">force-focus-visible</div>
+          <n-calendar value="2026-02-20" force-focus-visible></n-calendar>
+        </div>
+      </div>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './calendar.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Single select output
+      const single = document.getElementById('single');
+      const singleOutput = document.getElementById('single-output');
+      single.addEventListener('native:change', (e) => {
+        singleOutput.textContent = `Selected: ${e.detail.value}`;
+      });
+
+      // Range output
+      const rangeCal = document.getElementById('range-cal');
+      const rangeOutput = document.getElementById('range-output');
+      rangeCal.addEventListener('native:range-select', (e) => {
+        rangeOutput.textContent = `Range: ${e.detail.start} → ${e.detail.end}`;
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

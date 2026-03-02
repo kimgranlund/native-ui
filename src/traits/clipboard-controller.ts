@@ -3,7 +3,7 @@ export interface ClipboardOptions {
   disabled?: boolean;
 }
 
-/** Handles keyboard-driven cut/copy/paste operations on selected items, dispatching `ui-clip`. */
+/** Handles keyboard-driven cut/copy/paste operations on selected items, dispatching `native:clip-copy`, `native:clip-cut`, and `native:clip-paste`. */
 export class ClipboardController {
   readonly host: HTMLElement;
   selector: string;
@@ -52,7 +52,7 @@ export class ClipboardController {
     if (this.disabled) return '';
     const data = this.serialize(items);
     await navigator.clipboard.writeText(data);
-    this.host.dispatchEvent(new CustomEvent('ui-clip-copy', {
+    this.host.dispatchEvent(new CustomEvent('native:clip-copy', {
       bubbles: true, composed: true,
       detail: { items, data },
     }));
@@ -68,7 +68,7 @@ export class ClipboardController {
       this.#cutItems.add(item);
       item.setAttribute('clip-cut', '');
     }
-    this.host.dispatchEvent(new CustomEvent('ui-clip-cut', {
+    this.host.dispatchEvent(new CustomEvent('native:clip-cut', {
       bubbles: true, composed: true,
       detail: { items, data },
     }));
@@ -79,7 +79,7 @@ export class ClipboardController {
     if (this.disabled) return '';
     const data = await navigator.clipboard.readText();
     this.cancelCut();
-    this.host.dispatchEvent(new CustomEvent('ui-clip-paste', {
+    this.host.dispatchEvent(new CustomEvent('native:clip-paste', {
       bubbles: true, composed: true,
       detail: { data },
     }));

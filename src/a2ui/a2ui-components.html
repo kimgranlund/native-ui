@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../styles/index.css" />
     <link rel="stylesheet" href="../styles/components.css" />
     <link rel="stylesheet" href="../styles/demo.css" />
-    <link rel="stylesheet" href="../styles/ui-layout.css" />
+    <link rel="stylesheet" href="../styles/n-layout.css" />
     <style>
       .nav-main {
         padding: 2rem;
@@ -19,16 +19,16 @@
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         margin-bottom: 0.5rem;
       }
 
-      ui-chat-content > [data-a2ui] {
+      n-chat-content > [data-a2ui] {
         margin-bottom: 1.5rem;
       }
     </style>
     <script type="module">
-      import '../nav/ui-layout.ts';
+      import '../nav/layout.ts';
       import '../register-all.ts';
 
       // Icons used in this demo + icons stamped internally by components
@@ -36,7 +36,7 @@
       import '../icons/phosphor/gear.ts';
       import '../icons/phosphor/bell.ts';
       import '../icons/phosphor/magnifying-glass.ts';
-      import '../icons/phosphor/caret-up-down.ts';  // used by ui-select data-driven mode
+      import '../icons/phosphor/caret-up-down.ts';  // used by n-select data-driven mode
 
       import { Kernel, resetKernel } from '../kernel/kernel.ts';
       import { createA2UIAdapter } from './a2ui-adapter.ts';
@@ -46,8 +46,8 @@
       const kernel = new Kernel({ allowUnregistered: true });
       const messages = [];
       // WHY: NuiApp.setup() is async — wait for the chat panel to exist.
-      const layout = document.querySelector('nui-app');
-      await customElements.whenDefined('nui-app');
+      const layout = document.querySelector('n-app');
+      await customElements.whenDefined('n-app');
       const chatPanel = await new Promise(resolve => {
         const check = () => {
           const el = layout.chatPanel;
@@ -56,7 +56,7 @@
         };
         check();
       });
-      const target = chatPanel.querySelector('ui-chat-content');
+      const target = chatPanel.querySelector('n-chat-content');
 
       const adapter = createA2UIAdapter(kernel, {
         onClientMessage: (msg) => {
@@ -401,14 +401,14 @@
     </script>
   </head>
   <body>
-    <nui-app>
+    <n-app>
       <div class="nav-main">
         <h1>A2UI Styled Components</h1>
-        <p style="color: var(--neutral-ink-muted); margin-bottom: 1.5rem; font-size: 0.8125rem;">
+        <p style="color: var(--n-ink-muted-neutral); margin-bottom: 1.5rem; font-size: 0.8125rem;">
           All components below are rendered through the A2UI protocol adapter into the chat panel.
           Each element carries a <code>[data-a2ui]</code> attribute and is styled via <code>a2ui.css</code>.
         </p>
       </div>
-    </nui-app>
+    </n-app>
   </body>
 </html>

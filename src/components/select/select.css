@@ -1,0 +1,26 @@
+@layer ui {
+
+  /* ── Coordinator — no visual presence ── */
+
+  :where(n-select) {
+    display: contents;
+  }
+
+  /* ── Popover Listbox Positioning ──
+     WHY: Must come after n-listbox.css base rule (which sets min-width: 0
+     for flex-child shrinking) so min-width: anchor-size(inline) wins by
+     source order — both are zero-specificity via :where(). */
+
+  :where(n-select) > :where(n-listbox[popover]) {
+    position: fixed;
+    position-area: block-end span-inline-end;
+    position-try-fallbacks: flip-block;
+    margin-block: var(--n-popover-viewport-margin);
+    margin-inline: 0;
+    margin-block-start: var(--n-popover-gap);
+    min-width: anchor-size(inline);
+    max-height: var(--n-popover-max-height);
+    overflow-y: auto;
+  }
+
+}

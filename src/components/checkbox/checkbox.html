@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-checkbox — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/index.css" />
+    <link rel="stylesheet" href="../../styles/components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+.demo-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+</style>
+  </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;n-checkbox&gt;</h1>
+    <p class="demo-desc">
+      Custom checkbox with Pressable trait, form association, and indeterminate support.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <div class="demo-section">
+      <div class="demo-col">
+        <n-checkbox>Accept terms and conditions</n-checkbox>
+        <n-checkbox checked>Email notifications</n-checkbox>
+        <n-checkbox indeterminate>Select all</n-checkbox>
+      </div>
+      <pre class="demo-code"><code>&lt;n-checkbox&gt;Accept terms and conditions&lt;/n-checkbox&gt;
+&lt;n-checkbox checked&gt;Email notifications&lt;/n-checkbox&gt;
+&lt;n-checkbox indeterminate&gt;Select all&lt;/n-checkbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span class="demo-label">xs</span>
+        <n-checkbox size="xs" checked>Extra small</n-checkbox>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">sm</span>
+        <n-checkbox size="sm" checked>Small</n-checkbox>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">md</span>
+        <n-checkbox size="md" checked>Medium</n-checkbox>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">lg</span>
+        <n-checkbox size="lg" checked>Large</n-checkbox>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">xl</span>
+        <n-checkbox size="xl" checked>Extra large</n-checkbox>
+      </div>
+      <pre class="demo-code"><code>&lt;n-checkbox size="xs" checked&gt;Extra small&lt;/n-checkbox&gt;
+&lt;n-checkbox size="sm" checked&gt;Small&lt;/n-checkbox&gt;
+&lt;n-checkbox size="md" checked&gt;Medium&lt;/n-checkbox&gt;
+&lt;n-checkbox size="lg" checked&gt;Large&lt;/n-checkbox&gt;
+&lt;n-checkbox size="xl" checked&gt;Extra large&lt;/n-checkbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Density ── -->
+
+    <h2>Density</h2>
+    <div class="demo-section">
+      <h3>compact</h3>
+      <div class="demo-col" density="compact">
+        <n-checkbox size="sm" checked>Small compact</n-checkbox>
+        <n-checkbox checked>Medium compact</n-checkbox>
+        <n-checkbox size="lg" checked>Large compact</n-checkbox>
+      </div>
+      <h3>default</h3>
+      <div class="demo-col">
+        <n-checkbox size="sm" checked>Small default</n-checkbox>
+        <n-checkbox checked>Medium default</n-checkbox>
+        <n-checkbox size="lg" checked>Large default</n-checkbox>
+      </div>
+      <h3>loose</h3>
+      <div class="demo-col" density="loose">
+        <n-checkbox size="sm" checked>Small loose</n-checkbox>
+        <n-checkbox checked>Medium loose</n-checkbox>
+        <n-checkbox size="lg" checked>Large loose</n-checkbox>
+      </div>
+      <pre class="demo-code"><code>&lt;div density="compact"&gt;
+  &lt;n-checkbox checked&gt;Compact&lt;/n-checkbox&gt;
+&lt;/div&gt;
+&lt;div density="loose"&gt;
+  &lt;n-checkbox checked&gt;Loose&lt;/n-checkbox&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Radius ── -->
+
+    <h2>Radius</h2>
+    <div class="demo-section">
+      <div class="demo-row">
+        <span class="demo-label">default</span>
+        <n-checkbox checked>Checked</n-checkbox>
+        <n-checkbox indeterminate>Indeterminate</n-checkbox>
+        <n-checkbox>Unchecked</n-checkbox>
+      </div>
+      <div class="demo-row">
+        <span class="demo-label">sharp</span>
+        <n-checkbox radius="sharp" checked>Checked</n-checkbox>
+        <n-checkbox radius="sharp" indeterminate>Indeterminate</n-checkbox>
+        <n-checkbox radius="sharp">Unchecked</n-checkbox>
+      </div>
+      <pre class="demo-code"><code>&lt;n-checkbox checked&gt;Default radius&lt;/n-checkbox&gt;
+&lt;n-checkbox radius="sharp" checked&gt;Sharp radius&lt;/n-checkbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Intents ── -->
+
+    <h2>Intents</h2>
+    <div class="demo-section">
+      <div class="demo-col">
+        <n-checkbox intent="neutral" checked>Neutral</n-checkbox>
+        <n-checkbox intent="accent" checked>Accent</n-checkbox>
+        <n-checkbox intent="info" checked>Info</n-checkbox>
+        <n-checkbox intent="success" checked>Success</n-checkbox>
+        <n-checkbox intent="warning" checked>Warning</n-checkbox>
+        <n-checkbox intent="danger" checked>Danger</n-checkbox>
+      </div>
+      <pre class="demo-code"><code>&lt;n-checkbox intent="accent" checked&gt;Accent&lt;/n-checkbox&gt;
+&lt;n-checkbox intent="success" checked&gt;Success&lt;/n-checkbox&gt;
+&lt;n-checkbox intent="warning" checked&gt;Warning&lt;/n-checkbox&gt;
+&lt;n-checkbox intent="danger" checked&gt;Danger&lt;/n-checkbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <div class="demo-section">
+      <div class="demo-col">
+        <n-checkbox disabled>Unchecked disabled</n-checkbox>
+        <n-checkbox disabled checked>Checked disabled</n-checkbox>
+        <n-checkbox disabled indeterminate>Indeterminate disabled</n-checkbox>
+      </div>
+      <pre class="demo-code"><code>&lt;n-checkbox disabled&gt;Unchecked disabled&lt;/n-checkbox&gt;
+&lt;n-checkbox disabled checked&gt;Checked disabled&lt;/n-checkbox&gt;
+&lt;n-checkbox disabled indeterminate&gt;Indeterminate disabled&lt;/n-checkbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── States ── -->
+
+    <h2>States</h2>
+    <div class="demo-section">
+      <div class="demo-col">
+        <n-checkbox>Unchecked</n-checkbox>
+        <n-checkbox checked>Checked</n-checkbox>
+        <n-checkbox indeterminate>Indeterminate</n-checkbox>
+      </div>
+      <pre class="demo-code"><code>&lt;n-checkbox&gt;Unchecked&lt;/n-checkbox&gt;
+&lt;n-checkbox checked&gt;Checked&lt;/n-checkbox&gt;
+&lt;n-checkbox indeterminate&gt;Indeterminate&lt;/n-checkbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Events ── -->
+
+    <h2>Change Events</h2>
+    <div class="demo-section">
+      <div class="demo-col">
+        <n-checkbox id="event-cb" intent="accent">Toggle me</n-checkbox>
+      </div>
+      <div class="log" id="event-log"></div>
+      <pre class="demo-code"><code>&lt;n-checkbox id="event-cb" intent="accent"&gt;Toggle me&lt;/n-checkbox&gt;
+
+&lt;script&gt;
+  document.getElementById('event-cb')
+    .addEventListener('native:change', (e) =&gt; {
+      console.log(e.detail.checked, e.detail.value);
+    });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Form Association ── -->
+
+    <h2>Form Association</h2>
+    <div class="demo-section">
+      <form id="demo-form">
+        <div class="demo-col" style="margin-bottom: 1rem;">
+          <n-checkbox name="agree" value="yes" required>I agree to terms</n-checkbox>
+          <n-checkbox name="newsletter" value="yes" checked>Subscribe to newsletter</n-checkbox>
+          <n-checkbox name="beta" value="yes">Join beta program</n-checkbox>
+        </div>
+        <div class="demo-row">
+          <n-button variant="primary" type="submit"><span slot="label">Submit</span></n-button>
+          <n-button variant="secondary" type="reset"><span slot="label">Reset</span></n-button>
+        </div>
+      </form>
+      <div class="log" id="form-log"></div>
+      <pre class="demo-code"><code>&lt;form&gt;
+  &lt;n-checkbox name="agree" value="yes" required&gt;I agree to terms&lt;/n-checkbox&gt;
+  &lt;n-checkbox name="newsletter" value="yes" checked&gt;Subscribe to newsletter&lt;/n-checkbox&gt;
+  &lt;n-button variant="primary" type="submit"&gt;
+    &lt;span slot="label"&gt;Submit&lt;/span&gt;
+  &lt;/n-button&gt;
+&lt;/form&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Cascading ── -->
+
+    <h2>Cascading</h2>
+    <div class="demo-section">
+      <h3>Parent size="sm", intent="accent"</h3>
+      <div class="demo-col" size="sm" intent="accent">
+        <n-checkbox checked>Inherited sm accent</n-checkbox>
+        <n-checkbox checked size="lg">Override lg</n-checkbox>
+        <n-checkbox checked intent="danger">Override danger</n-checkbox>
+      </div>
+      <pre class="demo-code"><code>&lt;div size="sm" intent="accent"&gt;
+  &lt;n-checkbox checked&gt;Inherited sm accent&lt;/n-checkbox&gt;
+  &lt;n-checkbox checked size="lg"&gt;Override lg&lt;/n-checkbox&gt;
+  &lt;n-checkbox checked intent="danger"&gt;Override danger&lt;/n-checkbox&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </div>
+
+    <!-- ── Debug States (force-*) ── -->
+
+    <h2>Debug States (<code>force-*</code>)</h2>
+    <div class="demo-section">
+      <p class="demo-caption">
+        Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
+      </p>
+      <div class="demo-row">
+        <n-checkbox force-hover>Force hover</n-checkbox>
+        <n-checkbox force-hover checked>Force hover (checked)</n-checkbox>
+        <n-checkbox force-focus-visible>Force focus-visible</n-checkbox>
+        <n-checkbox force-focus-visible checked>Force focus-visible (checked)</n-checkbox>
+      </div>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../nav/layout.ts';
+      import './checkbox.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Change event logging
+      const eventCb = document.getElementById('event-cb');
+      const eventLog = document.getElementById('event-log');
+      let count = 0;
+
+      eventCb.addEventListener('native:change', (e) => {
+        count++;
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `#${count} native:change — checked: ${e.detail.checked}, value: "${e.detail.value}"`;
+        eventLog.prepend(entry);
+      });
+
+      // Form logging
+      const form = document.getElementById('demo-form');
+      const formLog = document.getElementById('form-log');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const entries = [...data.entries()].map(([k, v]) => `${k}=${v}`).join(', ');
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = `submit — ${entries || '(empty)'}`;
+        formLog.prepend(entry);
+      });
+
+      form.addEventListener('reset', () => {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.textContent = 'reset';
+        formLog.prepend(entry);
+      });
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

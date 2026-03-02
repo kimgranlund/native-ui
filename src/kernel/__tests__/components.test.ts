@@ -64,9 +64,9 @@ describe('COMPONENT_MANIFEST', () => {
     expect(new Set(tags).size).toBe(tags.length);
   });
 
-  it('all tags start with "ui-"', () => {
+  it('all tags start with "n-"', () => {
     for (const d of COMPONENT_MANIFEST) {
-      expect(d.tag.startsWith('ui-')).toBe(true);
+      expect(d.tag.startsWith('n-')).toBe(true);
     }
   });
 
@@ -96,44 +96,44 @@ describe('COMPONENT_MANIFEST', () => {
 
 describe('getDescriptor', () => {
   it('returns descriptor for known tag', () => {
-    const d = getDescriptor('ui-button');
+    const d = getDescriptor('n-button');
     expect(d).toBeDefined();
-    expect(d!.tag).toBe('ui-button');
-    expect(d!.module).toBe('components/ui-button');
+    expect(d!.tag).toBe('n-button');
+    expect(d!.module).toBe('components/button');
     expect(d!.formAssociated).toBe(true);
-    expect(d!.events).toContain('ui-press');
+    expect(d!.events).toContain('native:press');
     expect(d!.category).toBe('form');
   });
 
-  it('returns descriptor for ui-input', () => {
-    const d = getDescriptor('ui-input');
+  it('returns descriptor for n-input', () => {
+    const d = getDescriptor('n-input');
     expect(d).toBeDefined();
     expect(d!.formAssociated).toBe(true);
-    expect(d!.events).toEqual(['ui-input', 'ui-change']);
+    expect(d!.events).toEqual(['native:input', 'native:change']);
   });
 
   it('returns descriptor for display component', () => {
-    const d = getDescriptor('ui-listbox');
+    const d = getDescriptor('n-listbox');
     expect(d).toBeDefined();
     expect(d!.category).toBe('display');
     expect(d!.formAssociated).toBe(false);
   });
 
   it('returns descriptor for overlay component', () => {
-    const d = getDescriptor('ui-dialog');
+    const d = getDescriptor('n-dialog');
     expect(d).toBeDefined();
     expect(d!.category).toBe('overlay');
-    expect(d!.events).toEqual(['close', 'ui-dismiss']);
+    expect(d!.events).toEqual(['close', 'native:dismiss']);
   });
 
   it('returns descriptor for container component', () => {
-    const d = getDescriptor('ui-card');
+    const d = getDescriptor('n-card');
     expect(d).toBeDefined();
     expect(d!.category).toBe('container');
   });
 
   it('returns undefined for unknown tag', () => {
-    expect(getDescriptor('ui-nonexistent')).toBeUndefined();
+    expect(getDescriptor('n-nonexistent')).toBeUndefined();
   });
 
   it('returns undefined for empty string', () => {
@@ -208,10 +208,10 @@ describe('getDescriptorsByCategory', () => {
   it('includes specific known components in form category', () => {
     const form = getDescriptorsByCategory('form');
     const tags = form.map((d) => d.tag);
-    expect(tags).toContain('ui-button');
-    expect(tags).toContain('ui-input');
-    expect(tags).toContain('ui-select');
-    expect(tags).toContain('ui-combobox');
+    expect(tags).toContain('n-button');
+    expect(tags).toContain('n-input');
+    expect(tags).toContain('n-select');
+    expect(tags).toContain('n-combobox');
   });
 });
 
@@ -226,8 +226,8 @@ describe('registerAll', () => {
 
   it('registers all matching entries from the classes map', () => {
     const classes = new Map<string, CustomElementConstructor>([
-      ['ui-button', HTMLElement as unknown as CustomElementConstructor],
-      ['ui-input', HTMLElement as unknown as CustomElementConstructor],
+      ['n-button', HTMLElement as unknown as CustomElementConstructor],
+      ['n-input', HTMLElement as unknown as CustomElementConstructor],
     ]);
 
     const count = registerAll(mockKernel, classes);
@@ -238,13 +238,13 @@ describe('registerAll', () => {
 
   it('passes formAssociated from descriptor', () => {
     const classes = new Map<string, CustomElementConstructor>([
-      ['ui-button', HTMLElement as unknown as CustomElementConstructor],
+      ['n-button', HTMLElement as unknown as CustomElementConstructor],
     ]);
 
     registerAll(mockKernel, classes);
 
     expect(mockKernel.registerAndDefine).toHaveBeenCalledWith(
-      'ui-button',
+      'n-button',
       HTMLElement,
       { formAssociated: true },
     );
@@ -252,13 +252,13 @@ describe('registerAll', () => {
 
   it('passes formAssociated false for non-form components', () => {
     const classes = new Map<string, CustomElementConstructor>([
-      ['ui-listbox', HTMLElement as unknown as CustomElementConstructor],
+      ['n-listbox', HTMLElement as unknown as CustomElementConstructor],
     ]);
 
     registerAll(mockKernel, classes);
 
     expect(mockKernel.registerAndDefine).toHaveBeenCalledWith(
-      'ui-listbox',
+      'n-listbox',
       HTMLElement,
       { formAssociated: false },
     );
@@ -266,8 +266,8 @@ describe('registerAll', () => {
 
   it('skips tags not in manifest', () => {
     const classes = new Map<string, CustomElementConstructor>([
-      ['ui-button', HTMLElement as unknown as CustomElementConstructor],
-      ['ui-unknown', HTMLElement as unknown as CustomElementConstructor],
+      ['n-button', HTMLElement as unknown as CustomElementConstructor],
+      ['n-unknown', HTMLElement as unknown as CustomElementConstructor],
     ]);
 
     const count = registerAll(mockKernel, classes);
@@ -275,7 +275,7 @@ describe('registerAll', () => {
     expect(count).toBe(1);
     expect(mockKernel.registerAndDefine).toHaveBeenCalledTimes(1);
     expect(mockKernel.registerAndDefine).toHaveBeenCalledWith(
-      'ui-button',
+      'n-button',
       expect.anything(),
       expect.anything(),
     );
@@ -283,19 +283,19 @@ describe('registerAll', () => {
 
   it('respects exclude option', () => {
     const classes = new Map<string, CustomElementConstructor>([
-      ['ui-button', HTMLElement as unknown as CustomElementConstructor],
-      ['ui-input', HTMLElement as unknown as CustomElementConstructor],
-      ['ui-select', HTMLElement as unknown as CustomElementConstructor],
+      ['n-button', HTMLElement as unknown as CustomElementConstructor],
+      ['n-input', HTMLElement as unknown as CustomElementConstructor],
+      ['n-select', HTMLElement as unknown as CustomElementConstructor],
     ]);
 
     const count = registerAll(mockKernel, classes, {
-      exclude: ['ui-button', 'ui-select'],
+      exclude: ['n-button', 'n-select'],
     });
 
     expect(count).toBe(1);
     expect(mockKernel.registerAndDefine).toHaveBeenCalledTimes(1);
     expect(mockKernel.registerAndDefine).toHaveBeenCalledWith(
-      'ui-input',
+      'n-input',
       expect.anything(),
       expect.anything(),
     );
@@ -310,18 +310,18 @@ describe('registerAll', () => {
 
   it('returns 0 when all entries are excluded', () => {
     const classes = new Map<string, CustomElementConstructor>([
-      ['ui-button', HTMLElement as unknown as CustomElementConstructor],
+      ['n-button', HTMLElement as unknown as CustomElementConstructor],
     ]);
 
-    const count = registerAll(mockKernel, classes, { exclude: ['ui-button'] });
+    const count = registerAll(mockKernel, classes, { exclude: ['n-button'] });
     expect(count).toBe(0);
     expect(mockKernel.registerAndDefine).not.toHaveBeenCalled();
   });
 
   it('returns 0 when no classes match manifest', () => {
     const classes = new Map<string, CustomElementConstructor>([
-      ['ui-fake-one', HTMLElement as unknown as CustomElementConstructor],
-      ['ui-fake-two', HTMLElement as unknown as CustomElementConstructor],
+      ['n-fake-one', HTMLElement as unknown as CustomElementConstructor],
+      ['n-fake-two', HTMLElement as unknown as CustomElementConstructor],
     ]);
 
     const count = registerAll(mockKernel, classes);
@@ -330,7 +330,7 @@ describe('registerAll', () => {
 
   it('works without options parameter', () => {
     const classes = new Map<string, CustomElementConstructor>([
-      ['ui-button', HTMLElement as unknown as CustomElementConstructor],
+      ['n-button', HTMLElement as unknown as CustomElementConstructor],
     ]);
 
     const count = registerAll(mockKernel, classes);
@@ -353,15 +353,15 @@ describe('installEventBridge', () => {
     installEventBridge(mockKernel, root);
 
     const bridgeEvents = [
-      'ui-press',
-      'ui-change',
-      'ui-select',
-      'ui-input',
-      'ui-dismiss',
-      'ui-expand',
-      'ui-collapse',
-      'ui-sort',
-      'ui-row-select',
+      'native:press',
+      'native:change',
+      'native:select',
+      'native:input',
+      'native:dismiss',
+      'native:expand',
+      'native:collapse',
+      'native:sort',
+      'native:row-select',
     ];
 
     expect(addSpy).toHaveBeenCalledTimes(bridgeEvents.length);
@@ -379,7 +379,7 @@ describe('installEventBridge', () => {
 
     installEventBridge(mockKernel, root);
 
-    const event = new CustomEvent('ui-press', {
+    const event = new CustomEvent('native:press', {
       bubbles: true,
       detail: { action: 'click' },
     });
@@ -390,7 +390,7 @@ describe('installEventBridge', () => {
       'button.press',
       {
         target: 'button',
-        event: 'ui-press',
+        event: 'native:press',
         detail: { action: 'click' },
       },
       undefined,
@@ -399,18 +399,18 @@ describe('installEventBridge', () => {
     root.remove();
   });
 
-  it('strips "ui-" prefix from event name in command type', () => {
+  it('strips "native:" prefix from event name in command type', () => {
     const root = document.createElement('div');
     const el = document.createElement('div');
     root.appendChild(el);
 
     installEventBridge(mockKernel, root);
 
-    el.dispatchEvent(new CustomEvent('ui-change', { bubbles: true, detail: null }));
+    el.dispatchEvent(new CustomEvent('native:change', { bubbles: true, detail: null }));
 
     expect(mockKernel.bus.dispatch).toHaveBeenCalledWith(
       'div.change',
-      expect.objectContaining({ event: 'ui-change' }),
+      expect.objectContaining({ event: 'native:change' }),
       undefined,
     );
   });
@@ -418,16 +418,16 @@ describe('installEventBridge', () => {
   it('uses lowercase tagName in command type', () => {
     const root = document.createElement('div');
     // Custom elements have uppercase tagName in DOM
-    const el = document.createElement('ui-button');
+    const el = document.createElement('n-button');
     root.appendChild(el);
 
     installEventBridge(mockKernel, root);
 
-    el.dispatchEvent(new CustomEvent('ui-press', { bubbles: true, detail: null }));
+    el.dispatchEvent(new CustomEvent('native:press', { bubbles: true, detail: null }));
 
     expect(mockKernel.bus.dispatch).toHaveBeenCalledWith(
-      'ui-button.press',
-      expect.objectContaining({ target: 'ui-button' }),
+      'n-button.press',
+      expect.objectContaining({ target: 'n-button' }),
       undefined,
     );
   });
@@ -444,7 +444,7 @@ describe('installEventBridge', () => {
 
     installEventBridge(mockKernel, root);
 
-    el.dispatchEvent(new CustomEvent('ui-press', { bubbles: true, detail: {} }));
+    el.dispatchEvent(new CustomEvent('native:press', { bubbles: true, detail: {} }));
 
     expect(mockKernel.bus.dispatch).toHaveBeenCalledWith(
       'button.press',
@@ -463,7 +463,7 @@ describe('installEventBridge', () => {
 
     installEventBridge(mockKernel, root);
 
-    el.dispatchEvent(new CustomEvent('ui-press', { bubbles: true, detail: {} }));
+    el.dispatchEvent(new CustomEvent('native:press', { bubbles: true, detail: {} }));
 
     expect(mockKernel.bus.dispatch).toHaveBeenCalledWith(
       'button.press',
@@ -483,7 +483,7 @@ describe('installEventBridge', () => {
 
     installEventBridge(mockKernel, root);
 
-    el.dispatchEvent(new CustomEvent('ui-press', { bubbles: true, detail: {} }));
+    el.dispatchEvent(new CustomEvent('native:press', { bubbles: true, detail: {} }));
 
     expect(mockKernel.bus.dispatch).toHaveBeenCalledWith(
       'button.press',
@@ -502,7 +502,7 @@ describe('installEventBridge', () => {
     const dispose = installEventBridge(mockKernel, root);
     dispose();
 
-    el.dispatchEvent(new CustomEvent('ui-press', { bubbles: true, detail: {} }));
+    el.dispatchEvent(new CustomEvent('native:press', { bubbles: true, detail: {} }));
     expect(mockKernel.bus.dispatch).not.toHaveBeenCalled();
   });
 
@@ -523,19 +523,19 @@ describe('installEventBridge', () => {
 
     installEventBridge(mockKernel, root);
 
-    el.dispatchEvent(new CustomEvent('ui-input', { bubbles: true, detail: { value: 'a' } }));
-    el.dispatchEvent(new CustomEvent('ui-change', { bubbles: true, detail: { value: 'b' } }));
+    el.dispatchEvent(new CustomEvent('native:input', { bubbles: true, detail: { value: 'a' } }));
+    el.dispatchEvent(new CustomEvent('native:change', { bubbles: true, detail: { value: 'b' } }));
 
     expect(mockKernel.bus.dispatch).toHaveBeenCalledTimes(2);
 
     expect(mockKernel.bus.dispatch).toHaveBeenCalledWith(
       'input.input',
-      expect.objectContaining({ event: 'ui-input', detail: { value: 'a' } }),
+      expect.objectContaining({ event: 'native:input', detail: { value: 'a' } }),
       undefined,
     );
     expect(mockKernel.bus.dispatch).toHaveBeenCalledWith(
       'input.change',
-      expect.objectContaining({ event: 'ui-change', detail: { value: 'b' } }),
+      expect.objectContaining({ event: 'native:change', detail: { value: 'b' } }),
       undefined,
     );
   });
@@ -548,7 +548,7 @@ describe('installEventBridge', () => {
     installEventBridge(mockKernel, root);
 
     // CustomEvent without detail defaults to null
-    el.dispatchEvent(new CustomEvent('ui-press', { bubbles: true }));
+    el.dispatchEvent(new CustomEvent('native:press', { bubbles: true }));
 
     expect(mockKernel.bus.dispatch).toHaveBeenCalledWith(
       'button.press',

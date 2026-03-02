@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi, beforeEach } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { CopyController } from '../copy-controller.ts';
 import { define } from '../../core/define.ts';
 
-class CopyTestEl extends UIElement {
+class CopyTestEl extends NativeElement {
   disabled = false;
   #ctrl: CopyController | null = null;
 
@@ -89,11 +89,11 @@ describe('Copyable', () => {
     expect(el.hasAttribute('copied')).toBe(true);
   });
 
-  it('dispatches ui-copy event with value', async () => {
+  it('dispatches native:copy event with value', async () => {
     const el = create();
     el.copyValue = 'test';
     const handler = vi.fn();
-    el.addEventListener('ui-copy', handler);
+    el.addEventListener('native:copy', handler);
     await el.copy();
     expect(handler).toHaveBeenCalledTimes(1);
     expect(handler.mock.calls[0][0].detail.value).toBe('test');

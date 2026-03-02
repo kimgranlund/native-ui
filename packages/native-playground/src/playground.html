@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>native-playground — Component Demo</title>
+    <link rel="stylesheet" href="../../../src/styles/index.css" />
+    <link rel="stylesheet" href="../../../src/styles/components.css" />
+    <link rel="stylesheet" href="../../../src/styles/demo.css" />
+    <link rel="stylesheet" href="./css/playground.css" />
+    </head>
+  <body>
+    <n-app><main>
+    <h1>&lt;native-playground&gt;</h1>
+    <p class="demo-desc">
+      Embeddable live code sandbox with tabbed CodeMirror editors, sandboxed iframe preview, and console capture.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <div class="demo-section">
+      <native-playground
+        auto-run
+        css-url="/packages/native-playground/src/dev-preview.css"
+        register-url="/src/register-all.ts"
+      >
+        <script type="playground/html">
+<n-button variant="primary" size="md">
+  <span slot="label">Hello Playground</span>
+</n-button>
+
+<n-button variant="outline" size="md" style="margin-left: 0.5rem;">
+  <span slot="label">Outline</span>
+</n-button>
+        </script>
+        <script type="playground/css">
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 0.5rem;
+  font-family: system-ui, sans-serif;
+}
+        </script>
+        <script type="playground/js">
+document.querySelector('n-button')
+  .addEventListener('native:press', (e) => {
+    console.log('Pressed!', e.detail.pointerType);
+  });
+        </script>
+      </native-playground>
+    </div>
+
+    <!-- ── Vertical Orientation ── -->
+
+    <h2>Vertical Orientation</h2>
+    <div class="demo-section">
+      <native-playground
+        orientation="vertical"
+        auto-run
+        css-url="/packages/native-playground/src/dev-preview.css"
+        register-url="/src/register-all.ts"
+      >
+        <script type="playground/html">
+<div style="padding: 2rem; text-align: center;">
+  <n-badge>Badge</n-badge>
+  <n-badge intent="accent">Accent</n-badge>
+  <n-badge intent="success">Success</n-badge>
+  <n-badge intent="danger">Danger</n-badge>
+</div>
+        </script>
+        <script type="playground/css">
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+        </script>
+      </native-playground>
+    </div>
+
+    <!-- ── Console Demo ── -->
+
+    <h2>Console Capture</h2>
+    <p class="demo-hint">Click "Console" in the toolbar, then press the button to see captured logs.</p>
+    <div class="demo-section">
+      <native-playground
+        auto-run
+        console-open
+        css-url="/packages/native-playground/src/dev-preview.css"
+        register-url="/src/register-all.ts"
+      >
+        <script type="playground/html">
+<div style="padding: 2rem; text-align: center;">
+  <n-button variant="primary" id="log-btn">
+    <span slot="label">Log Something</span>
+  </n-button>
+</div>
+        </script>
+        <script type="playground/js">
+let count = 0;
+document.getElementById('log-btn')
+  .addEventListener('native:press', () => {
+    count++;
+    console.log(`Button pressed ${count} time(s)`);
+    if (count % 3 === 0) console.warn('Every 3rd press triggers a warning');
+    if (count % 5 === 0) console.error('Every 5th press triggers an error');
+  });
+        </script>
+      </native-playground>
+    </div>
+
+    <!-- ── Read-only ── -->
+
+    <h2>Read-only</h2>
+    <p class="demo-hint">Editors are non-editable. Useful for documentation showcases.</p>
+    <div class="demo-section">
+      <native-playground
+        readonly
+        auto-run
+        css-url="/packages/native-playground/src/dev-preview.css"
+        register-url="/src/register-all.ts"
+      >
+        <script type="playground/html">
+<n-input placeholder="Type here..." size="md">
+  <n-icon name="magnifying-glass" slot="leading"></n-icon>
+</n-input>
+        </script>
+        <script type="playground/css">
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+n-input { max-width: 20rem; }
+        </script>
+      </native-playground>
+    </div>
+
+    <!-- ── Active Tab ── -->
+
+    <h2>Active Tab: CSS</h2>
+    <p class="demo-hint">Opens with the CSS tab pre-selected.</p>
+    <div class="demo-section">
+      <native-playground
+        active-tab="css"
+        auto-run
+        css-url="/packages/native-playground/src/dev-preview.css"
+        register-url="/src/register-all.ts"
+      >
+        <script type="playground/html">
+<div class="card">
+  <h2>Styled Card</h2>
+  <p>Edit the CSS to change the card appearance.</p>
+</div>
+        </script>
+        <script type="playground/css">
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: system-ui, sans-serif;
+}
+
+.card {
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  max-width: 20rem;
+}
+
+.card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--n-ink-muted-neutral);
+}
+        </script>
+      </native-playground>
+    </div>
+
+    </main></n-app>
+    <script type="module">
+      import '../../../src/nav/layout.ts';
+      import '../../../src/components/button/button.ts';
+      import '../../../src/components/tabs/tabs.ts';
+      import '../../../src/containers/toolbar/toolbar.ts';
+      import '../../../src/components/listbox/listbox.ts';
+      import '../../../src/components/listbox/option.ts';
+      import '../../../src/icons/icon.ts';
+      import '../../../src/icons/custom/dots-three-bold.ts';
+      import './register.ts';
+    </script>
+  </body>
+</html>

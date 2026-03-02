@@ -19,7 +19,7 @@
         font-weight: 600;
         margin-bottom: 0.5rem;
         margin-top: 1.25rem;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
       /* ── Vertical toolbar ── */
 
@@ -28,8 +28,8 @@
         flex-direction: column;
         gap: 2px;
         padding: 0.25rem;
-        background: var(--neutral-panel);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.375rem;
         width: fit-content;
       }
@@ -48,11 +48,11 @@
       }
 
       .tool-btn:hover {
-        background: var(--neutral-panel-hover);
+        background: var(--n-panel-hover-neutral);
       }
 
       .tool-btn:focus-visible {
-        outline: 2px solid var(--ui-focus-ring);
+        outline: 2px solid var(--n-focus-ring);
         outline-offset: -2px;
       }
 
@@ -66,7 +66,7 @@
       .tabbar {
         display: flex;
         gap: 0;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
       }
 
       .tab-item {
@@ -76,21 +76,21 @@
         outline: none;
         border-bottom: 2px solid transparent;
         transition: border-color 100ms ease, color 100ms ease;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
       }
 
       .tab-item:hover {
-        color: var(--neutral-ink-hover);
+        color: var(--n-ink-hover-neutral);
       }
 
       .tab-item:focus-visible {
-        outline: 2px solid var(--ui-focus-ring);
+        outline: 2px solid var(--n-focus-ring);
         outline-offset: -2px;
       }
 
       .tab-item.active {
-        color: var(--accent-surface-ink);
-        border-bottom-color: var(--accent-surface);
+        color: var(--n-surface-ink-accent);
+        border-bottom-color: var(--n-surface-accent);
       }
       /* ── API Reference ── */
 
@@ -108,20 +108,20 @@
         text-align: left;
         font-weight: 600;
         padding: 0.5rem 0.75rem;
-        border-bottom: 2px solid var(--neutral-border-muted);
-        color: var(--neutral-ink-strong);
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
       }
 
       .api-table td {
         padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
         vertical-align: top;
       }
 
       .api-table code {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         padding: 0.0625rem 0.3125rem;
         border-radius: 0.1875rem;
       }
@@ -132,7 +132,7 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
 
     <h1>RovingFocusable</h1>
     <p class="demo-desc">
@@ -144,9 +144,9 @@
     <h2>Vertical (Arrow Up/Down)</h2>
     <div class="demo-section">
       <p class="demo-hint">
-        <code>&lt;ui-controller&gt;</code> applies roving focus with vertical orientation. Tab into the toolbar, then use Up/Down arrows. The "Italic" item is disabled and skipped.
+        <code>&lt;n-controller&gt;</code> applies roving focus with vertical orientation. Tab into the toolbar, then use Up/Down arrows. The "Italic" item is disabled and skipped.
       </p>
-      <ui-controller traits="roving-focusable" roving-focusable-selector=":scope > .toolbar > .tool-btn:not([disabled])" roving-focusable-orientation="vertical">
+      <n-controller traits="roving-focusable" roving-focusable-selector=":scope > .toolbar > .tool-btn:not([disabled])" roving-focusable-orientation="vertical">
         <div>
           <div class="toolbar">
             <div class="tool-btn" role="button">Bold</div>
@@ -156,8 +156,8 @@
             <div class="tool-btn" role="button">Code</div>
           </div>
         </div>
-      </ui-controller>
-      <pre class="demo-code"><code>&lt;ui-controller traits="roving-focusable"
+      </n-controller>
+      <pre class="demo-code"><code>&lt;n-controller traits="roving-focusable"
   roving-focusable-selector=".tool-btn:not([disabled])"
   roving-focusable-orientation="vertical"&gt;
   &lt;div&gt;
@@ -167,7 +167,7 @@
       &lt;div class="tool-btn" role="button"&gt;Underline&lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Horizontal Tab Bar (Provider) ── -->
@@ -177,7 +177,7 @@
       <p class="demo-hint">
         Horizontal orientation with wrap-around. Use Left/Right arrows to navigate. Focus wraps from last to first.
       </p>
-      <ui-controller traits="roving-focusable" roving-focusable-selector=".tab-item" roving-focusable-orientation="horizontal">
+      <n-controller traits="roving-focusable" roving-focusable-selector=".tab-item" roving-focusable-orientation="horizontal">
         <div>
           <div class="tabbar" id="tabbar">
             <div class="tab-item active" role="tab">Overview</div>
@@ -186,8 +186,8 @@
             <div class="tab-item" role="tab">Examples</div>
           </div>
         </div>
-      </ui-controller>
-      <pre class="demo-code"><code>&lt;ui-controller traits="roving-focusable"
+      </n-controller>
+      <pre class="demo-code"><code>&lt;n-controller traits="roving-focusable"
   roving-focusable-selector=".tab-item"
   roving-focusable-orientation="horizontal"&gt;
   &lt;div&gt;
@@ -197,22 +197,22 @@
       &lt;div class="tab-item" role="tab"&gt;API&lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;/ui-controller&gt;</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
-    <!-- ── Built-in: ui-listbox ── -->
+    <!-- ── Built-in: n-listbox ── -->
 
-    <h2>Built-in: ui-listbox</h2>
+    <h2>Built-in: n-listbox</h2>
     <div class="demo-section">
       <p class="demo-hint">
-        <code>ui-listbox</code> uses RovingFocusable internally. Arrow keys navigate between options.
+        <code>n-listbox</code> uses RovingFocusable internally. Arrow keys navigate between options.
       </p>
-      <ui-listbox style="max-width: 16rem;">
-        <ui-option value="react">React</ui-option>
-        <ui-option value="vue">Vue</ui-option>
-        <ui-option value="svelte">Svelte</ui-option>
-        <ui-option value="lit">Lit</ui-option>
-      </ui-listbox>
+      <n-listbox style="max-width: 16rem;">
+        <n-option value="react">React</n-option>
+        <n-option value="vue">Vue</n-option>
+        <n-option value="svelte">Svelte</n-option>
+        <n-option value="lit">Lit</n-option>
+      </n-listbox>
     </div>
 
     <!-- ── API Reference ── -->
@@ -277,7 +277,7 @@
       </table>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
 
     <!-- Script 1: Register all traits BEFORE any component define() -->
     <script type="module">
@@ -287,11 +287,11 @@
 
     <!-- Script 2: Import components (runs after traits are registered) -->
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../components/ui-listbox/ui-listbox.ts';
-      import '../components/ui-controller/ui-controller.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../components/listbox/listbox.ts';
+      import '../components/controller/controller.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
 // ── Copy buttons ──
@@ -301,7 +301,7 @@
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);

@@ -33,10 +33,10 @@ export class ListNavigateController {
     this.ariaAttr = options.ariaAttr ?? 'aria-selected';
     this.autoSync = options.autoSync ?? true;
 
-    // Default onChildSelect: set value + dispatch ui-change
+    // Default onChildSelect: set value + dispatch native:change
     this.onChildSelect = options.onChildSelect ?? ((detail) => {
       this.listValue.value = detail.value;
-      host.dispatchEvent(new CustomEvent('ui-change', {
+      host.dispatchEvent(new CustomEvent('native:change', {
         bubbles: true,
         composed: true,
         cancelable: true,
@@ -85,13 +85,13 @@ export class ListNavigateController {
   attach(): void {
     if (this.#attached) return;
     this.#attached = true;
-    this.host.addEventListener('ui-select', this.#onSelect as EventListener);
+    this.host.addEventListener('native:select', this.#onSelect as EventListener);
   }
 
   detach(): void {
     if (!this.#attached) return;
     this.#attached = false;
-    this.host.removeEventListener('ui-select', this.#onSelect as EventListener);
+    this.host.removeEventListener('native:select', this.#onSelect as EventListener);
   }
 
   destroy(): void {

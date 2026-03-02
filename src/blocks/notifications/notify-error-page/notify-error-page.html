@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../../styles/components.css" />
     <style>
       body {
-        background: var(--neutral-doc);
+        background: var(--n-doc-neutral);
         color: var(--neutral-950);
       }
 
@@ -27,7 +27,7 @@
         font-size: 1rem;
         font-weight: 700;
         margin: 0;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 
       .error-page {
@@ -37,8 +37,8 @@
         justify-content: center;
         text-align: center;
         padding: 4rem 2rem;
-        background: var(--neutral-body);
-        border: 1px solid var(--neutral-border-muted);
+        background: var(--n-body-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
         border-radius: 0.75rem;
         min-height: 20rem;
       }
@@ -47,7 +47,7 @@
         font-size: 4.5rem;
         font-weight: 800;
         line-height: 1;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         margin-bottom: 0.75rem;
         letter-spacing: -0.02em;
       }
@@ -60,24 +60,24 @@
 
       .error-page p {
         font-size: 0.875rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         margin: 0 0 1.5rem;
         max-width: 28rem;
         line-height: 1.5;
       }
 
-      .error-page ui-icon {
-        color: var(--neutral-ink-muted);
+      .error-page n-icon {
+        color: var(--n-ink-muted-neutral);
         margin-bottom: 1rem;
       }
     </style>
   </head>
   <body>
-    <nui-app><main>
-    <ui-stack gap="6">
+    <n-app><main>
+    <n-stack gap="6">
     <div>
       <h1>Error Pages</h1>
-      <p style="color: var(--neutral-ink-muted); font-size: 0.875rem;">
+      <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Full-page error patterns for common HTTP errors and maintenance windows.
         Each variant provides clear messaging and an actionable recovery path.
       </p>
@@ -85,60 +85,60 @@
 
     <!-- -- 404 Not Found -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <h2>404 — Not Found</h2>
     <div class="error-page">
       <div class="error-code" aria-hidden="true">404</div>
       <h3>Page not found</h3>
       <p>The page you're looking for doesn't exist or has been moved. Check the URL or head back to the homepage.</p>
-      <ui-button variant="primary" intent="accent">
-        <ui-icon name="house" slot="leading"></ui-icon>
+      <n-button variant="primary" intent="accent">
+        <n-icon name="house" slot="leading"></n-icon>
         <span slot="label">Go Home</span>
-      </ui-button>
+      </n-button>
     </div>
-    </ui-stack>
+    </n-stack>
 
     <!-- -- 500 Server Error -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <h2>500 — Server Error</h2>
     <div class="error-page">
       <div class="error-code" aria-hidden="true">500</div>
       <h3>Server error</h3>
       <p>Something went wrong on our end. Our team has been notified and is working on a fix. Please try again in a few moments.</p>
-      <ui-stack direction="row" gap="3">
-        <ui-button variant="primary" intent="accent" id="retry-btn">
+      <n-stack direction="row" gap="3">
+        <n-button variant="primary" intent="accent" id="retry-btn">
           <span slot="label">Try Again</span>
-        </ui-button>
-        <ui-button>
-          <ui-icon name="house" slot="leading"></ui-icon>
+        </n-button>
+        <n-button>
+          <n-icon name="house" slot="leading"></n-icon>
           <span slot="label">Go Home</span>
-        </ui-button>
-      </ui-stack>
+        </n-button>
+      </n-stack>
     </div>
-    </ui-stack>
+    </n-stack>
 
     <!-- -- Maintenance -- -->
 
-    <ui-stack gap="4">
+    <n-stack gap="4">
     <h2>Maintenance</h2>
     <div class="error-page">
-      <ui-icon name="gear" size="xl" aria-hidden="true"></ui-icon>
+      <n-icon name="gear" size="xl" aria-hidden="true"></n-icon>
       <h3>We'll be back soon</h3>
       <p>We're performing scheduled maintenance to improve your experience. This usually takes less than 30 minutes. Thank you for your patience.</p>
-      <ui-button>
-        <ui-icon name="info" slot="leading"></ui-icon>
+      <n-button>
+        <n-icon name="info" slot="leading"></n-icon>
         <span slot="label">Check Status</span>
-      </ui-button>
+      </n-button>
     </div>
-    </ui-stack>
-    </ui-stack>
+    </n-stack>
+    </n-stack>
 
-    </main></nui-app>
+    </main></n-app>
     <script type="module">
-      import '../../../nav/ui-layout.ts';
-      import '../../../components/ui-button/ui-button.ts';
-      import '../../../icons/ui-icon.ts';
+      import '../../../nav/layout.ts';
+      import '../../../components/button/button.ts';
+      import '../../../icons/icon.ts';
       import '../../../icons/phosphor/house.ts';
       import '../../../icons/phosphor/gear.ts';
       import '../../../icons/phosphor/info.ts';

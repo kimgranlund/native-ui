@@ -116,10 +116,10 @@ const STRUCTURAL_TAGS: ReadonlySet<string> = new Set([
 
 /** Tags that are self-labeling (text content serves as the accessible name). */
 const SELF_LABELING_TAGS: ReadonlySet<string> = new Set([
-  'ui-button', 'button', 'a', 'label', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+  'n-button', 'button', 'a', 'label', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
   'p', 'span', 'li', 'td', 'th', 'caption', 'summary', 'legend',
-  'ui-option', 'ui-command-item', 'ui-breadcrumb-item', 'ui-tab', 'ui-switch',
-  'ui-badge',
+  'n-option', 'n-command-item', 'n-breadcrumb-item', 'n-tab', 'n-switch',
+  'n-badge',
 ]);
 
 /**
@@ -127,7 +127,7 @@ const SELF_LABELING_TAGS: ReadonlySet<string> = new Set([
  * instead of bare textContent. The CSS grid layout depends on this slot.
  */
 const SLOT_LABEL_TAGS: ReadonlySet<string> = new Set([
-  'ui-button',
+  'n-button',
 ]);
 
 const MAX_SAFE_DEPTH = 10;
@@ -314,17 +314,17 @@ export class Planner {
 
   /**
    * Transforms an ElementIntent to match native-ui component DOM requirements.
-   * For example, `ui-select` with `ui-option` children gets converted to
+   * For example, `n-select` with `n-option` children gets converted to
    * data-driven mode (options attribute) since manual mode requires a complex
-   * `ui-button` + `ui-listbox[popover]` structure.
+   * `n-button` + `n-listbox[popover]` structure.
    */
   #transformIntent(element: ElementIntent): ElementIntent {
     const tag = element.component.toLowerCase();
 
-    // ui-select with ui-option children → convert to data-driven mode
-    if (tag === 'ui-select' && element.children && element.children.length > 0) {
+    // n-select with n-option children → convert to data-driven mode
+    if (tag === 'n-select' && element.children && element.children.length > 0) {
       const optionChildren = element.children.filter(
-        (c) => c.component.toLowerCase() === 'ui-option',
+        (c) => c.component.toLowerCase() === 'n-option',
       );
 
       if (optionChildren.length > 0) {
@@ -336,7 +336,7 @@ export class Planner {
 
         // Keep non-option children (if any)
         const otherChildren = element.children.filter(
-          (c) => c.component.toLowerCase() !== 'ui-option',
+          (c) => c.component.toLowerCase() !== 'n-option',
         );
 
         return {
@@ -387,7 +387,7 @@ export class Planner {
     }
 
     // Icons: add aria-hidden="true" unless explicitly labeled
-    if (tag.toLowerCase() === 'ui-icon') {
+    if (tag.toLowerCase() === 'n-icon') {
       if (!existing['aria-label'] && !element.label) {
         additions['aria-hidden'] = 'true';
       }
@@ -445,8 +445,8 @@ export class Planner {
   #warnMissingLabels(element: ElementIntent, warnings: string[]): void {
     const tag = element.component.toLowerCase();
     const isFormElement =
-      tag === 'ui-input' || tag === 'ui-select' || tag === 'ui-combobox' ||
-      tag === 'ui-textarea' || tag === 'ui-range' || tag === 'input' ||
+      tag === 'n-input' || tag === 'n-select' || tag === 'n-combobox' ||
+      tag === 'n-textarea' || tag === 'n-range' || tag === 'input' ||
       tag === 'select' || tag === 'textarea';
 
     if (isFormElement && !element.label && !element.attributes?.['aria-label'] && !element.attributes?.['aria-labelledby']) {
@@ -463,7 +463,7 @@ export class Planner {
   #warnUnlabeledButtons(elements: readonly ElementIntent[], warnings: string[]): void {
     for (const el of elements) {
       const tag = el.component.toLowerCase();
-      if (tag === 'ui-button' || tag === 'button') {
+      if (tag === 'n-button' || tag === 'button') {
         const hasLabel = el.label || el.attributes?.['aria-label'] || el.attributes?.['aria-labelledby'];
         if (!hasLabel) {
           warnings.push(`Button <${el.component}> has no text content or aria-label.`);
@@ -502,8 +502,8 @@ export class Planner {
 
   /**
    * Build a form plan from field descriptors.
-   * Produces a `<form>` with `ui-field` + `ui-input`/`ui-select`/`ui-textarea` per field,
-   * plus a submit `ui-button` at the end.
+   * Produces a `<form>` with `n-field` + `n-input`/`n-select`/`n-textarea` per field,
+   * plus a submit `n-button` at the end.
    */
   static form(
     fields: readonly FormFieldIntent[],
@@ -523,7 +523,7 @@ export class Planner {
       if (fieldType === 'select' && field.options) {
         // Use data-driven mode: set options attribute as JSON + placeholder
         inputElement = {
-          component: 'ui-select',
+          component: 'n-select',
           label: field.name,
           attributes: {
             options: JSON.stringify(field.options.map((o) => ({ value: o.value, label: o.label }))),
@@ -533,7 +533,7 @@ export class Planner {
         };
       } else if (fieldType === 'textarea') {
         inputElement = {
-          component: 'ui-textarea',
+          component: 'n-textarea',
           label: field.name,
           attributes: {
             ...(field.placeholder ? { placeholder: field.placeholder } : {}),
@@ -542,7 +542,7 @@ export class Planner {
         };
       } else {
         inputElement = {
-          component: 'ui-input',
+          component: 'n-input',
           label: field.name,
           attributes: {
             type: fieldType,
@@ -552,9 +552,9 @@ export class Planner {
         };
       }
 
-      // Wrap in ui-field
+      // Wrap in n-field
       elements.push({
-        component: 'ui-field',
+        component: 'n-field',
         children: [
           { component: 'label', label: field.name, slot: 'label' },
           inputElement,
@@ -564,11 +564,11 @@ export class Planner {
 
     // Submit button
     elements.push({
-      component: 'ui-button',
+      component: 'n-button',
       label: options?.submitLabel ?? 'Submit',
       attributes: { variant: 'primary', intent: 'accent' },
       events: options?.submitCommand
-        ? { 'ui-press': options.submitCommand }
+        ? { 'native:press': options.submitCommand }
         : {},
     });
 
@@ -590,7 +590,7 @@ export class Planner {
 
   /**
    * Build a simple action bar from button descriptors.
-   * Produces a horizontal `<div>` with `ui-button` children.
+   * Produces a horizontal `<div>` with `n-button` children.
    */
   static actions(
     buttons: readonly ButtonIntent[],
@@ -599,13 +599,13 @@ export class Planner {
     },
   ): PlanResult {
     const buttonElements: ElementIntent[] = buttons.map((btn) => ({
-      component: 'ui-button',
+      component: 'n-button',
       label: btn.label,
       attributes: {
         variant: btn.variant ?? 'default',
         ...(btn.intent ? { intent: btn.intent } : {}),
       },
-      events: { 'ui-press': btn.command },
+      events: { 'native:press': btn.command },
     }));
 
     const intent: UIIntent = {
@@ -628,7 +628,7 @@ export class Planner {
 
   /**
    * Build a content card with optional heading, body, media, and footer actions.
-   * Produces a `<ui-card>` with slotted children.
+   * Produces a `<n-card>` with slotted children.
    */
   static card(
     card: CardIntent,
@@ -672,13 +672,13 @@ export class Planner {
         component: 'div',
         slot: 'footer',
         children: card.footer.map((btn) => ({
-          component: 'ui-button',
+          component: 'n-button',
           label: btn.label,
           attributes: {
             variant: btn.variant ?? 'ghost',
             ...(btn.intent ? { intent: btn.intent } : {}),
           },
-          events: { 'ui-press': btn.command },
+          events: { 'native:press': btn.command },
         })),
       });
     }
@@ -694,7 +694,7 @@ export class Planner {
       type: 'display',
       elements: [
         {
-          component: 'ui-card',
+          component: 'n-card',
           attributes: Object.keys(cardAttrs).length > 0 ? cardAttrs : undefined,
           children,
         },
@@ -707,7 +707,7 @@ export class Planner {
 
   /**
    * Build a confirmation/alert dialog.
-   * Produces a `<ui-dialog>` with a styled panel containing title, body, and action buttons.
+   * Produces a `<n-dialog>` with a styled panel containing title, body, and action buttons.
    */
   static dialog(
     dialog: DialogIntent,
@@ -720,34 +720,34 @@ export class Planner {
     // Cancel button (optional)
     if (dialog.cancelLabel !== undefined || dialog.cancelCommand) {
       actionButtons.push({
-        component: 'ui-button',
+        component: 'n-button',
         label: dialog.cancelLabel ?? 'Cancel',
         attributes: { variant: 'ghost' },
-        events: dialog.cancelCommand ? { 'ui-press': dialog.cancelCommand } : {},
+        events: dialog.cancelCommand ? { 'native:press': dialog.cancelCommand } : {},
       });
     }
 
     // Confirm button
     actionButtons.push({
-      component: 'ui-button',
+      component: 'n-button',
       label: dialog.confirmLabel ?? 'Confirm',
       attributes: {
         variant: 'primary',
         intent: dialog.intent ?? 'accent',
       },
-      events: { 'ui-press': dialog.confirmCommand },
+      events: { 'native:press': dialog.confirmCommand },
     });
 
     const intent: UIIntent = {
       type: 'composite',
       elements: [
         {
-          component: 'ui-dialog',
+          component: 'n-dialog',
           children: [
             {
               component: 'div',
               attributes: {
-                style: 'background: var(--neutral-body); border: 1px solid var(--neutral-border-muted); border-radius: 0.75rem; padding: 1.5rem; width: min(28rem, calc(100vw - 2rem));',
+                style: 'background: var(--n-body-neutral); border: 1px solid var(--n-border-muted-neutral); border-radius: 0.75rem; padding: 1.5rem; width: min(28rem, calc(100vw - 2rem));',
               },
               children: [
                 { component: 'h3', label: dialog.title },
@@ -770,7 +770,7 @@ export class Planner {
 
   /**
    * Build a settings toggle list.
-   * Produces a vertical list of `ui-switch` elements with labels and optional descriptions.
+   * Produces a vertical list of `n-switch` elements with labels and optional descriptions.
    */
   static settings(
     settings: readonly SettingIntent[],
@@ -784,10 +784,10 @@ export class Planner {
       if (setting.checked) switchAttrs['checked'] = '';
 
       const switchEl: ElementIntent = {
-        component: 'ui-switch',
+        component: 'n-switch',
         label: setting.label,
         attributes: switchAttrs,
-        events: setting.command ? { 'ui-change': setting.command } : undefined,
+        events: setting.command ? { 'native:change': setting.command } : undefined,
       };
 
       if (setting.description) {
@@ -796,7 +796,7 @@ export class Planner {
           attributes: { style: 'display: flex; flex-direction: column; gap: 0.25rem;' },
           children: [
             switchEl,
-            { component: 'p', label: setting.description, attributes: { style: 'font-size: 0.875em; color: var(--neutral-ink-muted); margin: 0; padding-inline-start: 2.5rem;' } },
+            { component: 'p', label: setting.description, attributes: { style: 'font-size: 0.875em; color: var(--n-ink-muted-neutral); margin: 0; padding-inline-start: 2.5rem;' } },
           ],
         };
       }
@@ -822,7 +822,7 @@ export class Planner {
 
   /**
    * Build a tabbed interface.
-   * Produces a `<ui-tabs>` with `<ui-tab>` triggers + `<ui-tab-panels>` container.
+   * Produces a `<n-tabs>` with `<n-tab>` triggers + `<n-tab-panels>` container.
    */
   static tabs(
     tabs: readonly TabIntent[],
@@ -840,23 +840,23 @@ export class Planner {
       if (tab.disabled) tabAttrs['disabled'] = '';
 
       children.push({
-        component: 'ui-tab',
+        component: 'n-tab',
         label: tab.label,
         attributes: tabAttrs,
       });
     }
 
-    // Tab panels wrapped in ui-tab-panels container
+    // Tab panels wrapped in n-tab-panels container
     const panelChildren: ElementIntent[] = [];
     for (const tab of tabs) {
       panelChildren.push({
-        component: 'ui-tab-panel',
+        component: 'n-tab-panel',
         attributes: { value: tab.value },
         children: [{ component: 'p', label: tab.content }],
       });
     }
     children.push({
-      component: 'ui-tab-panels',
+      component: 'n-tab-panels',
       children: panelChildren,
     });
 
@@ -869,7 +869,7 @@ export class Planner {
       type: 'layout',
       elements: [
         {
-          component: 'ui-tabs',
+          component: 'n-tabs',
           attributes: tabsAttrs,
           children,
         },
@@ -882,7 +882,7 @@ export class Planner {
 
   /**
    * Build a navigation list.
-   * Produces a `<ui-listbox>` with `<ui-option>` items, optionally grouped with `<ui-option-group>`.
+   * Produces a `<n-listbox>` with `<n-option>` items, optionally grouped with `<n-option-group>`.
    */
   static nav(
     items: readonly NavItemIntent[],
@@ -910,13 +910,13 @@ export class Planner {
         const optionChildren: ElementIntent[] = [];
         if (item.icon) {
           optionChildren.push({
-            component: 'ui-icon',
+            component: 'n-icon',
             attributes: { name: item.icon, slot: 'leading' },
           });
         }
 
         return {
-          component: 'ui-option',
+          component: 'n-option',
           label: item.label,
           attributes: { value: item.value },
           children: optionChildren.length > 0 ? optionChildren : undefined,
@@ -924,19 +924,19 @@ export class Planner {
       });
 
       if (groupName) {
-        // Wrap in ui-option-group
+        // Wrap in n-option-group
         const headingChildren: ElementIntent[] = [];
         // Check if first item in group has icon — use it for the heading too
         const firstIcon = groupItems[0]?.icon;
         if (firstIcon) {
           headingChildren.push({
-            component: 'ui-icon',
+            component: 'n-icon',
             attributes: { name: firstIcon },
           });
         }
 
         listChildren.push({
-          component: 'ui-option-group',
+          component: 'n-option-group',
           children: [
             {
               component: 'span',
@@ -958,7 +958,7 @@ export class Planner {
       title: options?.title,
       elements: [
         {
-          component: 'ui-listbox',
+          component: 'n-listbox',
           attributes: { 'aria-label': options?.title ?? 'Navigation' },
           children: listChildren,
         },

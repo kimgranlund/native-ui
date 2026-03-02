@@ -1,0 +1,50 @@
+@layer ui {
+
+  /* ── Icon Base ── */
+
+  :where(n-icon) {
+    --n-icon-color: currentColor;
+
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--n-icon-size);
+    height: var(--n-icon-size);
+    color: var(--n-icon-color);
+    flex-shrink: 0;
+    vertical-align: middle;
+    line-height: 0;
+  }
+
+  :where(n-icon) > :where(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* WHY: Unregistered icons (no SVG content) should collapse to zero size
+     so surrounding buttons/slots don't render with phantom dimensions */
+  :where(n-icon:empty) {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  /* ── Intent (declarative color) ── */
+
+  :where(n-icon[intent="accent"])  { --n-icon-color: var(--n-ink-accent); }
+  :where(n-icon[intent="success"]) { --n-icon-color: var(--n-ink-success); }
+  :where(n-icon[intent="warning"]) { --n-icon-color: var(--n-ink-warning); }
+  :where(n-icon[intent="danger"])  { --n-icon-color: var(--n-ink-danger); }
+  :where(n-icon[intent="info"])    { --n-icon-color: var(--n-ink-info); }
+  :where(n-icon[intent="muted"])   { --n-icon-color: var(--n-ink-muted-neutral); }
+
+  /* ── Forced Colors ── */
+
+  @media (forced-colors: active) {
+    :where(n-icon) {
+      --n-icon-color: ButtonText;
+    }
+  }
+
+}

@@ -1,10 +1,10 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { UIElement } from '../../core/ui-element.ts';
+import { NativeElement } from '../../core/native-element.ts';
 import { ResizeController } from '../resize-controller.ts';
 import { define } from '../../core/define.ts';
 
-class ResizeTestEl extends UIElement {
+class ResizeTestEl extends NativeElement {
   disabled = false;
   #ctrl: ResizeController | null = null;
 
@@ -68,7 +68,7 @@ describe('Resizable', () => {
   it('does nothing when no handle selector is set', () => {
     const el = create();
     const handler = vi.fn();
-    el.addEventListener('ui-resize-start', handler);
+    el.addEventListener('native:resize-start', handler);
     el.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     expect(handler).not.toHaveBeenCalled();
   });
@@ -78,7 +78,7 @@ describe('Resizable', () => {
     el.resizeHandleSelector = '.handle';
     el.resizeDisabled = true;
     const handler = vi.fn();
-    el.addEventListener('ui-resize-start', handler);
+    el.addEventListener('native:resize-start', handler);
     const handle = el.querySelector('.handle')!;
     handle.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     expect(handler).not.toHaveBeenCalled();
@@ -88,7 +88,7 @@ describe('Resizable', () => {
     const el = create();
     el.resizeHandleSelector = '.handle';
     const handler = vi.fn();
-    el.addEventListener('ui-resize-start', handler);
+    el.addEventListener('native:resize-start', handler);
     const handle = el.querySelector('.handle')!;
     handle.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 2 }));
     expect(handler).not.toHaveBeenCalled();
@@ -106,21 +106,21 @@ describe('Resizable', () => {
     expect(el.hasAttribute('resizing')).toBe(false);
   });
 
-  it('dispatches ui-resize-start on handle pointerdown', () => {
+  it('dispatches native:resize-start on handle pointerdown', () => {
     const el = create();
     el.resizeHandleSelector = '.handle';
     const handler = vi.fn();
-    el.addEventListener('ui-resize-start', handler);
+    el.addEventListener('native:resize-start', handler);
     const handle = el.querySelector('.handle')!;
     handle.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     expect(handler).toHaveBeenCalledTimes(1);
   });
 
-  it('dispatches ui-resize-end on pointerup', () => {
+  it('dispatches native:resize-end on pointerup', () => {
     const el = create();
     el.resizeHandleSelector = '.handle';
     const handler = vi.fn();
-    el.addEventListener('ui-resize-end', handler);
+    el.addEventListener('native:resize-end', handler);
     const handle = el.querySelector('.handle')!;
     handle.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
@@ -151,7 +151,7 @@ describe('ResizeController', () => {
     const host = createHost();
     const ctrl = new ResizeController(host, { handleSelector: '.handle' });
     const handler = vi.fn();
-    host.addEventListener('ui-resize-start', handler);
+    host.addEventListener('native:resize-start', handler);
 
     const handle = host.querySelector('.handle')!;
     handle.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
@@ -167,7 +167,7 @@ describe('ResizeController', () => {
     const host = createHost();
     const ctrl = new ResizeController(host, { handleSelector: '.handle', disabled: true });
     const handler = vi.fn();
-    host.addEventListener('ui-resize-start', handler);
+    host.addEventListener('native:resize-start', handler);
 
     const handle = host.querySelector('.handle')!;
     handle.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
@@ -182,7 +182,7 @@ describe('ResizeController', () => {
     ctrl.detach();
 
     const handler = vi.fn();
-    host.addEventListener('ui-resize-start', handler);
+    host.addEventListener('native:resize-start', handler);
 
     const handle = host.querySelector('.handle')!;
     handle.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
@@ -191,11 +191,11 @@ describe('ResizeController', () => {
     ctrl.destroy();
   });
 
-  it('dispatches ui-resize-end on pointerup', () => {
+  it('dispatches native:resize-end on pointerup', () => {
     const host = createHost();
     const ctrl = new ResizeController(host, { handleSelector: '.handle' });
     const handler = vi.fn();
-    host.addEventListener('ui-resize-end', handler);
+    host.addEventListener('native:resize-end', handler);
 
     const handle = host.querySelector('.handle')!;
     handle.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));

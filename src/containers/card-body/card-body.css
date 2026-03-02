@@ -1,0 +1,30 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  n-card-body                                                 │
+     │  Scrollable content region. Fills remaining flex space.  │
+     │  Scrollbar hidden by default; use show-scrollbar to      │
+     │  reveal a thin scrollbar.                                │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* ── Base ── */
+
+  :where(n-card-body) {
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    min-height: 0;
+    flex-direction: column;
+    gap: calc(var(--n-space) * 2);
+    padding: calc(var(--n-space-k) * var(--n-space));
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  /* ── Scrollbar ── */
+
+  :where(n-card-body)[show-scrollbar] {
+    scrollbar-width: thin;
+  }
+
+}

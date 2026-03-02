@@ -30,7 +30,7 @@ export class DialogController {
       const af = this.#dialog?.querySelector<HTMLElement>('[autofocus]');
       if (af) { af.focus(); return; }
       const focusable = this.#dialog?.querySelector<HTMLElement>(
-        'ui-input, ui-textarea, ui-button, ui-select, ui-listbox, input, textarea, select, button, [tabindex]:not([tabindex="-1"])'
+        'n-input, n-textarea, n-button, n-select, n-listbox, input, textarea, select, button, [tabindex]:not([tabindex="-1"])'
       );
       focusable?.focus();
     });
@@ -48,7 +48,7 @@ export class DialogController {
       this.#dialog.removeEventListener('cancel', this.#onCancel);
       this.#dialog.removeEventListener('click', this.#onClick);
     }
-    this.host.removeEventListener('ui-dismiss', this.#onDismiss);
+    this.host.removeEventListener('native:dismiss', this.#onDismiss);
     this.#dialog = null;
   }
 
@@ -77,6 +77,6 @@ export class DialogController {
 
     dialog.addEventListener('cancel', this.#onCancel);
     dialog.addEventListener('click', this.#onClick);
-    this.host.addEventListener('ui-dismiss', this.#onDismiss);
+    this.host.addEventListener('native:dismiss', this.#onDismiss);
   }
 }

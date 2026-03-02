@@ -2,7 +2,7 @@
 
 # SortController
 
-> Manages column sort state and dispatches `ui-sort` events.
+> Manages column sort state and dispatches `native:sort` events.
 
 ## Constructor
 
@@ -27,7 +27,7 @@ new SortController(host: HTMLElement, options?: SortOptions)
 
 | Event | Detail |
 |-------|--------|
-| `ui-sort` | `{ column, direction }` |
+| `native:sort` | `{ column, direction }` |
 
 ## Methods
 

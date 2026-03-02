@@ -185,15 +185,15 @@ describe('PlanExecutor', () => {
   });
 
   it('validates against registry', () => {
-    const registry = makeRegistry('ui-button');
+    const registry = makeRegistry('n-button');
     const executor = createPlanExecutor(registry);
 
     // Registered element — should work
-    const plan1 = makePlan({ id: 'btn', tag: 'ui-button' }, 'p1');
+    const plan1 = makePlan({ id: 'btn', tag: 'n-button' }, 'p1');
     expect(() => executor.execute(plan1, container)).not.toThrow();
 
     // Unregistered element — should fail
-    const plan2 = makePlan({ id: 'sel', tag: 'ui-select' }, 'p2');
+    const plan2 = makePlan({ id: 'sel', tag: 'n-select' }, 'p2');
     expect(() => executor.execute(plan2, container)).toThrow('Invalid plan');
   });
 });

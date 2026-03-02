@@ -19,7 +19,7 @@
         font-weight: 600;
         margin-bottom: 0.5rem;
         margin-top: 1.25rem;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 .field-wrapper {
         margin-bottom: 1rem;
@@ -30,27 +30,27 @@
         font-size: 0.8125rem;
         font-weight: 600;
         margin-bottom: 0.375rem;
-        color: var(--neutral-ink-strong);
+        color: var(--n-ink-strong-neutral);
       }
 
       .error-msg {
         font-size: 0.75rem;
-        color: var(--danger-ink);
+        color: var(--n-ink-danger);
         margin-top: 0.25rem;
         min-height: 1.125rem;
       }
 
-      [invalid] ui-input {
-        --_border-color: var(--danger-border);
+      [invalid] n-input {
+        --n-border-color: var(--n-border-danger);
       }
 
       .output {
         font-family: monospace;
         font-size: 0.75rem;
-        color: var(--neutral-ink-muted);
+        color: var(--n-ink-muted-neutral);
         margin-top: 0.75rem;
         padding: 0.5rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         border-radius: 0.25rem;
         min-height: 1.5rem;
       }
@@ -70,20 +70,20 @@
         text-align: left;
         font-weight: 600;
         padding: 0.5rem 0.75rem;
-        border-bottom: 2px solid var(--neutral-border-muted);
-        color: var(--neutral-ink-strong);
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
       }
 
       .api-table td {
         padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--neutral-border-muted);
+        border-bottom: 1px solid var(--n-border-muted-neutral);
         vertical-align: top;
       }
 
       .api-table code {
         font-family: ui-monospace, monospace;
         font-size: 0.75rem;
-        background: var(--neutral-panel);
+        background: var(--n-panel-neutral);
         padding: 0.0625rem 0.3125rem;
         border-radius: 0.1875rem;
       }
@@ -94,11 +94,11 @@
     </style>
   </head>
   <body>
-    <nui-app><main>
+    <n-app><main>
 
     <h1>Validatable</h1>
     <p class="demo-desc">
-      Composable trait for declarative form validation. Attach rules to any element, call <code>validate()</code>, and react to <code>ui-valid</code> / <code>ui-invalid</code> events. Sets <code>[invalid]</code> and <code>aria-invalid</code> attributes automatically.
+      Composable trait for declarative form validation. Attach rules to any element, call <code>validate()</code>, and react to <code>native:valid</code> / <code>native:invalid</code> events. Sets <code>[invalid]</code> and <code>aria-invalid</code> attributes automatically.
     </p>
 
     <!-- ── Required Field ── -->
@@ -106,14 +106,14 @@
     <h2>Required Field</h2>
     <div class="demo-section">
       <p class="demo-hint">
-        Uses <code>ValidateController</code> directly on a wrapper div with a <code>ui-input</code> inside.
+        Uses <code>ValidateController</code> directly on a wrapper div with a <code>native:input</code> inside.
       </p>
       <div class="field-wrapper" id="required-field">
         <label>Name</label>
-        <ui-input placeholder="Enter your name"></ui-input>
+        <n-input placeholder="Enter your name"></n-input>
         <div class="error-msg"></div>
       </div>
-      <ui-button id="validate-required">Validate</ui-button>
+      <n-button id="validate-required">Validate</n-button>
       <div id="required-output" class="output"></div>
       <pre class="demo-code"><code>import { ValidateController } from '@nonoun/native-ui';
 
@@ -123,17 +123,17 @@ validator.rules = [
   ValidateController.required('Name is required'),
 ];
 
-field.addEventListener('ui-invalid', (e) =&gt; {
+field.addEventListener('native:invalid', (e) =&gt; {
   errorEl.textContent = e.detail.message;
 });
-field.addEventListener('ui-valid', () =&gt; {
+field.addEventListener('native:valid', () =&gt; {
   errorEl.textContent = '';
 });
 
 // Validate on button press
-button.addEventListener('ui-press', () =&gt; {
+button.addEventListener('native:press', () =&gt; {
   validator.validate();
-});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Multiple Rules ── -->
@@ -142,17 +142,17 @@ button.addEventListener('ui-press', () =&gt; {
     <div class="demo-section">
       <div class="field-wrapper" id="password-field">
         <label>Password</label>
-        <ui-input type="password" placeholder="Enter a password"></ui-input>
+        <n-input type="password" placeholder="Enter a password"></n-input>
         <div class="error-msg"></div>
       </div>
-      <ui-button id="validate-password">Validate</ui-button>
+      <n-button id="validate-password">Validate</n-button>
       <div id="password-output" class="output"></div>
       <pre class="demo-code"><code>validator.rules = [
   ValidateController.required('Password is required'),
   ValidateController.minLength(8, 'Must be at least 8 characters'),
   ValidateController.pattern(/[A-Z]/, 'Must contain an uppercase letter'),
   ValidateController.pattern(/[0-9]/, 'Must contain a number'),
-];</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+];</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── Validate on Blur ── -->
@@ -161,16 +161,16 @@ button.addEventListener('ui-press', () =&gt; {
     <div class="demo-section">
       <div class="field-wrapper" id="email-field">
         <label>Email</label>
-        <ui-input type="email" placeholder="you@example.com"></ui-input>
+        <n-input type="email" placeholder="you@example.com"></n-input>
         <div class="error-msg"></div>
       </div>
-      <p style="font-size: 0.75rem; color: var(--neutral-ink-muted);">
+      <p style="font-size: 0.75rem; color: var(--n-ink-muted-neutral);">
         Focus the input, type something, then tab away. Validation runs on blur.
       </p>
-      <pre class="demo-code"><code>const emailInput = field.querySelector('ui-input');
+      <pre class="demo-code"><code>const emailInput = field.querySelector('native:input');
 emailInput.addEventListener('focusout', () =&gt; {
   validator.validate();
-});</code><ui-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><ui-icon name="copy"></ui-icon></ui-button></pre>
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
     <!-- ── API Reference ── -->
@@ -223,12 +223,12 @@ emailInput.addEventListener('focusout', () =&gt; {
         <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>ui-invalid</code></td>
+            <td><code>native:invalid</code></td>
             <td><code>{ message }</code></td>
             <td>Fired when validation fails. <code>message</code> is the first failing rule's message.</td>
           </tr>
           <tr>
-            <td><code>ui-valid</code></td>
+            <td><code>native:valid</code></td>
             <td>—</td>
             <td>Fired when validation passes after a previous failure.</td>
           </tr>
@@ -249,7 +249,7 @@ emailInput.addEventListener('focusout', () =&gt; {
       </table>
     </div>
 
-    </main></nui-app>
+    </main></n-app>
 
     <!-- Script 1: Register all traits BEFORE any component define() -->
     <script type="module">
@@ -259,11 +259,11 @@ emailInput.addEventListener('focusout', () =&gt; {
 
     <!-- Script 2: Import components (runs after traits are registered) -->
     <script type="module">
-      import '../nav/ui-layout.ts';
-      import '../components/ui-button/ui-button.ts';
-      import '../components/ui-input/ui-input.ts';
-      import '../components/ui-controller/ui-controller.ts';
-      import '../icons/ui-icon.ts';
+      import '../nav/layout.ts';
+      import '../components/button/button.ts';
+      import '../components/input/input.ts';
+      import '../components/controller/controller.ts';
+      import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
       import { ValidateController } from '../index.ts';
@@ -274,7 +274,7 @@ emailInput.addEventListener('focusout', () =&gt; {
           const code = btn.closest('.demo-code')?.querySelector('code');
           if (!code) return;
           await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('ui-icon');
+          const icon = btn.querySelector('n-icon');
           if (icon) {
             icon.setAttribute('name', 'check');
             setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
@@ -286,10 +286,10 @@ emailInput.addEventListener('focusout', () =&gt; {
 
       function wireField(field) {
         const errorEl = field.querySelector('.error-msg');
-        field.addEventListener('ui-invalid', (e) => {
+        field.addEventListener('native:invalid', (e) => {
           if (errorEl) errorEl.textContent = e.detail.message;
         });
-        field.addEventListener('ui-valid', () => {
+        field.addEventListener('native:valid', () => {
           if (errorEl) errorEl.textContent = '';
         });
       }
@@ -302,7 +302,7 @@ emailInput.addEventListener('focusout', () =&gt; {
         ValidateController.required('Name is required'),
       ];
       wireField(reqField);
-      document.getElementById('validate-required').addEventListener('ui-press', () => {
+      document.getElementById('validate-required').addEventListener('native:press', () => {
         const ok = reqValidator.validate();
         document.getElementById('required-output').textContent = ok ? 'Valid!' : `Invalid: ${reqValidator.errorMessage}`;
       });
@@ -318,7 +318,7 @@ emailInput.addEventListener('focusout', () =&gt; {
         ValidateController.pattern(/[0-9]/, 'Must contain a number'),
       ];
       wireField(pwField);
-      document.getElementById('validate-password').addEventListener('ui-press', () => {
+      document.getElementById('validate-password').addEventListener('native:press', () => {
         const ok = pwValidator.validate();
         document.getElementById('password-output').textContent = ok ? 'Valid!' : `Invalid: ${pwValidator.errorMessage}`;
       });
@@ -332,7 +332,7 @@ emailInput.addEventListener('focusout', () =&gt; {
         ValidateController.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Must be a valid email address'),
       ];
       wireField(emailField);
-      const emailInput = emailField.querySelector('ui-input');
+      const emailInput = emailField.querySelector('native:input');
       emailInput.addEventListener('focusout', () => {
         emailValidator.validate();
       });

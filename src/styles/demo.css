@@ -7,7 +7,7 @@
 /* ── Page Base ── */
 
 body {
-  background: var(--neutral-doc);
+  background: var(--n-doc-neutral);
   color: var(--neutral-950);
 }
 
@@ -30,7 +30,7 @@ h2 {
   font-weight: 700;
   margin-bottom: 1rem;
   margin-top: 2rem;
-  color: var(--neutral-ink-strong);
+  color: var(--n-ink-strong-neutral);
 }
 
 h3 {
@@ -40,7 +40,7 @@ h3 {
   letter-spacing: 0.05em;
   margin-bottom: 0.5rem;
   margin-top: 1.5rem;
-  color: var(--neutral-ink-muted);
+  color: var(--n-ink-muted-neutral);
 }
 
 h3:first-child {
@@ -50,9 +50,9 @@ h3:first-child {
 /* ── Demo Sections ── */
 
 .demo-section {
-  background: var(--neutral-body);
-  border: 1px solid var(--neutral-border-muted);
-  border-radius: var(--_radius);
+  background: var(--n-body-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: var(--n-radius);
   padding: 1.5rem;
   margin-bottom: 1rem;
 }
@@ -72,26 +72,26 @@ h3:first-child {
   letter-spacing: 0.04em;
   width: 5rem;
   flex-shrink: 0;
-  color: var(--neutral-ink-muted);
+  color: var(--n-ink-muted-neutral);
 }
 
 /* ── Text Utilities ── */
 
 .demo-desc {
-  color: var(--neutral-ink-muted);
+  color: var(--n-ink-muted-neutral);
   font-size: 0.875rem;
   margin-bottom: 1.5rem;
 }
 
 .demo-caption {
   font-size: 0.75rem;
-  color: var(--neutral-ink-muted);
+  color: var(--n-ink-muted-neutral);
   margin: 0 0 1rem;
 }
 
 .demo-hint {
   font-size: 0.75rem;
-  color: var(--neutral-ink-muted);
+  color: var(--n-ink-muted-neutral);
   margin-bottom: 0.75rem;
 }
 
@@ -100,19 +100,19 @@ h3:first-child {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--neutral-ink-muted);
+  color: var(--n-ink-muted-neutral);
   margin-bottom: 0.5rem;
 }
 
 .demo-text {
   font-size: 0.875rem;
-  color: var(--neutral-ink-muted);
+  color: var(--n-ink-muted-neutral);
   line-height: 1.5;
 }
 
 .demo-text-sm {
   font-size: 0.8125rem;
-  color: var(--neutral-ink-muted);
+  color: var(--n-ink-muted-neutral);
 }
 
 /* ── Layout Utilities ── */
@@ -157,9 +157,9 @@ h3:first-child {
 .demo-code {
   display: none;
   position: relative;
-  background: var(--neutral-panel);
-  border: 1px solid var(--neutral-border-muted);
-  border-radius: var(--_radius);
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: var(--n-radius);
   padding: 0.75rem;
   margin: 0;
   margin-top: 0.75rem;
@@ -168,14 +168,14 @@ h3:first-child {
   line-height: 1.5;
   overflow-x: auto;
   white-space: pre;
-  color: var(--neutral-ink);
+  color: var(--n-ink-neutral);
 }
 
 .demo-code[visible] {
   display: block;
 }
 
-.demo-code > ui-button {
+.demo-code > n-button {
   position: absolute;
   top: 0.375rem;
   right: 0.375rem;
@@ -186,8 +186,8 @@ h3:first-child {
 .log {
   font-family: ui-monospace, monospace;
   font-size: 0.75rem;
-  background: var(--neutral-panel);
-  border: 1px solid var(--neutral-border-muted);
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
   border-radius: 0.375rem;
   padding: 0.75rem;
   max-height: 10rem;
@@ -197,13 +197,13 @@ h3:first-child {
 
 .log-entry {
   padding: 0.125rem 0;
-  color: var(--neutral-ink-muted);
+  color: var(--n-ink-muted-neutral);
 }
 
 .demo-event-log {
   margin-top: 0.75rem;
   font-size: 0.75rem;
   font-family: ui-monospace, monospace;
-  color: var(--neutral-ink-muted);
+  color: var(--n-ink-muted-neutral);
   min-height: 2rem;
 }

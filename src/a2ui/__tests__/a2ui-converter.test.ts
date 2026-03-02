@@ -37,17 +37,17 @@ describe('A2UI Converter', () => {
 
       const result = a2uiToUINode(components, { surfaceId: 'test' });
       const btn = result.root.children![0];
-      expect(btn.tag).toBe('ui-button');
+      expect(btn.tag).toBe('n-button');
       // Button uses slot-label strategy: text becomes a <span slot="label"> child
       expect(btn.children).toHaveLength(1);
       expect(btn.children![0].tag).toBe('span');
       expect(btn.children![0].attributes?.slot).toBe('label');
       expect(btn.children![0].textContent).toBe('Click Me');
       // Action wired as event
-      expect(btn.events?.['ui-press']).toBe('a2ui:test:btn:submit');
+      expect(btn.events?.['native:press']).toBe('a2ui:test:btn:submit');
     });
 
-    it('converts TextField to ui-input', () => {
+    it('converts TextField to n-input', () => {
       const components: A2UIComponent[] = [
         {
           id: 'root',
@@ -58,7 +58,7 @@ describe('A2UI Converter', () => {
       ];
 
       const result = a2uiToUINode(components);
-      expect(result.root.tag).toBe('ui-input');
+      expect(result.root.tag).toBe('n-input');
       expect(result.root.attributes?.['aria-label']).toBe('Email');
       expect(result.root.attributes?.placeholder).toBe('Enter email');
       expect(result.root.attributes?.variant).toBeUndefined();
@@ -88,7 +88,7 @@ describe('A2UI Converter', () => {
       ];
 
       const result = a2uiToUINode(components);
-      expect(result.root.tag).toBe('ui-input');
+      expect(result.root.tag).toBe('n-input');
       expect(result.root.attributes?.type).toBe('datetime-local');
     });
 
@@ -108,7 +108,7 @@ describe('A2UI Converter', () => {
       ];
 
       const result = a2uiToUINode(components);
-      expect(result.root.tag).toBe('ui-checkbox');
+      expect(result.root.tag).toBe('n-checkbox');
       expect(result.root.textContent).toBe('Accept terms');
     });
 
@@ -118,7 +118,7 @@ describe('A2UI Converter', () => {
       ];
 
       const result = a2uiToUINode(components);
-      expect(result.root.tag).toBe('ui-switch');
+      expect(result.root.tag).toBe('n-switch');
       expect(result.root.textContent).toBe('Dark mode');
     });
 
@@ -128,7 +128,7 @@ describe('A2UI Converter', () => {
       ];
 
       const result = a2uiToUINode(components);
-      expect(result.root.tag).toBe('ui-range');
+      expect(result.root.tag).toBe('n-range');
       expect(result.root.attributes?.min).toBe('0');
       expect(result.root.attributes?.max).toBe('100');
       expect(result.root.attributes?.['aria-label']).toBe('Volume');
@@ -142,7 +142,7 @@ describe('A2UI Converter', () => {
 
       const result = a2uiToUINode(components);
       const item = result.root.children![0];
-      expect(item.tag).toBe('ui-option');
+      expect(item.tag).toBe('n-option');
       expect(item.textContent).toBe('Option A');
       expect(item.attributes?.value).toBe('a');
     });
@@ -187,7 +187,7 @@ describe('A2UI Converter', () => {
       ];
 
       const result = a2uiToUINode(components);
-      expect(result.root.tag).toBe('ui-icon');
+      expect(result.root.tag).toBe('n-icon');
       expect(result.root.attributes?.name).toBe('search');
       expect(result.root.attributes?.['aria-hidden']).toBe('true');
     });
@@ -219,7 +219,7 @@ describe('A2UI Converter', () => {
       ];
 
       const result = a2uiToUINode(components);
-      expect(result.root.tag).toBe('ui-card');
+      expect(result.root.tag).toBe('n-card');
       expect(result.root.children).toHaveLength(1);
       expect(result.root.children![0].textContent).toBe('Card body');
     });
@@ -400,10 +400,10 @@ describe('A2UI Converter', () => {
       expect(titleComp.text).toBe('Hello');
     });
 
-    it('converts ui-button with slot label back to text', () => {
+    it('converts n-button with slot label back to text', () => {
       const root: UINode = {
         id: 'btn',
-        tag: 'ui-button',
+        tag: 'n-button',
         children: [
           { id: 'btn-label', tag: 'span', attributes: { slot: 'label' }, textContent: 'Click' },
         ],
@@ -414,10 +414,10 @@ describe('A2UI Converter', () => {
       expect(flat[0].text).toBe('Click');
     });
 
-    it('converts ui-checkbox textContent back to label', () => {
+    it('converts n-checkbox textContent back to label', () => {
       const root: UINode = {
         id: 'cb',
-        tag: 'ui-checkbox',
+        tag: 'n-checkbox',
         textContent: 'Accept',
       };
 
@@ -428,8 +428,8 @@ describe('A2UI Converter', () => {
     it('converts events back to actions', () => {
       const root: UINode = {
         id: 'btn',
-        tag: 'ui-button',
-        events: { 'ui-press': 'a2ui:surf:btn:submit' },
+        tag: 'n-button',
+        events: { 'native:press': 'a2ui:surf:btn:submit' },
         children: [
           { id: 'btn-label', tag: 'span', attributes: { slot: 'label' }, textContent: 'Go' },
         ],
@@ -442,7 +442,7 @@ describe('A2UI Converter', () => {
     it('converts disabled attribute', () => {
       const root: UINode = {
         id: 'btn',
-        tag: 'ui-button',
+        tag: 'n-button',
         attributes: { disabled: '' },
         textContent: 'Nope',
       };
@@ -454,7 +454,7 @@ describe('A2UI Converter', () => {
     it('converts aria-label to label', () => {
       const root: UINode = {
         id: 'input',
-        tag: 'ui-input',
+        tag: 'n-input',
         attributes: { 'aria-label': 'Search' },
       };
 
