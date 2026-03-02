@@ -69,6 +69,12 @@
     padding: 0;
   }
 
+
+  :where(.cm-content):focus-visible,
+  :where(.cm-editor.cm-focused) {
+    outline: none;
+  }
+
   /* WHY: Source mode shows raw markdown — use monospace for code-editing feel */
   :where(native-editor[mode="source"]) :where(.cm-content) {
     font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);

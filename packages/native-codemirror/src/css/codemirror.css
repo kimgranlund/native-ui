@@ -20,12 +20,13 @@
     --n-cm-scrollbar-hover: #5e6167;
     --n-cm-match-bg: #314050;
 
-    border-radius: var(--n-radius, 8px);
+    /*border-radius: var(--n-radius, 8px);*/
     overflow: hidden;
     font-variant-ligatures: contextual;
     line-height: 1.6;
   }
 
+  :where(.cm-content):focus-visible,
   :where(.cm-editor.cm-focused) {
     outline: none;
   }

@@ -126,48 +126,48 @@ export function buildTokens(container: HTMLElement): void {
     // Surfaces
     section.appendChild(createSubHeading('Elevation'));
     section.appendChild(createColorStrip(
-      elevations.map(e => ({ name: e, token: `--${family}-${e}` }))
+      elevations.map(e => ({ name: e, token: `--n-color-${family}-${e}` }))
     ));
 
     section.appendChild(createSubHeading('Brightness'));
     section.appendChild(createColorStrip(
-      brightnesses.map(b => ({ name: b, token: `--${family}-${b}` }))
+      brightnesses.map(b => ({ name: b, token: `--n-color-${family}-${b}` }))
     ));
 
     // Solids (raw 11-step ramp)
     section.appendChild(createSubHeading('Solid'));
     section.appendChild(createColorStrip(
-      solidSteps.map(s => ({ name: s, token: `--${family}-${s}` }))
+      solidSteps.map(s => ({ name: s, token: `--n-color-${family}-${s}` }))
     ));
 
     // Scrims (raw 11-step with alpha)
     section.appendChild(createSubHeading('Scrim'));
     section.appendChild(createColorStrip(
-      solidSteps.map(s => ({ name: s, token: `--${family}-${s}-scrim` }))
+      solidSteps.map(s => ({ name: s, token: `--n-color-${family}-${s}-scrim` }))
     ));
 
     // Semantic (light-dark aware 11-step)
     section.appendChild(createSubHeading('Semantic'));
     section.appendChild(createColorStrip(
-      semanticSteps.map(s => ({ name: s, token: `--${family}-${s}` }))
+      semanticSteps.map(s => ({ name: s, token: `--n-color-${family}-${s}` }))
     ));
 
     // Semantic Scrims
     section.appendChild(createSubHeading('Semantic Scrim'));
     section.appendChild(createColorStrip(
-      semanticSteps.map(s => ({ name: s, token: `--${family}-${s}-scrim` }))
+      semanticSteps.map(s => ({ name: s, token: `--n-color-${family}-${s}-scrim` }))
     ));
 
     // Scrim Palette — Tint
     section.appendChild(createSubHeading('Tint'));
     section.appendChild(createColorStrip(
-      scrimStrengths.map(s => ({ name: s, token: `--${family}-scrim-tint-${s}` }))
+      scrimStrengths.map(s => ({ name: s, token: `--n-color-${family}-scrim-tint-${s}` }))
     ));
 
     // Scrim Palette — Shade
     section.appendChild(createSubHeading('Shade'));
     section.appendChild(createColorStrip(
-      scrimStrengths.map(s => ({ name: s, token: `--${family}-scrim-shade-${s}` }))
+      scrimStrengths.map(s => ({ name: s, token: `--n-color-${family}-scrim-shade-${s}` }))
     ));
 
     container.appendChild(section);

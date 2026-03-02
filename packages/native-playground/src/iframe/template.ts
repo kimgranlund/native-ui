@@ -52,6 +52,14 @@ export function buildSrcdoc(options: SrcdocOptions): string {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   ${cssBlock}${themeBlock}
+  <style id="base-styles">
+    :where(body) {
+      font-family: var(--n-font-family, system-ui, -apple-system, sans-serif);
+      line-height: var(--n-text-line-height, 1.5);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+  </style>
   <style id="user-css">${css}</style>
 </head>
 <body>

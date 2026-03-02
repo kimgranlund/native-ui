@@ -24,8 +24,8 @@
 
   /* ── Document Defaults ── */
 
-  :where(native-app) {
-    color-scheme: light dark;
+  :where(native-app),
+  :where(n-sidebar) {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;

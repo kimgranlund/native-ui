@@ -81,6 +81,7 @@
   { "title": "Nav Sidebar", "path": "/src/blocks/navigation/nav-sidebar/nav-sidebar-block.html", "group": "Blocks" },
   { "title": "Toast Demo", "path": "/src/blocks/notifications/notify-toast-demo/notify-toast-demo.html", "group": "Blocks" },
   { "title": "Editor", "path": "/packages/native-editor/src/editor.html", "group": "Packages" },
+  { "title": "CodeMirror", "path": "/packages/native-codemirror/src/codemirror.html", "group": "Packages" },
   { "title": "Playground", "path": "/packages/native-playground/src/playground.html", "group": "Packages" },
   { "title": "A2UI Components", "path": "/src/a2ui/a2ui-components.html", "group": "Other" },
   { "title": "A2UI Protocol", "path": "/src/a2ui/a2ui.html", "group": "Other" },
