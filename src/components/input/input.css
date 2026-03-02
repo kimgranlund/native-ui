@@ -75,6 +75,12 @@
     pointer-events: none;
   }
 
+  /* ── Password masking ── */
+
+  :where(n-input[type="password"]) > :where(.n-input-surface) {
+    -webkit-text-security: disc;
+  }
+
   /* ── Slot children (icons) ── */
 
   :where(n-input) > :where([slot]) {

@@ -18,11 +18,12 @@ import { FormAssociable } from '../../core/form-associable.ts';
  * @attr {boolean} readonly - Prevents editing while remaining focusable
  * @attr {boolean} required - Marks as required for form validation
  * @attr {string} name - Form field name
+ * @attr {string} type - Input type ("text" or "password") — password masks via CSS text-security
  * @fires native:input - Fired on each keystroke with `{ value }` detail
  * @fires native:change - Fired on blur with `{ value }` detail
  */
 export class NInput extends FormAssociable(NativeElement) {
-  static observedAttributes = ['value', 'placeholder', 'disabled', 'readonly', 'required', 'pattern'];
+  static observedAttributes = ['value', 'placeholder', 'disabled', 'readonly', 'required', 'pattern', 'type'];
 
   #internals: ElementInternals;
   #disabled = signal(false);
@@ -70,6 +71,16 @@ export class NInput extends FormAssociable(NativeElement) {
 
   set name(val: string) {
     this.setAttribute('name', val);
+  }
+
+  // ── Type ──
+
+  get type(): string {
+    return this.getAttribute('type') ?? 'text';
+  }
+
+  set type(val: string) {
+    this.setAttribute('type', val);
   }
 
   // ── Disabled ──
