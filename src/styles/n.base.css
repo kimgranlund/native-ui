@@ -14,7 +14,6 @@
   *::before,
   *::after {
     box-sizing: border-box;
-    margin: 0;
   }
 
   /* WHY: UA [hidden]{display:none} loses to author-layer :where() display values.

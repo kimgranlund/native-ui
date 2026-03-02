@@ -31,10 +31,19 @@
   }
 
   /* -----------------------------------------------------------------------
-   * Scroller
+   * Scroller — structural fallbacks
+   *
+   * WHY: CodeMirror's base theme injects display: flex !important on
+   * .cm-scroller via a JS <style> tag (unlayered). In @layer ui,
+   * !important declarations beat unlayered !important (reverse layer
+   * order), so these serve as authoritative structural rules that
+   * ensure the horizontal gutter+content layout works even if the
+   * base theme's <style> tag fails to inject or gets removed by HMR.
    * --------------------------------------------------------------------- */
 
   :where(.cm-scroller) {
+    display: flex !important;
+    align-items: flex-start !important;
     overflow: auto;
     font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code',
       ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -140,6 +149,17 @@
 
   :where(.cm-content) {
     padding: 8px 0;
+    /* WHY: UA stylesheets may set color on [contenteditable] based on the
+       inherited color-scheme (e.g. CanvasText → black in light mode).
+       Explicit `color: inherit` as an author rule overrides the UA color,
+       preserving the theme's color set on .cm-editor. */
+    color: inherit;
+    /* Structural fallback — matches CM base theme */
+    flex-grow: 2;
+    flex-shrink: 0;
+    white-space: pre;
+    word-wrap: normal;
+    min-height: 100%;
   }
 
   :where(.cm-line) {

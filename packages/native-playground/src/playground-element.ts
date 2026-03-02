@@ -51,6 +51,10 @@ export class NPlayground extends NativeElement {
   #resizeController: ResizeController | null = null;
   #presentController: PresentController | null = null;
 
+  // Resolved framework CSS (cached after first resolution)
+  #cssCache = '';
+  #cssCacheUrl = '';
+
   // DOM references
   #tabsEl: HTMLElement | null = null;
   #panels: HTMLDivElement[] = [];
@@ -60,8 +64,8 @@ export class NPlayground extends NativeElement {
   // ── Public API ──
 
   /** Manually trigger a preview update. */
-  run(): void {
-    this.#run();
+  run(): Promise<void> {
+    return this.#run();
   }
 
   /** Reset all code to initial values. */
@@ -413,6 +417,35 @@ export class NPlayground extends NativeElement {
     }
   }
 
+  // ── CSS resolution ──
+
+  /**
+   * Resolve a CSS URL to inline text. In Vite dev mode, CSS files with @import
+   * are served as JS modules (Content-Type: text/javascript) which breaks
+   * <link rel="stylesheet"> in srcdoc iframes. Using ?inline dynamic import
+   * gets the resolved CSS as a string. Falls back to fetch() for production
+   * CDN URLs where ?inline isn't available.
+   */
+  async #resolveCss(url: string): Promise<string> {
+    if (!url) return '';
+    if (url === this.#cssCacheUrl && this.#cssCache) return this.#cssCache;
+
+    let cssText = '';
+    try {
+      // Vite dev: .css?inline returns a JS module exporting the CSS string
+      const mod = await import(/* @vite-ignore */ url + '?inline');
+      cssText = mod.default;
+    } catch {
+      // Production: fetch the CSS URL directly
+      const res = await fetch(url);
+      cssText = await res.text();
+    }
+
+    this.#cssCacheUrl = url;
+    this.#cssCache = cssText;
+    return cssText;
+  }
+
   // ── Run / preview ──
 
   #scheduleRun(): void {
@@ -422,7 +455,7 @@ export class NPlayground extends NativeElement {
     }, this.#store.debounce.value);
   }
 
-  #run(): void {
+  async #run(): Promise<void> {
     const iframe = this.#iframe;
     if (!iframe) return;
 
@@ -436,11 +469,14 @@ export class NPlayground extends NativeElement {
     // Clear console on new run
     this.#store.consoleEntries.value = [];
 
+    // Resolve framework CSS to inline text (avoids Vite MIME-type issues)
+    const frameworkCss = await this.#resolveCss(cssUrl);
+
     const srcdoc = buildSrcdoc({
       html,
       css,
       js,
-      cssUrl,
+      frameworkCss,
       registerUrl,
       themeOverrides: this.#store.previewTheme.value || undefined,
     });

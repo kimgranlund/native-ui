@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-codemirror",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Shared CodeMirror 6 integration layer for @nonoun/native-ui ecosystem",
   "license": "MIT",
   "type": "module",
@@ -31,7 +31,7 @@
   "scripts": {
     "build": "npm run build:js && npm run build:css && npm run build:types",
     "build:js": "vite build",
-    "build:css": "cp src/css/native-codemirror.css dist/native-codemirror.css",
+    "build:css": "cp src/css/codemirror.css dist/native-codemirror.css",
     "build:types": "tsc -p tsconfig.build.json"
   },
   "publishConfig": {

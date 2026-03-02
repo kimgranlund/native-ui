@@ -14,7 +14,6 @@ import {
   highlightActiveLineGutter,
   drawSelection,
   highlightSpecialChars,
-  EditorView,
 } from '@codemirror/view';
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import {
@@ -42,7 +41,6 @@ import {
  * - Active line + gutter highlighting
  * - Selection drawing and special character highlighting
  * - Indent on input
- * - Line wrapping
  */
 export const NBaseExtensions: Extension = [
   // Input handling
@@ -67,9 +65,6 @@ export const NBaseExtensions: Extension = [
   // Active line
   highlightActiveLine(),
   highlightActiveLineGutter(),
-
-  // Line wrapping
-  EditorView.lineWrapping,
 
   // Keymaps (order matters: specific before general)
   keymap.of([

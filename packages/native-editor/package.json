@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-editor",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Markdown content editor with live preview for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",
@@ -35,7 +35,7 @@
   "scripts": {
     "build": "npm run build:js && npm run build:css && npm run build:types",
     "build:js": "vite build",
-    "build:css": "cp src/css/native-editor.css dist/native-editor.css",
+    "build:css": "cp src/css/editor.css dist/native-editor.css",
     "build:types": "tsc -p tsconfig.build.json"
   },
   "publishConfig": {

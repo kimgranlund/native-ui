@@ -586,6 +586,7 @@ export class NEditor extends NativeElement {
       NTheme,
       NSyntaxHighlighting,
       NBaseExtensions,
+      EditorView.lineWrapping,
       markdown(),
       markdownKeymap,
       previewCompartment.of(

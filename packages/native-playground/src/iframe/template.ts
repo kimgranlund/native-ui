@@ -11,8 +11,10 @@ export interface SrcdocOptions {
   css: string;
   /** User's JS from the JS pane */
   js: string;
-  /** URL to native-ui.css (CDN or bundled) */
-  cssUrl: string;
+  /** Pre-resolved framework CSS to inline as <style> (preferred) */
+  frameworkCss?: string;
+  /** URL to native-ui.css — fallback when frameworkCss is not available */
+  cssUrl?: string;
   /** URL to native-ui register script (CDN or bundled) */
   registerUrl: string;
   /** Optional OKLCH token overrides as CSS custom properties */
@@ -28,7 +30,15 @@ function escapeScriptClose(js: string): string {
 }
 
 export function buildSrcdoc(options: SrcdocOptions): string {
-  const { html, css, js, cssUrl, registerUrl, themeOverrides } = options;
+  const { html, css, js, frameworkCss, cssUrl, registerUrl, themeOverrides } = options;
+
+  // Prefer inline CSS (avoids Vite dev server MIME-type issues with srcdoc iframes).
+  // Falls back to <link> for backwards compatibility when frameworkCss is not resolved.
+  const cssBlock = frameworkCss
+    ? `<style id="framework-css">${frameworkCss}</style>`
+    : cssUrl
+      ? `<link rel="stylesheet" href="${cssUrl}">`
+      : '';
 
   const themeBlock = themeOverrides
     ? `\n  <style id="theme-overrides">:root { ${themeOverrides} }</style>`
@@ -41,7 +51,7 @@ export function buildSrcdoc(options: SrcdocOptions): string {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="${cssUrl}">${themeBlock}
+  ${cssBlock}${themeBlock}
   <style id="user-css">${css}</style>
 </head>
 <body>

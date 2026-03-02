@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-playground",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Embeddable live code sandbox for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",
@@ -36,7 +36,7 @@
   "scripts": {
     "build": "npm run build:js && npm run build:css && npm run build:types",
     "build:js": "vite build",
-    "build:css": "cp src/css/native-playground.css dist/native-playground.css",
+    "build:css": "cp src/css/playground.css dist/native-playground.css",
     "build:types": "tsc -p tsconfig.build.json"
   },
   "publishConfig": {

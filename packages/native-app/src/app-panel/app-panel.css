@@ -19,7 +19,6 @@
     scrollbar-width: none;
     background: var(--n-ground);
     border-radius: var(--n-radius);
-    user-select: none;
   }
 
   :where(n-app-panel)[show-scrollbar] {

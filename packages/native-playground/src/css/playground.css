@@ -170,6 +170,9 @@
   :where(native-playground) :where(.cm-editor) {
     height: 100%;
     font-size: 0.8125rem;
+    /* Force dark color-scheme so contenteditable text inherits light-on-dark
+       colors even when the parent page uses color-scheme: light dark */
+    color-scheme: dark;
   }
 
   :where(native-playground) :where(.cm-scroller) {

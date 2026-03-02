@@ -18,7 +18,6 @@
   :where(n-sidebar) {
     display: flex;
     height: 100dvh;
-    user-select: none;
   }
 
   /* WHY: Reserve sidebar width before JS builds the DOM — prevents layout shift.
