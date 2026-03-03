@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-ui",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Zero-dependency web component library with an OKLCH CSS design system, signal-based reactivity, and composable trait controllers",
   "license": "MIT",
   "type": "module",
@@ -55,7 +55,7 @@
     "type": "git",
     "url": "git+https://github.com/kimgranlund/native-ui.git"
   },
-  "homepage": "https://native-ui.nonoun.com",
+  "homepage": "https://native-ui.nonoun.io/",
   "bugs": {
     "url": "https://github.com/kimgranlund/native-ui/issues"
   },

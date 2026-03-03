@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../../styles/demo.css" />
     </head>
   <body>
-    <native-app><main>
+    <native-app-spa><main>
     <h1>&lt;n-drawer&gt;</h1>
     <p class="demo-desc">
       Slide-in panel from any edge. Uses native <code>&lt;dialog&gt;</code> for top-layer + inert.
@@ -22,11 +22,11 @@
     <div class="demo-section">
       <n-button id="open-right"><span slot="label">Open Right Drawer</span></n-button>
       <n-drawer id="drawer-right">
-        <n-card-header>
+        <n-header>
           <span slot="label">Settings</span>
           <n-button slot="trailing" variant="ghost" id="close-right"><n-icon name="x"></n-icon></n-button>
-        </n-card-header>
-        <n-card-body>
+        </n-header>
+        <n-body>
           <n-field>
             <label slot="label">Display name</label>
             <n-input placeholder="Kim Granlund"></n-input>
@@ -36,25 +36,25 @@
             <n-input placeholder="kim@example.com"></n-input>
           </n-field>
           <n-switch>Dark mode</n-switch>
-        </n-card-body>
+        </n-body>
       </n-drawer>
       <pre class="demo-code"><code>&lt;n-button id="open-right"&gt;
   &lt;span slot="label"&gt;Open Right Drawer&lt;/span&gt;
 &lt;/n-button&gt;
 
 &lt;n-drawer id="drawer-right"&gt;
-  &lt;n-card-header&gt;
+  &lt;n-header&gt;
     &lt;span slot="label"&gt;Settings&lt;/span&gt;
     &lt;n-button slot="trailing" variant="ghost" id="close-right"&gt;
       &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
     &lt;/n-button&gt;
-  &lt;/n-card-header&gt;
-  &lt;n-card-body&gt;
+  &lt;/n-header&gt;
+  &lt;n-body&gt;
     &lt;n-field&gt;
       &lt;label slot="label"&gt;Display name&lt;/label&gt;
       &lt;n-input placeholder="Kim Granlund"&gt;&lt;/n-input&gt;
     &lt;/n-field&gt;
-  &lt;/n-card-body&gt;
+  &lt;/n-body&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
@@ -64,11 +64,11 @@
     <div class="demo-section">
       <n-button id="open-left"><span slot="label">Open Left Drawer</span></n-button>
       <n-drawer id="drawer-left" side="left">
-        <n-card-header>
+        <n-header>
           <span slot="label">Documentation</span>
           <n-button slot="trailing" variant="ghost" id="close-left"><n-icon name="x"></n-icon></n-button>
-        </n-card-header>
-        <n-card-body>
+        </n-header>
+        <n-body>
           <n-nav>
             <n-option-group>
               <n-option-group-header><n-icon name="house"></n-icon> Getting Started</n-option-group-header>
@@ -90,16 +90,16 @@
               <n-option value="examples">Examples</n-option>
             </n-option-group>
           </n-nav>
-        </n-card-body>
+        </n-body>
       </n-drawer>
       <pre class="demo-code"><code>&lt;n-drawer id="drawer-left" side="left"&gt;
-  &lt;n-card-header&gt;
+  &lt;n-header&gt;
     &lt;span slot="label"&gt;Documentation&lt;/span&gt;
     &lt;n-button slot="trailing" variant="ghost"&gt;
       &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
     &lt;/n-button&gt;
-  &lt;/n-card-header&gt;
-  &lt;n-card-body&gt;...&lt;/n-card-body&gt;
+  &lt;/n-header&gt;
+  &lt;n-body&gt;...&lt;/n-body&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
@@ -109,31 +109,31 @@
     <div class="demo-section">
       <n-button id="open-bottom"><span slot="label">Open Bottom Drawer</span></n-button>
       <n-drawer id="drawer-bottom" side="bottom">
-        <n-card-header>
+        <n-header>
           <span slot="label">Filters</span>
           <n-button slot="trailing" variant="ghost" id="close-bottom"><n-icon name="x"></n-icon></n-button>
-        </n-card-header>
-        <n-card-body>
+        </n-header>
+        <n-body>
           <n-stack direction="row" gap="2" wrap>
             <n-checkbox>In Stock</n-checkbox>
             <n-checkbox>On Sale</n-checkbox>
             <n-checkbox>Free Shipping</n-checkbox>
           </n-stack>
-        </n-card-body>
+        </n-body>
       </n-drawer>
       <pre class="demo-code"><code>&lt;n-drawer id="drawer-bottom" side="bottom"&gt;
-  &lt;n-card-header&gt;
+  &lt;n-header&gt;
     &lt;span slot="label"&gt;Filters&lt;/span&gt;
     &lt;n-button slot="trailing" variant="ghost"&gt;
       &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
     &lt;/n-button&gt;
-  &lt;/n-card-header&gt;
-  &lt;n-card-body&gt;
+  &lt;/n-header&gt;
+  &lt;n-body&gt;
     &lt;n-stack direction="row" gap="2" wrap&gt;
       &lt;n-checkbox&gt;In Stock&lt;/n-checkbox&gt;
       &lt;n-checkbox&gt;On Sale&lt;/n-checkbox&gt;
     &lt;/n-stack&gt;
-  &lt;/n-card-body&gt;
+  &lt;/n-body&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
@@ -143,13 +143,13 @@
     <div class="demo-section">
       <n-button id="open-top"><span slot="label">Open Top Drawer</span></n-button>
       <n-drawer id="drawer-top" side="top">
-        <n-card-header>
+        <n-header>
           <span slot="label">Announcement</span>
           <n-button slot="trailing" variant="ghost" id="close-top"><n-icon name="x"></n-icon></n-button>
-        </n-card-header>
-        <n-card-body>
+        </n-header>
+        <n-body>
           <p class="demo-text">This drawer slides in from the top edge.</p>
-        </n-card-body>
+        </n-body>
       </n-drawer>
     </div>
 
@@ -158,13 +158,13 @@
     <h2>With Footer</h2>
     <div class="demo-section">
       <p class="demo-hint">Header and footer stay fixed while the body scrolls independently.</p>
-      <n-button id="open-card-footer"><span slot="label">Open Drawer with Footer</span></n-button>
+      <n-button id="open-footer"><span slot="label">Open Drawer with Footer</span></n-button>
       <n-drawer id="drawer-footer">
-        <n-card-header>
+        <n-header>
           <span slot="label">Edit Profile</span>
           <n-button slot="trailing" variant="ghost" id="close-footer"><n-icon name="x"></n-icon></n-button>
-        </n-card-header>
-        <n-card-body>
+        </n-header>
+        <n-body>
           <n-field>
             <label slot="label">Display name</label>
             <n-input placeholder="Kim Granlund"></n-input>
@@ -180,29 +180,29 @@
           <n-switch>Dark mode</n-switch>
           <p class="demo-text-sm">Additional content to demonstrate scrolling within the body region while header and footer remain fixed.</p>
           <p class="demo-text-sm">Scroll down to verify that the header and footer remain fixed while this body content scrolls independently.</p>
-        </n-card-body>
-        <n-card-footer justify="spread">
+        </n-body>
+        <n-footer justify="spread">
           <n-button variant="ghost" id="cancel-footer"><span slot="label">Cancel</span></n-button>
           <n-button variant="primary" intent="accent"><span slot="label">Save Changes</span></n-button>
-        </n-card-footer>
+        </n-footer>
       </n-drawer>
       <pre class="demo-code"><code>&lt;n-drawer id="drawer-footer"&gt;
-  &lt;n-card-header&gt;
+  &lt;n-header&gt;
     &lt;span slot="label"&gt;Edit Profile&lt;/span&gt;
     &lt;n-button slot="trailing" variant="ghost"&gt;
       &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
     &lt;/n-button&gt;
-  &lt;/n-card-header&gt;
-  &lt;n-card-body&gt;
+  &lt;/n-header&gt;
+  &lt;n-body&gt;
     &lt;n-field&gt;
       &lt;label slot="label"&gt;Display name&lt;/label&gt;
       &lt;n-input placeholder="Kim Granlund"&gt;&lt;/n-input&gt;
     &lt;/n-field&gt;
-  &lt;/n-card-body&gt;
-  &lt;n-card-footer justify="spread"&gt;
+  &lt;/n-body&gt;
+  &lt;n-footer justify="spread"&gt;
     &lt;n-button variant="ghost"&gt;Cancel&lt;/n-button&gt;
     &lt;n-button variant="primary" intent="accent"&gt;Save Changes&lt;/n-button&gt;
-  &lt;/n-card-footer&gt;
+  &lt;/n-footer&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
@@ -216,35 +216,35 @@
         <n-button id="open-persistent"><span slot="label">Persistent (both)</span></n-button>
       </div>
       <n-drawer id="drawer-no-escape" no-close-on-escape>
-        <n-card-header>
+        <n-header>
           <span slot="label">No Escape Close</span>
           <n-button slot="trailing" variant="ghost" id="close-no-escape"><n-icon name="x"></n-icon></n-button>
-        </n-card-header>
-        <n-card-body>
+        </n-header>
+        <n-body>
           <p class="demo-text">Pressing Escape won't close this drawer. Use the close button.</p>
-        </n-card-body>
+        </n-body>
       </n-drawer>
       <n-drawer id="drawer-no-backdrop" no-close-on-backdrop>
-        <n-card-header>
+        <n-header>
           <span slot="label">No Backdrop Close</span>
           <n-button slot="trailing" variant="ghost" id="close-no-backdrop"><n-icon name="x"></n-icon></n-button>
-        </n-card-header>
-        <n-card-body>
+        </n-header>
+        <n-body>
           <p class="demo-text">Clicking the backdrop won't close this drawer. Use the close button or Escape.</p>
-        </n-card-body>
+        </n-body>
       </n-drawer>
       <n-drawer id="drawer-persistent" no-close-on-escape no-close-on-backdrop>
-        <n-card-header>
+        <n-header>
           <span slot="label">Persistent Drawer</span>
           <n-button slot="trailing" variant="ghost" id="close-persistent"><n-icon name="x"></n-icon></n-button>
-        </n-card-header>
-        <n-card-body>
+        </n-header>
+        <n-body>
           <p class="demo-text">Neither Escape nor backdrop click will close this. Only the close button works.</p>
-        </n-card-body>
+        </n-body>
       </n-drawer>
     </div>
 
-    </main></native-app>
+    </main></native-app-spa>
     <script type="module">
       import '../../nav/native-app.ts';
       import './drawer.ts';
@@ -275,7 +275,7 @@
       wire('open-left', 'close-left', 'drawer-left');
       wire('open-bottom', 'close-bottom', 'drawer-bottom');
       wire('open-top', 'close-top', 'drawer-top');
-      wire('open-card-footer', 'close-footer', 'drawer-footer');
+      wire('open-footer', 'close-footer', 'drawer-footer');
       document.getElementById('cancel-footer')?.addEventListener('native:press', () => {
         document.getElementById('drawer-footer')?.close();
       });

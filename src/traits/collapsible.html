@@ -48,7 +48,7 @@
 </style>
   </head>
   <body>
-    <native-app><main>
+    <native-app-spa><main>
     <h1>Collapsible</h1>
     <p class="demo-desc">
       Composable trait for animated show/hide with smooth height transitions. Dispatches <code>native:expand</code> and <code>native:collapse</code> events.
@@ -181,7 +181,7 @@
       </table>
     </div>
 
-    </main></native-app>
+    </main></native-app-spa>
     <!-- WHY: registerAllTraits() must run BEFORE any define() call that
          triggers connectedCallback on elements with traits="..." already in
          the DOM. ES module imports are hoisted above top-level code within

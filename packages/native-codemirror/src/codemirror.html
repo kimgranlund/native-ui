@@ -23,7 +23,7 @@
     </style>
   </head>
   <body>
-    <native-app><main>
+    <native-app-spa><main>
     <h1>native-codemirror</h1>
     <p class="demo-desc">
       Shared CodeMirror 6 integration layer for the NativeUI ecosystem.
@@ -173,7 +173,7 @@ const x = 42;</script>
       <div class="log" id="el-event-log" style="max-height: 80px;"></div>
     </div>
 
-    </main></native-app>
+    </main></native-app-spa>
 
     <script type="module">
       import '../../../src/nav/native-app.ts';
@@ -246,7 +246,7 @@ export { fibonacci, classify };`,
   <link rel="stylesheet" href="native-ui.css" />
 </head>
 <body>
-  <native-app>
+  <native-app-spa>
     <main>
       <h1>Welcome</h1>
       <p>A zero-specificity web component library.</p>
@@ -267,7 +267,7 @@ export { fibonacci, classify };`,
         </n-listbox>
       </n-select>
     </main>
-  </native-app>
+  </native-app-spa>
 </body>
 </html>`,
         extensions: [html()],

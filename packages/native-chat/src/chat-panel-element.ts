@@ -45,8 +45,10 @@ export class NChatPanel extends NativeElement {
     // ── Footer ──
     const footer = document.createElement('n-footer');
     footer.setAttribute('dividers', '');
+    footer.setAttribute('padding', 'none');
 
     const chatInput = document.createElement('n-chat-input');
+    chatInput.setAttribute('variant', 'plain');
 
     const textarea = document.createElement('n-textarea');
     textarea.setAttribute('placeholder', 'Ask anything');
@@ -55,11 +57,29 @@ export class NChatPanel extends NativeElement {
     chatInput.appendChild(textarea);
 
     const actions = document.createElement('n-chat-input-actions');
-    const sendBtn = document.createElement('n-button');
-    sendBtn.setAttribute('variant', 'primary');
-    sendBtn.setAttribute('intent', 'accent');
-    sendBtn.textContent = 'Send';
-    actions.appendChild(sendBtn);
+
+    const plusBtn = document.createElement('n-button');
+    plusBtn.setAttribute('variant', 'ghost');
+    plusBtn.setAttribute('inline', '');
+    plusBtn.innerHTML = '<n-icon name="plus"></n-icon>';
+    actions.appendChild(plusBtn);
+
+    const micBtn = document.createElement('n-button');
+    micBtn.setAttribute('variant', 'ghost');
+    micBtn.setAttribute('inline', '');
+    micBtn.innerHTML = '<n-icon name="microphone"></n-icon>';
+    actions.appendChild(micBtn);
+
+    const submitBtn = document.createElement('n-button');
+    submitBtn.setAttribute('variant', 'primary');
+    submitBtn.setAttribute('intent', 'accent');
+    submitBtn.setAttribute('radius', 'round');
+    submitBtn.setAttribute('inline', '');
+    submitBtn.setAttribute('disabled', '');
+    submitBtn.classList.add('submit-btn');
+    submitBtn.innerHTML = '<n-icon name="arrow-up"></n-icon>';
+    actions.appendChild(submitBtn);
+
     chatInput.appendChild(actions);
 
     footer.appendChild(chatInput);

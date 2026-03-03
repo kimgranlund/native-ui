@@ -28,8 +28,8 @@
 
   /* ── Document Defaults ── */
 
-  :where(native-app),
-  :where(n-sidebar) {
+  :where(native-app-spa),
+  :where(native-app) {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;

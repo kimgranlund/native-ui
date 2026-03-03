@@ -35,7 +35,7 @@ function extractCSSTokens(cssPath) {
   if (!existsSync(cssPath)) return [];
   const css = readFileSync(cssPath, 'utf8');
   const tokens = new Set();
-  const re = /var\((--ui-[^,)]+)\)/g;
+  const re = /var\((--n-[^,)]+)\)/g;
   let m;
   while ((m = re.exec(css)) !== null) tokens.add(m[1]);
   return [...tokens].sort();
@@ -304,7 +304,7 @@ function generateComponentMd(elements, dir) {
     // CSS tokens (only on primary element)
     if (i === 0 && cssTokens.length > 0) {
       lines.push(`${level}# CSS Tokens`, ``);
-      lines.push(`Public \`--ui-*\` custom properties consumed by this component:`, ``);
+      lines.push(`Public \`--n-*\` custom properties consumed by this component:`, ``);
       for (const token of cssTokens) {
         lines.push(`- \`${token}\``);
       }
@@ -528,7 +528,11 @@ function main() {
       const cssFile = join(dir, `${name}.css`);
       if (!existsSync(cssFile)) continue;
       // This is a CSS-only component/container
-      const md = generateCSSOnlyMd(name, cssFile);
+      // Derive tag name from the CSS file (check for n- prefixed selectors)
+      const cssContent = readFileSync(cssFile, 'utf8');
+      const tagMatch = cssContent.match(/:where\((n-[\w-]+)\)/);
+      const tagName = tagMatch ? tagMatch[1] : `n-${name}`;
+      const md = generateCSSOnlyMd(tagName, cssFile);
       writeFileSync(join(dir, 'README.md'), md);
       cssOnlyCount++;
     }

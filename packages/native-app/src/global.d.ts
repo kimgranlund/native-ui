@@ -13,7 +13,7 @@ declare global {
     'n-sidebar-nav-item': NSidebarNavItem;
     'n-sidebar-group': NSidebarGroup;
     'n-sidebar-group-header': NSidebarGroupHeader;
-    'n-sidebar': NSidebar;
+    'native-app': NSidebar;
     'n-sidebar-item': NSidebarItem;
   }
 }

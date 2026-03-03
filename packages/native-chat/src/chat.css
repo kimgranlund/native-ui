@@ -55,7 +55,7 @@
   }
 
   /* ── n-chat-content ── */
-  /* Message stream layout. Lives inside n-card-body which handles
+  /* Message stream layout. Lives inside n-body which handles
      scrolling, padding, and flex: 1. Content just manages message gap. */
 
   :where(n-chat-content) {
@@ -74,13 +74,18 @@
      single horizontal row. */
 
   :where(n-chat-input) {
+    --n-background: var(--n-control);
+    --n-border-color: var(--n-border-muted);
+
     display: flex;
+    flex: 1 1 0%;
     flex-direction: column;
     min-width: 0;
-    background: var(--n-control);
-    border: 1px solid var(--n-border-muted);
+    background: var(--n-background);
+    border: 1px solid var(--n-border-color);
     border-radius: var(--n-radius);
   }
+
 
   /* Compact: single row — textarea and actions side by side */
   :where(n-chat-input[compact]) {

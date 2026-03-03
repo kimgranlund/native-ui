@@ -77,7 +77,7 @@ export class ToastManager {
   #nextId = 0;
   readonly #toasts: ToastEntry[] = [];
 
-  #getContainer(): HTMLElement {
+  #getContainer(host: HTMLElement): HTMLElement {
     if (this.#container && this.#container.isConnected) return this.#container;
     this.#container = document.createElement('div');
     this.#container.className = 'n-toast-container';
@@ -86,8 +86,12 @@ export class ToastManager {
     this.#container.setAttribute('aria-atomic', 'false');
     // WHY: popover="manual" promotes to the top layer — no z-index needed.
     // Styling (position, gap, etc.) lives in n-toast.css.
+    // WHY: Append to host (not document.body) so the container inherits CSS
+    // custom properties from the component tree. The popover + position:fixed
+    // means it renders at a fixed viewport position regardless of DOM location.
+    // If the host disconnects, isConnected check above recreates on next toast.
     this.#container.setAttribute('popover', 'manual');
-    document.body.appendChild(this.#container);
+    host.appendChild(this.#container);
     this.#container.showPopover();
     return this.#container;
   }
@@ -95,7 +99,7 @@ export class ToastManager {
   toast(host: HTMLElement, options: ToastOptions): number {
     const { message, intent = 'info', duration = 4000, dismissible = true } = options;
     const id = this.#nextId++;
-    const c = this.#getContainer();
+    const c = this.#getContainer(host);
 
     const el = document.createElement('div');
     el.className = 'n-toast';

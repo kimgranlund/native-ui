@@ -154,7 +154,7 @@ describe('Draggable — drop mode', () => {
     items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
     expect(items(el)[0].hasAttribute('dragging')).toBe(true);
-    // Ghost appended to document.body (not host) to avoid polluting host queries
+    // Ghost appended to host with [popover] — top-layer rendering, inherits CSS context
     expect(document.body.querySelectorAll('[popover][aria-hidden="true"]').length).toBeGreaterThan(0);
 
     document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
@@ -342,11 +342,9 @@ describe('DragController', () => {
     dragItem.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
 
-    // Ghost is created as a popover on document.body (not host)
-    const ghost = document.body.querySelector('[popover][aria-hidden="true"]');
+    // Ghost is created as a popover inside the host (inherits CSS custom properties)
+    const ghost = host.querySelector('[popover][aria-hidden="true"]');
     expect(ghost).toBeInstanceOf(HTMLElement);
-    // Ghost must NOT be inside host — it would pollute querySelectorAll(selector)
-    expect(host.querySelector('[popover][aria-hidden="true"]')).toBeNull();
 
     document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
     ctrl.destroy();
@@ -362,7 +360,7 @@ describe('DragController', () => {
     items(host)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
 
-    const ghost = document.body.querySelector('[popover][aria-hidden="true"]');
+    const ghost = host.querySelector('[popover][aria-hidden="true"]');
     expect(ghost).toBeNull();
     ctrl.destroy();
   });
@@ -461,8 +459,10 @@ describe('Draggable — preview mode', () => {
     items(host)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
     document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
 
-    // Ghost clone must NOT appear inside host — it would corrupt querySelectorAll('.item')
-    expect(host.querySelectorAll('.item').length).toBe(5);
+    // Ghost clone lives inside host but [popover] filter excludes it from #getItems()
+    // Raw querySelectorAll sees 6 (5 items + 1 ghost clone), but DragController sees 5
+    expect(host.querySelectorAll('.item').length).toBe(6);
+    expect(host.querySelectorAll('.item:not([popover])').length).toBe(5);
 
     document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
     ctrl.destroy();

@@ -253,7 +253,7 @@ export class NPlayground extends NativeElement {
 
   #buildDOM(): void {
     // Toolbar — n-toolbar inside card-header for dark chrome context
-    const toolbarHeader = document.createElement('n-card-header');
+    const toolbarHeader = document.createElement('n-header');
     const toolbar = document.createElement('n-toolbar');
     toolbar.setAttribute('variant', 'plain');
     toolbar.setAttribute('size', 'md');
@@ -286,7 +286,7 @@ export class NPlayground extends NativeElement {
     editorRegion.className = 'pg-editor';
 
     // Tab bar wrapped in card-header for dark chrome context
-    const tabHeader = document.createElement('n-card-header');
+    const tabHeader = document.createElement('n-header');
 
     const tabBar = document.createElement('n-tabs');
     tabBar.setAttribute('value', this.#store.activeTab.value);

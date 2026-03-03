@@ -70,12 +70,16 @@ export class DragController {
 
   #getItems(): HTMLElement[] {
     if (!this.selector) return [];
-    return [...this.host.querySelectorAll<HTMLElement>(this.selector)];
+    // WHY: Exclude [popover] elements — they live in the top layer and must not
+    // be repositioned in the DOM by slot/preview reordering.
+    return [...this.host.querySelectorAll<HTMLElement>(this.selector)]
+      .filter(el => !el.hasAttribute('popover'));
   }
 
   #getDropZones(): HTMLElement[] {
     if (!this.dropZoneSelector) return this.#getItems();
-    return [...this.host.querySelectorAll<HTMLElement>(this.dropZoneSelector)];
+    return [...this.host.querySelectorAll<HTMLElement>(this.dropZoneSelector)]
+      .filter(el => !el.hasAttribute('popover'));
   }
 
   // ── Hover feedback ──
@@ -174,8 +178,8 @@ export class DragController {
       detail: { item: this.#dragItem, x: e.clientX, y: e.clientY },
     }));
 
-    // WHY: Filter out the ghost clone as a safety measure — even though the ghost
-    // is now appended to document.body, custom selectors could still match it.
+    // WHY: Filter out the ghost clone as a safety measure — even though [popover]
+    // excludes it from #getItems(), custom selectors on zones could still match it.
     const zones = this.#getDropZones().filter(z => z !== this.#ghost);
 
     if (this.mode === 'slot') {
@@ -538,13 +542,14 @@ export class DragController {
     // from overflow containers or stacking context issues.
     // The UA :popover-open styles set `inset: 0` and `margin: auto`, so we
     // use `inset: unset` + explicit positioning to override them.
-    // WHY: Append to document.body (not this.host) so the ghost clone doesn't
-    // appear in host.querySelectorAll(selector) results and doesn't occupy a
-    // grid/flex slot in the host's layout.
+    // WHY: Append to this.host (not document.body) so the ghost inherits
+    // CSS custom properties from the component tree. The [popover] attribute
+    // excludes it from #getItems() queries and the top layer means it doesn't
+    // occupy a grid/flex slot in the host's layout.
     ghost.setAttribute('popover', 'manual');
     ghost.setAttribute('aria-hidden', 'true');
 
-    document.body.appendChild(ghost);
+    this.host.appendChild(ghost);
     ghost.showPopover();
 
     // WHY: Apply positioning AFTER showPopover() to override UA :popover-open defaults

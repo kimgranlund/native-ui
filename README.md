@@ -83,13 +83,17 @@ This means:
 
 ### Containers
 
-`n-card` `n-panel` `n-stack` `n-grid` `n-divider` `n-inset` `n-card-header` `n-card-body` `n-card-footer` `n-section` `n-toolbar` `n-layout-sidebar` `n-layout-breadcrumb` `n-layout-canvas` `n-layout-body` `n-layout-chat`
+`n-card` `n-panel` `n-stack` `n-grid` `n-divider` `n-inset` `n-header` `n-body` `n-footer` `n-section` `n-toolbar` `n-layout-sidebar` `n-layout-breadcrumb` `n-layout-canvas` `n-layout-body` `n-layout-chat`
 
 ### Traits
 
 Composable behaviors available as controllers (imperative) or via `<n-controller>` (declarative):
 
 `PressController` `DismissController` `PopoverController` `RovingFocusController` `FocusTrapController` `DragController` `DropZoneController` `RangeSelectController` `CollapsibleController` `ToastController` `ValidateController` `ResizeController` `VirtualScrollController` `CopyController` `SortController` `HoverController` `IntersectController` `SelectionController` `SearchController` `ClipboardController` `SwipeController` `EditController` `DialogController` `ListNavigateController`
+
+## Documentation
+
+For detailed documentation optimized for coding agents, see [`docs/README.md`](docs/README.md).
 
 ## Browser Support
 

@@ -81,7 +81,7 @@
     </style>
   </head>
   <body>
-    <native-app>
+    <native-app-spa>
       <main>
         <h1>Context API</h1>
         <p class="subtitle">
@@ -98,74 +98,74 @@
 
               <!-- Team presence — session context -->
               <n-card>
-                <n-card-header>
+                <n-header>
                   <n-icon name="users" slot="leading" size="sm"></n-icon>
                   <span slot="label">Team</span>
-                </n-card-header>
-                <n-card-body>
+                </n-header>
+                <n-body>
                   <team-presence></team-presence>
-                </n-card-body>
+                </n-body>
               </n-card>
 
               <!-- Notification inbox — notification context -->
               <n-card>
-                <n-card-header>
+                <n-header>
                   <n-icon name="bell" slot="leading" size="sm"></n-icon>
                   <span slot="label">Inbox</span>
                   <notif-panel-actions slot="trailing"></notif-panel-actions>
-                </n-card-header>
-                <n-card-body>
+                </n-header>
+                <n-body>
                   <notif-panel></notif-panel>
-                </n-card-body>
+                </n-body>
               </n-card>
 
               <!-- Activity feed — notification context -->
               <n-card>
-                <n-card-header>
+                <n-header>
                   <n-icon name="pulse" slot="leading" size="sm"></n-icon>
                   <span slot="label">Activity Feed</span>
                   <n-badge slot="trailing" size="xs" intent="success">live</n-badge>
-                </n-card-header>
-                <n-card-body>
+                </n-header>
+                <n-body>
                   <activity-feed></activity-feed>
-                </n-card-body>
+                </n-body>
               </n-card>
 
               <!-- Preferences — session context (bidirectional) -->
               <n-card>
-                <n-card-header>
+                <n-header>
                   <n-icon name="gear" slot="leading" size="sm"></n-icon>
                   <span slot="label">Preferences</span>
-                </n-card-header>
-                <n-card-body>
+                </n-header>
+                <n-body>
                   <notif-prefs></notif-prefs>
-                </n-card-body>
+                </n-body>
               </n-card>
 
               <!-- Stats — notification context -->
               <n-card style="grid-column: 1 / -1;">
-                <n-card-header>
+                <n-header>
                   <n-icon name="chart-bar" slot="leading" size="sm"></n-icon>
                   <span slot="label">Session Stats</span>
-                </n-card-header>
-                <n-card-body>
+                </n-header>
+                <n-body>
                   <session-stats></session-stats>
-                </n-card-body>
+                </n-body>
               </n-card>
 
               <!-- Context event log -->
               <n-card style="grid-column: 1 / -1;">
-                <n-card-header>
+                <n-header>
                   <n-icon name="terminal" slot="leading" size="sm"></n-icon>
                   <span slot="label">Context Event Log</span>
                   <n-badge slot="trailing" size="xs">live</n-badge>
-                </n-card-header>
-                <n-card-body>
+                </n-header>
+                <n-body>
                   <p class="demo-hint" style="margin-bottom: 0.5rem;">
                     Every context subscription and signal update is logged — proof that reactive state flows from providers to arbitrarily nested consumers.
                   </p>
                   <ctx-log></ctx-log>
-                </n-card-body>
+                </n-body>
               </n-card>
 
             </n-grid>
@@ -173,7 +173,7 @@
           </notif-provider>
         </session-provider>
       </main>
-    </native-app>
+    </native-app-spa>
 
     <script type="module">
       import '../nav/native-app.ts';

@@ -114,12 +114,12 @@ export class NApp extends NativeElement {
 
     // ── Build layout ──
 
-    const layout = document.createElement('n-sidebar') as HTMLElement;
+    const layout = document.createElement('native-app') as HTMLElement;
     if (isCollapsed) layout.setAttribute('collapsed', '');
 
     // ── Sidebar aside ──
 
-    const sidebar = document.createElement('aside');
+    const sidebar = document.createElement('n-sidebar');
     sidebar.setAttribute('slot', 'sidebar');
 
     // Restore persisted width (only when not collapsed)

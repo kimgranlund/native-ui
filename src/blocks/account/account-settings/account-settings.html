@@ -114,7 +114,7 @@
     </style>
   </head>
   <body>
-    <native-app><main>
+    <native-app-spa><main>
     <h1>Account Settings</h1>
     <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem; margin-bottom: 1.5rem;">
       Full account settings page with profile, notification, security, and danger zone sections.
@@ -148,7 +148,7 @@
 
             <n-field>
               <label slot="label">Email</label>
-              <n-input type="email" placeholder="you@example.com" value="kim@nonoun.com" name="email">
+              <n-input type="email" placeholder="you@example.com" value="kim@nonoun.io" name="email">
                 <n-icon name="envelope" slot="leading"></n-icon>
               </n-input>
               <span slot="description">Used for notifications and account recovery.</span>
@@ -264,7 +264,7 @@
       </n-stack>
     </div>
 
-    </main></native-app>
+    </main></native-app-spa>
     <script type="module">
       import '../../../nav/native-app.ts';
       import '../../../components/button/button.ts';

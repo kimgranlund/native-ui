@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../../styles/demo.css" />
     </head>
   <body>
-    <native-app><main>
+    <native-app-spa><main>
     <h1>&lt;n-field&gt;</h1>
     <p class="demo-desc">
       Form field wrapper with label, description, error message, and ARIA wiring.
@@ -153,10 +153,10 @@
     <h2>Form Composition</h2>
     <div class="demo-section" style="max-width: 28rem;">
       <n-card>
-        <n-card-header>
+        <n-header>
           <span slot="label">Create Account</span>
-        </n-card-header>
-        <n-card-body>
+        </n-header>
+        <n-body>
           <n-stack gap="4">
             <n-field required>
               <label slot="label">Full name</label>
@@ -172,15 +172,15 @@
               <n-input placeholder="At least 8 characters" type="password"></n-input>
             </n-field>
           </n-stack>
-        </n-card-body>
-        <n-card-footer>
+        </n-body>
+        <n-footer>
           <n-button variant="ghost"><span slot="label">Cancel</span></n-button>
           <n-button variant="primary" intent="accent"><span slot="label">Create Account</span></n-button>
-        </n-card-footer>
+        </n-footer>
       </n-card>
     </div>
 
-    </main></native-app>
+    </main></native-app-spa>
     <script type="module">
       import '../../nav/native-app.ts';
       import './field.ts';

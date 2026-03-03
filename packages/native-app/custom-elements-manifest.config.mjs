@@ -14,13 +14,15 @@ function nativeAppPlugin() {
             continue;
           }
 
-          // Derive tag name: NSidebar → n-sidebar, NAppPanel → n-app-panel
-          const tag = decl.name
+          // Override map for tag names that don't follow the NSidebar → n-sidebar convention
+          const TAG_OVERRIDES = { NSidebar: 'native-app' };
+
+          // Derive tag name: NSidebarNav → n-sidebar-nav, NAppPanel → n-app-panel
+          const tagName = TAG_OVERRIDES[decl.name] ?? `n-${decl.name
             .replace(/^N/, '')
             .replace(/([a-z])([A-Z])/g, '$1-$2')
             .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
-            .toLowerCase();
-          const tagName = `n-${tag}`;
+            .toLowerCase()}`;
 
           decl.customElement = true;
           decl.tagName = tagName;

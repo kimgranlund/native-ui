@@ -24,7 +24,7 @@
     align-items: center;
     gap: calc(var(--n-space) * 2);
     background: var(--n-background);
-    border-radius: var(--n-border-radius, var(--n-radius));
+    border-radius: var(--n-radius);
     border: 1px solid var(--n-border-color);
     padding: calc(var(--n-space) * 1);
     user-select: none;

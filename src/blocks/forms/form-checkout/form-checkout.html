@@ -96,7 +96,7 @@
     </style>
   </head>
   <body>
-    <native-app><main>
+    <native-app-spa><main>
     <n-stack gap="6">
     <div>
       <h1>Checkout</h1>
@@ -111,11 +111,11 @@
         <n-stack gap="6">
           <!-- ── Shipping Information ── -->
           <n-card>
-            <n-card-header>
+            <n-header>
               <n-icon name="package" slot="leading"></n-icon>
               <span slot="label">Shipping Information</span>
-            </n-card-header>
-            <n-card-body>
+            </n-header>
+            <n-body>
               <n-stack gap="4">
                 <div class="grid-2">
                   <n-field required>
@@ -168,16 +168,16 @@
                   </n-select>
                 </n-field>
               </n-stack>
-            </n-card-body>
+            </n-body>
           </n-card>
 
           <!-- ── Payment Method ── -->
           <n-card>
-            <n-card-header>
+            <n-header>
               <n-icon name="credit-card" slot="leading"></n-icon>
               <span slot="label">Payment Method</span>
-            </n-card-header>
-            <n-card-body>
+            </n-header>
+            <n-body>
               <n-stack gap="4">
                 <n-field>
                   <label slot="label">Payment type</label>
@@ -213,18 +213,18 @@
 
                 <n-checkbox name="save_card">Save card for future purchases</n-checkbox>
               </n-stack>
-            </n-card-body>
+            </n-body>
           </n-card>
         </n-stack>
 
         <!-- ── Right Column: Order Summary ── -->
         <div>
           <n-card>
-            <n-card-header>
+            <n-header>
               <n-icon name="receipt" slot="leading"></n-icon>
               <span slot="label">Order Summary</span>
-            </n-card-header>
-            <n-card-body>
+            </n-header>
+            <n-body>
               <n-stack gap="2">
                 <div class="summary-line">
                   <div>
@@ -268,8 +268,8 @@
                   <span class="item-price">$232.38</span>
                 </div>
               </n-stack>
-            </n-card-body>
-            <n-card-footer justify="center">
+            </n-body>
+            <n-footer justify="center">
               <n-stack gap="3" align="stretch">
                 <n-button variant="primary" intent="accent" type="submit" form="checkout-form">
                   <n-icon name="shopping-cart" slot="leading"></n-icon>
@@ -279,14 +279,14 @@
                   Your payment information is encrypted and secure.
                 </p>
               </n-stack>
-            </n-card-footer>
+            </n-footer>
           </n-card>
         </div>
       </div>
     </form>
     </n-stack>
 
-    </main></native-app>
+    </main></native-app-spa>
     <script type="module">
       import '../../../nav/native-app.ts';
       import '../../../components/field/field.ts';

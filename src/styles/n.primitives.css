@@ -667,7 +667,7 @@
     --n-border-color-hover: transparent;
     --n-border-color-active: transparent;
     --n-border-color-disabled: transparent;
-    --n-border-radius: 0;
+    --n-radius: 0;
   }
 
 }

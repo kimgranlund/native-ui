@@ -41,10 +41,10 @@
 </style>
   </head>
   <body>
-    <native-app><main>
+    <native-app-spa><main>
     <h1>&lt;n-chat&gt;</h1>
     <p class="demo-desc">
-      Chat application shell. Wraps an n-panel with panel-header / panel-body / panel-footer sub-containers.
+      Chat application shell. Wraps an n-panel with n-header / n-body / n-footer sub-containers.
     </p>
 
     <!-- ── Full Chat Shell ── -->
@@ -59,18 +59,18 @@
           <div class="chat-frame">
             <n-chat>
               <n-panel padding="none">
-                <n-panel-header dividers>
+                <n-header dividers>
                   <span slot="leading"><n-icon name="chat-dots"></n-icon></span>
                   <span>Assistant</span>
                   <span slot="trailing"><n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button></span>
-                </n-panel-header>
-                <n-panel-body>
+                </n-header>
+                <n-body>
                   <n-chat-content>
                     <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">Messages will appear here.</p>
                   </n-chat-content>
-                </n-panel-body>
-                <n-panel-footer dividers>
-                  <n-chat-input>
+                </n-body>
+                <n-footer dividers padding="none">
+                  <n-chat-input variant="plain">
                     <n-textarea placeholder="Ask anything" autogrow rows="3"></n-textarea>
                     <n-chat-input-actions>
                       <n-button variant="ghost" inline><n-icon name="plus"></n-icon></n-button>
@@ -99,7 +99,7 @@
                       </n-select>
                     </n-chat-input-actions>
                   </n-chat-input>
-                </n-panel-footer>
+                </n-footer>
               </n-panel>
             </n-chat>
           </div>
@@ -111,18 +111,18 @@
           <div class="chat-frame">
             <n-chat>
               <n-panel padding="none">
-                <n-panel-header dividers>
+                <n-header dividers>
                   <span slot="leading"><n-icon name="chat-dots"></n-icon></span>
                   <span>Assistant</span>
                   <span slot="trailing"><n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button></span>
-                </n-panel-header>
-                <n-panel-body>
+                </n-header>
+                <n-body>
                   <n-chat-content>
                     <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">Messages will appear here.</p>
                   </n-chat-content>
-                </n-panel-body>
-                <n-panel-footer dividers>
-                  <n-chat-input>
+                </n-body>
+                <n-footer dividers padding="none">
+                  <n-chat-input variant="plain">
                     <n-textarea placeholder="Ask anything" autogrow rows="3"></n-textarea>
                     <n-chat-input-actions>
                       <n-button variant="ghost" inline><n-icon name="plus"></n-icon></n-button>
@@ -152,7 +152,7 @@
                       <n-button variant="primary" intent="accent" radius="round" inline disabled class="submit-btn"><n-icon name="arrow-up"></n-icon></n-button>
                     </n-chat-input-actions>
                   </n-chat-input>
-                </n-panel-footer>
+                </n-footer>
               </n-panel>
             </n-chat>
           </div>
@@ -160,22 +160,22 @@
       </div>
       <pre class="demo-code"><code>&lt;n-chat&gt;
   &lt;n-panel padding="none"&gt;
-    &lt;n-panel-header dividers&gt;
+    &lt;n-header dividers&gt;
       &lt;span slot="leading"&gt;&lt;n-icon name="chat-dots"&gt;&lt;/n-icon&gt;&lt;/span&gt;
       &lt;span&gt;Assistant&lt;/span&gt;
       &lt;span slot="trailing"&gt;...&lt;/span&gt;
-    &lt;/n-panel-header&gt;
-    &lt;n-panel-body&gt;
+    &lt;/n-header&gt;
+    &lt;n-body&gt;
       &lt;n-chat-content&gt;...&lt;/n-chat-content&gt;
-    &lt;/n-panel-body&gt;
-    &lt;n-panel-footer dividers&gt;
-      &lt;n-chat-input&gt;
+    &lt;/n-body&gt;
+    &lt;n-footer dividers padding="none"&gt;
+      &lt;n-chat-input variant="plain"&gt;
         &lt;n-textarea placeholder="Ask anything" autogrow rows="3"&gt;&lt;/n-textarea&gt;
         &lt;n-chat-input-actions&gt;
           &lt;n-button variant="ghost" inline&gt;&lt;n-icon name="plus"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
         &lt;/n-chat-input-actions&gt;
       &lt;/n-chat-input&gt;
-    &lt;/n-panel-footer&gt;
+    &lt;/n-footer&gt;
   &lt;/n-panel&gt;
 &lt;/n-chat&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
@@ -219,6 +219,19 @@
         </div>
 
         <div class="demo-col">
+          <span class="demo-col-label">Plain (no surface)</span>
+          <div style="background: var(--n-panel-neutral); border-radius: var(--n-radius); border: 1px solid var(--n-border-muted-neutral);">
+            <n-chat-input variant="plain">
+              <n-textarea placeholder="Ask anything" autogrow rows="2"></n-textarea>
+              <n-chat-input-actions>
+                <n-button variant="ghost" inline><n-icon name="plus"></n-icon></n-button>
+                <n-button variant="ghost" inline><n-icon name="microphone"></n-icon></n-button>
+              </n-chat-input-actions>
+            </n-chat-input>
+          </div>
+        </div>
+
+        <div class="demo-col">
           <span class="demo-col-label">Compact (single row)</span>
           <n-chat-input compact>
             <n-textarea placeholder="Type a message..." autogrow rows="1"></n-textarea>
@@ -237,6 +250,12 @@
   &lt;/n-chat-input-actions&gt;
 &lt;/n-chat-input&gt;
 
+&lt;!-- Plain (flush, no surface) --&gt;
+&lt;n-chat-input variant="plain"&gt;
+  &lt;n-textarea placeholder="Ask anything" autogrow rows="2"&gt;&lt;/n-textarea&gt;
+  &lt;n-chat-input-actions&gt;...&lt;/n-chat-input-actions&gt;
+&lt;/n-chat-input&gt;
+
 &lt;!-- Compact --&gt;
 &lt;n-chat-input compact&gt;
   &lt;n-textarea placeholder="Type a message..." autogrow rows="1"&gt;&lt;/n-textarea&gt;
@@ -244,7 +263,7 @@
 &lt;/n-chat-input&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </div>
 
-    </main></native-app>
+    </main></native-app-spa>
     <script type="module">
       import '../../../src/nav/native-app.ts';
       import '../../../src/components/button/button.ts';
