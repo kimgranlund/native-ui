@@ -27,6 +27,7 @@
 @import '../components/tree/tree.css';
 @import '../components/slideshow/slideshow.css';
 @import '../components/controller/controller.css';
+@import '../components/toast/toast.css';
 @import '../icons/icon.css';
 
 /* Containers */

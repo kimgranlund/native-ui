@@ -53,7 +53,7 @@ export type { PresentOptions } from './present-controller.ts';
 export { registerAllTraits } from './register-all.ts';
 
 // ── Runtime ──
-export { getTraitRuntime, DismissStack, ToastManager } from './runtime.ts';
+export { getTraitRuntime, DismissStack } from './runtime.ts';
 export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from './runtime.ts';
 export { GestureRouter } from './gesture-router.ts';
 export type { GestureParticipant } from './gesture-router.ts';

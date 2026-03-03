@@ -18,7 +18,7 @@ export { uid } from './core/uid.ts';
 export { registerTrait, getTrait, getRegisteredTraitNames } from './registries/trait-registry.ts';
 export type { TraitAdapter } from './registries/trait-registry.ts';
 export { parseTraitAttribute, collectTraitOptions } from './core/trait-options.ts';
-export { getTraitRuntime, DismissStack, ToastManager } from './traits/runtime.ts';
+export { getTraitRuntime, DismissStack } from './traits/runtime.ts';
 export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from './traits/runtime.ts';
 
 // Event detail types

@@ -2,13 +2,19 @@
 
 # ToastController
 
-> Creates and manages toast notifications via the global toast manager.
+> Creates and manages toast notifications within its own host element. Each controller owns its own container and toast entries — no global singleton. Container uses [popover="manual"] for top-layer rendering while inheriting CSS custom properties from the host's position in the component tree.
 
 ## Constructor
 
 ```ts
 new ToastController(host: HTMLElement)
 ```
+
+## Events Dispatched
+
+| Event | Detail |
+|-------|--------|
+| `native:toast` | `{ id, message, intent }` |
 
 ## Methods
 

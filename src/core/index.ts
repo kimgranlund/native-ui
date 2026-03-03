@@ -16,7 +16,7 @@ export type { BaseOption } from './data-options.ts';
 // Re-exports from registries/ and traits/ — backwards compatibility
 export { registerTrait, getTrait, getRegisteredTraitNames } from '../registries/trait-registry.ts';
 export type { TraitAdapter } from '../registries/trait-registry.ts';
-export { getTraitRuntime, DismissStack, ToastManager } from '../traits/runtime.ts';
+export { getTraitRuntime, DismissStack } from '../traits/runtime.ts';
 export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from '../traits/runtime.ts';
 export { GestureRouter } from '../traits/gesture-router.ts';
 export type { GestureParticipant } from '../traits/gesture-router.ts';

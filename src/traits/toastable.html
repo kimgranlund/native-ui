@@ -71,7 +71,7 @@
 
     <h1>Toastable</h1>
     <p class="demo-desc">
-      Composable trait for showing toast notifications. Manages a global toast stack with auto-dismiss timers, intent-based styling, and optional dismiss buttons.
+      Composable trait for showing toast notifications. Each controller owns its own container within its host element — no global singleton. Supports auto-dismiss timers, intent-based styling, and optional dismiss buttons.
     </p>
 
     <!-- ── Intent Variants ── -->
@@ -89,7 +89,7 @@
       </div>
       <pre class="demo-code"><code>import { ToastController } from '@nonoun/native-ui';
 
-const toaster = new ToastController(document.body);
+const toaster = new ToastController(myElement);
 
 toaster.toast({
   message: 'Action completed!',
@@ -137,7 +137,7 @@ toaster.dismissAllToasts();</code><n-button class="copy-btn" size="sm" variant="
         <tbody>
           <tr>
             <td><code>toast(options)</code></td>
-            <td><code>string</code></td>
+            <td><code>number</code></td>
             <td>Show a toast. Returns the toast ID. Options: <code>{ message, intent?, duration? }</code>.</td>
           </tr>
           <tr>
@@ -218,9 +218,9 @@ toaster.dismissAllToasts();</code><n-button class="copy-btn" size="sm" variant="
         });
       }
 
-      // ── Toast Controller — attached to body ──
+      // ── Toast Controller — attached to the main content area ──
 
-      const toaster = new ToastController(document.body);
+      const toaster = new ToastController(document.querySelector('main'));
 
       // ── Intent demos ──
 

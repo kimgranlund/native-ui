@@ -56,8 +56,8 @@ export class DismissStack {
 }
 
 /**
- * ToastManager — manages a global toast container and toast entries.
- * Extracted from the module-level singleton in toastable.ts.
+ * ToastOptions — configuration for toast notifications.
+ * Used by ToastController (toast-controller.ts).
  */
 export interface ToastOptions {
   message: string;
@@ -66,101 +66,11 @@ export interface ToastOptions {
   dismissible?: boolean;
 }
 
-interface ToastEntry {
-  id: number;
-  el: HTMLElement;
-  timer: ReturnType<typeof setTimeout> | null;
-}
-
-export class ToastManager {
-  #container: HTMLElement | null = null;
-  #nextId = 0;
-  readonly #toasts: ToastEntry[] = [];
-
-  #getContainer(host: HTMLElement): HTMLElement {
-    if (this.#container && this.#container.isConnected) return this.#container;
-    this.#container = document.createElement('div');
-    this.#container.className = 'n-toast-container';
-    this.#container.setAttribute('role', 'status');
-    this.#container.setAttribute('aria-live', 'polite');
-    this.#container.setAttribute('aria-atomic', 'false');
-    // WHY: popover="manual" promotes to the top layer — no z-index needed.
-    // Styling (position, gap, etc.) lives in n-toast.css.
-    // WHY: Append to host (not document.body) so the container inherits CSS
-    // custom properties from the component tree. The popover + position:fixed
-    // means it renders at a fixed viewport position regardless of DOM location.
-    // If the host disconnects, isConnected check above recreates on next toast.
-    this.#container.setAttribute('popover', 'manual');
-    host.appendChild(this.#container);
-    this.#container.showPopover();
-    return this.#container;
-  }
-
-  toast(host: HTMLElement, options: ToastOptions): number {
-    const { message, intent = 'info', duration = 4000, dismissible = true } = options;
-    const id = this.#nextId++;
-    const c = this.#getContainer(host);
-
-    const el = document.createElement('div');
-    el.className = 'n-toast';
-    el.setAttribute('intent', intent);
-    el.setAttribute('role', 'alert');
-
-    const msg = document.createElement('span');
-    msg.className = 'n-toast-message';
-    msg.textContent = message;
-    el.appendChild(msg);
-
-    if (dismissible) {
-      const close = document.createElement('button');
-      close.className = 'n-toast-close';
-      close.setAttribute('aria-label', 'Dismiss');
-      close.textContent = '\u00d7';
-      close.addEventListener('click', () => this.dismiss(id));
-      el.appendChild(close);
-    }
-
-    c.appendChild(el);
-
-    const timer = duration > 0 ? setTimeout(() => this.dismiss(id), duration) : null;
-    this.#toasts.push({ id, el, timer });
-
-    host.dispatchEvent(new CustomEvent('native:toast', {
-      bubbles: true,
-      composed: true,
-      detail: { id, message, intent },
-    }));
-
-    return id;
-  }
-
-  dismiss(id: number): void {
-    const idx = this.#toasts.findIndex(t => t.id === id);
-    if (idx === -1) return;
-    const entry = this.#toasts[idx];
-    if (entry.timer) clearTimeout(entry.timer);
-    entry.el.remove();
-    this.#toasts.splice(idx, 1);
-    if (this.#toasts.length === 0 && this.#container) {
-      try { this.#container.hidePopover(); } catch { /* already hidden */ }
-      this.#container.remove();
-      this.#container = null;
-    }
-  }
-
-  dismissAll(): void {
-    for (const entry of [...this.#toasts]) {
-      this.dismiss(entry.id);
-    }
-  }
-}
-
 /**
  * TraitRuntime — singleton holding shared services for trait controllers.
  */
 export interface TraitRuntime {
   readonly dismissStack: DismissStack;
-  readonly toastManager: ToastManager;
   readonly gestureRouter: GestureRouter;
 }
 
@@ -170,7 +80,6 @@ export function getTraitRuntime(): TraitRuntime {
   if (!runtime) {
     runtime = {
       dismissStack: new DismissStack(),
-      toastManager: new ToastManager(),
       gestureRouter: new GestureRouter(),
     };
   }

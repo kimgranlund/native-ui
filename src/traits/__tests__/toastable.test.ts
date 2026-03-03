@@ -39,29 +39,20 @@ if (!customElements.get('toast-test')) {
 function create(): ToastTestEl {
   const el = document.createElement('toast-test') as ToastTestEl;
   document.body.appendChild(el);
-  testEl = el;
   return el;
 }
 
-// WHY: Singleton ToastManager persists across tests — must dismiss all to reset #toasts array
-let testEl: ToastTestEl | null = null;
-
 afterEach(() => {
-  // WHY: dismissAllToasts clears the singleton's internal #toasts array
-  testEl?.dismissAllToasts();
-  testEl = null;
-  const containers = document.querySelectorAll('.n-toast-container');
-  for (const c of containers) c.remove();
   document.body.innerHTML = '';
 });
 
 describe('Toastable', () => {
-  it('creates a toast element in the DOM', () => {
+  it('creates an n-toast element in the DOM', () => {
     const el = create();
     el.toast({ message: 'Hello' });
-    const container = document.querySelector('.n-toast-container');
+    const container = el.querySelector('.n-toast-container');
     expect(container).not.toBeNull();
-    const toast = container!.querySelector('.n-toast');
+    const toast = container!.querySelector('n-toast');
     expect(toast).not.toBeNull();
     expect(toast!.querySelector('.n-toast-message')!.textContent).toBe('Hello');
   });
@@ -75,37 +66,37 @@ describe('Toastable', () => {
   it('sets the intent attribute', () => {
     const el = create();
     el.toast({ message: 'Danger!', intent: 'danger' });
-    const toast = document.querySelector('.n-toast');
+    const toast = el.querySelector('n-toast');
     expect(toast!.getAttribute('intent')).toBe('danger');
   });
 
   it('defaults to info intent', () => {
     const el = create();
     el.toast({ message: 'Default' });
-    const toast = document.querySelector('.n-toast');
+    const toast = el.querySelector('n-toast');
     expect(toast!.getAttribute('intent')).toBe('info');
   });
 
   it('includes a dismiss button by default', () => {
     const el = create();
     el.toast({ message: 'Dismissible' });
-    const close = document.querySelector('.n-toast-close');
+    const close = el.querySelector('n-toast .n-toast-close');
     expect(close).not.toBeNull();
   });
 
   it('omits dismiss button when dismissible is false', () => {
     const el = create();
     el.toast({ message: 'No close', dismissible: false });
-    const close = document.querySelector('.n-toast-close');
+    const close = el.querySelector('n-toast .n-toast-close');
     expect(close).toBeNull();
   });
 
   it('dismissToast removes the toast from DOM', () => {
     const el = create();
     const id = el.toast({ message: 'Remove me', duration: 0 });
-    expect(document.querySelectorAll('.n-toast').length).toBe(1);
+    expect(el.querySelectorAll('n-toast').length).toBe(1);
     el.dismissToast(id);
-    expect(document.querySelectorAll('.n-toast').length).toBe(0);
+    expect(el.querySelectorAll('n-toast').length).toBe(0);
   });
 
   it('dismissAllToasts clears all toasts', () => {
@@ -113,9 +104,9 @@ describe('Toastable', () => {
     el.toast({ message: 'A', duration: 0 });
     el.toast({ message: 'B', duration: 0 });
     el.toast({ message: 'C', duration: 0 });
-    expect(document.querySelectorAll('.n-toast').length).toBe(3);
+    expect(el.querySelectorAll('n-toast').length).toBe(3);
     el.dismissAllToasts();
-    expect(document.querySelectorAll('.n-toast').length).toBe(0);
+    expect(el.querySelectorAll('n-toast').length).toBe(0);
   });
 
   it('dispatches native:toast event', () => {
@@ -133,51 +124,91 @@ describe('Toastable', () => {
     vi.useFakeTimers();
     const el = create();
     el.toast({ message: 'Auto', duration: 2000 });
-    expect(document.querySelectorAll('.n-toast').length).toBe(1);
+    expect(el.querySelectorAll('n-toast').length).toBe(1);
     vi.advanceTimersByTime(2000);
-    expect(document.querySelectorAll('.n-toast').length).toBe(0);
+    expect(el.querySelectorAll('n-toast').length).toBe(0);
     vi.useRealTimers();
   });
 
   it('container is removed when all toasts dismissed', () => {
     const el = create();
     const id = el.toast({ message: 'Only one', duration: 0 });
-    expect(document.querySelector('.n-toast-container')).not.toBeNull();
+    expect(el.querySelector('.n-toast-container')).not.toBeNull();
     el.dismissToast(id);
-    expect(document.querySelector('.n-toast-container')).toBeNull();
+    expect(el.querySelector('.n-toast-container')).toBeNull();
   });
 
   it('container is recreated after full dismissal', () => {
     const el = create();
     const id = el.toast({ message: 'First', duration: 0 });
     el.dismissToast(id);
-    expect(document.querySelector('.n-toast-container')).toBeNull();
+    expect(el.querySelector('.n-toast-container')).toBeNull();
 
     el.toast({ message: 'Second', duration: 0 });
-    expect(document.querySelector('.n-toast-container')).not.toBeNull();
+    expect(el.querySelector('.n-toast-container')).not.toBeNull();
   });
 
   it('dismissToast with invalid ID is a no-op', () => {
     const el = create();
     el.toast({ message: 'Real', duration: 0 });
     expect(() => el.dismissToast(999)).not.toThrow();
-    expect(document.querySelectorAll('.n-toast').length).toBe(1);
+    expect(el.querySelectorAll('n-toast').length).toBe(1);
   });
 
   it('toast container has ARIA live region attributes', () => {
     const el = create();
     el.toast({ message: 'Accessible' });
-    const container = document.querySelector('.n-toast-container')!;
+    const container = el.querySelector('.n-toast-container')!;
     expect(container.getAttribute('role')).toBe('status');
     expect(container.getAttribute('aria-live')).toBe('polite');
+  });
+
+  it('toast is an n-toast custom element', () => {
+    const el = create();
+    el.toast({ message: 'Custom' });
+    const toast = el.querySelector('n-toast')!;
+    expect(toast.tagName.toLowerCase()).toBe('n-toast');
+    expect(toast.getAttribute('message')).toBe('Custom');
   });
 
   it('dismiss button click removes the toast', () => {
     const el = create();
     el.toast({ message: 'Click to close', duration: 0 });
-    const close = document.querySelector('.n-toast-close') as HTMLElement;
+    const close = el.querySelector('n-toast .n-toast-close') as HTMLElement;
     expect(close).not.toBeNull();
     close.click();
-    expect(document.querySelectorAll('.n-toast').length).toBe(0);
+    expect(el.querySelectorAll('n-toast').length).toBe(0);
+  });
+
+  it('container lives inside the host element', () => {
+    const el = create();
+    el.toast({ message: 'Scoped' });
+    expect(el.querySelector('.n-toast-container')).not.toBeNull();
+    expect(document.body.querySelector(':scope > .n-toast-container')).toBeNull();
+  });
+
+  it('destroy() dismisses all toasts and removes container', () => {
+    const el = create();
+    el.toast({ message: 'A', duration: 0 });
+    el.toast({ message: 'B', duration: 0 });
+    expect(el.querySelectorAll('n-toast').length).toBe(2);
+    el.remove();
+    expect(el.querySelector('.n-toast-container')).toBeNull();
+  });
+
+  it('separate controllers have independent containers', () => {
+    const el1 = create();
+    const el2 = document.createElement('toast-test') as ToastTestEl;
+    document.body.appendChild(el2);
+
+    el1.toast({ message: 'From el1', duration: 0 });
+    el2.toast({ message: 'From el2', duration: 0 });
+
+    expect(el1.querySelectorAll('n-toast').length).toBe(1);
+    expect(el2.querySelectorAll('n-toast').length).toBe(1);
+
+    el1.dismissAllToasts();
+    expect(el1.querySelectorAll('n-toast').length).toBe(0);
+    expect(el2.querySelectorAll('n-toast').length).toBe(1);
   });
 });

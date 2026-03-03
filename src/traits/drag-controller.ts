@@ -1,6 +1,8 @@
 export interface DragOptions {
   selector: string;
   dropZoneSelector?: string;
+  /** CSS selector for zone containers that items can be dragged between (e.g., kanban columns). */
+  zoneSelector?: string;
   axis?: 'vertical' | 'horizontal' | 'both';
   mode?: 'drop' | 'slot' | 'preview';
   disabled?: boolean;
@@ -13,6 +15,7 @@ export class DragController {
   readonly host: HTMLElement;
   selector: string;
   dropZoneSelector: string;
+  zoneSelector: string;
   axis: 'vertical' | 'horizontal' | 'both';
   mode: 'drop' | 'slot' | 'preview';
   disabled: boolean;
@@ -27,6 +30,8 @@ export class DragController {
   #grabOffsetY = 0;
   #dragIndex = -1;
   #lastSlotIndex = -1;
+  #sourceZone: HTMLElement | null = null;
+  #currentZone: HTMLElement | null = null;
   #attached = false;
 
   // Preview mode: save original position for cancel restore
@@ -38,6 +43,7 @@ export class DragController {
     this.host = host;
     this.selector = options.selector;
     this.dropZoneSelector = options.dropZoneSelector ?? '';
+    this.zoneSelector = options.zoneSelector ?? '';
     this.axis = options.axis ?? 'both';
     this.mode = options.mode ?? 'drop';
     this.disabled = options.disabled ?? false;
@@ -82,6 +88,28 @@ export class DragController {
       .filter(el => !el.hasAttribute('popover'));
   }
 
+  #getZones(): HTMLElement[] {
+    if (!this.zoneSelector) return [];
+    return [...this.host.querySelectorAll<HTMLElement>(this.zoneSelector)];
+  }
+
+  #getItemsInZone(zone: HTMLElement): HTMLElement[] {
+    if (!this.selector) return [];
+    return [...zone.querySelectorAll<HTMLElement>(this.selector)]
+      .filter(el => !el.hasAttribute('popover'));
+  }
+
+  #findZoneAt(x: number, y: number): HTMLElement | null {
+    const zones = this.#getZones();
+    for (const zone of zones) {
+      const rect = zone.getBoundingClientRect();
+      if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) {
+        return zone;
+      }
+    }
+    return null;
+  }
+
   // ── Hover feedback ──
 
   #onHoverIn = (e: PointerEvent): void => {
@@ -124,6 +152,11 @@ export class DragController {
     const itemRect = target.getBoundingClientRect();
     this.#grabOffsetX = (itemRect.left + itemRect.width / 2) - e.clientX;
     this.#grabOffsetY = (itemRect.top + itemRect.height / 2) - e.clientY;
+
+    // WHY: Record which zone the drag started in for cross-zone event details
+    if (this.zoneSelector) {
+      this.#sourceZone = target.closest(this.zoneSelector) as HTMLElement | null;
+    }
 
     // WHY: Listen on document (not pointer capture) so the ghost can be dragged
     // freely across the entire viewport, not constrained to the container bounds.
@@ -183,16 +216,39 @@ export class DragController {
     const zones = this.#getDropZones().filter(z => z !== this.#ghost);
 
     if (this.mode === 'slot') {
-      // WHY: Slot mode uses ghost center vs zone centers. The slot indicator should
+      // WHY: Slot mode uses ghost center vs item centers. The slot indicator should
       // flip when the dragged element's center crosses another element's center.
       const ghostCenterX = e.clientX + this.#grabOffsetX;
       const ghostCenterY = e.clientY + this.#grabOffsetY;
 
+      let items: HTMLElement[];
+      let container: HTMLElement | undefined;
+
+      if (this.zoneSelector) {
+        // WHY: In zone mode, find which zone the ghost center is over and scope
+        // hit-testing to items within that zone only (cross-zone kanban support).
+        const zone = this.#findZoneAt(ghostCenterX, ghostCenterY);
+        if (!zone) return;
+        if (zone !== this.#currentZone) {
+          if (this.#currentZone) {
+            this.#clearSlotAttributes(this.#getItemsInZone(this.#currentZone));
+            this.#currentZone.removeAttribute('drag-zone-active');
+          }
+          zone.setAttribute('drag-zone-active', '');
+          this.#currentZone = zone;
+          this.#lastSlotIndex = -1;
+        }
+        items = this.#getItemsInZone(zone).filter(el => el !== this.#ghost);
+        container = zone;
+      } else {
+        items = zones;
+      }
+
       // WHY: Exclude the dragging item from hit-testing — it still occupies DOM space
       // but shouldn't count as a target. Compare ghost center against remaining items only.
-      const targets = zones.filter(z => z !== this.#dragItem);
+      const targets = items.filter(z => z !== this.#dragItem);
 
-      // WHY: Find insertion index by counting how many zone centers the ghost center has passed
+      // WHY: Find insertion index by counting how many item centers the ghost center has passed
       let insertIndex = 0;
       for (let i = 0; i < targets.length; i++) {
         const rect = targets[i].getBoundingClientRect();
@@ -212,11 +268,25 @@ export class DragController {
         }
       }
 
-      this.#updateSlot(zones, insertIndex);
+      this.#updateSlot(items, insertIndex, container);
     } else if (this.mode === 'preview') {
       const ghostCenterX = e.clientX + this.#grabOffsetX;
       const ghostCenterY = e.clientY + this.#grabOffsetY;
-      this.#updatePreview(zones, ghostCenterX, ghostCenterY);
+
+      if (this.zoneSelector) {
+        const zone = this.#findZoneAt(ghostCenterX, ghostCenterY);
+        if (!zone) return;
+        if (zone !== this.#currentZone) {
+          if (this.#currentZone) this.#currentZone.removeAttribute('drag-zone-active');
+          zone.setAttribute('drag-zone-active', '');
+          this.#currentZone = zone;
+          this.#lastPreviewIndex = -1;
+        }
+        const zoneItems = this.#getItemsInZone(zone).filter(el => el !== this.#ghost);
+        this.#updatePreview(zoneItems, ghostCenterX, ghostCenterY, zone);
+      } else {
+        this.#updatePreview(zones, ghostCenterX, ghostCenterY);
+      }
     } else {
       // WHY: Drop mode uses pointer position within zone bounds (more precise for "drop onto")
       let overZone: HTMLElement | null = null;
@@ -272,7 +342,7 @@ export class DragController {
 
   // ── Slot mode: insert placeholder at gap ──
 
-  #updateSlot(items: HTMLElement[], insertIndex: number): void {
+  #updateSlot(items: HTMLElement[], insertIndex: number, container?: HTMLElement): void {
     if (insertIndex === -1 || insertIndex === this.#lastSlotIndex) return;
     this.#lastSlotIndex = insertIndex;
 
@@ -292,7 +362,8 @@ export class DragController {
     } else if (liveItems.length > 0) {
       liveItems[liveItems.length - 1].after(this.#placeholder);
     } else {
-      this.host.appendChild(this.#placeholder);
+      // WHY: In zone mode, append to the target zone container; otherwise fall back to host.
+      (container ?? this.host).appendChild(this.#placeholder);
     }
 
     if (clampedIndex < liveItems.length) {
@@ -320,9 +391,30 @@ export class DragController {
 
   // ── Preview mode: move real item in DOM ──
 
-  #updatePreview(items: HTMLElement[], ghostCenterX: number, ghostCenterY: number): void {
+  #updatePreview(items: HTMLElement[], ghostCenterX: number, ghostCenterY: number, container?: HTMLElement): void {
     const liveItems = items.filter(el => el !== this.#dragItem);
-    if (liveItems.length === 0) return;
+    if (liveItems.length === 0) {
+      // WHY: Empty zone — move item into the container so it becomes the first child.
+      if (container && this.#dragItem && this.#lastPreviewIndex !== 0) {
+        this.#lastPreviewIndex = 0;
+        const doMove = () => container.appendChild(this.#dragItem!);
+        if (this.animate && typeof document.startViewTransition === 'function') {
+          const t = document.startViewTransition(() => {
+            doMove();
+            this.#assignTransitionNames();
+          });
+          t.finished.catch(() => {});
+        } else {
+          doMove();
+        }
+        this.host.dispatchEvent(new CustomEvent('native:drag-over', {
+          bubbles: true,
+          composed: true,
+          detail: { item: this.#dragItem, index: 0, insertBefore: null },
+        }));
+      }
+      return;
+    }
 
     // WHY: Use ALL items (including the dragged one) for geometry detection.
     // The dragged item still occupies its grid cell ([dragging] only sets opacity),
@@ -442,11 +534,15 @@ export class DragController {
     if (this.#ghost) {
       if (this.mode === 'slot') {
         // WHY: Compute insertBefore from liveItems (excluding dragged item) to match
-        // the same filtered list used during #updateSlot. Using the unfiltered items
-        // list would resolve to the wrong element because the insertion index was
-        // computed against the filtered set.
-        const items = this.#getItems();
-        const liveItems = items.filter(el => el !== this.#dragItem);
+        // the same filtered list used during #updateSlot. In zone mode, scope to the
+        // current zone's items; otherwise use all items.
+        let liveItems: HTMLElement[];
+        if (this.zoneSelector && this.#currentZone) {
+          liveItems = this.#getItemsInZone(this.#currentZone)
+            .filter(el => el !== this.#dragItem);
+        } else {
+          liveItems = this.#getItems().filter(el => el !== this.#dragItem);
+        }
         const insertBefore = this.#lastSlotIndex >= 0 && this.#lastSlotIndex < liveItems.length
           ? liveItems[this.#lastSlotIndex]
           : null;
@@ -459,11 +555,19 @@ export class DragController {
             fromIndex: this.#dragIndex,
             toIndex: this.#lastSlotIndex,
             insertBefore,
+            sourceZone: this.#sourceZone,
+            targetZone: this.#currentZone,
           },
         }));
       } else if (this.mode === 'preview') {
-        // WHY: Item is already in its final position — compute toIndex from current DOM order
-        const items = this.#getItems();
+        // WHY: Item is already in its final position — compute toIndex from current DOM order.
+        // In zone mode, scope to the target zone's items.
+        let items: HTMLElement[];
+        if (this.zoneSelector && this.#currentZone) {
+          items = this.#getItemsInZone(this.#currentZone);
+        } else {
+          items = this.#getItems();
+        }
         const toIndex = this.#dragItem ? items.indexOf(this.#dragItem) : -1;
         // WHY: Clear origin refs so #cleanup doesn't restore the item
         this.#previewOriginParent = null;
@@ -476,6 +580,8 @@ export class DragController {
             item: this.#dragItem,
             fromIndex: this.#dragIndex,
             toIndex,
+            sourceZone: this.#sourceZone,
+            targetZone: this.#currentZone,
           },
         }));
       } else {
@@ -491,6 +597,8 @@ export class DragController {
             target: overZone,
             fromIndex: this.#dragIndex,
             toIndex,
+            sourceZone: this.#sourceZone,
+            targetZone: this.#currentZone,
           },
         }));
       }
@@ -606,9 +714,18 @@ export class DragController {
       this.#placeholder = null;
     }
 
+    // WHY: Clear [drag-zone-active] from all zones on cleanup
+    if (this.zoneSelector) {
+      for (const zone of this.#getZones()) {
+        zone.removeAttribute('drag-zone-active');
+      }
+    }
+
     this.#dragItem = null;
     this.#dragIndex = -1;
     this.#lastSlotIndex = -1;
+    this.#sourceZone = null;
+    this.#currentZone = null;
     this.#previewOriginParent = null;
     this.#previewOriginNext = null;
     this.#lastPreviewIndex = -1;

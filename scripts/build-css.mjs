@@ -59,9 +59,6 @@ const componentFiles = [
   // and at equal :where() specificity source order is the tiebreaker.
   ...(existsSync(resolve(root, 'src/icons/icon.css')) ? ['src/icons/icon.css'] : []),
   ...discoverCSS(['src/components', 'src/containers']),
-  // WHY: Toast CSS is a trait-level stylesheet (not a component directory).
-  // Include it explicitly since auto-discovery only scans components/ and containers/.
-  ...(existsSync(resolve(root, 'src/traits/n-toast.css')) ? ['src/traits/n-toast.css'] : []),
   ...(existsSync(resolve(root, 'src/a2ui/a2ui.css')) ? ['src/a2ui/a2ui.css'] : []),
 ];
 

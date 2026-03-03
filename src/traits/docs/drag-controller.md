@@ -16,6 +16,7 @@ new DragController(host: HTMLElement, options?: DragOptions)
 |--------|------|----------|-------------|
 | `selector` | `string` | yes |  |
 | `dropZoneSelector` | `string` | no |  |
+| `zoneSelector` | `string` | no | CSS selector for zone containers that items can be dragged between (e.g., kanban columns). |
 | `axis` | `'vertical' | 'horizontal' | 'both'` | no |  |
 | `mode` | `'drop' | 'slot' | 'preview'` | no |  |
 | `disabled` | `boolean` | no |  |
@@ -28,7 +29,7 @@ new DragController(host: HTMLElement, options?: DragOptions)
 | `native:drag-start` | `{ item, index }` |
 | `native:drag-move` | `{ item, x, y }` |
 | `native:drag-over` | `{ item, target, index }` |
-| `native:drop` | `{ item, fromIndex, toIndex, insertBefore }` |
+| `native:drop` | `{ item, fromIndex, toIndex, insertBefore, sourceZone, targetZone }` |
 | `native:drag-cancel` | `{ item }` |
 
 ## Methods

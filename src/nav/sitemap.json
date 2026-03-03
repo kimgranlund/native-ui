@@ -28,6 +28,7 @@
   { "title": "Table", "path": "/src/components/table/table.html", "group": "Components" },
   { "title": "Tabs", "path": "/src/components/tabs/tabs.html", "group": "Components" },
   { "title": "Textarea", "path": "/src/components/textarea/textarea.html", "group": "Components" },
+  { "title": "Toast", "path": "/src/traits/toastable.html", "group": "Components" },
   { "title": "Tooltip", "path": "/src/components/tooltip/tooltip.html", "group": "Components" },
   { "title": "Tree", "path": "/src/components/tree/tree.html", "group": "Components" },
   { "title": "Card", "path": "/src/containers/card/card.html", "group": "Containers" },

@@ -366,6 +366,229 @@ describe('DragController', () => {
   });
 });
 
+// ── Cross-zone tests ──
+
+function createZoneHost(): { host: HTMLElement; zone1: HTMLElement; zone2: HTMLElement } {
+  const host = document.createElement('div');
+
+  const zone1 = document.createElement('div');
+  zone1.className = 'zone';
+  zone1.dataset.zone = 'todo';
+
+  const zone2 = document.createElement('div');
+  zone2.className = 'zone';
+  zone2.dataset.zone = 'done';
+
+  for (let i = 0; i < 3; i++) {
+    const item = document.createElement('div');
+    item.className = 'item';
+    item.textContent = `Todo ${i}`;
+    zone1.appendChild(item);
+  }
+  for (let i = 0; i < 2; i++) {
+    const item = document.createElement('div');
+    item.className = 'item';
+    item.textContent = `Done ${i}`;
+    zone2.appendChild(item);
+  }
+
+  host.appendChild(zone1);
+  host.appendChild(zone2);
+  document.body.appendChild(host);
+  return { host, zone1, zone2 };
+}
+
+function mockZoneLayout(zone1: HTMLElement, zone2: HTMLElement): void {
+  // Zone 1: left column (0–200, 0–300)
+  vi.spyOn(zone1, 'getBoundingClientRect').mockReturnValue(
+    { top: 0, left: 0, right: 200, bottom: 300, width: 200, height: 300, x: 0, y: 0, toJSON: () => {} } as DOMRect,
+  );
+  const z1Items = zone1.querySelectorAll<HTMLElement>('.item');
+  z1Items.forEach((item, i) => {
+    vi.spyOn(item, 'getBoundingClientRect').mockReturnValue(
+      { top: i * 50, left: 0, right: 200, bottom: (i + 1) * 50, width: 200, height: 50, x: 0, y: i * 50, toJSON: () => {} } as DOMRect,
+    );
+  });
+  // Zone 2: right column (200–400, 0–300)
+  vi.spyOn(zone2, 'getBoundingClientRect').mockReturnValue(
+    { top: 0, left: 200, right: 400, bottom: 300, width: 200, height: 300, x: 200, y: 0, toJSON: () => {} } as DOMRect,
+  );
+  const z2Items = zone2.querySelectorAll<HTMLElement>('.item');
+  z2Items.forEach((item, i) => {
+    vi.spyOn(item, 'getBoundingClientRect').mockReturnValue(
+      { top: i * 50, left: 200, right: 400, bottom: (i + 1) * 50, width: 200, height: 50, x: 200, y: i * 50, toJSON: () => {} } as DOMRect,
+    );
+  });
+}
+
+describe('Draggable — cross-zone (slot mode)', () => {
+  it('records sourceZone in drop event', () => {
+    const { host, zone1, zone2 } = createZoneHost();
+    mockZoneLayout(zone1, zone2);
+    const ctrl = new DragController(host, { selector: '.item', zoneSelector: '.zone', axis: 'vertical', mode: 'slot' });
+    const handler = vi.fn();
+    host.addEventListener('native:drop', handler);
+
+    // Start drag on first item in zone1 (center at 100, 25)
+    const item0 = zone1.querySelectorAll('.item')[0] as HTMLElement;
+    item0.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 100, clientY: 25 }));
+    // Move into zone2 (center at 300, 25)
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 300, clientY: 25 }));
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+
+    expect(handler).toHaveBeenCalledTimes(1);
+    const detail = handler.mock.calls[0][0].detail;
+    expect(detail.sourceZone).toBe(zone1);
+    expect(detail.targetZone).toBe(zone2);
+
+    ctrl.destroy();
+  });
+
+  it('inserts placeholder into target zone', () => {
+    const { host, zone1, zone2 } = createZoneHost();
+    mockZoneLayout(zone1, zone2);
+    const ctrl = new DragController(host, { selector: '.item', zoneSelector: '.zone', axis: 'vertical', mode: 'slot' });
+
+    const item0 = zone1.querySelectorAll('.item')[0] as HTMLElement;
+    item0.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 100, clientY: 25 }));
+    // Move into zone2
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 300, clientY: 25 }));
+
+    // Placeholder should be inside zone2, not zone1
+    expect(zone2.querySelector('.drag-placeholder')).not.toBeNull();
+    expect(zone1.querySelector('.drag-placeholder')).toBeNull();
+
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+    ctrl.destroy();
+  });
+
+  it('sets drag-zone-active on target zone', () => {
+    const { host, zone1, zone2 } = createZoneHost();
+    mockZoneLayout(zone1, zone2);
+    const ctrl = new DragController(host, { selector: '.item', zoneSelector: '.zone', axis: 'vertical', mode: 'slot' });
+
+    const item0 = zone1.querySelectorAll('.item')[0] as HTMLElement;
+    item0.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 100, clientY: 25 }));
+    // Move into zone2
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 300, clientY: 25 }));
+
+    expect(zone2.hasAttribute('drag-zone-active')).toBe(true);
+    expect(zone1.hasAttribute('drag-zone-active')).toBe(false);
+
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+    ctrl.destroy();
+  });
+
+  it('cleans up drag-zone-active on drop', () => {
+    const { host, zone1, zone2 } = createZoneHost();
+    mockZoneLayout(zone1, zone2);
+    const ctrl = new DragController(host, { selector: '.item', zoneSelector: '.zone', axis: 'vertical', mode: 'slot' });
+
+    const item0 = zone1.querySelectorAll('.item')[0] as HTMLElement;
+    item0.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 100, clientY: 25 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 300, clientY: 25 }));
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+
+    expect(zone1.hasAttribute('drag-zone-active')).toBe(false);
+    expect(zone2.hasAttribute('drag-zone-active')).toBe(false);
+
+    ctrl.destroy();
+  });
+
+  it('cleans up on Escape', () => {
+    const { host, zone1, zone2 } = createZoneHost();
+    mockZoneLayout(zone1, zone2);
+    const ctrl = new DragController(host, { selector: '.item', zoneSelector: '.zone', axis: 'vertical', mode: 'slot' });
+
+    const item0 = zone1.querySelectorAll('.item')[0] as HTMLElement;
+    item0.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 100, clientY: 25 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 300, clientY: 25 }));
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+
+    expect(zone1.hasAttribute('drag-zone-active')).toBe(false);
+    expect(zone2.hasAttribute('drag-zone-active')).toBe(false);
+    expect(host.querySelector('.drag-placeholder')).toBeNull();
+
+    ctrl.destroy();
+  });
+});
+
+describe('Draggable — cross-zone (preview mode)', () => {
+  it('records sourceZone and targetZone in drop event', () => {
+    const { host, zone1, zone2 } = createZoneHost();
+    mockZoneLayout(zone1, zone2);
+    const ctrl = new DragController(host, { selector: '.item', zoneSelector: '.zone', axis: 'vertical', mode: 'preview', animate: false });
+    const handler = vi.fn();
+    host.addEventListener('native:drop', handler);
+
+    const item0 = zone1.querySelectorAll('.item')[0] as HTMLElement;
+    item0.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 100, clientY: 25 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 300, clientY: 25 }));
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+
+    expect(handler).toHaveBeenCalledTimes(1);
+    const detail = handler.mock.calls[0][0].detail;
+    expect(detail.sourceZone).toBe(zone1);
+    expect(detail.targetZone).toBe(zone2);
+
+    ctrl.destroy();
+  });
+
+  it('moves item to target zone DOM', () => {
+    const { host, zone1, zone2 } = createZoneHost();
+    mockZoneLayout(zone1, zone2);
+    const ctrl = new DragController(host, { selector: '.item', zoneSelector: '.zone', axis: 'vertical', mode: 'preview', animate: false });
+
+    const item0 = zone1.querySelectorAll('.item')[0] as HTMLElement;
+    item0.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 100, clientY: 25 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 300, clientY: 25 }));
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+
+    // Item should now be a child of zone2
+    expect(item0.parentElement).toBe(zone2);
+
+    ctrl.destroy();
+  });
+
+  it('restores item to source zone on Escape', () => {
+    const { host, zone1, zone2 } = createZoneHost();
+    mockZoneLayout(zone1, zone2);
+    const ctrl = new DragController(host, { selector: '.item', zoneSelector: '.zone', axis: 'vertical', mode: 'preview', animate: false });
+
+    const item0 = zone1.querySelectorAll('.item')[0] as HTMLElement;
+    const originalNext = item0.nextElementSibling;
+    item0.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0, clientX: 100, clientY: 25 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 300, clientY: 25 }));
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+
+    // Item should be back in zone1
+    expect(item0.parentElement).toBe(zone1);
+    expect(item0.nextElementSibling).toBe(originalNext);
+
+    ctrl.destroy();
+  });
+});
+
+describe('Draggable — no zoneSelector (backward compat)', () => {
+  it('drop event has null sourceZone/targetZone without zoneSelector', () => {
+    const host = createHost();
+    const ctrl = new DragController(host, { selector: '.item', mode: 'drop' });
+    const handler = vi.fn();
+    host.addEventListener('native:drop', handler);
+
+    items(host)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+
+    expect(handler).toHaveBeenCalledTimes(1);
+    const detail = handler.mock.calls[0][0].detail;
+    expect(detail.sourceZone).toBeNull();
+    expect(detail.targetZone).toBeNull();
+
+    ctrl.destroy();
+  });
+});
+
 describe('Draggable — preview mode', () => {
   it('has dragMode preview when configured', () => {
     const el = create('preview');

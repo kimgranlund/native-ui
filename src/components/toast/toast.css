@@ -2,10 +2,12 @@
 
   /* ╭──────────────────────────────────────────────────────────╮
      │  n-toast                                                 │
-     │  Toast notification container and individual toasts.     │
-     │  Created by ToastManager (runtime.ts) via popover API.  │
-     │  Container uses [popover="manual"] for top-layer render. │
+     │  Toast notification element + popover container.         │
+     │  Created by ToastController. Container uses              │
+     │  [popover="manual"] for top-layer rendering.             │
      ╰──────────────────────────────────────────────────────────╯ */
+
+  :where(n-toast):not(:defined) { visibility: hidden; }
 
   /* ── Container ── */
 
@@ -18,6 +20,7 @@
     padding: 0;
     border: none;
     background: transparent;
+    overflow: visible;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -32,7 +35,7 @@
 
   /* ── Toast ── */
 
-  :where(.n-toast) {
+  :where(n-toast) {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -49,33 +52,33 @@
 
   /* ── Intent ── */
 
-  :where(.n-toast)[intent="info"] {
+  :where(n-toast)[intent="info"] {
     background: var(--n-surface-info);
     color: var(--n-surface-ink-info);
   }
 
-  :where(.n-toast)[intent="success"] {
+  :where(n-toast)[intent="success"] {
     background: var(--n-surface-success);
     color: var(--n-surface-ink-success);
   }
 
-  :where(.n-toast)[intent="warning"] {
+  :where(n-toast)[intent="warning"] {
     background: var(--n-surface-warning);
     color: var(--n-surface-ink-warning);
   }
 
-  :where(.n-toast)[intent="danger"] {
+  :where(n-toast)[intent="danger"] {
     background: var(--n-surface-danger);
     color: var(--n-surface-ink-danger);
   }
 
   /* ── Children ── */
 
-  :where(.n-toast-message) {
+  :where(n-toast) :where(.n-toast-message) {
     flex: 1;
   }
 
-  :where(.n-toast-close) {
+  :where(n-toast) :where(.n-toast-close) {
     background: none;
     border: none;
     color: inherit;
@@ -87,7 +90,7 @@
     line-height: 1;
   }
 
-  :where(.n-toast-close):hover {
+  :where(n-toast) :where(.n-toast-close):hover {
     opacity: 1;
   }
 

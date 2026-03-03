@@ -193,3 +193,14 @@ Attributes: `no-close-on-escape`, `no-close-on-backdrop`. API: `showModal()`, `c
 Slide-out panel (native `<dialog>`). Display: `contents`.
 
 Attributes: `side` (left/right/top/bottom; default right). API: `showModal()`, `close()`. Events: `close`. Sizing: `--n-drawer-width`, `--n-drawer-height`. Contains `n-drawer-panel`.
+
+---
+
+## Feedback
+
+### `n-toast`
+Toast notification. Display: `flex`. Created by `ToastController` — not authored in HTML directly.
+
+Attributes: `message`, `intent` (info/success/warning/danger), `dismissible`. Events: `native:dismiss` (close button). Role: `alert` via internals.
+
+Use via `ToastController`: each controller owns its own `.n-toast-container[popover="manual"]` inside its host. `toast()` creates `<n-toast>`, `dismissToast(id)` removes one, `dismissAllToasts()` clears all, `destroy()` tears down the container.

@@ -20,7 +20,7 @@ export type { DataItem, DataListOptions } from './core/index.ts';
 export { parseDataOptions, fetchDataOptions } from './core/index.ts';
 export type { BaseOption } from './core/index.ts';
 export { FormAssociable } from './core/index.ts';
-export { getTraitRuntime, DismissStack, ToastManager } from './traits/runtime.ts';
+export { getTraitRuntime, DismissStack } from './traits/runtime.ts';
 export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from './traits/runtime.ts';
 export { parseTraitAttribute, collectTraitOptions } from './core/index.ts';
 export { GestureRouter } from './traits/gesture-router.ts';
@@ -96,6 +96,7 @@ export { NTreeItem } from './components/tree/tree-item-element.ts';
 export { NSlideshow } from './components/slideshow/slideshow-element.ts';
 export { NSlide } from './components/slideshow/slide-element.ts';
 export { NController } from './components/controller/controller-element.ts';
+export { NToast } from './components/toast/toast-element.ts';
 
 // Containers
 export { NCard } from './containers/card/card-element.ts';
