@@ -521,6 +521,13 @@
     width: 1.5rem;
     height: 1.5rem;
     flex-shrink: 0;
+    color: var(--n-ink-muted);
+  }
+
+  /* WHY: When the group has a selected child, promote icon to strong ink
+     to match the header text color. */
+  :where(n-sidebar-group):state(has-selection) :where(n-sidebar-group-header) > :where(.icon-well) {
+    color: var(--n-ink-strong);
   }
 
   /* ── Chevron icon (right side of summary) ── */
@@ -561,6 +568,11 @@
 
   :where(n-sidebar-group) > :where(details) > :where(summary):hover :where(n-sidebar-group-header),
   :where(n-sidebar-group[force-hover]) > :where(details) > :where(summary) :where(n-sidebar-group-header) {
+    color: var(--n-ink-strong);
+  }
+
+  :where(n-sidebar-group) > :where(details) > :where(summary):hover :where(.icon-well),
+  :where(n-sidebar-group[force-hover]) > :where(details) > :where(summary) :where(.icon-well) {
     color: var(--n-ink-strong);
   }
 

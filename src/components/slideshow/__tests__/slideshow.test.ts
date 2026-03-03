@@ -74,10 +74,11 @@ describe('n-slideshow', () => {
     expect(el.getAttribute('aria-label')).toBe('Product images');
   });
 
-  it('stamps correct number of indicator dots', () => {
+  it('stamps n-pagination-dots with correct count attribute', () => {
     const el = create({ slides: 5 });
-    const dots = el.querySelectorAll('[part="dot"]');
-    expect(dots.length).toBe(5);
+    const dots = el.querySelector('n-pagination-dots[part="indicators"]');
+    expect(dots).not.toBeNull();
+    expect(dots!.getAttribute('count')).toBe('5');
   });
 
   it('prev button has aria-label="Previous slide"', () => {
@@ -180,17 +181,17 @@ describe('n-slideshow', () => {
     expect(track!.getAttribute('tabindex')).toBe('0');
   });
 
-  it('indicators container has aria-hidden="true"', () => {
+  it('indicators container is n-pagination-dots with role="tablist"', () => {
     const el = create();
-    const indicators = el.querySelector('[part="indicators"]');
-    expect(indicators!.getAttribute('aria-hidden')).toBe('true');
+    const indicators = el.querySelector('n-pagination-dots[part="indicators"]');
+    expect(indicators).not.toBeNull();
+    expect(indicators!.getAttribute('variant')).toBe('plain');
   });
 
-  it('first indicator dot has [active] attribute', () => {
+  it('n-pagination-dots active attribute is "0" initially', () => {
     const el = create({ slides: 3 });
-    const dots = el.querySelectorAll('[part="dot"]');
-    expect(dots[0].hasAttribute('active')).toBe(true);
-    expect(dots[1].hasAttribute('active')).toBe(false);
+    const dots = el.querySelector('n-pagination-dots[part="indicators"]');
+    expect(dots!.getAttribute('active')).toBe('0');
   });
 
   it('slides have aria-label with position info', () => {

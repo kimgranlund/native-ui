@@ -1,6 +1,53 @@
+/* ════════════════════════════════════════════════════
+   native-chat — Chat component styles
+   ════════════════════════════════════════════════════ */
+
 @layer ui {
 
-  :where(n-chat-input):not(:defined) { visibility: hidden; }
+  /* ── :not(:defined) visibility guards ── */
+
+  :where(n-chat-input):not(:defined),
+  :where(n-chat-feed):not(:defined),
+  :where(n-chat-avatar):not(:defined),
+  :where(n-chat-message):not(:defined),
+  :where(n-chat-messages):not(:defined),
+  :where(n-chat-message-text):not(:defined),
+  :where(n-chat-message-activity):not(:defined),
+  :where(n-chat-message-seed):not(:defined),
+  :where(n-chat-message-genui):not(:defined),
+  :where(n-chat-input-structured):not(:defined) { visibility: hidden; }
+
+  /* ══════════════════════════════════════════════════
+     Chat Token Definitions
+     ══════════════════════════════════════════════════ */
+
+  :where(n-chat-feed),
+  :where(native-chat-panel) {
+    /* Feed */
+    --n-chat-gap: calc(var(--n-space) * 4);
+    --n-chat-message-gap: calc(var(--n-space) * 2);
+
+    /* Bubbles */
+    --n-chat-bubble-user: var(--n-button);
+    --n-chat-bubble-user-color: white;
+    --n-chat-bubble-assistant: var(--n-card);
+    --n-chat-bubble-assistant-color: var(--n-ink);
+    --n-chat-bubble-radius: var(--n-radius);
+    --n-chat-bubble-padding-block: calc(var(--n-space) * 2);
+    --n-chat-bubble-padding-inline: calc(var(--n-space) * 3);
+    --n-chat-bubble-max-width: 85%;
+
+    /* Avatar */
+    --n-chat-avatar-size: var(--n-size);
+    --n-chat-avatar-background: var(--n-control);
+    --n-chat-avatar-color: var(--n-ink-muted);
+
+    /* Activity */
+    --n-chat-activity-color: var(--n-ink-muted);
+
+    /* Prose */
+    --n-chat-prose-gap: calc(var(--n-space) * 2);
+  }
 
   /* ╭──────────────────────────────────────────────────────────╮
      │  n-chat                                                 │
@@ -12,6 +59,10 @@
   :where(n-chat) {
     display: contents;
   }
+
+  /* ══════════════════════════════════════════════════
+     native-chat-panel
+     ══════════════════════════════════════════════════ */
 
   :where(native-chat-panel) {
     --n-ground: var(--n-panel);
@@ -55,8 +106,6 @@
   }
 
   /* ── n-chat-content ── */
-  /* Message stream layout. Lives inside n-body which handles
-     scrolling, padding, and flex: 1. Content just manages message gap. */
 
   :where(n-chat-content) {
     display: flex;
@@ -67,35 +116,436 @@
     gap: calc(var(--n-space) * 2);
   }
 
-  /* ── n-chat-input ── */
-  /* Rounded surface containing textarea + actions row.
-     WHY: Single surface wraps everything — textarea fills the top,
-     actions row sits bottom-right. Compact mode lays out as a
-     single horizontal row. */
+  /* ══════════════════════════════════════════════════
+     n-chat-feed — scrollable thread coordinator
+     ══════════════════════════════════════════════════ */
+
+  :where(n-chat-feed) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--n-chat-gap);
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+    padding-block: calc(var(--n-space) * 4);
+  }
+
+  /* ── Date separator ── */
+
+  :where(n-chat-feed) > :where(.n-chat-date-separator) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: var(--n-space);
+    font-size: var(--n-font-size-sm);
+    color: var(--n-ink-muted);
+    user-select: none;
+  }
+
+  :where(n-chat-feed[hidden]) { display: none; }
+
+  /* ══════════════════════════════════════════════════
+     n-chat-messages — message group (bubble cluster)
+     ══════════════════════════════════════════════════ */
+
+  :where(n-chat-messages) {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--n-chat-message-gap);
+    align-self: flex-start;
+  }
+
+  /* User messages: right-aligned, avatar on right */
+  [role="user"]:where(n-chat-messages) {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+  }
+
+  /* Message column (everything except avatar) */
+  :where(n-chat-messages) > :where(:not(n-chat-avatar)) {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--n-space));
+    max-width: var(--n-chat-bubble-max-width);
+    min-width: 0;
+  }
+
+  :where(n-chat-messages[hidden]) { display: none; }
+
+  /* ══════════════════════════════════════════════════
+     n-chat-avatar — sender avatar
+     ══════════════════════════════════════════════════ */
+
+  :where(n-chat-avatar) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: var(--n-chat-avatar-size);
+    height: var(--n-chat-avatar-size);
+    border-radius: 50%;
+    background: var(--n-chat-avatar-background);
+    color: var(--n-chat-avatar-color);
+
+    font-size: calc(var(--n-chat-avatar-size) * 0.4);
+    font-weight: 600;
+    line-height: 1;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  :where(n-chat-avatar) > :where(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+
+  :where(n-chat-avatar) > :where(n-icon) {
+    font-size: calc(var(--n-chat-avatar-size) * 0.5);
+  }
+
+  :where(n-chat-avatar[hidden]) { display: none; }
+
+  /* ══════════════════════════════════════════════════
+     n-chat-message — individual message bubble
+     ══════════════════════════════════════════════════ */
+
+  :where(n-chat-message) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--n-space);
+
+    padding-block: var(--n-chat-bubble-padding-block);
+    padding-inline: var(--n-chat-bubble-padding-inline);
+    border-radius: var(--n-chat-bubble-radius);
+
+    background: var(--n-chat-bubble-assistant);
+    color: var(--n-chat-bubble-assistant-color);
+
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* User bubble */
+  [role="user"]:where(n-chat-message) {
+    background: var(--n-chat-bubble-user);
+    color: var(--n-chat-bubble-user-color);
+  }
+
+  /* Streaming status */
+  [status="streaming"]:where(n-chat-message) {
+    opacity: 0.85;
+  }
+
+  /* Error status */
+  [status="error"]:where(n-chat-message) {
+    border: 1px solid var(--n-border-danger);
+  }
+
+  /* ── Message actions toolbar ── */
+
+  :where(n-chat-message) > :where(.n-chat-message-actions) {
+    opacity: 0;
+    transition: opacity var(--n-duration) var(--n-easing);
+  }
+
+  :where(n-chat-message):hover > :where(.n-chat-message-actions),
+  :where(n-chat-message):focus-within > :where(.n-chat-message-actions),
+  :where(n-chat-message[force-hover]) > :where(.n-chat-message-actions) {
+    opacity: 1;
+  }
+
+  :where(n-chat-message[hidden]) { display: none; }
+
+  /* ══════════════════════════════════════════════════
+     n-chat-message-text — rich text / markdown
+     ══════════════════════════════════════════════════ */
+
+  :where(n-chat-message-text) {
+    display: block;
+  }
+
+  /* ── Prose reset — typography inside rendered markdown ── */
+
+  :where(n-chat-message-text) :where(.n-chat-prose) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--n-chat-prose-gap);
+  }
+
+  /* Universal block margin reset — flexbox gap handles spacing,
+     so all block-level children must have zero margin */
+  :where(n-chat-message-text) :where(
+    p, h1, h2, h3, h4, h5, h6,
+    ul, ol, li,
+    blockquote, pre, hr,
+    div, figure, figcaption,
+    dl, dt, dd, details, summary
+  ) {
+    margin: 0;
+  }
+
+  :where(n-chat-message-text) :where(h1, h2, h3, h4, h5, h6) {
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  :where(n-chat-message-text) :where(h1) { font-size: 1.4em; }
+  :where(n-chat-message-text) :where(h2) { font-size: 1.25em; }
+  :where(n-chat-message-text) :where(h3) { font-size: 1.1em; }
+
+  :where(n-chat-message-text) :where(ul, ol) {
+    padding-inline-start: 1.5em;
+  }
+
+  :where(n-chat-message-text) :where(li) {
+    margin-block: calc(var(--n-space) * 0.5);
+  }
+
+  :where(n-chat-message-text) :where(blockquote) {
+    padding-inline-start: calc(var(--n-space) * 3);
+    border-inline-start: 3px solid var(--n-border-muted);
+    color: var(--n-ink-muted);
+  }
+
+  :where(n-chat-message-text) :where(code) {
+    font-family: var(--n-font-mono);
+    font-size: 0.9em;
+    padding-block: 0.1em;
+    padding-inline: 0.3em;
+    background: var(--n-control);
+    border-radius: calc(var(--n-radius) * 0.5);
+  }
+
+  :where(n-chat-message-text) :where(pre) {
+    padding: calc(var(--n-space) * 2);
+    background: var(--n-control);
+    border-radius: calc(var(--n-radius) * 0.5);
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  :where(n-chat-message-text) :where(pre) :where(code) {
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+  }
+
+  :where(n-chat-message-text) :where(a) {
+    color: var(--n-ink-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  :where(n-chat-message-text) :where(hr) {
+    border: none;
+    border-top: 1px solid var(--n-border-muted);
+  }
+
+  :where(n-chat-message-text[hidden]) { display: none; }
+
+  /* ══════════════════════════════════════════════════
+     n-chat-message-activity — typing / thinking
+     ══════════════════════════════════════════════════ */
+
+  :where(n-chat-message-activity) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--n-space);
+    color: var(--n-chat-activity-color);
+    font-size: var(--n-font-size-sm);
+    padding-block: var(--n-space);
+    align-self: flex-start;
+  }
+
+  :where(n-chat-message-activity) > :where(.n-chat-activity-row) {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 1.5);
+  }
+
+  :where(n-chat-message-activity) :where(.n-chat-activity-time) {
+    font-variant-numeric: tabular-nums;
+    min-width: 2.5em;
+  }
+
+  :where(n-chat-message-activity) :where(.n-chat-activity-sep) {
+    opacity: 0.4;
+  }
+
+  /* Animated dots */
+  :where(n-chat-message-activity) :where(.n-chat-activity-dots) {
+    display: inline-flex;
+    gap: 0.2em;
+    margin-inline-start: 0.25em;
+  }
+
+  :where(n-chat-message-activity) :where(.n-chat-activity-dots) > :where(i) {
+    display: block;
+    width: 0.25em;
+    height: 0.25em;
+    border-radius: 50%;
+    background: currentColor;
+    animation: n-chat-dot-pulse 1.2s ease-in-out infinite;
+  }
+
+  :where(n-chat-message-activity) :where(.n-chat-activity-dots) > :where(i:nth-child(2)) {
+    animation-delay: 0.2s;
+  }
+
+  :where(n-chat-message-activity) :where(.n-chat-activity-dots) > :where(i:nth-child(3)) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes n-chat-dot-pulse {
+    0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
+    30% { opacity: 1; transform: scale(1); }
+  }
+
+  /* Expandable state */
+  :where(n-chat-message-activity) > :where(.n-chat-activity-row) {
+    cursor: default;
+  }
+
+  [expandable]:where(n-chat-message-activity) > :where(.n-chat-activity-row) {
+    cursor: pointer;
+  }
+
+  [expandable]:where(n-chat-message-activity) > :where(.n-chat-activity-row)::before {
+    content: '▶';
+    font-size: 0.65em;
+    transition: transform var(--n-duration) var(--n-easing);
+  }
+
+  [expanded][expandable]:where(n-chat-message-activity) > :where(.n-chat-activity-row)::before {
+    transform: rotate(90deg);
+  }
+
+  :where(n-chat-message-activity) > :where(.n-chat-activity-content) {
+    padding-inline-start: calc(var(--n-space) * 3);
+    font-family: var(--n-font-mono);
+    font-size: var(--n-font-size-sm);
+    max-height: 20rem;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+
+  :where(n-chat-message-activity[hidden]) { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(n-chat-message-activity) :where(.n-chat-activity-dots) > :where(i) {
+      animation: none;
+    }
+  }
+
+  /* ══════════════════════════════════════════════════
+     n-chat-message-seed — suggestion chips
+     ══════════════════════════════════════════════════ */
+
+  :where(n-chat-message-seed) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--n-space);
+    padding-block: var(--n-space);
+    align-self: flex-start;
+  }
+
+  :where(n-chat-message-seed)[aria-disabled="true"] {
+    pointer-events: none;
+  }
+
+  :where(n-chat-message-seed[hidden]) { display: none; }
+
+  /* ══════════════════════════════════════════════════
+     n-chat-message-genui — schema-rendered UI
+     ══════════════════════════════════════════════════ */
+
+  :where(n-chat-message-genui) {
+    display: block;
+    min-width: 0;
+  }
+
+  :where(n-chat-message-genui) > :where(.n-chat-genui-container) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--n-space);
+  }
+
+  :where(n-chat-message-genui) :where(.n-chat-genui-error) {
+    padding: var(--n-space);
+    color: var(--n-ink-danger);
+    font-size: var(--n-font-size-sm);
+  }
+
+  :where(n-chat-message-genui) :where(.n-chat-genui-preview) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(var(--n-space) * 2);
+  }
+
+  :where(n-chat-message-genui[hidden]) { display: none; }
+
+  /* ══════════════════════════════════════════════════
+     n-chat-input-structured — multi-choice input
+     ══════════════════════════════════════════════════ */
+
+  :where(n-chat-input-structured) {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--n-space) * 2);
+    padding: calc(var(--n-space) * 3);
+    background: var(--n-card);
+    border-radius: var(--n-chat-bubble-radius);
+    align-self: stretch;
+  }
+
+  :where(n-chat-input-structured) > :where(.n-chat-structured-question) {
+    font-weight: 600;
+  }
+
+  :where(n-chat-input-structured) > :where(.n-chat-structured-options) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--n-space);
+  }
+
+  :where(n-chat-input-structured) > :where(.n-chat-structured-actions) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--n-space);
+  }
+
+  :where(n-chat-input-structured)[aria-disabled="true"] {
+    pointer-events: none;
+  }
+
+  :where(n-chat-input-structured[hidden]) { display: none; }
+
+  /* ══════════════════════════════════════════════════
+     n-chat-input — composer
+     ══════════════════════════════════════════════════ */
 
   :where(n-chat-input) {
-    --n-background: var(--n-control);
-    --n-border-color: var(--n-border-muted);
-
     display: flex;
     flex: 1 1 0%;
     flex-direction: column;
     min-width: 0;
-    background: var(--n-background);
-    border: 1px solid var(--n-border-color);
-    border-radius: var(--n-radius);
   }
 
-
-  /* Compact: single row — textarea and actions side by side */
+  /* Compact: single row */
   :where(n-chat-input[compact]) {
     flex-direction: row;
     align-items: center;
   }
 
-  /* Textarea inside input — transparent, borderless, fills space.
-     WHY: Override custom properties so all states (hover, filled, focus)
-     resolve to transparent. The wrapper provides the visual surface. */
+  /* Textarea inside input — fully transparent, no padding */
   :where(n-chat-input) > :where(n-textarea) {
     --n-background: transparent;
     --n-background-hover: transparent;
@@ -104,6 +554,7 @@
     --n-border-color-hover: transparent;
     --n-border-color-active: transparent;
 
+    padding: 0;
     border: none;
     border-radius: 0;
     resize: none;
@@ -121,34 +572,25 @@
   }
 
   /* ── n-chat-input-attachments ── */
-  /* Optional attachment zone above the textarea. */
 
   :where(n-chat-input-attachments) {
     display: flex;
     flex-wrap: wrap;
     gap: calc(var(--n-space) * 2);
-    padding-block: var(--n-space);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
   }
 
   /* ── n-chat-input-actions ── */
-  /* Bottom action row: [+][model][mic][submit] — right-aligned. */
 
   :where(n-chat-input-actions) {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: calc(var(--n-space) * 2);
-    padding-block: var(--n-space);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
     min-width: 0;
   }
 
-  /* In compact mode, actions shrink-wrap with no extra padding */
   :where(n-chat-input[compact]) > :where(n-chat-input-actions) {
     flex: none;
-    padding-block: 0;
-    padding-inline-start: 0;
   }
 
 }

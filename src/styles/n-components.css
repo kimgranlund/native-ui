@@ -25,6 +25,7 @@
 @import '../components/pagination/pagination.css';
 @import '../components/drawer/drawer.css';
 @import '../components/tree/tree.css';
+@import '../components/pagination-dots/n-pagination-dots.css';
 @import '../components/slideshow/slideshow.css';
 @import '../components/controller/controller.css';
 @import '../components/toast/toast.css';

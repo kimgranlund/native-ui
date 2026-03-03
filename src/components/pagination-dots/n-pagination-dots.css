@@ -1,0 +1,231 @@
+/* ════════════════════════════════════════════════════
+   n-pagination-dots — Pagination dot indicator
+   ════════════════════════════════════════════════════ */
+
+@layer ui {
+
+  :where(n-pagination-dots):not(:defined) { visibility: hidden; }
+
+  /* ── Container ── */
+
+  :where(n-pagination-dots) {
+    --n-dot-size: calc(var(--n-size) * 0.22);
+    --n-dot-indicator-length: calc(var(--n-dot-size) * 2);
+    --n-dot-gap: var(--n-space);
+    --n-dot-background: var(--n-border);
+    --n-dot-background-hover: var(--n-border-hover);
+    --n-dot-background-active: var(--n-border-active);
+    --n-dot-selected: white;
+
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    padding: var(--n-space);
+
+    background: var(--n-control);
+    border-radius: var(--n-radius);
+
+    user-select: none;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      opacity var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Dots area ── */
+
+  :where(n-pagination-dots) > :where([part="dots"]) {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--n-dot-gap);
+  }
+
+  /* ── Vertical ── */
+
+  [orientation="vertical"]:where(n-pagination-dots) {
+    flex-direction: column;
+  }
+
+  [orientation="vertical"]:where(n-pagination-dots) > :where([part="dots"]) {
+    flex-direction: column;
+  }
+
+  /* ── Floating Indicator ── */
+  /* WHY: Real DOM element (not ::before) so JS can set --n-dot-index directly.
+     CSS transitions on transform work reliably without @property registration,
+     which can fail in dynamic CSS injection contexts (Vite HMR, bundler <style>). */
+
+  :where(n-pagination-dots) > :where([part="dots"]) > :where(.n-dot-indicator) {
+    display: none;
+  }
+
+  :where(n-pagination-dots):state(ready) > :where([part="dots"]) > :where(.n-dot-indicator) {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform:
+      translateY(-50%)
+      translateX(calc(var(--n-dot-index, 0) * (var(--n-dot-size) + var(--n-dot-gap))));
+    width: var(--n-dot-indicator-length);
+    height: var(--n-dot-size);
+    border-radius: var(--n-radius);
+    background: var(--n-dot-selected);
+    pointer-events: none;
+
+    transition:
+      transform calc(var(--n-duration) * 1.5) var(--n-easing),
+      background var(--n-duration) var(--n-easing);
+  }
+
+  [orientation="vertical"]:where(n-pagination-dots):state(ready) > :where([part="dots"]) > :where(.n-dot-indicator) {
+    top: 0;
+    left: 50%;
+    width: var(--n-dot-size);
+    height: var(--n-dot-indicator-length);
+    transform:
+      translateX(-50%)
+      translateY(calc(var(--n-dot-index, 0) * (var(--n-dot-size) + var(--n-dot-gap))));
+  }
+
+  /* ── Dot button (hit area) ── */
+
+  :where(n-pagination-dots) :where(button[role="tab"]) {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    padding: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    /* WHY: z-index ensures dot buttons sit above the floating indicator
+       for click/focus interaction */
+    position: relative;
+    z-index: 1;
+
+    width: var(--n-dot-size);
+    height: var(--n-dot-size);
+  }
+
+  /* ── Dot visual (span) ── */
+
+  :where(n-pagination-dots) :where(button[role="tab"]) > :where(span) {
+    display: block;
+    width: var(--n-dot-size);
+    height: var(--n-dot-size);
+    border-radius: var(--n-radius);
+    background: var(--n-dot-background);
+    flex-shrink: 0;
+
+    transition:
+      background var(--n-duration) var(--n-easing),
+      opacity calc(var(--n-duration) * 1.5) var(--n-easing),
+      transform calc(var(--n-duration) * 1.5) var(--n-easing);
+  }
+
+  /* ── Active (selected dot) ── */
+  /* WHY: The floating indicator provides the selected visual.
+     The dot span becomes transparent so the indicator shows through. */
+
+  /* WHY: Margin on selected button compensates for the indicator overhang
+     so visual gap from pill edge to neighbor = regular dot-gap. */
+  :where(n-pagination-dots) :where(button[aria-selected="true"]) {
+    margin-inline: calc((var(--n-dot-indicator-length) - var(--n-dot-size)) / 2);
+  }
+
+  [orientation="vertical"]:where(n-pagination-dots) :where(button[aria-selected="true"]) {
+    margin-inline: 0;
+    margin-block: calc((var(--n-dot-indicator-length) - var(--n-dot-size)) / 2);
+  }
+
+  :where(n-pagination-dots) :where(button[aria-selected="true"]) > :where(span) {
+    background: transparent;
+  }
+
+  /* ── Hover (inactive dot) ── */
+
+  :where(n-pagination-dots) :where(button:hover:not([aria-selected="true"])) > :where(span),
+  :where(n-pagination-dots[force-hover]) :where(button:not([aria-selected="true"])) > :where(span) {
+    background: var(--n-dot-background-hover);
+  }
+
+  /* ── Active/Pressed (inactive dot) ── */
+
+  :where(n-pagination-dots) :where(button:active:not([aria-selected="true"])) > :where(span),
+  :where(n-pagination-dots[force-active]) :where(button:not([aria-selected="true"])) > :where(span) {
+    background: var(--n-dot-background-active);
+  }
+
+  /* ── Edge dots (windowed, at boundary) ── */
+
+  :where(n-pagination-dots) :where(button[data-edge]) > :where(span) {
+    transform: scale(0.5);
+    opacity: 0.3;
+  }
+
+  /* ── Focus ── */
+
+  :where(n-pagination-dots) :where(button[role="tab"]):focus-visible,
+  :where(n-pagination-dots[force-focus-visible]) :where(button[role="tab"]) {
+    outline: 2px solid var(--n-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* ── Paddles ── */
+
+  :where(n-pagination-dots) > :where([part="prev"]),
+  :where(n-pagination-dots) > :where([part="next"]) {
+    display: none;
+  }
+
+  [paddles]:where(n-pagination-dots) > :where([part="prev"]),
+  [paddles]:where(n-pagination-dots) > :where([part="next"]) {
+    display: inline-flex;
+  }
+
+  /* ── Disabled ── */
+
+  :where(n-pagination-dots)[aria-disabled="true"] {
+    pointer-events: none;
+  }
+
+  :where(n-pagination-dots)[aria-disabled="true"] :where(button) {
+    cursor: not-allowed;
+  }
+
+  :where(n-pagination-dots)[aria-disabled="true"] :where(button[role="tab"]) > :where(span) {
+    opacity: 0.4;
+  }
+
+  :where(n-pagination-dots)[aria-disabled="true"] > :where([part="dots"]) > :where(.n-dot-indicator) {
+    opacity: 0.4;
+  }
+
+  /* ── Variant: plain (no container background) ── */
+
+  [variant="plain"]:where(n-pagination-dots) {
+    background: transparent;
+    padding: 0;
+  }
+
+  /* ── Hidden ── */
+
+  :where(n-pagination-dots[hidden]) { display: none; }
+
+  /* ── Reduced Motion ── */
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(n-pagination-dots) :where(button[role="tab"]) > :where(span) {
+      transition: none;
+    }
+
+    :where(n-pagination-dots) > :where([part="dots"]) > :where(.n-dot-indicator) {
+      transition: none;
+    }
+  }
+
+}

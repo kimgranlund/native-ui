@@ -19,6 +19,7 @@
   { "title": "Listbox", "path": "/src/components/listbox/listbox.html", "group": "Components" },
   { "title": "Sidebar Nav", "path": "/src/components/nav/nav.html", "group": "Components" },
   { "title": "Pagination", "path": "/src/components/pagination/pagination.html", "group": "Components" },
+  { "title": "Pagination Dots", "path": "/src/components/pagination-dots/n-pagination-dots.html", "group": "Components" },
   { "title": "Radio", "path": "/src/components/radio/radio.html", "group": "Components" },
   { "title": "Range", "path": "/src/components/range/range.html", "group": "Components" },
   { "title": "Segmented Control", "path": "/src/components/segmented-control/segmented-control.html", "group": "Components" },

@@ -14,8 +14,7 @@
          div[part="controls"]
            button[part="prev"]
            button[part="next"]
-         div[part="indicators"]
-           button[part="dot"] …
+         n-pagination-dots[part="indicators"]
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
   /* ── Slideshow Wrapper ── */
@@ -195,46 +194,17 @@
   }
 
   :where(n-slideshow[indicators]) > :where([part="indicators"]) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: calc(var(--n-space) * 2);
+    display: inline-flex;
     padding-block: calc(var(--n-space) * 3);
+    justify-self: center;
   }
 
-  :where(n-slideshow) :where([part="dot"]) {
-    appearance: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-
-    /* Base size is the active pill; inactive state scales down via transform.
-       GPU composited — only transform + background animate. */
-    width: calc(var(--n-space) * 5);
-    height: calc(var(--n-space) * 2);
-    border-radius: var(--n-space);
-    background: var(--n-border);
-    flex-shrink: 0;
-    transform: scale(0.4, 1);
-
-    transition:
-      background var(--n-duration) var(--n-easing),
-      transform var(--n-duration) var(--n-easing);
-  }
-
-  :where(n-slideshow) :where([part="dot"])[active] {
-    background: var(--n-surface);
-    transform: scale(1);
-  }
-
-  :where(n-slideshow) :where([part="dot"]):hover:not([active]),
-  :where(n-slideshow[force-hover]) :where([part="dot"]):not([active]) {
+  /* Cascade debug states from slideshow host to internal n-pagination-dots */
+  :where(n-slideshow[force-hover]) :where(n-pagination-dots) :where(button:not([aria-selected="true"])) > :where(span) {
     background: var(--n-border-hover);
-    transform: scale(0.48, 1.2);
   }
 
-  :where(n-slideshow) :where([part="dot"]):focus-visible,
-  :where(n-slideshow[force-focus-visible]) :where([part="dot"]) {
+  :where(n-slideshow[force-focus-visible]) :where(n-pagination-dots) :where(button[role="tab"]) {
     outline: 2px solid var(--n-focus-ring);
     outline-offset: 2px;
   }
@@ -269,8 +239,7 @@
     }
 
     :where(n-slideshow) :where([part="prev"]),
-    :where(n-slideshow) :where([part="next"]),
-    :where(n-slideshow) :where([part="dot"]) {
+    :where(n-slideshow) :where([part="next"]) {
       transition: none;
     }
   }

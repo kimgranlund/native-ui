@@ -186,6 +186,11 @@ export interface NEditCancelDetail {
   value: string;
 }
 
+// ── Pagination Dots ──
+export interface NPaginationDotsChangeDetail {
+  index: number;
+}
+
 // ── Slideshow ──
 export interface NSlideChangeDetail {
   index: number;

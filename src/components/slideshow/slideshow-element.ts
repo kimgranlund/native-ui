@@ -170,10 +170,10 @@ export class NSlideshow extends NativeElement {
     this.#prevBtn = prevBtn;
     this.#nextBtn = nextBtn;
 
-    // Indicators
-    const indicatorsEl = document.createElement('div');
+    // Indicators (n-pagination-dots component)
+    const indicatorsEl = document.createElement('n-pagination-dots');
     indicatorsEl.setAttribute('part', 'indicators');
-    indicatorsEl.setAttribute('aria-hidden', 'true');
+    indicatorsEl.setAttribute('variant', 'plain');
     this.appendChild(indicatorsEl);
     this.#indicatorsEl = indicatorsEl;
 
@@ -198,7 +198,8 @@ export class NSlideshow extends NativeElement {
     // Wire slides
     this.#slideCount.value = slides.length;
     this.#wireSlideAria(slides);
-    this.#stampIndicators(slides.length);
+    indicatorsEl.setAttribute('count', String(slides.length));
+    indicatorsEl.setAttribute('active', '0');
     this.#setupObserver(slides);
 
     // Activate first slide
@@ -210,7 +211,7 @@ export class NSlideshow extends NativeElement {
     this.addEffect(() => {
       const idx = this.#activeIndex.value;
       const count = this.#slideCount.value;
-      this.#syncDots(idx);
+      if (this.#indicatorsEl) this.#indicatorsEl.setAttribute('active', String(idx));
       this.#syncControls(idx, count);
       if (this.#liveRegion) {
         this.#liveRegion.textContent = `Slide ${idx + 1} of ${count}`;
@@ -220,6 +221,7 @@ export class NSlideshow extends NativeElement {
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals));
 
     // Events
+    indicatorsEl.addEventListener('native:change', this.#onIndicatorChange);
     prevBtn.addEventListener('click', this.#onPrev);
     nextBtn.addEventListener('click', this.#onNext);
     track.addEventListener('keydown', this.#onKeydown);
@@ -248,8 +250,7 @@ export class NSlideshow extends NativeElement {
     this.removeEventListener('focusin', this.#onPause);
     this.removeEventListener('focusout', this.#onResume);
     this.#track = null;
-    this.#indicatorsEl?.removeEventListener('click', this.#onIndicatorClick);
-    if (this.#indicatorsEl) this.#indicatorsEl.innerHTML = '';
+    this.#indicatorsEl?.removeEventListener('native:change', this.#onIndicatorChange);
     this.#indicatorsEl = null;
     this.#prevBtn = null;
     this.#nextBtn = null;
@@ -276,30 +277,13 @@ export class NSlideshow extends NativeElement {
     }
   }
 
-  #stampIndicators(count: number): void {
-    const el = this.#indicatorsEl;
-    if (!el) return;
-    // WHY: Use event delegation — one listener on container, not per-dot
-    el.addEventListener('click', this.#onIndicatorClick);
-    for (let i = 0; i < count; i++) {
-      const dot = document.createElement('button');
-      dot.setAttribute('part', 'dot');
-      dot.setAttribute('type', 'button');
-      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-      dot.setAttribute('data-index', String(i));
-      if (i === 0) dot.toggleAttribute('active', true);
-      el.appendChild(dot);
-    }
-  }
-
-  #onIndicatorClick = (e: Event): void => {
-    const btn = (e.target as HTMLElement).closest('[data-index]') as HTMLElement | null;
-    if (!btn) return;
-    const idx = parseInt(btn.dataset.index ?? '', 10);
-    if (!isNaN(idx)) {
-      this.#stopAutoplay();
-      this.goTo(idx);
-    }
+  #onIndicatorChange = (e: Event): void => {
+    const { index } = (e as CustomEvent).detail;
+    // WHY: stopImmediatePropagation prevents n-pagination-dots's native:change from reaching
+    // external listeners — slideshow re-dispatches its own native:slide-change instead.
+    e.stopImmediatePropagation();
+    this.#stopAutoplay();
+    this.goTo(index);
   };
 
   #setupObserver(slides: HTMLElement[]): void {
@@ -330,12 +314,6 @@ export class NSlideshow extends NativeElement {
     for (const slide of slides) {
       this.#observer.observe(slide);
     }
-  }
-
-  #syncDots(activeIndex: number): void {
-    const dots = this.#indicatorsEl?.querySelectorAll<HTMLButtonElement>('[part="dot"]');
-    if (!dots) return;
-    dots.forEach((dot, i) => dot.toggleAttribute('active', i === activeIndex));
   }
 
   #syncControls(activeIndex: number, count: number): void {

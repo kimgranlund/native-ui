@@ -10,17 +10,15 @@
 
 | Attribute | Values |
 |-----------|--------|
-| `part` | `controls`, `dot`, `indicators`, `next`, `prev`, `track` |
+| `part` | `controls`, `indicators`, `next`, `prev`, `track` |
 | `gap` | _(boolean)_ |
 | `peek` | _(boolean)_ |
 | `direction` | `vertical` |
 | `controls` | _(boolean)_ |
 | `indicators` | _(boolean)_ |
-| `active` | _(boolean)_ |
 
 ## CSS Tokens
 
-- `--n-border`
 - `--n-border-hover`
 - `--n-border-muted`
 - `--n-duration`
@@ -38,7 +36,6 @@
 - `--n-slideshow-peek`
 - `--n-space`
 - `--n-space-k`
-- `--n-surface`
 
 ## Usage
 
