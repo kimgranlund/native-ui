@@ -10,6 +10,7 @@
 
 | Attribute | Values |
 |-----------|--------|
+| `padding` | `none`, `regular`, `relaxed`, `tight` |
 | `divider` | _(boolean)_ |
 | `collapsible` | _(boolean)_ |
 | `collapsed` | _(boolean)_ |

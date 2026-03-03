@@ -1,7 +1,5 @@
-import { signal } from '../../reactivity/signal.ts';
-import { NativeElement } from '../../core/native-element.ts';
-import { createDisabledEffect } from '../../core/effects.ts';
-import type { NTextarea } from '../textarea/textarea-element.ts';
+import { NativeElement, signal, createDisabledEffect } from '@nonoun/native-ui';
+import type { NTextarea } from '@nonoun/native-ui';
 
 /**
  * Chat message input with textarea, submit button, and Enter-to-send behavior.

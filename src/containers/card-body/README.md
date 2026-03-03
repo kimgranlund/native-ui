@@ -10,6 +10,8 @@
 
 | Attribute | Values |
 |-----------|--------|
+| `padding` | `none`, `regular`, `relaxed`, `tight` |
+| `dividers` | _(boolean)_ |
 | `show-scrollbar` | _(boolean)_ |
 
 ## Usage

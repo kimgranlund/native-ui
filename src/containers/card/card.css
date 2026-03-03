@@ -8,14 +8,27 @@
     --n-ground: var(--n-card);
     --n-ground-hover: var(--n-card-hover);
 
+    /* Default size context — children inherit md */
+    --n-size: var(--n-size-md);
+    --n-font-size: var(--n-font-md);
+    --n-letter-spacing: var(--n-tracking-md);
+    --n-space: var(--n-space-md);
+    --n-icon-size: var(--n-icon-md);
+    --n-widget-size: var(--n-widget-md);
+    --n-widget-font: var(--n-widget-font-md);
+
     display: flex;
     flex: 1 1 0%;
     min-width: 0;
     flex-direction: column;
+    gap: calc(var(--n-space) * 2);
     background: var(--n-ground);
     border: 1px solid var(--n-border-muted);
     border-radius: var(--n-radius);
     overflow: hidden;
+
+    font-size: var(--n-font-size);
+    line-height: var(--n-line-height);
 
     transition:
       background var(--n-duration) var(--n-easing),
@@ -35,7 +48,6 @@
     gap: calc(var(--n-space) * 2);
     padding-block: calc(var(--n-space) * 2);
     padding-inline: calc(var(--n-space-k) * var(--n-space));
-    border-bottom: 1px solid var(--n-border-muted);
     font-weight: var(--n-button-font-weight);
     color: var(--n-ink-strong);
   }
@@ -65,17 +77,40 @@
     gap: calc(var(--n-space) * 2);
     padding-block: calc(var(--n-space) * 2);
     padding-inline: calc(var(--n-space-k) * var(--n-space));
+  }
+
+  /* ── Dividers ── */
+  /* WHY: Opt-in horizontal dividers between children. Every child except
+     the first gets a top border when [dividers] is set on the card. */
+
+  :where(n-card)[dividers] > :where(:not(:first-child)) {
     border-top: 1px solid var(--n-border-muted);
   }
 
-  /* ── Sub-containers ── */
-  /* WHY: Parent-context borders — sub-containers are unopinionated about dividers,
-     the card adds them contextually. */
+  /* ── Padding ── */
 
+  :where(n-card)[padding="none"] { padding: 0; }
+  :where(n-card)[padding="tight"] { padding: calc(var(--n-space) * 2); }
+  :where(n-card)[padding="regular"] { padding: calc(var(--n-space) * 4); }
+  :where(n-card)[padding="relaxed"] { padding: calc(var(--n-space) * 6); }
+
+  /* ── Sub-container integration ── */
+  /* WHY: When n-body / n-card-body is present, delegate overflow to body so
+     header/footer stay fixed while body scrolls. Both unified (n-header etc.)
+     and deprecated (n-card-header etc.) names are supported. */
+
+  :where(n-card):has(> n-body),
+  :where(n-card):has(> n-card-body) {
+    overflow: hidden;
+    padding: 0;
+  }
+
+  :where(n-card) > :where(n-header),
   :where(n-card) > :where(n-card-header) {
     border-bottom: 1px solid var(--n-border-muted);
   }
 
+  :where(n-card) > :where(n-footer),
   :where(n-card) > :where(n-card-footer) {
     border-top: 1px solid var(--n-border-muted);
   }

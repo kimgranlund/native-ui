@@ -1,12 +1,14 @@
 import { NativeElement } from '../core/native-element.ts';
-import type { NAppPanel } from '../../packages/native-app/src/app-panel/app-panel-element.ts';
+import { ResizeController } from '../traits/resize-controller.ts';
 // WHY: Import source directly — the package entry resolves to dist/native-tokens.js
 // which pulls in dist/native-ui.js, creating dual-module conflicts in Vite dev.
 import '../../packages/native-tokens/src/index.ts';
+import '../../packages/native-chat/src/register.ts';
 import foundationCss from '../styles/index.css?inline';
 import componentsCss from '../styles/components.css?inline';
 import layoutDevCss from '../styles/n-layout.css?inline';
 import inspectorCss from '../../packages/native-tokens/src/tokens.css?inline';
+import chatCss from '../../packages/native-chat/src/chat.css?inline';
 import appCss from '../../packages/native-app/src/app.css?inline';
 import sitemapData from './sitemap.json';
 
@@ -66,20 +68,19 @@ const STORAGE_WIDTH = 'nav-sidebar-width';
 // during view transitions — prevents a flash of bare body background.
 const hostCss = ':host(:not([data-ready])) > * { visibility: hidden; }';
 const layoutSheet = new CSSStyleSheet();
-layoutSheet.replaceSync(hostCss + '\n' + foundationCss + '\n' + componentsCss + '\n' + appCss + '\n' + layoutDevCss + '\n' + inspectorCss);
+layoutSheet.replaceSync(hostCss + '\n' + foundationCss + '\n' + componentsCss + '\n' + appCss + '\n' + layoutDevCss + '\n' + inspectorCss + '\n' + chatCss);
 
 export class NApp extends NativeElement {
   #keydownHandler: ((e: KeyboardEvent) => void) | null = null;
   #chatObserver: MutationObserver | null = null;
   #inspectorObserver: MutationObserver | null = null;
+  #inspectorResize: ResizeController | null = null;
+  #chatResize: ResizeController | null = null;
+  #chatPanel: HTMLElement | null = null;
+  #inspectorPanel: HTMLElement | null = null;
 
-  get chatPanel(): NAppPanel | null {
-    return this.shadowRoot?.querySelector('n-app-panel[data-role="chat"]') as NAppPanel | null;
-  }
-
-  get inspectorPanel(): NAppPanel | null {
-    return this.shadowRoot?.querySelector('n-app-panel[data-role="inspector"]') as NAppPanel | null;
-  }
+  get chatPanel(): HTMLElement | null { return this.#chatPanel; }
+  get inspectorPanel(): HTMLElement | null { return this.#inspectorPanel; }
 
   constructor() {
     super();
@@ -336,8 +337,7 @@ export class NApp extends NativeElement {
     inspectorToggle.setAttribute('aria-label', 'Toggle inspector');
     inspectorToggle.innerHTML = '<n-icon name="sliders-horizontal" size="md"></n-icon>';
     inspectorToggle.addEventListener('click', () => {
-      const inspEl = layout.querySelector('n-app-panel[data-role="inspector"]') as NAppPanel | null;
-      inspEl?.toggle();
+      inspector.toggleAttribute('open');
     });
 
     // Chat toggle
@@ -347,8 +347,7 @@ export class NApp extends NativeElement {
     chatToggle.setAttribute('aria-label', 'Toggle chat');
     chatToggle.innerHTML = '<n-icon name="chat-dots" size="md"></n-icon>';
     chatToggle.addEventListener('click', () => {
-      const chatEl = layout.querySelector('n-app-panel[data-role="chat"]') as NAppPanel | null;
-      chatEl?.toggle();
+      chat.toggleAttribute('open');
     });
 
     // Code toggle — drives the page's `.demo-code` blocks.
@@ -395,7 +394,7 @@ export class NApp extends NativeElement {
     // Canvas (body + chat)
     const canvas = document.createElement('n-app-canvas');
 
-    const body = document.createElement('n-app-panel');
+    const body = document.createElement('n-panel');
     // WHY: <slot> projects author's <main> from light DOM without moving it —
     // no disconnect→reconnect cycle on nested custom elements.
     const slot = document.createElement('slot');
@@ -430,44 +429,85 @@ export class NApp extends NativeElement {
       syncCodeState(willShow);
     });
 
-    // Inspector panel
-    const inspector = document.createElement('n-app-panel');
+    // WHY: Popover handles render in the top layer (escape overflow: clip).
+    // JS syncs their fixed position to the aside's bounding rect.
+    const syncHandlePosition = (aside: HTMLElement, handle: HTMLElement) => {
+      const rect = aside.getBoundingClientRect();
+      handle.style.top = `${rect.top}px`;
+      handle.style.left = `${rect.left}px`;
+      handle.style.height = `${rect.height}px`;
+    };
+
+    // Inspector panel — stamped panel IS the aside (no wrapper)
+    const inspector = document.createElement('native-tokens-panel');
     inspector.setAttribute('aside', '');
-    inspector.dataset.role = 'inspector';
+    this.#inspectorPanel = inspector;
     const inspectorResizeHandle = document.createElement('div');
     inspectorResizeHandle.className = 'layout-resize-handle';
-    const tokensInspector = document.createElement('native-tokens');
-    inspector.append(inspectorResizeHandle, tokensInspector);
+    inspectorResizeHandle.setAttribute('popover', 'manual');
+    inspector.prepend(inspectorResizeHandle);
+    this.#inspectorResize = new ResizeController(inspector, {
+      handleSelector: '.layout-resize-handle',
+      axis: 'horizontal',
+      min: 280,
+      max: 480,
+      reverse: true,
+    });
 
-    // WHY: Sync toggle icon when inspector opens/closes programmatically.
+    // WHY: ResizeObserver keeps handle pinned during resize dragging + transitions.
+    new ResizeObserver(() => {
+      if (inspector.hasAttribute('open')) syncHandlePosition(inspector, inspectorResizeHandle);
+    }).observe(inspector);
+
+    // WHY: Sync toggle icon + popover handle when inspector opens/closes.
     this.#inspectorObserver = new MutationObserver(() => {
       const isOpen = inspector.hasAttribute('open');
       inspectorToggle.innerHTML = isOpen
         ? '<n-icon name="sliders-horizontal-fill" size="md"></n-icon>'
         : '<n-icon name="sliders-horizontal" size="md"></n-icon>';
+      if (isOpen) {
+        inspectorResizeHandle.showPopover();
+        syncHandlePosition(inspector, inspectorResizeHandle);
+      } else {
+        try { inspectorResizeHandle.hidePopover(); } catch { /* already hidden */ }
+      }
     });
     this.#inspectorObserver.observe(inspector, { attributes: true, attributeFilter: ['open'] });
 
-    // Chat panel
-    const chat = document.createElement('n-app-panel');
+    // Chat panel — stamped panel IS the aside (no wrapper)
+    const chat = document.createElement('native-chat-panel');
     chat.setAttribute('aside', '');
-    chat.dataset.role = 'chat';
+    chat.setAttribute('size', 'md');
+    this.#chatPanel = chat;
     const chatResizeHandle = document.createElement('div');
     chatResizeHandle.className = 'layout-resize-handle';
+    chatResizeHandle.setAttribute('popover', 'manual');
+    chat.prepend(chatResizeHandle);
+    this.#chatResize = new ResizeController(chat, {
+      handleSelector: '.layout-resize-handle',
+      axis: 'horizontal',
+      min: 280,
+      max: 480,
+      reverse: true,
+    });
 
-    const chatApp = document.createElement('n-chat');
-    chatApp.setAttribute('size', 'sm');
-    const chatContent = document.createElement('n-chat-content');
-    chatApp.appendChild(chatContent);
+    // WHY: ResizeObserver keeps handle pinned during resize dragging + transitions.
+    new ResizeObserver(() => {
+      if (chat.hasAttribute('open')) syncHandlePosition(chat, chatResizeHandle);
+    }).observe(chat);
 
-    chat.append(chatResizeHandle, chatApp);
-
-    // WHY: Sync toggle icon when chat opens/closes programmatically (e.g. via A2UI onRender).
+    // WHY: Sync toggle icon + popover handle when chat opens/closes.
     this.#chatObserver = new MutationObserver(() => {
       const isOpen = chat.hasAttribute('open');
       chatToggle.innerHTML = isOpen
         ? '<n-icon name="chat-dots-fill" size="md"></n-icon>'
         : '<n-icon name="chat-dots" size="md"></n-icon>';
+      if (isOpen) {
+        chatResizeHandle.showPopover();
+        syncHandlePosition(chat, chatResizeHandle);
+      } else {
+        try { chatResizeHandle.hidePopover(); } catch { /* already hidden */ }
+      }
     });
     this.#chatObserver.observe(chat, { attributes: true, attributeFilter: ['open'] });
 
@@ -554,6 +594,12 @@ export class NApp extends NativeElement {
     this.#chatObserver = null;
     this.#inspectorObserver?.disconnect();
     this.#inspectorObserver = null;
+    this.#inspectorResize?.destroy();
+    this.#inspectorResize = null;
+    this.#chatResize?.destroy();
+    this.#chatResize = null;
+    this.#inspectorPanel = null;
+    this.#chatPanel = null;
     super.teardown();
   }
 }

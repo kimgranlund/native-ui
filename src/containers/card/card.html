@@ -33,14 +33,14 @@
     <h2>Structured (header + body + footer)</h2>
     <div class="demo-section">
       <n-card style="max-width: 24rem;">
-        <n-card-header>
+        <n-card-header dividers>
           <span slot="label">Card Title</span>
           <n-button slot="trailing" variant="ghost"><n-icon name="dots-three"></n-icon></n-button>
         </n-card-header>
         <n-card-body>
           <p>Card body content goes here. This demonstrates the structured layout with header, body, and footer sections.</p>
         </n-card-body>
-        <n-card-footer>
+        <n-card-footer dividers>
           <n-button variant="ghost"><span slot="label">Cancel</span></n-button>
           <n-button variant="primary" intent="accent"><span slot="label">Save</span></n-button>
         </n-card-footer>
@@ -67,21 +67,21 @@
       <div class="demo-row">
         <n-card style="max-width: 18rem;">
           <div slot="media" style="height: 10rem; background: linear-gradient(135deg, var(--n-surface-accent), var(--n-surface-info));"></div>
-          <n-card-body>
-            <h3 style="margin: 0 0 0.25rem; text-transform: none; letter-spacing: 0; color: inherit;">Product Name</h3>
+          <n-card-body padding="tight">
+            <h3 style="margin: 0 0 0.25rem;">Product Name</h3>
             <p class="demo-text-sm">A short description of the product.</p>
           </n-card-body>
-          <n-card-footer>
+          <n-card-footer padding="tight">
             <n-button variant="primary" intent="accent" size="sm"><span slot="label">Buy Now</span></n-button>
           </n-card-footer>
         </n-card>
         <n-card style="max-width: 18rem;">
           <div slot="media" style="height: 10rem; background: linear-gradient(135deg, var(--n-surface-success), var(--n-surface-warning));"></div>
-          <n-card-body>
-            <h3 style="margin: 0 0 0.25rem; text-transform: none; letter-spacing: 0; color: inherit;">Another Product</h3>
+          <n-card-body padding="tight">
+            <h3 style="margin: 0 0 0.25rem;">Another Product</h3>
             <p class="demo-text-sm">Another description text.</p>
           </n-card-body>
-          <n-card-footer>
+          <n-card-footer padding="tight">
             <n-button variant="primary" intent="accent" size="sm"><span slot="label">Buy Now</span></n-button>
           </n-card-footer>
         </n-card>

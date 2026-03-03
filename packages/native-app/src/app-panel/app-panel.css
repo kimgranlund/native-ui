@@ -53,7 +53,7 @@
   :where(n-app-panel)[aside][open] {
     width: 360px;
     min-width: 280px;
-    margin-inline-start: calc(var(--n-space) * 2);
+    margin-inline-start: calc(var(--n-space-k) * var(--n-space));
     overflow-y: auto;
     padding: calc(var(--n-space-k) * var(--n-space));
   }

@@ -38,8 +38,14 @@
 @import '../containers/section/section.css';
 @import '../containers/inset/inset.css';
 @import '../containers/toolbar/toolbar.css';
+@import '../containers/header/header.css';
+@import '../containers/body/body.css';
+@import '../containers/footer/footer.css';
+
+/* Deprecated — use n-header, n-body, n-footer instead */
 @import '../containers/card-header/card-header.css';
 @import '../containers/card-body/card-body.css';
 @import '../containers/card-footer/card-footer.css';
-/* Chat */
-@import '../components/chat/chat.css';
+@import '../containers/panel-header/panel-header.css';
+@import '../containers/panel-body/panel-body.css';
+@import '../containers/panel-footer/panel-footer.css';

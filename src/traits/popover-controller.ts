@@ -24,18 +24,54 @@ export class PopoverController {
 
   syncPopover(open: boolean): void {
     if (open) {
+      this.#detectFlip();
       // WHY: showPopover() throws InvalidStateError if already open (e.g. effect re-run)
       try { this.#popoverEl?.showPopover(); } catch { /* already open */ }
       this.#dismiss.enable();
     } else {
       // WHY: hidePopover() throws InvalidStateError if already hidden (e.g. initial effect run)
       try { this.#popoverEl?.hidePopover(); } catch { /* already hidden */ }
+      this.#clearFlip();
       this.#dismiss.disable();
     }
   }
 
+  /** Detect if flip-block will place the popover above the anchor.
+   *  Sets --n-popover-origin / --n-popover-from inline BEFORE showPopover()
+   *  so @starting-style reads the correct animation direction. */
+  #detectFlip(): void {
+    const anchor = this.#anchorEl;
+    const popover = this.#popoverEl;
+    if (!anchor || !popover) return;
+
+    // Briefly make popover measurable (still hidden — no paint between set/remove)
+    popover.style.display = 'block';
+    popover.style.visibility = 'hidden';
+    const height = popover.offsetHeight;
+    popover.style.removeProperty('display');
+    popover.style.removeProperty('visibility');
+
+    const anchorRect = anchor.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - anchorRect.bottom;
+    const spaceAbove = anchorRect.top;
+
+    // Mirror the flip-block algorithm: flip when content overflows below and above has more room
+    if (height > spaceBelow && spaceAbove > spaceBelow) {
+      popover.style.setProperty('--n-popover-origin', 'bottom center');
+      popover.style.setProperty('--n-popover-from', 'perspective(800px) scale(0.96) rotateX(20deg)');
+    } else {
+      this.#clearFlip();
+    }
+  }
+
+  #clearFlip(): void {
+    this.#popoverEl?.style.removeProperty('--n-popover-origin');
+    this.#popoverEl?.style.removeProperty('--n-popover-from');
+  }
+
   destroy(): void {
     this.#dismiss.destroy();
+    this.#clearFlip();
     this.#anchorEl?.style.removeProperty('anchor-name');
     this.#anchorEl = null;
     this.#popoverEl?.style.removeProperty('position-anchor');

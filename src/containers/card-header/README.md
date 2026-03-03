@@ -10,7 +10,9 @@
 
 | Attribute | Values |
 |-----------|--------|
+| `padding` | `none`, `regular`, `relaxed`, `tight` |
 | `align` | `center`, `end` |
+| `dividers` | _(boolean)_ |
 | `sticky` | _(boolean)_ |
 
 ## Slots

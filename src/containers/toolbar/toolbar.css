@@ -9,17 +9,36 @@
     --n-background: var(--n-ground);
     --n-border-color: var(--n-border-muted);
 
+    /* Default size context — children inherit md */
+    --n-size: var(--n-size-md);
+    --n-font-size: var(--n-font-md);
+    --n-letter-spacing: var(--n-tracking-md);
+    --n-space: var(--n-space-md);
+    --n-icon-size: var(--n-icon-md);
+    --n-widget-size: var(--n-widget-md);
+    --n-widget-font: var(--n-widget-font-md);
+
     display: flex;
     flex: 1 1 0%;
     min-width: 0;
     align-items: center;
     gap: calc(var(--n-space) * 2);
     background: var(--n-background);
-    padding: var(--n-space);
     border-radius: var(--n-border-radius, var(--n-radius));
     border: 1px solid var(--n-border-color);
+    padding: calc(var(--n-space) * 1);
     user-select: none;
+
+    font-size: var(--n-font-size);
+    line-height: var(--n-line-height);
   }
+
+  /* ── Padding ── */
+
+  :where(n-toolbar)[padding="none"] { padding: 0; }
+  :where(n-toolbar)[padding="tight"] { padding: calc(var(--n-space) * 1); }
+  :where(n-toolbar)[padding="regular"] { padding: calc(var(--n-space) * 2); }
+  :where(n-toolbar)[padding="relaxed"] { padding: calc(var(--n-space) * 3); }
 
   /* WHY: n-button has width:100% for block contexts. Inside a toolbar,
      buttons must shrink-wrap to their content at intrinsic width.

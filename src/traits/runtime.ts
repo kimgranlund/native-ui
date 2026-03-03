@@ -84,17 +84,11 @@ export class ToastManager {
     this.#container.setAttribute('role', 'status');
     this.#container.setAttribute('aria-live', 'polite');
     this.#container.setAttribute('aria-atomic', 'false');
-    this.#container.style.cssText = `
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      z-index: 10000;
-      pointer-events: none;
-    `;
+    // WHY: popover="manual" promotes to the top layer — no z-index needed.
+    // Styling (position, gap, etc.) lives in n-toast.css.
+    this.#container.setAttribute('popover', 'manual');
     document.body.appendChild(this.#container);
+    this.#container.showPopover();
     return this.#container;
   }
 
@@ -107,7 +101,6 @@ export class ToastManager {
     el.className = 'n-toast';
     el.setAttribute('intent', intent);
     el.setAttribute('role', 'alert');
-    el.style.cssText = 'pointer-events: auto;';
 
     const msg = document.createElement('span');
     msg.className = 'n-toast-message';
@@ -145,6 +138,7 @@ export class ToastManager {
     entry.el.remove();
     this.#toasts.splice(idx, 1);
     if (this.#toasts.length === 0 && this.#container) {
+      try { this.#container.hidePopover(); } catch { /* already hidden */ }
       this.#container.remove();
       this.#container = null;
     }

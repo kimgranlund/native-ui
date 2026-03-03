@@ -5,22 +5,46 @@
 
 @layer ui {
 
-/* ── Toolbar ── */
+/* ── Host ── */
 
-.native-tokens-toolbar {
-  --n-ground: var(--n-panel);
-
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  display: flex;
-  gap: 0.5rem;
-  padding-block: 0.5rem;
-  margin-block-end: 0.5rem;
-  background: var(--n-ground);
+:where(native-tokens) {
+  display: block;
 }
 
-.native-tokens-toolbar > * {
+:where(native-tokens-panel) {
+  --n-ground: var(--n-panel);
+
+  container-type: inline-size;
+  display: flex;
+  flex: 1 1 0%;
+  min-width: 0;
+  flex-direction: column;
+  background: var(--n-ground);
+  border-radius: var(--n-radius);
+  overflow: hidden;
+
+  font-size: var(--n-font-size);
+  line-height: var(--n-line-height);
+}
+
+/* ── Sub-container integration ── */
+
+:where(native-tokens-panel) > :where(n-header) {
+  border-bottom: 1px solid var(--n-border-muted);
+}
+
+/* WHY: Wide padding only above 22rem — asides (280–480px) keep compact defaults. */
+@container (min-width: 22rem) {
+  :where(native-tokens-panel) > :where(n-header) {
+    padding-inline: calc(var(--n-space) * 8);
+  }
+
+  :where(native-tokens-panel) > :where(n-body) {
+    padding-inline: calc(var(--n-space) * 8);
+  }
+}
+
+:where(native-tokens-panel) > :where(n-header) > :where([slot="content"]) > * {
   flex: 1;
   min-width: 0;
 }

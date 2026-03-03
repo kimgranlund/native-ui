@@ -16,6 +16,10 @@
     box-sizing: border-box;
   }
 
+  body {
+    margin: 0;
+  }
+
   /* WHY: UA [hidden]{display:none} loses to author-layer :where() display values.
      Real specificity (0,1,0) ensures [hidden] always wins over :where() components. */
   [hidden] {
@@ -36,6 +40,24 @@
     color: var(--n-ink-neutral);
     min-height: 100dvh;
   }
+
+  /* ── Container Headings ── */
+  /* WHY: Reset h1–h3 inside containers so page-level heading styles
+     (large sizes, margins, text-transform) don't bleed in.
+     Uses the container's --n-font-* scale for sizing. */
+
+  :where(n-card, n-panel, n-section) :where(h1, h2, h3) {
+    margin: 0;
+    font-weight: var(--n-button-font-weight);
+    line-height: var(--n-control-line-height-relaxed);
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--n-ink-strong);
+  }
+
+  :where(n-card, n-panel, n-section) :where(h1) { font-size: var(--n-font-xl); }
+  :where(n-card, n-panel, n-section) :where(h2) { font-size: var(--n-font-lg); }
+  :where(n-card, n-panel, n-section) :where(h3) { font-size: var(--n-font-md); }
 
   /* ── Reduced Motion ── */
 

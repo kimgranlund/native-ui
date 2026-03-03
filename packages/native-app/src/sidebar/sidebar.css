@@ -69,7 +69,6 @@
     max-width: 400px;
     height: 100dvh;
     display: block;
-    background: var(--n-body);
     transition: width var(--n-duration) var(--n-easing), min-width var(--n-duration) var(--n-easing);
     overflow: hidden;
     z-index: 10;

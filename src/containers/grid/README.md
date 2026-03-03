@@ -10,6 +10,7 @@
 
 | Attribute | Values |
 |-----------|--------|
+| `padding` | `none`, `regular`, `relaxed`, `tight` |
 | `cols` | `1`, `2`, `3`, `4`, `5`, `6` |
 | `min` | `10rem`, `12rem`, `14rem`, `16rem`, `20rem`, `24rem`, `8rem` |
 | `gap` | `0`, `1`, `2`, `3`, `4`, `6`, `8` |

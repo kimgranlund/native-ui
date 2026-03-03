@@ -2,9 +2,8 @@
 
   /* ╭──────────────────────────────────────────────────────────╮
      │  n-panel-header                                         │
-     │  Sub-container header for n-app-panel. Same slot        │
-     │  pattern as n-card-header (leading / label / trailing)  │
-     │  but styled for panel context.                          │
+     │  Sub-container header with leading / label / trailing   │
+     │  slots. Grid adapts columns to which slots are present. │
      ╰──────────────────────────────────────────────────────────╯ */
 
   /* ── Base ── */
@@ -14,8 +13,8 @@
     grid-template-columns: 1fr;
     align-items: center;
     gap: calc(var(--n-space) * 2);
-    padding-block: calc(var(--n-space) * 2);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    min-height: var(--n-size);
+    padding-inline: calc(var(--n-space) * 8);
     font-weight: var(--n-button-font-weight);
     color: var(--n-ink-strong);
     min-width: 0;
@@ -23,10 +22,19 @@
     font-size: var(--n-font-size);
     line-height: var(--n-line-height);
     box-sizing: border-box;
-
   }
 
+  /* ── Padding ── */
+
+  :where(n-panel-header)[padding="none"] { padding-inline: 0; }
+  :where(n-panel-header)[padding="tight"] { padding-inline: calc(var(--n-space) * 4); }
+  :where(n-panel-header)[padding="regular"] { padding-inline: calc(var(--n-space) * 12); }
+  :where(n-panel-header)[padding="relaxed"] { padding-inline: calc(var(--n-space) * 16); }
+
   /* ── Slots ── */
+  /* WHY: Redefine grid-template per slot combination so absent leading/trailing
+     columns don't leave empty space. Four combos: both, leading-only,
+     trailing-only, label-only (base). */
 
   :where(n-panel-header):has(> [slot="leading"]):has(> [slot="trailing"]) {
     grid-template-columns: auto 1fr auto;
@@ -55,6 +63,35 @@
     display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
+  }
+
+  /* ── Align ── */
+
+  :where(n-panel-header)[align="center"] > :where([slot="label"]),
+  :where(n-panel-header)[align="center"] > :where(:not([slot])) {
+    text-align: center;
+  }
+
+  :where(n-panel-header)[align="end"] > :where([slot="label"]),
+  :where(n-panel-header)[align="end"] > :where(:not([slot])) {
+    text-align: end;
+  }
+
+  /* ── Dividers ── */
+  /* WHY: Opt-in bottom divider line via ::after pseudo-element.
+     Positioned absolute so it doesn't affect grid layout. */
+
+  :where(n-panel-header)[dividers] {
+    position: relative;
+  }
+
+  :where(n-panel-header)[dividers]::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--n-border-muted);
   }
 
   /* ── Sticky ── */

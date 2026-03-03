@@ -5,7 +5,7 @@
   { "title": "Breadcrumb", "path": "/src/components/breadcrumb/breadcrumb.html", "group": "Components" },
   { "title": "Button", "path": "/src/components/button/button.html", "group": "Components" },
   { "title": "Calendar", "path": "/src/components/calendar/calendar.html", "group": "Components" },
-  { "title": "Chat", "path": "/src/components/chat/chat.html", "group": "Components" },
+  { "title": "Chat", "path": "/packages/native-chat/src/chat.html", "group": "Packages" },
   { "title": "Checkbox", "path": "/src/components/checkbox/checkbox.html", "group": "Components" },
   { "title": "Combobox", "path": "/src/components/combobox/combobox.html", "group": "Components" },
   { "title": "Command", "path": "/src/components/command/command.html", "group": "Components" },

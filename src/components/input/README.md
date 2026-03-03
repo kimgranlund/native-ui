@@ -10,6 +10,7 @@
 
 | Attribute | Values |
 |-----------|--------|
+| `type` | `password` |
 | `inline` | _(boolean)_ |
 
 ## Slots

@@ -54,7 +54,6 @@ import type { NCalendar } from './components/calendar/calendar-element.ts';
 import type { NAvatar } from './components/avatar/avatar-element.ts';
 import type { NBadge } from './components/badge/badge-element.ts';
 import type { NController } from './components/controller/controller-element.ts';
-import type { NChatInput } from './components/chat/chat-input-element.ts';
 import type { NCard } from './containers/card/card-element.ts';
 import type { NSection } from './containers/section/section-element.ts';
 import type { NToolbar } from './containers/toolbar/toolbar-element.ts';
@@ -136,7 +135,6 @@ declare global {
 
     // Components — Utility
     'n-controller': NController;
-    'n-chat-input': NChatInput;
 
     // Containers
     'n-card': NCard;

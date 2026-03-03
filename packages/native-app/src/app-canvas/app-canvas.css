@@ -10,6 +10,7 @@
     display: flex;
     flex: 1;
     min-height: 0;
+    gap: calc(var(--n-space-k) * var(--n-space));
     padding: 0 calc(var(--n-space-k) * var(--n-space)) calc(var(--n-space-k) * var(--n-space));
   }
 

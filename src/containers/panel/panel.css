@@ -5,13 +5,42 @@
   :where(n-panel) {
     --n-ground: var(--n-panel);
 
+    /* Default size context — children inherit md */
+    --n-size: var(--n-size-md);
+    --n-font-size: var(--n-font-md);
+    --n-letter-spacing: var(--n-tracking-md);
+    --n-space: var(--n-space-md);
+    --n-icon-size: var(--n-icon-md);
+    --n-widget-size: var(--n-widget-md);
+    --n-widget-font: var(--n-widget-font-md);
+
+    container-type: inline-size;
     display: flex;
     flex: 1 1 0%;
     min-width: 0;
     flex-direction: column;
+    gap: calc(var(--n-space) * 2);
     background: var(--n-ground);
+    padding: calc(var(--n-space) * 4);
     border-radius: var(--n-radius);
-    padding: calc(var(--n-space-k) * var(--n-space));
+
+    font-size: var(--n-font-size);
+    line-height: var(--n-line-height);
+  }
+
+  /* ── Padding ── */
+
+  :where(n-panel)[padding="none"] { padding: 0; }
+  :where(n-panel)[padding="tight"] { padding: calc(var(--n-space) * 4); }
+  :where(n-panel)[padding="regular"] { padding: calc(var(--n-space) * 6); }
+  :where(n-panel)[padding="relaxed"] { padding: calc(var(--n-space) * 8); }
+
+  /* ── Dividers ── */
+  /* WHY: Opt-in horizontal dividers between children. Every child except
+     the first gets a top border when [dividers] is set on the panel. */
+
+  :where(n-panel)[dividers] > :where(:not(:first-child)) {
+    border-top: 1px solid var(--n-border-muted);
   }
 
   /* ── Bordered ── */
@@ -20,10 +49,151 @@
     border: 1px solid var(--n-border-muted);
   }
 
-  /* ── No padding ── */
+  /* ── Scrollbar ── */
 
-  :where(n-panel[padded="false"]) {
+  :where(n-panel) {
+    scrollbar-width: none;
+  }
+
+  :where(n-panel)[show-scrollbar] {
+    scrollbar-width: thin;
+  }
+
+  /* ── Main mode (default) ── */
+  /* WHY: Main panel fills available space and scrolls vertically.
+     App shells use this for the primary content area. */
+
+  :where(n-panel):not([aside]) {
+    overflow-y: auto;
+  }
+
+  /* ── Aside mode ── */
+  /* WHY: Generic collapsible side panel — hidden when closed, shown at
+     360px when [open]. Works on n-panel, stamped panels, etc.
+     [aside] uses real specificity (0,1,0+) so it beats zero-specificity
+     base rules on stamped panels that load later. Same convention as [variant]. */
+
+  [aside] {
+    flex: none;
+    position: relative;
+    display: none;
+    width: 0;
+    min-width: 0;
+    max-width: 480px;
+    overflow: clip;
     padding: 0;
+    transition:
+      display var(--n-duration) var(--n-easing) allow-discrete,
+      width var(--n-duration) var(--n-easing),
+      min-width var(--n-duration) var(--n-easing),
+      padding var(--n-duration) var(--n-easing);
+  }
+
+  [aside][open] {
+    display: flex;
+    width: 360px;
+    min-width: 280px;
+  }
+
+  /* WHY: Entry animation — browser needs a starting style to transition
+     from display: none. @starting-style provides the "from" values. */
+  @starting-style {
+    [aside][open] {
+      width: 0;
+      min-width: 0;
+    }
+  }
+
+  /* WHY: n-panel aside adds padding + scroll when open (no sub-containers).
+     Stamped panels with n-body don't need this — body handles scroll. */
+  :where(n-panel)[aside][open] {
+    overflow-y: auto;
+    padding: calc(var(--n-space) * 4);
+  }
+
+  /* WHY: Disable transitions while dragging — they fight the pointer. */
+  [aside][resizing] {
+    transition: none;
+  }
+
+  /* ── Resize handle ── */
+
+  :where([aside]) :where(.layout-resize-handle) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 2;
+  }
+
+  :where([aside]) :where(.layout-resize-handle):hover,
+  :where([aside][resizing]) :where(.layout-resize-handle) {
+    background: var(--n-border-muted);
+  }
+
+  /* ── Popover resize handle ── */
+  /* WHY: When the handle is [popover], it renders in the top layer and
+     escapes overflow: clip on the aside. JS sets top/left/height inline
+     to track the aside's position. */
+
+  :where(.layout-resize-handle[popover]) {
+    position: fixed;
+    inset: unset;
+    width: 4px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: col-resize;
+  }
+
+  :where(.layout-resize-handle[popover]):hover,
+  :where([aside][resizing]) :where(.layout-resize-handle[popover]) {
+    background: var(--n-border-muted);
+  }
+
+  :where(.layout-resize-handle[popover]):not(:popover-open) {
+    display: none;
+  }
+
+  /* ── Sub-container integration ── */
+  /* WHY: When n-body / n-panel-body is present, delegate overflow to it so
+     header/footer stay fixed while body scrolls. */
+
+  :where(n-panel):has(> n-body),
+  :where(n-panel):has(> n-panel-body) {
+    overflow: hidden;
+    padding: 0;
+  }
+
+  :where(n-panel) > :where(n-header),
+  :where(n-panel) > :where(n-panel-header) {
+    border-bottom: 1px solid var(--n-border-muted);
+  }
+
+  :where(n-panel) > :where(n-footer),
+  :where(n-panel) > :where(n-panel-footer) {
+    border-top: 1px solid var(--n-border-muted);
+  }
+
+  /* WHY: Wide padding only above 22rem — asides (280–480px) keep compact defaults. */
+  @container (min-width: 22rem) {
+    :where(n-panel) > :where(n-header),
+    :where(n-panel) > :where(n-panel-header) {
+      padding-inline: calc(var(--n-space) * 8);
+    }
+
+    :where(n-panel) > :where(n-body),
+    :where(n-panel) > :where(n-panel-body) {
+      padding-inline: calc(var(--n-space) * 8);
+    }
+
+    :where(n-panel) > :where(n-footer),
+    :where(n-panel) > :where(n-panel-footer) {
+      padding-inline: calc(var(--n-space) * 8);
+    }
   }
 
 }

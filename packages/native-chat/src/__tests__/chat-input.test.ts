@@ -1,8 +1,10 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import '../chat-input.ts';
-import '../../textarea/textarea.ts';
-import '../../button/button.ts';
+import '../register.ts';
+import { define, NTextarea, NButton } from '@nonoun/native-ui';
+
+define('n-textarea', NTextarea);
+define('n-button', NButton);
 
 function create(attrs: Record<string, string> = {}): HTMLElement {
   const el = document.createElement('n-chat-input');

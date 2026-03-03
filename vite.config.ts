@@ -16,6 +16,8 @@ export default defineConfig(({ command }) => ({
       '@nonoun/native-ui': resolve(__dirname, 'src/index.ts'),
       '@nonoun/native-codemirror/register': resolve(__dirname, 'packages/native-codemirror/src/register.ts'),
       '@nonoun/native-codemirror': resolve(__dirname, 'packages/native-codemirror/src/index.ts'),
+      '@nonoun/native-chat/register': resolve(__dirname, 'packages/native-chat/src/register.ts'),
+      '@nonoun/native-chat': resolve(__dirname, 'packages/native-chat/src/index.ts'),
     } : {},
   },
   // WHY: srcdoc iframes (native-playground) have origin "null". ES module <script src>

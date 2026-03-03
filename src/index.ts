@@ -96,7 +96,6 @@ export { NTreeItem } from './components/tree/tree-item-element.ts';
 export { NSlideshow } from './components/slideshow/slideshow-element.ts';
 export { NSlide } from './components/slideshow/slide-element.ts';
 export { NController } from './components/controller/controller-element.ts';
-export { NChatInput } from './components/chat/chat-input-element.ts';
 
 // Containers
 export { NCard } from './containers/card/card-element.ts';

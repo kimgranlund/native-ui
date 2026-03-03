@@ -10,7 +10,9 @@
 
 | Attribute | Values |
 |-----------|--------|
+| `padding` | `none`, `regular`, `relaxed`, `tight` |
 | `justify` | `center`, `spread`, `start` |
+| `dividers` | _(boolean)_ |
 | `sticky` | _(boolean)_ |
 
 ## Usage

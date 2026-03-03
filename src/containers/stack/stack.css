@@ -10,6 +10,13 @@
     gap: calc(var(--n-space) * 2);
   }
 
+  /* ── Padding ── */
+
+  :where(n-stack)[padding="none"] { padding: 0; }
+  :where(n-stack)[padding="tight"] { padding: calc(var(--n-space) * 4); }
+  :where(n-stack)[padding="regular"] { padding: calc(var(--n-space) * 8); }
+  :where(n-stack)[padding="relaxed"] { padding: calc(var(--n-space) * 12); }
+
   /* ── Direction ── */
 
   :where(n-stack)[direction="row"] {

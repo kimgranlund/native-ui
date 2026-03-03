@@ -10,6 +10,8 @@
 
 | Attribute | Values |
 |-----------|--------|
+| `dividers` | _(boolean)_ |
+| `padding` | `none`, `regular`, `relaxed`, `tight` |
 | `interactive` | _(boolean)_ |
 
 ## Slots

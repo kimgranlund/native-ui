@@ -16,13 +16,32 @@
     min-height: 0;
     flex-direction: column;
     gap: calc(var(--n-space) * 2);
-    padding: calc(var(--n-space-k) * var(--n-space));
     overflow-y: auto;
     scrollbar-width: none;
 
     font-size: var(--n-font-size);
     line-height: var(--n-line-height);
+    padding-inline: calc(var(--n-space) * 4);
     box-sizing: border-box;
+  }
+
+  /* ── Padding ── */
+
+  :where(n-card-body)[padding="none"] { padding-inline: 0; }
+  :where(n-card-body)[padding="tight"] { padding-inline: calc(var(--n-space) * 4); }
+  :where(n-card-body)[padding="regular"] { padding-inline: calc(var(--n-space) * 6); }
+  :where(n-card-body)[padding="relaxed"] { padding-inline: calc(var(--n-space) * 8); }
+
+  /* ── Divider breathing room ── */
+  /* WHY: When adjacent header/footer has [dividers], the body needs
+     block padding so content doesn't sit against the divider line. */
+
+  :where(n-card-header)[dividers] + :where(n-card-body) {
+    padding-block-start: calc(var(--n-space) * 2);
+  }
+
+  :where(n-card-body):has(+ :where(n-card-footer)[dividers]) {
+    padding-block-end: calc(var(--n-space) * 2);
   }
 
   /* ── Scrollbar ── */

@@ -61,7 +61,6 @@ import { NTree } from './components/tree/tree-element.ts';
 import { NTreeItem } from './components/tree/tree-item-element.ts';
 import { NSlideshow } from './components/slideshow/slideshow-element.ts';
 import { NSlide } from './components/slideshow/slide-element.ts';
-import { NChatInput } from './components/chat/chat-input-element.ts';
 import { NController } from './components/controller/controller-element.ts';
 
 // Containers (with JS behavior)
@@ -122,7 +121,6 @@ define('n-tree', NTree);
 define('n-tree-item', NTreeItem);
 define('n-slideshow', NSlideshow);
 define('n-slide', NSlide);
-define('n-chat-input', NChatInput);
 define('n-controller', NController);
 define('n-card', NCard);
 define('n-section', NSection);

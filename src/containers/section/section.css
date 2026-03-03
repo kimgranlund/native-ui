@@ -5,12 +5,32 @@
   /* ── Base ── */
 
   :where(n-section) {
+    /* Default size context — children inherit md */
+    --n-size: var(--n-size-md);
+    --n-font-size: var(--n-font-md);
+    --n-letter-spacing: var(--n-tracking-md);
+    --n-space: var(--n-space-md);
+    --n-icon-size: var(--n-icon-md);
+    --n-widget-size: var(--n-widget-md);
+    --n-widget-font: var(--n-widget-font-md);
+
     display: flex;
     flex: 1 1 0%;
     min-width: 0;
     flex-direction: column;
+    padding: calc(var(--n-space) * 6);
     gap: calc(var(--n-space) * 4);
+
+    font-size: var(--n-font-size);
+    line-height: var(--n-line-height);
   }
+
+  /* ── Padding ── */
+
+  :where(n-section)[padding="none"] { padding: 0; }
+  :where(n-section)[padding="tight"] { padding: calc(var(--n-space) * 6); }
+  :where(n-section)[padding="regular"] { padding: calc(var(--n-space) * 8); }
+  :where(n-section)[padding="relaxed"] { padding: calc(var(--n-space) * 12); }
 
   /* ── Heading area ── */
 

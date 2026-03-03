@@ -51,6 +51,8 @@
 
     background: var(--n-background);
     color: var(--n-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     transition:
       background var(--n-duration) var(--n-easing),

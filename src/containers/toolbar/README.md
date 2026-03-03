@@ -10,6 +10,7 @@
 
 | Attribute | Values |
 |-----------|--------|
+| `padding` | `none`, `regular`, `relaxed`, `tight` |
 | `fill` | _(boolean)_ |
 
 ## Usage

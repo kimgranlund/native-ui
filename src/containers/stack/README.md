@@ -10,6 +10,7 @@
 
 | Attribute | Values |
 |-----------|--------|
+| `padding` | `none`, `regular`, `relaxed`, `tight` |
 | `direction` | `column-reverse`, `row`, `row-reverse` |
 | `gap` | `0`, `1`, `2`, `3`, `4`, `6`, `8` |
 | `align` | `baseline`, `center`, `end`, `start`, `stretch` |

@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-app",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Application layout and navigation components for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",
@@ -21,7 +21,7 @@
     "./dist/native-app.js"
   ],
   "peerDependencies": {
-    "@nonoun/native-ui": ">=0.5.0"
+    "@nonoun/native-ui": ">=0.6.0"
   },
   "customElements": "dist/custom-elements.json",
   "scripts": {

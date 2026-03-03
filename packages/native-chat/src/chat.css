@@ -4,70 +4,59 @@
 
   /* ╭──────────────────────────────────────────────────────────╮
      │  n-chat                                                 │
-     │  Chat application shell with header / content / input /  │
-     │  footer sub-containers. Fills its parent (n-app-panel   │
-     │  or any flex column).                                    │
+     │  Chat controller. display:contents — no visual          │
+     │  presence. The inner n-panel provides structure.        │
+     │  n-chat wires gateway / gen-UI framework behavior.      │
      ╰──────────────────────────────────────────────────────────╯ */
 
   :where(n-chat) {
+    display: contents;
+  }
+
+  :where(native-chat-panel) {
+    --n-ground: var(--n-panel);
+
+    container-type: inline-size;
     display: flex;
     flex: 1 1 0%;
     min-width: 0;
-    min-height: 0;
     flex-direction: column;
+    background: var(--n-ground);
+    border-radius: var(--n-radius);
+    overflow: hidden;
+
+    font-size: var(--n-font-size);
+    line-height: var(--n-line-height);
   }
 
-  /* ── Sub-container borders & spacing ── */
+  /* ── Sub-container integration ── */
 
-  :where(n-chat) > :where(n-chat-header) {
+  :where(native-chat-panel) > :where(n-header) {
     border-bottom: 1px solid var(--n-border-muted);
   }
 
-  :where(n-chat) > :where(n-chat-footer) {
+  :where(native-chat-panel) > :where(n-footer) {
     border-top: 1px solid var(--n-border-muted);
   }
 
-  /* Input inset: padding on the chat shell so the input floats inside */
-  :where(n-chat) > :where(n-chat-input) {
-    margin-inline: calc(var(--n-space-k) * var(--n-space));
-    margin-bottom: calc(var(--n-space-k) * var(--n-space));
-  }
+  /* WHY: Wide padding only above 22rem — asides (280–480px) keep compact defaults. */
+  @container (min-width: 22rem) {
+    :where(native-chat-panel) > :where(n-header) {
+      padding-inline: calc(var(--n-space) * 8);
+    }
 
-  /* ── n-chat-header ── */
-  /* Grid with leading / label / trailing slots. Mirrors n-card-header. */
+    :where(native-chat-panel) > :where(n-body) {
+      padding-inline: calc(var(--n-space) * 8);
+    }
 
-  :where(n-chat-header) {
-    display: grid;
-    grid-template-columns: 1fr;
-    align-items: center;
-    gap: calc(var(--n-space) * 2);
-    min-height: calc(var(--n-size) + var(--n-space) * 2);
-    padding-block: var(--n-space);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
-    font-weight: var(--n-button-font-weight);
-    color: var(--n-ink-strong);
-    min-width: 0;
-  }
-
-  :where(n-chat-header[compact]) {
-    min-height: var(--n-size);
-    padding-block: 0;
-  }
-
-  :where(n-chat-header):has(> [slot="leading"]):has(> [slot="trailing"]) {
-    grid-template-columns: auto 1fr auto;
-  }
-
-  :where(n-chat-header):has(> [slot="leading"]):not(:has(> [slot="trailing"])) {
-    grid-template-columns: auto 1fr;
-  }
-
-  :where(n-chat-header):not(:has(> [slot="leading"])):has(> [slot="trailing"]) {
-    grid-template-columns: 1fr auto;
+    :where(native-chat-panel) > :where(n-footer) {
+      padding-inline: calc(var(--n-space) * 8);
+    }
   }
 
   /* ── n-chat-content ── */
-  /* Scrollable message stream. Fills remaining space. */
+  /* Message stream layout. Lives inside n-card-body which handles
+     scrolling, padding, and flex: 1. Content just manages message gap. */
 
   :where(n-chat-content) {
     display: flex;
@@ -76,14 +65,6 @@
     min-height: 0;
     flex-direction: column;
     gap: calc(var(--n-space) * 2);
-    padding-block: var(--n-space);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
-    overflow-y: auto;
-    scrollbar-width: none;
-  }
-
-  :where(n-chat-content)[show-scrollbar] {
-    scrollbar-width: thin;
   }
 
   /* ── n-chat-input ── */
@@ -164,30 +145,5 @@
     padding-block: 0;
     padding-inline-start: 0;
   }
-
-  /* ── n-chat-footer ── */
-  /* Footer row — follows n-card-footer pattern. Hidden when empty. */
-
-  :where(n-chat-footer) {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: calc(var(--n-space) * 2);
-    min-height: calc(var(--n-size) + var(--n-space) * 2);
-    padding-block: var(--n-space);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
-    min-width: 0;
-  }
-
-  :where(n-chat-footer[compact]) {
-    min-height: var(--n-size);
-    padding-block: 0;
-  }
-
-  :where(n-chat-footer):empty {
-    display: none;
-  }
-
-  :where(n-chat[hidden]) { display: none; }
 
 }
