@@ -162,6 +162,107 @@ Traits are optional. Skip `registerAllTraits()` if not using `<n-controller>`.
 
 ---
 
+## New Project Checklist
+
+10-point checklist for any project using native-ui.
+
+### 1. Load the CSS bundle
+
+CSS is not bundled with JS. Load the convenience bundle for simplicity:
+
+```css
+@import '@nonoun/native-ui/css';
+```
+
+Or for production without debug selectors: `@nonoun/native-ui/css/lean`.
+
+### 2. Register traits before components
+
+`registerAllTraits()` must run before any `customElements.define()` call:
+
+```ts
+import { registerAllTraits } from '@nonoun/native-ui';
+registerAllTraits();
+import '@nonoun/native-ui/register';
+```
+
+Skip `registerAllTraits()` only if you never use `<n-controller>`.
+
+### 3. Pick your JS entry point
+
+- `@nonoun/native-ui` -- components + traits + reactivity + icons (most projects)
+- `@nonoun/native-ui/kernel` -- kernel + A2UI protocol (advanced consumers only)
+
+### 4. Set `color-scheme: light dark` on `:root`
+
+The design system uses `light-dark()` for automatic dark mode. If your project overrides `color-scheme`, the entire palette breaks. The system handles both modes with zero JS.
+
+### 5. Use attributes, not classes
+
+Styling is driven by HTML attributes:
+
+```html
+<n-button variant="primary" intent="accent" size="lg">Save</n-button>
+```
+
+Key attributes: `intent` (color family), `variant` (chrome), `size` (scale), `density` (spacing), `radius` (corners).
+
+### 6. Theme via `--n-env-*` tokens
+
+Don't override individual color steps. Override the 9 environment parameters and the entire system recalculates:
+
+```css
+:root {
+  --n-env-hue-neutral: 280;
+  --n-env-hue-accent: 280;
+  --n-env-chroma-neutral: 0.3;
+}
+```
+
+Or use a built-in theme: `<html theme="forest">`.
+
+### 7. Listen for `native:` events
+
+All component events use the `native:` prefix with a colon:
+
+```js
+button.addEventListener('native:press', handlePress);
+select.addEventListener('native:change', handleChange);
+input.addEventListener('native:input', handleInput);
+```
+
+### 8. Respect the specificity contract
+
+Component CSS is zero-specificity (`:where()`). Your CSS at `(0,1,0)+` wins automatically. Never use `!important`. Override `--n-*` tokens directly:
+
+```css
+.my-hero n-button {
+  --n-background: var(--n-surface);
+  --n-color: var(--n-surface-ink);
+}
+```
+
+### 9. Choose your app shell
+
+- **SPA**: `<native-app-spa>` wraps your app with sidebar + breadcrumb + canvas layout
+- **SSR (Astro)**: Use `@nonoun/native-app` layout components server-side, register JS client-side
+- **CDN**: `@nonoun/native-cdn` IIFE bundle + `<link>` tags, no build step
+- **Custom**: Build your own layout -- components work anywhere in any container
+
+### 10. Verify the full stack loads
+
+Render this smoke test after setup:
+
+```html
+<n-button variant="primary" intent="accent">Works</n-button>
+<n-input placeholder="Type here"></n-input>
+<n-select placeholder="Pick" options='[{"value":"a","label":"Alpha"},{"value":"b","label":"Beta"}]'></n-select>
+```
+
+You should see: styled button with accent fill, input with placeholder, working dropdown. If anything is unstyled -- CSS is missing or load order is wrong.
+
+---
+
 ## Production Checklist
 
 | Item | Action |

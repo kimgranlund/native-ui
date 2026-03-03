@@ -10,6 +10,7 @@ Start here. Load this file first, then pull in specific docs as needed.
 
 | Task | Read first | Then |
 |------|-----------|------|
+| Start a new project | [SETUP.md](SETUP.md) (see "New Project Checklist") | [EXAMPLES.md](EXAMPLES.md) |
 | Build a page with components | [SETUP.md](SETUP.md) | [EXAMPLES.md](EXAMPLES.md) |
 | Integrate with Astro | [ASTRO.md](ASTRO.md) | [SETUP.md](SETUP.md) |
 | Style or theme an interface | [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) | [EXAMPLES.md](EXAMPLES.md) |
