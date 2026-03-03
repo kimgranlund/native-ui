@@ -176,7 +176,7 @@ foundation -> components -> app-level -> page-specific
 @import './page.css';                         /* 4. page overrides */
 ```
 
-The internal foundation cascade is `colors.primitives.css -> colors.tokens.css -> themes.css -> n.base.css -> n.primitives.css`. Do not reorder.
+The internal foundation cascade is `n-primitives.css -> n-tokens.css -> n-themes.css -> n-base.css -> n-components.shared.css`. Do not reorder.
 
 ---
 

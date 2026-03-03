@@ -90,6 +90,8 @@
   { "title": "Context API", "path": "/src/core/context.html", "group": "Core" },
   { "title": "Icons", "path": "/src/icons/icon.html", "group": "Other" },
   { "title": "Kernel", "path": "/src/kernel/kernel.html", "group": "Other" },
+  { "title": "Colors", "path": "/src/styles/colors.html", "group": "Other" },
   { "title": "Reference", "path": "/src/styles/reference.html", "group": "Other" },
-  { "title": "State Grid", "path": "/src/styles/state-grid.html", "group": "Other" }
+  { "title": "State Grid", "path": "/src/styles/state-grid.html", "group": "Other" },
+  { "title": "UI Showcase", "path": "/src/styles/ui.html", "group": "Other" }
 ]

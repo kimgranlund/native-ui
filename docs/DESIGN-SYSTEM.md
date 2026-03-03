@@ -2,7 +2,7 @@
 
 OKLCH-based CSS design system with automatic dark mode via `light-dark()`. No class toggles, no JS theme switching.
 
-Source: `src/styles/colors.primitives.css`, `colors.tokens.css`, `themes.css`, `n.base.css`, `n.primitives.css`.
+Source: `src/styles/n-primitives.css`, `n-tokens.css`, `n-themes.css`, `n-base.css`, `n-components.shared.css`.
 
 ## CSS Layers
 
@@ -12,7 +12,7 @@ Source: `src/styles/colors.primitives.css`, `colors.tokens.css`, `themes.css`, `
 @layer ui;       /* geometry tokens, attribute selectors, components */
 ```
 
-`themes.css` is intentionally unlayered -- `:where()` selectors at zero specificity.
+`n-themes.css` is intentionally unlayered -- `:where()` selectors at zero specificity.
 
 ## Dark Mode Mechanism: `light-dark()`
 

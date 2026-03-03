@@ -1,8 +1,8 @@
-@import 'colors.primitives.css';
-@import 'colors.tokens.css';
-@import 'themes.css';
-@import 'n.base.css';
-@import 'n.primitives.css';
+@import 'n-primitives.css';
+@import 'n-tokens.css';
+@import 'n-themes.css';
+@import 'n-base.css';
+@import 'n-components.shared.css';
 
 /* ── Layout Flash Prevention ──
    Hide native-app-spa content until the custom element is defined and ready.

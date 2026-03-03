@@ -19,11 +19,11 @@ function read(rel) {
 
 // Foundation CSS — ORDER MATTERS (cascade: colors → tokens → themes → base → primitives)
 const foundationFiles = [
-  'src/styles/colors.primitives.css',
-  'src/styles/colors.tokens.css',
-  'src/styles/themes.css',
-  'src/styles/n.base.css',
-  'src/styles/n.primitives.css',
+  'src/styles/n-primitives.css',
+  'src/styles/n-tokens.css',
+  'src/styles/n-themes.css',
+  'src/styles/n-base.css',
+  'src/styles/n-components.shared.css',
 ];
 
 const foundationCSS =

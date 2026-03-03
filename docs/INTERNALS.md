@@ -93,7 +93,7 @@ src/components/foo/
 
 Manual chunks: `core.js` (traits/core/registries/reactivity), `components.js`, `n-icon.js`.
 
-**CSS:** `scripts/build-css.mjs` concatenates after Vite clears `dist/`. Foundation files load in cascade order (colors -> tokens -> themes -> base -> primitives). Components auto-discovered from `src/components/` and `src/containers/`. Outputs: `foundation.css`, `components.css`, `components-lean.css` (no `force-*` selectors), `native-ui.css`, `native-ui-lean.css`.
+**CSS:** `scripts/build-css.mjs` concatenates after Vite clears `dist/`. Foundation files load in cascade order (colors.primitives -> colors.tokens -> colors.themes -> n-base -> n-primitives). Components auto-discovered from `src/components/` and `src/containers/`. Outputs: `foundation.css`, `components.css`, `components-lean.css` (no `force-*` selectors), `native-ui.css`, `native-ui-lean.css`.
 
 **Types:** `tsconfig.build.json` with `rewriteRelativeImportExtensions: true`. Build order: JS -> CSS -> types.
 

@@ -16,7 +16,8 @@
     box-sizing: border-box;
   }
 
-  body {
+  :where(body) {
+    font-family: var(--n-font-family);
     margin: 0;
   }
 
