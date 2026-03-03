@@ -428,6 +428,8 @@ Density controls `--n-space-k`: `[density="compact"]` = 2, default = 4, `[densit
 
 Rules: never `!important`, no fallback chains `var(--n-X, var(--n-Y))`.
 
+**Disabled intent normalization**: All disabled components use neutral disabled colors regardless of intent. A `[aria-disabled="true"]` rule in `n-components.shared.css` forces all `--n-*-disabled` tokens to their neutral variants. This ensures consistent visual treatment — a disabled danger button looks identical to a disabled neutral button.
+
 ## Other Tokens
 
 | Token | Default | Purpose |

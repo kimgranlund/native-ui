@@ -10,7 +10,7 @@ Structural elements that group, frame, and organize content. Pure CSS or minimal
 | `n-panel` | flex column | `--n-panel` | CSS-only |
 | `n-section` | flex column | none | Minimal CE |
 
-**n-card** -- Bounded surface with `border: 1px solid var(--n-border-muted)` and `border-radius`. Slots: `header`, `media` (full-bleed image), `footer`, default (auto-padded body). Attributes: `padding` (none/tight/regular/relaxed), `dividers` (border-top between children), `interactive` (hover/focus styles).
+**n-card** -- Bounded surface with `border: 1px solid var(--n-border-muted)` and `border-radius`. Default `flex: 1 1 0%` grows to fill space. Slots: `header`, `media` (full-bleed image), `footer`, default (auto-padded body). Attributes: `padding` (none/tight/regular/relaxed), `dividers` (border-top between children), `interactive` (hover/focus styles), `inline` (opt-out from flex growth — `flex: 0 0 auto`, sizes to content for feeds/transcripts/grids).
 
 **n-panel** -- Section surface with `container-type: inline-size`. Attributes: `padding`, `dividers`, `bordered`, `show-scrollbar`. Aside mode: `[aside]` enables collapsible side panel (360px default, 280-480px range) with animated open/close and resize handle. `[aside][open]` shows the panel.
 
@@ -30,6 +30,19 @@ Structural elements that group, frame, and organize content. Pure CSS or minimal
 
 **Deprecated**: `n-card-header`, `n-card-body`, `n-card-footer`, `n-panel-header`, `n-panel-body`, `n-panel-footer` still work but prefer the unified names.
 
+## Content Reset
+
+**`[n-prose]` / `.n-prose`** -- Reusable scoped rich-text reset (defined in `n-base.css`). Apply to any container rendering user-generated or markdown-sourced HTML. Provides: flex column with gap-based vertical rhythm, margin reset on all block elements, heading styles (weight, color, scale), code/pre styling (`--n-font-mono`, `--n-control` background), blockquote border, link underline, list padding, hr styling. All selectors use `:where()` for zero specificity.
+
+```html
+<div n-prose>
+  <h2>Title</h2>
+  <p>Paragraph with <code>inline code</code> and a <a href="#">link</a>.</p>
+  <pre><code>code block</code></pre>
+  <blockquote>Quoted text</blockquote>
+</div>
+```
+
 ## Layout Primitives
 
 **n-stack** -- Flex stacking (default: column). Attributes: `direction` (row/column-reverse/row-reverse), `gap` (0-8, multiplier of `--n-space`), `align` (start/center/end/stretch/baseline), `justify` (start/center/end/between/around/evenly), `wrap`, `padding`.
@@ -40,7 +53,18 @@ Structural elements that group, frame, and organize content. Pure CSS or minimal
 
 **n-inset** -- Inline-start indentation via `padding-inline-start`. No attributes.
 
-**n-toolbar** -- Horizontal action bar with `role="toolbar"` and roving focus. Elevation: `--n-panel`. Children shrink-wrap by default. Per-item `[fill]` grows one child; toolbar-level `[fill]` grows all. Overflow menu via `[data-overflow]` system. Attributes: `padding`, `fill`.
+**n-toolbar** -- Horizontal action bar with `role="toolbar"` and roving focus. Elevation: `--n-panel`. Children shrink-wrap by default. Per-item `[fill]` grows one child; toolbar-level `[fill]` grows all. Overflow menu via `[data-overflow]` system with auto-bundled `dots-three-outline-fill` icon. Attributes: `padding`, `fill`, `variant` (`plain` — transparent/unstyled for embedding in headers, chat controls, or other containers; preserves layout + keyboard nav + overflow).
+
+```html
+<!-- Plain toolbar inside a header -->
+<n-header>
+  <span slot="label">Title</span>
+  <n-toolbar variant="plain" slot="trailing">
+    <n-button variant="ghost" icon="gear"></n-button>
+    <n-button variant="ghost" icon="x"></n-button>
+  </n-toolbar>
+</n-header>
+```
 
 ## App Layout (`@nonoun/native-app`)
 

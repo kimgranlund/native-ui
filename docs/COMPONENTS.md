@@ -131,6 +131,11 @@ Page navigation. Display: `inline-flex`.
 
 Attributes: `total`, `current`, `per-page`, `disabled`. Events: `native:change`.
 
+### `n-pagination-dots`
+Dot indicator with sliding pill. Display: `inline-flex`. Standalone alternative to `n-pagination` for small sets.
+
+Attributes: `total`, `current`, `disabled`. Events: `native:change` (`{ current }`). Active dot uses a sliding pill indicator (same animation technique as `n-tabs`/`n-segmented-control`). Use for slideshows, onboarding wizards, or compact paging where numbered navigation is unnecessary.
+
 ### `n-tree`
 Hierarchical tree view. Display: `flex column`.
 

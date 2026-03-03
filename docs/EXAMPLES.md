@@ -480,3 +480,52 @@ All interactive components support `variant` and `intent` attributes. Variant co
 - `intent` controls the color family -- `neutral` (default), `accent`, `info`, `success`, `warning`, `danger`
 - `intent` inherits via CSS custom properties -- set on a parent, all children follow
 - `size`, `density`, `radius` are independent of variant/intent -- combine freely
+
+---
+
+## 15. Chat interface (`@nonoun/native-chat`)
+
+```html
+<link rel="stylesheet" href="native-ui.css" />
+<link rel="stylesheet" href="native-chat.css" />
+<script type="module">
+  import '@nonoun/native-ui/register';
+  import '@nonoun/native-chat/register';
+</script>
+
+<native-chat-panel show-stop>
+  <div slot="header-trailing"><n-badge intent="success">Online</n-badge></div>
+
+  <n-chat-feed auto-scroll>
+    <n-chat-messages role="user" sender="You">
+      <n-chat-avatar name="You"></n-chat-avatar>
+      <n-chat-message role="user" message-id="1">
+        <n-chat-message-text content="What is **OKLCH**?"></n-chat-message-text>
+      </n-chat-message>
+    </n-chat-messages>
+
+    <n-chat-messages role="assistant" sender="Assistant">
+      <n-chat-avatar icon="robot"></n-chat-avatar>
+      <n-chat-message role="assistant" message-id="2">
+        <n-chat-message-text content="OKLCH is a perceptual color space..."></n-chat-message-text>
+      </n-chat-message>
+    </n-chat-messages>
+
+    <n-chat-message-activity type="thinking" active></n-chat-message-activity>
+  </n-chat-feed>
+</native-chat-panel>
+```
+
+Full chat interface with message bubbles, avatars, and typing indicator.
+
+- **`native-chat-panel`**: shell with header/footer; `show-stop`/`show-restart` stamp action buttons
+- **`n-chat-feed`**: scrollable thread coordinator; `auto-scroll` keeps view pinned to bottom
+- **`n-chat-messages`**: message group (cluster from same sender); `role` controls alignment (user=right, assistant=left)
+- **`n-chat-message`**: individual bubble with action toolbar (copy/edit/retry/feedback on hover)
+- **`n-chat-avatar`**: avatar with `src` (image), `icon`, or `name` (initials) fallback
+- **`n-chat-message-text`**: markdown renderer + HTML sanitizer; set `content` property
+- **`n-chat-message-activity`**: typing/thinking indicator; `active` shows animation + elapsed timer
+- **`n-chat-message-seed`**: suggestion chips; `options='[{"value":"x","label":"Y"}]'`
+- **`n-chat-input`**: composer with `busy` mode, `focusComposer()`/`blurComposer()` API
+- Events: `native:message-action`, `native:seed-select`, `native:feed-scroll`, `native:send`
+- Slots: `slot="header-trailing"`, `slot="footer-leading"` on panel for app-level controls

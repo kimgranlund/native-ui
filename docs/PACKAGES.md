@@ -6,10 +6,10 @@
 
 | Package | Version | Purpose | Peer Dep |
 |---------|---------|---------|----------|
-| `@nonoun/native-ui` | 0.6.0 | Core: components, design system, traits, reactivity, icons | -- |
-| `@nonoun/native-app` | 0.3.0 | App shell: sidebar navigation, layout orchestration | `>=0.6.0` |
+| `@nonoun/native-ui` | 0.6.9 | Core: components, design system, traits, reactivity, icons | -- |
+| `@nonoun/native-app` | 0.3.3 | App shell: sidebar navigation, layout orchestration | `>=0.6.0` |
 | `@nonoun/native-tokens` | 0.5.0 | OKLCH color token inspector widget | `>=0.6.0` |
-| `@nonoun/native-chat` | 0.1.1 | Chat input and message panel | `>=0.6.0` |
+| `@nonoun/native-chat` | 0.2.1 | Chat component system: feed, messages, avatar, activity, seeds, GenUI | `>=0.6.0` |
 | `@nonoun/native-codemirror` | 0.2.5 | CodeMirror 6 integration layer (theme, extensions, re-exports) | `>=0.5.0` |
 | `@nonoun/native-editor` | 0.2.4 | Markdown editor with live preview | `>=0.5.0` |
 | `@nonoun/native-playground` | 0.2.4 | Embeddable live code sandbox (HTML/CSS/JS) | `>=0.5.0` |
@@ -54,7 +54,7 @@ Packages with `./register`: the default export gives classes only; import `./reg
 | `@nonoun/native-ui/register` | All `n-*` elements (30+) |
 | `@nonoun/native-app` | `<native-app>`, `<n-sidebar-nav>`, `<n-sidebar-nav-item>`, `<n-sidebar-group>`, `<n-sidebar-group-header>`, `<n-sidebar-item>` |
 | `@nonoun/native-tokens` | `<native-tokens>`, `<native-tokens-panel>`, `<native-tokens-variable>`, `<native-tokens-colors>`, `<native-tokens-color-swatch>`, `<native-tokens-themes>` |
-| `@nonoun/native-chat` | `<n-chat-input>`, `<native-chat-panel>` |
+| `@nonoun/native-chat` | `<n-chat-input>`, `<native-chat-panel>`, `<n-chat-feed>`, `<n-chat-messages>`, `<n-chat-message>`, `<n-chat-avatar>`, `<n-chat-message-text>`, `<n-chat-message-activity>`, `<n-chat-message-seed>`, `<n-chat-message-genui>`, `<n-chat-input-structured>` |
 | `@nonoun/native-codemirror` | `<native-codemirror>` |
 | `@nonoun/native-editor` | `<native-editor>` |
 | `@nonoun/native-playground` | `<native-playground>` |
