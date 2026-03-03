@@ -11,6 +11,7 @@ Start here. Load this file first, then pull in specific docs as needed.
 | Task | Read first | Then |
 |------|-----------|------|
 | Build a page with components | [SETUP.md](SETUP.md) | [EXAMPLES.md](EXAMPLES.md) |
+| Integrate with Astro | [ASTRO.md](ASTRO.md) | [SETUP.md](SETUP.md) |
 | Style or theme an interface | [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) | [EXAMPLES.md](EXAMPLES.md) |
 | Look up a component's API | [COMPONENTS.md](COMPONENTS.md) | [PATTERNS.md](PATTERNS.md) |
 | Add layout or structure | [CONTAINERS.md](CONTAINERS.md) | [COMPONENTS.md](COMPONENTS.md) |
@@ -27,6 +28,7 @@ For your first task, load [SETUP.md](SETUP.md) + [EXAMPLES.md](EXAMPLES.md). The
 | File | Size | Description |
 |------|------|-------------|
 | [SETUP.md](SETUP.md) | ~5KB | Installation, CSS/JS loading, SPA vs SSR vs CDN |
+| [ASTRO.md](ASTRO.md) | ~9KB | Complete Astro integration: layout, View Transitions, SSR preferences |
 | [EXAMPLES.md](EXAMPLES.md) | ~9KB | 10 concrete markup examples with expected behavior |
 | [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) | ~6KB | Tokens, colors, sizes, spacing, density, theming |
 | [COMPONENTS.md](COMPONENTS.md) | ~8KB | 30 interactive components: attributes, slots, events |
