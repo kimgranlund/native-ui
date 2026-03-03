@@ -93,7 +93,9 @@ Composable behaviors available as controllers (imperative) or via `<n-controller
 
 ## Documentation
 
-For detailed documentation optimized for coding agents, see [`docs/README.md`](docs/README.md).
+Full documentation lives in the [`docs/`](https://github.com/kimgranlund/native-ui/tree/main/docs) directory on GitHub — 10 focused files optimized for LLM/coding-agent consumption. Start with [`docs/README.md`](https://github.com/kimgranlund/native-ui/blob/main/docs/README.md) for a navigation index, then load topic files on demand.
+
+> **Note:** The `docs/` directory is not included in the npm package. Fetch from GitHub when you need detailed reference beyond this README.
 
 ## Browser Support
 
