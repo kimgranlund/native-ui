@@ -1,7 +1,7 @@
 import { NativeElement } from '../../core/native-element.ts';
 import { RovingFocusController } from '../../traits/roving-focus-controller.ts';
 import { PopoverController } from '../../traits/popover-controller.ts';
-import '../../icons/custom/dots-three-bold.ts';
+import '../../icons/phosphor/dots-three-outline-fill.ts';
 
 const BTN = ':is(n-button, button):not([disabled])';
 const ITEM_SELECTOR = `:scope > ${BTN}:not([data-overflow]), :scope > n-toolbar-group:not([data-overflow]) > ${BTN}`;
@@ -33,7 +33,7 @@ export class NToolbar extends NativeElement {
     this.#moreBtn.setAttribute('aria-label', 'More actions');
     this.#moreBtn.setAttribute('data-overflow-trigger', '');
     const icon = document.createElement('n-icon');
-    icon.setAttribute('name', 'dots-three-bold');
+    icon.setAttribute('name', 'dots-three-outline-fill');
     this.#moreBtn.appendChild(icon);
     this.appendChild(this.#moreBtn);
 

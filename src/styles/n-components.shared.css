@@ -562,6 +562,21 @@
     --n-ink-disabled: var(--n-ink-disabled-danger);
   }
 
+  /* ─── Disabled intent override ─── */
+  /* WHY: Disabled components should look neutral regardless of intent.
+     Same (0,1,0) specificity as intent selectors — wins by source order. */
+
+  [aria-disabled="true"] {
+    --n-panel-disabled: var(--n-panel-disabled-neutral);
+    --n-button-disabled: var(--n-button-disabled-neutral);
+    --n-control-disabled: var(--n-control-disabled-neutral);
+    --n-widget-disabled: var(--n-control-disabled-neutral);
+    --n-surface-disabled: var(--n-surface-disabled-neutral);
+    --n-surface-ink-disabled: var(--n-surface-ink-disabled-neutral);
+    --n-border-disabled: var(--n-color-neutral-highest);
+    --n-ink-disabled: var(--n-ink-disabled-neutral);
+  }
+
   /* ─── Variant ─── */
 
   [variant="primary"] {
