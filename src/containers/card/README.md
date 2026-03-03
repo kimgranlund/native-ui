@@ -10,6 +10,7 @@
 
 | Attribute | Values |
 |-----------|--------|
+| `inline` | _(boolean)_ |
 | `dividers` | _(boolean)_ |
 | `padding` | `none`, `regular`, `relaxed`, `tight` |
 | `interactive` | _(boolean)_ |

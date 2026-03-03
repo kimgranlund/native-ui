@@ -11,6 +11,7 @@
 | Attribute | Values |
 |-----------|--------|
 | `padding` | `none`, `regular`, `relaxed`, `tight` |
+| `variant` | `plain` |
 | `fill` | _(boolean)_ |
 
 ## CSS Tokens
