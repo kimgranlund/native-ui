@@ -40,6 +40,19 @@
   :where(n-toolbar)[padding="regular"] { padding: calc(var(--n-space) * 2); }
   :where(n-toolbar)[padding="relaxed"] { padding: calc(var(--n-space) * 3); }
 
+  /* ── Plain variant ── */
+  /* WHY: Embedded contexts (n-header trailing, chat controls) need
+     toolbar layout + overflow without container chrome. */
+
+  :where(n-toolbar)[variant="plain"] {
+    --n-background: transparent;
+    --n-border-color: transparent;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
   /* WHY: n-button has width:100% for block contexts. Inside a toolbar,
      buttons must shrink-wrap to their content at intrinsic width.
      Items that don't fit go into the overflow menu — no growing or shrinking.

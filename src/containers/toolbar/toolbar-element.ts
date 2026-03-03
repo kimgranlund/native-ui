@@ -1,6 +1,7 @@
 import { NativeElement } from '../../core/native-element.ts';
 import { RovingFocusController } from '../../traits/roving-focus-controller.ts';
 import { PopoverController } from '../../traits/popover-controller.ts';
+import '../../icons/custom/dots-three-bold.ts';
 
 const BTN = ':is(n-button, button):not([disabled])';
 const ITEM_SELECTOR = `:scope > ${BTN}:not([data-overflow]), :scope > n-toolbar-group:not([data-overflow]) > ${BTN}`;

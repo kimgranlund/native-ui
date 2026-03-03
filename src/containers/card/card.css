@@ -39,6 +39,14 @@
       transform var(--n-duration) var(--n-easing);
   }
 
+  /* ── Inline ── */
+  /* WHY: Cards default to flex-grow for panel contexts. Inline mode
+     opts out — cards size to content (feed, transcript, card grid). */
+
+  :where(n-card)[inline] {
+    flex: 0 0 auto;
+  }
+
   /* ── Header ── */
 
   :where(n-card) > :where([slot="header"]) {

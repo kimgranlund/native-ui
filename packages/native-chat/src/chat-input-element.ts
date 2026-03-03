@@ -4,15 +4,20 @@ import type { NTextarea } from '@nonoun/native-ui';
 /**
  * Chat message input with textarea, submit button, and Enter-to-send behavior.
  * @attr {boolean} disabled - Disables interaction
+ * @attr {boolean} busy - Disables submit but keeps textarea enabled
  * @attr {boolean} no-enter-submit - Disables Enter key submission
  * @attr {boolean} no-auto-clear - Prevents clearing the textarea after send
  * @fires native:send - Fired on submit with `{ value }` detail
+ * @fires native:composer-submit-blocked - Fired when submit is attempted while busy
+ * @fires native:composer-focus - Fired when the composer textarea gains focus
+ * @fires native:composer-blur - Fired when the composer textarea loses focus
  */
 export class NChatInput extends NativeElement {
-  static observedAttributes = ['disabled'];
+  static observedAttributes = ['disabled', 'busy'];
 
   #internals: ElementInternals;
   #disabled = signal(false);
+  #busy = signal(false);
   #textarea: NTextarea | null = null;
   #submitBtn: HTMLElement | null = null;
 
@@ -40,6 +45,27 @@ export class NChatInput extends NativeElement {
     this.toggleAttribute('disabled', val);
   }
 
+  get busy(): boolean {
+    return this.#busy.value;
+  }
+
+  set busy(val: boolean) {
+    this.#busy.value = val;
+    this.toggleAttribute('busy', val);
+  }
+
+  /** Focus the composer textarea. */
+  focusComposer(): void {
+    const textarea = this.querySelector('n-textarea') as HTMLElement | null;
+    textarea?.focus();
+  }
+
+  /** Blur the composer textarea. */
+  blurComposer(): void {
+    const textarea = this.querySelector('n-textarea') as HTMLElement | null;
+    textarea?.blur();
+  }
+
   // ── Attribute sync ──
 
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
@@ -47,6 +73,9 @@ export class NChatInput extends NativeElement {
     switch (name) {
       case 'disabled':
         this.#disabled.value = val !== null;
+        break;
+      case 'busy':
+        this.#busy.value = val !== null;
         break;
     }
     super.attributeChangedCallback(name, old, val);
@@ -76,17 +105,33 @@ export class NChatInput extends NativeElement {
           }
         }
       });
+
+      // WHY: busy disables submit button but keeps textarea enabled
+      this.addEffect(() => {
+        const busy = this.#busy.value;
+        if (!this.#submitBtn) return;
+        if (this.#disabled.value) return; // disabled effect owns the button when disabled
+        if (busy) {
+          this.#submitBtn.setAttribute('disabled', '');
+        } else {
+          this.#syncSubmitEnabled();
+        }
+      });
     });
 
     this.addEventListener('native:input', this.#onTextareaInput);
     this.addEventListener('native:press', this.#onPress);
     this.addEventListener('keydown', this.#onKeydown);
+    this.addEventListener('focusin', this.#onFocusIn);
+    this.addEventListener('focusout', this.#onFocusOut);
   }
 
   teardown(): void {
     this.removeEventListener('native:input', this.#onTextareaInput);
     this.removeEventListener('native:press', this.#onPress);
     this.removeEventListener('keydown', this.#onKeydown);
+    this.removeEventListener('focusin', this.#onFocusIn);
+    this.removeEventListener('focusout', this.#onFocusOut);
     this.#textarea = null;
     this.#submitBtn = null;
     super.teardown();
@@ -115,7 +160,7 @@ export class NChatInput extends NativeElement {
   #syncSubmitEnabled(): void {
     if (!this.#submitBtn || this.#disabled.value) return;
     const empty = !this.value.trim();
-    if (empty) this.#submitBtn.setAttribute('disabled', '');
+    if (empty || this.#busy.value) this.#submitBtn.setAttribute('disabled', '');
     else this.#submitBtn.removeAttribute('disabled');
   }
 
@@ -130,6 +175,22 @@ export class NChatInput extends NativeElement {
     if (this.#disabled.value) return;
     if (e.target !== this.#submitBtn) return;
     this.#send();
+  };
+
+  #onFocusIn = (e: FocusEvent): void => {
+    const target = e.target as HTMLElement;
+    if (!this.#textarea?.contains(target) && target !== this.#textarea) return;
+    this.dispatchEvent(
+      new CustomEvent('native:composer-focus', { bubbles: true, composed: true }),
+    );
+  };
+
+  #onFocusOut = (e: FocusEvent): void => {
+    const target = e.target as HTMLElement;
+    if (!this.#textarea?.contains(target) && target !== this.#textarea) return;
+    this.dispatchEvent(
+      new CustomEvent('native:composer-blur', { bubbles: true, composed: true }),
+    );
   };
 
   #onKeydown = (e: Event): void => {
@@ -153,6 +214,17 @@ export class NChatInput extends NativeElement {
   #send(): void {
     const val = this.value.trim();
     if (!val) return;
+
+    if (this.#busy.value) {
+      this.dispatchEvent(
+        new CustomEvent('native:composer-submit-blocked', {
+          bubbles: true,
+          composed: true,
+          detail: { value: val },
+        }),
+      );
+      return;
+    }
 
     const dispatched = this.dispatchEvent(
       new CustomEvent('native:send', {
