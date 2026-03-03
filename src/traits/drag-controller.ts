@@ -33,6 +33,10 @@ export class DragController {
   #sourceZone: HTMLElement | null = null;
   #currentZone: HTMLElement | null = null;
   #attached = false;
+  // WHY: Store the document reference at drag start so cleanup always removes
+  // listeners from the same document — even if the host is adopted into a
+  // different document mid-drag (e.g. Astro View Transition swap).
+  #doc: Document | null = null;
 
   // Preview mode: save original position for cancel restore
   #previewOriginParent: HTMLElement | null = null;
@@ -69,6 +73,17 @@ export class DragController {
   }
 
   destroy(): void {
+    // WHY: If destroyed mid-drag (e.g. View Transition swap disconnects the host),
+    // notify consumers with native:drag-cancel before cleanup. Without this,
+    // the drag silently dies and consumers never know it was cancelled.
+    if (this.#dragItem && this.#ghost) {
+      this.#restorePreview();
+      this.host.dispatchEvent(new CustomEvent('native:drag-cancel', {
+        bubbles: true,
+        composed: true,
+        detail: { item: this.#dragItem },
+      }));
+    }
     this.detach();
   }
 
@@ -158,12 +173,15 @@ export class DragController {
       this.#sourceZone = target.closest(this.zoneSelector) as HTMLElement | null;
     }
 
-    // WHY: Listen on document (not pointer capture) so the ghost can be dragged
+    // WHY: Listen on ownerDocument (not pointer capture) so the ghost can be dragged
     // freely across the entire viewport, not constrained to the container bounds.
-    document.addEventListener('pointermove', this.#onPointerMove);
-    document.addEventListener('pointerup', this.#onPointerUp);
-    document.addEventListener('pointercancel', this.#onPointerCancel);
-    document.addEventListener('keydown', this.#onKeyDown);
+    // Store the document reference so cleanup always removes from the correct document
+    // even if the host is adopted into a different document mid-drag (T0051).
+    this.#doc = this.host.ownerDocument;
+    this.#doc.addEventListener('pointermove', this.#onPointerMove);
+    this.#doc.addEventListener('pointerup', this.#onPointerUp);
+    this.#doc.addEventListener('pointercancel', this.#onPointerCancel);
+    this.#doc.addEventListener('keydown', this.#onKeyDown);
   };
 
   #onPointerMove = (e: PointerEvent): void => {
@@ -349,7 +367,8 @@ export class DragController {
     this.#clearSlotAttributes(items);
 
     if (!this.#placeholder) {
-      this.#placeholder = document.createElement('div');
+      const doc = this.#doc ?? this.host.ownerDocument;
+      this.#placeholder = doc.createElement('div');
       this.#placeholder.className = 'drag-placeholder';
       this.#placeholder.setAttribute('aria-hidden', 'true');
     }
@@ -730,9 +749,11 @@ export class DragController {
     this.#previewOriginNext = null;
     this.#lastPreviewIndex = -1;
 
-    document.removeEventListener('pointermove', this.#onPointerMove);
-    document.removeEventListener('pointerup', this.#onPointerUp);
-    document.removeEventListener('pointercancel', this.#onPointerCancel);
-    document.removeEventListener('keydown', this.#onKeyDown);
+    const doc = this.#doc ?? this.host.ownerDocument;
+    doc.removeEventListener('pointermove', this.#onPointerMove);
+    doc.removeEventListener('pointerup', this.#onPointerUp);
+    doc.removeEventListener('pointercancel', this.#onPointerCancel);
+    doc.removeEventListener('keydown', this.#onKeyDown);
+    this.#doc = null;
   }
 }

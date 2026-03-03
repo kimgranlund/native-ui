@@ -26,11 +26,11 @@ new DragController(host: HTMLElement, options?: DragOptions)
 
 | Event | Detail |
 |-------|--------|
+| `native:drag-cancel` | `{ item }` |
 | `native:drag-start` | `{ item, index }` |
 | `native:drag-move` | `{ item, x, y }` |
 | `native:drag-over` | `{ item, target, index }` |
 | `native:drop` | `{ item, fromIndex, toIndex, insertBefore, sourceZone, targetZone }` |
-| `native:drag-cancel` | `{ item }` |
 
 ## Methods
 
