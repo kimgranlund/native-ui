@@ -4,7 +4,7 @@ import { ResizeController } from '../traits/resize-controller.ts';
 // which pulls in dist/native-ui.js, creating dual-module conflicts in Vite dev.
 import '../../packages/native-tokens/src/index.ts';
 import '../../packages/native-chat/src/register.ts';
-import foundationCss from '../styles/n-foundation.css?inline';
+import foundationCss from '../styles/n-index.css?inline';
 import componentsCss from '../styles/n-components.css?inline';
 import layoutDevCss from './n-layout.css?inline';
 import inspectorCss from '../../packages/native-tokens/src/tokens.css?inline';
