@@ -16,7 +16,9 @@ Start here. Load this file first, then pull in specific docs as needed.
 | Style or theme an interface | [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) | [EXAMPLES.md](EXAMPLES.md) |
 | Look up a component's API | [COMPONENTS.md](COMPONENTS.md) | [PATTERNS.md](PATTERNS.md) |
 | Add layout or structure | [CONTAINERS.md](CONTAINERS.md) | [COMPONENTS.md](COMPONENTS.md) |
-| Add interactive behavior | [TRAITS.md](TRAITS.md) | [PATTERNS.md](PATTERNS.md) |
+| Add interactive behavior | [TRAITS.md](TRAITS.md) | [EXAMPLES.md](EXAMPLES.md) (ex. 12) |
+| Use reactive signals | [EXAMPLES.md](EXAMPLES.md) (ex. 11) | [INTERNALS.md](INTERNALS.md) |
+| Use CDN (no build step) | [SETUP.md](SETUP.md) (Context 3) | [EXAMPLES.md](EXAMPLES.md) |
 | Integrate packages | [PACKAGES.md](PACKAGES.md) | [SETUP.md](SETUP.md) |
 | Modify library internals | [INTERNALS.md](INTERNALS.md) | [PATTERNS.md](PATTERNS.md) |
 
@@ -30,7 +32,7 @@ For your first task, load [SETUP.md](SETUP.md) + [EXAMPLES.md](EXAMPLES.md). The
 |------|------|-------------|
 | [SETUP.md](SETUP.md) | ~5KB | Installation, CSS/JS loading, SPA vs SSR vs CDN |
 | [ASTRO.md](ASTRO.md) | ~9KB | Complete Astro integration: layout, View Transitions, SSR preferences |
-| [EXAMPLES.md](EXAMPLES.md) | ~9KB | 10 concrete markup examples with expected behavior |
+| [EXAMPLES.md](EXAMPLES.md) | ~14KB | 14 concrete examples: components, signals, traits, OKLCH, variants |
 | [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) | ~6KB | Tokens, colors, sizes, spacing, density, theming |
 | [COMPONENTS.md](COMPONENTS.md) | ~8KB | 30 interactive components: attributes, slots, events |
 | [CONTAINERS.md](CONTAINERS.md) | ~5KB | Structural containers and app layout system |

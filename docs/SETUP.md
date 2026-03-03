@@ -101,6 +101,50 @@ When combining with other `@nonoun` packages, maintain CSS order:
 
 ## Context 3: CDN / CodePen
 
+### Option A: ESM via esm.sh (recommended)
+
+Import native-ui as ES modules directly in the browser. No build step, full tree-shaking.
+
+```html
+<!-- CSS -->
+<link rel="stylesheet" href="https://esm.sh/@nonoun/native-ui@latest/dist/native-ui.css" />
+
+<!-- JS: register individual elements -->
+<script type="module">
+  import { define, NButton, NInput, NSelect } from "https://esm.sh/@nonoun/native-ui@latest";
+  define("n-button", NButton);
+  define("n-input", NInput);
+  define("n-select", NSelect);
+</script>
+
+<n-button variant="primary" intent="accent">Click me</n-button>
+```
+
+Register all elements at once:
+
+```html
+<script type="module">
+  import "https://esm.sh/@nonoun/native-ui@latest/register";
+</script>
+```
+
+Use signals and traits from CDN:
+
+```html
+<script type="module">
+  import { signal, effect, registerAllTraits } from "https://esm.sh/@nonoun/native-ui@latest";
+  registerAllTraits();
+
+  const count = signal(0);
+  effect(() => console.log("count:", count.value));
+  count.value = 1; // logs "count: 1"
+</script>
+```
+
+**Pin a version** in production: replace `@latest` with a specific version (e.g., `@0.6.5`).
+
+### Option B: IIFE via native-cdn
+
 Use `@nonoun/native-cdn` for a single IIFE bundle that auto-registers all elements and exposes the API on `window.NativeUI`.
 
 ```html

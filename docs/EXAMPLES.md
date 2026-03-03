@@ -274,3 +274,209 @@ Phosphor icons. Inherit `color` from parent, size from `--n-icon-size`.
 - `size` -- `xs`, `sm`, `md`, `lg`, `xl`
 - `aria-label` -- gives icon `role="img"`; without it, icon is `aria-hidden="true"`
 - Custom: `registerIcon(name, svgString)` from `@nonoun/native-ui`
+
+---
+
+## 11. Signals (reactive state)
+
+native-ui includes a minimal signal system for reactive state management. Five functions: `signal`, `computed`, `effect`, `batch`, `untrack`.
+
+```html
+<script type="module">
+  import { signal, computed, effect, batch } from '@nonoun/native-ui';
+
+  // Mutable reactive value
+  const count = signal(0);
+  const doubled = computed(() => count.value * 2);
+
+  // Auto-tracking side effect -- re-runs when dependencies change
+  effect(() => {
+    document.getElementById('output').textContent = `Count: ${count.value}, Doubled: ${doubled.value}`;
+  });
+
+  // Update triggers effect
+  document.getElementById('inc').addEventListener('click', () => {
+    count.value++;
+  });
+
+  // Batch multiple writes -- effects flush once at end
+  document.getElementById('reset').addEventListener('click', () => {
+    batch(() => {
+      count.value = 0;
+    });
+  });
+</script>
+
+<span id="output"></span>
+<button id="inc">+1</button>
+<button id="reset">Reset</button>
+```
+
+- `signal(initial)` -- mutable value, read/write via `.value`, `.peek()` reads without tracking
+- `computed(fn)` -- lazy derived value, recomputes when dependencies change
+- `effect(fn)` -- side effect, auto-tracks signal reads, re-runs on change, returns dispose function
+- `batch(fn)` -- groups writes, effects flush once at end
+- `untrack(fn)` -- read signals inside `fn` without creating dependencies
+- Same-value writes are skipped (`Object.is` comparison)
+
+---
+
+## 12. Traits (composable behaviors)
+
+26 trait controllers that add interactive behavior to any HTML element. Use declaratively via `<n-controller>` or imperatively via controller classes.
+
+```html
+<!-- Pressable: adds native:press event to any element -->
+<n-controller traits="pressable">
+  <div class="my-card">Click or Enter to activate</div>
+</n-controller>
+
+<script>
+  document.querySelector('.my-card').addEventListener('native:press', () => {
+    console.log('Pressed!');
+  });
+</script>
+```
+
+```html
+<!-- Draggable: reorder items with drag-and-drop -->
+<n-controller traits="draggable" draggable-selector=".item" draggable-axis="vertical" draggable-mode="slot">
+  <div id="list">
+    <div class="item">First</div>
+    <div class="item">Second</div>
+    <div class="item">Third</div>
+  </div>
+</n-controller>
+
+<script>
+  document.getElementById('list').addEventListener('native:drop', (e) => {
+    const { item, insertBefore } = e.detail;
+    if (insertBefore) insertBefore.before(item);
+    else list.appendChild(item);
+  });
+</script>
+```
+
+```html
+<!-- Collapsible: animated expand/collapse -->
+<n-controller traits="collapsible">
+  <div>
+    <button>Toggle</button>
+    <div class="content">Collapsible content here.</div>
+  </div>
+</n-controller>
+```
+
+- `registerAllTraits()` must run before component `define()` calls
+- Options use namespaced attributes: `draggable-axis`, `draggable-mode`, etc.
+- Full trait table: see [TRAITS.md](TRAITS.md)
+- Key traits: `pressable`, `draggable`, `hoverable`, `dismissable`, `collapsible`, `resizable`, `toastable`, `sortable`, `editable`, `swipeable`
+
+---
+
+## 13. OKLCH color system
+
+All colors are computed from 9 environment parameters using OKLCH (`oklch(L C H)`). Dark mode is automatic via `light-dark()` -- zero JS.
+
+```html
+<!-- Automatic dark mode: just set color-scheme -->
+<html style="color-scheme: light dark">
+
+<!-- Override the 9 env knobs to reskin everything -->
+<style>
+  :root {
+    --n-env-hue-neutral: 155;       /* green-tinted neutrals */
+    --n-env-hue-accent: 155;        /* green accent */
+    --n-env-chroma-neutral: 0.25;   /* more saturated neutrals */
+    --n-env-chroma: 0.25;           /* global chroma ceiling */
+  }
+</style>
+
+<!-- Or use a built-in theme -->
+<html theme="forest">
+```
+
+**6 color families**: `neutral`, `accent`, `info`, `success`, `warning`, `danger`. Each has its own hue, chroma, and lightness.
+
+**Elevation tokens** (UI layering -- "higher" always means more elevated):
+
+| Token | Usage |
+|-------|-------|
+| `--n-body` | Page background |
+| `--n-control` | Empty form inputs |
+| `--n-panel` | Toolbars, sidebars |
+| `--n-button` | Button chrome |
+| `--n-card` | Card surfaces |
+| `--n-modal` | Dialog surfaces |
+
+**Semantic tokens** (two-tier resolution):
+
+```css
+/* Tier 1: per-family definition */
+--n-panel-accent        /* panel ground, accent family */
+--n-ink-muted-danger    /* muted text, danger family */
+
+/* Tier 2: resolved by [intent] attribute */
+--n-panel               /* resolves to --n-panel-{family} based on intent */
+--n-ink-muted           /* resolves to --n-ink-muted-{family} */
+
+/* Components read Tier 2 */
+background: var(--n-background);  /* set by variant selector */
+color: var(--n-color);
+```
+
+Full details: see [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)
+
+---
+
+## 14. Component variants
+
+All interactive components support `variant` and `intent` attributes. Variant controls the chrome (visual treatment), intent controls the color family.
+
+```html
+<!-- Variants -->
+<n-button variant="primary" intent="accent">Filled accent</n-button>
+<n-button variant="secondary">Bordered neutral</n-button>
+<n-button variant="default" intent="danger">Neutral chrome, danger text</n-button>
+<n-button variant="ghost">No background</n-button>
+<n-button variant="outline" intent="info">Border only</n-button>
+<n-button variant="plain">Text only, no radius</n-button>
+
+<!-- Sizes -->
+<n-button size="xs">Extra small</n-button>
+<n-button size="sm">Small</n-button>
+<n-button size="md">Medium (default)</n-button>
+<n-button size="lg">Large</n-button>
+<n-button size="xl">Extra large</n-button>
+
+<!-- Density -->
+<n-button density="compact">Tight spacing</n-button>
+<n-button density="loose">Relaxed spacing</n-button>
+
+<!-- Radius -->
+<n-button radius="sharp">Square corners</n-button>
+<n-button radius="rounded">Soft corners</n-button>
+<n-button radius="round">Pill corners (default)</n-button>
+
+<!-- Intent inherits to children -->
+<div intent="danger">
+  <n-button variant="primary">Danger filled</n-button>
+  <n-button variant="ghost">Danger ghost</n-button>
+  <n-input placeholder="Danger input"></n-input>
+</div>
+```
+
+| Variant | Background | Text | Border | Best for |
+|---------|-----------|------|--------|----------|
+| `primary` | Filled (`--n-surface`) | White (`--n-surface-ink`) | transparent | Primary actions |
+| `secondary` | Subtle (`--n-button`) | Intent-colored | Muted border | Secondary actions |
+| `default` | Neutral chrome | Intent-colored text | Neutral border | Default state |
+| `ghost` | transparent | Intent-colored | transparent | Toolbar actions |
+| `outline` | transparent | Intent-colored | Intent border | Outlined actions |
+| `selected` | White | Dark (`--n-ink-inverse`) | transparent | Active/selected state |
+| `plain` | transparent | Intent-colored | transparent, no radius | Inline text actions |
+
+- `variant` controls the visual chrome -- background, border, text contrast
+- `intent` controls the color family -- `neutral` (default), `accent`, `info`, `success`, `warning`, `danger`
+- `intent` inherits via CSS custom properties -- set on a parent, all children follow
+- `size`, `density`, `radius` are independent of variant/intent -- combine freely
