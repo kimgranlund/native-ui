@@ -318,9 +318,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--n-space);
-
-    padding-block: var(--n-chat-bubble-padding-block);
-    padding-inline: var(--n-chat-bubble-padding-inline);
+    overflow: hidden;
 
     /* Asymmetric radius: assistant = avatar on left */
     border-radius:
@@ -368,6 +366,7 @@
   :where(n-chat-message) > :where(n-toolbar[data-role="actions"]) {
     opacity: 0;
     transition: opacity var(--n-duration) var(--n-easing);
+    padding-inline: var(--n-chat-bubble-padding-inline);
   }
 
   :where(n-chat-message):hover > :where(n-toolbar[data-role="actions"]),
@@ -408,6 +407,8 @@
 
   :where(n-chat-message-text) {
     display: block;
+    padding-block: var(--n-chat-bubble-padding-block);
+    padding-inline: var(--n-chat-bubble-padding-inline);
   }
 
   /* ── Prose reset — typography inside rendered markdown ── */
@@ -500,6 +501,7 @@
     color: var(--n-chat-activity-color);
     font-size: var(--n-font-size-sm);
     padding-block: var(--n-space);
+    padding-inline: var(--n-chat-bubble-padding-inline);
     align-self: flex-start;
   }
 
@@ -592,6 +594,7 @@
     flex-wrap: wrap;
     gap: var(--n-space);
     padding-block: var(--n-space);
+    padding-inline: var(--n-chat-bubble-padding-inline);
     align-self: flex-start;
   }
 
