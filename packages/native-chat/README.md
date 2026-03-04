@@ -1,0 +1,332 @@
+# @nonoun/native-chat
+
+Chat UI components for `@nonoun/native-ui` — message feed, composer input, streaming transport, and a top-level panel with imperative host-integration APIs.
+
+## Install
+
+```bash
+npm install @nonoun/native-chat @nonoun/native-ui
+```
+
+## Quick Start
+
+```html
+<link rel="stylesheet" href="node_modules/@nonoun/native-ui/dist/native-ui.css" />
+<link rel="stylesheet" href="node_modules/@nonoun/native-chat/dist/native-chat.css" />
+
+<script type="module">
+  import '@nonoun/native-ui/register';
+  import '@nonoun/native-chat/register';
+</script>
+
+<native-chat-panel auto-focus-policy="open-request">
+  <!-- panel stamps its own children: header, feed, composer -->
+</native-chat-panel>
+```
+
+## Components
+
+| Element | Description |
+|---------|-------------|
+| `native-chat-panel` | Top-level panel — owns lifecycle, focus policy, header actions |
+| `n-chat-feed` | Scrollable message feed with optional virtualization |
+| `n-chat-messages` | Message list wrapper (inside feed) |
+| `n-chat-message` | Single message container with role, status, actions |
+| `n-chat-message-text` | Markdown-rendered text bubble |
+| `n-chat-message-activity` | Typing / system activity indicator |
+| `n-chat-message-seed` | Seed prompt card |
+| `n-chat-message-genui` | Generative UI node renderer |
+| `n-chat-avatar` | Message avatar |
+| `n-chat-input` | Composer with submit, formatting, slash commands |
+| `n-chat-input-structured` | Multi-option structured input picker |
+
+---
+
+## Embedding Guide
+
+### Panel Host API
+
+`native-chat-panel` exposes three imperative methods for host orchestration:
+
+#### `open(options?)`
+
+```ts
+panel.open();
+panel.open({ focusComposer: true, reason: 'deeplink' });
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `focusComposer` | `boolean` | `false` | Request composer focus after opening |
+| `reason` | `string` | — | Why the panel opened (telemetry / debugging) |
+
+Sets the `[open]` attribute. Idempotent — calling `open()` when already open does not re-emit events.
+
+#### `close(reason?)`
+
+```ts
+panel.close();
+panel.close('user-dismiss');
+```
+
+Removes the `[open]` attribute. Idempotent.
+
+#### `focusComposer(options?, by?)`
+
+```ts
+panel.focusComposer();
+panel.focusComposer({ cursor: 'end' }, 'api');
+```
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `cursor` | `'start' \| 'end' \| 'preserve'` | `'end'` | Caret placement after focus |
+| `by` | `'api' \| 'user' \| 'policy'` | `'api'` | Focus source (included in events) |
+
+Retries up to 3 times via microtask if the composer is not yet available or disabled. On success dispatches `native:composer-focused`; on failure dispatches `native:composer-focus-failed`.
+
+---
+
+### Lifecycle Events
+
+All events bubble and are composed (cross shadow DOM). Listen on the panel or any ancestor:
+
+```ts
+const panel = document.querySelector('native-chat-panel');
+
+panel.addEventListener('native:chat-opened', (e) => {
+  console.log('opened', e.detail.source, e.detail.focusComposer);
+});
+
+panel.addEventListener('native:chat-closed', (e) => {
+  console.log('closed', e.detail.reason);
+});
+
+panel.addEventListener('native:send', (e) => {
+  console.log('user sent:', e.detail.value);
+  // Call e.preventDefault() to block auto-clear
+});
+```
+
+| Event | Detail | Notes |
+|-------|--------|-------|
+| `native:chat-opened` | `{ source?: string, focusComposer: boolean }` | After panel opens |
+| `native:chat-closed` | `{ reason?: string }` | After panel closes |
+| `native:composer-focused` | `{ by: 'api' \| 'user' \| 'policy' }` | Composer received focus |
+| `native:composer-focus-failed` | `{ reason: string, attempts: number }` | All focus retries exhausted |
+| `native:send` | `{ value: string }` | User submitted message (**cancelable**) |
+| `native:chat-stop` | — | User clicked stop button |
+| `native:chat-restart` | — | User clicked restart button |
+| `native:message-action` | `{ action: string, messageId: string }` | Message action triggered |
+
+---
+
+### Focus Policy
+
+The `auto-focus-policy` attribute controls when the composer auto-focuses:
+
+| Value | Behavior |
+|-------|----------|
+| `open-request` (default) | Focus composer only when `open({ focusComposer: true })` is called |
+| `ready` | Auto-focus once at panel initialization |
+| `never` | Never auto-focus — host must call `focusComposer()` explicitly |
+
+**Recommended default:** `open-request` — gives the host full control over focus timing.
+
+#### Focus Failure Handling
+
+When `focusComposer()` cannot reach the textarea (not rendered, disabled, or blocked), the panel emits `native:composer-focus-failed` after 3 retry attempts:
+
+```ts
+panel.addEventListener('native:composer-focus-failed', (e) => {
+  const { reason, attempts } = e.detail;
+  // reason: 'composer-unavailable' | 'disabled' | 'blocked'
+  // Show a fallback hint or retry button
+});
+```
+
+**Recommended UX:** Keep the panel open, show a subtle status hint, and let the user retry manually.
+
+---
+
+### Host Orchestration Patterns
+
+#### Deeplink
+
+```ts
+// Parse URL: ?openChat=1
+if (new URLSearchParams(location.search).has('openChat')) {
+  panel.open({ focusComposer: true, reason: 'deeplink' });
+}
+```
+
+#### Notification or External Action
+
+```ts
+notificationButton.addEventListener('click', () => {
+  panel.open({ focusComposer: false, reason: 'notification' });
+});
+```
+
+#### Intercepting Send
+
+```ts
+panel.addEventListener('native:send', (e) => {
+  const { value } = e.detail;
+  if (!value.trim()) {
+    e.preventDefault(); // block auto-clear, ignore empty
+    return;
+  }
+  myTransport.send(value);
+});
+```
+
+---
+
+### Transport Error & Retry
+
+`createChatTransport()` provides a streaming transport layer with built-in error classification and retry logic.
+
+#### Transport States
+
+```
+idle → sending → streaming → ready
+                 ↘ retrying → sending (retry loop)
+                 ↘ rate-limited     (429)
+                 ↘ auth-required    (401/403)
+                 ↘ server-error     (5xx / network)
+                 ↘ offline          (DNS / TypeError)
+```
+
+#### Usage
+
+```ts
+import { createChatTransport } from '@nonoun/native-chat';
+
+const transport = createChatTransport({
+  baseUrl: '/api/chat',
+  format: 'sse',
+  retry: { maxAttempts: 3, baseDelayMs: 1000, maxDelayMs: 30000 },
+  onStateChange(status) {
+    // status: { state, statusCode?, retryInMs?, attempt?, maxAttempts?, error? }
+    switch (status.state) {
+      case 'sending':     showSpinner(); break;
+      case 'streaming':   hideSpinner(); break;
+      case 'retrying':    showRetryBanner(status.retryInMs); break;
+      case 'rate-limited': showRateLimitNotice(status.retryInMs); break;
+      case 'auth-required': redirectToLogin(); break;
+      case 'server-error': showErrorBanner(status.error); break;
+      case 'offline':     showOfflineBanner(); break;
+      case 'ready':       clearAllBanners(); break;
+    }
+  },
+});
+```
+
+#### Defaults & Behavior
+
+| Behavior | Default |
+|----------|---------|
+| Retry | Disabled (`maxAttempts: 1`) |
+| Retryable errors | 429 (rate-limited), 5xx (server error) |
+| Non-retryable | 401/403 (auth-required) — never retried |
+| 429 delay | Respects `Retry-After` header (seconds or HTTP-date) |
+| Backoff | Exponential: `min(maxDelay, baseDelay * 2^attempt + jitter)` |
+| Stream formats | `'sse'`, `'ndjson'`, `'json'` (auto-detected via `detectFormat()`) |
+
+#### Stream End Classification
+
+```ts
+import { classifyStreamEnd } from '@nonoun/native-chat';
+
+// Returns: 'complete' | 'partial' | 'error' | 'stopped'
+```
+
+| Reason | Meaning |
+|--------|---------|
+| `complete` | Server sent explicit done signal |
+| `partial` | Stream ended without completion (truncated) |
+| `error` | Transport or parse error |
+| `stopped` | Consumer aborted (user clicked stop) |
+
+Use `partial` status on messages to offer a "Continue" action.
+
+---
+
+### Message Actions
+
+Messages show contextual action buttons (copy, regenerate, edit, feedback):
+
+```html
+<n-chat-message role="assistant" actions="copy,regenerate,thumbs-up,thumbs-down">
+  <n-chat-message-text>Hello!</n-chat-message-text>
+</n-chat-message>
+```
+
+| Attribute | Values | Default |
+|-----------|--------|---------|
+| `actions` | Comma-separated action IDs, or `"none"` | Role-based defaults |
+| `actions-style` | `'icon' \| 'label' \| 'icon-label'` | `'icon'` |
+| `actions-position` | `'below' \| 'inside'` | `'below'` |
+
+Listen for actions on any ancestor:
+
+```ts
+panel.addEventListener('native:message-action', (e) => {
+  const { action, messageId } = e.detail;
+  if (action === 'copy') navigator.clipboard.writeText(getMessageText(messageId));
+});
+```
+
+---
+
+### Feed Virtualization
+
+For long transcripts, enable virtual scrolling on the feed:
+
+```html
+<n-chat-feed virtual virtual-item-height="80" virtual-overscan="5">
+  <n-chat-messages>...</n-chat-messages>
+</n-chat-feed>
+```
+
+Only visible items (plus overscan buffer) are rendered. The feed emits `native:range-change` with `{ start, end, total }` as the viewport scrolls.
+
+---
+
+## Exports
+
+```ts
+// Components
+import {
+  NChatPanel, NChatInput, NChatFeed, NChatMessage,
+  NChatMessages, NChatMessageText, NChatMessageActivity,
+  NChatAvatar, NChatMessageSeed, NChatMessageGenUI,
+  NChatInputStructured,
+} from '@nonoun/native-chat';
+
+// Stream / Transport
+import {
+  createChatTransport, createChatStream,
+  parseSSE, parseNDJSON, parseJSON, detectFormat,
+  classifyHttpError, classifyStreamEnd, backoffDelay,
+} from '@nonoun/native-chat';
+
+// Types
+import type {
+  AutoFocusPolicy, ChatPanelOpenOptions, FocusComposerOptions,
+  ChatTransportOptions, TransportState, TransportStatus, RetryOptions,
+  ChatStreamEvent, ChatStreamChunk, StreamFormat, StreamEndReason,
+} from '@nonoun/native-chat';
+
+// Utilities
+import { renderMarkdown, renderInline, sanitizeHtml } from '@nonoun/native-chat';
+```
+
+## Peer Dependency
+
+Requires `@nonoun/native-ui >= 0.6.0`.
+
+## License
+
+MIT
