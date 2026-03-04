@@ -141,6 +141,36 @@
 &lt;/n-panel&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
+    <!-- ── Fade ── -->
+
+    <h2>Fade</h2>
+    <n-panel bordered>
+      <n-text size="sm" muted>Add <code>[fade]</code> to dissolve content as it scrolls under header/footer. Uses <code>mask-image</code> on <code>&lt;n-body&gt;</code>. Override <code>--n-fade-top</code> / <code>--n-fade-bottom</code> for custom fade distances.</n-text>
+      <n-panel bordered fade style="height: 16rem;">
+        <n-header>Panel Title</n-header>
+        <n-body>
+          <p>Line 1 — scroll to see the fade effect at the edges.</p>
+          <p>Line 2</p>
+          <p>Line 3</p>
+          <p>Line 4</p>
+          <p>Line 5</p>
+          <p>Line 6</p>
+          <p>Line 7</p>
+          <p>Line 8</p>
+          <p>Line 9</p>
+          <p>Line 10</p>
+        </n-body>
+        <n-footer><n-button size="sm" variant="ghost">Action</n-button></n-footer>
+      </n-panel>
+    <pre class="demo-code"><code>&lt;n-panel bordered fade style="height: 16rem;"&gt;
+  &lt;n-header&gt;Panel Title&lt;/n-header&gt;
+  &lt;n-body&gt;
+    &lt;p&gt;Scrollable content...&lt;/p&gt;
+  &lt;/n-body&gt;
+  &lt;n-footer&gt;&lt;n-button size="sm" variant="ghost"&gt;Action&lt;/n-button&gt;&lt;/n-footer&gt;
+&lt;/n-panel&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
     </main></native-app-spa>
     <script type="module">
       import '../../nav/native-app.ts';

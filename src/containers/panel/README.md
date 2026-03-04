@@ -15,6 +15,7 @@
 | `bordered` | _(boolean)_ |
 | `show-scrollbar` | _(boolean)_ |
 | `scrollable` | _(boolean)_ |
+| `fade` | _(boolean)_ |
 | `aside` | _(boolean)_ |
 | `variant` | _(boolean)_ |
 | `resizing` | _(boolean)_ |
@@ -24,6 +25,8 @@
 - `--n-border-muted`
 - `--n-duration`
 - `--n-easing`
+- `--n-fade-bottom`
+- `--n-fade-top`
 - `--n-font-md`
 - `--n-font-size`
 - `--n-ground`
@@ -31,6 +34,7 @@
 - `--n-line-height`
 - `--n-panel`
 - `--n-radius`
+- `--n-size`
 - `--n-size-md`
 - `--n-space`
 - `--n-space-md`

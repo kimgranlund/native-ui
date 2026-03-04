@@ -67,6 +67,47 @@
     overflow-y: auto;
   }
 
+  /* ── Fade (opt-in) ── */
+  /* WHY: Content dissolves as it scrolls under header/footer — transparent
+     at the edge, fully visible by 1.25× the header/footer height. Avoids
+     opaque header/footer backgrounds while still indicating scroll. */
+
+  [fade]:where(n-panel) {
+    --n-fade-top: calc((var(--n-size) + var(--n-space) * 4) * 1.25);
+    --n-fade-bottom: calc((var(--n-size) + var(--n-space) * 4) * 1.25);
+  }
+
+  /* Top fade — header present */
+  [fade]:where(n-panel):has(> n-header) > :where(n-body) {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      black var(--n-fade-top),
+      black 100%
+    );
+  }
+
+  /* Bottom fade — footer present */
+  [fade]:where(n-panel):has(> n-footer) > :where(n-body) {
+    mask-image: linear-gradient(
+      to bottom,
+      black 0,
+      black calc(100% - var(--n-fade-bottom)),
+      transparent 100%
+    );
+  }
+
+  /* Both fades — header AND footer present */
+  [fade]:where(n-panel):has(> n-header):has(> n-footer) > :where(n-body) {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      black var(--n-fade-top),
+      black calc(100% - var(--n-fade-bottom)),
+      transparent 100%
+    );
+  }
+
   /* ── Aside mode ── */
   /* WHY: Generic collapsible side panel — hidden when closed, shown at
      360px when [open]. Works on n-panel, stamped panels, etc.
