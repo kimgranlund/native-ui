@@ -349,8 +349,10 @@
   /* ── Below-bubble actions position ── */
 
   /* When actions-position="below", the toolbar is a sibling of n-chat-message
-     in the message column. Show on message hover via adjacent sibling. */
+     in the message column. Show on message hover via adjacent sibling.
+     justify-self: start prevents stretching across the grid column. */
   [actions-position="below"]:where(n-chat-message) + :where(n-toolbar[data-role="actions"]) {
+    justify-self: start;
     opacity: 0;
     transition: opacity var(--n-duration) var(--n-easing);
   }
