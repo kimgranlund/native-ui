@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slash Command — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/n-index.css" />
+    <link rel="stylesheet" href="../styles/n-components.css" />
+    <link rel="stylesheet" href="../styles/demo.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--n-ink-strong-neutral);
+      }
+
+      /* ── Slash Command Wrappers ── */
+
+      .slash-wrapper {
+        position: relative;
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--n-panel-neutral);
+        border-radius: 0.25rem;
+      }
+
+      /* ── API Reference ── */
+
+      .api-section {
+        margin-bottom: 1.5rem;
+      }
+
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8125rem;
+      }
+
+      .api-table th {
+        text-align: left;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 2px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-strong-neutral);
+      }
+
+      .api-table td {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--n-border-muted-neutral);
+        vertical-align: top;
+      }
+
+      .api-table code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.75rem;
+        background: var(--n-panel-neutral);
+        padding: 0.0625rem 0.3125rem;
+        border-radius: 0.1875rem;
+      }
+
+      .api-table td:first-child code {
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <native-app-spa><main>
+
+    <h1>Slash Command</h1>
+    <p class="demo-desc">
+      Detects <code>/</code> prefix at the start of an input's value, shows an anchored command listbox popover, filters by query, and dispatches selection events. Works with <code>&lt;n-textarea&gt;</code> and <code>&lt;n-input&gt;</code>.
+    </p>
+
+    <!-- ── Basic Slash Commands (Textarea) ── -->
+
+    <h2>Basic Slash Commands</h2>
+    <n-panel bordered>
+      <p class="demo-hint">
+        Type <code>/</code> in the textarea to see the command list. Arrow keys navigate, <strong>Enter</strong> selects, <strong>Escape</strong> closes. The input is cleared on selection.
+      </p>
+      <div id="basic-wrapper" class="slash-wrapper">
+        <n-textarea id="basic-textarea" placeholder="Type / to see commands..." rows="2"></n-textarea>
+      </div>
+      <div id="basic-log" class="output"></div>
+      <pre class="demo-code"><code>import { SlashCommandController } from '@nonoun/native-ui';
+
+const wrapper = document.querySelector('#wrapper');
+const textarea = wrapper.querySelector('n-textarea');
+
+const slash = new SlashCommandController(wrapper, {
+  input: textarea,
+  commands: [
+    { value: 'help', label: 'Help', description: 'Get help' },
+    { value: 'clear', label: 'Clear', description: 'Clear conversation' },
+    { value: 'summarize', label: 'Summarize', description: 'Summarize the thread' },
+    { value: 'translate', label: 'Translate', description: 'Translate text' },
+    { value: 'format', label: 'Format', description: 'Format as markdown' },
+    { value: 'search', label: 'Search', description: 'Search messages' },
+  ],
+});
+
+wrapper.addEventListener('native:slash-select', (e) =&gt; {
+  console.log('Selected:', e.detail.command);
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
+    <!-- ── With n-input ── -->
+
+    <h2>With n-input</h2>
+    <n-panel bordered>
+      <p class="demo-hint">
+        Same pattern using <code>&lt;n-input&gt;</code> for single-line input. Type <code>/</code> to trigger the command popover.
+      </p>
+      <div id="input-wrapper" class="slash-wrapper">
+        <n-input id="input-field" placeholder="Type / for commands..."></n-input>
+      </div>
+      <div id="input-log" class="output"></div>
+      <pre class="demo-code"><code>const wrapper = document.querySelector('#wrapper');
+const input = wrapper.querySelector('n-input');
+
+const slash = new SlashCommandController(wrapper, {
+  input: input,
+  commands: [
+    { value: 'help', label: 'Help' },
+    { value: 'clear', label: 'Clear' },
+    { value: 'search', label: 'Search' },
+  ],
+});
+
+wrapper.addEventListener('native:slash-select', (e) =&gt; {
+  console.log('Selected:', e.detail.command);
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
+    <!-- ── Filtered Commands ── -->
+
+    <h2>Filtered Commands</h2>
+    <n-panel bordered>
+      <p class="demo-hint">
+        Typing after <code>/</code> filters the list. For example, <code>/he</code> shows only "Help". The filter matches against <code>label</code>, <code>value</code>, and <code>description</code>. The <code>native:slash-query</code> event fires on every keystroke with the current query and filtered command list.
+      </p>
+      <div id="filter-wrapper" class="slash-wrapper">
+        <n-textarea id="filter-textarea" placeholder="Try /he or /cl or /sum..." rows="2"></n-textarea>
+      </div>
+      <div id="filter-log" class="output"></div>
+      <pre class="demo-code"><code>// native:slash-query fires on every keystroke after /
+wrapper.addEventListener('native:slash-query', (e) =&gt; {
+  const { query, commands } = e.detail;
+  console.log(`Query: "${query}", matches: ${commands.length}`);
+});
+
+// native:slash-select fires when a command is chosen
+wrapper.addEventListener('native:slash-select', (e) =&gt; {
+  console.log('Selected:', e.detail.command.label);
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
+    <!-- ── Dynamic Commands ── -->
+
+    <h2>Dynamic Commands</h2>
+    <n-panel bordered>
+      <p class="demo-hint">
+        Commands can be updated at runtime via the <code>.commands</code> setter. Click the button to toggle between two command sets. If the popover is open, it re-renders immediately.
+      </p>
+      <div class="demo-row">
+        <n-button id="toggle-btn" size="sm" variant="secondary">Switch to Set B</n-button>
+        <span id="set-label" style="font-size: 0.75rem; color: var(--n-ink-muted-neutral);">Current: Set A</span>
+      </div>
+      <div id="dynamic-wrapper" class="slash-wrapper">
+        <n-textarea id="dynamic-textarea" placeholder="Type / then toggle command sets..." rows="2"></n-textarea>
+      </div>
+      <div id="dynamic-log" class="output"></div>
+      <pre class="demo-code"><code>const slash = new SlashCommandController(wrapper, {
+  input: textarea,
+  commands: setA,
+});
+
+// Update commands at runtime — popover re-renders if open
+toggleBtn.addEventListener('native:press', () =&gt; {
+  if (currentSet === 'A') {
+    slash.commands = setB;
+  } else {
+    slash.commands = setA;
+  }
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Constructor Options (<code>SlashCommandOptions</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>input</code></td>
+            <td><code>HTMLElement</code></td>
+            <td>The input element to monitor (<code>n-textarea</code>, <code>n-input</code>, or any element dispatching <code>native:input</code>).</td>
+          </tr>
+          <tr>
+            <td><code>commands</code></td>
+            <td><code>SlashCommand[]</code></td>
+            <td>Array of command definitions to display in the popover.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3><code>SlashCommand</code> Interface</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>string</code></td>
+            <td>Yes</td>
+            <td>Unique identifier for the command.</td>
+          </tr>
+          <tr>
+            <td><code>label</code></td>
+            <td><code>string</code></td>
+            <td>Yes</td>
+            <td>Display text shown in the popover list.</td>
+          </tr>
+          <tr>
+            <td><code>description</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Optional description (used for filtering and <code>title</code> attribute).</td>
+          </tr>
+          <tr>
+            <td><code>icon</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Optional icon name (reserved for future use).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Controller Properties</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>host</code></td>
+            <td><code>HTMLElement</code></td>
+            <td>The host element the controller is attached to.</td>
+          </tr>
+          <tr>
+            <td><code>commands</code></td>
+            <td><code>SlashCommand[]</code></td>
+            <td>Get or set the command list. Setting re-renders the popover if open.</td>
+          </tr>
+          <tr>
+            <td><code>open</code></td>
+            <td><code>boolean</code></td>
+            <td>Whether the command popover is currently visible.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Controller Methods</h3>
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>destroy()</code></td>
+            <td>---</td>
+            <td>Hides the popover, removes all listeners, cleans up the listbox element.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>native:slash-query</code></td>
+            <td><code>{ query, commands }</code></td>
+            <td>Fired on host when typing after <code>/</code>. <code>query</code> is the text after the slash. <code>commands</code> is the filtered array.</td>
+          </tr>
+          <tr>
+            <td><code>native:slash-select</code></td>
+            <td><code>{ command }</code></td>
+            <td>Fired on host when a command is selected (Enter or click). <code>command</code> is the full <code>SlashCommand</code> object.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></native-app-spa>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components and wire demos -->
+    <script type="module">
+      import '../nav/native-app.ts';
+      import '../components/textarea/textarea.ts';
+      import '../components/input/input.ts';
+      import '../components/button/button.ts';
+      import '../components/listbox/listbox.ts';
+      import '../components/listbox/option.ts';
+      import '../components/controller/controller.ts';
+      import '../icons/icon.ts';
+      import '../icons/phosphor/copy.ts';
+      import '../icons/phosphor/check.ts';
+      import { SlashCommandController } from '../traits/slash-command-controller.ts';
+
+      // ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Helper: event logging ──
+
+      function appendLog(el, msg) {
+        if (!el) return;
+        const line = document.createElement('div');
+        line.textContent = msg;
+        el.appendChild(line);
+        el.scrollTop = el.scrollHeight;
+        while (el.children.length > 20) el.removeChild(el.firstChild);
+      }
+
+      // ── Shared command definitions ──
+
+      const defaultCommands = [
+        { value: 'help', label: 'Help', description: 'Get help with the interface' },
+        { value: 'clear', label: 'Clear', description: 'Clear the conversation' },
+        { value: 'summarize', label: 'Summarize', description: 'Summarize the thread' },
+        { value: 'translate', label: 'Translate', description: 'Translate text to another language' },
+        { value: 'format', label: 'Format', description: 'Format selection as markdown' },
+        { value: 'search', label: 'Search', description: 'Search through messages' },
+      ];
+
+      // ── Basic Slash Commands (Textarea) ──
+
+      const basicWrapper = document.getElementById('basic-wrapper');
+      const basicTextarea = document.getElementById('basic-textarea');
+      const basicLog = document.getElementById('basic-log');
+
+      const basicSlash = new SlashCommandController(basicWrapper, {
+        input: basicTextarea,
+        commands: defaultCommands,
+      });
+
+      basicWrapper.addEventListener('native:slash-select', (e) => {
+        appendLog(basicLog, `Selected: /${e.detail.command.value} — ${e.detail.command.label}`);
+      });
+      basicWrapper.addEventListener('native:slash-query', (e) => {
+        appendLog(basicLog, `Query: "/${e.detail.query}" — ${e.detail.commands.length} match(es)`);
+      });
+
+      // ── With n-input ──
+
+      const inputWrapper = document.getElementById('input-wrapper');
+      const inputField = document.getElementById('input-field');
+      const inputLog = document.getElementById('input-log');
+
+      const inputSlash = new SlashCommandController(inputWrapper, {
+        input: inputField,
+        commands: [
+          { value: 'help', label: 'Help', description: 'Get help' },
+          { value: 'clear', label: 'Clear', description: 'Clear conversation' },
+          { value: 'search', label: 'Search', description: 'Search messages' },
+        ],
+      });
+
+      inputWrapper.addEventListener('native:slash-select', (e) => {
+        appendLog(inputLog, `Selected: /${e.detail.command.value} — ${e.detail.command.label}`);
+      });
+      inputWrapper.addEventListener('native:slash-query', (e) => {
+        appendLog(inputLog, `Query: "/${e.detail.query}" — ${e.detail.commands.length} match(es)`);
+      });
+
+      // ── Filtered Commands ──
+
+      const filterWrapper = document.getElementById('filter-wrapper');
+      const filterTextarea = document.getElementById('filter-textarea');
+      const filterLog = document.getElementById('filter-log');
+
+      const filterSlash = new SlashCommandController(filterWrapper, {
+        input: filterTextarea,
+        commands: defaultCommands,
+      });
+
+      filterWrapper.addEventListener('native:slash-query', (e) => {
+        const labels = e.detail.commands.map(c => c.label).join(', ');
+        appendLog(filterLog, `Query: "/${e.detail.query}" — matches: [${labels}]`);
+      });
+      filterWrapper.addEventListener('native:slash-select', (e) => {
+        appendLog(filterLog, `Selected: /${e.detail.command.value} — ${e.detail.command.label}`);
+      });
+
+      // ── Dynamic Commands ──
+
+      const setA = [
+        { value: 'help', label: 'Help', description: 'Get help' },
+        { value: 'clear', label: 'Clear', description: 'Clear conversation' },
+        { value: 'summarize', label: 'Summarize', description: 'Summarize the thread' },
+        { value: 'translate', label: 'Translate', description: 'Translate text' },
+      ];
+
+      const setB = [
+        { value: 'format', label: 'Format', description: 'Format as markdown' },
+        { value: 'search', label: 'Search', description: 'Search messages' },
+        { value: 'export', label: 'Export', description: 'Export conversation' },
+        { value: 'settings', label: 'Settings', description: 'Open settings' },
+      ];
+
+      const dynamicWrapper = document.getElementById('dynamic-wrapper');
+      const dynamicTextarea = document.getElementById('dynamic-textarea');
+      const dynamicLog = document.getElementById('dynamic-log');
+      const toggleBtn = document.getElementById('toggle-btn');
+      const setLabel = document.getElementById('set-label');
+
+      const dynamicSlash = new SlashCommandController(dynamicWrapper, {
+        input: dynamicTextarea,
+        commands: setA,
+      });
+
+      let currentSet = 'A';
+
+      toggleBtn.addEventListener('native:press', () => {
+        if (currentSet === 'A') {
+          dynamicSlash.commands = setB;
+          currentSet = 'B';
+          toggleBtn.textContent = 'Switch to Set A';
+          setLabel.textContent = 'Current: Set B (Format, Search, Export, Settings)';
+        } else {
+          dynamicSlash.commands = setA;
+          currentSet = 'A';
+          toggleBtn.textContent = 'Switch to Set B';
+          setLabel.textContent = 'Current: Set A (Help, Clear, Summarize, Translate)';
+        }
+        appendLog(dynamicLog, `Switched to Set ${currentSet}`);
+      });
+
+      dynamicWrapper.addEventListener('native:slash-select', (e) => {
+        appendLog(dynamicLog, `Selected: /${e.detail.command.value} — ${e.detail.command.label}`);
+      });
+      dynamicWrapper.addEventListener('native:slash-query', (e) => {
+        appendLog(dynamicLog, `Query: "/${e.detail.query}" — ${e.detail.commands.length} match(es)`);
+      });
+    </script>
+  </body>
+</html>

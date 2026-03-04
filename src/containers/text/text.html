@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-text — Text Utility Demo</title>
+    <link rel="stylesheet" href="../../styles/n-index.css" />
+    <link rel="stylesheet" href="../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    </head>
+  <body>
+    <native-app-spa><main>
+    <h1>&lt;n-text&gt;</h1>
+    <p class="demo-desc">
+      CSS-only utility element for styled text blocks — muted descriptions, secondary labels, section intros. No JS registration needed.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <n-panel bordered>
+      <n-text>This is a default n-text element. It renders as a block-level paragraph with the inherited font size, line height, and ink color.</n-text>
+    <pre class="demo-code"><code>&lt;n-text&gt;This is a default n-text element.&lt;/n-text&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
+    <!-- ── Sizes ── -->
+
+    <h2>Sizes</h2>
+    <n-panel bordered>
+      <n-stack gap="3">
+        <n-text size="xs">Extra small (xs)</n-text>
+        <n-text size="sm">Small (sm)</n-text>
+        <n-text size="md">Medium (md) — same as default</n-text>
+        <n-text size="lg">Large (lg)</n-text>
+        <n-text size="xl">Extra large (xl)</n-text>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-text size="xs"&gt;Extra small (xs)&lt;/n-text&gt;
+&lt;n-text size="sm"&gt;Small (sm)&lt;/n-text&gt;
+&lt;n-text size="md"&gt;Medium (md)&lt;/n-text&gt;
+&lt;n-text size="lg"&gt;Large (lg)&lt;/n-text&gt;
+&lt;n-text size="xl"&gt;Extra large (xl)&lt;/n-text&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
+    <!-- ── Color Modifiers ── -->
+
+    <h2>Color Modifiers</h2>
+    <n-panel bordered>
+      <n-stack gap="3">
+        <n-text>Default ink color</n-text>
+        <n-text muted>Muted — secondary, de-emphasized text</n-text>
+        <n-text strong>Strong — bold, high-contrast text</n-text>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-text&gt;Default ink color&lt;/n-text&gt;
+&lt;n-text muted&gt;Muted — secondary, de-emphasized text&lt;/n-text&gt;
+&lt;n-text strong&gt;Strong — bold, high-contrast text&lt;/n-text&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
+    <!-- ── Inline Mode ── -->
+
+    <h2>Inline Mode</h2>
+    <n-panel bordered>
+      <p>This is regular text with <n-text inline muted>inline muted</n-text> text mixed in, and also <n-text inline strong>inline strong</n-text> text alongside it.</p>
+    <pre class="demo-code"><code>&lt;p&gt;This is regular text with
+  &lt;n-text inline muted&gt;inline muted&lt;/n-text&gt; text mixed in,
+  and also &lt;n-text inline strong&gt;inline strong&lt;/n-text&gt; text
+  alongside it.&lt;/p&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
+    <!-- ── Spacing ── -->
+
+    <h2>Spacing</h2>
+    <n-panel bordered>
+      <div>
+        <n-text spacing="tight">Tight spacing — smaller bottom margin</n-text>
+        <n-divider></n-divider>
+      </div>
+      <div>
+        <n-text spacing="regular">Regular spacing — medium bottom margin</n-text>
+        <n-divider></n-divider>
+      </div>
+      <div>
+        <n-text spacing="relaxed">Relaxed spacing — large bottom margin</n-text>
+        <n-divider></n-divider>
+      </div>
+    <pre class="demo-code"><code>&lt;n-text spacing="tight"&gt;Tight spacing&lt;/n-text&gt;
+&lt;n-text spacing="regular"&gt;Regular spacing&lt;/n-text&gt;
+&lt;n-text spacing="relaxed"&gt;Relaxed spacing&lt;/n-text&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
+    <!-- ── Truncate ── -->
+
+    <h2>Truncate</h2>
+    <n-panel bordered>
+      <div style="max-width: 20rem;">
+        <n-text truncate>This is a very long line of text that will be truncated with an ellipsis when it overflows the container boundary.</n-text>
+      </div>
+    <pre class="demo-code"><code>&lt;div style="max-width: 20rem;"&gt;
+  &lt;n-text truncate&gt;This is a very long line of text that
+    will be truncated with an ellipsis...&lt;/n-text&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
+    <!-- ── Uppercase ── -->
+
+    <h2>Uppercase</h2>
+    <n-panel bordered>
+      <n-text uppercase>Uppercase with letter spacing</n-text>
+    <pre class="demo-code"><code>&lt;n-text uppercase&gt;Uppercase with letter spacing&lt;/n-text&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
+    <!-- ── Combined ── -->
+
+    <h2>Combined</h2>
+    <n-panel bordered>
+      <n-stack gap="3">
+        <n-text size="sm" muted>Last updated 3 hours ago</n-text>
+        <n-text size="xs" muted uppercase>Section heading</n-text>
+        <n-text strong>Important announcement</n-text>
+        <n-text size="lg" strong>Large bold heading text</n-text>
+        <div style="max-width: 16rem;">
+          <n-text size="sm" muted truncate>user.profile.settings.preferences.notifications.email</n-text>
+        </div>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-text size="sm" muted&gt;Last updated 3 hours ago&lt;/n-text&gt;
+&lt;n-text size="xs" muted uppercase&gt;Section heading&lt;/n-text&gt;
+&lt;n-text strong&gt;Important announcement&lt;/n-text&gt;
+&lt;n-text size="lg" strong&gt;Large bold heading text&lt;/n-text&gt;
+&lt;n-text size="sm" muted truncate&gt;user.profile...&lt;/n-text&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
+    </main></native-app-spa>
+    <script type="module">
+      import '../../nav/native-app.ts';
+      import '../../components/button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

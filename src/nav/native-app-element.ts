@@ -49,11 +49,13 @@ import '../icons/phosphor/code.ts';
 import '../icons/phosphor/code-fill.ts';
 import '../icons/phosphor/command.ts';
 import '../components/kbd/kbd.ts';
+import '../components/badge/badge.ts';
 
 interface SitemapEntry {
   title: string;
   path: string;
   group: string;
+  badge?: 'new' | 'updated' | 'recent';
 }
 
 const STORAGE_COLLAPSED = 'nav-sidebar-collapsed';
@@ -226,6 +228,19 @@ export class NApp extends NativeElement {
         const item = document.createElement('n-sidebar-nav-item');
         item.setAttribute('value', entry.path);
         item.textContent = entry.title;
+        if (entry.badge) {
+          const badge = document.createElement('n-badge');
+          badge.setAttribute('size', 'xs');
+          const badgeConfig: Record<string, [string, string]> = {
+            new: ['New', 'danger'],
+            updated: ['Updated', 'accent'],
+            recent: ['Recent', 'warning'],
+          };
+          const [text, intent] = badgeConfig[entry.badge];
+          badge.textContent = text;
+          badge.setAttribute('intent', intent);
+          item.appendChild(badge);
+        }
         if (currentPath === entry.path) activeValue = entry.path;
         group.appendChild(item);
       }

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Changelog — native-ui</title>
+    <link rel="stylesheet" href="./styles/n-index.css" />
+    <link rel="stylesheet" href="./styles/n-components.css" />
+    <link rel="stylesheet" href="./styles/demo.css" />
+    <style>
+      .changelog-version {
+        margin-block-start: 1.5rem;
+      }
+      .changelog-version h2 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .changelog-date {
+        font-size: 0.8125rem;
+        font-weight: 400;
+        color: var(--n-ink-muted-neutral);
+      }
+      .changelog-section h3 {
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-block: 0.75rem 0.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+      }
+      .changelog-section ul {
+        margin: 0;
+        padding-inline-start: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .changelog-section li {
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: var(--n-ink-neutral);
+      }
+      .changelog-section a {
+        color: var(--n-ink-strong-accent);
+        text-decoration: none;
+      }
+      .changelog-section a:hover {
+        text-decoration: underline;
+      }
+      .changelog-section code {
+        font-size: 0.8125rem;
+        background: var(--n-panel-neutral);
+        padding: 0.125em 0.375em;
+        border-radius: 0.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <native-app-spa><main>
+    <h1>Changelog</h1>
+    <p class="demo-desc">
+      Version history for <code>@nonoun/native-ui</code>. Each release lists new features, updates, and breaking changes with links to relevant demo pages.
+    </p>
+
+    <!-- ── 0.7.0 ── -->
+
+    <div class="changelog-version">
+      <h2>0.7.0 <span class="changelog-date">— March 2026</span></h2>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="danger">New</n-badge> New Features</h3>
+        <ul>
+          <li><code>&lt;n-text&gt;</code> — CSS-only utility element for styled text blocks (muted, strong, sizes, truncate, spacing). <a href="/src/containers/text/text.html">Demo</a></li>
+          <li><code>SlashCommandController</code> — detects <code>/</code> prefix in inputs, shows filtered command listbox popover. <a href="/src/traits/slash-command.html">Demo</a></li>
+          <li><code>&lt;n-panel&gt;</code> <code>[fade]</code> attribute — fades top/bottom edges when content overflows. <a href="/src/containers/panel/panel.html">Demo</a></li>
+          <li><code>&lt;n-panel&gt;</code> <code>[scrollable]</code> attribute — opt-in overflow scrolling (replaces implicit overflow). <a href="/src/containers/panel/panel.html">Demo</a></li>
+        </ul>
+      </div>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="accent">Updated</n-badge> Updates</h3>
+        <ul>
+          <li><code>&lt;n-toolbar&gt;</code> — overflow priority (<code>overflow-priority</code>), pin (<code>overflow-pin</code>), and diagnostics (<code>native:toolbar-overflow</code> event). <a href="/src/containers/toolbar/toolbar.html">Demo</a></li>
+          <li><code>&lt;n-header&gt;</code> — <code>[truncate]</code> attribute for label text truncation with ellipsis. <a href="/src/containers/header/header.html">Demo</a></li>
+          <li><code>&lt;n-textarea&gt;</code> — inline formatting support (<code>formatting="code bold italic"</code>). <a href="/src/components/textarea/textarea.html">Demo</a></li>
+          <li><code>ResizeController</code> — corner resize handles for diagonal resizing. <a href="/src/traits/resizable.html">Demo</a></li>
+        </ul>
+      </div>
+
+      <div class="changelog-section">
+        <h3>Breaking Changes</h3>
+        <ul>
+          <li><code>&lt;n-panel&gt;</code> overflow is now opt-in via <code>[scrollable]</code>. Panels that relied on implicit <code>overflow: auto</code> must add the attribute.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── 0.6.6 ── -->
+
+    <div class="changelog-version">
+      <h2>0.6.6 <span class="changelog-date">— February 2026</span></h2>
+
+      <div class="changelog-section">
+        <h3>Updates</h3>
+        <ul>
+          <li>Reorganized <code>src/styles/</code> naming — foundation CSS renamed to <code>n-index.css</code>.</li>
+          <li>Added CDN setup via <code>esm.sh</code>, signal/trait/OKLCH/variant examples to docs.</li>
+          <li>Bumped all package versions to 0.6.6.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── 0.6.5 ── -->
+
+    <div class="changelog-version">
+      <h2>0.6.5 <span class="changelog-date">— February 2026</span></h2>
+
+      <div class="changelog-section">
+        <h3>Fixes</h3>
+        <ul>
+          <li>Fixed <code>DragController</code> not firing <code>native:drop</code> in View Transitions context.</li>
+        </ul>
+      </div>
+    </div>
+
+    </main></native-app-spa>
+    <script type="module">
+      import './nav/native-app.ts';
+      import './components/badge/badge.ts';
+    </script>
+  </body>
+</html>

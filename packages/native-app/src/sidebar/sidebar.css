@@ -431,6 +431,12 @@
     outline-offset: -2px;
   }
 
+  /* Badge in nav item — push to trailing edge */
+  :where(n-sidebar-nav-item) > :where(n-badge) {
+    margin-inline-start: auto;
+    flex-shrink: 0;
+  }
+
   /* ── Nav Group ── */
   /* WHY: Groups stamp a native <details>/<summary> for collapsible behavior.
      DOM structure: n-sidebar-group > details > summary > n-sidebar-group-header

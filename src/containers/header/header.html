@@ -113,6 +113,40 @@
 &lt;/n-header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
+    <!-- ── n-header: Truncate ── -->
+
+    <h2>n-header — Truncate</h2>
+    <p class="demo-desc">
+      <code>[truncate]</code> adds text-overflow ellipsis to the label slot. Useful for long titles in fixed-width containers.
+    </p>
+    <n-panel bordered>
+      <div class="demo-row">
+        <n-card style="max-width: 18rem;">
+          <n-header>
+            <span slot="label">This is a very long title that will overflow and wrap to multiple lines</span>
+          </n-header>
+          <n-body><p>Default — label wraps.</p></n-body>
+        </n-card>
+        <n-card style="max-width: 18rem;">
+          <n-header truncate>
+            <span slot="label">This is a very long title that will be truncated with an ellipsis</span>
+          </n-header>
+          <n-body><p>With <code>[truncate]</code> — ellipsis.</p></n-body>
+        </n-card>
+        <n-card style="max-width: 18rem;">
+          <n-header truncate>
+            <n-icon name="file-text" slot="leading"></n-icon>
+            <span slot="label">Document with a very long name that needs truncation</span>
+            <n-button slot="trailing" variant="ghost"><n-icon name="dots-three"></n-icon></n-button>
+          </n-header>
+          <n-body><p>With slots — label truncates while leading/trailing stay visible.</p></n-body>
+        </n-card>
+      </div>
+      <pre class="demo-code"><code>&lt;n-header truncate&gt;
+  &lt;span slot="label"&gt;Very long title...&lt;/span&gt;
+&lt;/n-header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
     <!-- ── n-body: Scrollable ── -->
 
     <h2>n-body — Scrollable Content</h2>
@@ -284,6 +318,7 @@
       import '../../icons/phosphor/caret-left.ts';
       import '../../icons/phosphor/x.ts';
       import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/file-text.ts';
       import '../../icons/phosphor/check.ts';
 
       // Drawer demo

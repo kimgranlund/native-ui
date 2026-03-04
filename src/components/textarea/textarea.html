@@ -171,6 +171,35 @@
         <pre class="demo-code"><code>&lt;n-textarea placeholder="Type here..." autogrow&gt;&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
+    <!-- ── Inline Formatting ── -->
+
+    <h2>Inline Formatting</h2>
+    <p class="demo-desc">
+      <code>formatting="code bold italic"</code> enables inline formatting. Select text then use keyboard shortcuts (<kbd>Cmd+E</kbd> code, <kbd>Cmd+B</kbd> bold, <kbd>Cmd+I</kbd> italic) or the buttons below.
+    </p>
+    <n-panel bordered>
+      <n-stack gap="2">
+        <n-toolbar variant="plain" size="sm">
+          <n-button id="fmt-code" variant="ghost" size="sm" tabindex="-1"><span slot="label">Code</span></n-button>
+          <n-button id="fmt-bold" variant="ghost" size="sm" tabindex="-1"><span slot="label">Bold</span></n-button>
+          <n-button id="fmt-italic" variant="ghost" size="sm" tabindex="-1"><span slot="label">Italic</span></n-button>
+        </n-toolbar>
+        <n-textarea id="fmt-textarea" formatting="code bold italic" rows="4" placeholder="Select text and press a format button or use Cmd+E / Cmd+B / Cmd+I...">Try selecting some text and formatting it with backticks, asterisks, or underscores.</n-textarea>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-textarea formatting="code bold italic" placeholder="Select text..."&gt;
+&lt;/n-textarea&gt;
+
+&lt;script&gt;
+  const ta = document.querySelector('n-textarea');
+  // Programmatic formatting:
+  ta.applyFormat('code');    // wraps selection in backticks
+  ta.applyFormat('bold');    // wraps selection in **
+  ta.applyFormat('italic');  // wraps selection in _
+  // Keyboard shortcuts (built-in):
+  // Cmd+E → code, Cmd+B → bold, Cmd+I → italic
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
     <!-- ── Maxlength ── -->
 
     <h2>Maxlength</h2>
@@ -363,6 +392,7 @@
       import './textarea.ts';
       import '../field/field.ts';
       import '../button/button.ts';
+      import '../../containers/toolbar/toolbar.ts';
       import '../../icons/icon.ts';
       import '../../icons/phosphor/copy.ts';
       import '../../icons/phosphor/check.ts';
@@ -407,6 +437,18 @@
         entry.textContent = 'reset';
         formLog.prepend(entry);
       });
+// ── Inline formatting buttons ──
+      // WHY: preventDefault on mousedown keeps focus in the textarea so
+      // applyFormat can read the active selection.
+      const fmtTextarea = document.getElementById('fmt-textarea');
+      for (const id of ['fmt-code', 'fmt-bold', 'fmt-italic']) {
+        const btn = document.getElementById(id);
+        btn?.addEventListener('mousedown', (e) => e.preventDefault());
+      }
+      document.getElementById('fmt-code')?.addEventListener('native:press', () => fmtTextarea?.applyFormat('code'));
+      document.getElementById('fmt-bold')?.addEventListener('native:press', () => fmtTextarea?.applyFormat('bold'));
+      document.getElementById('fmt-italic')?.addEventListener('native:press', () => fmtTextarea?.applyFormat('italic'));
+
 // ── Copy buttons ──
 
       for (const btn of document.querySelectorAll('.copy-btn')) {
