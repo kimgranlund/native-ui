@@ -263,3 +263,37 @@ this.addEventListener('native:shortcut', (e) => {
 - First matching binding wins
 - `add(binding)` / `remove(id)` for runtime changes
 - Declarative: `<n-controller traits="shortcutable" shortcutable-global>`
+
+## 12. Present Pattern (Full-Viewport Expand)
+
+`PresentController` wraps any element in a modal `<dialog>` for full-viewport display. The dialog is created at the host's DOM position — CSS custom properties inherit normally.
+
+```ts
+// In setup():
+this.#present = new PresentController(this, { inset: '2rem' });
+
+// Expand button handler:
+this.#present.present();
+
+// In teardown():
+this.#present.destroy();
+```
+
+```css
+/* Normal state: bounded component */
+:where(my-element) {
+  display: grid;
+  min-height: 400px;
+  border: 1px solid var(--n-border-muted);
+  border-radius: var(--n-radius-lg);
+}
+
+/* Full-viewport: PresentController sets [presented] */
+:where(my-element)[presented] {
+  width: 100%; height: 100%;
+  justify-self: stretch; align-self: stretch;
+  border: none; border-radius: 0;
+}
+```
+
+**Used by**: `<native-a2ui>`, `<native-playground>`, `<native-editor>` — all devtool components with an expand icon button in the header toolbar.

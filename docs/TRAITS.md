@@ -114,6 +114,34 @@ this.addEventListener('native:dismiss', () => store.open.value = false);
 
 `syncPopover()` guards `showPopover()`/`hidePopover()` with try/catch and manages the dismiss layer.
 
+## PresentController
+
+Shows any element in a full-viewport modal dialog overlay. Used by `<native-a2ui>`, `<native-playground>`, and `<native-editor>` for expand buttons.
+
+```ts
+const ctrl = new PresentController(host);
+ctrl.present();   // wraps host in <dialog>, calls showModal()
+ctrl.dismiss();   // unwraps host back to original position
+ctrl.destroy();   // dismiss + cleanup (call in teardown)
+```
+
+**Options**: `inset` (safety margin from viewport, default `'2rem'`), `closeButton` (auto-inject X button, default `true`).
+
+**Events**: `native:present` (after open), `native:dismiss` (after close and unwrap).
+
+**How it works**: Creates a `<dialog>` at the host's exact DOM position, moves host inside a centering wrapper (`display: grid; place-items: center`), calls `showModal()`. Sets `[presented]` attribute on the host — CSS uses this to switch from bounded to full-viewport sizing. On dismiss: `dialog.replaceWith(host)` restores original DOM, removes `[presented]`.
+
+**CSS pattern** — add a `[presented]` rule to any component that uses PresentController:
+```css
+:where(my-element)[presented] {
+  width: 100%; height: 100%;
+  justify-self: stretch; align-self: stretch;
+  border: none; border-radius: 0;
+}
+```
+
+**Key principle**: Dialog is inserted where the host was (not on `document.body`). `showModal()` promotes to top layer for rendering while the element stays in the DOM tree — CSS custom properties from ancestors inherit normally.
+
 ## n-controller Modes
 
 - **Wrapper** (default) -- applies traits to first element child
