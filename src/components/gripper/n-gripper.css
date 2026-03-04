@@ -1,16 +1,16 @@
 /* ─────────────────────────────────────────────────────
-   n-manipulate-handle
+   n-gripper
    Popover + Anchor-positioned manipulation handle.
    ───────────────────────────────────────────────────── */
 
 @layer ui {
 
-  :where(n-manipulate-handle):not(:defined) { visibility: hidden; }
+  :where(n-gripper):not(:defined) { visibility: hidden; }
 
   /* Popover hidden-state guard (author display vs UA display) */
-  :where(n-manipulate-handle[popover]):not(:popover-open) { display: none; }
+  :where(n-gripper[popover]):not(:popover-open) { display: none; }
 
-  :where(n-manipulate-handle) {
+  :where(n-gripper) {
     position: fixed;
     margin: 0;
     padding: 0;
@@ -21,36 +21,36 @@
 
   /* ── Edge handles ── */
 
-  :where(n-manipulate-handle[mode="resize-horizontal"]) {
+  :where(n-gripper[mode="resize-horizontal"]) {
     width: 8px;
     cursor: col-resize;
   }
 
-  :where(n-manipulate-handle[mode="resize-vertical"]) {
+  :where(n-gripper[mode="resize-vertical"]) {
     height: 8px;
     cursor: row-resize;
   }
 
   /* ── Corner handle ── */
 
-  :where(n-manipulate-handle[mode="resize-corner"]) {
+  :where(n-gripper[mode="resize-corner"]) {
     width: 12px;
     height: 12px;
   }
 
-  :where(n-manipulate-handle[mode="resize-corner"][placement="bottom-end"]),
-  :where(n-manipulate-handle[mode="resize-corner"][placement="top-start"]) {
+  :where(n-gripper[mode="resize-corner"][placement="bottom-end"]),
+  :where(n-gripper[mode="resize-corner"][placement="top-start"]) {
     cursor: nwse-resize;
   }
 
-  :where(n-manipulate-handle[mode="resize-corner"][placement="bottom-start"]),
-  :where(n-manipulate-handle[mode="resize-corner"][placement="top-end"]) {
+  :where(n-gripper[mode="resize-corner"][placement="bottom-start"]),
+  :where(n-gripper[mode="resize-corner"][placement="top-end"]) {
     cursor: nesw-resize;
   }
 
   /* ── Visual indicator ── */
 
-  :where(n-manipulate-handle)::after {
+  :where(n-gripper)::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -61,25 +61,25 @@
     pointer-events: none;
   }
 
-  :where(n-manipulate-handle[mode="resize-horizontal"])::after {
+  :where(n-gripper[mode="resize-horizontal"])::after {
     inset-inline: 3px;
   }
 
-  :where(n-manipulate-handle[mode="resize-vertical"])::after {
+  :where(n-gripper[mode="resize-vertical"])::after {
     inset-block: 3px;
   }
 
-  :where(n-manipulate-handle):hover::after,
-  :where(n-manipulate-handle[manipulating])::after {
+  :where(n-gripper):hover::after,
+  :where(n-gripper[gripping])::after {
     opacity: 1;
   }
 
   /* ── Disabled ── */
 
-  :where(n-manipulate-handle)[disabled] {
+  :where(n-gripper)[disabled] {
     pointer-events: none;
   }
 
-  :where(n-manipulate-handle[hidden]) { display: none; }
+  :where(n-gripper[hidden]) { display: none; }
 
 }

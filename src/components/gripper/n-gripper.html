@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manipulate Handle — native-ui</title>
+    <title>Gripper — native-ui</title>
     <link rel="stylesheet" href="../../styles/n-index.css" />
     <link rel="stylesheet" href="../../styles/n-components.css" />
     <link rel="stylesheet" href="../../styles/demo.css" />
@@ -19,7 +19,7 @@
         justify-content: center;
         font-size: 0.875rem;
         color: var(--n-ink-muted);
-        anchor-name: none; /* let the handle set this */
+        anchor-name: none; /* let the gripper set this */
       }
       .demo-overflow {
         overflow: hidden;
@@ -38,9 +38,9 @@
   </head>
   <body>
     <native-app-spa><main>
-    <h1>Manipulate Handle</h1>
+    <h1>Gripper</h1>
     <p class="demo-desc">
-      Declarative manipulation handle that escapes overflow via the Popover API and positions itself
+      Declarative gripper handle that escapes overflow via the Popover API and positions itself
       via CSS Anchor Positioning. Resize panels, sidebars, and canvas elements with a single element.
     </p>
 
@@ -48,8 +48,8 @@
 
     <h2>Horizontal resize</h2>
     <p class="demo-desc">
-      Handle on the right edge (<code>placement="end"</code>). Drag to resize width.
-      The target is inside an <code>overflow: hidden</code> container — the handle escapes via top layer.
+      Gripper on the right edge (<code>placement="end"</code>). Drag to resize width.
+      The target is inside an <code>overflow: hidden</code> container — the gripper escapes via top layer.
     </p>
 
     <div class="demo-overflow">
@@ -57,20 +57,20 @@
         Resize me horizontally
       </div>
     </div>
-    <n-manipulate-handle
+    <n-gripper
       mode="resize-horizontal"
       for="panel-h"
       placement="end"
       min="160"
       max="600"
-    ></n-manipulate-handle>
+    ></n-gripper>
     <div class="demo-readout" id="readout-h">300 × 200</div>
 
     <!-- ── Vertical Resize ── -->
 
     <h2>Vertical resize</h2>
     <p class="demo-desc">
-      Handle on the bottom edge (<code>placement="bottom"</code>). Drag to resize height.
+      Gripper on the bottom edge (<code>placement="bottom"</code>). Drag to resize height.
     </p>
 
     <div class="demo-overflow">
@@ -78,20 +78,20 @@
         Resize me vertically
       </div>
     </div>
-    <n-manipulate-handle
+    <n-gripper
       mode="resize-vertical"
       for="panel-v"
       placement="bottom"
       min="80"
       max="400"
-    ></n-manipulate-handle>
+    ></n-gripper>
     <div class="demo-readout" id="readout-v">400 × 150</div>
 
     <!-- ── Corner Resize ── -->
 
     <h2>Corner resize</h2>
     <p class="demo-desc">
-      Handle on the bottom-right corner (<code>placement="bottom-end"</code>). Drag to resize both axes.
+      Gripper on the bottom-right corner (<code>placement="bottom-end"</code>). Drag to resize both axes.
     </p>
 
     <div class="demo-overflow">
@@ -99,20 +99,20 @@
         Resize me diagonally
       </div>
     </div>
-    <n-manipulate-handle
+    <n-gripper
       mode="resize-corner"
       for="panel-c"
       placement="bottom-end"
       min="120"
       max="600"
-    ></n-manipulate-handle>
+    ></n-gripper>
     <div class="demo-readout" id="readout-c">300 × 200</div>
 
     <!-- ── Reverse (left-edge) ── -->
 
-    <h2>Reverse (left-edge handle)</h2>
+    <h2>Reverse (left-edge gripper)</h2>
     <p class="demo-desc">
-      Handle on the left edge (<code>placement="start" reverse</code>). Leftward drag grows width.
+      Gripper on the left edge (<code>placement="start" reverse</code>). Leftward drag grows width.
     </p>
 
     <div class="demo-overflow">
@@ -120,14 +120,14 @@
         Reverse resize
       </div>
     </div>
-    <n-manipulate-handle
+    <n-gripper
       mode="resize-horizontal"
       for="panel-r"
       placement="start"
       min="160"
       max="600"
       reverse
-    ></n-manipulate-handle>
+    ></n-gripper>
     <div class="demo-readout" id="readout-r">300 × 200</div>
 
     <!-- ── Step Snapping ── -->
@@ -142,21 +142,21 @@
         Snap to 20px grid
       </div>
     </div>
-    <n-manipulate-handle
+    <n-gripper
       mode="resize-horizontal"
       for="panel-s"
       placement="end"
       min="100"
       max="600"
       step="20"
-    ></n-manipulate-handle>
+    ></n-gripper>
     <div class="demo-readout" id="readout-s">300 × 200</div>
 
     </main></native-app-spa>
 
     <script type="module">
       import '../../nav/native-app.ts';
-      import './n-manipulate-handle.ts';
+      import './n-gripper.ts';
 
       // Live readouts
       function readout(targetId, readoutId) {
@@ -169,9 +169,9 @@
           el.textContent = `${Math.round(rect.width)} × ${Math.round(rect.height)}`;
         };
 
-        target.addEventListener('native:manipulate-move', update);
-        target.addEventListener('native:manipulate-end', update);
-        target.addEventListener('native:manipulate-cancel', update);
+        target.addEventListener('native:grip-move', update);
+        target.addEventListener('native:grip-end', update);
+        target.addEventListener('native:grip-cancel', update);
       }
 
       readout('panel-h', 'readout-h');

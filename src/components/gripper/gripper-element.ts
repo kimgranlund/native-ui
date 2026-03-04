@@ -1,9 +1,9 @@
 import { NativeElement } from '../../core/native-element.ts';
 import { uid } from '../../core/uid.ts';
 
-export type ManipulateMode = 'resize-horizontal' | 'resize-vertical' | 'resize-corner';
+export type GripperMode = 'resize-horizontal' | 'resize-vertical' | 'resize-corner';
 
-export type ManipulatePlacement =
+export type GripperPlacement =
   | 'start' | 'end' | 'top' | 'bottom'
   | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end';
 
@@ -27,10 +27,10 @@ const CORNER_SIGNS: Record<string, { sx: number; sy: number }> = {
 };
 
 /**
- * Declarative manipulation handle that escapes overflow via Popover API
+ * Declarative gripper handle that escapes overflow via Popover API
  * and positions itself via CSS Anchor Positioning.
  *
- * @attr {string} mode - Manipulation mode: resize-horizontal, resize-vertical, resize-corner
+ * @attr {string} mode - Grip mode: resize-horizontal, resize-vertical, resize-corner
  * @attr {string} for - ID of the target element to manipulate
  * @attr {string} placement - Where to place relative to target: start, end, top, bottom, top-start, etc.
  * @attr {number} min - Minimum value (px) for resize
@@ -39,14 +39,14 @@ const CORNER_SIGNS: Record<string, { sx: number; sy: number }> = {
  * @attr {boolean} reverse - Reverse drag direction
  * @attr {boolean} disabled - Disable interaction
  */
-export class NManipulateHandle extends NativeElement {
+export class NGripper extends NativeElement {
   static observedAttributes = ['mode', 'for', 'placement', 'min', 'max', 'step', 'reverse', 'disabled'];
 
   #target: HTMLElement | null = null;
   #anchorId = '';
 
   // Drag state
-  #isManipulating = false;
+  #isGripping = false;
   #startX = 0;
   #startY = 0;
   #startWidth = 0;
@@ -145,7 +145,7 @@ export class NManipulateHandle extends NativeElement {
     if (!this.#target) return;
 
     e.preventDefault();
-    this.#isManipulating = true;
+    this.#isGripping = true;
     this.#startX = e.clientX;
     this.#startY = e.clientY;
 
@@ -154,15 +154,15 @@ export class NManipulateHandle extends NativeElement {
     this.#startHeight = rect.height;
 
     this.setPointerCapture(e.pointerId);
-    this.#target.setAttribute('manipulating', '');
-    this.setAttribute('manipulating', '');
+    this.#target.setAttribute('gripping', '');
+    this.setAttribute('gripping', '');
 
     document.addEventListener('pointermove', this.#onPointerMove);
     document.addEventListener('pointerup', this.#onPointerUp);
     document.addEventListener('pointercancel', this.#onPointerCancel);
     document.addEventListener('keydown', this.#onKeyDown);
 
-    this.#target.dispatchEvent(new CustomEvent('native:manipulate-start', {
+    this.#target.dispatchEvent(new CustomEvent('native:grip-start', {
       bubbles: true,
       composed: true,
       detail: {
@@ -173,7 +173,7 @@ export class NManipulateHandle extends NativeElement {
   };
 
   #onPointerMove = (e: PointerEvent): void => {
-    if (!this.#isManipulating || !this.#target) return;
+    if (!this.#isGripping || !this.#target) return;
 
     const mode = this.getAttribute('mode') ?? 'resize-horizontal';
     const reverse = this.hasAttribute('reverse');
@@ -209,7 +209,7 @@ export class NManipulateHandle extends NativeElement {
     }
 
     const rect = this.#target.getBoundingClientRect();
-    this.#target.dispatchEvent(new CustomEvent('native:manipulate-move', {
+    this.#target.dispatchEvent(new CustomEvent('native:grip-move', {
       bubbles: true,
       composed: true,
       detail: {
@@ -221,10 +221,10 @@ export class NManipulateHandle extends NativeElement {
   };
 
   #onPointerUp = (_e: PointerEvent): void => {
-    if (!this.#isManipulating || !this.#target) return;
+    if (!this.#isGripping || !this.#target) return;
 
     const rect = this.#target.getBoundingClientRect();
-    this.#target.dispatchEvent(new CustomEvent('native:manipulate-end', {
+    this.#target.dispatchEvent(new CustomEvent('native:grip-end', {
       bubbles: true,
       composed: true,
       detail: {
@@ -237,19 +237,19 @@ export class NManipulateHandle extends NativeElement {
   };
 
   #onPointerCancel = (): void => {
-    if (!this.#isManipulating) return;
+    if (!this.#isGripping) return;
     this.#revert();
     this.#cleanup();
   };
 
   #onKeyDown = (e: KeyboardEvent): void => {
-    if (!this.#isManipulating || !this.#target) return;
+    if (!this.#isGripping || !this.#target) return;
 
     if (e.key === 'Escape') {
       e.preventDefault();
       this.#revert();
 
-      this.#target.dispatchEvent(new CustomEvent('native:manipulate-cancel', {
+      this.#target.dispatchEvent(new CustomEvent('native:grip-cancel', {
         bubbles: true,
         composed: true,
         detail: { mode: this.getAttribute('mode') ?? 'resize-horizontal' },
@@ -299,7 +299,7 @@ export class NManipulateHandle extends NativeElement {
     if (handled) {
       e.preventDefault();
       const rect = this.#target.getBoundingClientRect();
-      this.#target.dispatchEvent(new CustomEvent('native:manipulate-move', {
+      this.#target.dispatchEvent(new CustomEvent('native:grip-move', {
         bubbles: true,
         composed: true,
         detail: {
@@ -326,9 +326,9 @@ export class NManipulateHandle extends NativeElement {
   }
 
   #cleanup(): void {
-    this.#isManipulating = false;
-    this.#target?.removeAttribute('manipulating');
-    this.removeAttribute('manipulating');
+    this.#isGripping = false;
+    this.#target?.removeAttribute('gripping');
+    this.removeAttribute('gripping');
     document.removeEventListener('pointermove', this.#onPointerMove);
     document.removeEventListener('pointerup', this.#onPointerUp);
     document.removeEventListener('pointercancel', this.#onPointerCancel);

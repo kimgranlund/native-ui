@@ -250,23 +250,23 @@ export interface NShortcutDetail {
   combo: string;
 }
 
-// ── Manipulate Handle ──
-export interface NManipulateStartDetail {
+// ── Gripper ──
+export interface NGripStartDetail {
   mode: string;
   startValue: { width: number; height: number };
 }
 
-export interface NManipulateDetail {
+export interface NGripDetail {
   mode: string;
   value: { width: number; height: number };
   delta: { dx: number; dy: number };
 }
 
-export interface NManipulateEndDetail {
+export interface NGripEndDetail {
   mode: string;
   value: { width: number; height: number };
 }
 
-export interface NManipulateCancelDetail {
+export interface NGripCancelDetail {
   mode: string;
 }
