@@ -59,7 +59,7 @@ export async function* parseNDJSON(
       }
     }
 
-    // Flush remaining buffer
+    // Flush remaining buffer — no explicit done in chunks, so mark as partial
     const remaining = (buffer + decoder.decode()).trim();
     if (remaining !== '') {
       try {
@@ -77,6 +77,7 @@ export async function* parseNDJSON(
           role: 'assistant',
           datetime: Date.now(),
           done: true,
+          partial: true,
         };
         return;
       } catch {
@@ -84,7 +85,7 @@ export async function* parseNDJSON(
       }
     }
 
-    // Final done chunk if content was accumulated but no explicit done
+    // Stream consumed without explicit done — this is a partial/truncated response
     if (fullMessage.length > 0) {
       yield {
         delta: '',
@@ -92,6 +93,7 @@ export async function* parseNDJSON(
         role: 'assistant',
         datetime: Date.now(),
         done: true,
+        partial: true,
       };
     }
   } finally {

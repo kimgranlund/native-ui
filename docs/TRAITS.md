@@ -1,6 +1,6 @@
 # Traits
 
-27 composable behavioral controllers. Each has a **controller class** (imperative) and a **trait adapter** (for `<n-controller>`). Zero CSS -- styling is external.
+28 composable behavioral controllers. Each has a **controller class** (imperative) and a **trait adapter** (for `<n-controller>`). Zero CSS -- styling is external.
 
 ## Usage Patterns
 
@@ -62,9 +62,24 @@ class MyButton extends NativeElement {
 | `IntersectController` | `intersectable` | `native:intersect` |
 | `VirtualScrollController` | `virtualizable` | `native:virtual-change` |
 | `SlashCommandController` | `slash-commandable` | `native:slash-query/select` |
+| `ShortcutController` | `shortcutable` | `native:shortcut` |
 | `GatewayController` | -- | -- |
 
 **SlashCommandController** detects `/` at the caret position (preceded by whitespace or at text start) in contenteditable inputs. Creates a caret-anchored `n-listbox[popover]` with `position: fixed`. Filters commands by query. Arrow keys navigate, Enter selects, Tab selects with 2+ character query, Escape dismisses, `Cmd/Ctrl+/` toggles. On selection, replaces the `/query` text with a styled `<span data-slash-command>` tag. Events: `native:slash-query` (`{ query, commands }`), `native:slash-select` (`{ command }`). Command interface: `{ value, label, description?, icon? }`. Options render with visible description spans (muted, pushed right).
+
+**ShortcutController** registers keyboard shortcuts with platform-adaptive modifier keys. Combo strings use `+` separators: `"mod+k"`, `"escape"`, `"shift+?"`. `mod` resolves to `meta` on Mac, `ctrl` elsewhere. Matching is exact — unspecified modifiers must be false. Editable elements (input/textarea/contenteditable) are filtered by default (`allowEditable: true` to override). Options: `shortcuts` (array of `ShortcutBinding`), `global` (listen on `document` capture phase instead of host). `ShortcutBinding`: `id`, `combo`, `handler?`, `when?`, `preventDefault?` (default true), `stopPropagation?` (default false), `allowEditable?` (default false). Runtime API: `add(binding)`, `remove(id)`, `destroy()`. First matching binding wins.
+
+```ts
+const ctrl = new ShortcutController(host, {
+  shortcuts: [
+    { id: 'search', combo: 'mod+k', handler: () => openSearch() },
+    { id: 'help', combo: 'shift+?', when: () => !isSearchOpen() },
+  ],
+  global: true,
+});
+ctrl.add({ id: 'close', combo: 'escape', handler: () => close() });
+ctrl.remove('search');
+```
 
 **GatewayController** has no adapter. Provides `load(url)`, `save(url, content)`, and reactive signals: `loading`, `saving`, `error`, `dirty`.
 
@@ -115,7 +130,7 @@ this.addEventListener('native:dismiss', () => store.open.value = false);
 src/traits/
   {name}-controller.ts         -- controller class
   adapters/{name}-adapter.ts   -- TraitAdapter for n-controller
-  register-all.ts              -- registerAllTraits() (27 adapters)
+  register-all.ts              -- registerAllTraits() (28 adapters)
   runtime.ts                   -- DismissStack, ToastOptions, TraitRuntime
 ```
 

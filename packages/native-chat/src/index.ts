@@ -21,6 +21,10 @@ export {
   NChatInputStructured,
 } from './message/index.ts';
 
+// ── Message action config ──
+export type { ChatMessageActionDef } from './message/chat-message-element.ts';
+export { ACTION_REGISTRY, ROLE_DEFAULTS } from './message/chat-message-element.ts';
+
 // ── Types ──
 export type { SeedOption } from './message/chat-message-seed-element.ts';
 export type { StructuredOption } from './message/chat-input-structured-element.ts';
@@ -36,6 +40,11 @@ export type {
   ChatTransportOptions,
   ChatStreamEvent,
   ChatTransport,
+  TransportState,
+  TransportStatus,
+  TransportStateCallback,
+  RetryOptions,
+  StreamEndReason,
 } from './stream/index.ts';
 export {
   parseSSE,
@@ -44,6 +53,9 @@ export {
   detectFormat,
   createChatStream,
   createChatTransport,
+  classifyStreamEnd,
+  classifyHttpError,
+  backoffDelay,
 } from './stream/index.ts';
 
 // ── Telemetry ──

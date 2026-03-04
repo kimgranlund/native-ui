@@ -180,7 +180,9 @@ Attributes: `value`, `view` (day/month/year), `min`, `max`, `disabled`. Events: 
 ### `n-table`
 Data table (CSS subgrid). Display: `grid`.
 
-Attributes: `variant` (default/plain), `selectable`, `sticky-header`, `sticky-column`, `resizable`, `reorderable`. Children: `n-table-head` > `n-table-row` > `n-table-header`, `n-table-body` > `n-table-row` > `n-table-cell`. Events: `native:table-sort`, `native:table-select`.
+Attributes: `variant` (default/plain), `selectable`, `sticky-header`, `sticky-column`, `resizable`, `reorderable`, `cols` (grid-template-columns value, e.g. `"auto auto 1fr"`). Children: `n-table-head` > `n-table-row` > `n-table-header`, `n-table-body` > `n-table-row` > `n-table-cell`. Events: `native:table-sort`, `native:table-select`.
+
+`cols` maps directly to CSS `grid-template-columns` — eliminates inline styles or per-page CSS classes. All dynamic attributes (`cols`, `sticky-header`, `resizable`, `reorderable`) are in `observedAttributes` and can be toggled after setup.
 
 `n-table-header` attrs: `sortable`, `sort` (asc/desc). `n-table-row` attr: `colspan` (full-width section header).
 

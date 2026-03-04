@@ -38,7 +38,7 @@ For your first task, load [SETUP.md](SETUP.md) + [EXAMPLES.md](EXAMPLES.md). The
 | [CONTAINERS.md](CONTAINERS.md) | ~5KB | Structural containers and app layout system |
 | [PATTERNS.md](PATTERNS.md) | ~7KB | Recurring code patterns: coordinator, popover, form |
 | [PACKAGES.md](PACKAGES.md) | ~3KB | Package ecosystem and version alignment |
-| [TRAITS.md](TRAITS.md) | ~5KB | 25 trait controllers: usage, events, options |
+| [TRAITS.md](TRAITS.md) | ~5KB | 28 trait controllers: usage, events, options |
 | [INTERNALS.md](INTERNALS.md) | ~6KB | NativeElement, signals, build system, testing |
 
 ## Five Rules

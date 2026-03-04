@@ -323,7 +323,7 @@ native-ui includes a minimal signal system for reactive state management. Five f
 
 ## 12. Traits (composable behaviors)
 
-27 trait controllers that add interactive behavior to any HTML element. Use declaratively via `<n-controller>` or imperatively via controller classes.
+28 trait controllers that add interactive behavior to any HTML element. Use declaratively via `<n-controller>` or imperatively via controller classes.
 
 ```html
 <!-- Pressable: adds native:press event to any element -->
@@ -370,7 +370,7 @@ native-ui includes a minimal signal system for reactive state management. Five f
 - `registerAllTraits()` must run before component `define()` calls
 - Options use namespaced attributes: `draggable-axis`, `draggable-mode`, etc.
 - Full trait table: see [TRAITS.md](TRAITS.md)
-- Key traits: `pressable`, `draggable`, `hoverable`, `dismissable`, `collapsible`, `resizable`, `toastable`, `sortable`, `editable`, `swipeable`
+- Key traits: `pressable`, `draggable`, `hoverable`, `dismissable`, `collapsible`, `resizable`, `toastable`, `sortable`, `editable`, `swipeable`, `shortcutable`
 
 ---
 

@@ -3,6 +3,10 @@ export type {
   StreamFormat,
   ChatTransportOptions,
   ChatStreamEvent,
+  TransportState,
+  TransportStatus,
+  TransportStateCallback,
+  RetryOptions,
 } from './types.ts';
 
 export { parseSSE } from './parse-sse.ts';
@@ -15,3 +19,6 @@ export {
   createChatStream,
   createChatTransport,
 } from './create-transport.ts';
+
+export type { StreamEndReason } from './classify.ts';
+export { classifyStreamEnd, classifyHttpError, backoffDelay } from './classify.ts';

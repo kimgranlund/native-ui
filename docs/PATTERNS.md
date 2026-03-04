@@ -233,3 +233,33 @@ Coordinators re-dispatch: internal `native:select` from listbox becomes public `
 ```
 
 Lean CSS variants (`components-lean.css`, `native-ui-lean.css`) strip `force-*` selectors for production.
+
+---
+
+## 11. Keyboard Shortcuts
+
+`ShortcutController` registers platform-adaptive keyboard shortcuts with combo-string API.
+
+```ts
+const ctrl = new ShortcutController(this, {
+  shortcuts: [
+    { id: 'search', combo: 'mod+k', handler: () => this.openSearch() },
+    { id: 'help', combo: 'shift+?', when: () => !this.#searchOpen },
+    { id: 'close', combo: 'escape', handler: () => this.closePanel() },
+  ],
+  global: true,  // listen on document (capture phase)
+});
+
+this.addEventListener('native:shortcut', (e) => {
+  const { id, combo } = e.detail;
+});
+```
+
+**Key points:**
+- `mod` = `meta` on Mac, `ctrl` elsewhere. Explicit `ctrl`/`meta`/`shift`/`alt` also supported
+- Matching is exact — unspecified modifiers must be false
+- Editable elements (input/textarea/contenteditable) filtered by default; `allowEditable: true` overrides
+- `when()` guard skips binding if returns false
+- First matching binding wins
+- `add(binding)` / `remove(id)` for runtime changes
+- Declarative: `<n-controller traits="shortcutable" shortcutable-global>`

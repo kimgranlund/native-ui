@@ -150,6 +150,19 @@
     user-select: none;
   }
 
+  /* ── Virtual scroll spacers ── */
+
+  :where(n-chat-feed) > :where(.n-chat-feed-virtual-container) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--n-chat-gap);
+  }
+
+  :where(n-chat-feed) :where(.n-virtual-spacer-top),
+  :where(n-chat-feed) :where(.n-virtual-spacer-bottom) {
+    flex-shrink: 0;
+  }
+
   :where(n-chat-feed[hidden]) { display: none; }
 
   /* ══════════════════════════════════════════════════
@@ -254,6 +267,11 @@
     border: 1px solid var(--n-border-danger);
   }
 
+  /* Partial status — stream ended without explicit completion */
+  [status="partial"]:where(n-chat-message) {
+    border-bottom: 2px dashed var(--n-border-muted);
+  }
+
   /* ── Message actions toolbar ── */
 
   :where(n-chat-message) > :where(.n-chat-message-actions) {
@@ -264,6 +282,11 @@
   :where(n-chat-message):hover > :where(.n-chat-message-actions),
   :where(n-chat-message):focus-within > :where(.n-chat-message-actions),
   :where(n-chat-message[force-hover]) > :where(.n-chat-message-actions) {
+    opacity: 1;
+  }
+
+  /* Partial status — always show actions (contains continue button) */
+  [status="partial"]:where(n-chat-message) > :where(.n-chat-message-actions) {
     opacity: 1;
   }
 

@@ -96,7 +96,7 @@ export async function* parseSSE(
       }
     }
 
-    // Flush remaining buffer
+    // Flush remaining buffer — no explicit [DONE] sentinel received, so mark as partial
     const remaining = (buffer + decoder.decode()).trim();
     if (remaining !== '' && remaining.startsWith('data:')) {
       const payload = remaining.slice('data:'.length).trim();
@@ -116,6 +116,7 @@ export async function* parseSSE(
             role: 'assistant',
             datetime: Date.now(),
             done: true,
+            partial: true,
           };
           return;
         } catch {
@@ -124,7 +125,7 @@ export async function* parseSSE(
       }
     }
 
-    // If we consumed everything without a [DONE] sentinel, yield a final done chunk
+    // Stream consumed without a [DONE] sentinel — this is a partial/truncated response
     if (fullMessage.length > 0) {
       yield {
         delta: '',
@@ -132,6 +133,7 @@ export async function* parseSSE(
         role: 'assistant',
         datetime: Date.now(),
         done: true,
+        partial: true,
       };
     }
   } finally {

@@ -1,5 +1,26 @@
 import { NativeElement, signal } from '@nonoun/native-ui';
 
+// ── Action registry ──
+
+export interface ChatMessageActionDef {
+  label: string;
+  icon: string;
+}
+
+export const ACTION_REGISTRY: Record<string, ChatMessageActionDef> = {
+  'copy':          { label: 'Copy',        icon: 'copy' },
+  'retry':         { label: 'Retry',       icon: 'arrow-clockwise' },
+  'edit':          { label: 'Edit',        icon: 'pencil-simple' },
+  'feedback-up':   { label: 'Helpful',     icon: 'thumbs-up' },
+  'feedback-down': { label: 'Not helpful', icon: 'thumbs-down' },
+  'continue':      { label: 'Continue',    icon: 'arrow-right' },
+};
+
+export const ROLE_DEFAULTS: Record<string, string[]> = {
+  assistant: ['copy', 'retry', 'feedback-up', 'feedback-down'],
+  user: ['edit', 'retry'],
+};
+
 /**
  * Individual chat message bubble.
  *
@@ -9,15 +30,20 @@ import { NativeElement, signal } from '@nonoun/native-ui';
  * @attr {string} role - `user` | `assistant` | `system`
  * @attr {string} message-id - Unique message identifier
  * @attr {string} timestamp - Epoch milliseconds
- * @attr {string} status - `sending` | `sent` | `error` | `streaming`
+ * @attr {string} status - `sending` | `sent` | `error` | `streaming` | `partial`
+ * @attr {string} actions - Comma-separated action list, or `"none"` to suppress
+ * @attr {string} actions-style - `"label"` (default) | `"icon"` | `"icon-label"`
  * @fires native:message-action - Fired when an action button is clicked
+ * @fires native:continue-request - Fired when continue is requested for a partial message
  */
 export class NChatMessage extends NativeElement {
-  static observedAttributes = ['role', 'message-id', 'timestamp', 'status'];
+  static observedAttributes = ['role', 'message-id', 'timestamp', 'status', 'actions', 'actions-style'];
 
   #internals: ElementInternals;
   #role = signal<string>('assistant');
   #status = signal<string>('sent');
+  #actions = signal<string | null>(null);
+  #actionsStyle = signal<string>('label');
   #actionsEl: HTMLElement | null = null;
 
   constructor() {
@@ -43,6 +69,22 @@ export class NChatMessage extends NativeElement {
     this.setAttribute('status', val);
   }
 
+  get actions(): string | null { return this.#actions.value; }
+  set actions(val: string | null) {
+    this.#actions.value = val;
+    if (val !== null) {
+      this.setAttribute('actions', val);
+    } else {
+      this.removeAttribute('actions');
+    }
+  }
+
+  get actionsStyle(): string { return this.#actionsStyle.value; }
+  set actionsStyle(val: string) {
+    this.#actionsStyle.value = val;
+    this.setAttribute('actions-style', val);
+  }
+
   // ── Attribute sync ──
 
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
@@ -50,6 +92,8 @@ export class NChatMessage extends NativeElement {
     switch (name) {
       case 'role': this.#role.value = val ?? 'assistant'; break;
       case 'status': this.#status.value = val ?? 'sent'; break;
+      case 'actions': this.#actions.value = val; break;
+      case 'actions-style': this.#actionsStyle.value = val ?? 'label'; break;
     }
     super.attributeChangedCallback(name, old, val);
   }
@@ -59,10 +103,13 @@ export class NChatMessage extends NativeElement {
   setup(): void {
     super.setup();
 
-    // Stamp actions toolbar
+    // Stamp actions toolbar — reactive to role, actions, actionsStyle, and status
     this.addEffect(() => {
       const role = this.#role.value;
-      this.#stampActions(role);
+      const actionsAttr = this.#actions.value;
+      const style = this.#actionsStyle.value;
+      const status = this.#status.value;
+      this.#stampActions(role, actionsAttr, style, status);
     });
 
     // Sync ARIA
@@ -79,25 +126,45 @@ export class NChatMessage extends NativeElement {
 
   // ── Actions ──
 
-  #stampActions(role: string): void {
+  #stampActions(role: string, actionsAttr: string | null, style: string, status: string): void {
     if (this.#actionsEl) {
       this.#actionsEl.remove();
       this.#actionsEl = null;
     }
 
+    // Skip if actions="none"
+    if (actionsAttr === 'none') return;
+
+    // Skip if consumer provides a [slot="actions"] child
+    if (this.querySelector('[slot="actions"]')) return;
+
+    // Resolve action list
+    let actionList: string[];
+    if (actionsAttr) {
+      actionList = actionsAttr.split(',').map((s) => s.trim()).filter(Boolean);
+    } else {
+      actionList = ROLE_DEFAULTS[role] ?? [];
+    }
+
+    // If partial status, append continue action
+    if (status === 'partial' && !actionList.includes('continue')) {
+      actionList = [...actionList, 'continue'];
+    }
+
+    if (actionList.length === 0) return;
+
     const toolbar = document.createElement('n-toolbar');
     toolbar.className = 'n-chat-message-actions';
     toolbar.setAttribute('padding', 'none');
     toolbar.setAttribute('aria-label', 'Message actions');
+    if (style !== 'label') {
+      toolbar.setAttribute('data-style', style);
+    }
 
-    if (role === 'assistant') {
-      toolbar.appendChild(actionButton('copy', 'Copy'));
-      toolbar.appendChild(actionButton('retry', 'Retry'));
-      toolbar.appendChild(actionButton('feedback-up', 'Helpful'));
-      toolbar.appendChild(actionButton('feedback-down', 'Not helpful'));
-    } else if (role === 'user') {
-      toolbar.appendChild(actionButton('edit', 'Edit'));
-      toolbar.appendChild(actionButton('retry', 'Resend'));
+    for (const id of actionList) {
+      const def = ACTION_REGISTRY[id];
+      if (!def) continue;
+      toolbar.appendChild(actionButton(id, def, style));
     }
 
     if (toolbar.children.length > 0) {
@@ -116,6 +183,16 @@ export class NChatMessage extends NativeElement {
 
     e.stopPropagation();
 
+    // Continue action fires a separate event
+    if (action === 'continue') {
+      this.dispatchEvent(new CustomEvent('native:continue-request', {
+        bubbles: true,
+        composed: true,
+        detail: { messageId: this.messageId },
+      }));
+      return;
+    }
+
     this.dispatchEvent(new CustomEvent('native:message-action', {
       bubbles: true,
       composed: true,
@@ -127,13 +204,24 @@ export class NChatMessage extends NativeElement {
   };
 }
 
-function actionButton(action: string, label: string): HTMLElement {
+function actionButton(action: string, def: ChatMessageActionDef, style: string): HTMLElement {
   const btn = document.createElement('n-button');
   btn.setAttribute('variant', 'ghost');
   btn.setAttribute('size', 'sm');
   btn.setAttribute('inline', '');
   btn.setAttribute('data-action', action);
-  btn.setAttribute('aria-label', label);
-  btn.textContent = label;
+  btn.setAttribute('aria-label', def.label);
+
+  if (style === 'icon' || style === 'icon-label') {
+    const icon = document.createElement('n-icon');
+    icon.setAttribute('name', def.icon);
+    icon.setAttribute('slot', 'leading');
+    btn.appendChild(icon);
+  }
+
+  if (style === 'label' || style === 'icon-label') {
+    btn.appendChild(document.createTextNode(def.label));
+  }
+
   return btn;
 }
