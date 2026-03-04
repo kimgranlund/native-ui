@@ -40,42 +40,8 @@
         border-radius: 0.25rem;
       }
 
-      /* ── API Reference ── */
-
       .api-section {
         margin-bottom: 1.5rem;
-      }
-
-      .api-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.8125rem;
-      }
-
-      .api-table th {
-        text-align: left;
-        font-weight: 600;
-        padding: 0.5rem 0.75rem;
-        border-bottom: 2px solid var(--n-border-muted-neutral);
-        color: var(--n-ink-strong-neutral);
-      }
-
-      .api-table td {
-        padding: 0.5rem 0.75rem;
-        border-bottom: 1px solid var(--n-border-muted-neutral);
-        vertical-align: top;
-      }
-
-      .api-table code {
-        font-family: ui-monospace, monospace;
-        font-size: 0.75rem;
-        background: var(--n-panel-neutral);
-        padding: 0.0625rem 0.3125rem;
-        border-radius: 0.1875rem;
-      }
-
-      .api-table td:first-child code {
-        white-space: nowrap;
       }
     </style>
   </head>
@@ -84,7 +50,7 @@
 
     <h1>Slash Command</h1>
     <p class="demo-desc">
-      Detects <code>/</code> prefix at the start of an input's value, shows an anchored command listbox popover, filters by query, and dispatches selection events. Works with <code>&lt;n-textarea&gt;</code> and <code>&lt;n-input&gt;</code>.
+      Detects <code>/</code> anywhere in an input (preceded by whitespace or at text start), shows a caret-anchored command listbox popover, filters by query, and inserts a styled tag on selection. Use <kbd>Cmd+/</kbd> (<kbd>Ctrl+/</kbd>) to toggle. Works with <code>&lt;n-textarea&gt;</code> and <code>&lt;n-input&gt;</code>.
     </p>
 
     <!-- ── Basic Slash Commands (Textarea) ── -->
@@ -92,7 +58,7 @@
     <h2>Basic Slash Commands</h2>
     <n-panel bordered>
       <p class="demo-hint">
-        Type <code>/</code> in the textarea to see the command list. Arrow keys navigate, <strong>Enter</strong> selects, <strong>Escape</strong> closes. The input is cleared on selection.
+        Type <code>/</code> in the textarea to see the command list. Arrow keys navigate, <strong>Enter</strong> selects, <strong>Escape</strong> closes. A styled tag is inserted on selection. Works mid-text — try typing some text then <code>/</code>.
       </p>
       <div id="basic-wrapper" class="slash-wrapper">
         <n-textarea id="basic-textarea" placeholder="Type / to see commands..." rows="2"></n-textarea>
@@ -125,7 +91,7 @@ wrapper.addEventListener('native:slash-select', (e) =&gt; {
     <h2>With n-input</h2>
     <n-panel bordered>
       <p class="demo-hint">
-        Same pattern using <code>&lt;n-input&gt;</code> for single-line input. Type <code>/</code> to trigger the command popover.
+        Same pattern using <code>&lt;n-input&gt;</code> for single-line input. Type <code>/</code> or press <kbd>Cmd+/</kbd> to trigger the command popover.
       </p>
       <div id="input-wrapper" class="slash-wrapper">
         <n-input id="input-field" placeholder="Type / for commands..."></n-input>
@@ -207,111 +173,172 @@ toggleBtn.addEventListener('native:press', () =&gt; {
 
     <div class="api-section">
       <h3>Constructor Options (<code>SlashCommandOptions</code>)</h3>
-      <table class="api-table">
-        <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><code>input</code></td>
-            <td><code>HTMLElement</code></td>
-            <td>The input element to monitor (<code>n-textarea</code>, <code>n-input</code>, or any element dispatching <code>native:input</code>).</td>
-          </tr>
-          <tr>
-            <td><code>commands</code></td>
-            <td><code>SlashCommand[]</code></td>
-            <td>Array of command definitions to display in the popover.</td>
-          </tr>
-        </tbody>
-      </table>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Property</n-table-header>
+            <n-table-header>Type</n-table-header>
+            <n-table-header>Description</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><code>input</code></n-table-cell>
+            <n-table-cell><code>HTMLElement</code></n-table-cell>
+            <n-table-cell>The input element to monitor (<code>n-textarea</code>, <code>n-input</code>, or any element dispatching <code>native:input</code>).</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>commands</code></n-table-cell>
+            <n-table-cell><code>SlashCommand[]</code></n-table-cell>
+            <n-table-cell>Array of command definitions to display in the popover.</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
     </div>
 
     <div class="api-section">
       <h3><code>SlashCommand</code> Interface</h3>
-      <table class="api-table">
-        <thead><tr><th>Property</th><th>Type</th><th>Required</th><th>Description</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><code>value</code></td>
-            <td><code>string</code></td>
-            <td>Yes</td>
-            <td>Unique identifier for the command.</td>
-          </tr>
-          <tr>
-            <td><code>label</code></td>
-            <td><code>string</code></td>
-            <td>Yes</td>
-            <td>Display text shown in the popover list.</td>
-          </tr>
-          <tr>
-            <td><code>description</code></td>
-            <td><code>string</code></td>
-            <td>No</td>
-            <td>Optional description (used for filtering and <code>title</code> attribute).</td>
-          </tr>
-          <tr>
-            <td><code>icon</code></td>
-            <td><code>string</code></td>
-            <td>No</td>
-            <td>Optional icon name (reserved for future use).</td>
-          </tr>
-        </tbody>
-      </table>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto auto auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Property</n-table-header>
+            <n-table-header>Type</n-table-header>
+            <n-table-header>Required</n-table-header>
+            <n-table-header>Description</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><code>value</code></n-table-cell>
+            <n-table-cell><code>string</code></n-table-cell>
+            <n-table-cell>Yes</n-table-cell>
+            <n-table-cell>Unique identifier for the command.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>label</code></n-table-cell>
+            <n-table-cell><code>string</code></n-table-cell>
+            <n-table-cell>Yes</n-table-cell>
+            <n-table-cell>Display text shown in the popover list.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>description</code></n-table-cell>
+            <n-table-cell><code>string</code></n-table-cell>
+            <n-table-cell>No</n-table-cell>
+            <n-table-cell>Optional description (used for filtering and <code>title</code> attribute).</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>icon</code></n-table-cell>
+            <n-table-cell><code>string</code></n-table-cell>
+            <n-table-cell>No</n-table-cell>
+            <n-table-cell>Optional icon name (reserved for future use).</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
     </div>
 
     <div class="api-section">
       <h3>Controller Properties</h3>
-      <table class="api-table">
-        <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><code>host</code></td>
-            <td><code>HTMLElement</code></td>
-            <td>The host element the controller is attached to.</td>
-          </tr>
-          <tr>
-            <td><code>commands</code></td>
-            <td><code>SlashCommand[]</code></td>
-            <td>Get or set the command list. Setting re-renders the popover if open.</td>
-          </tr>
-          <tr>
-            <td><code>open</code></td>
-            <td><code>boolean</code></td>
-            <td>Whether the command popover is currently visible.</td>
-          </tr>
-        </tbody>
-      </table>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Property</n-table-header>
+            <n-table-header>Type</n-table-header>
+            <n-table-header>Description</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><code>host</code></n-table-cell>
+            <n-table-cell><code>HTMLElement</code></n-table-cell>
+            <n-table-cell>The host element the controller is attached to.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>commands</code></n-table-cell>
+            <n-table-cell><code>SlashCommand[]</code></n-table-cell>
+            <n-table-cell>Get or set the command list. Setting re-renders the popover if open.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>open</code></n-table-cell>
+            <n-table-cell><code>boolean</code></n-table-cell>
+            <n-table-cell>Whether the command popover is currently visible.</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
     </div>
 
     <div class="api-section">
       <h3>Controller Methods</h3>
-      <table class="api-table">
-        <thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><code>destroy()</code></td>
-            <td>---</td>
-            <td>Hides the popover, removes all listeners, cleans up the listbox element.</td>
-          </tr>
-        </tbody>
-      </table>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Method</n-table-header>
+            <n-table-header>Returns</n-table-header>
+            <n-table-header>Description</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><code>destroy()</code></n-table-cell>
+            <n-table-cell>---</n-table-cell>
+            <n-table-cell>Hides the popover, removes all listeners, cleans up the listbox element.</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
     </div>
 
     <div class="api-section">
       <h3>Events</h3>
-      <table class="api-table">
-        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
-        <tbody>
-          <tr>
-            <td><code>native:slash-query</code></td>
-            <td><code>{ query, commands }</code></td>
-            <td>Fired on host when typing after <code>/</code>. <code>query</code> is the text after the slash. <code>commands</code> is the filtered array.</td>
-          </tr>
-          <tr>
-            <td><code>native:slash-select</code></td>
-            <td><code>{ command }</code></td>
-            <td>Fired on host when a command is selected (Enter or click). <code>command</code> is the full <code>SlashCommand</code> object.</td>
-          </tr>
-        </tbody>
-      </table>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Event</n-table-header>
+            <n-table-header>Detail</n-table-header>
+            <n-table-header>Description</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><code>native:slash-query</code></n-table-cell>
+            <n-table-cell><code>{ query, commands }</code></n-table-cell>
+            <n-table-cell>Fired on host when typing after <code>/</code>. <code>query</code> is the text after the slash. <code>commands</code> is the filtered array.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>native:slash-select</code></n-table-cell>
+            <n-table-cell><code>{ command }</code></n-table-cell>
+            <n-table-cell>Fired on host when a command is selected (Enter or click). <code>command</code> is the full <code>SlashCommand</code> object.</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard Shortcuts</h3>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Key</n-table-header>
+            <n-table-header>Action</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><kbd>Cmd+/</kbd> / <kbd>Ctrl+/</kbd></n-table-cell>
+            <n-table-cell>Insert <code>/</code> at caret and open popover (toggle)</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><kbd>ArrowDown</kbd> / <kbd>ArrowUp</kbd></n-table-cell>
+            <n-table-cell>Navigate command list</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><kbd>Enter</kbd></n-table-cell>
+            <n-table-cell>Select active command</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><kbd>Escape</kbd></n-table-cell>
+            <n-table-cell>Close popover</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
     </div>
 
     </main></native-app-spa>
@@ -331,6 +358,7 @@ toggleBtn.addEventListener('native:press', () =&gt; {
       import '../components/listbox/listbox.ts';
       import '../components/listbox/option.ts';
       import '../components/controller/controller.ts';
+      import '../components/table/table.ts';
       import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';

@@ -2,7 +2,7 @@
 
 # SlashCommandController
 
-> Detects `/` prefix at the start of an input's value, shows an anchored command listbox popover, filters by query, and dispatches selection events.  Events: - `native:slash-query` — dispatched on host when typing after `/`. Detail: `{ query, commands }` - `native:slash-select` — dispatched on host when a command is selected. Detail: `{ command }`
+> Detects `/` at the caret position (preceded by whitespace or at text start), shows a caret-anchored command listbox popover, filters by query, and dispatches selection events. Works anywhere in the text, not just at the start.  Events: - `native:slash-query` — dispatched on host when typing after `/`. Detail: `{ query, commands }` - `native:slash-select` — dispatched on host when a command is selected. Detail: `{ command }`
 
 ## Constructor
 

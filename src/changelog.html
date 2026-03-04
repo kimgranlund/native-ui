@@ -49,6 +49,9 @@
       .changelog-section a:hover {
         text-decoration: underline;
       }
+      .changelog-section a > code {
+        color: inherit;
+      }
       .changelog-section code {
         font-size: 0.8125rem;
         background: var(--n-panel-neutral);
@@ -72,27 +75,27 @@
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="danger">New</n-badge> New Features</h3>
         <ul>
-          <li><code>&lt;n-text&gt;</code> — CSS-only utility element for styled text blocks (muted, strong, sizes, truncate, spacing). <a href="/src/containers/text/text.html">Demo</a></li>
-          <li><code>SlashCommandController</code> — detects <code>/</code> prefix in inputs, shows filtered command listbox popover. <a href="/src/traits/slash-command.html">Demo</a></li>
-          <li><code>&lt;n-panel&gt;</code> <code>[fade]</code> attribute — fades top/bottom edges when content overflows. <a href="/src/containers/panel/panel.html">Demo</a></li>
-          <li><code>&lt;n-panel&gt;</code> <code>[scrollable]</code> attribute — opt-in overflow scrolling (replaces implicit overflow). <a href="/src/containers/panel/panel.html">Demo</a></li>
+          <li><a href="/src/containers/text/text.html"><code>&lt;n-text&gt;</code></a> — CSS-only utility element for styled text blocks (muted, strong, sizes, truncate, spacing).</li>
+          <li><a href="/src/traits/slash-command.html"><code>SlashCommandController</code></a> — detects <code>/</code> prefix in inputs, shows filtered command listbox popover.</li>
+          <li><a href="/src/containers/panel/panel.html"><code>&lt;n-panel&gt;</code></a> <code>[fade]</code> attribute — fades top/bottom edges when content overflows.</li>
+          <li><a href="/src/containers/panel/panel.html"><code>&lt;n-panel&gt;</code></a> <code>[scrollable]</code> attribute — opt-in overflow scrolling (replaces implicit overflow).</li>
         </ul>
       </div>
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="accent">Updated</n-badge> Updates</h3>
         <ul>
-          <li><code>&lt;n-toolbar&gt;</code> — overflow priority (<code>overflow-priority</code>), pin (<code>overflow-pin</code>), and diagnostics (<code>native:toolbar-overflow</code> event). <a href="/src/containers/toolbar/toolbar.html">Demo</a></li>
-          <li><code>&lt;n-header&gt;</code> — <code>[truncate]</code> attribute for label text truncation with ellipsis. <a href="/src/containers/header/header.html">Demo</a></li>
-          <li><code>&lt;n-textarea&gt;</code> — inline formatting support (<code>formatting="code bold italic"</code>). <a href="/src/components/textarea/textarea.html">Demo</a></li>
-          <li><code>ResizeController</code> — corner resize handles for diagonal resizing. <a href="/src/traits/resizable.html">Demo</a></li>
+          <li><a href="/src/containers/toolbar/toolbar.html"><code>&lt;n-toolbar&gt;</code></a> — overflow priority (<code>overflow-priority</code>), pin (<code>overflow-pin</code>), and diagnostics (<code>native:toolbar-overflow</code> event).</li>
+          <li><a href="/src/containers/header/header.html"><code>&lt;n-header&gt;</code></a> — <code>[truncate]</code> attribute for label text truncation with ellipsis.</li>
+          <li><a href="/src/components/textarea/textarea.html"><code>&lt;n-textarea&gt;</code></a> — inline formatting support (<code>formatting="code bold italic"</code>).</li>
+          <li><a href="/src/traits/resizable.html"><code>ResizeController</code></a> — corner resize handles for diagonal resizing.</li>
         </ul>
       </div>
 
       <div class="changelog-section">
         <h3>Breaking Changes</h3>
         <ul>
-          <li><code>&lt;n-panel&gt;</code> overflow is now opt-in via <code>[scrollable]</code>. Panels that relied on implicit <code>overflow: auto</code> must add the attribute.</li>
+          <li><a href="/src/containers/panel/panel.html"><code>&lt;n-panel&gt;</code></a> overflow is now opt-in via <code>[scrollable]</code>. Panels that relied on implicit <code>overflow: auto</code> must add the attribute.</li>
         </ul>
       </div>
     </div>
@@ -120,7 +123,7 @@
       <div class="changelog-section">
         <h3>Fixes</h3>
         <ul>
-          <li>Fixed <code>DragController</code> not firing <code>native:drop</code> in View Transitions context.</li>
+          <li>Fixed <a href="/src/traits/draggable.html"><code>DragController</code></a> not firing <code>native:drop</code> in View Transitions context.</li>
         </ul>
       </div>
     </div>

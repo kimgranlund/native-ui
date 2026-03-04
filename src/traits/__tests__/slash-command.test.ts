@@ -13,11 +13,12 @@ const COMMANDS: SlashCommand[] = [
 
 function create(commands = COMMANDS): {
   host: HTMLElement;
-  input: HTMLInputElement;
+  input: HTMLElement;
   ctrl: SlashCommandController;
 } {
   const host = document.createElement('div');
-  const input = document.createElement('input');
+  const input = document.createElement('div');
+  input.setAttribute('contenteditable', 'plaintext-only');
   host.appendChild(input);
   document.body.appendChild(host);
 
@@ -25,23 +26,62 @@ function create(commands = COMMANDS): {
   return { host, input, ctrl };
 }
 
-function dispatchNativeInput(host: HTMLElement, input: HTMLElement, value: string): void {
-  // Set the input value
-  (input as HTMLInputElement).value = value;
+/**
+ * Mock window.getSelection() to simulate a collapsed caret at a given
+ * offset within the specified text node.
+ */
+function mockCaret(textNode: Text, offset: number): void {
+  const mockSel = {
+    focusNode: textNode,
+    focusOffset: offset,
+    rangeCount: 1,
+    getRangeAt: () => ({
+      collapsed: true,
+      startContainer: textNode,
+      startOffset: offset,
+      endContainer: textNode,
+      endOffset: offset,
+      cloneRange() {
+        return {
+          collapsed: true,
+          collapse() {},
+          getBoundingClientRect: () => ({ left: 10, top: 10, right: 11, bottom: 26, width: 1, height: 16 }),
+        };
+      },
+      collapse() {},
+      getBoundingClientRect: () => ({ left: 10, top: 10, right: 11, bottom: 26, width: 1, height: 16 }),
+    }),
+    removeAllRanges() {},
+    addRange() {},
+  } as unknown as Selection;
+
+  vi.spyOn(window, 'getSelection').mockReturnValue(mockSel);
+}
+
+/** Set text in the contenteditable input, mock caret at end, fire native:input on host. */
+function simulateTyping(host: HTMLElement, input: HTMLElement, text: string): void {
+  input.textContent = text;
+  const textNode = input.firstChild as Text;
+  if (textNode) {
+    mockCaret(textNode, text.length);
+  } else {
+    vi.spyOn(window, 'getSelection').mockReturnValue(null);
+  }
   host.dispatchEvent(new CustomEvent('native:input', {
     bubbles: true,
-    detail: { value },
+    detail: { value: text },
   }));
 }
 
 afterEach(() => {
+  vi.restoreAllMocks();
   document.body.innerHTML = '';
 });
 
 describe('SlashCommandController', () => {
   it('creates a listbox popover when / is typed at start', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/');
+    simulateTyping(host, input, '/');
 
     const listbox = host.querySelector('n-listbox');
     expect(listbox).not.toBeNull();
@@ -52,7 +92,7 @@ describe('SlashCommandController', () => {
 
   it('shows all commands when only / is typed', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/');
+    simulateTyping(host, input, '/');
 
     const options = host.querySelectorAll('n-option');
     expect(options.length).toBe(COMMANDS.length);
@@ -61,22 +101,17 @@ describe('SlashCommandController', () => {
 
   it('filters commands by query (case-insensitive)', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/he');
+    simulateTyping(host, input, '/he');
 
     const options = host.querySelectorAll('n-option');
-    // "help" (value), "heading" (value), "Hello World" (label), "Show help information" (description: help) — all contain "he"
-    // help: value "help" contains "he" -> yes
-    // search: value "search" no, label "Search" no, desc "Search for items" no
-    // settings: value "settings" no, label "Settings" no, desc "Open settings" no
-    // heading: value "heading" contains "he" -> yes
-    // hello: value "hello" contains "he" -> yes
+    // help, heading, hello all contain "he"
     expect(options.length).toBe(3);
     ctrl.destroy();
   });
 
   it('filters by description too', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/open');
+    simulateTyping(host, input, '/open');
 
     const options = host.querySelectorAll('n-option');
     // "settings" has description "Open settings" which contains "open"
@@ -90,7 +125,7 @@ describe('SlashCommandController', () => {
     const handler = vi.fn();
     host.addEventListener('native:slash-query', handler);
 
-    dispatchNativeInput(host, input, '/test');
+    simulateTyping(host, input, '/test');
 
     expect(handler).toHaveBeenCalledTimes(1);
     const detail = handler.mock.calls[0][0].detail;
@@ -104,7 +139,7 @@ describe('SlashCommandController', () => {
     const handler = vi.fn();
     host.addEventListener('native:slash-query', handler);
 
-    dispatchNativeInput(host, input, '/');
+    simulateTyping(host, input, '/');
 
     expect(handler).toHaveBeenCalledTimes(1);
     expect(handler.mock.calls[0][0].detail.query).toBe('');
@@ -114,7 +149,7 @@ describe('SlashCommandController', () => {
 
   it('closes the popover on Escape', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/test');
+    simulateTyping(host, input, '/test');
     expect(ctrl.open).toBe(true);
 
     input.dispatchEvent(new KeyboardEvent('keydown', {
@@ -127,31 +162,35 @@ describe('SlashCommandController', () => {
     ctrl.destroy();
   });
 
-  it('closes the popover when value no longer starts with /', () => {
+  it('closes the popover when caret leaves slash context', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/test');
+    simulateTyping(host, input, '/test');
     expect(ctrl.open).toBe(true);
 
-    dispatchNativeInput(host, input, 'test');
+    simulateTyping(host, input, 'test');
     expect(ctrl.open).toBe(false);
     ctrl.destroy();
   });
 
   it('closes the popover when value is empty', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/test');
+    simulateTyping(host, input, '/test');
     expect(ctrl.open).toBe(true);
 
-    dispatchNativeInput(host, input, '');
+    input.textContent = '';
+    vi.spyOn(window, 'getSelection').mockReturnValue(null);
+    host.dispatchEvent(new CustomEvent('native:input', {
+      bubbles: true,
+      detail: { value: '' },
+    }));
     expect(ctrl.open).toBe(false);
     ctrl.destroy();
   });
 
   it('dispatches native:slash-select on Enter with active option', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/help');
+    simulateTyping(host, input, '/help');
 
-    // Simulate an active option (normally set by listbox keyboard navigation)
     const option = host.querySelector('n-option');
     expect(option).not.toBeNull();
     option!.setAttribute('active', '');
@@ -172,9 +211,9 @@ describe('SlashCommandController', () => {
     ctrl.destroy();
   });
 
-  it('clears input value on selection', () => {
+  it('inserts a tag span on command selection', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/help');
+    simulateTyping(host, input, '/help');
 
     const option = host.querySelector('n-option');
     option!.setAttribute('active', '');
@@ -185,13 +224,16 @@ describe('SlashCommandController', () => {
       cancelable: true,
     }));
 
-    expect(input.value).toBe('');
+    const tag = input.querySelector('[data-slash-command="help"]');
+    expect(tag).not.toBeNull();
+    expect(tag?.textContent).toBe('/help');
+    expect(tag?.getAttribute('contenteditable')).toBe('false');
     ctrl.destroy();
   });
 
   it('dispatches native:slash-select on listbox native:change', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/');
+    simulateTyping(host, input, '/');
 
     const handler = vi.fn();
     host.addEventListener('native:slash-select', handler);
@@ -210,7 +252,7 @@ describe('SlashCommandController', () => {
 
   it('commands can be updated dynamically', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/');
+    simulateTyping(host, input, '/');
 
     let options = host.querySelectorAll('n-option');
     expect(options.length).toBe(5);
@@ -221,7 +263,6 @@ describe('SlashCommandController', () => {
     ];
     ctrl.commands = newCommands;
 
-    // Options should be re-rendered since popover is open
     options = host.querySelectorAll('n-option');
     expect(options.length).toBe(2);
     expect(options[0].getAttribute('value')).toBe('new1');
@@ -231,52 +272,62 @@ describe('SlashCommandController', () => {
 
   it('destroy cleans up DOM and listeners', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/');
+    simulateTyping(host, input, '/');
 
     expect(host.querySelector('n-listbox')).not.toBeNull();
 
     ctrl.destroy();
 
-    // Listbox should be removed
     expect(host.querySelector('n-listbox')).toBeNull();
     expect(ctrl.open).toBe(false);
 
-    // Further native:input events should not throw or create a new listbox
-    dispatchNativeInput(host, input, '/test');
+    // Further events should not throw or create a new listbox
+    simulateTyping(host, input, '/test');
     expect(host.querySelector('n-listbox')).toBeNull();
   });
 
-  it('does not open popover for text not starting with /', () => {
+  it('does not open popover for text without slash', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, 'hello');
+    simulateTyping(host, input, 'hello');
 
     expect(host.querySelector('n-listbox')).toBeNull();
     expect(ctrl.open).toBe(false);
     ctrl.destroy();
   });
 
-  it('does not open popover for / in the middle of text', () => {
+  it('does not open popover for / not preceded by whitespace', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, 'hello/world');
+    simulateTyping(host, input, 'hello/world');
 
-    expect(host.querySelector('n-listbox')).toBeNull();
     expect(ctrl.open).toBe(false);
+    ctrl.destroy();
+  });
+
+  it('detects / after whitespace mid-text', () => {
+    const { host, input, ctrl } = create();
+    simulateTyping(host, input, 'hello /he');
+
+    expect(ctrl.open).toBe(true);
+    const options = host.querySelectorAll('n-option');
+    // help, heading, hello — all contain "he"
+    expect(options.length).toBe(3);
     ctrl.destroy();
   });
 
   it('sets option values and text correctly', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/');
+    simulateTyping(host, input, '/');
 
     const options = host.querySelectorAll('n-option');
     expect(options[0].getAttribute('value')).toBe('help');
-    expect(options[0].textContent).toBe('Help');
+    // Label is in a span, textContent includes description too
+    expect(options[0].textContent).toContain('Help');
     ctrl.destroy();
   });
 
   it('sets title attribute from description', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/');
+    simulateTyping(host, input, '/');
 
     const options = host.querySelectorAll('n-option');
     expect(options[0].getAttribute('title')).toBe('Show help information');
@@ -315,12 +366,12 @@ describe('SlashCommandController', () => {
 
   it('re-renders options when query changes', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/he');
+    simulateTyping(host, input, '/he');
 
     let options = host.querySelectorAll('n-option');
     expect(options.length).toBe(3); // help, heading, hello
 
-    dispatchNativeInput(host, input, '/hel');
+    simulateTyping(host, input, '/hel');
 
     options = host.querySelectorAll('n-option');
     expect(options.length).toBe(2); // help, hello
@@ -329,7 +380,7 @@ describe('SlashCommandController', () => {
 
   it('delegates ArrowDown to listbox', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/');
+    simulateTyping(host, input, '/');
 
     const listbox = host.querySelector('n-listbox')!;
     const spy = vi.fn();
@@ -347,7 +398,7 @@ describe('SlashCommandController', () => {
 
   it('delegates ArrowUp to listbox', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/');
+    simulateTyping(host, input, '/');
 
     const listbox = host.querySelector('n-listbox')!;
     const spy = vi.fn();
@@ -363,23 +414,140 @@ describe('SlashCommandController', () => {
     ctrl.destroy();
   });
 
-  it('listbox has correct role attribute', () => {
+  it('listbox has correct attributes', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/');
+    simulateTyping(host, input, '/');
 
     const listbox = host.querySelector('n-listbox');
     expect(listbox?.getAttribute('role')).toBe('listbox');
+    expect(listbox?.getAttribute('size')).toBe('sm');
+    expect(listbox?.getAttribute('density')).toBe('compact');
     ctrl.destroy();
   });
 
   it('dismiss event closes the popover', () => {
     const { host, input, ctrl } = create();
-    dispatchNativeInput(host, input, '/test');
+    simulateTyping(host, input, '/test');
     expect(ctrl.open).toBe(true);
 
     host.dispatchEvent(new CustomEvent('native:dismiss', { bubbles: true }));
 
     expect(ctrl.open).toBe(false);
+    ctrl.destroy();
+  });
+
+  // ── Tab-to-select ──
+
+  it('Tab selects first option when query has 2+ chars', () => {
+    const { host, input, ctrl } = create();
+    simulateTyping(host, input, '/he');
+
+    const handler = vi.fn();
+    host.addEventListener('native:slash-select', handler);
+
+    input.dispatchEvent(new KeyboardEvent('keydown', {
+      key: 'Tab',
+      bubbles: true,
+      cancelable: true,
+    }));
+
+    expect(handler).toHaveBeenCalledTimes(1);
+    // First filtered result for "he" is "help"
+    expect(handler.mock.calls[0][0].detail.command.value).toBe('help');
+    expect(ctrl.open).toBe(false);
+    ctrl.destroy();
+  });
+
+  it('Tab selects active option over first when query has 2+ chars', () => {
+    const { host, input, ctrl } = create();
+    simulateTyping(host, input, '/he');
+
+    // Set the second option as active
+    const options = host.querySelectorAll('n-option');
+    options[1].setAttribute('active', '');
+
+    const handler = vi.fn();
+    host.addEventListener('native:slash-select', handler);
+
+    input.dispatchEvent(new KeyboardEvent('keydown', {
+      key: 'Tab',
+      bubbles: true,
+      cancelable: true,
+    }));
+
+    expect(handler).toHaveBeenCalledTimes(1);
+    expect(handler.mock.calls[0][0].detail.command.value).toBe('heading');
+    ctrl.destroy();
+  });
+
+  it('Tab does not select when query has fewer than 2 chars', () => {
+    const { host, input, ctrl } = create();
+    simulateTyping(host, input, '/h');
+
+    const handler = vi.fn();
+    host.addEventListener('native:slash-select', handler);
+
+    input.dispatchEvent(new KeyboardEvent('keydown', {
+      key: 'Tab',
+      bubbles: true,
+      cancelable: true,
+    }));
+
+    expect(handler).not.toHaveBeenCalled();
+    // Popover stays open — Tab was not prevented
+    expect(ctrl.open).toBe(true);
+    ctrl.destroy();
+  });
+
+  it('Tab does nothing when popover is closed', () => {
+    const { host, input, ctrl } = create();
+    const handler = vi.fn();
+    host.addEventListener('native:slash-select', handler);
+
+    input.dispatchEvent(new KeyboardEvent('keydown', {
+      key: 'Tab',
+      bubbles: true,
+      cancelable: true,
+    }));
+
+    expect(handler).not.toHaveBeenCalled();
+    ctrl.destroy();
+  });
+
+  // ── Description spans ──
+
+  it('renders description span inside options', () => {
+    const { host, input, ctrl } = create();
+    simulateTyping(host, input, '/');
+
+    const firstOption = host.querySelector('n-option')!;
+    const spans = firstOption.querySelectorAll('span');
+    // Label span + description span
+    expect(spans.length).toBe(2);
+    expect(spans[0].textContent).toBe('Help');
+    expect(spans[1].textContent).toBe('Show help information');
+    ctrl.destroy();
+  });
+
+  it('does not render description span when description is absent', () => {
+    const { host, input, ctrl } = create();
+    simulateTyping(host, input, '/');
+
+    // "Hello World" (index 4) has no description
+    const options = host.querySelectorAll('n-option');
+    const spans = options[4].querySelectorAll('span');
+    expect(spans.length).toBe(1); // label only
+    expect(spans[0].textContent).toBe('Hello World');
+    ctrl.destroy();
+  });
+
+  it('options have flex display for label/description layout', () => {
+    const { host, input, ctrl } = create();
+    simulateTyping(host, input, '/');
+
+    const firstOption = host.querySelector('n-option')!;
+    expect(firstOption.style.display).toBe('flex');
+    expect(firstOption.style.alignItems).toBe('center');
     ctrl.destroy();
   });
 });

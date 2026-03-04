@@ -2,6 +2,7 @@ import { signal } from '../../reactivity/signal.ts';
 import { NativeElement } from '../../core/native-element.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
 import { FormAssociable } from '../../core/form-associable.ts';
+import { FORMAT_MARKERS, FORMAT_SHORTCUTS, isFormatEnabled, getSelectionOffsets, toggleMarker, restoreSelection } from '../../core/formatting.ts';
 
 /**
  * Single-line text input using an inner contenteditable surface with form association.
@@ -19,11 +20,13 @@ import { FormAssociable } from '../../core/form-associable.ts';
  * @attr {boolean} required - Marks as required for form validation
  * @attr {string} name - Form field name
  * @attr {string} type - Input type ("text" or "password") — password masks via CSS text-security
+ * @attr {string} formatting - Space-separated list of enabled formats (e.g. "code")
  * @fires native:input - Fired on each keystroke with `{ value }` detail
  * @fires native:change - Fired on blur with `{ value }` detail
+ * @fires native:format - Fired after formatting with `{ type, value }` detail
  */
 export class NInput extends FormAssociable(NativeElement) {
-  static observedAttributes = ['value', 'placeholder', 'disabled', 'readonly', 'required', 'pattern', 'type'];
+  static observedAttributes = ['value', 'placeholder', 'disabled', 'readonly', 'required', 'pattern', 'type', 'formatting'];
 
   #internals: ElementInternals;
   #disabled = signal(false);
@@ -213,16 +216,20 @@ export class NInput extends FormAssociable(NativeElement) {
     // WHY: Events on the surface (not host) because the surface owns the
     // contenteditable. Custom events dispatch on the host for consumer listeners.
     this.#surface.addEventListener('keydown', this.#onKeyDown);
+    this.#surface.addEventListener('keydown', this.#onFormattingKeydown);
     this.#surface.addEventListener('input', this.#onInput);
     this.#surface.addEventListener('blur', this.#onBlur);
+    this.#surface.addEventListener('focus', this.#onSurfaceFocus);
     // WHY: Clicking the host (padding, border area) should focus the surface.
     this.addEventListener('mousedown', this.#onHostMousedown);
   }
 
   teardown(): void {
     this.#surface?.removeEventListener('keydown', this.#onKeyDown);
+    this.#surface?.removeEventListener('keydown', this.#onFormattingKeydown);
     this.#surface?.removeEventListener('input', this.#onInput);
     this.#surface?.removeEventListener('blur', this.#onBlur);
+    this.#surface?.removeEventListener('focus', this.#onSurfaceFocus);
     this.removeEventListener('mousedown', this.#onHostMousedown);
     this.#surface?.remove();
     this.#surface = null;
@@ -303,6 +310,19 @@ export class NInput extends FormAssociable(NativeElement) {
     }
   };
 
+  // WHY: When an empty field gains focus, the browser may place the caret
+  // after the ::before placeholder pseudo-element. Force caret to position 0.
+  #onSurfaceFocus = (): void => {
+    if ((this.#surface?.textContent ?? '').trim() !== '') return;
+    const sel = window.getSelection();
+    if (!sel || !this.#surface) return;
+    const range = document.createRange();
+    range.setStart(this.#surface, 0);
+    range.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  };
+
   #onKeyDown = (e: KeyboardEvent): void => {
     if (e.key === 'Enter') {
       // WHY: contenteditable inserts <br> on Enter — prevent for single-line input
@@ -333,5 +353,64 @@ export class NInput extends FormAssociable(NativeElement) {
       composed: true,
       detail: { value: this.#surface?.textContent ?? '' },
     }));
+  };
+
+  // ── Formatting ──
+
+  /**
+   * Apply or toggle a format on the current selection.
+   * Wraps selected text with the format marker, or unwraps if already wrapped.
+   * No-op when the format is not enabled or no text is selected.
+   */
+  applyFormat(type: string): void {
+    const marker = FORMAT_MARKERS[type];
+    if (!marker || !isFormatEnabled(this, type) || !this.#surface) return;
+
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0) return;
+
+    const range = sel.getRangeAt(0);
+
+    // Ensure the selection is within the surface
+    if (!this.#surface.contains(range.startContainer) || !this.#surface.contains(range.endContainer)) return;
+
+    const text = this.value;
+    const offsets = getSelectionOffsets(this.#surface, range);
+    if (offsets === null) return;
+
+    const { start, end } = offsets;
+
+    // No-op when nothing is selected (collapsed cursor)
+    if (start === end) return;
+
+    const selectedText = text.slice(start, end);
+    const markerLen = marker.length;
+    const result = toggleMarker(text, selectedText, start, end, marker, markerLen);
+
+    this.value = result.text;
+
+    this.dispatchEvent(new CustomEvent('native:format', {
+      bubbles: true,
+      composed: true,
+      detail: { type, value: result.text },
+    }));
+
+    // Restore selection after value setter replaces textContent
+    requestAnimationFrame(() => {
+      if (this.#surface) restoreSelection(this.#surface, result.selStart, result.selEnd);
+    });
+  }
+
+  /** Keyboard shortcut handler for formatting (Cmd/Ctrl+E for code). */
+  #onFormattingKeydown = (e: KeyboardEvent): void => {
+    if (!(e.metaKey || e.ctrlKey)) return;
+
+    const format = FORMAT_SHORTCUTS[e.key];
+    if (!format) return;
+
+    if (!isFormatEnabled(this, format)) return;
+
+    e.preventDefault();
+    this.applyFormat(format);
   };
 }
