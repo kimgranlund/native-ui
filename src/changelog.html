@@ -67,6 +67,20 @@
       Version history for <code>@nonoun/native-ui</code>. Each release lists new features, updates, and breaking changes with links to relevant demo pages.
     </p>
 
+    <!-- ── 0.7.15 ── -->
+
+    <div class="changelog-version">
+      <h2>0.7.15 <span class="changelog-date">— March 2026</span></h2>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="info">Enhanced</n-badge> Enhancements</h3>
+        <ul>
+          <li><code>ResizeController</code> — New options: <code>handle</code> (external handle element), <code>step</code> (snap-to-grid), <code>stateAttribute</code> (configurable attribute name), <code>eventTarget</code> (redirect events). Dispatches <code>native:resize-cancel</code> on Escape/pointercancel. Move events include <code>delta</code> in detail.</li>
+          <li><code>&lt;n-gripper&gt;</code> — Now delegates resize logic to <code>ResizeController</code> internally, eliminating ~150 lines of duplicated pointer lifecycle, delta calculation, and clamping code. Resizable adapter gains <code>step</code> option.</li>
+        </ul>
+      </div>
+    </div>
+
     <!-- ── 0.7.14 ── -->
 
     <div class="changelog-version">

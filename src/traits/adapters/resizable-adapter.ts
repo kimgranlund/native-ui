@@ -20,6 +20,7 @@ export const resizableAdapter: TraitAdapter<ResizeController> = {
       maxWidth: options['max-width'] ? Number(options['max-width']) : undefined,
       minHeight: options['min-height'] ? Number(options['min-height']) : undefined,
       maxHeight: options['max-height'] ? Number(options['max-height']) : undefined,
+      step: options['step'] ? Number(options['step']) : undefined,
     });
   },
   destroy(instance) { instance.destroy(); },
@@ -61,6 +62,11 @@ export const resizableAdapter: TraitAdapter<ResizeController> = {
       const val = options['max-height'];
       const n = Number(val);
       if (val !== '' && !isNaN(n)) instance.maxHeight = n;
+    }
+    if ('step' in options) {
+      const val = options['step'];
+      const n = Number(val);
+      instance.step = (val !== '' && !isNaN(n)) ? n : 0;
     }
   },
 };

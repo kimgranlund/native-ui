@@ -2,7 +2,7 @@
 
 # ResizeController
 
-> Handles pointer-driven element resizing via a drag handle, dispatching `native:resize-start`, `native:resize-move`, and `native:resize-end`.
+> Handles pointer-driven element resizing via a drag handle, dispatching `native:resize-start`, `native:resize-move`, `native:resize-end`, and `native:resize-cancel`.
 
 ## Constructor
 
@@ -14,7 +14,8 @@ new ResizeController(host: HTMLElement, options?: ResizeOptions)
 
 | Option | Type | Required | Description |
 |--------|------|----------|-------------|
-| `handleSelector` | `string` | yes |  |
+| `handleSelector` | `string` | no | CSS selector for handle elements within the host. Not needed when `handle` is set. |
+| `handle` | `HTMLElement` | no | External handle element. When set, pointerdown listens on this element instead of the host. |
 | `axis` | `'horizontal' | 'vertical' | 'both'` | no |  |
 | `min` | `number` | no |  |
 | `max` | `number` | no |  |
@@ -26,14 +27,18 @@ new ResizeController(host: HTMLElement, options?: ResizeOptions)
 | `maxWidth` | `number` | no | Maximum width constraint (corner mode). Falls back to `max` if not set. |
 | `minHeight` | `number` | no | Minimum height constraint (corner mode). Falls back to `min` if not set. |
 | `maxHeight` | `number` | no | Maximum height constraint (corner mode). Falls back to `max` if not set. |
+| `step` | `number` | no | Snap-to-grid increment in pixels. 0 = no snapping. |
+| `stateAttribute` | `string` | no | Attribute name set on host (and handle) during resize. Default: 'resizing'. |
+| `eventTarget` | `HTMLElement` | no | Element that receives resize events. Defaults to `host`. |
 
 ## Events Dispatched
 
 | Event | Detail |
 |-------|--------|
 | `native:resize-start` | `{ width, height, handle }` |
-| `native:resize-move` | `{ width, height, handle }` |
+| `native:resize-move` | `{ width, height, handle, delta, dy }` |
 | `native:resize-end` | `{ width, height, handle }` |
+| `native:resize-cancel` | `{ handle }` |
 
 ## Methods
 

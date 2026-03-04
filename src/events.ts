@@ -170,6 +170,12 @@ export interface NSwipeDetail {
 export interface NResizeDetail {
   width: number;
   height: number;
+  handle?: string | null;
+  delta?: { dx: number; dy: number };
+}
+
+export interface NResizeCancelDetail {
+  handle: string | null;
 }
 
 // ── Edit ──

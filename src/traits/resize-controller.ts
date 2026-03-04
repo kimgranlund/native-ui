@@ -1,7 +1,10 @@
 export type HandlePosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 
 export interface ResizeOptions {
-  handleSelector: string;
+  /** CSS selector for handle elements within the host. Not needed when `handle` is set. */
+  handleSelector?: string;
+  /** External handle element. When set, pointerdown listens on this element instead of the host. */
+  handle?: HTMLElement;
   axis?: 'horizontal' | 'vertical' | 'both';
   min?: number;
   max?: number;
@@ -20,6 +23,12 @@ export interface ResizeOptions {
   minHeight?: number;
   /** Maximum height constraint (corner mode). Falls back to `max` if not set. */
   maxHeight?: number;
+  /** Snap-to-grid increment in pixels. 0 = no snapping. */
+  step?: number;
+  /** Attribute name set on host (and handle) during resize. Default: 'resizing'. */
+  stateAttribute?: string;
+  /** Element that receives resize events. Defaults to `host`. */
+  eventTarget?: HTMLElement;
 }
 
 /** Sign multipliers for each corner handle — maps dx/dy to width/height changes. */
@@ -30,7 +39,7 @@ const CORNER_SIGNS: Record<HandlePosition, { sx: number; sy: number }> = {
   'top-left': { sx: -1, sy: -1 },
 };
 
-/** Handles pointer-driven element resizing via a drag handle, dispatching `native:resize-start`, `native:resize-move`, and `native:resize-end`. */
+/** Handles pointer-driven element resizing via a drag handle, dispatching `native:resize-start`, `native:resize-move`, `native:resize-end`, and `native:resize-cancel`. */
 export class ResizeController {
   readonly host: HTMLElement;
   handleSelector: string;
@@ -45,6 +54,11 @@ export class ResizeController {
   maxWidth: number | undefined;
   minHeight: number | undefined;
   maxHeight: number | undefined;
+  step: number;
+  stateAttribute: string;
+
+  readonly #handleElement: HTMLElement | null;
+  readonly #eventTarget: HTMLElement;
 
   #startX = 0;
   #startY = 0;
@@ -56,7 +70,8 @@ export class ResizeController {
 
   constructor(host: HTMLElement, options: ResizeOptions) {
     this.host = host;
-    this.handleSelector = options.handleSelector;
+    this.handleSelector = options.handleSelector ?? '';
+    this.#handleElement = options.handle ?? null;
     this.axis = options.axis ?? 'horizontal';
     this.min = options.min ?? 0;
     this.max = options.max ?? Infinity;
@@ -68,19 +83,27 @@ export class ResizeController {
     this.maxWidth = options.maxWidth;
     this.minHeight = options.minHeight;
     this.maxHeight = options.maxHeight;
+    this.step = options.step ?? 0;
+    this.stateAttribute = options.stateAttribute ?? 'resizing';
+    this.#eventTarget = options.eventTarget ?? host;
     this.attach();
+  }
+
+  /** The element that receives pointerdown — either the external handle or the host. */
+  get #listenTarget(): HTMLElement {
+    return this.#handleElement ?? this.host;
   }
 
   attach(): void {
     if (this.#attached) return;
     this.#attached = true;
-    this.host.addEventListener('pointerdown', this.#onPointerDown);
+    this.#listenTarget.addEventListener('pointerdown', this.#onPointerDown);
   }
 
   detach(): void {
     if (!this.#attached) return;
     this.#attached = false;
-    this.host.removeEventListener('pointerdown', this.#onPointerDown);
+    this.#listenTarget.removeEventListener('pointerdown', this.#onPointerDown);
     this.#cleanup();
   }
 
@@ -91,14 +114,20 @@ export class ResizeController {
   #onPointerDown = (e: PointerEvent): void => {
     if (e.button !== 0) return;
     if (this.disabled) return;
-    if (!this.handleSelector) return;
 
-    const handle = (e.target as HTMLElement).closest?.(this.handleSelector) as HTMLElement | null;
-    if (!handle || !this.host.contains(handle)) return;
+    // Resolve the handle element
+    let handleEl: HTMLElement | null;
+    if (this.#handleElement) {
+      handleEl = this.#handleElement;
+    } else {
+      if (!this.handleSelector) return;
+      handleEl = (e.target as HTMLElement).closest?.(this.handleSelector) as HTMLElement | null;
+      if (!handleEl || !this.host.contains(handleEl)) return;
+    }
 
-    // In corner mode, read data-handle to identify which corner was clicked
+    // Corner mode — identify which corner
     if (this.handleMode === 'corner') {
-      const handlePos = handle.getAttribute('data-handle') as HandlePosition | null;
+      const handlePos = handleEl.getAttribute('data-handle') as HandlePosition | null;
       if (!handlePos || !this.handles.includes(handlePos)) return;
       this.#activeHandle = handlePos;
     } else {
@@ -114,15 +143,16 @@ export class ResizeController {
     this.#startWidth = rect.width;
     this.#startHeight = rect.height;
 
-    this.host.setAttribute('resizing', '');
+    this.host.setAttribute(this.stateAttribute, '');
+    if (this.#handleElement) this.#handleElement.setAttribute(this.stateAttribute, '');
 
-    this.host.setPointerCapture(e.pointerId);
+    this.#listenTarget.setPointerCapture(e.pointerId);
     document.addEventListener('pointermove', this.#onPointerMove);
     document.addEventListener('pointerup', this.#onPointerUp);
     document.addEventListener('pointercancel', this.#onPointerCancel);
     document.addEventListener('keydown', this.#onKeyDown);
 
-    this.host.dispatchEvent(new CustomEvent('native:resize-start', {
+    this.#eventTarget.dispatchEvent(new CustomEvent('native:resize-start', {
       bubbles: true,
       composed: true,
       detail: { width: this.#startWidth, height: this.#startHeight, handle: this.#activeHandle },
@@ -132,8 +162,14 @@ export class ResizeController {
   #onPointerMove = (e: PointerEvent): void => {
     if (!this.#isResizing) return;
 
-    const dx = e.clientX - this.#startX;
-    const dy = e.clientY - this.#startY;
+    let dx = e.clientX - this.#startX;
+    let dy = e.clientY - this.#startY;
+
+    // Step snapping
+    if (this.step > 0) {
+      dx = Math.round(dx / this.step) * this.step;
+      dy = Math.round(dy / this.step) * this.step;
+    }
 
     if (this.handleMode === 'corner' && this.#activeHandle) {
       const signs = CORNER_SIGNS[this.#activeHandle];
@@ -148,7 +184,7 @@ export class ResizeController {
       this.host.style.width = `${w}px`;
       this.host.style.height = `${h}px`;
     } else {
-      // Edge mode — original behavior
+      // Edge mode
       const sign = this.reverse ? -1 : 1;
       const edgeDx = dx * sign;
       const edgeDy = dy * sign;
@@ -165,10 +201,10 @@ export class ResizeController {
     }
 
     const rect = this.host.getBoundingClientRect();
-    this.host.dispatchEvent(new CustomEvent('native:resize-move', {
+    this.#eventTarget.dispatchEvent(new CustomEvent('native:resize-move', {
       bubbles: true,
       composed: true,
-      detail: { width: rect.width, height: rect.height, handle: this.#activeHandle },
+      detail: { width: rect.width, height: rect.height, handle: this.#activeHandle, delta: { dx, dy } },
     }));
   };
 
@@ -176,7 +212,7 @@ export class ResizeController {
     if (!this.#isResizing) return;
 
     const rect = this.host.getBoundingClientRect();
-    this.host.dispatchEvent(new CustomEvent('native:resize-end', {
+    this.#eventTarget.dispatchEvent(new CustomEvent('native:resize-end', {
       bubbles: true,
       composed: true,
       detail: { width: rect.width, height: rect.height, handle: this.#activeHandle },
@@ -187,7 +223,29 @@ export class ResizeController {
 
   #onPointerCancel = (): void => {
     if (!this.#isResizing) return;
-    // WHY: Revert on cancel — revert both axes in corner mode, only active axis in edge mode
+    this.#revert();
+    this.#eventTarget.dispatchEvent(new CustomEvent('native:resize-cancel', {
+      bubbles: true,
+      composed: true,
+      detail: { handle: this.#activeHandle },
+    }));
+    this.#cleanup();
+  };
+
+  #onKeyDown = (e: KeyboardEvent): void => {
+    if (e.key === 'Escape' && this.#isResizing) {
+      e.preventDefault();
+      this.#revert();
+      this.#eventTarget.dispatchEvent(new CustomEvent('native:resize-cancel', {
+        bubbles: true,
+        composed: true,
+        detail: { handle: this.#activeHandle },
+      }));
+      this.#cleanup();
+    }
+  };
+
+  #revert(): void {
     if (this.handleMode === 'corner') {
       this.host.style.width = `${this.#startWidth}px`;
       this.host.style.height = `${this.#startHeight}px`;
@@ -199,32 +257,13 @@ export class ResizeController {
         this.host.style.height = `${this.#startHeight}px`;
       }
     }
-    this.#cleanup();
-  };
-
-  #onKeyDown = (e: KeyboardEvent): void => {
-    if (e.key === 'Escape' && this.#isResizing) {
-      e.preventDefault();
-      // WHY: Revert on cancel — revert both axes in corner mode, only active axis in edge mode
-      if (this.handleMode === 'corner') {
-        this.host.style.width = `${this.#startWidth}px`;
-        this.host.style.height = `${this.#startHeight}px`;
-      } else {
-        if (this.axis === 'horizontal' || this.axis === 'both') {
-          this.host.style.width = `${this.#startWidth}px`;
-        }
-        if (this.axis === 'vertical' || this.axis === 'both') {
-          this.host.style.height = `${this.#startHeight}px`;
-        }
-      }
-      this.#cleanup();
-    }
-  };
+  }
 
   #cleanup(): void {
     this.#isResizing = false;
     this.#activeHandle = null;
-    this.host.removeAttribute('resizing');
+    this.host.removeAttribute(this.stateAttribute);
+    if (this.#handleElement) this.#handleElement.removeAttribute(this.stateAttribute);
     document.removeEventListener('pointermove', this.#onPointerMove);
     document.removeEventListener('pointerup', this.#onPointerUp);
     document.removeEventListener('pointercancel', this.#onPointerCancel);
