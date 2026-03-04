@@ -31,7 +31,9 @@ Attributes: `name` (e.g. "house"), `weight` (regular/fill; default regular), `in
 ### `n-input`
 Single-line text input (`contenteditable`). Display: `flex` (fills width; `[inline]` for `inline-flex`).
 
-Attributes: `type` (text/password/email/url/tel/search), `placeholder`, `value`, `disabled`, `readonly`, `required`, `name`, `maxlength`, `pattern`. Slots: `leading`, `trailing`. Events: `native:input` (keystroke), `native:change` (blur). Form-associated.
+Attributes: `type` (text/password/email/url/tel/search), `placeholder`, `value`, `disabled`, `readonly`, `required`, `name`, `maxlength`, `pattern`, `formatting` (space-separated: `code`). Slots: `leading`, `trailing`. Events: `native:input` (keystroke), `native:change` (blur), `native:format` (`{ type, value }`). Form-associated.
+
+**Formatting**: `formatting="code"` enables inline code formatting. `applyFormat('code')` wraps/unwraps selected text with backticks. Keyboard shortcut: `Cmd/Ctrl+E`.
 
 Uses `:state(empty)` for empty/filled visual differentiation. Filled inputs elevate from `--n-control` to `--n-panel` and drop border.
 

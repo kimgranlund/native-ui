@@ -56,6 +56,8 @@ interface ReadonlySignal<T> { readonly value: T; peek(): T; }
 
 **`uid(prefix)`** (`src/core/uid.ts`) -- `crypto.randomUUID()`-based IDs (e.g., `uid('anchor')` -> `"anchor-a1b2c3d4"`). Used for anchor positioning and ARIA wiring.
 
+**Formatting utilities** (`src/core/formatting.ts`) -- shared text formatting for contenteditable inputs. Exports: `FORMAT_MARKERS` (format name -> marker string), `FORMAT_SHORTCUTS` (key -> format name), `isFormatEnabled(el, type)`, `getSelectionOffsets(root, range)`, `toggleMarker(text, selected, start, end, marker, len)`, `restoreSelection(root, start, end)`. Used by both `n-input` and `n-textarea`.
+
 ## Top-Layer Architecture
 
 **Principle: never append to `document.body`.** All overlays stay in their component's DOM context so CSS custom properties inherit normally. Visual promotion uses the platform's top-layer APIs:

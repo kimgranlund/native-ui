@@ -64,7 +64,7 @@ class MyButton extends NativeElement {
 | `SlashCommandController` | `slash-commandable` | `native:slash-query/select` |
 | `GatewayController` | -- | -- |
 
-**SlashCommandController** detects `/` prefix in input/textarea events. Creates `n-listbox[popover]` anchored to the input. Filters commands by query. Arrow keys navigate, Enter selects, Escape dismisses, backspace past `/` closes. Events: `native:slash-query` (`{ query, commands }`), `native:slash-select` (`{ command }`). Command interface: `{ value, label, description?, icon? }`.
+**SlashCommandController** detects `/` at the caret position (preceded by whitespace or at text start) in contenteditable inputs. Creates a caret-anchored `n-listbox[popover]` with `position: fixed`. Filters commands by query. Arrow keys navigate, Enter selects, Tab selects with 2+ character query, Escape dismisses, `Cmd/Ctrl+/` toggles. On selection, replaces the `/query` text with a styled `<span data-slash-command>` tag. Events: `native:slash-query` (`{ query, commands }`), `native:slash-select` (`{ command }`). Command interface: `{ value, label, description?, icon? }`. Options render with visible description spans (muted, pushed right).
 
 **GatewayController** has no adapter. Provides `load(url)`, `save(url, content)`, and reactive signals: `loading`, `saving`, `error`, `dirty`.
 
