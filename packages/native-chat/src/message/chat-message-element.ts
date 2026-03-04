@@ -1,4 +1,4 @@
-import { NativeElement, signal } from '@nonoun/native-ui';
+import { NativeElement, signal, uid } from '@nonoun/native-ui';
 
 // ── Action registry ──
 
@@ -47,6 +47,8 @@ export class NChatMessage extends NativeElement {
   #actionsStyle = signal<string>('icon');
   #actionsPosition = signal<string>('below');
   #actionsEl: HTMLElement | null = null;
+  #isPopoverToolbar = false;
+  #hideTimer = 0;
 
   constructor() {
     super();
@@ -112,6 +114,10 @@ export class NChatMessage extends NativeElement {
   setup(): void {
     super.setup();
 
+    // Hover listeners for popover toolbar (persistent — handlers check #isPopoverToolbar)
+    this.addEventListener('pointerenter', this.#showToolbar);
+    this.addEventListener('pointerleave', this.#hideToolbarDelayed);
+
     // Stamp actions toolbar — reactive to role, actions, actionsStyle, actionsPosition, and status
     this.addEffect(() => {
       const role = this.#role.value;
@@ -124,25 +130,59 @@ export class NChatMessage extends NativeElement {
 
     // Sync ARIA
     this.#internals.role = 'article';
-
   }
 
   teardown(): void {
+    this.removeEventListener('pointerenter', this.#showToolbar);
+    this.removeEventListener('pointerleave', this.#hideToolbarDelayed);
+    clearTimeout(this.#hideTimer);
     if (this.#actionsEl) {
-      this.#actionsEl.removeEventListener('native:press', this.#onActionPress);
+      this.#cleanupToolbar();
       this.#actionsEl = null;
     }
     super.teardown();
   }
 
+  // ── Popover hover handlers ──
+
+  #showToolbar = (): void => {
+    clearTimeout(this.#hideTimer);
+    if (this.#actionsEl && this.#isPopoverToolbar && this.#status.value !== 'partial') {
+      try { this.#actionsEl.showPopover(); } catch { /* already open */ }
+    }
+  };
+
+  #hideToolbarDelayed = (): void => {
+    if (!this.#isPopoverToolbar || this.#status.value === 'partial') return;
+    clearTimeout(this.#hideTimer);
+    this.#hideTimer = window.setTimeout(() => {
+      try { this.#actionsEl?.hidePopover(); } catch { /* already hidden */ }
+    }, 150);
+  };
+
   // ── Actions ──
+
+  #cleanupToolbar(): void {
+    if (!this.#actionsEl) return;
+    if (this.#isPopoverToolbar) {
+      this.#actionsEl.removeEventListener('pointerenter', this.#showToolbar);
+      this.#actionsEl.removeEventListener('pointerleave', this.#hideToolbarDelayed);
+      this.#actionsEl.removeEventListener('focusin', this.#showToolbar);
+      this.#actionsEl.removeEventListener('focusout', this.#hideToolbarDelayed);
+      try { this.#actionsEl.hidePopover(); } catch { /* ok */ }
+      this.style.removeProperty('anchor-name');
+      this.#isPopoverToolbar = false;
+    }
+    this.#actionsEl.removeEventListener('native:press', this.#onActionPress);
+    this.#actionsEl.remove();
+  }
 
   #stampActions(role: string, actionsAttr: string | null, style: string, position: string, status: string): void {
     if (this.#actionsEl) {
-      this.#actionsEl.removeEventListener('native:press', this.#onActionPress);
-      this.#actionsEl.remove();
+      this.#cleanupToolbar();
       this.#actionsEl = null;
     }
+    clearTimeout(this.#hideTimer);
 
     // Skip if actions="none"
     if (actionsAttr === 'none') return;
@@ -184,10 +224,27 @@ export class NChatMessage extends NativeElement {
     toolbar.addEventListener('native:press', this.#onActionPress);
 
     if (position === 'below') {
-      // Place after the message bubble — as a next sibling in the message column
-      this.after(toolbar);
+      // Popover toolbar anchored below the message via CSS anchor positioning
+      toolbar.setAttribute('popover', 'manual');
+      const anchorId = uid('msg');
+      this.style.setProperty('anchor-name', `--${anchorId}`);
+      toolbar.style.setProperty('position-anchor', `--${anchorId}`);
+
+      this.appendChild(toolbar);
+      this.#isPopoverToolbar = true;
+
+      // Keep toolbar open when hovering/focusing it
+      toolbar.addEventListener('pointerenter', this.#showToolbar);
+      toolbar.addEventListener('pointerleave', this.#hideToolbarDelayed);
+      toolbar.addEventListener('focusin', this.#showToolbar);
+      toolbar.addEventListener('focusout', this.#hideToolbarDelayed);
+
+      // Partial status: always visible
+      if (status === 'partial') {
+        toolbar.showPopover();
+      }
     } else {
-      // Default (inside): append inside the bubble
+      // Inside: append inside the bubble
       this.appendChild(toolbar);
     }
     this.#actionsEl = toolbar;

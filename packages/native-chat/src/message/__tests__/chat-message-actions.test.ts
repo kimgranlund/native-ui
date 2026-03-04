@@ -12,10 +12,9 @@ function create(attrs: Record<string, string> = {}): HTMLElement {
   return el;
 }
 
-/** Find the actions toolbar — inside (child) or below (next sibling) */
+/** Find the actions toolbar — always a child (below-position uses popover) */
 function findToolbar(el: HTMLElement): HTMLElement | null {
-  return el.querySelector('n-toolbar[data-role="actions"]')
-    ?? (el.nextElementSibling?.getAttribute('data-role') === 'actions' ? el.nextElementSibling as HTMLElement : null);
+  return el.querySelector('n-toolbar[data-role="actions"]');
 }
 
 afterEach(() => {
@@ -144,29 +143,28 @@ describe('ACTION_REGISTRY', () => {
 });
 
 describe('n-chat-message actions-position (T0062)', () => {
-  it('defaults to below — toolbar is a next sibling of the message', () => {
+  it('defaults to below — toolbar is a child with popover attribute', () => {
     const el = create({ role: 'assistant' });
-    expect(el.querySelector('n-toolbar[data-role="actions"]')).toBeNull();
-    const toolbar = el.nextElementSibling;
+    const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
     expect(toolbar).not.toBeNull();
-    expect(toolbar!.getAttribute('data-role')).toBe('actions');
+    expect(toolbar!.getAttribute('popover')).toBe('manual');
+    expect(toolbar!.parentElement).toBe(el);
   });
 
-  it('actions-position="inside" keeps toolbar inside the bubble', () => {
+  it('actions-position="inside" keeps toolbar inside without popover', () => {
     const el = create({ role: 'assistant', 'actions-position': 'inside' });
     const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
     expect(toolbar).not.toBeNull();
     expect(toolbar!.parentElement).toBe(el);
+    expect(toolbar!.hasAttribute('popover')).toBe(false);
   });
 
-  it('actions-position="below" places toolbar as a next sibling', () => {
+  it('actions-position="below" places toolbar as child with popover', () => {
     const el = create({ role: 'assistant', 'actions-position': 'below' });
-    // Toolbar is NOT inside the message element
-    expect(el.querySelector('n-toolbar[data-role="actions"]')).toBeNull();
-    // It's a next sibling
-    const toolbar = el.nextElementSibling;
+    const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
     expect(toolbar).not.toBeNull();
-    expect(toolbar!.getAttribute('data-role')).toBe('actions');
+    expect(toolbar!.getAttribute('popover')).toBe('manual');
+    expect(toolbar!.parentElement).toBe(el);
   });
 
   it('actionsPosition property reflects to attribute', () => {
@@ -175,16 +173,16 @@ describe('n-chat-message actions-position (T0062)', () => {
     expect(el.getAttribute('actions-position')).toBe('below');
   });
 
-  it('changing actions-position from below to inside moves toolbar back', () => {
+  it('changing actions-position from below to inside removes popover', () => {
     const el = create({ role: 'assistant', 'actions-position': 'below' }) as any;
-    // Verify toolbar is sibling
-    expect(el.nextElementSibling?.getAttribute('data-role')).toBe('actions');
+    // Verify toolbar has popover
+    expect(el.querySelector('n-toolbar[data-role="actions"][popover]')).not.toBeNull();
 
     // Switch to inside
     el.actionsPosition = 'inside';
-    // Now toolbar should be inside the message
-    expect(el.querySelector('n-toolbar[data-role="actions"]')).not.toBeNull();
-    expect(el.querySelector('n-toolbar[data-role="actions"]')!.parentElement).toBe(el);
+    const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
+    expect(toolbar).not.toBeNull();
+    expect(toolbar!.hasAttribute('popover')).toBe(false);
   });
 });
 
