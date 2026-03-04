@@ -33,14 +33,18 @@ const CORNER_SIGNS: Record<string, { sx: number; sy: number }> = {
  * @attr {string} mode - Grip mode: resize-horizontal, resize-vertical, resize-corner
  * @attr {string} for - ID of the target element to manipulate
  * @attr {string} placement - Where to place relative to target: start, end, top, bottom, top-start, etc.
- * @attr {number} min - Minimum value (px) for resize
- * @attr {number} max - Maximum value (px) for resize
+ * @attr {number} min - Minimum value (px) for resize (both axes fallback)
+ * @attr {number} max - Maximum value (px) for resize (both axes fallback)
+ * @attr {number} min-width - Minimum width (px) for corner mode. Falls back to `min`.
+ * @attr {number} max-width - Maximum width (px) for corner mode. Falls back to `max`.
+ * @attr {number} min-height - Minimum height (px) for corner mode. Falls back to `min`.
+ * @attr {number} max-height - Maximum height (px) for corner mode. Falls back to `max`.
  * @attr {number} step - Snap-to-grid increment (px)
  * @attr {boolean} reverse - Reverse drag direction
  * @attr {boolean} disabled - Disable interaction
  */
 export class NGripper extends NativeElement {
-  static observedAttributes = ['mode', 'for', 'placement', 'min', 'max', 'step', 'reverse', 'disabled'];
+  static observedAttributes = ['mode', 'for', 'placement', 'min', 'max', 'min-width', 'max-width', 'min-height', 'max-height', 'step', 'reverse', 'disabled'];
 
   #target: HTMLElement | null = null;
   #anchorId = '';
@@ -137,6 +141,20 @@ export class NGripper extends NativeElement {
     // Corner mode: fixed 12×12 from CSS, no anchor sizing needed
   }
 
+  // ── Constraint helpers ──
+
+  /** Read per-axis min/max, falling back to generic min/max. */
+  #getConstraints(): { minW: number; maxW: number; minH: number; maxH: number } {
+    const min = parseFloat(this.getAttribute('min') ?? '0') || 0;
+    const max = parseFloat(this.getAttribute('max') ?? 'Infinity') || Infinity;
+    return {
+      minW: parseFloat(this.getAttribute('min-width') ?? '') || min,
+      maxW: parseFloat(this.getAttribute('max-width') ?? '') || max,
+      minH: parseFloat(this.getAttribute('min-height') ?? '') || min,
+      maxH: parseFloat(this.getAttribute('max-height') ?? '') || max,
+    };
+  }
+
   // ── Pointer interaction ──
 
   #onPointerDown = (e: PointerEvent): void => {
@@ -167,6 +185,7 @@ export class NGripper extends NativeElement {
       composed: true,
       detail: {
         mode: this.getAttribute('mode') ?? 'resize-horizontal',
+        placement: this.getAttribute('placement') ?? 'end',
         startValue: { width: this.#startWidth, height: this.#startHeight },
       },
     }));
@@ -176,10 +195,10 @@ export class NGripper extends NativeElement {
     if (!this.#isGripping || !this.#target) return;
 
     const mode = this.getAttribute('mode') ?? 'resize-horizontal';
+    const placement = this.getAttribute('placement') ?? 'end';
     const reverse = this.hasAttribute('reverse');
     const step = parseFloat(this.getAttribute('step') ?? '0') || 0;
-    const min = parseFloat(this.getAttribute('min') ?? '0') || 0;
-    const max = parseFloat(this.getAttribute('max') ?? 'Infinity') || Infinity;
+    const { minW, maxW, minH, maxH } = this.#getConstraints();
 
     let dx = e.clientX - this.#startX;
     let dy = e.clientY - this.#startY;
@@ -190,20 +209,19 @@ export class NGripper extends NativeElement {
     }
 
     if (mode === 'resize-corner') {
-      const placement = this.getAttribute('placement') ?? 'bottom-end';
       const signs = CORNER_SIGNS[placement] ?? { sx: 1, sy: 1 };
-      const w = Math.min(max, Math.max(min, this.#startWidth + dx * signs.sx));
-      const h = Math.min(max, Math.max(min, this.#startHeight + dy * signs.sy));
+      const w = Math.min(maxW, Math.max(minW, this.#startWidth + dx * signs.sx));
+      const h = Math.min(maxH, Math.max(minH, this.#startHeight + dy * signs.sy));
       this.#target.style.width = `${w}px`;
       this.#target.style.height = `${h}px`;
     } else {
       const sign = reverse ? -1 : 1;
 
       if (mode === 'resize-horizontal') {
-        const w = Math.min(max, Math.max(min, this.#startWidth + dx * sign));
+        const w = Math.min(maxW, Math.max(minW, this.#startWidth + dx * sign));
         this.#target.style.width = `${w}px`;
       } else if (mode === 'resize-vertical') {
-        const h = Math.min(max, Math.max(min, this.#startHeight + dy * sign));
+        const h = Math.min(maxH, Math.max(minH, this.#startHeight + dy * sign));
         this.#target.style.height = `${h}px`;
       }
     }
@@ -214,6 +232,7 @@ export class NGripper extends NativeElement {
       composed: true,
       detail: {
         mode,
+        placement,
         value: { width: rect.width, height: rect.height },
         delta: { dx, dy },
       },
@@ -229,6 +248,7 @@ export class NGripper extends NativeElement {
       composed: true,
       detail: {
         mode: this.getAttribute('mode') ?? 'resize-horizontal',
+        placement: this.getAttribute('placement') ?? 'end',
         value: { width: rect.width, height: rect.height },
       },
     }));
@@ -245,6 +265,8 @@ export class NGripper extends NativeElement {
   #onKeyDown = (e: KeyboardEvent): void => {
     if (!this.#isGripping || !this.#target) return;
 
+    const placement = this.getAttribute('placement') ?? 'end';
+
     if (e.key === 'Escape') {
       e.preventDefault();
       this.#revert();
@@ -252,7 +274,10 @@ export class NGripper extends NativeElement {
       this.#target.dispatchEvent(new CustomEvent('native:grip-cancel', {
         bubbles: true,
         composed: true,
-        detail: { mode: this.getAttribute('mode') ?? 'resize-horizontal' },
+        detail: {
+          mode: this.getAttribute('mode') ?? 'resize-horizontal',
+          placement,
+        },
       }));
 
       this.#cleanup();
@@ -263,20 +288,19 @@ export class NGripper extends NativeElement {
     const step = parseFloat(this.getAttribute('step') ?? '1') || 1;
     const mode = this.getAttribute('mode') ?? 'resize-horizontal';
     const reverse = this.hasAttribute('reverse');
-    const min = parseFloat(this.getAttribute('min') ?? '0') || 0;
-    const max = parseFloat(this.getAttribute('max') ?? 'Infinity') || Infinity;
+    const { minW, maxW, minH, maxH } = this.#getConstraints();
     const sign = reverse ? -1 : 1;
     let handled = false;
 
     if (mode === 'resize-horizontal' || mode === 'resize-corner') {
       if (e.key === 'ArrowRight') {
         const rect = this.#target.getBoundingClientRect();
-        const w = Math.min(max, Math.max(min, rect.width + step * sign));
+        const w = Math.min(maxW, Math.max(minW, rect.width + step * sign));
         this.#target.style.width = `${w}px`;
         handled = true;
       } else if (e.key === 'ArrowLeft') {
         const rect = this.#target.getBoundingClientRect();
-        const w = Math.min(max, Math.max(min, rect.width - step * sign));
+        const w = Math.min(maxW, Math.max(minW, rect.width - step * sign));
         this.#target.style.width = `${w}px`;
         handled = true;
       }
@@ -285,12 +309,12 @@ export class NGripper extends NativeElement {
     if (mode === 'resize-vertical' || mode === 'resize-corner') {
       if (e.key === 'ArrowDown') {
         const rect = this.#target.getBoundingClientRect();
-        const h = Math.min(max, Math.max(min, rect.height + step * sign));
+        const h = Math.min(maxH, Math.max(minH, rect.height + step * sign));
         this.#target.style.height = `${h}px`;
         handled = true;
       } else if (e.key === 'ArrowUp') {
         const rect = this.#target.getBoundingClientRect();
-        const h = Math.min(max, Math.max(min, rect.height - step * sign));
+        const h = Math.min(maxH, Math.max(minH, rect.height - step * sign));
         this.#target.style.height = `${h}px`;
         handled = true;
       }
@@ -304,6 +328,7 @@ export class NGripper extends NativeElement {
         composed: true,
         detail: {
           mode,
+          placement,
           value: { width: rect.width, height: rect.height },
           delta: { dx: 0, dy: 0 },
         },

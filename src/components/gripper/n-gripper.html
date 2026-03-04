@@ -89,9 +89,10 @@
 
     <!-- ── Corner Resize ── -->
 
-    <h2>Corner resize</h2>
+    <h2>Corner resize (per-axis constraints)</h2>
     <p class="demo-desc">
       Gripper on the bottom-right corner (<code>placement="bottom-end"</code>). Drag to resize both axes.
+      Width constrained to 200–600 px, height to 100–400 px via <code>min-width</code>/<code>max-width</code>/<code>min-height</code>/<code>max-height</code>.
     </p>
 
     <div class="demo-overflow">
@@ -103,8 +104,10 @@
       mode="resize-corner"
       for="panel-c"
       placement="bottom-end"
-      min="120"
-      max="600"
+      min-width="200"
+      max-width="600"
+      min-height="100"
+      max-height="400"
     ></n-gripper>
     <div class="demo-readout" id="readout-c">300 × 200</div>
 

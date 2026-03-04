@@ -253,20 +253,24 @@ export interface NShortcutDetail {
 // ── Gripper ──
 export interface NGripStartDetail {
   mode: string;
+  placement: string;
   startValue: { width: number; height: number };
 }
 
 export interface NGripDetail {
   mode: string;
+  placement: string;
   value: { width: number; height: number };
   delta: { dx: number; dy: number };
 }
 
 export interface NGripEndDetail {
   mode: string;
+  placement: string;
   value: { width: number; height: number };
 }
 
 export interface NGripCancelDetail {
   mode: string;
+  placement: string;
 }
