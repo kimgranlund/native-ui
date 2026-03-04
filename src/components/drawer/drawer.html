@@ -19,7 +19,7 @@
     <!-- ── Right (default) ── -->
 
     <h2>Right (default)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-button id="open-right"><span slot="label">Open Right Drawer</span></n-button>
       <n-drawer id="drawer-right">
         <n-header>
@@ -56,12 +56,12 @@
     &lt;/n-field&gt;
   &lt;/n-body&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Left ── -->
 
     <h2>Left</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-button id="open-left"><span slot="label">Open Left Drawer</span></n-button>
       <n-drawer id="drawer-left" side="left">
         <n-header>
@@ -101,12 +101,12 @@
   &lt;/n-header&gt;
   &lt;n-body&gt;...&lt;/n-body&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Bottom ── -->
 
     <h2>Bottom</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-button id="open-bottom"><span slot="label">Open Bottom Drawer</span></n-button>
       <n-drawer id="drawer-bottom" side="bottom">
         <n-header>
@@ -135,12 +135,12 @@
     &lt;/n-stack&gt;
   &lt;/n-body&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Top ── -->
 
     <h2>Top</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-button id="open-top"><span slot="label">Open Top Drawer</span></n-button>
       <n-drawer id="drawer-top" side="top">
         <n-header>
@@ -151,12 +151,12 @@
           <p class="demo-text">This drawer slides in from the top edge.</p>
         </n-body>
       </n-drawer>
-    </div>
+    </n-panel>
 
     <!-- ── With Footer ── -->
 
     <h2>With Footer</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">Header and footer stay fixed while the body scrolls independently.</p>
       <n-button id="open-footer"><span slot="label">Open Drawer with Footer</span></n-button>
       <n-drawer id="drawer-footer">
@@ -204,12 +204,12 @@
     &lt;n-button variant="primary" intent="accent"&gt;Save Changes&lt;/n-button&gt;
   &lt;/n-footer&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Close Prevention ── -->
 
     <h2>Close Prevention</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <n-button id="open-no-escape"><span slot="label">No Close on Escape</span></n-button>
         <n-button id="open-no-backdrop"><span slot="label">No Close on Backdrop</span></n-button>
@@ -242,7 +242,7 @@
           <p class="demo-text">Neither Escape nor backdrop click will close this. Only the close button works.</p>
         </n-body>
       </n-drawer>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

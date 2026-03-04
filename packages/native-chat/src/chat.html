@@ -42,7 +42,7 @@
     <!-- ── Full Chat Shell ── -->
 
     <h2>Full Chat Shell</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-grid">
 
         <!-- Idle state -->
@@ -166,7 +166,7 @@
     &lt;/n-footer&gt;
   &lt;/n-panel&gt;
 &lt;/n-chat&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Message Feed ── -->
 
@@ -176,7 +176,7 @@
       <code>n-chat-messages</code> groups messages from the same sender.
       <code>n-chat-message</code> renders individual bubbles with action toolbars.
     </p>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Conversation thread</span>
@@ -244,7 +244,7 @@
     &lt;/n-chat-message&gt;
   &lt;/n-chat-messages&gt;
 &lt;/n-chat-feed&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Avatar ── -->
 
@@ -253,7 +253,7 @@
       <code>n-chat-avatar</code> renders an image, icon, or initials based on attributes.
       Fallback chain: <code>src</code> → <code>icon</code> → <code>name</code> initials → default user icon.
     </p>
-    <div class="demo-section">
+    <n-panel bordered>
       <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
         <div class="demo-col" style="align-items: center;">
           <span class="demo-col-label">Icon</span>
@@ -276,7 +276,7 @@
 &lt;n-chat-avatar name="Kim Granlund"&gt;&lt;/n-chat-avatar&gt;
 &lt;n-chat-avatar src="/avatars/kim.jpg" name="Kim"&gt;&lt;/n-chat-avatar&gt;
 &lt;n-chat-avatar&gt;&lt;/n-chat-avatar&gt;  &lt;!-- default user icon --&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Message Text (Markdown) ── -->
 
@@ -284,7 +284,7 @@
     <p class="demo-desc">
       <code>n-chat-message-text</code> renders markdown to sanitized HTML. Supports headings, lists, code fences, inline formatting, links, and blockquotes.
     </p>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Markdown (default)</span>
@@ -302,7 +302,7 @@
 &lt;script&gt;
   el.content = '## Heading\n\nParagraph with **bold**.';
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Activity Indicator ── -->
 
@@ -310,7 +310,7 @@
     <p class="demo-desc">
       <code>n-chat-message-activity</code> shows streaming status with elapsed timer. Supports <code>typing</code>, <code>thinking</code>, and <code>tool-use</code> types. Add <code>expandable</code> for collapsible reasoning trace.
     </p>
-    <div class="demo-section">
+    <n-panel bordered>
       <div style="display: flex; flex-direction: column; gap: 1rem;">
         <div class="demo-col">
           <span class="demo-col-label">Typing (active)</span>
@@ -346,7 +346,7 @@ Step 4: Applying formatting rules...</pre>
 &lt;n-chat-message-activity type="thinking" active expandable&gt;
   &lt;pre&gt;Step 1: Analyzing...&lt;/pre&gt;
 &lt;/n-chat-message-activity&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Seed Chips ── -->
 
@@ -355,7 +355,7 @@ Step 4: Applying formatting rules...</pre>
       <code>n-chat-message-seed</code> renders pre-seeded response options as clickable chips.
       Fires <code>native:seed-select</code> with <code>{ value, label }</code>.
     </p>
-    <div class="demo-section">
+    <n-panel bordered>
       <div style="display: flex; flex-direction: column; gap: 1rem;">
         <div class="demo-col">
           <span class="demo-col-label">Starter prompts</span>
@@ -374,7 +374,7 @@ Step 4: Applying formatting rules...</pre>
     { value: 'test', label: 'Write tests' },
   ];
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Structured Input ── -->
 
@@ -383,7 +383,7 @@ Step 4: Applying formatting rules...</pre>
       <code>n-chat-input-structured</code> renders a multi-choice card. Supports <code>single</code> and <code>multi</code> selection modes.
       Fires <code>native:structured-submit</code> with <code>{ question, selections }</code>.
     </p>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Single select</span>
@@ -413,7 +413,7 @@ Step 4: Applying formatting rules...</pre>
     { value: 'py', label: 'Python' },
   ];
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── GenUI ── -->
 
@@ -422,7 +422,7 @@ Step 4: Applying formatting rules...</pre>
       <code>n-chat-message-genui</code> renders UI from a schema tree. Validates against a forbidden tag list.
       Supports <code>inline</code> and <code>lightbox</code> modes.
     </p>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Inline mode</span>
@@ -444,12 +444,12 @@ Step 4: Applying formatting rules...</pre>
     ]
   };
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Input Surface Only ── -->
 
     <h2>Input Surface Only</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Inside n-footer container</span>
@@ -517,7 +517,7 @@ Step 4: Applying formatting rules...</pre>
     &lt;n-chat-input-actions&gt;...&lt;/n-chat-input-actions&gt;
   &lt;/n-chat-input&gt;
 &lt;/n-footer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

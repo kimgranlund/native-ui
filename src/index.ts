@@ -27,13 +27,13 @@ export { GestureRouter } from './traits/gesture-router.ts';
 export type { GestureParticipant } from './traits/gesture-router.ts';
 
 // Traits (controllers)
-export { DragController, RangeSelectController, ResizeController, VirtualScrollController, SelectionController, SearchController, SwipeController, EditController, ClipboardController } from './traits/index.ts';
-export type { ToastOptions, ValidationRule, DragOptions, RangeSelectOptions, ResizeOptions, VirtualScrollOptions, SelectionOptions, SearchOptions, SwipeOptions, SwipeDirection, EditOptions, ClipboardOptions } from './traits/index.ts';
+export { DragController, RangeSelectController, ResizeController, VirtualScrollController, SelectionController, SearchController, SwipeController, EditController, ClipboardController, SlashCommandController } from './traits/index.ts';
+export type { ToastOptions, ValidationRule, DragOptions, RangeSelectOptions, ResizeOptions, HandlePosition, VirtualScrollOptions, SelectionOptions, SearchOptions, SwipeOptions, SwipeDirection, EditOptions, ClipboardOptions, SlashCommand, SlashCommandOptions } from './traits/index.ts';
 export { PressController, HoverController, CopyController, IntersectController, DropZoneController, SortController, ValidateController, FocusTrapController, CollapsibleController, RovingFocusController, DismissController, ToastController, PopoverController, ListNavigateController, DialogController, GatewayController, PresentController, registerAllTraits } from './traits/index.ts';
 export type { PressOptions, HoverOptions, CopyOptions, IntersectOptions, DropZoneOptions, SortOptions, ValidateOptions, CollapsibleOptions, RovingFocusOptions, ListNavigateOptions, DialogOptions, GatewayOptions, PresentOptions } from './traits/index.ts';
 
 // Trait adapters (for selective registration via registerTrait())
-export { pressableAdapter, hoverableAdapter, copyableAdapter, intersectableAdapter, droppableAdapter, sortableAdapter, validatableAdapter, focusTrappableAdapter, collapsibleAdapter, rovingFocusableAdapter, dismissableAdapter, toastableAdapter, popoverableAdapter, listNavigableAdapter, dialogableAdapter, draggableAdapter, rangeSelectableAdapter, resizableAdapter, virtualizableAdapter, selectableAdapter, searchableAdapter, clippableAdapter, swipeableAdapter, editableAdapter, presentableAdapter } from './traits/index.ts';
+export { pressableAdapter, hoverableAdapter, copyableAdapter, intersectableAdapter, droppableAdapter, sortableAdapter, validatableAdapter, focusTrappableAdapter, collapsibleAdapter, rovingFocusableAdapter, dismissableAdapter, toastableAdapter, popoverableAdapter, listNavigableAdapter, dialogableAdapter, draggableAdapter, rangeSelectableAdapter, resizableAdapter, virtualizableAdapter, selectableAdapter, searchableAdapter, clippableAdapter, swipeableAdapter, editableAdapter, presentableAdapter, slashCommandableAdapter } from './traits/index.ts';
 
 // Components
 export { NButton } from './components/button/button-element.ts';

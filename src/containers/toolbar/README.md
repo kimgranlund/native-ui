@@ -23,6 +23,7 @@
 - `--n-font-size`
 - `--n-ground`
 - `--n-icon-md`
+- `--n-icon-size`
 - `--n-line-height`
 - `--n-panel`
 - `--n-radius`

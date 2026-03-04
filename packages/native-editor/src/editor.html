@@ -27,7 +27,7 @@
     <!-- ── Default (Live Preview) ── -->
 
     <h2>Default — Live Preview Mode</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-editor id="demo-default">
         <script type="text/markdown">
 # Hello World
@@ -64,12 +64,12 @@ console.log('Code blocks are highlighted');
 This is a **bold** and *italic* text.
   &lt;/script&gt;
 &lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Source Mode ── -->
 
     <h2>Source Mode</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-editor id="demo-source" mode="source">
         <script type="text/markdown">
 # Source Mode
@@ -88,20 +88,20 @@ Syntax highlighting is provided by `@codemirror/lang-markdown`.
 Raw markdown without decorations.
   &lt;/script&gt;
 &lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Placeholder ── -->
 
     <h2>Placeholder</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-editor id="demo-placeholder" placeholder="Start typing your markdown here..."></native-editor>
     <pre class="demo-code"><code>&lt;native-editor placeholder="Start typing your markdown here..."&gt;&lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Read-only ── -->
 
     <h2>Read-only</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-editor id="demo-readonly" readonly>
         <script type="text/markdown">
 # Read-only Document
@@ -119,12 +119,12 @@ This editor is in **read-only** mode. You can select text but cannot edit.
 Content is not editable.
   &lt;/script&gt;
 &lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-editor id="demo-disabled" disabled>
         <script type="text/markdown">
 # Disabled Editor
@@ -133,12 +133,12 @@ This editor is completely disabled.
         </script>
       </native-editor>
     <pre class="demo-code"><code>&lt;native-editor disabled&gt;...&lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Form Integration ── -->
 
     <h2>Form Integration</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <form id="demo-form" style="display: flex; flex-direction: column; gap: 1rem;">
         <native-editor id="demo-form-editor" name="content" style="height: 250px;">
           <script type="text/markdown">
@@ -166,12 +166,12 @@ This editor participates in form submission via `FormData`.
     console.log(data.get('content'));
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Change Events ── -->
 
     <h2>Change Events</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-editor id="demo-events" style="height: 200px;">
         <script type="text/markdown">
 # Try editing
@@ -187,12 +187,12 @@ Type something to see change events in the log below.
     console.log(e.detail.value.length, 'chars');
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Data Gateway (src) ── -->
 
     <h2>Data Gateway — Load from URL</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-editor id="demo-gateway" style="height: 300px;"></native-editor>
       <div class="demo-actions" style="margin-top: 0.75rem; align-items: center;">
         <n-button id="gateway-save" variant="primary" disabled>Save</n-button>
@@ -208,7 +208,7 @@ Type something to see change events in the log below.
   saveBtn.addEventListener('native:press', () =&gt; editor.save());
   reloadBtn.addEventListener('native:press', () =&gt; editor.reload());
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
 

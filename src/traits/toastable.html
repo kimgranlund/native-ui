@@ -77,7 +77,7 @@
     <!-- ── Intent Variants ── -->
 
     <h2>Intent Variants</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Uses <code>ToastController</code> directly on a host element. Each intent maps to a different surface color.
       </p>
@@ -96,12 +96,12 @@ toaster.toast({
   intent: 'success',   // 'info' | 'success' | 'warning' | 'danger'
   duration: 4000,       // ms, 0 = sticky
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Custom Duration ── -->
 
     <h2>Custom Duration</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="button-row">
         <n-button id="fast-btn">Fast (1s)</n-button>
         <n-button id="slow-btn">Slow (10s)</n-button>
@@ -112,19 +112,19 @@ toaster.toast({ message: 'Gone!', intent: 'info', duration: 1000 });
 
 // Sticky — duration: 0 means manual dismiss only
 toaster.toast({ message: 'Sticky!', intent: 'warning', duration: 0 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Dismiss All ── -->
 
     <h2>Batch Operations</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="button-row">
         <n-button id="batch-btn">Spawn 5 Toasts</n-button>
         <n-button id="clear-btn">Dismiss All</n-button>
       </div>
       <pre class="demo-code"><code>// Dismiss all active toasts
 toaster.dismissAllToasts();</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── API Reference ── -->
 

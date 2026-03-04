@@ -107,7 +107,7 @@
     <!-- ── Focus Trap ── -->
 
     <h2>Focus Trap</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Uses <code>FocusTrapController</code> directly on a plain element. Tab cycles between the inputs and buttons.
       </p>
@@ -145,12 +145,12 @@ function hide() {
   trap.disable(); // restores focus to previous element
   region.setAttribute('hidden', '');
 }</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Without Autofocus ── -->
 
     <h2>Without Autofocus</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         When no <code>[autofocus]</code> element exists, focus goes to the first focusable child.
       </p>
@@ -162,12 +162,12 @@ function hide() {
           <n-button id="close-btn2">Close</n-button>
         </div>
       </div>
-    </div>
+    </n-panel>
 
     <!-- ── Built-in: n-dialog ── -->
 
     <h2>Built-in: n-dialog</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         <code>n-dialog</code> uses FocusTrappable internally. When a modal dialog opens, focus is automatically trapped within it.
       </p>
@@ -181,7 +181,7 @@ function hide() {
           </div>
         </n-card>
       </n-dialog>
-    </div>
+    </n-panel>
 
     <!-- ── API Reference ── -->
 

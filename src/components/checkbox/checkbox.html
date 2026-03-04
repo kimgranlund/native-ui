@@ -26,7 +26,7 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-col">
         <n-checkbox>Accept terms and conditions</n-checkbox>
         <n-checkbox checked>Email notifications</n-checkbox>
@@ -35,12 +35,12 @@
       <pre class="demo-code"><code>&lt;n-checkbox&gt;Accept terms and conditions&lt;/n-checkbox&gt;
 &lt;n-checkbox checked&gt;Email notifications&lt;/n-checkbox&gt;
 &lt;n-checkbox indeterminate&gt;Select all&lt;/n-checkbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <span class="demo-label">xs</span>
         <n-checkbox size="xs" checked>Extra small</n-checkbox>
@@ -66,12 +66,12 @@
 &lt;n-checkbox size="md" checked&gt;Medium&lt;/n-checkbox&gt;
 &lt;n-checkbox size="lg" checked&gt;Large&lt;/n-checkbox&gt;
 &lt;n-checkbox size="xl" checked&gt;Extra large&lt;/n-checkbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Density ── -->
 
     <h2>Density</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <h3>compact</h3>
       <div class="demo-col" density="compact">
         <n-checkbox size="sm" checked>Small compact</n-checkbox>
@@ -96,12 +96,12 @@
 &lt;div density="loose"&gt;
   &lt;n-checkbox checked&gt;Loose&lt;/n-checkbox&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Radius ── -->
 
     <h2>Radius</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <span class="demo-label">default</span>
         <n-checkbox checked>Checked</n-checkbox>
@@ -116,12 +116,12 @@
       </div>
       <pre class="demo-code"><code>&lt;n-checkbox checked&gt;Default radius&lt;/n-checkbox&gt;
 &lt;n-checkbox radius="sharp" checked&gt;Sharp radius&lt;/n-checkbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Intents ── -->
 
     <h2>Intents</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-col">
         <n-checkbox intent="neutral" checked>Neutral</n-checkbox>
         <n-checkbox intent="accent" checked>Accent</n-checkbox>
@@ -134,12 +134,12 @@
 &lt;n-checkbox intent="success" checked&gt;Success&lt;/n-checkbox&gt;
 &lt;n-checkbox intent="warning" checked&gt;Warning&lt;/n-checkbox&gt;
 &lt;n-checkbox intent="danger" checked&gt;Danger&lt;/n-checkbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-col">
         <n-checkbox disabled>Unchecked disabled</n-checkbox>
         <n-checkbox disabled checked>Checked disabled</n-checkbox>
@@ -148,12 +148,12 @@
       <pre class="demo-code"><code>&lt;n-checkbox disabled&gt;Unchecked disabled&lt;/n-checkbox&gt;
 &lt;n-checkbox disabled checked&gt;Checked disabled&lt;/n-checkbox&gt;
 &lt;n-checkbox disabled indeterminate&gt;Indeterminate disabled&lt;/n-checkbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── States ── -->
 
     <h2>States</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-col">
         <n-checkbox>Unchecked</n-checkbox>
         <n-checkbox checked>Checked</n-checkbox>
@@ -162,12 +162,12 @@
       <pre class="demo-code"><code>&lt;n-checkbox&gt;Unchecked&lt;/n-checkbox&gt;
 &lt;n-checkbox checked&gt;Checked&lt;/n-checkbox&gt;
 &lt;n-checkbox indeterminate&gt;Indeterminate&lt;/n-checkbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Events ── -->
 
     <h2>Change Events</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-col">
         <n-checkbox id="event-cb" intent="accent">Toggle me</n-checkbox>
       </div>
@@ -180,12 +180,12 @@
       console.log(e.detail.checked, e.detail.value);
     });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Form Association ── -->
 
     <h2>Form Association</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <form id="demo-form">
         <div class="demo-col" style="margin-bottom: 1rem;">
           <n-checkbox name="agree" value="yes" required>I agree to terms</n-checkbox>
@@ -205,12 +205,12 @@
     &lt;span slot="label"&gt;Submit&lt;/span&gt;
   &lt;/n-button&gt;
 &lt;/form&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Cascading ── -->
 
     <h2>Cascading</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <h3>Parent size="sm", intent="accent"</h3>
       <div class="demo-col" size="sm" intent="accent">
         <n-checkbox checked>Inherited sm accent</n-checkbox>
@@ -222,12 +222,12 @@
   &lt;n-checkbox checked size="lg"&gt;Override lg&lt;/n-checkbox&gt;
   &lt;n-checkbox checked intent="danger"&gt;Override danger&lt;/n-checkbox&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Debug States (force-*) ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
       </p>
@@ -237,7 +237,7 @@
         <n-checkbox force-focus-visible>Force focus-visible</n-checkbox>
         <n-checkbox force-focus-visible checked>Force focus-visible (checked)</n-checkbox>
       </div>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

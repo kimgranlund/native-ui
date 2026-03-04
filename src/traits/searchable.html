@@ -117,7 +117,7 @@
     <!-- ── Basic Filter ── -->
 
     <h2>Basic Filter</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Type to filter items. Non-matching items are hidden via <code>[search-hidden]</code>.
       </p>
@@ -150,12 +150,12 @@ wrap.addEventListener('native:search', (e) =&gt; {
   const { query, matchCount, total } = e.detail;
   console.log(`"${query}" — ${matchCount}/${total} matches`);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Custom Text Field ── -->
 
     <h2>Custom Text Field</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Searches against a <code>data-search</code> attribute instead of <code>textContent</code>. Items display a label but filter on tags.
       </p>
@@ -182,12 +182,12 @@ const input = document.getElementById('field-input');
 input.addEventListener('native:input', (e) =&gt; {
   search.filter(e.detail.value);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Highlight ── -->
 
     <h2>Highlight Matches</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Uses <code>SearchController.highlight()</code> to wrap matches in <code>&lt;mark&gt;</code> tags.
       </p>
@@ -218,12 +218,12 @@ input.addEventListener('native:input', (e) =&gt; {
     item.innerHTML = SearchController.highlight(original, query);
   }
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── SearchController Direct ── -->
 
     <h2>SearchController — Attach to Any Element</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Use <code>SearchController</code> directly on a plain element without the trait mixin.
       </p>
@@ -254,7 +254,7 @@ input.addEventListener('native:input', (e) =&gt; {
 
 // Later: search.clear();
 // Later: search.destroy();</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── API Reference ── -->
 

@@ -85,7 +85,7 @@
     <!-- ── Receive A2UI Messages ── -->
 
     <h2>Receive A2UI Messages</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         Send A2UI server messages to the adapter. Pick a preset or write raw JSON. The adapter converts the flat component list to a UINode tree and renders via PlanExecutor.
       </p>
@@ -205,12 +205,12 @@
         <span><span class="label">Supported Types:</span> <span class="value" id="type-count">0</span></span>
       </div>
       <div class="log" id="event-log"></div>
-    </div>
+    </n-panel>
 
     <!-- ── Emit (Plan → A2UI) ── -->
 
     <h2>Emit (Plan to A2UI)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
         Convert Planner-generated UI plans to A2UI updateComponents format. This is the outbound path — our plans serialized as A2UI wire messages.
       </p>
@@ -226,7 +226,7 @@
         </n-button>
       </div>
       <div class="log" id="emit-output" style="max-height: 16rem; white-space: pre-wrap; word-break: break-all;">Click an emit button to convert a Planner result to A2UI format...</div>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

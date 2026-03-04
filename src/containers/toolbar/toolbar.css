@@ -45,8 +45,6 @@
      toolbar layout + overflow without container chrome. */
 
   :where(n-toolbar)[variant="plain"] {
-    --n-background: transparent;
-    --n-border-color: transparent;
     background: transparent;
     border: none;
     border-radius: 0;
@@ -113,6 +111,12 @@
     flex: 0 0 auto;
     order: 99;
     margin-inline-start: auto;
+  }
+
+  /* WHY: Inline SVG in overflow trigger — same sizing as n-icon. */
+  :where(n-toolbar) > :where([data-overflow-trigger]) > :where(svg) {
+    width: var(--n-icon-size);
+    height: var(--n-icon-size);
   }
 
   /* Hide more button when no overflow */

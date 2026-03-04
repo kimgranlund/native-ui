@@ -58,7 +58,7 @@
     <!-- ── Basic ── -->
 
     <h2>Basic (swipe to navigate)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-slideshow>
         <n-slide><div class="slide-content slide-1">1</div></n-slide>
         <n-slide><div class="slide-content slide-2">2</div></n-slide>
@@ -69,12 +69,12 @@
   &lt;n-slide&gt;&lt;div&gt;Slide 2&lt;/div&gt;&lt;/n-slide&gt;
   &lt;n-slide&gt;&lt;div&gt;Slide 3&lt;/div&gt;&lt;/n-slide&gt;
 &lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Controls + Indicators ── -->
 
     <h2>Controls + Indicators</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-slideshow controls indicators>
         <n-slide><div class="slide-content slide-1">Slide 1</div></n-slide>
         <n-slide><div class="slide-content slide-2">Slide 2</div></n-slide>
@@ -86,12 +86,12 @@
   &lt;n-slide&gt;&lt;div&gt;Slide 2&lt;/div&gt;&lt;/n-slide&gt;
   &lt;n-slide&gt;&lt;div&gt;Slide 3&lt;/div&gt;&lt;/n-slide&gt;
 &lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Autoplay + Loop ── -->
 
     <h2>Autoplay + Loop</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-slideshow controls indicators autoplay interval="3000" loop>
         <n-slide><div class="slide-content slide-1">A</div></n-slide>
         <n-slide><div class="slide-content slide-2">B</div></n-slide>
@@ -102,12 +102,12 @@
   &lt;n-slide&gt;&lt;div&gt;B&lt;/div&gt;&lt;/n-slide&gt;
   &lt;n-slide&gt;&lt;div&gt;C&lt;/div&gt;&lt;/n-slide&gt;
 &lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Vertical ── -->
 
     <h2>Vertical</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-slideshow direction="vertical" controls indicators class="vertical-demo">
         <n-slide><div class="slide-content slide-1">Top</div></n-slide>
         <n-slide><div class="slide-content slide-2">Middle</div></n-slide>
@@ -118,12 +118,12 @@
   &lt;n-slide&gt;&lt;div&gt;Middle&lt;/div&gt;&lt;/n-slide&gt;
   &lt;n-slide&gt;&lt;div&gt;Bottom&lt;/div&gt;&lt;/n-slide&gt;
 &lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Peek ── -->
 
     <h2>Peek (adjacent slides visible)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-slideshow controls indicators peek>
         <n-slide><div class="slide-content slide-1">1</div></n-slide>
         <n-slide><div class="slide-content slide-2">2</div></n-slide>
@@ -136,12 +136,12 @@
   &lt;n-slide&gt;&lt;div&gt;2&lt;/div&gt;&lt;/n-slide&gt;
   &lt;n-slide&gt;&lt;div&gt;3&lt;/div&gt;&lt;/n-slide&gt;
 &lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Per-view 3 with gap ── -->
 
     <h2>Per-view 3 + Gap</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-slideshow controls indicators per-view="3" gap>
         <n-slide><div class="slide-content slide-short slide-1">1</div></n-slide>
         <n-slide><div class="slide-content slide-short slide-2">2</div></n-slide>
@@ -156,12 +156,12 @@
   &lt;n-slide&gt;&lt;div&gt;3&lt;/div&gt;&lt;/n-slide&gt;
   &lt;n-slide&gt;&lt;div&gt;4&lt;/div&gt;&lt;/n-slide&gt;
 &lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Per-view 2 + Peek + Gap ── -->
 
     <h2>Per-view 2 + Peek + Gap</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-slideshow controls indicators per-view="2" peek gap>
         <n-slide><div class="slide-content slide-short slide-1">1</div></n-slide>
         <n-slide><div class="slide-content slide-short slide-2">2</div></n-slide>
@@ -173,12 +173,12 @@
   &lt;n-slide&gt;&lt;div&gt;2&lt;/div&gt;&lt;/n-slide&gt;
   &lt;n-slide&gt;&lt;div&gt;3&lt;/div&gt;&lt;/n-slide&gt;
 &lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Intent colors ── -->
 
     <h2>Intent (accent)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-slideshow controls indicators intent="accent">
         <n-slide><div class="slide-content slide-1">Accent 1</div></n-slide>
         <n-slide><div class="slide-content slide-2">Accent 2</div></n-slide>
@@ -188,12 +188,12 @@
   &lt;n-slide&gt;&lt;div&gt;Slide 1&lt;/div&gt;&lt;/n-slide&gt;
   &lt;n-slide&gt;&lt;div&gt;Slide 2&lt;/div&gt;&lt;/n-slide&gt;
 &lt;/n-slideshow&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Event log ── -->
 
     <h2>Event log</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-slideshow controls indicators id="event-demo">
         <n-slide><div class="slide-content slide-1">A</div></n-slide>
         <n-slide><div class="slide-content slide-2">B</div></n-slide>
@@ -211,12 +211,12 @@
       console.log('index:', e.detail.index);
     });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Debug States (force-*) ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to the host element, targets internal controls and indicators.
       </p>
@@ -236,7 +236,7 @@
           </n-slideshow>
         </div>
       </div>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

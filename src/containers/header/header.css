@@ -81,6 +81,17 @@
     min-width: 0;
   }
 
+  /* ── Truncate ── */
+  /* WHY: Opt-in label truncation for narrow headers (sidebars, panels).
+     Grid already has min-width: 0 on label slots, so text-overflow works. */
+
+  [truncate]:where(n-header) > :where([slot="label"]),
+  [truncate]:where(n-header) > :where(:not([slot])) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   /* ── Align ── */
 
   :where(n-header)[align="center"] > :where([slot="label"]),

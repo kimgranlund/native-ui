@@ -164,7 +164,7 @@
     <!-- ── Drag Mode: Calendar Grid (Provider) ── -->
 
     <h2>Drag Mode — Calendar Grid (Provider)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> wraps a grid and applies the range-selectable trait. Click and drag across cells to select a range. Release to commit.
       </p>
@@ -197,12 +197,12 @@
     log.textContent = `Selected days ${startIndex + 1}–${endIndex + 1}`;
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Click Mode: Calendar Grid ── -->
 
     <h2>Click Mode — Calendar Grid</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Click a start date, hover to preview range, click to commit. Uses <code>RangeSelectController</code> directly with <code>clearRange()</code> method.
       </p>
@@ -241,12 +241,12 @@ grid.addEventListener('native:range-select', (e) =&gt; {
 clearBtn.addEventListener('native:press', () =&gt; {
   ctrl.clearRange();
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Drag Mode: Vertical List (Provider) ── -->
 
     <h2>Drag Mode — Vertical List (Provider)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> applies range-selectable to a vertical list. Click and drag to select a contiguous range of days.
       </p>
@@ -270,12 +270,12 @@ clearBtn.addEventListener('native:press', () =&gt; {
     &lt;!-- ... --&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── RangeSelectController: Attach to Any Element ── -->
 
     <h2>RangeSelectController — Attach to Any Element</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Use <code>RangeSelectController</code> to add range selection to an existing element without subclassing. Same events, same modes — no trait mixin required.
       </p>
@@ -300,7 +300,7 @@ list.addEventListener('native:range-select', (e) =&gt; {
   const { startIndex, endIndex, items } = e.detail;
   log.textContent = `Selected ${items.length} items (${startIndex}–${endIndex})`;
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── API Reference ── -->
 

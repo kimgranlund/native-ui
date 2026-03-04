@@ -51,7 +51,7 @@
     <!-- ── Basic ── -->
 
     <h2>Basic Command Palette</h2>
-    <div class="demo-section" intent="neutral" variant="secondary">
+    <n-panel bordered intent="neutral" variant="secondary">
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Simple list</span>
@@ -91,12 +91,12 @@
     console.log(e.detail.value, e.detail.label);
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Grouped ── -->
 
     <h2>Grouped Commands</h2>
-    <div class="demo-section" intent="neutral" variant="secondary">
+    <n-panel bordered intent="neutral" variant="secondary">
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">With groups and shortcuts</span>
@@ -174,12 +174,12 @@
   &lt;/n-command-list&gt;
   &lt;n-command-empty&gt;No matching commands.&lt;/n-command-empty&gt;
 &lt;/n-command&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── With Disabled Items ── -->
 
     <h2>Disabled Items</h2>
-    <div class="demo-section" intent="neutral" variant="secondary">
+    <n-panel bordered intent="neutral" variant="secondary">
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Some items disabled</span>
@@ -201,12 +201,12 @@
       <pre class="demo-code"><code>&lt;n-command-item value="paste" disabled&gt;
   &lt;n-icon name="clipboard-text"&gt;&lt;/n-icon&gt; Paste (clipboard empty)
 &lt;/n-command-item&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <div class="demo-section" variant="secondary">
+    <n-panel bordered variant="secondary">
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">sm</span>
@@ -248,12 +248,12 @@
           </n-command>
         </div>
       </div>
-    </div>
+    </n-panel>
 
     <!-- ── Variants ── -->
 
     <h2>Variants</h2>
-    <div class="demo-section" size="sm">
+    <n-panel bordered size="sm">
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">secondary</span>
@@ -295,12 +295,12 @@
           </n-command>
         </div>
       </div>
-    </div>
+    </n-panel>
 
     <!-- ── Density ── -->
 
     <h2>Density</h2>
-    <div class="demo-section" size="md" variant="secondary">
+    <n-panel bordered size="md" variant="secondary">
       <div class="demo-grid">
         <div class="demo-col" density="loose">
           <span class="demo-col-label">loose</span>
@@ -342,12 +342,12 @@
           </n-command>
         </div>
       </div>
-    </div>
+    </n-panel>
 
     <!-- ── Radius ── -->
 
     <h2>Radius</h2>
-    <div class="demo-section" size="sm" variant="secondary">
+    <n-panel bordered size="sm" variant="secondary">
       <div class="demo-grid">
         <div class="demo-col" radius="sharp">
           <span class="demo-col-label">sharp</span>
@@ -389,12 +389,12 @@
           </n-command>
         </div>
       </div>
-    </div>
+    </n-panel>
 
     <!-- ── Cascading ── -->
 
     <h2>Cascading</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <h3>Section cascading all attributes</h3>
       <section size="sm" density="compact" radius="round" intent="accent">
         <div class="demo-grid">
@@ -426,12 +426,12 @@
           </div>
         </div>
       </section>
-    </div>
+    </n-panel>
 
     <!-- ── Keyboard Instructions ── -->
 
     <h2>Keyboard Navigation</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <table style="font-size: 0.8125rem; border-collapse: collapse; width: 100%;">
         <thead>
           <tr style="text-align: left; border-bottom: 1px solid var(--n-border-muted-neutral);">
@@ -449,7 +449,7 @@
           <tr><td style="padding: 0.375rem 0.5rem;"><code>Type</code></td><td style="padding: 0.375rem 0.5rem;">Filter items by search text</td></tr>
         </tbody>
       </table>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

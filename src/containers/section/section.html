@@ -19,7 +19,7 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-section>
         <span slot="heading">Account Settings</span>
         <span slot="description">Manage your account preferences and personal information.</span>
@@ -32,12 +32,12 @@
   &lt;n-input placeholder="Display Name" value="Kim Granlund"&gt;&lt;/n-input&gt;
   &lt;n-input placeholder="Email" value="kim@example.com"&gt;&lt;/n-input&gt;
 &lt;/n-section&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── With Divider ── -->
 
     <h2>With Divider</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-stack gap="0">
         <n-section>
           <span slot="heading">Profile</span>
@@ -69,12 +69,12 @@
     &lt;n-input placeholder="Current password"&gt;&lt;/n-input&gt;
   &lt;/n-section&gt;
 &lt;/n-stack&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Collapsible ── -->
 
     <h2>Collapsible</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-stack gap="0">
         <n-section collapsible>
           <span slot="heading">Advanced Settings</span>
@@ -97,12 +97,12 @@
   &lt;span slot="heading"&gt;Experimental Features&lt;/span&gt;
   &lt;n-switch&gt;AI suggestions&lt;/n-switch&gt;
 &lt;/n-section&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Nested with Inset ── -->
 
     <h2>Nested with Inset</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-section>
         <span slot="heading">Privacy</span>
         <span slot="description">Control how your data is used.</span>
@@ -120,7 +120,7 @@
     &lt;n-checkbox checked&gt;Send crash reports&lt;/n-checkbox&gt;
   &lt;/n-inset&gt;
 &lt;/n-section&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

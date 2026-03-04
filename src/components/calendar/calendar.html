@@ -36,44 +36,44 @@
     <!-- ── Single Select ── -->
 
     <h2>Single Select</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-calendar id="single"></n-calendar>
       <div id="single-output" class="output">Select a date      <pre class="demo-code"><code>&lt;n-calendar&gt;&lt;/n-calendar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
 </div>
-    </div>
+    </n-panel>
 
     <!-- ── With Initial Value ── -->
 
     <h2>Initial Value</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-calendar value="2026-02-14"></n-calendar>
       <pre class="demo-code"><code>&lt;n-calendar value="2026-02-14"&gt;&lt;/n-calendar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Min/Max Constraints ── -->
 
     <h2>Min/Max Constraints</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-calendar min="2026-02-10" max="2026-02-25"></n-calendar>
       <p class="demo-hint" style="margin-top: 0.5rem; margin-bottom: 0;">
         Only dates between Feb 10–25 are selectable.
       </p>
       <pre class="demo-code"><code>&lt;n-calendar min="2026-02-10" max="2026-02-25"&gt;&lt;/n-calendar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Range Selection ── -->
 
     <h2>Range Selection</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-calendar id="range-cal" range></n-calendar>
       <div id="range-output" class="output">Click a start date, hover to preview range, click to commit. Click again to clear.      <pre class="demo-code"><code>&lt;n-calendar range&gt;&lt;/n-calendar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
 </div>
-    </div>
+    </n-panel>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-wrap" style="align-items: start;">
         <div>
           <p class="demo-state-label">sm</p>
@@ -91,20 +91,20 @@
       <pre class="demo-code"><code>&lt;n-calendar size="sm"&gt;&lt;/n-calendar&gt;
 &lt;n-calendar&gt;&lt;/n-calendar&gt;
 &lt;n-calendar size="lg"&gt;&lt;/n-calendar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-calendar value="2026-02-20" disabled></n-calendar>
       <pre class="demo-code"><code>&lt;n-calendar value="2026-02-20" disabled&gt;&lt;/n-calendar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Debug States (force-*) ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to the host element, targets internal cells and buttons.
       </p>
@@ -118,7 +118,7 @@
           <n-calendar value="2026-02-20" force-focus-visible></n-calendar>
         </div>
       </div>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

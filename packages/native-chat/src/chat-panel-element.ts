@@ -110,7 +110,6 @@ export class NChatPanel extends NativeElement {
     // ── Footer ──
     const footer = document.createElement('n-footer');
     footer.setAttribute('dividers', '');
-    footer.setAttribute('padding', 'none');
     this.#footer = footer;
 
     const chatInput = document.createElement('n-chat-input');

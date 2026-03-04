@@ -1,7 +1,21 @@
 import { NativeElement } from '../../core/native-element.ts';
 import { RovingFocusController } from '../../traits/roving-focus-controller.ts';
 import { PopoverController } from '../../traits/popover-controller.ts';
-import '../../icons/phosphor/dots-three-outline-fill.ts';
+
+// Inline SVG for overflow trigger — avoids tree-shaking risk from
+// side-effect icon registration import.
+const OVERFLOW_SVG = '<svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M156,128a28,28,0,1,1-28-28A28,28,0,0,1,156,128ZM48,100a28,28,0,1,0,28,28A28,28,0,0,0,48,100Zm160,0a28,28,0,1,0,28,28A28,28,0,0,0,208,100Z"/></svg>';
+
+interface OverflowUnit {
+  el: HTMLElement;
+  flexItems: HTMLElement[];
+  priority: 'low' | 'normal' | 'high';
+  pinned: boolean;
+  index: number;
+  width: number;
+}
+
+const PRIORITY_ORDER: Record<string, number> = { low: 0, normal: 1, high: 2 };
 
 const BTN = ':is(n-button, button):not([disabled])';
 const ITEM_SELECTOR = `:scope > ${BTN}:not([data-overflow]), :scope > n-toolbar-group:not([data-overflow]) > ${BTN}`;
@@ -26,15 +40,14 @@ export class NToolbar extends NativeElement {
   setup(): void {
     super.setup();
 
-    // Stamp the overflow trigger button
+    // Stamp the overflow trigger button — uses inline SVG to avoid
+    // tree-shaking stripping the side-effect icon registration import.
     this.#moreBtn = document.createElement('n-button');
     this.#moreBtn.setAttribute('variant', 'ghost');
     this.#moreBtn.setAttribute('square', '');
     this.#moreBtn.setAttribute('aria-label', 'More actions');
     this.#moreBtn.setAttribute('data-overflow-trigger', '');
-    const icon = document.createElement('n-icon');
-    icon.setAttribute('name', 'dots-three-outline-fill');
-    this.#moreBtn.appendChild(icon);
+    this.#moreBtn.innerHTML = OVERFLOW_SVG;
     this.appendChild(this.#moreBtn);
 
     // Stamp the overflow popover listbox
@@ -162,6 +175,7 @@ export class NToolbar extends NativeElement {
       this.removeAttribute('data-measuring');
       this.#roving.selector = ITEM_SELECTOR_NO_TRIGGER;
       this.#clearOverflowMenu();
+      this.#dispatchOverflowEvent(units, new Set(), contentWidth, totalWidth);
       return;
     }
 
@@ -171,33 +185,52 @@ export class NToolbar extends NativeElement {
     const moreBtnWidth = this.#moreBtn.offsetWidth;
     const available = contentWidth - moreBtnWidth - gap;
 
-    // 8. Walk units left-to-right, hiding those that don't fit
-    let consumed = 0;
-    let overflowing = false;
-    flatIndex = 0;
+    // 8. Measure per-unit widths
     for (const unit of units) {
-      if (overflowing) {
-        unit.el.setAttribute('data-overflow', '');
-        continue;
+      let w = 0;
+      for (let i = 0; i < unit.flexItems.length; i++) {
+        if (i > 0) w += gap;
+        w += unit.flexItems[i].offsetWidth;
       }
-      let unitCost = 0;
-      for (const item of unit.flexItems) {
-        if (flatIndex > 0) unitCost += gap;
-        unitCost += item.offsetWidth;
-        flatIndex++;
-      }
-      consumed += unitCost;
-      if (consumed > available) {
+      unit.width = w;
+    }
+
+    // 9. Priority-based overflow — sort candidates by priority (low first),
+    //    then by reverse DOM order within same priority (later items first).
+    //    Pinned items never overflow.
+    const candidates = units
+      .filter(u => !u.pinned)
+      .sort((a, b) => {
+        const pa = PRIORITY_ORDER[a.priority] ?? 1;
+        const pb = PRIORITY_ORDER[b.priority] ?? 1;
+        if (pa !== pb) return pa - pb;
+        return b.index - a.index;
+      });
+
+    let remaining = totalWidth;
+    const overflowed = new Set<HTMLElement>();
+
+    for (const unit of candidates) {
+      if (remaining <= available) break;
+      overflowed.add(unit.el);
+      remaining -= unit.width + gap;
+    }
+
+    // 10. Apply data-overflow
+    for (const unit of units) {
+      if (overflowed.has(unit.el)) {
         unit.el.setAttribute('data-overflow', '');
-        overflowing = true;
       }
     }
 
-    // 9. Update roving focus selector (include more button)
+    // 11. Update roving focus selector (include more button)
     this.#roving.selector = ITEM_SELECTOR;
 
-    // 10. Rebuild the overflow menu
+    // 12. Rebuild the overflow menu
     this.#rebuildOverflowMenu();
+
+    // 13. Dispatch diagnostics event
+    this.#dispatchOverflowEvent(units, overflowed, contentWidth, totalWidth);
   }
 
   /** Get content children (excludes the stamped more button and overflow listbox). */
@@ -217,19 +250,24 @@ export class NToolbar extends NativeElement {
   }
 
   /** Build atomic overflow units. Groups are treated as one unit so they
-   *  overflow together. Each unit tracks its flex items for width calculation. */
-  #buildOverflowUnits(): { el: HTMLElement; flexItems: HTMLElement[] }[] {
-    const units: { el: HTMLElement; flexItems: HTMLElement[] }[] = [];
+   *  overflow together. Each unit tracks its flex items for width calculation,
+   *  priority, and pinned state. */
+  #buildOverflowUnits(): OverflowUnit[] {
+    const units: OverflowUnit[] = [];
+    let index = 0;
     for (const child of this.#getContentChildren()) {
+      const priority = (child.getAttribute('overflow-priority') ?? 'normal') as 'low' | 'normal' | 'high';
+      const pinned = child.hasAttribute('overflow-pin');
       if (child.tagName === 'N-TOOLBAR-GROUP') {
         const items: HTMLElement[] = [];
         for (const gc of child.children) {
           if (gc instanceof HTMLElement) items.push(gc);
         }
-        units.push({ el: child, flexItems: items });
+        units.push({ el: child, flexItems: items, priority, pinned, index, width: 0 });
       } else {
-        units.push({ el: child, flexItems: [child] });
+        units.push({ el: child, flexItems: [child], priority, pinned, index, width: 0 });
       }
+      index++;
     }
     return units;
   }
@@ -301,6 +339,36 @@ export class NToolbar extends NativeElement {
     }
 
     return 'Action';
+  }
+
+  // ---------------------------------------------------------------------------
+  // Diagnostics
+  // ---------------------------------------------------------------------------
+
+  /** Dispatch `native:toolbar-overflow` with visibility stats. */
+  #dispatchOverflowEvent(
+    units: OverflowUnit[],
+    overflowed: Set<HTMLElement>,
+    availableWidth: number,
+    totalWidth: number,
+  ): void {
+    const overflowedLabels: string[] = [];
+    for (const unit of units) {
+      if (overflowed.has(unit.el)) {
+        overflowedLabels.push(this.#extractLabel(unit.el));
+      }
+    }
+    this.dispatchEvent(new CustomEvent('native:toolbar-overflow', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        visibleCount: units.length - overflowed.size,
+        overflowedCount: overflowed.size,
+        overflowedLabels,
+        availableWidth,
+        totalWidth,
+      },
+    }));
   }
 
   // ---------------------------------------------------------------------------

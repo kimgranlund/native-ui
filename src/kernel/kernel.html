@@ -127,10 +127,10 @@
     <!-- ── Command Bus ── -->
 
     <h2>Command Bus</h2>
-    <div class="demo-section" size="sm">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered size="sm">
+      <n-text size="sm" muted>
         Dispatch commands through the bus. Handlers receive typed payloads. Middleware can intercept, log, or transform commands.
-      </p>
+      </n-text>
       <div class="demo-row">
         <n-button variant="primary" id="cmd-increment">
           <span slot="label">Increment Counter</span>
@@ -147,15 +147,15 @@
         <span><span class="label">Commands:</span> <span class="value" id="cmd-count">0</span></span>
       </div>
       <div class="log" id="cmd-log"></div>
-    </div>
+    </n-panel>
 
     <!-- ── Undo / Redo ── -->
 
     <h2>Undo / Redo</h2>
-    <div class="demo-section" size="sm">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered size="sm">
+      <n-text size="sm" muted>
         Commands with undo metadata are tracked. Use Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z or the buttons below.
-      </p>
+      </n-text>
       <div class="demo-row">
         <n-button id="btn-undo" disabled>
           <span slot="label">Undo</span>
@@ -168,26 +168,26 @@
         <span><span class="label">Undo stack:</span> <span class="value" id="undo-count">0</span></span>
         <span><span class="label">Redo stack:</span> <span class="value" id="redo-count">0</span></span>
       </div>
-    </div>
+    </n-panel>
 
     <!-- ── Focus Router ── -->
 
     <h2>Focus Router (Keyboard Shortcuts)</h2>
-    <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered>
+      <n-text size="sm" muted>
         Global keyboard shortcuts registered through the focus router. Try pressing the keys below (click outside any input first).
-      </p>
+      </n-text>
       <div class="shortcut-list" id="shortcut-list"></div>
       <div class="log" id="shortcut-log"></div>
-    </div>
+    </n-panel>
 
     <!-- ── Overlay Manager ── -->
 
     <h2>Overlay Manager</h2>
-    <div class="demo-section" size="sm">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered size="sm">
+      <n-text size="sm" muted>
         Centralized overlay stack with z-index arbitration. Escape closes the top overlay. Click outside to dismiss.
-      </p>
+      </n-text>
       <div class="demo-row">
         <n-button variant="primary" id="overlay-open-popover">
           <span slot="label">Open Popover</span>
@@ -203,15 +203,15 @@
         <span><span class="label">Stack depth:</span> <span class="value" id="overlay-depth">0</span></span>
         <span><span class="label">Top:</span> <span class="value" id="overlay-top">none</span></span>
       </div>
-    </div>
+    </n-panel>
 
     <!-- ── Plan Executor ── -->
 
     <h2>Plan Executor (GenUI)</h2>
-    <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered>
+      <n-text size="sm" muted>
         Validate and render a declarative UI schema. Events wire to the command bus. Edit the JSON and click "Execute Plan".
-      </p>
+      </n-text>
       <n-textarea class="plan-input" id="plan-input" rows="10"></n-textarea>
       <div class="demo-row" style="margin-top: 0.75rem;">
         <n-button variant="primary" id="plan-execute" size="sm">
@@ -227,15 +227,15 @@
       <h3>Rendered Output</h3>
       <div class="plan-output" id="plan-output"></div>
       <div class="log" id="plan-log"></div>
-    </div>
+    </n-panel>
 
     <!-- ── Patch Protocol ── -->
 
     <h2>Patch Protocol</h2>
-    <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered>
+      <n-text size="sm" muted>
         Apply incremental patches to a rendered plan. Execute a plan above first, then try patching it.
-      </p>
+      </n-text>
       <div class="demo-row">
         <n-button variant="primary" id="patch-text" size="sm">
           <span slot="label">Patch Text</span>
@@ -251,15 +251,15 @@
         </n-button>
       </div>
       <div class="log" id="patch-log"></div>
-    </div>
+    </n-panel>
 
     <!-- ── Accessibility Validation ── -->
 
     <h2>Accessibility Validation</h2>
-    <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered>
+      <n-text size="sm" muted>
         Validate a plan against accessibility rules before rendering. Try plans with and without proper labeling.
-      </p>
+      </n-text>
       <div class="demo-row">
         <n-button variant="primary" id="a11y-check-plan" size="sm">
           <span slot="label">Validate Current Plan</span>
@@ -272,15 +272,15 @@
         </n-button>
       </div>
       <div class="log" id="a11y-log"></div>
-    </div>
+    </n-panel>
 
     <!-- ── Observability ── -->
 
     <h2>Observability</h2>
-    <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered>
+      <n-text size="sm" muted>
         All kernel activity is logged. View the event log and performance metrics.
-      </p>
+      </n-text>
       <div class="demo-row">
         <n-button variant="primary" id="obs-show-log" size="sm">
           <span slot="label">Show Event Log</span>
@@ -297,15 +297,15 @@
         <span><span class="label">Perf samples:</span> <span class="value" id="obs-perf-count">0</span></span>
       </div>
       <div class="log" id="obs-log"></div>
-    </div>
+    </n-panel>
 
     <!-- ── Workflow Engine ── -->
 
     <h2>Workflow Engine (Statechart)</h2>
-    <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered>
+      <n-text size="sm" muted>
         A traffic light statechart: green → yellow → red → green. Guards, context, and transition history included.
-      </p>
+      </n-text>
       <div class="demo-row">
         <n-button variant="primary" id="wf-start" size="sm">
           <span slot="label">Start</span>
@@ -326,15 +326,15 @@
         <span><span class="label">Cycles:</span> <span class="value" id="wf-cycles">0</span></span>
       </div>
       <div class="log" id="wf-log"></div>
-    </div>
+    </n-panel>
 
     <!-- ── Policy & Capability ── -->
 
     <h2>Policy &amp; Capability</h2>
-    <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered>
+      <n-text size="sm" muted>
         Grant/revoke capabilities and add deny rules. The policy engine middleware blocks unauthorized commands on the bus.
-      </p>
+      </n-text>
       <div class="demo-row">
         <n-button variant="primary" id="pol-grant" size="sm">
           <span slot="label">Grant "admin"</span>
@@ -362,15 +362,15 @@
         <span><span class="label">Last decision:</span> <span class="value" id="pol-last">-</span></span>
       </div>
       <div class="log" id="pol-log"></div>
-    </div>
+    </n-panel>
 
     <!-- ── Component Integration ── -->
 
     <h2>Component Integration</h2>
-    <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered>
+      <n-text size="sm" muted>
         The component manifest describes all 49 native-ui components. Use the event bridge to auto-route component events to the command bus.
-      </p>
+      </n-text>
       <div class="demo-row">
         <n-button variant="primary" id="ci-show-manifest" size="sm">
           <span slot="label">Show Manifest</span>
@@ -387,15 +387,15 @@
         <span><span class="label">Bridge:</span> <span class="value" id="ci-bridge-status">not installed</span></span>
       </div>
       <div class="log" id="ci-log"></div>
-    </div>
+    </n-panel>
 
     <!-- ── Workflow Templates ── -->
 
     <h2>Workflow Templates</h2>
-    <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered>
+      <n-text size="sm" muted>
         Pre-built workflow definitions for common patterns. Select a template and run it through the workflow engine.
-      </p>
+      </n-text>
       <div class="demo-row">
         <n-button variant="primary" id="wft-form-wizard" size="sm">
           <span slot="label">Form Wizard</span>
@@ -424,15 +424,15 @@
         <span><span class="label">Events:</span> <span class="value" id="wft-events">-</span></span>
       </div>
       <div class="log" id="wft-log"></div>
-    </div>
+    </n-panel>
 
     <!-- ── Schema Catalog ── -->
 
     <h2>Schema Catalog</h2>
-    <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered>
+      <n-text size="sm" muted>
         Introspect the component schema catalog. Each schema describes attributes, properties, slots, events, and ARIA requirements.
-      </p>
+      </n-text>
       <div class="demo-row">
         <n-button variant="primary" id="sc-list-all" size="sm">
           <span slot="label">List All Schemas</span>
@@ -448,15 +448,15 @@
         </n-button>
       </div>
       <div class="log" id="sc-log" style="max-height: 20rem;"></div>
-    </div>
+    </n-panel>
 
     <!-- ── GenUI Planner ── -->
 
     <h2>GenUI Planner</h2>
-    <div class="demo-section">
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: 1rem;">
+    <n-panel bordered>
+      <n-text size="sm" muted>
         Generate validated UI plans from structured intents. The planner auto-adds ARIA attributes, validates accessibility, and produces frozen plans ready for the executor.
-      </p>
+      </n-text>
       <h3>Quick Builders</h3>
       <div class="demo-row">
         <n-button variant="primary" id="gp-login-form" size="sm">
@@ -504,7 +504,7 @@
       <h3>Rendered Output</h3>
       <div class="plan-output" id="gp-output"></div>
       <div class="log" id="gp-log"></div>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

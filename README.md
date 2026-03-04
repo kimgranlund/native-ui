@@ -75,7 +75,7 @@ This means:
 
 ## Components
 
-30 interactive components, 17 structural containers, 23 trait controllers, and a Phosphor icon system.
+30 interactive components, 11 structural containers, 26 trait controllers, and a Phosphor icon system.
 
 ### Interactive
 
@@ -83,13 +83,13 @@ This means:
 
 ### Containers
 
-`n-card` `n-panel` `n-stack` `n-grid` `n-divider` `n-inset` `n-header` `n-body` `n-footer` `n-section` `n-toolbar` `n-layout-sidebar` `n-layout-breadcrumb` `n-layout-canvas` `n-layout-body` `n-layout-chat`
+`n-card` `n-panel` `n-stack` `n-grid` `n-divider` `n-inset` `n-header` `n-body` `n-footer` `n-section` `n-toolbar`
 
 ### Traits
 
 Composable behaviors available as controllers (imperative) or via `<n-controller>` (declarative):
 
-`PressController` `DismissController` `PopoverController` `RovingFocusController` `FocusTrapController` `DragController` `DropZoneController` `RangeSelectController` `CollapsibleController` `ToastController` `ValidateController` `ResizeController` `VirtualScrollController` `CopyController` `SortController` `HoverController` `IntersectController` `SelectionController` `SearchController` `ClipboardController` `SwipeController` `EditController` `DialogController` `ListNavigateController`
+`PressController` `DismissController` `PopoverController` `RovingFocusController` `FocusTrapController` `DragController` `DropZoneController` `RangeSelectController` `CollapsibleController` `ToastController` `ValidateController` `ResizeController` `VirtualScrollController` `CopyController` `SortController` `HoverController` `IntersectController` `SelectionController` `SearchController` `ClipboardController` `SwipeController` `EditController` `DialogController` `ListNavigateController` `PresentController` `GatewayController`
 
 ## Documentation
 

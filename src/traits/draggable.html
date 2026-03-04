@@ -289,7 +289,7 @@
     <!-- ── Drop Mode: Swap (Provider) ── -->
 
     <h2>Drop Mode — Swap (Provider)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> wraps a plain <code>&lt;div&gt;</code> and applies the draggable trait. Drop onto a target to swap positions.
       </p>
@@ -324,12 +324,12 @@
     placeholder.replaceWith(target);
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Drop Mode: Replace (Provider) ── -->
 
     <h2>Drop Mode — Replace (Provider)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Drag a person onto a role to assign. Uses <code>draggable-drop-zone-selector</code> to separate drag items from drop targets.
       </p>
@@ -356,12 +356,12 @@
     &lt;!-- ... --&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Slot Mode: Vertical List (Provider) ── -->
 
     <h2>Slot Mode — Vertical List (Provider)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Shows a gap indicator between items. Dropping inserts the item at that position.
       </p>
@@ -392,12 +392,12 @@
     else list.appendChild(item);
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Slot Mode: Horizontal Cards (Provider) ── -->
 
     <h2>Slot Mode — Horizontal Cards (Provider)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-controller traits="draggable" draggable-selector=".drag-card" draggable-axis="horizontal" draggable-mode="slot">
         <div id="card-row" class="drag-row">
           <div class="drag-card">A</div>
@@ -416,12 +416,12 @@
     &lt;!-- ... --&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Preview Mode: Grid Reorder ── -->
 
     <h2>Preview Mode — Grid Reorder</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Live DOM reordering as you drag. The item moves to its new position in real time — no placeholder needed. Press Escape to cancel and restore the original order. Works with CSS Grid (2D hit-testing via <code>axis="both"</code>).
       </p>
@@ -468,12 +468,12 @@
 &lt;!-- No native:drop handler needed for reordering —
      the item is already in its final position.
      Handle n-drop only to persist the new order. --&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Cross-Zone: Kanban Board ── -->
 
     <h2>Cross-Zone — Kanban Board (Slot Mode)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         <code>zoneSelector</code> enables dragging items across zone containers. Each column is a zone — items can be dragged between columns. The <code>[drag-zone-active]</code> attribute highlights the target zone during drag.
       </p>
@@ -517,7 +517,7 @@
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── API Reference ── -->
 

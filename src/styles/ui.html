@@ -104,7 +104,7 @@
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <span class="demo-label">xs</span>
         <button size="xs" variant="primary">
@@ -186,12 +186,12 @@
 &lt;n-button size="md" variant="primary"&gt;Medium&lt;/n-button&gt;
 &lt;n-button size="lg" variant="primary"&gt;Large&lt;/n-button&gt;
 &lt;n-button size="xl" variant="primary"&gt;Extra Large&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Density ── -->
 
     <h2>Density</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <h3>xs</h3>
       <div class="demo-row" size="xs" density="compact">
         <span class="demo-label">compact</span>
@@ -301,12 +301,12 @@
 &lt;div density="loose"&gt;
   &lt;n-button variant="primary"&gt;Loose&lt;/n-button&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Radius ── -->
 
     <h2>Radius</h2>
-    <div class="demo-section" size="md">
+    <n-panel bordered size="md">
       <div class="demo-row" radius="sharp">
         <span class="demo-label">sharp</span>
         <button variant="primary"><span slot="label">Button</span></button>
@@ -329,12 +329,12 @@
 &lt;n-button radius="sharp" variant="primary"&gt;Sharp&lt;/n-button&gt;
 &lt;n-button radius="round" variant="primary"&gt;Round&lt;/n-button&gt;
 &lt;n-button radius="pill" variant="primary"&gt;Pill&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Variants x Intents ── -->
 
     <h2>Variants x Intents</h2>
-    <div class="demo-section" size="sm">
+    <n-panel bordered size="sm">
       <h3>Primary</h3>
       <div class="demo-row">
         <button variant="primary" intent="neutral"><span slot="label">Neutral</span></button>
@@ -390,12 +390,12 @@
 &lt;n-button variant="ghost" intent="success"&gt;Success Ghost&lt;/n-button&gt;
 &lt;n-button variant="outline" intent="warning"&gt;Warning Outline&lt;/n-button&gt;
 &lt;n-button variant="default" intent="info"&gt;Info Default&lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Slot Variations ── -->
 
     <h2>Slot Variations</h2>
-    <div class="demo-section" size="md">
+    <n-panel bordered size="md">
       <h3>Full (leading + label + trailing)</h3>
       <div class="demo-row">
         <button variant="primary">
@@ -458,12 +458,12 @@
 &lt;n-button variant="ghost" aria-label="Close"&gt;
   &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
 &lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Cascading ── -->
 
     <h2>Cascading</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <h3>Parent size="md", child overrides to size="xs"</h3>
       <div class="demo-row" size="md" intent="accent">
         <button variant="primary"><span slot="label">Inherited md</span></button>
@@ -496,12 +496,12 @@
   &lt;n-button variant="primary" intent="danger"&gt;Override intent&lt;/n-button&gt;
   &lt;n-button variant="primary" size="lg"&gt;Override size&lt;/n-button&gt;
 &lt;/section&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled States</h2>
-    <div class="demo-section" size="sm">
+    <n-panel bordered size="sm">
       <div class="demo-row">
         <button variant="primary" disabled><span slot="label">Primary</span></button>
         <button variant="secondary" disabled><span slot="label">Secondary</span></button>
@@ -518,7 +518,7 @@
 &lt;fieldset disabled&gt;
   &lt;n-input placeholder="Disabled by fieldset"&gt;&lt;/n-input&gt;
 &lt;/fieldset&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
     </main></native-app-spa>
     <script type="module">
       import '../nav/native-app.ts';

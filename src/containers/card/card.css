@@ -103,23 +103,19 @@
   :where(n-card)[padding="relaxed"] { padding: calc(var(--n-space) * 6); }
 
   /* ── Sub-container integration ── */
-  /* WHY: When n-body / n-card-body is present, delegate overflow to body so
-     header/footer stay fixed while body scrolls. Both unified (n-header etc.)
-     and deprecated (n-card-header etc.) names are supported. */
+  /* WHY: When n-body is present, delegate overflow to body so
+     header/footer stay fixed while body scrolls. */
 
-  :where(n-card):has(> n-body),
-  :where(n-card):has(> n-card-body) {
+  :where(n-card):has(> n-body) {
     overflow: hidden;
     padding: 0;
   }
 
-  :where(n-card) > :where(n-header),
-  :where(n-card) > :where(n-card-header) {
+  :where(n-card) > :where(n-header) {
     border-bottom: 1px solid var(--n-border-muted);
   }
 
-  :where(n-card) > :where(n-footer),
-  :where(n-card) > :where(n-card-footer) {
+  :where(n-card) > :where(n-footer) {
     border-top: 1px solid var(--n-border-muted);
   }
 

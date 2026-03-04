@@ -19,19 +19,19 @@
     <!-- ── Simple ── -->
 
     <h2>Simple</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-card style="max-width: 24rem;">
         <p>A simple card with just body content. No header or footer.</p>
       </n-card>
     <pre class="demo-code"><code>&lt;n-card&gt;
   &lt;p&gt;A simple card with just body content.&lt;/p&gt;
 &lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Structured ── -->
 
     <h2>Structured (header + body + footer)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-card style="max-width: 24rem;">
         <n-header dividers>
           <span slot="label">Card Title</span>
@@ -58,12 +58,12 @@
     &lt;n-button variant="primary" intent="accent"&gt;Save&lt;/n-button&gt;
   &lt;/n-footer&gt;
 &lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Media ── -->
 
     <h2>With Media</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <n-card style="max-width: 18rem;">
           <div slot="media" style="height: 10rem; background: linear-gradient(135deg, var(--n-surface-accent), var(--n-surface-info));"></div>
@@ -96,12 +96,12 @@
     &lt;n-button variant="primary" intent="accent" size="sm"&gt;Buy Now&lt;/n-button&gt;
   &lt;/n-footer&gt;
 &lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Header with Slots ── -->
 
     <h2>Header with Leading & Trailing</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-card style="max-width: 28rem;">
         <n-header>
           <n-badge slot="leading" intent="accent">New</n-badge>
@@ -128,12 +128,12 @@
     &lt;n-button variant="primary" intent="accent"&gt;Save&lt;/n-button&gt;
   &lt;/n-footer&gt;
 &lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Interactive ── -->
 
     <h2>Interactive</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <n-card interactive style="max-width: 16rem;">
           <p>Click this card. It has hover and focus states.</p>
@@ -145,12 +145,12 @@
       <pre class="demo-code"><code>&lt;n-card interactive&gt;
   &lt;p&gt;Click this card. It has hover and focus states.&lt;/p&gt;
 &lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes (inherit from parent)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <h3>size="sm"</h3>
       <n-card size="sm" style="max-width: 20rem;">
         <n-header><span slot="label">Small Card</span></n-header>
@@ -170,12 +170,12 @@
   &lt;n-header&gt;&lt;span slot="label"&gt;Large Card&lt;/span&gt;&lt;/n-header&gt;
   &lt;n-body&gt;&lt;p&gt;Spacious padding.&lt;/p&gt;&lt;/n-body&gt;
 &lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Grid Composition ── -->
 
     <h2>Grid Composition</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-grid cols="3" gap="4">
         <n-card>
           <n-header><span slot="label">Revenue</span></n-header>
@@ -198,7 +198,7 @@
   &lt;n-card&gt;...&lt;/n-card&gt;
   &lt;n-card&gt;...&lt;/n-card&gt;
 &lt;/n-grid&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

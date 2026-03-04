@@ -21,7 +21,7 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-playground
         auto-run
         css-url="/packages/native-playground/src/dev-preview.css"
@@ -53,12 +53,12 @@ document.querySelector('n-button')
   });
         </script>
       </native-playground>
-    </div>
+    </n-panel>
 
     <!-- ── Vertical Orientation ── -->
 
     <h2>Vertical Orientation</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-playground
         orientation="vertical"
         auto-run
@@ -82,13 +82,13 @@ body {
 }
         </script>
       </native-playground>
-    </div>
+    </n-panel>
 
     <!-- ── Console Demo ── -->
 
     <h2>Console Capture</h2>
     <p class="demo-hint">Click "Console" in the toolbar, then press the button to see captured logs.</p>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-playground
         auto-run
         console-open
@@ -113,13 +113,13 @@ document.getElementById('log-btn')
   });
         </script>
       </native-playground>
-    </div>
+    </n-panel>
 
     <!-- ── Read-only ── -->
 
     <h2>Read-only</h2>
     <p class="demo-hint">Editors are non-editable. Useful for documentation showcases.</p>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-playground
         readonly
         auto-run
@@ -142,13 +142,13 @@ body {
 n-input { max-width: 20rem; }
         </script>
       </native-playground>
-    </div>
+    </n-panel>
 
     <!-- ── Active Tab ── -->
 
     <h2>Active Tab: CSS</h2>
     <p class="demo-hint">Opens with the CSS tab pre-selected.</p>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-playground
         active-tab="css"
         auto-run
@@ -190,7 +190,7 @@ body {
 }
         </script>
       </native-playground>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

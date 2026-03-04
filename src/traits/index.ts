@@ -4,7 +4,7 @@ export type { DragOptions } from './drag-controller.ts';
 export { RangeSelectController } from './range-select-controller.ts';
 export type { RangeSelectOptions } from './range-select-controller.ts';
 export { ResizeController } from './resize-controller.ts';
-export type { ResizeOptions } from './resize-controller.ts';
+export type { ResizeOptions, HandlePosition } from './resize-controller.ts';
 export { VirtualScrollController } from './virtual-scroll-controller.ts';
 export type { VirtualScrollOptions } from './virtual-scroll-controller.ts';
 export { SelectionController } from './selection-controller.ts';
@@ -50,6 +50,8 @@ export { GatewayController } from './gateway-controller.ts';
 export type { GatewayOptions } from './gateway-controller.ts';
 export { PresentController } from './present-controller.ts';
 export type { PresentOptions } from './present-controller.ts';
+export { SlashCommandController } from './slash-command-controller.ts';
+export type { SlashCommand, SlashCommandOptions } from './slash-command-controller.ts';
 export { registerAllTraits } from './register-all.ts';
 
 // ── Runtime ──
@@ -84,3 +86,4 @@ export { clippableAdapter } from './adapters/clippable-adapter.ts';
 export { swipeableAdapter } from './adapters/swipeable-adapter.ts';
 export { editableAdapter } from './adapters/editable-adapter.ts';
 export { presentableAdapter } from './adapters/presentable-adapter.ts';
+export { slashCommandableAdapter } from './adapters/slash-commandable-adapter.ts';

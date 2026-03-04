@@ -8,13 +8,13 @@
 |---------|---------|---------|----------|
 | `@nonoun/native-ui` | 0.6.9 | Core: components, design system, traits, reactivity, icons | -- |
 | `@nonoun/native-app` | 0.3.3 | App shell: sidebar navigation, layout orchestration | `>=0.6.0` |
-| `@nonoun/native-tokens` | 0.5.0 | OKLCH color token inspector widget | `>=0.6.0` |
+| `@nonoun/native-tokens` | 0.5.2 | OKLCH color token inspector widget | `>=0.6.0` |
 | `@nonoun/native-chat` | 0.2.1 | Chat component system: feed, messages, avatar, activity, seeds, GenUI | `>=0.6.0` |
-| `@nonoun/native-codemirror` | 0.2.5 | CodeMirror 6 integration layer (theme, extensions, re-exports) | `>=0.5.0` |
-| `@nonoun/native-editor` | 0.2.4 | Markdown editor with live preview | `>=0.5.0` |
-| `@nonoun/native-playground` | 0.2.4 | Embeddable live code sandbox (HTML/CSS/JS) | `>=0.5.0` |
-| `@nonoun/native-a2ui` | 0.1.1 | A2UI protocol: adapter, transport, workbench | `>=0.5.0` |
-| `@nonoun/native-cdn` | 0.2.1 | Single-file IIFE bundle for CDN/artifact use | `>=0.5.0` |
+| `@nonoun/native-codemirror` | 0.2.7 | CodeMirror 6 integration layer (theme, extensions, re-exports) | `>=0.5.0` |
+| `@nonoun/native-editor` | 0.2.6 | Markdown editor with live preview | `>=0.5.0` |
+| `@nonoun/native-playground` | 0.2.6 | Embeddable live code sandbox (HTML/CSS/JS) | `>=0.5.0` |
+| `@nonoun/native-a2ui` | 0.1.3 | A2UI protocol: adapter, transport, workbench | `>=0.5.0` |
+| `@nonoun/native-cdn` | 0.2.3 | Single-file IIFE bundle for CDN/artifact use | `>=0.5.0` |
 
 ## Export Maps
 

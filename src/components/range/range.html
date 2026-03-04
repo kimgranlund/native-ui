@@ -26,7 +26,7 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-stack gap="4">
         <n-field>
           <label slot="label">Volume</label>
@@ -41,12 +41,12 @@
   &lt;label slot="label"&gt;Volume&lt;/label&gt;
   &lt;n-range value="75"&gt;&lt;/n-range&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Custom Range ── -->
 
     <h2>Custom Range</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-stack gap="4">
         <n-field>
           <label slot="label">Temperature (°F)</label>
@@ -69,12 +69,12 @@
   &lt;label slot="label"&gt;Opacity&lt;/label&gt;
   &lt;n-range min="0" max="1" step="0.1" value="0.8"&gt;&lt;/n-range&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-field disabled>
         <label slot="label">Locked slider</label>
         <n-range value="30"></n-range>
@@ -83,12 +83,12 @@
   &lt;label slot="label"&gt;Locked slider&lt;/label&gt;
   &lt;n-range value="30"&gt;&lt;/n-range&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <span class="demo-label">xs</span>
         <n-range size="xs" value="40"></n-range>
@@ -114,12 +114,12 @@
 &lt;n-range size="md" value="60"&gt;&lt;/n-range&gt;
 &lt;n-range size="lg" value="70"&gt;&lt;/n-range&gt;
 &lt;n-range size="xl" value="80"&gt;&lt;/n-range&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Density ── -->
 
     <h2>Density</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <h3>compact</h3>
       <n-stack gap="4" density="compact">
         <n-range size="sm" value="40"></n-range>
@@ -145,12 +145,12 @@
 &lt;div density="loose"&gt;
   &lt;n-range value="60"&gt;&lt;/n-range&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Intents ── -->
 
     <h2>Intents</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-stack gap="4">
         <n-range intent="neutral" value="50"></n-range>
         <n-range intent="accent" value="65"></n-range>
@@ -163,12 +163,12 @@
 &lt;n-range intent="success" value="85"&gt;&lt;/n-range&gt;
 &lt;n-range intent="warning" value="45"&gt;&lt;/n-range&gt;
 &lt;n-range intent="danger" value="25"&gt;&lt;/n-range&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Live Value ── -->
 
     <h2>Live Value</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-field>
         <label slot="label">Zoom: <span id="zoom-value" class="value-display">100%</span></label>
         <n-range id="zoom-range" min="50" max="200" step="10" value="100"></n-range>
@@ -181,12 +181,12 @@
       console.log('Zoom:', e.detail.value + '%');
     });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Cascading ── -->
 
     <h2>Cascading</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <h3>Parent size="sm", intent="success"</h3>
       <n-stack gap="4" size="sm" intent="success">
         <n-range value="50"></n-range>
@@ -198,12 +198,12 @@
   &lt;n-range size="lg" value="70"&gt;&lt;/n-range&gt;
   &lt;n-range intent="danger" value="30"&gt;&lt;/n-range&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Debug States (force-*) ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
       </p>
@@ -221,7 +221,7 @@
           <n-range force-focus-visible value="50"></n-range>
         </div>
       </n-stack>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

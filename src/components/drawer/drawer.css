@@ -59,21 +59,18 @@
   }
 
   /* ── Sub-containers ── */
-  /* WHY: When n-body / n-card-body are used inside a drawer, the panel
-     delegates overflow to the body and adds contextual dividers. */
+  /* WHY: When n-body is used inside a drawer, the panel delegates
+     overflow to the body and adds contextual dividers. */
 
-  :where(n-drawer) :where(n-drawer-panel):has(> n-body),
-  :where(n-drawer) :where(n-drawer-panel):has(> n-card-body) {
+  :where(n-drawer) :where(n-drawer-panel):has(> n-body) {
     overflow: hidden;
   }
 
-  :where(n-drawer) :where(n-drawer-panel) > :where(n-header),
-  :where(n-drawer) :where(n-drawer-panel) > :where(n-card-header) {
+  :where(n-drawer) :where(n-drawer-panel) > :where(n-header) {
     border-bottom: 1px solid var(--n-border-muted);
   }
 
-  :where(n-drawer) :where(n-drawer-panel) > :where(n-footer),
-  :where(n-drawer) :where(n-drawer-panel) > :where(n-card-footer) {
+  :where(n-drawer) :where(n-drawer-panel) > :where(n-footer) {
     border-top: 1px solid var(--n-border-muted);
   }
 

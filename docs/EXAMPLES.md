@@ -1,6 +1,6 @@
 # Examples
 
-Ten copy-pasteable patterns for `@nonoun/native-ui`. Assumes CSS and JS are loaded:
+Fifteen copy-pasteable patterns for `@nonoun/native-ui`. Assumes CSS and JS are loaded:
 
 ```html
 <link rel="stylesheet" href="native-ui.css" />

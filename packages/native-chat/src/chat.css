@@ -126,10 +126,16 @@
     gap: var(--n-chat-gap);
     flex: 1 1 0%;
     min-height: 0;
+    min-width: 0;
+    padding-block: calc(var(--n-space) * 4);
+  }
+
+  /* WHY: Opt-in scroll container — prevents layout conflicts when scroll
+     ownership belongs to a parent container. */
+  [scrollable]:where(n-chat-feed) {
     overflow-y: auto;
     scrollbar-width: thin;
     scroll-behavior: smooth;
-    padding-block: calc(var(--n-space) * 4);
   }
 
   /* ── Date separator ── */
@@ -156,6 +162,7 @@
     align-items: flex-start;
     gap: var(--n-chat-message-gap);
     align-self: flex-start;
+    min-width: 0;
   }
 
   /* User messages: right-aligned, avatar on right */

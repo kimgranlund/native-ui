@@ -15,7 +15,7 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-// Helper: temporarily override attachInternals so the UIButton constructor
+// Helper: temporarily override attachInternals so the NButton constructor
 // picks up a stub that includes a live `form` reference. The constructor calls
 // attachInternals() synchronously, so we must patch the prototype before
 // createElement and restore it afterwards.

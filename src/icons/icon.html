@@ -66,7 +66,7 @@
     <!-- ── Basic Icons ── -->
 
     <h2>Basic Icons</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="icon-row">
         <div class="icon-card">
           <n-icon name="house"></n-icon>
@@ -109,12 +109,12 @@
           <span class="icon-card-label">pencil-simple</span>
         </div>
       </div>
-    </div>
+    </n-panel>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">xs (0.75rem)</span>
@@ -137,12 +137,12 @@
           <n-icon name="house" size="xl"></n-icon>
         </div>
       </div>
-    </div>
+    </n-panel>
 
     <!-- ── Color Inheritance ── -->
 
     <h2>Color Inheritance</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="icon-row">
         <span style="color: var(--n-ink-accent);">
           <n-icon name="heart"></n-icon> Accent
@@ -160,12 +160,12 @@
           <n-icon name="info"></n-icon> Info
         </span>
       </div>
-    </div>
+    </n-panel>
 
     <!-- ── Accessibility ── -->
 
     <h2>Accessibility</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <h3>Decorative (default — aria-hidden="true")</h3>
       <div class="icon-row">
         <n-icon name="house"></n-icon>
@@ -181,12 +181,12 @@
           → role="img", aria-label="Approved"
         </span>
       </div>
-    </div>
+    </n-panel>
 
     <!-- ── Inside Buttons ── -->
 
     <h2>Inside Buttons</h2>
-    <div class="demo-section" intent="accent" size="sm">
+    <n-panel bordered intent="accent" size="sm">
       <div class="icon-row">
         <n-button variant="primary">
           <n-icon name="plus"></n-icon>
@@ -204,12 +204,12 @@
           <n-icon name="x"></n-icon>
         </n-button>
       </div>
-    </div>
+    </n-panel>
 
     <!-- ── Dynamic Name Change ── -->
 
     <h2>Dynamic Name Change</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-grid">
         <div class="demo-col">
           <n-icon id="dynamic-icon" name="house" size="xl"></n-icon>
@@ -228,12 +228,12 @@
           </n-select>
         </div>
       </div>
-    </div>
+    </n-panel>
 
     <!-- ── Late Registration ── -->
 
     <h2>Late Registration</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint" style="margin-bottom: 0.5rem;">
         The icon below has name="late-demo" but the icon hasn't been registered yet.
         Click the button to register it dynamically.
@@ -243,12 +243,12 @@
         <n-button id="register-btn" variant="secondary" size="sm">Register "late-demo" icon</n-button>
       </div>
       <div class="log" id="late-log"></div>
-    </div>
+    </n-panel>
 
     <!-- ── Navigation Icons ── -->
 
     <h2>Navigation Icons</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="icon-row">
         <div class="icon-card">
           <n-icon name="caret-up"></n-icon>
@@ -283,7 +283,7 @@
           <span class="icon-card-label">arrow-right</span>
         </div>
       </div>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

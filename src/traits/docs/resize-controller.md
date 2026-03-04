@@ -20,14 +20,20 @@ new ResizeController(host: HTMLElement, options?: ResizeOptions)
 | `max` | `number` | no |  |
 | `disabled` | `boolean` | no |  |
 | `reverse` | `boolean` | no | Reverse drag direction (e.g. left-edge handle that grows width on leftward drag). |
+| `handleMode` | `'edge' | 'corner'` | no | Handle mode: 'edge' for single-axis edge handles (default), 'corner' for two-axis corner handles. |
+| `handles` | `HandlePosition[]` | no | Which corner handles to use (corner mode only). Defaults to all four. |
+| `minWidth` | `number` | no | Minimum width constraint (corner mode). Falls back to `min` if not set. |
+| `maxWidth` | `number` | no | Maximum width constraint (corner mode). Falls back to `max` if not set. |
+| `minHeight` | `number` | no | Minimum height constraint (corner mode). Falls back to `min` if not set. |
+| `maxHeight` | `number` | no | Maximum height constraint (corner mode). Falls back to `max` if not set. |
 
 ## Events Dispatched
 
 | Event | Detail |
 |-------|--------|
-| `native:resize-start` | `{ width, height }` |
-| `native:resize-move` | `{ width, height }` |
-| `native:resize-end` | `{ width, height }` |
+| `native:resize-start` | `{ width, height, handle }` |
+| `native:resize-move` | `{ width, height, handle }` |
+| `native:resize-end` | `{ width, height, handle }` |
 
 ## Methods
 

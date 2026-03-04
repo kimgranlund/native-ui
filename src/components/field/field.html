@@ -19,7 +19,7 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-stack gap="4">
         <n-field>
           <label slot="label">Email address</label>
@@ -36,12 +36,12 @@
   &lt;n-input placeholder="you@example.com"&gt;&lt;/n-input&gt;
   &lt;span slot="description"&gt;We'll never share your email.&lt;/span&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Required ── -->
 
     <h2>Required</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-stack gap="4">
         <n-field required>
           <label slot="label">Full name</label>
@@ -58,12 +58,12 @@
   &lt;n-input placeholder="Jane Doe"&gt;&lt;/n-input&gt;
   &lt;span slot="description"&gt;As it appears on your ID.&lt;/span&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── With Error ── -->
 
     <h2>With Error</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-stack gap="4">
         <n-field required invalid>
           <label slot="label">Username</label>
@@ -82,23 +82,23 @@
   &lt;n-input placeholder="Choose a username" invalid&gt;&lt;/n-input&gt;
   &lt;span slot="error"&gt;Username is already taken.&lt;/span&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-field disabled>
         <label slot="label">Account ID</label>
         <n-input placeholder="Auto-generated" value="acct_29x8f"></n-input>
         <span slot="description">This field cannot be changed.</span>
       </n-field>
-    </div>
+    </n-panel>
 
     <!-- ── With Other Controls ── -->
 
     <h2>With Other Controls</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-stack gap="4">
         <n-field>
           <label slot="label">Theme preference</label>
@@ -126,12 +126,12 @@
   &lt;label slot="label"&gt;Notifications&lt;/label&gt;
   &lt;n-switch&gt;Enable push notifications&lt;/n-switch&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-stack gap="4">
         <n-field size="sm">
           <label slot="label">Small field</label>
@@ -146,12 +146,12 @@
           <n-input placeholder="Large input"></n-input>
         </n-field>
       </n-stack>
-    </div>
+    </n-panel>
 
     <!-- ── Form Composition ── -->
 
     <h2>Form Composition</h2>
-    <div class="demo-section" style="max-width: 28rem;">
+    <n-panel bordered style="max-width: 28rem;">
       <n-card>
         <n-header>
           <span slot="label">Create Account</span>
@@ -178,7 +178,7 @@
           <n-button variant="primary" intent="accent"><span slot="label">Create Account</span></n-button>
         </n-footer>
       </n-card>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

@@ -605,13 +605,13 @@
         </table>
       </div>
 
-      <div class="demo-section">
+      <n-panel bordered>
       <pre class="demo-code"><code>&lt;!-- Interactive state attributes on components --&gt;
 &lt;n-button force-hover&gt;Hovered&lt;/n-button&gt;
 &lt;n-button force-active&gt;Active&lt;/n-button&gt;
 &lt;n-button disabled&gt;Disabled&lt;/n-button&gt;
 &lt;n-input force-focus&gt;&lt;/n-input&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </div>
+      </n-panel>
 
       <!-- ========================================== -->
       <h2>Selection &amp; Value States</h2>
@@ -829,7 +829,7 @@
         </table>
       </div>
 
-      <div class="demo-section">
+      <n-panel bordered>
       <pre class="demo-code"><code>&lt;!-- Selection states --&gt;
 &lt;n-option aria-selected="true"&gt;Selected&lt;/n-option&gt;
 &lt;n-checkbox aria-checked="true"&gt;Checked&lt;/n-checkbox&gt;
@@ -838,13 +838,13 @@
 
 &lt;!-- Value states --&gt;
 &lt;n-input&gt;&lt;/n-input&gt;  &lt;!-- :state(empty) when no value --&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </div>
+      </n-panel>
 
       <!-- ========================================== -->
       <h2>Primitive Attributes (via <code>ui.primitives.css</code>)</h2>
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: calc(var(--n-space) * 4);">
+      <n-text size="sm" muted>
         These attributes are resolved globally by the design system and inherited by all components via CSS custom properties.
-      </p>
+      </n-text>
       <!-- ========================================== -->
       <n-table variant="plain" size="sm" style="grid-template-columns: auto 1fr 1fr;">
         <n-table-head>
@@ -883,7 +883,7 @@
         </n-table-body>
       </n-table>
 
-      <div class="demo-section">
+      <n-panel bordered>
       <pre class="demo-code"><code>&lt;!-- Primitive attributes cascade via CSS custom properties --&gt;
 &lt;div size="sm" intent="accent" density="compact" radius="round"&gt;
   &lt;n-button variant="primary"&gt;Inherits all&lt;/n-button&gt;
@@ -894,7 +894,7 @@
 &lt;n-button size="lg" intent="danger" variant="primary"&gt;
   Large Danger
 &lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </div>
+      </n-panel>
 
       <!-- ========================================== -->
       <h2>Component-Specific Attributes</h2>
@@ -1131,7 +1131,7 @@
         </n-table-body>
       </n-table>
 
-      <div class="demo-section">
+      <n-panel bordered>
       <pre class="demo-code"><code>&lt;!-- Component-specific attributes --&gt;
 &lt;n-button justify="spread"&gt;
   &lt;span slot="label"&gt;Select...&lt;/span&gt;
@@ -1141,7 +1141,7 @@
 &lt;n-textarea rows="5" autogrow&gt;&lt;/n-textarea&gt;
 &lt;n-input-otp mask length="6"&gt;&lt;/n-input-otp&gt;
 &lt;n-badge floating dot intent="danger"&gt;&lt;/n-badge&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </div>
+      </n-panel>
 
       <!-- ========================================== -->
       <h2>Container Layout Attributes</h2>
@@ -1203,7 +1203,7 @@
         </n-table-body>
       </n-table>
 
-      <div class="demo-section">
+      <n-panel bordered>
       <pre class="demo-code"><code>&lt;!-- Container layout attributes --&gt;
 &lt;n-stack direction="row" gap="4" align="center" wrap&gt;
   &lt;n-button&gt;A&lt;/n-button&gt;
@@ -1217,7 +1217,7 @@
 &lt;/n-grid&gt;
 
 &lt;n-divider orientation="vertical"&gt;&lt;/n-divider&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </div>
+      </n-panel>
 
       <!-- ========================================== -->
       <h2>Events</h2>
@@ -1462,7 +1462,7 @@
         </table>
       </div>
 
-      <div class="demo-section">
+      <n-panel bordered>
       <pre class="demo-code"><code>&lt;!-- Listening to component events --&gt;
 &lt;n-button id="my-btn"&gt;Click me&lt;/n-button&gt;
 &lt;script&gt;
@@ -1479,7 +1479,7 @@
       console.log('Value:', e.detail.value);
     });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </div>
+      </n-panel>
 
       <!-- ========================================== -->
       <h2>Form Association</h2>
@@ -1575,7 +1575,7 @@
         </n-table-body>
       </n-table>
 
-      <div class="demo-section">
+      <n-panel bordered>
       <pre class="demo-code"><code>&lt;!-- Form-associated components work with native forms --&gt;
 &lt;form&gt;
   &lt;n-field label="Email" required&gt;
@@ -1590,7 +1590,7 @@
 
   &lt;n-button type="submit" variant="primary"&gt;Submit&lt;/n-button&gt;
 &lt;/form&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </div>
+      </n-panel>
 
       <!-- ========================================== -->
       <h2>ARIA Roles</h2>
@@ -1641,7 +1641,7 @@
         </n-table-body>
       </n-table>
 
-      <div class="demo-section">
+      <n-panel bordered>
       <pre class="demo-code"><code>&lt;!-- ARIA roles are set automatically via ElementInternals --&gt;
 &lt;!-- No manual role attributes needed --&gt;
 &lt;n-button&gt;role="button"&lt;/n-button&gt;
@@ -1651,7 +1651,7 @@
 &lt;/n-listbox&gt;
 &lt;n-checkbox&gt; &lt;!-- role="checkbox" --&gt;
 &lt;n-switch&gt; &lt;!-- role="switch" --&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </div>
+      </n-panel>
 
       <!-- ========================================== -->
       <h2>Keyboard Navigation</h2>
@@ -1763,7 +1763,7 @@
         </n-table-body>
       </n-table>
 
-      <div class="demo-section">
+      <n-panel bordered>
       <pre class="demo-code"><code>&lt;!-- Keyboard patterns are built-in --&gt;
 &lt;!-- Listbox: Arrow keys, Home, End, Enter --&gt;
 &lt;n-listbox&gt;
@@ -1776,16 +1776,16 @@
   &lt;n-tab value="1"&gt;Tab 1&lt;/n-tab&gt;
   &lt;n-tab value="2"&gt;Tab 2&lt;/n-tab&gt;
 &lt;/n-tabs&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </div>
+      </n-panel>
 
       <!-- ========================================== -->
       <h2>Customization Patterns</h2>
       <!-- ========================================== -->
 
       <h3 style="font-size: 0.875rem; font-weight: 600; margin: calc(var(--n-space) * 6) 0 calc(var(--n-space) * 2); color: var(--n-ink-strong-neutral);">State-conditional intent</h3>
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: calc(var(--n-space) * 3);">
+      <n-text size="sm" muted>
         Override <code>--n-*</code> locals in a state selector to change intent on hover, focus, etc.
-      </p>
+      </n-text>
       <pre style="font-size: 0.75rem; background: var(--n-panel-neutral); border: 1px solid var(--n-border-muted-neutral); border-radius: var(--n-radius); padding: calc(var(--n-space) * 3); overflow-x: auto; margin-bottom: calc(var(--n-space) * 6); color: var(--n-ink-neutral);"><code>/* Neutral button → accent on hover */
 n-button.cta:hover {
   --n-ink:        var(--n-ink-accent);
@@ -1802,10 +1802,10 @@ n-button.danger-focus:focus-visible {
 }</code></pre>
 
       <h3 style="font-size: 0.875rem; font-weight: 600; margin: calc(var(--n-space) * 6) 0 calc(var(--n-space) * 2); color: var(--n-ink-strong-neutral);">Debug state attributes (<code>force-*</code>)</h3>
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: calc(var(--n-space) * 3);">
+      <n-text size="sm" muted>
         Every pseudo-state with a visual effect has a <code>force-*</code> attribute mirror for DevTools debugging and state demos.
         Add the attribute to the host element to simulate the pseudo-state.
-      </p>
+      </n-text>
       <n-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
         <n-table-head>
           <n-table-row>
@@ -1847,9 +1847,9 @@ n-button.danger-focus:focus-visible {
 &lt;n-calendar force-hover&gt;...&lt;/n-calendar&gt;</code></pre>
 
       <h3 style="font-size: 0.875rem; font-weight: 600; margin: calc(var(--n-space) * 6) 0 calc(var(--n-space) * 2); color: var(--n-ink-strong-neutral);">Scoped intent override</h3>
-      <p style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin-bottom: calc(var(--n-space) * 3);">
+      <n-text size="sm" muted>
         Override locals on a container to affect all children.
-      </p>
+      </n-text>
       <pre style="font-size: 0.75rem; background: var(--n-panel-neutral); border: 1px solid var(--n-border-muted-neutral); border-radius: var(--n-radius); padding: calc(var(--n-space) * 3); overflow-x: auto; margin-bottom: calc(var(--n-space) * 6); color: var(--n-ink-neutral);"><code>/* All controls inside .danger-zone get danger colors */
 .danger-zone {
   --n-ink:           var(--n-ink-danger);

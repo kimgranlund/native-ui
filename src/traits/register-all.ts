@@ -25,6 +25,7 @@ import {
   swipeableAdapter,
   editableAdapter,
   presentableAdapter,
+  slashCommandableAdapter,
 } from './adapters/index.ts';
 
 /**
@@ -57,4 +58,5 @@ export function registerAllTraits(): void {
   registerTrait(swipeableAdapter);
   registerTrait(editableAdapter);
   registerTrait(presentableAdapter);
+  registerTrait(slashCommandableAdapter);
 }

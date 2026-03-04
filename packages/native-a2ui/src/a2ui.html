@@ -23,31 +23,31 @@
     <!-- ── Basic ── -->
 
     <h2>Basic — Hello World</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-a2ui layout="2/1">
         <script type="a2ui/stream">
 {"createSurface": {"surfaceId": "s1"}, "version": "0.9"}
 {"updateComponents": {"surfaceId": "s1", "components": [{"id": "root", "component": "Column", "children": ["heading", "desc"]}, {"id": "heading", "component": "Text", "text": "Hello from A2UI", "variant": "heading"}, {"id": "desc", "component": "Text", "text": "This surface was created by the A2UI protocol workbench."}]}, "version": "0.9"}
         </script>
       </native-a2ui>
-    </div>
+    </n-panel>
 
     <!-- ── Form Example ── -->
 
     <h2>Contact Form</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-a2ui layout="2/1">
         <script type="a2ui/stream">
 {"createSurface": {"surfaceId": "form-1"}, "version": "0.9"}
 {"updateComponents": {"surfaceId": "form-1", "components": [{"id": "root", "component": "Column", "children": ["title", "name-field", "email-field", "message-field", "submit-btn"]}, {"id": "title", "component": "Text", "text": "Contact Us", "variant": "heading"}, {"id": "name-field", "component": "TextField", "label": "Name", "placeholder": "Your name"}, {"id": "email-field", "component": "TextField", "label": "Email", "placeholder": "you@example.com"}, {"id": "message-field", "component": "TextArea", "label": "Message", "placeholder": "How can we help?"}, {"id": "submit-btn", "component": "Button", "text": "Send Message", "variant": "primary", "action": {"event": {"name": "submit"}}}]}, "version": "0.9"}
         </script>
       </native-a2ui>
-    </div>
+    </n-panel>
 
     <!-- ── Multi-surface Streaming ── -->
 
     <h2>Streaming — Multi-Surface</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-a2ui layout="1+1+1">
         <script type="a2ui/stream">
 {"createSurface": {"surfaceId": "card-1"}, "version": "0.9"}
@@ -57,12 +57,12 @@
 {"updateComponents": {"surfaceId": "card-1", "components": [{"id": "root", "component": "Card", "children": ["c1-title", "c1-body"]}, {"id": "c1-title", "component": "Text", "text": "Status: Complete", "variant": "heading"}, {"id": "c1-body", "component": "Text", "text": "All done! The results are shown in the adjacent surface."}]}, "version": "0.9"}
         </script>
       </native-a2ui>
-    </div>
+    </n-panel>
 
     <!-- ── Data Model ── -->
 
     <h2>Data Model Updates</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <native-a2ui layout="2/1">
         <script type="a2ui/stream">
 {"createSurface": {"surfaceId": "dm-1"}, "version": "0.9"}
@@ -72,7 +72,7 @@
 {"updateDataModel": {"surfaceId": "dm-1", "path": "/count", "value": 3}, "version": "0.9"}
         </script>
       </native-a2ui>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
 

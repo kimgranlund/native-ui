@@ -11,6 +11,7 @@
 | Attribute | Values |
 |-----------|--------|
 | `padding` | `none`, `regular`, `relaxed`, `tight` |
+| `truncate` | _(boolean)_ |
 | `align` | `center`, `end` |
 | `dividers` | _(boolean)_ |
 | `sticky` | _(boolean)_ |

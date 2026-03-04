@@ -1,0 +1,60 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  n-text                                                  │
+     │  Utility element for styled text (muted descriptions,    │
+     │  secondary labels, section intros). CSS-only — no JS.    │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* ── Base ── */
+
+  :where(n-text) {
+    display: block;
+    font-size: var(--n-font-size);
+    line-height: var(--n-line-height);
+    color: var(--n-ink);
+  }
+
+  /* ── Size ── */
+
+  [size="xs"]:where(n-text) { font-size: var(--n-font-xs); }
+  [size="sm"]:where(n-text) { font-size: var(--n-font-sm); }
+  [size="md"]:where(n-text) { font-size: var(--n-font-md); }
+  [size="lg"]:where(n-text) { font-size: var(--n-font-lg); }
+  [size="xl"]:where(n-text) { font-size: var(--n-font-xl); }
+
+  /* ── Color modifiers ── */
+
+  [muted]:where(n-text) { color: var(--n-ink-muted); }
+  [strong]:where(n-text) { color: var(--n-ink-strong); font-weight: var(--n-button-font-weight); }
+
+  /* ── Inline mode ── */
+  /* WHY: Default is block for paragraph-style text. Use [inline] for
+     inline labels, badges, or text inside flex/grid rows. */
+
+  [inline]:where(n-text) { display: inline; }
+
+  /* ── Spacing ── */
+  /* WHY: Opt-in bottom margin for stacked text blocks (page intros,
+     section descriptions). Matches the host's repeating patterns. */
+
+  [spacing="tight"]:where(n-text) { margin-block-end: calc(var(--n-space) * 3); }
+  [spacing="regular"]:where(n-text) { margin-block-end: calc(var(--n-space) * 4); }
+  [spacing="relaxed"]:where(n-text) { margin-block-end: calc(var(--n-space) * 6); }
+
+  /* ── Truncate ── */
+
+  [truncate]:where(n-text) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* ── Uppercase ── */
+
+  [uppercase]:where(n-text) {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+}

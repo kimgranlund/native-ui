@@ -137,7 +137,7 @@
     <!-- ── Basic Table Sort ── -->
 
     <h2>Basic Table Sort</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> wraps a plain <code>&lt;div&gt;</code> and applies the sortable trait. Click column headers to cycle sort direction. ARIA <code>aria-sort</code> is synced automatically.
       </p>
@@ -200,12 +200,12 @@
     for (const row of rows) tbody.appendChild(row);
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Custom Selector ── -->
 
     <h2>Custom Selector</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Using <code>data-column</code> attributes on headers with a <code>[data-column]</code> selector. Column identity comes from the attribute rather than text content.
       </p>
@@ -268,7 +268,7 @@
     for (const row of rows) tbody.appendChild(row);
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── API Reference ── -->
 

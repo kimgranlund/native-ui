@@ -138,7 +138,7 @@
     <!-- ── Horizontal Resize ── -->
 
     <h2>Horizontal Resize</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-controller traits="resizable" resizable-handle-selector=".resize-handle-right" resizable-axis="horizontal" resizable-min="150" resizable-max="500">
         <div id="h-panel" class="resize-panel" style="width: 300px;">
           Drag the right edge to resize horizontally.
@@ -156,12 +156,12 @@
     &lt;div class="resize-handle resize-handle-right"&gt;&lt;/div&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Vertical Resize ── -->
 
     <h2>Vertical Resize</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-controller traits="resizable" resizable-handle-selector=".resize-handle-bottom" resizable-axis="vertical" resizable-min="60" resizable-max="400">
         <div id="v-panel" class="resize-panel" style="height: 120px;">
           Drag the bottom edge to resize vertically.
@@ -179,12 +179,12 @@
     &lt;div class="resize-handle resize-handle-bottom"&gt;&lt;/div&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Both Axes ── -->
 
     <h2>Both Axes (with min/max)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-controller traits="resizable" resizable-handle-selector=".resize-handle-corner" resizable-axis="both" resizable-min="150" resizable-max="500">
         <div id="both-panel" class="resize-panel" style="width: 300px; height: 120px;">
           Drag the corner to resize in both directions. Clamped to 150-500px.
@@ -202,7 +202,7 @@
     &lt;div class="resize-handle resize-handle-corner"&gt;&lt;/div&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── API Reference ── -->
 

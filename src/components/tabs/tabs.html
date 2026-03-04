@@ -26,7 +26,7 @@
     <!-- ── Basic Horizontal ── -->
 
     <h2>Horizontal (default)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-tabs value="overview">
         <n-tab value="overview">Overview</n-tab>
         <n-tab value="features">Features</n-tab>
@@ -53,12 +53,12 @@
     &lt;n-tab-panel value="pricing"&gt;&lt;p&gt;Pricing content.&lt;/p&gt;&lt;/n-tab-panel&gt;
   &lt;/n-tab-panels&gt;
 &lt;/n-tabs&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── With Icons ── -->
 
     <h2>With Icons</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-tabs value="code">
         <n-tab value="code"><n-icon name="code"></n-icon> Code</n-tab>
         <n-tab value="preview"><n-icon name="eye"></n-icon> Preview</n-tab>
@@ -84,12 +84,12 @@ tabs.value = 'preview';</code></pre>
     &lt;n-tab-panel value="preview"&gt;...&lt;/n-tab-panel&gt;
   &lt;/n-tab-panels&gt;
 &lt;/n-tabs&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Disabled Tab ── -->
 
     <h2>Disabled Tab</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-tabs value="active">
         <n-tab value="active">Active</n-tab>
         <n-tab value="disabled" disabled>Disabled</n-tab>
@@ -112,12 +112,12 @@ tabs.value = 'preview';</code></pre>
   &lt;n-tab value="other"&gt;Other&lt;/n-tab&gt;
   &lt;n-tab-panels&gt;...&lt;/n-tab-panels&gt;
 &lt;/n-tabs&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Vertical ── -->
 
     <h2>Vertical</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-tabs value="general" orientation="vertical">
         <n-tab value="general">General</n-tab>
         <n-tab value="security">Security</n-tab>
@@ -148,12 +148,12 @@ tabs.value = 'preview';</code></pre>
     &lt;n-tab-panel value="notifications"&gt;...&lt;/n-tab-panel&gt;
   &lt;/n-tab-panels&gt;
 &lt;/n-tabs&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Events ── -->
 
     <h2>Events</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-tabs id="event-tabs" value="first">
         <n-tab value="first">First</n-tab>
         <n-tab value="second">Second</n-tab>
@@ -177,12 +177,12 @@ tabs.value = 'preview';</code></pre>
       console.log('value:', e.detail.value);
     });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-col-xl">
         <n-tabs value="one" size="sm">
           <n-tab value="one">Small</n-tab>
@@ -217,12 +217,12 @@ tabs.value = 'preview';</code></pre>
   &lt;n-tab value="two"&gt;Tabs&lt;/n-tab&gt;
   &lt;n-tab-panels&gt;...&lt;/n-tab-panels&gt;
 &lt;/n-tabs&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Debug States (force-*) ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to individual <code>n-tab</code> elements.
       </p>
@@ -232,7 +232,7 @@ tabs.value = 'preview';</code></pre>
         <n-tab value="focus" force-focus-visible>Force focus-visible</n-tab>
         <n-tab value="normal">Normal</n-tab>
       </n-tabs>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

@@ -27,43 +27,43 @@
     <!-- ── Basic ── -->
 
     <h2>Horizontal (default)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p>Content above the divider.</p>
       <n-divider></n-divider>
       <p>Content below the divider.</p>
     <pre class="demo-code"><code>&lt;p&gt;Content above the divider.&lt;/p&gt;
 &lt;n-divider&gt;&lt;/n-divider&gt;
 &lt;p&gt;Content below the divider.&lt;/p&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── With Label ── -->
 
     <h2>With Label</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p>Sign in with your account.</p>
       <n-divider>or</n-divider>
       <p>Continue as guest.</p>
-    </div>
+    </n-panel>
 
-    <div class="demo-section">
+    <n-panel bordered>
       <n-divider>or continue with</n-divider>
     <pre class="demo-code"><code>&lt;n-divider&gt;or&lt;/n-divider&gt;
 
 &lt;n-divider&gt;or continue with&lt;/n-divider&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Vertical ── -->
 
     <h2>Vertical</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="vertical-container">
         <span>Left</span>
         <n-divider orientation="vertical"></n-divider>
         <span>Right</span>
       </div>
-    </div>
+    </n-panel>
 
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="vertical-container">
         <span>One</span>
         <n-divider orientation="vertical"></n-divider>
@@ -76,24 +76,24 @@
   &lt;n-divider orientation="vertical"&gt;&lt;/n-divider&gt;
   &lt;span&gt;Right&lt;/span&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Vertical With Label ── -->
 
     <h2>Vertical With Label</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="vertical-container" style="height: 6rem;">
         <span>Left</span>
         <n-divider orientation="vertical">or</n-divider>
         <span>Right</span>
       </div>
       <pre class="demo-code"><code>&lt;n-divider orientation="vertical"&gt;or&lt;/n-divider&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes (inherit from parent)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <h3>size="xs"</h3>
       <div size="xs">
         <n-divider>xs label</n-divider>
@@ -117,12 +117,12 @@
       <pre class="demo-code"><code>&lt;div size="sm"&gt;
   &lt;n-divider&gt;sm label&lt;/n-divider&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Composition ── -->
 
     <h2>Composition (with buttons)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-button variant="primary" intent="accent" style="width: 100%;"><span slot="label">Sign In</span></n-button>
       <n-divider>or continue with</n-divider>
       <div class="demo-actions">
@@ -135,7 +135,7 @@
   &lt;n-button style="flex: 1;"&gt;Google&lt;/n-button&gt;
   &lt;n-button style="flex: 1;"&gt;GitHub&lt;/n-button&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

@@ -19,7 +19,7 @@ const SCROLL_THRESHOLD = 40;
  * @fires native:feed-scroll - Fired when scroll pinned state changes
  */
 export class NChatFeed extends NativeElement {
-  static observedAttributes = ['auto-scroll'];
+  static observedAttributes = ['auto-scroll', 'scrollable'];
 
   #internals: ElementInternals;
   #autoScroll = signal(true);
@@ -62,6 +62,12 @@ export class NChatFeed extends NativeElement {
     this.#internals.role = 'log';
     this.setAttribute('aria-live', 'polite');
     this.setAttribute('aria-label', 'Conversation');
+
+    // Default scrollable unless explicitly removed — the feed owns scroll
+    // by default. Remove [scrollable] to delegate to a parent container.
+    if (!this.hasAttribute('scrollable')) {
+      this.setAttribute('scrollable', '');
+    }
 
     // Default auto-scroll unless explicitly removed
     if (!this.hasAttribute('auto-scroll')) {

@@ -41,23 +41,23 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-textarea placeholder="Tell us about yourself..."></n-textarea>
         <pre class="demo-code"><code>&lt;n-textarea placeholder="Tell us about yourself..."&gt;&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── With Value ── -->
 
     <h2>With Value</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-textarea rows="4">This is a textarea with some initial content. It supports multi-line text editing with all the same styling as n-input.</n-textarea>
         <pre class="demo-code"><code>&lt;n-textarea rows="4"&gt;Initial content here.&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Variants ── -->
 
     <h2>Variants</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <div>
           <div class="demo-label">secondary (default)</div>
@@ -75,12 +75,12 @@
       <pre class="demo-code"><code>&lt;n-textarea placeholder="Secondary (default)"&gt;&lt;/n-textarea&gt;
 &lt;n-textarea variant="outline" placeholder="Outline"&gt;&lt;/n-textarea&gt;
 &lt;n-textarea variant="ghost" placeholder="Ghost"&gt;&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <div size="sm">
           <div class="demo-label">sm</div>
@@ -102,12 +102,12 @@
 &lt;div size="lg"&gt;
   &lt;n-textarea placeholder="Large"&gt;&lt;/n-textarea&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Density ── -->
 
     <h2>Density</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <div density="compact">
           <div class="demo-label">compact</div>
@@ -129,12 +129,12 @@
 &lt;div density="loose"&gt;
   &lt;n-textarea placeholder="Loose"&gt;&lt;/n-textarea&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Rows ── -->
 
     <h2>Rows</h2>
-    <div class="demo-section" size="sm">
+    <n-panel bordered size="sm">
       <div class="demo-row">
         <div>
           <div class="demo-label">rows="1"</div>
@@ -161,29 +161,29 @@
 &lt;n-textarea rows="3" placeholder="Three rows (default)"&gt;&lt;/n-textarea&gt;
 &lt;n-textarea rows="5" placeholder="Five rows"&gt;&lt;/n-textarea&gt;
 &lt;n-textarea rows="8" placeholder="Eight rows"&gt;&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Autogrow ── -->
 
     <h2>Autogrow</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-textarea placeholder="Type here — grows as you type..." autogrow></n-textarea>
         <pre class="demo-code"><code>&lt;n-textarea placeholder="Type here..." autogrow&gt;&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Maxlength ── -->
 
     <h2>Maxlength</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-textarea placeholder="Max 100 characters..." maxlength="100"></n-textarea>
       <p class="demo-hint" style="margin-top: 0.5rem; margin-bottom: 0;">Limited to 100 characters. Excess input is truncated.</p>
         <pre class="demo-code"><code>&lt;n-textarea placeholder="Max 100 characters..." maxlength="100"&gt;&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Intents ── -->
 
     <h2>Intents</h2>
-    <div class="demo-section" size="sm">
+    <n-panel bordered size="sm">
       <div class="demo-row">
         <div intent="neutral">
           <div class="demo-label">neutral</div>
@@ -219,12 +219,12 @@
 &lt;div intent="danger"&gt;
   &lt;n-textarea placeholder="Danger"&gt;&lt;/n-textarea&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Disabled & Readonly ── -->
 
     <h2>Disabled &amp; Readonly</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <div>
           <div class="demo-label">disabled</div>
@@ -237,12 +237,12 @@
       </div>
       <pre class="demo-code"><code>&lt;n-textarea disabled&gt;Cannot be edited.&lt;/n-textarea&gt;
 &lt;n-textarea readonly&gt;Read-only but selectable.&lt;/n-textarea&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Radius ── -->
 
     <h2>Radius</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <div radius="sharp">
           <div class="demo-label">sharp</div>
@@ -264,12 +264,12 @@
 &lt;div radius="round"&gt;
   &lt;n-textarea placeholder="Round"&gt;&lt;/n-textarea&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Events ── -->
 
     <h2>Events</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-textarea id="event-textarea" placeholder="Type to see events..."></n-textarea>
       <div class="log" id="event-log"></div>
     <pre class="demo-code"><code>&lt;n-textarea id="my-textarea" placeholder="Type..."&gt;&lt;/n-textarea&gt;
@@ -283,12 +283,12 @@
     console.log('change:', e.detail.value);
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Form Association ── -->
 
     <h2>Form Association</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <form id="demo-form">
         <div class="demo-col" style="margin-bottom: 0.75rem;">
           <n-textarea name="bio" placeholder="Write your bio..."></n-textarea>
@@ -306,12 +306,12 @@
     &lt;span slot="label"&gt;Submit&lt;/span&gt;
   &lt;/n-button&gt;
 &lt;/form&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── With n-field ── -->
 
     <h2>With n-field</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-stack gap="4">
         <n-field>
           <label slot="label">Bio</label>
@@ -336,12 +336,12 @@
   &lt;n-textarea placeholder="Required..." rows="4"&gt;&lt;/n-textarea&gt;
   &lt;span slot="description"&gt;We appreciate your feedback.&lt;/span&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Debug States (force-*) ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
       </p>
@@ -355,7 +355,7 @@
           <n-textarea force-focus placeholder="Force focus"></n-textarea>
         </div>
       </div>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

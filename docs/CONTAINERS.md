@@ -28,8 +28,6 @@ Structural elements that group, frame, and organize content. Pure CSS or minimal
 
 **Parent context**: n-card and n-panel add `border-bottom` on n-header and `border-top` on n-footer. n-panel widens sub-container `padding-inline` at `@container (min-width: 22rem)`.
 
-**Deprecated**: `n-card-header`, `n-card-body`, `n-card-footer`, `n-panel-header`, `n-panel-body`, `n-panel-footer` still work but prefer the unified names.
-
 ## Content Reset
 
 **`[n-prose]` / `.n-prose`** -- Reusable scoped rich-text reset (defined in `n-base.css`). Apply to any container rendering user-generated or markdown-sourced HTML. Provides: flex column with gap-based vertical rhythm, margin reset on all block elements, heading styles (weight, color, scale), code/pre styling (`--n-font-mono`, `--n-control` background), blockquote border, link underline, list padding, hr styling. All selectors use `:where()` for zero specificity.

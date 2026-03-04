@@ -19,7 +19,7 @@
     <!-- ── Basic ── -->
 
     <h2>Basic (Vertical)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-radio-group value="banana">
         <n-radio value="apple">Apple</n-radio>
         <n-radio value="banana">Banana</n-radio>
@@ -31,12 +31,12 @@
   &lt;n-radio value="banana"&gt;Banana&lt;/n-radio&gt;
   &lt;n-radio value="cherry"&gt;Cherry&lt;/n-radio&gt;
 &lt;/n-radio-group&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Horizontal ── -->
 
     <h2>Horizontal</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-radio-group orientation="horizontal" value="monthly">
         <n-radio value="daily">Daily</n-radio>
         <n-radio value="weekly">Weekly</n-radio>
@@ -48,12 +48,12 @@
   &lt;n-radio value="weekly"&gt;Weekly&lt;/n-radio&gt;
   &lt;n-radio value="monthly"&gt;Monthly&lt;/n-radio&gt;
 &lt;/n-radio-group&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <n-radio-group size="xs" value="a">
           <n-radio value="a">Extra small A</n-radio>
@@ -81,12 +81,12 @@
   &lt;n-radio value="a"&gt;Large A&lt;/n-radio&gt;
   &lt;n-radio value="b"&gt;Large B&lt;/n-radio&gt;
 &lt;/n-radio-group&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Density ── -->
 
     <h2>Density</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <h3>compact</h3>
       <div class="demo-row" density="compact">
         <n-radio-group size="sm" value="a">
@@ -127,12 +127,12 @@
 &lt;div density="loose"&gt;
   &lt;n-radio-group value="a"&gt;...&lt;/n-radio-group&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Radius ── -->
 
     <h2>Radius</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <n-radio-group value="a">
           <n-radio value="a">Default A</n-radio>
@@ -156,12 +156,12 @@
   &lt;n-radio value="a"&gt;Sharp A&lt;/n-radio&gt;
   &lt;n-radio value="b"&gt;Sharp B&lt;/n-radio&gt;
 &lt;/n-radio-group&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Intents ── -->
 
     <h2>Intents</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <n-radio-group intent="neutral" value="a">
           <n-radio value="a">Neutral A</n-radio>
@@ -189,12 +189,12 @@
   &lt;n-radio value="a"&gt;Danger A&lt;/n-radio&gt;
   &lt;n-radio value="b"&gt;Danger B&lt;/n-radio&gt;
 &lt;/n-radio-group&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <div class="demo-row">
         <n-radio-group disabled value="b">
           <n-radio value="a">Option A</n-radio>
@@ -219,12 +219,12 @@
   &lt;n-radio value="a"&gt;Enabled&lt;/n-radio&gt;
   &lt;n-radio value="b" disabled&gt;Disabled&lt;/n-radio&gt;
 &lt;/n-radio-group&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Events ── -->
 
     <h2>Change Events</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-radio-group id="event-rg">
         <n-radio value="red">Red</n-radio>
         <n-radio value="green">Green</n-radio>
@@ -243,12 +243,12 @@
       console.log(e.detail.value, e.detail.label);
     });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Form Association ── -->
 
     <h2>Form Association</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <form id="demo-form">
         <n-radio-group name="plan" value="pro" style="margin-bottom: 1rem;">
           <n-radio value="free">Free</n-radio>
@@ -269,12 +269,12 @@
   &lt;/n-radio-group&gt;
   &lt;button type="submit"&gt;Submit&lt;/button&gt;
 &lt;/form&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Debug States (force-*) ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
       </p>
@@ -284,7 +284,7 @@
         <n-radio force-focus-visible checked>Force focus-visible (checked)</n-radio>
         <n-radio force-focus-visible>Force focus-visible</n-radio>
       </div>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

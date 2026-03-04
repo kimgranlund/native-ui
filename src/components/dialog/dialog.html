@@ -32,7 +32,7 @@ n-dialog > n-card {
     <!-- ── Basic Dialog ── -->
 
     <h2>Basic Dialog</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-button id="open-basic">Open Dialog</n-button>
       <n-dialog id="basic-dialog">
         <n-card>
@@ -70,18 +70,18 @@ n-dialog > n-card {
   document.getElementById('confirm-btn')
     .addEventListener('native:press', () =&gt; dialog.close());
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Form Dialog ── -->
 
     <h2>Form Dialog</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-button id="open-form">Edit Profile</n-button>
       <n-dialog id="form-dialog">
         <n-card>
           <n-header><span slot="label">Edit Profile</span></n-header>
           <n-body>
-            <p style="font-size: 0.875rem; color: var(--n-ink-muted-neutral); margin: 0 0 0.75rem; line-height: 1.5;">Update your display name and email address.</p>
+            <n-text muted spacing="tight">Update your display name and email address.</n-text>
             <n-stack gap="3">
               <n-field>
                 <label slot="label">Name</label>
@@ -120,12 +120,12 @@ n-dialog > n-card {
     &lt;/n-footer&gt;
   &lt;/n-card&gt;
 &lt;/n-dialog&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── No Close on Backdrop ── -->
 
     <h2>No Close on Backdrop</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-text-sm">
         This dialog has <code>no-close-on-backdrop</code> — clicking outside doesn't close it. You must use the button.
       </p>
@@ -150,12 +150,12 @@ n-dialog > n-card {
     &lt;/n-footer&gt;
   &lt;/n-card&gt;
 &lt;/n-dialog&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── No Close on Escape ── -->
 
     <h2>No Close on Escape</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-text-sm">
         This dialog has <code>no-close-on-escape</code> — pressing Escape doesn't close it. Backdrop click still works.
       </p>
@@ -171,12 +171,12 @@ n-dialog > n-card {
           </n-footer>
         </n-card>
       </n-dialog>
-    </div>
+    </n-panel>
 
     <!-- ── Danger Dialog ── -->
 
     <h2>Danger Variant</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <n-button id="open-danger" intent="danger">Delete Account</n-button>
       <n-dialog id="danger-dialog">
         <n-card>
@@ -206,7 +206,7 @@ n-dialog > n-card {
     &lt;/n-footer&gt;
   &lt;/n-card&gt;
 &lt;/n-dialog&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     </main></native-app-spa>
     <script type="module">

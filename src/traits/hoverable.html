@@ -123,7 +123,7 @@
     <!-- ── Instant Hover ── -->
 
     <h2>Instant Hover</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Default 0ms delays. The <code>[hovered]</code> attribute toggles immediately on pointer enter/leave.
       </p>
@@ -138,12 +138,12 @@
     Hover over me
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Hover Intent ── -->
 
     <h2>Hover Intent (500ms)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         <code>hoverable-delay="500"</code> prevents accidental hover triggers. Pointer must rest on the element for 500ms before activation.
       </p>
@@ -158,12 +158,12 @@
     Hover and wait 500ms
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Sticky Hover ── -->
 
     <h2>Sticky Hover (300ms leave)</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         <code>hoverable-leave-delay="300"</code> so the hover state persists briefly after the pointer leaves. Useful for menus or tooltips with a gap between trigger and content.
       </p>
@@ -178,12 +178,12 @@
     Hover, then leave slowly
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── Combined Delays ── -->
 
     <h2>Combined Delays</h2>
-    <div class="demo-section">
+    <n-panel bordered>
       <p class="demo-hint">
         Both <code>hoverable-delay="400"</code> and <code>hoverable-leave-delay="200"</code>. Requires intent to activate and lingers briefly on leave.
       </p>
@@ -198,7 +198,7 @@
     400ms enter + 200ms leave
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </div>
+    </n-panel>
 
     <!-- ── API Reference ── -->
 

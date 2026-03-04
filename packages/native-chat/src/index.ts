@@ -28,3 +28,38 @@ export type { GenUINode } from './message/chat-message-genui-element.ts';
 
 // ── Utilities ──
 export { renderMarkdown, renderInline, sanitizeHtml } from './message/chat-message-text-element.ts';
+
+// ── Stream ──
+export type {
+  ChatStreamChunk,
+  StreamFormat,
+  ChatTransportOptions,
+  ChatStreamEvent,
+  ChatTransport,
+} from './stream/index.ts';
+export {
+  parseSSE,
+  parseNDJSON,
+  parseJSON,
+  detectFormat,
+  createChatStream,
+  createChatTransport,
+} from './stream/index.ts';
+
+// ── Telemetry ──
+export type {
+  TelemetryCorrelation,
+  TelemetryTiming,
+  TelemetryRetry,
+  TelemetryLevel,
+  TelemetryEvent,
+  TelemetryRedactor,
+} from './telemetry/index.ts';
+export {
+  CHAT_EVENTS,
+  SAFE_FIELDS,
+  SENSITIVE_FIELDS,
+  scrubPII,
+  createDefaultRedactor,
+  TelemetryEmitter,
+} from './telemetry/index.ts';
