@@ -52,6 +52,8 @@ export { PresentController } from './present-controller.ts';
 export type { PresentOptions } from './present-controller.ts';
 export { SlashCommandController } from './slash-command-controller.ts';
 export type { SlashCommand, SlashCommandOptions } from './slash-command-controller.ts';
+export { ShortcutController } from './shortcut-controller.ts';
+export type { ShortcutBinding, ShortcutOptions } from './shortcut-controller.ts';
 export { registerAllTraits } from './register-all.ts';
 
 // ── Runtime ──
@@ -87,3 +89,4 @@ export { swipeableAdapter } from './adapters/swipeable-adapter.ts';
 export { editableAdapter } from './adapters/editable-adapter.ts';
 export { presentableAdapter } from './adapters/presentable-adapter.ts';
 export { slashCommandableAdapter } from './adapters/slash-commandable-adapter.ts';
+export { shortcutableAdapter } from './adapters/shortcutable-adapter.ts';

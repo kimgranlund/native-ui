@@ -26,6 +26,7 @@ import {
   editableAdapter,
   presentableAdapter,
   slashCommandableAdapter,
+  shortcutableAdapter,
 } from './adapters/index.ts';
 
 /**
@@ -59,4 +60,5 @@ export function registerAllTraits(): void {
   registerTrait(editableAdapter);
   registerTrait(presentableAdapter);
   registerTrait(slashCommandableAdapter);
+  registerTrait(shortcutableAdapter);
 }

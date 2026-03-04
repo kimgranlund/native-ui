@@ -59,6 +59,7 @@
   { "title": "Roving Focusable", "path": "/src/traits/roving-focusable.html", "group": "Traits" },
   { "title": "Searchable", "path": "/src/traits/searchable.html", "group": "Traits" },
   { "title": "Selectable", "path": "/src/traits/selectable.html", "group": "Traits" },
+  { "title": "Shortcutable", "path": "/src/traits/shortcutable.html", "group": "Traits", "badge": "new" },
   { "title": "Slash Command", "path": "/src/traits/slash-command.html", "group": "Traits", "badge": "new" },
   { "title": "Sortable", "path": "/src/traits/sortable.html", "group": "Traits" },
   { "title": "Swipeable", "path": "/src/traits/swipeable.html", "group": "Traits" },

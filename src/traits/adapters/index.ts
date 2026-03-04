@@ -24,3 +24,4 @@ export { swipeableAdapter } from './swipeable-adapter.ts';
 export { editableAdapter } from './editable-adapter.ts';
 export { presentableAdapter } from './presentable-adapter.ts';
 export { slashCommandableAdapter } from './slash-commandable-adapter.ts';
+export { shortcutableAdapter } from './shortcutable-adapter.ts';

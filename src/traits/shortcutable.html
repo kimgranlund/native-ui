@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shortcutable Trait</title>
+  <link rel="stylesheet" href="../styles/n-index.css" />
+  <link rel="stylesheet" href="../styles/n-components.css" />
+  <style>
+    .demo-section {
+      padding: calc(var(--n-space) * 4);
+      display: flex;
+      flex-direction: column;
+      gap: calc(var(--n-space) * 4);
+    }
+    .shortcut-log {
+      font-family: monospace;
+      font-size: 0.8125rem;
+      padding: calc(var(--n-space) * 2) calc(var(--n-space) * 3);
+      background: var(--n-control);
+      border-radius: var(--n-radius);
+      min-height: 4rem;
+      max-height: 12rem;
+      overflow-y: auto;
+      color: var(--n-ink-muted);
+    }
+    .shortcut-log .entry {
+      color: var(--n-ink-strong);
+    }
+    .shortcut-row {
+      display: flex;
+      gap: calc(var(--n-space) * 2);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    h3 { margin: 0; font-size: 0.875rem; font-weight: 600; color: var(--n-ink-muted); }
+    p { margin: 0; font-size: 0.8125rem; color: var(--n-ink-muted); }
+  </style>
+
+  <!-- Traits must be registered before components -->
+  <script type="module">
+    import { registerAllTraits } from '../index.ts';
+    registerAllTraits();
+  </script>
+  <script type="module">
+    import '../nav/n-layout.ts';
+    import '../components/button/n-button.ts';
+    import '../components/input/n-input.ts';
+    import '../components/kbd/n-kbd.ts';
+    import '../components/controller/n-controller.ts';
+    import { ShortcutController } from './shortcut-controller.ts';
+
+    // ── Demo 1: Global shortcuts (imperative) ──
+
+    const log1 = document.getElementById('log-global');
+    const host1 = document.getElementById('demo-global');
+
+    const globalCtrl = new ShortcutController(host1, {
+      shortcuts: [
+        { id: 'search', combo: 'mod+k', handler: () => appendLog(log1, 'search', 'mod+k') },
+        { id: 'help', combo: 'shift+?', handler: () => appendLog(log1, 'help', 'shift+?') },
+        { id: 'dismiss', combo: 'escape', handler: () => appendLog(log1, 'dismiss', 'escape') },
+      ],
+      global: true,
+    });
+
+    // ── Demo 2: Scoped shortcuts (imperative) ──
+
+    const log2 = document.getElementById('log-scoped');
+    const host2 = document.getElementById('demo-scoped');
+
+    const scopedCtrl = new ShortcutController(host2, {
+      shortcuts: [
+        { id: 'save', combo: 'mod+s', handler: () => appendLog(log2, 'save', 'mod+s') },
+        { id: 'undo', combo: 'mod+z', handler: () => appendLog(log2, 'undo', 'mod+z') },
+      ],
+    });
+
+    // ── Demo 3: Editable shortcut ──
+
+    const log3 = document.getElementById('log-editable');
+    const host3 = document.getElementById('demo-editable');
+
+    const editCtrl = new ShortcutController(host3, {
+      shortcuts: [
+        { id: 'submit', combo: 'mod+enter', handler: () => appendLog(log3, 'submit', 'mod+enter'), allowEditable: true },
+      ],
+    });
+
+    // ── Logging ──
+
+    function appendLog(el, id, combo) {
+      const entry = document.createElement('div');
+      entry.className = 'entry';
+      entry.textContent = `${new Date().toLocaleTimeString()} — ${id} (${combo})`;
+      el.prepend(entry);
+    }
+  </script>
+</head>
+<body>
+  <n-layout>
+    <main>
+      <div class="demo-section">
+        <div>
+          <h2>Shortcutable Trait</h2>
+          <p>Keyboard shortcut controller with combo-string parsing, editable filtering, and conditional guards.</p>
+        </div>
+
+        <!-- Demo 1: Global -->
+        <div id="demo-global">
+          <h3>Global Shortcuts</h3>
+          <p>These shortcuts fire from anywhere on the page. Try pressing them:</p>
+          <div class="shortcut-row" style="margin-top: 0.5rem;">
+            <n-kbd>Cmd/Ctrl + K</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Search</span>
+            <n-kbd>Shift + ?</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Help</span>
+            <n-kbd>Escape</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Dismiss</span>
+          </div>
+          <div id="log-global" class="shortcut-log">Press a shortcut to see it logged here.</div>
+        </div>
+
+        <!-- Demo 2: Scoped -->
+        <div id="demo-scoped" tabindex="0" style="outline: 1px dashed var(--n-border-muted); border-radius: var(--n-radius); padding: calc(var(--n-space) * 3);">
+          <h3>Scoped Shortcuts (click here to focus)</h3>
+          <p>These only fire when this panel is focused. Click inside, then press:</p>
+          <div class="shortcut-row" style="margin-top: 0.5rem;">
+            <n-kbd>Cmd/Ctrl + S</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Save</span>
+            <n-kbd>Cmd/Ctrl + Z</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Undo</span>
+          </div>
+          <div id="log-scoped" class="shortcut-log">Focus this panel, then press a shortcut.</div>
+        </div>
+
+        <!-- Demo 3: Allow editable -->
+        <div id="demo-editable">
+          <h3>Allow Editable</h3>
+          <p>This shortcut works inside the input field (<code>allowEditable: true</code>):</p>
+          <div class="shortcut-row" style="margin-top: 0.5rem;">
+            <n-kbd>Cmd/Ctrl + Enter</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Submit</span>
+          </div>
+          <n-input placeholder="Type here, then press Cmd+Enter"></n-input>
+          <div id="log-editable" class="shortcut-log">Focus the input, then press Cmd/Ctrl + Enter.</div>
+        </div>
+
+        <!-- Demo 4: Declarative (n-controller) -->
+        <div>
+          <h3>Declarative (n-controller)</h3>
+          <p>Using <code>&lt;n-controller traits="shortcutable"&gt;</code> with JSON shortcuts attribute:</p>
+          <n-controller traits="shortcutable"
+            shortcutable-shortcuts='[{"id":"hello","combo":"ctrl+h"}]'
+            shortcutable-global="true">
+            <div id="demo-declarative" style="outline: 1px dashed var(--n-border-muted); border-radius: var(--n-radius); padding: calc(var(--n-space) * 3);">
+              <div class="shortcut-row">
+                <n-kbd>Ctrl + H</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Hello (declarative)</span>
+              </div>
+              <div id="log-declarative" class="shortcut-log">Press Ctrl+H to test the declarative adapter.</div>
+            </div>
+          </n-controller>
+          <script type="module">
+            const logEl = document.getElementById('log-declarative');
+            document.getElementById('demo-declarative').addEventListener('native:shortcut', (e) => {
+              const entry = document.createElement('div');
+              entry.className = 'entry';
+              entry.textContent = `${new Date().toLocaleTimeString()} — ${e.detail.id} (${e.detail.combo})`;
+              logEl.prepend(entry);
+            });
+          </script>
+        </div>
+
+      </div>
+    </main>
+  </n-layout>
+</body>
+</html>

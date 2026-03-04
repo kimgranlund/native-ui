@@ -27,13 +27,13 @@ export { GestureRouter } from './traits/gesture-router.ts';
 export type { GestureParticipant } from './traits/gesture-router.ts';
 
 // Traits (controllers)
-export { DragController, RangeSelectController, ResizeController, VirtualScrollController, SelectionController, SearchController, SwipeController, EditController, ClipboardController, SlashCommandController } from './traits/index.ts';
-export type { ToastOptions, ValidationRule, DragOptions, RangeSelectOptions, ResizeOptions, HandlePosition, VirtualScrollOptions, SelectionOptions, SearchOptions, SwipeOptions, SwipeDirection, EditOptions, ClipboardOptions, SlashCommand, SlashCommandOptions } from './traits/index.ts';
+export { DragController, RangeSelectController, ResizeController, VirtualScrollController, SelectionController, SearchController, SwipeController, EditController, ClipboardController, SlashCommandController, ShortcutController } from './traits/index.ts';
+export type { ToastOptions, ValidationRule, DragOptions, RangeSelectOptions, ResizeOptions, HandlePosition, VirtualScrollOptions, SelectionOptions, SearchOptions, SwipeOptions, SwipeDirection, EditOptions, ClipboardOptions, SlashCommand, SlashCommandOptions, ShortcutBinding, ShortcutOptions } from './traits/index.ts';
 export { PressController, HoverController, CopyController, IntersectController, DropZoneController, SortController, ValidateController, FocusTrapController, CollapsibleController, RovingFocusController, DismissController, ToastController, PopoverController, ListNavigateController, DialogController, GatewayController, PresentController, registerAllTraits } from './traits/index.ts';
 export type { PressOptions, HoverOptions, CopyOptions, IntersectOptions, DropZoneOptions, SortOptions, ValidateOptions, CollapsibleOptions, RovingFocusOptions, ListNavigateOptions, DialogOptions, GatewayOptions, PresentOptions } from './traits/index.ts';
 
 // Trait adapters (for selective registration via registerTrait())
-export { pressableAdapter, hoverableAdapter, copyableAdapter, intersectableAdapter, droppableAdapter, sortableAdapter, validatableAdapter, focusTrappableAdapter, collapsibleAdapter, rovingFocusableAdapter, dismissableAdapter, toastableAdapter, popoverableAdapter, listNavigableAdapter, dialogableAdapter, draggableAdapter, rangeSelectableAdapter, resizableAdapter, virtualizableAdapter, selectableAdapter, searchableAdapter, clippableAdapter, swipeableAdapter, editableAdapter, presentableAdapter, slashCommandableAdapter } from './traits/index.ts';
+export { pressableAdapter, hoverableAdapter, copyableAdapter, intersectableAdapter, droppableAdapter, sortableAdapter, validatableAdapter, focusTrappableAdapter, collapsibleAdapter, rovingFocusableAdapter, dismissableAdapter, toastableAdapter, popoverableAdapter, listNavigableAdapter, dialogableAdapter, draggableAdapter, rangeSelectableAdapter, resizableAdapter, virtualizableAdapter, selectableAdapter, searchableAdapter, clippableAdapter, swipeableAdapter, editableAdapter, presentableAdapter, slashCommandableAdapter, shortcutableAdapter } from './traits/index.ts';
 
 // Components
 export { NButton } from './components/button/button-element.ts';
@@ -104,7 +104,7 @@ export { NCard } from './containers/card/card-element.ts';
 export { NSection } from './containers/section/section-element.ts';
 export { NToolbar } from './containers/toolbar/toolbar-element.ts';
 // Event detail types
-export type { NPressDetail, NSelectDetail, NTextChangeDetail, NRangeValueDetail, NPickerChangeDetail, NToggleChangeDetail, NInputDetail, NDisabledDetail, NDragStartDetail, NDragMoveDetail, NDragOverDetail, NDropDetail, NDragCancelDetail, NInvalidDetail, NValidDetail, NRangeChangeDetail, NRangeSelectDetail, NFileDropDetail, NTextDropDetail, NSearchDetail, NClipDetail, NIntersectDetail, NCopyDetail, NVirtualChangeDetail, NSelectionChangeDetail, NHoverDetail, NSortDetail, NSwipeDetail, NResizeDetail, NEditStartDetail, NEditCommitDetail, NEditCancelDetail, NPaginationDotsChangeDetail, NSlideChangeDetail, NSendDetail, NToastDetail, NTableSortDetail, NTableSelectDetail, NTableReorderDetail, NTableResizeDetail, NTableResizeEndDetail, NCalendarRangeDetail } from './events.ts';
+export type { NPressDetail, NSelectDetail, NTextChangeDetail, NRangeValueDetail, NPickerChangeDetail, NToggleChangeDetail, NInputDetail, NDisabledDetail, NDragStartDetail, NDragMoveDetail, NDragOverDetail, NDropDetail, NDragCancelDetail, NInvalidDetail, NValidDetail, NRangeChangeDetail, NRangeSelectDetail, NFileDropDetail, NTextDropDetail, NSearchDetail, NClipDetail, NIntersectDetail, NCopyDetail, NVirtualChangeDetail, NSelectionChangeDetail, NHoverDetail, NSortDetail, NSwipeDetail, NResizeDetail, NEditStartDetail, NEditCommitDetail, NEditCancelDetail, NPaginationDotsChangeDetail, NSlideChangeDetail, NSendDetail, NToastDetail, NTableSortDetail, NTableSelectDetail, NTableReorderDetail, NTableResizeDetail, NTableResizeEndDetail, NCalendarRangeDetail, NShortcutDetail } from './events.ts';
 
 // Icons
 export { NIcon } from './icons/icon-element.ts';

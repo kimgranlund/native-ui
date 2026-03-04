@@ -68,7 +68,11 @@ export class NController extends NativeElement {
 
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     super.attributeChangedCallback(name, old, val);
-    if (!this.isConnected) return;
+    // WHY: Guard on #alive (not isConnected). During CE upgrade after adoptNode +
+    // replaceWith, the element is already connected but setup() hasn't run yet.
+    // Using isConnected would cause a premature #apply() here, then setup() would
+    // #apply() again — leaking a duplicate MutationObserver.
+    if (!this.#alive) return;
 
     if (name === 'traits' || name === 'for' || name === 'provides') {
       // Full re-apply — destroy old, create new
@@ -123,6 +127,13 @@ export class NController extends NativeElement {
     const target = this.#resolveFirstChild();
     if (target) this.#applyTraitsToElement(target, traitTokens);
 
+    // WHY: Guard against duplicate observers. If #apply() is called twice (e.g. during
+    // CE upgrade), disconnect the existing observer before creating a new one.
+    if (this.#childObserver) {
+      this.#childObserver.disconnect();
+      this.#childObserver = null;
+    }
+
     // WHY: Watch for first-child replacement so controllers are cleaned up and re-created.
     // Selector mode has its own observer; wrapper mode needs this to handle dynamic first children.
     this.#childObserver = new MutationObserver((mutations) => {
@@ -154,6 +165,12 @@ export class NController extends NativeElement {
     const targets = this.querySelectorAll<HTMLElement>(selector);
     for (const target of targets) {
       this.#applyTraitsToElement(target, traitTokens);
+    }
+
+    // Guard against duplicate observers (defense-in-depth)
+    if (this.#childObserver) {
+      this.#childObserver.disconnect();
+      this.#childObserver = null;
     }
 
     // Watch for dynamic children

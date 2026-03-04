@@ -271,6 +271,61 @@ describe('n-controller', () => {
     });
   });
 
+  describe('CE upgrade after adoptNode + replaceWith (T0067)', () => {
+    it('applies traits exactly once during upgrade — no leaked observers', () => {
+      // Simulate the Astro View Transitions pattern:
+      // 1. Parser creates an n-controller in an inert document (DOMParser)
+      // 2. adoptNode moves it to the main document
+      // 3. replaceWith inserts it into the DOM
+      // 4. customElements.upgrade() triggers the CE lifecycle
+
+      // Step 1: Create a placeholder in the live DOM
+      const placeholder = document.createElement('div');
+      document.body.appendChild(placeholder);
+
+      // Step 2: Build the controller + child manually (simulating DOMParser output)
+      // Use innerHTML on a template to get un-upgraded elements
+      const template = document.createElement('template');
+      template.innerHTML = '<n-controller traits="test-trait"><div class="target"></div></n-controller>';
+      const frag = template.content;
+      const ctrl = frag.querySelector('n-controller')!;
+
+      // Step 3: adoptNode + replaceWith (as Astro does)
+      const adopted = document.adoptNode(ctrl);
+      placeholder.replaceWith(adopted);
+
+      // Step 4: Force upgrade (browser may auto-upgrade, but Astro calls this explicitly)
+      customElements.upgrade(adopted);
+
+      // Trait should be created exactly once
+      const creates = log.filter((l) => l === 'create:div');
+      expect(creates).toHaveLength(1);
+
+      // Verify controller is functional
+      expect(instances.has(adopted.querySelector('.target')!)).toBe(true);
+    });
+
+    it('does not double-create when disconnected and reconnected', () => {
+      const ctrl = document.createElement('n-controller');
+      ctrl.setAttribute('traits', 'test-trait');
+      const child = document.createElement('div');
+      ctrl.appendChild(child);
+      document.body.appendChild(ctrl);
+
+      expect(log).toEqual(['create:div']);
+      clearLog();
+
+      // Disconnect
+      ctrl.remove();
+      expect(log).toEqual(['destroy:div']);
+      clearLog();
+
+      // Reconnect
+      document.body.appendChild(ctrl);
+      expect(log).toEqual(['create:div']);
+    });
+  });
+
   describe('unknown traits', () => {
     it('silently tracks unregistered traits as pending (no warn)', () => {
       const warns: string[] = [];

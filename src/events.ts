@@ -243,3 +243,9 @@ export interface NCalendarRangeDetail {
   start: string | null;
   end: string | null;
 }
+
+// ── Shortcut ──
+export interface NShortcutDetail {
+  id: string;
+  combo: string;
+}
