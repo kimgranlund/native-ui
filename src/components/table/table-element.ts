@@ -10,11 +10,13 @@ import type { NTableRow } from './table-row-element.ts';
  * @attr {boolean} selectable - Enables row selection on click
  * @attr {boolean} resizable - Enables column resize handles
  * @attr {boolean} reorderable - Enables drag-to-reorder rows
+ * @attr {string} cols - Sets grid-template-columns (e.g., "auto auto 1fr")
+ * @attr {boolean} sticky-header - Enables sticky header row with measured height
  * @fires native:table-sort - Fired when sort changes with `{ column, direction }` detail
  * @fires native:table-select - Fired when row selection changes with `{ value, selected, allSelected }` detail
  */
 export class NTable extends NativeElement {
-  static observedAttributes = ['selectable', 'resizable', 'reorderable'];
+  static observedAttributes = ['selectable', 'resizable', 'reorderable', 'cols', 'sticky-header'];
 
   #internals: ElementInternals;
   #store = new TableStore();
@@ -44,6 +46,18 @@ export class NTable extends NativeElement {
     this.toggleAttribute('selectable', val);
   }
 
+  get cols(): string | null {
+    return this.getAttribute('cols');
+  }
+
+  set cols(val: string | null) {
+    if (val) {
+      this.setAttribute('cols', val);
+    } else {
+      this.removeAttribute('cols');
+    }
+  }
+
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     if (old === val) return;
     switch (name) {
@@ -62,6 +76,22 @@ export class NTable extends NativeElement {
         } else if (val === null && this.#dragController) {
           this.#dragController.destroy();
           this.#dragController = null;
+        }
+        break;
+      case 'cols':
+        if (val) {
+          this.style.gridTemplateColumns = val;
+        } else {
+          this.style.removeProperty('grid-template-columns');
+        }
+        break;
+      case 'sticky-header':
+        if (val !== null && !this.#headerObserver) {
+          this.#initHeaderMeasure();
+        } else if (val === null && this.#headerObserver) {
+          this.#headerObserver.disconnect();
+          this.#headerObserver = null;
+          this.style.removeProperty('--n-header-height');
         }
         break;
     }

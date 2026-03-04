@@ -566,6 +566,62 @@ describe('n-table resizable', () => {
   });
 });
 
+// ── Cols Attribute ──
+
+describe('n-table cols attribute', () => {
+  it('sets grid-template-columns from cols attribute', () => {
+    const table = document.createElement('n-table');
+    table.setAttribute('cols', 'auto auto 1fr');
+    document.body.appendChild(table);
+
+    expect(table.style.gridTemplateColumns).toBe('auto auto 1fr');
+  });
+
+  it('cols property reads attribute', () => {
+    const table = createTable();
+    expect((table as any).cols).toBeNull();
+    table.setAttribute('cols', '1fr 2fr');
+    expect((table as any).cols).toBe('1fr 2fr');
+  });
+
+  it('cols property reflects to attribute', () => {
+    const table = createTable();
+    (table as any).cols = 'auto 1fr';
+    expect(table.getAttribute('cols')).toBe('auto 1fr');
+    expect(table.style.gridTemplateColumns).toBe('auto 1fr');
+  });
+
+  it('removing cols attribute clears grid-template-columns', () => {
+    const table = document.createElement('n-table');
+    table.setAttribute('cols', 'auto 1fr');
+    document.body.appendChild(table);
+    expect(table.style.gridTemplateColumns).toBe('auto 1fr');
+
+    table.removeAttribute('cols');
+    expect(table.style.gridTemplateColumns).toBe('');
+  });
+
+  it('setting cols to null removes attribute and style', () => {
+    const table = createTable();
+    (table as any).cols = 'auto 1fr';
+    expect(table.style.gridTemplateColumns).toBe('auto 1fr');
+
+    (table as any).cols = null;
+    expect(table.hasAttribute('cols')).toBe(false);
+    expect(table.style.gridTemplateColumns).toBe('');
+  });
+
+  it('updating cols attribute updates grid-template-columns', () => {
+    const table = document.createElement('n-table');
+    table.setAttribute('cols', 'auto 1fr');
+    document.body.appendChild(table);
+    expect(table.style.gridTemplateColumns).toBe('auto 1fr');
+
+    table.setAttribute('cols', 'auto auto auto 1fr');
+    expect(table.style.gridTemplateColumns).toBe('auto auto auto 1fr');
+  });
+});
+
 // ── Sticky Header Measurement ──
 
 describe('n-table sticky header measurement', () => {
