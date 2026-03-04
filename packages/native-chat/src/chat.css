@@ -384,7 +384,8 @@
 
   /* Popover toolbar: anchored below the message via CSS anchor positioning.
      Toolbar is a child of n-chat-message with popover="manual", rendered in the
-     top layer. JS shows/hides via pointerenter/pointerleave + showPopover(). */
+     top layer. JS shows/hides via pointerenter/pointerleave + showPopover().
+     Entry/exit transition mirrors n-listbox[popover] (perspective + scale). */
   :where(n-chat-message) > :where(n-toolbar[data-role="actions"][popover]) {
     position: fixed;
     inset: auto;
@@ -393,6 +394,28 @@
     translate: -50% 0;
     margin: 2px 0 0;
     width: max-content;
+
+    transform-origin: top center;
+    opacity: 0;
+    transform: perspective(800px) scale(0.96) rotateX(-20deg);
+
+    transition:
+      opacity var(--n-duration) var(--n-easing),
+      transform var(--n-duration) var(--n-easing),
+      display var(--n-duration) var(--n-easing) allow-discrete,
+      overlay var(--n-duration) var(--n-easing) allow-discrete;
+  }
+
+  :where(n-chat-message) > :where(n-toolbar[data-role="actions"][popover]):popover-open {
+    opacity: 1;
+    transform: none;
+  }
+
+  @starting-style {
+    :where(n-chat-message) > :where(n-toolbar[data-role="actions"][popover]):popover-open {
+      opacity: 0;
+      transform: perspective(800px) scale(0.96) rotateX(-20deg);
+    }
   }
 
   /* Override n-toolbar display to respect popover hidden state */

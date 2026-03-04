@@ -48,6 +48,7 @@ export class NChatMessage extends NativeElement {
   #actionsPosition = signal<string>('below');
   #actionsEl: HTMLElement | null = null;
   #isPopoverToolbar = false;
+  #showTimer = 0;
   #hideTimer = 0;
 
   constructor() {
@@ -135,6 +136,7 @@ export class NChatMessage extends NativeElement {
   teardown(): void {
     this.removeEventListener('pointerenter', this.#showToolbar);
     this.removeEventListener('pointerleave', this.#hideToolbarDelayed);
+    clearTimeout(this.#showTimer);
     clearTimeout(this.#hideTimer);
     if (this.#actionsEl) {
       this.#cleanupToolbar();
@@ -147,13 +149,16 @@ export class NChatMessage extends NativeElement {
 
   #showToolbar = (): void => {
     clearTimeout(this.#hideTimer);
-    if (this.#actionsEl && this.#isPopoverToolbar && this.#status.value !== 'partial') {
-      try { this.#actionsEl.showPopover(); } catch { /* already open */ }
-    }
+    if (!this.#actionsEl || !this.#isPopoverToolbar || this.#status.value === 'partial') return;
+    clearTimeout(this.#showTimer);
+    this.#showTimer = window.setTimeout(() => {
+      try { this.#actionsEl?.showPopover(); } catch { /* already open */ }
+    }, 300);
   };
 
   #hideToolbarDelayed = (): void => {
     if (!this.#isPopoverToolbar || this.#status.value === 'partial') return;
+    clearTimeout(this.#showTimer);
     clearTimeout(this.#hideTimer);
     this.#hideTimer = window.setTimeout(() => {
       try { this.#actionsEl?.hidePopover(); } catch { /* already hidden */ }
