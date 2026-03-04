@@ -191,9 +191,12 @@
      n-chat-messages — message group (bubble cluster)
      ══════════════════════════════════════════════════ */
 
+  /* 2-column grid: avatar | messages column.
+     Messages are in a flex column flow — they shrink-wrap to content
+     width instead of stretching to fill the column. */
   :where(n-chat-messages) {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: auto 1fr;
     row-gap: var(--n-space);
     column-gap: var(--n-chat-message-gap);
     align-self: flex-start;
@@ -201,17 +204,23 @@
     min-width: 0;
   }
 
-  /* Avatar: pin to avatar column, span all rows, bottom-align */
+  /* Avatar: pin to column 1, span all rows, bottom-align */
   :where(n-chat-messages) > :where(n-chat-avatar) {
     grid-column: 1;
     grid-row: 1 / -1;
     align-self: end;
   }
 
-  /* Message content: pin to message column */
+  /* Messages column: flex column for natural stacking */
   :where(n-chat-messages) > :where(:not(n-chat-avatar)) {
     grid-column: 2;
     min-width: 0;
+  }
+
+  /* Messages shrink-wrap to content width */
+  :where(n-chat-messages) > :where(n-chat-message) {
+    width: fit-content;
+    max-width: 100%;
   }
 
   /* Avatar alignment overrides */
@@ -225,7 +234,7 @@
 
   /* User messages: right-aligned, avatar on right */
   [role="user"]:where(n-chat-messages) {
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: 1fr auto;
     align-self: flex-end;
   }
 
@@ -235,6 +244,11 @@
 
   [role="user"]:where(n-chat-messages) > :where(:not(n-chat-avatar)) {
     grid-column: 1;
+  }
+
+  /* User bubbles align to the right edge */
+  [role="user"]:where(n-chat-messages) > :where(n-chat-message) {
+    justify-self: end;
   }
 
   :where(n-chat-messages[hidden]) { display: none; }
