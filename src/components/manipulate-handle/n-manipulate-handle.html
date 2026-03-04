@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manipulate Handle — native-ui</title>
+    <link rel="stylesheet" href="../../styles/n-index.css" />
+    <link rel="stylesheet" href="../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../styles/demo.css" />
+    <style>
+      .demo-target {
+        background: var(--n-panel);
+        border: 1px solid var(--n-border-muted);
+        border-radius: var(--n-radius);
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.875rem;
+        color: var(--n-ink-muted);
+        anchor-name: none; /* let the handle set this */
+      }
+      .demo-overflow {
+        overflow: hidden;
+        border: 2px dashed var(--n-border-muted);
+        border-radius: var(--n-radius);
+        padding: 1rem;
+        position: relative;
+      }
+      .demo-readout {
+        font-size: 0.8125rem;
+        color: var(--n-ink-muted);
+        margin-block-start: 0.5rem;
+        font-variant-numeric: tabular-nums;
+      }
+    </style>
+  </head>
+  <body>
+    <native-app-spa><main>
+    <h1>Manipulate Handle</h1>
+    <p class="demo-desc">
+      Declarative manipulation handle that escapes overflow via the Popover API and positions itself
+      via CSS Anchor Positioning. Resize panels, sidebars, and canvas elements with a single element.
+    </p>
+
+    <!-- ── Horizontal Resize ── -->
+
+    <h2>Horizontal resize</h2>
+    <p class="demo-desc">
+      Handle on the right edge (<code>placement="end"</code>). Drag to resize width.
+      The target is inside an <code>overflow: hidden</code> container — the handle escapes via top layer.
+    </p>
+
+    <div class="demo-overflow">
+      <div id="panel-h" class="demo-target" style="width: 300px; height: 200px;">
+        Resize me horizontally
+      </div>
+    </div>
+    <n-manipulate-handle
+      mode="resize-horizontal"
+      for="panel-h"
+      placement="end"
+      min="160"
+      max="600"
+    ></n-manipulate-handle>
+    <div class="demo-readout" id="readout-h">300 × 200</div>
+
+    <!-- ── Vertical Resize ── -->
+
+    <h2>Vertical resize</h2>
+    <p class="demo-desc">
+      Handle on the bottom edge (<code>placement="bottom"</code>). Drag to resize height.
+    </p>
+
+    <div class="demo-overflow">
+      <div id="panel-v" class="demo-target" style="width: 400px; height: 150px;">
+        Resize me vertically
+      </div>
+    </div>
+    <n-manipulate-handle
+      mode="resize-vertical"
+      for="panel-v"
+      placement="bottom"
+      min="80"
+      max="400"
+    ></n-manipulate-handle>
+    <div class="demo-readout" id="readout-v">400 × 150</div>
+
+    <!-- ── Corner Resize ── -->
+
+    <h2>Corner resize</h2>
+    <p class="demo-desc">
+      Handle on the bottom-right corner (<code>placement="bottom-end"</code>). Drag to resize both axes.
+    </p>
+
+    <div class="demo-overflow">
+      <div id="panel-c" class="demo-target" style="width: 300px; height: 200px;">
+        Resize me diagonally
+      </div>
+    </div>
+    <n-manipulate-handle
+      mode="resize-corner"
+      for="panel-c"
+      placement="bottom-end"
+      min="120"
+      max="600"
+    ></n-manipulate-handle>
+    <div class="demo-readout" id="readout-c">300 × 200</div>
+
+    <!-- ── Reverse (left-edge) ── -->
+
+    <h2>Reverse (left-edge handle)</h2>
+    <p class="demo-desc">
+      Handle on the left edge (<code>placement="start" reverse</code>). Leftward drag grows width.
+    </p>
+
+    <div class="demo-overflow">
+      <div id="panel-r" class="demo-target" style="width: 300px; height: 200px; margin-inline-start: auto;">
+        Reverse resize
+      </div>
+    </div>
+    <n-manipulate-handle
+      mode="resize-horizontal"
+      for="panel-r"
+      placement="start"
+      min="160"
+      max="600"
+      reverse
+    ></n-manipulate-handle>
+    <div class="demo-readout" id="readout-r">300 × 200</div>
+
+    <!-- ── Step Snapping ── -->
+
+    <h2>Step snapping</h2>
+    <p class="demo-desc">
+      <code>step="20"</code> — resizes in 20px increments.
+    </p>
+
+    <div class="demo-overflow">
+      <div id="panel-s" class="demo-target" style="width: 300px; height: 200px;">
+        Snap to 20px grid
+      </div>
+    </div>
+    <n-manipulate-handle
+      mode="resize-horizontal"
+      for="panel-s"
+      placement="end"
+      min="100"
+      max="600"
+      step="20"
+    ></n-manipulate-handle>
+    <div class="demo-readout" id="readout-s">300 × 200</div>
+
+    </main></native-app-spa>
+
+    <script type="module">
+      import '../../nav/native-app.ts';
+      import './n-manipulate-handle.ts';
+
+      // Live readouts
+      function readout(targetId, readoutId) {
+        const target = document.getElementById(targetId);
+        const el = document.getElementById(readoutId);
+        if (!target || !el) return;
+
+        const update = () => {
+          const rect = target.getBoundingClientRect();
+          el.textContent = `${Math.round(rect.width)} × ${Math.round(rect.height)}`;
+        };
+
+        target.addEventListener('native:manipulate-move', update);
+        target.addEventListener('native:manipulate-end', update);
+        target.addEventListener('native:manipulate-cancel', update);
+      }
+
+      readout('panel-h', 'readout-h');
+      readout('panel-v', 'readout-v');
+      readout('panel-c', 'readout-c');
+      readout('panel-r', 'readout-r');
+      readout('panel-s', 'readout-s');
+    </script>
+  </body>
+</html>

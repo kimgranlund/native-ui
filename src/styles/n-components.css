@@ -29,6 +29,7 @@
 @import '../components/slideshow/slideshow.css';
 @import '../components/controller/controller.css';
 @import '../components/toast/toast.css';
+@import '../components/manipulate-handle/n-manipulate-handle.css';
 @import '../icons/icon.css';
 
 /* Containers */

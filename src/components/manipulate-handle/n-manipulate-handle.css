@@ -1,0 +1,85 @@
+/* ─────────────────────────────────────────────────────
+   n-manipulate-handle
+   Popover + Anchor-positioned manipulation handle.
+   ───────────────────────────────────────────────────── */
+
+@layer ui {
+
+  :where(n-manipulate-handle):not(:defined) { visibility: hidden; }
+
+  /* Popover hidden-state guard (author display vs UA display) */
+  :where(n-manipulate-handle[popover]):not(:popover-open) { display: none; }
+
+  :where(n-manipulate-handle) {
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    touch-action: none;
+  }
+
+  /* ── Edge handles ── */
+
+  :where(n-manipulate-handle[mode="resize-horizontal"]) {
+    width: 8px;
+    cursor: col-resize;
+  }
+
+  :where(n-manipulate-handle[mode="resize-vertical"]) {
+    height: 8px;
+    cursor: row-resize;
+  }
+
+  /* ── Corner handle ── */
+
+  :where(n-manipulate-handle[mode="resize-corner"]) {
+    width: 12px;
+    height: 12px;
+  }
+
+  :where(n-manipulate-handle[mode="resize-corner"][placement="bottom-end"]),
+  :where(n-manipulate-handle[mode="resize-corner"][placement="top-start"]) {
+    cursor: nwse-resize;
+  }
+
+  :where(n-manipulate-handle[mode="resize-corner"][placement="bottom-start"]),
+  :where(n-manipulate-handle[mode="resize-corner"][placement="top-end"]) {
+    cursor: nesw-resize;
+  }
+
+  /* ── Visual indicator ── */
+
+  :where(n-manipulate-handle)::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: var(--n-ink-muted);
+    opacity: 0;
+    transition: opacity var(--n-duration) var(--n-easing);
+    pointer-events: none;
+  }
+
+  :where(n-manipulate-handle[mode="resize-horizontal"])::after {
+    inset-inline: 3px;
+  }
+
+  :where(n-manipulate-handle[mode="resize-vertical"])::after {
+    inset-block: 3px;
+  }
+
+  :where(n-manipulate-handle):hover::after,
+  :where(n-manipulate-handle[manipulating])::after {
+    opacity: 1;
+  }
+
+  /* ── Disabled ── */
+
+  :where(n-manipulate-handle)[disabled] {
+    pointer-events: none;
+  }
+
+  :where(n-manipulate-handle[hidden]) { display: none; }
+
+}

@@ -249,3 +249,24 @@ export interface NShortcutDetail {
   id: string;
   combo: string;
 }
+
+// ── Manipulate Handle ──
+export interface NManipulateStartDetail {
+  mode: string;
+  startValue: { width: number; height: number };
+}
+
+export interface NManipulateDetail {
+  mode: string;
+  value: { width: number; height: number };
+  delta: { dx: number; dy: number };
+}
+
+export interface NManipulateEndDetail {
+  mode: string;
+  value: { width: number; height: number };
+}
+
+export interface NManipulateCancelDetail {
+  mode: string;
+}

@@ -16,6 +16,7 @@
   { "title": "Input", "path": "/src/components/input/input.html", "group": "Components" },
   { "title": "Input OTP", "path": "/src/components/input-otp/input-otp.html", "group": "Components" },
   { "title": "Kbd", "path": "/src/components/kbd/kbd.html", "group": "Components" },
+  { "title": "Manipulate Handle", "path": "/src/components/manipulate-handle/n-manipulate-handle.html", "group": "Components", "badge": "new" },
   { "title": "Listbox", "path": "/src/components/listbox/listbox.html", "group": "Components" },
   { "title": "Sidebar Nav", "path": "/src/components/nav/nav.html", "group": "Components" },
   { "title": "Pagination", "path": "/src/components/pagination/pagination.html", "group": "Components" },

@@ -99,13 +99,15 @@ export { NSlideshow } from './components/slideshow/slideshow-element.ts';
 export { NSlide } from './components/slideshow/slide-element.ts';
 export { NController } from './components/controller/controller-element.ts';
 export { NToast } from './components/toast/toast-element.ts';
+export { NManipulateHandle } from './components/manipulate-handle/manipulate-handle-element.ts';
+export type { ManipulateMode, ManipulatePlacement } from './components/manipulate-handle/manipulate-handle-element.ts';
 
 // Containers
 export { NCard } from './containers/card/card-element.ts';
 export { NSection } from './containers/section/section-element.ts';
 export { NToolbar } from './containers/toolbar/toolbar-element.ts';
 // Event detail types
-export type { NPressDetail, NSelectDetail, NTextChangeDetail, NRangeValueDetail, NPickerChangeDetail, NToggleChangeDetail, NInputDetail, NDisabledDetail, NDragStartDetail, NDragMoveDetail, NDragOverDetail, NDropDetail, NDragCancelDetail, NInvalidDetail, NValidDetail, NRangeChangeDetail, NRangeSelectDetail, NFileDropDetail, NTextDropDetail, NSearchDetail, NClipDetail, NIntersectDetail, NCopyDetail, NVirtualChangeDetail, NSelectionChangeDetail, NHoverDetail, NSortDetail, NSwipeDetail, NResizeDetail, NEditStartDetail, NEditCommitDetail, NEditCancelDetail, NPaginationDotsChangeDetail, NSlideChangeDetail, NSendDetail, NToastDetail, NTableSortDetail, NTableSelectDetail, NTableReorderDetail, NTableResizeDetail, NTableResizeEndDetail, NCalendarRangeDetail, NShortcutDetail } from './events.ts';
+export type { NPressDetail, NSelectDetail, NTextChangeDetail, NRangeValueDetail, NPickerChangeDetail, NToggleChangeDetail, NInputDetail, NDisabledDetail, NDragStartDetail, NDragMoveDetail, NDragOverDetail, NDropDetail, NDragCancelDetail, NInvalidDetail, NValidDetail, NRangeChangeDetail, NRangeSelectDetail, NFileDropDetail, NTextDropDetail, NSearchDetail, NClipDetail, NIntersectDetail, NCopyDetail, NVirtualChangeDetail, NSelectionChangeDetail, NHoverDetail, NSortDetail, NSwipeDetail, NResizeDetail, NEditStartDetail, NEditCommitDetail, NEditCancelDetail, NPaginationDotsChangeDetail, NSlideChangeDetail, NSendDetail, NToastDetail, NTableSortDetail, NTableSelectDetail, NTableReorderDetail, NTableResizeDetail, NTableResizeEndDetail, NCalendarRangeDetail, NShortcutDetail, NManipulateStartDetail, NManipulateDetail, NManipulateEndDetail, NManipulateCancelDetail } from './events.ts';
 
 // Icons
 export { NIcon } from './icons/icon-element.ts';
