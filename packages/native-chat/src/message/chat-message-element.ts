@@ -167,7 +167,7 @@ export class NChatMessage extends NativeElement {
 
     const toolbar = document.createElement('n-toolbar');
     toolbar.dataset.role = 'actions';
-    toolbar.setAttribute('variant', 'plain');
+    toolbar.setAttribute('padding', 'tight');
     toolbar.setAttribute('aria-label', 'Message actions');
     if (style !== 'label') {
       toolbar.setAttribute('data-style', style);
