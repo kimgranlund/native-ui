@@ -68,10 +68,8 @@ function matchesCombo(e: KeyboardEvent, parsed: ParsedCombo): boolean {
   return true;
 }
 
-function isEditable(target: EventTarget | null): boolean {
-  if (!(target instanceof HTMLElement)) return false;
-  return target.isContentEditable || target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
-}
+import { isTypingContext } from './typing-context.ts';
+
 
 // ── Controller ──
 
@@ -152,8 +150,9 @@ export class ShortcutController {
     for (const entry of this.#bindings) {
       const { binding, parsed } = entry;
 
-      // Editable filtering — skip if target is an input/textarea/contenteditable
-      if (!binding.allowEditable && isEditable(e.target)) continue;
+      // Editable filtering — skip if target is an input/textarea/contenteditable.
+      // Uses composedPath() to handle shadow DOM retargeting.
+      if (!binding.allowEditable && isTypingContext(e)) continue;
 
       // Conditional guard
       if (binding.when && !binding.when()) continue;

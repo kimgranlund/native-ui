@@ -17,6 +17,7 @@
     border: 1px solid var(--n-border, #3e4451);
     border-radius: var(--n-radius, 0.5rem);
     overflow: hidden;
+    height: var(--n-editor-height, auto);
     min-height: 300px;
     background: var(--n-color-neutral-base, #282c34);
     outline: none;

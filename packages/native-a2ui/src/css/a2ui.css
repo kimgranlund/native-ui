@@ -1,7 +1,8 @@
 /**
  * native-a2ui — A2UI Protocol Workbench
  *
- * Tool-specific styles for the workbench element.
+ * Layout: chip-toggled multi-panel — preview left, N resizable panes right.
+ * Chrome & token patterns mirror <native-playground> for a unified devtool look.
  * Loaded by consumers via: @import '@nonoun/native-a2ui/css'
  */
 
@@ -10,106 +11,153 @@
 /* ── Host ── */
 
 :where(native-a2ui) {
+  /* Devtool chrome tokens — mirrors native-playground */
+  --n-pg-chrome: var(--n-panel-neutral, #21252b);
+  --n-pg-editor-bg: var(--n-control-neutral, #282c34);
+  --n-pg-border-color: var(--n-border-muted-neutral, #3e4451);
+  --n-pg-border: 1px solid var(--n-pg-border-color);
+  --n-pg-text: var(--n-ink-neutral, #abb2bf);
+  --n-pg-text-muted: var(--n-ink-muted-neutral, #7d8799);
+  --n-pg-text-strong: var(--n-ink-strong-neutral, #e5e7eb);
+  --n-pg-accent: var(--n-ink-accent, #61afef);
+  --n-pg-run: var(--n-ink-success, #98c379);
+  --n-pg-run-hover: var(--n-ink-hover-success, #b5e890);
+  --n-pg-run-hover-bg: var(--n-control-success, #333d37);
+  --n-pg-warn: var(--n-ink-warning, #e5c07b);
+  --n-pg-error: var(--n-ink-danger, #e06c75);
+  --n-pg-preview-bg: var(--n-body-neutral, #ffffff);
+
   display: grid;
   grid-template-rows: auto 1fr;
   min-height: 400px;
-  border: 1px solid var(--n-border-muted-neutral, #3e4451);
-  border-radius: var(--n-radius-md, 0.5rem);
+  border: var(--n-pg-border);
+  border-radius: var(--n-radius-lg, 0.75rem);
   overflow: hidden;
-  background: var(--n-body-neutral, #1e2127);
-  color: var(--n-ink-neutral, #abb2bf);
+  background: var(--n-pg-editor-bg);
+  color: var(--n-pg-text);
 }
 
-/* ── Toolbar ── */
-
-:where(native-a2ui) :where(.a2ui-toolbar) {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.375rem 0.5rem;
-  border-bottom: 1px solid var(--n-border-muted-neutral, #3e4451);
-  background: var(--n-panel-neutral, #21252b);
-  min-height: 2.25rem;
-}
-
-/* ── Layout Shell ── */
-
-:where(native-a2ui) :where(.a2ui-layout) {
-  display: grid;
-  min-height: 0;
-  overflow: hidden;
-}
-
-/* 2/1 layout: editor + preview on top, inspector below */
-:where(native-a2ui[layout="2/1"]) :where(.a2ui-layout),
-:where(native-a2ui:not([layout])) :where(.a2ui-layout) {
-  grid-template-rows: 1fr auto;
-  grid-template-columns: 1fr 1fr;
-}
-
-:where(native-a2ui[layout="2/1"]) :where(.a2ui-region-inspector),
-:where(native-a2ui:not([layout])) :where(.a2ui-region-inspector) {
-  grid-column: 1 / -1;
-}
-
-/* 1+1+1 layout: three columns */
-:where(native-a2ui[layout="1+1+1"]) :where(.a2ui-layout) {
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-/* ── Regions ── */
-
-:where(native-a2ui) :where(.a2ui-region) {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  min-width: 0;
-  overflow: hidden;
-}
-
-:where(native-a2ui) :where(.a2ui-region-editor) {
-  border-right: 1px solid var(--n-border-muted-neutral, #3e4451);
-}
-
-:where(native-a2ui) :where(.a2ui-region-inspector) {
-  border-top: 1px solid var(--n-border-muted-neutral, #3e4451);
-  max-height: 280px;
-}
-
-/* ── Preview Toolbar ── */
-
-:where(native-a2ui) :where(.a2ui-preview-toolbar) {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 0.25rem 0.5rem;
-  border-bottom: 1px solid var(--n-border-muted-neutral, #3e4451);
-  background: var(--n-panel-neutral, #21252b);
-  min-height: 2rem;
-}
-
-/* ── Preview Iframe ── */
-
-:where(native-a2ui) :where(.a2ui-preview-iframe) {
-  flex: 1;
-  border: none;
+/* Full-viewport presented state (PresentController sets [presented]) */
+:where(native-a2ui)[presented] {
   width: 100%;
-  min-height: 0;
-  background: var(--n-doc-neutral, #ffffff);
-}
-
-/* ── Editor ── */
-
-:where(native-a2ui) :where(.a2ui-editor) {
-  flex: 1;
-  min-height: 0;
+  height: 100%;
+  justify-self: stretch;
+  align-self: stretch;
+  border: none;
   border-radius: 0;
 }
 
-/* ── Inspector Tabs ── */
+/* ── Dark chrome header toolbar (chips + expand) ── */
 
-:where(native-a2ui) :where(.a2ui-inspector) {
+:where(native-a2ui) :where(.a2ui-header) {
+  flex: none;
+  background: var(--n-pg-chrome);
+  --n-ink: var(--n-pg-text-muted);
+  --n-ink-hover: var(--n-pg-text);
+  --n-ink-strong: var(--n-pg-text-strong);
+  --n-border-muted: transparent;
+}
+
+/* Header button hover background */
+:where(native-a2ui) :where(.a2ui-header) :where(n-button):hover,
+:where(native-a2ui) :where(.a2ui-header) :where(n-button)[force-hover] {
+  background: var(--n-pg-editor-bg);
+}
+
+/* Chip pressed state — "panel is open" indicator */
+:where(native-a2ui) :where(.a2ui-header) :where(n-button)[pressed] {
+  background: var(--n-pg-editor-bg);
+  color: var(--n-pg-text-strong);
+}
+
+/* Play All button — green accent override (mirrors playground Run button) */
+:where(native-a2ui) :where(.a2ui-btn-run) {
+  --n-color: var(--n-pg-run);
+  --n-color-hover: var(--n-pg-run-hover);
+}
+
+:where(native-a2ui) :where(.a2ui-btn-run):hover,
+:where(native-a2ui) :where(.a2ui-btn-run)[force-hover] {
+  background: var(--n-pg-run-hover-bg);
+}
+
+/* ── Split: preview left, panes right ── */
+
+:where(native-a2ui) :where(.a2ui-split) {
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Preview (left side) ── */
+
+:where(native-a2ui) :where(.a2ui-preview) {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 50%;
+  min-width: 200px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* When resized, respect the explicit width */
+:where(native-a2ui) :where(.a2ui-preview[style*="width"]) {
+  flex: none;
+}
+
+:where(native-a2ui) :where(.a2ui-preview-content) {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 1rem;
+  background: var(--n-pg-preview-bg);
+}
+
+/* ── Resize Handle (shared by preview + panes) ── */
+
+:where(native-a2ui) :where(.a2ui-resize-handle) {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: col-resize;
+  background: transparent;
+  transition: background 150ms;
+  z-index: 1;
+}
+
+:where(native-a2ui) :where(.a2ui-resize-handle):hover,
+:where(native-a2ui) :where([resizing]) :where(.a2ui-resize-handle) {
+  background: var(--n-pg-accent);
+}
+
+/* ── Pane (each toggled panel in the split) ── */
+
+:where(native-a2ui) :where(.a2ui-pane) {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
+  min-width: 150px;
+  min-height: 0;
+  overflow: hidden;
+  border-left: var(--n-pg-border);
+}
+
+/* When resized (has explicit width from ResizeController), don't flex-grow */
+:where(native-a2ui) :where(.a2ui-pane[style*="width"]) {
+  flex: none;
+}
+
+:where(native-a2ui) :where(.a2ui-pane[hidden]) {
+  display: none;
+}
+
+/* ── Pane Content (inner scrollable area) ── */
+
+:where(native-a2ui) :where(.a2ui-pane-content) {
   flex: 1;
   min-height: 0;
   overflow: auto;
@@ -119,11 +167,56 @@
   line-height: 1.5;
 }
 
-/* ── Log Entries ── */
+/* CodeMirror panes: editor fills space, no padding */
+:where(native-a2ui) :where([data-panel="json-in"]) :where(.a2ui-pane-content),
+:where(native-a2ui) :where([data-panel="js"]) :where(.a2ui-pane-content),
+:where(native-a2ui) :where([data-panel="components"]) :where(.a2ui-pane-content) {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ── Toolbar (playback controls inside JSON-IN pane) ── */
+
+:where(native-a2ui) :where(.a2ui-toolbar) {
+  flex: none;
+  background: var(--n-pg-chrome);
+  border-bottom: var(--n-pg-border);
+  --n-ink: var(--n-pg-text-muted);
+  --n-ink-hover: var(--n-pg-text);
+}
+
+/* Toolbar button hover */
+:where(native-a2ui) :where(.a2ui-toolbar) :where(n-button):hover,
+:where(native-a2ui) :where(.a2ui-toolbar) :where(n-button)[force-hover] {
+  background: var(--n-pg-editor-bg);
+}
+
+/* ── CodeMirror (mirrors playground overrides) ── */
+
+:where(native-a2ui) :where(native-codemirror) {
+  flex: 1;
+  min-height: 0;
+  border-radius: 0;
+}
+
+:where(native-a2ui) :where(.cm-editor) {
+  font-size: 0.8125rem;
+  color-scheme: dark;
+}
+
+:where(native-a2ui) :where(.cm-scroller) {
+  overflow: auto;
+}
+
+:where(native-a2ui) :where(.cm-gutters) {
+  border-right: none;
+}
+
+/* ── Log Entries (shared by JSON-OUT and JS panes) ── */
 
 :where(native-a2ui) :where(.a2ui-log-entry) {
   padding: 0.25rem 0;
-  border-bottom: 1px solid var(--n-border-muted-neutral, #3e4451);
+  border-bottom: var(--n-pg-border);
 }
 
 :where(native-a2ui) :where(.a2ui-log-type) {
@@ -131,10 +224,12 @@
   margin-right: 0.5rem;
 }
 
-:where(native-a2ui) :where(.a2ui-log-type--sent) { color: var(--n-ink-accent, #61afef); }
-:where(native-a2ui) :where(.a2ui-log-type--action) { color: var(--n-ink-success, #98c379); }
-:where(native-a2ui) :where(.a2ui-log-type--error) { color: var(--n-ink-danger, #e06c75); }
-:where(native-a2ui) :where(.a2ui-log-type--warning) { color: var(--n-ink-warning, #e5c07b); }
+:where(native-a2ui) :where(.a2ui-log-type--sent) { color: var(--n-pg-accent); }
+:where(native-a2ui) :where(.a2ui-log-type--received) { color: var(--n-pg-accent); }
+:where(native-a2ui) :where(.a2ui-log-type--action) { color: var(--n-pg-run); }
+:where(native-a2ui) :where(.a2ui-log-type--error) { color: var(--n-pg-error); }
+:where(native-a2ui) :where(.a2ui-log-type--warning) { color: var(--n-pg-warn); }
+:where(native-a2ui) :where(.a2ui-log-type--info) { color: var(--n-pg-text-muted); }
 
 /* ── Tree View ── */
 
@@ -147,16 +242,16 @@
 }
 
 :where(native-a2ui) :where(.a2ui-tree-id) {
-  color: var(--n-ink-accent, #61afef);
+  color: var(--n-pg-accent);
 }
 
 :where(native-a2ui) :where(.a2ui-tree-type) {
-  color: var(--n-ink-muted-neutral, #7d8799);
+  color: var(--n-pg-text-muted);
   margin-left: 0.375rem;
 }
 
 :where(native-a2ui) :where(.a2ui-tree-tag) {
-  color: var(--n-ink-success, #98c379);
+  color: var(--n-pg-run);
   margin-left: 0.375rem;
 }
 

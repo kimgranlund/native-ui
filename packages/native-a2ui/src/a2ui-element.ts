@@ -1,17 +1,19 @@
 /**
  * NA2UI — A2UI Protocol Workbench Element
  *
- * Interactive JSONL editor, sandboxed kernel preview, and protocol inspector.
- * Content is sourced from a <script type="a2ui/stream"> child at setup time.
+ * Layout: chip-toggled multi-panel — preview left, N resizable panes right.
+ * Chips: JSON-IN, JSON-OUT, HTML, CSS, JS, COMPONENTS (multiple active at once).
+ * Chrome & layout patterns mirror <native-playground> for a unified devtool look.
  *
- * @attr {string} layout - Grid layout mode: "2/1" (default) | "1+1+1"
+ * Renders A2UI components directly (no iframe) using a local Kernel + A2UIAdapter.
+ * Native-ui components must be registered on the page for rendering to work.
  *
- * @fires native:a2ui-action - When an action is received from the preview iframe
- * @fires native:a2ui-state  - When state is updated from the preview iframe
+ * @fires native:a2ui-action - When an action fires inside the preview
+ * @fires native:a2ui-state  - When surface state updates after processing envelopes
  */
 
-import { NativeElement, signal } from '@nonoun/native-ui';
-import type { Signal } from '@nonoun/native-ui';
+import { NativeElement, signal, ResizeController, PresentController } from '@nonoun/native-ui';
+import type { Signal, Dispose } from '@nonoun/native-ui';
 import {
   EditorView,
   Decoration,
@@ -23,34 +25,37 @@ import type { DecorationSet } from '@nonoun/native-codemirror';
 import { json } from '@codemirror/lang-json';
 import '@nonoun/native-codemirror/register';
 
-// ── Log entry type ──
+import { Kernel, resetKernel } from '@nonoun/native-ui/kernel';
+
+// Icons used by the workbench toolbar
+import '../../../src/icons/phosphor/caret-left.ts';
+import '../../../src/icons/phosphor/caret-right.ts';
+import '../../../src/icons/phosphor/arrow-counter-clockwise.ts';
+import '../../../src/icons/phosphor/play-fill.ts';
+import '../../../src/icons/phosphor/arrows-out-simple.ts';
+import { createA2UIAdapter } from './protocol/a2ui-adapter.ts';
+import type { A2UIAdapter } from './protocol/a2ui-adapter.ts';
+
+// ── Types ──
+
+type PanelId = 'json-in' | 'json-out' | 'html' | 'css' | 'js' | 'components';
+
+const PANEL_ORDER: readonly PanelId[] = ['json-in', 'json-out', 'html', 'css', 'js', 'components'];
+
+const PANEL_LABELS: Record<PanelId, string> = {
+  'json-in': 'IN',
+  'json-out': 'OUT',
+  'html': 'HTML',
+  'css': 'CSS',
+  'js': 'JS',
+  'components': 'UI',
+};
 
 interface LogEntry {
-  type: 'sent' | 'received' | 'error' | 'info';
+  type: 'sent' | 'received' | 'action' | 'error' | 'info';
   data: unknown;
   timestamp: number;
 }
-
-// ── Iframe srcdoc template ──
-
-const SRCDOC = `<!DOCTYPE html>
-<html><head>
-<style>body { margin: 0; padding: 1rem; font-family: system-ui; }</style>
-</head><body>
-<script type="module">
-window.addEventListener('message', (e) => {
-  const { type, payload } = e.data;
-  if (type === 'a2ui:envelope') {
-    window.parent.postMessage({ type: 'a2ui:state', payload: { surfaces: [], errors: [] } }, '*');
-  }
-  if (type === 'a2ui:reset') {
-    document.body.innerHTML = '';
-    window.parent.postMessage({ type: 'a2ui:reset-ack' }, '*');
-  }
-});
-window.parent.postMessage({ type: 'a2ui:ready' }, '*');
-<\/script>
-</body></html>`;
 
 // ── Line decoration effects for sent/next highlighting ──
 
@@ -67,11 +72,9 @@ const sentLineField = StateField.define<DecorationSet>({
         const doc = tr.state.doc;
         const upTo = Math.min(e.value.upTo, doc.lines);
         const ranges = [];
-        // Mark sent lines
         for (let i = 1; i <= upTo; i++) {
           ranges.push(sentDeco.range(doc.line(i).from));
         }
-        // Mark next line
         if (upTo < doc.lines) {
           ranges.push(nextDeco.range(doc.line(upTo + 1).from));
         }
@@ -86,24 +89,37 @@ const sentLineField = StateField.define<DecorationSet>({
 // ── Element ──
 
 export class NA2UI extends NativeElement {
-  static observedAttributes = ['layout'];
 
   // Signals
   #stream: Signal<string> = signal('');
   #cursor: Signal<number> = signal(0);
-  #layout: Signal<'2/1' | '1+1+1'> = signal('2/1');
-  #tab: Signal<'tree' | 'log'> = signal('tree');
-  #log: Signal<LogEntry[]> = signal([]);
+  #activePanels: Signal<Set<PanelId>> = signal(new Set<PanelId>(['json-in']));
+  #inLog: Signal<LogEntry[]> = signal([]);
+  #outLog: Signal<LogEntry[]> = signal([]);
+  #jsLog: Signal<LogEntry[]> = signal([]);
   #lastState: Signal<unknown> = signal(null);
-  #iframeReady: Signal<boolean> = signal(false);
+  #htmlState: Signal<string> = signal('');
+  #cssState: Signal<unknown> = signal(null);
 
   // DOM references
   #editorEl: (HTMLElement & NCodemirror) | null = null;
-  #iframe: HTMLIFrameElement | null = null;
-  #treeEl: HTMLDivElement | null = null;
-  #logEl: HTMLDivElement | null = null;
-  #treeTabBtn: HTMLButtonElement | null = null;
-  #logTabBtn: HTMLButtonElement | null = null;
+  #jsEditorEl: (HTMLElement & NCodemirror) | null = null;
+  #componentsEditorEl: (HTMLElement & NCodemirror) | null = null;
+  #previewEl: HTMLDivElement | null = null;
+  #previewRegionEl: HTMLDivElement | null = null;
+  #paneEls: Map<PanelId, HTMLDivElement> = new Map();
+  #paneContentEls: Map<PanelId, HTMLDivElement> = new Map();
+  #chipEls: Map<PanelId, HTMLElement> = new Map();
+
+  // Kernel + Adapter
+  #kernel: InstanceType<typeof Kernel> | null = null;
+  #adapter: A2UIAdapter | null = null;
+  #busDisposer: Dispose | null = null;
+
+  // Resize + Present
+  #previewResize: ResizeController | null = null;
+  #paneResizeMap: Map<PanelId, ResizeController> = new Map();
+  #presentController: PresentController | null = null;
 
   // ── Public API ──
 
@@ -115,92 +131,103 @@ export class NA2UI extends NativeElement {
     }
   }
 
-  get layout(): string { return this.#layout.value; }
-  set layout(val: string) {
-    if (val === '2/1' || val === '1+1+1') {
-      this.#layout.value = val;
-      this.setAttribute('layout', val);
-    }
-  }
-
-  playAll(): void {
-    this.#playAll();
-  }
-
-  step(): void {
-    this.#step();
-  }
-
-  reset(): void {
-    this.#reset();
-  }
-
-  // ── Attribute sync ──
-
-  attributeChangedCallback(name: string, old: string | null, val: string | null): void {
-    if (old === val) return;
-    if (name === 'layout') {
-      if (val === '2/1' || val === '1+1+1') {
-        this.#layout.value = val;
-      }
-    }
-    super.attributeChangedCallback(name, old, val);
-  }
+  playAll(): void { this.#playAll(); }
+  step(): void { this.#step(); }
+  stepBack(): void { this.#stepBack(); }
+  reset(): void { this.#reset(); }
 
   // ── Lifecycle ──
 
   setup(): void {
     super.setup();
 
-    // Seed from attributes
-    const layoutAttr = this.getAttribute('layout');
-    if (layoutAttr === '2/1' || layoutAttr === '1+1+1') {
-      this.#layout.value = layoutAttr;
+    this.#buildDOM();
+    this.#initAdapter();
+
+    // Present controller — expand to full-viewport dialog
+    this.#presentController = new PresentController(this as unknown as HTMLElement);
+
+    // Wire resize controller on preview region
+    if (this.#previewRegionEl) {
+      this.#previewResize = new ResizeController(this.#previewRegionEl, {
+        handleSelector: '.a2ui-resize-handle',
+        axis: 'horizontal',
+        min: 200,
+      });
     }
 
-    // Build DOM
-    this.#buildDOM();
-
-    // Listen for iframe messages
-    window.addEventListener('message', this.#messageHandler);
-
-    // Effect: layout attribute sync
+    // Effect: panel visibility — toggle panes + chip pressed states + resize controllers
     this.addEffect(() => {
-      const layout = this.#layout.value;
-      this.setAttribute('layout', layout);
+      const active = this.#activePanels.value;
+      for (const [id, el] of this.#paneEls) {
+        el.hidden = !active.has(id);
+      }
+      for (const [id, chip] of this.#chipEls) {
+        chip.toggleAttribute('pressed', active.has(id));
+      }
+      this.#syncResizeControllers(active);
     });
 
-    // Effect: inspector tab toggle
-    this.addEffect(() => {
-      const tab = this.#tab.value;
-      if (this.#treeEl) this.#treeEl.hidden = tab !== 'tree';
-      if (this.#logEl) this.#logEl.hidden = tab !== 'log';
-      if (this.#treeTabBtn) this.#treeTabBtn.classList.toggle('a2ui-tab--active', tab === 'tree');
-      if (this.#logTabBtn) this.#logTabBtn.classList.toggle('a2ui-tab--active', tab === 'log');
-    });
-
-    // Effect: render tree view when state changes
+    // Effect: render COMPONENTS pane (CodeMirror)
     this.addEffect(() => {
       const state = this.#lastState.value;
-      if (this.#treeEl) {
-        this.#treeEl.textContent = '';
-        if (state !== null) {
-          const pre = document.createElement('pre');
-          pre.textContent = JSON.stringify(state, null, 2);
-          this.#treeEl.appendChild(pre);
-        } else {
-          const span = document.createElement('span');
-          span.style.opacity = '0.5';
-          span.textContent = 'No state received yet. Press Play or Step to send envelopes.';
-          this.#treeEl.appendChild(span);
-        }
+      if (!this.#componentsEditorEl) return;
+      this.#componentsEditorEl.value = state !== null
+        ? JSON.stringify(state, null, 2)
+        : '';
+    });
+
+    // Effect: render JSON-OUT pane (protocol messages)
+    this.addEffect(() => {
+      const entries = this.#outLog.value;
+      this.#renderLog(entries, this.#paneContentEls.get('json-out') ?? null);
+    });
+
+    // Effect: render JS pane (CodeMirror — bus action events)
+    this.addEffect(() => {
+      const entries = this.#jsLog.value;
+      if (!this.#jsEditorEl) return;
+      this.#jsEditorEl.value = entries.length > 0
+        ? entries.map(e => JSON.stringify(e.data)).join('\n')
+        : '';
+    });
+
+    // Effect: render HTML pane (preview innerHTML)
+    this.addEffect(() => {
+      const html = this.#htmlState.value;
+      const el = this.#paneContentEls.get('html');
+      if (!el) return;
+
+      el.textContent = '';
+      if (html) {
+        const pre = document.createElement('pre');
+        pre.textContent = html;
+        el.appendChild(pre);
+      } else {
+        const span = document.createElement('span');
+        span.style.opacity = '0.5';
+        span.textContent = 'No HTML yet. Play messages to render surfaces.';
+        el.appendChild(span);
       }
     });
 
-    // Effect: render log entries
+    // Effect: render CSS pane (computed tokens + surface themes)
     this.addEffect(() => {
-      const entries = this.#log.value;
-      this.#renderLog(entries);
+      const styles = this.#cssState.value;
+      const el = this.#paneContentEls.get('css');
+      if (!el) return;
+
+      el.textContent = '';
+      if (styles !== null && typeof styles === 'object' && Object.keys(styles as Record<string, unknown>).length > 0) {
+        const pre = document.createElement('pre');
+        pre.textContent = JSON.stringify(styles, null, 2);
+        el.appendChild(pre);
+      } else {
+        const span = document.createElement('span');
+        span.style.opacity = '0.5';
+        span.textContent = 'No styles yet. Play messages to render surfaces.';
+        el.appendChild(span);
+      }
     });
 
     // Effect: update editor line decorations when cursor changes
@@ -214,7 +241,7 @@ export class NA2UI extends NativeElement {
       }
     });
 
-    // Content extraction: read <script type="a2ui/stream"> children
+    // Content extraction
     this.deferChildren(() => {
       this.#extractContent();
       this.#createEditor();
@@ -222,136 +249,283 @@ export class NA2UI extends NativeElement {
   }
 
   teardown(): void {
-    window.removeEventListener('message', this.#messageHandler);
+    this.#previewResize?.destroy();
+    this.#previewResize = null;
+
+    for (const [_id, ctrl] of this.#paneResizeMap) {
+      ctrl.destroy();
+    }
+    this.#paneResizeMap.clear();
+
+    this.#presentController?.destroy();
+    this.#presentController = null;
+
+    this.#previewRegionEl = null;
+    this.#paneEls.clear();
+    this.#paneContentEls.clear();
+    this.#chipEls.clear();
+
+    this.#destroyAdapter();
 
     this.#editorEl = null;
-    this.#iframe = null;
-    this.#treeEl = null;
-    this.#logEl = null;
-    this.#treeTabBtn = null;
-    this.#logTabBtn = null;
+    this.#jsEditorEl = null;
+    this.#componentsEditorEl = null;
+    this.#previewEl = null;
 
     super.teardown();
+  }
+
+  // ── Adapter lifecycle ──
+
+  #initAdapter(): void {
+    resetKernel();
+    this.#kernel = new Kernel({ allowUnregistered: true });
+    this.#adapter = createA2UIAdapter(this.#kernel, {
+      onClientMessage: (msg) => {
+        this.#appendOutLog('received', msg);
+      },
+      onRender: (surfaceId) => {
+        this.#appendOutLog('info', { message: `Surface ${surfaceId} rendered` });
+        this.#updateInspector();
+        this.#updateHTML();
+        this.#updateCSS();
+      },
+    });
+
+    this.#busDisposer = this.#kernel.bus.on(
+      (cmd: { type: string }) => cmd.type.startsWith('a2ui:'),
+      (cmd: { type: string; payload?: unknown }) => {
+        this.#appendJsLog('action', { action: cmd.type, payload: cmd.payload });
+        this.dispatchEvent(new CustomEvent('native:a2ui-action', {
+          bubbles: true,
+          detail: { type: cmd.type, payload: cmd.payload },
+        }));
+      },
+    );
+  }
+
+  #destroyAdapter(): void {
+    this.#busDisposer?.();
+    this.#busDisposer = null;
+    try { this.#adapter?.destroy(); } catch (_e) { /* ignore */ }
+    this.#adapter = null;
+    this.#kernel = null;
+  }
+
+  // ── Inspector state (COMPONENTS pane) ──
+
+  #updateInspector(): void {
+    if (!this.#adapter) return;
+
+    const ids = this.#adapter.getSurfaceIds();
+    const surfaces: Record<string, unknown> = {};
+    for (const id of ids) {
+      const surface = this.#adapter.getSurface(id);
+      const dataModel = this.#adapter.getDataModel(id);
+      surfaces[id] = {
+        surfaceId: id,
+        rendered: surface?.rendered ?? false,
+        dataModel: dataModel ?? {},
+      };
+    }
+
+    const state = { surfaces, surfaceCount: ids.length };
+    this.#lastState.value = state;
+    this.dispatchEvent(new CustomEvent('native:a2ui-state', {
+      bubbles: true,
+      detail: state,
+    }));
+  }
+
+  // ── HTML state (HTML pane) ──
+
+  #updateHTML(): void {
+    if (!this.#previewEl) return;
+    this.#htmlState.value = this.#previewEl.innerHTML;
+  }
+
+  // ── CSS state (CSS pane) ──
+
+  #updateCSS(): void {
+    if (!this.#adapter || !this.#previewEl) return;
+
+    const ids = this.#adapter.getSurfaceIds();
+    const styles: Record<string, unknown> = {};
+
+    // Surface themes
+    for (const id of ids) {
+      const surface = this.#adapter.getSurface(id);
+      if (surface?.theme) styles[`${id}/theme`] = surface.theme;
+    }
+
+    // Key tokens from preview container
+    const cs = getComputedStyle(this.#previewEl);
+    const tokens = [
+      '--n-ink', '--n-background', '--n-border-color', '--n-ground',
+      '--n-panel', '--n-control', '--n-body', '--n-card',
+      '--n-ink-strong', '--n-ink-muted', '--n-border-muted',
+    ];
+    const computed: Record<string, string> = {};
+    for (const t of tokens) {
+      const v = cs.getPropertyValue(t).trim();
+      if (v) computed[t] = v;
+    }
+    if (Object.keys(computed).length) styles['computed'] = computed;
+
+    this.#cssState.value = styles;
+  }
+
+  // ── Resize controller sync ──
+
+  #syncResizeControllers(active: Set<PanelId>): void {
+    const visible = PANEL_ORDER.filter(id => active.has(id));
+    const lastId = visible.length > 0 ? visible[visible.length - 1] : null;
+
+    // Destroy controllers for hidden panels or the new last panel, clear explicit widths
+    for (const [id, ctrl] of this.#paneResizeMap) {
+      if (!active.has(id) || id === lastId) {
+        ctrl.destroy();
+        this.#paneResizeMap.delete(id);
+        this.#paneEls.get(id)?.style.removeProperty('width');
+      }
+    }
+
+    // Create controllers for visible non-last panels
+    for (const id of visible) {
+      if (id !== lastId && !this.#paneResizeMap.has(id)) {
+        const el = this.#paneEls.get(id);
+        if (el) {
+          this.#paneResizeMap.set(id, new ResizeController(el, {
+            handleSelector: '.a2ui-resize-handle',
+            axis: 'horizontal',
+            min: 150,
+          }));
+        }
+      }
+    }
   }
 
   // ── DOM construction ──
 
   #buildDOM(): void {
-    // ── Toolbar ──
-    const toolbar = document.createElement('div');
-    toolbar.className = 'a2ui-toolbar';
+    // ── Header toolbar (chips + expand) ──
+    const header = document.createElement('n-toolbar');
+    header.className = 'a2ui-header';
+    header.setAttribute('size', 'sm');
+    header.setAttribute('variant', 'ghost');
 
-    // Layout toggle buttons
-    const layoutBtnA = document.createElement('button');
-    layoutBtnA.className = 'a2ui-layout-btn';
-    layoutBtnA.textContent = '2/1';
-    layoutBtnA.title = 'Editor + Preview on top, Inspector below';
-    layoutBtnA.addEventListener('click', this.#onLayoutA);
+    for (const id of PANEL_ORDER) {
+      const chip = document.createElement('n-button');
+      chip.setAttribute('variant', 'ghost');
+      chip.setAttribute('size', 'sm');
+      chip.textContent = PANEL_LABELS[id];
+      if (this.#activePanels.value.has(id)) {
+        chip.setAttribute('pressed', '');
+      }
+      chip.addEventListener('native:press', this.#onChipPress(id));
+      header.appendChild(chip);
+      this.#chipEls.set(id, chip);
+    }
 
-    const layoutBtnB = document.createElement('button');
-    layoutBtnB.className = 'a2ui-layout-btn';
-    layoutBtnB.textContent = '1+1+1';
-    layoutBtnB.title = 'Three equal columns';
-    layoutBtnB.addEventListener('click', this.#onLayoutB);
+    const spacerHeader = document.createElement('span');
+    spacerHeader.setAttribute('fill', '');
+    header.appendChild(spacerHeader);
 
-    const spacer = document.createElement('div');
-    spacer.style.flex = '1';
+    const expandBtn = document.createElement('n-button');
+    expandBtn.setAttribute('variant', 'ghost');
+    expandBtn.setAttribute('size', 'sm');
+    expandBtn.title = 'Expand';
+    expandBtn.innerHTML = '<n-icon name="arrows-out-simple"></n-icon>';
+    expandBtn.addEventListener('native:press', this.#onExpand);
+    header.appendChild(expandBtn);
 
-    toolbar.append(layoutBtnA, layoutBtnB, spacer);
+    // ── Split (preview + panes) ──
+    const split = document.createElement('div');
+    split.className = 'a2ui-split';
 
-    // ── Layout ──
-    const layout = document.createElement('div');
-    layout.className = 'a2ui-layout';
+    // Preview (left side)
+    const preview = document.createElement('div');
+    preview.className = 'a2ui-preview';
+    this.#previewRegionEl = preview;
 
-    // ── Editor region ──
-    const editorRegion = document.createElement('div');
-    editorRegion.className = 'a2ui-region a2ui-region-editor';
+    const previewContent = document.createElement('div');
+    previewContent.className = 'a2ui-preview-content';
+    preview.appendChild(previewContent);
+    this.#previewEl = previewContent;
 
-    const editorEl = document.createElement('native-codemirror') as HTMLElement & NCodemirror;
-    editorEl.className = 'a2ui-editor';
-    editorEl.setAttribute('line-numbers', 'false');
-    editorRegion.appendChild(editorEl);
-    this.#editorEl = editorEl;
+    const previewHandle = document.createElement('div');
+    previewHandle.className = 'a2ui-resize-handle';
+    preview.appendChild(previewHandle);
 
-    // ── Preview region ──
-    const previewRegion = document.createElement('div');
-    previewRegion.className = 'a2ui-region a2ui-region-preview';
+    split.appendChild(preview);
 
-    // Preview toolbar
-    const previewToolbar = document.createElement('div');
-    previewToolbar.className = 'a2ui-preview-toolbar';
+    // ── Panes ──
 
-    const playBtn = this.#createButton('Play All', this.#onPlayAll);
-    const stepBtn = this.#createButton('Step', this.#onStep);
-    const resetBtn = this.#createButton('Reset', this.#onReset);
-    const previewSpacer = document.createElement('div');
-    previewSpacer.style.flex = '1';
+    for (const id of PANEL_ORDER) {
+      const pane = document.createElement('div');
+      pane.className = 'a2ui-pane';
+      pane.dataset.panel = id;
+      if (!this.#activePanels.value.has(id)) {
+        pane.hidden = true;
+      }
 
-    previewToolbar.append(playBtn, stepBtn, resetBtn, previewSpacer);
-    previewRegion.appendChild(previewToolbar);
+      // JSON-IN pane gets a playback toolbar
+      if (id === 'json-in') {
+        const toolbar = document.createElement('n-toolbar');
+        toolbar.className = 'a2ui-toolbar';
+        toolbar.setAttribute('variant', 'plain');
+        toolbar.setAttribute('size', 'sm');
+        toolbar.setAttribute('fill', '');
 
-    // Iframe
-    const iframe = document.createElement('iframe');
-    iframe.className = 'a2ui-preview-iframe';
-    iframe.setAttribute('sandbox', 'allow-scripts');
-    iframe.setAttribute('title', 'A2UI Preview');
-    iframe.srcdoc = SRCDOC;
-    previewRegion.appendChild(iframe);
-    this.#iframe = iframe;
+        const stepBackBtn = this.#createToolbarButton('', 'Step back', 'caret-left');
+        stepBackBtn.addEventListener('native:press', this.#onStepBack);
+        const resetBtn = this.#createToolbarButton('', 'Reset', 'arrow-counter-clockwise');
+        resetBtn.addEventListener('native:press', this.#onReset);
+        const stepBtn = this.#createToolbarButton('', 'Step forward', 'caret-right');
+        stepBtn.addEventListener('native:press', this.#onStep);
 
-    // ── Inspector region ──
-    const inspectorRegion = document.createElement('div');
-    inspectorRegion.className = 'a2ui-region a2ui-region-inspector';
+        const playBtn = this.#createToolbarButton('a2ui-btn-run', 'Play all', 'play', true);
+        playBtn.addEventListener('native:press', this.#onPlayAll);
 
-    const inspector = document.createElement('div');
-    inspector.className = 'a2ui-inspector';
+        toolbar.append(stepBackBtn, resetBtn, stepBtn, playBtn);
+        pane.appendChild(toolbar);
+      }
 
-    // Tab bar
-    const tabBar = document.createElement('div');
-    tabBar.style.cssText = 'display: flex; gap: 0.5rem; margin-bottom: 0.5rem;';
+      // Content area
+      const content = document.createElement('div');
+      content.className = 'a2ui-pane-content';
+      pane.appendChild(content);
+      this.#paneContentEls.set(id, content);
 
-    const treeTab = document.createElement('button');
-    treeTab.className = 'a2ui-tab a2ui-tab--active';
-    treeTab.textContent = 'Tree';
-    treeTab.addEventListener('click', this.#onTreeTab);
-    this.#treeTabBtn = treeTab;
+      // CodeMirror editors
+      if (id === 'json-in' || id === 'js' || id === 'components') {
+        const editorEl = document.createElement('native-codemirror') as HTMLElement & NCodemirror;
+        editorEl.setAttribute('line-numbers', 'false');
+        content.appendChild(editorEl);
+        if (id === 'json-in') this.#editorEl = editorEl;
+        else if (id === 'js') this.#jsEditorEl = editorEl;
+        else this.#componentsEditorEl = editorEl;
+      }
 
-    const logTab = document.createElement('button');
-    logTab.className = 'a2ui-tab';
-    logTab.textContent = 'Log';
-    logTab.addEventListener('click', this.#onLogTab);
-    this.#logTabBtn = logTab;
+      // Resize handle (every pane gets one; controller created only for non-last visible)
+      const handle = document.createElement('div');
+      handle.className = 'a2ui-resize-handle';
+      pane.appendChild(handle);
 
-    tabBar.append(treeTab, logTab);
-    inspector.appendChild(tabBar);
+      split.appendChild(pane);
+      this.#paneEls.set(id, pane);
+    }
 
-    // Tree view
-    const treeView = document.createElement('div');
-    treeView.className = 'a2ui-tree';
-    inspector.appendChild(treeView);
-    this.#treeEl = treeView;
-
-    // Log view
-    const logView = document.createElement('div');
-    logView.className = 'a2ui-log';
-    logView.hidden = true;
-    inspector.appendChild(logView);
-    this.#logEl = logView;
-
-    inspectorRegion.appendChild(inspector);
-
-    // Assemble layout
-    layout.append(editorRegion, previewRegion, inspectorRegion);
-
-    // Append to host
-    this.append(toolbar, layout);
+    // Assemble
+    this.append(header, split);
   }
 
-  #createButton(label: string, handler: () => void): HTMLButtonElement {
-    const btn = document.createElement('button');
-    btn.textContent = label;
-    btn.style.cssText = 'background: none; border: 1px solid var(--n-border-muted-neutral, #3e4451); color: inherit; padding: 0.125rem 0.5rem; border-radius: 0.25rem; cursor: pointer; font-size: 0.75rem;';
-    btn.addEventListener('click', handler);
+  #createToolbarButton(className: string, title: string, icon: string, iconFill = false): HTMLElement {
+    const btn = document.createElement('n-button');
+    btn.className = className;
+    btn.title = title;
+    btn.setAttribute('variant', 'ghost');
+    btn.innerHTML = `<n-icon name="${icon}"${iconFill ? ' weight="fill"' : ''}></n-icon>`;
     return btn;
   }
 
@@ -371,14 +545,16 @@ export class NA2UI extends NativeElement {
   #createEditor(): void {
     if (!this.#editorEl) return;
 
-    // Set initial value and extensions
     this.#editorEl.value = this.#stream.value;
     this.#editorEl.extensions = [json(), sentLineField];
 
-    // Sync editor changes back to stream signal
     this.#editorEl.addEventListener('native:input', (e: Event) => {
       this.#stream.value = (e as CustomEvent).detail.value;
     });
+
+    // JS + COMPONENTS editors — JSON syntax highlighting
+    if (this.#jsEditorEl) this.#jsEditorEl.extensions = [json()];
+    if (this.#componentsEditorEl) this.#componentsEditorEl.extensions = [json()];
   }
 
   // ── JSONL helpers ──
@@ -393,27 +569,28 @@ export class NA2UI extends NativeElement {
 
   #playAll(): void {
     const lines = this.#getLines();
-    const iframe = this.#iframe;
-    if (!iframe?.contentWindow) return;
+    if (!this.#adapter || !this.#previewEl) return;
 
     for (let i = this.#cursor.value; i < lines.length; i++) {
       const line = lines[i];
       try {
         const envelope = JSON.parse(line);
-        iframe.contentWindow.postMessage({ type: 'a2ui:envelope', payload: envelope }, '*');
-        this.#appendLog('sent', envelope);
+        this.#appendInLog('sent', envelope);
+        this.#adapter.receive(envelope, this.#previewEl);
       } catch (err) {
-        this.#appendLog('error', { line: i + 1, message: String(err), raw: line });
+        this.#appendInLog('error', { line: i + 1, message: String(err), raw: line });
       }
     }
 
     this.#cursor.value = lines.length;
+    this.#updateInspector();
+    this.#updateHTML();
+    this.#updateCSS();
   }
 
   #step(): void {
     const lines = this.#getLines();
-    const iframe = this.#iframe;
-    if (!iframe?.contentWindow) return;
+    if (!this.#adapter || !this.#previewEl) return;
 
     const idx = this.#cursor.value;
     if (idx >= lines.length) return;
@@ -421,42 +598,88 @@ export class NA2UI extends NativeElement {
     const line = lines[idx];
     try {
       const envelope = JSON.parse(line);
-      iframe.contentWindow.postMessage({ type: 'a2ui:envelope', payload: envelope }, '*');
-      this.#appendLog('sent', envelope);
+      this.#appendInLog('sent', envelope);
+      this.#adapter.receive(envelope, this.#previewEl);
     } catch (err) {
-      this.#appendLog('error', { line: idx + 1, message: String(err), raw: line });
+      this.#appendInLog('error', { line: idx + 1, message: String(err), raw: line });
     }
 
     this.#cursor.value = idx + 1;
+    this.#updateInspector();
+    this.#updateHTML();
+    this.#updateCSS();
+  }
+
+  #stepBack(): void {
+    if (this.#cursor.value <= 0) return;
+    const targetCursor = this.#cursor.value - 1;
+
+    // Reset adapter + preview
+    this.#destroyAdapter();
+    if (this.#previewEl) this.#previewEl.textContent = '';
+    this.#inLog.value = [];
+    this.#outLog.value = [];
+    this.#jsLog.value = [];
+    this.#lastState.value = null;
+    this.#htmlState.value = '';
+    this.#cssState.value = null;
+    this.#initAdapter();
+
+    // Replay up to targetCursor
+    this.#cursor.value = 0;
+    const lines = this.#getLines();
+    if (!this.#adapter || !this.#previewEl) return;
+
+    for (let i = 0; i < targetCursor; i++) {
+      const line = lines[i];
+      try {
+        const envelope = JSON.parse(line);
+        this.#appendInLog('sent', envelope);
+        this.#adapter.receive(envelope, this.#previewEl);
+      } catch (err) {
+        this.#appendInLog('error', { line: i + 1, message: String(err), raw: line });
+      }
+    }
+
+    this.#cursor.value = targetCursor;
+    this.#updateInspector();
+    this.#updateHTML();
+    this.#updateCSS();
   }
 
   #reset(): void {
-    const iframe = this.#iframe;
-    if (iframe?.contentWindow) {
-      iframe.contentWindow.postMessage({ type: 'a2ui:reset' }, '*');
+    this.#destroyAdapter();
+
+    if (this.#previewEl) {
+      this.#previewEl.textContent = '';
     }
 
     this.#cursor.value = 0;
-    this.#log.value = [];
+    this.#inLog.value = [];
+    this.#outLog.value = [];
+    this.#jsLog.value = [];
     this.#lastState.value = null;
-    this.#iframeReady.value = false;
+    this.#htmlState.value = '';
+    this.#cssState.value = null;
 
-    // Reset iframe srcdoc to get a fresh context
-    if (iframe) {
-      iframe.srcdoc = SRCDOC;
-    }
-
-    this.#appendLog('info', { message: 'Reset' });
+    this.#initAdapter();
   }
 
   // ── Log management ──
 
-  #appendLog(type: LogEntry['type'], data: unknown): void {
-    this.#log.value = [...this.#log.value, { type, data, timestamp: Date.now() }];
+  #appendInLog(type: LogEntry['type'], data: unknown): void {
+    this.#inLog.value = [...this.#inLog.value, { type, data, timestamp: Date.now() }];
   }
 
-  #renderLog(entries: LogEntry[]): void {
-    const el = this.#logEl;
+  #appendOutLog(type: LogEntry['type'], data: unknown): void {
+    this.#outLog.value = [...this.#outLog.value, { type, data, timestamp: Date.now() }];
+  }
+
+  #appendJsLog(type: LogEntry['type'], data: unknown): void {
+    this.#jsLog.value = [...this.#jsLog.value, { type, data, timestamp: Date.now() }];
+  }
+
+  #renderLog(entries: LogEntry[], el: HTMLDivElement | null): void {
     if (!el) return;
 
     el.textContent = '';
@@ -464,7 +687,7 @@ export class NA2UI extends NativeElement {
     if (entries.length === 0) {
       const span = document.createElement('span');
       span.style.opacity = '0.5';
-      span.textContent = 'No log entries yet.';
+      span.textContent = 'No messages yet.';
       el.appendChild(span);
       return;
     }
@@ -490,73 +713,27 @@ export class NA2UI extends NativeElement {
       el.appendChild(row);
     }
 
-    // Auto-scroll to bottom
     el.scrollTop = el.scrollHeight;
   }
 
   // ── Event handlers (arrow properties for stable references) ──
 
-  #onPlayAll = (): void => {
-    this.#playAll();
+  #onExpand = (): void => {
+    this.#presentController?.present();
   };
 
-  #onStep = (): void => {
-    this.#step();
-  };
+  #onPlayAll = (): void => { this.#playAll(); };
+  #onStep = (): void => { this.#step(); };
+  #onStepBack = (): void => { this.#stepBack(); };
+  #onReset = (): void => { this.#reset(); };
 
-  #onReset = (): void => {
-    this.#reset();
-  };
-
-  #onLayoutA = (): void => {
-    this.layout = '2/1';
-  };
-
-  #onLayoutB = (): void => {
-    this.layout = '1+1+1';
-  };
-
-  #onTreeTab = (): void => {
-    this.#tab.value = 'tree';
-  };
-
-  #onLogTab = (): void => {
-    this.#tab.value = 'log';
-  };
-
-  #messageHandler = (e: MessageEvent): void => {
-    // Only accept messages from our iframe
-    if (e.source !== this.#iframe?.contentWindow) return;
-
-    const data = e.data;
-    if (!data || typeof data !== 'object') return;
-
-    switch (data.type) {
-      case 'a2ui:ready':
-        this.#iframeReady.value = true;
-        this.#appendLog('info', { message: 'Iframe ready' });
-        break;
-
-      case 'a2ui:state':
-        this.#lastState.value = data.payload;
-        this.#appendLog('received', data.payload);
-        this.dispatchEvent(new CustomEvent('native:a2ui-state', {
-          bubbles: true,
-          detail: data.payload,
-        }));
-        break;
-
-      case 'a2ui:action':
-        this.#appendLog('received', data.payload);
-        this.dispatchEvent(new CustomEvent('native:a2ui-action', {
-          bubbles: true,
-          detail: data.payload,
-        }));
-        break;
-
-      case 'a2ui:reset-ack':
-        this.#appendLog('info', { message: 'Iframe reset acknowledged' });
-        break;
+  #onChipPress = (panelId: PanelId) => (): void => {
+    const current = new Set(this.#activePanels.value);
+    if (current.has(panelId)) {
+      current.delete(panelId);
+    } else {
+      current.add(panelId);
     }
+    this.#activePanels.value = current;
   };
 }

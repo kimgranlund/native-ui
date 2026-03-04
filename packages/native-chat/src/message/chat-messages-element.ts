@@ -17,9 +17,10 @@ import { NativeElement } from '@nonoun/native-ui';
  *
  * @attr {string} role - `user` | `assistant` | `system`
  * @attr {string} sender - Display name of the sender
+ * @attr {string} avatar-align - `"top"` (default) | `"center"` | `"bottom"` — avatar vertical alignment
  */
 export class NChatMessages extends NativeElement {
-  static observedAttributes = ['role', 'sender'];
+  static observedAttributes = ['role', 'sender', 'avatar-align'];
 
   #internals: ElementInternals;
 

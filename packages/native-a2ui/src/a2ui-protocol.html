@@ -262,17 +262,20 @@
       const typeCountEl = document.getElementById('type-count');
       const emitOutput = document.getElementById('emit-output');
 
-      // WHY: NuiApp.setup() is async — wait for the chat panel to exist.
-      const layout = document.querySelector('native-app');
-      await customElements.whenDefined('native-app');
-      const chatPanel = await new Promise(resolve => {
-        const check = () => {
-          const el = layout.chatPanel;
-          if (el) return resolve(el);
-          requestAnimationFrame(check);
-        };
-        check();
-      });
+      // WHY: NApp.setup() is async — wait for the chat panel to exist.
+      const layout = document.querySelector('native-app-spa');
+      await customElements.whenDefined('native-app-spa');
+      const chatPanel = await Promise.race([
+        new Promise(resolve => {
+          const check = () => {
+            const el = layout.chatPanel;
+            if (el) return resolve(el);
+            requestAnimationFrame(check);
+          };
+          check();
+        }),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Chat panel not found after 5s')), 5000)),
+      ]);
       const chatContent = chatPanel.querySelector('n-chat-content');
 
       const adapter = createA2UIAdapter(kernel, {

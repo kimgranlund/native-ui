@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-editor",
-  "version": "0.2.6",
+  "version": "0.2.8",
   "description": "Markdown content editor with live preview for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",

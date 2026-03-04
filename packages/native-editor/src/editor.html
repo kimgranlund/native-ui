@@ -27,9 +27,8 @@
     <!-- ── Default (Live Preview) ── -->
 
     <h2>Default — Live Preview Mode</h2>
-    <n-panel bordered>
-      <native-editor id="demo-default">
-        <script type="text/markdown">
+    <native-editor id="demo-default">
+      <script type="text/markdown">
 # Hello World
 
 This is a **bold** and *italic* text with `inline code`.
@@ -55,8 +54,8 @@ console.log('Code blocks are highlighted');
 1. Ordered lists
 2. Work too
 3. With proper numbering
-        </script>
-      </native-editor>
+      </script>
+    </native-editor>
     <pre class="demo-code"><code>&lt;native-editor&gt;
   &lt;script type="text/markdown"&gt;
 # Hello World
@@ -64,14 +63,12 @@ console.log('Code blocks are highlighted');
 This is a **bold** and *italic* text.
   &lt;/script&gt;
 &lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
 
     <!-- ── Source Mode ── -->
 
     <h2>Source Mode</h2>
-    <n-panel bordered>
-      <native-editor id="demo-source" mode="source">
-        <script type="text/markdown">
+    <native-editor id="demo-source" mode="source">
+      <script type="text/markdown">
 # Source Mode
 
 In source mode, you see the **raw markdown** without live preview decorations.
@@ -80,30 +77,26 @@ Syntax highlighting is provided by `@codemirror/lang-markdown`.
 - No inline styling
 - Just syntax colors
 - Full editing power
-        </script>
-      </native-editor>
+      </script>
+    </native-editor>
     <pre class="demo-code"><code>&lt;native-editor mode="source"&gt;
   &lt;script type="text/markdown"&gt;
 # Source Mode
 Raw markdown without decorations.
   &lt;/script&gt;
 &lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
 
     <!-- ── Placeholder ── -->
 
     <h2>Placeholder</h2>
-    <n-panel bordered>
-      <native-editor id="demo-placeholder" placeholder="Start typing your markdown here..."></native-editor>
+    <native-editor id="demo-placeholder" placeholder="Start typing your markdown here..."></native-editor>
     <pre class="demo-code"><code>&lt;native-editor placeholder="Start typing your markdown here..."&gt;&lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
 
     <!-- ── Read-only ── -->
 
     <h2>Read-only</h2>
-    <n-panel bordered>
-      <native-editor id="demo-readonly" readonly>
-        <script type="text/markdown">
+    <native-editor id="demo-readonly" readonly>
+      <script type="text/markdown">
 # Read-only Document
 
 This editor is in **read-only** mode. You can select text but cannot edit.
@@ -111,48 +104,44 @@ This editor is in **read-only** mode. You can select text but cannot edit.
 - Toolbar buttons are disabled
 - Content is not editable
 - Useful for preview/display
-        </script>
-      </native-editor>
+      </script>
+    </native-editor>
     <pre class="demo-code"><code>&lt;native-editor readonly&gt;
   &lt;script type="text/markdown"&gt;
 # Read-only Document
 Content is not editable.
   &lt;/script&gt;
 &lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <n-panel bordered>
-      <native-editor id="demo-disabled" disabled>
-        <script type="text/markdown">
+    <native-editor id="demo-disabled" disabled>
+      <script type="text/markdown">
 # Disabled Editor
 
 This editor is completely disabled.
-        </script>
-      </native-editor>
+      </script>
+    </native-editor>
     <pre class="demo-code"><code>&lt;native-editor disabled&gt;...&lt;/native-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
 
     <!-- ── Form Integration ── -->
 
     <h2>Form Integration</h2>
-    <n-panel bordered>
-      <form id="demo-form" style="display: flex; flex-direction: column; gap: 1rem;">
-        <native-editor id="demo-form-editor" name="content" style="height: 250px;">
-          <script type="text/markdown">
+    <form id="demo-form" style="display: flex; flex-direction: column; gap: 1rem;">
+      <native-editor id="demo-form-editor" name="content" style="height: 250px;">
+        <script type="text/markdown">
 # Form Field
 
 This editor participates in form submission via `FormData`.
-          </script>
-        </native-editor>
-        <div class="demo-actions">
-          <n-button type="submit" variant="primary">Submit</n-button>
-          <n-button type="reset" variant="secondary">Reset</n-button>
-        </div>
-      </form>
-      <div class="log" id="form-output"></div>
+        </script>
+      </native-editor>
+      <div class="demo-actions">
+        <n-button type="submit" variant="primary">Submit</n-button>
+        <n-button type="reset" variant="secondary">Reset</n-button>
+      </div>
+    </form>
+    <div class="log" id="form-output"></div>
     <pre class="demo-code"><code>&lt;form&gt;
   &lt;native-editor name="content"&gt;...&lt;/native-editor&gt;
   &lt;n-button type="submit" variant="primary"&gt;Submit&lt;/n-button&gt;
@@ -166,20 +155,18 @@ This editor participates in form submission via `FormData`.
     console.log(data.get('content'));
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
 
     <!-- ── Change Events ── -->
 
     <h2>Change Events</h2>
-    <n-panel bordered>
-      <native-editor id="demo-events" style="height: 200px;">
-        <script type="text/markdown">
+    <native-editor id="demo-events" style="height: 200px;">
+      <script type="text/markdown">
 # Try editing
 
 Type something to see change events in the log below.
-        </script>
-      </native-editor>
-      <div class="log" id="event-log" style="max-height: 100px;"></div>
+      </script>
+    </native-editor>
+    <div class="log" id="event-log" style="max-height: 100px;"></div>
     <pre class="demo-code"><code>&lt;native-editor id="editor"&gt;...&lt;/native-editor&gt;
 
 &lt;script&gt;
@@ -187,18 +174,16 @@ Type something to see change events in the log below.
     console.log(e.detail.value.length, 'chars');
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
 
     <!-- ── Data Gateway (src) ── -->
 
     <h2>Data Gateway — Load from URL</h2>
-    <n-panel bordered>
-      <native-editor id="demo-gateway" style="height: 300px;"></native-editor>
-      <div class="demo-actions" style="margin-top: 0.75rem; align-items: center;">
-        <n-button id="gateway-save" variant="primary" disabled>Save</n-button>
-        <n-button id="gateway-reload" variant="secondary">Reload</n-button>
-        <span class="demo-text-sm" id="gateway-status"></span>
-      </div>
+    <native-editor id="demo-gateway" style="height: 300px;"></native-editor>
+    <div class="demo-actions" style="margin-top: 0.75rem; align-items: center;">
+      <n-button id="gateway-save" variant="primary" disabled>Save</n-button>
+      <n-button id="gateway-reload" variant="secondary">Reload</n-button>
+      <span class="demo-text-sm" id="gateway-status"></span>
+    </div>
     <pre class="demo-code"><code>&lt;native-editor id="editor" src="/api/content"&gt;&lt;/native-editor&gt;
 
 &lt;script&gt;
@@ -208,7 +193,6 @@ Type something to see change events in the log below.
   saveBtn.addEventListener('native:press', () =&gt; editor.save());
   reloadBtn.addEventListener('native:press', () =&gt; editor.reload());
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
 
     </main></native-app-spa>
 

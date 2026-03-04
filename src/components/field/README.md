@@ -10,6 +10,7 @@
 
 | Attribute | Values |
 |-----------|--------|
+| `gap` | `none`, `relaxed`, `tight` |
 | `required` | _(boolean)_ |
 | `invalid` | _(boolean)_ |
 

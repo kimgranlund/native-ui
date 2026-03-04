@@ -125,6 +125,50 @@ describe('ACTION_REGISTRY', () => {
   });
 });
 
+describe('n-chat-message actions-position (T0062)', () => {
+  it('defaults to inside — toolbar is a child of the message', () => {
+    const el = create({ role: 'assistant' });
+    const toolbar = el.querySelector('.n-chat-message-actions');
+    expect(toolbar).not.toBeNull();
+    expect(toolbar!.parentElement).toBe(el);
+  });
+
+  it('actions-position="inside" keeps toolbar inside the bubble', () => {
+    const el = create({ role: 'assistant', 'actions-position': 'inside' });
+    const toolbar = el.querySelector('.n-chat-message-actions');
+    expect(toolbar).not.toBeNull();
+    expect(toolbar!.parentElement).toBe(el);
+  });
+
+  it('actions-position="below" places toolbar as a next sibling', () => {
+    const el = create({ role: 'assistant', 'actions-position': 'below' });
+    // Toolbar is NOT inside the message element
+    expect(el.querySelector('.n-chat-message-actions')).toBeNull();
+    // It's a next sibling
+    const toolbar = el.nextElementSibling;
+    expect(toolbar).not.toBeNull();
+    expect(toolbar!.classList.contains('n-chat-message-actions')).toBe(true);
+  });
+
+  it('actionsPosition property reflects to attribute', () => {
+    const el = create({ role: 'assistant' }) as any;
+    el.actionsPosition = 'below';
+    expect(el.getAttribute('actions-position')).toBe('below');
+  });
+
+  it('changing actions-position from below to inside moves toolbar back', () => {
+    const el = create({ role: 'assistant', 'actions-position': 'below' }) as any;
+    // Verify toolbar is sibling
+    expect(el.nextElementSibling?.classList.contains('n-chat-message-actions')).toBe(true);
+
+    // Switch to inside
+    el.actionsPosition = 'inside';
+    // Now toolbar should be inside the message
+    expect(el.querySelector('.n-chat-message-actions')).not.toBeNull();
+    expect(el.querySelector('.n-chat-message-actions')!.parentElement).toBe(el);
+  });
+});
+
 describe('n-chat-message partial status (T0049)', () => {
   it('partial status adds continue action', () => {
     const el = create({ role: 'assistant', status: 'partial' });

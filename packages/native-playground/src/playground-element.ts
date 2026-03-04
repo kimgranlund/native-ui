@@ -62,6 +62,16 @@ export class NPlayground extends NativeElement {
   #consolePanelEl: HTMLDivElement | null = null;
   #editorRegion: HTMLDivElement | null = null;
 
+  // WHY: Cache initial <script> content so it survives disconnect/reconnect cycles.
+  // #extractContent() removes script children on first setup. If the same instance
+  // is reconnected (e.g. View Transitions, adoptNode), the scripts are gone.
+  // This cache lets setup() re-use the original content without the scripts.
+  #cachedContent: { html: string; css: string; js: string } | null = null;
+
+  // WHY: Track DOM nodes created by #buildDOM() so teardown() can remove them.
+  // Without cleanup, reconnecting the same instance duplicates toolbar/editor DOM.
+  #buildDOMNodes: Node[] = [];
+
   // ── Public API ──
 
   /** Manually trigger a preview update. */
@@ -240,6 +250,12 @@ export class NPlayground extends NativeElement {
     this.#presentController?.destroy();
     this.#presentController = null;
 
+    // WHY: Remove DOM nodes created by #buildDOM() so a subsequent setup()
+    // starts with a clean element. Without this, reconnecting the same
+    // instance (View Transitions, adoptNode) duplicates the toolbar/editor.
+    for (const node of this.#buildDOMNodes) node.parentNode?.removeChild(node);
+    this.#buildDOMNodes = [];
+
     this.#iframe = null;
     this.#consolePanelEl = null;
     this.#editorRegion = null;
@@ -347,8 +363,9 @@ export class NPlayground extends NativeElement {
 
     split.appendChild(previewRegion);
 
-    // Append to host
+    // Append to host and track for teardown cleanup
     this.append(toolbarHeader, split);
+    this.#buildDOMNodes = [toolbarHeader, split];
   }
 
   #createToolbarButton(className: string, title: string, label: string): HTMLElement {
@@ -380,6 +397,21 @@ export class NPlayground extends NativeElement {
       }
 
       script.remove();
+    }
+
+    // WHY: Fall back to cached content when scripts were already consumed.
+    // On disconnect/reconnect (View Transitions, adoptNode), the <script>
+    // children were removed during the first setup. The cache preserves
+    // the original content so the playground re-initializes correctly.
+    if (!html && !css && !js && this.#cachedContent) {
+      html = this.#cachedContent.html;
+      css = this.#cachedContent.css;
+      js = this.#cachedContent.js;
+    }
+
+    // Cache for future reconnections
+    if (html || css || js) {
+      this.#cachedContent = { html, css, js };
     }
 
     // Update store with extracted content

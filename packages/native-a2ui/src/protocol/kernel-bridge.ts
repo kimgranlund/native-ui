@@ -89,7 +89,7 @@ export interface A2UIKernelBridge {
     on(typeOrFilter: string | CommandFilter, handler: CommandHandler): Dispose;
   };
   readonly executor: {
-    getElements(planId: string): Map<string, HTMLElement>;
+    getElements(planId: string): Map<string, HTMLElement> | null;
   };
   executePlan(plan: UIPlan, container: HTMLElement): Map<string, HTMLElement>;
   patchPlan(patch: UIPatch): unknown;

@@ -61,7 +61,7 @@ const buttonMap: Record<string, ToolbarButtonDef> = {
  * @fires dirty-change - Fired when dirty state changes with `{ dirty }` detail
  */
 export class NEditor extends NativeElement {
-  static observedAttributes = ['value', 'mode', 'toolbar', 'placeholder', 'readonly', 'disabled', 'name', 'src'];
+  static observedAttributes = ['value', 'mode', 'toolbar', 'placeholder', 'readonly', 'disabled', 'name', 'src', 'height'];
   static formAssociated = true;
 
   #internals: ElementInternals;
@@ -300,6 +300,10 @@ export class NEditor extends NativeElement {
         break;
       case 'src':
         s.src.value = val;
+        break;
+      case 'height':
+        if (val) this.style.setProperty('--n-editor-height', val);
+        else this.style.removeProperty('--n-editor-height');
         break;
     }
     super.attributeChangedCallback(name, old, val);

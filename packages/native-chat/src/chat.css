@@ -33,6 +33,8 @@
     --n-chat-bubble-assistant: var(--n-card);
     --n-chat-bubble-assistant-color: var(--n-ink);
     --n-chat-bubble-radius: var(--n-radius);
+    --n-chat-bubble-radius-avatar-side: var(--n-chat-bubble-radius);
+    --n-chat-bubble-radius-far-side: var(--n-chat-bubble-radius);
     --n-chat-bubble-padding-block: calc(var(--n-space) * 2);
     --n-chat-bubble-padding-inline: calc(var(--n-space) * 3);
     --n-chat-bubble-max-width: 85%;
@@ -67,6 +69,15 @@
   :where(native-chat-panel) {
     --n-ground: var(--n-panel);
 
+    /* Section surface token hooks — override on native-chat-panel to theme sections */
+    --n-chat-panel-header-background: transparent;
+    --n-chat-panel-header-border: var(--n-border-muted);
+    --n-chat-panel-header-label-font-weight: inherit;
+    --n-chat-panel-header-label-letter-spacing: inherit;
+    --n-chat-panel-body-background: transparent;
+    --n-chat-panel-footer-background: transparent;
+    --n-chat-panel-footer-border: var(--n-border-muted);
+
     container-type: inline-size;
     display: flex;
     flex: 1 1 0%;
@@ -83,11 +94,22 @@
   /* ── Sub-container integration ── */
 
   :where(native-chat-panel) > :where(n-header) {
-    border-bottom: 1px solid var(--n-border-muted);
+    background: var(--n-chat-panel-header-background);
+    border-bottom: 1px solid var(--n-chat-panel-header-border);
+  }
+
+  :where(native-chat-panel) > :where(n-header) :where([slot="label"]) {
+    font-weight: var(--n-chat-panel-header-label-font-weight);
+    letter-spacing: var(--n-chat-panel-header-label-letter-spacing);
+  }
+
+  :where(native-chat-panel) > :where(n-body) {
+    background: var(--n-chat-panel-body-background);
   }
 
   :where(native-chat-panel) > :where(n-footer) {
-    border-top: 1px solid var(--n-border-muted);
+    background: var(--n-chat-panel-footer-background);
+    border-top: 1px solid var(--n-chat-panel-footer-border);
   }
 
   /* WHY: Wide padding only above 22rem — asides (280–480px) keep compact defaults. */
@@ -193,6 +215,15 @@
     min-width: 0;
   }
 
+  /* Avatar alignment */
+  [avatar-align="center"]:where(n-chat-messages) {
+    align-items: center;
+  }
+
+  [avatar-align="bottom"]:where(n-chat-messages) {
+    align-items: flex-end;
+  }
+
   :where(n-chat-messages[hidden]) { display: none; }
 
   /* ══════════════════════════════════════════════════
@@ -242,7 +273,13 @@
 
     padding-block: var(--n-chat-bubble-padding-block);
     padding-inline: var(--n-chat-bubble-padding-inline);
-    border-radius: var(--n-chat-bubble-radius);
+
+    /* Asymmetric radius: assistant = avatar on left */
+    border-radius:
+      var(--n-chat-bubble-radius-avatar-side)
+      var(--n-chat-bubble-radius-far-side)
+      var(--n-chat-bubble-radius-far-side)
+      var(--n-chat-bubble-radius-avatar-side);
 
     background: var(--n-chat-bubble-assistant);
     color: var(--n-chat-bubble-assistant-color);
@@ -251,8 +288,14 @@
     overflow-wrap: break-word;
   }
 
-  /* User bubble */
+  /* User bubble: avatar on right — flip avatar-side / far-side corners */
   [role="user"]:where(n-chat-message) {
+    border-radius:
+      var(--n-chat-bubble-radius-far-side)
+      var(--n-chat-bubble-radius-avatar-side)
+      var(--n-chat-bubble-radius-avatar-side)
+      var(--n-chat-bubble-radius-far-side);
+
     background: var(--n-chat-bubble-user);
     color: var(--n-chat-bubble-user-color);
   }
@@ -287,6 +330,26 @@
 
   /* Partial status — always show actions (contains continue button) */
   [status="partial"]:where(n-chat-message) > :where(.n-chat-message-actions) {
+    opacity: 1;
+  }
+
+  /* ── Below-bubble actions position ── */
+
+  /* When actions-position="below", the toolbar is a sibling of n-chat-message
+     in the message column. Show on message hover via adjacent sibling. */
+  [actions-position="below"]:where(n-chat-message) + :where(.n-chat-message-actions) {
+    opacity: 0;
+    transition: opacity var(--n-duration) var(--n-easing);
+  }
+
+  [actions-position="below"]:where(n-chat-message):hover + :where(.n-chat-message-actions),
+  [actions-position="below"]:where(n-chat-message[force-hover]) + :where(.n-chat-message-actions),
+  [actions-position="below"]:where(n-chat-message) + :where(.n-chat-message-actions):focus-within {
+    opacity: 1;
+  }
+
+  /* Partial status — always show below-bubble actions */
+  [status="partial"][actions-position="below"]:where(n-chat-message) + :where(.n-chat-message-actions) {
     opacity: 1;
   }
 

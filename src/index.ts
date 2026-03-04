@@ -25,6 +25,7 @@ export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from './traits
 export { parseTraitAttribute, collectTraitOptions } from './core/index.ts';
 export { GestureRouter } from './traits/gesture-router.ts';
 export type { GestureParticipant } from './traits/gesture-router.ts';
+export { isTypingContext } from './traits/typing-context.ts';
 
 // Traits (controllers)
 export { DragController, RangeSelectController, ResizeController, VirtualScrollController, SelectionController, SearchController, SwipeController, EditController, ClipboardController, SlashCommandController, ShortcutController } from './traits/index.ts';

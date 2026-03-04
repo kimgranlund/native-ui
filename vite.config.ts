@@ -13,6 +13,7 @@ export default defineConfig(({ command }) => ({
       // Without aliases Vite resolves to dist/ (built), creating a dual-module
       // problem where the same classes load from both source and dist.
       // Aliasing to source entries keeps everything in one module graph.
+      '@nonoun/native-ui/kernel': resolve(__dirname, 'src/kernel.ts'),
       '@nonoun/native-ui': resolve(__dirname, 'src/index.ts'),
       '@nonoun/native-codemirror/register': resolve(__dirname, 'packages/native-codemirror/src/register.ts'),
       '@nonoun/native-codemirror': resolve(__dirname, 'packages/native-codemirror/src/index.ts'),

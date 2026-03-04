@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-codemirror",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Shared CodeMirror 6 integration layer for @nonoun/native-ui ecosystem",
   "license": "MIT",
   "type": "module",

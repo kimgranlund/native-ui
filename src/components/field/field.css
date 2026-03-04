@@ -12,9 +12,15 @@
     flex: 0 1 0%;
     min-width: 0;
     flex-direction: column;
-    gap: calc(var(--n-space) * 2);
+    gap: var(--n-field-gap, calc(var(--n-space) * 2));
     user-select: none;
   }
+
+  /* ── Gap ── */
+
+  :where(n-field)[gap="none"] { gap: 0; }
+  :where(n-field)[gap="tight"] { gap: var(--n-space); }
+  :where(n-field)[gap="relaxed"] { gap: calc(var(--n-space) * 4); }
 
   /* ── Label ── */
 

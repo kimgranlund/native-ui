@@ -37,6 +37,16 @@
     container-type: inline-size;
   }
 
+  /* Full-viewport presented state (PresentController sets [presented]) */
+  :where(native-playground)[presented] {
+    width: 100%;
+    height: 100%;
+    justify-self: stretch;
+    align-self: stretch;
+    border: none;
+    border-radius: 0;
+  }
+
   /* Toolbar button hover background (ghost variant forces transparent) */
   :where(native-playground) > :where(n-header) :where(n-button):hover,
   :where(native-playground) > :where(n-header) :where(n-button)[force-hover] {

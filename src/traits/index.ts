@@ -54,6 +54,7 @@ export { SlashCommandController } from './slash-command-controller.ts';
 export type { SlashCommand, SlashCommandOptions } from './slash-command-controller.ts';
 export { ShortcutController } from './shortcut-controller.ts';
 export type { ShortcutBinding, ShortcutOptions } from './shortcut-controller.ts';
+export { isTypingContext } from './typing-context.ts';
 export { registerAllTraits } from './register-all.ts';
 
 // ── Runtime ──

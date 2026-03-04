@@ -33,17 +33,19 @@ export const ROLE_DEFAULTS: Record<string, string[]> = {
  * @attr {string} status - `sending` | `sent` | `error` | `streaming` | `partial`
  * @attr {string} actions - Comma-separated action list, or `"none"` to suppress
  * @attr {string} actions-style - `"label"` (default) | `"icon"` | `"icon-label"`
+ * @attr {string} actions-position - `"inside"` (default) | `"below"` — toolbar placement
  * @fires native:message-action - Fired when an action button is clicked
  * @fires native:continue-request - Fired when continue is requested for a partial message
  */
 export class NChatMessage extends NativeElement {
-  static observedAttributes = ['role', 'message-id', 'timestamp', 'status', 'actions', 'actions-style'];
+  static observedAttributes = ['role', 'message-id', 'timestamp', 'status', 'actions', 'actions-style', 'actions-position'];
 
   #internals: ElementInternals;
   #role = signal<string>('assistant');
   #status = signal<string>('sent');
   #actions = signal<string | null>(null);
   #actionsStyle = signal<string>('label');
+  #actionsPosition = signal<string>('inside');
   #actionsEl: HTMLElement | null = null;
 
   constructor() {
@@ -85,6 +87,12 @@ export class NChatMessage extends NativeElement {
     this.setAttribute('actions-style', val);
   }
 
+  get actionsPosition(): string { return this.#actionsPosition.value; }
+  set actionsPosition(val: string) {
+    this.#actionsPosition.value = val;
+    this.setAttribute('actions-position', val);
+  }
+
   // ── Attribute sync ──
 
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
@@ -94,6 +102,7 @@ export class NChatMessage extends NativeElement {
       case 'status': this.#status.value = val ?? 'sent'; break;
       case 'actions': this.#actions.value = val; break;
       case 'actions-style': this.#actionsStyle.value = val ?? 'label'; break;
+      case 'actions-position': this.#actionsPosition.value = val ?? 'inside'; break;
     }
     super.attributeChangedCallback(name, old, val);
   }
@@ -103,13 +112,14 @@ export class NChatMessage extends NativeElement {
   setup(): void {
     super.setup();
 
-    // Stamp actions toolbar — reactive to role, actions, actionsStyle, and status
+    // Stamp actions toolbar — reactive to role, actions, actionsStyle, actionsPosition, and status
     this.addEffect(() => {
       const role = this.#role.value;
       const actionsAttr = this.#actions.value;
       const style = this.#actionsStyle.value;
+      const position = this.#actionsPosition.value;
       const status = this.#status.value;
-      this.#stampActions(role, actionsAttr, style, status);
+      this.#stampActions(role, actionsAttr, style, position, status);
     });
 
     // Sync ARIA
@@ -126,7 +136,7 @@ export class NChatMessage extends NativeElement {
 
   // ── Actions ──
 
-  #stampActions(role: string, actionsAttr: string | null, style: string, status: string): void {
+  #stampActions(role: string, actionsAttr: string | null, style: string, position: string, status: string): void {
     if (this.#actionsEl) {
       this.#actionsEl.remove();
       this.#actionsEl = null;
@@ -167,10 +177,16 @@ export class NChatMessage extends NativeElement {
       toolbar.appendChild(actionButton(id, def, style));
     }
 
-    if (toolbar.children.length > 0) {
+    if (toolbar.children.length === 0) return;
+
+    if (position === 'below') {
+      // Place after the message bubble — as a next sibling in the message column
+      this.after(toolbar);
+    } else {
+      // Default (inside): append inside the bubble
       this.appendChild(toolbar);
-      this.#actionsEl = toolbar;
     }
+    this.#actionsEl = toolbar;
   }
 
   #onActionPress = (e: Event): void => {

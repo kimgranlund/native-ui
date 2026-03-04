@@ -21,7 +21,16 @@ const BTN = ':is(n-button, button):not([disabled])';
 const ITEM_SELECTOR = `:scope > ${BTN}:not([data-overflow]), :scope > n-toolbar-group:not([data-overflow]) > ${BTN}`;
 const ITEM_SELECTOR_NO_TRIGGER = `:scope > ${BTN}:not([data-overflow]):not([data-overflow-trigger]), :scope > n-toolbar-group:not([data-overflow]) > ${BTN}`;
 
-/** Horizontal action bar with toolbar role, roving focus, and responsive overflow menu. */
+/**
+ * Horizontal action bar with toolbar role, roving focus, and responsive overflow menu.
+ *
+ * **Variants:**
+ * - *(default)* — panel background, border, border-radius, padding.
+ * - `variant="plain"` — zero-chrome: transparent background, no border,
+ *   no border-radius, no padding. Stable API for embedded action rows
+ *   (e.g. header trailing slots, chat controls) that need toolbar layout
+ *   and overflow without container chrome.
+ */
 export class NToolbar extends NativeElement {
   #internals: ElementInternals;
   #roving!: RovingFocusController;

@@ -6,7 +6,7 @@
 
 | Package | Version | Purpose | Peer Dep |
 |---------|---------|---------|----------|
-| `@nonoun/native-ui` | 0.7.4 | Core: components, design system, traits, reactivity, icons | -- |
+| `@nonoun/native-ui` | 0.7.6 | Core: components, design system, traits, reactivity, icons | -- |
 | `@nonoun/native-app` | 0.3.3 | App shell: sidebar navigation, layout orchestration | `>=0.6.0` |
 | `@nonoun/native-tokens` | 0.5.2 | OKLCH color token inspector widget | `>=0.6.0` |
 | `@nonoun/native-chat` | 0.4.0 | Chat component system: feed, messages, avatar, activity, seeds, GenUI, stream transport | `>=0.6.0` |

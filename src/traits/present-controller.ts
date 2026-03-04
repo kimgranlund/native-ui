@@ -54,6 +54,12 @@ export class PresentController {
       overflow: hidden;
     `;
 
+    // Dark backdrop — inline stylesheet scoped to this dialog
+    const backdropStyle = document.createElement('style');
+    backdropStyle.textContent = `dialog[data-present]::backdrop { background: rgba(0,0,0,0.75); }`;
+    dialog.setAttribute('data-present', '');
+    dialog.appendChild(backdropStyle);
+
     // Create centering wrapper with inset margin
     const wrapper = document.createElement('div');
     const inset = this.#inset;
@@ -78,7 +84,7 @@ export class PresentController {
         right: 0;
         z-index: 1;
       `;
-      closeBtn.innerHTML = '<n-icon name="x"></n-icon>';
+      closeBtn.innerHTML = '<svg viewBox="0 0 256 256" fill="currentColor" style="width:1em;height:1em"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></svg>';
       closeBtn.addEventListener('native:press', () => this.dismiss());
       wrapper.appendChild(closeBtn);
     }
@@ -98,6 +104,7 @@ export class PresentController {
 
     // Open
     dialog.showModal();
+    this.host.toggleAttribute('presented', true);
     this.host.dispatchEvent(new CustomEvent('native:present', { bubbles: true }));
   }
 
@@ -112,6 +119,7 @@ export class PresentController {
     this.#dialog.replaceWith(this.host);
     this.#dialog = null;
 
+    this.host.removeAttribute('presented');
     this.host.dispatchEvent(new CustomEvent('native:dismiss', { bubbles: true }));
   }
 

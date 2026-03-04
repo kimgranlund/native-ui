@@ -40,7 +40,11 @@ const mappings: readonly ComponentMapping[] = [
     defaultAttributes: { size: 'sm' },
     variantMap: {
       primary: 'primary',
+      secondary: 'secondary',
       borderless: 'ghost',
+      ghost: 'ghost',
+      outline: 'outline',
+      danger: 'primary',
     },
   },
   {
@@ -216,6 +220,45 @@ const mappings: readonly ComponentMapping[] = [
       url: 'src',
     },
   },
+  {
+    a2uiType: 'Accordion',
+    nativeTag: 'n-accordion',
+    childStrategy: 'children',
+  },
+  {
+    a2uiType: 'AccordionItem',
+    nativeTag: 'n-accordion-item',
+    childStrategy: 'children',
+    propertyMap: {
+      label: 'label',
+    },
+  },
+  {
+    a2uiType: 'Table',
+    nativeTag: 'n-table',
+    childStrategy: 'children',
+  },
+  {
+    a2uiType: 'Progress',
+    nativeTag: 'n-range',
+    childStrategy: 'none',
+    defaultAttributes: { size: 'sm' },
+    propertyMap: {
+      value: 'value',
+      min: 'min',
+      max: 'max',
+    },
+  },
+  {
+    a2uiType: 'Breadcrumb',
+    nativeTag: 'n-breadcrumb',
+    childStrategy: 'children',
+  },
+  {
+    a2uiType: 'Toast',
+    nativeTag: 'n-toast',
+    childStrategy: 'textContent',
+  },
 ];
 
 // ── Lookup Structures ──
@@ -289,6 +332,7 @@ const TEXT_VARIANT_TAG: Record<string, string> = {
   h3: 'h3',
   h4: 'h4',
   h5: 'h5',
+  heading: 'h2',
   caption: 'small',
   body: 'span',
 };
