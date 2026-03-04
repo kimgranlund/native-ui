@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-playground",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Embeddable live code sandbox for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",
