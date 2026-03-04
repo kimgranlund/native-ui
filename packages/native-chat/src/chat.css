@@ -349,23 +349,23 @@
   /* ── Below-bubble actions position ── */
 
   /* When actions-position="below", the toolbar is a sibling of n-chat-message
-     in the message column. Show on message hover via adjacent sibling.
-     justify-self: start prevents stretching across the grid column. */
-  [actions-position="below"]:where(n-chat-message) + :where(n-toolbar[data-role="actions"]) {
+     (adjacent sibling combinator `+` disambiguates from inside-position `>`).
+     display: none removes toolbar from grid layout so avatar grid-row: 1 / -1
+     only spans message rows, not hidden toolbar rows. */
+  :where(n-chat-message) + :where(n-toolbar[data-role="actions"]) {
     justify-self: start;
-    opacity: 0;
-    transition: opacity var(--n-duration) var(--n-easing);
+    display: none;
   }
 
-  [actions-position="below"]:where(n-chat-message):hover + :where(n-toolbar[data-role="actions"]),
-  [actions-position="below"]:where(n-chat-message[force-hover]) + :where(n-toolbar[data-role="actions"]),
-  [actions-position="below"]:where(n-chat-message) + :where(n-toolbar[data-role="actions"]):focus-within {
-    opacity: 1;
+  :where(n-chat-message):hover + :where(n-toolbar[data-role="actions"]),
+  :where(n-chat-message[force-hover]) + :where(n-toolbar[data-role="actions"]),
+  :where(n-chat-message) + :where(n-toolbar[data-role="actions"]):focus-within {
+    display: flex;
   }
 
-  /* Partial status — always show below-bubble actions */
-  [status="partial"][actions-position="below"]:where(n-chat-message) + :where(n-toolbar[data-role="actions"]) {
-    opacity: 1;
+  /* Partial status — always show below-bubble actions (contains continue button) */
+  [status="partial"]:where(n-chat-message) + :where(n-toolbar[data-role="actions"]) {
+    display: flex;
   }
 
   :where(n-chat-message[hidden]) { display: none; }
