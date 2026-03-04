@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-tokens",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "OKLCH color token inspector for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",
