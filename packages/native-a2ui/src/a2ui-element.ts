@@ -953,7 +953,7 @@ export class NA2UI extends NativeElement {
       this.#componentsSchema.value = components;
 
       this.#adapter.receive(
-        { updateComponents: { surfaceId: this.#lastSurfaceId.value, components }, version: '0.9' },
+        { updateComponents: { surfaceId: this.#lastSurfaceId.value, components } },
         this.#previewEl,
       );
       this.#updateHTML();

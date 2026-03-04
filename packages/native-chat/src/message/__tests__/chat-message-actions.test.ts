@@ -12,6 +12,12 @@ function create(attrs: Record<string, string> = {}): HTMLElement {
   return el;
 }
 
+/** Find the actions toolbar — inside (child) or below (next sibling) */
+function findToolbar(el: HTMLElement): HTMLElement | null {
+  return el.querySelector('n-toolbar[data-role="actions"]')
+    ?? (el.nextElementSibling?.getAttribute('data-role') === 'actions' ? el.nextElementSibling as HTMLElement : null);
+}
+
 afterEach(() => {
   document.body.innerHTML = '';
   vi.restoreAllMocks();
@@ -20,7 +26,7 @@ afterEach(() => {
 describe('n-chat-message actions (T0046)', () => {
   it('stamps default assistant actions', () => {
     const el = create({ role: 'assistant' });
-    const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
+    const toolbar = findToolbar(el);
     expect(toolbar).not.toBeNull();
 
     const buttons = toolbar!.querySelectorAll('[data-action]');
@@ -30,7 +36,7 @@ describe('n-chat-message actions (T0046)', () => {
 
   it('stamps default user actions', () => {
     const el = create({ role: 'user' });
-    const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
+    const toolbar = findToolbar(el);
     expect(toolbar).not.toBeNull();
 
     const buttons = toolbar!.querySelectorAll('[data-action]');
@@ -40,21 +46,22 @@ describe('n-chat-message actions (T0046)', () => {
 
   it('actions="none" suppresses toolbar', () => {
     const el = create({ role: 'assistant', actions: 'none' });
-    expect(el.querySelector('n-toolbar[data-role="actions"]')).toBeNull();
+    expect(findToolbar(el)).toBeNull();
   });
 
   it('custom actions list renders only specified actions', () => {
     const el = create({ role: 'assistant', actions: 'copy,retry' });
-    const buttons = el.querySelectorAll('[data-action]');
+    const toolbar = findToolbar(el)!;
+    const buttons = toolbar.querySelectorAll('[data-action]');
     const actions = Array.from(buttons).map((b) => b.getAttribute('data-action'));
     expect(actions).toEqual(['copy', 'retry']);
   });
 
-  it('actions-style="icon" renders icons without text', () => {
-    const el = create({ role: 'assistant', actions: 'copy', 'actions-style': 'icon' });
-    const btn = el.querySelector('[data-action="copy"]')!;
+  it('default actions-style="icon" renders icons without text', () => {
+    const el = create({ role: 'assistant', actions: 'copy' });
+    const toolbar = findToolbar(el)!;
+    const btn = toolbar.querySelector('[data-action="copy"]')!;
     expect(btn.querySelector('n-icon')).not.toBeNull();
-    // Should have aria-label but no text node with the label content
     expect(btn.getAttribute('aria-label')).toBe('Copy');
     // Icon-only: no text child node
     const textNodes = Array.from(btn.childNodes).filter(
@@ -63,8 +70,18 @@ describe('n-chat-message actions (T0046)', () => {
     expect(textNodes).toHaveLength(0);
   });
 
+  it('actions-style="label" renders text without icons', () => {
+    const el = create({ role: 'assistant', actions: 'copy', 'actions-style': 'label', 'actions-position': 'inside' });
+    const btn = el.querySelector('[data-action="copy"]')!;
+    expect(btn.querySelector('n-icon')).toBeNull();
+    const textNodes = Array.from(btn.childNodes).filter(
+      (n) => n.nodeType === Node.TEXT_NODE && n.textContent!.trim() !== '',
+    );
+    expect(textNodes.length).toBeGreaterThan(0);
+  });
+
   it('actions-style="icon-label" renders both icon and text', () => {
-    const el = create({ role: 'assistant', actions: 'copy', 'actions-style': 'icon-label' });
+    const el = create({ role: 'assistant', actions: 'copy', 'actions-style': 'icon-label', 'actions-position': 'inside' });
     const btn = el.querySelector('[data-action="copy"]')!;
     expect(btn.querySelector('n-icon')).not.toBeNull();
     const textNodes = Array.from(btn.childNodes).filter(
@@ -81,8 +98,8 @@ describe('n-chat-message actions (T0046)', () => {
     el.appendChild(customToolbar);
     document.body.appendChild(el);
 
-    // Should not have the auto-stamped toolbar class
-    expect(el.querySelector('n-toolbar[data-role="actions"]')).toBeNull();
+    // Should not have the auto-stamped toolbar
+    expect(findToolbar(el)).toBeNull();
   });
 
   it('fires native:message-action on action press', () => {
@@ -90,7 +107,8 @@ describe('n-chat-message actions (T0046)', () => {
     const handler = vi.fn();
     el.addEventListener('native:message-action', handler);
 
-    const copyBtn = el.querySelector('[data-action="copy"]') as HTMLElement;
+    const toolbar = findToolbar(el)!;
+    const copyBtn = toolbar.querySelector('[data-action="copy"]') as HTMLElement;
     expect(copyBtn).not.toBeNull();
 
     // Simulate native:press event from button
@@ -126,11 +144,12 @@ describe('ACTION_REGISTRY', () => {
 });
 
 describe('n-chat-message actions-position (T0062)', () => {
-  it('defaults to inside — toolbar is a child of the message', () => {
+  it('defaults to below — toolbar is a next sibling of the message', () => {
     const el = create({ role: 'assistant' });
-    const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
+    expect(el.querySelector('n-toolbar[data-role="actions"]')).toBeNull();
+    const toolbar = el.nextElementSibling;
     expect(toolbar).not.toBeNull();
-    expect(toolbar!.parentElement).toBe(el);
+    expect(toolbar!.getAttribute('data-role')).toBe('actions');
   });
 
   it('actions-position="inside" keeps toolbar inside the bubble', () => {
@@ -172,7 +191,9 @@ describe('n-chat-message actions-position (T0062)', () => {
 describe('n-chat-message partial status (T0049)', () => {
   it('partial status adds continue action', () => {
     const el = create({ role: 'assistant', status: 'partial' });
-    const continueBtn = el.querySelector('[data-action="continue"]');
+    const toolbar = findToolbar(el);
+    expect(toolbar).not.toBeNull();
+    const continueBtn = toolbar!.querySelector('[data-action="continue"]');
     expect(continueBtn).not.toBeNull();
   });
 
@@ -181,7 +202,8 @@ describe('n-chat-message partial status (T0049)', () => {
     const handler = vi.fn();
     el.addEventListener('native:continue-request', handler);
 
-    const continueBtn = el.querySelector('[data-action="continue"]') as HTMLElement;
+    const toolbar = findToolbar(el)!;
+    const continueBtn = toolbar.querySelector('[data-action="continue"]') as HTMLElement;
     expect(continueBtn).not.toBeNull();
 
     continueBtn.dispatchEvent(new CustomEvent('native:press', {
@@ -197,6 +219,7 @@ describe('n-chat-message partial status (T0049)', () => {
 
   it('non-partial status does not include continue action by default', () => {
     const el = create({ role: 'assistant', status: 'sent' });
-    expect(el.querySelector('[data-action="continue"]')).toBeNull();
+    const toolbar = findToolbar(el);
+    expect(toolbar!.querySelector('[data-action="continue"]')).toBeNull();
   });
 });
