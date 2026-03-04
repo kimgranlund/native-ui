@@ -110,7 +110,7 @@ describe('n-sidebar-item', () => {
 describe('native-app flyout coordinator', () => {
   it('collapsed sidebar intercepts summary click to open flyout', async () => {
     const { group1 } = await createCollapsedWithGroups();
-    const flyout = group1.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout = group1.querySelector('n-listbox[popover]')!;
 
     group1.querySelector('summary')!.click();
     expect(flyout.querySelectorAll('n-option').length).toBe(1);
@@ -118,8 +118,8 @@ describe('native-app flyout coordinator', () => {
 
   it('opening one group closes the other (mutual exclusion)', async () => {
     const { group1, group2 } = await createCollapsedWithGroups();
-    const flyout1 = group1.querySelector('n-listbox.nav-group-flyout')!;
-    const flyout2 = group2.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout1 = group1.querySelector('n-listbox[popover]')!;
+    const flyout2 = group2.querySelector('n-listbox[popover]')!;
 
     group1.querySelector('summary')!.click();
     expect(flyout1.querySelectorAll('n-option').length).toBe(1);
@@ -131,7 +131,7 @@ describe('native-app flyout coordinator', () => {
 
   it('clicking same summary again closes its flyout', async () => {
     const { group1 } = await createCollapsedWithGroups();
-    const flyout = group1.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout = group1.querySelector('n-listbox[popover]')!;
 
     group1.querySelector('summary')!.click();
     expect(flyout.querySelectorAll('n-option').length).toBe(1);
@@ -142,7 +142,7 @@ describe('native-app flyout coordinator', () => {
 
   it('uncollapsing closes any open flyout', async () => {
     const { sidebar, group1 } = await createCollapsedWithGroups();
-    const flyout = group1.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout = group1.querySelector('n-listbox[popover]')!;
 
     group1.querySelector('summary')!.click();
     expect(flyout.querySelectorAll('n-option').length).toBe(1);

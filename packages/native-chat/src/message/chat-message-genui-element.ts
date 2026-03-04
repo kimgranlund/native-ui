@@ -144,7 +144,7 @@ export class NChatMessageGenUI extends NativeElement {
     if (!this.#containerEl) return;
 
     const preview = document.createElement('n-card');
-    preview.className = 'n-chat-genui-preview';
+    preview.dataset.role = 'preview';
 
     const label = document.createElement('span');
     label.textContent = `Interactive UI (${schema.tag})`;

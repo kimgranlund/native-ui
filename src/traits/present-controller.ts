@@ -93,19 +93,37 @@ export class PresentController {
     // showModal() promotes to the top layer for rendering, so the dialog
     // doesn't need to be on document.body. Staying in place preserves
     // CSS custom property inheritance from ancestor elements.
+    // WHY: _reparenting flag prevents NativeElement from firing teardown+setup
+    // during the synchronous DOM move (disconnect → reconnect in same task).
+    // Must set on host AND all NativeElement descendants — child elements also
+    // receive disconnect/connect callbacks during the move.
+    setReparenting(this.host, true);
     wrapper.appendChild(this.host);
     dialog.appendChild(wrapper);
     parent?.insertBefore(dialog, next);
+    setReparenting(this.host, false);
     this.#dialog = dialog;
 
     // Wire backdrop + escape dismiss
     dialog.addEventListener('cancel', this.#onCancel);
     dialog.addEventListener('click', this.#onClick);
 
-    // Open
+    // Open — save focused element so showModal() autofocus doesn't steal it
+    const priorFocus = document.activeElement as HTMLElement | null;
     dialog.showModal();
+    if (priorFocus && this.host.contains(priorFocus)) {
+      priorFocus.focus();
+    } else {
+      // Nothing inside was focused — blur whatever showModal picked
+      (document.activeElement as HTMLElement | null)?.blur?.();
+    }
     this.host.toggleAttribute('presented', true);
     this.host.dispatchEvent(new CustomEvent('native:present', { bubbles: true }));
+  }
+
+  toggle(): void {
+    if (this.open) this.dismiss();
+    else this.present();
   }
 
   dismiss(): void {
@@ -116,7 +134,9 @@ export class PresentController {
     this.#dialog.close();
     this.#dialog.removeEventListener('cancel', this.#onCancel);
     this.#dialog.removeEventListener('click', this.#onClick);
+    setReparenting(this.host, true);
     this.#dialog.replaceWith(this.host);
+    setReparenting(this.host, false);
     this.#dialog = null;
 
     this.host.removeAttribute('presented');
@@ -136,4 +156,14 @@ export class PresentController {
   #onClick = (e: MouseEvent): void => {
     if (e.target === this.#dialog) this.dismiss();
   };
+}
+
+/** Set _reparenting on an element and all NativeElement descendants. */
+function setReparenting(root: HTMLElement, value: boolean): void {
+  type Reparentable = HTMLElement & { _reparenting?: boolean };
+  const el = root as Reparentable;
+  if ('_reparenting' in el) el._reparenting = value;
+  for (const child of root.querySelectorAll('*')) {
+    if ('_reparenting' in child) (child as Reparentable)._reparenting = value;
+  }
 }

@@ -35,6 +35,7 @@ new PresentController(host: HTMLElement, options?: PresentOptions)
 | Method | Parameters | Returns |
 |--------|------------|---------|
 | `present()` | `—` | `void` |
+| `toggle()` | `—` | `void` |
 | `dismiss()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 

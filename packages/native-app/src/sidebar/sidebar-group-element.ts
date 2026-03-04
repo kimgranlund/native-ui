@@ -95,7 +95,6 @@ export class NSidebarGroup extends NativeElement {
     // The sidebar layout coordinator calls openFlyout() when appropriate.
     const flyout = document.createElement('n-listbox');
     flyout.setAttribute('popover', 'manual');
-    flyout.className = 'nav-group-flyout';
     this.appendChild(flyout);
     this.#flyout = flyout;
 

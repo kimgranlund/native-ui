@@ -67,6 +67,72 @@
       Version history for <code>@nonoun/native-ui</code>. Each release lists new features, updates, and breaking changes with links to relevant demo pages.
     </p>
 
+    <!-- ── 0.7.8 ── -->
+
+    <div class="changelog-version">
+      <h2>0.7.8 <span class="changelog-date">— March 2026</span></h2>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="danger">New</n-badge> New Features</h3>
+        <ul>
+          <li><a href="/src/containers/toolbar/toolbar.html"><code>&lt;n-toolbar&gt;</code></a> — <code>orientation</code> attribute (<code>horizontal</code> | <code>vertical</code> | <code>both</code>). Wires flex direction, ARIA orientation, and roving focus arrow keys.</li>
+          <li><code>lint:class-handles</code> — new CI-ready lint script (<code>npm run lint:class-handles</code>) that scans JS/TS for redundant CSS class handles on custom elements.</li>
+        </ul>
+      </div>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="accent">Updated</n-badge> Updates</h3>
+        <ul>
+          <li><a href="/src/containers/header/header.html"><code>&lt;n-header&gt;</code></a> — explicit <code>grid-column</code> placement on leading/trailing slots. Leading anchors to column 1, trailing to the last column, so they space apart even with no label content.</li>
+          <li><code>PresentController</code> — autofocus prevention: saves and restores <code>document.activeElement</code> around <code>dialog.showModal()</code> to prevent unwanted focus shifts.</li>
+          <li>No-redundant-class-handles enforcement across core, native-app sidebar, native-chat, tree, and calendar.</li>
+        </ul>
+      </div>
+
+      <div class="changelog-section">
+        <h3>Sub-Packages</h3>
+        <ul>
+          <li><code>@nonoun/native-a2ui@0.1.5</code> — JSON-IN multi-line formatting, bidirectional COMPONENTS/UI pane editing, grouped preset dropdown, single workbench instance, preset select in header leading slot.</li>
+          <li><code>@nonoun/native-app@0.3.5</code> — sidebar class-handle refactoring (tag-name selectors replace class selectors).</li>
+          <li><code>@nonoun/native-chat@0.5.2</code> — CSS selector refactoring (class-based to <code>data-role</code>-based selectors).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── 0.7.7 ── -->
+
+    <div class="changelog-version">
+      <h2>0.7.7 <span class="changelog-date">— March 2026</span></h2>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="danger">New</n-badge> New Features</h3>
+        <ul>
+          <li><a href="/src/traits/presentable.html"><code>PresentController</code></a> — full-viewport presentation trait. Expands any element into a native <code>&lt;dialog&gt;</code> overlay with dark backdrop, optional close button, and <code>[presented]</code> attribute on host.</li>
+          <li><code>isTypingContext()</code> — utility that detects if a keyboard event originated from a text-input context (input, textarea, contenteditable, shadow DOM). Exported from <code>src/traits/typing-context.ts</code>.</li>
+          <li><a href="/src/components/avatar/avatar.html"><code>&lt;n-avatar-group&gt;</code></a> — CSS-only container for overlapping avatar stacks with reverse flex order and outline ring.</li>
+        </ul>
+      </div>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="accent">Updated</n-badge> Updates</h3>
+        <ul>
+          <li><a href="/src/components/field/field.html"><code>&lt;n-field&gt;</code></a> — <code>gap</code> attribute (<code>none</code>, <code>tight</code>, <code>relaxed</code>) and <code>--n-field-gap</code> custom property for controlling label-to-input spacing.</li>
+          <li><code>PresentController</code> — dark backdrop (<code>rgba(0,0,0,0.75)</code>), <code>[presented]</code> attribute on host element, inline SVG close icon (no icon registry dependency).</li>
+          <li><code>ShortcutController</code> — uses <code>isTypingContext()</code> to suppress shortcuts when typing in input fields.</li>
+        </ul>
+      </div>
+
+      <div class="changelog-section">
+        <h3>Sub-Packages</h3>
+        <ul>
+          <li><code>@nonoun/native-a2ui</code> — chip-toggled multi-panel workbench layout (JSON-IN, JSON-OUT, HTML, CSS, JS, COMPONENTS), per-pane resize controllers, CodeMirror editors for JS and UI panels.</li>
+          <li><code>@nonoun/native-chat</code> — message action buttons, feed virtualization, partial stream rendering, transport status callbacks, panel API improvements.</li>
+          <li><code>@nonoun/native-playground</code> — layout and styling updates for panel consistency.</li>
+          <li><code>@nonoun/native-editor</code> — layout improvements.</li>
+        </ul>
+      </div>
+    </div>
+
     <!-- ── 0.7.4 ── -->
 
     <div class="changelog-version">

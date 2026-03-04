@@ -33,6 +33,13 @@
     line-height: var(--n-line-height);
   }
 
+  /* ── Vertical orientation ── */
+
+  :where(n-toolbar)[orientation="vertical"] {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   /* ── Padding ── */
 
   :where(n-toolbar)[padding="none"] { padding: 0; }

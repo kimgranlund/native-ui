@@ -174,6 +174,51 @@ describe('n-toolbar', () => {
       expect(buttons[0].getAttribute('tabindex')).toBe('0');
       expect(buttons[1].getAttribute('tabindex')).toBe('-1');
     });
+
+    it('orientation="vertical" enables ArrowDown/ArrowUp navigation', () => {
+      const el = create({ orientation: 'vertical' }, ['A', 'B', 'C']);
+      const buttons = getButtons(el);
+
+      // ArrowDown should move focus forward
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+      expect(buttons[0].getAttribute('tabindex')).toBe('-1');
+      expect(buttons[1].getAttribute('tabindex')).toBe('0');
+
+      // ArrowUp should move focus backward
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true }));
+      expect(buttons[0].getAttribute('tabindex')).toBe('0');
+      expect(buttons[1].getAttribute('tabindex')).toBe('-1');
+    });
+
+    it('orientation="vertical" ignores ArrowRight/ArrowLeft', () => {
+      const el = create({ orientation: 'vertical' }, ['A', 'B']);
+      const buttons = getButtons(el);
+
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+      expect(buttons[0].getAttribute('tabindex')).toBe('0');
+      expect(buttons[1].getAttribute('tabindex')).toBe('-1');
+    });
+
+    it('dynamic orientation change updates key bindings', () => {
+      const el = create({}, ['A', 'B']);
+      const buttons = getButtons(el);
+
+      // Default horizontal — ArrowDown does nothing
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+      expect(buttons[0].getAttribute('tabindex')).toBe('0');
+
+      // Switch to vertical
+      el.setAttribute('orientation', 'vertical');
+
+      // ArrowDown should now move focus
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+      expect(buttons[0].getAttribute('tabindex')).toBe('-1');
+      expect(buttons[1].getAttribute('tabindex')).toBe('0');
+
+      // ArrowRight should no longer move focus
+      el.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+      expect(buttons[1].getAttribute('tabindex')).toBe('0');
+    });
   });
 
   describe('teardown', () => {

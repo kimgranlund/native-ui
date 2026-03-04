@@ -152,6 +152,33 @@
 &lt;n-toolbar density="loose"&gt;...&lt;/n-toolbar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
+    <!-- ── Vertical Orientation ── -->
+
+    <h2>Vertical Orientation</h2>
+    <p class="demo-desc">
+      <code>orientation="vertical"</code> stacks items vertically and switches keyboard navigation from ArrowLeft/ArrowRight to ArrowUp/ArrowDown.
+    </p>
+    <n-panel bordered>
+      <n-stack gap="4" direction="row">
+        <n-toolbar orientation="vertical" aria-label="Vertical toolbar">
+          <n-button variant="ghost"><n-icon name="text-b"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="text-italic"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="text-underline"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="text-strikethrough"></n-icon></n-button>
+        </n-toolbar>
+        <n-toolbar orientation="vertical" aria-label="Vertical toolbar with labels">
+          <n-button variant="ghost"><n-icon name="floppy-disk" slot="leading"></n-icon><span slot="label">Save</span></n-button>
+          <n-button variant="ghost"><n-icon name="download" slot="leading"></n-icon><span slot="label">Export</span></n-button>
+          <n-button variant="ghost"><n-icon name="printer" slot="leading"></n-icon><span slot="label">Print</span></n-button>
+        </n-toolbar>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-toolbar orientation="vertical" aria-label="Vertical toolbar"&gt;
+  &lt;n-button variant="ghost"&gt;&lt;n-icon name="text-b"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+  &lt;n-button variant="ghost"&gt;&lt;n-icon name="text-italic"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+  &lt;n-button variant="ghost"&gt;&lt;n-icon name="text-underline"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+&lt;/n-toolbar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
     <!-- ── Plain Variant ── -->
 
     <h2>Plain Variant</h2>

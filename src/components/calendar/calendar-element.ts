@@ -155,9 +155,9 @@ export class NCalendar extends FormAssociable(NativeElement) {
   }
 
   teardown(): void {
-    this.querySelector('.cal-prev')?.removeEventListener('click', this.#onPrevClick);
-    this.querySelector('.cal-next')?.removeEventListener('click', this.#onNextClick);
-    this.querySelector('.cal-title')?.removeEventListener('click', this.#onTitleClickHandler);
+    this.querySelector('n-button[data-role="prev"]')?.removeEventListener('click', this.#onPrevClick);
+    this.querySelector('n-button[data-role="next"]')?.removeEventListener('click', this.#onNextClick);
+    this.querySelector('n-button[data-role="title"]')?.removeEventListener('click', this.#onTitleClickHandler);
     const grid = this.querySelector('.cal-grid');
     grid?.removeEventListener('click', this.#onGridClickHandler);
     grid?.removeEventListener('pointermove', this.#onGridPointerMoveHandler);
@@ -187,9 +187,9 @@ export class NCalendar extends FormAssociable(NativeElement) {
   #stamp(): void {
     this.innerHTML = `
       <div class="cal-header">
-        <n-button class="cal-prev" aria-label="Previous" tabindex="-1"><n-icon name="caret-left"></n-icon></n-button>
-        <n-button class="cal-title" tabindex="-1"></n-button>
-        <n-button class="cal-next" aria-label="Next" tabindex="-1"><n-icon name="caret-right"></n-icon></n-button>
+        <n-button data-role="prev" aria-label="Previous" tabindex="-1"><n-icon name="caret-left"></n-icon></n-button>
+        <n-button data-role="title" tabindex="-1"></n-button>
+        <n-button data-role="next" aria-label="Next" tabindex="-1"><n-icon name="caret-right"></n-icon></n-button>
       </div>
       <div class="cal-weekdays"></div>
       <div class="cal-grid" role="grid"></div>
@@ -201,9 +201,9 @@ export class NCalendar extends FormAssociable(NativeElement) {
       btn.setAttribute('tabindex', '-1');
     }
 
-    const prev = this.querySelector('.cal-prev') as HTMLElement | null;
-    const next = this.querySelector('.cal-next') as HTMLElement | null;
-    const title = this.querySelector('.cal-title') as HTMLElement | null;
+    const prev = this.querySelector('n-button[data-role="prev"]') as HTMLElement | null;
+    const next = this.querySelector('n-button[data-role="next"]') as HTMLElement | null;
+    const title = this.querySelector('n-button[data-role="title"]') as HTMLElement | null;
 
     prev?.addEventListener('click', this.#onPrevClick);
     next?.addEventListener('click', this.#onNextClick);
@@ -216,7 +216,7 @@ export class NCalendar extends FormAssociable(NativeElement) {
 
   #render(): void {
     const view = this.#store.view.value;
-    const title = this.querySelector('.cal-title') as HTMLElement | null;
+    const title = this.querySelector('n-button[data-role="title"]') as HTMLElement | null;
     const weekdays = this.querySelector('.cal-weekdays') as HTMLElement | null;
     const grid = this.querySelector('.cal-grid') as HTMLElement | null;
     if (!title || !weekdays || !grid) return;

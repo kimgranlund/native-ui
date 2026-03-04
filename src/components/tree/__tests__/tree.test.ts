@@ -93,7 +93,7 @@ describe('n-tree', () => {
     const tree = createNestedTree();
     await tick();
     const parentItem = tree.querySelector(':scope > n-tree-item')!;
-    const caret = parentItem.querySelector('.n-tree-caret')!;
+    const caret = parentItem.querySelector('n-icon[data-role="caret"]')!;
 
     // Initially not expanded -> caret-right
     expect(caret.getAttribute('name')).toBe('caret-right');
@@ -230,7 +230,7 @@ describe('n-tree', () => {
     await tick();
     const parentItem = tree.querySelector(':scope > n-tree-item')!;
     const parentLabel = parentItem.querySelector(':scope > [slot="label"]')!;
-    const caret = parentLabel.querySelector('.n-tree-caret');
+    const caret = parentLabel.querySelector('n-icon[data-role="caret"]');
     expect(caret).not.toBeNull();
     expect(caret!.tagName.toLowerCase()).toBe('n-icon');
   });

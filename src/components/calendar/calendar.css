@@ -83,14 +83,14 @@
 
   /* ── Header: prev/next ── */
 
-  :where(n-calendar) :where(n-button.cal-prev, n-button.cal-next) {
+  :where(n-calendar) :where(n-button[data-role="prev"], n-button[data-role="next"]) {
     width: calc(var(--n-size) * 0.7);
     height: calc(var(--n-size) * 0.7);
   }
 
   /* ── Header: title ── */
 
-  :where(n-calendar) :where(n-button.cal-title) {
+  :where(n-calendar) :where(n-button[data-role="title"]) {
     flex: 1;
     padding: calc(var(--n-space)) calc(var(--n-space) * 2);
     font-size: var(--n-font-size);

@@ -334,7 +334,7 @@
       display: inline-flex;
     }
 
-    :where(n-sidebar-item) > :where(:not([slot="icon"]):not(n-listbox[popover]):not(.nav-group-flyout)) {
+    :where(n-sidebar-item) > :where(:not([slot="icon"]):not(n-listbox[popover])) {
       display: none;
     }
 
@@ -638,7 +638,7 @@
 
   /* ── Nav Group Flyout (collapsed sidebar) ── */
 
-  :where(n-sidebar-group) > :where(n-listbox.nav-group-flyout[popover]) {
+  :where(n-sidebar-group) > :where(n-listbox[popover]) {
     --n-popover-origin: left center;
     --n-popover-from: perspective(800px) scale(0.96) rotateY(20deg);
 
@@ -700,7 +700,7 @@
 
     /* WHY: In collapsed mode the group is a small icon — centering
        the flyout vertically with the anchor is more natural. */
-    :where(n-sidebar-group) > :where(n-listbox.nav-group-flyout[popover]) {
+    :where(n-sidebar-group) > :where(n-listbox[popover]) {
       position-area: inline-end;
       position-try-fallbacks: --nav-flyout-flip-up, --nav-flyout-flip-down;
     }

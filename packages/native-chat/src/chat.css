@@ -317,19 +317,19 @@
 
   /* ── Message actions toolbar ── */
 
-  :where(n-chat-message) > :where(.n-chat-message-actions) {
+  :where(n-chat-message) > :where(n-toolbar[data-role="actions"]) {
     opacity: 0;
     transition: opacity var(--n-duration) var(--n-easing);
   }
 
-  :where(n-chat-message):hover > :where(.n-chat-message-actions),
-  :where(n-chat-message):focus-within > :where(.n-chat-message-actions),
-  :where(n-chat-message[force-hover]) > :where(.n-chat-message-actions) {
+  :where(n-chat-message):hover > :where(n-toolbar[data-role="actions"]),
+  :where(n-chat-message):focus-within > :where(n-toolbar[data-role="actions"]),
+  :where(n-chat-message[force-hover]) > :where(n-toolbar[data-role="actions"]) {
     opacity: 1;
   }
 
   /* Partial status — always show actions (contains continue button) */
-  [status="partial"]:where(n-chat-message) > :where(.n-chat-message-actions) {
+  [status="partial"]:where(n-chat-message) > :where(n-toolbar[data-role="actions"]) {
     opacity: 1;
   }
 
@@ -337,19 +337,19 @@
 
   /* When actions-position="below", the toolbar is a sibling of n-chat-message
      in the message column. Show on message hover via adjacent sibling. */
-  [actions-position="below"]:where(n-chat-message) + :where(.n-chat-message-actions) {
+  [actions-position="below"]:where(n-chat-message) + :where(n-toolbar[data-role="actions"]) {
     opacity: 0;
     transition: opacity var(--n-duration) var(--n-easing);
   }
 
-  [actions-position="below"]:where(n-chat-message):hover + :where(.n-chat-message-actions),
-  [actions-position="below"]:where(n-chat-message[force-hover]) + :where(.n-chat-message-actions),
-  [actions-position="below"]:where(n-chat-message) + :where(.n-chat-message-actions):focus-within {
+  [actions-position="below"]:where(n-chat-message):hover + :where(n-toolbar[data-role="actions"]),
+  [actions-position="below"]:where(n-chat-message[force-hover]) + :where(n-toolbar[data-role="actions"]),
+  [actions-position="below"]:where(n-chat-message) + :where(n-toolbar[data-role="actions"]):focus-within {
     opacity: 1;
   }
 
   /* Partial status — always show below-bubble actions */
-  [status="partial"][actions-position="below"]:where(n-chat-message) + :where(.n-chat-message-actions) {
+  [status="partial"][actions-position="below"]:where(n-chat-message) + :where(n-toolbar[data-role="actions"]) {
     opacity: 1;
   }
 
@@ -575,7 +575,7 @@
     font-size: var(--n-font-size-sm);
   }
 
-  :where(n-chat-message-genui) :where(.n-chat-genui-preview) {
+  :where(n-chat-message-genui) :where(n-card[data-role="preview"]) {
     display: flex;
     align-items: center;
     justify-content: space-between;

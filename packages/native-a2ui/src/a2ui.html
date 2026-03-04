@@ -15,56 +15,12 @@
     <native-app-spa><main>
     <h1>&lt;native-a2ui&gt;</h1>
     <p class="demo-desc">
-      A2UI Protocol Workbench — JSONL editor with sandboxed kernel preview and protocol inspector.
-      Edit A2UI envelopes in the left pane, step through them with the playback controls,
-      and inspect surfaces and the message log in the inspector.
+      A2UI Protocol Workbench — select a preset from the dropdown, or write your own
+      A2UI envelopes in the IN pane. Step through messages with playback controls
+      and inspect surfaces, HTML, CSS, and component schema in the inspector panes.
     </p>
 
-    <!-- ── Basic ── -->
-
-    <h2>Basic — Hello World</h2>
-    <native-a2ui>
-      <script type="a2ui/stream">
-{"createSurface": {"surfaceId": "s1"}, "version": "0.9"}
-{"updateComponents": {"surfaceId": "s1", "components": [{"id": "root", "component": "Column", "children": ["heading", "desc"]}, {"id": "heading", "component": "Text", "text": "Hello from A2UI", "variant": "heading"}, {"id": "desc", "component": "Text", "text": "This surface was created by the A2UI protocol workbench."}]}, "version": "0.9"}
-      </script>
-    </native-a2ui>
-
-    <!-- ── Form Example ── -->
-
-    <h2>Contact Form</h2>
-    <native-a2ui>
-      <script type="a2ui/stream">
-{"createSurface": {"surfaceId": "form-1"}, "version": "0.9"}
-{"updateComponents": {"surfaceId": "form-1", "components": [{"id": "root", "component": "Column", "children": ["title", "name-field", "email-field", "message-field", "submit-btn"]}, {"id": "title", "component": "Text", "text": "Contact Us", "variant": "heading"}, {"id": "name-field", "component": "TextField", "label": "Name", "placeholder": "Your name"}, {"id": "email-field", "component": "TextField", "label": "Email", "placeholder": "you@example.com"}, {"id": "message-field", "component": "TextArea", "label": "Message", "placeholder": "How can we help?"}, {"id": "submit-btn", "component": "Button", "text": "Send Message", "variant": "primary", "action": {"event": {"name": "submit"}}}]}, "version": "0.9"}
-      </script>
-    </native-a2ui>
-
-    <!-- ── Multi-surface Streaming ── -->
-
-    <h2>Streaming — Multi-Surface</h2>
-    <native-a2ui>
-      <script type="a2ui/stream">
-{"createSurface": {"surfaceId": "card-1"}, "version": "0.9"}
-{"updateComponents": {"surfaceId": "card-1", "components": [{"id": "root", "component": "Card", "children": ["c1-title", "c1-body"]}, {"id": "c1-title", "component": "Text", "text": "Status: Loading", "variant": "heading"}, {"id": "c1-body", "component": "Text", "text": "Please wait while we process your request..."}]}, "version": "0.9"}
-{"createSurface": {"surfaceId": "card-2"}, "version": "0.9"}
-{"updateComponents": {"surfaceId": "card-2", "components": [{"id": "root", "component": "Card", "children": ["c2-title", "c2-list"]}, {"id": "c2-title", "component": "Text", "text": "Results", "variant": "heading"}, {"id": "c2-list", "component": "List", "children": ["item-1", "item-2", "item-3"]}, {"id": "item-1", "component": "ListItem", "text": "Item Alpha"}, {"id": "item-2", "component": "ListItem", "text": "Item Beta"}, {"id": "item-3", "component": "ListItem", "text": "Item Gamma"}]}, "version": "0.9"}
-{"updateComponents": {"surfaceId": "card-1", "components": [{"id": "root", "component": "Card", "children": ["c1-title", "c1-body"]}, {"id": "c1-title", "component": "Text", "text": "Status: Complete", "variant": "heading"}, {"id": "c1-body", "component": "Text", "text": "All done! The results are shown in the adjacent surface."}]}, "version": "0.9"}
-      </script>
-    </native-a2ui>
-
-    <!-- ── Data Model ── -->
-
-    <h2>Data Model Updates</h2>
-    <native-a2ui>
-      <script type="a2ui/stream">
-{"createSurface": {"surfaceId": "dm-1"}, "version": "0.9"}
-{"updateComponents": {"surfaceId": "dm-1", "components": [{"id": "root", "component": "Column", "children": ["greeting", "counter-row"]}, {"id": "greeting", "component": "Text", "text": "Data Binding Demo"}, {"id": "counter-row", "component": "Row", "children": ["inc-btn", "count-display"]}, {"id": "inc-btn", "component": "Button", "text": "Increment", "action": {"event": {"name": "increment"}}}, {"id": "count-display", "component": "Text", "text": "Count: 0"}]}, "version": "0.9"}
-{"updateDataModel": {"surfaceId": "dm-1", "path": "/count", "value": 1}, "version": "0.9"}
-{"updateDataModel": {"surfaceId": "dm-1", "path": "/count", "value": 2}, "version": "0.9"}
-{"updateDataModel": {"surfaceId": "dm-1", "path": "/count", "value": 3}, "version": "0.9"}
-      </script>
-    </native-a2ui>
+    <native-a2ui></native-a2ui>
 
     </main></native-app-spa>
 

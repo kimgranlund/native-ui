@@ -53,6 +53,7 @@
   }
 
   :where(n-header) > :where([slot="leading"]) {
+    grid-column: 1;
     display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
@@ -64,6 +65,7 @@
   }
 
   :where(n-header) > :where([slot="trailing"]) {
+    grid-column: -1;
     display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);

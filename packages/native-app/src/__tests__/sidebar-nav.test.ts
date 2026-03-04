@@ -289,14 +289,14 @@ describe('n-sidebar-group flyout API', () => {
   it('stamps flyout n-listbox popover in setup', () => {
     const nav = createGroupedNav();
     const group = nav.querySelector('n-sidebar-group')!;
-    const flyout = group.querySelector('n-listbox.nav-group-flyout[popover]');
+    const flyout = group.querySelector('n-listbox[popover][popover]');
     expect(flyout).not.toBeNull();
   });
 
   it('flyout is empty by default', () => {
     const nav = createGroupedNav();
     const group = nav.querySelector('n-sidebar-group')!;
-    const flyout = group.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout = group.querySelector('n-listbox[popover]')!;
     expect(flyout.querySelectorAll('n-option').length).toBe(0);
   });
 
@@ -309,7 +309,7 @@ describe('n-sidebar-group flyout API', () => {
   it('openFlyout() stamps n-option items and sets flyoutOpen', () => {
     const nav = createGroupedNav();
     const group = nav.querySelector('n-sidebar-group')! as any;
-    const flyout = group.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout = group.querySelector('n-listbox[popover]')!;
 
     group.openFlyout();
 
@@ -323,7 +323,7 @@ describe('n-sidebar-group flyout API', () => {
   it('closeFlyout() clears flyout and resets flyoutOpen', () => {
     const nav = createGroupedNav();
     const group = nav.querySelector('n-sidebar-group')! as any;
-    const flyout = group.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout = group.querySelector('n-listbox[popover]')!;
 
     group.openFlyout();
     expect(flyout.querySelectorAll('n-option').length).toBe(2);
@@ -336,7 +336,7 @@ describe('n-sidebar-group flyout API', () => {
   it('native:dismiss clears flyout', () => {
     const nav = createGroupedNav();
     const group = nav.querySelector('n-sidebar-group')! as any;
-    const flyout = group.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout = group.querySelector('n-listbox[popover]')!;
 
     group.openFlyout();
     expect(flyout.querySelectorAll('n-option').length).toBe(2);
@@ -348,7 +348,7 @@ describe('n-sidebar-group flyout API', () => {
   it('flyout option click dispatches native:select (bubbles to nav) and closes flyout', async () => {
     const nav = createGroupedNav();
     const group = nav.querySelector('n-sidebar-group')! as any;
-    const flyout = group.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout = group.querySelector('n-listbox[popover]')!;
     const selectHandler = vi.fn();
     const changeHandler = vi.fn();
     nav.addEventListener('native:select', selectHandler);
@@ -378,7 +378,7 @@ describe('n-sidebar-group flyout (sidebar coordinator)', () => {
     const { group } = await createCollapsedSidebar();
     const summary = group.querySelector('summary')!;
     const details = group.querySelector('details')!;
-    const flyout = group.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout = group.querySelector('n-listbox[popover]')!;
 
     // Before click: source items in details, flyout empty
     expect(details.querySelectorAll('n-sidebar-nav-item').length).toBe(2);
@@ -399,7 +399,7 @@ describe('n-sidebar-group flyout (sidebar coordinator)', () => {
   it('summary click in expanded mode does not open flyout', () => {
     const nav = createGroupedNav();
     const group = nav.querySelector('n-sidebar-group')!;
-    const flyout = group.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout = group.querySelector('n-listbox[popover]')!;
 
     const summary = group.querySelector('summary')!;
     summary.click();
@@ -444,8 +444,8 @@ describe('n-sidebar-group flyout (sidebar coordinator)', () => {
     // WHY: Flush microtask so sidebar's deferred #syncFlyoutMode() runs
     await Promise.resolve();
 
-    const flyout1 = group1.querySelector('n-listbox.nav-group-flyout')!;
-    const flyout2 = group2.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout1 = group1.querySelector('n-listbox[popover]')!;
+    const flyout2 = group2.querySelector('n-listbox[popover]')!;
 
     // Open group1's flyout
     group1.querySelector('summary')!.click();
@@ -459,7 +459,7 @@ describe('n-sidebar-group flyout (sidebar coordinator)', () => {
 
   it('uncollapsing closes any open flyout', async () => {
     const { sidebar, group } = await createCollapsedSidebar();
-    const flyout = group.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout = group.querySelector('n-listbox[popover]')!;
 
     // Open flyout in collapsed mode
     group.querySelector('summary')!.click();
@@ -475,7 +475,7 @@ describe('n-sidebar-group flyout (sidebar coordinator)', () => {
   it('flyout option click dispatches native:select (bubbles to nav) and closes flyout', async () => {
     const { group, nav } = await createCollapsedSidebar();
     const summary = group.querySelector('summary')!;
-    const flyout = group.querySelector('n-listbox.nav-group-flyout')!;
+    const flyout = group.querySelector('n-listbox[popover]')!;
     const selectHandler = vi.fn();
     const changeHandler = vi.fn();
     nav.addEventListener('native:select', selectHandler);

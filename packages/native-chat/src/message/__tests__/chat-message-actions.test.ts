@@ -20,7 +20,7 @@ afterEach(() => {
 describe('n-chat-message actions (T0046)', () => {
   it('stamps default assistant actions', () => {
     const el = create({ role: 'assistant' });
-    const toolbar = el.querySelector('.n-chat-message-actions');
+    const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
     expect(toolbar).not.toBeNull();
 
     const buttons = toolbar!.querySelectorAll('[data-action]');
@@ -30,7 +30,7 @@ describe('n-chat-message actions (T0046)', () => {
 
   it('stamps default user actions', () => {
     const el = create({ role: 'user' });
-    const toolbar = el.querySelector('.n-chat-message-actions');
+    const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
     expect(toolbar).not.toBeNull();
 
     const buttons = toolbar!.querySelectorAll('[data-action]');
@@ -40,7 +40,7 @@ describe('n-chat-message actions (T0046)', () => {
 
   it('actions="none" suppresses toolbar', () => {
     const el = create({ role: 'assistant', actions: 'none' });
-    expect(el.querySelector('.n-chat-message-actions')).toBeNull();
+    expect(el.querySelector('n-toolbar[data-role="actions"]')).toBeNull();
   });
 
   it('custom actions list renders only specified actions', () => {
@@ -82,7 +82,7 @@ describe('n-chat-message actions (T0046)', () => {
     document.body.appendChild(el);
 
     // Should not have the auto-stamped toolbar class
-    expect(el.querySelector('.n-chat-message-actions')).toBeNull();
+    expect(el.querySelector('n-toolbar[data-role="actions"]')).toBeNull();
   });
 
   it('fires native:message-action on action press', () => {
@@ -128,14 +128,14 @@ describe('ACTION_REGISTRY', () => {
 describe('n-chat-message actions-position (T0062)', () => {
   it('defaults to inside — toolbar is a child of the message', () => {
     const el = create({ role: 'assistant' });
-    const toolbar = el.querySelector('.n-chat-message-actions');
+    const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
     expect(toolbar).not.toBeNull();
     expect(toolbar!.parentElement).toBe(el);
   });
 
   it('actions-position="inside" keeps toolbar inside the bubble', () => {
     const el = create({ role: 'assistant', 'actions-position': 'inside' });
-    const toolbar = el.querySelector('.n-chat-message-actions');
+    const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
     expect(toolbar).not.toBeNull();
     expect(toolbar!.parentElement).toBe(el);
   });
@@ -143,11 +143,11 @@ describe('n-chat-message actions-position (T0062)', () => {
   it('actions-position="below" places toolbar as a next sibling', () => {
     const el = create({ role: 'assistant', 'actions-position': 'below' });
     // Toolbar is NOT inside the message element
-    expect(el.querySelector('.n-chat-message-actions')).toBeNull();
+    expect(el.querySelector('n-toolbar[data-role="actions"]')).toBeNull();
     // It's a next sibling
     const toolbar = el.nextElementSibling;
     expect(toolbar).not.toBeNull();
-    expect(toolbar!.classList.contains('n-chat-message-actions')).toBe(true);
+    expect(toolbar!.getAttribute('data-role')).toBe('actions');
   });
 
   it('actionsPosition property reflects to attribute', () => {
@@ -159,13 +159,13 @@ describe('n-chat-message actions-position (T0062)', () => {
   it('changing actions-position from below to inside moves toolbar back', () => {
     const el = create({ role: 'assistant', 'actions-position': 'below' }) as any;
     // Verify toolbar is sibling
-    expect(el.nextElementSibling?.classList.contains('n-chat-message-actions')).toBe(true);
+    expect(el.nextElementSibling?.getAttribute('data-role')).toBe('actions');
 
     // Switch to inside
     el.actionsPosition = 'inside';
     // Now toolbar should be inside the message
-    expect(el.querySelector('.n-chat-message-actions')).not.toBeNull();
-    expect(el.querySelector('.n-chat-message-actions')!.parentElement).toBe(el);
+    expect(el.querySelector('n-toolbar[data-role="actions"]')).not.toBeNull();
+    expect(el.querySelector('n-toolbar[data-role="actions"]')!.parentElement).toBe(el);
   });
 });
 

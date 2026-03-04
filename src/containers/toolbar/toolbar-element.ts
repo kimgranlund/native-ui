@@ -32,6 +32,8 @@ const ITEM_SELECTOR_NO_TRIGGER = `:scope > ${BTN}:not([data-overflow]):not([data
  *   and overflow without container chrome.
  */
 export class NToolbar extends NativeElement {
+  static observedAttributes = ['orientation'];
+
   #internals: ElementInternals;
   #roving!: RovingFocusController;
   #popover: PopoverController | null = null;
@@ -78,9 +80,10 @@ export class NToolbar extends NativeElement {
     this.addEventListener('native:dismiss', this.#onDismiss);
 
     // Roving focus — initial selector excludes the more trigger (hidden)
+    const orientation = this.getAttribute('orientation');
     this.#roving = new RovingFocusController(this, {
       selector: ITEM_SELECTOR_NO_TRIGGER,
-      orientation: 'horizontal',
+      orientation: (orientation === 'vertical' || orientation === 'both') ? orientation : 'horizontal',
     });
 
     if (!this.hasAttribute('aria-label')) {
@@ -113,6 +116,12 @@ export class NToolbar extends NativeElement {
     this.#overflowList = null;
     this.#roving.destroy();
     super.teardown();
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, val: string | null): void {
+    if (name === 'orientation' && this.#roving) {
+      this.#roving.orientation = (val === 'vertical' || val === 'both') ? val : 'horizontal';
+    }
   }
 
   // ---------------------------------------------------------------------------

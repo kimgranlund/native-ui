@@ -93,7 +93,7 @@
 
   /* ── Expand caret icon ── */
 
-  :where(n-tree-item) > :where([slot="label"]) > :where(.n-tree-caret) {
+  :where(n-tree-item) > :where([slot="label"]) > :where(n-icon[data-role="caret"]) {
     flex-shrink: 0;
     color: currentColor;
   }

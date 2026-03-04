@@ -13,6 +13,9 @@ export class NativeElement extends HTMLElement {
   #alive = false;
   #readyResolve: (() => void) | null = null;
 
+  /** @internal Suppress lifecycle during synchronous reparenting (e.g. PresentController). */
+  _reparenting = false;
+
   /** Resolves after setup() and any deferChildren microtask have completed. */
   readonly ready: Promise<void> = new Promise(resolve => {
     this.#readyResolve = resolve;
@@ -39,6 +42,10 @@ export class NativeElement extends HTMLElement {
   }
 
   disconnectedCallback(): void {
+    // WHY: PresentController (and other reparenting code) sets _reparenting = true
+    // before synchronously moving the host into a dialog. Without this guard,
+    // the move triggers teardown+setup, destroying and rebuilding all DOM/state.
+    if (this._reparenting) return;
     this.#alive = false;
     this.#destroyAllControllers();
     this.#traitObserver?.disconnect();

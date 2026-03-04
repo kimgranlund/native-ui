@@ -35,9 +35,9 @@ describe('n-calendar element', () => {
   it('renders internal structure on setup', () => {
     const el = create();
     expect(el.querySelector('.cal-header')).not.toBeNull();
-    expect(el.querySelector('.cal-prev')).not.toBeNull();
-    expect(el.querySelector('.cal-next')).not.toBeNull();
-    expect(el.querySelector('.cal-title')).not.toBeNull();
+    expect(el.querySelector('n-button[data-role="prev"]')).not.toBeNull();
+    expect(el.querySelector('n-button[data-role="next"]')).not.toBeNull();
+    expect(el.querySelector('n-button[data-role="title"]')).not.toBeNull();
     expect(el.querySelector('.cal-weekdays')).not.toBeNull();
     expect(el.querySelector('.cal-grid')).not.toBeNull();
   });
@@ -82,23 +82,23 @@ describe('n-calendar element', () => {
   it('renders title for focused month', () => {
     // Navigate to a known month via the store
     const el = createAt(2025, 2); // March 2025
-    const title = el.querySelector('.cal-title') as HTMLElement;
+    const title = el.querySelector('n-button[data-role="title"]') as HTMLElement;
     expect(title.textContent).toBe('March 2025');
   });
 
   it('navigates to previous month', () => {
     const el = createAt(2025, 2); // March 2025
-    const prev = el.querySelector('.cal-prev') as HTMLElement;
+    const prev = el.querySelector('n-button[data-role="prev"]') as HTMLElement;
     prev.click();
-    const title = el.querySelector('.cal-title') as HTMLElement;
+    const title = el.querySelector('n-button[data-role="title"]') as HTMLElement;
     expect(title.textContent).toBe('February 2025');
   });
 
   it('navigates to next month', () => {
     const el = createAt(2025, 2); // March 2025
-    const next = el.querySelector('.cal-next') as HTMLElement;
+    const next = el.querySelector('n-button[data-role="next"]') as HTMLElement;
     next.click();
-    const title = el.querySelector('.cal-title') as HTMLElement;
+    const title = el.querySelector('n-button[data-role="title"]') as HTMLElement;
     expect(title.textContent).toBe('April 2025');
   });
 
@@ -164,13 +164,13 @@ describe('n-calendar ARIA', () => {
 
   it('prev button has aria-label', () => {
     const el = create();
-    const prev = el.querySelector('.cal-prev');
+    const prev = el.querySelector('n-button[data-role="prev"]');
     expect(prev?.getAttribute('aria-label')).toBe('Previous');
   });
 
   it('next button has aria-label', () => {
     const el = create();
-    const next = el.querySelector('.cal-next');
+    const next = el.querySelector('n-button[data-role="next"]');
     expect(next?.getAttribute('aria-label')).toBe('Next');
   });
 });
@@ -246,7 +246,7 @@ describe('n-calendar min/max constraints', () => {
 describe('n-calendar view navigation', () => {
   it('clicking title switches to month view', () => {
     const el = create();
-    const title = el.querySelector('.cal-title') as HTMLElement;
+    const title = el.querySelector('n-button[data-role="title"]') as HTMLElement;
     title.click();
 
     // Should now show 12 month cells
@@ -257,7 +257,7 @@ describe('n-calendar view navigation', () => {
 
   it('clicking title twice switches to year view', () => {
     const el = create();
-    const title = el.querySelector('.cal-title') as HTMLElement;
+    const title = el.querySelector('n-button[data-role="title"]') as HTMLElement;
     title.click(); // day -> month
     title.click(); // month -> year
 
@@ -278,9 +278,9 @@ describe('n-calendar teardown / re-initialization', () => {
     document.body.appendChild(el);
 
     // Store should still work — navigate with prev button
-    const prev = el.querySelector('.cal-prev') as HTMLElement;
+    const prev = el.querySelector('n-button[data-role="prev"]') as HTMLElement;
     prev.click();
-    const title = el.querySelector('.cal-title') as HTMLElement;
+    const title = el.querySelector('n-button[data-role="title"]') as HTMLElement;
     expect(title.textContent).toBe('February 2025');
   });
 

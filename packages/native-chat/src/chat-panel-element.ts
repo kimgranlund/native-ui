@@ -220,7 +220,7 @@ export class NChatPanel extends NativeElement {
     submitBtn.setAttribute('radius', 'round');
     submitBtn.setAttribute('inline', '');
     submitBtn.setAttribute('disabled', '');
-    submitBtn.classList.add('submit-btn');
+    submitBtn.dataset.role = 'submit';
     submitBtn.innerHTML = '<n-icon name="arrow-up"></n-icon>';
     actions.appendChild(submitBtn);
 

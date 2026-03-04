@@ -10,6 +10,7 @@
 
 | Attribute | Values |
 |-----------|--------|
+| `orientation` | `vertical` |
 | `padding` | `none`, `regular`, `relaxed`, `tight` |
 | `variant` | `plain` |
 | `fill` | _(boolean)_ |

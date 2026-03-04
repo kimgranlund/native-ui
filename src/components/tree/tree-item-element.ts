@@ -78,7 +78,7 @@ export class NTreeItem extends NativeElement {
       if (label) {
         this.#caretIcon = document.createElement('n-icon');
         this.#caretIcon.setAttribute('name', this.hasAttribute('expanded') ? 'caret-down' : 'caret-right');
-        this.#caretIcon.classList.add('n-tree-caret');
+        this.#caretIcon.dataset.role = 'caret';
         label.prepend(this.#caretIcon);
       }
 
