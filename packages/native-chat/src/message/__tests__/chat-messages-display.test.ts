@@ -56,7 +56,6 @@ describe('n-chat-message bubble radius tokens (T0064)', () => {
     const group = createMessages({ role: 'assistant' });
     const msg = createMessage({ role: 'assistant' });
     group.appendChild(msg);
-    // Message should exist and have role attribute
     expect(msg.getAttribute('role')).toBe('assistant');
   });
 
@@ -68,15 +67,66 @@ describe('n-chat-message bubble radius tokens (T0064)', () => {
   });
 
   it('bubble radius tokens are defined in CSS (structural check)', () => {
-    // Verify that the n-chat-message element can be created with custom radius tokens
     const group = createMessages({ role: 'assistant' });
     const msg = createMessage({ role: 'assistant' });
     group.appendChild(msg);
 
-    // Set custom token values via inline style
     msg.style.setProperty('--n-chat-bubble-radius-avatar-side', '0');
     msg.style.setProperty('--n-chat-bubble-radius-far-side', '1rem');
     expect(msg.style.getPropertyValue('--n-chat-bubble-radius-avatar-side')).toBe('0');
     expect(msg.style.getPropertyValue('--n-chat-bubble-radius-far-side')).toBe('1rem');
+  });
+});
+
+describe('n-chat-messages 2×2 grid layout', () => {
+  it('creates .n-chat-context and .n-chat-bubbles wrappers on setup', () => {
+    const group = createMessages({ role: 'assistant' });
+    expect(group.querySelector('.n-chat-context')).not.toBeNull();
+    expect(group.querySelector('.n-chat-bubbles')).not.toBeNull();
+  });
+
+  it('moves n-chat-message children into .n-chat-bubbles', () => {
+    const group = document.createElement('n-chat-messages');
+    group.setAttribute('role', 'assistant');
+    const msg = createMessage({ role: 'assistant' });
+    group.appendChild(msg);
+    document.body.appendChild(group);
+
+    const bubbles = group.querySelector('.n-chat-bubbles')!;
+    expect(bubbles.contains(msg)).toBe(true);
+  });
+
+  it('keeps n-chat-avatar as direct child (not wrapped)', () => {
+    const group = document.createElement('n-chat-messages');
+    group.setAttribute('role', 'assistant');
+    const avatar = document.createElement('n-chat-avatar');
+    group.appendChild(avatar);
+    document.body.appendChild(group);
+
+    expect(avatar.parentElement).toBe(group);
+  });
+
+  it('moves non-avatar, non-message children into .n-chat-context', () => {
+    const group = document.createElement('n-chat-messages');
+    group.setAttribute('role', 'assistant');
+    const context = document.createElement('span');
+    context.textContent = 'reasoning';
+    group.appendChild(context);
+    document.body.appendChild(group);
+
+    const contextWrapper = group.querySelector('.n-chat-context')!;
+    expect(contextWrapper.contains(context)).toBe(true);
+  });
+
+  it('routes dynamically added messages into .n-chat-bubbles', async () => {
+    const group = createMessages({ role: 'assistant' });
+    const msg = createMessage({ role: 'assistant' });
+    group.appendChild(msg);
+
+    // MutationObserver fires asynchronously
+    await new Promise((r) => setTimeout(r, 0));
+
+    const bubbles = group.querySelector('.n-chat-bubbles')!;
+    expect(bubbles.contains(msg)).toBe(true);
   });
 });

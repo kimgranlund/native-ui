@@ -191,34 +191,54 @@
      n-chat-messages — message group (bubble cluster)
      ══════════════════════════════════════════════════ */
 
-  /* 2-column grid: avatar | messages column.
-     Messages are in a flex column flow — they shrink-wrap to content
-     width instead of stretching to fill the column. */
+  /* 2×2 grid: avatar | context + bubbles.
+     Col 1: avatar (spans both rows, bottom-aligned)
+     Col 2 row 1: .n-chat-context — metadata, reasoning, timestamps
+     Col 2 row 2: .n-chat-bubbles — message bubbles (flex column) */
   :where(n-chat-messages) {
     display: grid;
     grid-template-columns: auto 1fr;
-    row-gap: var(--n-space);
+    grid-template-rows: auto 1fr;
     column-gap: var(--n-chat-message-gap);
     align-self: flex-start;
     max-width: var(--n-chat-bubble-max-width);
     min-width: 0;
   }
 
-  /* Avatar: pin to column 1, span all rows, bottom-align */
+  /* Avatar: col 1, spans both rows, bottom-align */
   :where(n-chat-messages) > :where(n-chat-avatar) {
     grid-column: 1;
     grid-row: 1 / -1;
     align-self: end;
   }
 
-  /* Messages column: flex column for natural stacking */
-  :where(n-chat-messages) > :where(:not(n-chat-avatar)) {
+  /* Context area: col 2, row 1 — metadata above messages */
+  :where(n-chat-messages) > :where(.n-chat-context) {
     grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--n-space);
+    min-width: 0;
+  }
+
+  /* Empty context collapses */
+  :where(n-chat-messages) > :where(.n-chat-context:empty) {
+    display: none;
+  }
+
+  /* Bubbles area: col 2, row 2 — flex column of messages */
+  :where(n-chat-messages) > :where(.n-chat-bubbles) {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--n-space);
     min-width: 0;
   }
 
   /* Messages shrink-wrap to content width */
-  :where(n-chat-messages) > :where(n-chat-message) {
+  :where(.n-chat-bubbles) > :where(n-chat-message) {
     width: fit-content;
     max-width: 100%;
   }
@@ -242,13 +262,14 @@
     grid-column: 2;
   }
 
-  [role="user"]:where(n-chat-messages) > :where(:not(n-chat-avatar)) {
+  [role="user"]:where(n-chat-messages) > :where(.n-chat-context),
+  [role="user"]:where(n-chat-messages) > :where(.n-chat-bubbles) {
     grid-column: 1;
   }
 
   /* User bubbles align to the right edge */
-  [role="user"]:where(n-chat-messages) > :where(n-chat-message) {
-    justify-self: end;
+  [role="user"]:where(n-chat-messages) :where(.n-chat-bubbles) > :where(n-chat-message) {
+    align-self: flex-end;
   }
 
   :where(n-chat-messages[hidden]) { display: none; }
