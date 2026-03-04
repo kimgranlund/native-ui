@@ -192,36 +192,49 @@
      ══════════════════════════════════════════════════ */
 
   :where(n-chat-messages) {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: var(--n-chat-message-gap);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    row-gap: var(--n-space);
+    column-gap: var(--n-chat-message-gap);
     align-self: flex-start;
-    min-width: 0;
-  }
-
-  /* User messages: right-aligned, avatar on right */
-  [role="user"]:where(n-chat-messages) {
-    align-self: flex-end;
-    flex-direction: row-reverse;
-  }
-
-  /* Message column (everything except avatar) */
-  :where(n-chat-messages) > :where(:not(n-chat-avatar)) {
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--n-space));
     max-width: var(--n-chat-bubble-max-width);
     min-width: 0;
   }
 
-  /* Avatar alignment */
-  [avatar-align="center"]:where(n-chat-messages) {
-    align-items: center;
+  /* Avatar: pin to avatar column, span all rows, bottom-align */
+  :where(n-chat-messages) > :where(n-chat-avatar) {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    align-self: end;
   }
 
-  [avatar-align="bottom"]:where(n-chat-messages) {
-    align-items: flex-end;
+  /* Message content: pin to message column */
+  :where(n-chat-messages) > :where(:not(n-chat-avatar)) {
+    grid-column: 2;
+    min-width: 0;
+  }
+
+  /* Avatar alignment overrides */
+  [avatar-align="top"]:where(n-chat-messages) > :where(n-chat-avatar) {
+    align-self: start;
+  }
+
+  [avatar-align="center"]:where(n-chat-messages) > :where(n-chat-avatar) {
+    align-self: center;
+  }
+
+  /* User messages: right-aligned, avatar on right */
+  [role="user"]:where(n-chat-messages) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-self: flex-end;
+  }
+
+  [role="user"]:where(n-chat-messages) > :where(n-chat-avatar) {
+    grid-column: 2;
+  }
+
+  [role="user"]:where(n-chat-messages) > :where(:not(n-chat-avatar)) {
+    grid-column: 1;
   }
 
   :where(n-chat-messages[hidden]) { display: none; }
