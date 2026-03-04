@@ -13,7 +13,7 @@ Start here. Load this file first, then pull in specific docs as needed.
 | Start a new project | [SETUP.md](SETUP.md) (see "New Project Checklist") | [EXAMPLES.md](EXAMPLES.md) |
 | Build a page with components | [SETUP.md](SETUP.md) | [EXAMPLES.md](EXAMPLES.md) |
 | Integrate with Astro | [ASTRO.md](ASTRO.md) | [SETUP.md](SETUP.md) |
-| Style or theme an interface | [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) | [EXAMPLES.md](EXAMPLES.md) |
+| Style or theme an interface | [STYLING.md](STYLING.md) | [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) |
 | Look up a component's API | [COMPONENTS.md](COMPONENTS.md) | [PATTERNS.md](PATTERNS.md) |
 | Add layout or structure | [CONTAINERS.md](CONTAINERS.md) | [COMPONENTS.md](COMPONENTS.md) |
 | Add interactive behavior | [TRAITS.md](TRAITS.md) | [EXAMPLES.md](EXAMPLES.md) (ex. 12) |
@@ -33,6 +33,7 @@ For your first task, load [SETUP.md](SETUP.md) + [EXAMPLES.md](EXAMPLES.md). The
 | [SETUP.md](SETUP.md) | ~5KB | Installation, CSS/JS loading, SPA vs SSR vs CDN |
 | [ASTRO.md](ASTRO.md) | ~9KB | Complete Astro integration: layout, View Transitions, SSR preferences |
 | [EXAMPLES.md](EXAMPLES.md) | ~14KB | 14 concrete examples: components, signals, traits, OKLCH, variants |
+| [STYLING.md](STYLING.md) | ~4KB | How to style: attributes first, anti-patterns, when CSS is appropriate |
 | [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) | ~6KB | Tokens, colors, sizes, spacing, density, theming |
 | [COMPONENTS.md](COMPONENTS.md) | ~8KB | 30 interactive components: attributes, slots, events |
 | [CONTAINERS.md](CONTAINERS.md) | ~5KB | Structural containers and app layout system |
@@ -45,7 +46,7 @@ For your first task, load [SETUP.md](SETUP.md) + [EXAMPLES.md](EXAMPLES.md). The
 
 1. **CSS is separate from JS.** You must load both. CSS via `@import` or `<link>`, JS via `import`.
 2. **No shadow DOM.** All styling flows through CSS custom properties. Any `--n-*` token is public API.
-3. **Zero specificity on components.** Component CSS uses `:where()`. Override with a single class or attribute selector.
+3. **Zero specificity on components.** Component CSS uses `:where()`. Your CSS always wins — but prefer attributes over CSS overrides. See [STYLING.md](STYLING.md).
 4. **Events use `native:` prefix.** Colon separator: `native:press`, `native:change`, `native:dismiss`.
 5. **Attributes drive everything.** Size, density, radius, intent, variant — all set via HTML attributes.
 

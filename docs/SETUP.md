@@ -241,15 +241,15 @@ Skip `registerAllTraits()` only if you never use `<n-controller>`.
 
 The design system uses `light-dark()` for automatic dark mode. If your project overrides `color-scheme`, the entire palette breaks. The system handles both modes with zero JS.
 
-### 5. Use attributes, not classes
+### 5. Use attributes, not CSS
 
-Styling is driven by HTML attributes:
+Styling is driven by HTML attributes, not CSS classes or overrides. See [STYLING.md](STYLING.md) for the full decision tree and anti-patterns.
 
 ```html
 <n-button variant="primary" intent="accent" size="lg">Save</n-button>
 ```
 
-Key attributes: `intent` (color family), `variant` (chrome), `size` (scale), `density` (spacing), `radius` (corners).
+Key attributes: `intent` (color family), `variant` (chrome), `size` (scale), `density` (spacing), `radius` (corners). Write CSS only for page layout (grids, gaps, margins on wrappers) — never for component appearance.
 
 ### 6. Theme via `--n-env-*` tokens
 
@@ -277,14 +277,18 @@ input.addEventListener('native:input', handleInput);
 
 ### 8. Respect the specificity contract
 
-Component CSS is zero-specificity (`:where()`). Your CSS at `(0,1,0)+` wins automatically. Never use `!important`. Override `--n-*` tokens directly:
+Component CSS is zero-specificity (`:where()`). Your CSS at `(0,1,0)+` wins automatically. Never use `!important`.
+
+This is a **safety net for rare cases** (section-level theming), not an invitation to override component internals. For token overrides on a parent container:
 
 ```css
-.my-hero n-button {
+.my-hero {
   --n-background: var(--n-surface);
   --n-color: var(--n-surface-ink);
 }
 ```
+
+See [STYLING.md](STYLING.md) for what to use CSS for and what to avoid.
 
 ### 9. Choose your app shell
 
