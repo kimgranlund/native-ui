@@ -323,7 +323,7 @@ native-ui includes a minimal signal system for reactive state management. Five f
 
 ## 12. Traits (composable behaviors)
 
-26 trait controllers that add interactive behavior to any HTML element. Use declaratively via `<n-controller>` or imperatively via controller classes.
+27 trait controllers that add interactive behavior to any HTML element. Use declaratively via `<n-controller>` or imperatively via controller classes.
 
 ```html
 <!-- Pressable: adds native:press event to any element -->

@@ -64,7 +64,7 @@
     <h2>Sidebar Layout</h2>
     <n-panel bordered>
       <div class="sidebar-demo">
-        <n-panel bordered>
+        <n-panel bordered scrollable>
           <n-stack gap="1">
             <n-button variant="ghost" justify="spread" style="width: 100%;"><n-icon name="house" slot="leading"></n-icon><span slot="label">Dashboard</span></n-button>
             <n-button variant="ghost" justify="spread" style="width: 100%;"><n-icon name="folder" slot="leading"></n-icon><span slot="label">Projects</span></n-button>
@@ -116,6 +116,28 @@
       </n-panel>
     <pre class="demo-code"><code>&lt;n-panel bordered padded="false"&gt;
   &lt;p&gt;No internal padding. Content touches the edges.&lt;/p&gt;
+&lt;/n-panel&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
+    <!-- ── Scrollable ── -->
+
+    <h2>Scrollable</h2>
+    <n-panel bordered>
+      <n-text size="sm" muted>Panels don't scroll by default. Add <code>[scrollable]</code> when content may overflow a bounded height.</n-text>
+      <n-panel bordered scrollable style="max-height: 10rem;">
+        <p>Line 1</p>
+        <p>Line 2</p>
+        <p>Line 3</p>
+        <p>Line 4</p>
+        <p>Line 5</p>
+        <p>Line 6</p>
+        <p>Line 7</p>
+        <p>Line 8</p>
+      </n-panel>
+    <pre class="demo-code"><code>&lt;n-panel bordered scrollable style="max-height: 10rem;"&gt;
+  &lt;p&gt;Line 1&lt;/p&gt;
+  &lt;p&gt;Line 2&lt;/p&gt;
+  ...
 &lt;/n-panel&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 

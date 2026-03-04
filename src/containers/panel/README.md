@@ -14,6 +14,7 @@
 | `dividers` | _(boolean)_ |
 | `bordered` | _(boolean)_ |
 | `show-scrollbar` | _(boolean)_ |
+| `scrollable` | _(boolean)_ |
 | `aside` | _(boolean)_ |
 | `variant` | _(boolean)_ |
 | `resizing` | _(boolean)_ |

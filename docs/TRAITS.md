@@ -1,6 +1,6 @@
 # Traits
 
-26 composable behavioral controllers. Each has a **controller class** (imperative) and a **trait adapter** (for `<n-controller>`). Zero CSS -- styling is external.
+27 composable behavioral controllers. Each has a **controller class** (imperative) and a **trait adapter** (for `<n-controller>`). Zero CSS -- styling is external.
 
 ## Usage Patterns
 
@@ -48,7 +48,7 @@ class MyButton extends NativeElement {
 | `DragController` | `draggable` | `native:drag-start/move/over/drop/cancel` |
 | `DropZoneController` | `droppable` | `native:drop-enter/leave/drop` |
 | `RangeSelectController` | `range-selectable` | `native:range-change/select` |
-| `ResizeController` | `resizable` | `native:resize-start/move/end` |
+| `ResizeController` | `resizable` | `native:resize-start/move/end` (detail includes `handle` in corner mode) |
 | `CollapsibleController` | `collapsible` | `native:expand/collapse` |
 | `SortController` | `sortable` | `native:sort` |
 | `SelectionController` | `selectable` | `native:selection-change` |
@@ -61,7 +61,10 @@ class MyButton extends NativeElement {
 | `ValidateController` | `validatable` | `native:valid/invalid` |
 | `IntersectController` | `intersectable` | `native:intersect` |
 | `VirtualScrollController` | `virtualizable` | `native:virtual-change` |
+| `SlashCommandController` | `slash-commandable` | `native:slash-query/select` |
 | `GatewayController` | -- | -- |
+
+**SlashCommandController** detects `/` prefix in input/textarea events. Creates `n-listbox[popover]` anchored to the input. Filters commands by query. Arrow keys navigate, Enter selects, Escape dismisses, backspace past `/` closes. Events: `native:slash-query` (`{ query, commands }`), `native:slash-select` (`{ command }`). Command interface: `{ value, label, description?, icon? }`.
 
 **GatewayController** has no adapter. Provides `load(url)`, `save(url, content)`, and reactive signals: `loading`, `saving`, `error`, `dirty`.
 
@@ -76,6 +79,12 @@ Most complex trait. Three modes via `mode` option:
 | `preview` | Moves real item in DOM during drag | `{ item, fromIndex, toIndex }` |
 
 Options: `selector` (required), `dropZoneSelector` (separate drop targets), `axis` (`horizontal`/`vertical`/`both`), `animate` (view transitions for preview mode). Ghost uses `[popover]` for top-layer rendering and inherits CSS custom properties.
+
+## ResizeController
+
+Edge and corner resize handles. Options: `handleSelector` (required), `axis`, `min`, `max`, `reverse`, `disabled`.
+
+**Corner mode**: `handleMode: 'corner'` enables corner handles. `handles` array specifies which corners (`top-left`, `top-right`, `bottom-left`, `bottom-right`). Handle elements use `data-handle` attribute. Per-corner sign logic: bottom-right grows on +dx/+dy, top-left shrinks. Additional per-axis constraints: `minWidth`, `maxWidth`, `minHeight`, `maxHeight`. Event detail includes `handle` property in corner mode.
 
 ## PopoverController
 
@@ -106,7 +115,7 @@ this.addEventListener('native:dismiss', () => store.open.value = false);
 src/traits/
   {name}-controller.ts         -- controller class
   adapters/{name}-adapter.ts   -- TraitAdapter for n-controller
-  register-all.ts              -- registerAllTraits()
+  register-all.ts              -- registerAllTraits() (27 adapters)
   runtime.ts                   -- DismissStack, ToastOptions, TraitRuntime
 ```
 

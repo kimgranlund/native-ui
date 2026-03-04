@@ -59,11 +59,11 @@
     scrollbar-width: thin;
   }
 
-  /* ── Main mode (default) ── */
-  /* WHY: Main panel fills available space and scrolls vertically.
-     App shells use this for the primary content area. */
+  /* ── Scrollable (opt-in) ── */
+  /* WHY: Panels don't scroll by default — overflow depends on context.
+     [scrollable] enables vertical scroll for bounded containers. */
 
-  :where(n-panel):not([aside]) {
+  [scrollable]:where(n-panel) {
     overflow-y: auto;
   }
 

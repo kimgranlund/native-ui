@@ -38,7 +38,9 @@ Uses `:state(empty)` for empty/filled visual differentiation. Filled inputs elev
 ### `n-textarea`
 Multi-line text input (`contenteditable`). Display: `block`.
 
-Attributes: `placeholder`, `value`, `disabled`, `readonly`, `required`, `name`, `rows` (1/2/3/4/5/6/8/10; default 3), `maxlength`, `autogrow`. Events: `native:input`, `native:change`. Form-associated. `[autogrow]` auto-sizes height and disables manual resize.
+Attributes: `placeholder`, `value`, `disabled`, `readonly`, `required`, `name`, `rows` (1/2/3/4/5/6/8/10; default 3), `maxlength`, `autogrow`, `formatting` (space-separated: `code bold italic`). Events: `native:input`, `native:change`, `native:format` (`{ type, value }`). Form-associated. `[autogrow]` auto-sizes height and disables manual resize.
+
+**Formatting**: `formatting="code bold italic"` enables inline text formatting. `applyFormat(type)` wraps/unwraps selected text with markers (`` ` `` for code, `**` for bold, `_` for italic). Keyboard shortcuts when enabled: `Cmd/Ctrl+E` (code), `Cmd/Ctrl+B` (bold), `Cmd/Ctrl+I` (italic).
 
 ### `n-range`
 Slider input. Display: `flex` (fills width).
