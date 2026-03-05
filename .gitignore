@@ -39,6 +39,7 @@ src/**/*.d.ts
 !src/global.d.ts
 src/**/*.d.ts.map
 packages/**/*.d.ts
+!packages/native-a2ui/src/declarations.d.ts
 packages/**/*.d.ts.map
 
 # local dev

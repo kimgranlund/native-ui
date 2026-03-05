@@ -86,11 +86,11 @@ const nextDeco = Decoration.line({ class: 'cm-a2ui-next' });
 
 const sentLineField = StateField.define<DecorationSet>({
   create() { return Decoration.none; },
-  update(value, tr) {
+  update(value: DecorationSet, tr: import('@codemirror/state').Transaction) {
     for (const e of tr.effects) {
       if (e.is(setDecorations)) {
         const doc = tr.state.doc;
-        const { sentUpToLine, nextFromLine, nextToLine } = e.value;
+        const { sentUpToLine, nextFromLine, nextToLine } = e.value as { sentUpToLine: number; nextFromLine: number; nextToLine: number };
         const ranges = [];
         for (let i = 1; i <= Math.min(sentUpToLine, doc.lines); i++) {
           ranges.push(sentDeco.range(doc.line(i).from));
@@ -103,7 +103,7 @@ const sentLineField = StateField.define<DecorationSet>({
     }
     return value;
   },
-  provide: (f) => EditorView.decorations.from(f),
+  provide: (f: import('@codemirror/state').StateField<DecorationSet>) => EditorView.decorations.from(f),
 });
 
 // ── Element ──
