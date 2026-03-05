@@ -1,0 +1,256 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   n-chart — SVG charting component
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer ui {
+
+  :where(n-chart):not(:defined) { visibility: hidden; }
+
+  :where(n-chart) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--n-space);
+    position: relative;
+    contain: layout style;
+    width: 100%;
+    min-height: 120px;
+
+    /* Component-local tokens */
+    --n-chart-font-size: 0.6875rem;
+    --n-chart-duration: 300ms;
+
+    /* Grid */
+    --n-chart-grid-color: var(--n-border-muted);
+    --n-chart-grid-dash: 4 3;
+    --n-chart-grid-opacity: 0.6;
+
+    /* Axis */
+    --n-chart-axis-color: var(--n-ink-muted);
+
+    /* Label */
+    --n-chart-label-color: var(--n-ink-muted);
+
+    /* Legend */
+    --n-chart-legend-dot-size: 12px;
+    --n-chart-legend-hidden-opacity: 0.3;
+
+    /* Crosshair */
+    --n-chart-crosshair-color: var(--n-ink-muted);
+    --n-chart-crosshair-dash: 4 2;
+
+    /* Tooltip */
+    --n-chart-tooltip-shadow: 0 4px 12px oklch(0 0 0 / 0.1);
+    --n-chart-tooltip-min-width: 100px;
+
+    /* Reference lines */
+    --n-chart-ref-font-size: 0.625rem;
+
+    /* Sparkline */
+    --n-chart-sparkline-height: 1.5em;
+    --n-chart-sparkline-width: 4em;
+
+    /* Hover marker */
+    --n-chart-marker-duration: 80ms;
+
+    /* Entry animation durations */
+    --n-chart-line-draw-duration: 600ms;
+    --n-chart-bar-grow-duration: 400ms;
+    --n-chart-point-pop-duration: 300ms;
+  }
+
+  /* ── SVG canvas ── */
+
+  :where(n-chart) > :where(svg) {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  /* ── Sparkline: inline, compact ── */
+
+  :where(n-chart[type="sparkline"]) {
+    display: inline-flex;
+    vertical-align: middle;
+    height: var(--n-chart-sparkline-height);
+    width: var(--n-chart-sparkline-width);
+    min-height: 0;
+    gap: 0;
+  }
+
+  /* ── Tooltip popover ── */
+
+  :where(n-chart) > :where([popover]) {
+    position: fixed;
+    margin: 0;
+    padding: calc(var(--n-space, 4px) * 2);
+    background: var(--n-panel, #fff);
+    color: var(--n-ink, #1a1a1a);
+    border: 1px solid var(--n-border-muted, #e0e0e0);
+    border-radius: var(--n-radius, 8px);
+    font-size: var(--n-chart-font-size);
+    pointer-events: none;
+    box-shadow: var(--n-chart-tooltip-shadow);
+    z-index: 1;
+    min-width: var(--n-chart-tooltip-min-width);
+    white-space: nowrap;
+  }
+
+  :where(n-chart) > :where([popover]):not(:popover-open) { display: none; }
+
+  /* ── Grid lines ── */
+
+  :where(n-chart) :where(.chart-grid line) {
+    stroke: var(--n-chart-grid-color);
+    stroke-dasharray: var(--n-chart-grid-dash);
+    stroke-opacity: var(--n-chart-grid-opacity);
+  }
+
+  /* ── Axis ── */
+
+  :where(n-chart) :where(.chart-axis text) {
+    fill: var(--n-chart-axis-color);
+    font-size: var(--n-chart-font-size);
+    font-family: inherit;
+  }
+
+  :where(n-chart) :where(.chart-axis line) {
+    stroke: var(--n-chart-axis-color);
+  }
+
+  /* ── Legend ── */
+
+  :where(n-chart) > :where(.chart-legend) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--n-space, 4px) * 2) calc(var(--n-space, 4px) * 4);
+    justify-content: center;
+    padding-inline: calc(var(--n-space, 4px) * 4);
+    font-size: var(--n-chart-font-size);
+    color: var(--n-chart-label-color);
+  }
+
+  :where(n-chart) :where(.chart-legend-item) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--n-space, 4px);
+    cursor: pointer;
+    user-select: none;
+    transition: opacity var(--n-chart-duration);
+  }
+
+  :where(n-chart) :where(.chart-legend-item:hover) {
+    opacity: 0.8;
+  }
+
+  :where(n-chart) :where(.chart-legend-dot) {
+    width: var(--n-chart-legend-dot-size);
+    height: var(--n-chart-legend-dot-size);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  :where(n-chart) :where(.chart-legend-item[data-hidden]) {
+    opacity: var(--n-chart-legend-hidden-opacity);
+  }
+
+  /* ── Color transitions (palette switch) ── */
+
+  :where(n-chart) :where(.chart-line) {
+    transition: stroke var(--n-chart-duration);
+  }
+
+  :where(n-chart) :where(.chart-area) {
+    transition: fill var(--n-chart-duration);
+  }
+
+  :where(n-chart) :where(.chart-bar) {
+    transition: fill var(--n-chart-duration);
+  }
+
+  :where(n-chart) :where(.chart-point) {
+    transition: fill var(--n-chart-duration);
+  }
+
+  :where(n-chart) :where(.chart-sparkline) {
+    transition: stroke var(--n-chart-duration);
+  }
+
+  :where(n-chart) :where(.chart-legend-dot) {
+    transition: background-color var(--n-chart-duration);
+  }
+
+  /* ── Reference lines ── */
+
+  :where(n-chart) :where(.chart-ref-line) {
+    pointer-events: none;
+  }
+
+  :where(n-chart) :where(.chart-ref-label) {
+    font-size: var(--n-chart-ref-font-size);
+    pointer-events: none;
+  }
+
+  /* ── Crosshair ── */
+
+  :where(n-chart) :where(.chart-crosshair) {
+    stroke: var(--n-chart-crosshair-color);
+    stroke-dasharray: var(--n-chart-crosshair-dash);
+    pointer-events: none;
+  }
+
+  /* ── Hover marker ── */
+
+  :where(n-chart) :where(.chart-hover-marker) {
+    pointer-events: none;
+    transition: cx var(--n-chart-marker-duration), cy var(--n-chart-marker-duration);
+  }
+
+  /* ── Entry animations ── */
+
+  @media (prefers-reduced-motion: no-preference) {
+    :where(n-chart[animate]) :where(.chart-line) {
+      stroke-dashoffset: var(--n-chart-path-length);
+      animation: chart-line-draw var(--n-chart-line-draw-duration) var(--n-easing, ease) forwards;
+    }
+
+    :where(n-chart[animate]) :where(.chart-bar) {
+      animation: chart-bar-grow var(--n-chart-bar-grow-duration) var(--n-easing, ease) forwards;
+      transform-origin: center bottom;
+      transform: scaleY(0);
+    }
+
+    :where(n-chart[animate]) :where(.chart-point) {
+      animation: chart-point-pop var(--n-chart-point-pop-duration) var(--n-easing, ease) forwards;
+      transform-origin: center;
+      transform: scale(0);
+    }
+
+    :where(n-chart[animate]) :where(.chart-sparkline) {
+      stroke-dashoffset: var(--n-chart-path-length, 200);
+      animation: chart-line-draw var(--n-chart-bar-grow-duration) var(--n-easing, ease) forwards;
+    }
+  }
+
+  @keyframes chart-line-draw {
+    from { stroke-dashoffset: var(--n-chart-path-length); }
+    to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes chart-bar-grow {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+
+  @keyframes chart-point-pop {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+  }
+
+  /* ── Disabled ── */
+
+  :where(n-chart)[disabled] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}

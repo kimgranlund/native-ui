@@ -13,7 +13,7 @@ export const PRESET_GROUPS = [
   { id: 'general', label: 'General' },
   { id: 'interactive', label: 'Interactive' },
   { id: 'clinical', label: 'Clinical' },
-  { id: 'travel', label: 'Travel' },
+  { id: 'travel', label: 'Travel', hidden: true },
 ] as const;
 
 export const PRESETS: Record<string, PresetEntry> = {

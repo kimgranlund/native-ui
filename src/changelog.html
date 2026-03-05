@@ -67,6 +67,26 @@
       Version history for <code>@nonoun/native-ui</code>. Each release lists new features, updates, and breaking changes with links to relevant demo pages.
     </p>
 
+    <!-- ── native-chart 0.1.0 ── -->
+
+    <div class="changelog-version">
+      <h2>@nonoun/native-chart 0.1.0 <span class="changelog-date">— March 2026</span></h2>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="danger">New</n-badge> New Package</h3>
+        <ul>
+          <li><a href="/packages/native-chart/src/n-chart.html"><code>&lt;n-chart&gt;</code></a> — SVG charting component for dashboards, cards, and inline widgets. Pure math scale system, keyed SVG reconciliation, reactive store, CSS token integration.</li>
+          <li><strong>Chart types:</strong> <code>line</code> (smooth, area fill), <code>bar</code> (grouped, stacked), <code>scatter</code> (variable radius), <code>sparkline</code> (inline).</li>
+          <li><strong>Scale system:</strong> <code>LinearScale</code>, <code>TimeScale</code>, <code>BandScale</code> — auto-detected from data. Nice tick generation, SI suffix formatting, calendar-aware date ticks.</li>
+          <li><strong>Interactions:</strong> crosshair tracking, binary-search bisect (nearest point), popover tooltip with viewport flipping, legend series toggling.</li>
+          <li><strong>Data loading:</strong> <code>src</code> attribute fetches JSON, <code>data</code> property for programmatic use. AbortController-based fetch lifecycle.</li>
+          <li><strong>Color palette:</strong> 6 OKLCH families (accent, success, warning, danger, info, neutral) at steps 500 and 300 — auto-adapts to light/dark mode.</li>
+          <li><strong>Accessibility:</strong> <code>role="img"</code> with auto-generated <code>aria-label</code>, <code>prefers-reduced-motion</code> support, keyboard navigation.</li>
+          <li><strong>Events:</strong> <code>native:chart-hover</code>, <code>native:chart-select</code>, <code>native:chart-legend-toggle</code>.</li>
+        </ul>
+      </div>
+    </div>
+
     <!-- ── 0.7.15 ── -->
 
     <div class="changelog-version">

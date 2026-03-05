@@ -486,6 +486,7 @@ export class NA2UI extends NativeElement {
     listbox.setAttribute('popover', '');
 
     for (const group of PRESET_GROUPS) {
+      if ('hidden' in group && group.hidden) continue;
       const groupEntries = Object.entries(PRESETS).filter(([_, e]) => e.group === group.id);
       if (groupEntries.length === 0) continue;
 
