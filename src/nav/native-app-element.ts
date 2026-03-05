@@ -37,6 +37,8 @@ import '../../packages/native-app/src/index.ts';
 import '../components/breadcrumb/breadcrumb.ts';
 import '../icons/phosphor/caret-up-down.ts';
 import '../icons/phosphor/plus.ts';
+import '../icons/phosphor/microphone.ts';
+import '../icons/phosphor/arrow-up.ts';
 import '../icons/phosphor/user-circle.ts';
 import '../icons/phosphor/gear.ts';
 import '../icons/phosphor/sign-out.ts';
@@ -490,6 +492,78 @@ export class NApp extends NativeElement {
     const chat = document.createElement('native-chat-panel');
     chat.setAttribute('aside', '');
     chat.setAttribute('size', 'md');
+    chat.setAttribute('gateway', 'claude');
+    chat.setAttribute('gateway-url', '/api/anthropic');
+    chat.setAttribute('model', 'claude-haiku-4-5');
+
+    const chatPanel = chat as HTMLElement & {
+      models?: Array<{ value: string; label?: string }>;
+      model?: string;
+      gatewayConfig?: Record<string, unknown>;
+    };
+
+    const envClaudeApiKey = (import.meta as ImportMeta & {
+      env?: Record<string, string | undefined>;
+    }).env?.VITE_ANTHROPIC_API_KEY
+      ?? (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env?.VITE_CLAUDE_API_KEY;
+    const envOpenAiApiKey = (import.meta as ImportMeta & {
+      env?: Record<string, string | undefined>;
+    }).env?.VITE_OPENAI_API_KEY;
+    const claudeApiKey = envClaudeApiKey || null;
+    const openAiApiKey = envOpenAiApiKey || null;
+
+    chatPanel.models = [
+      { value: 'claude-haiku-4-5', label: 'Claude Haiku 4.5' },
+      { value: 'claude-sonnet-4-6', label: 'Claude Sonnet 4.6' },
+      { value: 'gpt-5.2', label: 'GPT-5.2' },
+      { value: 'gpt-5.3-codex', label: 'GPT-5.3 Codex' },
+      { value: 'gpt-5.2-codex', label: 'GPT-5.2 Codex' },
+    ];
+    const applyGatewayForModel = (model: string): void => {
+      const isOpenAiModel = model.startsWith('gpt-') || model.startsWith('chatgpt-');
+      if (isOpenAiModel) {
+        if (!openAiApiKey) {
+          chat.setAttribute('gateway', 'mock');
+          chat.setAttribute('gateway-url', 'mock');
+          console.warn('[native-app] Missing OpenAI API key. Set VITE_OPENAI_API_KEY in .env and restart Vite.');
+          return;
+        }
+        chat.setAttribute('gateway', 'openai');
+        chat.setAttribute('gateway-url', '/api/openai');
+        chatPanel.gatewayConfig = {
+          apiKey: openAiApiKey,
+          model,
+          maxTokens: 1024,
+        };
+        return;
+      }
+
+      if (!claudeApiKey) {
+        chat.setAttribute('gateway', 'mock');
+        chat.setAttribute('gateway-url', 'mock');
+        console.warn('[native-app] Missing Claude API key. Set VITE_ANTHROPIC_API_KEY or VITE_CLAUDE_API_KEY in .env and restart Vite.');
+        return;
+      }
+
+      chat.setAttribute('gateway', 'claude');
+      chat.setAttribute('gateway-url', '/api/anthropic');
+      chatPanel.gatewayConfig = {
+        apiKey: claudeApiKey,
+        model,
+        maxTokens: 1024,
+      };
+    };
+
+    const initialModel = claudeApiKey ? 'claude-haiku-4-5' : (openAiApiKey ? 'gpt-5.2' : 'claude-haiku-4-5');
+    chatPanel.model = initialModel;
+    applyGatewayForModel(initialModel);
+
+    chat.addEventListener('native:model-change', ((e: CustomEvent) => {
+      const selected = e.detail?.value;
+      if (typeof selected !== 'string' || selected.length === 0) return;
+      applyGatewayForModel(selected);
+    }) as EventListener);
+
     this.#chatPanel = chat;
     const chatResizeHandle = document.createElement('div');
     chatResizeHandle.className = 'layout-resize-handle';

@@ -35,13 +35,8 @@
 
 /* WHY: Wide padding only above 22rem — asides (280–480px) keep compact defaults. */
 @container (min-width: 22rem) {
-  :where(native-tokens-panel) > :where(n-header) {
-    padding-inline: calc(var(--n-space) * 8);
-  }
-
-  :where(native-tokens-panel) > :where(n-body) {
-    padding-inline: calc(var(--n-space) * 8);
-  }
+  /*:where(native-tokens-panel) > :where(n-header) {}*/
+  /*:where(native-tokens-panel) > :where(n-body) {}*/
 }
 
 :where(native-tokens-panel) > :where(n-header) > :where([slot="content"]) > * {

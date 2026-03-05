@@ -13,6 +13,7 @@ Start here. Load this file first, then pull in specific docs as needed.
 | Start a new project | [SETUP.md](SETUP.md) (see "New Project Checklist") | [EXAMPLES.md](EXAMPLES.md) |
 | Build a page with components | [SETUP.md](SETUP.md) | [EXAMPLES.md](EXAMPLES.md) |
 | Integrate with Astro | [ASTRO.md](ASTRO.md) | [SETUP.md](SETUP.md) |
+| Add chat panel to Astro | [ASTRO-CHAT.md](ASTRO-CHAT.md) | [ASTRO.md](ASTRO.md) |
 | Style or theme an interface | [STYLING.md](STYLING.md) | [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) |
 | Look up a component's API | [COMPONENTS.md](COMPONENTS.md) | [PATTERNS.md](PATTERNS.md) |
 | Add layout or structure | [CONTAINERS.md](CONTAINERS.md) | [COMPONENTS.md](COMPONENTS.md) |
@@ -32,6 +33,7 @@ For your first task, load [SETUP.md](SETUP.md) + [EXAMPLES.md](EXAMPLES.md). The
 |------|------|-------------|
 | [SETUP.md](SETUP.md) | ~5KB | Installation, CSS/JS loading, SPA vs SSR vs CDN |
 | [ASTRO.md](ASTRO.md) | ~9KB | Complete Astro integration: layout, View Transitions, SSR preferences |
+| [ASTRO-CHAT.md](ASTRO-CHAT.md) | ~7KB | Astro + native-chat-panel playbook: setup, events, troubleshooting |
 | [EXAMPLES.md](EXAMPLES.md) | ~14KB | 14 concrete examples: components, signals, traits, OKLCH, variants |
 | [STYLING.md](STYLING.md) | ~4KB | How to style: attributes first, anti-patterns, when CSS is appropriate |
 | [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) | ~6KB | Tokens, colors, sizes, spacing, density, theming |

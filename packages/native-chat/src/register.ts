@@ -1,4 +1,4 @@
-import { define, NTextarea, NButton, NIcon, NToolbar, NDialog, NCard, NListbox, NOption, registerIcon } from '@nonoun/native-ui';
+import { define, NTextarea, NButton, NIcon, NToolbar, NDialog, NCard, NListbox, NOption, NOptionGroup, NOptionGroupHeader, NSelect, registerIcon } from '@nonoun/native-ui';
 import { NChatInput } from './chat-input-element.ts';
 import { NChatPanel } from './chat-panel-element.ts';
 import { NChatFeed } from './feed/chat-feed-element.ts';
@@ -33,6 +33,9 @@ define('n-dialog', NDialog);
 define('n-card', NCard);
 define('n-listbox', NListbox);
 define('n-option', NOption);
+define('n-option-group', NOptionGroup);
+define('n-option-group-header', NOptionGroupHeader);
+define('n-select', NSelect);
 
 // ── Icons used in chat components ──
 registerIcon('chat-dots', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M116,128a12,12,0,1,1,12,12A12,12,0,0,1,116,128ZM84,140a12,12,0,1,0-12-12A12,12,0,0,0,84,140Zm88,0a12,12,0,1,0-12-12A12,12,0,0,0,172,140Zm60-76V192a16,16,0,0,1-16,16H83l-32.6,28.16-.09.07A15.89,15.89,0,0,1,40,240a16.13,16.13,0,0,1-6.8-1.52A15.85,15.85,0,0,1,24,224V64A16,16,0,0,1,40,48H216A16,16,0,0,1,232,64ZM40,224h0ZM216,64H40V224l34.77-30A8,8,0,0,1,80,192H216Z"/></svg>');
@@ -42,6 +45,12 @@ registerIcon('arrow-counter-clockwise', '<svg viewBox="0 0 256 256" fill="curren
 
 // ── Icons used in model picker ──
 registerIcon('caret-up-down', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z"/></svg>');
+registerIcon('dots-three-outline-fill', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M156,128a28,28,0,1,1-28-28A28,28,0,0,1,156,128ZM48,100a28,28,0,1,0,28,28A28,28,0,0,0,48,100Zm160,0a28,28,0,1,0,28,28A28,28,0,0,0,208,100Z"/></svg>');
+
+// ── Icons used in composer controls ──
+registerIcon('plus', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></svg>');
+registerIcon('microphone', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M128,176a48.05,48.05,0,0,0,48-48V64a48,48,0,0,0-96,0v64A48.05,48.05,0,0,0,128,176ZM96,64a32,32,0,0,1,64,0v64a32,32,0,0,1-64,0Zm40,143.6V240a8,8,0,0,1-16,0V207.6A80.11,80.11,0,0,1,48,128a8,8,0,0,1,16,0,64,64,0,0,0,128,0,8,8,0,0,1,16,0A80.11,80.11,0,0,1,136,207.6Z"/></svg>');
+registerIcon('arrow-up', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,117.66a8,8,0,0,1-11.32,0L136,59.31V216a8,8,0,0,1-16,0V59.31L61.66,117.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0l72,72A8,8,0,0,1,205.66,117.66Z"/></svg>');
 
 // ── Icons used in message action toolbar ──
 registerIcon('copy', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg>');

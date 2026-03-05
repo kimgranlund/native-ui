@@ -1,4 +1,10 @@
 import { NativeElement, signal } from '@nonoun/native-ui';
+import type { GatewayAdapter, GatewayConfig, GatewayAdapterFactoryContext } from './gateway/adapter';
+import type { ChatMessage, SendMessageStreamChunk } from './gateway/types';
+import { createOpenAiGatewayAdapter } from './gateway/adapter-chatgpt';
+import { createClaudeGatewayAdapter } from './gateway/adapter-claude';
+import { createMockGatewayAdapter } from './gateway/adapter-mock';
+import { createRequestId } from './gateway/runtime';
 
 // ── Types ──
 
@@ -57,9 +63,12 @@ export interface ModelOption {
  * @fires native:composer-focused - Fired when the composer receives focus via API/policy
  * @fires native:composer-focus-failed - Fired when focusComposer() fails after retries
  * @fires native:model-change - Fired when user selects a different model. Detail: `{ value, previousValue }`
+ * @attr {string} gateway - Gateway adapter: 'openai' or 'claude'. When set, panel handles send/stream automatically
+ * @attr {string} gateway-url - Base URL for the gateway API (e.g. '/api/chat' or 'https://api.openai.com/v1')
+ * @attr {string} gateway-config - JSON config for the adapter (model, apiKey, system, etc.)
  */
 export class NChatPanel extends NativeElement {
-  static observedAttributes = ['show-stop', 'show-restart', 'auto-focus-policy', 'open', 'model'];
+  static observedAttributes = ['show-stop', 'show-restart', 'auto-focus-policy', 'open', 'model', 'gateway', 'gateway-url', 'gateway-config'];
 
   #showStop = signal(false);
   #showRestart = signal(false);
@@ -68,14 +77,27 @@ export class NChatPanel extends NativeElement {
   #models = signal<ModelOption[]>([]);
   #model = signal<string | null>(null);
 
+  // ── Gateway signals ──
+  #gateway = signal<string | null>(null);
+  #gatewayUrl = signal<string | null>(null);
+  #gatewayConfig = signal<GatewayConfig | null>(null);
+  #streaming = signal(false);
+
+  // ── Gateway state ──
+  #adapter: GatewayAdapter | null = null;
+  #messages: ChatMessage[] = [];
+  #abortController: AbortController | null = null;
+  #sessionId: string | null = null;
+
   // Stamped DOM references (set once in setup, cleared in teardown)
   #footer: HTMLElement | null = null;
+  #chatFeed: HTMLElement | null = null;
   #stopBtn: HTMLElement | null = null;
   #restartBtn: HTMLElement | null = null;
   #headerTrailingContainer: HTMLElement | null = null;
-  #modelPickerBtn: HTMLElement | null = null;
-  #modelPickerListbox: HTMLElement | null = null;
-  #modelPickerOpen = signal(false);
+  #inputActions: HTMLElement | null = null;
+  #modelSelect: HTMLElement | null = null;
+  #modelListbox: HTMLElement | null = null;
 
   // ── Attribute sync ──
 
@@ -103,6 +125,19 @@ export class NChatPanel extends NativeElement {
       }
       case 'model':
         this.#model.value = val;
+        break;
+      case 'gateway':
+        this.#gateway.value = val;
+        break;
+      case 'gateway-url':
+        this.#gatewayUrl.value = val;
+        break;
+      case 'gateway-config':
+        try {
+          this.#gatewayConfig.value = val ? JSON.parse(val) as GatewayConfig : null;
+        } catch {
+          this.#gatewayConfig.value = null;
+        }
         break;
     }
     super.attributeChangedCallback(name, old, val);
@@ -149,6 +184,33 @@ export class NChatPanel extends NativeElement {
       this.removeAttribute('model');
     }
   }
+
+  /** Gateway adapter type: 'openai' or 'claude'. When set, panel handles send/stream automatically. */
+  get gateway(): string | null { return this.#gateway.value; }
+  set gateway(val: string | null) {
+    this.#gateway.value = val;
+    if (val) this.setAttribute('gateway', val);
+    else this.removeAttribute('gateway');
+  }
+
+  /** Base URL for the gateway API. */
+  get gatewayUrl(): string | null { return this.#gatewayUrl.value; }
+  set gatewayUrl(val: string | null) {
+    this.#gatewayUrl.value = val;
+    if (val) this.setAttribute('gateway-url', val);
+    else this.removeAttribute('gateway-url');
+  }
+
+  /** Configuration for the gateway adapter (model, apiKey, system, etc.). */
+  get gatewayConfig(): GatewayConfig | null { return this.#gatewayConfig.value; }
+  set gatewayConfig(val: GatewayConfig | null) {
+    this.#gatewayConfig.value = val;
+    if (val) this.setAttribute('gateway-config', JSON.stringify(val));
+    else this.removeAttribute('gateway-config');
+  }
+
+  /** Whether the panel is currently streaming a response. Read-only. */
+  get streaming(): boolean { return this.#streaming.value; }
 
   /** Open the panel. Optionally focus the composer. */
   open(options?: ChatPanelOpenOptions): void {
@@ -221,6 +283,12 @@ export class NChatPanel extends NativeElement {
     // ── Body ──
     const body = document.createElement('n-body');
     const chatContent = document.createElement('n-chat-content');
+
+    const chatFeed = document.createElement('n-chat-feed');
+    chatFeed.setAttribute('auto-scroll', '');
+    chatContent.appendChild(chatFeed);
+    this.#chatFeed = chatFeed;
+
     body.appendChild(chatContent);
 
     // ── Footer ──
@@ -229,7 +297,6 @@ export class NChatPanel extends NativeElement {
     this.#footer = footer;
 
     const chatInput = document.createElement('n-chat-input');
-    chatInput.setAttribute('variant', 'plain');
 
     const textarea = document.createElement('n-textarea');
     textarea.setAttribute('placeholder', 'Ask anything');
@@ -238,6 +305,7 @@ export class NChatPanel extends NativeElement {
     chatInput.appendChild(textarea);
 
     const actions = document.createElement('n-chat-input-actions');
+    this.#inputActions = actions;
 
     const plusBtn = document.createElement('n-button');
     plusBtn.setAttribute('variant', 'ghost');
@@ -257,6 +325,7 @@ export class NChatPanel extends NativeElement {
     submitBtn.setAttribute('radius', 'round');
     submitBtn.setAttribute('inline', '');
     submitBtn.setAttribute('disabled', '');
+    submitBtn.dataset.submit = '';
     submitBtn.dataset.role = 'submit';
     submitBtn.innerHTML = '<n-icon name="arrow-up"></n-icon>';
     actions.appendChild(submitBtn);
@@ -314,80 +383,107 @@ export class NChatPanel extends NativeElement {
     this.addEffect(() => {
       const models = this.#models.value;
 
-      if (models.length > 0 && !this.#modelPickerBtn) {
-        // Stamp model picker button
-        const btn = document.createElement('n-button');
-        btn.setAttribute('variant', 'ghost');
-        btn.setAttribute('inline', '');
-        btn.setAttribute('aria-label', 'Select model');
-        btn.setAttribute('data-role', 'model-picker');
-        btn.innerHTML = '<span data-role="model-label"></span><n-icon name="caret-up-down"></n-icon>';
-        btn.addEventListener('native:press', this.#onModelPickerToggle);
-        this.#modelPickerBtn = btn;
-
-        // Stamp model picker listbox
+      if (models.length > 0 && !this.#modelSelect) {
+        const select = document.createElement('n-select');
+        select.setAttribute('aria-label', 'Select model');
+        select.setAttribute('data-role', 'model-picker');
+        select.addEventListener('native:change', this.#onModelSelect);
+        const trigger = document.createElement('n-button');
+        trigger.setAttribute('variant', 'ghost');
+        trigger.setAttribute('inline', '');
+        trigger.innerHTML = '<n-icon name="dots-three-outline-fill"></n-icon>';
         const listbox = document.createElement('n-listbox');
-        listbox.setAttribute('popover', 'auto');
-        listbox.setAttribute('data-role', 'model-listbox');
-        listbox.addEventListener('native:change', this.#onModelSelect);
-        this.#modelPickerListbox = listbox;
-
-        // Insert button at the START of the trailing container (before stop/restart/consumer)
-        this.#headerTrailingContainer?.prepend(btn);
-        // Append listbox to header trailing container (popover renders in top layer)
-        this.#headerTrailingContainer?.appendChild(listbox);
-      } else if (models.length === 0 && this.#modelPickerBtn) {
+        listbox.setAttribute('popover', 'manual');
+        select.append(trigger, listbox);
+        this.#modelSelect = select;
+        this.#modelListbox = listbox;
+        // Keep model chooser in the composer action strip.
+        const submit = this.#inputActions?.querySelector('[data-submit]');
+        if (submit) this.#inputActions?.insertBefore(select, submit);
+        else this.#inputActions?.appendChild(select);
+      } else if (models.length === 0 && this.#modelSelect) {
         this.#destroyModelPicker();
       }
     });
 
-    // Model picker: sync options + label reactively
+    // Model picker: sync options + selected value reactively
     this.addEffect(() => {
       const models = this.#models.value;
       const selected = this.#model.value;
-      const listbox = this.#modelPickerListbox;
-      const btn = this.#modelPickerBtn;
+      const select = this.#modelSelect as (HTMLElement & { value?: string | null }) | null;
+      const listbox = this.#modelListbox;
 
-      if (!listbox || !btn || models.length === 0) return;
+      if (!select || !listbox || models.length === 0) return;
 
-      // Sync options
+      const nextValue = selected ?? models[0]?.value ?? null;
+      if (nextValue === null) return;
+
       listbox.innerHTML = '';
-      for (const m of models) {
-        const option = document.createElement('n-option');
-        option.setAttribute('value', m.value);
-        option.textContent = m.label ?? m.value;
-        listbox.appendChild(option);
-      }
-
-      // Sync selected value on listbox
-      if (selected) {
-        (listbox as any).value = selected;
-      }
-
-      // Sync button label text
-      const labelEl = btn.querySelector('[data-role="model-label"]');
-      if (labelEl) {
-        const match = models.find(m => m.value === selected);
-        labelEl.textContent = match ? (match.label ?? match.value) : (models[0].label ?? models[0].value);
-      }
-    });
-
-    // Model picker: sync popover open state
-    this.addEffect(() => {
-      const open = this.#modelPickerOpen.value;
-      const listbox = this.#modelPickerListbox;
-      if (!listbox) return;
-
-      try {
-        if (open) {
-          listbox.showPopover();
-        } else {
-          listbox.hidePopover();
+      for (const [group, items] of this.#groupModels(models)) {
+        const groupEl = document.createElement('n-option-group');
+        const groupHeader = document.createElement('n-option-group-header');
+        groupHeader.textContent = group;
+        groupEl.appendChild(groupHeader);
+        for (const m of items) {
+          const option = document.createElement('n-option');
+          const isSelected = m.value === nextValue;
+          option.setAttribute('value', m.value);
+          option.setAttribute('aria-selected', String(isSelected));
+          option.textContent = `${isSelected ? '✓ ' : ''}${m.label ?? m.value}`;
+          groupEl.appendChild(option);
         }
-      } catch {
-        // Guard: showPopover/hidePopover can throw if already in desired state
+        listbox.appendChild(groupEl);
+      }
+
+      if (selected === null) {
+        this.#model.value = nextValue;
+        this.setAttribute('model', nextValue);
+      }
+
+      select.value = nextValue;
+    });
+
+    // ── Gateway adapter: create/destroy reactively ──
+    this.addEffect(() => {
+      const gateway = this.#gateway.value;
+      const url = this.#gatewayUrl.value;
+      const config = this.#gatewayConfig.value;
+
+      if (!gateway || !url) {
+        this.#adapter = null;
+        return;
+      }
+
+      const context: GatewayAdapterFactoryContext = {
+        clientId: this.#sessionId ?? createRequestId(),
+        baseUrl: url,
+        gatewayConfig: config ?? {},
+      };
+
+      if (gateway === 'openai') {
+        this.#adapter = createOpenAiGatewayAdapter(context);
+      } else if (gateway === 'claude') {
+        this.#adapter = createClaudeGatewayAdapter(context);
+      } else if (gateway === 'mock') {
+        this.#adapter = createMockGatewayAdapter(context);
+      } else {
+        this.#adapter = null;
       }
     });
+
+    // ── Gateway mode: auto-manage stop button visibility ──
+    this.addEffect(() => {
+      if (this.#gateway.value) {
+        this.#showStop.value = this.#streaming.value;
+      }
+    });
+
+    // ── Listen for native:send (gateway handles it when adapter exists) ──
+    this.addEventListener('native:send', this.#onSend);
+
+    // ── Listen for stop/restart in gateway mode ──
+    this.addEventListener('native:chat-stop', this.#onStopStream);
+    this.addEventListener('native:chat-restart', this.#onRestartChat);
 
     // ── Slot relocation (needs children present) ──
     this.deferChildren(() => {
@@ -405,6 +501,10 @@ export class NChatPanel extends NativeElement {
   }
 
   teardown(): void {
+    this.#abortController?.abort();
+    this.removeEventListener('native:send', this.#onSend);
+    this.removeEventListener('native:chat-stop', this.#onStopStream);
+    this.removeEventListener('native:chat-restart', this.#onRestartChat);
     if (this.#stopBtn) {
       this.#stopBtn.removeEventListener('native:press', this.#onStop);
     }
@@ -412,10 +512,16 @@ export class NChatPanel extends NativeElement {
       this.#restartBtn.removeEventListener('native:press', this.#onRestart);
     }
     this.#destroyModelPicker();
+    this.#adapter = null;
+    this.#messages = [];
+    this.#abortController = null;
     this.#footer = null;
+    this.#chatFeed = null;
     this.#stopBtn = null;
     this.#restartBtn = null;
     this.#headerTrailingContainer = null;
+    this.#inputActions = null;
+    this.#modelListbox = null;
     this.innerHTML = '';
     super.teardown();
   }
@@ -561,10 +667,6 @@ export class NChatPanel extends NativeElement {
     );
   };
 
-  #onModelPickerToggle = (): void => {
-    this.#modelPickerOpen.value = !this.#modelPickerOpen.value;
-  };
-
   #onModelSelect = (e: Event): void => {
     const detail = (e as CustomEvent).detail;
     const newValue = detail?.value ?? null;
@@ -572,13 +674,11 @@ export class NChatPanel extends NativeElement {
 
     const previousValue = this.#model.value;
     if (newValue === previousValue) {
-      this.#modelPickerOpen.value = false;
       return;
     }
 
     this.#model.value = newValue;
     this.setAttribute('model', newValue);
-    this.#modelPickerOpen.value = false;
 
     this.dispatchEvent(
       new CustomEvent('native:model-change', {
@@ -589,17 +689,161 @@ export class NChatPanel extends NativeElement {
     );
   };
 
+  // ── Gateway: send handler ──
+
+  #onSend = (e: Event): void => {
+    if (!this.#adapter) return;
+    const detail = (e as CustomEvent).detail;
+    const value = detail?.value;
+    if (!value?.trim()) return;
+    this.#sendMessage(value);
+  };
+
+  async #sendMessage(query: string): Promise<void> {
+    const adapter = this.#adapter;
+    if (!adapter || this.#streaming.value) return;
+
+    // Abort any previous stream
+    this.#abortController?.abort();
+    const abort = new AbortController();
+    this.#abortController = abort;
+
+    // Add user message to history
+    const userMsg: ChatMessage = {
+      role: 'user',
+      message: query,
+      datetime: Date.now(),
+    };
+    this.#messages.push(userMsg);
+
+    // Stamp user message in DOM
+    this.#stampMessage(userMsg);
+
+    // Create assistant placeholder
+    const assistantId = `msg-${Date.now()}-a`;
+    const assistantMsgEl = this.#stampAssistantPlaceholder(assistantId);
+    const textEl = assistantMsgEl?.querySelector('n-chat-message-text');
+
+    this.#streaming.value = true;
+
+    try {
+      const response = await adapter.sendMessageStream({
+        id: this.#sessionId ?? createRequestId(),
+        messages: this.#messages,
+        query,
+        model: this.#model.value ?? undefined,
+        signal: abort.signal,
+        onChunk: (chunk: SendMessageStreamChunk) => {
+          if (textEl) (textEl as any).content = chunk.fullMessage;
+          if (chunk.done) {
+            assistantMsgEl?.setAttribute('status', chunk.partial ? 'partial' : 'sent');
+          }
+        },
+      });
+
+      // Add assistant message to history
+      this.#messages.push({
+        role: 'assistant',
+        message: response.message,
+        datetime: response.datetime ?? Date.now(),
+        partial: response.partial,
+      });
+    } catch (err) {
+      if ((err as Error).name === 'AbortError') return;
+      assistantMsgEl?.setAttribute('status', 'error');
+      if (textEl) (textEl as any).content = `Error: ${(err as Error).message}`;
+    } finally {
+      this.#streaming.value = false;
+      this.#abortController = null;
+    }
+  }
+
+  #stampMessage(msg: ChatMessage): void {
+    const feed = this.#chatFeed;
+    if (!feed) return;
+
+    const group = document.createElement('n-chat-messages');
+    group.setAttribute('role', msg.role);
+    group.setAttribute('sender', msg.role === 'user' ? 'You' : 'Assistant');
+
+    const message = document.createElement('n-chat-message');
+    message.setAttribute('role', msg.role);
+    message.setAttribute('message-id', `msg-${Date.now()}`);
+    message.setAttribute('status', 'sent');
+
+    const text = document.createElement('n-chat-message-text');
+    (text as any).content = msg.message;
+
+    message.appendChild(text);
+    group.appendChild(message);
+    feed.appendChild(group);
+  }
+
+  #stampAssistantPlaceholder(id: string): HTMLElement | null {
+    const feed = this.#chatFeed;
+    if (!feed) return null;
+
+    const group = document.createElement('n-chat-messages');
+    group.setAttribute('role', 'assistant');
+    group.setAttribute('sender', 'Assistant');
+
+    const message = document.createElement('n-chat-message');
+    message.setAttribute('role', 'assistant');
+    message.setAttribute('message-id', id);
+    message.setAttribute('status', 'streaming');
+
+    const text = document.createElement('n-chat-message-text');
+    message.appendChild(text);
+    group.appendChild(message);
+    feed.appendChild(group);
+
+    return message;
+  }
+
+  // ── Gateway: stop/restart ──
+
+  #onStopStream = (): void => {
+    if (!this.#adapter) return;
+    this.#abortController?.abort();
+    this.#streaming.value = false;
+  };
+
+  #onRestartChat = (): void => {
+    if (!this.#adapter) return;
+    this.#abortController?.abort();
+    this.#streaming.value = false;
+    this.#messages = [];
+    if (this.#chatFeed) this.#chatFeed.innerHTML = '';
+  };
+
+  #groupModels(models: ModelOption[]): Array<[string, ModelOption[]]> {
+    const map = new Map<string, ModelOption[]>();
+    const groupFor = (m: ModelOption): string => {
+      const text = `${m.label ?? ''} ${m.value}`.toLowerCase();
+      if (text.includes('claude')) return 'Claude';
+      if (text.includes('gpt') || text.includes('openai')) return 'ChatGPT';
+      if (text.includes('gemini')) return 'Gemini';
+      return 'Models';
+    };
+    for (const m of models) {
+      const group = groupFor(m);
+      if (!map.has(group)) map.set(group, []);
+      map.get(group)!.push(m);
+    }
+    const order = ['Claude', 'ChatGPT', 'Gemini', 'Models'];
+    return Array.from(map.entries()).sort((a, b) => {
+      const ai = order.indexOf(a[0]);
+      const bi = order.indexOf(b[0]);
+      return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+    });
+  }
+
   #destroyModelPicker(): void {
-    if (this.#modelPickerBtn) {
-      this.#modelPickerBtn.removeEventListener('native:press', this.#onModelPickerToggle);
-      this.#modelPickerBtn.remove();
-      this.#modelPickerBtn = null;
+    if (this.#modelSelect) {
+      this.#modelSelect.removeEventListener('native:change', this.#onModelSelect);
+      this.#modelSelect.remove();
+      this.#modelSelect = null;
     }
-    if (this.#modelPickerListbox) {
-      this.#modelPickerListbox.removeEventListener('native:change', this.#onModelSelect);
-      this.#modelPickerListbox.remove();
-      this.#modelPickerListbox = null;
-    }
-    this.#modelPickerOpen.value = false;
+    this.#modelListbox = null;
   }
 }

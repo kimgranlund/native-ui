@@ -168,6 +168,56 @@
 &lt;/n-chat&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
+    <!-- ── Stamped Chat Panel (Gateway Mode) ── -->
+
+    <h2>Stamped Chat Panel (Gateway)</h2>
+    <p class="demo-desc">
+      <code>&lt;native-chat-panel&gt;</code> stamps its own DOM (header, feed, footer, input) and
+      handles the full send → stream → render lifecycle via the <code>gateway</code> attribute.
+      Use <code>gateway="mock"</code> for simulated responses, or <code>gateway="claude"</code> for real Anthropic models.
+    </p>
+    <n-panel bordered>
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Mock gateway (type and send)</span>
+          <native-chat-panel gateway="mock" gateway-url="mock" open show-restart style="height: 28rem;"></native-chat-panel>
+        </div>
+
+        <div class="demo-col">
+          <span class="demo-col-label">Claude Haiku 4.5 (requires API key)</span>
+          <native-chat-panel id="demo-panel-models" gateway="claude" gateway-url="/api/anthropic" model="claude-haiku-4-5" open style="height: 28rem;"></native-chat-panel>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;!-- Mock gateway — auto-stamps header, feed, footer, input --&gt;
+&lt;native-chat-panel gateway="mock" gateway-url="mock" open&gt;
+&lt;/native-chat-panel&gt;
+
+&lt;!-- Claude gateway (model + config set via JS) --&gt;
+&lt;native-chat-panel
+  id="panel"
+  gateway="claude"
+  gateway-url="/api/anthropic"
+  model="claude-haiku-4-5"
+  open&gt;&lt;/native-chat-panel&gt;
+&lt;script&gt;
+  // Set key via Vite env: VITE_CLAUDE_API_KEY or VITE_ANTHROPIC_API_KEY
+  panel.gatewayConfig = {
+    apiKey: import.meta.env?.VITE_ANTHROPIC_API_KEY || import.meta.env?.VITE_CLAUDE_API_KEY,
+    model: 'claude-haiku-4-5',
+    maxTokens: 1024,
+  };
+  panel.models = [
+    { value: 'claude-haiku-4-5', label: 'Claude Haiku 4.5' },
+    { value: 'claude-sonnet-4-6', label: 'Claude Sonnet 4.6' },
+    { value: 'gpt-5.2', label: 'GPT-5.2' },
+    { value: 'gpt-5.3-codex', label: 'GPT-5.3 Codex' },
+    { value: 'gpt-5.2-codex', label: 'GPT-5.2 Codex' },
+  ];
+&lt;/script&gt;
+
+&lt;!-- Tip: use a backend gateway URL in production. --&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
     <!-- ── Message Feed ── -->
 
     <h2>Message Feed</h2>
@@ -541,7 +591,69 @@ Step 4: Applying formatting rules...</pre>
       import '../../../src/icons/phosphor/copy.ts';
       import '../../../src/icons/phosphor/check.ts';
       import '../../../src/icons/phosphor/user.ts';
-// ── Demo: Feed Messages ──
+// ── Demo: Stamped Panel ──
+
+      const panelModels = document.getElementById('demo-panel-models');
+      if (panelModels) {
+        const claudeApiKey = import.meta.env?.VITE_ANTHROPIC_API_KEY
+          || import.meta.env?.VITE_CLAUDE_API_KEY
+          || null;
+        const openAiApiKey = import.meta.env?.VITE_OPENAI_API_KEY || null;
+
+        panelModels.models = [
+          { value: 'claude-haiku-4-5', label: 'Claude Haiku 4.5' },
+          { value: 'claude-sonnet-4-6', label: 'Claude Sonnet 4.6' },
+          { value: 'gpt-5.2', label: 'GPT-5.2' },
+          { value: 'gpt-5.3-codex', label: 'GPT-5.3 Codex' },
+          { value: 'gpt-5.2-codex', label: 'GPT-5.2 Codex' },
+        ];
+
+        const applyGatewayForModel = (model) => {
+          const isOpenAiModel = model.startsWith('gpt-') || model.startsWith('chatgpt-');
+          if (isOpenAiModel) {
+            if (!openAiApiKey) {
+              panelModels.gateway = 'mock';
+              panelModels.gatewayUrl = 'mock';
+              console.warn('[native-chat demo] Missing OpenAI API key. Set VITE_OPENAI_API_KEY in .env and restart Vite.');
+              return;
+            }
+            panelModels.gateway = 'openai';
+            panelModels.gatewayUrl = '/api/openai';
+            panelModels.gatewayConfig = {
+              apiKey: openAiApiKey,
+              model,
+              maxTokens: 1024,
+            };
+            return;
+          }
+
+          if (!claudeApiKey) {
+            panelModels.gateway = 'mock';
+            panelModels.gatewayUrl = 'mock';
+            console.warn('[native-chat demo] Missing Claude API key. Set VITE_ANTHROPIC_API_KEY or VITE_CLAUDE_API_KEY in .env and restart Vite.');
+            return;
+          }
+          panelModels.gateway = 'claude';
+          panelModels.gatewayUrl = '/api/anthropic';
+          panelModels.gatewayConfig = {
+            apiKey: claudeApiKey,
+            model,
+            maxTokens: 1024,
+          };
+        };
+
+        const initialModel = claudeApiKey ? 'claude-haiku-4-5' : (openAiApiKey ? 'gpt-5.2' : 'claude-haiku-4-5');
+        panelModels.model = initialModel;
+        applyGatewayForModel(initialModel);
+
+        panelModels.addEventListener('native:model-change', (e) => {
+          const selected = e.detail?.value;
+          if (typeof selected !== 'string' || selected.length === 0) return;
+          applyGatewayForModel(selected);
+        });
+      }
+
+      // ── Demo: Feed Messages ──
 
       const feedMsg1 = document.getElementById('demo-feed-msg1');
       if (feedMsg1) feedMsg1.content = "Hello! I'm your AI assistant. How can I help you today?";

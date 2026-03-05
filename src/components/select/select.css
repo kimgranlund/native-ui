@@ -26,7 +26,7 @@
     position-area: block-end span-inline-end;
     position-try-fallbacks: flip-block;
     margin-block: var(--n-popover-viewport-margin);
-    margin-inline: 0;
+    margin-inline: var(--n-popover-viewport-margin);
     margin-block-start: var(--n-popover-gap);
     min-width: anchor-size(inline);
     max-height: var(--n-popover-max-height);

@@ -100,6 +100,33 @@
     line-height: var(--n-line-height);
   }
 
+  /* ── Aside mode (collapsible side panel) ── */
+
+  :where(native-chat-panel)[aside] {
+    position: relative;
+    flex: none;
+    width: 0;
+    min-width: 0;
+    max-width: 480px;
+    overflow: clip;
+    padding: 0;
+    transition:
+      width var(--n-duration) var(--n-easing),
+      min-width var(--n-duration) var(--n-easing),
+      padding var(--n-duration) var(--n-easing),
+      margin var(--n-duration) var(--n-easing);
+  }
+
+  :where(native-chat-panel)[aside][open] {
+    width: 360px;
+    min-width: 280px;
+    overflow: visible;
+  }
+
+  :where(native-chat-panel)[aside][resizing] {
+    transition: none;
+  }
+
   /* ── Sub-container integration ── */
 
   :where(native-chat-panel) > :where(n-header) {
@@ -123,23 +150,18 @@
 
   /* ── Model picker ── */
 
-  :where(native-chat-panel) :where(n-button[data-role="model-picker"]) {
-    gap: calc(var(--n-space) * 0.5);
+  :where(native-chat-panel) :where(n-select[data-role="model-picker"]) {
     max-width: 12rem;
   }
 
-  :where(native-chat-panel) :where(n-button[data-role="model-picker"]) :where([data-role="model-label"]) {
+  :where(native-chat-panel) :where(n-select[data-role="model-picker"]) :where(n-button[justify="spread"]) {
+    gap: calc(var(--n-space) * 0.5);
+  }
+
+  :where(native-chat-panel) :where(n-select[data-role="model-picker"]) :where([slot="label"]) {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-
-  :where(native-chat-panel) :where(n-listbox[data-role="model-listbox"][popover]) {
-    position: fixed;
-    position-area: block-end span-inline-end;
-    position-try-fallbacks: flip-block;
-    margin: 0.25rem 0 0;
-    min-width: anchor-size(inline);
   }
 
 

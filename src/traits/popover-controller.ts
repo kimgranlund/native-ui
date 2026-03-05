@@ -57,6 +57,10 @@ export class PopoverController {
 
     // Mirror the flip-block algorithm: flip when content overflows below and above has more room
     if (height > spaceBelow && spaceAbove > spaceBelow) {
+      // Force above placement as a JS fallback when CSS position-try isn't applied.
+      popover.style.setProperty('position-area', 'block-start span-inline-end');
+      popover.style.setProperty('margin-block-start', '0');
+      popover.style.setProperty('margin-block-end', 'var(--n-popover-gap)');
       popover.style.setProperty('--n-popover-origin', 'bottom center');
       popover.style.setProperty('--n-popover-from', 'perspective(800px) scale(0.96) rotateX(20deg)');
     } else {
@@ -65,6 +69,9 @@ export class PopoverController {
   }
 
   #clearFlip(): void {
+    this.#popoverEl?.style.removeProperty('position-area');
+    this.#popoverEl?.style.removeProperty('margin-block-start');
+    this.#popoverEl?.style.removeProperty('margin-block-end');
     this.#popoverEl?.style.removeProperty('--n-popover-origin');
     this.#popoverEl?.style.removeProperty('--n-popover-from');
   }

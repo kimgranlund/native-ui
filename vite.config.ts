@@ -27,6 +27,18 @@ export default defineConfig(({ command }) => ({
   // loads from null→localhost are blocked without CORS headers. Dev-only setting.
   server: {
     cors: { origin: '*' },
+    proxy: {
+      '/api/anthropic': {
+        target: 'https://api.anthropic.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/anthropic/, '/v1'),
+      },
+      '/api/openai': {
+        target: 'https://api.openai.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/openai/, '/v1'),
+      },
+    },
   },
   // WHY: Don't copy public/ assets into dist/ — library build, not app build
   publicDir: false,

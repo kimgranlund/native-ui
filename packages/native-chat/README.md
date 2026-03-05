@@ -323,6 +323,10 @@ import type {
 import { renderMarkdown, renderInline, sanitizeHtml } from '@nonoun/native-chat';
 ```
 
+## Astro Integration
+
+See the [Astro + native-chat-panel Playbook](../../docs/ASTRO-CHAT.md) for the canonical Astro recipe: CSS load order, registration, event wiring, View Transitions, and troubleshooting.
+
 ## Peer Dependency
 
 Requires `@nonoun/native-ui >= 0.6.0`.
