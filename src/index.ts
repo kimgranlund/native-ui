@@ -109,6 +109,12 @@ export { NToolbar } from './containers/toolbar/toolbar-element.ts';
 // Event detail types
 export type { NPressDetail, NSelectDetail, NTextChangeDetail, NRangeValueDetail, NPickerChangeDetail, NToggleChangeDetail, NInputDetail, NDisabledDetail, NDragStartDetail, NDragMoveDetail, NDragOverDetail, NDropDetail, NDragCancelDetail, NInvalidDetail, NValidDetail, NRangeChangeDetail, NRangeSelectDetail, NFileDropDetail, NTextDropDetail, NSearchDetail, NClipDetail, NIntersectDetail, NCopyDetail, NVirtualChangeDetail, NSelectionChangeDetail, NHoverDetail, NSortDetail, NSwipeDetail, NResizeDetail, NResizeCancelDetail, NEditStartDetail, NEditCommitDetail, NEditCancelDetail, NPaginationDotsChangeDetail, NSlideChangeDetail, NSendDetail, NToastDetail, NTableSortDetail, NTableSelectDetail, NTableReorderDetail, NTableResizeDetail, NTableResizeEndDetail, NCalendarRangeDetail, NShortcutDetail, NGripStartDetail, NGripDetail, NGripEndDetail, NGripCancelDetail } from './events.ts';
 
+// Utilities
+export { whenNativeReady } from './core/ready.ts';
+export type { ReadyOptions } from './core/ready.ts';
+export { getNativeDiagnostics } from './core/diagnostics.ts';
+export type { DiagnosticsReport, DiagnosticsOptions } from './core/diagnostics.ts';
+
 // Icons
 export { NIcon } from './icons/icon-element.ts';
 export { registerIcon, getIcon, onIconRegistered } from './registries/icon-registry.ts';

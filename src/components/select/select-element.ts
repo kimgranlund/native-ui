@@ -99,6 +99,9 @@ export class NSelect extends FormAssociable(NativeElement) {
   set options(val: SelectOption[]) {
     this.#options.value = val;
     this.setAttribute('options', JSON.stringify(val));
+    // WHY: If data mode wasn't active at setup() time, activate it now.
+    // This enables setting options via JS property on a manually-authored element.
+    if (!this.#dataMode && this.isConnected) this.#activateDataMode();
   }
 
   get src(): string | null {
@@ -122,6 +125,28 @@ export class NSelect extends FormAssociable(NativeElement) {
   }
 
   // ── Data-driven helpers ──
+
+  #activateDataMode(): void {
+    if (this.#dataMode) return;
+    this.#dataMode = true;
+    this.#stampDOM();
+    this.#listbox = this.querySelector<HTMLElement & NListbox>(':scope > n-listbox[popover]');
+    this.#trigger = this.querySelector<HTMLElement>(':scope > n-button');
+
+    if (this.#trigger && this.#listbox) {
+      this.#popover.wirePopover(this.#trigger, this.#listbox);
+      this.#trigger.setAttribute('aria-haspopup', 'listbox');
+      if (!this.#listbox.id) this.#listbox.id = uid('lb');
+      this.#trigger.setAttribute('aria-controls', this.#listbox.id);
+      this.#trigger.addEventListener('native:press', this.#onTriggerPress);
+      this.#trigger.addEventListener('keydown', this.#onTriggerKeydown);
+    }
+
+    this.addEffect(() => {
+      const opts = this.#options.value;
+      this.#renderOptions(opts);
+    });
+  }
 
   #parseOptions(json: string): SelectOption[] {
     return parseDataOptions<SelectOption>(json, 'n-select');
@@ -382,11 +407,12 @@ export class NSelect extends FormAssociable(NativeElement) {
 
   #onOptionSelect = (e: Event): void => {
     const detail = (e as CustomEvent).detail as { value: string; label: string };
+    const previousValue = this.#controller.value.peek();
     this.#controller.select(detail.value, detail.label);
     this.dispatchEvent(new CustomEvent('native:change', {
       bubbles: true,
       composed: true,
-      detail,
+      detail: { value: detail.value, label: detail.label, previousValue },
     }));
   };
 

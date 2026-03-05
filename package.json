@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-ui",
-  "version": "0.7.16",
+  "version": "0.7.18",
   "description": "Zero-dependency web component library with an OKLCH CSS design system, signal-based reactivity, and composable trait controllers",
   "license": "MIT",
   "type": "module",
@@ -23,6 +23,10 @@
     "./register": {
       "types": "./dist/register-all.d.ts",
       "default": "./dist/register-all.js"
+    },
+    "./reactivity": {
+      "types": "./dist/reactivity/index.d.ts",
+      "default": "./dist/reactivity.js"
     },
     "./css": "./dist/native-ui.css",
     "./css/foundation": "./dist/foundation.css",
@@ -61,9 +65,10 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:js && npm run build:css && npm run build:types && npm run build:cem && npm run generate:docs",
+    "build": "npm run build:js && npm run build:reactivity && npm run build:css && npm run build:types && npm run build:cem && npm run generate:docs",
     "build:css": "node scripts/build-css.mjs",
     "build:js": "vite build",
+    "build:reactivity": "node scripts/build-reactivity.mjs",
     "build:types": "tsc -p tsconfig.build.json",
     "build:cem": "cem analyze",
     "build:site": "vite build --config vite.config.site.ts",

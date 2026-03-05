@@ -63,6 +63,7 @@ import { NTreeItem } from './components/tree/tree-item-element.ts';
 import { NSlideshow } from './components/slideshow/slideshow-element.ts';
 import { NSlide } from './components/slideshow/slide-element.ts';
 import { NController } from './components/controller/controller-element.ts';
+import { NGripper } from './components/gripper/gripper-element.ts';
 
 // Containers (with JS behavior)
 import { NCard } from './containers/card/card-element.ts';
@@ -124,6 +125,7 @@ define('n-tree-item', NTreeItem);
 define('n-slideshow', NSlideshow);
 define('n-slide', NSlide);
 define('n-controller', NController);
+define('n-gripper', NGripper);
 define('n-card', NCard);
 define('n-section', NSection);
 define('n-toolbar', NToolbar);

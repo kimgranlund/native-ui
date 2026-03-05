@@ -200,6 +200,16 @@ export class NToolbar extends NativeElement {
     // 7. Overflow detected — exit measurement mode, show more button
     this.removeAttribute('data-measuring');
     this.setAttribute('data-overflowing', '');
+
+    // DEV diagnostic: warn if items overflow but no overflow trigger is visible
+    // (e.g. toolbar inside a constrained container without the overflow menu).
+    if (import.meta.env?.DEV && !this.#moreBtn?.isConnected) {
+      console.warn(
+        `[n-toolbar] Items overflow (${Math.round(totalWidth)}px > ${Math.round(contentWidth)}px) ` +
+        `but overflow trigger is missing. Items will be clipped.`,
+        this,
+      );
+    }
     const moreBtnWidth = this.#moreBtn.offsetWidth;
     const available = contentWidth - moreBtnWidth - gap;
 

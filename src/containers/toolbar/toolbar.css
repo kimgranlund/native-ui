@@ -79,10 +79,13 @@
   }
 
   /* WHY: [fill] on the toolbar lets ALL items grow to distribute space evenly.
-     Default is intrinsic (compact); fill is opt-in. */
+     Default is intrinsic (compact); fill is opt-in.
+     flex-shrink: 1 + min-width: 0 lets items compress in constrained containers
+     (e.g. n-header trailing slot) rather than overflowing the toolbar box. */
   :where(n-toolbar[fill]) > :where(:not(n-listbox)),
   :where(n-toolbar[fill]) > :where(n-toolbar-group) > :where(*) {
-    flex: 1 0 auto;
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   /* WHY: During overflow measurement, items must be at intrinsic width

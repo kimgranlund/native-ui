@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-chat",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "description": "Chat input and message layout components for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",
