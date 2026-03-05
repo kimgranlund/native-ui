@@ -13,6 +13,11 @@ export interface FocusComposerOptions {
   cursor?: 'start' | 'end' | 'preserve';
 }
 
+export interface ModelOption {
+  value: string;
+  label?: string;
+}
+
 /**
  * Stamped panel for the chat interface.
  *
@@ -43,6 +48,7 @@ export interface FocusComposerOptions {
  * @attr {boolean} show-stop - Show a stop button in the header; fires `native:chat-stop`
  * @attr {boolean} show-restart - Show a restart button in the header; fires `native:chat-restart`
  * @attr {string} auto-focus-policy - When to auto-focus the composer: 'open-request' (default), 'ready', 'never'
+ * @attr {string} model - Currently selected model value
  * @fires native:chat-stop - Fired when the stop button is pressed
  * @fires native:chat-restart - Fired when the restart button is pressed
  * @fires native:send - Fired on submit with `{ value }` detail
@@ -50,20 +56,26 @@ export interface FocusComposerOptions {
  * @fires native:chat-closed - Fired when the panel closes
  * @fires native:composer-focused - Fired when the composer receives focus via API/policy
  * @fires native:composer-focus-failed - Fired when focusComposer() fails after retries
+ * @fires native:model-change - Fired when user selects a different model. Detail: `{ value, previousValue }`
  */
 export class NChatPanel extends NativeElement {
-  static observedAttributes = ['show-stop', 'show-restart', 'auto-focus-policy', 'open'];
+  static observedAttributes = ['show-stop', 'show-restart', 'auto-focus-policy', 'open', 'model'];
 
   #showStop = signal(false);
   #showRestart = signal(false);
   #autoFocusPolicy = signal<AutoFocusPolicy>('open-request');
   #open = signal(false);
+  #models = signal<ModelOption[]>([]);
+  #model = signal<string | null>(null);
 
   // Stamped DOM references (set once in setup, cleared in teardown)
   #footer: HTMLElement | null = null;
   #stopBtn: HTMLElement | null = null;
   #restartBtn: HTMLElement | null = null;
   #headerTrailingContainer: HTMLElement | null = null;
+  #modelPickerBtn: HTMLElement | null = null;
+  #modelPickerListbox: HTMLElement | null = null;
+  #modelPickerOpen = signal(false);
 
   // ── Attribute sync ──
 
@@ -89,6 +101,9 @@ export class NChatPanel extends NativeElement {
         }
         break;
       }
+      case 'model':
+        this.#model.value = val;
+        break;
     }
     super.attributeChangedCallback(name, old, val);
   }
@@ -111,6 +126,28 @@ export class NChatPanel extends NativeElement {
   set autoFocusPolicy(val: AutoFocusPolicy) {
     this.#autoFocusPolicy.value = val;
     this.setAttribute('auto-focus-policy', val);
+  }
+
+  /** List of available models for the model picker. */
+  get models(): ModelOption[] { return this.#models.value; }
+  set models(val: ModelOption[]) {
+    this.#models.value = val;
+    // Auto-select first model if no model is currently selected
+    if (val.length > 0 && this.#model.value === null) {
+      this.#model.value = val[0].value;
+      this.setAttribute('model', val[0].value);
+    }
+  }
+
+  /** Currently selected model value. */
+  get model(): string | null { return this.#model.value; }
+  set model(val: string | null) {
+    this.#model.value = val;
+    if (val !== null) {
+      this.setAttribute('model', val);
+    } else {
+      this.removeAttribute('model');
+    }
   }
 
   /** Open the panel. Optionally focus the composer. */
@@ -273,6 +310,85 @@ export class NChatPanel extends NativeElement {
       }
     });
 
+    // Model picker: stamp/remove reactively based on models array
+    this.addEffect(() => {
+      const models = this.#models.value;
+
+      if (models.length > 0 && !this.#modelPickerBtn) {
+        // Stamp model picker button
+        const btn = document.createElement('n-button');
+        btn.setAttribute('variant', 'ghost');
+        btn.setAttribute('inline', '');
+        btn.setAttribute('aria-label', 'Select model');
+        btn.setAttribute('data-role', 'model-picker');
+        btn.innerHTML = '<span data-role="model-label"></span><n-icon name="caret-up-down"></n-icon>';
+        btn.addEventListener('native:press', this.#onModelPickerToggle);
+        this.#modelPickerBtn = btn;
+
+        // Stamp model picker listbox
+        const listbox = document.createElement('n-listbox');
+        listbox.setAttribute('popover', 'auto');
+        listbox.setAttribute('data-role', 'model-listbox');
+        listbox.addEventListener('native:change', this.#onModelSelect);
+        this.#modelPickerListbox = listbox;
+
+        // Insert button at the START of the trailing container (before stop/restart/consumer)
+        this.#headerTrailingContainer?.prepend(btn);
+        // Append listbox to header trailing container (popover renders in top layer)
+        this.#headerTrailingContainer?.appendChild(listbox);
+      } else if (models.length === 0 && this.#modelPickerBtn) {
+        this.#destroyModelPicker();
+      }
+    });
+
+    // Model picker: sync options + label reactively
+    this.addEffect(() => {
+      const models = this.#models.value;
+      const selected = this.#model.value;
+      const listbox = this.#modelPickerListbox;
+      const btn = this.#modelPickerBtn;
+
+      if (!listbox || !btn || models.length === 0) return;
+
+      // Sync options
+      listbox.innerHTML = '';
+      for (const m of models) {
+        const option = document.createElement('n-option');
+        option.setAttribute('value', m.value);
+        option.textContent = m.label ?? m.value;
+        listbox.appendChild(option);
+      }
+
+      // Sync selected value on listbox
+      if (selected) {
+        (listbox as any).value = selected;
+      }
+
+      // Sync button label text
+      const labelEl = btn.querySelector('[data-role="model-label"]');
+      if (labelEl) {
+        const match = models.find(m => m.value === selected);
+        labelEl.textContent = match ? (match.label ?? match.value) : (models[0].label ?? models[0].value);
+      }
+    });
+
+    // Model picker: sync popover open state
+    this.addEffect(() => {
+      const open = this.#modelPickerOpen.value;
+      const listbox = this.#modelPickerListbox;
+      if (!listbox) return;
+
+      try {
+        if (open) {
+          listbox.showPopover();
+        } else {
+          listbox.hidePopover();
+        }
+      } catch {
+        // Guard: showPopover/hidePopover can throw if already in desired state
+      }
+    });
+
     // ── Slot relocation (needs children present) ──
     this.deferChildren(() => {
       this.#relocateSlots();
@@ -295,6 +411,7 @@ export class NChatPanel extends NativeElement {
     if (this.#restartBtn) {
       this.#restartBtn.removeEventListener('native:press', this.#onRestart);
     }
+    this.#destroyModelPicker();
     this.#footer = null;
     this.#stopBtn = null;
     this.#restartBtn = null;
@@ -443,4 +560,46 @@ export class NChatPanel extends NativeElement {
       new CustomEvent('native:chat-restart', { bubbles: true, composed: true }),
     );
   };
+
+  #onModelPickerToggle = (): void => {
+    this.#modelPickerOpen.value = !this.#modelPickerOpen.value;
+  };
+
+  #onModelSelect = (e: Event): void => {
+    const detail = (e as CustomEvent).detail;
+    const newValue = detail?.value ?? null;
+    if (newValue === null) return;
+
+    const previousValue = this.#model.value;
+    if (newValue === previousValue) {
+      this.#modelPickerOpen.value = false;
+      return;
+    }
+
+    this.#model.value = newValue;
+    this.setAttribute('model', newValue);
+    this.#modelPickerOpen.value = false;
+
+    this.dispatchEvent(
+      new CustomEvent('native:model-change', {
+        bubbles: true,
+        composed: true,
+        detail: { value: newValue, previousValue },
+      }),
+    );
+  };
+
+  #destroyModelPicker(): void {
+    if (this.#modelPickerBtn) {
+      this.#modelPickerBtn.removeEventListener('native:press', this.#onModelPickerToggle);
+      this.#modelPickerBtn.remove();
+      this.#modelPickerBtn = null;
+    }
+    if (this.#modelPickerListbox) {
+      this.#modelPickerListbox.removeEventListener('native:change', this.#onModelSelect);
+      this.#modelPickerListbox.remove();
+      this.#modelPickerListbox = null;
+    }
+    this.#modelPickerOpen.value = false;
+  }
 }

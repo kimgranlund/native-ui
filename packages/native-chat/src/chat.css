@@ -112,6 +112,27 @@
     border-top: 1px solid var(--n-chat-panel-footer-border);
   }
 
+  /* ── Model picker ── */
+
+  :where(native-chat-panel) :where(n-button[data-role="model-picker"]) {
+    gap: calc(var(--n-space) * 0.5);
+    max-width: 12rem;
+  }
+
+  :where(native-chat-panel) :where(n-button[data-role="model-picker"]) :where([data-role="model-label"]) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  :where(native-chat-panel) :where(n-listbox[data-role="model-listbox"][popover]) {
+    position: fixed;
+    position-area: block-end span-inline-end;
+    position-try-fallbacks: flip-block;
+    margin: 0.25rem 0 0;
+    min-width: anchor-size(inline);
+  }
+
   /* WHY: Wide padding only above 22rem — asides (280–480px) keep compact defaults. */
   @container (min-width: 22rem) {
     :where(native-chat-panel) > :where(n-header) {

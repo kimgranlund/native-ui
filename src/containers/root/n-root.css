@@ -1,0 +1,17 @@
+@layer ui {
+
+/* ── native-root ──
+   Host container with optional shadow DOM isolation.
+   Light mode: semantic host shell, no isolation.
+   Shadow mode: CSS isolation via shadow root + adoptedStyleSheets.
+   ────────────────────────────────────────────────── */
+
+  :where(native-root):not(:defined) {
+    visibility: hidden;
+  }
+
+  :where(native-root) {
+    display: block;
+  }
+
+}

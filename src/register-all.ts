@@ -69,6 +69,7 @@ import { NGripper } from './components/gripper/gripper-element.ts';
 import { NCard } from './containers/card/card-element.ts';
 import { NSection } from './containers/section/section-element.ts';
 import { NToolbar } from './containers/toolbar/toolbar-element.ts';
+import { NRoot } from './containers/root/root-element.ts';
 // Icons
 import { NIcon } from './icons/icon-element.ts';
 
@@ -130,3 +131,4 @@ define('n-card', NCard);
 define('n-section', NSection);
 define('n-toolbar', NToolbar);
 define('n-icon', NIcon);
+define('native-root', NRoot);

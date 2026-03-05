@@ -705,6 +705,18 @@
       position-try-fallbacks: --nav-flyout-flip-up, --nav-flyout-flip-down;
     }
 
+    /* WHY: Remove selected-group highlight in collapsed mode.
+       The icon color promotion to --n-ink-strong creates an unnecessary
+       dark circle effect on the icon-only summary. Icon color change alone
+       is not needed — user navigates via flyout in collapsed mode. */
+    :where(n-sidebar-group):state(has-selection) :where(n-sidebar-group-header) > :where(.icon-well) {
+      color: var(--n-ink-muted);
+    }
+
+    :where(n-sidebar-group):state(has-selection) > :where(details) > :where(summary) :where(n-sidebar-group-header) {
+      color: var(--n-ink);
+    }
+
     /* Collapse inter-group spacing in icon rail. */
     :where(n-sidebar-group) + :where(n-sidebar-group) {
       margin-block-start: 0;

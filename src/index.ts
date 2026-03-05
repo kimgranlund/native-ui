@@ -106,6 +106,7 @@ export type { GripperMode, GripperPlacement } from './components/gripper/gripper
 export { NCard } from './containers/card/card-element.ts';
 export { NSection } from './containers/section/section-element.ts';
 export { NToolbar } from './containers/toolbar/toolbar-element.ts';
+export { NRoot } from './containers/root/root-element.ts';
 // Event detail types
 export type { NPressDetail, NSelectDetail, NTextChangeDetail, NRangeValueDetail, NPickerChangeDetail, NToggleChangeDetail, NInputDetail, NDisabledDetail, NDragStartDetail, NDragMoveDetail, NDragOverDetail, NDropDetail, NDragCancelDetail, NInvalidDetail, NValidDetail, NRangeChangeDetail, NRangeSelectDetail, NFileDropDetail, NTextDropDetail, NSearchDetail, NClipDetail, NIntersectDetail, NCopyDetail, NVirtualChangeDetail, NSelectionChangeDetail, NHoverDetail, NSortDetail, NSwipeDetail, NResizeDetail, NResizeCancelDetail, NEditStartDetail, NEditCommitDetail, NEditCancelDetail, NPaginationDotsChangeDetail, NSlideChangeDetail, NSendDetail, NToastDetail, NTableSortDetail, NTableSelectDetail, NTableReorderDetail, NTableResizeDetail, NTableResizeEndDetail, NCalendarRangeDetail, NShortcutDetail, NGripStartDetail, NGripDetail, NGripEndDetail, NGripCancelDetail } from './events.ts';
 

@@ -3,7 +3,7 @@ import './register.ts';
 // ── Existing ──
 export { NChatInput } from './chat-input-element.ts';
 export { NChatPanel } from './chat-panel-element.ts';
-export type { AutoFocusPolicy, ChatPanelOpenOptions, FocusComposerOptions } from './chat-panel-element.ts';
+export type { AutoFocusPolicy, ChatPanelOpenOptions, FocusComposerOptions, ModelOption } from './chat-panel-element.ts';
 
 // ── Feed ──
 export { NChatFeed } from './feed/index.ts';

@@ -1,4 +1,4 @@
-import { define, NTextarea, NButton, NIcon, NToolbar, NDialog, NCard, registerIcon } from '@nonoun/native-ui';
+import { define, NTextarea, NButton, NIcon, NToolbar, NDialog, NCard, NListbox, NOption, registerIcon } from '@nonoun/native-ui';
 import { NChatInput } from './chat-input-element.ts';
 import { NChatPanel } from './chat-panel-element.ts';
 import { NChatFeed } from './feed/chat-feed-element.ts';
@@ -31,12 +31,17 @@ define('n-icon', NIcon);
 define('n-toolbar', NToolbar);
 define('n-dialog', NDialog);
 define('n-card', NCard);
+define('n-listbox', NListbox);
+define('n-option', NOption);
 
 // ── Icons used in chat components ──
 registerIcon('chat-dots', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M116,128a12,12,0,1,1,12,12A12,12,0,0,1,116,128ZM84,140a12,12,0,1,0-12-12A12,12,0,0,0,84,140Zm88,0a12,12,0,1,0-12-12A12,12,0,0,0,172,140Zm60-76V192a16,16,0,0,1-16,16H83l-32.6,28.16-.09.07A15.89,15.89,0,0,1,40,240a16.13,16.13,0,0,1-6.8-1.52A15.85,15.85,0,0,1,24,224V64A16,16,0,0,1,40,48H216A16,16,0,0,1,232,64ZM40,224h0ZM216,64H40V224l34.77-30A8,8,0,0,1,80,192H216Z"/></svg>');
 registerIcon('user', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8C55.71,194.74,89.05,176,128,176s72.29,18.74,89.07,44a8,8,0,0,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"/></svg>');
 registerIcon('stop', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M200,40H56A16,16,0,0,0,40,56V200a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,160H56V56H200V200Z"/></svg>');
 registerIcon('arrow-counter-clockwise', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a96,96,0,0,1-94.71,96H128A95.38,95.38,0,0,1,62.1,197.8a8,8,0,0,1,11-11.63A80,80,0,1,0,71.43,71.39a3.07,3.07,0,0,1-.26.25L44.59,96H72a8,8,0,0,1,0,16H24a8,8,0,0,1-8-8V56a8,8,0,0,1,16,0V85.8L60.25,60A96,96,0,0,1,224,128Z"/></svg>');
+
+// ── Icons used in model picker ──
+registerIcon('caret-up-down', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M181.66,170.34a8,8,0,0,1,0,11.32l-48,48a8,8,0,0,1-11.32,0l-48-48a8,8,0,0,1,11.32-11.32L128,212.69l42.34-42.35A8,8,0,0,1,181.66,170.34Zm-96-84.68L128,43.31l42.34,42.35a8,8,0,0,0,11.32-11.32l-48-48a8,8,0,0,0-11.32,0l-48,48A8,8,0,0,0,85.66,85.66Z"/></svg>');
 
 // ── Icons used in message action toolbar ──
 registerIcon('copy', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></svg>');
