@@ -47,6 +47,15 @@
     /* Activity */
     --n-chat-activity-color: var(--n-ink-muted);
 
+    /* Seed */
+    --n-chat-seed-gap: var(--n-space);
+    --n-chat-seed-padding-block: var(--n-space);
+    --n-chat-seed-padding-inline: var(--n-chat-bubble-padding-inline);
+
+    /* Structured input */
+    --n-chat-structured-gap: calc(var(--n-space) * 2);
+    --n-chat-structured-padding: calc(var(--n-space) * 3);
+
     /* Prose */
     --n-chat-prose-gap: calc(var(--n-space) * 2);
   }
@@ -636,9 +645,13 @@
 
   :where(n-chat-message-seed) {
     display: block;
-    padding-block: var(--n-space);
-    padding-inline: var(--n-chat-bubble-padding-inline);
+    padding-block: var(--n-chat-seed-padding-block);
+    padding-inline: var(--n-chat-seed-padding-inline);
     align-self: flex-start;
+  }
+
+  :where(n-chat-message-seed) > :where(n-stack) {
+    gap: var(--n-chat-seed-gap);
   }
 
   :where(n-chat-message-seed)[aria-disabled="true"] {
@@ -684,8 +697,8 @@
   :where(n-chat-input-structured) {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--n-space) * 2);
-    padding: calc(var(--n-space) * 3);
+    gap: var(--n-chat-structured-gap);
+    padding: var(--n-chat-structured-padding);
     background: var(--n-card);
     border-radius: var(--n-chat-bubble-radius);
     align-self: stretch;
@@ -697,6 +710,7 @@
 
   :where(n-chat-input-structured) > :where(n-stack) {
     flex: 0 0 auto;
+    gap: var(--n-chat-seed-gap);
   }
 
   :where(n-chat-input-structured) > :where(.n-chat-structured-actions) {

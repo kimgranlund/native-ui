@@ -76,7 +76,6 @@ export class NChatMessageSeed extends NativeElement {
       const stack = document.createElement('n-stack');
       stack.setAttribute('direction', 'row');
       stack.setAttribute('wrap', '');
-      stack.setAttribute('gap', '1');
 
       for (const opt of opts) {
         const btn = document.createElement('n-button');
