@@ -23,6 +23,7 @@
     min-width: 0;
     align-items: center;
     gap: calc(var(--n-space) * 2);
+    overflow: hidden;
     background: var(--n-background);
     border-radius: var(--n-radius);
     border: 1px solid var(--n-border-color);

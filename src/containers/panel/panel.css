@@ -216,19 +216,4 @@
     border-top: 1px solid var(--n-border-muted);
   }
 
-  /* WHY: Wide padding only above 22rem — asides (280–480px) keep compact defaults. */
-  @container (min-width: 22rem) {
-    :where(n-panel) > :where(n-header) {
-      padding-inline: calc(var(--n-space) * 8);
-    }
-
-    :where(n-panel) > :where(n-body) {
-      padding-inline: calc(var(--n-space) * 8);
-    }
-
-    :where(n-panel) > :where(n-footer) {
-      padding-inline: calc(var(--n-space) * 8);
-    }
-  }
-
 }

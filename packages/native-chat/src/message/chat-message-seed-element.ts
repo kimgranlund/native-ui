@@ -73,6 +73,11 @@ export class NChatMessageSeed extends NativeElement {
       const opts = this.#options.value;
       this.textContent = '';
 
+      const stack = document.createElement('n-stack');
+      stack.setAttribute('direction', 'row');
+      stack.setAttribute('wrap', '');
+      stack.setAttribute('gap', '1');
+
       for (const opt of opts) {
         const btn = document.createElement('n-button');
         btn.setAttribute('variant', 'outline');
@@ -92,8 +97,10 @@ export class NChatMessageSeed extends NativeElement {
         label.textContent = opt.label;
         btn.appendChild(label);
 
-        this.appendChild(btn);
+        stack.appendChild(btn);
       }
+
+      this.appendChild(stack);
     });
 
     this.addEventListener('native:press', this.#onPress);

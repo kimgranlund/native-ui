@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-codemirror",
-  "version": "0.2.15",
+  "version": "0.2.17",
   "description": "Shared CodeMirror 6 integration layer for @nonoun/native-ui ecosystem",
   "license": "MIT",
   "type": "module",
@@ -26,6 +26,11 @@
   ],
   "peerDependencies": {
     "@nonoun/native-ui": ">=0.5.0"
+  },
+  "peerDependenciesMeta": {
+    "@nonoun/native-ui": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.18.6",

@@ -82,6 +82,14 @@ export class NChart extends NativeElement {
     // Crosshair
     this.#crosshair = new Crosshair(this.#svg, this.#store.layout.value.plotArea);
 
+    // Seed dimensions from host element so first render uses actual size
+    // instead of 400×300 defaults (ResizeObserver fires asynchronously).
+    const rect = this.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      this.#store.width.value = rect.width;
+      this.#store.height.value = rect.height;
+    }
+
     // ResizeObserver
     this.#resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {

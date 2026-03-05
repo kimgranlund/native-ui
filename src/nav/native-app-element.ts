@@ -260,10 +260,6 @@ export class NApp extends NativeElement {
       window.location.href = e.detail.value;
     }) as EventListener);
 
-    // Resize handle
-    const resizeHandle = document.createElement('div');
-    resizeHandle.className = 'layout-resize-handle';
-
     inner.append(nav);
 
     // Footer — user menu trigger + popover
@@ -289,7 +285,7 @@ export class NApp extends NativeElement {
 
     footer.append(userTrigger);
 
-    sidebar.append(header, inner, footer, resizeHandle);
+    sidebar.append(header, inner, footer);
 
     // Persist width on resize end
     sidebar.addEventListener('native:resize-end', () => {

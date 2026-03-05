@@ -27,8 +27,13 @@ export class NSidebar extends NativeElement {
 
     const aside = this.querySelector(':scope > [slot="sidebar"]') as HTMLElement | null;
 
-    // Sidebar resize
-    if (aside?.querySelector('.layout-resize-handle')) {
+    // Sidebar resize — auto-stamp handle if the aside doesn't already have one
+    if (aside) {
+      if (!aside.querySelector('.layout-resize-handle')) {
+        const handle = document.createElement('div');
+        handle.className = 'layout-resize-handle';
+        aside.appendChild(handle);
+      }
       this.#sidebarResize = new ResizeController(aside, {
         handleSelector: '.layout-resize-handle',
         axis: 'horizontal',

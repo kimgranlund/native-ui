@@ -635,9 +635,7 @@
      ══════════════════════════════════════════════════ */
 
   :where(n-chat-message-seed) {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--n-space);
+    display: block;
     padding-block: var(--n-space);
     padding-inline: var(--n-chat-bubble-padding-inline);
     align-self: flex-start;
@@ -697,10 +695,8 @@
     font-weight: 600;
   }
 
-  :where(n-chat-input-structured) > :where(.n-chat-structured-options) {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--n-space);
+  :where(n-chat-input-structured) > :where(n-stack) {
+    flex: 0 0 auto;
   }
 
   :where(n-chat-input-structured) > :where(.n-chat-structured-actions) {

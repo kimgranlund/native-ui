@@ -123,8 +123,10 @@ export class NChatInputStructured extends NativeElement {
     }
 
     // Options
-    const grid = document.createElement('div');
-    grid.className = 'n-chat-structured-options';
+    const grid = document.createElement('n-stack');
+    grid.setAttribute('direction', 'row');
+    grid.setAttribute('wrap', '');
+    grid.setAttribute('gap', '1');
     grid.setAttribute('role', type === 'multi' ? 'group' : 'radiogroup');
 
     for (const opt of options) {
