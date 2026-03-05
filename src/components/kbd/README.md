@@ -2,11 +2,13 @@
 
 # n-kbd
 
-**CSS-only container** — no JavaScript class.
+> Keyboard shortcut indicator. Pure display — no behavior.
 
-**Display:** `inline-flex`
+**Class:** `NKbd`
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-body`
 - `--n-border-muted`

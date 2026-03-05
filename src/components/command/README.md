@@ -2,9 +2,28 @@
 
 # n-command
 
-**CSS-only container** — no JavaScript class.
+> Command palette with filterable item list and keyboard navigation.
 
-**Display:** `flex`
+**Class:** `NCommand`
+
+## Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `disabled` | `boolean` | Disables interaction |
+
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `store` | `DataListController<DataItem>` | yes |  |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:change` | Fired when an item is selected with `{ value, label }` detail |
+| `native:dismiss` | Fired on Escape key press |
 
 ## Slots
 
@@ -13,6 +32,8 @@
 | `heading` |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-background`
 - `--n-border-color`
@@ -36,6 +57,116 @@
 - `--n-size`
 - `--n-space`
 - `--n-space-k`
+
+---
+
+## n-command-item
+
+> Selectable item within a command palette.
+
+**Class:** `NCommandItem`
+
+### Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `value` | `string` | Item value emitted on selection |
+| `disabled` | `boolean` | Disables this item |
+| `keywords` | `string` | Additional search terms for filtering |
+
+### Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `label` | `string` | yes |  |
+| `searchText` | `string` | yes |  |
+
+### Events
+
+| Event | Description |
+|-------|-------------|
+| `native:select` | Fired on click with `{ value, label }` detail |
+
+### Slots
+
+| Slot |
+|------|
+| `heading` |
+
+---
+
+## n-command-list
+
+> Structural listbox container for command palette items.
+
+**Class:** `NCommandList`
+
+### Slots
+
+| Slot |
+|------|
+| `heading` |
+
+---
+
+## n-command-empty
+
+> Empty state display shown when no command items match the current query.
+
+**Class:** `NCommandEmpty`
+
+### Slots
+
+| Slot |
+|------|
+| `heading` |
+
+---
+
+## n-command-group
+
+> Structural group wrapper for related items within a command palette.
+
+**Class:** `NCommandGroup`
+
+### Slots
+
+| Slot |
+|------|
+| `heading` |
+
+---
+
+## n-command-input
+
+> Search input wrapper for the command palette.
+
+**Class:** `NCommandInput`
+
+### Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `inputElement` | `HTMLInputElement | null` | yes |  |
+
+### Methods
+
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `focus()` | `options?: FocusOptions` | `void` |
+| `clear()` | `—` | `void` |
+
+### Events
+
+| Event | Description |
+|-------|-------------|
+| `native:input` | Fired on keystroke with `{ value }` detail |
+
+### Slots
+
+| Slot |
+|------|
+| `heading` |
 
 ## Usage
 

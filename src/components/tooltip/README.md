@@ -2,22 +2,21 @@
 
 # n-tooltip
 
-**CSS-only container** — no JavaScript class.
+> Tooltip popover anchored to its parent element with delay and placement control.
 
-**Display:** `contents when closed
-     so it doesn't affect the trigger's layout. Promoted to top-layer
-     via [popover] when shown. */
-
-  :where(n-tooltip) {
-    display: contents`
+**Class:** `NTooltip`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `placement` | `bottom`, `left`, `right`, `top` |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `placement` | `string` | Position relative to anchor: "top" | "bottom" | "left" | "right" |
+| `delay` | `number` | Show delay in milliseconds (default 500) |
+| `disabled` | `boolean` | Prevents tooltip from showing |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-border-muted`
 - `--n-duration`

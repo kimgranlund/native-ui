@@ -2,11 +2,37 @@
 
 # n-select
 
-**CSS-only container** — no JavaScript class.
+> Select dropdown coordinator wiring a trigger button to a popover listbox.
 
-**Display:** `contents`
+**Class:** `NSelect`
+
+## Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `value` | `string` | Currently selected value |
+| `disabled` | `boolean` | Disables interaction |
+| `name` | `string` | Form field name |
+| `options` | `string` | JSON array of `{ value, label }` objects for data-driven mode |
+| `src` | `string` | URL to fetch options from for data-driven mode |
+| `placeholder` | `string` | Placeholder text when no value is selected |
+| `required` | `string` |  |
+
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `controller` | `SelectController` | yes |  |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:change` | Fired when selection changes with `{ value, label }` detail |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-duration`
 - `--n-easing`

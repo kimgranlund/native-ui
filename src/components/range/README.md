@@ -2,18 +2,32 @@
 
 # n-range
 
-**CSS-only container** — no JavaScript class.
+> Range slider input with keyboard and pointer interaction.
 
-**Display:** `flex`
+**Class:** `NRange`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `intent` | _(boolean)_ |
-| `pressed` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `value` | `number` | Current value (default 50) |
+| `min` | `number` | Minimum value (default 0) |
+| `max` | `number` | Maximum value (default 100) |
+| `step` | `number` | Step increment (default 1) |
+| `disabled` | `boolean` | Disables interaction |
+| `name` | `string` | Form field name |
+| `required` | `boolean` | Marks as required for form validation |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:input` | Fired continuously during drag with `{ value }` detail |
+| `native:change` | Fired on drag end or keyboard change with `{ value }` detail |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-border-muted`
 - `--n-duration`

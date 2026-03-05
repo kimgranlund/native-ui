@@ -2,17 +2,20 @@
 
 # n-accordion
 
-**CSS-only container** — no JavaScript class.
+> Accordion container that manages disclosure of its accordion-item children.
 
-**Display:** `flex`
+**Class:** `NAccordion`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `part` | `content` |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `multiple` | `boolean` | Allows multiple items to be open simultaneously |
+| `disabled` | `boolean` | Disables all accordion items |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-border-muted`
 - `--n-button-font-weight`
@@ -34,6 +37,21 @@
 - `--n-space-k`
 - `--n-text-font-weight`
 - `--n-text-line-height`
+
+---
+
+## n-accordion-item
+
+> Collapsible disclosure item using a native details/summary element.
+
+**Class:** `NAccordionItem`
+
+### Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `open` | `boolean` | Whether the item content is expanded |
+| `disabled` | `boolean` | Disables toggling |
 
 ## Usage
 

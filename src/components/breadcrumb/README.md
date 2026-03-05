@@ -2,17 +2,13 @@
 
 # n-breadcrumb
 
-**CSS-only container** — no JavaScript class.
+> Breadcrumb navigation container with landmark role.
 
-**Display:** `flex`
-
-## Attributes
-
-| Attribute | Values |
-|-----------|--------|
-| `current` | _(boolean)_ |
+**Class:** `NBreadcrumb`
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-button-font-weight`
 - `--n-control-line-height`
@@ -27,6 +23,21 @@
 - `--n-line-height`
 - `--n-radius`
 - `--n-space`
+
+---
+
+## n-breadcrumb-item
+
+> Individual breadcrumb link item.
+
+**Class:** `NBreadcrumbItem`
+
+### Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `href` | `string` | Navigation URL |
+| `current` | `boolean` | Marks as the current page (disables navigation) |
 
 ## Usage
 

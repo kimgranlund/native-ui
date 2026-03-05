@@ -2,18 +2,50 @@
 
 # n-textarea
 
-**CSS-only container** — no JavaScript class.
+> Multi-line text input using contenteditable with optional autogrow.
 
-**Display:** `block`
+**Class:** `NTextarea`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `rows` | `1`, `10`, `2`, `4`, `5`, `6`, `8` |
-| `autogrow` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `value` | `string` | Current text value |
+| `placeholder` | `string` | Placeholder text shown when empty |
+| `disabled` | `boolean` | Disables interaction |
+| `readonly` | `boolean` | Prevents editing while remaining focusable |
+| `required` | `boolean` | Marks as required for form validation |
+| `rows` | `number` | Minimum visible rows (sets min-height) |
+| `maxlength` | `number` | Maximum character count |
+| `autogrow` | `boolean` | Automatically grows height to fit content |
+| `pattern` | `string` |  |
+| `formatting` | `string` | Space-separated list of enabled formats (e.g. "code bold italic") |
+| `name` | `string` | Form field name |
+
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `readOnly` | `boolean` | no |  |
+| `ariaMultiLine` | `string` | no | Default: `'true'` |
+
+## Methods
+
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `applyFormat()` | `type: string` | `void` |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:format` | Fired after formatting with `{ type, value }` detail |
+| `native:input` | Fired on each keystroke with `{ value }` detail |
+| `native:change` | Fired on blur with `{ value }` detail |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-background`
 - `--n-background-disabled`

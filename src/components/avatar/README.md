@@ -2,11 +2,21 @@
 
 # n-avatar
 
-**CSS-only container** — no JavaScript class.
+> Avatar displaying an image, initials from a name, or a fallback placeholder.
 
-**Display:** `inline-flex`
+**Class:** `NAvatar`
+
+## Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `src` | `string` | Image URL to display |
+| `name` | `string` | Full name used to generate initials when no image |
+| `alt` | `string` | Accessible label for the avatar |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-button-font-weight`
 - `--n-font-size`

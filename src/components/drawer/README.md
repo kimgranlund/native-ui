@@ -2,17 +2,40 @@
 
 # n-drawer
 
-**CSS-only container** — no JavaScript class.
+> Slide-in drawer panel using a native dialog element.
 
-**Display:** `contents`
+**Class:** `NDrawer`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `side` | `bottom`, `left`, `top` |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `side` | `string` | Slide-in direction: "left" | "right" | "top" | "bottom" |
+| `no-close-on-escape` | `boolean` | Prevents closing on Escape key |
+| `no-close-on-backdrop` | `boolean` | Prevents closing on backdrop click |
+
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `open` | `boolean` | yes |  |
+
+## Methods
+
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `showModal()` | `—` | `void` |
+| `close()` | `—` | `void` |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `close` | Fired when the drawer is closed |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-backdrop-color`
 - `--n-backdrop-opacity`

@@ -2,15 +2,15 @@
 
 # n-tree
 
-**CSS-only container** — no JavaScript class.
+> Tree view with roving focus and keyboard navigation across nested items.
 
-**Display:** `flex`
+**Class:** `NTree`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `expanded` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `disabled` | `boolean` | Disables interaction |
 
 ## Slots
 
@@ -19,6 +19,8 @@
 | `label` |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-button-font-weight`
 - `--n-control-line-height`
@@ -41,6 +43,28 @@
 - `--n-surface`
 - `--n-surface-ink`
 - `--n-text-font-weight`
+
+---
+
+## n-tree-item
+
+> Expandable tree item with nesting support and selection.
+
+**Class:** `NTreeItem`
+
+### Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `expanded` | `boolean` | Whether child items are visible |
+| `selected` | `boolean` | Whether this item is selected |
+| `disabled` | `boolean` | Disables interaction |
+
+### Slots
+
+| Slot |
+|------|
+| `label` |
 
 ## Usage
 

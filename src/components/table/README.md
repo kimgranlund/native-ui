@@ -2,28 +2,36 @@
 
 # n-table
 
-**CSS-only container** — no JavaScript class.
+> Data table with sortable columns, row selection, column resizing, and row reordering.
 
-**Display:** `grid`
+**Class:** `NTable`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `selectable` | _(boolean)_ |
-| `sortable` | _(boolean)_ |
-| `sort` | `asc`, `desc` |
-| `variant` | `plain` |
-| `colspan` | _(boolean)_ |
-| `sticky-header` | _(boolean)_ |
-| `sticky` | _(boolean)_ |
-| `sticky-column` | _(boolean)_ |
-| `resizable` | _(boolean)_ |
-| `resizing` | _(boolean)_ |
-| `reorderable` | _(boolean)_ |
-| `dragging` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `selectable` | `boolean` | Enables row selection on click |
+| `resizable` | `boolean` | Enables column resize handles |
+| `reorderable` | `boolean` | Enables drag-to-reorder rows |
+| `cols` | `string` | Sets grid-template-columns (e.g., "auto auto 1fr") |
+| `sticky-header` | `boolean` | Enables sticky header row with measured height |
+
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `store` | `TableStore` | no |  |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:table-sort` | Fired when sort changes with `{ column, direction }` detail |
+| `native:table-select` | Fired when row selection changes with `{ value, selected, allSelected }` detail |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-border-color`
 - `--n-border-muted`
@@ -52,6 +60,72 @@
 - `--n-surface-ink-hover`
 - `--n-text-font-weight`
 - `--n-text-line-height`
+
+---
+
+## n-table-row
+
+> Table row that supports selection when the parent table is selectable.
+
+**Class:** `NTableRow`
+
+### Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `value` | `string` | Row identifier used for selection tracking |
+| `selected` | `boolean` | Whether this row is selected |
+
+---
+
+## n-table-body
+
+> Structural row group for table body rows.
+
+**Class:** `NTableBody`
+
+---
+
+## n-table-cell
+
+> Structural table cell within a table row.
+
+**Class:** `NTableCell`
+
+---
+
+## n-table-head
+
+> Structural row group for table header rows.
+
+**Class:** `NTableHead`
+
+---
+
+## n-table-header
+
+> Column header cell with optional sort toggle.
+
+**Class:** `NTableHeader`
+
+### Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `sort` | `string` | Current sort state: "none" | "asc" | "desc" |
+| `sortable` | `boolean` | Enables click-to-sort behavior |
+
+### Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `column` | `string` | yes |  |
+
+### Events
+
+| Event | Description |
+|-------|-------------|
+| `native:sort` | Fired on sort toggle with `{ column }` detail |
 
 ## Usage
 

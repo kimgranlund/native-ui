@@ -2,11 +2,37 @@
 
 # n-combobox
 
-**CSS-only container** — no JavaScript class.
+> Filterable select (combobox) coordinator wiring a text input to a popover listbox.
 
-**Display:** `contents`
+**Class:** `NCombobox`
+
+## Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `value` | `string` | Currently selected value |
+| `disabled` | `boolean` | Disables interaction |
+| `name` | `string` | Form field name |
+| `options` | `string` | JSON array of `{ value, label }` objects for data-driven mode |
+| `src` | `string` | URL to fetch options from for data-driven mode |
+| `placeholder` | `string` | Placeholder text for the input |
+| `required` | `string` |  |
+
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `store` | `DataListController<ComboboxOption>` | yes |  |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:change` | Fired when selection changes with `{ value, label }` detail |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-duration`
 - `--n-easing`

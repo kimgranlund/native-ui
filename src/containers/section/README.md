@@ -2,18 +2,17 @@
 
 # n-section
 
-**CSS-only container** — no JavaScript class.
+> Semantic section with heading and optional collapse behavior.
 
-**Display:** `flex`
+**Class:** `NSection`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `padding` | `none`, `regular`, `relaxed`, `tight` |
-| `divider` | _(boolean)_ |
-| `collapsible` | _(boolean)_ |
-| `collapsed` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `collapsible` | `boolean` | Enables heading click to toggle collapse |
+| `collapsed` | `boolean` | Whether the section body is hidden |
+| `divider` | `boolean` | Shows a bottom border divider |
 
 ## Slots
 
@@ -24,6 +23,8 @@
 | `heading` |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-border-muted`
 - `--n-button-font-weight`

@@ -2,16 +2,51 @@
 
 # n-input
 
-**CSS-only container** — no JavaScript class.
+> Single-line text input using an inner contenteditable surface with form association.
 
-**Display:** `flex`
+WHY inner surface: Browsers break contenteditable text insertion when the
+contenteditable element uses `display: flex` and contains child elements
+(like slot icons). Moving the editable surface into a child `<span>` inside
+the flex container fixes this — the flex host handles layout while the
+surface handles editing.
+
+**Class:** `NInput`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `type` | `password` |
-| `inline` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `value` | `string` | Current text value |
+| `placeholder` | `string` | Placeholder text shown when empty |
+| `disabled` | `boolean` | Disables interaction |
+| `readonly` | `boolean` | Prevents editing while remaining focusable |
+| `required` | `boolean` | Marks as required for form validation |
+| `pattern` | `string` |  |
+| `type` | `string` | Input type ("text" or "password") — password masks via CSS text-security |
+| `formatting` | `string` | Space-separated list of enabled formats (e.g. "code") |
+| `name` | `string` | Form field name |
+
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `readOnly` | `boolean` | no |  |
+
+## Methods
+
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `select()` | `—` | `void` |
+| `focus()` | `options?: FocusOptions` | `void` |
+| `applyFormat()` | `type: string` | `void` |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:format` | Fired after formatting with `{ type, value }` detail |
+| `native:input` | Fired on each keystroke with `{ value }` detail |
+| `native:change` | Fired on blur with `{ value }` detail |
 
 ## Slots
 
@@ -21,6 +56,8 @@
 | `trailing` |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-background`
 - `--n-background-disabled`

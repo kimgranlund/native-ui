@@ -2,18 +2,19 @@
 
 # n-badge
 
-**CSS-only container** — no JavaScript class.
+> Badge label for counts or status indicators with optional max truncation.
 
-**Display:** `inline-flex`
+**Class:** `NBadge`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `floating` | _(boolean)_ |
-| `dot` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `max` | `number` | When set, truncates numeric content to "max+" if exceeded |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-badge-dot`
 - `--n-button-font-weight`

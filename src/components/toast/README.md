@@ -2,17 +2,28 @@
 
 # n-toast
 
-**CSS-only container** — no JavaScript class.
+> Toast notification element with intent-based styling and optional dismiss button.
+Created by ToastController — not typically authored in HTML directly.
 
-**Display:** `flex`
+**Class:** `NToast`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `intent` | `danger`, `info`, `success`, `warning` |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `message` | `string` | Toast message text |
+| `dismissible` | `boolean` | Show dismiss button |
+| `intent` | `'info'|'success'|'warning'|'danger'` | Visual intent (default: info) |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:dismiss` |  |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-duration`
 - `--n-easing`

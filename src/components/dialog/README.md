@@ -2,11 +2,39 @@
 
 # n-dialog
 
-**CSS-only container** — no JavaScript class.
+> Modal dialog wrapper using a native dialog element promoted to the top layer.
 
-**Display:** `contents`
+**Class:** `NDialog`
+
+## Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `no-close-on-escape` | `boolean` | Prevents closing on Escape key |
+| `no-close-on-backdrop` | `boolean` | Prevents closing on backdrop click |
+
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `open` | `boolean` | yes |  |
+
+## Methods
+
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `showModal()` | `—` | `void` |
+| `close()` | `—` | `void` |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `close` | Fired when the dialog is closed |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-backdrop-color`
 - `--n-backdrop-opacity`

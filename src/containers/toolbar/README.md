@@ -2,20 +2,32 @@
 
 # n-toolbar
 
-**CSS-only container** — no JavaScript class.
+> Horizontal action bar with toolbar role, roving focus, and responsive overflow menu.
 
-**Display:** `flex`
+**Variants:**
+- *(default)* — panel background, border, border-radius, padding.
+- `variant="plain"` — zero-chrome: transparent background, no border,
+  no border-radius, no padding. Stable API for embedded action rows
+  (e.g. header trailing slots, chat controls) that need toolbar layout
+  and overflow without container chrome.
+
+**Class:** `NToolbar`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `orientation` | `vertical` |
-| `padding` | `none`, `regular`, `relaxed`, `tight` |
-| `variant` | `plain` |
-| `fill` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `orientation` | `string` |  |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:toolbar-overflow` |  |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-background`
 - `--n-border-color`

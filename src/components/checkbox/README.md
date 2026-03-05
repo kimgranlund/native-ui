@@ -2,18 +2,30 @@
 
 # n-checkbox
 
-**CSS-only container** — no JavaScript class.
+> Checkbox toggle with tri-state support and form association.
 
-**Display:** `inline-flex`
+**Class:** `NCheckbox`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `intent` | _(boolean)_ |
-| `pressed` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `checked` | `boolean` | Whether the checkbox is checked |
+| `indeterminate` | `boolean` | Whether the checkbox is in an indeterminate state |
+| `disabled` | `boolean` | Disables interaction |
+| `name` | `string` | Form field name |
+| `value` | `string` | Form value when checked (defaults to "on") |
+| `required` | `boolean` | Marks as required for form validation |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:change` | Fired on toggle with `{ checked, value }` detail |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-background`
 - `--n-background-active`

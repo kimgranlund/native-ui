@@ -2,17 +2,38 @@
 
 # n-calendar
 
-**CSS-only container** — no JavaScript class.
+> Calendar date picker with day/month/year views and optional range selection.
 
-**Display:** `inline-flex`
+**Class:** `NCalendar`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `view` | `day`, `month`, `year` |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `value` | `string` | Selected date in ISO format (YYYY-MM-DD) |
+| `min` | `string` | Minimum selectable date in ISO format |
+| `max` | `string` | Maximum selectable date in ISO format |
+| `disabled` | `boolean` | Disables interaction |
+| `name` | `string` | Form field name |
+| `range` | `boolean` | Enables range selection mode |
+| `required` | `string` |  |
+
+## Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `store` | `CalendarStore` | yes |  |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:range-select` | Fired on range commit with `{ start, end }` detail |
+| `native:change` | Fired on single date selection with `{ value }` detail |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-background`
 - `--n-background-hover`

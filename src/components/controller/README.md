@@ -2,9 +2,22 @@
 
 # n-controller
 
-**CSS-only container** — no JavaScript class.
+> `<n-controller>` — Structural trait provider.
 
-**Display:** `contents`
+Three modes:
+- **Wrapper** (default): Applies traits to first element child
+- **Selector** (`for="selector"`): Applies traits to matching descendants
+- **Provider** (`provides="..."`): Exposes services via context (future)
+
+**Class:** `NController`
+
+## Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `traits` | `string` |  |
+| `for` | `string` |  |
+| `provides` | `string` |  |
 
 ## Usage
 

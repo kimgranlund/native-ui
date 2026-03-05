@@ -2,17 +2,16 @@
 
 # n-field
 
-**CSS-only container** — no JavaScript class.
+> Form field wrapper that wires label, description, and error slots to a child control via ARIA.
 
-**Display:** `flex`
+**Class:** `NField`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `gap` | `none`, `relaxed`, `tight` |
-| `required` | _(boolean)_ |
-| `invalid` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `disabled` | `boolean` | Cascades disabled state to the child control |
+| `required` | `boolean` | Cascades required state to the child control |
 
 ## Slots
 
@@ -23,6 +22,8 @@
 | `label` |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-button-font-weight`
 - `--n-control-line-height`

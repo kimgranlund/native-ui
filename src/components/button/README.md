@@ -2,17 +2,22 @@
 
 # n-button
 
-**CSS-only container** — no JavaScript class.
+> Button component with press feedback and form association.
 
-**Display:** `grid`
+**Class:** `NButton`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `pressed` | _(boolean)_ |
-| `justify` | `spread` |
-| `inline` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `disabled` | `boolean` | Disables interaction |
+| `type` | `string` | Form button type: "button" | "submit" | "reset" |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:press` | Fired on activation (click, Enter, Space) |
 
 ## Slots
 
@@ -23,6 +28,8 @@
 | `trailing` |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-background`
 - `--n-background-active`

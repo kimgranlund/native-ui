@@ -2,17 +2,32 @@
 
 # n-input-otp
 
-**CSS-only container** — no JavaScript class.
+> One-time password input with individual character cells and paste support.
 
-**Display:** `inline-flex`
+**Class:** `NInputOtp`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `mask` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `value` | `string` | Current OTP value |
+| `length` | `number` | Number of cells (default 6, max 12) |
+| `disabled` | `boolean` | Disables interaction |
+| `name` | `string` | Form field name |
+| `pattern` | `string` | Regex pattern for allowed characters (default "[0-9]") |
+| `mask` | `string` | Mask character for display |
+| `required` | `string` |  |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:input` | Fired on each cell change with `{ value }` detail |
+| `native:change` | Fired when all cells are filled with `{ value }` detail |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-background`
 - `--n-border`

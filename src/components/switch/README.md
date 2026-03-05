@@ -2,18 +2,29 @@
 
 # n-switch
 
-**CSS-only container** — no JavaScript class.
+> Toggle switch with on/off state and form association.
 
-**Display:** `inline-flex`
+**Class:** `NSwitch`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `intent` | _(boolean)_ |
-| `pressed` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `checked` | `boolean` | Whether the switch is on |
+| `disabled` | `boolean` | Disables interaction |
+| `name` | `string` | Form field name |
+| `value` | `string` | Form value when checked (defaults to "on") |
+| `required` | `boolean` | Marks as required for form validation |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:change` | Fired on toggle with `{ checked, value }` detail |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-border-active`
 - `--n-border-disabled`

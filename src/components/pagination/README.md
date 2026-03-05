@@ -2,11 +2,29 @@
 
 # n-pagination
 
-**CSS-only container** — no JavaScript class.
+> Pagination control rendering page buttons with ellipsis and prev/next navigation.
 
-**Display:** `inline-flex`
+**Class:** `NPagination`
+
+## Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `total` | `number` | Total number of pages |
+| `value` | `number` | Current page number (1-based) |
+| `siblings` | `number` | Number of sibling pages shown around current |
+| `boundaries` | `number` | Number of boundary pages shown at start/end |
+| `disabled` | `boolean` | Disables all pagination buttons |
+
+## Events
+
+| Event | Description |
+|-------|-------------|
+| `native:change` | Fired when page changes with `{ value }` detail |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-font-size`
 - `--n-ink-disabled`

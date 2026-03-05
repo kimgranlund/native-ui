@@ -2,22 +2,13 @@
 
 # n-slide
 
-**CSS-only container** — no JavaScript class.
+> Individual slide content within a slideshow.
 
-**Display:** `grid`
-
-## Attributes
-
-| Attribute | Values |
-|-----------|--------|
-| `part` | `controls`, `indicators`, `next`, `prev`, `track` |
-| `gap` | _(boolean)_ |
-| `peek` | _(boolean)_ |
-| `direction` | `vertical` |
-| `controls` | _(boolean)_ |
-| `indicators` | _(boolean)_ |
+**Class:** `NSlide`
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-border-hover`
 - `--n-border-muted`
@@ -36,6 +27,49 @@
 - `--n-slideshow-peek`
 - `--n-space`
 - `--n-space-k`
+
+---
+
+## n-slideshow
+
+> Carousel slideshow with snap scrolling, autoplay, controls, and indicators.
+
+**Class:** `NSlideshow`
+
+### Attributes
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `direction` | `string` | Scroll direction: "horizontal" | "vertical" |
+| `controls` | `boolean` | Shows prev/next navigation buttons |
+| `indicators` | `boolean` | Shows dot indicators |
+| `autoplay` | `boolean` | Enables automatic slide advancement |
+| `interval` | `number` | Autoplay interval in milliseconds (default 5000) |
+| `loop` | `boolean` | Enables infinite looping |
+| `peek` | `boolean` | Shows partial adjacent slides |
+| `per-view` | `number` | Number of slides visible at once |
+| `gap` | `string` | Gap between slides |
+| `disabled` | `boolean` | Disables keyboard navigation |
+
+### Properties
+
+| Property | Type | Readonly | Description |
+|----------|------|----------|-------------|
+| `index` | `number` | yes |  |
+
+### Methods
+
+| Method | Parameters | Returns |
+|--------|------------|---------|
+| `goTo()` | `index: number` | `void` |
+| `next()` | `—` | `void` |
+| `prev()` | `—` | `void` |
+
+### Events
+
+| Event | Description |
+|-------|-------------|
+| `native:slide-change` | Fired when the active slide changes with `{ index, slide }` detail |
 
 ## Usage
 

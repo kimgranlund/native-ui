@@ -2,18 +2,16 @@
 
 # n-card
 
-**CSS-only container** — no JavaScript class.
+> Card surface container with optional click-to-navigate behavior.
 
-**Display:** `flex`
+**Class:** `NCard`
 
 ## Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `inline` | _(boolean)_ |
-| `dividers` | _(boolean)_ |
-| `padding` | `none`, `regular`, `relaxed`, `tight` |
-| `interactive` | _(boolean)_ |
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `interactive` | `boolean` | Makes the card focusable and clickable |
+| `href` | `string` | Navigation URL when interactive |
 
 ## Slots
 
@@ -24,6 +22,8 @@
 | `media` |
 
 ## CSS Tokens
+
+Public `--n-*` custom properties consumed by this component:
 
 - `--n-border-hover`
 - `--n-border-muted`
