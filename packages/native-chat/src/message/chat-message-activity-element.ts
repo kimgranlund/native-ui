@@ -161,6 +161,7 @@ export class NChatMessageActivity extends NativeElement {
   // ── Timer ──
 
   #startTimer(): void {
+    this.#stopTimer();
     this.#startTime = performance.now();
     this.#tickTimer();
   }

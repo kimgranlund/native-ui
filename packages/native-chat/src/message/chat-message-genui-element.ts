@@ -44,6 +44,7 @@ export class NChatMessageGenUI extends NativeElement {
   #mode = signal<'inline' | 'lightbox'>('inline');
   #schema = signal<GenUINode | null>(null);
   #containerEl: HTMLElement | null = null;
+  #lightboxDialog: HTMLElement | null = null;
 
   constructor() {
     super();
@@ -126,6 +127,7 @@ export class NChatMessageGenUI extends NativeElement {
 
   teardown(): void {
     this.removeEventListener('native:press', this.#onGenUIAction);
+    this.#closeLightbox();
     this.#containerEl = null;
     super.teardown();
   }
@@ -162,10 +164,14 @@ export class NChatMessageGenUI extends NativeElement {
   }
 
   #openLightbox(schema: GenUINode): void {
+    // Close any existing lightbox first
+    this.#closeLightbox();
+
     const dialog = document.createElement('n-dialog');
     const tree = stampNode(schema);
     if (tree) dialog.appendChild(tree);
     this.appendChild(dialog);
+    this.#lightboxDialog = dialog;
 
     // n-dialog creates a native <dialog> in setup, then showModal
     requestAnimationFrame(() => {
@@ -175,7 +181,20 @@ export class NChatMessageGenUI extends NativeElement {
 
     dialog.addEventListener('close', () => {
       dialog.remove();
+      if (this.#lightboxDialog === dialog) {
+        this.#lightboxDialog = null;
+      }
     });
+  }
+
+  #closeLightbox(): void {
+    if (!this.#lightboxDialog) return;
+    const inner = this.#lightboxDialog.querySelector('dialog');
+    if (inner?.open) {
+      try { inner.close(); } catch { /* already closed */ }
+    }
+    this.#lightboxDialog.remove();
+    this.#lightboxDialog = null;
   }
 
   // ── Events ──

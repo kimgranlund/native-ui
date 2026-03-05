@@ -92,8 +92,30 @@ export class NChatInputStructured extends NativeElement {
 
     this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals));
 
+    // Structural render — rebuilds DOM when structure changes
     this.addEffect(() => {
+      // Track signals to re-run when structure changes
+      this.#question.value;
+      this.#options.value;
+      this.#type.value;
       this.#render();
+    });
+
+    // Lightweight selection sync — only toggles attributes
+    this.addEffect(() => {
+      const selected = this.#selected.value;
+      const buttons = this.querySelectorAll<HTMLElement>('[data-value]');
+      for (const btn of buttons) {
+        const val = btn.getAttribute('data-value') ?? '';
+        const isSelected = selected.has(val);
+        btn.setAttribute('variant', isSelected ? 'primary' : 'outline');
+        btn.setAttribute('aria-pressed', String(isSelected));
+      }
+      // Update submit button disabled state
+      const submitBtn = this.querySelector('[data-action="submit"]');
+      if (submitBtn && this.#required.value) {
+        submitBtn.toggleAttribute('disabled', selected.size === 0);
+      }
     });
 
     this.addEventListener('native:press', this.#onPress);
@@ -109,10 +131,12 @@ export class NChatInputStructured extends NativeElement {
   #render(): void {
     const question = this.#question.value;
     const options = this.#options.value;
-    const selected = this.#selected.value;
     const type = this.#type.value;
 
     this.textContent = '';
+
+    // Nothing to render without options
+    if (options.length === 0) return;
 
     // Question
     if (question) {
@@ -130,10 +154,9 @@ export class NChatInputStructured extends NativeElement {
 
     for (const opt of options) {
       const btn = document.createElement('n-button');
-      const isSelected = selected.has(opt.value);
-      btn.setAttribute('variant', isSelected ? 'primary' : 'outline');
+      btn.setAttribute('variant', 'outline');
       btn.setAttribute('data-value', opt.value);
-      btn.setAttribute('aria-pressed', String(isSelected));
+      btn.setAttribute('aria-pressed', 'false');
 
       if (opt.icon) {
         const icon = document.createElement('n-icon');
@@ -171,7 +194,7 @@ export class NChatInputStructured extends NativeElement {
     submitBtn.setAttribute('data-action', 'submit');
     submitBtn.textContent = 'Submit';
 
-    if (this.#required.value && selected.size === 0) {
+    if (this.#required.value) {
       submitBtn.setAttribute('disabled', '');
     }
 

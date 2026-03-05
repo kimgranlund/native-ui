@@ -22,6 +22,7 @@ Start here. Load this file first, then pull in specific docs as needed.
 | Use CDN (no build step) | [SETUP.md](SETUP.md) (Context 3) | [EXAMPLES.md](EXAMPLES.md) |
 | Integrate packages | [PACKAGES.md](PACKAGES.md) | [SETUP.md](SETUP.md) |
 | Modify library internals | [INTERNALS.md](INTERNALS.md) | [PATTERNS.md](PATTERNS.md) |
+| Understand design principles | [PRINCIPLES.md](PRINCIPLES.md) | [PATTERNS.md](PATTERNS.md) |
 
 ### Cold-start minimum (~13KB)
 
@@ -42,6 +43,7 @@ For your first task, load [SETUP.md](SETUP.md) + [EXAMPLES.md](EXAMPLES.md). The
 | [PATTERNS.md](PATTERNS.md) | ~7KB | Recurring code patterns: coordinator, popover, form |
 | [PACKAGES.md](PACKAGES.md) | ~3KB | Package ecosystem and version alignment |
 | [TRAITS.md](TRAITS.md) | ~5KB | 28 trait controllers: usage, events, options |
+| [PRINCIPLES.md](PRINCIPLES.md) | ~5KB | 5 design principles: attributes, behavior boundaries, CSS ownership, zero-JS rendering, zero-config |
 | [INTERNALS.md](INTERNALS.md) | ~6KB | NativeElement, signals, build system, testing |
 
 ## Five Rules
@@ -50,7 +52,7 @@ For your first task, load [SETUP.md](SETUP.md) + [EXAMPLES.md](EXAMPLES.md). The
 2. **No shadow DOM.** All styling flows through CSS custom properties. Any `--n-*` token is public API.
 3. **Zero specificity on components.** Component CSS uses `:where()`. Your CSS always wins — but prefer attributes over CSS overrides. See [STYLING.md](STYLING.md).
 4. **Events use `native:` prefix.** Colon separator: `native:press`, `native:change`, `native:dismiss`.
-5. **Attributes drive everything.** Size, density, radius, intent, variant — all set via HTML attributes.
+5. **Attributes are the public API.** Size, density, radius, intent, variant — all set via HTML attributes. The attribute list IS the component's documented interface. See [PRINCIPLES.md](PRINCIPLES.md).
 
 ## Quick Example
 

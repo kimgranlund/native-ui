@@ -38,7 +38,7 @@ export const ROLE_DEFAULTS: Record<string, string[]> = {
  * @fires native:continue-request - Fired when continue is requested for a partial message
  */
 export class NChatMessage extends NativeElement {
-  static observedAttributes = ['role', 'message-id', 'timestamp', 'status', 'actions', 'actions-style', 'actions-position'];
+  static observedAttributes = ['data-role', 'message-id', 'timestamp', 'status', 'actions', 'actions-style', 'actions-position'];
 
   #internals: ElementInternals;
   #role = signal<string>('assistant');
@@ -61,7 +61,7 @@ export class NChatMessage extends NativeElement {
   get role(): string { return this.#role.value; }
   set role(val: string) {
     this.#role.value = val;
-    this.setAttribute('role', val);
+    this.setAttribute('data-role', val);
   }
 
   get messageId(): string { return this.getAttribute('message-id') ?? ''; }
@@ -101,7 +101,7 @@ export class NChatMessage extends NativeElement {
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     if (old === val) return;
     switch (name) {
-      case 'role': this.#role.value = val ?? 'assistant'; break;
+      case 'data-role': this.#role.value = val ?? 'assistant'; break;
       case 'status': this.#status.value = val ?? 'sent'; break;
       case 'actions': this.#actions.value = val; break;
       case 'actions-style': this.#actionsStyle.value = val ?? 'icon'; break;

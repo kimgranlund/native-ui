@@ -68,9 +68,3 @@ export class LLMGatewayController {
     return this.capabilities;
   }
 }
-
-/** @deprecated Use `LLMGatewayController` instead. */
-export const ChatGatewayController = LLMGatewayController;
-
-/** @deprecated Use `LLMGatewayController` instead. Will be removed in next major. */
-export { LLMGatewayController as GatewayController };

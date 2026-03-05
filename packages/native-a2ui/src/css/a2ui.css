@@ -30,17 +30,27 @@
   display: grid;
   grid-template-rows: auto 1fr;
   min-height: 400px;
+  max-height: 80dvh;
   border: var(--n-pg-border);
   border-radius: var(--n-radius-lg, 0.75rem);
   overflow: hidden;
   background: var(--n-pg-editor-bg);
   color: var(--n-pg-text);
+  user-select: none;
+}
+
+/* Allow text selection in content areas */
+:where(native-a2ui) :where(.a2ui-preview-content),
+:where(native-a2ui) :where(.a2ui-pane-content),
+:where(native-a2ui) :where(.cm-editor) {
+  user-select: text;
 }
 
 /* Full-viewport presented state (PresentController sets [presented]) */
 :where(native-a2ui)[presented] {
   width: 100%;
   height: 100%;
+  max-height: none;
   justify-self: stretch;
   align-self: stretch;
   border: none;
@@ -133,6 +143,12 @@
   background: var(--n-pg-accent);
 }
 
+/* Hide handle on the last visible pane — nothing to resize against.
+   Hidden panes have display:none so :last-child among visible = no subsequent visible sibling. */
+:where(native-a2ui) :where(.a2ui-pane):not([hidden]):not(:has(~ .a2ui-pane:not([hidden]))) > :where(.a2ui-resize-handle) {
+  display: none;
+}
+
 /* ── Pane (each toggled panel in the split) ── */
 
 :where(native-a2ui) :where(.a2ui-pane) {
@@ -197,9 +213,212 @@
 /* CodeMirror panes: editor fills space, no padding */
 :where(native-a2ui) :where([data-panel="json-in"]) :where(.a2ui-pane-content),
 :where(native-a2ui) :where([data-panel="js"]) :where(.a2ui-pane-content),
-:where(native-a2ui) :where([data-panel="components"]) :where(.a2ui-pane-content) {
+:where(native-a2ui) :where([data-panel="html"]) :where(.a2ui-pane-content),
+:where(native-a2ui) :where([data-panel="css"]) :where(.a2ui-pane-content) {
   padding: 0;
   overflow: hidden;
+}
+
+/* ── Component Map Table (UI pane) ── */
+
+:where(native-a2ui) :where(.a2ui-map-summary) {
+  padding: 0.375rem 0.5rem;
+  font-size: 0.6875rem;
+  color: var(--n-pg-text-muted);
+  border-bottom: var(--n-pg-border);
+}
+
+:where(native-a2ui) :where(.a2ui-component-map) {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+:where(native-a2ui) :where(.a2ui-component-map) :where(th) {
+  text-align: left;
+  padding: 0.25rem 0.5rem;
+  color: var(--n-pg-text-muted);
+  font-weight: 600;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: var(--n-pg-border);
+  position: sticky;
+  top: 0;
+  background: var(--n-pg-chrome);
+}
+
+:where(native-a2ui) :where(.a2ui-component-map) :where(td) {
+  padding: 0.1875rem 0.5rem;
+  border-bottom: 1px solid color-mix(in oklch, var(--n-pg-text-muted), transparent 85%);
+  white-space: nowrap;
+}
+
+:where(native-a2ui) :where(.a2ui-component-map) :where(code) {
+  font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
+  font-size: 0.6875rem;
+  background: color-mix(in oklch, var(--n-pg-text-muted), transparent 88%);
+  padding: 0.0625rem 0.25rem;
+  border-radius: 0.1875rem;
+}
+
+:where(native-a2ui) :where(.a2ui-map-type) {
+  font-weight: 600;
+}
+
+:where(native-a2ui) :where(.a2ui-map-active) {
+  background: color-mix(in oklch, var(--n-pg-text), transparent 92%);
+}
+
+:where(native-a2ui) :where(.a2ui-map-active) :where(.a2ui-map-type) {
+  color: var(--n-color-accent-500, oklch(0.65 0.2 260));
+}
+
+:where(native-a2ui) :where(.a2ui-map-row) {
+  cursor: pointer;
+}
+
+:where(native-a2ui) :where(.a2ui-map-row):hover {
+  background: color-mix(in oklch, var(--n-pg-text), transparent 92%);
+}
+
+:where(native-a2ui) :where(.a2ui-map-category) {
+  color: var(--n-pg-text-muted);
+  font-size: 0.6875rem;
+}
+
+/* ── Component Detail View ── */
+
+:where(native-a2ui) :where(.a2ui-map-back) {
+  font-size: 0.6875rem;
+  --n-color: var(--n-pg-accent);
+  --n-color-hover: var(--n-pg-text-strong);
+  border-radius: 0;
+}
+
+:where(native-a2ui) :where(.a2ui-map-detail) {
+  padding: 0.5rem;
+}
+
+:where(native-a2ui) :where(.a2ui-map-detail-title) {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--n-pg-text-strong);
+}
+
+:where(native-a2ui) :where(.a2ui-map-detail-row) {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.1875rem 0;
+  font-size: 0.75rem;
+}
+
+:where(native-a2ui) :where(.a2ui-map-detail-label) {
+  color: var(--n-pg-text-muted);
+  min-width: 4.5rem;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+:where(native-a2ui) :where(.a2ui-map-detail) :where(code) {
+  font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
+  font-size: 0.6875rem;
+  background: color-mix(in oklch, var(--n-pg-text-muted), transparent 88%);
+  padding: 0.0625rem 0.25rem;
+  border-radius: 0.1875rem;
+}
+
+/* ── Detail Header (n-header with leading back + trailing tabs) ── */
+
+:where(native-a2ui) :where(.a2ui-map-detail-header) {
+  padding-inline: 0.5rem;
+  padding-block: 0.25rem;
+  border-bottom: var(--n-pg-border);
+}
+
+:where(native-a2ui) :where(.a2ui-map-tab-bar) {
+  --n-ink: var(--n-pg-text-muted);
+  --n-ink-strong: var(--n-pg-text-strong);
+  --n-border-muted: var(--n-pg-border-color);
+}
+
+/* ── Component Instance Editor ── */
+
+:where(native-a2ui) :where(.a2ui-map-editor-section) {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+:where(native-a2ui) :where(.a2ui-map-editor-toolbar) {
+  justify-content: flex-end;
+  padding-inline: 0.5rem;
+  --n-ink: var(--n-pg-run);
+  --n-ink-hover: var(--n-pg-run-hover);
+  --n-ground: var(--n-pg-chrome);
+  background: var(--n-pg-chrome);
+}
+
+:where(native-a2ui) :where(.a2ui-map-editor-section) :where(native-codemirror) {
+  flex: 1;
+  min-height: 0;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* ── Compatible Alternatives ── */
+
+:where(native-a2ui) :where(.a2ui-map-alternatives) {
+  margin-top: 0.75rem;
+  border-top: var(--n-pg-border);
+  padding-top: 0.5rem;
+}
+
+:where(native-a2ui) :where(.a2ui-map-alt-title) {
+  padding: 0 0.5rem 0.375rem;
+  font-size: 0.6875rem;
+  color: var(--n-pg-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+:where(native-a2ui) :where(.a2ui-map-alt-row) {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+
+:where(native-a2ui) :where(.a2ui-map-alt-row):hover {
+  background: color-mix(in oklch, var(--n-pg-text), transparent 92%);
+}
+
+:where(native-a2ui) :where(.a2ui-map-swap-icon) {
+  font-size: 0.75rem;
+  color: var(--n-pg-accent);
+  opacity: 0.5;
+}
+
+:where(native-a2ui) :where(.a2ui-map-alt-row):hover :where(.a2ui-map-swap-icon) {
+  opacity: 1;
+}
+
+:where(native-a2ui) :where(.a2ui-map-alt-row) :where(code) {
+  font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
+  font-size: 0.6875rem;
+  background: color-mix(in oklch, var(--n-pg-text-muted), transparent 88%);
+  padding: 0.0625rem 0.25rem;
+  border-radius: 0.1875rem;
+  color: var(--n-pg-text-muted);
 }
 
 /* ── Toolbar (playback controls inside JSON-IN pane) ── */
@@ -210,6 +429,11 @@
   border-bottom: var(--n-pg-border);
   --n-ink: var(--n-pg-text-muted);
   --n-ink-hover: var(--n-pg-text);
+}
+
+/* Override n-divider flex:1 inside toolbar — just be a thin line */
+:where(native-a2ui) :where([data-panel="json-in"]) > :where(n-toolbar) :where(n-divider) {
+  flex: none;
 }
 
 /* Toolbar button hover */
@@ -247,16 +471,19 @@
 }
 
 :where(native-a2ui) :where(.a2ui-log-type) {
-  font-weight: 600;
   margin-right: 0.5rem;
+  font-size: 0.5625rem;
+  --n-surface: var(--n-pg-chrome);
+  --n-surface-ink: var(--n-pg-text-muted);
+  vertical-align: middle;
 }
 
-:where(native-a2ui) :where(.a2ui-log-type--sent) { color: var(--n-pg-accent); }
-:where(native-a2ui) :where(.a2ui-log-type--received) { color: var(--n-pg-accent); }
-:where(native-a2ui) :where(.a2ui-log-type--action) { color: var(--n-pg-run); }
-:where(native-a2ui) :where(.a2ui-log-type--error) { color: var(--n-pg-error); }
-:where(native-a2ui) :where(.a2ui-log-type--warning) { color: var(--n-pg-warn); }
-:where(native-a2ui) :where(.a2ui-log-type--info) { color: var(--n-pg-text-muted); }
+:where(native-a2ui) :where(.a2ui-log-type--sent) { --n-surface-ink: var(--n-pg-accent); }
+:where(native-a2ui) :where(.a2ui-log-type--received) { --n-surface-ink: var(--n-pg-accent); }
+:where(native-a2ui) :where(.a2ui-log-type--action) { --n-surface-ink: var(--n-pg-run); }
+:where(native-a2ui) :where(.a2ui-log-type--error) { --n-surface-ink: var(--n-pg-error); }
+:where(native-a2ui) :where(.a2ui-log-type--warning) { --n-surface-ink: var(--n-pg-warn); }
+:where(native-a2ui) :where(.a2ui-log-type--info) { --n-surface-ink: var(--n-pg-text-muted); }
 
 /* ── Tree View ── */
 

@@ -23,7 +23,8 @@
     flex: 1 1 0%;
     min-width: 0;
 
-    min-height: calc(var(--n-size) * var(--n-rows));
+    min-height: var(--n-size);
+    height: calc(var(--n-size) * var(--n-rows));
     padding-block: calc(var(--n-space) * 2);
     padding-inline: calc(var(--n-space-k) * var(--n-space));
 
@@ -69,6 +70,7 @@
   /* ── Autogrow ── */
 
   :where(n-textarea)[autogrow] {
+    flex: none;
     resize: none;
     overflow-y: hidden;
     height: var(--n-autogrow-height, auto);

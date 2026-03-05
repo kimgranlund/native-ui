@@ -116,6 +116,22 @@ npx vitest run src/traits/__tests__/draggable.test.ts # single file
 
 `npm run generate:icons` reads `@phosphor-icons/core` SVGs -> `src/icons/phosphor/*.ts`. Two paths: `<n-icon name="house">` (registry) or `import { IconCaretDown }` (direct SVG string).
 
+## Component Rendering Taxonomy
+
+Components follow three rendering patterns based on how they produce DOM:
+
+| Pattern | Description | Zero-JS? | Examples |
+|---------|-------------|----------|----------|
+| **CSS-rendered** | All visual state from CSS + HTML attributes. JS enhances behavior only. | Yes | `n-button`, `n-input`, `n-checkbox`, `n-switch`, `n-badge`, all containers |
+| **JS-stamped** | JS creates structural DOM in `setup()` (grid cells, track wrappers, page buttons). Content is computed from data. | No | `n-calendar`, `n-slideshow`, `n-input-otp`, `n-pagination`, `n-select` (data-driven) |
+| **Stream-rendered** | Content arrives asynchronously from APIs/servers. Exempt from Zero-JS-for-Rendering per the exception clause. | Exempt | `native-chat-panel`, `n-chart`, `native-a2ui`, `native-editor` |
+
+**CSS-rendered** components are the default. New components should target this pattern unless the content is inherently computed or asynchronous.
+
+**JS-stamped** components must still pass Zero-Config — their `setup()` must produce an intentional visual with zero attributes using sensible defaults (e.g., `n-calendar` shows the current month, `n-input-otp` stamps 6 cells).
+
+**Stream-rendered** components are exempt from Principles 4-5 but must comply with Principles 1-3 (attribute-driven config, informational events, CSS single-owner).
+
 ## Source Directories
 
 | Path | Purpose |

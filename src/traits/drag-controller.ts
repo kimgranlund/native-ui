@@ -42,6 +42,7 @@ export class DragController {
   #previewOriginParent: HTMLElement | null = null;
   #previewOriginNext: HTMLElement | null = null;
   #lastPreviewIndex = -1;
+  #pointerId = -1;
 
   constructor(host: HTMLElement, options: DragOptions) {
     this.host = host;
@@ -182,6 +183,15 @@ export class DragController {
     this.#doc.addEventListener('pointerup', this.#onPointerUp);
     this.#doc.addEventListener('pointercancel', this.#onPointerCancel);
     this.#doc.addEventListener('keydown', this.#onKeyDown);
+
+    // WHY: Safety net for View Transition edge cases (T0112). Pointer capture on the
+    // drag item ensures we get lostpointercapture if the browser silently drops the
+    // pointer session (e.g. popover + View Transition animation interaction). We don't
+    // use captured events for movement (still listen on document) — capture is purely
+    // for guaranteed lifecycle signaling.
+    try { target.setPointerCapture(e.pointerId); } catch { /* happy-dom no-op */ }
+    this.#pointerId = e.pointerId;
+    target.addEventListener('lostpointercapture', this.#onLostCapture);
   };
 
   #onPointerMove = (e: PointerEvent): void => {
@@ -626,6 +636,15 @@ export class DragController {
     this.#cleanup();
   };
 
+  // WHY: Safety net (T0112). If the browser drops the pointer session (e.g. popover
+  // interacting with View Transition animations), lostpointercapture fires. Treat it
+  // as a pointerup — dispatch native:drop if a drag was in progress.
+  #onLostCapture = (): void => {
+    // Only act if we're still mid-drag and pointerup hasn't already handled it
+    if (!this.#dragItem) return;
+    this.#onPointerUp(null as unknown as PointerEvent);
+  };
+
   #onPointerCancel = (): void => {
     if (!this.#dragItem) return;
     this.#restorePreview();
@@ -740,6 +759,14 @@ export class DragController {
       }
     }
 
+    // Release pointer capture and remove safety-net listener (T0112)
+    if (this.#dragItem && this.#pointerId >= 0) {
+      try { this.#dragItem.releasePointerCapture(this.#pointerId); } catch { /* already released */ }
+    }
+    if (this.#dragItem) {
+      this.#dragItem.removeEventListener('lostpointercapture', this.#onLostCapture);
+    }
+
     this.#dragItem = null;
     this.#dragIndex = -1;
     this.#lastSlotIndex = -1;
@@ -748,6 +775,7 @@ export class DragController {
     this.#previewOriginParent = null;
     this.#previewOriginNext = null;
     this.#lastPreviewIndex = -1;
+    this.#pointerId = -1;
 
     const doc = this.#doc ?? this.host.ownerDocument;
     doc.removeEventListener('pointermove', this.#onPointerMove);

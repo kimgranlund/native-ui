@@ -14,10 +14,10 @@ describe('A2UI Component Map', () => {
   // ── Forward Mapping ──
 
   describe('resolveNativeTag', () => {
-    it('maps Text to span', () => {
+    it('maps Text to n-text', () => {
       const m = resolveNativeTag('Text');
       expect(m).not.toBeNull();
-      expect(m!.nativeTag).toBe('span');
+      expect(m!.nativeTag).toBe('n-text');
       expect(m!.childStrategy).toBe('textContent');
     });
 
@@ -65,14 +65,15 @@ describe('A2UI Component Map', () => {
       expect(m!.nativeTag).toBe('n-input');
     });
 
-    it('maps Row to div', () => {
+    it('maps Row to n-stack with direction=row', () => {
       const m = resolveNativeTag('Row');
-      expect(m!.nativeTag).toBe('div');
+      expect(m!.nativeTag).toBe('n-stack');
+      expect(m!.defaultAttributes?.direction).toBe('row');
     });
 
-    it('maps Column to div', () => {
+    it('maps Column to n-stack', () => {
       const m = resolveNativeTag('Column');
-      expect(m!.nativeTag).toBe('div');
+      expect(m!.nativeTag).toBe('n-stack');
     });
 
     it('maps Card to n-card', () => {
@@ -100,9 +101,9 @@ describe('A2UI Component Map', () => {
       expect(m!.nativeTag).toBe('n-option');
     });
 
-    it('maps Image to img', () => {
+    it('maps Image to n-picture', () => {
       const m = resolveNativeTag('Image');
-      expect(m!.nativeTag).toBe('img');
+      expect(m!.nativeTag).toBe('n-picture');
       expect(m!.propertyMap?.url).toBe('src');
     });
 
@@ -132,19 +133,17 @@ describe('A2UI Component Map', () => {
       expect(m!.nativeTag).toBe('n-select');
     });
 
-    it('maps Video to video', () => {
+    it('maps Video to n-video', () => {
       const m = resolveNativeTag('Video');
-      expect(m!.nativeTag).toBe('video');
+      expect(m!.nativeTag).toBe('n-video');
       expect(m!.childStrategy).toBe('none');
-      expect(m!.defaultAttributes).toEqual({ controls: '' });
       expect(m!.propertyMap).toEqual({ url: 'src', poster: 'poster' });
     });
 
-    it('maps AudioPlayer to audio', () => {
+    it('maps AudioPlayer to n-audio', () => {
       const m = resolveNativeTag('AudioPlayer');
-      expect(m!.nativeTag).toBe('audio');
+      expect(m!.nativeTag).toBe('n-audio');
       expect(m!.childStrategy).toBe('none');
-      expect(m!.defaultAttributes).toEqual({ controls: '' });
       expect(m!.propertyMap).toEqual({ url: 'src' });
     });
 
@@ -212,20 +211,20 @@ describe('A2UI Component Map', () => {
       expect(resolveA2UIType('n-avatar')).toBe('Avatar');
     });
 
-    it('maps span to Text', () => {
-      expect(resolveA2UIType('span')).toBe('Text');
+    it('maps n-text to Text', () => {
+      expect(resolveA2UIType('n-text')).toBe('Text');
     });
 
-    it('maps img to Image', () => {
-      expect(resolveA2UIType('img')).toBe('Image');
+    it('maps n-picture to Image', () => {
+      expect(resolveA2UIType('n-picture')).toBe('Image');
     });
 
-    it('maps video to Video', () => {
-      expect(resolveA2UIType('video')).toBe('Video');
+    it('maps n-video to Video', () => {
+      expect(resolveA2UIType('n-video')).toBe('Video');
     });
 
-    it('maps audio to AudioPlayer', () => {
-      expect(resolveA2UIType('audio')).toBe('AudioPlayer');
+    it('maps n-audio to AudioPlayer', () => {
+      expect(resolveA2UIType('n-audio')).toBe('AudioPlayer');
     });
 
     it('maps h1 to Text', () => {
@@ -253,6 +252,14 @@ describe('A2UI Component Map', () => {
       expect(resolveA2UIType('div')).toBe('Column');
     });
 
+    it('maps n-stack with direction=row to Row', () => {
+      expect(resolveA2UIType('n-stack', { direction: 'row' })).toBe('Row');
+    });
+
+    it('maps n-stack without direction to Column', () => {
+      expect(resolveA2UIType('n-stack')).toBe('Column');
+    });
+
     it('returns null for unknown tag', () => {
       expect(resolveA2UIType('my-unknown-element')).toBeNull();
     });
@@ -273,16 +280,16 @@ describe('A2UI Component Map', () => {
       expect(textVariantTag('caption')).toBe('small');
     });
 
-    it('returns span for body variant', () => {
-      expect(textVariantTag('body')).toBe('span');
+    it('returns n-text for body variant', () => {
+      expect(textVariantTag('body')).toBe('n-text');
     });
 
-    it('returns span for undefined variant', () => {
-      expect(textVariantTag()).toBe('span');
+    it('returns n-text for undefined variant', () => {
+      expect(textVariantTag()).toBe('n-text');
     });
 
-    it('returns span for unknown variant', () => {
-      expect(textVariantTag('unknown')).toBe('span');
+    it('returns n-text for unknown variant', () => {
+      expect(textVariantTag('unknown')).toBe('n-text');
     });
   });
 

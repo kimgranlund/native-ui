@@ -8,6 +8,7 @@
  * Renders A2UI components directly (no iframe) using a local Kernel + A2UIAdapter.
  * Native-ui components must be registered on the page for rendering to work.
  *
+ * @attr {string} stream - JSONL envelope stream content
  * @fires native:a2ui-action - When an action fires inside the preview
  * @fires native:a2ui-state  - When surface state updates after processing envelopes
  */
@@ -16,6 +17,7 @@ import { NativeElement, signal, ResizeController, PresentController } from '@non
 import type { Signal, Dispose } from '@nonoun/native-ui';
 import {
   EditorView,
+  keymap,
   Decoration,
   StateField,
   StateEffect,
@@ -23,13 +25,17 @@ import {
 import type { NCodemirror } from '@nonoun/native-codemirror';
 import type { DecorationSet } from '@nonoun/native-codemirror';
 import { json } from '@codemirror/lang-json';
+import { linter } from '@codemirror/lint';
 import '@nonoun/native-codemirror/register';
+
+import { a2uiLinter } from './a2ui-diagnostics.ts';
 
 import { Kernel, resetKernel } from '@nonoun/native-ui/kernel';
 
 import { createA2UIAdapter } from './protocol/a2ui-adapter.ts';
 import type { A2UIAdapter } from './protocol/a2ui-adapter.ts';
 import { PRESETS, PRESET_GROUPS } from './a2ui-presets.ts';
+import { COMPONENT_MAP, getComponentCategory, getCompatibleTypes } from './protocol/a2ui-component-map.ts';
 
 // ── Types ──
 
@@ -89,7 +95,7 @@ const sentLineField = StateField.define<DecorationSet>({
         for (let i = 1; i <= Math.min(sentUpToLine, doc.lines); i++) {
           ranges.push(sentDeco.range(doc.line(i).from));
         }
-        for (let i = nextFromLine; i <= Math.min(nextToLine, doc.lines); i++) {
+        for (let i = Math.max(1, nextFromLine); i <= Math.min(nextToLine, doc.lines); i++) {
           ranges.push(nextDeco.range(doc.line(i).from));
         }
         return Decoration.set(ranges, true);
@@ -103,6 +109,7 @@ const sentLineField = StateField.define<DecorationSet>({
 // ── Element ──
 
 export class NA2UI extends NativeElement {
+  static observedAttributes = ['stream'];
 
   // Signals
   #stream: Signal<string> = signal('');
@@ -114,14 +121,18 @@ export class NA2UI extends NativeElement {
   #lastState: Signal<unknown> = signal(null);
   #htmlState: Signal<string> = signal('');
   #cssState: Signal<unknown> = signal(null);
-  #componentsSchema: Signal<unknown[]> = signal([]);
+  #activeA2UITypes: Signal<Set<string>> = signal(new Set<string>());
   #lastSurfaceId: Signal<string> = signal('demo');
-  #suppressComponentsEffect = false;
+  #autoPlay: Signal<boolean> = signal(false);
+  #jsLogCursor = 0;
 
   // DOM references
   #editorEl: (HTMLElement & NCodemirror) | null = null;
   #jsEditorEl: (HTMLElement & NCodemirror) | null = null;
-  #componentsEditorEl: (HTMLElement & NCodemirror) | null = null;
+  #htmlEditorEl: (HTMLElement & NCodemirror) | null = null;
+  #cssEditorEl: (HTMLElement & NCodemirror) | null = null;
+  #componentEditorEl: (HTMLElement & NCodemirror) | null = null;
+  #componentMapEl: HTMLDivElement | null = null;
   #previewEl: HTMLDivElement | null = null;
   #previewRegionEl: HTMLDivElement | null = null;
   #splitEl: HTMLDivElement | null = null;
@@ -136,9 +147,18 @@ export class NA2UI extends NativeElement {
 
   // Resize + Present
   #previewResize: ResizeController | null = null;
-  #paneResizeMap: Map<PanelId, ResizeController> = new Map();
   #presentController: PresentController | null = null;
   #expandBtn: HTMLElement | null = null;
+  #autoPlayChip: HTMLElement | null = null;
+
+  // Coordinated pane resize state
+  #resizeDrag: {
+    targetId: PanelId;      // pane to the RIGHT of the handle (the one being resized)
+    startX: number;
+    previewStartW: number;
+    targetStartW: number;
+    leftPanes: { id: PanelId; startW: number }[];  // panes between preview and target
+  } | null = null;
 
   // ── Public API ──
 
@@ -148,6 +168,17 @@ export class NA2UI extends NativeElement {
     if (this.#editorEl) {
       this.#editorEl.value = val;
     }
+  }
+
+  // ── Attribute sync ──
+
+  attributeChangedCallback(name: string, old: string | null, val: string | null): void {
+    if (old === val) return;
+    if (name === 'stream') {
+      this.#stream.value = val ?? '';
+      if (this.#editorEl) this.#editorEl.value = val ?? '';
+    }
+    super.attributeChangedCallback?.(name, old, val);
   }
 
   playAll(): void { this.#playAll(); }
@@ -182,30 +213,33 @@ export class NA2UI extends NativeElement {
       this.#previewRegionEl.addEventListener('native:resize-end', this.#onPreviewResizeEnd);
     }
 
-    // Effect: panel visibility — toggle panes + chip active states + resize controllers
+    // Wire coordinated pane resize on split container
+    if (this.#splitEl) {
+      this.#splitEl.addEventListener('pointerdown', this.#onPanePointerDown);
+      this.#splitEl.addEventListener('dblclick', this.#onPaneHandleDblClick);
+    }
+
+    // Effect: panel visibility — toggle panes + chip active states
     // WHY: Use [data-active] instead of [pressed] — n-button's PressController
     // toggles [pressed] on click, which races with our effect.
     this.addEffect(() => {
       const active = this.#activePanels.value;
+      // Clear stale pixel widths (from interrupted drags) but preserve flex-grow
+      // ratios — they redistribute proportionally when panels are added/removed.
+      for (const [_, el] of this.#paneEls) el.style.removeProperty('width');
       for (const [id, el] of this.#paneEls) {
         el.hidden = !active.has(id);
       }
       for (const [id, chip] of this.#chipEls) {
         chip.toggleAttribute('data-active', active.has(id));
       }
-      this.#syncResizeControllers(active);
     });
 
-    // Effect: render COMPONENTS/UI pane (CodeMirror — editable component schema)
+    // Effect: render COMPONENTS/UI pane (component mapping table)
     this.addEffect(() => {
-      const components = this.#componentsSchema.value;
-      if (!this.#componentsEditorEl || this.#suppressComponentsEffect) {
-        this.#suppressComponentsEffect = false;
-        return;
-      }
-      this.#componentsEditorEl.value = components.length > 0
-        ? JSON.stringify(components, null, 2)
-        : '';
+      const activeTypes = this.#activeA2UITypes.value;
+      if (!this.#componentMapEl) return;
+      this.#renderComponentMap(this.#componentMapEl, activeTypes);
     });
 
     // Effect: render JSON-OUT pane (protocol messages)
@@ -214,50 +248,36 @@ export class NA2UI extends NativeElement {
       this.#renderLog(entries, this.#paneContentEls.get('json-out') ?? null);
     });
 
-    // Effect: render JS pane (CodeMirror — bus action events, 2-space formatted)
+    // Effect: append new action events to JS pane (preserves user edits)
     this.addEffect(() => {
       const entries = this.#jsLog.value;
       if (!this.#jsEditorEl) return;
-      this.#jsEditorEl.value = entries.length > 0
-        ? entries.map(e => JSON.stringify(e.data, null, 2)).join('\n\n')
-        : '';
+      // Only append entries we haven't seen yet
+      const newEntries = entries.slice(this.#jsLogCursor);
+      if (newEntries.length === 0) return;
+      this.#jsLogCursor = entries.length;
+      const formatted = newEntries.map(e => JSON.stringify(e.data, null, 2)).join('\n\n');
+      const current = this.#jsEditorEl.value;
+      this.#jsEditorEl.value = current
+        ? current + '\n\n' + formatted
+        : formatted;
     });
 
-    // Effect: render HTML pane (preview innerHTML, formatted with 2-space indent)
+    // Effect: render HTML pane
     this.addEffect(() => {
       const html = this.#htmlState.value;
-      const el = this.#paneContentEls.get('html');
-      if (!el) return;
-
-      el.textContent = '';
-      if (html) {
-        const pre = document.createElement('pre');
-        pre.textContent = formatHTML(html);
-        el.appendChild(pre);
-      } else {
-        const span = document.createElement('span');
-        span.style.opacity = '0.5';
-        span.textContent = 'No HTML yet. Play messages to render surfaces.';
-        el.appendChild(span);
-      }
+      if (!this.#htmlEditorEl) return;
+      this.#htmlEditorEl.value = html ? formatHTML(html) : '';
     });
 
-    // Effect: render CSS pane (computed tokens + surface themes)
+    // Effect: render CSS pane
     this.addEffect(() => {
       const styles = this.#cssState.value;
-      const el = this.#paneContentEls.get('css');
-      if (!el) return;
-
-      el.textContent = '';
+      if (!this.#cssEditorEl) return;
       if (styles !== null && typeof styles === 'object' && Object.keys(styles as Record<string, unknown>).length > 0) {
-        const pre = document.createElement('pre');
-        pre.textContent = JSON.stringify(styles, null, 2);
-        el.appendChild(pre);
+        this.#cssEditorEl.value = JSON.stringify(styles, null, 2);
       } else {
-        const span = document.createElement('span');
-        span.style.opacity = '0.5';
-        span.textContent = 'No styles yet. Play messages to render surfaces.';
-        el.appendChild(span);
+        this.#cssEditorEl.value = '';
       }
     });
 
@@ -303,18 +323,19 @@ export class NA2UI extends NativeElement {
     this.#previewResize?.destroy();
     this.#previewResize = null;
 
-    for (const [_id, ctrl] of this.#paneResizeMap) {
-      ctrl.destroy();
-    }
-    this.#paneResizeMap.clear();
-
     this.removeEventListener('native:present', this.#onPresent);
     this.removeEventListener('native:dismiss', this.#onDismiss);
     this.#presentController?.destroy();
     this.#presentController = null;
     this.#expandBtn = null;
+    this.#autoPlayChip = null;
 
     this.#previewRegionEl?.removeEventListener('native:resize-end', this.#onPreviewResizeEnd);
+    this.#splitEl?.removeEventListener('pointerdown', this.#onPanePointerDown);
+    this.#splitEl?.removeEventListener('dblclick', this.#onPaneHandleDblClick);
+    document.removeEventListener('pointermove', this.#onPanePointerMove);
+    document.removeEventListener('pointerup', this.#onPanePointerUp);
+    this.#resizeDrag = null;
     this.#previewRegionEl = null;
     this.#splitEl = null;
     this.#paneEls.clear();
@@ -325,7 +346,10 @@ export class NA2UI extends NativeElement {
 
     this.#editorEl = null;
     this.#jsEditorEl = null;
-    this.#componentsEditorEl = null;
+    this.#htmlEditorEl = null;
+    this.#cssEditorEl = null;
+    this.#componentEditorEl = null;
+    this.#componentMapEl = null;
     this.#previewEl = null;
 
     super.teardown();
@@ -400,6 +424,29 @@ export class NA2UI extends NativeElement {
     this.#htmlState.value = this.#previewEl.innerHTML;
   }
 
+  /** Cmd+S in the HTML pane: write edited HTML back to preview. */
+  #applyHTML(): void {
+    if (!this.#htmlEditorEl || !this.#previewEl) return;
+    this.#previewEl.innerHTML = this.#htmlEditorEl.value;
+    // Re-read computed state so CSS pane refreshes
+    this.#updateCSS();
+  }
+
+  /** Cmd+S in the CSS pane: apply edited custom properties to the preview element. */
+  #applyCSS(): void {
+    if (!this.#cssEditorEl || !this.#previewEl) return;
+    try {
+      const obj = JSON.parse(this.#cssEditorEl.value) as Record<string, unknown>;
+      // Apply computed tokens as inline styles on preview
+      const computed = obj['computed'] as Record<string, string> | undefined;
+      if (computed) {
+        for (const [prop, val] of Object.entries(computed)) {
+          if (prop.startsWith('--')) this.#previewEl.style.setProperty(prop, val);
+        }
+      }
+    } catch { /* invalid JSON — no-op */ }
+  }
+
   // ── CSS state (CSS pane) ──
 
   #updateCSS(): void {
@@ -431,35 +478,191 @@ export class NA2UI extends NativeElement {
     this.#cssState.value = styles;
   }
 
-  // ── Resize controller sync ──
+  // ── Coordinated pane resize ──
+  // Handle between pane N and pane N+1 controls the left boundary of pane N+1.
+  // Drag LEFT  → target (N+1) grows, preview absorbs, then left panes compress.
+  // Drag RIGHT → target (N+1) shrinks, preview gets space back.
 
-  #syncResizeControllers(active: Set<PanelId>): void {
-    const visible = PANEL_ORDER.filter(id => active.has(id));
-    const lastId = visible.length > 0 ? visible[visible.length - 1] : null;
+  /** Get visible pane IDs in DOM order. */
+  #getVisiblePanes(): PanelId[] {
+    const active = this.#activePanels.value;
+    return PANEL_ORDER.filter(id => active.has(id));
+  }
 
-    // Destroy controllers for hidden panels or the new last panel, clear explicit widths
-    for (const [id, ctrl] of this.#paneResizeMap) {
-      if (!active.has(id) || id === lastId) {
-        ctrl.destroy();
-        this.#paneResizeMap.delete(id);
-        this.#paneEls.get(id)?.style.removeProperty('width');
+  #onPanePointerDown = (e: PointerEvent): void => {
+    if (e.button !== 0) return;
+    const handle = (e.target as HTMLElement).closest?.('.a2ui-resize-handle') as HTMLElement | null;
+    if (!handle) return;
+
+    // Find owning pane (must be a pane, not the preview)
+    const pane = handle.parentElement;
+    if (!pane?.classList.contains('a2ui-pane')) return;
+    const handlePaneId = pane.dataset.panel as PanelId | undefined;
+    if (!handlePaneId) return;
+
+    // Handle belongs to pane N; the TARGET is pane N+1 (to the right of the handle)
+    const visible = this.#getVisiblePanes();
+    const handleIdx = visible.indexOf(handlePaneId);
+    if (handleIdx === -1 || handleIdx >= visible.length - 1) return;
+
+    const targetId = visible[handleIdx + 1];
+    const targetEl = this.#paneEls.get(targetId);
+    if (!targetEl) return;
+
+    e.preventDefault();
+
+    // Snapshot widths
+    const previewStartW = this.#previewRegionEl?.offsetWidth ?? 0;
+    const targetStartW = targetEl.offsetWidth;
+
+    // Left panes = everything from pane 0 through pane N (handle owner)
+    const leftPanes: { id: PanelId; startW: number }[] = [];
+    for (let i = 0; i <= handleIdx; i++) {
+      const el = this.#paneEls.get(visible[i]);
+      if (el) leftPanes.push({ id: visible[i], startW: el.offsetWidth });
+    }
+
+    // Freeze all visible pane widths + preview so flex doesn't redistribute.
+    // Clear flex-grow first — inline flex-grow would beat the stylesheet's
+    // [style*="width"] { flex: none } and cause a layout jump.
+    for (const id of visible) {
+      const el = this.#paneEls.get(id);
+      if (el) {
+        el.style.width = `${el.offsetWidth}px`;
+        el.style.removeProperty('flex-grow');
+      }
+    }
+    if (this.#previewRegionEl) {
+      this.#previewRegionEl.style.width = `${previewStartW}px`;
+    }
+
+    this.#resizeDrag = { targetId, startX: e.clientX, previewStartW, targetStartW, leftPanes };
+
+    // Visual feedback + prevent text selection
+    targetEl.setAttribute('resizing', '');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    document.addEventListener('pointermove', this.#onPanePointerMove);
+    document.addEventListener('pointerup', this.#onPanePointerUp);
+  };
+
+  #onPanePointerMove = (e: PointerEvent): void => {
+    const drag = this.#resizeDrag;
+    if (!drag) return;
+
+    const PANE_MIN = 150;
+    const PREVIEW_MIN = 200;
+
+    const dx = e.clientX - drag.startX;
+    // Handle moved right by dx → target's left edge moved right → target shrinks
+    const newTargetW = Math.max(PANE_MIN, drag.targetStartW - dx);
+    const delta = newTargetW - drag.targetStartW; // positive = target growing
+
+    const leftWidths: number[] = drag.leftPanes.map(p => p.startW);
+    let newPreviewW = drag.previewStartW;
+    let clampedTargetW = newTargetW;
+
+    if (delta > 0) {
+      // ── Target growing (user dragged left) ── preview absorbs, then left panes
+      newPreviewW = Math.max(PREVIEW_MIN, drag.previewStartW - delta);
+      const absorbed = drag.previewStartW - newPreviewW;
+      let remaining = delta - absorbed;
+
+      if (remaining > 0) {
+        const totalShrinkable = drag.leftPanes.reduce(
+          (sum, p) => sum + Math.max(0, p.startW - PANE_MIN), 0,
+        );
+        const shrinkAmount = Math.min(remaining, totalShrinkable);
+
+        for (let i = 0; i < drag.leftPanes.length; i++) {
+          const share = totalShrinkable > 0
+            ? (Math.max(0, drag.leftPanes[i].startW - PANE_MIN) / totalShrinkable) * shrinkAmount
+            : 0;
+          leftWidths[i] = Math.max(PANE_MIN, drag.leftPanes[i].startW - share);
+        }
+        remaining -= shrinkAmount;
+      }
+
+      // Clamp target if not enough space
+      clampedTargetW = newTargetW - Math.max(0, remaining);
+
+    } else if (delta < 0) {
+      // ── Target shrinking (user dragged right) ── handle owner (left neighbor) grows
+      const ownerIdx = drag.leftPanes.length - 1;
+      if (ownerIdx >= 0) {
+        leftWidths[ownerIdx] = drag.leftPanes[ownerIdx].startW + (-delta);
+      } else {
+        // No left pane — first handle edge case: preview gets space back
+        newPreviewW = drag.previewStartW + (-delta);
       }
     }
 
-    // Create controllers for visible non-last panels
+    // Apply widths
+    if (this.#previewRegionEl) this.#previewRegionEl.style.width = `${newPreviewW}px`;
+    const targetEl = this.#paneEls.get(drag.targetId);
+    if (targetEl) targetEl.style.width = `${clampedTargetW}px`;
+    for (let i = 0; i < drag.leftPanes.length; i++) {
+      const el = this.#paneEls.get(drag.leftPanes[i].id);
+      if (el) el.style.width = `${leftWidths[i]}px`;
+    }
+  };
+
+  #onPanePointerUp = (_e: PointerEvent): void => {
+    const drag = this.#resizeDrag;
+    if (!drag) return;
+
+    // Convert preview to percentage for proportional scaling
+    if (this.#previewRegionEl && this.#splitEl) {
+      const splitW = this.#splitEl.offsetWidth;
+      if (splitW > 0) {
+        const ratio = this.#previewRegionEl.offsetWidth / splitW;
+        this.#previewRegionEl.style.width = `${(ratio * 100).toFixed(2)}%`;
+      }
+    }
+
+    // Convert pane pixel widths → flex-grow ratios so proportions adapt
+    // when panels are added/removed. With flex-basis: 0%, flex-grow ratios
+    // directly correspond to width ratios.
+    const visible = this.#getVisiblePanes();
+    const widths: number[] = [];
     for (const id of visible) {
-      if (id !== lastId && !this.#paneResizeMap.has(id)) {
-        const el = this.#paneEls.get(id);
+      const el = this.#paneEls.get(id);
+      widths.push(el?.offsetWidth ?? 0);
+    }
+    const total = widths.reduce((s, w) => s + w, 0);
+    if (total > 0) {
+      for (let i = 0; i < visible.length; i++) {
+        const el = this.#paneEls.get(visible[i]);
         if (el) {
-          this.#paneResizeMap.set(id, new ResizeController(el, {
-            handleSelector: '.a2ui-resize-handle',
-            axis: 'horizontal',
-            min: 150,
-          }));
+          // Normalize so average = 1 (e.g. 3 panes: [1.5, 0.8, 0.7])
+          el.style.flexGrow = String((widths[i] / total) * visible.length);
+          el.style.removeProperty('width');
         }
       }
     }
-  }
+
+    // Clean up
+    const targetEl = this.#paneEls.get(drag.targetId);
+    targetEl?.removeAttribute('resizing');
+    document.body.style.removeProperty('cursor');
+    document.body.style.removeProperty('user-select');
+    document.removeEventListener('pointermove', this.#onPanePointerMove);
+    document.removeEventListener('pointerup', this.#onPanePointerUp);
+    this.#resizeDrag = null;
+  };
+
+  #onPaneHandleDblClick = (e: MouseEvent): void => {
+    const handle = (e.target as HTMLElement).closest?.('.a2ui-resize-handle') as HTMLElement | null;
+    if (!handle) return;
+    const pane = handle.parentElement;
+    if (!pane?.classList.contains('a2ui-pane')) return;
+    // Clear all explicit sizing — returns everything to default flex distribution
+    if (this.#previewRegionEl) this.#previewRegionEl.style.removeProperty('width');
+    for (const [_, el] of this.#paneEls) {
+      el.style.removeProperty('width');
+      el.style.removeProperty('flex-grow');
+    }
+  };
 
   // ── DOM construction ──
 
@@ -525,6 +728,16 @@ export class NA2UI extends NativeElement {
       this.#chipEls.set(id, chip);
     }
 
+    // Auto-play toggle
+    const autoPlayChip = document.createElement('n-button');
+    autoPlayChip.setAttribute('variant', 'ghost');
+    autoPlayChip.setAttribute('size', 'sm');
+    autoPlayChip.title = 'Auto-play presets on load';
+    autoPlayChip.innerHTML = '<n-icon name="lightning"></n-icon>';
+    autoPlayChip.addEventListener('native:press', this.#onAutoPlayToggle);
+    header.appendChild(autoPlayChip);
+    this.#autoPlayChip = autoPlayChip;
+
     // Expand/close toggle (far right)
     const expandBtn = document.createElement('n-button');
     expandBtn.setAttribute('variant', 'ghost');
@@ -580,14 +793,29 @@ export class NA2UI extends NativeElement {
       headerLabel.textContent = PANEL_LABELS[id];
       paneHeader.appendChild(headerLabel);
 
+      // Trailing actions — single slot="trailing" wrapper so n-header grid doesn't stack
+      const trailing = document.createElement('span');
+      trailing.setAttribute('slot', 'trailing');
+
+      // Reset button for editable panes (JS, HTML, CSS) — restores computed content
+      if (id === 'js' || id === 'html' || id === 'css') {
+        const resetBtn = document.createElement('n-button');
+        resetBtn.setAttribute('variant', 'ghost');
+        resetBtn.setAttribute('size', 'sm');
+        resetBtn.title = 'Reset to computed';
+        resetBtn.innerHTML = '<n-icon name="arrow-counter-clockwise"></n-icon>';
+        resetBtn.addEventListener('native:press', this.#onPaneReset(id));
+        trailing.appendChild(resetBtn);
+      }
+
       const closeBtn = document.createElement('n-button');
       closeBtn.setAttribute('variant', 'ghost');
       closeBtn.setAttribute('size', 'sm');
-      closeBtn.setAttribute('slot', 'trailing');
       closeBtn.title = 'Close pane';
       closeBtn.innerHTML = '<n-icon name="x"></n-icon>';
       closeBtn.addEventListener('native:press', this.#onChipPress(id));
-      paneHeader.appendChild(closeBtn);
+      trailing.appendChild(closeBtn);
+      paneHeader.appendChild(trailing);
 
       pane.appendChild(paneHeader);
 
@@ -609,7 +837,21 @@ export class NA2UI extends NativeElement {
         playBtn.dataset.role = 'run';
         playBtn.addEventListener('native:press', this.#onPlayAll);
 
-        toolbar.append(stepBackBtn, resetBtn, stepBtn, playBtn);
+        // Divider
+        const sep = document.createElement('n-divider');
+        sep.setAttribute('orientation', 'vertical');
+
+        // Lifecycle insert buttons
+        const addSurfaceBtn = this.#createToolbarButton('Insert createSurface', 'plus-circle');
+        addSurfaceBtn.addEventListener('native:press', this.#onInsertEnvelope('createSurface'));
+        const addComponentsBtn = this.#createToolbarButton('Insert updateComponents', 'squares-four');
+        addComponentsBtn.addEventListener('native:press', this.#onInsertEnvelope('updateComponents'));
+        const addDataBtn = this.#createToolbarButton('Insert updateDataModel', 'database');
+        addDataBtn.addEventListener('native:press', this.#onInsertEnvelope('updateDataModel'));
+        const addDeleteBtn = this.#createToolbarButton('Insert deleteSurface', 'minus-circle');
+        addDeleteBtn.addEventListener('native:press', this.#onInsertEnvelope('deleteSurface'));
+
+        toolbar.append(stepBackBtn, resetBtn, stepBtn, playBtn, sep, addSurfaceBtn, addComponentsBtn, addDataBtn, addDeleteBtn);
         pane.appendChild(toolbar);
       }
 
@@ -619,14 +861,17 @@ export class NA2UI extends NativeElement {
       pane.appendChild(content);
       this.#paneContentEls.set(id, content);
 
-      // CodeMirror editors
-      if (id === 'json-in' || id === 'js' || id === 'components') {
+      // CodeMirror editors for all code panes; component map table for components
+      if (id === 'json-in' || id === 'js' || id === 'html' || id === 'css') {
         const editorEl = document.createElement('native-codemirror') as HTMLElement & NCodemirror;
         editorEl.setAttribute('line-numbers', 'false');
         content.appendChild(editorEl);
         if (id === 'json-in') this.#editorEl = editorEl;
         else if (id === 'js') this.#jsEditorEl = editorEl;
-        else this.#componentsEditorEl = editorEl;
+        else if (id === 'html') this.#htmlEditorEl = editorEl;
+        else if (id === 'css') this.#cssEditorEl = editorEl;
+      } else if (id === 'components') {
+        this.#componentMapEl = content;
       }
 
       // Resize handle (every pane gets one; controller created only for non-last visible)
@@ -668,20 +913,28 @@ export class NA2UI extends NativeElement {
     if (!this.#editorEl) return;
 
     this.#editorEl.value = this.#stream.value;
-    this.#editorEl.extensions = [json(), sentLineField];
+    this.#editorEl.extensions = [json(), sentLineField, linter(a2uiLinter)];
 
     this.#editorEl.addEventListener('native:input', (e: Event) => {
       this.#stream.value = (e as CustomEvent).detail.value;
     });
 
-    // JS editor — JSON syntax highlighting (read-only display)
+    // Cmd+S keybinding — apply edits back to preview
+    const saveHtmlKeymap = keymap.of([{
+      key: 'Mod-s',
+      run: () => { this.#applyHTML(); return true; },
+    }]);
+    const saveCssKeymap = keymap.of([{
+      key: 'Mod-s',
+      run: () => { this.#applyCSS(); return true; },
+    }]);
+
+    // JS editor — JSON syntax highlighting
     if (this.#jsEditorEl) this.#jsEditorEl.extensions = [json()];
 
-    // COMPONENTS/UI editor — JSON syntax highlighting + bidirectional editing
-    if (this.#componentsEditorEl) {
-      this.#componentsEditorEl.extensions = [json()];
-      this.#componentsEditorEl.addEventListener('native:input', this.#onComponentsEdit);
-    }
+    // HTML + CSS editors — editable with Cmd+S to apply
+    if (this.#htmlEditorEl) this.#htmlEditorEl.extensions = [saveHtmlKeymap];
+    if (this.#cssEditorEl) this.#cssEditorEl.extensions = [json(), saveCssKeymap];
   }
 
   // ── JSONL helpers ──
@@ -780,7 +1033,7 @@ export class NA2UI extends NativeElement {
     this.#lastState.value = null;
     this.#htmlState.value = '';
     this.#cssState.value = null;
-    this.#componentsSchema.value = [];
+    this.#activeA2UITypes.value = new Set();
     this.#lastSurfaceId.value = 'demo';
     this.#initAdapter();
 
@@ -814,13 +1067,17 @@ export class NA2UI extends NativeElement {
     }
 
     this.#cursor.value = 0;
+    this.#jsLogCursor = 0;
     this.#inLog.value = [];
     this.#outLog.value = [];
     this.#jsLog.value = [];
+    if (this.#jsEditorEl) this.#jsEditorEl.value = '';
     this.#lastState.value = null;
     this.#htmlState.value = '';
     this.#cssState.value = null;
-    this.#componentsSchema.value = [];
+    this.#activeA2UITypes.value = new Set();
+    this.#selectedType = null;
+    this.#detailTab = 'info';
     this.#lastSurfaceId.value = 'demo';
 
     this.#initAdapter();
@@ -857,7 +1114,7 @@ export class NA2UI extends NativeElement {
       const row = document.createElement('div');
       row.className = 'a2ui-log-entry';
 
-      const typeSpan = document.createElement('span');
+      const typeSpan = document.createElement('n-badge');
       typeSpan.className = `a2ui-log-type a2ui-log-type--${entry.type}`;
       typeSpan.textContent = entry.type.toUpperCase();
 
@@ -875,6 +1132,360 @@ export class NA2UI extends NativeElement {
     }
 
     el.scrollTop = el.scrollHeight;
+  }
+
+  /** Render the A2UI → native-ui component mapping table. */
+  #selectedType: string | null = null;
+  #detailTab: 'info' | 'json' = 'info';
+
+  #renderComponentMap(el: HTMLDivElement, activeTypes: Set<string>): void {
+    el.textContent = '';
+
+    // Detail panel (shown when a type is selected)
+    if (this.#selectedType) {
+      this.#renderComponentDetail(el, this.#selectedType, activeTypes);
+      return;
+    }
+
+    const table = document.createElement('table');
+    table.className = 'a2ui-component-map';
+
+    // Header
+    const thead = document.createElement('thead');
+    const headRow = document.createElement('tr');
+    for (const label of ['Type', 'Tag', 'Category']) {
+      const th = document.createElement('th');
+      th.textContent = label;
+      headRow.appendChild(th);
+    }
+    thead.appendChild(headRow);
+    table.appendChild(thead);
+
+    // Body
+    const tbody = document.createElement('tbody');
+    for (const [_key, mapping] of COMPONENT_MAP) {
+      const row = document.createElement('tr');
+      row.className = 'a2ui-map-row';
+      if (activeTypes.has(mapping.a2uiType)) {
+        row.classList.add('a2ui-map-active');
+      }
+
+      const tdType = document.createElement('td');
+      tdType.textContent = mapping.a2uiType;
+      tdType.className = 'a2ui-map-type';
+
+      const tdTag = document.createElement('td');
+      const code = document.createElement('code');
+      code.textContent = mapping.nativeTag;
+      tdTag.appendChild(code);
+
+      const tdCat = document.createElement('td');
+      tdCat.textContent = getComponentCategory(mapping.a2uiType);
+      tdCat.className = 'a2ui-map-category';
+
+      row.append(tdType, tdTag, tdCat);
+      row.addEventListener('click', () => {
+        this.#selectedType = mapping.a2uiType;
+        this.#renderComponentMap(el, activeTypes);
+      });
+      tbody.appendChild(row);
+    }
+    table.appendChild(tbody);
+
+    // Summary
+    const summary = document.createElement('div');
+    summary.className = 'a2ui-map-summary';
+    summary.textContent = activeTypes.size > 0
+      ? `${activeTypes.size} of ${COMPONENT_MAP.size} types active`
+      : `${COMPONENT_MAP.size} supported component types`;
+
+    el.append(summary, table);
+  }
+
+  #renderComponentDetail(el: HTMLDivElement, type: string, activeTypes: Set<string>): void {
+    const mapping = COMPONENT_MAP.get(type);
+    if (!mapping) return;
+
+    // Header: [< Button] ... [Info | JSON]
+    const headerRow = document.createElement('n-header');
+    headerRow.className = 'a2ui-map-detail-header';
+    headerRow.setAttribute('padding', 'none');
+
+    const backBtn = document.createElement('n-button');
+    backBtn.setAttribute('variant', 'ghost');
+    backBtn.setAttribute('size', 'sm');
+    backBtn.setAttribute('slot', 'leading');
+    backBtn.className = 'a2ui-map-back';
+    backBtn.innerHTML = `<n-icon name="caret-left"></n-icon> ${mapping.a2uiType}`;
+    backBtn.addEventListener('native:press', () => {
+      this.#selectedType = null;
+      this.#detailTab = 'info';
+      this.#componentEditorEl = null;
+      this.#renderComponentMap(el, activeTypes);
+    });
+    headerRow.appendChild(backBtn);
+
+    // Tab switch: Info | JSON
+    const instances = this.#getComponentInstances(type);
+    const hasInstances = instances.length > 0;
+
+    const tabBar = document.createElement('n-segmented-control') as HTMLElement & { value: string | null };
+    tabBar.className = 'a2ui-map-tab-bar';
+    tabBar.setAttribute('size', 'xs');
+    tabBar.setAttribute('slot', 'trailing');
+    tabBar.value = this.#detailTab;
+
+    const infoTab = document.createElement('n-segment');
+    infoTab.setAttribute('value', 'info');
+    infoTab.textContent = 'Info';
+
+    const jsonTab = document.createElement('n-segment');
+    jsonTab.setAttribute('value', 'json');
+    jsonTab.textContent = hasInstances ? `JSON (${instances.length})` : 'JSON';
+    if (!hasInstances) jsonTab.setAttribute('disabled', '');
+
+    tabBar.append(infoTab, jsonTab);
+    tabBar.addEventListener('native:change', (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail?.value === 'info' || detail?.value === 'json') {
+        this.#detailTab = detail.value;
+        this.#renderComponentMap(el, activeTypes);
+      }
+    });
+    headerRow.appendChild(tabBar);
+    el.appendChild(headerRow);
+
+    // ── Info tab content ──
+    if (this.#detailTab === 'info') {
+      this.#componentEditorEl = null;
+
+      const detail = document.createElement('div');
+      detail.className = 'a2ui-map-detail';
+
+      const props: [string, string][] = [
+        ['Tag', mapping.nativeTag],
+        ['Children', mapping.childStrategy],
+        ['Category', getComponentCategory(mapping.a2uiType)],
+      ];
+      if (mapping.actionEvent) props.push(['Action', mapping.actionEvent]);
+      if (mapping.defaultAttributes) {
+        props.push(['Defaults', Object.entries(mapping.defaultAttributes).map(([k, v]) => `${k}="${v}"`).join(', ')]);
+      }
+      if (mapping.propertyMap) {
+        props.push(['Props', Object.entries(mapping.propertyMap).map(([k, v]) => `${k} → ${v}`).join(', ')]);
+      }
+      if (mapping.variantMap) {
+        props.push(['Variants', Object.keys(mapping.variantMap).join(', ')]);
+      }
+
+      for (const [label, value] of props) {
+        const row = document.createElement('div');
+        row.className = 'a2ui-map-detail-row';
+        const labelEl = document.createElement('span');
+        labelEl.className = 'a2ui-map-detail-label';
+        labelEl.textContent = label;
+        const valueEl = document.createElement('code');
+        valueEl.textContent = value;
+        row.append(labelEl, valueEl);
+        detail.appendChild(row);
+      }
+
+      el.appendChild(detail);
+
+      // Compatible alternatives
+      const compatible = getCompatibleTypes(mapping.a2uiType).filter(t => t !== type);
+      const isSwappable = activeTypes.has(type);
+      if (compatible.length > 0) {
+        const altSection = document.createElement('div');
+        altSection.className = 'a2ui-map-alternatives';
+
+        const altTitle = document.createElement('div');
+        altTitle.className = 'a2ui-map-alt-title';
+        altTitle.textContent = isSwappable ? 'Swap To' : 'Compatible Alternatives';
+        altSection.appendChild(altTitle);
+
+        for (const altType of compatible) {
+          const altMapping = COMPONENT_MAP.get(altType);
+          if (!altMapping) continue;
+
+          const altRow = document.createElement('div');
+          altRow.className = 'a2ui-map-alt-row';
+          if (activeTypes.has(altType)) altRow.classList.add('a2ui-map-active');
+
+          // Swap icon (only when current type is active in the stream)
+          if (isSwappable) {
+            const swapIcon = document.createElement('n-icon');
+            swapIcon.setAttribute('name', 'arrows-left-right');
+            swapIcon.className = 'a2ui-map-swap-icon';
+            altRow.appendChild(swapIcon);
+          }
+
+          const name = document.createElement('span');
+          name.className = 'a2ui-map-type';
+          name.textContent = altType;
+
+          const tag = document.createElement('code');
+          tag.textContent = altMapping.nativeTag;
+
+          altRow.append(name, tag);
+
+          if (isSwappable) {
+            // Swap in the preview and navigate to the new type
+            altRow.addEventListener('click', () => {
+              this.#swapComponent(type, altType);
+              this.#selectedType = altType;
+              this.#detailTab = 'info';
+              this.#componentEditorEl = null;
+              this.#renderComponentMap(el, this.#activeA2UITypes.value);
+            });
+          } else {
+            // Just navigate to the alternative's detail view
+            altRow.addEventListener('click', () => {
+              this.#selectedType = altType;
+              this.#detailTab = 'info';
+              this.#componentEditorEl = null;
+              this.#renderComponentMap(el, activeTypes);
+            });
+          }
+          altSection.appendChild(altRow);
+        }
+
+        el.appendChild(altSection);
+      }
+
+      return;
+    }
+
+    // ── JSON tab content ──
+    const editorSection = document.createElement('div');
+    editorSection.className = 'a2ui-map-editor-section';
+
+    const editorToolbar = document.createElement('n-toolbar');
+    editorToolbar.className = 'a2ui-map-editor-toolbar';
+
+    const applyBtn = document.createElement('n-button');
+    applyBtn.setAttribute('variant', 'ghost');
+    applyBtn.setAttribute('size', 'sm');
+    applyBtn.title = 'Apply changes to stream';
+    applyBtn.innerHTML = '<n-icon name="play" weight="fill"></n-icon>';
+    applyBtn.addEventListener('native:press', () => this.#applyComponentEdits(type));
+    editorToolbar.appendChild(applyBtn);
+
+    editorSection.appendChild(editorToolbar);
+
+    const editorEl = document.createElement('native-codemirror') as HTMLElement & NCodemirror;
+    editorEl.setAttribute('line-numbers', 'false');
+    editorSection.appendChild(editorEl);
+    this.#componentEditorEl = editorEl;
+
+    requestAnimationFrame(() => {
+      editorEl.extensions = [json()];
+      editorEl.value = JSON.stringify(instances, null, 2);
+    });
+
+    el.appendChild(editorSection);
+  }
+
+  /** Extract all component instances of a given A2UI type from the current envelopes. */
+  #getComponentInstances(type: string): Record<string, unknown>[] {
+    const envelopes = this.#getEnvelopes();
+    const instances: Record<string, unknown>[] = [];
+    for (const env of envelopes) {
+      try {
+        const parsed = JSON.parse(env.text);
+        const uc = parsed.updateComponents as { components?: Record<string, unknown>[] } | undefined;
+        if (uc?.components) {
+          for (const comp of uc.components) {
+            if (comp.component === type) instances.push(comp);
+          }
+        }
+      } catch { /* skip unparseable */ }
+    }
+    return instances;
+  }
+
+  /** Apply edited component JSON back into the stream envelopes and replay. */
+  #applyComponentEdits(type: string): void {
+    if (!this.#componentEditorEl) return;
+    let edited: Record<string, unknown>[];
+    try {
+      edited = JSON.parse(this.#componentEditorEl.value);
+    } catch {
+      return; // invalid JSON — don't apply
+    }
+    if (!Array.isArray(edited)) return;
+
+    // Build a lookup by component id for the edited instances
+    const editedById = new Map<string, Record<string, unknown>>();
+    for (const comp of edited) {
+      if (comp.id && typeof comp.id === 'string') editedById.set(comp.id, comp);
+    }
+
+    // Walk envelopes and replace matching components in-place
+    const envelopes = this.#getEnvelopes();
+    const parts: string[] = [];
+    for (const env of envelopes) {
+      try {
+        const parsed = JSON.parse(env.text);
+        const uc = parsed.updateComponents as { components?: Record<string, unknown>[] } | undefined;
+        if (uc?.components) {
+          for (let i = 0; i < uc.components.length; i++) {
+            const comp = uc.components[i];
+            if (comp.component === type && typeof comp.id === 'string') {
+              const replacement = editedById.get(comp.id as string);
+              if (replacement) uc.components[i] = replacement;
+            }
+          }
+        }
+        parts.push(JSON.stringify(parsed, null, 2));
+      } catch {
+        parts.push(env.text);
+      }
+    }
+
+    const newStream = parts.join('\n\n');
+    const savedType = this.#selectedType;
+    this.#reset();
+    this.#selectedType = savedType;
+    this.stream = newStream;
+    this.#playAll();
+
+    // Refresh the editor with the applied instances
+    if (this.#componentEditorEl) {
+      const refreshed = this.#getComponentInstances(type);
+      this.#componentEditorEl.value = JSON.stringify(refreshed, null, 2);
+    }
+  }
+
+  /** Swap all instances of one A2UI component type for another in the stream and replay. */
+  #swapComponent(fromType: string, toType: string): void {
+    const envelopes = this.#getEnvelopes();
+    if (envelopes.length === 0) return;
+
+    const parts: string[] = [];
+    for (const env of envelopes) {
+      try {
+        const parsed = JSON.parse(env.text);
+        const uc = parsed.updateComponents;
+        if (uc?.components && Array.isArray(uc.components)) {
+          for (const comp of uc.components) {
+            if (comp.component === fromType) {
+              comp.component = toType;
+            }
+          }
+        }
+        parts.push(JSON.stringify(parsed, null, 2));
+      } catch {
+        parts.push(env.text);
+      }
+    }
+
+    const newStream = parts.join('\n\n');
+    const savedType = this.#selectedType;
+    this.#reset();
+    this.#selectedType = savedType;
+    this.stream = newStream;
+    this.#playAll();
   }
 
   // ── Event handlers (arrow properties for stable references) ──
@@ -904,16 +1515,11 @@ export class NA2UI extends NativeElement {
   #loadPreset(key: string): void {
     if (!PRESETS[key]) return;
 
-    const envelope = PRESETS[key].envelope;
-    // Build JSONL: createSurface + updateComponents
-    const surfaceId = (envelope.updateComponents as { surfaceId?: string })?.surfaceId ?? 'demo';
-    const blocks = [
-      JSON.stringify({ createSurface: { surfaceId }, version: '0.9' }, null, 2),
-      JSON.stringify({ ...envelope, version: '0.9' }, null, 2),
-    ];
-    const stream = blocks.join('\n\n');
+    const preset = PRESETS[key];
+    const stream = preset.envelopes
+      .map(env => JSON.stringify(env, null, 2))
+      .join('\n\n');
 
-    // Reset, load into editor, auto-play
     this.#reset();
     this.stream = stream;
     this.#playAll();
@@ -924,6 +1530,49 @@ export class NA2UI extends NativeElement {
   #onStepBack = (): void => { this.#stepBack(); };
   #onReset = (): void => { this.#reset(); };
 
+  /** Insert a lifecycle envelope template at the end of the editor stream. */
+  #onInsertEnvelope = (kind: 'createSurface' | 'updateComponents' | 'updateDataModel' | 'deleteSurface') => (): void => {
+    const sid = this.#lastSurfaceId.value;
+    const templates: Record<string, Record<string, unknown>> = {
+      createSurface: {
+        createSurface: { surfaceId: sid },
+        version: '0.9',
+      },
+      updateComponents: {
+        updateComponents: {
+          surfaceId: sid,
+          components: [
+            { id: 'root', component: 'Column', children: ['item1'] },
+            { id: 'item1', component: 'Text', text: 'Hello' },
+          ],
+        },
+        version: '0.9',
+      },
+      updateDataModel: {
+        updateDataModel: { surfaceId: sid, path: '/', value: { key: 'value' } },
+        version: '0.9',
+      },
+      deleteSurface: {
+        deleteSurface: { surfaceId: sid },
+        version: '0.9',
+      },
+    };
+
+    const envelope = templates[kind];
+    const formatted = JSON.stringify(envelope, null, 2);
+    const current = this.#stream.value.trimEnd();
+    const newStream = current ? current + '\n\n' + formatted : formatted;
+    this.stream = newStream;
+
+    // Scroll editor to the new content
+    const view = this.#editorEl?.editorView;
+    if (view) {
+      const lastLine = view.state.doc.lines;
+      view.dispatch({ selection: { anchor: view.state.doc.line(lastLine).from } });
+      view.dispatch({ effects: EditorView.scrollIntoView(view.state.doc.line(lastLine).from) });
+    }
+  };
+
   #onPreviewResizeEnd = (): void => {
     if (!this.#previewRegionEl || !this.#splitEl) return;
     const splitWidth = this.#splitEl.offsetWidth;
@@ -932,35 +1581,47 @@ export class NA2UI extends NativeElement {
     this.#previewRegionEl.style.width = `${(ratio * 100).toFixed(2)}%`;
   };
 
-  /** Track last updateComponents envelope for the UI pane. */
+  /** Track A2UI component types used in updateComponents envelopes. */
   #trackComponents(envelope: Record<string, unknown>): void {
     const uc = envelope.updateComponents as { surfaceId?: string; components?: unknown[] } | undefined;
     if (uc?.components) {
-      this.#componentsSchema.value = uc.components;
       if (uc.surfaceId) this.#lastSurfaceId.value = uc.surfaceId;
+      const current = new Set(this.#activeA2UITypes.value);
+      for (const comp of uc.components) {
+        if (comp && typeof comp === 'object' && 'component' in comp) {
+          current.add((comp as { component: string }).component);
+        }
+      }
+      this.#activeA2UITypes.value = current;
     }
   }
 
-  /** Handle user edits in the COMPONENTS/UI pane — send updateComponents to adapter. */
-  #onComponentsEdit = (e: Event): void => {
-    const value = (e as CustomEvent).detail?.value;
-    if (!value || !this.#adapter || !this.#previewEl) return;
+  #onAutoPlayToggle = (): void => {
+    this.#autoPlay.value = !this.#autoPlay.value;
+    this.#autoPlayChip?.toggleAttribute('data-active', this.#autoPlay.value);
+  };
 
-    try {
-      const components = JSON.parse(value);
-      if (!Array.isArray(components)) return;
-
-      this.#suppressComponentsEffect = true;
-      this.#componentsSchema.value = components;
-
-      this.#adapter.receive(
-        { updateComponents: { surfaceId: this.#lastSurfaceId.value, components } },
-        this.#previewEl,
-      );
-      this.#updateHTML();
-      this.#updateCSS();
-    } catch (_e) {
-      // Invalid JSON — ignore until user finishes editing
+  /** Reset an editable pane to its computed/generated content. */
+  #onPaneReset = (panelId: PanelId) => (): void => {
+    if (panelId === 'js') {
+      if (!this.#jsEditorEl) return;
+      const entries = this.#jsLog.value;
+      this.#jsEditorEl.value = entries.length > 0
+        ? entries.map(e => JSON.stringify(e.data, null, 2)).join('\n\n')
+        : '';
+      this.#jsLogCursor = entries.length;
+    } else if (panelId === 'html') {
+      if (!this.#htmlEditorEl) return;
+      const html = this.#htmlState.value;
+      this.#htmlEditorEl.value = html ? formatHTML(html) : '';
+    } else if (panelId === 'css') {
+      if (!this.#cssEditorEl) return;
+      const styles = this.#cssState.value;
+      if (styles !== null && typeof styles === 'object' && Object.keys(styles as Record<string, unknown>).length > 0) {
+        this.#cssEditorEl.value = JSON.stringify(styles, null, 2);
+      } else {
+        this.#cssEditorEl.value = '';
+      }
     }
   };
 

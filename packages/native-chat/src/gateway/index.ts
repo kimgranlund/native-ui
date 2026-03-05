@@ -29,15 +29,16 @@ export type {
 
 export {
   LLMGatewayController,
-  ChatGatewayController,
-  GatewayController,
 } from './controller';
 
 export {
+  DEFAULT_REQUEST_TIMEOUT_MS,
+  DEFAULT_RETRY_DELAYS_MS,
   GatewayRequestError,
   classifyByStatus,
   createRequestId,
   fetchWithRetry,
+  parseSseEvent,
   parseJsonResponse,
 } from './runtime';
 

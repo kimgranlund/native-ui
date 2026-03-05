@@ -137,6 +137,32 @@ wrapper.addEventListener('native:slash-select', (e) =&gt; {
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
+    <!-- ── Action Types ── -->
+
+    <h2>Action Types</h2>
+    <n-panel bordered>
+      <p class="demo-hint">
+        Commands support three action types via the <code>action</code> property:
+        <strong>tag</strong> (default — inserts a styled pill),
+        <strong>insert</strong> (inserts plain text),
+        <strong>event</strong> (fires event only — host handles the action, e.g. opening a modal).
+      </p>
+      <div id="action-wrapper" class="slash-wrapper">
+        <n-textarea id="action-textarea" placeholder="Type / to see action types..." rows="2"></n-textarea>
+      </div>
+      <div id="action-log" class="output"></div>
+      <pre class="demo-code"><code>const slash = new SlashCommandController(wrapper, {
+  input: textarea,
+  commands: [
+    { value: 'mention', label: '@mention', action: 'tag' },
+    { value: 'heading', label: 'Heading', action: 'insert', insertText: '## ' },
+    { value: 'divider', label: 'Divider', action: 'insert', insertText: '---\n' },
+    { value: 'upload', label: 'Upload File', action: 'event', description: 'Open file picker' },
+    { value: 'emoji', label: 'Emoji', action: 'event', description: 'Open emoji picker' },
+  ],
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
     <!-- ── Dynamic Commands ── -->
 
     <h2>Dynamic Commands</h2>
@@ -232,6 +258,18 @@ toggleBtn.addEventListener('native:press', () =&gt; {
             <n-table-cell>No</n-table-cell>
             <n-table-cell>Optional icon name (reserved for future use).</n-table-cell>
           </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>action</code></n-table-cell>
+            <n-table-cell><code>'tag' | 'insert' | 'event'</code></n-table-cell>
+            <n-table-cell>No</n-table-cell>
+            <n-table-cell>Behavior on selection. <code>tag</code> (default) inserts a styled pill. <code>insert</code> replaces <code>/query</code> with plain text. <code>event</code> removes <code>/query</code> and fires the event only — host handles the action.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>insertText</code></n-table-cell>
+            <n-table-cell><code>string</code></n-table-cell>
+            <n-table-cell>No</n-table-cell>
+            <n-table-cell>Text to insert for <code>action: 'insert'</code>. Defaults to <code>label</code> if omitted.</n-table-cell>
+          </n-table-row>
         </n-table-body>
       </n-table>
     </div>
@@ -304,8 +342,8 @@ toggleBtn.addEventListener('native:press', () =&gt; {
           </n-table-row>
           <n-table-row>
             <n-table-cell><code>native:slash-select</code></n-table-cell>
-            <n-table-cell><code>{ command }</code></n-table-cell>
-            <n-table-cell>Fired on host when a command is selected (Enter or click). <code>command</code> is the full <code>SlashCommand</code> object.</n-table-cell>
+            <n-table-cell><code>{ command, action }</code></n-table-cell>
+            <n-table-cell>Fired on host when a command is selected (Enter or click). <code>command</code> is the full <code>SlashCommand</code> object. <code>action</code> is the resolved action type (<code>'tag'</code>, <code>'insert'</code>, or <code>'event'</code>).</n-table-cell>
           </n-table-row>
         </n-table-body>
       </n-table>
@@ -332,6 +370,10 @@ toggleBtn.addEventListener('native:press', () =&gt; {
           <n-table-row>
             <n-table-cell><kbd>Enter</kbd></n-table-cell>
             <n-table-cell>Select active command</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><kbd>Tab</kbd></n-table-cell>
+            <n-table-cell>Select closest match (when query has 2+ characters)</n-table-cell>
           </n-table-row>
           <n-table-row>
             <n-table-cell><kbd>Escape</kbd></n-table-cell>
@@ -458,6 +500,34 @@ toggleBtn.addEventListener('native:press', () =&gt; {
       });
       filterWrapper.addEventListener('native:slash-select', (e) => {
         appendLog(filterLog, `Selected: /${e.detail.command.value} — ${e.detail.command.label}`);
+      });
+
+      // ── Action Types ──
+
+      const actionWrapper = document.getElementById('action-wrapper');
+      const actionTextarea = document.getElementById('action-textarea');
+      const actionLog = document.getElementById('action-log');
+
+      const actionSlash = new SlashCommandController(actionWrapper, {
+        input: actionTextarea,
+        commands: [
+          { value: 'mention', label: '@mention', action: 'tag' },
+          { value: 'heading', label: 'Heading', action: 'insert', insertText: '## ' },
+          { value: 'divider', label: 'Divider', action: 'insert', insertText: '---\n' },
+          { value: 'upload', label: 'Upload File', action: 'event', description: 'Open file picker' },
+          { value: 'emoji', label: 'Emoji', action: 'event', description: 'Open emoji picker' },
+        ],
+      });
+
+      actionWrapper.addEventListener('native:slash-select', (e) => {
+        const { command, action } = e.detail;
+        appendLog(actionLog, `Selected: /${command.value} — action: ${action}`);
+        if (action === 'event') {
+          appendLog(actionLog, `  → Host would handle: ${command.description ?? command.label}`);
+        }
+      });
+      actionWrapper.addEventListener('native:slash-query', (e) => {
+        appendLog(actionLog, `Query: "/${e.detail.query}" — ${e.detail.commands.length} match(es)`);
       });
 
       // ── Dynamic Commands ──

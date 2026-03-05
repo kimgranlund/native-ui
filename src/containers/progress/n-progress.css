@@ -1,0 +1,70 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  n-progress                                              │
+     │  Read-only progress bar. CSS-only — no JS.               │
+     │                                                          │
+     │  Set progress via --n-progress (0–1) custom property.    │
+     │  The A2UI adapter sets this from the value/max attrs.    │
+     │                                                          │
+     │  Usage:                                                  │
+     │    <n-progress style="--n-progress: 0.6"></n-progress>   │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* ── Base (track) ── */
+
+  :where(n-progress) {
+    --n-progress: 0;
+
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    align-items: center;
+    position: relative;
+
+    height: calc(var(--n-space) * 2);
+    border-radius: var(--n-radius);
+    background: var(--n-control);
+    overflow: hidden;
+  }
+
+  /* ── Fill (::before) ── */
+
+  :where(n-progress)::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: calc(var(--n-progress) * 100%);
+    min-width: 0;
+    background: var(--n-ink);
+    border-radius: inherit;
+    transition: width var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Intent colors ── */
+
+  [intent="accent"]:where(n-progress)::before { background: var(--n-ink); }
+  [intent="success"]:where(n-progress)::before { background: var(--n-ink); }
+  [intent="warning"]:where(n-progress)::before { background: var(--n-ink); }
+  [intent="danger"]:where(n-progress)::before { background: var(--n-ink); }
+
+  /* ── Size ── */
+
+  [size="xs"]:where(n-progress) { height: calc(var(--n-space) * 1); }
+  [size="sm"]:where(n-progress) { height: calc(var(--n-space) * 1.5); }
+  [size="lg"]:where(n-progress) { height: calc(var(--n-space) * 3); }
+
+  /* ── Indeterminate ── */
+
+  [indeterminate]:where(n-progress)::before {
+    width: 30%;
+    animation: n-progress-indeterminate 1.5s ease-in-out infinite;
+  }
+
+  @keyframes n-progress-indeterminate {
+    0% { inset-inline-start: -30%; }
+    100% { inset-inline-start: 100%; }
+  }
+
+}

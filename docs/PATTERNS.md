@@ -4,6 +4,25 @@ Implementation patterns used throughout `@nonoun/native-ui`.
 
 ---
 
+## Zero-Config by Default
+
+Every component must render correctly and be fully functional with **no attributes**. Defaults (variant, radius, role, intent) are set in CSS base rules and JS constructors so that bare markup just works:
+
+```html
+<!-- Works out of the box — no attributes required -->
+<n-button>Click me</n-button>
+<n-input placeholder="Type here"></n-input>
+<n-checkbox>Accept terms</n-checkbox>
+```
+
+This means:
+- CSS base rules (`:where()`) set explicit `--n-background`, `--n-color`, `--n-border-color` defaults
+- JS constructors initialize signals with sensible defaults (e.g., `#variant = signal('default')`)
+- Attribute selectors at (0,1,0) override defaults when consumers opt in
+- No component should require configuration to be usable
+
+---
+
 ## 1. Coordinator Pattern
 
 `n-select`, `n-combobox`, `n-command` wire existing primitives together with no visual presence.

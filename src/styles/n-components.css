@@ -45,6 +45,10 @@
 @import '../containers/body/body.css';
 @import '../containers/footer/footer.css';
 @import '../containers/text/n-text.css';
+@import '../containers/picture/n-picture.css';
+@import '../containers/video/n-video.css';
+@import '../containers/audio/n-audio.css';
+@import '../containers/progress/n-progress.css';
 @import '../containers/avatar-group/avatar-group.css';
 @import '../containers/root/n-root.css';
 

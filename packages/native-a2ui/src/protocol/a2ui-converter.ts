@@ -239,6 +239,17 @@ function resolveComponent(
     if (comp.max !== undefined) attributes.max = String(comp.max);
   }
 
+  // Handle Progress: convert value/max to --n-progress CSS custom property
+  if (comp.component === 'Progress') {
+    const val = parseFloat(attributes.value ?? '0');
+    const max = parseFloat(attributes.max ?? '100');
+    const ratio = max > 0 ? Math.min(1, Math.max(0, val / max)) : 0;
+    attributes.style = `--n-progress: ${ratio}`;
+    // Keep value/max as data attributes for round-tripping
+    if (attributes.value) { attributes['data-value'] = attributes.value; delete attributes.value; }
+    if (attributes.max) { attributes['data-max'] = attributes.max; delete attributes.max; }
+  }
+
   // Collect data bindings from text
   let textContent: string | undefined;
   if (comp.text !== undefined) {
@@ -372,16 +383,42 @@ function resolveComponent(
     attributes.value = String(comp.value);
   }
 
-  // Handle Image url → src
-  if (comp.component === 'Image' && comp.url !== undefined) {
-    if (isDataBinding(comp.url)) {
-      let entries = bindings.get(id);
-      if (!entries) { entries = []; bindings.set(id, entries); }
-      entries.push({ property: 'src', path: (comp.url as unknown as A2UIDataBinding).path });
-    } else {
-      attributes.src = comp.url as string;
+  // Handle media wrapper elements (n-picture, n-video, n-audio)
+  // These are CSS containers — create an inner native element as a child
+  if (comp.component === 'Image' || comp.component === 'Video' || comp.component === 'AudioPlayer') {
+    const innerTag = comp.component === 'Image' ? 'img'
+      : comp.component === 'Video' ? 'video'
+      : 'audio';
+    const innerAttrs: Record<string, string> = {};
+    if (innerTag !== 'img') innerAttrs.controls = '';
+
+    // Move media-specific attributes from the wrapper to the inner element
+    const mediaProps = ['src', 'alt', 'poster'];
+    for (const prop of mediaProps) {
+      if (attributes[prop]) {
+        innerAttrs[prop] = attributes[prop];
+        delete attributes[prop];
+      }
     }
-    if (comp.alt) attributes.alt = comp.alt as string;
+
+    // Handle Image url → src (may also be set via propertyMap above)
+    if (comp.component === 'Image' && comp.url !== undefined) {
+      if (isDataBinding(comp.url)) {
+        // Bind to inner element — use wrapper id + '-inner' for targeting
+        let entries = bindings.get(`${id}-inner`);
+        if (!entries) { entries = []; bindings.set(`${id}-inner`, entries); }
+        entries.push({ property: 'src', path: (comp.url as unknown as A2UIDataBinding).path });
+      } else {
+        innerAttrs.src = comp.url as string;
+      }
+      if (comp.alt) innerAttrs.alt = comp.alt as string;
+    }
+
+    children = [{
+      id: `${id}-inner`,
+      tag: innerTag,
+      ...(Object.keys(innerAttrs).length > 0 ? { attributes: innerAttrs } : {}),
+    }];
   }
 
   // Clean up empty attributes
@@ -442,8 +479,20 @@ function flattenNode(
 
   // Map children IDs
   if (node.children && node.children.length > 0) {
-    // Check if there's a single slot-label child that should become text
+    // Media wrappers: absorb inner <img>/<video>/<audio> — extract src/alt from inner element
     if (
+      (a2uiType === 'Image' || a2uiType === 'Video' || a2uiType === 'AudioPlayer') &&
+      node.children.length === 1 &&
+      (node.children[0].tag === 'img' || node.children[0].tag === 'video' || node.children[0].tag === 'audio')
+    ) {
+      const inner = node.children[0];
+      if (inner.attributes?.src) comp.url = inner.attributes.src;
+      if (inner.attributes?.alt) comp.alt = inner.attributes.alt;
+      if (inner.attributes?.poster) comp.poster = inner.attributes.poster;
+      // Don't recurse — inner media element is absorbed
+    }
+    // Check if there's a single slot-label child that should become text
+    else if (
       mapping?.childStrategy === 'slot-label' &&
       node.children.length === 1 &&
       node.children[0].attributes?.slot === 'label' &&

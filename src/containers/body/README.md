@@ -10,8 +10,8 @@
 
 | Attribute | Values |
 |-----------|--------|
-| `padding` | `none`, `regular`, `relaxed`, `tight` |
 | `dividers` | _(boolean)_ |
+| `padding` | `none`, `regular`, `relaxed`, `tight` |
 | `show-scrollbar` | _(boolean)_ |
 
 ## CSS Tokens

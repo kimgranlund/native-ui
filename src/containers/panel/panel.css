@@ -28,133 +28,27 @@
     line-height: var(--n-line-height);
   }
 
-  /* ── Padding ── */
-
-  :where(n-panel)[padding="none"] { padding: 0; }
-  :where(n-panel)[padding="tight"] { padding: calc(var(--n-space) * 4); }
-  :where(n-panel)[padding="regular"] { padding: calc(var(--n-space) * 6); }
-  :where(n-panel)[padding="relaxed"] { padding: calc(var(--n-space) * 8); }
-
-  /* ── Dividers ── */
-  /* WHY: Opt-in horizontal dividers between children. Every child except
-     the first gets a top border when [dividers] is set on the panel. */
-
-  :where(n-panel)[dividers] > :where(:not(:first-child)) {
-    border-top: 1px solid var(--n-border-muted);
-  }
-
-  /* ── Bordered ── */
-
-  :where(n-panel)[bordered] {
-    border: 1px solid var(--n-border-muted);
-  }
-
   /* ── Scrollbar ── */
 
   :where(n-panel) {
     scrollbar-width: none;
   }
 
-  :where(n-panel)[show-scrollbar] {
-    scrollbar-width: thin;
-  }
+  /* ── Sub-container integration ── */
+  /* WHY: When n-body is present, delegate overflow to it so
+     header/footer stay fixed while body scrolls. */
 
-  /* ── Scrollable (opt-in) ── */
-  /* WHY: Panels don't scroll by default — overflow depends on context.
-     [scrollable] enables vertical scroll for bounded containers. */
-
-  [scrollable]:where(n-panel) {
-    overflow-y: auto;
-  }
-
-  /* ── Fade (opt-in) ── */
-  /* WHY: Content dissolves as it scrolls under header/footer — transparent
-     at the edge, fully visible by 1.25× the header/footer height. Avoids
-     opaque header/footer backgrounds while still indicating scroll. */
-
-  [fade]:where(n-panel) {
-    --n-fade-top: calc((var(--n-size) + var(--n-space) * 4) * 1.25);
-    --n-fade-bottom: calc((var(--n-size) + var(--n-space) * 4) * 1.25);
-  }
-
-  /* Top fade — header present */
-  [fade]:where(n-panel):has(> n-header) > :where(n-body) {
-    mask-image: linear-gradient(
-      to bottom,
-      transparent 0,
-      black var(--n-fade-top),
-      black 100%
-    );
-  }
-
-  /* Bottom fade — footer present */
-  [fade]:where(n-panel):has(> n-footer) > :where(n-body) {
-    mask-image: linear-gradient(
-      to bottom,
-      black 0,
-      black calc(100% - var(--n-fade-bottom)),
-      transparent 100%
-    );
-  }
-
-  /* Both fades — header AND footer present */
-  [fade]:where(n-panel):has(> n-header):has(> n-footer) > :where(n-body) {
-    mask-image: linear-gradient(
-      to bottom,
-      transparent 0,
-      black var(--n-fade-top),
-      black calc(100% - var(--n-fade-bottom)),
-      transparent 100%
-    );
-  }
-
-  /* ── Aside mode ── */
-  /* WHY: Generic collapsible side panel — hidden when closed, shown at
-     360px when [open]. Works on n-panel, stamped panels, etc.
-     [aside] uses real specificity (0,1,0+) so it beats zero-specificity
-     base rules on stamped panels that load later. Same convention as [variant]. */
-
-  [aside] {
-    flex: none;
-    position: relative;
-    display: none;
-    width: 0;
-    min-width: 0;
-    max-width: 480px;
-    overflow: clip;
+  :where(n-panel):has(> n-body) {
+    overflow: hidden;
     padding: 0;
-    transition:
-      display var(--n-duration) var(--n-easing) allow-discrete,
-      width var(--n-duration) var(--n-easing),
-      min-width var(--n-duration) var(--n-easing),
-      padding var(--n-duration) var(--n-easing);
   }
 
-  [aside][open] {
-    display: flex;
-    width: 360px;
-    min-width: 280px;
+  :where(n-panel) > :where(n-header) {
+    border-bottom: 1px solid var(--n-border-muted);
   }
 
-  /* WHY: Entry animation — browser needs a starting style to transition
-     from display: none. @starting-style provides the "from" values. */
-  @starting-style {
-    [aside][open] {
-      width: 0;
-      min-width: 0;
-    }
-  }
-
-  /* WHY: n-panel aside adds padding + scroll when open (no sub-containers).
-     Stamped panels with n-body don't need this — body handles scroll. */
-  :where(n-panel)[aside][open] {
-    overflow-y: auto;
-    padding: calc(var(--n-space) * 4);
-  }
-
-  /* WHY: Disable transitions while dragging — they fight the pointer. */
-  [aside][resizing] {
-    transition: none;
+  :where(n-panel) > :where(n-footer) {
+    border-top: 1px solid var(--n-border-muted);
   }
 
   /* ── Resize handle ── */
@@ -199,21 +93,126 @@
     display: none;
   }
 
-  /* ── Sub-container integration ── */
-  /* WHY: When n-body is present, delegate overflow to it so
-     header/footer stay fixed while body scrolls. */
+}
 
-  :where(n-panel):has(> n-body) {
-    overflow: hidden;
-    padding: 0;
+/* ── Attribute API (unlayered — must beat consumer overrides) ── */
+
+/* Padding */
+:where(n-panel)[padding="none"] { padding: 0; }
+:where(n-panel)[padding="tight"] { padding: calc(var(--n-space) * 4); }
+:where(n-panel)[padding="regular"] { padding: calc(var(--n-space) * 6); }
+:where(n-panel)[padding="relaxed"] { padding: calc(var(--n-space) * 8); }
+
+/* Dividers */
+/* WHY: Opt-in horizontal dividers between children. Every child except
+   the first gets a top border when [dividers] is set on the panel. */
+:where(n-panel)[dividers] > :where(:not(:first-child)) {
+  border-top: 1px solid var(--n-border-muted);
+}
+
+/* Bordered */
+:where(n-panel)[bordered] {
+  border: 1px solid var(--n-border-muted);
+}
+
+/* Scrollbar */
+:where(n-panel)[show-scrollbar] {
+  scrollbar-width: thin;
+}
+
+/* Scrollable (opt-in) */
+/* WHY: Panels don't scroll by default — overflow depends on context.
+   [scrollable] enables vertical scroll for bounded containers. */
+[scrollable]:where(n-panel) {
+  overflow-y: auto;
+}
+
+/* Fade (opt-in) */
+/* WHY: Content dissolves as it scrolls under header/footer — transparent
+   at the edge, fully visible by 1.25× the header/footer height. Avoids
+   opaque header/footer backgrounds while still indicating scroll. */
+
+[fade]:where(n-panel) {
+  --n-fade-top: calc((var(--n-size) + var(--n-space) * 4) * 1.25);
+  --n-fade-bottom: calc((var(--n-size) + var(--n-space) * 4) * 1.25);
+}
+
+/* Top fade — header present */
+[fade]:where(n-panel):has(> n-header) > :where(n-body) {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black var(--n-fade-top),
+    black 100%
+  );
+}
+
+/* Bottom fade — footer present */
+[fade]:where(n-panel):has(> n-footer) > :where(n-body) {
+  mask-image: linear-gradient(
+    to bottom,
+    black 0,
+    black calc(100% - var(--n-fade-bottom)),
+    transparent 100%
+  );
+}
+
+/* Both fades — header AND footer present */
+[fade]:where(n-panel):has(> n-header):has(> n-footer) > :where(n-body) {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    black var(--n-fade-top),
+    black calc(100% - var(--n-fade-bottom)),
+    transparent 100%
+  );
+}
+
+/* ── Aside mode ── */
+/* WHY: Generic collapsible side panel — hidden when closed, shown at
+   360px when [open]. Works on n-panel, stamped panels, etc.
+   [aside] uses real specificity (0,1,0+) so it beats zero-specificity
+   base rules on stamped panels that load later. Same convention as [variant]. */
+
+[aside] {
+  flex: none;
+  position: relative;
+  display: none;
+  width: 0;
+  min-width: 0;
+  max-width: 480px;
+  overflow: clip;
+  padding: 0;
+  transition:
+    display var(--n-duration) var(--n-easing) allow-discrete,
+    width var(--n-duration) var(--n-easing),
+    min-width var(--n-duration) var(--n-easing),
+    padding var(--n-duration) var(--n-easing);
+}
+
+[aside][open] {
+  display: flex;
+  width: 360px;
+  min-width: 280px;
+}
+
+/* WHY: Entry animation — browser needs a starting style to transition
+   from display: none. @starting-style provides the "from" values. */
+@starting-style {
+  [aside][open] {
+    width: 0;
+    min-width: 0;
   }
+}
 
-  :where(n-panel) > :where(n-header) {
-    border-bottom: 1px solid var(--n-border-muted);
-  }
+/* WHY: n-panel aside adds padding + scroll when open (no sub-containers).
+   Stamped panels with n-body don't need this — body handles scroll. */
+:where(n-panel)[aside][open] {
+  overflow-y: auto;
+  padding: calc(var(--n-space) * 4);
+}
 
-  :where(n-panel) > :where(n-footer) {
-    border-top: 1px solid var(--n-border-muted);
-  }
-
+/* WHY: Disable transitions while dragging — they fight the pointer. */
+[aside][resizing] {
+  transition: none;
 }

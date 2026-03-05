@@ -5,6 +5,8 @@ import { createOpenAiGatewayAdapter } from './gateway/adapter-chatgpt';
 import { createClaudeGatewayAdapter } from './gateway/adapter-claude';
 import { createMockGatewayAdapter } from './gateway/adapter-mock';
 import { createRequestId } from './gateway/runtime';
+import type { NChatMessageText } from './message/chat-message-text-element';
+import type { NChatInput } from './chat-input-element';
 
 // ── Types ──
 
@@ -63,12 +65,15 @@ export interface ModelOption {
  * @fires native:composer-focused - Fired when the composer receives focus via API/policy
  * @fires native:composer-focus-failed - Fired when focusComposer() fails after retries
  * @fires native:model-change - Fired when user selects a different model. Detail: `{ value, previousValue }`
+ * @attr {string} models - Comma-separated model IDs (e.g. 'claude-haiku-4-5-20251001,gpt-4.1-mini'). Parsed into ModelOption[] with value=label=id.
  * @attr {string} gateway - Gateway adapter: 'openai' or 'claude'. When set, panel handles send/stream automatically
  * @attr {string} gateway-url - Base URL for the gateway API (e.g. '/api/chat' or 'https://api.openai.com/v1')
  * @attr {string} gateway-config - JSON config for the adapter (model, apiKey, system, etc.)
+ * @attr {string} gateway-urls - JSON map of provider prefixes to URLs (e.g. '{"claude":"/api/anthropic","openai":"/api/openai"}'). When set, auto-switches gateway based on model prefix.
  */
 export class NChatPanel extends NativeElement {
-  static observedAttributes = ['show-stop', 'show-restart', 'auto-focus-policy', 'open', 'model', 'gateway', 'gateway-url', 'gateway-config'];
+  static readonly MAX_CONTEXT_MESSAGES = 50;
+  static observedAttributes = ['show-stop', 'show-restart', 'auto-focus-policy', 'open', 'model', 'models', 'gateway', 'gateway-url', 'gateway-config', 'gateway-urls'];
 
   #showStop = signal(false);
   #showRestart = signal(false);
@@ -81,13 +86,13 @@ export class NChatPanel extends NativeElement {
   #gateway = signal<string | null>(null);
   #gatewayUrl = signal<string | null>(null);
   #gatewayConfig = signal<GatewayConfig | null>(null);
+  #gatewayUrls = signal<Record<string, string> | null>(null);
   #streaming = signal(false);
 
   // ── Gateway state ──
   #adapter: GatewayAdapter | null = null;
   #messages: ChatMessage[] = [];
   #abortController: AbortController | null = null;
-  #sessionId: string | null = null;
 
   // Stamped DOM references (set once in setup, cleared in teardown)
   #footer: HTMLElement | null = null;
@@ -126,6 +131,13 @@ export class NChatPanel extends NativeElement {
       case 'model':
         this.#model.value = val;
         break;
+      case 'models':
+        if (val) {
+          this.#models.value = val.split(',').map(s => s.trim()).filter(Boolean).map(id => ({ value: id, label: id }));
+        } else {
+          this.#models.value = [];
+        }
+        break;
       case 'gateway':
         this.#gateway.value = val;
         break;
@@ -137,6 +149,13 @@ export class NChatPanel extends NativeElement {
           this.#gatewayConfig.value = val ? JSON.parse(val) as GatewayConfig : null;
         } catch {
           this.#gatewayConfig.value = null;
+        }
+        break;
+      case 'gateway-urls':
+        try {
+          this.#gatewayUrls.value = val ? JSON.parse(val) as Record<string, string> : null;
+        } catch {
+          this.#gatewayUrls.value = null;
         }
         break;
     }
@@ -167,6 +186,12 @@ export class NChatPanel extends NativeElement {
   get models(): ModelOption[] { return this.#models.value; }
   set models(val: ModelOption[]) {
     this.#models.value = val;
+    // Reflect as comma-separated attribute
+    if (val.length > 0) {
+      this.setAttribute('models', val.map(m => m.value).join(','));
+    } else {
+      this.removeAttribute('models');
+    }
     // Auto-select first model if no model is currently selected
     if (val.length > 0 && this.#model.value === null) {
       this.#model.value = val[0].value;
@@ -207,6 +232,14 @@ export class NChatPanel extends NativeElement {
     this.#gatewayConfig.value = val;
     if (val) this.setAttribute('gateway-config', JSON.stringify(val));
     else this.removeAttribute('gateway-config');
+  }
+
+  /** Map of provider prefixes to gateway URLs. Enables auto-switching gateway based on model prefix. */
+  get gatewayUrls(): Record<string, string> | null { return this.#gatewayUrls.value; }
+  set gatewayUrls(val: Record<string, string> | null) {
+    this.#gatewayUrls.value = val;
+    if (val) this.setAttribute('gateway-urls', JSON.stringify(val));
+    else this.removeAttribute('gateway-urls');
   }
 
   /** Whether the panel is currently streaming a response. Read-only. */
@@ -274,9 +307,7 @@ export class NChatPanel extends NativeElement {
     // Header trailing container — hosts stop/restart buttons + consumer slot
     const headerTrailing = document.createElement('span');
     headerTrailing.setAttribute('slot', 'trailing');
-    headerTrailing.style.display = 'inline-flex';
-    headerTrailing.style.alignItems = 'center';
-    headerTrailing.style.gap = 'calc(var(--n-space) * 2)';
+    headerTrailing.className = 'n-chat-panel-header-trailing';
     header.appendChild(headerTrailing);
     this.#headerTrailingContainer = headerTrailing;
 
@@ -310,13 +341,17 @@ export class NChatPanel extends NativeElement {
     const plusBtn = document.createElement('n-button');
     plusBtn.setAttribute('variant', 'ghost');
     plusBtn.setAttribute('inline', '');
-    plusBtn.innerHTML = '<n-icon name="plus"></n-icon>';
+    const plusIcon = document.createElement('n-icon');
+    plusIcon.setAttribute('name', 'plus');
+    plusBtn.appendChild(plusIcon);
     actions.appendChild(plusBtn);
 
     const micBtn = document.createElement('n-button');
     micBtn.setAttribute('variant', 'ghost');
     micBtn.setAttribute('inline', '');
-    micBtn.innerHTML = '<n-icon name="microphone"></n-icon>';
+    const micIcon = document.createElement('n-icon');
+    micIcon.setAttribute('name', 'microphone');
+    micBtn.appendChild(micIcon);
     actions.appendChild(micBtn);
 
     const submitBtn = document.createElement('n-button');
@@ -327,7 +362,9 @@ export class NChatPanel extends NativeElement {
     submitBtn.setAttribute('disabled', '');
     submitBtn.dataset.submit = '';
     submitBtn.dataset.role = 'submit';
-    submitBtn.innerHTML = '<n-icon name="arrow-up"></n-icon>';
+    const submitIcon = document.createElement('n-icon');
+    submitIcon.setAttribute('name', 'arrow-up');
+    submitBtn.appendChild(submitIcon);
     actions.appendChild(submitBtn);
 
     chatInput.appendChild(actions);
@@ -347,7 +384,9 @@ export class NChatPanel extends NativeElement {
         btn.setAttribute('variant', 'ghost');
         btn.setAttribute('inline', '');
         btn.setAttribute('aria-label', 'Stop');
-        btn.innerHTML = '<n-icon name="stop"></n-icon>';
+        const stopIcon = document.createElement('n-icon');
+        stopIcon.setAttribute('name', 'stop');
+        btn.appendChild(stopIcon);
         btn.addEventListener('native:press', this.#onStop);
         this.#stopBtn = btn;
         this.#headerTrailingContainer?.prepend(btn);
@@ -366,7 +405,9 @@ export class NChatPanel extends NativeElement {
         btn.setAttribute('variant', 'ghost');
         btn.setAttribute('inline', '');
         btn.setAttribute('aria-label', 'Restart');
-        btn.innerHTML = '<n-icon name="arrow-counter-clockwise"></n-icon>';
+        const restartIcon = document.createElement('n-icon');
+        restartIcon.setAttribute('name', 'arrow-counter-clockwise');
+        btn.appendChild(restartIcon);
         btn.addEventListener('native:press', this.#onRestart);
         this.#restartBtn = btn;
         // Insert after stop (if present), before consumer content
@@ -391,7 +432,9 @@ export class NChatPanel extends NativeElement {
         const trigger = document.createElement('n-button');
         trigger.setAttribute('variant', 'ghost');
         trigger.setAttribute('inline', '');
-        trigger.innerHTML = '<n-icon name="dots-three-outline-fill"></n-icon>';
+        const triggerIcon = document.createElement('n-icon');
+        triggerIcon.setAttribute('name', 'dots-three-outline-fill');
+        trigger.appendChild(triggerIcon);
         const listbox = document.createElement('n-listbox');
         listbox.setAttribute('popover', 'manual');
         select.append(trigger, listbox);
@@ -429,7 +472,7 @@ export class NChatPanel extends NativeElement {
           const isSelected = m.value === nextValue;
           option.setAttribute('value', m.value);
           option.setAttribute('aria-selected', String(isSelected));
-          option.textContent = `${isSelected ? '✓ ' : ''}${m.label ?? m.value}`;
+          option.textContent = m.label ?? m.value;
           groupEl.appendChild(option);
         }
         listbox.appendChild(groupEl);
@@ -441,6 +484,26 @@ export class NChatPanel extends NativeElement {
       }
 
       select.value = nextValue;
+    });
+
+    // ── Gateway: auto-resolve from model on initial load when gateway-urls is set ──
+    this.addEffect(() => {
+      const urls = this.#gatewayUrls.value;
+      const model = this.#model.value;
+      if (!urls || !model) return;
+
+      // Only auto-resolve if gateway is not already explicitly set
+      const currentGateway = this.#gateway.value;
+      const currentUrl = this.#gatewayUrl.value;
+      if (currentGateway && currentUrl) return;
+
+      const resolved = this.#resolveGatewayFromModel(model);
+      if (resolved) {
+        this.#gateway.value = resolved.gateway;
+        this.setAttribute('gateway', resolved.gateway);
+        this.#gatewayUrl.value = resolved.url;
+        this.setAttribute('gateway-url', resolved.url);
+      }
     });
 
     // ── Gateway adapter: create/destroy reactively ──
@@ -455,19 +518,27 @@ export class NChatPanel extends NativeElement {
       }
 
       const context: GatewayAdapterFactoryContext = {
-        clientId: this.#sessionId ?? createRequestId(),
+        clientId: createRequestId(),
         baseUrl: url,
         gatewayConfig: config ?? {},
       };
 
+      let adapter: GatewayAdapter | null = null;
       if (gateway === 'openai') {
-        this.#adapter = createOpenAiGatewayAdapter(context);
+        adapter = createOpenAiGatewayAdapter(context);
       } else if (gateway === 'claude') {
-        this.#adapter = createClaudeGatewayAdapter(context);
+        adapter = createClaudeGatewayAdapter(context);
       } else if (gateway === 'mock') {
-        this.#adapter = createMockGatewayAdapter(context);
-      } else {
-        this.#adapter = null;
+        adapter = createMockGatewayAdapter(context);
+      }
+
+      this.#adapter = adapter;
+
+      // Bootstrap the session
+      if (adapter) {
+        adapter.bootstrapSession().catch(() => {
+          // Bootstrap failure is non-fatal — adapter is still usable
+        });
       }
     });
 
@@ -558,7 +629,7 @@ export class NChatPanel extends NativeElement {
       return;
     }
 
-    if ((composer as any).disabled) {
+    if ((composer as NChatInput).disabled) {
       if (attempt < MAX_ATTEMPTS - 1) {
         queueMicrotask(() => this.#attemptFocus(options, by, attempt + 1));
         return;
@@ -667,6 +738,33 @@ export class NChatPanel extends NativeElement {
     );
   };
 
+  /** Resolve gateway + URL from model prefix using the gateway-urls map. */
+  #resolveGatewayFromModel(modelId: string): { gateway: string; url: string } | null {
+    const urls = this.#gatewayUrls.value;
+    if (!urls) return null;
+
+    const lower = modelId.toLowerCase();
+
+    // Well-known provider prefixes
+    if (lower.startsWith('claude') || lower.startsWith('anthropic')) {
+      const url = urls['claude'];
+      if (url) return { gateway: 'claude', url };
+    }
+    if (lower.startsWith('gpt') || lower.startsWith('chatgpt') || lower.startsWith('openai')) {
+      const url = urls['openai'];
+      if (url) return { gateway: 'openai', url };
+    }
+
+    // Fallback: check all keys for a prefix match
+    for (const key of Object.keys(urls)) {
+      if (lower.startsWith(key.toLowerCase())) {
+        return { gateway: key, url: urls[key] };
+      }
+    }
+
+    return null;
+  }
+
   #onModelSelect = (e: Event): void => {
     const detail = (e as CustomEvent).detail;
     const newValue = detail?.value ?? null;
@@ -679,6 +777,15 @@ export class NChatPanel extends NativeElement {
 
     this.#model.value = newValue;
     this.setAttribute('model', newValue);
+
+    // Auto-switch gateway based on model prefix (only when gateway-urls is set)
+    const resolved = this.#resolveGatewayFromModel(newValue);
+    if (resolved) {
+      this.#gateway.value = resolved.gateway;
+      this.setAttribute('gateway', resolved.gateway);
+      this.#gatewayUrl.value = resolved.url;
+      this.setAttribute('gateway-url', resolved.url);
+    }
 
     this.dispatchEvent(
       new CustomEvent('native:model-change', {
@@ -696,6 +803,7 @@ export class NChatPanel extends NativeElement {
     const detail = (e as CustomEvent).detail;
     const value = detail?.value;
     if (!value?.trim()) return;
+    e.stopImmediatePropagation();
     this.#sendMessage(value);
   };
 
@@ -716,25 +824,37 @@ export class NChatPanel extends NativeElement {
     };
     this.#messages.push(userMsg);
 
+    // Trim context window to avoid unbounded growth
+    const maxMessages = (this.constructor as typeof NChatPanel).MAX_CONTEXT_MESSAGES;
+    if (this.#messages.length > maxMessages) {
+      this.#messages = this.#messages.slice(-maxMessages);
+    }
+
     // Stamp user message in DOM
     this.#stampMessage(userMsg);
 
     // Create assistant placeholder
-    const assistantId = `msg-${Date.now()}-a`;
+    const assistantId = `msg-${createRequestId()}`;
     const assistantMsgEl = this.#stampAssistantPlaceholder(assistantId);
     const textEl = assistantMsgEl?.querySelector('n-chat-message-text');
+    assistantMsgEl?.setAttribute('status', 'typing');
 
     this.#streaming.value = true;
+    const composer = this.#findComposer();
+    if (composer) (composer as any).busy = true;
 
     try {
       const response = await adapter.sendMessageStream({
-        id: this.#sessionId ?? createRequestId(),
+        id: createRequestId(),
         messages: this.#messages,
         query,
         model: this.#model.value ?? undefined,
         signal: abort.signal,
         onChunk: (chunk: SendMessageStreamChunk) => {
-          if (textEl) (textEl as any).content = chunk.fullMessage;
+          if (assistantMsgEl?.getAttribute('status') === 'typing') {
+            assistantMsgEl.setAttribute('status', 'streaming');
+          }
+          if (textEl) (textEl as NChatMessageText).content = chunk.fullMessage;
           if (chunk.done) {
             assistantMsgEl?.setAttribute('status', chunk.partial ? 'partial' : 'sent');
           }
@@ -749,12 +869,25 @@ export class NChatPanel extends NativeElement {
         partial: response.partial,
       });
     } catch (err) {
-      if ((err as Error).name === 'AbortError') return;
+      if ((err as Error).name === 'AbortError') {
+        assistantMsgEl?.setAttribute('status', 'partial');
+        return;
+      }
       assistantMsgEl?.setAttribute('status', 'error');
-      if (textEl) (textEl as any).content = `Error: ${(err as Error).message}`;
+      const currentContent = textEl ? (textEl as NChatMessageText).content : '';
+      if (textEl) {
+        if (currentContent.trim()) {
+          // Preserve partial content, append error note
+          (textEl as NChatMessageText).content = currentContent + `\n\n---\n*Error: ${(err as Error).message}*`;
+        } else {
+          (textEl as NChatMessageText).content = `Error: ${(err as Error).message}`;
+        }
+      }
     } finally {
       this.#streaming.value = false;
       this.#abortController = null;
+      const composer2 = this.#findComposer();
+      if (composer2) (composer2 as any).busy = false;
     }
   }
 
@@ -763,16 +896,16 @@ export class NChatPanel extends NativeElement {
     if (!feed) return;
 
     const group = document.createElement('n-chat-messages');
-    group.setAttribute('role', msg.role);
+    group.setAttribute('data-role', msg.role);
     group.setAttribute('sender', msg.role === 'user' ? 'You' : 'Assistant');
 
     const message = document.createElement('n-chat-message');
-    message.setAttribute('role', msg.role);
-    message.setAttribute('message-id', `msg-${Date.now()}`);
+    message.setAttribute('data-role', msg.role);
+    message.setAttribute('message-id', `msg-${createRequestId()}`);
     message.setAttribute('status', 'sent');
 
     const text = document.createElement('n-chat-message-text');
-    (text as any).content = msg.message;
+    (text as NChatMessageText).content = msg.message;
 
     message.appendChild(text);
     group.appendChild(message);
@@ -784,11 +917,11 @@ export class NChatPanel extends NativeElement {
     if (!feed) return null;
 
     const group = document.createElement('n-chat-messages');
-    group.setAttribute('role', 'assistant');
+    group.setAttribute('data-role', 'assistant');
     group.setAttribute('sender', 'Assistant');
 
     const message = document.createElement('n-chat-message');
-    message.setAttribute('role', 'assistant');
+    message.setAttribute('data-role', 'assistant');
     message.setAttribute('message-id', id);
     message.setAttribute('status', 'streaming');
 
@@ -806,12 +939,16 @@ export class NChatPanel extends NativeElement {
     if (!this.#adapter) return;
     this.#abortController?.abort();
     this.#streaming.value = false;
+    const composer = this.#findComposer();
+    if (composer) (composer as any).busy = false;
   };
 
   #onRestartChat = (): void => {
     if (!this.#adapter) return;
     this.#abortController?.abort();
     this.#streaming.value = false;
+    const composer = this.#findComposer();
+    if (composer) (composer as any).busy = false;
     this.#messages = [];
     if (this.#chatFeed) this.#chatFeed.innerHTML = '';
   };

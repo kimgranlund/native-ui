@@ -1,5 +1,30 @@
 /* ════════════════════════════════════════════════════
    native-chat — Chat component styles
+   ════════════════════════════════════════════════════
+
+   CSS Override Policy
+   ───────────────────
+   chat.css specializes core native-ui components for chat contexts.
+   All overrides use zero-specificity :where() selectors or properly
+   scoped attribute selectors per the CSS Single-Owner Principle.
+
+   1. n-textarea (inside n-chat-input):
+      Transparent background/borders — composer field should not
+      show control chrome. Overrides textarea.css via source order
+      (both :where(), chat loads later).
+
+   2. Sub-containers (n-header, n-body, n-footer):
+      Context-specific backgrounds and borders via --n-chat-panel-*
+      tokens. Overrides panel.css border pattern via source order.
+
+   3. Aside overflow:
+      overflow: visible instead of panel.css's overflow-y: auto.
+      Chat panel delegates scrolling to its n-body sub-container.
+
+   4. n-button gap (model picker):
+      Tighter gap via [justify="spread"] attribute selector (0,1,0)
+      beating button.css zero-specificity base rule.
+
    ════════════════════════════════════════════════════ */
 
 @layer ui {
@@ -58,6 +83,12 @@
 
     /* Prose */
     --n-chat-prose-gap: calc(var(--n-space) * 2);
+
+    /* Component-local tokens (magic number extraction) */
+    --n-chat-model-picker-max-width: 12rem;
+    --n-chat-activity-max-height: 20rem;
+    --n-chat-streaming-opacity: 0.85;
+    --n-chat-dot-pulse-duration: 1.2s;
   }
 
   /* ╭──────────────────────────────────────────────────────────╮
@@ -100,31 +131,13 @@
     line-height: var(--n-line-height);
   }
 
-  /* ── Aside mode (collapsible side panel) ── */
-
-  :where(native-chat-panel)[aside] {
-    position: relative;
-    flex: none;
-    width: 0;
-    min-width: 0;
-    max-width: 480px;
-    overflow: clip;
-    padding: 0;
-    transition:
-      width var(--n-duration) var(--n-easing),
-      min-width var(--n-duration) var(--n-easing),
-      padding var(--n-duration) var(--n-easing),
-      margin var(--n-duration) var(--n-easing);
-  }
+  /* ── Aside mode (collapsible side panel) ──
+     Base [aside] rule (panel.css) handles: display, width, min-width,
+     max-width, overflow, padding, transition + @starting-style.
+     Only override what chat-panel needs differently. */
 
   :where(native-chat-panel)[aside][open] {
-    width: 360px;
-    min-width: 280px;
     overflow: visible;
-  }
-
-  :where(native-chat-panel)[aside][resizing] {
-    transition: none;
   }
 
   /* ── Sub-container integration ── */
@@ -139,6 +152,12 @@
     letter-spacing: var(--n-chat-panel-header-label-letter-spacing);
   }
 
+  :where(native-chat-panel) :where(.n-chat-panel-header-trailing) {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+  }
+
   :where(native-chat-panel) > :where(n-body) {
     background: var(--n-chat-panel-body-background);
   }
@@ -151,7 +170,7 @@
   /* ── Model picker ── */
 
   :where(native-chat-panel) :where(n-select[data-role="model-picker"]) {
-    max-width: 12rem;
+    max-width: var(--n-chat-model-picker-max-width);
   }
 
   :where(native-chat-panel) :where(n-select[data-role="model-picker"]) :where(n-button[justify="spread"]) {
@@ -291,22 +310,22 @@
   }
 
   /* User messages: right-aligned, avatar on right */
-  [role="user"]:where(n-chat-messages) {
+  [data-role="user"]:where(n-chat-messages) {
     grid-template-columns: 1fr auto;
     align-self: flex-end;
   }
 
-  [role="user"]:where(n-chat-messages) > :where(n-chat-avatar) {
+  [data-role="user"]:where(n-chat-messages) > :where(n-chat-avatar) {
     grid-column: 2;
   }
 
-  [role="user"]:where(n-chat-messages) > :where(.n-chat-context),
-  [role="user"]:where(n-chat-messages) > :where(.n-chat-bubbles) {
+  [data-role="user"]:where(n-chat-messages) > :where(.n-chat-context),
+  [data-role="user"]:where(n-chat-messages) > :where(.n-chat-bubbles) {
     grid-column: 1;
   }
 
   /* User bubbles align to the right edge */
-  [role="user"]:where(n-chat-messages) :where(.n-chat-bubbles) > :where(n-chat-message) {
+  [data-role="user"]:where(n-chat-messages) :where(.n-chat-bubbles) > :where(n-chat-message) {
     align-self: flex-end;
   }
 
@@ -329,7 +348,7 @@
     color: var(--n-chat-avatar-color);
 
     font-size: calc(var(--n-chat-avatar-size) * 0.4);
-    font-weight: 600;
+    font-weight: var(--n-button-font-weight);
     line-height: 1;
     overflow: hidden;
     user-select: none;
@@ -373,7 +392,7 @@
   }
 
   /* User bubble: avatar on right — flip avatar-side / far-side corners */
-  [role="user"]:where(n-chat-message) {
+  [data-role="user"]:where(n-chat-message) {
     border-radius:
       var(--n-chat-bubble-radius-far-side)
       var(--n-chat-bubble-radius-avatar-side)
@@ -386,7 +405,7 @@
 
   /* Streaming status */
   [status="streaming"]:where(n-chat-message) {
-    opacity: 0.85;
+    opacity: var(--n-chat-streaming-opacity);
   }
 
   /* Error status */
@@ -397,6 +416,19 @@
   /* Partial status — stream ended without explicit completion */
   [status="partial"]:where(n-chat-message) {
     border-bottom: 2px dashed var(--n-border-muted);
+  }
+
+  /* Typing status — waiting for first stream chunk */
+  [status="typing"]:where(n-chat-message) :where(n-chat-message-text) :where(.n-chat-prose):empty::before {
+    content: '\25CF\25CF\25CF';
+    letter-spacing: 0.25em;
+    color: var(--n-ink-muted);
+    animation: n-chat-typing-dots var(--n-chat-dot-pulse-duration, 1.4s) ease-in-out infinite;
+  }
+
+  @keyframes n-chat-typing-dots {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
   }
 
   /* ── Message actions toolbar ── */
@@ -494,7 +526,7 @@
   }
 
   :where(n-chat-message-text) :where(h1, h2, h3, h4, h5, h6) {
-    font-weight: 600;
+    font-weight: var(--n-button-font-weight);
     line-height: 1.3;
   }
 
@@ -526,7 +558,8 @@
   }
 
   :where(n-chat-message-text) :where(pre) {
-    padding: calc(var(--n-space) * 2);
+    padding-block: calc(var(--n-space) * 2);
+    padding-inline: calc(var(--n-space) * 2);
     background: var(--n-control);
     border-radius: calc(var(--n-radius) * 0.5);
     overflow-x: auto;
@@ -534,7 +567,8 @@
   }
 
   :where(n-chat-message-text) :where(pre) :where(code) {
-    padding: 0;
+    padding-block: 0;
+    padding-inline: 0;
     background: transparent;
     border-radius: 0;
   }
@@ -543,6 +577,10 @@
     color: var(--n-ink-accent);
     text-decoration: underline;
     text-underline-offset: 0.15em;
+  }
+
+  :where(n-chat-message-text) :where(a):hover {
+    color: var(--n-ink-hover);
   }
 
   :where(n-chat-message-text) :where(hr) {
@@ -595,7 +633,7 @@
     height: 0.25em;
     border-radius: 50%;
     background: currentColor;
-    animation: n-chat-dot-pulse 1.2s ease-in-out infinite;
+    animation: n-chat-dot-pulse var(--n-chat-dot-pulse-duration) ease-in-out infinite;
   }
 
   :where(n-chat-message-activity) :where(.n-chat-activity-dots) > :where(i:nth-child(2)) {
@@ -634,7 +672,7 @@
     padding-inline-start: calc(var(--n-space) * 3);
     font-family: var(--n-font-mono);
     font-size: var(--n-font-size-sm);
-    max-height: 20rem;
+    max-height: var(--n-chat-activity-max-height);
     overflow-y: auto;
     scrollbar-width: thin;
   }
@@ -664,6 +702,8 @@
 
   :where(n-chat-message-seed)[aria-disabled="true"] {
     pointer-events: none;
+    color: var(--n-color-disabled);
+    cursor: not-allowed;
   }
 
   :where(n-chat-message-seed[hidden]) { display: none; }
@@ -684,7 +724,8 @@
   }
 
   :where(n-chat-message-genui) :where(.n-chat-genui-error) {
-    padding: var(--n-space);
+    padding-block: var(--n-space);
+    padding-inline: var(--n-space);
     color: var(--n-ink-danger);
     font-size: var(--n-font-size-sm);
   }
@@ -706,14 +747,16 @@
     display: flex;
     flex-direction: column;
     gap: var(--n-chat-structured-gap);
-    padding: var(--n-chat-structured-padding);
-    background: var(--n-card);
+    padding-block: var(--n-chat-structured-padding);
+    padding-inline: var(--n-chat-structured-padding);
+    --n-background: var(--n-card);
+    background: var(--n-background);
     border-radius: var(--n-chat-bubble-radius);
     align-self: stretch;
   }
 
   :where(n-chat-input-structured) > :where(.n-chat-structured-question) {
-    font-weight: 600;
+    font-weight: var(--n-button-font-weight);
   }
 
   :where(n-chat-input-structured) > :where(n-stack) {
@@ -730,6 +773,8 @@
 
   :where(n-chat-input-structured)[aria-disabled="true"] {
     pointer-events: none;
+    color: var(--n-color-disabled);
+    cursor: not-allowed;
   }
 
   :where(n-chat-input-structured[hidden]) { display: none; }
@@ -746,7 +791,7 @@
   }
 
   /* Compact: single row */
-  :where(n-chat-input[compact]) {
+  [compact]:where(n-chat-input) {
     flex-direction: row;
     align-items: center;
   }
@@ -760,7 +805,8 @@
     --n-border-color-hover: transparent;
     --n-border-color-active: transparent;
 
-    padding: 0;
+    padding-block: 0;
+    padding-inline: 0;
     border: none;
     border-radius: 0;
     resize: none;
@@ -795,7 +841,7 @@
     min-width: 0;
   }
 
-  :where(n-chat-input[compact]) > :where(n-chat-input-actions) {
+  [compact]:where(n-chat-input) > :where(n-chat-input-actions) {
     flex: none;
   }
 

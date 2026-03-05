@@ -29,7 +29,7 @@ export interface ComponentMapping {
 const mappings: readonly ComponentMapping[] = [
   {
     a2uiType: 'Text',
-    nativeTag: 'span',
+    nativeTag: 'n-text',
     childStrategy: 'textContent',
   },
   {
@@ -120,12 +120,13 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Row',
-    nativeTag: 'div',
+    nativeTag: 'n-stack',
     childStrategy: 'children',
+    defaultAttributes: { direction: 'row' },
   },
   {
     a2uiType: 'Column',
-    nativeTag: 'div',
+    nativeTag: 'n-stack',
     childStrategy: 'children',
   },
   {
@@ -157,7 +158,7 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Image',
-    nativeTag: 'img',
+    nativeTag: 'n-picture',
     childStrategy: 'none',
     propertyMap: {
       url: 'src',
@@ -203,9 +204,8 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Video',
-    nativeTag: 'video',
+    nativeTag: 'n-video',
     childStrategy: 'none',
-    defaultAttributes: { controls: '' },
     propertyMap: {
       url: 'src',
       poster: 'poster',
@@ -213,9 +213,8 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'AudioPlayer',
-    nativeTag: 'audio',
+    nativeTag: 'n-audio',
     childStrategy: 'none',
-    defaultAttributes: { controls: '' },
     propertyMap: {
       url: 'src',
     },
@@ -240,12 +239,10 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Progress',
-    nativeTag: 'n-range',
+    nativeTag: 'n-progress',
     childStrategy: 'none',
-    defaultAttributes: { size: 'sm' },
     propertyMap: {
       value: 'value',
-      min: 'min',
       max: 'max',
     },
   },
@@ -269,9 +266,9 @@ const reverseMap = new Map<string, ComponentMapping>();
 for (const m of mappings) {
   forwardMap.set(m.a2uiType, m);
   // Only add to reverse map if the tag is unique or is a custom element.
-  // div/span are ambiguous — handled by resolveA2UIType with data-a2ui attribute.
+  // div/span/n-stack are ambiguous — handled by resolveA2UIType with attribute checks.
   // First mapping wins for shared tags (TextField before DateTimeInput for n-input).
-  if (m.nativeTag !== 'div' && m.nativeTag !== 'span' && !reverseMap.has(m.nativeTag)) {
+  if (m.nativeTag !== 'div' && m.nativeTag !== 'span' && m.nativeTag !== 'n-stack' && !reverseMap.has(m.nativeTag)) {
     reverseMap.set(m.nativeTag, m);
   }
 }
@@ -301,8 +298,11 @@ export function resolveA2UIType(
   const mapping = reverseMap.get(tag);
   if (mapping) return mapping.a2uiType;
 
-  // Fallback: disambiguate plain HTML tags
+  // Fallback: disambiguate plain HTML tags and shared custom elements
   if (tag === 'span') return 'Text';
+  if (tag === 'n-stack') {
+    return attributes?.direction === 'row' ? 'Row' : 'Column';
+  }
   if (tag === 'div') {
     const style = attributes?.style ?? '';
     if (style.includes('flex-direction:column') || style.includes('flex-direction: column')) {
@@ -334,16 +334,16 @@ const TEXT_VARIANT_TAG: Record<string, string> = {
   h5: 'h5',
   heading: 'h2',
   caption: 'small',
-  body: 'span',
+  body: 'n-text',
 };
 
 /**
  * For A2UI Text components, resolve the variant to an HTML tag.
- * Returns 'span' by default.
+ * Returns 'n-text' by default.
  */
 export function textVariantTag(variant?: string): string {
-  if (!variant) return 'span';
-  return TEXT_VARIANT_TAG[variant] ?? 'span';
+  if (!variant) return 'n-text';
+  return TEXT_VARIANT_TAG[variant] ?? 'n-text';
 }
 
 // ── DateTimeInput → Input Type ──
@@ -382,4 +382,54 @@ export function textFieldInputType(variant?: string): string {
  */
 export function getSupportedTypes(): readonly string[] {
   return Array.from(forwardMap.keys());
+}
+
+// ── Component Categories ──
+
+const CATEGORY_MAP: Record<string, string> = {
+  Text: 'display',
+  Icon: 'display',
+  Image: 'display',
+  Badge: 'display',
+  Avatar: 'display',
+  Divider: 'display',
+  Progress: 'display',
+  Button: 'action',
+  TextField: 'input',
+  TextArea: 'input',
+  CheckBox: 'input',
+  Switch: 'input',
+  ChoicePicker: 'input',
+  Select: 'input',
+  Slider: 'input',
+  DateTimeInput: 'input',
+  Row: 'layout',
+  Column: 'layout',
+  Card: 'container',
+  Modal: 'container',
+  Accordion: 'container',
+  AccordionItem: 'container',
+  Tabs: 'navigation',
+  List: 'navigation',
+  ListItem: 'navigation',
+  Breadcrumb: 'navigation',
+  Video: 'media',
+  AudioPlayer: 'media',
+  Table: 'data',
+  Toast: 'feedback',
+};
+
+/**
+ * Get the category for an A2UI component type.
+ */
+export function getComponentCategory(a2uiType: string): string {
+  return CATEGORY_MAP[a2uiType] ?? 'other';
+}
+
+/**
+ * Get all component types in the same category.
+ */
+export function getCompatibleTypes(a2uiType: string): readonly string[] {
+  const cat = getComponentCategory(a2uiType);
+  return Array.from(forwardMap.keys()).filter(t => getComponentCategory(t) === cat);
 }

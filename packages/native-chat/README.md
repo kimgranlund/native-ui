@@ -24,6 +24,53 @@ npm install @nonoun/native-chat @nonoun/native-ui
 </native-chat-panel>
 ```
 
+## Architecture
+
+Components follow three patterns:
+
+| Pattern | Elements | Description |
+|---------|----------|-------------|
+| **Orchestrator** | `native-chat-panel`, `n-chat-input` | Stamp their own children (header, feed, composer) and manage lifecycle. Host writes a single tag; JS builds the tree. |
+| **Container** | `n-chat-feed`, `n-chat-messages`, `n-chat-message` | Arrange author-provided or panel-stamped children. CSS layout works without JS; JS adds auto-scroll, MutationObserver routing, action toolbars. |
+| **Renderer** | `n-chat-message-text`, `n-chat-message-activity`, `n-chat-message-seed`, `n-chat-message-genui`, `n-chat-input-structured`, `n-chat-avatar` | Transform data (markdown, JSON, schema) into DOM. JS-essential — content is dynamic and stream-driven. |
+
+Chat is a **real-time, stream-driven UI** — JavaScript is fundamental, not optional. See `docs/PRINCIPLES.md` for the exception clause covering interactive components.
+
+## Gateway Mode (Claude + ChatGPT)
+
+`native-chat-panel` can run fully managed send/stream behavior when `gateway` and `gateway-url` are set. All configuration is attribute-driven — no JavaScript required:
+
+```html
+<native-chat-panel
+  gateway="claude"
+  gateway-url="/api/anthropic"
+  model="claude-haiku-4-5-20251001"
+  models="claude-haiku-4-5-20251001,claude-sonnet-4-6-20250514,gpt-4.1-mini,gpt-4.1"
+  gateway-urls='{"claude":"/api/anthropic","gpt":"/api/openai"}'
+  open
+></native-chat-panel>
+```
+
+The `models` attribute accepts a comma-separated list of model IDs. The `gateway-urls` attribute is a JSON map of provider prefixes to URLs — when the user selects a model, the panel auto-resolves the correct gateway and URL from the prefix (e.g., `gpt-4.1` matches the `gpt` prefix → switches to `/api/openai`).
+
+For advanced configuration, use JS properties:
+
+```ts
+const panel = document.querySelector('native-chat-panel');
+panel.gatewayConfig = { maxTokens: 1024 };
+```
+
+### Required server routes
+
+Use first-party backend routes in production (do not call providers directly from browser):
+
+- `POST /api/anthropic/messages`
+- `GET /api/anthropic/models`
+- `POST /api/openai/chat/completions`
+- `GET /api/openai/models`
+
+Provider keys must stay server-side.
+
 ## Components
 
 | Element | Description |

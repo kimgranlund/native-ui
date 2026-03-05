@@ -1,4 +1,6 @@
-# Component Reference
+# Component Reference — Public API
+
+Each component's **public API** is its attributes, events, CSS tokens, and slots. Attributes are the primary configuration surface — discoverable in HTML, inspectable in DevTools, and stable across versions.
 
 All components render correctly with zero attributes. CSS uses `:where()` (zero specificity) so consumer styles always win. Events use the `native:` prefix with colon separator (e.g. `native:press`).
 

@@ -4,6 +4,7 @@ import type { NTextarea } from '@nonoun/native-ui';
 /**
  * Chat message input with textarea, submit button, and Enter-to-send behavior.
  * @attr {boolean} disabled - Disables interaction
+ * @attr {string} value - Initial textarea value
  * @attr {boolean} busy - Disables submit but keeps textarea enabled
  * @attr {boolean} no-enter-submit - Disables Enter key submission
  * @attr {boolean} no-auto-clear - Prevents clearing the textarea after send
@@ -13,7 +14,7 @@ import type { NTextarea } from '@nonoun/native-ui';
  * @fires native:composer-blur - Fired when the composer textarea loses focus
  */
 export class NChatInput extends NativeElement {
-  static observedAttributes = ['disabled', 'busy'];
+  static observedAttributes = ['disabled', 'busy', 'value'];
 
   #internals: ElementInternals;
   #disabled = signal(false);
@@ -77,6 +78,9 @@ export class NChatInput extends NativeElement {
       case 'busy':
         this.#busy.value = val !== null;
         break;
+      case 'value':
+        if (this.#textarea) this.#textarea.value = val ?? '';
+        break;
     }
     super.attributeChangedCallback(name, old, val);
   }
@@ -90,6 +94,10 @@ export class NChatInput extends NativeElement {
 
     this.deferChildren(() => {
       this.#discoverChildren();
+
+      // WHY: Sync initial value from attribute to textarea (attribute may arrive before children)
+      const initialValue = this.getAttribute('value');
+      if (initialValue && this.#textarea) this.#textarea.value = initialValue;
 
       // WHY: Cascade disabled to children reactively instead of imperative sync
       this.addEffect(() => {

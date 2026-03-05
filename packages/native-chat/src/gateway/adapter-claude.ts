@@ -5,11 +5,12 @@ import type {
   ClientMetadataResponse,
   GatewayModel,
   GatewayHealth,
+  GatewayStreamEvent,
   SendMessageResponse,
   SendMessageStreamChunk,
   SendTransportMode,
 } from './types';
-import { createRequestId, fetchWithRetry, GatewayRequestError, parseJsonResponse } from './runtime';
+import { createRequestId, DEFAULT_RETRY_DELAYS_MS, fetchWithRetry, GatewayRequestError, parseSseEvent, parseJsonResponse } from './runtime';
 
 interface ClaudeMessageContentBlock {
   type: string;
@@ -32,8 +33,6 @@ interface ClaudeGatewayAdapterConfig {
   defaultSessionId?: string | null;
   onEvent?: Parameters<typeof fetchWithRetry>[0]['onEvent'];
 }
-
-const RETRY_DELAYS_MS = [1000, 2000, 4000];
 
 export class ClaudeGatewayAdapter implements GatewayAdapter {
   private readonly clientId: string;
@@ -58,6 +57,12 @@ export class ClaudeGatewayAdapter implements GatewayAdapter {
     this.anthropicVersion = config.anthropicVersion;
     this.defaultSessionId = config.defaultSessionId;
     this.onEvent = config.onEvent;
+    if (config.apiKey && typeof window !== 'undefined') {
+      console.warn(
+        '[native-chat] ClaudeGatewayAdapter: API key is exposed in the browser. ' +
+        'This is for development only. In production, proxy requests through a backend gateway.',
+      );
+    }
   }
 
   async bootstrapSession(): Promise<BootstrapResponse> {
@@ -105,7 +110,7 @@ export class ClaudeGatewayAdapter implements GatewayAdapter {
     requestId?: string;
     onChunk?: (chunk: SendMessageStreamChunk) => void;
     onMode?: (mode: SendTransportMode, contentType: string) => void;
-    onStreamEvent?: (event: import('./types').GatewayStreamEvent) => void;
+    onStreamEvent?: (event: GatewayStreamEvent) => void;
   }): Promise<SendMessageResponse> {
     const requestId = params.requestId ?? createRequestId();
     const response = await this.request({
@@ -119,6 +124,7 @@ export class ClaudeGatewayAdapter implements GatewayAdapter {
         },
         body: JSON.stringify(this.buildRequestPayload(params.messages, params.query, true, params.model)),
       },
+      noRetry: true,
     });
 
     const contentType = (response.headers.get('content-type') ?? '').toLowerCase();
@@ -130,26 +136,44 @@ export class ClaudeGatewayAdapter implements GatewayAdapter {
 
     params.onMode?.('json', contentType);
     params.onStreamEvent?.({ phase: 'start', mode: 'json', contentType });
-    return this.sendMessage({ ...params, requestId });
+    const payload = await parseJsonResponse<ClaudeMessageResponse>(response, requestId);
+    const result: SendMessageResponse = {
+      role: 'assistant',
+      message: this.extractTextFromMessage(payload),
+      datetime: Date.now(),
+      partial: false,
+    };
+    params.onChunk?.({ delta: result.message, fullMessage: result.message, role: 'assistant', datetime: result.datetime ?? Date.now(), done: true });
+    params.onStreamEvent?.({ phase: 'complete', mode: 'json', contentType, fullMessage: result.message });
+    return result;
   }
 
   async checkHealth(params?: { signal?: AbortSignal; requestId?: string }): Promise<GatewayHealth> {
     const requestId = params?.requestId ?? createRequestId();
     const startedAt = performance.now();
-    const response = await this.request({
-      url: `${this.baseUrl}/models`,
-      init: {
-        method: 'GET',
-        signal: params?.signal,
+    try {
+      const response = await this.request({
+        url: `${this.baseUrl}/models`,
+        init: {
+          method: 'GET',
+          signal: params?.signal,
+          requestId,
+        },
+      });
+      return {
+        healthy: response.ok,
         requestId,
-      },
-    });
-    return {
-      healthy: response.ok,
-      requestId,
-      status: response.status,
-      durationMs: Math.round(performance.now() - startedAt),
-    };
+        status: response.status,
+        durationMs: Math.round(performance.now() - startedAt),
+      };
+    } catch (err) {
+      return {
+        healthy: false,
+        requestId,
+        status: err instanceof GatewayRequestError ? err.status : 0,
+        durationMs: Math.round(performance.now() - startedAt),
+      };
+    }
   }
 
   async getClientMetadata(): Promise<ClientMetadataResponse> {
@@ -193,18 +217,14 @@ export class ClaudeGatewayAdapter implements GatewayAdapter {
     return payload;
   }
 
-  private mapMessages(messages: ChatMessage[], query: string): Array<{ role: 'user' | 'assistant'; content: string }> {
-    const mapped = messages
+  private mapMessages(messages: ChatMessage[], _query: string): Array<{ role: 'user' | 'assistant'; content: string }> {
+    return messages
       .filter((message) => message.role === 'user' || message.role === 'assistant')
       .filter((message) => message.message.trim().length > 0)
       .map((message) => ({
         role: message.role,
         content: message.message,
       }));
-    if (!mapped.length || mapped[mapped.length - 1]?.role !== 'user') {
-      mapped.push({ role: 'user', content: query });
-    }
-    return mapped;
   }
 
   private extractTextFromMessage(payload: ClaudeMessageResponse): string {
@@ -219,7 +239,7 @@ export class ClaudeGatewayAdapter implements GatewayAdapter {
     response: Response,
     requestId: string,
     onChunk?: (chunk: SendMessageStreamChunk) => void,
-    onStreamEvent?: (event: import('./types').GatewayStreamEvent) => void,
+    onStreamEvent?: (event: GatewayStreamEvent) => void,
     contentType?: string,
   ): Promise<SendMessageResponse> {
     if (!response.body) {
@@ -238,66 +258,72 @@ export class ClaudeGatewayAdapter implements GatewayAdapter {
     const datetime = Date.now();
     let complete = false;
 
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true }).replace(/\r\n/g, '\n');
+    try {
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true }).replace(/\r\n/g, '\n');
 
-      let boundary = buffer.indexOf('\n\n');
-      while (boundary !== -1) {
-        const rawEvent = buffer.slice(0, boundary);
-        buffer = buffer.slice(boundary + 2);
-        boundary = buffer.indexOf('\n\n');
+        let boundary = buffer.indexOf('\n\n');
+        while (boundary !== -1) {
+          const rawEvent = buffer.slice(0, boundary);
+          buffer = buffer.slice(boundary + 2);
+          boundary = buffer.indexOf('\n\n');
 
-        const parsed = this.parseSseEvent(rawEvent);
-        if (!parsed) continue;
-        if (parsed.data === '[DONE]') {
-          complete = true;
-          continue;
-        }
+          const parsed = parseSseEvent(rawEvent);
+          if (!parsed) continue;
+          if (parsed.data === '[DONE]') {
+            complete = true;
+            continue;
+          }
 
-        let data: Record<string, unknown> = {};
-        try {
-          data = JSON.parse(parsed.data) as Record<string, unknown>;
-        } catch {
-          continue;
-        }
+          let data: Record<string, unknown> = {};
+          try {
+            data = JSON.parse(parsed.data) as Record<string, unknown>;
+          } catch {
+            continue;
+          }
 
-        if (parsed.event === 'error' || data.type === 'error') {
-          const errorPayload = data.error as Record<string, unknown> | undefined;
-          const messageText =
-            (typeof errorPayload?.message === 'string' && errorPayload.message) ||
-            (typeof data.message === 'string' && data.message) ||
-            'Claude stream error';
-          onStreamEvent?.({ phase: 'error', mode: 'sse', contentType, message: messageText });
-          throw new GatewayRequestError({
-            message: messageText,
-            kind: 'server',
-            requestId,
-            status: response.status,
-            body: parsed.data,
+          if (parsed.event === 'error' || data.type === 'error') {
+            const errorPayload = data.error as Record<string, unknown> | undefined;
+            const messageText =
+              (typeof errorPayload?.message === 'string' && errorPayload.message) ||
+              (typeof data.message === 'string' && data.message) ||
+              'Claude stream error';
+            onStreamEvent?.({ phase: 'error', mode: 'sse', contentType, message: messageText });
+            throw new GatewayRequestError({
+              message: messageText,
+              kind: 'server',
+              requestId,
+              status: response.status,
+              body: parsed.data,
+            });
+          }
+
+          if (parsed.event === 'message_stop' || data.type === 'message_stop') {
+            complete = true;
+            continue;
+          }
+
+          const isContentDelta = parsed.event === 'content_block_delta' || data.type === 'content_block_delta';
+          if (!isContentDelta) continue;
+          const delta = data.delta as Record<string, unknown> | undefined;
+          if (!delta || delta.type !== 'text_delta' || typeof delta.text !== 'string') continue;
+          message += delta.text;
+          onChunk?.({
+            delta: delta.text,
+            fullMessage: message,
+            role: 'assistant',
+            datetime,
+            done: false,
           });
+          onStreamEvent?.({ phase: 'delta', mode: 'sse', contentType, delta: delta.text, fullMessage: message });
         }
-
-        if (parsed.event === 'message_stop' || data.type === 'message_stop') {
-          complete = true;
-          continue;
-        }
-
-        const isContentDelta = parsed.event === 'content_block_delta' || data.type === 'content_block_delta';
-        if (!isContentDelta) continue;
-        const delta = data.delta as Record<string, unknown> | undefined;
-        if (!delta || delta.type !== 'text_delta' || typeof delta.text !== 'string') continue;
-        message += delta.text;
-        onChunk?.({
-          delta: delta.text,
-          fullMessage: message,
-          role: 'assistant',
-          datetime,
-          done: false,
-        });
-        onStreamEvent?.({ phase: 'delta', mode: 'sse', contentType, delta: delta.text, fullMessage: message });
       }
+      // Flush decoder
+      buffer += decoder.decode();
+    } finally {
+      reader.releaseLock();
     }
 
     if (!message.trim()) {
@@ -327,23 +353,12 @@ export class ClaudeGatewayAdapter implements GatewayAdapter {
     };
   }
 
-  private parseSseEvent(raw: string): { event: string; data: string } | null {
-    const lines = raw.split('\n');
-    let event = 'message';
-    const dataLines: string[] = [];
-    for (const line of lines) {
-      if (line.startsWith('event:')) event = line.slice(6).trim();
-      if (line.startsWith('data:')) dataLines.push(line.slice(5).trimStart());
-    }
-    if (!dataLines.length) return null;
-    return { event, data: dataLines.join('\n') };
-  }
-
-  private request(options: { url: string; init: RequestInit & { requestId: string } }): Promise<Response> {
+  private request(options: { url: string; init: RequestInit & { requestId: string }; noRetry?: boolean }): Promise<Response> {
     return fetchWithRetry({
       url: options.url,
       init: options.init,
-      retryPolicy: { delaysMs: RETRY_DELAYS_MS },
+      noRetry: options.noRetry,
+      retryPolicy: { delaysMs: DEFAULT_RETRY_DELAYS_MS },
       auth: {
         token: this.apiKey,
         headerName: 'x-api-key',

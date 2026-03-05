@@ -31,7 +31,7 @@
     flex: 1;
     min-width: 0;
     overflow-y: auto;
-    padding: calc(var(--n-space-k) * var(--n-space));
+    padding: 0;
   }
 
   /* ── Aside mode ── */
@@ -104,6 +104,61 @@
 
   :where(n-app-panel) > :where(n-footer) {
     border-top: 1px solid var(--n-border-muted);
+  }
+
+  /* ── Semantic sub-container integration ── */
+  /* WHY: When <main> is present, delegate overflow to it so
+     <header>/<footer> stay fixed while <main> scrolls.
+     Mirrors the n-header/n-body/n-footer pattern for semantic HTML. */
+
+  :where(n-app-panel):has(> main) {
+    overflow: hidden;
+    padding: 0;
+  }
+
+  :where(n-app-panel) > :where(header),
+  :where(n-app-panel) > :where(main),
+  :where(n-app-panel) > :where(footer) {
+    padding: var(--n-app-panel-content-padding, 0);
+    box-sizing: border-box;
+  }
+
+  /* WHY: Direct children of header/main/footer act as content containers.
+     max-width + auto margins center content while the parent keeps
+     full-bleed background and padding. */
+  :where(n-app-panel) > :where(header) > *,
+  :where(n-app-panel) > :where(main) > *,
+  :where(n-app-panel) > :where(footer) > * {
+    max-width: var(--n-app-panel-content-max-width, none);
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  :where(n-app-panel) > :where(header) {
+    flex: none;
+    border-bottom: 1px solid var(--n-border-muted);
+    background: var(--n-ground);
+    z-index: 1;
+  }
+
+  :where(n-app-panel) > :where(main) {
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--n-app-panel-content-gap, 0);
+  }
+
+  :where(n-app-panel)[show-scrollbar] > :where(main) {
+    scrollbar-width: thin;
+  }
+
+  :where(n-app-panel) > :where(footer) {
+    flex: none;
+    border-top: 1px solid var(--n-border-muted);
+    background: var(--n-ground);
   }
 
 }

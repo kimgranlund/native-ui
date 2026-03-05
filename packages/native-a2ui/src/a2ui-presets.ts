@@ -1,10 +1,10 @@
 // ── A2UI Workbench Presets ──
-// Extracted from a2ui-protocol.html — each preset is a single updateComponents envelope.
+// Each preset is a sequence of A2UI protocol envelopes demonstrating the full lifecycle.
 
 export interface PresetEntry {
   label: string;
   group: string;
-  envelope: Record<string, unknown>;
+  envelopes: Record<string, unknown>[];
 }
 
 export type PresetGroup = (typeof PRESET_GROUPS)[number];
@@ -20,249 +20,401 @@ export const PRESETS: Record<string, PresetEntry> = {
   'hello': {
     label: 'Hello World',
     group: 'general',
-    envelope: {
-      updateComponents: {
-        surfaceId: 'demo',
-        components: [
-          { id: 'root', component: 'Column', children: ['heading', 'text', 'btn'] },
-          { id: 'heading', component: 'Text', text: 'Hello, A2UI!', variant: 'h2' },
-          { id: 'text', component: 'Text', text: 'This UI was generated from a flat A2UI component list.' },
-          { id: 'btn', component: 'Button', text: 'Click Me', variant: 'primary', action: { event: { name: 'hello_click' } } },
-        ],
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Column', children: ['heading', 'text', 'btn'] },
+            { id: 'heading', component: 'Text', text: 'Hello, A2UI!', variant: 'h2' },
+            { id: 'text', component: 'Text', text: 'This UI was generated from a flat A2UI component list.' },
+            { id: 'btn', component: 'Button', text: 'Click Me', variant: 'primary', action: { event: { name: 'hello_click' } } },
+          ],
+        },
+        version: '0.9',
       },
-    },
+    ],
   },
 
   'form': {
     label: 'Contact Form',
     group: 'general',
-    envelope: {
-      updateComponents: {
-        surfaceId: 'demo',
-        components: [
-          { id: 'root', component: 'Column', children: ['title', 'name-field', 'email-field', 'message-field', 'actions'] },
-          { id: 'title', component: 'Text', text: 'Contact Us', variant: 'h2' },
-          { id: 'name-field', component: 'TextField', label: 'Full Name', placeholder: 'John Doe' },
-          { id: 'email-field', component: 'TextField', label: 'Email Address', placeholder: 'john@example.com', variant: 'shortText' },
-          { id: 'message-field', component: 'TextArea', label: 'Message', placeholder: 'How can we help?' },
-          { id: 'actions', component: 'Row', children: ['submit-btn', 'cancel-btn'] },
-          { id: 'submit-btn', component: 'Button', text: 'Send Message', variant: 'primary', action: { event: { name: 'submit_form', context: {} } } },
-          { id: 'cancel-btn', component: 'Button', text: 'Cancel', action: { event: { name: 'cancel_form' } } },
-        ],
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Column', children: ['title', 'name-field', 'email-field', 'message-field', 'actions'] },
+            { id: 'title', component: 'Text', text: 'Contact Us', variant: 'h2' },
+            { id: 'name-field', component: 'TextField', label: 'Full Name', placeholder: 'John Doe' },
+            { id: 'email-field', component: 'TextField', label: 'Email Address', placeholder: 'john@example.com', variant: 'shortText' },
+            { id: 'message-field', component: 'TextArea', label: 'Message', placeholder: 'How can we help?' },
+            { id: 'actions', component: 'Row', children: ['submit-btn', 'cancel-btn'] },
+            { id: 'submit-btn', component: 'Button', text: 'Send Message', variant: 'primary', action: { event: { name: 'submit_form', context: {} } } },
+            { id: 'cancel-btn', component: 'Button', text: 'Cancel', action: { event: { name: 'cancel_form' } } },
+          ],
+        },
+        version: '0.9',
       },
-    },
+    ],
   },
 
   'card': {
     label: 'Product Card',
     group: 'general',
-    envelope: {
-      updateComponents: {
-        surfaceId: 'demo',
-        components: [
-          { id: 'root', component: 'Card', child: 'card-content' },
-          { id: 'card-content', component: 'Column', children: ['product-name', 'product-desc', 'product-price', 'product-actions'] },
-          { id: 'product-name', component: 'Text', text: 'Premium Widget', variant: 'h3' },
-          { id: 'product-desc', component: 'Text', text: 'A high-quality widget built with native web components. Supports all modern browsers.' },
-          { id: 'product-price', component: 'Text', text: '$49.99', variant: 'h4' },
-          { id: 'product-actions', component: 'Row', children: ['buy-btn', 'wishlist-btn'] },
-          { id: 'buy-btn', component: 'Button', text: 'Add to Cart', variant: 'primary', action: { event: { name: 'add_to_cart' } } },
-          { id: 'wishlist-btn', component: 'Button', text: 'Wishlist', action: { event: { name: 'add_to_wishlist' } } },
-        ],
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Card', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['product-name', 'product-desc', 'product-price', 'product-actions'] },
+            { id: 'product-name', component: 'Text', text: 'Premium Widget', variant: 'h3' },
+            { id: 'product-desc', component: 'Text', text: 'A high-quality widget built with native web components. Supports all modern browsers.' },
+            { id: 'product-price', component: 'Text', text: '$49.99', variant: 'h4' },
+            { id: 'product-actions', component: 'Row', children: ['buy-btn', 'wishlist-btn'] },
+            { id: 'buy-btn', component: 'Button', text: 'Add to Cart', variant: 'primary', action: { event: { name: 'add_to_cart' } } },
+            { id: 'wishlist-btn', component: 'Button', text: 'Wishlist', action: { event: { name: 'add_to_wishlist' } } },
+          ],
+        },
+        version: '0.9',
       },
-    },
+    ],
   },
 
   'list': {
     label: 'Task List',
     group: 'general',
-    envelope: {
-      updateComponents: {
-        surfaceId: 'demo',
-        components: [
-          { id: 'root', component: 'Column', children: ['title', 'task-list'] },
-          { id: 'title', component: 'Text', text: 'Today\'s Tasks', variant: 'h2' },
-          { id: 'task-list', component: 'List', children: ['task-1', 'task-2', 'task-3', 'task-4'] },
-          { id: 'task-1', component: 'ListItem', text: 'Review pull requests', value: 'review-pr' },
-          { id: 'task-2', component: 'ListItem', text: 'Update documentation', value: 'update-docs' },
-          { id: 'task-3', component: 'ListItem', text: 'Fix CI pipeline', value: 'fix-ci' },
-          { id: 'task-4', component: 'ListItem', text: 'Deploy to staging', value: 'deploy' },
-        ],
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Column', children: ['title', 'task-list'] },
+            { id: 'title', component: 'Text', text: 'Today\'s Tasks', variant: 'h2' },
+            { id: 'task-list', component: 'List', children: ['task-1', 'task-2', 'task-3', 'task-4'] },
+            { id: 'task-1', component: 'ListItem', text: 'Review pull requests', value: 'review-pr' },
+            { id: 'task-2', component: 'ListItem', text: 'Update documentation', value: 'update-docs' },
+            { id: 'task-3', component: 'ListItem', text: 'Fix CI pipeline', value: 'fix-ci' },
+            { id: 'task-4', component: 'ListItem', text: 'Deploy to staging', value: 'deploy' },
+          ],
+        },
+        version: '0.9',
       },
-    },
+    ],
   },
 
   'tabs': {
     label: 'Sectioned Content',
     group: 'general',
-    envelope: {
-      updateComponents: {
-        surfaceId: 'demo',
-        components: [
-          { id: 'root', component: 'Column', children: ['title', 'nav-row', 'overview-section', 'specs-section', 'reviews-section'] },
-          { id: 'title', component: 'Text', text: 'Product Details', variant: 'h2' },
-          { id: 'nav-row', component: 'Row', children: ['nav-overview', 'nav-specs', 'nav-reviews'] },
-          { id: 'nav-overview', component: 'Button', text: 'Overview', variant: 'primary', action: { event: { name: 'tab_overview' } } },
-          { id: 'nav-specs', component: 'Button', text: 'Specs', action: { event: { name: 'tab_specs' } } },
-          { id: 'nav-reviews', component: 'Button', text: 'Reviews', action: { event: { name: 'tab_reviews' } } },
-          { id: 'overview-section', component: 'Column', children: ['overview-heading', 'overview-text'] },
-          { id: 'overview-heading', component: 'Text', text: 'Overview', variant: 'h3' },
-          { id: 'overview-text', component: 'Text', text: 'A comprehensive overview of the product features, benefits, and use cases. Built with modern web standards.' },
-          { id: 'specs-section', component: 'Column', children: ['specs-heading', 'spec-1', 'spec-2', 'spec-3'] },
-          { id: 'specs-heading', component: 'Text', text: 'Specifications', variant: 'h3' },
-          { id: 'spec-1', component: 'Text', text: 'Weight: 2.5 kg' },
-          { id: 'spec-2', component: 'Text', text: 'Dimensions: 30 \u00d7 20 \u00d7 10 cm' },
-          { id: 'spec-3', component: 'Text', text: 'Material: Recycled aluminum' },
-          { id: 'reviews-section', component: 'Column', children: ['reviews-heading', 'reviews-text'] },
-          { id: 'reviews-heading', component: 'Text', text: 'Reviews', variant: 'h3' },
-          { id: 'reviews-text', component: 'Text', text: 'No reviews yet. Be the first to review this product!' },
-        ],
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Column', children: ['title', 'nav-row', 'overview-section', 'specs-section', 'reviews-section'] },
+            { id: 'title', component: 'Text', text: 'Product Details', variant: 'h2' },
+            { id: 'nav-row', component: 'Row', children: ['nav-overview', 'nav-specs', 'nav-reviews'] },
+            { id: 'nav-overview', component: 'Button', text: 'Overview', variant: 'primary', action: { event: { name: 'tab_overview' } } },
+            { id: 'nav-specs', component: 'Button', text: 'Specs', action: { event: { name: 'tab_specs' } } },
+            { id: 'nav-reviews', component: 'Button', text: 'Reviews', action: { event: { name: 'tab_reviews' } } },
+            { id: 'overview-section', component: 'Column', children: ['overview-heading', 'overview-text'] },
+            { id: 'overview-heading', component: 'Text', text: 'Overview', variant: 'h3' },
+            { id: 'overview-text', component: 'Text', text: 'A comprehensive overview of the product features, benefits, and use cases. Built with modern web standards.' },
+            { id: 'specs-section', component: 'Column', children: ['specs-heading', 'spec-1', 'spec-2', 'spec-3'] },
+            { id: 'specs-heading', component: 'Text', text: 'Specifications', variant: 'h3' },
+            { id: 'spec-1', component: 'Text', text: 'Weight: 2.5 kg' },
+            { id: 'spec-2', component: 'Text', text: 'Dimensions: 30 \u00d7 20 \u00d7 10 cm' },
+            { id: 'spec-3', component: 'Text', text: 'Material: Recycled aluminum' },
+            { id: 'reviews-section', component: 'Column', children: ['reviews-heading', 'reviews-text'] },
+            { id: 'reviews-heading', component: 'Text', text: 'Reviews', variant: 'h3' },
+            { id: 'reviews-text', component: 'Text', text: 'No reviews yet. Be the first to review this product!' },
+          ],
+        },
+        version: '0.9',
       },
-    },
+    ],
   },
 
   'data': {
     label: 'Data Binding',
     group: 'general',
-    envelope: {
-      updateComponents: {
-        surfaceId: 'demo',
-        components: [
-          { id: 'root', component: 'Column', children: ['greeting', 'counter-row'] },
-          { id: 'greeting', component: 'Text', text: { path: '/greeting' }, variant: 'h2' },
-          { id: 'counter-row', component: 'Row', children: ['counter-label', 'inc-btn'] },
-          { id: 'counter-label', component: 'Text', text: { path: '/counter' } },
-          { id: 'inc-btn', component: 'Button', text: 'Increment', variant: 'primary', action: { event: { name: 'increment' } } },
-        ],
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Column', children: ['greeting', 'counter-row'] },
+            { id: 'greeting', component: 'Text', text: { path: '/greeting' }, variant: 'h2' },
+            { id: 'counter-row', component: 'Row', children: ['counter-label', 'inc-btn'] },
+            { id: 'counter-label', component: 'Text', text: { path: '/counter' } },
+            { id: 'inc-btn', component: 'Button', text: 'Increment', variant: 'primary', action: { event: { name: 'increment' } } },
+          ],
+        },
+        version: '0.9',
       },
-    },
+      { updateDataModel: { surfaceId: 'demo', path: '/greeting', value: 'Hello from data binding!' }, version: '0.9' },
+      { updateDataModel: { surfaceId: 'demo', path: '/counter', value: 'Count: 0' }, version: '0.9' },
+    ],
+  },
+
+  'data-stepping': {
+    label: 'Data Stepping',
+    group: 'general',
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Column', children: ['title', 'count', 'inc-btn'] },
+            { id: 'title', component: 'Text', text: { path: '/title' }, variant: 'h2' },
+            { id: 'count', component: 'Text', text: { path: '/count' } },
+            { id: 'inc-btn', component: 'Button', text: 'Increment', variant: 'primary', action: { event: { name: 'increment' } } },
+          ],
+        },
+        version: '0.9',
+      },
+      { updateDataModel: { surfaceId: 'demo', path: '/title', value: 'Step Counter' }, version: '0.9' },
+      { updateDataModel: { surfaceId: 'demo', path: '/count', value: 'Count: 1' }, version: '0.9' },
+      { updateDataModel: { surfaceId: 'demo', path: '/count', value: 'Count: 2' }, version: '0.9' },
+      { updateDataModel: { surfaceId: 'demo', path: '/count', value: 'Count: 3' }, version: '0.9' },
+    ],
+  },
+
+  'multi-surface': {
+    label: 'Multi-Surface',
+    group: 'general',
+    envelopes: [
+      { createSurface: { surfaceId: 'panel-a' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'panel-a',
+          components: [
+            { id: 'root', component: 'Column', children: ['heading', 'btn'] },
+            { id: 'heading', component: 'Text', text: 'Panel A', variant: 'h2' },
+            { id: 'btn', component: 'Button', text: 'Action', variant: 'primary', action: { event: { name: 'panel_a_action' } } },
+          ],
+        },
+        version: '0.9',
+      },
+      { createSurface: { surfaceId: 'panel-b' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'panel-b',
+          components: [
+            { id: 'root', component: 'Column', children: ['heading', 'badge'] },
+            { id: 'heading', component: 'Text', text: 'Panel B', variant: 'h2' },
+            { id: 'badge', component: 'Badge', text: 'Secondary Surface' },
+          ],
+        },
+        version: '0.9',
+      },
+      { deleteSurface: { surfaceId: 'panel-a' }, version: '0.9' },
+    ],
+  },
+
+  'incremental': {
+    label: 'Incremental Update',
+    group: 'general',
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Column', children: ['title', 'task-list'] },
+            { id: 'title', component: 'Text', text: 'Task List', variant: 'h2' },
+            { id: 'task-list', component: 'List', children: ['task-a', 'task-b'] },
+            { id: 'task-a', component: 'ListItem', text: 'Task A', value: 'a' },
+            { id: 'task-b', component: 'ListItem', text: 'Task B', value: 'b' },
+          ],
+        },
+        version: '0.9',
+      },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Column', children: ['title', 'task-list'] },
+            { id: 'title', component: 'Text', text: 'Task List', variant: 'h2' },
+            { id: 'task-list', component: 'List', children: ['task-a', 'task-b', 'task-c'] },
+            { id: 'task-a', component: 'ListItem', text: 'Task A', value: 'a' },
+            { id: 'task-b', component: 'ListItem', text: 'Task B', value: 'b' },
+            { id: 'task-c', component: 'ListItem', text: 'Task C', value: 'c' },
+          ],
+        },
+        version: '0.9',
+      },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Column', children: ['title', 'task-list'] },
+            { id: 'title', component: 'Text', text: 'Task List', variant: 'h2' },
+            { id: 'task-list', component: 'List', children: ['task-a', 'task-b', 'task-c'] },
+            { id: 'task-a', component: 'ListItem', text: 'Task A (done \u2713)', value: 'a' },
+            { id: 'task-b', component: 'ListItem', text: 'Task B', value: 'b' },
+            { id: 'task-c', component: 'ListItem', text: 'Task C', value: 'c' },
+          ],
+        },
+        version: '0.9',
+      },
+    ],
   },
 
   'live-form': {
     label: 'Live Form',
     group: 'interactive',
-    envelope: {
-      updateComponents: {
-        surfaceId: 'demo',
-        components: [
-          { id: 'root', component: 'Column', children: ['title', 'form-row', 'divider', 'preview-card'] },
-          { id: 'title', component: 'Text', text: 'Live Preview \u2014 Data Binding', variant: 'h2' },
-          { id: 'form-row', component: 'Column', children: ['name-field', 'role-field', 'bio-field'] },
-          { id: 'name-field', component: 'TextField', label: 'Name', placeholder: 'Type your name...' },
-          { id: 'role-field', component: 'TextField', label: 'Role', placeholder: 'e.g. Engineer' },
-          { id: 'bio-field', component: 'TextArea', label: 'Bio', placeholder: 'Tell us about yourself...' },
-          { id: 'divider', component: 'Divider' },
-          { id: 'preview-card', component: 'Card', child: 'preview-col' },
-          { id: 'preview-col', component: 'Column', children: ['preview-heading', 'preview-name', 'preview-role', 'preview-bio'] },
-          { id: 'preview-heading', component: 'Text', text: 'Preview', variant: 'h3' },
-          { id: 'preview-name', component: 'Text', text: { path: '/name' }, variant: 'h4' },
-          { id: 'preview-role', component: 'Badge', text: { path: '/role' } },
-          { id: 'preview-bio', component: 'Text', text: { path: '/bio' } },
-        ],
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Column', children: ['title', 'form-row', 'divider', 'preview-card'] },
+            { id: 'title', component: 'Text', text: 'Live Preview \u2014 Data Binding', variant: 'h2' },
+            { id: 'form-row', component: 'Column', children: ['name-field', 'role-field', 'bio-field'] },
+            { id: 'name-field', component: 'TextField', label: 'Name', placeholder: 'Type your name...' },
+            { id: 'role-field', component: 'TextField', label: 'Role', placeholder: 'e.g. Engineer' },
+            { id: 'bio-field', component: 'TextArea', label: 'Bio', placeholder: 'Tell us about yourself...' },
+            { id: 'divider', component: 'Divider' },
+            { id: 'preview-card', component: 'Card', child: 'preview-col' },
+            { id: 'preview-col', component: 'Column', children: ['preview-heading', 'preview-name', 'preview-role', 'preview-bio'] },
+            { id: 'preview-heading', component: 'Text', text: 'Preview', variant: 'h3' },
+            { id: 'preview-name', component: 'Text', text: { path: '/name' }, variant: 'h4' },
+            { id: 'preview-role', component: 'Badge', text: { path: '/role' } },
+            { id: 'preview-bio', component: 'Text', text: { path: '/bio' } },
+          ],
+        },
+        version: '0.9',
       },
-    },
+      { updateDataModel: { surfaceId: 'demo', path: '/name', value: 'Jane Doe' }, version: '0.9' },
+      { updateDataModel: { surfaceId: 'demo', path: '/role', value: 'Engineer' }, version: '0.9' },
+      { updateDataModel: { surfaceId: 'demo', path: '/bio', value: 'Building the future of web components.' }, version: '0.9' },
+    ],
   },
 
   'wizard': {
     label: 'Step Wizard',
     group: 'interactive',
-    envelope: {
-      updateComponents: {
-        surfaceId: 'demo',
-        components: [
-          { id: 'root', component: 'Column', children: ['header', 'steps', 'divider-1', 'step-content', 'divider-2', 'nav-row'] },
-          { id: 'header', component: 'Text', text: 'Create New Project', variant: 'h2' },
-          { id: 'steps', component: 'Row', children: ['step-1', 'step-sep-1', 'step-2', 'step-sep-2', 'step-3'] },
-          { id: 'step-1', component: 'Badge', text: '1. Details' },
-          { id: 'step-sep-1', component: 'Text', text: '\u2192' },
-          { id: 'step-2', component: 'Text', text: '2. Team', variant: 'caption' },
-          { id: 'step-sep-2', component: 'Text', text: '\u2192' },
-          { id: 'step-3', component: 'Text', text: '3. Review', variant: 'caption' },
-          { id: 'divider-1', component: 'Divider' },
-          { id: 'step-content', component: 'Column', children: ['proj-name', 'proj-desc', 'proj-visibility'] },
-          { id: 'proj-name', component: 'TextField', label: 'Project Name', placeholder: 'My Awesome Project' },
-          { id: 'proj-desc', component: 'TextArea', label: 'Description', placeholder: 'What is this project about?' },
-          { id: 'proj-visibility', component: 'Column', children: ['vis-label', 'vis-public', 'vis-private'] },
-          { id: 'vis-label', component: 'Text', text: 'Visibility', variant: 'caption' },
-          { id: 'vis-public', component: 'CheckBox', label: 'Public \u2014 anyone can view' },
-          { id: 'vis-private', component: 'CheckBox', label: 'Private \u2014 invited members only' },
-          { id: 'divider-2', component: 'Divider' },
-          { id: 'nav-row', component: 'Row', children: ['cancel-btn', 'next-btn'] },
-          { id: 'cancel-btn', component: 'Button', text: 'Cancel', action: { event: { name: 'wizard_cancel' } } },
-          { id: 'next-btn', component: 'Button', text: 'Next: Team \u2192', variant: 'primary', action: { event: { name: 'wizard_next' } } },
-        ],
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Column', children: ['header', 'steps', 'divider-1', 'step-content', 'divider-2', 'nav-row'] },
+            { id: 'header', component: 'Text', text: 'Create New Project', variant: 'h2' },
+            { id: 'steps', component: 'Row', children: ['step-1', 'step-sep-1', 'step-2', 'step-sep-2', 'step-3'] },
+            { id: 'step-1', component: 'Badge', text: '1. Details' },
+            { id: 'step-sep-1', component: 'Text', text: '\u2192' },
+            { id: 'step-2', component: 'Text', text: '2. Team', variant: 'caption' },
+            { id: 'step-sep-2', component: 'Text', text: '\u2192' },
+            { id: 'step-3', component: 'Text', text: '3. Review', variant: 'caption' },
+            { id: 'divider-1', component: 'Divider' },
+            { id: 'step-content', component: 'Column', children: ['proj-name', 'proj-desc', 'proj-visibility'] },
+            { id: 'proj-name', component: 'TextField', label: 'Project Name', placeholder: 'My Awesome Project' },
+            { id: 'proj-desc', component: 'TextArea', label: 'Description', placeholder: 'What is this project about?' },
+            { id: 'proj-visibility', component: 'Column', children: ['vis-label', 'vis-public', 'vis-private'] },
+            { id: 'vis-label', component: 'Text', text: 'Visibility', variant: 'caption' },
+            { id: 'vis-public', component: 'CheckBox', label: 'Public \u2014 anyone can view' },
+            { id: 'vis-private', component: 'CheckBox', label: 'Private \u2014 invited members only' },
+            { id: 'divider-2', component: 'Divider' },
+            { id: 'nav-row', component: 'Row', children: ['cancel-btn', 'next-btn'] },
+            { id: 'cancel-btn', component: 'Button', text: 'Cancel', action: { event: { name: 'wizard_cancel' } } },
+            { id: 'next-btn', component: 'Button', text: 'Next: Team \u2192', variant: 'primary', action: { event: { name: 'wizard_next' } } },
+          ],
+        },
+        version: '0.9',
       },
-    },
+    ],
   },
 
   'confirm-delete': {
     label: 'Confirm Dialog',
     group: 'interactive',
-    envelope: {
-      updateComponents: {
-        surfaceId: 'demo',
-        components: [
-          { id: 'root', component: 'Card', child: 'card-col' },
-          { id: 'card-col', component: 'Column', children: ['icon-row', 'title', 'desc', 'item-name', 'warning', 'confirm-field', 'actions'] },
-          { id: 'icon-row', component: 'Row', children: ['warn-badge'] },
-          { id: 'warn-badge', component: 'Badge', text: 'Destructive Action' },
-          { id: 'title', component: 'Text', text: 'Delete Project?', variant: 'h2' },
-          { id: 'desc', component: 'Text', text: 'This will permanently delete the project, all its files, issues, and associated data. This action cannot be undone.' },
-          { id: 'item-name', component: 'Row', children: ['item-label', 'item-val'] },
-          { id: 'item-label', component: 'Text', text: 'Project:' },
-          { id: 'item-val', component: 'Text', text: 'acme-frontend', variant: 'h4' },
-          { id: 'warning', component: 'Text', text: 'To confirm, type the project name below:', variant: 'caption' },
-          { id: 'confirm-field', component: 'TextField', placeholder: 'acme-frontend' },
-          { id: 'actions', component: 'Row', children: ['cancel-btn', 'delete-btn'] },
-          { id: 'cancel-btn', component: 'Button', text: 'Cancel', action: { event: { name: 'cancel_delete' } } },
-          { id: 'delete-btn', component: 'Button', text: 'Delete Project', variant: 'primary', disabled: true, action: { event: { name: 'confirm_delete' } } },
-        ],
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Card', child: 'card-col' },
+            { id: 'card-col', component: 'Column', children: ['icon-row', 'title', 'desc', 'item-name', 'warning', 'confirm-field', 'actions'] },
+            { id: 'icon-row', component: 'Row', children: ['warn-badge'] },
+            { id: 'warn-badge', component: 'Badge', text: 'Destructive Action' },
+            { id: 'title', component: 'Text', text: 'Delete Project?', variant: 'h2' },
+            { id: 'desc', component: 'Text', text: 'This will permanently delete the project, all its files, issues, and associated data. This action cannot be undone.' },
+            { id: 'item-name', component: 'Row', children: ['item-label', 'item-val'] },
+            { id: 'item-label', component: 'Text', text: 'Project:' },
+            { id: 'item-val', component: 'Text', text: 'acme-frontend', variant: 'h4' },
+            { id: 'warning', component: 'Text', text: 'To confirm, type the project name below:', variant: 'caption' },
+            { id: 'confirm-field', component: 'TextField', placeholder: 'acme-frontend' },
+            { id: 'actions', component: 'Row', children: ['cancel-btn', 'delete-btn'] },
+            { id: 'cancel-btn', component: 'Button', text: 'Cancel', action: { event: { name: 'cancel_delete' } } },
+            { id: 'delete-btn', component: 'Button', text: 'Delete Project', variant: 'primary', disabled: true, action: { event: { name: 'confirm_delete' } } },
+          ],
+        },
+        version: '0.9',
       },
-    },
+    ],
   },
 
   'toggle-settings': {
     label: 'Settings Panel',
     group: 'interactive',
-    envelope: {
-      updateComponents: {
-        surfaceId: 'demo',
-        components: [
-          { id: 'root', component: 'Column', children: ['header', 'desc', 'divider-1', 'notif-section', 'divider-2', 'privacy-section', 'divider-3', 'appearance-section', 'divider-4', 'save-row'] },
-          { id: 'header', component: 'Text', text: 'Preferences', variant: 'h2' },
-          { id: 'desc', component: 'Text', text: 'Manage your notification, privacy, and display settings.', variant: 'caption' },
-          { id: 'divider-1', component: 'Divider' },
-          { id: 'notif-section', component: 'Column', children: ['notif-title', 'notif-email', 'notif-push', 'notif-sms', 'notif-marketing'] },
-          { id: 'notif-title', component: 'Text', text: 'Notifications', variant: 'h3' },
-          { id: 'notif-email', component: 'Switch', label: 'Email notifications' },
-          { id: 'notif-push', component: 'Switch', label: 'Push notifications' },
-          { id: 'notif-sms', component: 'Switch', label: 'SMS alerts' },
-          { id: 'notif-marketing', component: 'Switch', label: 'Marketing emails' },
-          { id: 'divider-2', component: 'Divider' },
-          { id: 'privacy-section', component: 'Column', children: ['privacy-title', 'priv-profile', 'priv-activity', 'priv-search'] },
-          { id: 'privacy-title', component: 'Text', text: 'Privacy', variant: 'h3' },
-          { id: 'priv-profile', component: 'Switch', label: 'Public profile' },
-          { id: 'priv-activity', component: 'Switch', label: 'Show activity status' },
-          { id: 'priv-search', component: 'Switch', label: 'Appear in search results' },
-          { id: 'divider-3', component: 'Divider' },
-          { id: 'appearance-section', component: 'Column', children: ['appear-title', 'appear-compact', 'appear-animations'] },
-          { id: 'appear-title', component: 'Text', text: 'Appearance', variant: 'h3' },
-          { id: 'appear-compact', component: 'Switch', label: 'Compact mode' },
-          { id: 'appear-animations', component: 'Switch', label: 'Reduce animations' },
-          { id: 'divider-4', component: 'Divider' },
-          { id: 'save-row', component: 'Row', children: ['reset-btn', 'save-btn'] },
-          { id: 'reset-btn', component: 'Button', text: 'Reset to Defaults', action: { event: { name: 'reset_settings' } } },
-          { id: 'save-btn', component: 'Button', text: 'Save Preferences', variant: 'primary', action: { event: { name: 'save_settings' } } },
-        ],
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
+          surfaceId: 'demo',
+          components: [
+            { id: 'root', component: 'Column', children: ['header', 'desc', 'divider-1', 'notif-section', 'divider-2', 'privacy-section', 'divider-3', 'appearance-section', 'divider-4', 'save-row'] },
+            { id: 'header', component: 'Text', text: 'Preferences', variant: 'h2' },
+            { id: 'desc', component: 'Text', text: 'Manage your notification, privacy, and display settings.', variant: 'caption' },
+            { id: 'divider-1', component: 'Divider' },
+            { id: 'notif-section', component: 'Column', children: ['notif-title', 'notif-email', 'notif-push', 'notif-sms', 'notif-marketing'] },
+            { id: 'notif-title', component: 'Text', text: 'Notifications', variant: 'h3' },
+            { id: 'notif-email', component: 'Switch', label: 'Email notifications' },
+            { id: 'notif-push', component: 'Switch', label: 'Push notifications' },
+            { id: 'notif-sms', component: 'Switch', label: 'SMS alerts' },
+            { id: 'notif-marketing', component: 'Switch', label: 'Marketing emails' },
+            { id: 'divider-2', component: 'Divider' },
+            { id: 'privacy-section', component: 'Column', children: ['privacy-title', 'priv-profile', 'priv-activity', 'priv-search'] },
+            { id: 'privacy-title', component: 'Text', text: 'Privacy', variant: 'h3' },
+            { id: 'priv-profile', component: 'Switch', label: 'Public profile' },
+            { id: 'priv-activity', component: 'Switch', label: 'Show activity status' },
+            { id: 'priv-search', component: 'Switch', label: 'Appear in search results' },
+            { id: 'divider-3', component: 'Divider' },
+            { id: 'appearance-section', component: 'Column', children: ['appear-title', 'appear-compact', 'appear-animations'] },
+            { id: 'appear-title', component: 'Text', text: 'Appearance', variant: 'h3' },
+            { id: 'appear-compact', component: 'Switch', label: 'Compact mode' },
+            { id: 'appear-animations', component: 'Switch', label: 'Reduce animations' },
+            { id: 'divider-4', component: 'Divider' },
+            { id: 'save-row', component: 'Row', children: ['reset-btn', 'save-btn'] },
+            { id: 'reset-btn', component: 'Button', text: 'Reset to Defaults', action: { event: { name: 'reset_settings' } } },
+            { id: 'save-btn', component: 'Button', text: 'Save Preferences', variant: 'primary', action: { event: { name: 'save_settings' } } },
+          ],
+        },
+        version: '0.9',
       },
-    },
+    ],
   },
 
   'lab-results': {
     label: 'Lab Results',
     group: 'clinical',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'patient-row', 'divider-1', 'cbc-card', 'metabolic-card', 'lipid-card', 'divider-2', 'actions'] },
@@ -359,14 +511,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'history-btn', component: 'Button', text: 'View History', action: { event: { name: 'view_history' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'vitals': {
     label: 'Vitals Monitor',
     group: 'clinical',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'patient-row', 'divider-1', 'vitals-row', 'divider-2', 'trend-card', 'divider-3', 'alert-card', 'actions'] },
@@ -430,14 +586,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'note-btn', component: 'Button', text: 'Add Note', action: { event: { name: 'add_note' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'med-reconciliation': {
     label: 'Medication List',
     group: 'clinical',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'patient-row', 'divider-1', 'active-card', 'divider-2', 'discontinued-card', 'divider-3', 'interaction-card', 'actions'] },
@@ -502,14 +662,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'print-btn', component: 'Button', text: 'Print List', action: { event: { name: 'print_med_list' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'referral': {
     label: 'Referral Form',
     group: 'clinical',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'urgency-row', 'divider-1', 'patient-card', 'refer-card', 'clinical-card', 'divider-2', 'actions'] },
@@ -554,14 +718,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'cancel-btn', component: 'Button', text: 'Cancel', action: { event: { name: 'cancel_referral' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'icd-lookup': {
     label: 'ICD-10 Lookup',
     group: 'clinical',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'search-row', 'divider-1', 'results-card', 'divider-2', 'detail-card'] },
@@ -607,14 +775,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'related-btn', component: 'Button', text: 'Related Codes', action: { event: { name: 'related_codes' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'patient-intake': {
     label: 'Patient Intake',
     group: 'clinical',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'progress-row', 'divider-1', 'demographics-card', 'insurance-card', 'history-card', 'divider-2', 'actions'] },
@@ -661,14 +833,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'save-btn', component: 'Button', text: 'Save Progress', action: { event: { name: 'save_intake' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'prior-auth': {
     label: 'Prior Auth Status',
     group: 'clinical',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'divider-1', 'auth-1-card', 'auth-2-card', 'auth-3-card', 'divider-2', 'new-auth-btn'] },
@@ -737,14 +913,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'new-auth-btn', component: 'Button', text: 'New Prior Authorization', variant: 'primary', action: { event: { name: 'new_prior_auth' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'care-plan': {
     label: 'Care Plan',
     group: 'clinical',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'patient-row', 'divider-1', 'goals-card', 'interventions-card', 'follow-up-card', 'divider-2', 'team-card', 'actions'] },
@@ -819,14 +999,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'print-btn', component: 'Button', text: 'Print', action: { event: { name: 'print_care_plan' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'restaurant': {
     label: 'Restaurant Menu',
     group: 'travel',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'subtitle', 'divider-1', 'starters-title', 'starter-list', 'mains-title', 'mains-list', 'desserts-title', 'dessert-list', 'divider-2', 'dietary-row', 'reserve-btn'] },
@@ -881,14 +1065,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'reserve-btn', component: 'Button', text: 'Reserve a Table', variant: 'primary', action: { event: { name: 'reserve_table' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'room-service': {
     label: 'Room Service',
     group: 'travel',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'room-info', 'divider-1', 'order-title', 'item-list', 'divider-2', 'special-label', 'special-field', 'summary-card', 'place-order-btn'] },
@@ -938,14 +1126,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'place-order-btn', component: 'Button', text: 'Place Order', variant: 'primary', action: { event: { name: 'place_room_service' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'amenities': {
     label: 'Amenities Booking',
     group: 'travel',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'subtitle', 'divider-1', 'spa-card', 'pool-card', 'gym-card', 'divider-2', 'concierge-row'] },
@@ -1000,14 +1192,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'concierge-btn', component: 'Button', text: 'Contact Concierge', variant: 'primary', action: { event: { name: 'contact_concierge' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'room-recs': {
     label: 'Room Recommendations',
     group: 'travel',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'search-row', 'divider-1', 'room-1-card', 'room-2-card', 'room-3-card'] },
@@ -1084,14 +1280,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'room-3-book', component: 'Button', text: 'Select Room', variant: 'primary', action: { event: { name: 'book_presidential' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'booking': {
     label: 'Booking Flow',
     group: 'travel',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'steps-row', 'divider-1', 'booking-card', 'guest-card', 'extras-card', 'divider-2', 'total-card', 'confirm-btn'] },
@@ -1159,14 +1359,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'confirm-btn', component: 'Button', text: 'Continue to Payment', variant: 'primary', action: { event: { name: 'continue_payment' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'concierge': {
     label: 'Concierge Chat',
     group: 'travel',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'room-badge', 'divider-1', 'messages', 'divider-2', 'quick-actions', 'input-row'] },
@@ -1212,14 +1416,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'send-msg-btn', component: 'Button', text: 'Send', variant: 'primary', action: { event: { name: 'send_concierge_msg' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'checkout': {
     label: 'Express Checkout',
     group: 'travel',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'room-row', 'divider-1', 'charges-card', 'divider-2', 'payment-card', 'feedback-card', 'divider-3', 'checkout-btn'] },
@@ -1275,14 +1483,18 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'checkout-btn', component: 'Button', text: 'Complete Checkout', variant: 'primary', action: { event: { name: 'complete_checkout' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 
   'local-guide': {
     label: 'Local Guide',
     group: 'travel',
-    envelope: {
-      updateComponents: {
+    envelopes: [
+      { createSurface: { surfaceId: 'demo' }, version: '0.9' },
+      {
+        updateComponents: {
         surfaceId: 'demo',
         components: [
           { id: 'root', component: 'Column', children: ['header', 'subtitle', 'divider-1', 'beach-card', 'culture-card', 'food-card', 'divider-2', 'custom-btn'] },
@@ -1345,6 +1557,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'custom-btn', component: 'Button', text: 'Ask Concierge for Custom Itinerary', variant: 'primary', action: { event: { name: 'custom_itinerary' } } },
         ],
       },
-    },
+        version: '0.9',
+      },
+    ],
   },
 };

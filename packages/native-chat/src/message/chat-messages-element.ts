@@ -30,7 +30,7 @@ import { NativeElement } from '@nonoun/native-ui';
  * @attr {string} avatar-align - `"top"` | `"center"` | `"bottom"` (default) — avatar vertical alignment
  */
 export class NChatMessages extends NativeElement {
-  static observedAttributes = ['role', 'sender', 'avatar-align'];
+  static observedAttributes = ['data-role', 'sender', 'avatar-align'];
 
   #internals: ElementInternals;
   #contextEl: HTMLDivElement | null = null;
@@ -52,7 +52,7 @@ export class NChatMessages extends NativeElement {
     this.#internals.role = 'group';
     const sender = this.getAttribute('sender');
     if (sender) {
-      this.#internals.ariaLabel = `Messages from ${sender}`;
+      this.setAttribute('aria-label', `Messages from ${sender}`);
     }
 
     this.#wrapChildren();

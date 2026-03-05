@@ -39,6 +39,10 @@ export class NController extends NativeElement {
   connectedCallback(): void {
     if (this.#alive) return;
     this.#alive = true;
+    // WHY: NController skips super.connectedCallback(), so it must renew the
+    // ready promise itself. Without this, `await el.ready` is stale after
+    // View Transition reconnect.
+    this.renewReady();
     this.setup();
   }
 
@@ -125,7 +129,13 @@ export class NController extends NativeElement {
 
   #applyToFirstChild(traitTokens: string): void {
     const target = this.#resolveFirstChild();
-    if (target) this.#applyTraitsToElement(target, traitTokens);
+    if (target) {
+      this.#applyTraitsToElement(target, traitTokens);
+    } else {
+      // WHY: Children may not be parsed yet (e.g. CE upgrade before parser finishes).
+      // Retry with microtask → RAF → RAF as defense-in-depth alongside the MutationObserver.
+      this.#retryApplyFirstChild(traitTokens, 0);
+    }
 
     // WHY: Guard against duplicate observers. If #apply() is called twice (e.g. during
     // CE upgrade), disconnect the existing observer before creating a new one.
@@ -239,6 +249,22 @@ export class NController extends NativeElement {
       if (child instanceof HTMLElement) return child;
     }
     return null;
+  }
+
+  #retryApplyFirstChild(traitTokens: string, attempt: number): void {
+    const tick = () => {
+      if (!this.#alive) return;
+      const target = this.#resolveFirstChild();
+      if (target && !this.#targets.has(target)) {
+        this.#applyTraitsToElement(target, traitTokens);
+        return;
+      }
+      if (attempt < 2) {
+        this.#retryApplyFirstChild(traitTokens, attempt + 1);
+      }
+    };
+    if (attempt === 0) queueMicrotask(tick);
+    else requestAnimationFrame(tick);
   }
 
   #destroyControllersFor(target: HTMLElement, controllers: ControllerMap): void {

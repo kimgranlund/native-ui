@@ -10,15 +10,15 @@
 
 | Attribute | Values |
 |-----------|--------|
+| `aside` | _(boolean)_ |
+| `resizing` | _(boolean)_ |
 | `padding` | `none`, `regular`, `relaxed`, `tight` |
 | `dividers` | _(boolean)_ |
 | `bordered` | _(boolean)_ |
 | `show-scrollbar` | _(boolean)_ |
 | `scrollable` | _(boolean)_ |
 | `fade` | _(boolean)_ |
-| `aside` | _(boolean)_ |
 | `variant` | _(boolean)_ |
-| `resizing` | _(boolean)_ |
 
 ## CSS Tokens
 

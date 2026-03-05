@@ -15,12 +15,13 @@ import { uid } from '../../core/uid.ts';
  * @attr {number} per-view - Number of slides visible at once
  * @attr {string} gap - Gap between slides
  * @attr {boolean} disabled - Disables keyboard navigation
+ * @attr {number} index - Active slide index (0-based)
  * @fires native:slide-change - Fired when the active slide changes with `{ index, slide }` detail
  */
 export class NSlideshow extends NativeElement {
   static observedAttributes = [
     'direction', 'controls', 'indicators', 'autoplay', 'interval',
-    'loop', 'peek', 'per-view', 'gap', 'disabled',
+    'loop', 'peek', 'per-view', 'gap', 'disabled', 'index',
   ];
 
   #track: HTMLElement | null = null;
@@ -57,6 +58,10 @@ export class NSlideshow extends NativeElement {
 
   get index(): number {
     return this.#activeIndex.value;
+  }
+
+  set index(val: number) {
+    this.goTo(val);
   }
 
   goTo(index: number): void {
@@ -110,6 +115,11 @@ export class NSlideshow extends NativeElement {
           this.#startAutoplay();
         }
         break;
+      case 'index': {
+        const num = parseInt(val ?? '0', 10);
+        if (!isNaN(num)) this.goTo(num);
+        break;
+      }
       case 'loop':
         // WHY: Update prev/next button disabled states when loop changes
         this.#syncControls(this.#activeIndex.value, this.#slideCount.value);

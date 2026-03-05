@@ -1,0 +1,22 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  n-audio                                                 │
+     │  Audio container. CSS-only — no JS.                      │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* ── Base ── */
+
+  :where(n-audio) {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: var(--n-radius);
+  }
+
+  :where(n-audio) > :where(audio) {
+    display: block;
+    width: 100%;
+  }
+
+}

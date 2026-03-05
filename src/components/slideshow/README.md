@@ -50,12 +50,7 @@ Public `--n-*` custom properties consumed by this component:
 | `per-view` | `number` | Number of slides visible at once |
 | `gap` | `string` | Gap between slides |
 | `disabled` | `boolean` | Disables keyboard navigation |
-
-### Properties
-
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `index` | `number` | yes |  |
+| `index` | `number` | Active slide index (0-based) |
 
 ### Methods
 

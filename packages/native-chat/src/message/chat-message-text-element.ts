@@ -25,6 +25,7 @@ export class NChatMessageText extends NativeElement {
   #format = signal<'markdown' | 'plain'>('markdown');
   #content = signal('');
   #outputEl: HTMLDivElement | null = null;
+  #renderTimer = 0;
 
   // ── Public API ──
 
@@ -75,13 +76,20 @@ export class NChatMessageText extends NativeElement {
         if (fmt === 'plain') {
           this.#outputEl.textContent = raw;
         } else {
-          this.#outputEl.innerHTML = renderMarkdown(raw);
+          // Debounce markdown renders during rapid streaming updates
+          cancelAnimationFrame(this.#renderTimer);
+          this.#renderTimer = requestAnimationFrame(() => {
+            if (this.#outputEl) {
+              this.#outputEl.innerHTML = sanitizeHtml(renderMarkdown(raw));
+            }
+          });
         }
       });
     });
   }
 
   teardown(): void {
+    cancelAnimationFrame(this.#renderTimer);
     this.#outputEl = null;
     super.teardown();
   }

@@ -111,20 +111,58 @@ describe('NativeElement — deferChildren', () => {
     expect(el.deferCalled).toBe(true);
   });
 
-  it('defers to microtask when no children', async () => {
+  it('defers and retries when no children', async () => {
     const el = document.createElement('test-defer-element') as TestDeferElement;
     document.body.appendChild(el);
     expect(el.deferCalled).toBe(false);
-    await new Promise(resolve => queueMicrotask(resolve));
+    // WHY: deferChildren now retries (microtask → RAF → RAF) when no children.
+    // Await the ready promise which resolves after all defers settle.
+    await el.ready;
     expect(el.deferCalled).toBe(true);
   });
 
-  it('does not run deferred fn if disconnected before microtask', async () => {
+  it('does not run deferred fn if disconnected before retries complete', async () => {
     const el = document.createElement('test-defer-element') as TestDeferElement;
     document.body.appendChild(el);
     el.remove();
+    // Wait enough for the retry chain to have run
     await new Promise(resolve => queueMicrotask(resolve));
+    await new Promise(resolve => requestAnimationFrame(resolve));
+    await new Promise(resolve => requestAnimationFrame(resolve));
     expect(el.deferCalled).toBe(false);
+  });
+});
+
+describe('NativeElement — renewable ready', () => {
+  it('resolves ready on connect', async () => {
+    const el = document.createElement('test-n-element') as TestElement;
+    document.body.appendChild(el);
+    await el.ready;
+    expect(el.setupCount).toBe(1);
+  });
+
+  it('renews ready promise on disconnect + reconnect', async () => {
+    const el = document.createElement('test-n-element') as TestElement;
+    document.body.appendChild(el);
+    const firstReady = el.ready;
+    await firstReady;
+    el.remove();
+    document.body.appendChild(el);
+    const secondReady = el.ready;
+    expect(secondReady).not.toBe(firstReady);
+    await secondReady;
+    expect(el.setupCount).toBe(2);
+  });
+
+  it('old ready stays resolved after reconnect', async () => {
+    const el = document.createElement('test-n-element') as TestElement;
+    document.body.appendChild(el);
+    const firstReady = el.ready;
+    await firstReady;
+    el.remove();
+    document.body.appendChild(el);
+    // Old promise should still be resolved
+    await firstReady;
   });
 });
 

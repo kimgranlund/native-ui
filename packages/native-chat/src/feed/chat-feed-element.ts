@@ -130,9 +130,6 @@ export class NChatFeed extends NativeElement {
     this.#observer = new MutationObserver(this.#onChildrenChanged);
     this.#observer.observe(this, { childList: true, subtree: true });
 
-    // Catch internal message-action events and re-dispatch with feed context
-    this.addEventListener('native:message-action', this.#onMessageAction);
-
     // Initialize virtualization if attribute is present
     if (this.hasAttribute('virtual')) {
       this.#enableVirtual();
@@ -141,7 +138,6 @@ export class NChatFeed extends NativeElement {
 
   teardown(): void {
     this.removeEventListener('scroll', this.#onScroll);
-    this.removeEventListener('native:message-action', this.#onMessageAction);
     this.#observer?.disconnect();
     this.#observer = null;
     this.#disableVirtual();
@@ -258,10 +254,4 @@ export class NChatFeed extends NativeElement {
     }
   };
 
-  // ── Event coordination ──
-
-  #onMessageAction = (_e: Event): void => {
-    // Let the event bubble — feed doesn't intercept, just enriches if needed.
-    // Consumers listen on the feed for all message actions.
-  };
 }

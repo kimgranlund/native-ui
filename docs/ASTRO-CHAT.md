@@ -41,7 +41,7 @@ import { registerAllTraits } from '@nonoun/native-ui';
 registerAllTraits(); // optional — only if using <n-controller>
 ```
 
-`@nonoun/native-chat/register` registers 11 chat elements + 8 dogfooded core elements (`n-button`, `n-textarea`, `n-icon`, `n-toolbar`, `n-dialog`, `n-card`, `n-listbox`, `n-option`) + 11 Phosphor icons used internally.
+`@nonoun/native-chat/register` registers 11 chat elements + 11 dogfooded core elements (`n-button`, `n-textarea`, `n-icon`, `n-toolbar`, `n-dialog`, `n-card`, `n-listbox`, `n-option`, `n-option-group`, `n-option-group-header`, `n-select`) + 11 Phosphor icons used internally.
 
 ---
 

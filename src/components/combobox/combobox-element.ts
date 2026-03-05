@@ -225,8 +225,9 @@ export class NCombobox extends FormAssociable(NativeElement) {
     super.setup();
     this.#popover = new PopoverController(this);
 
-    // WHY: Detect data-driven mode — if options or src is present, stamp our own children
-    this.#dataMode = this.hasAttribute('options') || this.hasAttribute('src');
+    // WHY: Detect data-driven mode — if options or src is present, stamp our own children.
+    // Also activate when there are zero children (zero-config: bare <n-combobox></n-combobox> must render).
+    this.#dataMode = this.hasAttribute('options') || this.hasAttribute('src') || this.children.length === 0;
 
     if (this.#dataMode) {
       // Seed signals from attributes before stamping

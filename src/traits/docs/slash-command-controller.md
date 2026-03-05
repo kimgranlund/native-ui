@@ -29,7 +29,7 @@ new SlashCommandController(host: HTMLElement, options?: SlashCommandOptions)
 | Event | Detail |
 |-------|--------|
 | `native:slash-query` | `{ query, commands }` |
-| `native:slash-select` | `{ command }` |
+| `native:slash-select` | `{ command, action }` |
 
 ## Methods
 

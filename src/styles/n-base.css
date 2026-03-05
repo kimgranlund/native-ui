@@ -27,6 +27,31 @@
     display: none;
   }
 
+  /* ── Control Text Selection ── */
+  /* WHY: Interactive and display components should not have selectable text.
+     Real specificity (0,0,1+) ensures this beats :where() component defaults.
+     Opt in with [user-selectable] on any element that needs text selection. */
+
+  :where(
+    n-button, n-select, n-combobox, n-command,
+    n-checkbox, n-radio, n-switch, n-range,
+    n-segmented-control, n-tabs, n-tab,
+    n-listbox, n-option, n-option-group, n-option-group-header,
+    n-badge, n-kbd, n-avatar,
+    n-breadcrumb, n-pagination, n-pagination-dots,
+    n-accordion, n-calendar, n-tree,
+    n-icon, n-tooltip,
+    n-field, n-input-otp,
+    n-sidebar-nav, n-sidebar-nav-item, n-sidebar-group-header,
+    n-header, n-footer, n-toolbar
+  ) {
+    user-select: none;
+  }
+
+  [user-selectable] {
+    user-select: text;
+  }
+
   /* ── Document Defaults ── */
 
   :where(native-app-spa),

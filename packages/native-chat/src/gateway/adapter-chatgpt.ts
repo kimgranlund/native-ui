@@ -5,11 +5,12 @@ import type {
   ClientMetadataResponse,
   GatewayModel,
   GatewayHealth,
+  GatewayStreamEvent,
   SendMessageResponse,
   SendMessageStreamChunk,
   SendTransportMode,
 } from './types';
-import { createRequestId, fetchWithRetry, GatewayRequestError, parseJsonResponse } from './runtime';
+import { createRequestId, DEFAULT_RETRY_DELAYS_MS, fetchWithRetry, GatewayRequestError, parseSseEvent, parseJsonResponse } from './runtime';
 
 interface OpenAiGatewayAdapterConfig {
   clientId: string;
@@ -34,8 +35,6 @@ interface OpenAiChatCompletionChoice {
 interface OpenAiChatCompletionResponse {
   choices?: OpenAiChatCompletionChoice[];
 }
-
-const RETRY_DELAYS_MS = [1000, 2000, 4000];
 
 export class OpenAiGatewayAdapter implements GatewayAdapter {
   private readonly clientId: string;
@@ -111,7 +110,7 @@ export class OpenAiGatewayAdapter implements GatewayAdapter {
     requestId?: string;
     onChunk?: (chunk: SendMessageStreamChunk) => void;
     onMode?: (mode: SendTransportMode, contentType: string) => void;
-    onStreamEvent?: (event: import('./types').GatewayStreamEvent) => void;
+    onStreamEvent?: (event: GatewayStreamEvent) => void;
   }): Promise<SendMessageResponse> {
     const requestId = params.requestId ?? createRequestId();
     const response = await this.request({
@@ -126,6 +125,7 @@ export class OpenAiGatewayAdapter implements GatewayAdapter {
         },
         body: JSON.stringify(this.buildRequestPayload(params.messages, params.query, true, params.model)),
       },
+      noRetry: true,
     });
 
     const contentType = (response.headers.get('content-type') ?? '').toLowerCase();
@@ -137,26 +137,45 @@ export class OpenAiGatewayAdapter implements GatewayAdapter {
 
     params.onMode?.('json', contentType);
     params.onStreamEvent?.({ phase: 'start', mode: 'json', contentType });
-    return this.sendMessage({ ...params, requestId });
+    const payload = await parseJsonResponse<OpenAiChatCompletionResponse>(response, requestId);
+    const message = payload.choices?.[0]?.message?.content?.trim() || 'No response returned.';
+    const result: SendMessageResponse = {
+      role: 'assistant',
+      message,
+      datetime: Date.now(),
+      partial: false,
+    };
+    params.onChunk?.({ delta: message, fullMessage: message, role: 'assistant', datetime: result.datetime ?? Date.now(), done: true });
+    params.onStreamEvent?.({ phase: 'complete', mode: 'json', contentType, fullMessage: message });
+    return result;
   }
 
   async checkHealth(params?: { signal?: AbortSignal; requestId?: string }): Promise<GatewayHealth> {
     const requestId = params?.requestId ?? createRequestId();
     const startedAt = performance.now();
-    const response = await this.request({
-      url: `${this.baseUrl}/models`,
-      init: {
-        method: 'GET',
-        signal: params?.signal,
+    try {
+      const response = await this.request({
+        url: `${this.baseUrl}/models`,
+        init: {
+          method: 'GET',
+          signal: params?.signal,
+          requestId,
+        },
+      });
+      return {
+        healthy: response.ok,
         requestId,
-      },
-    });
-    return {
-      healthy: response.ok,
-      requestId,
-      status: response.status,
-      durationMs: Math.round(performance.now() - startedAt),
-    };
+        status: response.status,
+        durationMs: Math.round(performance.now() - startedAt),
+      };
+    } catch (err) {
+      return {
+        healthy: false,
+        requestId,
+        status: err instanceof GatewayRequestError ? err.status : 0,
+        durationMs: Math.round(performance.now() - startedAt),
+      };
+    }
   }
 
   async getClientMetadata(): Promise<ClientMetadataResponse> {
@@ -205,13 +224,10 @@ export class OpenAiGatewayAdapter implements GatewayAdapter {
     return payload;
   }
 
-  private mapMessages(messages: ChatMessage[], query: string): Array<{ role: 'system' | 'user' | 'assistant'; content: string }> {
+  private mapMessages(messages: ChatMessage[], _query: string): Array<{ role: 'system' | 'user' | 'assistant'; content: string }> {
     const mapped: Array<{ role: 'system' | 'user' | 'assistant'; content: string }> = [];
     if (this.system) {
-      mapped.push({
-        role: 'system',
-        content: this.system,
-      });
+      mapped.push({ role: 'system', content: this.system });
     }
     mapped.push(
       ...messages
@@ -222,9 +238,6 @@ export class OpenAiGatewayAdapter implements GatewayAdapter {
           content: message.message,
         })),
     );
-    if (!mapped.length || mapped[mapped.length - 1]?.role !== 'user') {
-      mapped.push({ role: 'user', content: query });
-    }
     return mapped;
   }
 
@@ -232,7 +245,7 @@ export class OpenAiGatewayAdapter implements GatewayAdapter {
     response: Response,
     requestId: string,
     onChunk?: (chunk: SendMessageStreamChunk) => void,
-    onStreamEvent?: (event: import('./types').GatewayStreamEvent) => void,
+    onStreamEvent?: (event: GatewayStreamEvent) => void,
     contentType?: string,
   ): Promise<SendMessageResponse> {
     if (!response.body) {
@@ -251,70 +264,76 @@ export class OpenAiGatewayAdapter implements GatewayAdapter {
     const datetime = Date.now();
     let complete = false;
 
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true }).replace(/\r\n/g, '\n');
+    try {
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true }).replace(/\r\n/g, '\n');
 
-      let boundary = buffer.indexOf('\n\n');
-      while (boundary !== -1) {
-        const rawEvent = buffer.slice(0, boundary);
-        buffer = buffer.slice(boundary + 2);
-        boundary = buffer.indexOf('\n\n');
+        let boundary = buffer.indexOf('\n\n');
+        while (boundary !== -1) {
+          const rawEvent = buffer.slice(0, boundary);
+          buffer = buffer.slice(boundary + 2);
+          boundary = buffer.indexOf('\n\n');
 
-        const parsed = this.parseSseEvent(rawEvent);
-        if (!parsed) continue;
-        if (parsed.data === '[DONE]') {
-          complete = true;
-          continue;
-        }
+          const parsed = parseSseEvent(rawEvent);
+          if (!parsed) continue;
+          if (parsed.data === '[DONE]') {
+            complete = true;
+            continue;
+          }
 
-        let data: Record<string, unknown> = {};
-        try {
-          data = JSON.parse(parsed.data) as Record<string, unknown>;
-        } catch {
-          continue;
-        }
+          let data: Record<string, unknown> = {};
+          try {
+            data = JSON.parse(parsed.data) as Record<string, unknown>;
+          } catch {
+            continue;
+          }
 
-        const errorPayload = data.error as Record<string, unknown> | undefined;
-        if (errorPayload) {
-          const messageText =
-            (typeof errorPayload.message === 'string' && errorPayload.message) ||
-            (typeof data.message === 'string' && data.message) ||
-            'OpenAI stream error';
-          onStreamEvent?.({ phase: 'error', mode: 'sse', contentType, message: messageText });
-          throw new GatewayRequestError({
-            message: messageText,
-            kind: 'server',
-            requestId,
-            status: response.status,
-            body: parsed.data,
-          });
-        }
+          const errorPayload = data.error as Record<string, unknown> | undefined;
+          if (errorPayload) {
+            const messageText =
+              (typeof errorPayload.message === 'string' && errorPayload.message) ||
+              (typeof data.message === 'string' && data.message) ||
+              'OpenAI stream error';
+            onStreamEvent?.({ phase: 'error', mode: 'sse', contentType, message: messageText });
+            throw new GatewayRequestError({
+              message: messageText,
+              kind: 'server',
+              requestId,
+              status: response.status,
+              body: parsed.data,
+            });
+          }
 
-        const choices = Array.isArray(data.choices) ? (data.choices as Array<Record<string, unknown>>) : [];
-        const first = choices[0];
-        const deltaNode = first?.delta as Record<string, unknown> | undefined;
-        const deltaFromChatCompletions = typeof deltaNode?.content === 'string' ? deltaNode.content : '';
-        const deltaFromResponsesApi = typeof data.delta === 'string' ? data.delta : '';
-        const deltaText = deltaFromChatCompletions || deltaFromResponsesApi;
-        if (deltaText) {
-          message += deltaText;
-          onChunk?.({
-            delta: deltaText,
-            fullMessage: message,
-            role: 'assistant',
-            datetime,
-            done: false,
-          });
-          onStreamEvent?.({ phase: 'delta', mode: 'sse', contentType, delta: deltaText, fullMessage: message });
-        }
+          const choices = Array.isArray(data.choices) ? (data.choices as Array<Record<string, unknown>>) : [];
+          const first = choices[0];
+          const deltaNode = first?.delta as Record<string, unknown> | undefined;
+          const deltaFromChatCompletions = typeof deltaNode?.content === 'string' ? deltaNode.content : '';
+          const deltaFromResponsesApi = typeof data.delta === 'string' ? data.delta : '';
+          const deltaText = deltaFromChatCompletions || deltaFromResponsesApi;
+          if (deltaText) {
+            message += deltaText;
+            onChunk?.({
+              delta: deltaText,
+              fullMessage: message,
+              role: 'assistant',
+              datetime,
+              done: false,
+            });
+            onStreamEvent?.({ phase: 'delta', mode: 'sse', contentType, delta: deltaText, fullMessage: message });
+          }
 
-        const finishReason = typeof first?.finish_reason === 'string' ? first.finish_reason : null;
-        if (finishReason && finishReason !== 'null') {
-          complete = true;
+          const finishReason = typeof first?.finish_reason === 'string' ? first.finish_reason : null;
+          if (finishReason && finishReason !== 'null') {
+            complete = true;
+          }
         }
       }
+      // Flush decoder
+      buffer += decoder.decode();
+    } finally {
+      reader.releaseLock();
     }
 
     if (!message.trim()) {
@@ -344,23 +363,12 @@ export class OpenAiGatewayAdapter implements GatewayAdapter {
     };
   }
 
-  private parseSseEvent(raw: string): { event: string; data: string } | null {
-    const lines = raw.split('\n');
-    let event = 'message';
-    const dataLines: string[] = [];
-    for (const line of lines) {
-      if (line.startsWith('event:')) event = line.slice(6).trim();
-      if (line.startsWith('data:')) dataLines.push(line.slice(5).trimStart());
-    }
-    if (!dataLines.length) return null;
-    return { event, data: dataLines.join('\n') };
-  }
-
-  private request(options: { url: string; init: RequestInit & { requestId: string } }): Promise<Response> {
+  private request(options: { url: string; init: RequestInit & { requestId: string }; noRetry?: boolean }): Promise<Response> {
     return fetchWithRetry({
       url: options.url,
       init: options.init,
-      retryPolicy: { delaysMs: RETRY_DELAYS_MS },
+      noRetry: options.noRetry,
+      retryPolicy: { delaysMs: DEFAULT_RETRY_DELAYS_MS },
       auth: {
         token: this.apiKey,
         headerName: 'Authorization',

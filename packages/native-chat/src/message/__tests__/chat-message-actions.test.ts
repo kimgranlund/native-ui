@@ -24,7 +24,7 @@ afterEach(() => {
 
 describe('n-chat-message actions (T0046)', () => {
   it('stamps default assistant actions', () => {
-    const el = create({ role: 'assistant' });
+    const el = create({ 'data-role': 'assistant' });
     const toolbar = findToolbar(el);
     expect(toolbar).not.toBeNull();
 
@@ -34,7 +34,7 @@ describe('n-chat-message actions (T0046)', () => {
   });
 
   it('stamps default user actions', () => {
-    const el = create({ role: 'user' });
+    const el = create({ 'data-role': 'user' });
     const toolbar = findToolbar(el);
     expect(toolbar).not.toBeNull();
 
@@ -44,12 +44,12 @@ describe('n-chat-message actions (T0046)', () => {
   });
 
   it('actions="none" suppresses toolbar', () => {
-    const el = create({ role: 'assistant', actions: 'none' });
+    const el = create({ 'data-role': 'assistant', actions: 'none' });
     expect(findToolbar(el)).toBeNull();
   });
 
   it('custom actions list renders only specified actions', () => {
-    const el = create({ role: 'assistant', actions: 'copy,retry' });
+    const el = create({ 'data-role': 'assistant', actions: 'copy,retry' });
     const toolbar = findToolbar(el)!;
     const buttons = toolbar.querySelectorAll('[data-action]');
     const actions = Array.from(buttons).map((b) => b.getAttribute('data-action'));
@@ -57,7 +57,7 @@ describe('n-chat-message actions (T0046)', () => {
   });
 
   it('default actions-style="icon" renders icons without text', () => {
-    const el = create({ role: 'assistant', actions: 'copy' });
+    const el = create({ 'data-role': 'assistant', actions: 'copy' });
     const toolbar = findToolbar(el)!;
     const btn = toolbar.querySelector('[data-action="copy"]')!;
     expect(btn.querySelector('n-icon')).not.toBeNull();
@@ -70,7 +70,7 @@ describe('n-chat-message actions (T0046)', () => {
   });
 
   it('actions-style="label" renders text without icons', () => {
-    const el = create({ role: 'assistant', actions: 'copy', 'actions-style': 'label', 'actions-position': 'inside' });
+    const el = create({ 'data-role': 'assistant', actions: 'copy', 'actions-style': 'label', 'actions-position': 'inside' });
     const btn = el.querySelector('[data-action="copy"]')!;
     expect(btn.querySelector('n-icon')).toBeNull();
     const textNodes = Array.from(btn.childNodes).filter(
@@ -80,7 +80,7 @@ describe('n-chat-message actions (T0046)', () => {
   });
 
   it('actions-style="icon-label" renders both icon and text', () => {
-    const el = create({ role: 'assistant', actions: 'copy', 'actions-style': 'icon-label', 'actions-position': 'inside' });
+    const el = create({ 'data-role': 'assistant', actions: 'copy', 'actions-style': 'icon-label', 'actions-position': 'inside' });
     const btn = el.querySelector('[data-action="copy"]')!;
     expect(btn.querySelector('n-icon')).not.toBeNull();
     const textNodes = Array.from(btn.childNodes).filter(
@@ -91,7 +91,7 @@ describe('n-chat-message actions (T0046)', () => {
 
   it('slot="actions" child prevents auto-stamping', () => {
     const el = document.createElement('n-chat-message');
-    el.setAttribute('role', 'assistant');
+    el.setAttribute('data-role', 'assistant');
     const customToolbar = document.createElement('n-toolbar');
     customToolbar.setAttribute('slot', 'actions');
     el.appendChild(customToolbar);
@@ -102,7 +102,7 @@ describe('n-chat-message actions (T0046)', () => {
   });
 
   it('fires native:message-action on action press', () => {
-    const el = create({ role: 'assistant', 'message-id': 'msg-1' });
+    const el = create({ 'data-role': 'assistant', 'message-id': 'msg-1' });
     const handler = vi.fn();
     el.addEventListener('native:message-action', handler);
 
@@ -144,7 +144,7 @@ describe('ACTION_REGISTRY', () => {
 
 describe('n-chat-message actions-position (T0062)', () => {
   it('defaults to below — toolbar is a child with popover attribute', () => {
-    const el = create({ role: 'assistant' });
+    const el = create({ 'data-role': 'assistant' });
     const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
     expect(toolbar).not.toBeNull();
     expect(toolbar!.getAttribute('popover')).toBe('manual');
@@ -152,7 +152,7 @@ describe('n-chat-message actions-position (T0062)', () => {
   });
 
   it('actions-position="inside" keeps toolbar inside without popover', () => {
-    const el = create({ role: 'assistant', 'actions-position': 'inside' });
+    const el = create({ 'data-role': 'assistant', 'actions-position': 'inside' });
     const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
     expect(toolbar).not.toBeNull();
     expect(toolbar!.parentElement).toBe(el);
@@ -160,7 +160,7 @@ describe('n-chat-message actions-position (T0062)', () => {
   });
 
   it('actions-position="below" places toolbar as child with popover', () => {
-    const el = create({ role: 'assistant', 'actions-position': 'below' });
+    const el = create({ 'data-role': 'assistant', 'actions-position': 'below' });
     const toolbar = el.querySelector('n-toolbar[data-role="actions"]');
     expect(toolbar).not.toBeNull();
     expect(toolbar!.getAttribute('popover')).toBe('manual');
@@ -168,13 +168,13 @@ describe('n-chat-message actions-position (T0062)', () => {
   });
 
   it('actionsPosition property reflects to attribute', () => {
-    const el = create({ role: 'assistant' }) as any;
+    const el = create({ 'data-role': 'assistant' }) as any;
     el.actionsPosition = 'below';
     expect(el.getAttribute('actions-position')).toBe('below');
   });
 
   it('changing actions-position from below to inside removes popover', () => {
-    const el = create({ role: 'assistant', 'actions-position': 'below' }) as any;
+    const el = create({ 'data-role': 'assistant', 'actions-position': 'below' }) as any;
     // Verify toolbar has popover
     expect(el.querySelector('n-toolbar[data-role="actions"][popover]')).not.toBeNull();
 
@@ -188,7 +188,7 @@ describe('n-chat-message actions-position (T0062)', () => {
 
 describe('n-chat-message partial status (T0049)', () => {
   it('partial status adds continue action', () => {
-    const el = create({ role: 'assistant', status: 'partial' });
+    const el = create({ 'data-role': 'assistant', status: 'partial' });
     const toolbar = findToolbar(el);
     expect(toolbar).not.toBeNull();
     const continueBtn = toolbar!.querySelector('[data-action="continue"]');
@@ -196,7 +196,7 @@ describe('n-chat-message partial status (T0049)', () => {
   });
 
   it('continue button fires native:continue-request', () => {
-    const el = create({ role: 'assistant', status: 'partial', 'message-id': 'msg-2' });
+    const el = create({ 'data-role': 'assistant', status: 'partial', 'message-id': 'msg-2' });
     const handler = vi.fn();
     el.addEventListener('native:continue-request', handler);
 
@@ -216,7 +216,7 @@ describe('n-chat-message partial status (T0049)', () => {
   });
 
   it('non-partial status does not include continue action by default', () => {
-    const el = create({ role: 'assistant', status: 'sent' });
+    const el = create({ 'data-role': 'assistant', status: 'sent' });
     const toolbar = findToolbar(el);
     expect(toolbar!.querySelector('[data-action="continue"]')).toBeNull();
   });

@@ -18,9 +18,9 @@ describe('A2UI Converter', () => {
       expect(result.warnings).toHaveLength(0);
       expect(result.orphans).toHaveLength(0);
       expect(result.root.id).toBe('root');
-      expect(result.root.tag).toBe('div');
+      expect(result.root.tag).toBe('n-stack');
       expect(result.root.children).toHaveLength(1);
-      expect(result.root.children![0].tag).toBe('span');
+      expect(result.root.children![0].tag).toBe('n-text');
       expect(result.root.children![0].textContent).toBe('Hello World');
     });
 
@@ -153,9 +153,12 @@ describe('A2UI Converter', () => {
       ];
 
       const result = a2uiToUINode(components);
-      expect(result.root.tag).toBe('img');
-      expect(result.root.attributes?.src).toBe('https://example.com/img.png');
-      expect(result.root.attributes?.alt).toBe('Example');
+      expect(result.root.tag).toBe('n-picture');
+      expect(result.root.children).toHaveLength(1);
+      const innerImg = result.root.children![0];
+      expect(innerImg.tag).toBe('img');
+      expect(innerImg.attributes?.src).toBe('https://example.com/img.png');
+      expect(innerImg.attributes?.alt).toBe('Example');
     });
 
     it('converts Video with url to src and controls', () => {
@@ -164,10 +167,13 @@ describe('A2UI Converter', () => {
       ];
 
       const result = a2uiToUINode(components);
-      expect(result.root.tag).toBe('video');
-      expect(result.root.attributes?.src).toBe('https://example.com/clip.mp4');
-      expect(result.root.attributes?.poster).toBe('https://example.com/thumb.jpg');
-      expect(result.root.attributes?.controls).toBe('');
+      expect(result.root.tag).toBe('n-video');
+      expect(result.root.children).toHaveLength(1);
+      const innerVideo = result.root.children![0];
+      expect(innerVideo.tag).toBe('video');
+      expect(innerVideo.attributes?.src).toBe('https://example.com/clip.mp4');
+      expect(innerVideo.attributes?.poster).toBe('https://example.com/thumb.jpg');
+      expect(innerVideo.attributes?.controls).toBe('');
     });
 
     it('converts AudioPlayer with url to src and controls', () => {
@@ -176,9 +182,12 @@ describe('A2UI Converter', () => {
       ];
 
       const result = a2uiToUINode(components);
-      expect(result.root.tag).toBe('audio');
-      expect(result.root.attributes?.src).toBe('https://example.com/track.mp3');
-      expect(result.root.attributes?.controls).toBe('');
+      expect(result.root.tag).toBe('n-audio');
+      expect(result.root.children).toHaveLength(1);
+      const innerAudio = result.root.children![0];
+      expect(innerAudio.tag).toBe('audio');
+      expect(innerAudio.attributes?.src).toBe('https://example.com/track.mp3');
+      expect(innerAudio.attributes?.controls).toBe('');
     });
 
     it('converts Icon with name', () => {

@@ -34,31 +34,6 @@
     line-height: var(--n-line-height);
   }
 
-  /* ── Vertical orientation ── */
-
-  :where(n-toolbar)[orientation="vertical"] {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  /* ── Padding ── */
-
-  :where(n-toolbar)[padding="none"] { padding: 0; }
-  :where(n-toolbar)[padding="tight"] { padding: calc(var(--n-space) * 1); }
-  :where(n-toolbar)[padding="regular"] { padding: calc(var(--n-space) * 2); }
-  :where(n-toolbar)[padding="relaxed"] { padding: calc(var(--n-space) * 3); }
-
-  /* ── Plain variant ── */
-  /* WHY: Embedded contexts (n-header trailing, chat controls) need
-     toolbar layout + overflow without container chrome. */
-
-  :where(n-toolbar)[variant="plain"] {
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    padding: 0;
-  }
-
   /* WHY: n-button has width:100% for block contexts. Inside a toolbar,
      buttons must shrink-wrap to their content at intrinsic width.
      Items that don't fit go into the overflow menu — no growing or shrinking.
@@ -149,4 +124,28 @@
     display: none;
   }
 
+}
+
+/* ── Attribute API (unlayered — must beat consumer overrides) ── */
+
+/* Vertical orientation */
+:where(n-toolbar)[orientation="vertical"] {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Padding */
+:where(n-toolbar)[padding="none"] { padding: 0; }
+:where(n-toolbar)[padding="tight"] { padding: calc(var(--n-space) * 1); }
+:where(n-toolbar)[padding="regular"] { padding: calc(var(--n-space) * 2); }
+:where(n-toolbar)[padding="relaxed"] { padding: calc(var(--n-space) * 3); }
+
+/* Plain variant */
+/* WHY: Embedded contexts (n-header trailing, chat controls) need
+   toolbar layout + overflow without container chrome. */
+:where(n-toolbar)[variant="plain"] {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }

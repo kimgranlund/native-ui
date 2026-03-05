@@ -12,14 +12,21 @@ export class NativeElement extends HTMLElement {
   #traitUnsub: (() => void) | null = null;
   #alive = false;
   #readyResolve: (() => void) | null = null;
+  #readyPromise: Promise<void>;
+  #pendingDefers = 0;
 
   /** @internal Suppress lifecycle during synchronous reparenting (e.g. PresentController). */
   _reparenting = false;
 
-  /** Resolves after setup() and any deferChildren microtask have completed. */
-  readonly ready: Promise<void> = new Promise(resolve => {
-    this.#readyResolve = resolve;
-  });
+  constructor() {
+    super();
+    this.#readyPromise = new Promise(r => { this.#readyResolve = r; });
+  }
+
+  /** Resolves after setup() and any deferChildren callbacks have completed. Renews on reconnect. */
+  get ready(): Promise<void> {
+    return this.#readyPromise;
+  }
 
   addEffect(fn: () => void): void {
     this.#disposers.push(effect(fn));
@@ -32,13 +39,20 @@ export class NativeElement extends HTMLElement {
     // causes two native:press events per click, immediately opening then closing popovers).
     if (this.#alive) return;
     this.#alive = true;
+    // WHY: Renew the ready promise on each connect so consumers can `await el.ready`
+    // after View Transition reconnect. The old promise (from previous connection) stays
+    // resolved — correct for anyone who stored a reference during that lifecycle.
+    this.#readyPromise = new Promise(r => { this.#readyResolve = r; });
+    this.#pendingDefers = 0;
     this.setup();
     // WHY: Initialize trait controllers after setup() so component wiring runs first
     const traits = this.getAttribute('traits');
     if (traits !== null) this.#initTraitObserver(traits);
-    // WHY: Resolve ready after a microtask so deferChildren callbacks have fired.
-    // Consumers use `await el.ready` instead of whenDefined + rAF hacks.
-    queueMicrotask(() => this.#readyResolve?.());
+    // WHY: If no deferChildren calls were made, resolve ready on next microtask.
+    // If deferChildren was called, #resolveWhenReady gates on #pendingDefers === 0.
+    if (this.#pendingDefers === 0) {
+      queueMicrotask(() => this.#resolveWhenReady());
+    }
   }
 
   disconnectedCallback(): void {
@@ -64,11 +78,43 @@ export class NativeElement extends HTMLElement {
   protected deferChildren(fn: () => void): void {
     if (this.firstChild) {
       fn();
-    } else {
-      queueMicrotask(() => {
-        if (this.isConnected) fn();
-      });
+      return;
     }
+    this.#pendingDefers++;
+    this.#retryDefer(fn, 0);
+  }
+
+  #retryDefer(fn: () => void, attempt: number): void {
+    const tick = () => {
+      if (!this.isConnected || !this.#alive) {
+        this.#pendingDefers--;
+        this.#resolveWhenReady();
+        return;
+      }
+      if (this.firstChild || attempt >= 2) {
+        fn();
+        this.#pendingDefers--;
+        this.#resolveWhenReady();
+        return;
+      }
+      this.#retryDefer(fn, attempt + 1);
+    };
+    if (attempt === 0) queueMicrotask(tick);
+    else requestAnimationFrame(tick);
+  }
+
+  /** Resolve the ready promise once all pending deferChildren callbacks have settled. */
+  #resolveWhenReady(): void {
+    if (this.#pendingDefers === 0 && this.#readyResolve) {
+      this.#readyResolve();
+      this.#readyResolve = null;
+    }
+  }
+
+  /** @internal Renew the ready promise. Called by NController which overrides connectedCallback. */
+  protected renewReady(): void {
+    this.#readyPromise = new Promise(r => { this.#readyResolve = r; });
+    this.#pendingDefers = 0;
   }
 
   attributeChangedCallback(_name: string, _old: string | null, _val: string | null): void {}

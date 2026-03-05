@@ -33,29 +33,30 @@
     border-top: 1px solid var(--n-border-muted);
   }
 
-  /* ── Vertical ── */
+}
 
-  :where(n-divider)[orientation="vertical"] {
-    align-self: stretch;
-    flex-direction: column;
-    justify-content: center;
-    width: auto;
-  }
+/* ── Attribute API (unlayered — must beat consumer overrides) ── */
 
-  /* WHY: Use a centered pseudo-element instead of border-left so the line
-     sits in the middle of the divider's box, not at the start edge. */
-  :where(n-divider)[orientation="vertical"]:empty::after {
-    content: '';
-    align-self: center;
-    height: 100%;
-    border-left: 1px solid var(--n-border-muted);
-  }
+/* Vertical orientation */
+:where(n-divider)[orientation="vertical"] {
+  align-self: stretch;
+  flex-direction: column;
+  justify-content: center;
+  width: auto;
+}
 
-  :where(n-divider)[orientation="vertical"]:not(:empty)::before,
-  :where(n-divider)[orientation="vertical"]:not(:empty)::after {
-    content: '';
-    flex: 1;
-    border-left: 1px solid var(--n-border-muted);
-  }
+/* WHY: Use a centered pseudo-element instead of border-left so the line
+   sits in the middle of the divider's box, not at the start edge. */
+:where(n-divider)[orientation="vertical"]:empty::after {
+  content: '';
+  align-self: center;
+  height: 100%;
+  border-left: 1px solid var(--n-border-muted);
+}
 
+:where(n-divider)[orientation="vertical"]:not(:empty)::before,
+:where(n-divider)[orientation="vertical"]:not(:empty)::after {
+  content: '';
+  flex: 1;
+  border-left: 1px solid var(--n-border-muted);
 }

@@ -5,6 +5,10 @@ export interface SlashCommand {
   label: string;
   description?: string;
   icon?: string;
+  /** Action when selected: 'tag' (styled pill, default), 'insert' (plain text), 'event' (host handles). */
+  action?: 'tag' | 'insert' | 'event';
+  /** Text to insert for action 'insert'. Defaults to label if omitted. */
+  insertText?: string;
 }
 
 export interface SlashCommandOptions {
@@ -282,14 +286,27 @@ export class SlashCommandController {
     const command = this.#commands.find(c => c.value === value);
     if (!command) return;
 
-    // WHY: insertTag before hide — hide() clears #currentSlash which insertTag needs
-    this.#insertTag(command);
+    const action = command.action ?? 'tag';
+
+    // WHY: DOM mutation before hide — hide() clears #currentSlash which the methods need
+    switch (action) {
+      case 'tag':
+        this.#insertTag(command);
+        break;
+      case 'insert':
+        this.#insertText(command);
+        break;
+      case 'event':
+        this.#removeSlashQuery();
+        break;
+    }
+
     this.#hide();
 
     this.host.dispatchEvent(new CustomEvent('native:slash-select', {
       bubbles: true,
       composed: true,
-      detail: { command },
+      detail: { command, action },
     }));
   }
 
@@ -348,6 +365,68 @@ export class SlashCommandController {
     }
 
     // Trigger input event so the host element syncs state (form value, empty state)
+    this.#input.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  /** Replace /query with plain text (for action: 'insert'). */
+  #insertText(command: SlashCommand): void {
+    const editable = this.#getEditable();
+
+    if (!editable || !this.#currentSlash) {
+      const input = this.#input as HTMLInputElement;
+      if ('value' in input) input.value = command.insertText ?? command.label;
+      return;
+    }
+
+    const { slashNode, slashOffset, caretOffset } = this.#currentSlash;
+
+    const replaceRange = document.createRange();
+    replaceRange.setStart(slashNode, slashOffset);
+    replaceRange.setEnd(slashNode, caretOffset);
+    replaceRange.deleteContents();
+
+    const text = command.insertText ?? command.label;
+    const textNode = document.createTextNode(text);
+    replaceRange.insertNode(textNode);
+
+    const sel = window.getSelection();
+    if (sel) {
+      const newRange = document.createRange();
+      newRange.setStartAfter(textNode);
+      newRange.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(newRange);
+    }
+
+    this.#input.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  /** Remove /query text without inserting anything (for action: 'event'). */
+  #removeSlashQuery(): void {
+    const editable = this.#getEditable();
+
+    if (!editable || !this.#currentSlash) {
+      const input = this.#input as HTMLInputElement;
+      if ('value' in input) input.value = input.value.replace(/\/\S*$/, '');
+      return;
+    }
+
+    const { slashNode, slashOffset, caretOffset } = this.#currentSlash;
+
+    const deleteRange = document.createRange();
+    deleteRange.setStart(slashNode, slashOffset);
+    deleteRange.setEnd(slashNode, caretOffset);
+    deleteRange.deleteContents();
+
+    const sel = window.getSelection();
+    if (sel) {
+      const newRange = document.createRange();
+      newRange.setStart(slashNode, slashOffset);
+      newRange.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(newRange);
+    }
+
     this.#input.dispatchEvent(new Event('input', { bubbles: true }));
   }
 

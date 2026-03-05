@@ -1,0 +1,25 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  n-video                                                 │
+     │  Video container with token-aware border-radius and      │
+     │  responsive sizing. CSS-only — no JS.                    │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* ── Base ── */
+
+  :where(n-video) {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: var(--n-radius);
+    background: var(--n-control);
+  }
+
+  :where(n-video) > :where(video) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+}

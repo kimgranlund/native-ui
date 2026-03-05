@@ -1,0 +1,43 @@
+@layer ui {
+
+  /* ╭──────────────────────────────────────────────────────────╮
+     │  n-picture                                                 │
+     │  Image container with token-aware border-radius and      │
+     │  responsive sizing. CSS-only — no JS.                    │
+     ╰──────────────────────────────────────────────────────────╯ */
+
+  /* ── Base ── */
+
+  :where(n-picture) {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: var(--n-radius);
+  }
+
+  :where(n-picture) > :where(img) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  /* ── Fit ── */
+
+  [fit="contain"]:where(n-picture) > :where(img) { object-fit: contain; }
+  [fit="fill"]:where(n-picture) > :where(img) { object-fit: fill; }
+  [fit="none"]:where(n-picture) > :where(img) { object-fit: none; }
+
+  /* ── Aspect ratio ── */
+
+  [aspect="square"]:where(n-picture) > :where(img) { aspect-ratio: 1; }
+  [aspect="video"]:where(n-picture) > :where(img) { aspect-ratio: 16 / 9; }
+  [aspect="photo"]:where(n-picture) > :where(img) { aspect-ratio: 4 / 3; }
+
+  /* ── Inline mode ── */
+
+  [inline]:where(n-picture) {
+    display: inline-block;
+  }
+
+}

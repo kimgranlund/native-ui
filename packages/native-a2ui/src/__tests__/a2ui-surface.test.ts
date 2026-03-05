@@ -131,7 +131,7 @@ describe('A2UI Surface Manager', () => {
 
       const surface = manager.getSurface('test');
       expect(surface!.rendered).toBe(true);
-      expect(container.querySelector('span')?.textContent).toBe('Hello A2UI');
+      expect(container.querySelector('n-text')?.textContent).toBe('Hello A2UI');
     });
 
     it('auto-creates surface if not yet created', () => {
@@ -160,7 +160,7 @@ describe('A2UI Surface Manager', () => {
         },
       }, container);
 
-      expect(container.querySelector('span')?.textContent).toBe('Before');
+      expect(container.querySelector('n-text')?.textContent).toBe('Before');
 
       // Update: change text
       manager.handleMessage({
@@ -172,7 +172,7 @@ describe('A2UI Surface Manager', () => {
         },
       });
 
-      expect(container.querySelector('span')?.textContent).toBe('After');
+      expect(container.querySelector('n-text')?.textContent).toBe('After');
     });
 
     it('handles Button with action', () => {

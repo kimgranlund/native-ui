@@ -55,7 +55,7 @@ describe('A2UI Adapter', () => {
       }, container);
 
       expect(adapter.getSurface('test')?.rendered).toBe(true);
-      expect(container.querySelector('span')?.textContent).toBe('Hello');
+      expect(container.querySelector('n-text')?.textContent).toBe('Hello');
     });
 
     it('processes updateDataModel message', () => {
@@ -248,7 +248,7 @@ describe('A2UI Adapter', () => {
 
       // Verify rendered
       expect(adapter.getSurface('cycle')?.rendered).toBe(true);
-      expect(container.querySelector('span')?.textContent).toBe('Hello');
+      expect(container.querySelector('n-text')?.textContent).toBe('Hello');
 
       // 3. Simulate user action (normally triggered by DOM event)
       kernel.bus.dispatch('a2ui:cycle:btn:greet', {});
@@ -281,7 +281,7 @@ describe('A2UI Adapter', () => {
         },
       });
 
-      expect(container.querySelector('span')?.textContent).toBe('Hello World');
+      expect(container.querySelector('n-text')?.textContent).toBe('Hello World');
 
       // 6. Delete surface
       adapter.receive({ deleteSurface: { surfaceId: 'cycle' } });

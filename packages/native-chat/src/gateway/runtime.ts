@@ -39,6 +39,8 @@ export interface GatewayRetryPolicy {
   jitterRatio?: number;
 }
 
+export const DEFAULT_REQUEST_TIMEOUT_MS = 30_000;
+
 export interface FetchWithRetryOptions {
   url: string;
   init: RequestInit & { requestId: string };
@@ -46,6 +48,10 @@ export interface FetchWithRetryOptions {
   auth?: GatewayAuthConfig;
   defaultHeaders?: Record<string, string>;
   onEvent?: (event: GatewayEvent) => void;
+  /** Request timeout in milliseconds. Defaults to 30000 (30s). */
+  timeoutMs?: number;
+  /** When true, skip all retry logic (useful for streaming requests). */
+  noRetry?: boolean;
 }
 
 export async function fetchWithRetry(options: FetchWithRetryOptions): Promise<Response> {
@@ -103,10 +109,17 @@ async function fetchAttempt(
         mergedHeaders[key] = value;
       }
     }
+    // Apply timeout
+    const timeoutMs = options.timeoutMs ?? DEFAULT_REQUEST_TIMEOUT_MS;
+    const timeoutSignal = AbortSignal.timeout(timeoutMs);
+    const combinedSignal = init.signal
+      ? AbortSignal.any([init.signal, timeoutSignal])
+      : timeoutSignal;
     const response = await fetch(url, {
       ...init,
       credentials: 'include',
       headers: mergedHeaders,
+      signal: combinedSignal,
     });
     const durationMs = Math.round(performance.now() - startedAt);
 
@@ -114,7 +127,7 @@ async function fetchAttempt(
       const body = await response.text();
       const kind = classifyByStatus(response.status);
       const contentType = response.headers.get('content-type') ?? undefined;
-      if ((kind === 'rate-limit' || kind === 'server') && attempt < retryPolicy.delaysMs.length) {
+      if (!options.noRetry && (kind === 'rate-limit' || kind === 'server') && attempt < retryPolicy.delaysMs.length) {
         onEvent?.({
           type: 'request:retry',
           requestId: init.requestId,
@@ -168,7 +181,7 @@ async function fetchAttempt(
     if (error instanceof DOMException && error.name === 'AbortError') throw error;
     if (error instanceof GatewayRequestError) throw error;
     const durationMs = Math.round(performance.now() - startedAt);
-    if (attempt < retryPolicy.delaysMs.length) {
+    if (!options.noRetry && attempt < retryPolicy.delaysMs.length) {
       onEvent?.({
         type: 'request:retry',
         requestId: init.requestId,
@@ -250,6 +263,21 @@ function withJitter(ms: number, jitterRatio: number): number {
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export function parseSseEvent(raw: string): { event: string; data: string } | null {
+  const lines = raw.split('\n');
+  let event = 'message';
+  const dataLines: string[] = [];
+  for (const line of lines) {
+    if (line.startsWith(':')) continue; // SSE comment
+    if (line.startsWith('event:')) event = line.slice(6).trim();
+    else if (line.startsWith('data:')) dataLines.push(line.slice(5).replace(/^ /, ''));
+  }
+  if (!dataLines.length) return null;
+  return { event, data: dataLines.join('\n') };
+}
+
+export const DEFAULT_RETRY_DELAYS_MS = [1000, 2000, 4000];
 
 function extractGatewayErrorMessage(status: number, body: string, contentType?: string): string {
   const fallback = `Request failed with ${status}`;
