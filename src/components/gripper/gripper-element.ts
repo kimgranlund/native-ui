@@ -53,6 +53,8 @@ export class NGripper extends NativeElement {
   #anchorId = '';
   #ctrl: ResizeController | null = null;
   #isGripping = false;
+  #cachedMode = '';
+  #cachedPlacement = '';
 
   // ── Lifecycle ──
 
@@ -225,6 +227,10 @@ export class NGripper extends NativeElement {
     if (!this.#target) return;
 
     this.#isGripping = true;
+    // Cache attribute reads for the duration of the grip — avoids
+    // repeated getAttribute() on every pointermove in the hot path.
+    this.#cachedMode = this.getAttribute('mode') ?? 'resize-horizontal';
+    this.#cachedPlacement = this.getAttribute('placement') ?? 'end';
     document.addEventListener('keydown', this.#onArrowKey);
 
     const ce = e as CustomEvent;
@@ -232,8 +238,8 @@ export class NGripper extends NativeElement {
       bubbles: true,
       composed: true,
       detail: {
-        mode: this.getAttribute('mode') ?? 'resize-horizontal',
-        placement: this.getAttribute('placement') ?? 'end',
+        mode: this.#cachedMode,
+        placement: this.#cachedPlacement,
         startValue: { width: ce.detail.width, height: ce.detail.height },
       },
     }));
@@ -248,8 +254,8 @@ export class NGripper extends NativeElement {
       bubbles: true,
       composed: true,
       detail: {
-        mode: this.getAttribute('mode') ?? 'resize-horizontal',
-        placement: this.getAttribute('placement') ?? 'end',
+        mode: this.#cachedMode,
+        placement: this.#cachedPlacement,
         value: { width: ce.detail.width, height: ce.detail.height },
         delta: ce.detail.delta ?? { dx: 0, dy: 0 },
       },
@@ -268,8 +274,8 @@ export class NGripper extends NativeElement {
       bubbles: true,
       composed: true,
       detail: {
-        mode: this.getAttribute('mode') ?? 'resize-horizontal',
-        placement: this.getAttribute('placement') ?? 'end',
+        mode: this.#cachedMode,
+        placement: this.#cachedPlacement,
         value: { width: ce.detail.width, height: ce.detail.height },
       },
     }));
@@ -286,8 +292,8 @@ export class NGripper extends NativeElement {
       bubbles: true,
       composed: true,
       detail: {
-        mode: this.getAttribute('mode') ?? 'resize-horizontal',
-        placement: this.getAttribute('placement') ?? 'end',
+        mode: this.#cachedMode,
+        placement: this.#cachedPlacement,
       },
     }));
   };

@@ -141,6 +141,18 @@ export class NToolbar extends NativeElement {
   #measure(): void {
     if (!this.#moreBtn || !this.#overflowList) return;
 
+    // Vertical toolbars don't overflow horizontally — skip measurement.
+    if (this.getAttribute('orientation') === 'vertical') {
+      for (const child of this.#getContentChildren()) {
+        child.removeAttribute('data-overflow');
+      }
+      this.removeAttribute('data-overflowing');
+      this.removeAttribute('data-measuring');
+      this.#roving.selector = ITEM_SELECTOR_NO_TRIGGER;
+      this.#clearOverflowMenu();
+      return;
+    }
+
     // 0. Fix DOM order — connectedCallback stamps before parser adds children,
     //    so the trigger/listbox may precede content children. Move them to end.
     if (this.lastElementChild !== this.#overflowList) {
@@ -197,8 +209,8 @@ export class NToolbar extends NativeElement {
       return;
     }
 
-    // 7. Overflow detected — exit measurement mode, show more button
-    this.removeAttribute('data-measuring');
+    // 7. Overflow detected — show more button but KEEP measurement mode
+    //    so per-unit widths in step 8 reflect intrinsic sizes (not grown/shrunk).
     this.setAttribute('data-overflowing', '');
 
     // DEV diagnostic: warn if items overflow but no overflow trigger is visible
@@ -213,7 +225,7 @@ export class NToolbar extends NativeElement {
     const moreBtnWidth = this.#moreBtn.offsetWidth;
     const available = contentWidth - moreBtnWidth - gap;
 
-    // 8. Measure per-unit widths
+    // 8. Measure per-unit widths (still in data-measuring mode for intrinsic sizes)
     for (const unit of units) {
       let w = 0;
       for (let i = 0; i < unit.flexItems.length; i++) {
@@ -223,9 +235,12 @@ export class NToolbar extends NativeElement {
       unit.width = w;
     }
 
-    // 9. Priority-based overflow — sort candidates by priority (low first),
-    //    then by reverse DOM order within same priority (later items first).
-    //    Pinned items never overflow.
+    // 9. Exit measurement mode — items return to normal flex sizing
+    this.removeAttribute('data-measuring');
+
+    // 10. Priority-based overflow — sort candidates by priority (low first),
+    //     then by reverse DOM order within same priority (later items first).
+    //     Pinned items never overflow.
     const candidates = units
       .filter(u => !u.pinned)
       .sort((a, b) => {
@@ -244,20 +259,20 @@ export class NToolbar extends NativeElement {
       remaining -= unit.width + gap;
     }
 
-    // 10. Apply data-overflow
+    // 11. Apply data-overflow
     for (const unit of units) {
       if (overflowed.has(unit.el)) {
         unit.el.setAttribute('data-overflow', '');
       }
     }
 
-    // 11. Update roving focus selector (include more button)
+    // 12. Update roving focus selector (include more button)
     this.#roving.selector = ITEM_SELECTOR;
 
-    // 12. Rebuild the overflow menu
+    // 13. Rebuild the overflow menu
     this.#rebuildOverflowMenu();
 
-    // 13. Dispatch diagnostics event
+    // 14. Dispatch diagnostics event
     this.#dispatchOverflowEvent(units, overflowed, contentWidth, totalWidth);
   }
 

@@ -171,6 +171,11 @@ export class ResizeController {
       dy = Math.round(dy / this.step) * this.step;
     }
 
+    // Compute target dimensions from math — avoids forced synchronous layout
+    // that getBoundingClientRect() would cause after style writes.
+    let w = this.#startWidth;
+    let h = this.#startHeight;
+
     if (this.handleMode === 'corner' && this.#activeHandle) {
       const signs = CORNER_SIGNS[this.#activeHandle];
       const effectiveMinW = this.minWidth ?? this.min;
@@ -178,8 +183,8 @@ export class ResizeController {
       const effectiveMinH = this.minHeight ?? this.min;
       const effectiveMaxH = this.maxHeight ?? this.max;
 
-      const w = Math.min(effectiveMaxW, Math.max(effectiveMinW, this.#startWidth + dx * signs.sx));
-      const h = Math.min(effectiveMaxH, Math.max(effectiveMinH, this.#startHeight + dy * signs.sy));
+      w = Math.min(effectiveMaxW, Math.max(effectiveMinW, this.#startWidth + dx * signs.sx));
+      h = Math.min(effectiveMaxH, Math.max(effectiveMinH, this.#startHeight + dy * signs.sy));
 
       this.host.style.width = `${w}px`;
       this.host.style.height = `${h}px`;
@@ -190,21 +195,20 @@ export class ResizeController {
       const edgeDy = dy * sign;
 
       if (this.axis === 'horizontal' || this.axis === 'both') {
-        const w = Math.min(this.max, Math.max(this.min, this.#startWidth + edgeDx));
+        w = Math.min(this.max, Math.max(this.min, this.#startWidth + edgeDx));
         this.host.style.width = `${w}px`;
       }
 
       if (this.axis === 'vertical' || this.axis === 'both') {
-        const h = Math.min(this.max, Math.max(this.min, this.#startHeight + edgeDy));
+        h = Math.min(this.max, Math.max(this.min, this.#startHeight + edgeDy));
         this.host.style.height = `${h}px`;
       }
     }
 
-    const rect = this.host.getBoundingClientRect();
     this.#eventTarget.dispatchEvent(new CustomEvent('native:resize-move', {
       bubbles: true,
       composed: true,
-      detail: { width: rect.width, height: rect.height, handle: this.#activeHandle, delta: { dx, dy } },
+      detail: { width: w, height: h, handle: this.#activeHandle, delta: { dx, dy } },
     }));
   };
 
