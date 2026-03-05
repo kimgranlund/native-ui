@@ -560,6 +560,15 @@ export class DragController {
   #onPointerUp = (_e: PointerEvent): void => {
     if (!this.#dragItem) return;
 
+    // WHY: Release pointer capture BEFORE dispatching native:drop. The consumer's
+    // drop handler may move the drag item in the DOM, which causes the browser to
+    // fire lostpointercapture synchronously. Without this guard, #onLostCapture
+    // re-enters #onPointerUp and triggers a second cleanup mid-handler (T0117).
+    if (this.#pointerId >= 0) {
+      try { this.#dragItem.releasePointerCapture(this.#pointerId); } catch { /* already released */ }
+    }
+    this.#dragItem.removeEventListener('lostpointercapture', this.#onLostCapture);
+
     if (this.#ghost) {
       if (this.mode === 'slot') {
         // WHY: Compute insertBefore from liveItems (excluding dragged item) to match
@@ -759,11 +768,10 @@ export class DragController {
       }
     }
 
-    // Release pointer capture and remove safety-net listener (T0112)
+    // WHY: Pointer capture + lostpointercapture listener are released in #onPointerUp
+    // BEFORE dispatching native:drop (T0117). Only release here for cancel/teardown paths.
     if (this.#dragItem && this.#pointerId >= 0) {
       try { this.#dragItem.releasePointerCapture(this.#pointerId); } catch { /* already released */ }
-    }
-    if (this.#dragItem) {
       this.#dragItem.removeEventListener('lostpointercapture', this.#onLostCapture);
     }
 

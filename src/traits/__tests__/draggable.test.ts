@@ -130,6 +130,29 @@ describe('Draggable — drop mode', () => {
     expect(handler.mock.calls[0][0].detail.fromIndex).toBe(0);
   });
 
+  it('DOM swap in native:drop handler does not trigger double dispatch (T0117)', () => {
+    const el = create();
+    const handler = vi.fn((e: CustomEvent) => {
+      // Simulate a consumer performing a DOM swap in the drop handler
+      const { item, target } = e.detail;
+      if (!target || target === item) return;
+      const placeholder = document.createElement('div');
+      item.before(placeholder);
+      target.before(item);
+      placeholder.replaceWith(target);
+
+      // In a real browser, moving the captured element triggers lostpointercapture.
+      // Simulate that by dispatching the event synchronously during the handler.
+      item.dispatchEvent(new Event('lostpointercapture'));
+    });
+    el.addEventListener('native:drop', handler);
+    items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+    // Must fire exactly once — not double-dispatched from lostpointercapture re-entry
+    expect(handler).toHaveBeenCalledTimes(1);
+  });
+
   it('does not dispatch native:drop without movement', () => {
     const el = create();
     const handler = vi.fn();

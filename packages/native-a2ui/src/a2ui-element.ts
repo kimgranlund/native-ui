@@ -1232,6 +1232,7 @@ export class NA2UI extends NativeElement {
     const tabBar = document.createElement('n-segmented-control') as HTMLElement & { value: string | null };
     tabBar.className = 'a2ui-map-tab-bar';
     tabBar.setAttribute('size', 'xs');
+    tabBar.setAttribute('inline', '');
     tabBar.setAttribute('slot', 'trailing');
     tabBar.value = this.#detailTab;
 
