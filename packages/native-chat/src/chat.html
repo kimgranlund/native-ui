@@ -465,6 +465,58 @@ Step 4: Applying formatting rules...</pre>
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
+    <!-- ── Starter Surface ── -->
+
+    <h2>Starter Surface</h2>
+    <p class="demo-desc">
+      The <code>.n-chat-starter</code> class harmonizes seed + structured input spacing
+      when composed as a starter surface. Add <code>compact</code> for tighter spacing.
+    </p>
+    <n-panel bordered>
+      <div class="demo-grid">
+        <div class="demo-col">
+          <span class="demo-col-label">Default</span>
+          <n-card class="n-chat-starter">
+            <n-body>
+              <n-chat-message-seed id="starter-seeds"></n-chat-message-seed>
+              <n-chat-input-structured
+                question="What would you like help with?"
+                type="single"
+                id="starter-structured"
+              ></n-chat-input-structured>
+            </n-body>
+          </n-card>
+        </div>
+        <div class="demo-col">
+          <span class="demo-col-label">Compact</span>
+          <n-card class="n-chat-starter" compact>
+            <n-body>
+              <n-chat-message-seed id="starter-seeds-compact"></n-chat-message-seed>
+              <n-chat-input-structured
+                question="Quick start"
+                type="single"
+                id="starter-structured-compact"
+              ></n-chat-input-structured>
+            </n-body>
+          </n-card>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-card class="n-chat-starter"&gt;
+  &lt;n-body&gt;
+    &lt;n-chat-message-seed&gt;&lt;/n-chat-message-seed&gt;
+    &lt;n-chat-input-structured
+      question="What would you like help with?"
+      type="single"&gt;
+    &lt;/n-chat-input-structured&gt;
+  &lt;/n-body&gt;
+&lt;/n-card&gt;
+
+&lt;!-- Compact variant --&gt;
+&lt;n-card class="n-chat-starter" compact&gt;
+  ...
+&lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
     <!-- ── GenUI ── -->
 
     <h2>GenUI (Schema → DOM)</h2>
@@ -770,6 +822,42 @@ Visit [MDN](https://developer.mozilla.org) for more.`;
           { value: 'traits', label: 'Composable traits' },
           { value: 'tokens', label: 'CSS token system' },
           { value: 'a11y', label: 'Accessibility' },
+        ];
+      }
+
+      // ── Demo: Starter Surface ──
+
+      const starterSeeds = document.getElementById('starter-seeds');
+      if (starterSeeds) {
+        starterSeeds.options = [
+          { value: 'summarize', label: 'Summarize this page' },
+          { value: 'draft', label: 'Draft a reply' },
+          { value: 'explain', label: 'Explain like I\'m 5' },
+        ];
+      }
+
+      const starterStructured = document.getElementById('starter-structured');
+      if (starterStructured) {
+        starterStructured.options = [
+          { value: 'code', label: 'Code review' },
+          { value: 'writing', label: 'Writing help' },
+          { value: 'research', label: 'Research' },
+        ];
+      }
+
+      const starterSeedsCompact = document.getElementById('starter-seeds-compact');
+      if (starterSeedsCompact) {
+        starterSeedsCompact.options = [
+          { value: 'summarize', label: 'Summarize' },
+          { value: 'draft', label: 'Draft reply' },
+        ];
+      }
+
+      const starterStructuredCompact = document.getElementById('starter-structured-compact');
+      if (starterStructuredCompact) {
+        starterStructuredCompact.options = [
+          { value: 'code', label: 'Code review' },
+          { value: 'writing', label: 'Writing' },
         ];
       }
 

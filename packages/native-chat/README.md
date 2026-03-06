@@ -370,6 +370,46 @@ import type {
 import { renderMarkdown, renderInline, sanitizeHtml } from '@nonoun/native-chat';
 ```
 
+## Starter Surface
+
+Compose seed prompts and structured input into a starter card using the `.n-chat-starter` class. It harmonizes spacing between components — no custom CSS needed.
+
+```html
+<n-card class="n-chat-starter">
+  <n-body>
+    <n-chat-message-seed></n-chat-message-seed>
+    <n-chat-input-structured
+      question="What would you like help with?"
+      type="single">
+    </n-chat-input-structured>
+  </n-body>
+</n-card>
+```
+
+Add `compact` for tighter spacing (sidebars, small cards):
+
+```html
+<n-card class="n-chat-starter" compact>
+  <n-body>
+    <n-chat-message-seed></n-chat-message-seed>
+    <n-chat-input-structured question="Quick start" type="single">
+    </n-chat-input-structured>
+  </n-body>
+</n-card>
+```
+
+### Starter Tokens
+
+| Token | Default | Starter | Compact |
+|-------|---------|---------|---------|
+| `--n-chat-seed-padding-inline` | `var(--n-chat-bubble-padding-inline)` | `0` | `0` |
+| `--n-chat-seed-padding-block` | `var(--n-space)` | `0` | `0` |
+| `--n-chat-seed-gap` | `var(--n-space)` | *(inherited)* | `space × 0.5` |
+| `--n-chat-structured-padding` | `space × 3` | `space × 2` | `space × 1` |
+| `--n-chat-structured-gap` | `space × 2` | `space × 1` | `space × 0.5` |
+
+---
+
 ## Astro Integration
 
 See the [Astro + native-chat-panel Playbook](../../docs/ASTRO-CHAT.md) for the canonical Astro recipe: CSS load order, registration, event wiring, View Transitions, and troubleshooting.

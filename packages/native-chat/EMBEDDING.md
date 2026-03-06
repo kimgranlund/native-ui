@@ -171,6 +171,48 @@ native-chat-panel {
 
 All tokens use `inherit` or `transparent` defaults — the panel renders identically to before unless overridden.
 
+## Starter Surface
+
+Use `.n-chat-starter` to compose seed prompts and structured input into a balanced starter card:
+
+```html
+<n-card class="n-chat-starter">
+  <n-body>
+    <n-chat-message-seed></n-chat-message-seed>
+    <n-chat-input-structured
+      question="What would you like help with?"
+      type="single">
+    </n-chat-input-structured>
+  </n-body>
+</n-card>
+```
+
+For sidebars or compact layouts, add the `compact` attribute:
+
+```html
+<n-card class="n-chat-starter" compact>
+  ...
+</n-card>
+```
+
+The class sets harmonized spacing tokens — seed padding is zeroed (card provides it), structured input padding is tightened. Compact further reduces gaps for constrained spaces.
+
+Populate via JS:
+
+```ts
+const seed = card.querySelector('n-chat-message-seed');
+seed.options = [
+  { value: 'summarize', label: 'Summarize this page' },
+  { value: 'draft', label: 'Draft a reply' },
+];
+
+const structured = card.querySelector('n-chat-input-structured');
+structured.options = [
+  { value: 'code', label: 'Code review' },
+  { value: 'writing', label: 'Writing help' },
+];
+```
+
 ## Recommended Defaults
 
 ```html

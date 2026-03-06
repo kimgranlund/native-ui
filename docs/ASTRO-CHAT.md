@@ -236,51 +236,67 @@ If the chat panel persists across pages (e.g. in a sidebar), wire events once ou
 
 ## 8. Starter Surface (Seeds + Structured Input)
 
-Compose seed prompts and structured input in a starter card:
+Use the `.n-chat-starter` class to compose seed prompts and structured input into a balanced starter card:
 
 ```astro
-<native-chat-panel auto-focus-policy="open-request">
-  <!-- Panel stamps its own feed; seed/structured go inside messages -->
-</native-chat-panel>
+<n-card class="n-chat-starter">
+  <n-body>
+    <n-chat-message-seed id="starter-seeds"></n-chat-message-seed>
+    <n-chat-input-structured
+      question="What would you like help with?"
+      type="single"
+      id="starter-structured">
+    </n-chat-input-structured>
+  </n-body>
+</n-card>
 ```
 
-Populate via JS after panel setup:
+For sidebars or compact layouts, add `compact`:
+
+```astro
+<n-card class="n-chat-starter" compact>
+  <n-body>
+    <n-chat-message-seed id="starter-seeds"></n-chat-message-seed>
+    <n-chat-input-structured question="Quick start" type="single" id="starter-structured">
+    </n-chat-input-structured>
+  </n-body>
+</n-card>
+```
+
+Populate via JS after page load:
 
 ```ts
-const feed = panel.querySelector('n-chat-feed');
-const messages = feed?.querySelector('n-chat-messages');
+document.addEventListener('astro:page-load', () => {
+  const seed = document.getElementById('starter-seeds');
+  if (seed) {
+    seed.options = [
+      { value: 'summarize', label: 'Summarize this page' },
+      { value: 'draft', label: 'Draft a reply' },
+      { value: 'explain', label: 'Explain like I\'m 5' },
+    ];
+  }
 
-// Seed prompt chips
-const seed = document.createElement('n-chat-message-seed');
-seed.setAttribute('options', JSON.stringify([
-  { label: 'Summarize this page', value: 'summarize' },
-  { label: 'Draft a reply', value: 'draft-reply' },
-  { label: 'Explain like I\'m 5', value: 'eli5' },
-]));
-
-messages?.appendChild(seed);
+  const structured = document.getElementById('starter-structured');
+  if (structured) {
+    structured.options = [
+      { value: 'code', label: 'Code review' },
+      { value: 'writing', label: 'Writing help' },
+    ];
+  }
+});
 ```
 
 ### Spacing Tokens
 
-Override seed/structured spacing via CSS custom properties on any ancestor:
+The `.n-chat-starter` class sets these tokens automatically. Override individually if needed:
 
-| Token | Default | Purpose |
-|-------|---------|---------|
-| `--n-chat-seed-gap` | `var(--n-space)` | Gap between seed chip buttons |
-| `--n-chat-seed-padding-block` | `var(--n-space)` | Vertical padding around seed area |
-| `--n-chat-seed-padding-inline` | `var(--n-chat-bubble-padding-inline)` | Horizontal padding |
-| `--n-chat-structured-gap` | `calc(var(--n-space) * 2)` | Gap between structured input sections |
-| `--n-chat-structured-padding` | `calc(var(--n-space) * 3)` | Padding around structured input |
-
-```css
-/* Compact starter surface */
-.my-starter {
-  --n-chat-seed-padding-inline: 0;
-  --n-chat-seed-padding-block: 0;
-  --n-chat-seed-gap: calc(var(--n-space) * 0.5);
-}
-```
+| Token | Default | Starter | Compact |
+|-------|---------|---------|---------|
+| `--n-chat-seed-padding-inline` | `var(--n-chat-bubble-padding-inline)` | `0` | `0` |
+| `--n-chat-seed-padding-block` | `var(--n-space)` | `0` | `0` |
+| `--n-chat-seed-gap` | `var(--n-space)` | *(inherited)* | `space × 0.5` |
+| `--n-chat-structured-padding` | `space × 3` | `space × 2` | `space × 1` |
+| `--n-chat-structured-gap` | `space × 2` | `space × 1` | `space × 0.5` |
 
 ---
 

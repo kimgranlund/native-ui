@@ -846,3 +846,35 @@
   }
 
 }
+
+/* ════════════════════════════════════════════════════
+   .n-chat-starter — Starter surface preset
+   ════════════════════════════════════════════════════
+
+   Harmonizes seed + structured input spacing when composed
+   together as a starter surface (e.g. inside n-card, n-body).
+
+   Add `compact` attribute for tighter spacing (small cards,
+   inline starters, sidebars).
+
+   Usage:
+     <n-card class="n-chat-starter">
+       <n-body>
+         <n-chat-message-seed></n-chat-message-seed>
+         <n-chat-input-structured question="..."></n-chat-input-structured>
+       </n-body>
+     </n-card>
+*/
+
+.n-chat-starter {
+  --n-chat-seed-padding-inline: 0;
+  --n-chat-seed-padding-block: 0;
+  --n-chat-structured-padding: calc(var(--n-space) * 2);
+  --n-chat-structured-gap: var(--n-space);
+}
+
+.n-chat-starter[compact] {
+  --n-chat-seed-gap: calc(var(--n-space) * 0.5);
+  --n-chat-structured-padding: var(--n-space);
+  --n-chat-structured-gap: calc(var(--n-space) * 0.5);
+}
