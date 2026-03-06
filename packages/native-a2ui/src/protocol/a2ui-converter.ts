@@ -333,23 +333,36 @@ function resolveComponent(
     }
   }
 
-  // Select/ChoicePicker: convert ListItem children into data-driven `options` attribute
-  else if ((comp.component === 'Select' || comp.component === 'ChoicePicker') && childIds && childIds.length > 0) {
-    const selectOptions: { value: string; label: string; disabled?: boolean }[] = [];
-    for (const childId of childIds) {
-      const child = index.get(childId);
-      if (child && child.component === 'ListItem') {
-        visited.add(childId);
-        selectOptions.push({
-          value: String(child.value ?? ''),
-          label: String(child.label ?? child.text ?? ''),
-          ...(child.disabled ? { disabled: true } : {}),
-        });
-      }
-    }
-    if (selectOptions.length > 0) {
+  // Select/ChoicePicker: convert to data-driven `options` attribute
+  else if (comp.component === 'Select' || comp.component === 'ChoicePicker') {
+    // Option A: inline options array (strings or objects)
+    if (Array.isArray(comp.options) && comp.options.length > 0) {
+      const selectOptions = (comp.options as unknown[]).map(o =>
+        typeof o === 'string'
+          ? { value: o, label: o }
+          : o as { value: string; label: string; disabled?: boolean },
+      );
       attributes.options = JSON.stringify(selectOptions);
-      attributes.placeholder = comp.label ? String(comp.label) : 'Select\u2026';
+      if (comp.label) attributes.placeholder = String(comp.label);
+    }
+    // Option B: ListItem children
+    else if (childIds && childIds.length > 0) {
+      const selectOptions: { value: string; label: string; disabled?: boolean }[] = [];
+      for (const childId of childIds) {
+        const child = index.get(childId);
+        if (child && child.component === 'ListItem') {
+          visited.add(childId);
+          selectOptions.push({
+            value: String(child.value ?? ''),
+            label: String(child.label ?? child.text ?? ''),
+            ...(child.disabled ? { disabled: true } : {}),
+          });
+        }
+      }
+      if (selectOptions.length > 0) {
+        attributes.options = JSON.stringify(selectOptions);
+        if (comp.label) attributes.placeholder = String(comp.label);
+      }
     }
   } else if (childIds && childIds.length > 0) {
     children = childIds.map((childId) =>

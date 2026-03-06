@@ -362,7 +362,6 @@
         manager.terminateSession(analyticsSession.id);
         surfaceAnalytics.innerHTML = '';
         dotAnalytics.setAttribute('intent', 'neutral');
-        analyticsSession.receive = () => {};
 
         // Static handoff message
         const msg = document.createElement('n-text');

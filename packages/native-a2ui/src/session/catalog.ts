@@ -64,15 +64,31 @@ export class NCatalog {
   /**
    * Filter an A2UI component array against this catalog.
    * Returns only components whose type is allowed.
+   * Also strips blocked component IDs from parent children arrays.
    */
   filterComponents(
     components: readonly A2UIComponent[],
     onViolation?: (type: string, id: string) => void,
   ): A2UIComponent[] {
-    return components.filter(c => {
+    const blockedIds = new Set<string>();
+    const allowed = components.filter(c => {
       if (this.has(c.component)) return true;
+      blockedIds.add(c.id);
       onViolation?.(c.component, c.id);
       return false;
+    });
+    if (blockedIds.size === 0) return allowed;
+    // Remove blocked IDs from children/child references
+    return allowed.map(c => {
+      const children = c.children?.filter(id => !blockedIds.has(id));
+      const child = c.child && blockedIds.has(c.child) ? undefined : c.child;
+      if (children === c.children && child === c.child) return c;
+      const copy = { ...c } as Record<string, unknown>;
+      if (children) copy.children = children;
+      else delete copy.children;
+      if (child) copy.child = child;
+      else delete copy.child;
+      return copy as A2UIComponent;
     });
   }
 }

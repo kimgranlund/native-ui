@@ -175,11 +175,7 @@
           log(`${label} not active \u2014 click "Start Review"`, 'var(--n-ink-danger)');
           return;
         }
-        try {
-          session.receive(payload);
-        } catch (e) {
-          log(`${label}: BLOCKED \u2014 ${e.message}`, 'var(--n-ink-danger)');
-        }
+        session.receive(payload);
       }
 
       // ── Initialize ──
@@ -190,10 +186,11 @@
           return;
         }
 
+        // Create both sessions WITHOUT pre-authorized surfaces
+        // so ownership enforcement actually works
         designSession = manager.createSession({
           agentId: 'design-agent',
           catalog,
-          surfaces: ['canvas'],
         });
         designSession.on('surface-ready', () => {
           canvas.removeAttribute('data-empty');
@@ -201,6 +198,9 @@
         });
         designSession.on('interaction', (e) => {
           log(`Design: user ${e.eventType} "${e.componentId}"`, 'var(--n-ink-warning)');
+        });
+        designSession.on('catalog-violation', () => {
+          log('Design: BLOCKED \u2014 not the canvas owner', 'var(--n-ink-danger)');
         });
 
         copySession = manager.createSession({
@@ -214,7 +214,12 @@
         copySession.on('interaction', (e) => {
           log(`Copy: user ${e.eventType} "${e.componentId}"`, 'var(--n-ink-warning)');
         });
+        copySession.on('catalog-violation', () => {
+          log('Copy: BLOCKED \u2014 not the canvas owner', 'var(--n-ink-danger)');
+        });
 
+        // Manually assign initial ownership to Design
+        manager.surfaces.setOwner('canvas', designSession);
         updateOwnerUI();
 
         designSession.receive({
