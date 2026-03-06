@@ -158,7 +158,7 @@ export class NRadioGroup extends FormAssociable(NativeElement) {
   }
 
   teardown(): void {
-    this.#nav.destroy();
+    this.#nav?.destroy();
     super.teardown();
   }
 

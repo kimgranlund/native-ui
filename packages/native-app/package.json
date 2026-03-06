@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-app",
-  "version": "0.3.15",
+  "version": "0.3.17",
   "description": "Application layout and navigation components for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",

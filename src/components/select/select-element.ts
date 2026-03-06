@@ -489,7 +489,7 @@ export class NSelect extends FormAssociable(NativeElement) {
     this.#fetchController?.abort();
     this.#fetchController = null;
     this.#listbox = null;
-    this.#popover.destroy();
+    this.#popover?.destroy();
     super.teardown();
   }
 

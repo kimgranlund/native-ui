@@ -114,7 +114,7 @@ export class NToolbar extends NativeElement {
     this.#moreBtn = null;
     this.#overflowList?.remove();
     this.#overflowList = null;
-    this.#roving.destroy();
+    this.#roving?.destroy();
     super.teardown();
   }
 

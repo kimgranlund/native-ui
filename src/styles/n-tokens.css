@@ -25,24 +25,24 @@
     --n-body-active-neutral: var(--n-color-neutral-brighter);
     --n-body-disabled-neutral: var(--n-color-neutral-base);
 
-    --n-panel-neutral: var(--n-color-neutral-bright);
+    --n-panel-neutral: var(--n-color-neutral-base);
     --n-panel-hover-neutral: var(--n-color-neutral-brighter);
-    --n-panel-active-neutral: var(--n-color-neutral-brightest);
-    --n-panel-disabled-neutral: var(--n-color-neutral-base);
+    --n-panel-active-neutral: var(--n-color-neutral-bright);
+    --n-panel-disabled-neutral: var(--n-color-neutral-low);
 
     --n-control-neutral: var(--n-color-neutral-base);
     --n-control-hover-neutral: var(--n-color-neutral-bright);
     --n-control-active-neutral: var(--n-color-neutral-brighter);
     --n-control-disabled-neutral: var(--n-color-neutral-base);
 
-    --n-button-neutral: var(--n-color-neutral-higher);
-    --n-button-hover-neutral: var(--n-color-neutral-highest);
-    --n-button-active-neutral: var(--n-color-neutral-highest);
+    --n-button-neutral: var(--n-color-neutral-base);
+    --n-button-hover-neutral: var(--n-color-neutral-higher);
+    --n-button-active-neutral: var(--n-color-neutral-high);
     --n-button-disabled-neutral: var(--n-color-neutral-base);
 
-    --n-card-neutral: var(--n-color-neutral-brighter);
+    --n-card-neutral: var(--n-color-neutral-higher);
     --n-card-hover-neutral: var(--n-color-neutral-brightest);
-    --n-card-active-neutral: var(--n-color-neutral-brightest);
+    --n-card-active-neutral: var(--n-color-neutral-brighter);
     --n-card-disabled-neutral: var(--n-color-neutral-base);
 
     --n-modal-neutral: var(--n-color-neutral-brightest);

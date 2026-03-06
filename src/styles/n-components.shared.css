@@ -185,8 +185,8 @@
     --n-control-active: var(--n-control-active-neutral);
     --n-control-disabled: var(--n-control-disabled-neutral);
 
-    --n-widget: var(--n-color-neutral-higher);
-    --n-widget-hover: var(--n-control-hover-neutral);
+    --n-widget: var(--n-color-neutral-base);
+    --n-widget-hover: var(--n-control-hover-higher);
     --n-widget-active: var(--n-control-active-neutral);
     --n-widget-disabled: var(--n-control-disabled-neutral);
 

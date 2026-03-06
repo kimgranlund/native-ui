@@ -16,8 +16,11 @@
 
 ## CSS Tokens
 
+- `--n-body-padding-block`
+- `--n-body-padding-inline`
 - `--n-font-size`
 - `--n-line-height`
+- `--n-size`
 - `--n-space`
 
 ## Usage

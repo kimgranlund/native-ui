@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A2A Ownership — Design Review Handoff</title>
+    <link rel="stylesheet" href="../../../src/styles/n-index.css" />
+    <link rel="stylesheet" href="../../../src/styles/n-components.css" />
+    <link rel="stylesheet" href="../../../src/styles/demo.css" />
+    <style>
+      .surface-mount {
+        min-height: 14rem;
+      }
+
+      .surface-mount[data-empty] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .surface-mount[data-empty]::before {
+        content: 'Click "Start Review" to begin';
+        color: var(--n-ink-muted-neutral);
+        font-size: 0.8rem;
+      }
+    </style>
+  </head>
+  <body>
+    <native-app-spa><main>
+    <h1>A2A Ownership</h1>
+    <p class="demo-desc">
+      Two agents collaborate on a landing page — a <strong>Design Agent</strong> handles layout
+      and visuals, while a <strong>Copy Agent</strong> writes headlines and body text. Only one
+      agent can write to the shared canvas at a time. The host app transfers ownership between
+      them like passing a baton. If an agent tries to write without ownership, the session layer
+      blocks it — no race conditions, no overwrites.
+    </p>
+
+    <!-- ── Review Flow ── -->
+
+    <h2>Review Flow</h2>
+    <n-card>
+      <n-body>
+        <n-stack direction="row" wrap>
+          <n-button size="sm" variant="primary" id="start">
+            <span slot="label">Start Review</span>
+          </n-button>
+          <n-button size="sm" id="handoff-copy">
+            <span slot="label">Hand off to Copy</span>
+          </n-button>
+          <n-button size="sm" id="handoff-design">
+            <span slot="label">Hand off to Design</span>
+          </n-button>
+          <n-button size="sm" variant="ghost" id="reset">
+            <span slot="label">Reset</span>
+          </n-button>
+        </n-stack>
+      </n-body>
+    </n-card>
+
+    <!-- ── Shared Canvas ── -->
+
+    <n-card style="margin-top: 1rem;">
+      <n-header>
+        <span slot="label">Shared Canvas — Landing Page</span>
+        <n-badge slot="trailing" id="owner-badge" intent="neutral">No owner</n-badge>
+      </n-header>
+      <n-body padding="regular">
+        <div class="surface-mount" id="shared-canvas" data-empty></div>
+      </n-body>
+    </n-card>
+
+    <!-- ── Per-Agent Actions ── -->
+
+    <n-grid cols="2" style="margin-top: 1rem;">
+      <n-card>
+        <n-header><span slot="label">Design Agent</span></n-header>
+        <n-body>
+          <n-stack direction="row" wrap>
+            <n-button size="sm" id="design-hero">
+              <span slot="label">Hero Section</span>
+            </n-button>
+            <n-button size="sm" id="design-features">
+              <span slot="label">Features Grid</span>
+            </n-button>
+            <n-button size="sm" id="design-cta">
+              <span slot="label">CTA Block</span>
+            </n-button>
+          </n-stack>
+        </n-body>
+      </n-card>
+      <n-card>
+        <n-header><span slot="label">Copy Agent</span></n-header>
+        <n-body>
+          <n-stack direction="row" wrap>
+            <n-button size="sm" id="copy-headline">
+              <span slot="label">Write Headlines</span>
+            </n-button>
+            <n-button size="sm" id="copy-benefits">
+              <span slot="label">Write Benefits</span>
+            </n-button>
+            <n-button size="sm" id="copy-cta">
+              <span slot="label">Write CTA Copy</span>
+            </n-button>
+          </n-stack>
+        </n-body>
+      </n-card>
+    </n-grid>
+
+    <!-- ── Ownership Log ── -->
+
+    <h2>Ownership Log</h2>
+    <n-card>
+      <n-body show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
+        <div id="event-log"></div>
+      </n-body>
+    </n-card>
+
+    </main></native-app-spa>
+
+    <script type="module">
+      import '../../../src/nav/native-app.ts';
+      import '../../../src/components/button/button.ts';
+      import '../../../src/components/input/input.ts';
+      import '../../../src/components/textarea/textarea.ts';
+      import '../../../src/components/switch/switch.ts';
+      import '../../../src/components/checkbox/checkbox.ts';
+      import '../../../src/components/badge/badge.ts';
+      import '../../../src/containers/card/card.ts';
+      import '../../../src/icons/icon.ts';
+
+      import { Kernel, resetKernel } from '../../../src/kernel/kernel.ts';
+      import { NSessionManager } from './session/session-manager.ts';
+      import { buildCatalogFromRegistry } from './session/catalog.ts';
+
+      // ── Setup ──
+
+      resetKernel();
+      const kernel = new Kernel({ allowUnregistered: true });
+      const manager = new NSessionManager(kernel);
+      const catalog = buildCatalogFromRegistry('core-only');
+
+      const canvas = document.getElementById('shared-canvas');
+      const ownerBadge = document.getElementById('owner-badge');
+      const eventLog = document.getElementById('event-log');
+      manager.surfaces.registerMount('canvas', canvas);
+
+      let designSession = null;
+      let copySession = null;
+
+      function log(text, color = 'var(--n-ink-neutral)') {
+        const entry = document.createElement('div');
+        entry.style.color = color;
+        entry.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+        eventLog.prepend(entry);
+      }
+
+      function updateOwnerUI() {
+        const owner = manager.surfaces.getOwner('canvas');
+        if (!owner) {
+          ownerBadge.textContent = 'No owner';
+          ownerBadge.setAttribute('intent', 'neutral');
+        } else if (owner.agentId === 'design-agent') {
+          ownerBadge.textContent = 'Design Agent';
+          ownerBadge.setAttribute('intent', 'accent');
+        } else {
+          ownerBadge.textContent = 'Copy Agent';
+          ownerBadge.setAttribute('intent', 'success');
+        }
+      }
+
+      function sendToSession(session, label, payload) {
+        if (!session || session.status !== 'active') {
+          log(`${label} not active \u2014 click "Start Review"`, 'var(--n-ink-danger)');
+          return;
+        }
+        try {
+          session.receive(payload);
+        } catch (e) {
+          log(`${label}: BLOCKED \u2014 ${e.message}`, 'var(--n-ink-danger)');
+        }
+      }
+
+      // ── Initialize ──
+
+      document.getElementById('start').addEventListener('native:press', () => {
+        if (designSession && designSession.status !== 'terminated') {
+          log('Already running \u2014 click Reset first', 'var(--n-ink-danger)');
+          return;
+        }
+
+        designSession = manager.createSession({
+          agentId: 'design-agent',
+          catalog,
+          surfaces: ['canvas'],
+        });
+        designSession.on('surface-ready', () => {
+          canvas.removeAttribute('data-empty');
+          log('Design: rendered to canvas', 'var(--n-ink-success)');
+        });
+        designSession.on('interaction', (e) => {
+          log(`Design: user ${e.eventType} "${e.componentId}"`, 'var(--n-ink-warning)');
+        });
+
+        copySession = manager.createSession({
+          agentId: 'copy-agent',
+          catalog,
+        });
+        copySession.on('surface-ready', () => {
+          canvas.removeAttribute('data-empty');
+          log('Copy: rendered to canvas', 'var(--n-ink-success)');
+        });
+        copySession.on('interaction', (e) => {
+          log(`Copy: user ${e.eventType} "${e.componentId}"`, 'var(--n-ink-warning)');
+        });
+
+        updateOwnerUI();
+
+        designSession.receive({
+          updateComponents: {
+            surfaceId: 'canvas',
+            components: [
+              { id: 'root', component: 'Column', children: ['hero', 'sub', 'cta'] },
+              { id: 'hero', component: 'Text', text: '[Headline placeholder]', variant: 'h2' },
+              { id: 'sub', component: 'Text', text: '[Subheadline \u2014 waiting for copy agent]' },
+              { id: 'cta', component: 'Button', text: '[CTA text]', variant: 'primary', action: { event: { name: 'cta_click' } } },
+            ],
+          },
+        });
+
+        log('Review started \u2014 Design Agent owns the canvas', 'var(--n-ink-accent)');
+      });
+
+      // ── Handoffs ──
+
+      document.getElementById('handoff-copy').addEventListener('native:press', () => {
+        if (!copySession || copySession.status !== 'active') {
+          log('Start the review first', 'var(--n-ink-danger)');
+          return;
+        }
+        try {
+          manager.transferSurfaceOwnership('canvas', copySession.id);
+          updateOwnerUI();
+          log('Ownership transferred: Design \u2192 Copy', 'var(--n-ink-info)');
+        } catch (e) {
+          log(`Transfer failed: ${e.message}`, 'var(--n-ink-danger)');
+        }
+      });
+
+      document.getElementById('handoff-design').addEventListener('native:press', () => {
+        if (!designSession || designSession.status !== 'active') {
+          log('Start the review first', 'var(--n-ink-danger)');
+          return;
+        }
+        try {
+          manager.transferSurfaceOwnership('canvas', designSession.id);
+          updateOwnerUI();
+          log('Ownership transferred: Copy \u2192 Design', 'var(--n-ink-info)');
+        } catch (e) {
+          log(`Transfer failed: ${e.message}`, 'var(--n-ink-danger)');
+        }
+      });
+
+      // ── Design Agent Actions ──
+
+      document.getElementById('design-hero').addEventListener('native:press', () => {
+        sendToSession(designSession, 'Design', {
+          updateComponents: {
+            surfaceId: 'canvas',
+            components: [
+              { id: 'root', component: 'Column', children: ['badge', 'hero', 'sub', 'actions'] },
+              { id: 'badge', component: 'Text', text: 'NEW' },
+              { id: 'hero', component: 'Text', text: 'Build faster with AI agents', variant: 'h1' },
+              { id: 'sub', component: 'Text', text: 'Ship production-quality UIs from natural language. No templates, no drag-and-drop \u2014 just describe what you need.' },
+              { id: 'actions', component: 'Row', children: ['cta1', 'cta2'] },
+              { id: 'cta1', component: 'Button', text: 'Get Started', variant: 'primary', action: { event: { name: 'get_started' } } },
+              { id: 'cta2', component: 'Button', text: 'See demo', action: { event: { name: 'see_demo' } } },
+            ],
+          },
+        });
+        log('Design: rendered hero section layout', 'var(--n-ink-success)');
+      });
+
+      document.getElementById('design-features').addEventListener('native:press', () => {
+        sendToSession(designSession, 'Design', {
+          updateComponents: {
+            surfaceId: 'canvas',
+            components: [
+              { id: 'root', component: 'Column', children: ['title', 'grid'] },
+              { id: 'title', component: 'Text', text: 'Why teams choose us', variant: 'h2' },
+              { id: 'grid', component: 'Row', children: ['f1', 'f2', 'f3'] },
+              { id: 'f1', component: 'Card', child: 'f1-inner' },
+              { id: 'f1-inner', component: 'Column', children: ['f1-title', 'f1-desc'] },
+              { id: 'f1-title', component: 'Text', text: 'Multi-Agent', variant: 'h4' },
+              { id: 'f1-desc', component: 'Text', text: '[Feature description \u2014 waiting for copy]' },
+              { id: 'f2', component: 'Card', child: 'f2-inner' },
+              { id: 'f2-inner', component: 'Column', children: ['f2-title', 'f2-desc'] },
+              { id: 'f2-title', component: 'Text', text: 'Secure', variant: 'h4' },
+              { id: 'f2-desc', component: 'Text', text: '[Feature description \u2014 waiting for copy]' },
+              { id: 'f3', component: 'Card', child: 'f3-inner' },
+              { id: 'f3-inner', component: 'Column', children: ['f3-title', 'f3-desc'] },
+              { id: 'f3-title', component: 'Text', text: 'Real-time', variant: 'h4' },
+              { id: 'f3-desc', component: 'Text', text: '[Feature description \u2014 waiting for copy]' },
+            ],
+          },
+        });
+        log('Design: rendered features grid', 'var(--n-ink-success)');
+      });
+
+      document.getElementById('design-cta').addEventListener('native:press', () => {
+        sendToSession(designSession, 'Design', {
+          updateComponents: {
+            surfaceId: 'canvas',
+            components: [
+              { id: 'root', component: 'Column', children: ['heading', 'sub', 'form'] },
+              { id: 'heading', component: 'Text', text: '[CTA heading]', variant: 'h2' },
+              { id: 'sub', component: 'Text', text: '[CTA subtext \u2014 waiting for copy]' },
+              { id: 'form', component: 'Row', children: ['email', 'submit'] },
+              { id: 'email', component: 'TextField', placeholder: 'Enter your email' },
+              { id: 'submit', component: 'Button', text: 'Start free trial', variant: 'primary', action: { event: { name: 'signup' } } },
+            ],
+          },
+        });
+        log('Design: rendered CTA block with email input', 'var(--n-ink-success)');
+      });
+
+      // ── Copy Agent Actions ──
+
+      document.getElementById('copy-headline').addEventListener('native:press', () => {
+        sendToSession(copySession, 'Copy', {
+          updateComponents: {
+            surfaceId: 'canvas',
+            components: [
+              { id: 'root', component: 'Column', children: ['badge', 'hero', 'sub', 'actions'] },
+              { id: 'badge', component: 'Text', text: 'INTRODUCING A2A' },
+              { id: 'hero', component: 'Text', text: 'Your AI agents deserve a real UI layer', variant: 'h1' },
+              { id: 'sub', component: 'Text', text: 'Stop sending markdown to users. Let agents render native components \u2014 buttons, forms, cards \u2014 with type safety, access control, and zero frontend code.' },
+              { id: 'actions', component: 'Row', children: ['cta1', 'cta2'] },
+              { id: 'cta1', component: 'Button', text: 'Start building', variant: 'primary', action: { event: { name: 'get_started' } } },
+              { id: 'cta2', component: 'Button', text: 'Read the docs', action: { event: { name: 'docs' } } },
+            ],
+          },
+        });
+        log('Copy: wrote headlines and subheadline', 'var(--n-ink-success)');
+      });
+
+      document.getElementById('copy-benefits').addEventListener('native:press', () => {
+        sendToSession(copySession, 'Copy', {
+          updateComponents: {
+            surfaceId: 'canvas',
+            components: [
+              { id: 'root', component: 'Column', children: ['title', 'grid'] },
+              { id: 'title', component: 'Text', text: 'Built for agent-native applications', variant: 'h2' },
+              { id: 'grid', component: 'Row', children: ['f1', 'f2', 'f3'] },
+              { id: 'f1', component: 'Card', child: 'f1-inner' },
+              { id: 'f1-inner', component: 'Column', children: ['f1-title', 'f1-desc'] },
+              { id: 'f1-title', component: 'Text', text: 'Multi-Agent Sessions', variant: 'h4' },
+              { id: 'f1-desc', component: 'Text', text: 'Run multiple AI agents on the same page, each with their own surface, catalog, and event stream. No conflicts.' },
+              { id: 'f2', component: 'Card', child: 'f2-inner' },
+              { id: 'f2-inner', component: 'Column', children: ['f2-title', 'f2-desc'] },
+              { id: 'f2-title', component: 'Text', text: 'Catalog Sandboxing', variant: 'h4' },
+              { id: 'f2-desc', component: 'Text', text: 'Control exactly which components each agent can render. Third-party agents get text and buttons. Your agents get everything.' },
+              { id: 'f3', component: 'Card', child: 'f3-inner' },
+              { id: 'f3-inner', component: 'Column', children: ['f3-title', 'f3-desc'] },
+              { id: 'f3-title', component: 'Text', text: 'Ownership Transfer', variant: 'h4' },
+              { id: 'f3-desc', component: 'Text', text: 'One writer per surface at a time. Transfer control between agents like passing a document \u2014 clean handoffs, no race conditions.' },
+            ],
+          },
+        });
+        log('Copy: wrote feature descriptions', 'var(--n-ink-success)');
+      });
+
+      document.getElementById('copy-cta').addEventListener('native:press', () => {
+        sendToSession(copySession, 'Copy', {
+          updateComponents: {
+            surfaceId: 'canvas',
+            components: [
+              { id: 'root', component: 'Column', children: ['heading', 'sub', 'form'] },
+              { id: 'heading', component: 'Text', text: 'Ready to ship your first agent UI?', variant: 'h2' },
+              { id: 'sub', component: 'Text', text: 'Free for open-source. No credit card required. Deploy in under 5 minutes.' },
+              { id: 'form', component: 'Row', children: ['email', 'submit'] },
+              { id: 'email', component: 'TextField', placeholder: 'you@company.com' },
+              { id: 'submit', component: 'Button', text: 'Get early access', variant: 'primary', action: { event: { name: 'signup' } } },
+            ],
+          },
+        });
+        log('Copy: wrote CTA copy', 'var(--n-ink-success)');
+      });
+
+      // ── Reset ──
+
+      document.getElementById('reset').addEventListener('native:press', () => {
+        manager.terminateAll();
+        canvas.innerHTML = '';
+        canvas.setAttribute('data-empty', '');
+        designSession = null;
+        copySession = null;
+        updateOwnerUI();
+        log('Reset \u2014 all sessions terminated', 'var(--n-ink-accent)');
+      });
+    </script>
+  </body>
+</html>

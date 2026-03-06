@@ -33,3 +33,31 @@ export { installA2UI } from './install.ts';
 
 // Workbench element
 export { NA2UI } from './a2ui-element.ts';
+
+// Session management
+export {
+  NSessionManager,
+  NAgentSession,
+  NSurfaceRegistry,
+  NEventEmitter,
+  NCatalog,
+  buildCatalogFromRegistry,
+} from './session/index.ts';
+
+export type {
+  NAgentSessionConfig,
+  NCatalogEntry,
+  NSessionConfig,
+  NSessionStatus,
+  NInteractionEvent,
+  NSurfaceState,
+} from './session/index.ts';
+
+// Adapters
+export type { NAdapter, NAdapterConfig } from './adapters/index.ts';
+export { DirectAdapter } from './adapters/index.ts';
+export type { DirectAdapterOptions } from './adapters/index.ts';
+export { A2AAdapter } from './adapters/index.ts';
+export type { A2AAdapterOptions, A2ATaskRequest } from './adapters/index.ts';
+export { AGUIAdapter } from './adapters/index.ts';
+export type { AGUIAdapterOptions } from './adapters/index.ts';

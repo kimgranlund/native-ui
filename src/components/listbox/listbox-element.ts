@@ -154,7 +154,7 @@ export class NListbox extends NativeElement {
   }
 
   teardown(): void {
-    this.#nav.destroy();
+    this.#nav?.destroy();
     super.teardown();
   }
 

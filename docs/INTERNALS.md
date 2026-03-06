@@ -69,6 +69,74 @@ interface ReadonlySignal<T> { readonly value: T; peek(): T; }
 
 Zero `document.body.appendChild()` calls in production code. No global z-index scale.
 
+## View Transition Resilience
+
+Controllers and global singletons must survive Astro View Transitions (and any `adoptNode` + `replaceWith` navigation). Three rules:
+
+### 1. Global singletons must prune disconnected elements
+
+Any `Set<HTMLElement>`, `Map<HTMLElement, ...>`, or `HTMLElement[]` that outlives a single interaction must check `el.isConnected` before acting. After View Transition, old elements are disconnected but their references remain — `destroy()`/`unregister()` may not have run.
+
+```ts
+// GestureRouter: prune on every pointerdown
+for (const p of this.#participants) {
+  if (!p.host.isConnected) this.#participants.delete(p);
+}
+
+// DismissStack: prune before dispatching dismiss
+for (let i = this.#stack.length - 1; i >= 0; i--) {
+  if (!this.#stack[i].isConnected) this.#stack.splice(i, 1);
+}
+```
+
+### 2. Remove listeners before triggering re-entry
+
+`releasePointerCapture()` synchronously fires `lostpointercapture`. If the handler calls back into the same method, you get re-entry → null dereference or double dispatch. Remove the listener *before* the call that triggers it:
+
+```ts
+// CORRECT: remove listener first, then release capture
+this.#dragItem.removeEventListener('lostpointercapture', this.#onLostCapture);
+try { this.#dragItem.releasePointerCapture(this.#pointerId); } catch {}
+
+// WRONG: release first (fires lostpointercapture synchronously), remove after
+this.#dragItem.releasePointerCapture(this.#pointerId);  // → re-entry!
+this.#dragItem.removeEventListener('lostpointercapture', this.#onLostCapture);
+```
+
+### 3. Clean up document listeners before dispatching events
+
+Consumer event handlers can trigger navigation, DOM removal, or async work. If document-level listeners (pointermove, pointerup, keydown) are still attached when the consumer navigates, they leak onto the old document. Remove them *before* `dispatchEvent()`:
+
+```ts
+// In #onPointerUp: remove doc listeners first
+doc.removeEventListener('pointermove', this.#onPointerMove);
+doc.removeEventListener('pointerup', this.#onPointerUp);
+doc.removeEventListener('pointercancel', this.#onPointerCancel);
+doc.removeEventListener('keydown', this.#onKeyDown);
+this.#doc = null;
+
+// THEN dispatch the drop event
+this.host.dispatchEvent(new CustomEvent('native:drop', { ... }));
+
+// Cleanup handles the remaining state (ghost, attributes, etc.)
+this.#cleanup();
+```
+
+### 4. Store document reference at interaction start
+
+If a controller attaches listeners to `this.host.ownerDocument`, store the reference at the start of the interaction. The host may be adopted into a different document mid-gesture (View Transition swap). Cleanup must remove listeners from the *original* document:
+
+```ts
+// On pointerdown: capture the document
+this.#doc = this.host.ownerDocument;
+this.#doc.addEventListener('pointermove', this.#onPointerMove);
+
+// On cleanup: use the stored reference
+const doc = this.#doc ?? this.host.ownerDocument;
+doc.removeEventListener('pointermove', this.#onPointerMove);
+this.#doc = null;
+```
+
 ## Component File Pattern
 
 ```

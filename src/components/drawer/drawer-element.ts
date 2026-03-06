@@ -32,7 +32,7 @@ export class NDrawer extends NativeElement {
   }
 
   teardown(): void {
-    this.#dialog.destroy();
+    this.#dialog?.destroy();
     super.teardown();
   }
 }

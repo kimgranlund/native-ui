@@ -62,7 +62,7 @@ export class NRadio extends NativeElement {
   teardown(): void {
     this.removeEventListener('click', this.#onClick);
     this.removeEventListener('keydown', this.#onKeyDown);
-    this.#press.destroy();
+    this.#press?.destroy();
     super.teardown();
   }
 

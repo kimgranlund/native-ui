@@ -21,7 +21,7 @@
     flex: 1 1 0%;
     min-width: 0;
     flex-direction: column;
-    gap: calc(var(--n-space) * 2);
+    gap: calc(var(--n-space) * 0);
     background: var(--n-ground);
     border: 1px solid var(--n-border-muted);
     border-radius: var(--n-radius);

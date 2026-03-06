@@ -164,7 +164,7 @@ export class NativeElement extends HTMLElement {
     for (const [name, instance] of this.#controllers) {
       if (!next.has(name)) {
         const adapter = getTrait(name);
-        if (adapter) adapter.destroy(instance);
+        if (adapter && instance) adapter.destroy(instance);
         this.#controllers.delete(name);
       }
     }
@@ -221,7 +221,7 @@ export class NativeElement extends HTMLElement {
   #destroyAllControllers(): void {
     for (const [name, instance] of this.#controllers) {
       const adapter = getTrait(name);
-      if (adapter) adapter.destroy(instance);
+      if (adapter && instance) adapter.destroy(instance);
     }
     this.#controllers.clear();
   }

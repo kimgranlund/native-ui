@@ -25,6 +25,7 @@
     gap: calc(var(--n-space) * 2);
 
     min-height: var(--n-size);
+    max-height: var(--n-size);
     padding-inline: calc(var(--n-space-k) * var(--n-space));
 
     font-size: var(--n-font-size);

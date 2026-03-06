@@ -89,7 +89,7 @@ export class NSwitch extends FormAssociable(NativeElement) {
 
   teardown(): void {
     this.removeEventListener('native:press', this.#onPress);
-    this.#press.destroy();
+    this.#press?.destroy();
     super.teardown();
   }
 

@@ -74,9 +74,6 @@ export class DragController {
   }
 
   destroy(): void {
-    // WHY: If destroyed mid-drag (e.g. View Transition swap disconnects the host),
-    // notify consumers with native:drag-cancel before cleanup. Without this,
-    // the drag silently dies and consumers never know it was cancelled.
     if (this.#dragItem && this.#ghost) {
       this.#restorePreview();
       this.host.dispatchEvent(new CustomEvent('native:drag-cancel', {
@@ -92,8 +89,6 @@ export class DragController {
 
   #getItems(): HTMLElement[] {
     if (!this.selector) return [];
-    // WHY: Exclude [popover] elements — they live in the top layer and must not
-    // be repositioned in the DOM by slot/preview reordering.
     return [...this.host.querySelectorAll<HTMLElement>(this.selector)]
       .filter(el => !el.hasAttribute('popover'));
   }
@@ -164,31 +159,20 @@ export class DragController {
     this.#startX = e.clientX;
     this.#startY = e.clientY;
 
-    // WHY: Record offset from pointer to item center for ghost-center hit-testing in slot mode
     const itemRect = target.getBoundingClientRect();
     this.#grabOffsetX = (itemRect.left + itemRect.width / 2) - e.clientX;
     this.#grabOffsetY = (itemRect.top + itemRect.height / 2) - e.clientY;
 
-    // WHY: Record which zone the drag started in for cross-zone event details
     if (this.zoneSelector) {
       this.#sourceZone = target.closest(this.zoneSelector) as HTMLElement | null;
     }
 
-    // WHY: Listen on ownerDocument (not pointer capture) so the ghost can be dragged
-    // freely across the entire viewport, not constrained to the container bounds.
-    // Store the document reference so cleanup always removes from the correct document
-    // even if the host is adopted into a different document mid-drag (T0051).
     this.#doc = this.host.ownerDocument;
     this.#doc.addEventListener('pointermove', this.#onPointerMove);
     this.#doc.addEventListener('pointerup', this.#onPointerUp);
     this.#doc.addEventListener('pointercancel', this.#onPointerCancel);
     this.#doc.addEventListener('keydown', this.#onKeyDown);
 
-    // WHY: Safety net for View Transition edge cases (T0112). Pointer capture on the
-    // drag item ensures we get lostpointercapture if the browser silently drops the
-    // pointer session (e.g. popover + View Transition animation interaction). We don't
-    // use captured events for movement (still listen on document) — capture is purely
-    // for guaranteed lifecycle signaling.
     try { target.setPointerCapture(e.pointerId); } catch { /* happy-dom no-op */ }
     this.#pointerId = e.pointerId;
     target.addEventListener('lostpointercapture', this.#onLostCapture);
@@ -199,11 +183,8 @@ export class DragController {
 
     // WHY: Create ghost on first move (not on pointerdown) to avoid ghost on click
     if (!this.#ghost) {
-      // WHY: Clear hover outline before creating ghost (ghost clones the item)
       this.#dragItem.style.removeProperty('outline');
       this.#dragItem.style.removeProperty('outline-offset');
-      // WHY: Wrap ghost creation in try-catch — if cloneNode/showPopover throws,
-      // clean up document listeners to prevent permanent leak
       try {
         this.#createGhost(e);
       } catch {
@@ -211,13 +192,10 @@ export class DragController {
         return;
       }
       this.#dragItem.setAttribute('dragging', '');
-      // WHY: Preview mode saves original position so Escape can restore it
       if (this.mode === 'preview') {
         this.#previewOriginParent = this.#dragItem.parentElement;
         this.#previewOriginNext = this.#dragItem.nextElementSibling as HTMLElement | null;
         this.#lastPreviewIndex = -1;
-        // WHY: Assign view-transition-name to all sibling items so
-        // startViewTransition can animate grid reflows during DOM moves.
         if (this.animate) this.#assignTransitionNames();
       }
       this.host.dispatchEvent(new CustomEvent('native:drag-start', {
@@ -348,7 +326,7 @@ export class DragController {
 
   // ── Drop mode: highlight target element ──
 
-  #updateDropOver(zones: HTMLElement[], overZone: HTMLElement | null, overIndex: number): void {
+  #updateDropOver(zones: HTMLElement[], overZone: HTMLElement | null, _overIndex: number): void {
     for (const zone of zones) {
       if (zone !== overZone) {
         zone.removeAttribute('drag-over');
@@ -363,7 +341,7 @@ export class DragController {
       this.host.dispatchEvent(new CustomEvent('native:drag-over', {
         bubbles: true,
         composed: true,
-        detail: { item: this.#dragItem, target: overZone, index: overIndex },
+        detail: { item: this.#dragItem, target: overZone, index: _overIndex },
       }));
     }
   }
@@ -560,20 +538,11 @@ export class DragController {
   #onPointerUp = (_e: PointerEvent): void => {
     if (!this.#dragItem) return;
 
-    // WHY: Remove lostpointercapture listener BEFORE releasing capture.
-    // releasePointerCapture() fires lostpointercapture synchronously in some browsers.
-    // If the listener is still attached, #onLostCapture re-enters #onPointerUp,
-    // the re-entered call runs #cleanup() (nulling #dragItem), then the original
-    // call crashes accessing null. Removing the listener first prevents re-entry.
     this.#dragItem.removeEventListener('lostpointercapture', this.#onLostCapture);
     if (this.#pointerId >= 0) {
       try { this.#dragItem.releasePointerCapture(this.#pointerId); } catch { /* already released */ }
     }
 
-    // WHY: Remove document listeners BEFORE dispatching native:drop. The consumer's
-    // drop handler may trigger navigation (View Transition), DOM removal, or async
-    // work. Without early removal, document listeners leak on the old document and
-    // are never cleaned up (T0117).
     const doc = this.#doc ?? this.host.ownerDocument;
     doc.removeEventListener('pointermove', this.#onPointerMove);
     doc.removeEventListener('pointerup', this.#onPointerUp);
@@ -583,9 +552,6 @@ export class DragController {
 
     if (this.#ghost) {
       if (this.mode === 'slot') {
-        // WHY: Compute insertBefore from liveItems (excluding dragged item) to match
-        // the same filtered list used during #updateSlot. In zone mode, scope to the
-        // current zone's items; otherwise use all items.
         let liveItems: HTMLElement[];
         if (this.zoneSelector && this.#currentZone) {
           liveItems = this.#getItemsInZone(this.#currentZone)
@@ -610,8 +576,6 @@ export class DragController {
           },
         }));
       } else if (this.mode === 'preview') {
-        // WHY: Item is already in its final position — compute toIndex from current DOM order.
-        // In zone mode, scope to the target zone's items.
         let items: HTMLElement[];
         if (this.zoneSelector && this.#currentZone) {
           items = this.#getItemsInZone(this.#currentZone);
@@ -619,7 +583,6 @@ export class DragController {
           items = this.#getItems();
         }
         const toIndex = this.#dragItem ? items.indexOf(this.#dragItem) : -1;
-        // WHY: Clear origin refs so #cleanup doesn't restore the item
         this.#previewOriginParent = null;
         this.#previewOriginNext = null;
 
@@ -657,11 +620,7 @@ export class DragController {
     this.#cleanup();
   };
 
-  // WHY: Safety net (T0112). If the browser drops the pointer session (e.g. popover
-  // interacting with View Transition animations), lostpointercapture fires. Treat it
-  // as a pointerup — dispatch native:drop if a drag was in progress.
   #onLostCapture = (): void => {
-    // Only act if we're still mid-drag and pointerup hasn't already handled it
     if (!this.#dragItem) return;
     this.#onPointerUp(null as unknown as PointerEvent);
   };

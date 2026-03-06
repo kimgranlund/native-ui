@@ -39,9 +39,6 @@ export class NController extends NativeElement {
   connectedCallback(): void {
     if (this.#alive) return;
     this.#alive = true;
-    // WHY: NController skips super.connectedCallback(), so it must renew the
-    // ready promise itself. Without this, `await el.ready` is stale after
-    // View Transition reconnect.
     this.renewReady();
     this.setup();
   }
@@ -218,7 +215,6 @@ export class NController extends NativeElement {
 
       const adapter = getTrait(name);
       if (!adapter) {
-        // WHY: Trait not yet registered — track and retry when it becomes available
         this.#pendingTraits.add(name);
         continue;
       }
@@ -270,7 +266,7 @@ export class NController extends NativeElement {
   #destroyControllersFor(target: HTMLElement, controllers: ControllerMap): void {
     for (const [name, instance] of controllers) {
       const adapter = getTrait(name);
-      if (adapter) adapter.destroy(instance);
+      if (adapter && instance) adapter.destroy(instance);
     }
     controllers.clear();
     // Remove any reference but keep target lookup clean

@@ -19,6 +19,8 @@
 
 - `--n-border-muted`
 - `--n-font-size`
+- `--n-footer-padding-block`
+- `--n-footer-padding-inline`
 - `--n-line-height`
 - `--n-size`
 - `--n-space`

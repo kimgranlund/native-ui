@@ -29,7 +29,7 @@ export class NDialog extends NativeElement {
   }
 
   teardown(): void {
-    this.#dialog.destroy();
+    this.#dialog?.destroy();
     super.teardown();
   }
 }

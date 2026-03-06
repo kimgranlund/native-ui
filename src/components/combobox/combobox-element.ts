@@ -531,7 +531,7 @@ export class NCombobox extends FormAssociable(NativeElement) {
     this.#listbox = null;
     this.#fetchController?.abort();
     this.#fetchController = null;
-    this.#popover.destroy();
+    this.#popover?.destroy();
     super.teardown();
   }
 

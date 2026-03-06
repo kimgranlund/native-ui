@@ -45,7 +45,7 @@ export class NTree extends NativeElement {
   }
 
   teardown(): void {
-    this.#roving.destroy();
+    this.#roving?.destroy();
     super.teardown();
   }
 }

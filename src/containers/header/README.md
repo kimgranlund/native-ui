@@ -30,6 +30,8 @@
 - `--n-border-muted`
 - `--n-button-font-weight`
 - `--n-font-size`
+- `--n-header-padding-block`
+- `--n-header-padding-inline`
 - `--n-ink-strong`
 - `--n-line-height`
 - `--n-size`

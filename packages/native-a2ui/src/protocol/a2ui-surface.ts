@@ -404,7 +404,7 @@ function resolveActionContext(
 /** A2UI properties that map to HTML attributes on the rendered element. */
 const DIFFABLE_ATTRIBUTES: readonly string[] = [
   'variant', 'placeholder', 'name', 'min', 'max', 'step',
-  'src', 'alt', 'poster', 'fit',
+  'src', 'alt', 'poster', 'fit', 'style', 'intent',
 ];
 
 /** A2UI properties that map to JS properties (not attributes) on the rendered element. */

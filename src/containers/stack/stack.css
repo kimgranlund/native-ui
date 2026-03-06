@@ -4,7 +4,7 @@
 
   :where(n-stack) {
     display: flex;
-    flex: 1 1 0%;
+    flex: 1 1 100%;
     min-width: 0;
     flex-direction: column;
     gap: calc(var(--n-space) * 2);

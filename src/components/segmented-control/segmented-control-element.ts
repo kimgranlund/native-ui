@@ -151,7 +151,7 @@ export class NSegmentedControl extends FormAssociable(NativeElement) {
   teardown(): void {
     this.#indicator?.remove();
     this.#indicator = null;
-    this.#nav.destroy();
+    this.#nav?.destroy();
     super.teardown();
   }
 
