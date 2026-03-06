@@ -230,4 +230,26 @@ describe('DismissController', () => {
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(handler).not.toHaveBeenCalled();
   });
+
+  it('prunes disconnected elements from dismiss stack', async () => {
+    // el1 is pushed to the stack then disconnected (simulates View Transition)
+    const el1 = create();
+    el1.show();
+    await flushRAF();
+
+    // Disconnect el1 without disabling (simulates abrupt View Transition removal)
+    el1.remove();
+
+    // el2 is the new top layer
+    const el2 = create();
+    el2.show();
+    await flushRAF();
+
+    const handler2 = vi.fn();
+    el2.addEventListener('native:dismiss', handler2);
+
+    // Escape should dismiss el2, not the disconnected el1
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    expect(handler2).toHaveBeenCalledTimes(1);
+  });
 });

@@ -560,14 +560,26 @@ export class DragController {
   #onPointerUp = (_e: PointerEvent): void => {
     if (!this.#dragItem) return;
 
-    // WHY: Release pointer capture BEFORE dispatching native:drop. The consumer's
-    // drop handler may move the drag item in the DOM, which causes the browser to
-    // fire lostpointercapture synchronously. Without this guard, #onLostCapture
-    // re-enters #onPointerUp and triggers a second cleanup mid-handler (T0117).
+    // WHY: Remove lostpointercapture listener BEFORE releasing capture.
+    // releasePointerCapture() fires lostpointercapture synchronously in some browsers.
+    // If the listener is still attached, #onLostCapture re-enters #onPointerUp,
+    // the re-entered call runs #cleanup() (nulling #dragItem), then the original
+    // call crashes accessing null. Removing the listener first prevents re-entry.
+    this.#dragItem.removeEventListener('lostpointercapture', this.#onLostCapture);
     if (this.#pointerId >= 0) {
       try { this.#dragItem.releasePointerCapture(this.#pointerId); } catch { /* already released */ }
     }
-    this.#dragItem.removeEventListener('lostpointercapture', this.#onLostCapture);
+
+    // WHY: Remove document listeners BEFORE dispatching native:drop. The consumer's
+    // drop handler may trigger navigation (View Transition), DOM removal, or async
+    // work. Without early removal, document listeners leak on the old document and
+    // are never cleaned up (T0117).
+    const doc = this.#doc ?? this.host.ownerDocument;
+    doc.removeEventListener('pointermove', this.#onPointerMove);
+    doc.removeEventListener('pointerup', this.#onPointerUp);
+    doc.removeEventListener('pointercancel', this.#onPointerCancel);
+    doc.removeEventListener('keydown', this.#onKeyDown);
+    this.#doc = null;
 
     if (this.#ghost) {
       if (this.mode === 'slot') {
@@ -769,10 +781,10 @@ export class DragController {
     }
 
     // WHY: Pointer capture + lostpointercapture listener are released in #onPointerUp
-    // BEFORE dispatching native:drop (T0117). Only release here for cancel/teardown paths.
+    // BEFORE dispatching native:drop. Only release here for cancel/teardown paths.
     if (this.#dragItem && this.#pointerId >= 0) {
-      try { this.#dragItem.releasePointerCapture(this.#pointerId); } catch { /* already released */ }
       this.#dragItem.removeEventListener('lostpointercapture', this.#onLostCapture);
+      try { this.#dragItem.releasePointerCapture(this.#pointerId); } catch { /* already released */ }
     }
 
     this.#dragItem = null;
@@ -785,6 +797,9 @@ export class DragController {
     this.#lastPreviewIndex = -1;
     this.#pointerId = -1;
 
+    // WHY: Document listeners may already be removed by #onPointerUp (which removes
+    // them before dispatching native:drop). Removing twice is safe (no-op).
+    // This path handles cancel, teardown, and ghost creation failure.
     const doc = this.#doc ?? this.host.ownerDocument;
     doc.removeEventListener('pointermove', this.#onPointerMove);
     doc.removeEventListener('pointerup', this.#onPointerUp);

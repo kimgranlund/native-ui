@@ -138,4 +138,40 @@ describe('GestureRouter', () => {
     firePointerDown();
     expect(router.activeParticipant).toBeNull();
   });
+
+  it('auto-releases stale active participant when host is disconnected', () => {
+    const p = makeParticipant();
+    router.register(p);
+    firePointerDown();
+    expect(router.activeParticipant).toBe(p);
+
+    // Simulate View Transition disconnect — host removed from DOM
+    host.remove();
+
+    // Next pointerdown should auto-release the stale participant
+    const host2 = document.createElement('div');
+    document.body.appendChild(host2);
+    const p2 = makeParticipant({ id: 'new', host: host2 });
+    router.register(p2);
+    firePointerDown(host2);
+
+    expect(router.activeParticipant).toBe(p2);
+  });
+
+  it('prunes disconnected participants on pointerdown', () => {
+    const p = makeParticipant();
+    router.register(p);
+
+    // Disconnect the host
+    host.remove();
+
+    // The stale participant should be pruned
+    const host2 = document.createElement('div');
+    document.body.appendChild(host2);
+    const p2 = makeParticipant({ id: 'new', host: host2 });
+    router.register(p2);
+    firePointerDown(host2);
+
+    expect(router.activeParticipant).toBe(p2);
+  });
 });

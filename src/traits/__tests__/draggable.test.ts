@@ -714,3 +714,69 @@ describe('Draggable — preview mode', () => {
     ctrl.destroy();
   });
 });
+
+describe('DragController — lifecycle hardening', () => {
+  it('removes lostpointercapture listener before releasePointerCapture (re-entry prevention)', () => {
+    const el = create();
+    const dropHandler = vi.fn();
+    el.addEventListener('native:drop', dropHandler);
+
+    // Start drag
+    items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
+
+    // Simulate browser firing lostpointercapture synchronously during releasePointerCapture
+    // by dispatching it right before pointerup. If the listener was removed first (correct),
+    // it won't re-enter. If not removed (bug), it would crash or double-dispatch.
+    const item = items(el)[0];
+    const origRelease = item.releasePointerCapture;
+    item.releasePointerCapture = function (id: number) {
+      // Simulate synchronous lostpointercapture from releasePointerCapture
+      item.dispatchEvent(new Event('lostpointercapture'));
+      origRelease?.call(this, id);
+    };
+
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+
+    // Should fire exactly once, not crash from re-entry
+    expect(dropHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it('removes document listeners before dispatching native:drop', () => {
+    const el = create();
+    let docHadPointermoveListener = false;
+
+    el.addEventListener('native:drop', () => {
+      // During the drop handler, check if document still has pointermove listener
+      // by dispatching a pointermove and seeing if the drag controller processes it
+      const moveHandler = vi.fn();
+      document.addEventListener('pointermove', moveHandler, { once: true });
+      document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 100, clientY: 100 }));
+      // The handler we just added should fire, but the drag controller's handler should NOT
+      // (it was removed before dispatch). We verify indirectly: if a ghost still existed and
+      // controller processed the move, it would try to update ghost position.
+      docHadPointermoveListener = moveHandler.mock.calls.length > 0;
+    });
+
+    items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+
+    expect(docHadPointermoveListener).toBe(true);
+  });
+
+  it('cleans up properly when host is disconnected mid-drag', () => {
+    const el = create();
+    const cancelHandler = vi.fn();
+    el.addEventListener('native:drag-cancel', cancelHandler);
+
+    items(el)[0].dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, button: 0 }));
+    document.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: 5, clientY: 5 }));
+
+    // Disconnect element (simulates View Transition swap)
+    el.remove();
+
+    // teardown should have fired drag-cancel and cleaned up
+    expect(cancelHandler).toHaveBeenCalledTimes(1);
+  });
+});

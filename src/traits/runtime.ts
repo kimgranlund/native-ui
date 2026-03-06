@@ -10,6 +10,10 @@ export class DismissStack {
   #listening = false;
 
   #onPointerDown = (e: PointerEvent): void => {
+    // WHY: Prune disconnected elements. After View Transition navigation, elements
+    // may be disconnected without being popped from the stack (teardown didn't run).
+    // Stale references block real dismissable layers.
+    this.#pruneDisconnected();
     const top = this.#stack[this.#stack.length - 1];
     if (!top) return;
     // WHY: composedPath() crosses shadow DOM boundaries — e.target is retargeted
@@ -21,6 +25,7 @@ export class DismissStack {
 
   #onKeyDown = (e: KeyboardEvent): void => {
     if (e.key !== 'Escape') return;
+    this.#pruneDisconnected();
     const top = this.#stack[this.#stack.length - 1];
     if (!top) return;
     e.preventDefault();
@@ -37,6 +42,13 @@ export class DismissStack {
   remove(el: HTMLElement): void {
     const idx = this.#stack.indexOf(el);
     if (idx !== -1) this.#stack.splice(idx, 1);
+    this.#detachListeners();
+  }
+
+  #pruneDisconnected(): void {
+    for (let i = this.#stack.length - 1; i >= 0; i--) {
+      if (!this.#stack[i].isConnected) this.#stack.splice(i, 1);
+    }
     this.#detachListeners();
   }
 

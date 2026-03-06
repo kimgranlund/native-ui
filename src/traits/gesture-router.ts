@@ -57,8 +57,28 @@ export class GestureRouter {
   }
 
   #onPointerDown = (e: PointerEvent): void => {
-    // Already claimed — ignore additional pointers
-    if (this.#activeParticipant) return;
+    // WHY: Auto-release stale active participant. If a View Transition disconnects
+    // the host mid-gesture, release() is never called. Without this check, the stale
+    // participant blocks ALL subsequent gesture interactions.
+    if (this.#activeParticipant) {
+      if (!this.#activeParticipant.host.isConnected) {
+        this.#activeParticipant = null;
+      } else {
+        return; // Already claimed — ignore additional pointers
+      }
+    }
+
+    // WHY: Prune disconnected participants. After View Transition navigation,
+    // old elements are disconnected but their participants remain registered
+    // (destroy/unregister may not have run). Without pruning, they accumulate
+    // and prevent #detachListener() from firing when all real participants leave.
+    for (const p of this.#participants) {
+      if (!p.host.isConnected) this.#participants.delete(p);
+    }
+    if (this.#participants.size === 0) {
+      this.#detachListener();
+      return;
+    }
 
     // Find participants whose host contains or is the event target
     const target = e.target as Node;
