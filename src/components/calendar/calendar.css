@@ -23,7 +23,6 @@
     color: var(--n-color);
     font-size: var(--n-font-size);
     outline: none;
-    user-select: none;
 
     transition:
       background var(--n-duration) var(--n-easing),

@@ -55,7 +55,6 @@
     color: var(--n-color);
 
     cursor: pointer;
-    user-select: none;
     outline: none;
 
     transition:

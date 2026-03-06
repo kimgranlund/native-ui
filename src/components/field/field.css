@@ -13,7 +13,6 @@
     min-width: 0;
     flex-direction: column;
     gap: var(--n-field-gap, calc(var(--n-space) * 2));
-    user-select: none;
   }
 
   /* ── Gap ── */

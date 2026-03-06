@@ -104,7 +104,6 @@
     font-weight: var(--n-button-font-weight);
     color: var(--n-ink-strong);
     white-space: nowrap;
-    user-select: none;
   }
 
   /* ── Sortable Header ── */

@@ -12,7 +12,6 @@
     border: 1px solid var(--n-border-muted);
     border-radius: var(--n-radius);
     overflow: hidden;
-    user-select: none;
   }
 
   :where(n-accordion)[aria-disabled="true"] {
@@ -24,7 +23,6 @@
 
   :where(n-accordion-item) {
     display: block;
-    user-select: none;
 
     transition:
       background var(--n-duration) var(--n-easing),
@@ -64,7 +62,6 @@
     color: var(--n-ink-strong);
 
     cursor: pointer;
-    user-select: none;
     list-style: none;
 
     transition:

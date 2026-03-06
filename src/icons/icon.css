@@ -17,7 +17,6 @@
     flex-shrink: 0;
     vertical-align: middle;
     line-height: 0;
-    user-select: none;
   }
 
   :where(n-icon) > :where(svg) {

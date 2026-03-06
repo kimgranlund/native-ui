@@ -17,7 +17,6 @@
     display: inline-flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
-    user-select: none;
   }
 
   /* ── Cell ── */

@@ -7,7 +7,6 @@
   :where(n-combobox) {
     white-space: nowrap;
     display: contents;
-    user-select: none;
     transition:
       background var(--n-duration) var(--n-easing),
       color var(--n-duration) var(--n-easing),

@@ -21,7 +21,6 @@
     cursor: pointer;
     outline: none;
     touch-action: none;
-    user-select: none;
 
     transition:
       background var(--n-duration) var(--n-easing),

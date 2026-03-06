@@ -26,7 +26,6 @@
     color: var(--n-surface-ink);
 
     flex-shrink: 0;
-    user-select: none;
   }
 
   /* ── Image ── */

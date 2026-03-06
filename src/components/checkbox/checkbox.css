@@ -40,7 +40,6 @@
     color: var(--n-color);
 
     cursor: pointer;
-    user-select: none;
 
     transition:
       color var(--n-duration) var(--n-easing);

@@ -22,7 +22,6 @@
     color: var(--n-color);
     overflow-y: auto;
     outline: none;
-    user-select: none;
     scrollbar-width: thin;
     scrollbar-color: var(--n-border-muted-neutral) transparent;
 
@@ -114,7 +113,6 @@
 
     border-radius: calc(var(--n-radius) - var(--n-space));
     cursor: pointer;
-    user-select: none;
 
     white-space: nowrap;
     background: var(--n-background);
@@ -193,7 +191,6 @@
     line-height: var(--n-control-line-height);
     color: var(--n-ink-muted);
     cursor: default;
-    user-select: none;
   }
 
 }

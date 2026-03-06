@@ -25,7 +25,6 @@
     appearance: none;
     font: inherit;
     cursor: pointer;
-    user-select: none;
     box-sizing: border-box;
 
     display: grid;

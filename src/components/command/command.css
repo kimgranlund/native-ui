@@ -18,7 +18,6 @@
     background: var(--n-background);
     color: var(--n-color);
     overflow: hidden;
-    user-select: none;
 
     transition:
       background var(--n-duration) var(--n-easing),
@@ -42,7 +41,6 @@
     min-height: var(--n-size);
     padding-inline: calc(var(--n-space-k) * var(--n-space));
     border-bottom: 1px solid var(--n-border-color);
-    user-select: none;
   }
 
   :where(n-command-input) :where(input) {
@@ -72,7 +70,6 @@
     padding-inline: var(--n-space);
     scrollbar-width: thin;
     scrollbar-color: var(--n-border-muted-neutral) transparent;
-    user-select: none;
   }
 
   /* ── Command Group ── */
@@ -80,7 +77,6 @@
   :where(n-command-group) {
     display: flex;
     flex-direction: column;
-    user-select: none;
   }
 
   :where(n-command-group) > :where([slot="heading"]) {
@@ -99,7 +95,6 @@
     min-height: calc(var(--n-size) * 2);
     color: var(--n-ink-muted);
     font-size: var(--n-font-size);
-    user-select: none;
   }
 
   /* ── Popover hidden guard ── */

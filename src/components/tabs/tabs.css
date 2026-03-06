@@ -16,7 +16,6 @@
     min-width: 0;
 
     outline: none;
-    user-select: none;
 
     transition:
       border-color var(--n-duration) var(--n-easing);
@@ -143,7 +142,6 @@
 
     white-space: nowrap;
     cursor: pointer;
-    user-select: none;
     outline: none;
 
     transition:

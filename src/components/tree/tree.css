@@ -16,7 +16,6 @@
     padding-inline: var(--n-space);
     font-size: var(--n-font-size);
     line-height: var(--n-line-height);
-    user-select: none;
   }
 
   :where(n-tree)[aria-disabled="true"] {
@@ -60,7 +59,6 @@
     background: transparent;
     color: var(--n-ink);
     cursor: pointer;
-    user-select: none;
     outline: none;
 
     transition:

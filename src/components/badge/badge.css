@@ -27,7 +27,6 @@
     background: var(--n-surface);
     color: var(--n-surface-ink);
 
-    user-select: none;
     flex-shrink: 0;
   }
 

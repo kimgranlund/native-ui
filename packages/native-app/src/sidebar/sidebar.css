@@ -210,7 +210,6 @@
     line-height: var(--n-control-line-height);
     color: var(--n-ink);
     cursor: pointer;
-    user-select: none;
     border: none;
     background: none;
     padding-block: var(--n-space);
@@ -363,7 +362,6 @@
     gap: 0;
     padding: 0;
     outline: none;
-    user-select: none;
   }
 
   :where(n-sidebar-nav)[aria-disabled="true"] {
@@ -392,7 +390,6 @@
     font-weight: var(--n-font-weight);
 
     cursor: pointer;
-    user-select: none;
     color: var(--n-ink-muted);
 
     transition:
@@ -447,7 +444,6 @@
 
     display: block;
     position: relative;
-    user-select: none;
   }
 
   :where(n-sidebar-group) + :where(n-sidebar-group) {
@@ -484,7 +480,6 @@
     gap: calc(var(--n-space) * 2);
     padding-inline: calc(var(--n-space-k) * var(--n-space));
     cursor: pointer;
-    user-select: none;
     list-style: none;
     outline: none;
   }
@@ -514,7 +509,6 @@
     line-height: var(--n-control-line-height);
     color: var(--n-ink);
     cursor: pointer;
-    user-select: none;
   }
 
   /* WHY: Fixed-size icon well — matches n-sidebar-item [slot="icon"].

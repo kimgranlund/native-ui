@@ -43,7 +43,6 @@
     color: var(--n-ink-muted);
     font-size: var(--n-font-size);
     pointer-events: none;
-    user-select: none;
   }
 
   :where(n-pagination[hidden]) { display: none; }

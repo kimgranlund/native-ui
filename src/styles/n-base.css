@@ -42,7 +42,7 @@
     n-accordion, n-calendar, n-tree,
     n-icon, n-tooltip,
     n-field, n-input-otp,
-    n-sidebar-nav, n-sidebar-nav-item, n-sidebar-group-header,
+    n-sidebar-nav, n-sidebar-nav-item, n-sidebar-item, n-sidebar-group-header,
     n-header, n-footer, n-toolbar
   ) {
     user-select: none;

@@ -28,7 +28,6 @@
     border-radius: var(--n-radius);
     border: 1px solid var(--n-border-color);
     padding: calc(var(--n-space) * 1);
-    user-select: none;
 
     font-size: var(--n-font-size);
     line-height: var(--n-line-height);

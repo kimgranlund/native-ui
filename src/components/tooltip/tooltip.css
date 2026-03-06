@@ -9,7 +9,6 @@
 
   :where(n-tooltip) {
     display: contents;
-    user-select: none;
   }
 
   :where(n-tooltip[popover]) {
