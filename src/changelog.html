@@ -58,33 +58,30 @@
         padding: 0.125em 0.375em;
         border-radius: 0.25rem;
       }
-      .changelog-trait {
-        margin-block: 0.5rem;
-        padding: 0.625rem 0.75rem;
-        background: var(--n-panel-neutral);
-        border-radius: 0.5rem;
+      .changelog-traits {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-block-start: 0.5rem;
+      }
+      .changelog-traits n-card {
         border-inline-start: 3px solid var(--n-color-accent-500);
       }
-      .changelog-trait h4 {
-        margin: 0 0 0.25rem;
-        font-size: 0.875rem;
-        font-weight: 600;
-      }
-      .changelog-trait h4 a {
+      .changelog-traits n-header a {
         color: var(--n-ink-strong-accent);
         text-decoration: none;
       }
-      .changelog-trait h4 a:hover {
+      .changelog-traits n-header a:hover {
         text-decoration: underline;
       }
-      .changelog-trait p {
-        margin: 0;
-        font-size: 0.8125rem;
-        line-height: 1.5;
-        color: var(--n-ink-neutral);
+      .changelog-traits n-body p {
+        margin: 0 0 0.25rem;
       }
-      .changelog-trait .trait-events {
-        margin-block-start: 0.25rem;
+      .changelog-traits n-body ul {
+        margin: 0;
+        padding-inline-start: 1.25rem;
+      }
+      .changelog-traits n-footer {
         font-size: 0.75rem;
         color: var(--n-ink-muted-neutral);
       }
@@ -105,40 +102,84 @@
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="danger">New</n-badge> Fun Traits (6 total)</h3>
 
-        <div class="changelog-trait">
-          <h4><a href="/src/traits/tossable.html">TossController</a> — Physics-based throwing</h4>
-          <p>Pick up an element and fling it with momentum. Configurable friction, gravity, spin (angular velocity from pointer movement), and optional viewport edge bouncing with damping.</p>
-          <p class="trait-events">Events: <code>native:toss</code> <code>native:bounce</code></p>
-        </div>
+        <div class="changelog-traits">
+          <n-card>
+            <n-header><span slot="label"><a href="/src/traits/tossable.html">TossController</a> — Physics-based throwing</span></n-header>
+            <n-body>
+              <p>Pick up an element and fling it with momentum.</p>
+              <ul>
+                <li>Configurable friction, gravity, and optional viewport edge bouncing with damping</li>
+                <li>Spin mode tracks angular velocity from horizontal pointer movement</li>
+                <li><code>returnOnEnd</code> animates back to origin after momentum settles</li>
+              </ul>
+            </n-body>
+            <n-footer>Events: <code>native:toss</code> <code>native:bounce</code></n-footer>
+          </n-card>
 
-        <div class="changelog-trait">
-          <h4><a href="/src/traits/css-inspectable.html">CSSInspectController</a> — 3D layer inspector</h4>
-          <p>Hover to explode child layers in 3D space with interactive mouse-tracking tilt. Recursive DOM walking labels every descendant. Pick mode (Alt+hover) inspects individual elements in large containers.</p>
-          <p class="trait-events">Events: <code>native:inspect</code></p>
-        </div>
+          <n-card>
+            <n-header><span slot="label"><a href="/src/traits/css-inspectable.html">CSSInspectController</a> — 3D layer inspector</span></n-header>
+            <n-body>
+              <p>Hover to explode child layers in 3D space with interactive mouse-tracking tilt.</p>
+              <ul>
+                <li>Recursive DOM walking labels every descendant via <code>[data-inspect-label]::after</code></li>
+                <li>Pick mode (Alt+hover) inspects individual elements in large containers</li>
+                <li>Clone-in-popover rendering escapes ancestor clipping and <code>preserve-3d</code> flattening</li>
+              </ul>
+            </n-body>
+            <n-footer>Events: <code>native:inspect</code></n-footer>
+          </n-card>
 
-        <div class="changelog-trait">
-          <h4><a href="/src/traits/flippable.html">FlipController</a> — 3D card flip</h4>
-          <p>Flip on click or hover with configurable axis (X/Y), duration, and perspective. Front/back faces via <code>[data-flip-back]</code> with <code>backface-visibility: hidden</code>. Programmatic <code>flip()</code>, <code>unflip()</code>, <code>toggle()</code> API.</p>
-          <p class="trait-events">Events: <code>native:flip</code></p>
-        </div>
+          <n-card>
+            <n-header><span slot="label"><a href="/src/traits/flippable.html">FlipController</a> — 3D card flip</span></n-header>
+            <n-body>
+              <p>Flip on click or hover with CSS 3D transforms.</p>
+              <ul>
+                <li>Configurable axis (X/Y), duration, and perspective</li>
+                <li>Front/back faces via <code>[data-flip-back]</code> with automatic <code>backface-visibility</code></li>
+                <li>Programmatic <code>flip()</code>, <code>unflip()</code>, <code>toggle()</code> API</li>
+              </ul>
+            </n-body>
+            <n-footer>Events: <code>native:flip</code></n-footer>
+          </n-card>
 
-        <div class="changelog-trait">
-          <h4><a href="/src/traits/parallaxable.html">ParallaxController</a> — Holographic tilt</h4>
-          <p>Mouse-position tilt effect. Tracks pointer relative to element center, applies <code>perspective + rotateX + rotateY + scale</code>. Optional glare overlay. Exposes CSS custom properties (<code>--parallax-tilt-x</code>, <code>--parallax-tilt-y</code>) for CSS-driven effects like dynamic shadows.</p>
-          <p class="trait-events">Events: <code>native:parallax-move</code></p>
-        </div>
+          <n-card>
+            <n-header><span slot="label"><a href="/src/traits/parallaxable.html">ParallaxController</a> — Holographic tilt</span></n-header>
+            <n-body>
+              <p>Mouse-position tilt effect — like holographic trading cards.</p>
+              <ul>
+                <li>Tracks pointer relative to element center → <code>perspective + rotateX + rotateY + scale</code></li>
+                <li>Optional glare overlay via radial gradient that follows the cursor</li>
+                <li>Exposes <code>--parallax-tilt-x</code> / <code>--parallax-tilt-y</code> CSS custom properties for CSS-driven effects</li>
+              </ul>
+            </n-body>
+            <n-footer>Events: <code>native:parallax-move</code></n-footer>
+          </n-card>
 
-        <div class="changelog-trait">
-          <h4><a href="/src/traits/confettible.html">ConfettiController</a> — Particle burst</h4>
-          <p>DOM-based particles with randomized trajectories, gravity, air resistance, rotation, and fade-out. Configurable count, spread, velocity, shapes (square/circle/mixed), and colors. Multiple concurrent bursts supported.</p>
-          <p class="trait-events">Events: <code>native:confetti</code></p>
-        </div>
+          <n-card>
+            <n-header><span slot="label"><a href="/src/traits/confettible.html">ConfettiController</a> — Particle burst</span></n-header>
+            <n-body>
+              <p>DOM-based confetti particles with randomized trajectories.</p>
+              <ul>
+                <li>Physics: gravity, air resistance, rotation, and fade-out</li>
+                <li>Configurable count, spread, velocity, shapes (square/circle/mixed), and colors</li>
+                <li>Multiple concurrent bursts supported — each gets its own overlay</li>
+              </ul>
+            </n-body>
+            <n-footer>Events: <code>native:confetti</code></n-footer>
+          </n-card>
 
-        <div class="changelog-trait">
-          <h4><a href="/src/traits/magnetizable.html">MagnetController</a> — Snap-to-grid drag</h4>
-          <p>Three snap modes: grid lines, sibling edges/centers, container edges. Strength-based easing into snap position. Visual guide lines appear during active snap.</p>
-          <p class="trait-events">Events: <code>native:magnet-snap</code> <code>native:magnet-drop</code></p>
+          <n-card>
+            <n-header><span slot="label"><a href="/src/traits/magnetizable.html">MagnetController</a> — Snap-to-grid drag</span></n-header>
+            <n-body>
+              <p>Elements snap toward each other or to a grid when dragged within a threshold.</p>
+              <ul>
+                <li>Three snap modes: grid lines, sibling edges/centers, container edges</li>
+                <li>Strength-based easing into snap position (not hard snapping)</li>
+                <li>Visual guide lines appear during active snap</li>
+              </ul>
+            </n-body>
+            <n-footer>Events: <code>native:magnet-snap</code> <code>native:magnet-drop</code></n-footer>
+          </n-card>
         </div>
       </div>
 
@@ -501,6 +542,7 @@
     <script type="module">
       import './nav/native-app.ts';
       import './components/badge/badge.ts';
+      import './containers/card/n-card.ts';
     </script>
   </body>
 </html>
