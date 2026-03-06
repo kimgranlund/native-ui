@@ -28,7 +28,11 @@ import {
   slashCommandableAdapter,
   shortcutableAdapter,
   tossableAdapter,
+  flippableAdapter,
+  parallaxableAdapter,
   cssInspectableAdapter,
+  confettibleAdapter,
+  magnetizableAdapter,
 } from './adapters/index.ts';
 
 /**
@@ -64,5 +68,9 @@ export function registerAllTraits(): void {
   registerTrait(slashCommandableAdapter);
   registerTrait(shortcutableAdapter);
   registerTrait(tossableAdapter);
+  registerTrait(flippableAdapter);
+  registerTrait(parallaxableAdapter);
   registerTrait(cssInspectableAdapter);
+  registerTrait(confettibleAdapter);
+  registerTrait(magnetizableAdapter);
 }

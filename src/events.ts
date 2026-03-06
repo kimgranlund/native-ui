@@ -184,6 +184,41 @@ export interface NBounceDetail {
   velocityY: number;
 }
 
+// ── Flip ──
+export interface NFlipDetail {
+  flipped: boolean;
+  axis: 'x' | 'y';
+}
+
+// ── Parallax ──
+export interface NParallaxMoveDetail {
+  tiltX: number;
+  tiltY: number;
+  percentX: number;
+  percentY: number;
+}
+
+// ── Confetti ──
+export interface NConfettiDetail {
+  count: number;
+  origin: { x: number; y: number };
+}
+
+// ── Magnet ──
+export interface NMagnetSnapDetail {
+  item: HTMLElement;
+  x: number;
+  y: number;
+  snappedTo: 'grid' | 'edge' | 'sibling';
+  axis: 'x' | 'y' | 'both';
+}
+
+export interface NMagnetDropDetail {
+  item: HTMLElement;
+  x: number;
+  y: number;
+}
+
 // ── CSS Inspect ──
 export interface NCSSInspectDetail {
   active: boolean;

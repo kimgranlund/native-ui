@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confettible — Trait Demo</title>
+    <link rel="stylesheet" href="../styles/n-index.css" />
+    <link rel="stylesheet" href="../styles/n-components.css" />
+    <link rel="stylesheet" href="../styles/demo.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--n-ink-strong-neutral);
+      }
+
+      /* ── Event log ── */
+
+      .event-log {
+        font-family: ui-monospace, monospace;
+        font-size: 0.7rem;
+        line-height: 1.6;
+        color: var(--n-ink-muted-neutral);
+        max-height: 10rem;
+        overflow-y: auto;
+      }
+      .event-log .entry {
+        padding: 0.125rem 0;
+      }
+      .event-log .count { color: var(--n-ink-accent); }
+      .event-log .origin { color: var(--n-ink-success); }
+
+    </style>
+
+    <!-- Script 1: Register traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../index.ts';
+      registerAllTraits();
+    </script>
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../nav/native-app.ts';
+      import '../components/button/button.ts';
+      import '../components/switch/switch.ts';
+      import '../components/range/range.ts';
+      import '../components/input/input.ts';
+      import '../components/field/field.ts';
+      import '../components/controller/controller.ts';
+      import { ConfettiController } from '../index.ts';
+
+      // ── Event log ──
+      const eventLog = document.getElementById('event-log');
+      document.addEventListener('native:confetti', (e) => {
+        const d = e.detail;
+        const entry = document.createElement('div');
+        entry.className = 'entry';
+        entry.innerHTML = `confetti — <span class="count">count:${d.count}</span> <span class="origin">origin:(${d.origin.x.toFixed(0)}, ${d.origin.y.toFixed(0)})</span>`;
+        eventLog.prepend(entry);
+      });
+
+      // ── Form success demo ──
+      const formBtn = document.getElementById('form-submit');
+      const formHost = document.getElementById('form-card');
+      const formConfetti = new ConfettiController(formHost, { trigger: 'manual', count: 50, spread: 120 });
+
+      formBtn.addEventListener('native:press', () => {
+        formBtn.toggleAttribute('disabled', true);
+        formBtn.textContent = 'Submitting...';
+        setTimeout(() => {
+          formBtn.textContent = 'Success!';
+          formConfetti.fire();
+          setTimeout(() => {
+            formBtn.removeAttribute('disabled');
+            formBtn.textContent = 'Submit';
+          }, 1500);
+        }, 800);
+      });
+
+      // ── Programmatic presets ──
+      const subtleHost = document.getElementById('btn-subtle');
+      const partyHost = document.getElementById('btn-party');
+      const explosionHost = document.getElementById('btn-explosion');
+
+      const subtleCtrl = new ConfettiController(subtleHost, { trigger: 'manual', count: 10, velocity: 6, spread: 45, duration: 1200 });
+      const partyCtrl = new ConfettiController(partyHost, { trigger: 'manual', count: 60, velocity: 15, spread: 120, duration: 2500 });
+      const explosionCtrl = new ConfettiController(explosionHost, { trigger: 'manual', count: 100, velocity: 25, spread: 180, gravity: 0.3, duration: 3000 });
+
+      subtleHost.addEventListener('native:press', () => subtleCtrl.fire());
+      partyHost.addEventListener('native:press', () => partyCtrl.fire());
+      explosionHost.addEventListener('native:press', () => explosionCtrl.fire());
+
+      // ── Options playground ──
+      const playgroundBtn = document.getElementById('playground-fire');
+      const playgroundHost = document.getElementById('playground-target');
+      let playCtrl = new ConfettiController(playgroundHost, { trigger: 'manual' });
+
+      playgroundBtn.addEventListener('native:press', () => playCtrl.fire());
+
+      const countRange = document.getElementById('opt-count');
+      const countVal = document.getElementById('count-val');
+      countRange.addEventListener('native:change', (e) => {
+        const v = Number(e.detail.value);
+        playCtrl.count = v;
+        countVal.textContent = String(v);
+      });
+
+      const spreadRange = document.getElementById('opt-spread');
+      const spreadVal = document.getElementById('spread-val');
+      spreadRange.addEventListener('native:change', (e) => {
+        const v = Number(e.detail.value);
+        playCtrl.spread = v;
+        spreadVal.textContent = String(v);
+      });
+
+      const velocityRange = document.getElementById('opt-velocity');
+      const velocityVal = document.getElementById('velocity-val');
+      velocityRange.addEventListener('native:change', (e) => {
+        const v = Number(e.detail.value);
+        playCtrl.velocity = v;
+        velocityVal.textContent = String(v);
+      });
+
+      const gravityRange = document.getElementById('opt-gravity');
+      const gravityVal = document.getElementById('gravity-val');
+      gravityRange.addEventListener('native:change', (e) => {
+        const v = Number(e.detail.value);
+        playCtrl.gravity = v;
+        gravityVal.textContent = v.toFixed(2);
+      });
+
+      const durationRange = document.getElementById('opt-duration');
+      const durationVal = document.getElementById('duration-val');
+      durationRange.addEventListener('native:change', (e) => {
+        const v = Number(e.detail.value);
+        playCtrl.duration = v;
+        durationVal.textContent = String(v);
+      });
+    </script>
+  </head>
+  <body>
+    <native-app-spa>
+      <main>
+        <h2>Confettible</h2>
+        <n-text muted size="sm" style="margin-bottom: 1.5rem; display: block;">
+          Burst of confetti particles from an element. DOM-based particles with randomized trajectories and gravity.
+        </n-text>
+
+        <!-- ── Click to Celebrate ── -->
+
+        <h3>Click to Celebrate</h3>
+        <n-text muted size="sm" style="margin-bottom: 0.75rem; display: block;">
+          Wrap a button with <code>&lt;n-controller traits="confettible"&gt;</code> — clicking fires confetti from the element's center.
+        </n-text>
+
+        <n-stack direction="row" gap="3">
+          <n-controller traits="confettible">
+            <n-button intent="accent">Celebrate!</n-button>
+          </n-controller>
+          <n-controller traits="confettible" data-trait-confettible-count="60" data-trait-confettible-spread="180">
+            <n-button intent="success">Big Burst</n-button>
+          </n-controller>
+        </n-stack>
+
+        <!-- ── Form Success ── -->
+
+        <h3>Form Success</h3>
+        <n-text muted size="sm" style="margin-bottom: 0.75rem; display: block;">
+          Programmatic <code>fire()</code> after a fake form submission.
+        </n-text>
+
+        <n-card id="form-card">
+          <n-header><span slot="label">Contact Form</span></n-header>
+          <n-body>
+            <n-stack gap="3">
+              <n-field label="Name">
+                <n-input placeholder="Your name"></n-input>
+              </n-field>
+              <n-field label="Email">
+                <n-input placeholder="you@example.com"></n-input>
+              </n-field>
+              <n-button id="form-submit" intent="accent" variant="primary">Submit</n-button>
+            </n-stack>
+          </n-body>
+        </n-card>
+
+        <!-- ── Custom Colors ── -->
+
+        <h3>Custom Colors</h3>
+        <n-text muted size="sm" style="margin-bottom: 0.75rem; display: block;">
+          Pass a custom <code>colors</code> array for brand-themed confetti.
+        </n-text>
+
+        <n-stack direction="row" gap="3">
+          <n-controller traits="confettible" data-trait-confettible-count="40">
+            <n-button variant="primary" intent="danger">Red Party</n-button>
+          </n-controller>
+          <n-controller traits="confettible" data-trait-confettible-count="40">
+            <n-button variant="primary" intent="info">Blue Vibes</n-button>
+          </n-controller>
+          <n-controller traits="confettible" data-trait-confettible-count="40">
+            <n-button variant="primary" intent="success">Green Rush</n-button>
+          </n-controller>
+        </n-stack>
+
+        <!-- ── Shapes ── -->
+
+        <h3>Shapes</h3>
+        <n-text muted size="sm" style="margin-bottom: 0.75rem; display: block;">
+          Compare square, circle, and mixed particle shapes.
+        </n-text>
+
+        <n-stack direction="row" gap="3">
+          <n-controller traits="confettible" data-trait-confettible-shapes="square">
+            <n-button variant="secondary">Square</n-button>
+          </n-controller>
+          <n-controller traits="confettible" data-trait-confettible-shapes="circle">
+            <n-button variant="secondary">Circle</n-button>
+          </n-controller>
+          <n-controller traits="confettible" data-trait-confettible-shapes="mixed">
+            <n-button variant="secondary">Mixed</n-button>
+          </n-controller>
+        </n-stack>
+
+        <!-- ── Options Playground ── -->
+
+        <h3>Options Playground</h3>
+        <n-text muted size="sm" style="margin-bottom: 0.75rem; display: block;">
+          Adjust parameters and fire from the target button.
+        </n-text>
+
+        <n-card>
+          <n-body>
+            <n-stack gap="3">
+              <n-stack direction="row" align="center" gap="3">
+                <n-text size="sm" style="min-width: 7rem;">Count: <strong id="count-val">30</strong></n-text>
+                <n-range id="opt-count" min="5" max="100" step="5" value="30" style="flex:1;"></n-range>
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
+                <n-text size="sm" style="min-width: 7rem;">Spread: <strong id="spread-val">90</strong></n-text>
+                <n-range id="opt-spread" min="10" max="360" step="10" value="90" style="flex:1;"></n-range>
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
+                <n-text size="sm" style="min-width: 7rem;">Velocity: <strong id="velocity-val">12</strong></n-text>
+                <n-range id="opt-velocity" min="2" max="30" step="1" value="12" style="flex:1;"></n-range>
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
+                <n-text size="sm" style="min-width: 7rem;">Gravity: <strong id="gravity-val">0.50</strong></n-text>
+                <n-range id="opt-gravity" min="0" max="2" step="0.1" value="0.5" style="flex:1;"></n-range>
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
+                <n-text size="sm" style="min-width: 7rem;">Duration: <strong id="duration-val">2000</strong></n-text>
+                <n-range id="opt-duration" min="500" max="5000" step="250" value="2000" style="flex:1;"></n-range>
+              </n-stack>
+              <n-stack direction="row" gap="2">
+                <n-button id="playground-fire" intent="accent" variant="primary">Fire!</n-button>
+                <n-button id="playground-target" variant="secondary">Target (fire from here)</n-button>
+              </n-stack>
+            </n-stack>
+          </n-body>
+        </n-card>
+
+        <!-- ── Programmatic Presets ── -->
+
+        <h3>Programmatic Presets</h3>
+        <n-text muted size="sm" style="margin-bottom: 0.75rem; display: block;">
+          <code>new ConfettiController(el, options)</code> with <code>trigger: 'manual'</code> — call <code>.fire()</code> programmatically.
+        </n-text>
+
+        <n-stack direction="row" gap="3">
+          <n-button id="btn-subtle" variant="secondary">Subtle</n-button>
+          <n-button id="btn-party" intent="accent" variant="primary">Party</n-button>
+          <n-button id="btn-explosion" intent="danger" variant="primary">Explosion</n-button>
+        </n-stack>
+
+        <!-- ── Event Log ── -->
+
+        <h3>Event Log</h3>
+        <n-card>
+          <n-body show-scrollbar style="max-height: 8rem;">
+            <div class="event-log" id="event-log"></div>
+          </n-body>
+        </n-card>
+
+      </main>
+    </native-app-spa>
+  </body>
+</html>

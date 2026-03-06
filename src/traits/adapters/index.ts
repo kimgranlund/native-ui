@@ -26,4 +26,8 @@ export { presentableAdapter } from './presentable-adapter.ts';
 export { slashCommandableAdapter } from './slash-commandable-adapter.ts';
 export { shortcutableAdapter } from './shortcutable-adapter.ts';
 export { tossableAdapter } from './tossable-adapter.ts';
+export { flippableAdapter } from './flippable-adapter.ts';
+export { parallaxableAdapter } from './parallaxable-adapter.ts';
 export { cssInspectableAdapter } from './css-inspectable-adapter.ts';
+export { confettibleAdapter } from './confettible-adapter.ts';
+export { magnetizableAdapter } from './magnetizable-adapter.ts';
