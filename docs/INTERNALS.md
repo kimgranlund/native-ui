@@ -207,7 +207,7 @@ Components follow three rendering patterns based on how they produce DOM:
 | `src/core/` | NativeElement, define, uid, context, effects, form-associable |
 | `src/reactivity/` | signal, computed, effect, batch, untrack, debug |
 | `src/registries/` | trait-registry, icon-registry, plugin-registry |
-| `src/traits/` | 28 controllers + adapters |
+| `src/traits/` | 34 controllers + adapters |
 | `src/components/` | Interactive components |
 | `src/containers/` | Structural containers |
 | `src/styles/` | Foundation CSS |
