@@ -67,6 +67,81 @@
       Version history for <code>@nonoun/native-ui</code>. Each release lists new features, updates, and breaking changes with links to relevant demo pages.
     </p>
 
+    <!-- ── 0.7.37 + native-a2ui 0.2.2 ── -->
+
+    <div class="changelog-version">
+      <h2>0.7.37 <span class="changelog-date">— March 2026</span></h2>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="danger">New</n-badge> A2UI Session Layer (<code>@nonoun/native-a2ui 0.2.2</code>)</h3>
+        <ul>
+          <li><strong>Session Manager</strong> — <code>NSessionManager</code> creates and manages agent sessions. Each session is an <code>AgentSession</code> with its own event emitter, surface ownership, and component catalog.</li>
+          <li><strong>Surface Registry</strong> — <code>NSurfaceRegistry</code> manages named render targets (DOM mount points). Surfaces have single-owner semantics: only the owning session can write to a surface. Ownership can be transferred between sessions.</li>
+          <li><strong>Component Catalog</strong> — <code>buildCatalogFromRegistry()</code> builds a typed catalog of available A2UI components from the kernel's component registry. Catalogs are passed to sessions to constrain what components agents can render.</li>
+          <li><strong>Adapters</strong> — Protocol adapters bridge external agent protocols to the A2UI surface system:
+            <ul>
+              <li><code>DirectAdapter</code> — In-process adapter for local agents (simulation, testing).</li>
+              <li><code>A2AAdapter</code> — Google A2A protocol adapter (agent-to-agent task delegation).</li>
+              <li><code>AgUIAdapter</code> — AG-UI protocol adapter (agent-generated UI streaming).</li>
+            </ul>
+          </li>
+          <li><strong>Event Emitter</strong> — Lightweight typed event emitter for session lifecycle events (<code>status-change</code>, <code>error</code>, <code>component-update</code>).</li>
+          <li><strong>Tests</strong> — 5 test suites covering catalog, direct adapter, event emitter, session manager, and surface registry.</li>
+        </ul>
+      </div>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="danger">New</n-badge> A2A Demo Pages</h3>
+        <ul>
+          <li><a href="/packages/native-a2ui/src/a2a-tictactoe.html"><code>A2A Tic-Tac-Toe</code></a> — Two AI agents (Claude vs ChatGPT) play Tic-Tac-Toe through independent A2UI surfaces. Features: human play via cell click, simulation mode with minimax AI, auto-play with disabled controls, pulsing outline turn indicators, animated icon transitions, click-to-start game creation, model selection (Claude Haiku 4.5, GPT-5 mini/nano, GPT-4.1 mini/nano, Human).</li>
+          <li><a href="/packages/native-a2ui/src/a2a-sessions.html"><code>A2A Sessions</code></a> — Session lifecycle demo: create, pause, resume, terminate sessions. Shows status transitions and event log.</li>
+          <li><a href="/packages/native-a2ui/src/a2a-ownership.html"><code>A2A Ownership</code></a> — Surface ownership transfer demo: two agents competing for write access to a shared surface, ownership gating, transfer mechanics.</li>
+          <li><a href="/packages/native-a2ui/src/a2a-catalog.html"><code>A2A Catalog</code></a> — Component catalog explorer: browse available A2UI components, their properties, and rendering capabilities.</li>
+        </ul>
+      </div>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="info">Enhanced</n-badge> Sub-Container Padding Alignment</h3>
+        <ul>
+          <li><code>&lt;n-header&gt;</code> — Default <code>--n-header-padding-block</code> changed from <code>space × 2</code> to <code>space × 4</code>, matching <code>&lt;n-footer&gt;</code>. All padding variants (<code>tight</code>, <code>regular</code>, <code>relaxed</code>) now use the same scale across header, body, and footer.</li>
+          <li><code>&lt;n-footer&gt;</code> — Padding variants aligned to consistent scale. <code>tight</code>: block <code>space × 2</code>, inline <code>space × 4</code>. <code>regular</code>: block <code>space × 4</code>, inline <code>space × 6</code>. <code>relaxed</code>: block <code>space × 6</code>, inline <code>space × 8</code>.</li>
+          <li><code>&lt;n-body&gt;</code> — Padding variants aligned. Default: <code>space × 4</code> block and inline. <code>tight</code>: inline <code>space × 4</code>. <code>regular</code>: block <code>space × 4</code>, inline <code>space × 6</code>. <code>relaxed</code>: block <code>space × 6</code>, inline <code>space × 8</code>.</li>
+          <li><strong>Min-height formula</strong> — All three sub-containers now use identical <code>min-height: calc(var(--n-size) + total-block-padding)</code> math so headers, bodies, and footers at the same padding variant produce consistent sizing.</li>
+        </ul>
+      </div>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="info">Enhanced</n-badge> Component CSS Fixes</h3>
+        <ul>
+          <li><code>&lt;n-button&gt;</code> — Added <code>max-height: var(--n-size)</code> to base rule. Prevents buttons from stretching vertically in flex containers.</li>
+          <li><code>&lt;n-input&gt;</code> — Added <code>max-height: var(--n-size)</code> to base rule. Same vertical containment fix.</li>
+          <li><code>&lt;n-select&gt;</code> popover — Removed <code>margin-inline: var(--n-popover-viewport-margin)</code> from the popover listbox positioning rule. This was causing a visible inset/misalignment between the trigger button and the dropdown.</li>
+          <li><code>&lt;n-card&gt;</code> — Gap token changed from <code>calc(var(--n-space) * 0)</code> to explicit <code>0</code>.</li>
+          <li><code>&lt;n-stack&gt;</code> — Default flex changed from <code>1 1 100%</code> to <code>1 1 0%</code> (standard flex-grow behavior, prevents 100% flex-basis from forcing overflow).</li>
+        </ul>
+      </div>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="info">Enhanced</n-badge> Lifecycle Hardening</h3>
+        <ul>
+          <li><strong>NativeElement <code>ready</code> promise</strong> — Renewable: getter returns <code>#readyPromise</code>, fresh on each <code>connectedCallback</code>. Old promise stays resolved. <code>#pendingDefers</code> counter gates readiness.</li>
+          <li><strong><code>deferChildren</code> retries</strong> — Sync check → microtask → RAF → RAF (3 attempts). Covers slow custom element upgrades and lazy content injection.</li>
+          <li><strong><code>#alive</code> guard</strong> — Prevents double-setup on rapid DOM moves. <code>disconnectedCallback</code> respects <code>_reparenting</code> flag.</li>
+          <li><strong>NController</strong> — Calls <code>renewReady()</code> in own <code>connectedCallback</code> (skips super). <code>#retryApplyFirstChild</code> for wrapper mode when first child isn't ready yet.</li>
+          <li><strong>DragController</strong> — <code>lostpointercapture</code> listener removed before <code>releasePointerCapture</code> (prevents re-entry). Document listeners removed before <code>native:drop</code> dispatch (prevents leaks on navigation).</li>
+        </ul>
+      </div>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="info">Enhanced</n-badge> Token & Color Changes</h3>
+        <ul>
+          <li><code>--n-popover-viewport-margin</code> — No longer applied to select/combobox dropdown inline margins. Still used for block margins (top/bottom viewport safety).</li>
+          <li><code>--n-ink-inverse</code> — Documented: resolves to <code>--n-ink-inverse-{family}</code> → <code>--n-color-{family}-11</code> (raw darkest ramp step, never flips with theme). Used by selected state pattern for white-background pills.</li>
+          <li><code>n-components.shared.css</code> — Updated shared control defaults.</li>
+        </ul>
+      </div>
+    </div>
+
     <!-- ── native-chart 0.1.0 ── -->
 
     <div class="changelog-version">
