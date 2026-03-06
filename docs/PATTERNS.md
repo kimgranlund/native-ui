@@ -281,7 +281,7 @@ this.addEventListener('native:shortcut', (e) => {
 - `when()` guard skips binding if returns false
 - First matching binding wins
 - `add(binding)` / `remove(id)` for runtime changes
-- Declarative: `<n-controller traits="shortcutable" shortcutable-global>`
+- Declarative: `<n-controller traits="shortcutable" data-trait-shortcutable-global>`
 
 ## 12. Present Pattern (Full-Viewport Expand)
 

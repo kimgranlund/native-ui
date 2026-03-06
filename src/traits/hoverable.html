@@ -145,15 +145,15 @@
     <h2>Hover Intent (500ms)</h2>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>hoverable-delay="500"</code> prevents accidental hover triggers. Pointer must rest on the element for 500ms before activation.
+        <code>data-trait-hoverable-delay="500"</code> prevents accidental hover triggers. Pointer must rest on the element for 500ms before activation.
       </p>
-      <n-controller traits="hoverable" hoverable-delay="500">
+      <n-controller traits="hoverable" data-trait-hoverable-delay="500">
         <div class="hover-card" id="intent-card">
           Hover and wait 500ms <span class="hover-status">idle</span>
         </div>
       </n-controller>
       <div id="intent-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" hoverable-delay="500"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" data-trait-hoverable-delay="500"&gt;
   &lt;div class="hover-card"&gt;
     Hover and wait 500ms
   &lt;/div&gt;
@@ -165,15 +165,15 @@
     <h2>Sticky Hover (300ms leave)</h2>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>hoverable-leave-delay="300"</code> so the hover state persists briefly after the pointer leaves. Useful for menus or tooltips with a gap between trigger and content.
+        <code>data-trait-hoverable-leave-delay="300"</code> so the hover state persists briefly after the pointer leaves. Useful for menus or tooltips with a gap between trigger and content.
       </p>
-      <n-controller traits="hoverable" hoverable-leave-delay="300">
+      <n-controller traits="hoverable" data-trait-hoverable-leave-delay="300">
         <div class="hover-card" id="sticky-card">
           Hover, then leave slowly <span class="hover-status">idle</span>
         </div>
       </n-controller>
       <div id="sticky-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" hoverable-leave-delay="300"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" data-trait-hoverable-leave-delay="300"&gt;
   &lt;div class="hover-card"&gt;
     Hover, then leave slowly
   &lt;/div&gt;
@@ -185,15 +185,15 @@
     <h2>Combined Delays</h2>
     <n-panel bordered>
       <p class="demo-hint">
-        Both <code>hoverable-delay="400"</code> and <code>hoverable-leave-delay="200"</code>. Requires intent to activate and lingers briefly on leave.
+        Both <code>data-trait-hoverable-delay="400"</code> and <code>data-trait-hoverable-leave-delay="200"</code>. Requires intent to activate and lingers briefly on leave.
       </p>
-      <n-controller traits="hoverable" hoverable-delay="400" hoverable-leave-delay="200">
+      <n-controller traits="hoverable" data-trait-hoverable-delay="400" data-trait-hoverable-leave-delay="200">
         <div class="hover-card" id="combined-card">
           400ms enter + 200ms leave <span class="hover-status">idle</span>
         </div>
       </n-controller>
       <div id="combined-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" hoverable-delay="400" hoverable-leave-delay="200"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" data-trait-hoverable-delay="400" data-trait-hoverable-leave-delay="200"&gt;
   &lt;div class="hover-card"&gt;
     400ms enter + 200ms leave
   &lt;/div&gt;

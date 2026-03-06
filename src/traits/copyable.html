@@ -153,13 +153,13 @@
       <p class="demo-hint">
         <code>traits="copyable pressable"</code> on a minimal NativeElement shell. Click triggers copy via <code>native:press</code>. The <code>[copied]</code> attribute provides visual feedback for 2 seconds.
       </p>
-      <copy-demo traits="copyable pressable" copyable-value="npm install native-ui" class="copy-card">
+      <copy-demo traits="copyable pressable" data-trait-copyable-value="npm install native-ui" class="copy-card">
         <span class="copy-label">npm install native-ui</span>
         <span class="copy-indicator"><n-icon name="copy"></n-icon> Copy</span>
       </copy-demo>
       <div id="basic-log" class="output"></div>
       <pre class="demo-code"><code>&lt;copy-demo traits="copyable pressable"
-  copyable-value="npm install native-ui"&gt;
+  data-trait-copyable-value="npm install native-ui"&gt;
   &lt;span class="copy-label"&gt;npm install native-ui&lt;/span&gt;
   &lt;span class="copy-indicator"&gt;Copy&lt;/span&gt;
 &lt;/copy-demo&gt;
@@ -201,16 +201,16 @@ el.addEventListener('native:press', () =&gt; copy.copy());</code><n-button class
     <h2>Custom Duration (500ms) <span class="pattern-badge injection">Injection</span></h2>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>copyable-feedback-duration="500"</code> for quick feedback instead of the default 2000ms.
+        <code>data-trait-copyable-feedback-duration="500"</code> for quick feedback instead of the default 2000ms.
       </p>
-      <copy-demo traits="copyable pressable" copyable-value="Quick feedback copy" copyable-feedback-duration="500" class="copy-card">
+      <copy-demo traits="copyable pressable" data-trait-copyable-value="Quick feedback copy" data-trait-copyable-feedback-duration="500" class="copy-card">
         <span class="copy-label">Quick feedback copy</span>
         <span class="copy-indicator"><n-icon name="copy"></n-icon> Copy</span>
       </copy-demo>
       <div id="fast-log" class="output"></div>
       <pre class="demo-code"><code>&lt;copy-demo traits="copyable pressable"
-  copyable-value="Quick feedback copy"
-  copyable-feedback-duration="500"&gt;
+  data-trait-copyable-value="Quick feedback copy"
+  data-trait-copyable-feedback-duration="500"&gt;
   &lt;span class="copy-label"&gt;Quick feedback copy&lt;/span&gt;
   &lt;span class="copy-indicator"&gt;Copy&lt;/span&gt;
 &lt;/copy-demo&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
@@ -223,7 +223,7 @@ el.addEventListener('native:press', () =&gt; copy.copy());</code><n-button class
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> applies copyable to a plain <code>&lt;div&gt;</code>. No NativeElement subclass needed for the target. The controller manages <code>[copied]</code> feedback; a click listener triggers <code>copy()</code>.
       </p>
-      <n-controller id="provider-ctrl" traits="copyable" copyable-value="npx create-native-ui@latest">
+      <n-controller id="provider-ctrl" traits="copyable" data-trait-copyable-value="npx create-native-ui@latest">
         <div id="provider-card" class="copy-card">
           <span class="copy-label">npx create-native-ui@latest</span>
           <span class="copy-indicator"><n-icon name="copy"></n-icon> Copy</span>
@@ -231,7 +231,7 @@ el.addEventListener('native:press', () =&gt; copy.copy());</code><n-button class
       </n-controller>
       <div id="provider-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="copyable"
-  copyable-value="npx create-native-ui@latest"&gt;
+  data-trait-copyable-value="npx create-native-ui@latest"&gt;
   &lt;div class="copy-card"&gt;
     &lt;span class="copy-label"&gt;npx create-native-ui@latest&lt;/span&gt;
     &lt;span class="copy-indicator"&gt;Copy&lt;/span&gt;
@@ -244,18 +244,18 @@ el.addEventListener('native:press', () =&gt; copy.copy());</code><n-button class
     <h2>API</h2>
 
     <div class="api-section">
-      <h3>Adapter Options (<code>copyable-*</code>)</h3>
+      <h3>Adapter Options (<code>data-trait-copyable-*</code>)</h3>
       <table class="api-table">
         <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>copyable-value</code></td>
+            <td><code>data-trait-copyable-value</code></td>
             <td><code>string</code></td>
             <td><code>''</code></td>
             <td>The static string to copy. For dynamic values, use <code>CopyController</code> directly with a getter function.</td>
           </tr>
           <tr>
-            <td><code>copyable-feedback-duration</code></td>
+            <td><code>data-trait-copyable-feedback-duration</code></td>
             <td><code>number</code></td>
             <td><code>2000</code></td>
             <td>Duration in milliseconds that the <code>[copied]</code> attribute remains set after a successful copy.</td>
@@ -362,7 +362,7 @@ el.addEventListener('native:press', () =&gt; copy.copy());</code><n-button class
       }
 
       const basicLogEl = document.getElementById('basic-log');
-      document.querySelector('copy-demo[copyable-value="npm install native-ui"]').addEventListener('native:copy', (e) => {
+      document.querySelector('copy-demo[data-trait-copyable-value="npm install native-ui"]').addEventListener('native:copy', (e) => {
         appendLog(basicLogEl, `Copied: "${e.detail.value}"`);
       });
 
@@ -383,7 +383,7 @@ el.addEventListener('native:press', () =&gt; copy.copy());</code><n-button class
       // ── Custom Duration (injection) — log ──
 
       const fastLogEl = document.getElementById('fast-log');
-      document.querySelector('copy-demo[copyable-feedback-duration="500"]').addEventListener('native:copy', (e) => {
+      document.querySelector('copy-demo[data-trait-copyable-feedback-duration="500"]').addEventListener('native:copy', (e) => {
         appendLog(fastLogEl, `Copied: "${e.detail.value}"`);
       });
 
@@ -394,7 +394,7 @@ el.addEventListener('native:press', () =&gt; copy.copy());</code><n-button class
 
       const providerCard = document.getElementById('provider-card');
       providerCard.addEventListener('click', async () => {
-        const value = document.getElementById('provider-ctrl').getAttribute('copyable-value') ?? '';
+        const value = document.getElementById('provider-ctrl').getAttribute('data-trait-copyable-value') ?? '';
         await navigator.clipboard.writeText(value);
         providerCard.toggleAttribute('copied', true);
         setTimeout(() => providerCard.removeAttribute('copied'), 2000);

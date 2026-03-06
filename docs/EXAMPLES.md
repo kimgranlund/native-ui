@@ -206,7 +206,7 @@ Slide-in panel from the right edge. Header/footer stay fixed, body scrolls.
 ## 8. Draggable list (slot mode)
 
 ```html
-<n-controller traits="draggable" draggable-mode="slot" draggable-selector=".item">
+<n-controller traits="draggable" data-trait-draggable-mode="slot" data-trait-draggable-selector=".item">
   <div style="display: flex; flex-direction: column; gap: 0.5rem;">
     <div class="item">Item A</div>
     <div class="item">Item B</div>
@@ -218,9 +218,9 @@ Slide-in panel from the right edge. Header/footer stay fixed, body scrolls.
 Reorderable list. A placeholder appears between items during drag to show insertion point.
 
 - `traits` -- space-separated names (e.g. `"draggable"`, `"pressable"`)
-- `draggable-mode` -- `slot` (reorder) or `drop` (highlight target)
-- `draggable-selector` -- CSS selector for draggable items
-- `draggable-axis` -- `vertical`, `horizontal`, or omit for both
+- `data-trait-draggable-mode` -- `slot` (reorder) or `drop` (highlight target)
+- `data-trait-draggable-selector` -- CSS selector for draggable items
+- `data-trait-draggable-axis` -- `vertical`, `horizontal`, or omit for both
 - Events: `native:drag-start`, `native:drag-move`, `native:drop` (`{ item, fromIndex, toIndex, insertBefore }`)
 
 ---
@@ -340,7 +340,7 @@ native-ui includes a minimal signal system for reactive state management. Five f
 
 ```html
 <!-- Draggable: reorder items with drag-and-drop -->
-<n-controller traits="draggable" draggable-selector=".item" draggable-axis="vertical" draggable-mode="slot">
+<n-controller traits="draggable" data-trait-draggable-selector=".item" data-trait-draggable-axis="vertical" data-trait-draggable-mode="slot">
   <div id="list">
     <div class="item">First</div>
     <div class="item">Second</div>
@@ -368,7 +368,7 @@ native-ui includes a minimal signal system for reactive state management. Five f
 ```
 
 - `registerAllTraits()` must run before component `define()` calls
-- Options use namespaced attributes: `draggable-axis`, `draggable-mode`, etc.
+- Options use `data-trait-*` attributes: `data-trait-draggable-axis`, `data-trait-draggable-mode`, etc.
 - Full trait table: see [TRAITS.md](TRAITS.md)
 - Key traits: `pressable`, `draggable`, `hoverable`, `dismissable`, `collapsible`, `resizable`, `toastable`, `sortable`, `editable`, `swipeable`, `shortcutable`
 

@@ -280,7 +280,7 @@ export class NController extends NativeElement {
     this.#targets.clear();
   }
 
-  /** Watch trait option attributes (e.g. draggable-axis) on this element */
+  /** Watch trait option attributes (e.g. data-trait-draggable-axis) on this element */
   #startOptionObserver(): void {
     this.#optionObserver = new MutationObserver((mutations) => {
       for (const m of mutations) {
@@ -301,7 +301,7 @@ export class NController extends NativeElement {
       }
     });
 
-    // WHY: Only observe trait-namespaced option attributes (e.g. "draggable-axis").
+    // WHY: Only observe trait-namespaced option attributes (e.g. "data-trait-draggable-axis").
     // Compute attributeFilter from all attributes currently on this element that match
     // a registered trait prefix. This avoids firing on every attribute change.
     const attributeFilter = this.#buildOptionAttributeFilter();
@@ -319,8 +319,9 @@ export class NController extends NativeElement {
     const traitNames = getRegisteredTraitNames();
     const filter: string[] = [];
     for (const attr of this.attributes) {
+      if (!attr.name.startsWith('data-trait-')) continue;
       for (const name of traitNames) {
-        if (attr.name.startsWith(name + '-')) {
+        if (attr.name.startsWith('data-trait-' + name + '-')) {
           filter.push(attr.name);
           break;
         }

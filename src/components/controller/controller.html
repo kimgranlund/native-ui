@@ -510,10 +510,10 @@
         <inject-demo traits="hoverable" class="demo-card" style="flex: 1;">
           Instant hover
         </inject-demo>
-        <inject-demo traits="hoverable" hoverable-delay="400" class="demo-card" style="flex: 1;">
+        <inject-demo traits="hoverable" data-trait-hoverable-delay="400" class="demo-card" style="flex: 1;">
           400ms delay
         </inject-demo>
-        <inject-demo traits="hoverable" hoverable-leave-delay="300" class="demo-card" style="flex: 1;">
+        <inject-demo traits="hoverable" data-trait-hoverable-leave-delay="300" class="demo-card" style="flex: 1;">
           300ms sticky
         </inject-demo>
       </div>
@@ -522,11 +522,11 @@
   Instant hover
 &lt;/inject-demo&gt;
 
-&lt;inject-demo traits="hoverable" hoverable-delay="400"&gt;
+&lt;inject-demo traits="hoverable" data-trait-hoverable-delay="400"&gt;
   400ms delay
 &lt;/inject-demo&gt;
 
-&lt;inject-demo traits="hoverable" hoverable-leave-delay="300"&gt;
+&lt;inject-demo traits="hoverable" data-trait-hoverable-leave-delay="300"&gt;
   300ms sticky
 &lt;/inject-demo&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
@@ -586,27 +586,27 @@ hover.delay = 1000; // now requires 1s hover intent</code><n-button class="copy-
     <h3>Copyable</h3>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>traits="copyable"</code> with <code>copyable-value</code>. Click to copy. Sets <code>[copied]</code> attribute for 2s feedback.
+        <code>traits="copyable"</code> with <code>data-trait-copyable-value</code>. Click to copy. Sets <code>[copied]</code> attribute for 2s feedback.
       </p>
       <div class="flex-col">
-        <inject-demo traits="copyable pressable" copyable-value="npm install @nonoun/native-ui" class="copy-item">
+        <inject-demo traits="copyable pressable" data-trait-copyable-value="npm install @nonoun/native-ui" class="copy-item">
           <span class="copy-label">npm install @nonoun/native-ui</span>
           <span class="copy-feedback">Copied!</span>
         </inject-demo>
-        <inject-demo traits="copyable pressable" copyable-value="sk-proj-abc123..." copyable-feedback-duration="3000" class="copy-item">
+        <inject-demo traits="copyable pressable" data-trait-copyable-value="sk-proj-abc123..." data-trait-copyable-feedback-duration="3000" class="copy-item">
           <span class="copy-label">sk-proj-abc123...</span>
           <span class="copy-feedback">Copied!</span>
         </inject-demo>
       </div>
       <div id="copy-log" class="output"></div>
       <pre class="demo-code"><code>&lt;inject-demo traits="copyable pressable"
-  copyable-value="npm install @nonoun/native-ui"&gt;
+  data-trait-copyable-value="npm install @nonoun/native-ui"&gt;
   npm install @nonoun/native-ui
 &lt;/inject-demo&gt;
 
 &lt;inject-demo traits="copyable pressable"
-  copyable-value="sk-proj-abc123..."
-  copyable-feedback-duration="3000"&gt;
+  data-trait-copyable-value="sk-proj-abc123..."
+  data-trait-copyable-feedback-duration="3000"&gt;
   sk-proj-abc123...
 &lt;/inject-demo&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
@@ -616,13 +616,13 @@ hover.delay = 1000; // now requires 1s hover intent</code><n-button class="copy-
     <h3>Editable</h3>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>traits="editable"</code> — double-click to edit, Enter to commit, Escape to cancel. Configurable trigger via <code>editable-trigger</code>.
+        <code>traits="editable"</code> — double-click to edit, Enter to commit, Escape to cancel. Configurable trigger via <code>data-trait-editable-trigger</code>.
       </p>
       <div class="flex-col">
         <inject-demo traits="editable" class="edit-item">
           Double-click me to edit
         </inject-demo>
-        <inject-demo traits="editable" editable-trigger="click" class="edit-item">
+        <inject-demo traits="editable" data-trait-editable-trigger="click" class="edit-item">
           Single click to edit (editable-trigger="click")
         </inject-demo>
       </div>
@@ -631,7 +631,7 @@ hover.delay = 1000; // now requires 1s hover intent</code><n-button class="copy-
   Double-click me to edit
 &lt;/inject-demo&gt;
 
-&lt;inject-demo traits="editable" editable-trigger="click"&gt;
+&lt;inject-demo traits="editable" data-trait-editable-trigger="click"&gt;
   Single click to edit
 &lt;/inject-demo&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
@@ -643,7 +643,7 @@ hover.delay = 1000; // now requires 1s hover intent</code><n-button class="copy-
       <p class="demo-hint">
         <code>traits="swipeable"</code> — swipe left/right (mouse or touch). Configurable threshold and axis.
       </p>
-      <inject-demo id="swipe-demo" traits="swipeable" swipeable-axis="horizontal" swipeable-threshold="40" class="swipe-card">
+      <inject-demo id="swipe-demo" traits="swipeable" data-trait-swipeable-axis="horizontal" data-trait-swipeable-threshold="40" class="swipe-card">
         <div id="swipe-page">Swipe left or right</div>
         <div class="swipe-indicator">
           <span class="swipe-dot" id="dot-0"></span>
@@ -653,8 +653,8 @@ hover.delay = 1000; // now requires 1s hover intent</code><n-button class="copy-
       </inject-demo>
       <div id="swipe-log" class="output"></div>
       <pre class="demo-code"><code>&lt;inject-demo traits="swipeable"
-  swipeable-axis="horizontal"
-  swipeable-threshold="40"&gt;
+  data-trait-swipeable-axis="horizontal"
+  data-trait-swipeable-threshold="40"&gt;
   Swipe left or right
 &lt;/inject-demo&gt;
 
@@ -676,13 +676,13 @@ el.addEventListener('native:swipe', (e) =&gt; {
       <p class="demo-hint">
         No <code>for</code> — traits apply to first element child. Options live on the <code>&lt;n-controller&gt;</code>.
       </p>
-      <n-controller traits="hoverable" hoverable-delay="200">
+      <n-controller traits="hoverable" data-trait-hoverable-delay="200">
         <div class="demo-card">
           Wrapped child gets hoverable (200ms delay)
         </div>
       </n-controller>
       <div id="wrapper-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" hoverable-delay="200"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" data-trait-hoverable-delay="200"&gt;
   &lt;div class="demo-card"&gt;
     Wrapped child gets hoverable (200ms delay)
   &lt;/div&gt;
@@ -696,7 +696,7 @@ el.addEventListener('native:swipe', (e) =&gt; {
       <p class="demo-hint">
         <code>for=".card"</code> applies <code>hoverable</code> to all matching descendants. One controller, many targets.
       </p>
-      <n-controller traits="hoverable" hoverable-delay="100" for=".card">
+      <n-controller traits="hoverable" data-trait-hoverable-delay="100" for=".card">
         <div class="flex-row">
           <div class="card demo-card" style="flex: 1;">Card A</div>
           <div class="card demo-card" style="flex: 1;">Card B</div>
@@ -704,7 +704,7 @@ el.addEventListener('native:swipe', (e) =&gt; {
         </div>
       </n-controller>
       <div id="selector-hover-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" hoverable-delay="100" for=".card"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="hoverable" data-trait-hoverable-delay="100" for=".card"&gt;
   &lt;div class="flex-row"&gt;
     &lt;div class="card"&gt;Card A&lt;/div&gt;
     &lt;div class="card"&gt;Card B&lt;/div&gt;
@@ -743,9 +743,9 @@ list.appendChild(item);</code><n-button class="copy-btn" size="sm" variant="ghos
     <h3>Live Option Updates</h3>
     <n-panel bordered>
       <p class="demo-hint">
-        Changing <code>hoverable-delay</code> on the controller updates all managed targets via <code>update()</code>.
+        Changing <code>data-trait-hoverable-delay</code> on the controller updates all managed targets via <code>update()</code>.
       </p>
-      <n-controller id="live-ctrl" traits="hoverable" hoverable-delay="0" for=".live-target">
+      <n-controller id="live-ctrl" traits="hoverable" data-trait-hoverable-delay="0" for=".live-target">
         <div class="flex-row">
           <div class="live-target demo-card" style="flex: 1;">Target A</div>
           <div class="live-target demo-card" style="flex: 1;">Target B</div>
@@ -757,12 +757,12 @@ list.appendChild(item);</code><n-button class="copy-btn" size="sm" variant="ghos
         <n-button id="delay-300" size="sm" variant="ghost">300ms</n-button>
         <n-button id="delay-800" size="sm" variant="ghost">800ms</n-button>
       </div>
-      <pre class="demo-code"><code>&lt;n-controller id="ctrl" traits="hoverable" hoverable-delay="0" for=".target"&gt;
+      <pre class="demo-code"><code>&lt;n-controller id="ctrl" traits="hoverable" data-trait-hoverable-delay="0" for=".target"&gt;
   ...
 &lt;/n-controller&gt;
 
 // Change delay at runtime — all targets update
-ctrl.setAttribute('hoverable-delay', '800');</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+ctrl.setAttribute('data-trait-hoverable-delay', '800');</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
     <!-- ══════════════════════════════════════════════
@@ -776,14 +776,14 @@ ctrl.setAttribute('hoverable-delay', '800');</code><n-button class="copy-btn" si
     <h3>Draggable — Vertical Reorder (slot)</h3>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>draggable-mode="slot"</code> shows a gap indicator. Drop inserts at that position. All options on the controller.
+        <code>data-trait-draggable-mode="slot"</code> shows a gap indicator. Drop inserts at that position. All options on the controller.
       </p>
       <n-controller
         traits="draggable"
         for="#drag-provider-list"
-        draggable-selector=".drag-item"
-        draggable-axis="vertical"
-        draggable-mode="slot"
+        data-trait-draggable-selector=".drag-item"
+        data-trait-draggable-axis="vertical"
+        data-trait-draggable-mode="slot"
       >
         <div id="drag-provider-list" class="flex-col">
           <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Research</span></div>
@@ -797,9 +797,9 @@ ctrl.setAttribute('hoverable-delay', '800');</code><n-button class="copy-btn" si
       <pre class="demo-code"><code>&lt;n-controller
   traits="draggable"
   for="#list"
-  draggable-selector=".drag-item"
-  draggable-axis="vertical"
-  draggable-mode="slot"
+  data-trait-draggable-selector=".drag-item"
+  data-trait-draggable-axis="vertical"
+  data-trait-draggable-mode="slot"
 &gt;
   &lt;div id="list"&gt;
     &lt;div class="drag-item"&gt;Research&lt;/div&gt;
@@ -814,14 +814,14 @@ ctrl.setAttribute('hoverable-delay', '800');</code><n-button class="copy-btn" si
     <h3>Draggable — Horizontal Cards (slot)</h3>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>draggable-axis="horizontal"</code> for a row of cards. Same slot mode — vertical placeholder becomes horizontal.
+        <code>data-trait-draggable-axis="horizontal"</code> for a row of cards. Same slot mode — vertical placeholder becomes horizontal.
       </p>
       <n-controller
         traits="draggable"
         for="#drag-horiz-list"
-        draggable-selector=".drag-card"
-        draggable-axis="horizontal"
-        draggable-mode="slot"
+        data-trait-draggable-selector=".drag-card"
+        data-trait-draggable-axis="horizontal"
+        data-trait-draggable-mode="slot"
       >
         <div id="drag-horiz-list" class="demo-actions">
           <div class="drag-card">A</div>
@@ -833,9 +833,9 @@ ctrl.setAttribute('hoverable-delay', '800');</code><n-button class="copy-btn" si
       <pre class="demo-code"><code>&lt;n-controller
   traits="draggable"
   for="#row"
-  draggable-selector=".drag-card"
-  draggable-axis="horizontal"
-  draggable-mode="slot"
+  data-trait-draggable-selector=".drag-card"
+  data-trait-draggable-axis="horizontal"
+  data-trait-draggable-mode="slot"
 &gt;
   &lt;div id="row" class="demo-actions"&gt;
     &lt;div class="drag-card"&gt;A&lt;/div&gt;
@@ -850,14 +850,14 @@ ctrl.setAttribute('hoverable-delay', '800');</code><n-button class="copy-btn" si
     <h3>Draggable — Swap (drop)</h3>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>draggable-mode="drop"</code> highlights the target. Consumer decides the swap logic on <code>native:drop</code>.
+        <code>data-trait-draggable-mode="drop"</code> highlights the target. Consumer decides the swap logic on <code>native:drop</code>.
       </p>
       <n-controller
         traits="draggable"
         for="#drag-swap-list"
-        draggable-selector=".drag-item"
-        draggable-axis="vertical"
-        draggable-mode="drop"
+        data-trait-draggable-selector=".drag-item"
+        data-trait-draggable-axis="vertical"
+        data-trait-draggable-mode="drop"
       >
         <div id="drag-swap-list" class="flex-col">
           <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Design</span></div>
@@ -869,8 +869,8 @@ ctrl.setAttribute('hoverable-delay', '800');</code><n-button class="copy-btn" si
       <pre class="demo-code"><code>&lt;n-controller
   traits="draggable"
   for="#list"
-  draggable-selector=".drag-item"
-  draggable-mode="drop"
+  data-trait-draggable-selector=".drag-item"
+  data-trait-draggable-mode="drop"
 &gt;
   ...
 &lt;/n-controller&gt;
@@ -890,16 +890,16 @@ list.addEventListener('native:drop', (e) =&gt; {
     <h3>Resizable</h3>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>traits="resizable"</code> with <code>resizable-handle-selector</code>, <code>resizable-axis</code>, <code>resizable-min</code>, <code>resizable-max</code>. Drag the edge handle to resize.
+        <code>traits="resizable"</code> with <code>data-trait-resizable-handle-selector</code>, <code>data-trait-resizable-axis</code>, <code>data-trait-resizable-min</code>, <code>data-trait-resizable-max</code>. Drag the edge handle to resize.
       </p>
       <div class="flex-col" style="gap: 1rem;">
         <n-controller
           traits="resizable"
           for="#resize-h"
-          resizable-handle-selector=".resize-handle"
-          resizable-axis="horizontal"
-          resizable-min="120"
-          resizable-max="500"
+          data-trait-resizable-handle-selector=".resize-handle"
+          data-trait-resizable-axis="horizontal"
+          data-trait-resizable-min="120"
+          data-trait-resizable-max="500"
         >
           <div id="resize-h" class="resize-box">
             <div>Horizontal resize</div>
@@ -911,10 +911,10 @@ list.addEventListener('native:drop', (e) =&gt; {
         <n-controller
           traits="resizable"
           for="#resize-v"
-          resizable-handle-selector=".resize-handle-v"
-          resizable-axis="vertical"
-          resizable-min="60"
-          resizable-max="300"
+          data-trait-resizable-handle-selector=".resize-handle-v"
+          data-trait-resizable-axis="vertical"
+          data-trait-resizable-min="60"
+          data-trait-resizable-max="300"
         >
           <div id="resize-v" class="resize-box-v">
             <div>Vertical resize</div>
@@ -927,10 +927,10 @@ list.addEventListener('native:drop', (e) =&gt; {
       <pre class="demo-code"><code>&lt;n-controller
   traits="resizable"
   for="#panel"
-  resizable-handle-selector=".resize-handle"
-  resizable-axis="horizontal"
-  resizable-min="120"
-  resizable-max="500"
+  data-trait-resizable-handle-selector=".resize-handle"
+  data-trait-resizable-axis="horizontal"
+  data-trait-resizable-min="120"
+  data-trait-resizable-max="500"
 &gt;
   &lt;div id="panel"&gt;
     Horizontal resize
@@ -944,13 +944,13 @@ list.addEventListener('native:drop', (e) =&gt; {
     <h3>Selectable — Multi-Select List</h3>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>traits="selectable"</code> with <code>selectable-mode="multiple"</code>. Click to select, Ctrl+click to toggle, Shift+click for range. Sets <code>aria-selected</code> on items.
+        <code>traits="selectable"</code> with <code>data-trait-selectable-mode="multiple"</code>. Click to select, Ctrl+click to toggle, Shift+click for range. Sets <code>aria-selected</code> on items.
       </p>
       <n-controller
         traits="selectable"
         for="#select-list"
-        selectable-selector=".select-item"
-        selectable-mode="multiple"
+        data-trait-selectable-selector=".select-item"
+        data-trait-selectable-mode="multiple"
       >
         <div id="select-list" class="flex-col">
           <div class="select-item" data-value="inbox">Inbox</div>
@@ -965,8 +965,8 @@ list.addEventListener('native:drop', (e) =&gt; {
       <pre class="demo-code"><code>&lt;n-controller
   traits="selectable"
   for="#list"
-  selectable-selector=".select-item"
-  selectable-mode="multiple"
+  data-trait-selectable-selector=".select-item"
+  data-trait-selectable-mode="multiple"
 &gt;
   &lt;div id="list"&gt;
     &lt;div class="select-item"&gt;Inbox&lt;/div&gt;
@@ -985,12 +985,12 @@ list.addEventListener('native:selection-change', (e) =&gt; {
     <h3>Sortable — Table Headers</h3>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>traits="sortable"</code> with <code>sortable-selector="th"</code>. Click headers to cycle: ascending → descending → none. Sets <code>aria-sort</code> on the active header.
+        <code>traits="sortable"</code> with <code>data-trait-sortable-selector="th"</code>. Click headers to cycle: ascending → descending → none. Sets <code>aria-sort</code> on the active header.
       </p>
       <n-controller
         traits="sortable"
         for="#sort-table"
-        sortable-selector="th"
+        data-trait-sortable-selector="th"
       >
         <table id="sort-table" class="sort-table">
           <thead>
@@ -1013,7 +1013,7 @@ list.addEventListener('native:selection-change', (e) =&gt; {
       <pre class="demo-code"><code>&lt;n-controller
   traits="sortable"
   for="#table"
-  sortable-selector="th"
+  data-trait-sortable-selector="th"
 &gt;
   &lt;table id="table"&gt;
     &lt;thead&gt;
@@ -1042,7 +1042,7 @@ table.addEventListener('native:sort', (e) =&gt; {
       <n-controller
         traits="editable"
         for="#edit-list"
-        editable-trigger="dblclick"
+        data-trait-editable-trigger="dblclick"
       >
         <div id="edit-list" class="flex-col">
           <div class="edit-item">Todo: Write documentation</div>
@@ -1054,7 +1054,7 @@ table.addEventListener('native:sort', (e) =&gt; {
       <pre class="demo-code"><code>&lt;n-controller
   traits="editable"
   for="#list"
-  editable-trigger="dblclick"
+  data-trait-editable-trigger="dblclick"
 &gt;
   &lt;div id="list"&gt;
     &lt;div class="edit-item"&gt;Todo: Write documentation&lt;/div&gt;
@@ -1072,7 +1072,7 @@ list.addEventListener('native:edit-commit', (e) =&gt; {
     <h3>Collapsible — Accordion Sections</h3>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>traits="collapsible"</code> with <code>collapsible-duration="300"</code>. Each section gets its own controller via wrapper mode.
+        <code>traits="collapsible"</code> with <code>data-trait-collapsible-duration="300"</code>. Each section gets its own controller via wrapper mode.
       </p>
       <div class="flex-col" style="gap: 0;">
         <div>
@@ -1080,7 +1080,7 @@ list.addEventListener('native:edit-commit', (e) =&gt; {
             <span>Section 1 — Getting Started</span>
             <span class="arrow">&#x25BC;</span>
           </div>
-          <n-controller traits="collapsible" collapsible-duration="300">
+          <n-controller traits="collapsible" data-trait-collapsible-duration="300">
             <div class="collapse-content" id="c-content-1">
               Install the package, import the components you need, and add the CSS to your page.
               The design system works with any framework or vanilla HTML.
@@ -1092,7 +1092,7 @@ list.addEventListener('native:edit-commit', (e) =&gt; {
             <span>Section 2 — Configuration</span>
             <span class="arrow">&#x25BC;</span>
           </div>
-          <n-controller traits="collapsible" collapsible-duration="300">
+          <n-controller traits="collapsible" data-trait-collapsible-duration="300">
             <div class="collapse-content" id="c-content-2">
               Configure colors via CSS custom properties on <code>:root</code>. All components inherit
               from the semantic token system automatically.
@@ -1104,7 +1104,7 @@ list.addEventListener('native:edit-commit', (e) =&gt; {
             <span>Section 3 — Advanced</span>
             <span class="arrow">&#x25BC;</span>
           </div>
-          <n-controller traits="collapsible" collapsible-duration="300">
+          <n-controller traits="collapsible" data-trait-collapsible-duration="300">
             <div class="collapse-content" id="c-content-3">
               Use trait controllers for drag-and-drop, selection, editing, and more.
               Compose multiple traits on a single element for complex interactions.
@@ -1113,7 +1113,7 @@ list.addEventListener('native:edit-commit', (e) =&gt; {
         </div>
       </div>
       <pre class="demo-code"><code>&lt;div class="collapse-trigger" id="trigger"&gt;Section 1&lt;/div&gt;
-&lt;n-controller traits="collapsible" collapsible-duration="300"&gt;
+&lt;n-controller traits="collapsible" data-trait-collapsible-duration="300"&gt;
   &lt;div class="collapse-content" id="content"&gt;
     Content here...
   &lt;/div&gt;
@@ -1386,7 +1386,7 @@ trigger.addEventListener('click', () =&gt; {
       // ── Wrapper mode ──
 
       const wrapperLog = document.getElementById('wrapper-log');
-      const wrapperCard = document.querySelector('n-controller[traits="hoverable"][hoverable-delay="200"] > .demo-card');
+      const wrapperCard = document.querySelector('n-controller[traits="hoverable"][data-trait-hoverable-delay="200"] > .demo-card');
       if (wrapperCard) {
         wrapperCard.addEventListener('native:hover-start', () => appendLog(wrapperLog, 'Hover enter'));
         wrapperCard.addEventListener('native:hover-end', () => appendLog(wrapperLog, 'Hover leave'));
@@ -1427,9 +1427,9 @@ trigger.addEventListener('click', () =&gt; {
       // ── Live option updates ──
 
       const liveCtrl = document.getElementById('live-ctrl');
-      document.getElementById('delay-0').addEventListener('native:press', () => liveCtrl.setAttribute('hoverable-delay', '0'));
-      document.getElementById('delay-300').addEventListener('native:press', () => liveCtrl.setAttribute('hoverable-delay', '300'));
-      document.getElementById('delay-800').addEventListener('native:press', () => liveCtrl.setAttribute('hoverable-delay', '800'));
+      document.getElementById('delay-0').addEventListener('native:press', () => liveCtrl.setAttribute('data-trait-hoverable-delay', '0'));
+      document.getElementById('delay-300').addEventListener('native:press', () => liveCtrl.setAttribute('data-trait-hoverable-delay', '300'));
+      document.getElementById('delay-800').addEventListener('native:press', () => liveCtrl.setAttribute('data-trait-hoverable-delay', '800'));
 
       // ═══════════════════════════════════════════
       // PROVIDER — COMPLEX

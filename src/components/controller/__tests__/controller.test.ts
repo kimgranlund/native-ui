@@ -196,8 +196,8 @@ describe('n-controller', () => {
     it('passes namespaced options from controller element', () => {
       const ctrl = document.createElement('n-controller');
       ctrl.setAttribute('traits', 'test-trait');
-      ctrl.setAttribute('test-trait-foo', 'bar');
-      ctrl.setAttribute('test-trait-baz', 'qux');
+      ctrl.setAttribute('data-trait-test-trait-foo', 'bar');
+      ctrl.setAttribute('data-trait-test-trait-baz', 'qux');
 
       const child = document.createElement('div');
       ctrl.appendChild(child);
@@ -209,14 +209,14 @@ describe('n-controller', () => {
     it('updates controllers when options change', async () => {
       const ctrl = document.createElement('n-controller');
       ctrl.setAttribute('traits', 'test-trait');
-      ctrl.setAttribute('test-trait-foo', 'original');
+      ctrl.setAttribute('data-trait-test-trait-foo', 'original');
 
       const child = document.createElement('div');
       ctrl.appendChild(child);
       document.body.appendChild(ctrl);
 
       clearLog();
-      ctrl.setAttribute('test-trait-foo', 'updated');
+      ctrl.setAttribute('data-trait-test-trait-foo', 'updated');
 
       // MutationObserver is async
       await new Promise((r) => setTimeout(r, 0));

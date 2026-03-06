@@ -162,7 +162,7 @@
       <p class="demo-hint">
         Default axis. <code>&lt;n-controller&gt;</code> applies swipeable to the first child. Detects left and right swipes. Click and drag horizontally.
       </p>
-      <n-controller traits="swipeable" swipeable-axis="horizontal">
+      <n-controller traits="swipeable" data-trait-swipeable-axis="horizontal">
         <div id="h-card" class="swipe-card">
           <span class="swipe-label">Swipe Left or Right</span>
           <span class="swipe-hint">Click and drag horizontally</span>
@@ -170,7 +170,7 @@
       </n-controller>
       <div id="h-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="swipeable"
-  swipeable-axis="horizontal"&gt;
+  data-trait-swipeable-axis="horizontal"&gt;
   &lt;div class="swipe-card"&gt;
     &lt;span class="swipe-label"&gt;Swipe Left or Right&lt;/span&gt;
     &lt;span class="swipe-hint"&gt;Click and drag horizontally&lt;/span&gt;
@@ -189,7 +189,7 @@ card.addEventListener('native:swipe', (e) =&gt; {
       <p class="demo-hint">
         Axis set to <code>'vertical'</code>. Detects up and down swipes.
       </p>
-      <n-controller traits="swipeable" swipeable-axis="vertical">
+      <n-controller traits="swipeable" data-trait-swipeable-axis="vertical">
         <div id="v-card" class="swipe-card">
           <span class="swipe-label">Swipe Up or Down</span>
           <span class="swipe-hint">Click and drag vertically</span>
@@ -197,7 +197,7 @@ card.addEventListener('native:swipe', (e) =&gt; {
       </n-controller>
       <div id="v-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="swipeable"
-  swipeable-axis="vertical"&gt;
+  data-trait-swipeable-axis="vertical"&gt;
   &lt;div class="swipe-card"&gt;
     &lt;span class="swipe-label"&gt;Swipe Up or Down&lt;/span&gt;
     &lt;span class="swipe-hint"&gt;Click and drag vertically&lt;/span&gt;
@@ -212,7 +212,7 @@ card.addEventListener('native:swipe', (e) =&gt; {
       <p class="demo-hint">
         Axis set to <code>'both'</code>. Detects the dominant direction from the gesture.
       </p>
-      <n-controller traits="swipeable" swipeable-axis="both">
+      <n-controller traits="swipeable" data-trait-swipeable-axis="both">
         <div id="b-card" class="swipe-card">
           <span class="swipe-label">Swipe Any Direction</span>
           <span class="swipe-hint">Click and drag in any direction</span>
@@ -220,7 +220,7 @@ card.addEventListener('native:swipe', (e) =&gt; {
       </n-controller>
       <div id="b-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="swipeable"
-  swipeable-axis="both"&gt;
+  data-trait-swipeable-axis="both"&gt;
   &lt;div class="swipe-card"&gt;
     &lt;span class="swipe-label"&gt;Swipe Any Direction&lt;/span&gt;
     &lt;span class="swipe-hint"&gt;Click and drag in any direction&lt;/span&gt;
@@ -235,7 +235,7 @@ card.addEventListener('native:swipe', (e) =&gt; {
       <p class="demo-hint">
         Higher threshold (<strong>100px</strong>) and velocity (<strong>0.5 px/ms</strong>). Requires a longer, faster swipe to trigger.
       </p>
-      <n-controller traits="swipeable" swipeable-axis="horizontal" swipeable-threshold="100" swipeable-velocity-threshold="0.5">
+      <n-controller traits="swipeable" data-trait-swipeable-axis="horizontal" data-trait-swipeable-threshold="100" data-trait-swipeable-velocity-threshold="0.5">
         <div id="c-card" class="swipe-card">
           <span class="swipe-label">Swipe Hard</span>
           <span class="swipe-hint">Requires 100px distance and 0.5 px/ms velocity</span>
@@ -243,9 +243,9 @@ card.addEventListener('native:swipe', (e) =&gt; {
       </n-controller>
       <div id="c-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="swipeable"
-  swipeable-axis="horizontal"
-  swipeable-threshold="100"
-  swipeable-velocity-threshold="0.5"&gt;
+  data-trait-swipeable-axis="horizontal"
+  data-trait-swipeable-threshold="100"
+  data-trait-swipeable-velocity-threshold="0.5"&gt;
   &lt;div class="swipe-card"&gt;
     &lt;span class="swipe-label"&gt;Swipe Hard&lt;/span&gt;
     &lt;span class="swipe-hint"&gt;Requires 100px / 0.5 px/ms&lt;/span&gt;
@@ -288,30 +288,30 @@ card.addEventListener('native:swipe', (e) =&gt; {
     <h2>API</h2>
 
     <div class="api-section">
-      <h3>Adapter Options (<code>swipeable-*</code>)</h3>
+      <h3>Adapter Options (<code>data-trait-swipeable-*</code>)</h3>
       <table class="api-table">
         <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>swipeable-threshold</code></td>
+            <td><code>data-trait-swipeable-threshold</code></td>
             <td><code>number</code></td>
             <td><code>50</code></td>
             <td>Minimum distance in pixels for a swipe to be recognized.</td>
           </tr>
           <tr>
-            <td><code>swipeable-velocity-threshold</code></td>
+            <td><code>data-trait-swipeable-velocity-threshold</code></td>
             <td><code>number</code></td>
             <td><code>0.3</code></td>
             <td>Minimum velocity in px/ms for a swipe to be recognized.</td>
           </tr>
           <tr>
-            <td><code>swipeable-axis</code></td>
+            <td><code>data-trait-swipeable-axis</code></td>
             <td><code>'horizontal' | 'vertical' | 'both'</code></td>
             <td><code>'horizontal'</code></td>
             <td>Which axis to detect swipes on. <code>'both'</code> picks the dominant axis.</td>
           </tr>
           <tr>
-            <td><code>swipeable-disabled</code></td>
+            <td><code>data-trait-swipeable-disabled</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>Disables swipe detection when true.</td>

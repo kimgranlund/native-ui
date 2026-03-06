@@ -139,7 +139,7 @@ export class NativeElement extends HTMLElement {
         if (m.attributeName === 'traits') {
           this.#syncTraits(this.getAttribute('traits') ?? '');
         } else if (m.attributeName) {
-          // Check if this is a namespaced trait option like "draggable-axis"
+          // Check if this is a trait option like "data-trait-draggable-axis"
           const parsed = parseTraitAttribute(m.attributeName);
           if (parsed) {
             const adapter = getTrait(parsed.trait);

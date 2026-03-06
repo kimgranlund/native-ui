@@ -19,13 +19,13 @@ class MyButton extends NativeElement {
 
 ### Provider (declarative)
 
-`<n-controller>` applies traits to HTML elements. Options use namespaced attributes.
+`<n-controller>` applies traits to HTML elements. Options use `data-trait-{name}-{key}` attributes.
 
 ```html
 <n-controller traits="pressable">
   <div>Click me</div>
 </n-controller>
-<n-controller traits="draggable" draggable-axis="vertical" draggable-selector=".item">
+<n-controller traits="draggable" data-trait-draggable-axis="vertical" data-trait-draggable-selector=".item">
   <div><div class="item">A</div><div class="item">B</div></div>
 </n-controller>
 ```

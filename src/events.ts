@@ -166,6 +166,30 @@ export interface NSwipeDetail {
   velocity: number;
 }
 
+// ── Toss ──
+export interface NTossDetail {
+  x: number;
+  y: number;
+  velocityX: number;
+  velocityY: number;
+  bounces: number;
+  rotation: number;
+}
+
+export interface NBounceDetail {
+  edge: 'left' | 'right' | 'top' | 'bottom';
+  x: number;
+  y: number;
+  velocityX: number;
+  velocityY: number;
+}
+
+// ── CSS Inspect ──
+export interface NCSSInspectDetail {
+  active: boolean;
+  layers: number;
+}
+
 // ── Resize ──
 export interface NResizeDetail {
   width: number;

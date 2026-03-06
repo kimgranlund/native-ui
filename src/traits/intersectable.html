@@ -196,29 +196,29 @@
     <h2>Once Mode (Provider)</h2>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>intersectable-once="true"</code>. The element fades in and stays visible permanently. The observer disconnects after the first intersection.
+        <code>data-trait-intersectable-once="true"</code>. The element fades in and stays visible permanently. The observer disconnects after the first intersection.
       </p>
       <div class="scroll-spacer">&#8595; Scroll down — these only animate once &#8595;</div>
-      <n-controller traits="intersectable" intersectable-once="true">
+      <n-controller traits="intersectable" data-trait-intersectable-once="true">
         <div class="intersect-box" id="once-a">
           <span class="intersect-label">Once A</span>
           <span class="intersect-status">hidden</span>
         </div>
       </n-controller>
-      <n-controller traits="intersectable" intersectable-once="true">
+      <n-controller traits="intersectable" data-trait-intersectable-once="true">
         <div class="intersect-box" id="once-b">
           <span class="intersect-label">Once B</span>
           <span class="intersect-status">hidden</span>
         </div>
       </n-controller>
-      <n-controller traits="intersectable" intersectable-once="true">
+      <n-controller traits="intersectable" data-trait-intersectable-once="true">
         <div class="intersect-box" id="once-c">
           <span class="intersect-label">Once C</span>
           <span class="intersect-status">hidden</span>
         </div>
       </n-controller>
       <div id="once-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;n-controller traits="intersectable" intersectable-once="true"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="intersectable" data-trait-intersectable-once="true"&gt;
   &lt;div class="intersect-box"&gt;
     Once A
   &lt;/div&gt;
@@ -230,23 +230,23 @@
     <h2>Threshold (50%)</h2>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>intersectable-threshold="0.5"</code>. Only triggers when at least 50% of the element is visible.
+        <code>data-trait-intersectable-threshold="0.5"</code>. Only triggers when at least 50% of the element is visible.
       </p>
       <div class="scroll-spacer">&#8595; Scroll down — requires 50% visibility &#8595;</div>
-      <n-controller traits="intersectable" intersectable-threshold="0.5">
+      <n-controller traits="intersectable" data-trait-intersectable-threshold="0.5">
         <div class="intersect-box">
           <span class="intersect-label">50% Threshold A</span>
           <span class="intersect-status">hidden</span>
         </div>
       </n-controller>
-      <n-controller traits="intersectable" intersectable-threshold="0.5">
+      <n-controller traits="intersectable" data-trait-intersectable-threshold="0.5">
         <div class="intersect-box">
           <span class="intersect-label">50% Threshold B</span>
           <span class="intersect-status">hidden</span>
         </div>
       </n-controller>
       <div id="threshold-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;n-controller traits="intersectable" intersectable-threshold="0.5"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="intersectable" data-trait-intersectable-threshold="0.5"&gt;
   &lt;div class="intersect-box"&gt;
     50% Threshold
   &lt;/div&gt;
@@ -263,19 +263,19 @@
         <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>intersectable-threshold</code></td>
+            <td><code>data-trait-intersectable-threshold</code></td>
             <td><code>number</code></td>
             <td><code>0</code></td>
             <td>Visibility ratio (0 to 1) required to trigger. <code>0</code> = any pixel visible.</td>
           </tr>
           <tr>
-            <td><code>intersectable-once</code></td>
+            <td><code>data-trait-intersectable-once</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>When <code>"true"</code>, the observer disconnects after the first intersection.</td>
           </tr>
           <tr>
-            <td><code>intersectable-disabled</code></td>
+            <td><code>data-trait-intersectable-disabled</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>Disables the observer when <code>"true"</code>.</td>

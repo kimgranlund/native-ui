@@ -114,13 +114,13 @@
     <h2>Custom Duration (500ms)</h2>
     <n-panel bordered>
       <n-button id="slow-btn">Toggle Slow</n-button>
-      <collapse-demo traits="collapsible" collapsible-duration="500" id="section3">
+      <collapse-demo traits="collapsible" data-trait-collapsible-duration="500" id="section3">
         <div class="collapse-content">
-          <p>This section uses a custom <code>collapsible-duration="500"</code> for a slower, more dramatic animation.</p>
+          <p>This section uses a custom <code>data-trait-collapsible-duration="500"</code> for a slower, more dramatic animation.</p>
         </div>
       </collapse-demo>
     <pre class="demo-code"><code>&lt;!-- Custom animation duration (default: 200ms) --&gt;
-&lt;n-controller traits="collapsible" collapsible-duration="500"&gt;
+&lt;n-controller traits="collapsible" data-trait-collapsible-duration="500"&gt;
   &lt;div&gt;
     &lt;p&gt;Slower 500ms animation&lt;/p&gt;
   &lt;/div&gt;
@@ -166,7 +166,7 @@
             <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Boolean — current collapsed state</td>
           </tr>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>collapsible-duration</code></td>
+            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>data-trait-collapsible-duration</code></td>
             <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Animation duration in ms (default: 200)</td>
           </tr>
           <tr>

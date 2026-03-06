@@ -141,7 +141,7 @@
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> wraps a plain <code>&lt;div&gt;</code> and applies the sortable trait. Click column headers to cycle sort direction. ARIA <code>aria-sort</code> is synced automatically.
       </p>
-      <n-controller traits="sortable" sortable-selector="th">
+      <n-controller traits="sortable" data-trait-sortable-selector="th">
         <div id="basic-wrapper">
           <table class="sort-table">
             <thead>
@@ -162,7 +162,7 @@
         </div>
       </n-controller>
       <div id="basic-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;n-controller traits="sortable" sortable-selector="th"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="sortable" data-trait-sortable-selector="th"&gt;
   &lt;div&gt;
     &lt;table class="sort-table"&gt;
       &lt;thead&gt;
@@ -209,7 +209,7 @@
       <p class="demo-hint">
         Using <code>data-column</code> attributes on headers with a <code>[data-column]</code> selector. Column identity comes from the attribute rather than text content.
       </p>
-      <n-controller traits="sortable" sortable-selector="[data-column]">
+      <n-controller traits="sortable" data-trait-sortable-selector="[data-column]">
         <div id="custom-wrapper">
           <table class="sort-table">
             <thead>
@@ -230,7 +230,7 @@
         </div>
       </n-controller>
       <div id="custom-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;n-controller traits="sortable" sortable-selector="[data-column]"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="sortable" data-trait-sortable-selector="[data-column]"&gt;
   &lt;div&gt;
     &lt;table class="sort-table"&gt;
       &lt;thead&gt;
@@ -280,13 +280,13 @@
         <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>sortable-selector</code></td>
+            <td><code>data-trait-sortable-selector</code></td>
             <td><code>string</code></td>
             <td><code>''</code></td>
             <td>CSS selector for clickable header elements within the host.</td>
           </tr>
           <tr>
-            <td><code>sortable-disabled</code></td>
+            <td><code>data-trait-sortable-disabled</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>Disables sort cycling when true. Header clicks are ignored.</td>

@@ -128,7 +128,7 @@
         <n-controller traits="pressable">
           <div class="press-box" tabindex="0">Another pressable</div>
         </n-controller>
-        <n-controller traits="pressable" pressable-disabled="true">
+        <n-controller traits="pressable" data-trait-pressable-disabled="true">
           <div class="press-box" tabindex="0" disabled>Disabled</div>
         </n-controller>
       </div>
@@ -197,7 +197,7 @@
         <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>pressable-disabled</code></td>
+            <td><code>data-trait-pressable-disabled</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>Disables press behavior when <code>"true"</code>. Pointer events are ignored.</td>

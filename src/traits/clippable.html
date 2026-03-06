@@ -142,7 +142,7 @@
         <span class="shortcut-hint">Shift+Click — Range select</span>
         <span class="shortcut-hint">Ctrl/Cmd+A — Select all</span>
       </div>
-      <n-controller traits="selectable clippable" selectable-selector=".clip-item" selectable-mode="multiple" clippable-selector=".clip-item">
+      <n-controller traits="selectable clippable" data-trait-selectable-selector=".clip-item" data-trait-selectable-mode="multiple" data-trait-clippable-selector=".clip-item">
         <div id="copy-list" class="clip-list" tabindex="0">
           <div class="clip-item">src/index.ts</div>
           <div class="clip-item">src/core/types.ts</div>
@@ -153,9 +153,9 @@
       </n-controller>
       <div id="copy-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="selectable clippable"
-  selectable-selector=".clip-item"
-  selectable-mode="multiple"
-  clippable-selector=".clip-item"&gt;
+  data-trait-selectable-selector=".clip-item"
+  data-trait-selectable-mode="multiple"
+  data-trait-clippable-selector=".clip-item"&gt;
   &lt;div class="clip-list" tabindex="0"&gt;
     &lt;div class="clip-item"&gt;src/index.ts&lt;/div&gt;
     &lt;div class="clip-item"&gt;src/core/types.ts&lt;/div&gt;
@@ -179,7 +179,7 @@ list.addEventListener('native:clip-copy', (e) =&gt; {
         <span class="shortcut-hint">Ctrl/Cmd+X — Cut</span>
         <span class="shortcut-hint">Ctrl/Cmd+V — Paste</span>
       </div>
-      <n-controller traits="selectable clippable" selectable-selector=".clip-item" selectable-mode="multiple" clippable-selector=".clip-item">
+      <n-controller traits="selectable clippable" data-trait-selectable-selector=".clip-item" data-trait-selectable-mode="multiple" data-trait-clippable-selector=".clip-item">
         <div id="cut-list" class="clip-list" tabindex="0">
           <div class="clip-item">Header.tsx</div>
           <div class="clip-item">Sidebar.tsx</div>
@@ -190,9 +190,9 @@ list.addEventListener('native:clip-copy', (e) =&gt; {
       </n-controller>
       <div id="cut-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="selectable clippable"
-  selectable-selector=".clip-item"
-  selectable-mode="multiple"
-  clippable-selector=".clip-item"&gt;
+  data-trait-selectable-selector=".clip-item"
+  data-trait-selectable-mode="multiple"
+  data-trait-clippable-selector=".clip-item"&gt;
   &lt;div class="clip-list" tabindex="0"&gt;
     &lt;div class="clip-item"&gt;Header.tsx&lt;/div&gt;
     &lt;!-- ... --&gt;
@@ -218,25 +218,25 @@ list.addEventListener('native:clip-paste', (e) =&gt; {
         <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>clippable-selector</code></td>
+            <td><code>data-trait-clippable-selector</code></td>
             <td><code>string</code></td>
             <td><code>''</code></td>
             <td>CSS selector for clippable items. Keyboard shortcuts act on <code>[selected]</code> items within this selector.</td>
           </tr>
           <tr>
-            <td><code>clippable-disabled</code></td>
+            <td><code>data-trait-clippable-disabled</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>Disables all clipboard operations when true.</td>
           </tr>
           <tr>
-            <td><code>selectable-selector</code></td>
+            <td><code>data-trait-selectable-selector</code></td>
             <td><code>string</code></td>
             <td><code>''</code></td>
             <td>CSS selector for selectable items (from the <code>selectable</code> trait).</td>
           </tr>
           <tr>
-            <td><code>selectable-mode</code></td>
+            <td><code>data-trait-selectable-mode</code></td>
             <td><code>'single' | 'multiple'</code></td>
             <td><code>'multiple'</code></td>
             <td>Selection mode: single or multiple (from the <code>selectable</code> trait).</td>

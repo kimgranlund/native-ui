@@ -25,3 +25,5 @@ export { editableAdapter } from './editable-adapter.ts';
 export { presentableAdapter } from './presentable-adapter.ts';
 export { slashCommandableAdapter } from './slash-commandable-adapter.ts';
 export { shortcutableAdapter } from './shortcutable-adapter.ts';
+export { tossableAdapter } from './tossable-adapter.ts';
+export { cssInspectableAdapter } from './css-inspectable-adapter.ts';

@@ -297,7 +297,7 @@
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> wraps a plain <code>&lt;div&gt;</code> and applies the draggable trait. Drop onto a target to swap positions.
       </p>
-      <n-controller traits="draggable" draggable-selector=".drag-item" draggable-axis="vertical" draggable-mode="drop">
+      <n-controller traits="draggable" data-trait-draggable-selector=".drag-item" data-trait-draggable-axis="vertical" data-trait-draggable-mode="drop">
         <div id="swap-list" class="drag-list">
           <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Design mockups</span></div>
           <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Write component API</span></div>
@@ -308,9 +308,9 @@
       </n-controller>
       <div id="swap-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="draggable"
-  draggable-selector=".drag-item"
-  draggable-axis="vertical"
-  draggable-mode="drop"&gt;
+  data-trait-draggable-selector=".drag-item"
+  data-trait-draggable-axis="vertical"
+  data-trait-draggable-mode="drop"&gt;
   &lt;div class="drag-list"&gt;
     &lt;div class="drag-item"&gt;Design mockups&lt;/div&gt;
     &lt;div class="drag-item"&gt;Write component API&lt;/div&gt;
@@ -335,9 +335,9 @@
     <h2>Drop Mode — Replace (Provider)</h2>
     <n-panel bordered>
       <p class="demo-hint">
-        Drag a person onto a role to assign. Uses <code>draggable-drop-zone-selector</code> to separate drag items from drop targets.
+        Drag a person onto a role to assign. Uses <code>data-trait-draggable-drop-zone-selector</code> to separate drag items from drop targets.
       </p>
-      <n-controller traits="draggable" draggable-selector=".drag-person" draggable-drop-zone-selector=".drag-role" draggable-mode="drop">
+      <n-controller traits="draggable" data-trait-draggable-selector=".drag-person" data-trait-draggable-drop-zone-selector=".drag-role" data-trait-draggable-mode="drop">
         <div id="replace-list" class="drag-list">
           <div class="drag-role"><span class="role-name">Lead</span><span class="role-assignee" id="role-0">—</span></div>
           <div class="drag-role"><span class="role-name">Design</span><span class="role-assignee" id="role-1">—</span></div>
@@ -351,9 +351,9 @@
       </n-controller>
       <div id="replace-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="draggable"
-  draggable-selector=".drag-person"
-  draggable-drop-zone-selector=".drag-role"
-  draggable-mode="drop"&gt;
+  data-trait-draggable-selector=".drag-person"
+  data-trait-draggable-drop-zone-selector=".drag-role"
+  data-trait-draggable-mode="drop"&gt;
   &lt;div class="drag-list"&gt;
     &lt;div class="drag-role"&gt;Lead — &lt;span&gt;—&lt;/span&gt;&lt;/div&gt;
     &lt;div class="drag-person"&gt;Alice&lt;/div&gt;
@@ -369,7 +369,7 @@
       <p class="demo-hint">
         Shows a gap indicator between items. Dropping inserts the item at that position.
       </p>
-      <n-controller traits="draggable" draggable-selector=".drag-item" draggable-axis="vertical" draggable-mode="slot">
+      <n-controller traits="draggable" data-trait-draggable-selector=".drag-item" data-trait-draggable-axis="vertical" data-trait-draggable-mode="slot">
         <div id="slot-list" class="drag-list">
           <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Research</span></div>
           <div class="drag-item"><span class="handle">&#x2807;</span><span class="label">Prototype</span></div>
@@ -380,9 +380,9 @@
       </n-controller>
       <div id="slot-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="draggable"
-  draggable-selector=".drag-item"
-  draggable-axis="vertical"
-  draggable-mode="slot"&gt;
+  data-trait-draggable-selector=".drag-item"
+  data-trait-draggable-axis="vertical"
+  data-trait-draggable-mode="slot"&gt;
   &lt;div class="drag-list"&gt;
     &lt;div class="drag-item"&gt;Research&lt;/div&gt;
     &lt;!-- ... --&gt;
@@ -402,7 +402,7 @@
 
     <h2>Slot Mode — Horizontal Cards (Provider)</h2>
     <n-panel bordered>
-      <n-controller traits="draggable" draggable-selector=".drag-card" draggable-axis="horizontal" draggable-mode="slot">
+      <n-controller traits="draggable" data-trait-draggable-selector=".drag-card" data-trait-draggable-axis="horizontal" data-trait-draggable-mode="slot">
         <div id="card-row" class="drag-row">
           <div class="drag-card">A</div>
           <div class="drag-card">B</div>
@@ -411,9 +411,9 @@
         </div>
       </n-controller>
       <pre class="demo-code"><code>&lt;n-controller traits="draggable"
-  draggable-selector=".drag-card"
-  draggable-axis="horizontal"
-  draggable-mode="slot"&gt;
+  data-trait-draggable-selector=".drag-card"
+  data-trait-draggable-axis="horizontal"
+  data-trait-draggable-mode="slot"&gt;
   &lt;div class="drag-row"&gt;
     &lt;div class="drag-card"&gt;A&lt;/div&gt;
     &lt;div class="drag-card"&gt;B&lt;/div&gt;
@@ -429,7 +429,7 @@
       <p class="demo-hint">
         Live DOM reordering as you drag. The item moves to its new position in real time — no placeholder needed. Press Escape to cancel and restore the original order. Works with CSS Grid (2D hit-testing via <code>axis="both"</code>).
       </p>
-      <n-controller traits="draggable" draggable-selector=".grid-cell" draggable-axis="both" draggable-mode="preview">
+      <n-controller traits="draggable" data-trait-draggable-selector=".grid-cell" data-trait-draggable-axis="both" data-trait-draggable-mode="preview">
         <div id="preview-grid" class="drag-grid">
           <div class="grid-cell">1</div>
           <div class="grid-cell">2</div>
@@ -459,9 +459,9 @@
       </n-controller>
       <div id="preview-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="draggable"
-  draggable-selector=".grid-cell"
-  draggable-axis="both"
-  draggable-mode="preview"&gt;
+  data-trait-draggable-selector=".grid-cell"
+  data-trait-draggable-axis="both"
+  data-trait-draggable-mode="preview"&gt;
   &lt;div class="drag-grid"&gt;
     &lt;div class="grid-cell"&gt;1&lt;/div&gt;
     &lt;div class="grid-cell"&gt;2&lt;/div&gt;
@@ -481,7 +481,7 @@
       <p class="demo-hint">
         Slot mode with <code>axis="both"</code> for CSS Grid. No placeholder is inserted (it would break the grid) — instead, <code>[drag-slot-before]</code> highlights the insertion point.
       </p>
-      <n-controller traits="draggable" draggable-selector=".grid-cell" draggable-axis="both" draggable-mode="slot">
+      <n-controller traits="draggable" data-trait-draggable-selector=".grid-cell" data-trait-draggable-axis="both" data-trait-draggable-mode="slot">
         <div id="slot-grid" class="drag-grid">
           <div class="grid-cell">1</div>
           <div class="grid-cell">2</div>
@@ -499,9 +499,9 @@
       </n-controller>
       <div id="slot-grid-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="draggable"
-  draggable-selector=".grid-cell"
-  draggable-axis="both"
-  draggable-mode="slot"&gt;
+  data-trait-draggable-selector=".grid-cell"
+  data-trait-draggable-axis="both"
+  data-trait-draggable-mode="slot"&gt;
   &lt;div class="drag-grid"&gt;
     &lt;div class="grid-cell"&gt;1&lt;/div&gt;
     &lt;!-- ... 12 cells in a 4×3 grid --&gt;
@@ -516,7 +516,7 @@
       <p class="demo-hint">
         <code>zoneSelector</code> enables dragging items across zone containers. Each column is a zone — items can be dragged between columns. The <code>[drag-zone-active]</code> attribute highlights the target zone during drag.
       </p>
-      <n-controller traits="draggable" draggable-selector=".kanban-card" draggable-zone-selector=".kanban-column" draggable-axis="vertical" draggable-mode="slot">
+      <n-controller traits="draggable" data-trait-draggable-selector=".kanban-card" data-trait-draggable-zone-selector=".kanban-column" data-trait-draggable-axis="vertical" data-trait-draggable-mode="slot">
         <div id="kanban-board" class="kanban-board">
           <div class="kanban-column">
             <div class="kanban-column-title">To Do</div>
@@ -537,10 +537,10 @@
       </n-controller>
       <div id="kanban-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="draggable"
-  draggable-selector=".kanban-card"
-  draggable-zone-selector=".kanban-column"
-  draggable-axis="vertical"
-  draggable-mode="slot"&gt;
+  data-trait-draggable-selector=".kanban-card"
+  data-trait-draggable-zone-selector=".kanban-column"
+  data-trait-draggable-axis="vertical"
+  data-trait-draggable-mode="slot"&gt;
   &lt;div class="kanban-board"&gt;
     &lt;div class="kanban-column"&gt;
       &lt;div class="kanban-column-title"&gt;To Do&lt;/div&gt;
@@ -568,43 +568,43 @@
         <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>draggable-selector</code></td>
+            <td><code>data-trait-draggable-selector</code></td>
             <td><code>string</code></td>
             <td>—</td>
             <td>CSS selector for draggable items within the host. Required.</td>
           </tr>
           <tr>
-            <td><code>draggable-drop-zone-selector</code></td>
+            <td><code>data-trait-draggable-drop-zone-selector</code></td>
             <td><code>string</code></td>
             <td><code>''</code></td>
             <td>CSS selector for drop zones. Defaults to <code>selector</code> items if empty.</td>
           </tr>
           <tr>
-            <td><code>draggable-zone-selector</code></td>
+            <td><code>data-trait-draggable-zone-selector</code></td>
             <td><code>string</code></td>
             <td><code>''</code></td>
             <td>CSS selector for zone containers (e.g., kanban columns). When set, items can be dragged between zones. Drop events include <code>sourceZone</code> and <code>targetZone</code>.</td>
           </tr>
           <tr>
-            <td><code>draggable-axis</code></td>
+            <td><code>data-trait-draggable-axis</code></td>
             <td><code>'vertical' | 'horizontal' | 'both'</code></td>
             <td><code>'both'</code></td>
             <td>Constrains hit-testing to one axis. Ghost always moves freely.</td>
           </tr>
           <tr>
-            <td><code>draggable-mode</code></td>
+            <td><code>data-trait-draggable-mode</code></td>
             <td><code>'drop' | 'slot' | 'preview'</code></td>
             <td><code>'drop'</code></td>
             <td><strong>drop</strong>: outlines hovered target. <strong>slot</strong>: shows gap indicator. <strong>preview</strong>: moves the real item in real time (no consumer reordering needed).</td>
           </tr>
           <tr>
-            <td><code>draggable-disabled</code></td>
+            <td><code>data-trait-draggable-disabled</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>Disables all drag behavior when true.</td>
           </tr>
           <tr>
-            <td><code>draggable-animate</code></td>
+            <td><code>data-trait-draggable-animate</code></td>
             <td><code>boolean</code></td>
             <td><code>true</code></td>
             <td>Enable view-transition animation for preview mode grid reordering. Set <code>"false"</code> to disable.</td>

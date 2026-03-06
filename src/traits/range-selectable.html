@@ -177,13 +177,13 @@
         <div class="day-header">Fr</div>
         <div class="day-header">Sa</div>
       </div>
-      <n-controller traits="range-selectable" range-selectable-selector=".cell" range-selectable-mode="drag">
+      <n-controller traits="range-selectable" data-trait-range-selectable-selector=".cell" data-trait-range-selectable-mode="drag">
         <div id="drag-grid" class="grid-container"></div>
       </n-controller>
       <div id="drag-output" class="output">Click and drag to select a range</div>
       <pre class="demo-code"><code>&lt;n-controller traits="range-selectable"
-  range-selectable-selector=".cell"
-  range-selectable-mode="drag"&gt;
+  data-trait-range-selectable-selector=".cell"
+  data-trait-range-selectable-mode="drag"&gt;
   &lt;div class="grid-container"&gt;
     &lt;div class="cell"&gt;1&lt;/div&gt;
     &lt;div class="cell"&gt;2&lt;/div&gt;
@@ -250,7 +250,7 @@ clearBtn.addEventListener('native:press', () =&gt; {
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> applies range-selectable to a vertical list. Click and drag to select a contiguous range of days.
       </p>
-      <n-controller traits="range-selectable" range-selectable-selector=".list-item">
+      <n-controller traits="range-selectable" data-trait-range-selectable-selector=".list-item">
         <div id="list" class="list-container">
           <div class="list-item">Monday</div>
           <div class="list-item">Tuesday</div>
@@ -263,7 +263,7 @@ clearBtn.addEventListener('native:press', () =&gt; {
       </n-controller>
       <div id="list-output" class="output">Click and drag to select a range</div>
       <pre class="demo-code"><code>&lt;n-controller traits="range-selectable"
-  range-selectable-selector=".list-item"&gt;
+  data-trait-range-selectable-selector=".list-item"&gt;
   &lt;div class="list-container"&gt;
     &lt;div class="list-item"&gt;Monday&lt;/div&gt;
     &lt;div class="list-item"&gt;Tuesday&lt;/div&gt;
@@ -312,19 +312,19 @@ list.addEventListener('native:range-select', (e) =&gt; {
         <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>range-selectable-selector</code></td>
+            <td><code>data-trait-range-selectable-selector</code></td>
             <td><code>string</code></td>
             <td>—</td>
             <td>CSS selector for selectable items within the host. Required.</td>
           </tr>
           <tr>
-            <td><code>range-selectable-mode</code></td>
+            <td><code>data-trait-range-selectable-mode</code></td>
             <td><code>'drag' | 'click'</code></td>
             <td><code>'drag'</code></td>
             <td><strong>drag</strong>: click-drag-release. <strong>click</strong>: click start, hover to preview, click to commit.</td>
           </tr>
           <tr>
-            <td><code>range-selectable-disabled</code></td>
+            <td><code>data-trait-range-selectable-disabled</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>Disables range selection when true.</td>

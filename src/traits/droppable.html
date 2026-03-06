@@ -160,7 +160,7 @@
 
     <h1>Droppable</h1>
     <p class="demo-desc">
-      External file/data drop zone using the HTML5 drag-and-drop API. Sets <code>[drop-active]</code> when a valid item is dragged over and <code>[drop-invalid]</code> when the MIME type does not match <code>droppable-accept</code>.
+      External file/data drop zone using the HTML5 drag-and-drop API. Sets <code>[drop-active]</code> when a valid item is dragged over and <code>[drop-invalid]</code> when the MIME type does not match <code>data-trait-droppable-accept</code>.
     </p>
 
     <!-- ── File Drop Zone (Provider) ── -->
@@ -199,9 +199,9 @@
     <h2>Image Only (Provider)</h2>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>droppable-accept="image/*"</code> filter. Shows <code>[drop-invalid]</code> when a non-image is dragged over.
+        <code>data-trait-droppable-accept="image/*"</code> filter. Shows <code>[drop-invalid]</code> when a non-image is dragged over.
       </p>
-      <n-controller traits="droppable" droppable-accept="image/*">
+      <n-controller traits="droppable" data-trait-droppable-accept="image/*">
         <div class="drop-zone" id="images-zone">
           <span class="drop-icon">&#128247;</span>
           <span>Drop images here</span>
@@ -210,7 +210,7 @@
       </n-controller>
       <div id="images-list" class="file-list" style="display: none;"></div>
       <div id="images-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;n-controller traits="droppable" droppable-accept="image/*"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="droppable" data-trait-droppable-accept="image/*"&gt;
   &lt;div class="drop-zone"&gt;
     Drop images here
   &lt;/div&gt;
@@ -251,9 +251,9 @@
     <h2>Single File (Provider)</h2>
     <n-panel bordered>
       <p class="demo-hint">
-        <code>droppable-multiple="false"</code>. Only the first file is accepted when multiple are dropped.
+        <code>data-trait-droppable-multiple="false"</code>. Only the first file is accepted when multiple are dropped.
       </p>
-      <n-controller traits="droppable" droppable-multiple="false">
+      <n-controller traits="droppable" data-trait-droppable-multiple="false">
         <div class="drop-zone" id="single-zone">
           <span class="drop-icon">&#128206;</span>
           <span>Drop a single file</span>
@@ -262,7 +262,7 @@
       </n-controller>
       <div id="single-list" class="file-list" style="display: none;"></div>
       <div id="single-log" class="output"></div>
-      <pre class="demo-code"><code>&lt;n-controller traits="droppable" droppable-multiple="false"&gt;
+      <pre class="demo-code"><code>&lt;n-controller traits="droppable" data-trait-droppable-multiple="false"&gt;
   &lt;div class="drop-zone"&gt;
     Drop a single file
   &lt;/div&gt;
@@ -279,19 +279,19 @@
         <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>droppable-accept</code></td>
+            <td><code>data-trait-droppable-accept</code></td>
             <td><code>string</code></td>
             <td><code>'*'</code></td>
             <td>MIME type filter (e.g. <code>'image/*'</code>, <code>'application/pdf'</code>). Uses wildcard matching.</td>
           </tr>
           <tr>
-            <td><code>droppable-disabled</code></td>
+            <td><code>data-trait-droppable-disabled</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>Disables drop zone when true.</td>
           </tr>
           <tr>
-            <td><code>droppable-multiple</code></td>
+            <td><code>data-trait-droppable-multiple</code></td>
             <td><code>boolean</code></td>
             <td><code>true</code></td>
             <td>When <code>"false"</code>, only the first file from a multi-file drop is accepted.</td>
@@ -330,7 +330,7 @@
           </tr>
           <tr>
             <td><code>[drop-invalid]</code></td>
-            <td>Present when a dragged item does not match <code>droppable-accept</code>.</td>
+            <td>Present when a dragged item does not match <code>data-trait-droppable-accept</code>.</td>
           </tr>
         </tbody>
       </table>

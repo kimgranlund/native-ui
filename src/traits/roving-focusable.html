@@ -146,7 +146,7 @@
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> applies roving focus with vertical orientation. Tab into the toolbar, then use Up/Down arrows. The "Italic" item is disabled and skipped.
       </p>
-      <n-controller traits="roving-focusable" roving-focusable-selector=":scope > .toolbar > .tool-btn:not([disabled])" roving-focusable-orientation="vertical">
+      <n-controller traits="roving-focusable" data-trait-roving-focusable-selector=":scope > .toolbar > .tool-btn:not([disabled])" data-trait-roving-focusable-orientation="vertical">
         <div>
           <div class="toolbar">
             <div class="tool-btn" role="button">Bold</div>
@@ -158,8 +158,8 @@
         </div>
       </n-controller>
       <pre class="demo-code"><code>&lt;n-controller traits="roving-focusable"
-  roving-focusable-selector=".tool-btn:not([disabled])"
-  roving-focusable-orientation="vertical"&gt;
+  data-trait-roving-focusable-selector=".tool-btn:not([disabled])"
+  data-trait-roving-focusable-orientation="vertical"&gt;
   &lt;div&gt;
     &lt;div class="toolbar"&gt;
       &lt;div class="tool-btn" role="button"&gt;Bold&lt;/div&gt;
@@ -177,7 +177,7 @@
       <p class="demo-hint">
         Horizontal orientation with wrap-around. Use Left/Right arrows to navigate. Focus wraps from last to first.
       </p>
-      <n-controller traits="roving-focusable" roving-focusable-selector=".tab-item" roving-focusable-orientation="horizontal">
+      <n-controller traits="roving-focusable" data-trait-roving-focusable-selector=".tab-item" data-trait-roving-focusable-orientation="horizontal">
         <div>
           <div class="tabbar" id="tabbar">
             <div class="tab-item active" role="tab">Overview</div>
@@ -188,8 +188,8 @@
         </div>
       </n-controller>
       <pre class="demo-code"><code>&lt;n-controller traits="roving-focusable"
-  roving-focusable-selector=".tab-item"
-  roving-focusable-orientation="horizontal"&gt;
+  data-trait-roving-focusable-selector=".tab-item"
+  data-trait-roving-focusable-orientation="horizontal"&gt;
   &lt;div&gt;
     &lt;div class="tabbar"&gt;
       &lt;div class="tab-item" role="tab"&gt;Overview&lt;/div&gt;
@@ -225,25 +225,25 @@
         <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>roving-focusable-selector</code></td>
+            <td><code>data-trait-roving-focusable-selector</code></td>
             <td><code>string</code></td>
             <td>—</td>
             <td>CSS selector for focusable items. Exclude disabled items with <code>:not([disabled])</code>.</td>
           </tr>
           <tr>
-            <td><code>roving-focusable-orientation</code></td>
+            <td><code>data-trait-roving-focusable-orientation</code></td>
             <td><code>'vertical' | 'horizontal' | 'both'</code></td>
             <td><code>'both'</code></td>
             <td>Which arrow keys to respond to. <code>'vertical'</code> = Up/Down, <code>'horizontal'</code> = Left/Right.</td>
           </tr>
           <tr>
-            <td><code>roving-focusable-wrap</code></td>
+            <td><code>data-trait-roving-focusable-wrap</code></td>
             <td><code>boolean</code></td>
             <td><code>true</code></td>
             <td>Whether focus wraps from last to first (and vice versa).</td>
           </tr>
           <tr>
-            <td><code>roving-focusable-disabled</code></td>
+            <td><code>data-trait-roving-focusable-disabled</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>Disables roving focus when <code>"true"</code>.</td>

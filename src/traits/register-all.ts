@@ -27,6 +27,8 @@ import {
   presentableAdapter,
   slashCommandableAdapter,
   shortcutableAdapter,
+  tossableAdapter,
+  cssInspectableAdapter,
 } from './adapters/index.ts';
 
 /**
@@ -61,4 +63,6 @@ export function registerAllTraits(): void {
   registerTrait(presentableAdapter);
   registerTrait(slashCommandableAdapter);
   registerTrait(shortcutableAdapter);
+  registerTrait(tossableAdapter);
+  registerTrait(cssInspectableAdapter);
 }

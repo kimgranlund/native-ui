@@ -18,15 +18,15 @@ function ensureRegistered(name: string) {
 }
 
 describe('parseTraitAttribute', () => {
-  it('parses a namespaced trait attribute', () => {
+  it('parses a data-trait-* attribute', () => {
     ensureRegistered('draggable');
-    const result = parseTraitAttribute('draggable-axis');
+    const result = parseTraitAttribute('data-trait-draggable-axis');
     expect(result).toEqual({ trait: 'draggable', key: 'axis' });
   });
 
   it('parses multi-word keys', () => {
     ensureRegistered('draggable');
-    const result = parseTraitAttribute('draggable-drop-zone');
+    const result = parseTraitAttribute('data-trait-draggable-drop-zone');
     expect(result).toEqual({ trait: 'draggable', key: 'drop-zone' });
   });
 
@@ -35,12 +35,20 @@ describe('parseTraitAttribute', () => {
     expect(result).toBeNull();
   });
 
+  it('returns null for bare trait-prefixed attributes (no data-trait-)', () => {
+    ensureRegistered('draggable');
+    const result = parseTraitAttribute('draggable-axis');
+    expect(result).toBeNull();
+  });
+
   it('returns null for partial prefix match', () => {
     ensureRegistered('press');
-    // "pressable" is not "press-able" — the prefix must match exactly with a hyphen
-    const result = parseTraitAttribute('pressable');
-    // "pressable" doesn't start with "press-" unless "press" is registered
-    // Actually "press" + "-" doesn't match "pressable" since "pressable" starts with "press" but not "press-"
+    const result = parseTraitAttribute('data-trait-pressable');
+    expect(result).toBeNull();
+  });
+
+  it('returns null for data- attributes that are not data-trait-', () => {
+    const result = parseTraitAttribute('data-custom-thing');
     expect(result).toBeNull();
   });
 });
@@ -52,9 +60,9 @@ describe('collectTraitOptions', () => {
     el = document.createElement('div');
   });
 
-  it('collects namespaced attributes', () => {
-    el.setAttribute('draggable-axis', 'vertical');
-    el.setAttribute('draggable-mode', 'slot');
+  it('collects data-trait-* namespaced attributes', () => {
+    el.setAttribute('data-trait-draggable-axis', 'vertical');
+    el.setAttribute('data-trait-draggable-mode', 'slot');
     el.setAttribute('class', 'test');
 
     const options = collectTraitOptions(el, 'draggable');
@@ -70,17 +78,24 @@ describe('collectTraitOptions', () => {
   });
 
   it('ignores attributes from other traits', () => {
-    el.setAttribute('draggable-axis', 'vertical');
-    el.setAttribute('sortable-handle', '.grip');
+    el.setAttribute('data-trait-draggable-axis', 'vertical');
+    el.setAttribute('data-trait-sortable-handle', '.grip');
 
     const options = collectTraitOptions(el, 'draggable');
     expect(options).toEqual({ axis: 'vertical' });
   });
 
   it('handles hyphenated option keys', () => {
-    el.setAttribute('range-selectable-range-mode', 'click');
+    el.setAttribute('data-trait-range-selectable-range-mode', 'click');
 
     const options = collectTraitOptions(el, 'range-selectable');
     expect(options).toEqual({ 'range-mode': 'click' });
+  });
+
+  it('ignores old-style bare trait attributes', () => {
+    el.setAttribute('draggable-axis', 'vertical');
+
+    const options = collectTraitOptions(el, 'draggable');
+    expect(options).toEqual({});
   });
 });

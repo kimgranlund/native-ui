@@ -138,7 +138,7 @@
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> with <code>for=".edit-item"</code> applies an <code>EditController</code> to each matching item. Double-click to start editing. Press <strong>Enter</strong> to commit or <strong>Escape</strong> to cancel.
       </p>
-      <n-controller traits="editable" editable-trigger="dblclick" for=".edit-item">
+      <n-controller traits="editable" data-trait-editable-trigger="dblclick" for=".edit-item">
         <div id="dbl-list" class="edit-list">
           <div class="edit-item">Project Roadmap</div>
           <div class="edit-item">Sprint Planning</div>
@@ -148,7 +148,7 @@
       </n-controller>
       <div id="dbl-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="editable"
-  editable-trigger="dblclick"
+  data-trait-editable-trigger="dblclick"
   for=".edit-item"&gt;
   &lt;div class="edit-list"&gt;
     &lt;div class="edit-item"&gt;Project Roadmap&lt;/div&gt;
@@ -171,7 +171,7 @@ list.addEventListener('native:edit-commit', (e) =&gt; {
       <p class="demo-hint">
         Trigger set to <code>'click'</code>. Single click activates editing mode. The <code>for</code> selector applies the trait to each matching descendant individually.
       </p>
-      <n-controller traits="editable" editable-trigger="click" for=".edit-item">
+      <n-controller traits="editable" data-trait-editable-trigger="click" for=".edit-item">
         <div id="click-list" class="edit-list">
           <div class="edit-item">Task Alpha</div>
           <div class="edit-item">Task Bravo</div>
@@ -180,7 +180,7 @@ list.addEventListener('native:edit-commit', (e) =&gt; {
       </n-controller>
       <div id="click-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="editable"
-  editable-trigger="click"
+  data-trait-editable-trigger="click"
   for=".edit-item"&gt;
   &lt;div class="edit-list"&gt;
     &lt;div class="edit-item"&gt;Task Alpha&lt;/div&gt;
@@ -226,18 +226,18 @@ item.addEventListener('native:edit-cancel', (e) =&gt; {
     <h2>API</h2>
 
     <div class="api-section">
-      <h3>Adapter Options (<code>editable-*</code>)</h3>
+      <h3>Adapter Options (<code>data-trait-editable-*</code>)</h3>
       <table class="api-table">
         <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td><code>editable-trigger</code></td>
+            <td><code>data-trait-editable-trigger</code></td>
             <td><code>'click' | 'dblclick'</code></td>
             <td><code>'dblclick'</code></td>
             <td>Which event activates editing mode.</td>
           </tr>
           <tr>
-            <td><code>editable-disabled</code></td>
+            <td><code>data-trait-editable-disabled</code></td>
             <td><code>boolean</code></td>
             <td><code>false</code></td>
             <td>Disables editing when true.</td>

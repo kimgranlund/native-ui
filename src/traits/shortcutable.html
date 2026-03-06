@@ -43,11 +43,11 @@
     registerAllTraits();
   </script>
   <script type="module">
-    import '../nav/n-layout.ts';
-    import '../components/button/n-button.ts';
-    import '../components/input/n-input.ts';
-    import '../components/kbd/n-kbd.ts';
-    import '../components/controller/n-controller.ts';
+    import '../nav/native-app.ts';
+    import '../components/button/button.ts';
+    import '../components/input/input.ts';
+    import '../components/kbd/kbd.ts';
+    import '../components/controller/controller.ts';
     import { ShortcutController } from './shortcut-controller.ts';
 
     // ── Demo 1: Global shortcuts (imperative) ──
@@ -98,7 +98,7 @@
   </script>
 </head>
 <body>
-  <n-layout>
+  <native-app-spa>
     <main>
       <div class="demo-section">
         <div>
@@ -145,8 +145,8 @@
           <h3>Declarative (n-controller)</h3>
           <p>Using <code>&lt;n-controller traits="shortcutable"&gt;</code> with JSON shortcuts attribute:</p>
           <n-controller traits="shortcutable"
-            shortcutable-shortcuts='[{"id":"hello","combo":"ctrl+h"}]'
-            shortcutable-global="true">
+            data-trait-shortcutable-shortcuts='[{"id":"hello","combo":"ctrl+h"}]'
+            data-trait-shortcutable-global="true">
             <div id="demo-declarative" style="outline: 1px dashed var(--n-border-muted); border-radius: var(--n-radius); padding: calc(var(--n-space) * 3);">
               <div class="shortcut-row">
                 <n-kbd>Ctrl + H</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Hello (declarative)</span>
@@ -167,6 +167,6 @@
 
       </div>
     </main>
-  </n-layout>
+  </native-app-spa>
 </body>
 </html>
