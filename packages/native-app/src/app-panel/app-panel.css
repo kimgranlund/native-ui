@@ -97,6 +97,10 @@
     overflow: hidden;
     padding: 0;
   }
+  :where(n-app-panel) > :where(n-body) {
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
 
   :where(n-app-panel) > :where(n-header) {
     border-bottom: 1px solid var(--n-border-muted);

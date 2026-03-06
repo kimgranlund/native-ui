@@ -67,6 +67,28 @@
       Version history for <code>@nonoun/native-ui</code>. Each release lists new features, updates, and breaking changes with links to relevant demo pages.
     </p>
 
+    <!-- ── 0.7.43 — Fun Traits ── -->
+
+    <div class="changelog-version">
+      <h2>0.7.43 <span class="changelog-date">— March 2026</span></h2>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="danger">New</n-badge> Fun Traits</h3>
+        <ul>
+          <li><a href="/src/traits/tossable.html"><code>TossController</code></a> — Pick up an element, fling it with momentum. Physics-based deceleration with configurable friction, gravity, spin (angular velocity from horizontal pointer movement), and optional viewport edge bouncing with damping. Events: <code>native:toss</code> (momentum end), <code>native:bounce</code> (each edge hit). Options: <code>friction</code>, <code>bounce</code>, <code>bounceDamping</code>, <code>gravity</code>, <code>spin</code>, <code>returnOnEnd</code>.</li>
+          <li><a href="/src/traits/css-inspectable.html"><code>CSSInspectController</code></a> — Hover to explode child layers in 3D space with interactive mouse-tracking tilt. Recursive DOM walking labels every descendant with tag name via <code>[data-inspect-label]::after</code>. Smooth 500ms explosion transition followed by 60ms responsive tilt. Options: <code>depth</code>, <code>scale</code>, <code>rotateX</code>, <code>rotateY</code>, <code>tiltStrength</code>, <code>perspective</code>, <code>labels</code>, <code>recursive</code>.</li>
+        </ul>
+      </div>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="accent">Updated</n-badge> Fixes</h3>
+        <ul>
+          <li>Fixed broken <code>n-layout.ts</code> imports in <code>tossable.html</code>, <code>shortcutable.html</code> demo pages — corrected to <code>native-app.ts</code> / <code>&lt;native-app-spa&gt;</code>.</li>
+          <li>Added <strong>Updates</strong> sidebar group — highlights recent additions at the top of the navigation for quick discovery.</li>
+        </ul>
+      </div>
+    </div>
+
     <!-- ── 0.7.37 + native-a2ui 0.2.2 ── -->
 
     <div class="changelog-version">

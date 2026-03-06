@@ -72,8 +72,8 @@
   /* ── Body (default slot) ── */
 
   :where(n-card) > :where(:not([slot])) {
-    padding-block: calc(var(--n-space) * 2);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    /*padding-block: calc(var(--n-space-k) * var(--n-space));*/
+    /*padding-inline: calc(var(--n-space-k) * var(--n-space));*/
   }
 
   /* ── Footer ── */
@@ -109,6 +109,10 @@
   :where(n-card):has(> n-body) {
     overflow: hidden;
     padding: 0;
+  }
+  :where(n-card) > :where(n-body) {
+    overflow-y: auto;
+    scrollbar-width: none;
   }
 
   :where(n-card) > :where(n-header) {

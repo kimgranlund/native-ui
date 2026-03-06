@@ -25,6 +25,7 @@ import '../icons/phosphor/sun.ts';
 import '../icons/phosphor/moon.ts';
 import '../icons/phosphor/magnifying-glass.ts';
 import '../icons/phosphor/compass.ts';
+import '../icons/phosphor/star.ts';
 import '../icons/phosphor/cube.ts';
 import '../icons/phosphor/package.ts';
 import '../icons/phosphor/lightning.ts';
@@ -198,6 +199,7 @@ export class NApp extends NativeElement {
     }
 
     const groupIcons: Record<string, string> = {
+      Updates: 'star',
       Components: 'cube',
       Containers: 'layout',
       Traits: 'lightning',
@@ -212,7 +214,7 @@ export class NApp extends NativeElement {
 
       // WHY: Default to collapsed for all groups except Components.
       // User-persisted state (from localStorage) overrides the default.
-      const defaultOpen = groupName === 'Components';
+      const defaultOpen = groupName === 'Updates' || groupName === 'Components';
       const isOpen = groupStates[groupName] ?? defaultOpen;
       if (!isOpen) (group as unknown as { open: boolean }).open = false;
 

@@ -65,6 +65,10 @@
   :where(n-drawer) :where(n-drawer-panel):has(> n-body) {
     overflow: hidden;
   }
+  :where(n-drawer) :where(n-drawer-panel) > :where(n-body) {
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
 
   :where(n-drawer) :where(n-drawer-panel) > :where(n-header) {
     border-bottom: 1px solid var(--n-border-muted);

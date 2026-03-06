@@ -2,8 +2,9 @@
 
   /* ╭──────────────────────────────────────────────────────────╮
      │  n-body                                                  │
-     │  Generic scrollable content region. Fills remaining      │
-     │  flex space. Scrollbar hidden by default; use            │
+     │  Generic content region. Fills remaining flex space.     │
+     │  Does NOT declare overflow by default — scrolling is     │
+     │  inherited from the parent height constraint. Use        │
      │  show-scrollbar to reveal a thin scrollbar.              │
      │  Parent containers provide context-specific overrides.   │
      ╰──────────────────────────────────────────────────────────╯ */
@@ -22,8 +23,6 @@
     gap: calc(var(--n-space) * 4);
     padding-block: var(--n-body-padding-block);
     padding-inline: var(--n-body-padding-inline);
-    overflow-y: auto;
-    scrollbar-width: none;
 
     font-size: var(--n-font-size);
     line-height: var(--n-line-height);
