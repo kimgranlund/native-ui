@@ -25,6 +25,17 @@ function releaseAlt(): void {
   document.dispatchEvent(new KeyboardEvent('keyup', { key: 'Alt', bubbles: true }));
 }
 
+/** Check if the pre-inspection hover overlay is visible */
+function isHoverOverlayVisible(): boolean {
+  const box = document.querySelector('[data-inspect-hl="hover"]') as HTMLElement | null;
+  return box != null && box.style.display === 'block';
+}
+
+/** Check if the highlight popover overlay exists in the DOM */
+function hasHighlightPopover(): boolean {
+  return document.querySelector('[data-inspect-highlights]') != null;
+}
+
 afterEach(() => {
   document.body.innerHTML = '';
   vi.restoreAllMocks();
@@ -116,21 +127,24 @@ describe('CSSInspectController', () => {
     host.dispatchEvent(new PointerEvent('pointerenter', { bubbles: true }));
     child.dispatchEvent(new PointerEvent('pointermove', { bubbles: true }));
     expect(host.hasAttribute('inspect-ready')).toBe(true);
-    expect(child.hasAttribute('inspect-hover')).toBe(true);
+    expect(isHoverOverlayVisible()).toBe(true);
     releaseAlt();
     expect(host.hasAttribute('inspect-ready')).toBe(false);
-    expect(child.hasAttribute('inspect-hover')).toBe(false);
+    expect(hasHighlightPopover()).toBe(false);
     ctrl.destroy();
   });
 
-  it('hover sets inspect-hover and label on child (Alt held)', () => {
+  it('hover shows overlay with label on child (Alt held)', () => {
     const host = createHost();
     const child = host.children[0] as HTMLElement;
     const ctrl = new CSSInspectController(host);
     pressAlt();
     child.dispatchEvent(new PointerEvent('pointermove', { bubbles: true }));
-    expect(child.hasAttribute('inspect-hover')).toBe(true);
-    expect(child.hasAttribute('data-inspect-label')).toBe(true);
+    expect(isHoverOverlayVisible()).toBe(true);
+    // Label is rendered inside the overlay, not as data-inspect-label on the element
+    const label = document.querySelector('[data-inspect-hl="hover"] span') as HTMLElement;
+    expect(label).not.toBeNull();
+    expect(label!.textContent).toBe('div');
     releaseAlt();
     ctrl.destroy();
   });
@@ -154,17 +168,17 @@ describe('CSSInspectController', () => {
     ctrl.destroy();
   });
 
-  it('hover clears previous child when moving to new child', () => {
+  it('hover overlay moves when moving to new child', () => {
     const host = createHost();
     const child1 = host.children[0] as HTMLElement;
     const child2 = host.children[1] as HTMLElement;
     const ctrl = new CSSInspectController(host);
     pressAlt();
     child1.dispatchEvent(new PointerEvent('pointermove', { bubbles: true }));
-    expect(child1.hasAttribute('inspect-hover')).toBe(true);
+    expect(isHoverOverlayVisible()).toBe(true);
     child2.dispatchEvent(new PointerEvent('pointermove', { bubbles: true }));
-    expect(child1.hasAttribute('inspect-hover')).toBe(false);
-    expect(child2.hasAttribute('inspect-hover')).toBe(true);
+    // Overlay is still visible (repositioned to child2)
+    expect(isHoverOverlayVisible()).toBe(true);
     releaseAlt();
     ctrl.destroy();
   });
@@ -489,9 +503,9 @@ describe('CSSInspectController pick mode', () => {
     const ctrl = new CSSInspectController(container, { pick: true });
 
     pressAlt();
-    // Hover over cardA
+    // Hover over cardA — overlay shows instead of attribute
     cardA.dispatchEvent(new PointerEvent('pointermove', { bubbles: true }));
-    expect(cardA.hasAttribute('inspect-hover')).toBe(true);
+    expect(isHoverOverlayVisible()).toBe(true);
 
     // Alt+click picks cardA
     cardA.dispatchEvent(new MouseEvent('click', { bubbles: true }));
@@ -537,6 +551,37 @@ describe('CSSInspectController pick mode', () => {
     expect(ctrl.active).toBe(true);
     expect(cardB.style.visibility).toBe('hidden');
     expect(ctrl.inspectRoot.className).toBe('card-b');
+
+    ctrl.destroy();
+  });
+
+  it('pick mode clone gets base z-distance that scales with depth multiplier', () => {
+    const container = createContainer();
+    const cardA = container.children[0] as HTMLElement;
+    const ctrl = new CSSInspectController(container, { pick: true, depth: 20 });
+
+    pressAlt();
+    cardA.dispatchEvent(new PointerEvent('pointermove', { bubbles: true }));
+    cardA.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    expect(ctrl.active).toBe(true);
+
+    // Clone root has translateZ with base = depth * 2 = 40
+    const root = ctrl.inspectRoot;
+    expect(root.style.transform).toContain('translateZ(40px)');
+
+    releaseAlt();
+    ctrl.destroy();
+  });
+
+  it('fixed mode clone has no base z-distance', () => {
+    const host = createHost();
+    const ctrl = new CSSInspectController(host, { depth: 20 });
+    clickHost(host);
+    expect(ctrl.active).toBe(true);
+
+    // Clone root has translateZ(0px) in fixed mode
+    const root = ctrl.inspectRoot;
+    expect(root.style.transform).toContain('translateZ(0px)');
 
     ctrl.destroy();
   });

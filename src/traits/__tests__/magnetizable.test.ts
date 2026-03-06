@@ -29,7 +29,7 @@ describe('MagnetController', () => {
     expect(ctrl.selector).toBe(':scope > *');
     expect(ctrl.threshold).toBe(20);
     expect(ctrl.gridSize).toBe(0);
-    expect(ctrl.strength).toBe(0.3);
+    expect(ctrl.strength).toBe(1);
     expect(ctrl.guides).toBe(true);
     expect(ctrl.guideColor).toBe('var(--n-color-accent-500)');
     expect(ctrl.snapToEdges).toBe(true);
@@ -387,7 +387,7 @@ describe('MagnetController', () => {
     child.dispatchEvent(new PointerEvent('pointerdown', {
       bubbles: true, button: 0, isPrimary: true, clientX: 0, clientY: 0,
     }));
-    expect(child.style.willChange).toBe('transform');
+    expect(child.style.willChange).toBe('translate');
 
     host.dispatchEvent(new PointerEvent('pointerup', {
       bubbles: true, clientX: 0, clientY: 0,

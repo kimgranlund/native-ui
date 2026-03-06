@@ -148,7 +148,7 @@
       const magnet = new MagnetController(playgroundArena, {
         threshold: 20,
         gridSize: 0,
-        strength: 0.3,
+        strength: 1,
         guides: true,
         snapToEdges: true,
         snapToSiblings: true,
@@ -180,13 +180,13 @@
       });
 
       document.getElementById('opt-guides').addEventListener('native:change', (e) => {
-        magnet.guides = e.detail.value;
+        magnet.guides = e.detail.checked;
       });
       document.getElementById('opt-edges').addEventListener('native:change', (e) => {
-        magnet.snapToEdges = e.detail.value;
+        magnet.snapToEdges = e.detail.checked;
       });
       document.getElementById('opt-siblings').addEventListener('native:change', (e) => {
-        magnet.snapToSiblings = e.detail.value;
+        magnet.snapToSiblings = e.detail.checked;
       });
 
       // Reset button
@@ -303,8 +303,8 @@
                 <n-range id="opt-grid" min="0" max="100" step="5" value="0" style="flex:1;"></n-range>
               </n-stack>
               <n-stack direction="row" align="center" gap="3">
-                <n-text size="sm" style="min-width: 8rem;">Strength: <strong id="strength-val">0.30</strong></n-text>
-                <n-range id="opt-strength" min="0.05" max="1" step="0.05" value="0.3" style="flex:1;"></n-range>
+                <n-text size="sm" style="min-width: 8rem;">Strength: <strong id="strength-val">1.00</strong></n-text>
+                <n-range id="opt-strength" min="0.05" max="1" step="0.05" value="1" style="flex:1;"></n-range>
               </n-stack>
               <n-stack direction="row" align="center" gap="3">
                 <n-switch id="opt-guides" checked>Show guides</n-switch>

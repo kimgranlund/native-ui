@@ -48,15 +48,22 @@ export class CSSInspectController {
   #active = false;
   #altHeld = false;
   #pointerInside = false;
+  #pointerDownActivated = false;
   #hoveredChild: HTMLElement | null = null;
   #selectedChild: HTMLElement | null = null;
   #explodedElements: HTMLElement[] = [];
   #activationId = 0;
   #depthMultiplier = 1;
+  /** Base z-offset for the clone root (non-zero in pick mode so picked elements float) */
+  #baseZ = 0;
   #clone: HTMLElement | null = null;
   #popover: HTMLElement | null = null;
   /** The original element being inspected (host in fixed mode, picked element in pick mode) */
   #inspectTarget: HTMLElement | null = null;
+  /** Popover overlay for pre-inspection highlights (escapes overflow clipping) */
+  #hlPopover: HTMLElement | null = null;
+  #hlReady: HTMLElement | null = null;
+  #hlHover: HTMLElement | null = null;
 
   constructor(host: HTMLElement, options: CSSInspectOptions = {}) {
     this.host = host;
@@ -83,6 +90,7 @@ export class CSSInspectController {
     this.host.addEventListener('pointerenter', this.#onPointerEnter);
     this.host.addEventListener('pointerleave', this.#onPointerLeave);
     this.host.addEventListener('pointermove', this.#onHoverMove);
+    this.host.addEventListener('pointerdown', this.#onPointerDown);
     this.host.addEventListener('click', this.#onClick);
     document.addEventListener('keydown', this.#onAltDown);
     document.addEventListener('keyup', this.#onAltUp);
@@ -94,11 +102,13 @@ export class CSSInspectController {
     this.host.removeEventListener('pointerenter', this.#onPointerEnter);
     this.host.removeEventListener('pointerleave', this.#onPointerLeave);
     this.host.removeEventListener('pointermove', this.#onHoverMove);
+    this.host.removeEventListener('pointerdown', this.#onPointerDown);
     this.host.removeEventListener('click', this.#onClick);
     document.removeEventListener('keydown', this.#onAltDown);
     document.removeEventListener('keyup', this.#onAltUp);
     if (this.#active) this.#deactivate();
     this.#clearHover();
+    this.#teardownHighlights();
     this.#altHeld = false;
     this.#pointerInside = false;
   }
@@ -128,28 +138,32 @@ export class CSSInspectController {
   #onPointerEnter = (_e: PointerEvent): void => {
     this.#pointerInside = true;
     if (this.disabled || this.#active) return;
-    if (this.#altHeld) this.host.toggleAttribute('inspect-ready', true);
+    if (this.#altHeld) this.#setReady(true);
   };
 
   #onPointerLeave = (_e: PointerEvent): void => {
     this.#pointerInside = false;
-    this.host.removeAttribute('inspect-ready');
-    if (!this.#active) this.#clearHover();
+    this.#setReady(false);
+    if (!this.#active) {
+      this.#clearHover();
+      this.#teardownHighlights();
+    }
   };
 
   #onAltDown = (e: KeyboardEvent): void => {
     if (e.key !== 'Alt' || this.#altHeld) return;
     this.#altHeld = true;
     if (this.disabled || this.#active) return;
-    if (this.#pointerInside) this.host.toggleAttribute('inspect-ready', true);
+    if (this.#pointerInside) this.#setReady(true);
   };
 
   #onAltUp = (e: KeyboardEvent): void => {
     if (e.key !== 'Alt') return;
     this.#altHeld = false;
     if (this.#active) return;
-    this.host.removeAttribute('inspect-ready');
+    this.#setReady(false);
     this.#clearHover();
+    this.#teardownHighlights();
   };
 
   /** Tilt tracking — runs on document so the entire viewport is the hit area. */
@@ -163,12 +177,31 @@ export class CSSInspectController {
     const ny = Math.max(-1, Math.min(1, dy / this.tiltRadius));
     const tiltX = ny * this.maxTilt;
     const tiltY = nx * -this.maxTilt;
-    clone.style.transform = `perspective(${this.perspective}px) scale(${this.scale}) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+    const bz = this.#baseZ * this.#depthMultiplier;
+    clone.style.transform = `translateZ(${bz}px) perspective(${this.perspective}px) scale(${this.scale}) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
     clone.style.setProperty('--inspect-tilt-x', `${tiltX}deg`);
     clone.style.setProperty('--inspect-tilt-y', `${tiltY}deg`);
   };
 
-  /** Hover highlighting — pre-inspection on host, active-mode on clone */
+  /** Alt+pointerdown activates immediately — enables press-and-drag tilt without a full click. */
+  #onPointerDown = (e: PointerEvent): void => {
+    if (this.disabled || this.#active) return;
+    if (!e.altKey || e.button !== 0) return;
+
+    e.preventDefault(); // prevent text selection during drag-to-tilt
+    this.#pointerDownActivated = true;
+
+    if (this.pick) {
+      if (!this.#hoveredChild) return;
+      const target = this.#hoveredChild;
+      this.#clearHover();
+      this.#activate(target, e.clientX, e.clientY);
+    } else {
+      this.#activate(this.host, e.clientX, e.clientY);
+    }
+  };
+
+  /** Hover highlighting — pre-inspection via popover overlay, active-mode via attributes on clone */
   #onHoverMove = (e: PointerEvent): void => {
     if (this.disabled) return;
     if (!this.#active && !this.#altHeld) return;
@@ -181,15 +214,13 @@ export class CSSInspectController {
     this.#clearHover();
     if (hoverTarget) {
       this.#hoveredChild = hoverTarget;
-      hoverTarget.toggleAttribute('inspect-hover', true);
-      if (this.labels && !this.#active) {
-        const tag = hoverTarget.tagName.toLowerCase();
-        const cls = typeof hoverTarget.className === 'string' && hoverTarget.className
-          ? `.${hoverTarget.className.split(/\s+/)[0]}`
-          : '';
-        hoverTarget.setAttribute('data-inspect-label', `${tag}${cls}`);
-      }
-      if (this.#active) {
+      if (!this.#active) {
+        // Pre-inspection: popover overlay (escapes overflow clipping)
+        this.#ensureHighlights();
+        this.#showBox(this.#hlHover!, hoverTarget, this.labels ? this.#labelText(hoverTarget) : undefined);
+      } else {
+        // Inspection: attributes on clone children (already in top layer)
+        hoverTarget.toggleAttribute('inspect-hover', true);
         let walk: HTMLElement | null = hoverTarget.parentElement;
         while (walk && walk !== root) {
           walk.toggleAttribute('inspect-hover', true);
@@ -201,23 +232,36 @@ export class CSSInspectController {
 
   #onClick = (e: MouseEvent): void => {
     if (this.disabled) return;
-    e.stopPropagation();
+
     if (!this.#active) {
+      // Alt+pointerdown already activated — swallow the trailing click
+      if (this.#pointerDownActivated) {
+        this.#pointerDownActivated = false;
+        e.stopPropagation();
+        return;
+      }
+
       if (this.pick) {
         // Pick mode: Alt+click on a hovered child picks it as inspection target
         if (!this.#altHeld || !this.#hoveredChild) return;
+        e.stopPropagation();
         const target = this.#hoveredChild;
         this.#clearHover();
         this.#activate(target, e.clientX, e.clientY);
       } else {
+        // Non-pick mode: plain click activates
+        e.stopPropagation();
         this.#activate(this.host, e.clientX, e.clientY);
       }
-    } else {
-      const root = this.#clone!;
-      const target = e.target as HTMLElement;
-      const child = target === root ? null : this.#closestChildOf(target, root);
-      if (child) this.#select(child);
+      return;
     }
+
+    // Active mode: click to select a layer in the clone
+    e.stopPropagation();
+    const root = this.#clone!;
+    const target = e.target as HTMLElement;
+    const child = target === root ? null : this.#closestChildOf(target, root);
+    if (child) this.#select(child);
   };
 
   #onWheel = (e: WheelEvent): void => {
@@ -230,6 +274,11 @@ export class CSSInspectController {
 
   #onDocClick = (e: MouseEvent): void => {
     if (!this.#active) return;
+    // Ignore the click that follows the Alt+pointerdown activation
+    if (this.#pointerDownActivated) {
+      this.#pointerDownActivated = false;
+      return;
+    }
     const target = e.target as Node;
     if (this.#popover && !this.#popover.contains(target)) {
       this.#deactivate();
@@ -244,7 +293,78 @@ export class CSSInspectController {
     }
   };
 
+  /** Block text selection and drag-to-select while inspecting */
+  #onDocSelectStart = (e: Event): void => { e.preventDefault(); };
+  #onDocPointerDown = (e: PointerEvent): void => { e.preventDefault(); };
+
   // ── Internals ──
+
+  #setReady(on: boolean): void {
+    if (on) {
+      this.host.toggleAttribute('inspect-ready', true);
+      this.#ensureHighlights();
+      this.#showBox(this.#hlReady!, this.host, this.labels ? this.#labelText(this.host) : undefined);
+    } else {
+      this.host.removeAttribute('inspect-ready');
+      this.#hideBox(this.#hlReady);
+    }
+  }
+
+  // ── Highlight overlays (top-layer popover escapes overflow clipping) ──
+
+  #ensureHighlights(): void {
+    if (this.#hlPopover) return;
+    const pop = document.createElement('div');
+    pop.setAttribute('popover', 'manual');
+    pop.setAttribute('data-inspect-highlights', '');
+    pop.style.cssText = 'position:fixed;inset:0;margin:0;padding:0;border:none;background:transparent;pointer-events:none;overflow:visible;';
+    this.#hlReady = this.#makeBox('oklch(0.6 0.2 250 / 0.5)');
+    this.#hlReady.setAttribute('data-inspect-hl', 'ready');
+    this.#hlHover = this.#makeBox('oklch(0.6 0.2 250 / 0.7)');
+    this.#hlHover.setAttribute('data-inspect-hl', 'hover');
+    pop.append(this.#hlReady, this.#hlHover);
+    document.body.appendChild(pop);
+    if (typeof pop.showPopover === 'function') pop.showPopover();
+    this.#hlPopover = pop;
+  }
+
+  #makeBox(color: string): HTMLElement {
+    const box = document.createElement('div');
+    box.style.cssText = `position:fixed;pointer-events:none;display:none;box-sizing:border-box;outline:2px solid ${color};outline-offset:-1px;`;
+    const label = document.createElement('span');
+    label.style.cssText = 'position:absolute;bottom:100%;left:0.25rem;margin-bottom:2px;font:600 0.625rem/1.4 ui-monospace,monospace;color:oklch(0.85 0.15 250);background:oklch(0.2 0.05 250/0.85);padding:0.1rem 0.35rem;border-radius:0.2rem;white-space:nowrap;display:none;';
+    box.appendChild(label);
+    return box;
+  }
+
+  #showBox(box: HTMLElement, el: HTMLElement, labelText?: string): void {
+    const rect = el.getBoundingClientRect();
+    box.style.top = `${rect.top}px`;
+    box.style.left = `${rect.left}px`;
+    box.style.width = `${rect.width}px`;
+    box.style.height = `${rect.height}px`;
+    box.style.display = 'block';
+    const label = box.firstElementChild as HTMLElement;
+    if (labelText) {
+      label.textContent = labelText;
+      label.style.display = 'block';
+    } else {
+      label.style.display = 'none';
+    }
+  }
+
+  #hideBox(box: HTMLElement | null): void {
+    if (box) box.style.display = 'none';
+  }
+
+  #teardownHighlights(): void {
+    if (!this.#hlPopover) return;
+    try { this.#hlPopover.hidePopover(); } catch { /* already hidden */ }
+    this.#hlPopover.remove();
+    this.#hlPopover = null;
+    this.#hlReady = null;
+    this.#hlHover = null;
+  }
 
   #updateDepths(): void {
     const root = this.#clone ?? this.host;
@@ -252,6 +372,12 @@ export class CSSInspectController {
       const base = this.recursive ? this.#domDepthFrom(child, root) * this.depth : (i + 1) * this.depth;
       child.style.transform = `translateZ(${base * this.#depthMultiplier}px)`;
     });
+    // Scale clone root's base z-offset with the multiplier (pick mode float)
+    if (this.#clone && this.#baseZ) {
+      const current = this.#clone.style.transform;
+      const bz = this.#baseZ * this.#depthMultiplier;
+      this.#clone.style.transform = current.replace(/translateZ\([^)]+\)/, `translateZ(${bz}px)`);
+    }
   }
 
   #closestChildOf(target: HTMLElement, root: HTMLElement): HTMLElement | null {
@@ -268,15 +394,15 @@ export class CSSInspectController {
 
   #clearHover(): void {
     if (!this.#hoveredChild) return;
+    // Remove attributes (inspection mode on clone children — no-op if pre-inspection)
     const root = this.#clone ?? this.host;
     let walk: HTMLElement | null = this.#hoveredChild;
     while (walk && walk !== root) {
       walk.removeAttribute('inspect-hover');
       walk = walk.parentElement;
     }
-    if (!this.#active) {
-      this.#hoveredChild.removeAttribute('data-inspect-label');
-    }
+    // Hide overlay (pre-inspection — no-op if not shown)
+    this.#hideBox(this.#hlHover);
     this.#hoveredChild = null;
   }
 
@@ -302,13 +428,17 @@ export class CSSInspectController {
     this.#selectedChild = null;
   }
 
-  #createLabel(el: HTMLElement): void {
+  #labelText(el: HTMLElement): string {
     const tag = el.tagName.toLowerCase();
     const id = el.id ? `#${el.id}` : '';
     const cls = typeof el.className === 'string' && el.className
       ? `.${el.className.split(/\s+/)[0]}`
       : '';
-    el.setAttribute('data-inspect-label', `${tag}${id}${cls}`);
+    return `${tag}${id}${cls}`;
+  }
+
+  #createLabel(el: HTMLElement): void {
+    el.setAttribute('data-inspect-label', this.#labelText(el));
   }
 
   #isOpaqueLeaf(el: HTMLElement): boolean {
@@ -361,7 +491,7 @@ export class CSSInspectController {
     this.#active = true;
     const id = ++this.#activationId;
     this.#clearHover();
-    this.host.removeAttribute('inspect-ready');
+    this.#setReady(false);
     this.#inspectTarget = target;
     target.toggleAttribute('inspecting', true);
 
@@ -399,12 +529,19 @@ export class CSSInspectController {
     // Hide original (preserve layout space)
     target.style.visibility = 'hidden';
 
+    // Pick mode: clone root gets a base z-offset so it "floats" above the page
+    this.#baseZ = this.pick ? this.depth * 2 : 0;
+
     // Apply 3D transforms to clone
     clone.toggleAttribute('inspecting', true);
     clone.style.transformStyle = 'preserve-3d';
     clone.style.transformOrigin = 'center center';
     clone.style.userSelect = 'none';
     clone.style.overflow = 'visible'; // prevent overflow:hidden from flattening preserve-3d
+
+    // Popover needs preserve-3d so clone's translateZ is visible
+    popover.style.transformStyle = 'preserve-3d';
+    popover.style.perspective = `${this.perspective}px`;
 
     // Compute initial tilt from pointer offset to center
     const dx = px - (rect.left + rect.width / 2);
@@ -413,7 +550,8 @@ export class CSSInspectController {
     const ny = Math.max(-1, Math.min(1, dy / this.tiltRadius));
     const tiltX = ny * this.maxTilt;
     const tiltY = nx * -this.maxTilt;
-    clone.style.transform = `perspective(${this.perspective}px) scale(${this.scale}) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+    const bz = this.#baseZ * this.#depthMultiplier;
+    clone.style.transform = `translateZ(${bz}px) perspective(${this.perspective}px) scale(${this.scale}) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
     clone.style.setProperty('--inspect-tilt-x', `${tiltX}deg`);
     clone.style.setProperty('--inspect-tilt-y', `${tiltY}deg`);
     clone.style.transition = 'transform 500ms cubic-bezier(0.2, 0, 0, 1)';
@@ -447,10 +585,13 @@ export class CSSInspectController {
     clone.addEventListener('click', this.#onClick);
     popover.addEventListener('wheel', this.#onWheel, { passive: false });
 
-    // Document listeners for dismiss, tilt tracking
+    // Document listeners for dismiss, tilt tracking, scroll/selection interception
     document.addEventListener('click', this.#onDocClick, true);
     document.addEventListener('keydown', this.#onDocKeydown);
     document.addEventListener('pointermove', this.#onDocTilt);
+    document.addEventListener('wheel', this.#onWheel, { passive: false });
+    document.addEventListener('selectstart', this.#onDocSelectStart);
+    document.addEventListener('pointerdown', this.#onDocPointerDown);
 
     this.host.dispatchEvent(new CustomEvent('native:inspect', {
       bubbles: true,
@@ -484,6 +625,7 @@ export class CSSInspectController {
     this.#clone = null;
     this.#popover = null;
     this.#depthMultiplier = 1;
+    this.#baseZ = 0;
 
     // Restore the inspected element
     const target = this.#inspectTarget ?? this.host;
@@ -495,6 +637,9 @@ export class CSSInspectController {
     document.removeEventListener('click', this.#onDocClick, true);
     document.removeEventListener('keydown', this.#onDocKeydown);
     document.removeEventListener('pointermove', this.#onDocTilt);
+    document.removeEventListener('wheel', this.#onWheel);
+    document.removeEventListener('selectstart', this.#onDocSelectStart);
+    document.removeEventListener('pointerdown', this.#onDocPointerDown);
 
     this.host.dispatchEvent(new CustomEvent('native:inspect', {
       bubbles: true,

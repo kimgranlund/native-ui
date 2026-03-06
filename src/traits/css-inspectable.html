@@ -35,18 +35,10 @@
         position: relative;
       }
 
-      /* ── Hover preview: ready state ── */
+      /* ── Hover preview: ready state (outline rendered by popover overlay) ── */
 
       [inspect-ready] {
         cursor: crosshair;
-      }
-
-      /* ── Hover highlight (pre-3D preview only, not during inspection) ── */
-
-      [inspect-hover]:not([inspect-layer]) {
-        outline: 2px solid oklch(0.6 0.2 250 / 0.7);
-        outline-offset: -1px;
-        position: relative;
       }
 
       /* ── 3D inspection: outlines on exploded layers only ── */
@@ -70,7 +62,7 @@
         outline: none !important;
       }
 
-      /* ── Labels (hover preview + 3D inspection) ── */
+      /* ── Labels (3D inspection mode — pre-inspection labels rendered in popover overlay) ── */
 
       [data-inspect-label] {
         position: relative;
@@ -296,7 +288,7 @@
 
       const labelSwitch = document.getElementById('opt-labels');
       labelSwitch.addEventListener('native:change', (e) => {
-        inspector.labels = e.detail.value;
+        inspector.labels = e.detail.checked;
       });
 
       // ── Pick mode event log ──

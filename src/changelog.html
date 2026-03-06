@@ -30,58 +30,48 @@
         align-items: center;
         gap: 0.375rem;
       }
-      .changelog-section ul {
-        margin: 0;
-        padding-inline-start: 1.25rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-      }
-      .changelog-section li {
-        font-size: 0.875rem;
-        line-height: 1.5;
-        color: var(--n-ink-neutral);
-      }
-      .changelog-section a {
-        color: var(--n-ink-strong-accent);
-        text-decoration: none;
-      }
-      .changelog-section a:hover {
-        text-decoration: underline;
-      }
-      .changelog-section a > code {
-        color: inherit;
-      }
-      .changelog-section code {
-        font-size: 0.8125rem;
-        background: var(--n-panel-neutral);
-        padding: 0.125em 0.375em;
-        border-radius: 0.25rem;
-      }
-      .changelog-traits {
+      .changelog-cards {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
         margin-block-start: 0.5rem;
       }
-      .changelog-traits n-card {
-        border-inline-start: 3px solid var(--n-color-accent-500);
-      }
-      .changelog-traits n-header a {
+      .changelog-cards n-header a {
         color: var(--n-ink-strong-accent);
         text-decoration: none;
       }
-      .changelog-traits n-header a:hover {
+      .changelog-cards n-header a:hover {
         text-decoration: underline;
       }
-      .changelog-traits n-body p {
+      .changelog-cards n-body p {
         margin: 0 0 0.25rem;
       }
-      .changelog-traits n-body ul {
+      .changelog-cards n-body ul {
         margin: 0;
         padding-inline-start: 1.25rem;
       }
-      .changelog-traits n-footer {
+      .changelog-cards n-body li {
+        font-size: 0.875rem;
+        line-height: 1.5;
+        color: var(--n-ink-neutral);
+      }
+      .changelog-cards n-body a {
+        color: var(--n-ink-strong-accent);
+        text-decoration: none;
+      }
+      .changelog-cards n-body a:hover {
+        text-decoration: underline;
+      }
+      .changelog-cards n-body a > code {
+        color: inherit;
+      }
+      .changelog-cards n-body code {
+        font-size: 0.8125rem;
+        background: var(--n-panel-neutral);
+        padding: 0.125em 0.375em;
+        border-radius: 0.25rem;
+      }
+      .changelog-cards n-footer {
         font-size: 0.75rem;
         color: var(--n-ink-muted-neutral);
       }
@@ -102,7 +92,7 @@
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="danger">New</n-badge> Fun Traits (6 total)</h3>
 
-        <div class="changelog-traits">
+        <div class="changelog-cards">
           <n-card>
             <n-header><span slot="label"><a href="/src/traits/tossable.html">TossController</a> — Physics-based throwing</span></n-header>
             <n-body>
@@ -124,6 +114,9 @@
                 <li>Recursive DOM walking labels every descendant via <code>[data-inspect-label]::after</code></li>
                 <li>Pick mode (Alt+hover) inspects individual elements in large containers</li>
                 <li>Clone-in-popover rendering escapes ancestor clipping and <code>preserve-3d</code> flattening</li>
+                <li>Popover-based highlight overlays for pre-inspection hover (escapes overflow clipping)</li>
+                <li>Scroll wheel zoom controls z-depth multiplier during inspection</li>
+                <li>Selection interception blocks text selection and drag-to-select while inspecting</li>
               </ul>
             </n-body>
             <n-footer>Events: <code>native:inspect</code></n-footer>
@@ -185,18 +178,34 @@
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="warning">Breaking</n-badge> Trait Option Namespace</h3>
-        <ul>
-          <li>All trait option attributes now use <code>data-trait-{name}-{key}</code> prefix instead of bare <code>{name}-{key}</code>. Example: <code>draggable-axis="vertical"</code> → <code>data-trait-draggable-axis="vertical"</code>. This prevents namespace collisions between trait options and component API attributes on self-trait elements. Affects all <code>&lt;n-controller&gt;</code> option attributes and self-trait usage.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">Trait option attributes renamed to <code>data-trait-*</code></span></n-header>
+            <n-body>
+              <p>All trait option attributes now use <code>data-trait-{name}-{key}</code> prefix instead of bare <code>{name}-{key}</code>. This prevents namespace collisions between trait options and component API attributes on self-trait elements.</p>
+              <ul>
+                <li>Example: <code>draggable-axis="vertical"</code> → <code>data-trait-draggable-axis="vertical"</code></li>
+                <li>Affects all <code>&lt;n-controller&gt;</code> option attributes and self-trait usage</li>
+                <li>Updated all 30 trait demo pages, 3 doc files, and CLAUDE.md</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="accent">Updated</n-badge> Fixes</h3>
-        <ul>
-          <li>Fixed broken <code>n-layout.ts</code> imports in <code>tossable.html</code>, <code>shortcutable.html</code> demo pages.</li>
-          <li>Added <strong>Updates</strong> sidebar group — highlights recent additions at the top of the navigation.</li>
-          <li>Updated all 30 trait demo pages, 3 doc files, and CLAUDE.md for <code>data-trait-*</code> namespace.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">Demo and navigation fixes</span></n-header>
+            <n-body>
+              <ul>
+                <li>Fixed broken <code>n-layout.ts</code> imports in <code>tossable.html</code>, <code>shortcutable.html</code> demo pages</li>
+                <li>Added <strong>Updates</strong> sidebar group — highlights recent additions at the top of the navigation</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -207,71 +216,127 @@
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="danger">New</n-badge> A2UI Session Layer (<code>@nonoun/native-a2ui 0.2.2</code>)</h3>
-        <ul>
-          <li><strong>Session Manager</strong> — <code>NSessionManager</code> creates and manages agent sessions. Each session is an <code>AgentSession</code> with its own event emitter, surface ownership, and component catalog.</li>
-          <li><strong>Surface Registry</strong> — <code>NSurfaceRegistry</code> manages named render targets (DOM mount points). Surfaces have single-owner semantics: only the owning session can write to a surface. Ownership can be transferred between sessions.</li>
-          <li><strong>Component Catalog</strong> — <code>buildCatalogFromRegistry()</code> builds a typed catalog of available A2UI components from the kernel's component registry. Catalogs are passed to sessions to constrain what components agents can render.</li>
-          <li><strong>Adapters</strong> — Protocol adapters bridge external agent protocols to the A2UI surface system:
-            <ul>
-              <li><code>DirectAdapter</code> — In-process adapter for local agents (simulation, testing).</li>
-              <li><code>A2AAdapter</code> — Google A2A protocol adapter (agent-to-agent task delegation).</li>
-              <li><code>AgUIAdapter</code> — AG-UI protocol adapter (agent-generated UI streaming).</li>
-            </ul>
-          </li>
-          <li><strong>Event Emitter</strong> — Lightweight typed event emitter for session lifecycle events (<code>status-change</code>, <code>error</code>, <code>component-update</code>).</li>
-          <li><strong>Tests</strong> — 5 test suites covering catalog, direct adapter, event emitter, session manager, and surface registry.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">Session Manager + Surface Registry</span></n-header>
+            <n-body>
+              <ul>
+                <li><strong>Session Manager</strong> — <code>NSessionManager</code> creates and manages agent sessions with event emitters, surface ownership, and component catalogs</li>
+                <li><strong>Surface Registry</strong> — <code>NSurfaceRegistry</code> manages named render targets with single-owner semantics and ownership transfer</li>
+                <li><strong>Component Catalog</strong> — <code>buildCatalogFromRegistry()</code> builds typed catalogs from the kernel's component registry</li>
+              </ul>
+            </n-body>
+          </n-card>
+
+          <n-card>
+            <n-header><span slot="label">Protocol Adapters</span></n-header>
+            <n-body>
+              <p>Bridge external agent protocols to the A2UI surface system.</p>
+              <ul>
+                <li><code>DirectAdapter</code> — In-process adapter for local agents (simulation, testing)</li>
+                <li><code>A2AAdapter</code> — Google A2A protocol adapter (agent-to-agent task delegation)</li>
+                <li><code>AgUIAdapter</code> — AG-UI protocol adapter (agent-generated UI streaming)</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="danger">New</n-badge> A2A Demo Pages</h3>
-        <ul>
-          <li><a href="/packages/native-a2ui/src/a2a-tictactoe.html"><code>A2A Tic-Tac-Toe</code></a> — Two AI agents (Claude vs ChatGPT) play Tic-Tac-Toe through independent A2UI surfaces. Features: human play via cell click, simulation mode with minimax AI, auto-play with disabled controls, pulsing outline turn indicators, animated icon transitions, click-to-start game creation, model selection (Claude Haiku 4.5, GPT-5 mini/nano, GPT-4.1 mini/nano, Human).</li>
-          <li><a href="/packages/native-a2ui/src/a2a-sessions.html"><code>A2A Sessions</code></a> — Session lifecycle demo: create, pause, resume, terminate sessions. Shows status transitions and event log.</li>
-          <li><a href="/packages/native-a2ui/src/a2a-ownership.html"><code>A2A Ownership</code></a> — Surface ownership transfer demo: two agents competing for write access to a shared surface, ownership gating, transfer mechanics.</li>
-          <li><a href="/packages/native-a2ui/src/a2a-catalog.html"><code>A2A Catalog</code></a> — Component catalog explorer: browse available A2UI components, their properties, and rendering capabilities.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label"><a href="/packages/native-a2ui/src/a2a-tictactoe.html">A2A Tic-Tac-Toe</a></span></n-header>
+            <n-body>
+              <p>Two AI agents (Claude vs ChatGPT) play Tic-Tac-Toe through independent A2UI surfaces.</p>
+              <ul>
+                <li>Human play via cell click, simulation mode with minimax AI, auto-play with disabled controls</li>
+                <li>Pulsing outline turn indicators, animated icon transitions, click-to-start game creation</li>
+                <li>Model selection: Claude Haiku 4.5, GPT-5 mini/nano, GPT-4.1 mini/nano, Human</li>
+              </ul>
+            </n-body>
+          </n-card>
+
+          <n-card>
+            <n-header><span slot="label">Session lifecycle demos</span></n-header>
+            <n-body>
+              <ul>
+                <li><a href="/packages/native-a2ui/src/a2a-sessions.html">A2A Sessions</a> — Create, pause, resume, terminate sessions with status transitions and event log</li>
+                <li><a href="/packages/native-a2ui/src/a2a-ownership.html">A2A Ownership</a> — Surface ownership transfer between competing agents</li>
+                <li><a href="/packages/native-a2ui/src/a2a-catalog.html">A2A Catalog</a> — Component catalog explorer with rendering capabilities</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="info">Enhanced</n-badge> Sub-Container Padding Alignment</h3>
-        <ul>
-          <li><code>&lt;n-header&gt;</code> — Default <code>--n-header-padding-block</code> changed from <code>space × 2</code> to <code>space × 4</code>, matching <code>&lt;n-footer&gt;</code>. All padding variants (<code>tight</code>, <code>regular</code>, <code>relaxed</code>) now use the same scale across header, body, and footer.</li>
-          <li><code>&lt;n-footer&gt;</code> — Padding variants aligned to consistent scale. <code>tight</code>: block <code>space × 2</code>, inline <code>space × 4</code>. <code>regular</code>: block <code>space × 4</code>, inline <code>space × 6</code>. <code>relaxed</code>: block <code>space × 6</code>, inline <code>space × 8</code>.</li>
-          <li><code>&lt;n-body&gt;</code> — Padding variants aligned. Default: <code>space × 4</code> block and inline. <code>tight</code>: inline <code>space × 4</code>. <code>regular</code>: block <code>space × 4</code>, inline <code>space × 6</code>. <code>relaxed</code>: block <code>space × 6</code>, inline <code>space × 8</code>.</li>
-          <li><strong>Min-height formula</strong> — All three sub-containers now use identical <code>min-height: calc(var(--n-size) + total-block-padding)</code> math so headers, bodies, and footers at the same padding variant produce consistent sizing.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">Consistent padding scale across header, body, footer</span></n-header>
+            <n-body>
+              <ul>
+                <li><code>&lt;n-header&gt;</code> — Default <code>--n-header-padding-block</code> changed from <code>space × 2</code> to <code>space × 4</code>, matching <code>&lt;n-footer&gt;</code></li>
+                <li><code>&lt;n-footer&gt;</code> — Variants aligned: <code>tight</code> block <code>space × 2</code> / inline <code>space × 4</code>, <code>regular</code> block <code>space × 4</code> / inline <code>space × 6</code>, <code>relaxed</code> block <code>space × 6</code> / inline <code>space × 8</code></li>
+                <li><code>&lt;n-body&gt;</code> — Default: <code>space × 4</code> block and inline. Variants aligned to same scale</li>
+                <li>All three use identical <code>min-height: calc(var(--n-size) + total-block-padding)</code> math</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="info">Enhanced</n-badge> Component CSS Fixes</h3>
-        <ul>
-          <li><code>&lt;n-button&gt;</code> — Added <code>max-height: var(--n-size)</code> to base rule. Prevents buttons from stretching vertically in flex containers.</li>
-          <li><code>&lt;n-input&gt;</code> — Added <code>max-height: var(--n-size)</code> to base rule. Same vertical containment fix.</li>
-          <li><code>&lt;n-select&gt;</code> popover — Removed <code>margin-inline: var(--n-popover-viewport-margin)</code> from the popover listbox positioning rule. This was causing a visible inset/misalignment between the trigger button and the dropdown.</li>
-          <li><code>&lt;n-card&gt;</code> — Gap token changed from <code>calc(var(--n-space) * 0)</code> to explicit <code>0</code>.</li>
-          <li><code>&lt;n-stack&gt;</code> — Default flex changed from <code>1 1 100%</code> to <code>1 1 0%</code> (standard flex-grow behavior, prevents 100% flex-basis from forcing overflow).</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">Button, input, select, card, stack fixes</span></n-header>
+            <n-body>
+              <ul>
+                <li><code>&lt;n-button&gt;</code> — Added <code>max-height: var(--n-size)</code> to prevent vertical stretching in flex containers</li>
+                <li><code>&lt;n-input&gt;</code> — Added <code>max-height: var(--n-size)</code>, same vertical containment fix</li>
+                <li><code>&lt;n-select&gt;</code> popover — Removed inline margin that caused trigger/dropdown misalignment</li>
+                <li><code>&lt;n-card&gt;</code> — Gap token changed from <code>calc(var(--n-space) * 0)</code> to explicit <code>0</code></li>
+                <li><code>&lt;n-stack&gt;</code> — Default flex changed from <code>1 1 100%</code> to <code>1 1 0%</code> (standard flex-grow)</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="info">Enhanced</n-badge> Lifecycle Hardening</h3>
-        <ul>
-          <li><strong>NativeElement <code>ready</code> promise</strong> — Renewable: getter returns <code>#readyPromise</code>, fresh on each <code>connectedCallback</code>. Old promise stays resolved. <code>#pendingDefers</code> counter gates readiness.</li>
-          <li><strong><code>deferChildren</code> retries</strong> — Sync check → microtask → RAF → RAF (3 attempts). Covers slow custom element upgrades and lazy content injection.</li>
-          <li><strong><code>#alive</code> guard</strong> — Prevents double-setup on rapid DOM moves. <code>disconnectedCallback</code> respects <code>_reparenting</code> flag.</li>
-          <li><strong>NController</strong> — Calls <code>renewReady()</code> in own <code>connectedCallback</code> (skips super). <code>#retryApplyFirstChild</code> for wrapper mode when first child isn't ready yet.</li>
-          <li><strong>DragController</strong> — <code>lostpointercapture</code> listener removed before <code>releasePointerCapture</code> (prevents re-entry). Document listeners removed before <code>native:drop</code> dispatch (prevents leaks on navigation).</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">NativeElement, NController, DragController</span></n-header>
+            <n-body>
+              <ul>
+                <li><strong>NativeElement <code>ready</code></strong> — Renewable promise, fresh on each <code>connectedCallback</code>. <code>#pendingDefers</code> counter gates readiness</li>
+                <li><strong><code>deferChildren</code></strong> — Sync check → microtask → RAF → RAF (3 attempts) for slow CE upgrades</li>
+                <li><strong><code>#alive</code> guard</strong> — Prevents double-setup on rapid DOM moves, respects <code>_reparenting</code> flag</li>
+                <li><strong>NController</strong> — Calls <code>renewReady()</code> in own <code>connectedCallback</code>. <code>#retryApplyFirstChild</code> for wrapper mode</li>
+                <li><strong>DragController</strong> — Listener cleanup ordering prevents re-entry and navigation leaks</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
 
       <div class="changelog-section">
-        <h3><n-badge size="xs" intent="info">Enhanced</n-badge> Token & Color Changes</h3>
-        <ul>
-          <li><code>--n-popover-viewport-margin</code> — No longer applied to select/combobox dropdown inline margins. Still used for block margins (top/bottom viewport safety).</li>
-          <li><code>--n-ink-inverse</code> — Documented: resolves to <code>--n-ink-inverse-{family}</code> → <code>--n-color-{family}-11</code> (raw darkest ramp step, never flips with theme). Used by selected state pattern for white-background pills.</li>
-          <li><code>n-components.shared.css</code> — Updated shared control defaults.</li>
-        </ul>
+        <h3><n-badge size="xs" intent="info">Enhanced</n-badge> Token &amp; Color Changes</h3>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">Popover margin, ink-inverse, shared control defaults</span></n-header>
+            <n-body>
+              <ul>
+                <li><code>--n-popover-viewport-margin</code> — No longer applied to select/combobox dropdown inline margins</li>
+                <li><code>--n-ink-inverse</code> — Documented: resolves to raw darkest ramp step, never flips with theme</li>
+                <li><code>n-components.shared.css</code> — Updated shared control defaults</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -282,16 +347,22 @@
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="danger">New</n-badge> New Package</h3>
-        <ul>
-          <li><a href="/packages/native-chart/src/n-chart.html"><code>&lt;n-chart&gt;</code></a> — SVG charting component for dashboards, cards, and inline widgets. Pure math scale system, keyed SVG reconciliation, reactive store, CSS token integration.</li>
-          <li><strong>Chart types:</strong> <code>line</code> (smooth, area fill), <code>bar</code> (grouped, stacked), <code>scatter</code> (variable radius), <code>sparkline</code> (inline).</li>
-          <li><strong>Scale system:</strong> <code>LinearScale</code>, <code>TimeScale</code>, <code>BandScale</code> — auto-detected from data. Nice tick generation, SI suffix formatting, calendar-aware date ticks.</li>
-          <li><strong>Interactions:</strong> crosshair tracking, binary-search bisect (nearest point), popover tooltip with viewport flipping, legend series toggling.</li>
-          <li><strong>Data loading:</strong> <code>src</code> attribute fetches JSON, <code>data</code> property for programmatic use. AbortController-based fetch lifecycle.</li>
-          <li><strong>Color palette:</strong> 6 OKLCH families (accent, success, warning, danger, info, neutral) at steps 500 and 300 — auto-adapts to light/dark mode.</li>
-          <li><strong>Accessibility:</strong> <code>role="img"</code> with auto-generated <code>aria-label</code>, <code>prefers-reduced-motion</code> support, keyboard navigation.</li>
-          <li><strong>Events:</strong> <code>native:chart-hover</code>, <code>native:chart-select</code>, <code>native:chart-legend-toggle</code>.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label"><a href="/packages/native-chart/src/n-chart.html"><code>&lt;n-chart&gt;</code></a> — SVG charting component</span></n-header>
+            <n-body>
+              <p>Pure math scale system, keyed SVG reconciliation, reactive store, CSS token integration.</p>
+              <ul>
+                <li><strong>Chart types:</strong> <code>line</code> (smooth, area fill), <code>bar</code> (grouped, stacked), <code>scatter</code> (variable radius), <code>sparkline</code> (inline)</li>
+                <li><strong>Scale system:</strong> <code>LinearScale</code>, <code>TimeScale</code>, <code>BandScale</code> — auto-detected from data</li>
+                <li><strong>Interactions:</strong> crosshair tracking, binary-search bisect, popover tooltip with viewport flipping, legend toggling</li>
+                <li><strong>Data loading:</strong> <code>src</code> attribute fetches JSON, <code>data</code> property for programmatic use</li>
+                <li><strong>Color palette:</strong> 6 OKLCH families at steps 500 and 300 — auto-adapts to light/dark mode</li>
+              </ul>
+            </n-body>
+            <n-footer>Events: <code>native:chart-hover</code> <code>native:chart-select</code> <code>native:chart-legend-toggle</code></n-footer>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -302,10 +373,17 @@
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="info">Enhanced</n-badge> Enhancements</h3>
-        <ul>
-          <li><code>ResizeController</code> — New options: <code>handle</code> (external handle element), <code>step</code> (snap-to-grid), <code>stateAttribute</code> (configurable attribute name), <code>eventTarget</code> (redirect events). Dispatches <code>native:resize-cancel</code> on Escape/pointercancel. Move events include <code>delta</code> in detail.</li>
-          <li><code>&lt;n-gripper&gt;</code> — Now delegates resize logic to <code>ResizeController</code> internally, eliminating ~150 lines of duplicated pointer lifecycle, delta calculation, and clamping code. Resizable adapter gains <code>step</code> option.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">ResizeController + <code>&lt;n-gripper&gt;</code></span></n-header>
+            <n-body>
+              <ul>
+                <li><code>ResizeController</code> — New options: <code>handle</code>, <code>step</code>, <code>stateAttribute</code>, <code>eventTarget</code>. Dispatches <code>native:resize-cancel</code> on Escape/pointercancel. Move events include <code>delta</code></li>
+                <li><code>&lt;n-gripper&gt;</code> — Now delegates resize logic to <code>ResizeController</code>, eliminating ~150 lines of duplicated code. Resizable adapter gains <code>step</code> option</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -316,9 +394,18 @@
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="info">Enhanced</n-badge> Enhancements</h3>
-        <ul>
-          <li><code>&lt;n-gripper&gt;</code> — Per-axis constraints: <code>min-width</code>, <code>max-width</code>, <code>min-height</code>, <code>max-height</code> for independent width/height limits in corner mode (falls back to <code>min</code>/<code>max</code>). All events now include <code>placement</code> in detail. Reconciled with <code>ResizeController</code> feature set.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label"><code>&lt;n-gripper&gt;</code> per-axis constraints</span></n-header>
+            <n-body>
+              <ul>
+                <li>Per-axis constraints: <code>min-width</code>, <code>max-width</code>, <code>min-height</code>, <code>max-height</code> for independent width/height limits in corner mode</li>
+                <li>All events now include <code>placement</code> in detail</li>
+                <li>Reconciled with <code>ResizeController</code> feature set</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -329,9 +416,20 @@
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="danger">New</n-badge> New Features</h3>
-        <ul>
-          <li><a href="/src/components/gripper/n-gripper.html"><code>&lt;n-gripper&gt;</code></a> — Declarative gripper using Popover API (top-layer rendering, escapes overflow) + CSS Anchor Positioning. Modes: <code>resize-horizontal</code>, <code>resize-vertical</code>, <code>resize-corner</code>. Attributes: <code>for</code>, <code>placement</code>, <code>min</code>, <code>max</code>, <code>step</code>, <code>reverse</code>, <code>disabled</code>. Events: <code>native:grip-start</code>, <code>native:grip-move</code>, <code>native:grip-end</code>, <code>native:grip-cancel</code>. Arrow keys nudge, Escape cancels and reverts.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label"><a href="/src/components/gripper/n-gripper.html"><code>&lt;n-gripper&gt;</code></a> — Declarative resize handle</span></n-header>
+            <n-body>
+              <p>Popover API (top-layer rendering) + CSS Anchor Positioning.</p>
+              <ul>
+                <li>Modes: <code>resize-horizontal</code>, <code>resize-vertical</code>, <code>resize-corner</code></li>
+                <li>Attributes: <code>for</code>, <code>placement</code>, <code>min</code>, <code>max</code>, <code>step</code>, <code>reverse</code>, <code>disabled</code></li>
+                <li>Arrow keys nudge, Escape cancels and reverts</li>
+              </ul>
+            </n-body>
+            <n-footer>Events: <code>native:grip-start</code> <code>native:grip-move</code> <code>native:grip-end</code> <code>native:grip-cancel</code></n-footer>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -342,9 +440,19 @@
 
       <div class="changelog-section">
         <h3>Sub-Packages</h3>
-        <ul>
-          <li><code>@nonoun/native-chat@0.5.6</code> — popover hover toolbar (CSS anchor positioning, 150ms hover intent), 2×2 grid layout for <code>&lt;n-chat-messages&gt;</code> (context/bubbles wrapper divs, avatar spans both rows), full-bleed GenUI (bubble padding moved to content children), toolbar icons auto-registered.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label"><code>@nonoun/native-chat@0.5.6</code></span></n-header>
+            <n-body>
+              <ul>
+                <li>Popover hover toolbar (CSS anchor positioning, 150ms hover intent)</li>
+                <li>2×2 grid layout for <code>&lt;n-chat-messages&gt;</code> (context/bubbles wrapper divs, avatar spans both rows)</li>
+                <li>Full-bleed GenUI (bubble padding moved to content children)</li>
+                <li>Toolbar icons auto-registered</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -355,28 +463,49 @@
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="danger">New</n-badge> New Features</h3>
-        <ul>
-          <li><a href="/src/containers/toolbar/toolbar.html"><code>&lt;n-toolbar&gt;</code></a> — <code>orientation</code> attribute (<code>horizontal</code> | <code>vertical</code> | <code>both</code>). Wires flex direction, ARIA orientation, and roving focus arrow keys.</li>
-          <li><code>lint:class-handles</code> — new CI-ready lint script (<code>npm run lint:class-handles</code>) that scans JS/TS for redundant CSS class handles on custom elements.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label"><a href="/src/containers/toolbar/toolbar.html"><code>&lt;n-toolbar&gt;</code></a> orientation + lint script</span></n-header>
+            <n-body>
+              <ul>
+                <li><code>orientation</code> attribute (<code>horizontal</code> | <code>vertical</code> | <code>both</code>) — wires flex direction, ARIA orientation, and roving focus arrow keys</li>
+                <li><code>lint:class-handles</code> — CI-ready lint script that scans JS/TS for redundant CSS class handles on custom elements</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="accent">Updated</n-badge> Updates</h3>
-        <ul>
-          <li><a href="/src/containers/header/header.html"><code>&lt;n-header&gt;</code></a> — explicit <code>grid-column</code> placement on leading/trailing slots. Leading anchors to column 1, trailing to the last column, so they space apart even with no label content.</li>
-          <li><code>PresentController</code> — autofocus prevention: saves and restores <code>document.activeElement</code> around <code>dialog.showModal()</code> to prevent unwanted focus shifts.</li>
-          <li>No-redundant-class-handles enforcement across core, native-app sidebar, native-chat, tree, and calendar.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">Header slots, PresentController, class-handle cleanup</span></n-header>
+            <n-body>
+              <ul>
+                <li><a href="/src/containers/header/header.html"><code>&lt;n-header&gt;</code></a> — Explicit <code>grid-column</code> placement on leading/trailing slots</li>
+                <li><code>PresentController</code> — Autofocus prevention: saves and restores <code>document.activeElement</code> around <code>dialog.showModal()</code></li>
+                <li>No-redundant-class-handles enforcement across core, native-app, native-chat, tree, calendar</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
 
       <div class="changelog-section">
         <h3>Sub-Packages</h3>
-        <ul>
-          <li><code>@nonoun/native-a2ui@0.1.5</code> — JSON-IN multi-line formatting, bidirectional COMPONENTS/UI pane editing, grouped preset dropdown, single workbench instance, preset select in header leading slot.</li>
-          <li><code>@nonoun/native-app@0.3.5</code> — sidebar class-handle refactoring (tag-name selectors replace class selectors).</li>
-          <li><code>@nonoun/native-chat@0.5.2</code> — CSS selector refactoring (class-based to <code>data-role</code>-based selectors).</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">native-a2ui, native-app, native-chat</span></n-header>
+            <n-body>
+              <ul>
+                <li><code>@nonoun/native-a2ui@0.1.5</code> — JSON-IN multi-line formatting, bidirectional COMPONENTS/UI pane editing, grouped preset dropdown</li>
+                <li><code>@nonoun/native-app@0.3.5</code> — Sidebar class-handle refactoring (tag-name selectors replace class selectors)</li>
+                <li><code>@nonoun/native-chat@0.5.2</code> — CSS selector refactoring (class-based to <code>data-role</code>-based selectors)</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -387,30 +516,61 @@
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="danger">New</n-badge> New Features</h3>
-        <ul>
-          <li><a href="/src/traits/presentable.html"><code>PresentController</code></a> — full-viewport presentation trait. Expands any element into a native <code>&lt;dialog&gt;</code> overlay with dark backdrop, optional close button, and <code>[presented]</code> attribute on host.</li>
-          <li><code>isTypingContext()</code> — utility that detects if a keyboard event originated from a text-input context (input, textarea, contenteditable, shadow DOM). Exported from <code>src/traits/typing-context.ts</code>.</li>
-          <li><a href="/src/components/avatar/avatar.html"><code>&lt;n-avatar-group&gt;</code></a> — CSS-only container for overlapping avatar stacks with reverse flex order and outline ring.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label"><a href="/src/traits/presentable.html">PresentController</a> — Full-viewport presentation</span></n-header>
+            <n-body>
+              <p>Expands any element into a native <code>&lt;dialog&gt;</code> overlay with dark backdrop, optional close button, and <code>[presented]</code> attribute on host.</p>
+            </n-body>
+          </n-card>
+
+          <n-card>
+            <n-header><span slot="label"><code>isTypingContext()</code> utility</span></n-header>
+            <n-body>
+              <p>Detects if a keyboard event originated from a text-input context (input, textarea, contenteditable, shadow DOM). Exported from <code>src/traits/typing-context.ts</code>.</p>
+            </n-body>
+          </n-card>
+
+          <n-card>
+            <n-header><span slot="label"><a href="/src/components/avatar/avatar.html"><code>&lt;n-avatar-group&gt;</code></a></span></n-header>
+            <n-body>
+              <p>CSS-only container for overlapping avatar stacks with reverse flex order and outline ring.</p>
+            </n-body>
+          </n-card>
+        </div>
       </div>
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="accent">Updated</n-badge> Updates</h3>
-        <ul>
-          <li><a href="/src/components/field/field.html"><code>&lt;n-field&gt;</code></a> — <code>gap</code> attribute (<code>none</code>, <code>tight</code>, <code>relaxed</code>) and <code>--n-field-gap</code> custom property for controlling label-to-input spacing.</li>
-          <li><code>PresentController</code> — dark backdrop (<code>rgba(0,0,0,0.75)</code>), <code>[presented]</code> attribute on host element, inline SVG close icon (no icon registry dependency).</li>
-          <li><code>ShortcutController</code> — uses <code>isTypingContext()</code> to suppress shortcuts when typing in input fields.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">Field gap, PresentController, ShortcutController</span></n-header>
+            <n-body>
+              <ul>
+                <li><a href="/src/components/field/field.html"><code>&lt;n-field&gt;</code></a> — <code>gap</code> attribute and <code>--n-field-gap</code> custom property for label-to-input spacing</li>
+                <li><code>PresentController</code> — Dark backdrop, <code>[presented]</code> attribute, inline SVG close icon</li>
+                <li><code>ShortcutController</code> — Uses <code>isTypingContext()</code> to suppress shortcuts when typing</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
 
       <div class="changelog-section">
         <h3>Sub-Packages</h3>
-        <ul>
-          <li><code>@nonoun/native-a2ui</code> — chip-toggled multi-panel workbench layout (JSON-IN, JSON-OUT, HTML, CSS, JS, COMPONENTS), per-pane resize controllers, CodeMirror editors for JS and UI panels.</li>
-          <li><code>@nonoun/native-chat</code> — message action buttons, feed virtualization, partial stream rendering, transport status callbacks, panel API improvements.</li>
-          <li><code>@nonoun/native-playground</code> — layout and styling updates for panel consistency.</li>
-          <li><code>@nonoun/native-editor</code> — layout improvements.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">a2ui, chat, playground, editor</span></n-header>
+            <n-body>
+              <ul>
+                <li><code>@nonoun/native-a2ui</code> — Chip-toggled multi-panel workbench layout, per-pane resize controllers, CodeMirror editors</li>
+                <li><code>@nonoun/native-chat</code> — Message action buttons, feed virtualization, partial stream rendering, transport status callbacks</li>
+                <li><code>@nonoun/native-playground</code> — Layout and styling updates for panel consistency</li>
+                <li><code>@nonoun/native-editor</code> — Layout improvements</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -421,16 +581,14 @@
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="danger">New</n-badge> New Features</h3>
-        <ul>
-          <li><a href="/src/components/table/table.html"><code>&lt;n-table&gt;</code></a> — <code>cols</code> attribute sets <code>grid-template-columns</code> declaratively (e.g., <code>cols="auto auto 1fr"</code>).</li>
-        </ul>
-      </div>
-
-      <div class="changelog-section">
-        <h3><n-badge size="xs" intent="accent">Updated</n-badge> Fixes</h3>
-        <ul>
-          <li><code>&lt;n-table&gt;</code> — <code>sticky-header</code> added to <code>observedAttributes</code> so it can be toggled dynamically after element setup.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label"><a href="/src/components/table/table.html"><code>&lt;n-table&gt;</code></a> <code>cols</code> attribute</span></n-header>
+            <n-body>
+              <p>Sets <code>grid-template-columns</code> declaratively (e.g., <code>cols="auto auto 1fr"</code>). <code>sticky-header</code> added to <code>observedAttributes</code> for dynamic toggling.</p>
+            </n-body>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -441,17 +599,27 @@
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="danger">New</n-badge> New Features</h3>
-        <ul>
-          <li><a href="/src/traits/shortcutable.html"><code>ShortcutController</code></a> — keyboard shortcut primitive with combo-string parsing (<code>"mod+k"</code>, <code>"shift+?"</code>, <code>"escape"</code>), editable target filtering, conditional <code>when()</code> guards, and global/scoped modes.</li>
-          <li><a href="/src/traits/shortcutable.html"><code>shortcutable</code> trait adapter</a> — declarative keyboard shortcuts via <code>&lt;n-controller traits="shortcutable"&gt;</code> with JSON shortcuts attribute.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label"><a href="/src/traits/shortcutable.html">ShortcutController</a> — Keyboard shortcuts</span></n-header>
+            <n-body>
+              <p>Combo-string parsing (<code>"mod+k"</code>, <code>"shift+?"</code>, <code>"escape"</code>), editable target filtering, conditional <code>when()</code> guards, and global/scoped modes.</p>
+            </n-body>
+            <n-footer>Events: <code>native:shortcut</code></n-footer>
+          </n-card>
+        </div>
       </div>
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="accent">Updated</n-badge> Fixes</h3>
-        <ul>
-          <li><code>&lt;n-controller&gt;</code> — fixed double <code>#apply()</code> and leaked <code>MutationObserver</code> during CE upgrade after <code>adoptNode</code> + <code>replaceWith</code> (View Transitions context).</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">NController View Transitions fix</span></n-header>
+            <n-body>
+              <p>Fixed double <code>#apply()</code> and leaked <code>MutationObserver</code> during CE upgrade after <code>adoptNode</code> + <code>replaceWith</code> (View Transitions context).</p>
+            </n-body>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -462,18 +630,18 @@
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="danger">New</n-badge> New Features</h3>
-        <ul>
-          <li><a href="/src/components/input/input.html"><code>&lt;n-input&gt;</code></a> — <code>formatting="code"</code> attribute enables inline code formatting (backtick wrapping via <code>Cmd/Ctrl+E</code>).</li>
-          <li><a href="/src/traits/slash-command.html"><code>SlashCommandController</code></a> — Tab-to-select: pressing Tab with 2+ character query selects the closest matching command.</li>
-          <li><a href="/src/traits/slash-command.html"><code>SlashCommandController</code></a> — visible styled description spans in command popover options.</li>
-        </ul>
-      </div>
-
-      <div class="changelog-section">
-        <h3><n-badge size="xs" intent="accent">Updated</n-badge> Updates</h3>
-        <ul>
-          <li>Extracted shared formatting utilities into <code>src/core/formatting.ts</code> — reused by both <code>&lt;n-input&gt;</code> and <code>&lt;n-textarea&gt;</code>.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">Input formatting + SlashCommand improvements</span></n-header>
+            <n-body>
+              <ul>
+                <li><a href="/src/components/input/input.html"><code>&lt;n-input&gt;</code></a> — <code>formatting="code"</code> enables inline code formatting via <code>Cmd/Ctrl+E</code></li>
+                <li><a href="/src/traits/slash-command.html"><code>SlashCommandController</code></a> — Tab-to-select with 2+ character query, visible styled description spans</li>
+                <li>Extracted shared formatting utilities into <code>src/core/formatting.ts</code></li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -484,29 +652,48 @@
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="danger">New</n-badge> New Features</h3>
-        <ul>
-          <li><a href="/src/containers/text/text.html"><code>&lt;n-text&gt;</code></a> — CSS-only utility element for styled text blocks (muted, strong, sizes, truncate, spacing).</li>
-          <li><a href="/src/traits/slash-command.html"><code>SlashCommandController</code></a> — detects <code>/</code> prefix in inputs, shows filtered command listbox popover.</li>
-          <li><a href="/src/containers/panel/panel.html"><code>&lt;n-panel&gt;</code></a> <code>[fade]</code> attribute — fades top/bottom edges when content overflows.</li>
-          <li><a href="/src/containers/panel/panel.html"><code>&lt;n-panel&gt;</code></a> <code>[scrollable]</code> attribute — opt-in overflow scrolling (replaces implicit overflow).</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label"><a href="/src/containers/text/text.html"><code>&lt;n-text&gt;</code></a>, <a href="/src/traits/slash-command.html">SlashCommandController</a>, panel attributes</span></n-header>
+            <n-body>
+              <ul>
+                <li><code>&lt;n-text&gt;</code> — CSS-only utility element for styled text blocks (muted, strong, sizes, truncate, spacing)</li>
+                <li><code>SlashCommandController</code> — Detects <code>/</code> prefix in inputs, shows filtered command listbox popover</li>
+                <li><code>&lt;n-panel&gt;</code> <code>[fade]</code> — Fades top/bottom edges when content overflows</li>
+                <li><code>&lt;n-panel&gt;</code> <code>[scrollable]</code> — Opt-in overflow scrolling (replaces implicit overflow)</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="accent">Updated</n-badge> Updates</h3>
-        <ul>
-          <li><a href="/src/containers/toolbar/toolbar.html"><code>&lt;n-toolbar&gt;</code></a> — overflow priority (<code>overflow-priority</code>), pin (<code>overflow-pin</code>), and diagnostics (<code>native:toolbar-overflow</code> event).</li>
-          <li><a href="/src/containers/header/header.html"><code>&lt;n-header&gt;</code></a> — <code>[truncate]</code> attribute for label text truncation with ellipsis.</li>
-          <li><a href="/src/components/textarea/textarea.html"><code>&lt;n-textarea&gt;</code></a> — inline formatting support (<code>formatting="code bold italic"</code>).</li>
-          <li><a href="/src/traits/resizable.html"><code>ResizeController</code></a> — corner resize handles for diagonal resizing.</li>
-        </ul>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">Toolbar overflow, header truncation, textarea formatting, corner resize</span></n-header>
+            <n-body>
+              <ul>
+                <li><a href="/src/containers/toolbar/toolbar.html"><code>&lt;n-toolbar&gt;</code></a> — Overflow priority, pin, and diagnostics event</li>
+                <li><a href="/src/containers/header/header.html"><code>&lt;n-header&gt;</code></a> — <code>[truncate]</code> attribute for label text ellipsis</li>
+                <li><a href="/src/components/textarea/textarea.html"><code>&lt;n-textarea&gt;</code></a> — Inline formatting support (<code>formatting="code bold italic"</code>)</li>
+                <li><a href="/src/traits/resizable.html"><code>ResizeController</code></a> — Corner resize handles for diagonal resizing</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
 
       <div class="changelog-section">
-        <h3>Breaking Changes</h3>
-        <ul>
-          <li><a href="/src/containers/panel/panel.html"><code>&lt;n-panel&gt;</code></a> overflow is now opt-in via <code>[scrollable]</code>. Panels that relied on implicit <code>overflow: auto</code> must add the attribute.</li>
-        </ul>
+        <h3><n-badge size="xs" intent="warning">Breaking</n-badge> Breaking Changes</h3>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label"><code>&lt;n-panel&gt;</code> overflow now opt-in</span></n-header>
+            <n-body>
+              <p>Panels that relied on implicit <code>overflow: auto</code> must add the <code>[scrollable]</code> attribute.</p>
+            </n-body>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -516,12 +703,18 @@
       <h2>0.6.6 <span class="changelog-date">— February 2026</span></h2>
 
       <div class="changelog-section">
-        <h3>Updates</h3>
-        <ul>
-          <li>Reorganized <code>src/styles/</code> naming — foundation CSS renamed to <code>n-index.css</code>.</li>
-          <li>Added CDN setup via <code>esm.sh</code>, signal/trait/OKLCH/variant examples to docs.</li>
-          <li>Bumped all package versions to 0.6.6.</li>
-        </ul>
+        <h3><n-badge size="xs" intent="accent">Updated</n-badge> Updates</h3>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label">CSS reorganization + CDN setup</span></n-header>
+            <n-body>
+              <ul>
+                <li>Reorganized <code>src/styles/</code> naming — foundation CSS renamed to <code>n-index.css</code></li>
+                <li>Added CDN setup via <code>esm.sh</code>, signal/trait/OKLCH/variant examples to docs</li>
+              </ul>
+            </n-body>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -531,10 +724,15 @@
       <h2>0.6.5 <span class="changelog-date">— February 2026</span></h2>
 
       <div class="changelog-section">
-        <h3>Fixes</h3>
-        <ul>
-          <li>Fixed <a href="/src/traits/draggable.html"><code>DragController</code></a> not firing <code>native:drop</code> in View Transitions context.</li>
-        </ul>
+        <h3><n-badge size="xs" intent="accent">Updated</n-badge> Fixes</h3>
+        <div class="changelog-cards">
+          <n-card>
+            <n-header><span slot="label"><a href="/src/traits/draggable.html">DragController</a> View Transitions fix</span></n-header>
+            <n-body>
+              <p>Fixed <code>native:drop</code> not firing in View Transitions context.</p>
+            </n-body>
+          </n-card>
+        </div>
       </div>
     </div>
 
@@ -542,7 +740,7 @@
     <script type="module">
       import './nav/native-app.ts';
       import './components/badge/badge.ts';
-      import './containers/card/n-card.ts';
+      import './containers/card/card.ts';
     </script>
   </body>
 </html>

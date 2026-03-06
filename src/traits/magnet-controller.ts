@@ -5,7 +5,7 @@ export interface MagnetOptions {
   threshold?: number;
   /** Snap to grid size in px — 0 means snap to other elements only (default 0) */
   gridSize?: number;
-  /** Snap strength 0-1 — how aggressively it pulls (default 0.3) */
+  /** Snap strength 0-1 — 1 is instant snap, lower values ease toward snap point (default 1) */
   strength?: number;
   /** Show guide lines when snapping (default true) */
   guides?: boolean;
@@ -21,28 +21,24 @@ export interface MagnetOptions {
 
 interface DragState {
   item: HTMLElement;
-  startX: number;
-  startY: number;
   offsetX: number;
   offsetY: number;
   pointerId: number;
+  snapping: boolean;
+}
+
+interface SnapAxis {
+  /** Adjusted translate value */
+  translate: number;
+  /** Host-relative position for the guide line (null = no guide) */
+  guidePos: number | null;
+  /** What the item snapped to */
+  snapType: 'grid' | 'edge' | 'sibling';
 }
 
 interface SnapResult {
-  x: number;
-  y: number;
-  snappedX: boolean;
-  snappedY: boolean;
-  snapType: 'grid' | 'edge' | 'sibling' | null;
-}
-
-interface Rect {
-  left: number;
-  top: number;
-  right: number;
-  bottom: number;
-  centerX: number;
-  centerY: number;
+  x: SnapAxis | null;
+  y: SnapAxis | null;
 }
 
 /** Snap elements toward each other or to a grid when dragged within a threshold distance. */
@@ -67,7 +63,7 @@ export class MagnetController {
     this.selector = options.selector ?? ':scope > *';
     this.threshold = options.threshold ?? 20;
     this.gridSize = options.gridSize ?? 0;
-    this.strength = options.strength ?? 0.3;
+    this.strength = options.strength ?? 1;
     this.guides = options.guides ?? true;
     this.guideColor = options.guideColor ?? 'var(--n-color-accent-500)';
     this.snapToEdges = options.snapToEdges ?? true;
@@ -86,12 +82,7 @@ export class MagnetController {
     if (!this.#attached) return;
     this.#attached = false;
     this.host.removeEventListener('pointerdown', this.#onPointerDown);
-    if (this.#dragState) {
-      this.host.removeEventListener('pointermove', this.#onPointerMove);
-      this.host.removeEventListener('pointerup', this.#onPointerUp);
-      this.host.removeEventListener('pointercancel', this.#onPointerCancel);
-      this.#dragState = null;
-    }
+    this.#endDrag();
   }
 
   destroy(): void {
@@ -105,24 +96,22 @@ export class MagnetController {
     if (this.disabled || e.button !== 0) return;
     if (e.pointerType === 'touch' && !e.isPrimary) return;
 
-    // Delegate to matching item
     const item = this.#findItem(e.target as HTMLElement);
     if (!item) return;
 
+    e.preventDefault();
     this.host.setPointerCapture(e.pointerId);
     this.host.toggleAttribute('magnetized', true);
-    item.style.willChange = 'transform';
+    item.style.willChange = 'translate';
 
-    // Parse current translate to get starting position
     const { tx, ty } = this.#parseTranslate(item);
 
     this.#dragState = {
       item,
-      startX: tx,
-      startY: ty,
       offsetX: e.clientX - tx,
       offsetY: e.clientY - ty,
       pointerId: e.pointerId,
+      snapping: false,
     };
 
     this.host.addEventListener('pointermove', this.#onPointerMove);
@@ -134,65 +123,72 @@ export class MagnetController {
     const state = this.#dragState;
     if (!state) return;
 
-    // Proposed raw position
-    let proposedX = e.clientX - state.offsetX;
-    let proposedY = e.clientY - state.offsetY;
+    // Raw desired translate from pointer delta
+    const rawTx = e.clientX - state.offsetX;
+    const rawTy = e.clientY - state.offsetY;
 
     // Calculate snap
-    const snap = this.#calculateSnap(state.item, proposedX, proposedY);
+    const snap = this.#calculateSnap(state.item, rawTx, rawTy);
 
-    // Interpolate toward snap point using strength
-    if (snap.snappedX) proposedX += (snap.x - proposedX) * this.strength;
-    if (snap.snappedY) proposedY += (snap.y - proposedY) * this.strength;
+    // Apply — interpolate with strength (1 = instant snap)
+    let finalTx = rawTx;
+    let finalTy = rawTy;
 
-    // Apply position
-    state.item.style.translate = `${proposedX}px ${proposedY}px`;
+    if (snap.x) finalTx = rawTx + (snap.x.translate - rawTx) * this.strength;
+    if (snap.y) finalTy = rawTy + (snap.y.translate - rawTy) * this.strength;
 
-    // Update guides
+    state.item.style.translate = `${finalTx}px ${finalTy}px`;
+
+    // Snapping state
+    const isSnapping = snap.x !== null || snap.y !== null;
+    state.item.toggleAttribute('magnet-snapping', isSnapping);
+
+    // Guides (positioned at the snap line, not the item)
     if (this.guides) {
-      this.#updateGuides(snap);
+      this.#removeGuides();
+      if (snap.x?.guidePos != null) this.#addGuide('x', snap.x.guidePos);
+      if (snap.y?.guidePos != null) this.#addGuide('y', snap.y.guidePos);
     }
 
-    // Set snapping attribute
-    state.item.toggleAttribute('magnet-snapping', snap.snappedX || snap.snappedY);
-
-    // Dispatch snap event
-    if (snap.snappedX || snap.snappedY) {
+    // Edge-triggered snap event (only on snap enter)
+    if (isSnapping && !state.snapping) {
+      const snappedX = snap.x !== null;
+      const snappedY = snap.y !== null;
       let axis: 'x' | 'y' | 'both' = 'both';
-      if (snap.snappedX && !snap.snappedY) axis = 'x';
-      else if (!snap.snappedX && snap.snappedY) axis = 'y';
+      if (snappedX && !snappedY) axis = 'x';
+      else if (!snappedX && snappedY) axis = 'y';
 
       this.host.dispatchEvent(new CustomEvent('native:magnet-snap', {
         bubbles: true,
         composed: true,
         detail: {
           item: state.item,
-          x: proposedX,
-          y: proposedY,
-          snappedTo: snap.snapType,
+          x: finalTx,
+          y: finalTy,
+          snappedTo: (snap.x ?? snap.y)!.snapType,
           axis,
         },
       }));
     }
+    state.snapping = isSnapping;
   };
 
   #onPointerUp = (e: PointerEvent): void => {
     const state = this.#dragState;
     if (!state) return;
 
-    // Parse final position from style
     const { tx, ty } = this.#parseTranslate(state.item);
+    const item = state.item;
 
-    // Cleanup
-    this.#cleanupTracking(e);
-
-    state.item.removeAttribute('magnet-snapping');
-    state.item.style.willChange = '';
+    // Cleanup before dispatching (prevents leaks if handler navigates)
+    item.removeAttribute('magnet-snapping');
+    item.style.willChange = '';
+    this.#endDrag(e);
 
     this.host.dispatchEvent(new CustomEvent('native:magnet-drop', {
       bubbles: true,
       composed: true,
-      detail: { item: state.item, x: tx, y: ty },
+      detail: { item, x: tx, y: ty },
     }));
   };
 
@@ -202,10 +198,147 @@ export class MagnetController {
       state.item.removeAttribute('magnet-snapping');
       state.item.style.willChange = '';
     }
-    this.#cleanupTracking(e);
+    this.#endDrag(e);
   };
 
-  // ── Internals ──
+  // ── Snap calculation ──
+
+  #calculateSnap(item: HTMLElement, rawTx: number, rawTy: number): SnapResult {
+    const hostRect = this.host.getBoundingClientRect();
+    const projected = this.#projectItemRect(item, rawTx, rawTy);
+
+    let bestX: SnapAxis | null = null;
+    let bestY: SnapAxis | null = null;
+    let bestDistX = this.threshold;
+    let bestDistY = this.threshold;
+
+    // Grid snap (in host-relative space so all items share the same grid)
+    if (this.gridSize > 0) {
+      const itemLeftInHost = projected.left - hostRect.left;
+      const itemTopInHost = projected.top - hostRect.top;
+
+      const snappedLeft = Math.round(itemLeftInHost / this.gridSize) * this.gridSize;
+      const snappedTop = Math.round(itemTopInHost / this.gridSize) * this.gridSize;
+
+      const distX = Math.abs(itemLeftInHost - snappedLeft);
+      const distY = Math.abs(itemTopInHost - snappedTop);
+
+      if (distX < bestDistX) {
+        bestDistX = distX;
+        bestX = {
+          translate: rawTx + (snappedLeft - itemLeftInHost),
+          guidePos: snappedLeft,
+          snapType: 'grid',
+        };
+      }
+      if (distY < bestDistY) {
+        bestDistY = distY;
+        bestY = {
+          translate: rawTy + (snappedTop - itemTopInHost),
+          guidePos: snappedTop,
+          snapType: 'grid',
+        };
+      }
+    }
+
+    // Sibling snap (screen-space edge comparison)
+    if (this.snapToSiblings) {
+      const siblings = this.host.querySelectorAll(this.selector);
+
+      for (const sibling of siblings) {
+        if (sibling === item) continue;
+        const sibRect = (sibling as HTMLElement).getBoundingClientRect();
+
+        // X edges: item left/right/center vs sibling left/right/center
+        const itemEdgesX = [projected.left, projected.right, projected.centerX];
+        const sibEdgesX = [sibRect.left, sibRect.right, (sibRect.left + sibRect.right) / 2];
+
+        for (const sibEdge of sibEdgesX) {
+          for (const itemEdge of itemEdgesX) {
+            const dist = Math.abs(itemEdge - sibEdge);
+            if (dist < bestDistX) {
+              bestDistX = dist;
+              bestX = {
+                translate: rawTx + (sibEdge - itemEdge),
+                guidePos: sibEdge - hostRect.left,
+                snapType: 'sibling',
+              };
+            }
+          }
+        }
+
+        // Y edges
+        const itemEdgesY = [projected.top, projected.bottom, projected.centerY];
+        const sibEdgesY = [sibRect.top, sibRect.bottom, (sibRect.top + sibRect.bottom) / 2];
+
+        for (const sibEdge of sibEdgesY) {
+          for (const itemEdge of itemEdgesY) {
+            const dist = Math.abs(itemEdge - sibEdge);
+            if (dist < bestDistY) {
+              bestDistY = dist;
+              bestY = {
+                translate: rawTy + (sibEdge - itemEdge),
+                guidePos: sibEdge - hostRect.top,
+                snapType: 'sibling',
+              };
+            }
+          }
+        }
+      }
+    }
+
+    // Edge snap (container edges)
+    if (this.snapToEdges) {
+      // Left edge
+      const distLeft = Math.abs(projected.left - hostRect.left);
+      if (distLeft < bestDistX) {
+        bestDistX = distLeft;
+        bestX = {
+          translate: rawTx + (hostRect.left - projected.left),
+          guidePos: 0,
+          snapType: 'edge',
+        };
+      }
+      // Right edge
+      const distRight = Math.abs(projected.right - hostRect.right);
+      if (distRight < bestDistX) {
+        bestDistX = distRight;
+        bestX = {
+          translate: rawTx + (hostRect.right - projected.right),
+          guidePos: hostRect.width,
+          snapType: 'edge',
+        };
+      }
+      // Top edge
+      const distTop = Math.abs(projected.top - hostRect.top);
+      if (distTop < bestDistY) {
+        bestDistY = distTop;
+        bestY = {
+          translate: rawTy + (hostRect.top - projected.top),
+          guidePos: 0,
+          snapType: 'edge',
+        };
+      }
+      // Bottom edge
+      const distBottom = Math.abs(projected.bottom - hostRect.bottom);
+      if (distBottom < bestDistY) {
+        bestDistY = distBottom; // suppress unused: bestDistY is the running minimum
+        bestY = {
+          translate: rawTy + (hostRect.bottom - projected.bottom),
+          guidePos: hostRect.height,
+          snapType: 'edge',
+        };
+      }
+    }
+
+    // suppress unused — bestDistX/Y are running minimums used in comparisons
+    void bestDistX;
+    void bestDistY;
+
+    return { x: bestX, y: bestY };
+  }
+
+  // ── Helpers ──
 
   #findItem(target: HTMLElement): HTMLElement | null {
     const items = this.host.querySelectorAll(this.selector);
@@ -223,123 +356,12 @@ export class MagnetController {
     return { tx: parseFloat(parts[0]) || 0, ty: parseFloat(parts[1]) || 0 };
   }
 
-  #calculateSnap(item: HTMLElement, proposedX: number, proposedY: number): SnapResult {
-    const result: SnapResult = { x: proposedX, y: proposedY, snappedX: false, snappedY: false, snapType: null };
-    let bestDistX = this.threshold;
-    let bestDistY = this.threshold;
-
-    // Grid snap
-    if (this.gridSize > 0) {
-      const snapX = Math.round(proposedX / this.gridSize) * this.gridSize;
-      const snapY = Math.round(proposedY / this.gridSize) * this.gridSize;
-      const distX = Math.abs(proposedX - snapX);
-      const distY = Math.abs(proposedY - snapY);
-
-      if (distX < bestDistX) {
-        result.x = snapX;
-        result.snappedX = true;
-        bestDistX = distX;
-        result.snapType = 'grid';
-      }
-      if (distY < bestDistY) {
-        result.y = snapY;
-        result.snappedY = true;
-        bestDistY = distY;
-        result.snapType = 'grid';
-      }
-    }
-
-    // Sibling snap
-    if (this.snapToSiblings) {
-      const itemRect = this.#getItemRect(item, proposedX, proposedY);
-      const siblings = this.host.querySelectorAll(this.selector);
-
-      for (const sibling of siblings) {
-        if (sibling === item) continue;
-        const sibEl = sibling as HTMLElement;
-        const sibRect = this.#getElementRect(sibEl);
-
-        // Check left/right/center-x edges
-        const edgesX = [sibRect.left, sibRect.right, sibRect.centerX];
-        const itemEdgesX = [itemRect.left, itemRect.right, itemRect.centerX];
-
-        for (const sibEdge of edgesX) {
-          for (const itemEdge of itemEdgesX) {
-            const dist = Math.abs(itemEdge - sibEdge);
-            if (dist < bestDistX) {
-              bestDistX = dist;
-              result.x = proposedX + (sibEdge - itemEdge);
-              result.snappedX = true;
-              result.snapType = 'sibling';
-            }
-          }
-        }
-
-        // Check top/bottom/center-y edges
-        const edgesY = [sibRect.top, sibRect.bottom, sibRect.centerY];
-        const itemEdgesY = [itemRect.top, itemRect.bottom, itemRect.centerY];
-
-        for (const sibEdge of edgesY) {
-          for (const itemEdge of itemEdgesY) {
-            const dist = Math.abs(itemEdge - sibEdge);
-            if (dist < bestDistY) {
-              bestDistY = dist;
-              result.y = proposedY + (sibEdge - itemEdge);
-              result.snappedY = true;
-              result.snapType = 'sibling';
-            }
-          }
-        }
-      }
-    }
-
-    // Edge snap (container edges)
-    if (this.snapToEdges) {
-      const hostRect = this.host.getBoundingClientRect();
-      const itemRect = this.#getItemRect(item, proposedX, proposedY);
-
-      // Left edge
-      const distLeft = Math.abs(itemRect.left - hostRect.left);
-      if (distLeft < bestDistX) {
-        bestDistX = distLeft;
-        result.x = proposedX + (hostRect.left - itemRect.left);
-        result.snappedX = true;
-        result.snapType = 'edge';
-      }
-      // Right edge
-      const distRight = Math.abs(itemRect.right - hostRect.right);
-      if (distRight < bestDistX) {
-        bestDistX = distRight;
-        result.x = proposedX + (hostRect.right - itemRect.right);
-        result.snappedX = true;
-        result.snapType = 'edge';
-      }
-      // Top edge
-      const distTop = Math.abs(itemRect.top - hostRect.top);
-      if (distTop < bestDistY) {
-        bestDistY = distTop;
-        result.y = proposedY + (hostRect.top - itemRect.top);
-        result.snappedY = true;
-        result.snapType = 'edge';
-      }
-      // Bottom edge
-      if (Math.abs(itemRect.bottom - hostRect.bottom) < bestDistY) {
-        result.y = proposedY + (hostRect.bottom - itemRect.bottom);
-        result.snappedY = true;
-        result.snapType = 'edge';
-      }
-    }
-
-    return result;
-  }
-
-  /** Get item rect based on proposed translate position */
-  #getItemRect(item: HTMLElement, proposedX: number, proposedY: number): Rect {
+  /** Project where the item WOULD be at the proposed translate values. */
+  #projectItemRect(item: HTMLElement, proposedTx: number, proposedTy: number) {
     const base = item.getBoundingClientRect();
     const { tx, ty } = this.#parseTranslate(item);
-    // Adjust: base rect is at current translate; we want it at proposed translate
-    const dx = proposedX - tx;
-    const dy = proposedY - ty;
+    const dx = proposedTx - tx;
+    const dy = proposedTy - ty;
     const left = base.left + dx;
     const top = base.top + dy;
     const right = base.right + dx;
@@ -354,42 +376,22 @@ export class MagnetController {
     };
   }
 
-  #getElementRect(el: HTMLElement): Rect {
-    const r = el.getBoundingClientRect();
-    return {
-      left: r.left,
-      top: r.top,
-      right: r.right,
-      bottom: r.bottom,
-      centerX: (r.left + r.right) / 2,
-      centerY: (r.top + r.bottom) / 2,
-    };
-  }
+  #addGuide(axis: 'x' | 'y', hostRelativePos: number): void {
+    const guide = document.createElement('div');
+    guide.setAttribute('data-magnet-guide', axis);
+    guide.style.pointerEvents = 'none';
+    guide.style.position = 'absolute';
 
-  #updateGuides(snap: SnapResult): void {
-    this.#removeGuides();
-
-    if (!snap.snappedX && !snap.snappedY) return;
-
-    const hostRect = this.host.getBoundingClientRect();
-
-    if (snap.snappedX) {
-      const guide = document.createElement('div');
+    if (axis === 'x') {
       guide.style.cssText = `position:absolute;top:0;bottom:0;width:1px;background:${this.guideColor};pointer-events:none;z-index:999;`;
-      guide.style.left = `${snap.x - hostRect.left + this.host.scrollLeft}px`;
-      guide.setAttribute('data-magnet-guide', 'x');
-      this.host.appendChild(guide);
-      this.#guideElements.push(guide);
+      guide.style.left = `${hostRelativePos}px`;
+    } else {
+      guide.style.cssText = `position:absolute;left:0;right:0;height:1px;background:${this.guideColor};pointer-events:none;z-index:999;`;
+      guide.style.top = `${hostRelativePos}px`;
     }
 
-    if (snap.snappedY) {
-      const guide = document.createElement('div');
-      guide.style.cssText = `position:absolute;left:0;right:0;height:1px;background:${this.guideColor};pointer-events:none;z-index:999;`;
-      guide.style.top = `${snap.y - hostRect.top + this.host.scrollTop}px`;
-      guide.setAttribute('data-magnet-guide', 'y');
-      this.host.appendChild(guide);
-      this.#guideElements.push(guide);
-    }
+    this.host.appendChild(guide);
+    this.#guideElements.push(guide);
   }
 
   #removeGuides(): void {
@@ -397,13 +399,15 @@ export class MagnetController {
     this.#guideElements = [];
   }
 
-  #cleanupTracking(e: PointerEvent): void {
+  #endDrag(e?: PointerEvent): void {
     this.#dragState = null;
     this.host.removeEventListener('pointermove', this.#onPointerMove);
     this.host.removeEventListener('pointerup', this.#onPointerUp);
     this.host.removeEventListener('pointercancel', this.#onPointerCancel);
     this.#removeGuides();
     this.host.removeAttribute('magnetized');
-    try { this.host.releasePointerCapture(e.pointerId); } catch { /* already released */ }
+    if (e) {
+      try { this.host.releasePointerCapture(e.pointerId); } catch { /* already released */ }
+    }
   }
 }

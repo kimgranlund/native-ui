@@ -17,7 +17,7 @@ new MagnetController(host: HTMLElement, options?: MagnetOptions)
 | `selector` | `string` | no | CSS selector for draggable items within host (default ':scope > ') |
 | `threshold` | `number` | no | Snap threshold distance in px — how close before snapping (default 20) |
 | `gridSize` | `number` | no | Snap to grid size in px — 0 means snap to other elements only (default 0) |
-| `strength` | `number` | no | Snap strength 0-1 — how aggressively it pulls (default 0.3) |
+| `strength` | `number` | no | Snap strength 0-1 — 1 is instant snap, lower values ease toward snap point (default 1) |
 | `guides` | `boolean` | no | Show guide lines when snapping (default true) |
 | `guideColor` | `string` | no | Guide line color (default 'var(--n-color-accent-500)') |
 | `snapToEdges` | `boolean` | no | Enable snap to container edges (default true) |
