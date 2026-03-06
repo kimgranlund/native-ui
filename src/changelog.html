@@ -67,24 +67,36 @@
       Version history for <code>@nonoun/native-ui</code>. Each release lists new features, updates, and breaking changes with links to relevant demo pages.
     </p>
 
-    <!-- ── 0.7.43 — Fun Traits ── -->
+    <!-- ── 0.7.44 — Fun Traits Complete ── -->
 
     <div class="changelog-version">
-      <h2>0.7.43 <span class="changelog-date">— March 2026</span></h2>
+      <h2>0.7.44 <span class="changelog-date">— March 2026</span></h2>
 
       <div class="changelog-section">
-        <h3><n-badge size="xs" intent="danger">New</n-badge> Fun Traits</h3>
+        <h3><n-badge size="xs" intent="danger">New</n-badge> Fun Traits (6 total)</h3>
         <ul>
-          <li><a href="/src/traits/tossable.html"><code>TossController</code></a> — Pick up an element, fling it with momentum. Physics-based deceleration with configurable friction, gravity, spin (angular velocity from horizontal pointer movement), and optional viewport edge bouncing with damping. Events: <code>native:toss</code> (momentum end), <code>native:bounce</code> (each edge hit). Options: <code>friction</code>, <code>bounce</code>, <code>bounceDamping</code>, <code>gravity</code>, <code>spin</code>, <code>returnOnEnd</code>.</li>
-          <li><a href="/src/traits/css-inspectable.html"><code>CSSInspectController</code></a> — Hover to explode child layers in 3D space with interactive mouse-tracking tilt. Recursive DOM walking labels every descendant with tag name via <code>[data-inspect-label]::after</code>. Smooth 500ms explosion transition followed by 60ms responsive tilt. Options: <code>depth</code>, <code>scale</code>, <code>rotateX</code>, <code>rotateY</code>, <code>tiltStrength</code>, <code>perspective</code>, <code>labels</code>, <code>recursive</code>.</li>
+          <li><a href="/src/traits/tossable.html"><code>TossController</code></a> — Pick up an element, fling it with momentum. Physics-based deceleration with configurable friction, gravity, spin (angular velocity from horizontal pointer movement), and optional viewport edge bouncing with damping. Events: <code>native:toss</code>, <code>native:bounce</code>.</li>
+          <li><a href="/src/traits/css-inspectable.html"><code>CSSInspectController</code></a> — Hover to explode child layers in 3D space with interactive mouse-tracking tilt. Recursive DOM walking, layer labels via <code>[data-inspect-label]::after</code>, pick mode for individual element inspection. Events: <code>native:inspect</code>.</li>
+          <li><a href="/src/traits/flippable.html"><code>FlipController</code></a> — 3D card flip on click or hover. Configurable axis (X/Y), duration, perspective. Front/back faces via <code>[data-flip-back]</code> with <code>backface-visibility: hidden</code>. Programmatic <code>flip()</code>, <code>unflip()</code>, <code>toggle()</code> API. Event: <code>native:flip</code>.</li>
+          <li><a href="/src/traits/parallaxable.html"><code>ParallaxController</code></a> — Mouse-position tilt effect (holographic card style). Tracks pointer relative to element center, applies <code>perspective + rotateX + rotateY + scale</code>. Optional glare overlay via radial gradient. Exposes CSS custom properties (<code>--parallax-tilt-x</code>, <code>--parallax-tilt-y</code>, <code>--parallax-percent-x</code>, <code>--parallax-percent-y</code>) for CSS-driven effects like dynamic shadows. Event: <code>native:parallax-move</code>.</li>
+          <li><a href="/src/traits/confettible.html"><code>ConfettiController</code></a> — Particle burst from an element. DOM-based particles with randomized trajectories, gravity, air resistance, rotation, and fade-out. Configurable count, spread, velocity, shapes (square/circle/mixed), and colors. Multiple concurrent bursts supported. Event: <code>native:confetti</code>.</li>
+          <li><a href="/src/traits/magnetizable.html"><code>MagnetController</code></a> — Snap-to-grid and snap-to-sibling drag behavior. Three snap modes: grid lines, sibling edges/centers, container edges. Strength-based easing into snap position. Visual guide lines during snap. Events: <code>native:magnet-snap</code>, <code>native:magnet-drop</code>.</li>
+        </ul>
+      </div>
+
+      <div class="changelog-section">
+        <h3><n-badge size="xs" intent="warning">Breaking</n-badge> Trait Option Namespace</h3>
+        <ul>
+          <li>All trait option attributes now use <code>data-trait-{name}-{key}</code> prefix instead of bare <code>{name}-{key}</code>. Example: <code>draggable-axis="vertical"</code> → <code>data-trait-draggable-axis="vertical"</code>. This prevents namespace collisions between trait options and component API attributes on self-trait elements. Affects all <code>&lt;n-controller&gt;</code> option attributes and self-trait usage.</li>
         </ul>
       </div>
 
       <div class="changelog-section">
         <h3><n-badge size="xs" intent="accent">Updated</n-badge> Fixes</h3>
         <ul>
-          <li>Fixed broken <code>n-layout.ts</code> imports in <code>tossable.html</code>, <code>shortcutable.html</code> demo pages — corrected to <code>native-app.ts</code> / <code>&lt;native-app-spa&gt;</code>.</li>
-          <li>Added <strong>Updates</strong> sidebar group — highlights recent additions at the top of the navigation for quick discovery.</li>
+          <li>Fixed broken <code>n-layout.ts</code> imports in <code>tossable.html</code>, <code>shortcutable.html</code> demo pages.</li>
+          <li>Added <strong>Updates</strong> sidebar group — highlights recent additions at the top of the navigation.</li>
+          <li>Updated all 30 trait demo pages, 3 doc files, and CLAUDE.md for <code>data-trait-*</code> namespace.</li>
         </ul>
       </div>
     </div>
