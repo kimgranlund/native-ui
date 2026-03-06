@@ -48,7 +48,7 @@
   { "title": "Collapsible", "path": "/src/traits/collapsible.html", "group": "Traits" },
   { "title": "Copyable", "path": "/src/traits/copyable.html", "group": "Traits" },
   { "title": "Dismissable", "path": "/src/traits/dismissable.html", "group": "Traits" },
-  { "title": "Draggable", "path": "/src/traits/draggable.html", "group": "Traits" },
+  { "title": "Draggable", "path": "/src/traits/draggable.html", "group": "Traits", "badge": "updated" },
   { "title": "Droppable", "path": "/src/traits/droppable.html", "group": "Traits" },
   { "title": "Editable", "path": "/src/traits/editable.html", "group": "Traits" },
   { "title": "Focus Trappable", "path": "/src/traits/focus-trappable.html", "group": "Traits" },

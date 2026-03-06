@@ -132,6 +132,10 @@
         opacity: 0.25;
       }
 
+      .drag-grid > .grid-cell[drag-slot-before] {
+        box-shadow: inset 3px 0 0 var(--n-surface-accent);
+      }
+
       /* WHY: View Transition animation — each cell needs a unique name
          so the browser can track and animate them between positions */
       ::view-transition-group(*) {
@@ -470,6 +474,41 @@
      Handle n-drop only to persist the new order. --&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
+    <!-- ── Slot Mode: Grid ── -->
+
+    <h2>Slot Mode — Grid</h2>
+    <n-panel bordered>
+      <p class="demo-hint">
+        Slot mode with <code>axis="both"</code> for CSS Grid. No placeholder is inserted (it would break the grid) — instead, <code>[drag-slot-before]</code> highlights the insertion point.
+      </p>
+      <n-controller traits="draggable" draggable-selector=".grid-cell" draggable-axis="both" draggable-mode="slot">
+        <div id="slot-grid" class="drag-grid">
+          <div class="grid-cell">1</div>
+          <div class="grid-cell">2</div>
+          <div class="grid-cell">3</div>
+          <div class="grid-cell">4</div>
+          <div class="grid-cell">5</div>
+          <div class="grid-cell">6</div>
+          <div class="grid-cell">7</div>
+          <div class="grid-cell">8</div>
+          <div class="grid-cell">9</div>
+          <div class="grid-cell">10</div>
+          <div class="grid-cell">11</div>
+          <div class="grid-cell">12</div>
+        </div>
+      </n-controller>
+      <div id="slot-grid-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller traits="draggable"
+  draggable-selector=".grid-cell"
+  draggable-axis="both"
+  draggable-mode="slot"&gt;
+  &lt;div class="drag-grid"&gt;
+    &lt;div class="grid-cell"&gt;1&lt;/div&gt;
+    &lt;!-- ... 12 cells in a 4×3 grid --&gt;
+  &lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-panel>
+
     <!-- ── Cross-Zone: Kanban Board ── -->
 
     <h2>Cross-Zone — Kanban Board (Slot Mode)</h2>
@@ -762,6 +801,20 @@
         previewLog(`Cancelled: cell ${e.detail.item.textContent.trim()} restored`);
       });
 
+      // ── Slot mode — grid ──
+
+      const slotGrid = document.getElementById('slot-grid');
+      slotGrid.addEventListener('native:drop', (e) => {
+        const { item, insertBefore, fromIndex, toIndex } = e.detail;
+        if (toIndex === -1) return;
+        if (insertBefore) {
+          insertBefore.before(item);
+        } else {
+          slotGrid.appendChild(item);
+        }
+        slotGridLog(`Moved cell ${item.textContent.trim()} from ${fromIndex} → ${toIndex}`);
+      });
+
       // ── Kanban — cross-zone slot mode ──
 
       const kanbanBoard = document.getElementById('kanban-board');
@@ -809,6 +862,9 @@
 
       const previewLogEl = document.getElementById('preview-log');
       function previewLog(msg) { appendLog(previewLogEl, msg); }
+
+      const slotGridLogEl = document.getElementById('slot-grid-log');
+      function slotGridLog(msg) { appendLog(slotGridLogEl, msg); }
 
       const kanbanLogEl = document.getElementById('kanban-log');
       function kanbanLog(msg) { appendLog(kanbanLogEl, msg); }

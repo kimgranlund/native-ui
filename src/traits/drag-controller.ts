@@ -254,23 +254,29 @@ export class DragController {
       // but shouldn't count as a target. Compare ghost center against remaining items only.
       const targets = items.filter(z => z !== this.#dragItem);
 
-      // WHY: Find insertion index by counting how many item centers the ghost center has passed
+      // WHY: Find insertion index by counting how many item centers the ghost center has passed.
+      // For axis='both' (grid), use 2D grid coordinate detection instead of the linear scan
+      // which fails when same-row items have ~equal Y (the AND condition breaks + break stops early).
       let insertIndex = 0;
-      for (let i = 0; i < targets.length; i++) {
-        const rect = targets[i].getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
+      if (this.axis === 'both' && items.length >= 2) {
+        // WHY: Use ALL items (including dragged) for geometry detection — the dragged item
+        // still occupies its grid cell, so excluding it skews column detection.
+        insertIndex = this.#ghostToGridIndex(ghostCenterX, ghostCenterY, items, targets.length);
+      } else {
+        for (let i = 0; i < targets.length; i++) {
+          const rect = targets[i].getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
 
-        const isPast = this.axis === 'horizontal'
-          ? ghostCenterX > centerX
-          : this.axis === 'vertical'
-            ? ghostCenterY > centerY
-            : (ghostCenterX > centerX && ghostCenterY > centerY);
+          const isPast = this.axis === 'horizontal'
+            ? ghostCenterX > centerX
+            : ghostCenterY > centerY;
 
-        if (isPast) {
-          insertIndex = i + 1;
-        } else {
-          break;
+          if (isPast) {
+            insertIndex = i + 1;
+          } else {
+            break;
+          }
         }
       }
 
@@ -311,9 +317,14 @@ export class DragController {
                e.clientY >= rect.top && e.clientY <= rect.bottom);
 
         if (isOver) {
+          // WHY: For axis='both' (grid), use row-major 2D check: if clearly above
+          // the midpoint → before; if on the same row (within 25% height) → check X.
           const isBefore = this.axis === 'horizontal'
             ? e.clientX < midX
-            : e.clientY < midY;
+            : this.axis === 'vertical'
+              ? e.clientY < midY
+              : (e.clientY < midY - rect.height * 0.25)
+                || (Math.abs(e.clientY - midY) < rect.height * 0.25 && e.clientX < midX);
           overIndex = isBefore ? i : i + 1;
           overZone = zones[i];
           break;
@@ -354,23 +365,28 @@ export class DragController {
 
     this.#clearSlotAttributes(items);
 
-    if (!this.#placeholder) {
-      const doc = this.#doc ?? this.host.ownerDocument;
-      this.#placeholder = doc.createElement('div');
-      this.#placeholder.className = 'drag-placeholder';
-      this.#placeholder.setAttribute('aria-hidden', 'true');
-    }
-
     const liveItems = items.filter(el => el !== this.#dragItem);
     const clampedIndex = Math.min(insertIndex, liveItems.length);
 
-    if (clampedIndex < liveItems.length) {
-      liveItems[clampedIndex].before(this.#placeholder);
-    } else if (liveItems.length > 0) {
-      liveItems[liveItems.length - 1].after(this.#placeholder);
-    } else {
-      // WHY: In zone mode, append to the target zone container; otherwise fall back to host.
-      (container ?? this.host).appendChild(this.#placeholder);
+    // WHY: Only insert placeholder in 1D modes — in grid mode (axis='both') it
+    // occupies a full CSS Grid cell, breaking the entire grid layout. Grid mode
+    // uses [drag-slot-before]/[drag-slot-after] attributes only for visual feedback.
+    if (this.axis !== 'both') {
+      if (!this.#placeholder) {
+        const doc = this.#doc ?? this.host.ownerDocument;
+        this.#placeholder = doc.createElement('div');
+        this.#placeholder.className = 'drag-placeholder';
+        this.#placeholder.setAttribute('aria-hidden', 'true');
+      }
+
+      if (clampedIndex < liveItems.length) {
+        liveItems[clampedIndex].before(this.#placeholder);
+      } else if (liveItems.length > 0) {
+        liveItems[liveItems.length - 1].after(this.#placeholder);
+      } else {
+        // WHY: In zone mode, append to the target zone container; otherwise fall back to host.
+        (container ?? this.host).appendChild(this.#placeholder);
+      }
     }
 
     if (clampedIndex < liveItems.length) {
@@ -394,6 +410,43 @@ export class DragController {
       item.removeAttribute('drag-slot-before');
       item.removeAttribute('drag-slot-after');
     }
+  }
+
+  // ── Grid geometry detection (shared by slot + preview modes) ──
+
+  #detectGridGeometry(items: HTMLElement[]): { cols: number; stepX: number; stepY: number; firstRect: DOMRect } {
+    const firstRect = items[0].getBoundingClientRect();
+    let cols = 1;
+    for (let i = 1; i < items.length; i++) {
+      if (Math.abs(items[i].getBoundingClientRect().top - firstRect.top) < firstRect.height * 0.5) {
+        cols = i + 1;
+      } else break;
+    }
+    const stepX = cols > 1
+      ? (items[1].getBoundingClientRect().left - firstRect.left)
+      : firstRect.width;
+    const stepY = cols < items.length
+      ? (items[cols].getBoundingClientRect().top - firstRect.top)
+      : firstRect.height;
+    return { cols, stepX, stepY, firstRect };
+  }
+
+  // WHY: Shared method to convert ghost center → insertion index using 2D grid
+  // coordinates. Used by both slot mode (axis='both') and preview mode.
+  #ghostToGridIndex(
+    ghostCenterX: number,
+    ghostCenterY: number,
+    items: HTMLElement[],
+    maxIndex: number,
+  ): number {
+    const { cols, stepX, stepY, firstRect } = this.#detectGridGeometry(items);
+    const col = Math.round((ghostCenterX - (firstRect.left + firstRect.width / 2)) / stepX);
+    const row = Math.round((ghostCenterY - (firstRect.top + firstRect.height / 2)) / stepY);
+    const maxRow = Math.ceil(maxIndex / cols) - 1;
+    const clampedCol = Math.max(0, Math.min(col, cols - 1));
+    const clampedRow = Math.max(0, Math.min(row, Math.max(0, maxRow)));
+    const index = clampedRow * cols + clampedCol;
+    return Math.max(0, Math.min(index, maxIndex));
   }
 
   // ── Preview mode: move real item in DOM ──
@@ -427,36 +480,7 @@ export class DragController {
     // The dragged item still occupies its grid cell ([dragging] only sets opacity),
     // so liveItems has a gap in the first row that would give wrong column count
     // and a shifted coordinate origin.
-    const firstRect = items[0].getBoundingClientRect();
-    let cols = 1;
-    for (let i = 1; i < items.length; i++) {
-      if (Math.abs(items[i].getBoundingClientRect().top - firstRect.top) < firstRect.height * 0.5) {
-        cols = i + 1;
-      } else {
-        break;
-      }
-    }
-
-    // WHY: Compute cell step (width + gap, height + gap) from adjacent items.
-    // This handles arbitrary gap sizes without needing to know the CSS grid gap value.
-    const stepX = cols > 1
-      ? (items[1].getBoundingClientRect().left - firstRect.left)
-      : firstRect.width;
-    const stepY = cols < items.length
-      ? (items[cols].getBoundingClientRect().top - firstRect.top)
-      : firstRect.height;
-
-    // WHY: Convert ghost center to grid (row, col) coordinates relative to the
-    // first cell's center. Using Math.round gives a natural snap — the insertion
-    // point flips when the ghost crosses the midpoint between two cells.
-    const col = Math.round((ghostCenterX - (firstRect.left + firstRect.width / 2)) / stepX);
-    const row = Math.round((ghostCenterY - (firstRect.top + firstRect.height / 2)) / stepY);
-    const maxRow = Math.ceil(liveItems.length / cols) - 1;
-    const clampedCol = Math.max(0, Math.min(col, cols - 1));
-    const clampedRow = Math.max(0, Math.min(row, maxRow));
-
-    let insertIndex = clampedRow * cols + clampedCol;
-    insertIndex = Math.max(0, Math.min(insertIndex, liveItems.length));
+    let insertIndex = this.#ghostToGridIndex(ghostCenterX, ghostCenterY, items, liveItems.length);
 
     if (insertIndex === this.#lastPreviewIndex) return;
     this.#lastPreviewIndex = insertIndex;

@@ -715,6 +715,153 @@ describe('Draggable — preview mode', () => {
   });
 });
 
+// ── Grid-specific tests ──
+
+function createGridHost(cols = 4, rows = 3): { host: HTMLElement; items: HTMLElement[] } {
+  const host = document.createElement('div');
+  const cellWidth = 100;
+  const cellHeight = 60;
+  const gap = 8;
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const item = document.createElement('div');
+      item.className = 'item';
+      item.textContent = `${r * cols + c + 1}`;
+      const left = c * (cellWidth + gap);
+      const top = r * (cellHeight + gap);
+      vi.spyOn(item, 'getBoundingClientRect').mockReturnValue({
+        top, left, right: left + cellWidth, bottom: top + cellHeight,
+        width: cellWidth, height: cellHeight, x: left, y: top, toJSON: () => {},
+      } as DOMRect);
+      host.appendChild(item);
+    }
+  }
+
+  document.body.appendChild(host);
+  return { host, items: [...host.querySelectorAll<HTMLElement>('.item')] };
+}
+
+describe('Draggable — slot mode grid (axis=both)', () => {
+  it('computes correct insertion index for grid positions', () => {
+    const { host, items: gridItems } = createGridHost(4, 3);
+    const ctrl = new DragController(host, { selector: '.item', axis: 'both', mode: 'slot' });
+    const handler = vi.fn();
+    host.addEventListener('native:drag-over', handler);
+
+    // Drag item 0 (top-left corner)
+    gridItems[0].dispatchEvent(new PointerEvent('pointerdown', {
+      bubbles: true, button: 0, clientX: 50, clientY: 30,
+    }));
+
+    // Move ghost center to position of item at row 1, col 2 (index 6 in 4-col grid)
+    // Item 6 center: left = 2*(100+8) = 216, top = 1*(60+8) = 68, center = (266, 98)
+    document.dispatchEvent(new PointerEvent('pointermove', {
+      bubbles: true, clientX: 266, clientY: 98,
+    }));
+
+    expect(handler).toHaveBeenCalled();
+    const detail = handler.mock.calls[handler.mock.calls.length - 1][0].detail;
+    // Should compute a valid grid insertion index, not 0 (the broken behavior)
+    expect(detail.index).toBeGreaterThan(0);
+
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+    ctrl.destroy();
+  });
+
+  it('does not insert placeholder in grid mode', () => {
+    const { host, items: gridItems } = createGridHost(4, 3);
+    const ctrl = new DragController(host, { selector: '.item', axis: 'both', mode: 'slot' });
+
+    gridItems[0].dispatchEvent(new PointerEvent('pointerdown', {
+      bubbles: true, button: 0, clientX: 50, clientY: 30,
+    }));
+    document.dispatchEvent(new PointerEvent('pointermove', {
+      bubbles: true, clientX: 266, clientY: 98,
+    }));
+
+    // No placeholder should be inserted — it would break CSS Grid layout
+    expect(host.querySelector('.drag-placeholder')).toBeNull();
+
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+    ctrl.destroy();
+  });
+
+  it('sets drag-slot-before attribute on correct item', () => {
+    const { host, items: gridItems } = createGridHost(4, 3);
+    const ctrl = new DragController(host, { selector: '.item', axis: 'both', mode: 'slot' });
+
+    gridItems[0].dispatchEvent(new PointerEvent('pointerdown', {
+      bubbles: true, button: 0, clientX: 50, clientY: 30,
+    }));
+    document.dispatchEvent(new PointerEvent('pointermove', {
+      bubbles: true, clientX: 266, clientY: 98,
+    }));
+
+    // At least one item should have the slot-before attribute
+    const markedItems = gridItems.filter(el => el.hasAttribute('drag-slot-before'));
+    expect(markedItems.length).toBe(1);
+
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+    ctrl.destroy();
+  });
+});
+
+describe('Draggable — drop mode grid (axis=both)', () => {
+  it('computes correct isBefore for same-row items', () => {
+    const { host, items: gridItems } = createGridHost(4, 3);
+    const ctrl = new DragController(host, { selector: '.item', axis: 'both', mode: 'drop' });
+    const handler = vi.fn();
+    host.addEventListener('native:drag-over', handler);
+
+    // Drag item 0
+    gridItems[0].dispatchEvent(new PointerEvent('pointerdown', {
+      bubbles: true, button: 0, clientX: 50, clientY: 30,
+    }));
+
+    // Move to just left of center of item 2 (same row, col 2)
+    // Item 2 center: left = 2*(100+8) = 216, center x = 266, center y = 30
+    // Move to just left of center → should be "before" item 2
+    document.dispatchEvent(new PointerEvent('pointermove', {
+      bubbles: true, clientX: 260, clientY: 30,
+    }));
+
+    expect(handler).toHaveBeenCalled();
+    const detail = handler.mock.calls[handler.mock.calls.length - 1][0].detail;
+    // Index should be 2 (before item 2), not 3 (after item 2)
+    expect(detail.index).toBe(2);
+
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+    ctrl.destroy();
+  });
+
+  it('computes correct isBefore for item above', () => {
+    const { host, items: gridItems } = createGridHost(4, 3);
+    const ctrl = new DragController(host, { selector: '.item', axis: 'both', mode: 'drop' });
+    const handler = vi.fn();
+    host.addEventListener('native:drag-over', handler);
+
+    // Drag item 8 (row 2, col 0)
+    gridItems[8].dispatchEvent(new PointerEvent('pointerdown', {
+      bubbles: true, button: 0, clientX: 50, clientY: 30 + 2 * 68,
+    }));
+
+    // Move to above center of item 4 (row 1, col 0) → clearly above midY
+    // Item 4 center: y = 68 + 30 = 98. Move to y = 80 (above center - 25% = 98 - 15 = 83)
+    document.dispatchEvent(new PointerEvent('pointermove', {
+      bubbles: true, clientX: 50, clientY: 80,
+    }));
+
+    expect(handler).toHaveBeenCalled();
+    const detail = handler.mock.calls[handler.mock.calls.length - 1][0].detail;
+    // Should be index 4 (before item 4), because pointer is above center
+    expect(detail.index).toBe(4);
+
+    document.dispatchEvent(new PointerEvent('pointerup', { bubbles: true }));
+    ctrl.destroy();
+  });
+});
+
 describe('DragController — lifecycle hardening', () => {
   it('removes lostpointercapture listener before releasePointerCapture (re-entry prevention)', () => {
     const el = create();
