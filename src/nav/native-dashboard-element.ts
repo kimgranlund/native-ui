@@ -9,7 +9,7 @@ import componentsCss from '../styles/n-components.css?inline';
 import layoutDevCss from './n-layout.css?inline';
 import inspectorCss from '../../packages/native-design/src/design.css?inline';
 import chatCss from '../../packages/native-chat/src/chat.css?inline';
-import appCss from '../../packages/native-app/src/app.css?inline';
+import appCss from '../../packages/native-dashboard/src/app.css?inline';
 import sitemapData from './sitemap.json';
 
 // Import component registrations
@@ -34,7 +34,7 @@ import '../icons/phosphor/chat-dots.ts';
 import '../icons/phosphor/chat-dots-fill.ts';
 import '../icons/phosphor/sliders-horizontal.ts';
 import '../icons/phosphor/sliders-horizontal-fill.ts';
-import '../../packages/native-app/src/index.ts';
+import '../../packages/native-dashboard/src/index.ts';
 import '../components/breadcrumb/breadcrumb.ts';
 import '../icons/phosphor/caret-up-down.ts';
 import '../icons/phosphor/plus.ts';
@@ -101,7 +101,7 @@ export class NApp extends NativeElement {
       this.setAttribute('collapsed', '');
     }
     const width = localStorage.getItem(STORAGE_WIDTH);
-    if (width) this.style.setProperty('--n-app-sidebar-width', width);
+    if (width) this.style.setProperty('--n-dashboard-sidebar-width', width);
     const scheme = localStorage.getItem(STORAGE_COLOR_SCHEME);
     if (scheme) document.documentElement.style.colorScheme = scheme;
   }
@@ -119,7 +119,7 @@ export class NApp extends NativeElement {
 
     // ── Build layout ──
 
-    const layout = document.createElement('native-app') as HTMLElement;
+    const layout = document.createElement('native-dashboard') as HTMLElement;
     if (isCollapsed) layout.setAttribute('collapsed', '');
 
     // ── Sidebar aside ──
@@ -300,7 +300,7 @@ export class NApp extends NativeElement {
 
     // Breadcrumb bar
     const currentEntry = sitemap.find(e => e.path === currentPath);
-    const breadcrumbBar = document.createElement('n-app-breadcrumb');
+    const breadcrumbBar = document.createElement('n-dashboard-breadcrumb');
 
     // Leading: sidebar toggle
     const sidebarToggle = document.createElement('n-button');
@@ -407,7 +407,7 @@ export class NApp extends NativeElement {
     breadcrumbBar.append(sidebarToggle, breadcrumb, trailingActions);
 
     // Canvas (body + chat)
-    const canvas = document.createElement('n-app-canvas');
+    const canvas = document.createElement('n-dashboard-canvas');
 
     const body = document.createElement('n-panel');
     body.setAttribute('scrollable', '');
@@ -527,7 +527,7 @@ export class NApp extends NativeElement {
         if (!openAiApiKey) {
           chat.setAttribute('gateway', 'mock');
           chat.setAttribute('gateway-url', 'mock');
-          console.warn('[native-app] Missing OpenAI API key. Set VITE_OPENAI_API_KEY in .env and restart Vite.');
+          console.warn('[native-dashboard] Missing OpenAI API key. Set VITE_OPENAI_API_KEY in .env and restart Vite.');
           return;
         }
         chat.setAttribute('gateway', 'openai');
@@ -543,7 +543,7 @@ export class NApp extends NativeElement {
       if (!claudeApiKey) {
         chat.setAttribute('gateway', 'mock');
         chat.setAttribute('gateway-url', 'mock');
-        console.warn('[native-app] Missing Claude API key. Set VITE_ANTHROPIC_API_KEY or VITE_CLAUDE_API_KEY in .env and restart Vite.');
+        console.warn('[native-dashboard] Missing Claude API key. Set VITE_ANTHROPIC_API_KEY or VITE_CLAUDE_API_KEY in .env and restart Vite.');
         return;
       }
 

@@ -81,7 +81,7 @@
     </style>
   </head>
   <body>
-    <native-app-spa><main>
+    <native-dashboard-spa><main>
 
     <h1>Popoverable</h1>
     <p class="demo-desc">
@@ -216,7 +216,7 @@ popover.syncPopover(open.value);</code><n-button class="copy-btn" size="sm" vari
       </table>
     </div>
 
-    </main></native-app-spa>
+    </main></native-dashboard-spa>
 
     <!-- Script 1: Register all traits BEFORE any component define() -->
     <script type="module">
@@ -226,7 +226,7 @@ popover.syncPopover(open.value);</code><n-button class="copy-btn" size="sm" vari
 
     <!-- Script 2: Import components (runs after traits are registered) -->
     <script type="module">
-      import '../nav/native-app.ts';
+      import '../nav/native-dashboard.ts';
       import '../components/button/button.ts';
       import '../components/select/select.ts';
       import '../components/controller/controller.ts';

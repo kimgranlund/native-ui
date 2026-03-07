@@ -43,11 +43,11 @@ import './components/tree/tree.ts';
 import './containers/card/card.ts';
 import './containers/section/section.ts';
 import './containers/toolbar/toolbar.ts';
-// native-app components (layout + nav)
-import '../packages/native-app/src/index.ts';
+// native-dashboard components (layout + nav)
+import '../packages/native-dashboard/src/index.ts';
 
 // Icon system
 import './icons/icon.ts';
 
 // Dev layout
-import './nav/native-app.ts';
+import './nav/native-dashboard.ts';

@@ -1,9 +1,9 @@
 // WHY: The CEM analyzer doesn't understand our custom define() function in separate files.
 // This plugin derives tag names from class names (NSidebar → n-sidebar) and marks them
 // as custom elements so Storybook, VS Code, and other tools can consume the manifest.
-function nativeAppPlugin() {
+function nativeDashboardPlugin() {
   return {
-    name: 'native-app-tag-names',
+    name: 'native-dashboard-tag-names',
     packageLinkPhase({ customElementsManifest }) {
       for (const mod of customElementsManifest.modules) {
         for (const decl of mod.declarations ?? []) {
@@ -15,7 +15,7 @@ function nativeAppPlugin() {
           }
 
           // Override map for tag names that don't follow the NSidebar → n-sidebar convention
-          const TAG_OVERRIDES = { NSidebar: 'native-app' };
+          const TAG_OVERRIDES = { NSidebar: 'native-dashboard' };
 
           // Derive tag name: NSidebarNav → n-sidebar-nav, NAppPanel → n-app-panel
           const tagName = TAG_OVERRIDES[decl.name] ?? `n-${decl.name
@@ -52,5 +52,5 @@ export default {
     'src/**/__tests__/**',
   ],
   outdir: 'dist',
-  plugins: [nativeAppPlugin()],
+  plugins: [nativeDashboardPlugin()],
 };

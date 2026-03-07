@@ -106,13 +106,13 @@ function mappingToEntry(mapping: ComponentMapping): NCatalogEntry {
 
 /**
  * Build a catalog from the existing COMPONENT_MAP.
- * - `'core-only'`: excludes `native-app-*` elements (recommended default)
+ * - `'core-only'`: excludes `native-dashboard-*` elements (recommended default)
  * - `'full'`: all registered component types
  */
 export function buildCatalogFromRegistry(scope: 'full' | 'core-only' = 'core-only'): NCatalog {
   const entries: NCatalogEntry[] = [];
   for (const [_type, mapping] of COMPONENT_MAP) {
-    if (scope === 'core-only' && mapping.nativeTag.startsWith('native-app-')) continue;
+    if (scope === 'core-only' && mapping.nativeTag.startsWith('native-dashboard-')) continue;
     entries.push(mappingToEntry(mapping));
   }
   return new NCatalog(entries);

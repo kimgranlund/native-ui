@@ -23,7 +23,7 @@
     </style>
   </head>
   <body>
-    <native-app-spa><main>
+    <native-dashboard-spa><main>
     <h1>native-codemirror</h1>
     <p class="demo-desc">
       Shared CodeMirror 6 integration layer for the NativeUI ecosystem.
@@ -173,10 +173,10 @@ const x = 42;</script>
       <div class="log" id="el-event-log" style="max-height: 80px;"></div>
     </n-panel>
 
-    </main></native-app-spa>
+    </main></native-dashboard-spa>
 
     <script type="module">
-      import '../../../src/nav/native-app.ts';
+      import '../../../src/nav/native-dashboard.ts';
       import './register.ts';
 
       import { createEditorView, EditorView } from './index.ts';
@@ -246,7 +246,7 @@ export { fibonacci, classify };`,
   <link rel="stylesheet" href="native-ui.css" />
 </head>
 <body>
-  <native-app-spa>
+  <native-dashboard-spa>
     <main>
       <h1>Welcome</h1>
       <p>A zero-specificity web component library.</p>
@@ -267,7 +267,7 @@ export { fibonacci, classify };`,
         </n-listbox>
       </n-select>
     </main>
-  </native-app-spa>
+  </native-dashboard-spa>
 </body>
 </html>`,
         extensions: [html()],

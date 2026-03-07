@@ -30,7 +30,7 @@ Foundation must come before components. Chat CSS must come after both — it rea
 
 ## 3. Registration Script
 
-native-chat requires **explicit** registration (unlike `@nonoun/native-app` which auto-registers):
+native-chat requires **explicit** registration (unlike `@nonoun/native-dashboard` which auto-registers):
 
 ```ts
 // src/scripts/setup.ts

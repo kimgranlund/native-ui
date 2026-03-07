@@ -23,6 +23,6 @@ const cssFiles = [
 const output = cssFiles.map(read).join('\n');
 
 mkdirSync(dist, { recursive: true });
-writeFileSync(resolve(dist, 'native-app.css'), output);
+writeFileSync(resolve(dist, 'native-dashboard.css'), output);
 
-console.log(`CSS build complete: dist/native-app.css (${cssFiles.length} files)`);
+console.log(`CSS build complete: dist/native-dashboard.css (${cssFiles.length} files)`);

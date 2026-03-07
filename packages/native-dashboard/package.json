@@ -1,24 +1,24 @@
 {
-  "name": "@nonoun/native-app",
-  "version": "0.3.19",
-  "description": "Application layout and navigation components for @nonoun/native-ui",
+  "name": "@nonoun/native-dashboard",
+  "version": "0.4.0",
+  "description": "Dashboard layout and navigation components for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/native-app.js",
-  "module": "./dist/native-app.js",
+  "main": "./dist/native-dashboard.js",
+  "module": "./dist/native-dashboard.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/native-app.js"
+      "default": "./dist/native-dashboard.js"
     },
-    "./css": "./dist/native-app.css"
+    "./css": "./dist/native-dashboard.css"
   },
   "files": [
     "dist"
   ],
   "sideEffects": [
-    "./dist/native-app.js"
+    "./dist/native-dashboard.js"
   ],
   "peerDependencies": {
     "@nonoun/native-ui": ">=0.6.0"

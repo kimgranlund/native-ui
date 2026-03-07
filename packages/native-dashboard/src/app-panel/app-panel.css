@@ -1,9 +1,9 @@
 @layer ui {
 
-  :where(n-app-panel):not(:defined) { visibility: hidden; }
+  :where(n-dashboard-panel):not(:defined) { visibility: hidden; }
 
   /* ╭──────────────────────────────────────────────────────────╮
-     │  n-app-panel                                           │
+     │  n-dashboard-panel                                           │
      │  Layout panel — main content surface or collapsible      │
      │  aside. Default: flex-1 scrollable body. [aside]:        │
      │  fixed-width side panel with open/close + resize.        │
@@ -11,7 +11,7 @@
 
   /* ── Base (shared) ── */
 
-  :where(n-app-panel) {
+  :where(n-dashboard-panel) {
     --n-ground: var(--n-panel);
 
     display: flex;
@@ -21,13 +21,13 @@
     border-radius: var(--n-radius);
   }
 
-  :where(n-app-panel)[show-scrollbar] {
+  :where(n-dashboard-panel)[show-scrollbar] {
     scrollbar-width: thin;
   }
 
   /* ── Main mode (default) ── */
 
-  :where(n-app-panel):not([aside]) {
+  :where(n-dashboard-panel):not([aside]) {
     flex: 1;
     min-width: 0;
     overflow-y: auto;
@@ -36,7 +36,7 @@
 
   /* ── Aside mode ── */
 
-  :where(n-app-panel)[aside] {
+  :where(n-dashboard-panel)[aside] {
     position: relative;
     width: 0;
     min-width: 0;
@@ -50,7 +50,7 @@
       margin var(--n-duration) var(--n-easing);
   }
 
-  :where(n-app-panel)[aside][open] {
+  :where(n-dashboard-panel)[aside][open] {
     width: 360px;
     min-width: 280px;
     margin-inline-start: calc(var(--n-space-k) * var(--n-space));
@@ -62,19 +62,19 @@
      the layout container delegates — no own padding, no own scroll.
      overflow: visible lets CSS anchor-positioned popovers (n-select etc.)
      resolve through to the top layer. */
-  :where(n-app-panel)[aside][open]:has(> n-chat) {
+  :where(n-dashboard-panel)[aside][open]:has(> n-chat) {
     padding: 0;
     overflow: visible;
   }
 
   /* WHY: Disable width transition while dragging — it fights the pointer. */
-  :where(n-app-panel)[aside][resizing] {
+  :where(n-dashboard-panel)[aside][resizing] {
     transition: none;
   }
 
   /* ── Resize Handle ── */
 
-  :where(n-app-panel)[aside] :where(.layout-resize-handle) {
+  :where(n-dashboard-panel)[aside] :where(.layout-resize-handle) {
     position: absolute;
     top: 0;
     left: 0;
@@ -84,8 +84,8 @@
     z-index: 1;
   }
 
-  :where(n-app-panel)[aside] :where(.layout-resize-handle):hover,
-  :where(n-app-panel)[aside][resizing] :where(.layout-resize-handle) {
+  :where(n-dashboard-panel)[aside] :where(.layout-resize-handle):hover,
+  :where(n-dashboard-panel)[aside][resizing] :where(.layout-resize-handle) {
     background: var(--n-border-muted);
   }
 
@@ -93,20 +93,20 @@
   /* WHY: When n-body is present, delegate overflow to it so
      header/footer stay fixed while body scrolls. */
 
-  :where(n-app-panel):has(> n-body) {
+  :where(n-dashboard-panel):has(> n-body) {
     overflow: hidden;
     padding: 0;
   }
-  :where(n-app-panel) > :where(n-body) {
+  :where(n-dashboard-panel) > :where(n-body) {
     overflow-y: auto;
     scrollbar-width: none;
   }
 
-  :where(n-app-panel) > :where(n-header) {
+  :where(n-dashboard-panel) > :where(n-header) {
     border-bottom: 1px solid var(--n-border-muted);
   }
 
-  :where(n-app-panel) > :where(n-footer) {
+  :where(n-dashboard-panel) > :where(n-footer) {
     border-top: 1px solid var(--n-border-muted);
   }
 
@@ -115,51 +115,51 @@
      <header>/<footer> stay fixed while <main> scrolls.
      Mirrors the n-header/n-body/n-footer pattern for semantic HTML. */
 
-  :where(n-app-panel):has(> main) {
+  :where(n-dashboard-panel):has(> main) {
     overflow: hidden;
     padding: 0;
   }
 
-  :where(n-app-panel) > :where(header),
-  :where(n-app-panel) > :where(main),
-  :where(n-app-panel) > :where(footer) {
-    padding: var(--n-app-panel-content-padding, 0);
+  :where(n-dashboard-panel) > :where(header),
+  :where(n-dashboard-panel) > :where(main),
+  :where(n-dashboard-panel) > :where(footer) {
+    padding: var(--n-dashboard-panel-content-padding, 0);
     box-sizing: border-box;
   }
 
   /* WHY: Direct children of header/main/footer act as content containers.
      max-width + auto margins center content while the parent keeps
      full-bleed background and padding. */
-  :where(n-app-panel) > :where(header) > *,
-  :where(n-app-panel) > :where(main) > *,
-  :where(n-app-panel) > :where(footer) > * {
-    max-width: var(--n-app-panel-content-max-width, none);
+  :where(n-dashboard-panel) > :where(header) > *,
+  :where(n-dashboard-panel) > :where(main) > *,
+  :where(n-dashboard-panel) > :where(footer) > * {
+    max-width: var(--n-dashboard-panel-content-max-width, none);
     width: 100%;
     margin-inline: auto;
   }
 
-  :where(n-app-panel) > :where(header) {
+  :where(n-dashboard-panel) > :where(header) {
     flex: none;
     border-bottom: 1px solid var(--n-border-muted);
     background: var(--n-ground);
     z-index: 1;
   }
 
-  :where(n-app-panel) > :where(main) {
+  :where(n-dashboard-panel) > :where(main) {
     flex: 1 1 0%;
     min-height: 0;
     overflow-y: auto;
     scrollbar-width: none;
     display: flex;
     flex-direction: column;
-    gap: var(--n-app-panel-content-gap, 0);
+    gap: var(--n-dashboard-panel-content-gap, 0);
   }
 
-  :where(n-app-panel)[show-scrollbar] > :where(main) {
+  :where(n-dashboard-panel)[show-scrollbar] > :where(main) {
     scrollbar-width: thin;
   }
 
-  :where(n-app-panel) > :where(footer) {
+  :where(n-dashboard-panel) > :where(footer) {
     flex: none;
     border-top: 1px solid var(--n-border-muted);
     background: var(--n-ground);

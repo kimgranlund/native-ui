@@ -7,7 +7,7 @@
 | Package | Version | Purpose | Peer Dep |
 |---------|---------|---------|----------|
 | `@nonoun/native-ui` | 0.7.11 | Core: components, design system, traits, reactivity, icons | -- |
-| `@nonoun/native-app` | 0.3.7 | App shell: sidebar navigation, layout orchestration | `>=0.6.0` |
+| `@nonoun/native-dashboard` | 0.3.7 | App shell: sidebar navigation, layout orchestration | `>=0.6.0` |
 | `@nonoun/native-design` | 0.5.5 | OKLCH color token inspector widget | `>=0.6.0` |
 | `@nonoun/native-chat` | 0.5.6 | Chat component system: feed, messages, avatar, activity, seeds, GenUI, stream transport | `>=0.6.0` |
 | `@nonoun/native-codemirror` | 0.2.13 | CodeMirror 6 integration layer (theme, extensions, re-exports) | `>=0.5.0` |
@@ -36,7 +36,7 @@
 
 | Package | JS Entry (default) | JS Entry (register) | CSS Entry |
 |---------|--------------------|---------------------|-----------|
-| `@nonoun/native-app` | `.` | -- (default auto-registers) | `./css` |
+| `@nonoun/native-dashboard` | `.` | -- (default auto-registers) | `./css` |
 | `@nonoun/native-design` | `.` | -- (default auto-registers) | `./css`, `./css/foundation` |
 | `@nonoun/native-chat` | `.` | `./register` | `./css` |
 | `@nonoun/native-codemirror` | `.` | `./register` | `./css` |
@@ -52,7 +52,7 @@ Packages with `./register`: the default export gives classes only; import `./reg
 | Package | Elements |
 |---------|----------|
 | `@nonoun/native-ui/register` | All `n-*` elements (30+) |
-| `@nonoun/native-app` | `<native-app>`, `<n-sidebar-nav>`, `<n-sidebar-nav-item>`, `<n-sidebar-group>`, `<n-sidebar-group-header>`, `<n-sidebar-item>` |
+| `@nonoun/native-dashboard` | `<native-dashboard>`, `<n-sidebar-nav>`, `<n-sidebar-nav-item>`, `<n-sidebar-group>`, `<n-sidebar-group-header>`, `<n-sidebar-item>` |
 | `@nonoun/native-design` | `<native-design>`, `<native-design-panel>`, `<native-design-variable>`, `<native-design-colors>`, `<native-design-color-swatch>`, `<native-design-themes>` |
 | `@nonoun/native-chat` | `<n-chat-input>`, `<native-chat-panel>`, `<n-chat-feed>`, `<n-chat-messages>`, `<n-chat-message>`, `<n-chat-avatar>`, `<n-chat-message-text>`, `<n-chat-message-activity>`, `<n-chat-message-seed>`, `<n-chat-message-genui>`, `<n-chat-input-structured>` |
 | `@nonoun/native-codemirror` | `<native-codemirror>` |
@@ -68,7 +68,7 @@ Extension packages also register dogfooded core elements they create internally 
 ```
 native-ui (core)
   |
-  +-- native-app
+  +-- native-dashboard
   +-- native-design
   +-- native-chat
   +-- native-cdn
@@ -86,7 +86,7 @@ native-ui (core)
 
 ```
 packages/
-  native-app/          @nonoun/native-app
+  native-dashboard/          @nonoun/native-dashboard
   native-design/       @nonoun/native-design
   native-chat/         @nonoun/native-chat
   native-codemirror/   @nonoun/native-codemirror
@@ -108,11 +108,11 @@ All packages declare `@nonoun/native-ui` as a peer dependency. When native-ui bu
 - CSS via `<style is:global>@import '@nonoun/native-ui/css';</style>` or `<link>`
 - JS registration via a shared `setup.ts` that imports `/register` entries
 - Navigation via Astro View Transitions (no client-side router)
-- Uses `<native-app>` layout directly in server-rendered HTML -- no Shadow DOM wrapper
+- Uses `<native-dashboard>` layout directly in server-rendered HTML -- no Shadow DOM wrapper
 
-**SPA wrapper** (`<native-app-spa>`):
+**SPA wrapper** (`<native-dashboard-spa>`):
 - Shadow DOM wrapper for single-page apps that need encapsulated layout
-- NOT used by Astro -- Astro uses server-rendered `<native-app>` directly
+- NOT used by Astro -- Astro uses server-rendered `<native-dashboard>` directly
 
 ## CDN Usage
 

@@ -94,7 +94,7 @@ When combining with other `@nonoun` packages, maintain CSS order:
 ```css
 @import '@nonoun/native-ui/css/foundation';
 @import '@nonoun/native-ui/css/components';
-@import '@nonoun/native-app/css';
+@import '@nonoun/native-dashboard/css';
 ```
 
 ---
@@ -172,7 +172,7 @@ foundation -> components -> app-level -> page-specific
 ```css
 @import '@nonoun/native-ui/css/foundation';  /* 1. colors, tokens, themes, base */
 @import '@nonoun/native-ui/css/components';   /* 2. component styles */
-@import '@nonoun/native-app/css';             /* 3. app shell (if applicable) */
+@import '@nonoun/native-dashboard/css';             /* 3. app shell (if applicable) */
 @import './page.css';                         /* 4. page overrides */
 ```
 
@@ -292,8 +292,8 @@ See [STYLING.md](STYLING.md) for what to use CSS for and what to avoid.
 
 ### 9. Choose your app shell
 
-- **SPA**: `<native-app-spa>` wraps your app with sidebar + breadcrumb + canvas layout
-- **SSR (Astro)**: Use `@nonoun/native-app` layout components server-side, register JS client-side
+- **SPA**: `<native-dashboard-spa>` wraps your app with sidebar + breadcrumb + canvas layout
+- **SSR (Astro)**: Use `@nonoun/native-dashboard` layout components server-side, register JS client-side
 - **CDN**: `@nonoun/native-cdn` IIFE bundle + `<link>` tags, no build step
 - **Custom**: Build your own layout -- components work anywhere in any container
 

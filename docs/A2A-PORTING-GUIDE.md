@@ -80,7 +80,7 @@ All four demos live in `packages/native-a2ui/src/`:
 - API calls go to `/api/anthropic/messages` and `/api/openai/chat/completions` — the Astro host needs proxy routes or direct API access
 - Env vars: `VITE_ANTHROPIC_API_KEY`, `VITE_OPENAI_API_KEY`
 - Icon imports: `x.ts` and `circle.ts` from `src/icons/phosphor/` must be explicitly imported (they self-register)
-- The `native-app-spa` wrapper is dev-only — replace with Astro layout
+- The `native-dashboard-spa` wrapper is dev-only — replace with Astro layout
 
 ### 2. `a2a-sessions.html` — Session Lifecycle
 
@@ -178,8 +178,8 @@ These should proxy to the respective APIs with server-side key injection. The de
 3. **Copy the `<style>` block** into the Astro page's `<style>` or a scoped stylesheet
 4. **Adapt the `<script>` block:**
    - Change relative imports to package imports (see import map above)
-   - Remove `native-app-spa` wrapper (Astro layout handles this)
-   - Remove dev-specific imports (`src/nav/native-app.ts`)
+   - Remove `native-dashboard-spa` wrapper (Astro layout handles this)
+   - Remove dev-specific imports (`src/nav/native-dashboard.ts`)
 5. **Set up API proxy routes** for Anthropic and OpenAI (server-side key injection)
 6. **Add environment variables** for API keys (server-side only)
 7. **Add navigation entries** in the sidebar for the new A2UI section

@@ -54,8 +54,8 @@
 
   /* ── Document Defaults ── */
 
-  :where(native-app-spa),
-  :where(native-app) {
+  :where(native-dashboard-spa),
+  :where(native-dashboard) {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;

@@ -28,7 +28,7 @@
       }
     </style>
     <script type="module">
-      import '../../../src/nav/native-app.ts';
+      import '../../../src/nav/native-dashboard.ts';
       import '../../../src/register-all.ts';
 
       // Icons used in this demo + icons stamped internally by components
@@ -46,8 +46,8 @@
       const kernel = new Kernel({ allowUnregistered: true });
       const messages = [];
       // WHY: NApp.setup() is async — wait for the chat panel to exist.
-      const layout = document.querySelector('native-app-spa');
-      await customElements.whenDefined('native-app-spa');
+      const layout = document.querySelector('native-dashboard-spa');
+      await customElements.whenDefined('native-dashboard-spa');
       const chatPanel = await Promise.race([
         new Promise(resolve => {
           const check = () => {
@@ -404,7 +404,7 @@
     </script>
   </head>
   <body>
-    <native-app-spa>
+    <native-dashboard-spa>
       <div class="nav-main">
         <h1>A2UI Styled Components</h1>
         <p style="color: var(--n-ink-muted-neutral); margin-bottom: 1.5rem; font-size: 0.8125rem;">
@@ -412,6 +412,6 @@
           Each element carries a <code>[data-a2ui]</code> attribute and is styled via <code>a2ui.css</code>.
         </p>
       </div>
-    </native-app-spa>
+    </native-dashboard-spa>
   </body>
 </html>

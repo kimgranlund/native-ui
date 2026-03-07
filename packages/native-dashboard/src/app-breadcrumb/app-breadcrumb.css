@@ -1,14 +1,14 @@
 @layer ui {
 
   /* ╭──────────────────────────────────────────────────────────╮
-     │  n-app-breadcrumb                                      │
+     │  n-dashboard-breadcrumb                                      │
      │  Grid bar with leading / label / trailing slots.         │
      │  Same slot pattern as n-header.                        │
      ╰──────────────────────────────────────────────────────────╯ */
 
   /* ── Base ── */
 
-  :where(n-app-breadcrumb) {
+  :where(n-dashboard-breadcrumb) {
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
@@ -22,30 +22,30 @@
 
   /* ── Slots ── */
 
-  :where(n-app-breadcrumb):has(> [slot="leading"]):has(> [slot="trailing"]) {
+  :where(n-dashboard-breadcrumb):has(> [slot="leading"]):has(> [slot="trailing"]) {
     grid-template-columns: auto 1fr auto;
   }
 
-  :where(n-app-breadcrumb):has(> [slot="leading"]):not(:has(> [slot="trailing"])) {
+  :where(n-dashboard-breadcrumb):has(> [slot="leading"]):not(:has(> [slot="trailing"])) {
     grid-template-columns: auto 1fr;
   }
 
-  :where(n-app-breadcrumb):not(:has(> [slot="leading"])):has(> [slot="trailing"]) {
+  :where(n-dashboard-breadcrumb):not(:has(> [slot="leading"])):has(> [slot="trailing"]) {
     grid-template-columns: 1fr auto;
   }
 
-  :where(n-app-breadcrumb) > :where([slot="leading"]) {
+  :where(n-dashboard-breadcrumb) > :where([slot="leading"]) {
     display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
   }
 
-  :where(n-app-breadcrumb) > :where([slot="label"]),
-  :where(n-app-breadcrumb) > :where(:not([slot])) {
+  :where(n-dashboard-breadcrumb) > :where([slot="label"]),
+  :where(n-dashboard-breadcrumb) > :where(:not([slot])) {
     min-width: 0;
   }
 
-  :where(n-app-breadcrumb) > :where([slot="trailing"]) {
+  :where(n-dashboard-breadcrumb) > :where([slot="trailing"]) {
     display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);

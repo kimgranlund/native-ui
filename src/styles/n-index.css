@@ -5,24 +5,24 @@
 @import 'n-components.shared.css';
 
 /* ── Layout Flash Prevention ──
-   Hide native-app-spa content until the custom element is defined and ready.
+   Hide native-dashboard-spa content until the custom element is defined and ready.
    Without this, the raw <main> content flashes before the sidebar shell builds.
    :not(:defined) matches until customElements.define() runs.
-   [data-ready] is set by native-app-spa after it finishes building the shell.
+   [data-ready] is set by native-dashboard-spa after it finishes building the shell.
 
    Uses color-scheme-aware background + hidden children (not visibility:hidden)
    so the element still paints the correct surface during view transitions —
    prevents a flash of bare body background between old→new page snapshots. */
 
-native-app-spa:not(:defined),
-native-app-spa:not([data-ready]) {
+native-dashboard-spa:not(:defined),
+native-dashboard-spa:not([data-ready]) {
   display: block;
   min-height: 100dvh;
   background: var(--n-doc-neutral);
 }
 
-native-app-spa:not(:defined) > *,
-native-app-spa:not([data-ready]) > * {
+native-dashboard-spa:not(:defined) > *,
+native-dashboard-spa:not([data-ready]) > * {
   visibility: hidden;
 }
 
@@ -45,7 +45,7 @@ native-app-spa:not([data-ready]) > * {
 }
 
 /* Shell persists — named so it's excluded from root snapshot */
-native-app-spa {
+native-dashboard-spa {
   view-transition-name: shell;
 }
 

@@ -18,7 +18,7 @@ Structural elements that group, frame, and organize content. Pure CSS or minimal
 
 ## Unified Sub-Containers
 
-`n-header`, `n-body`, `n-footer` work inside any flex-column parent (n-card, n-panel, n-drawer, n-app-panel). When `n-body` is present, the parent sets `overflow: hidden; padding: 0` so body handles scroll while header/footer stay fixed.
+`n-header`, `n-body`, `n-footer` work inside any flex-column parent (n-card, n-panel, n-drawer, n-dashboard-panel). When `n-body` is present, the parent sets `overflow: hidden; padding: 0` so body handles scroll while header/footer stay fixed.
 
 **n-header** -- Display: `grid`. Slots: `leading`, `label` (or unslotted), `trailing`, `content` (full-width row below). Grid auto-adapts columns to present slots. Attributes: `align` (center/end), `padding` (none/tight/regular/relaxed), `sticky`, `dividers`, `truncate` (ellipsis on label slot).
 
@@ -80,12 +80,12 @@ Attributes: `size` (xs/sm/md/lg/xl), `muted` (muted ink color), `strong` (bold +
 </n-header>
 ```
 
-## App Layout (`@nonoun/native-app`)
+## App Layout (`@nonoun/native-dashboard`)
 
 Separate package. Full-page layout with collapsible sidebar.
 
 ```
-native-app                         <- flex row, height: 100dvh
+native-dashboard                         <- flex row, height: 100dvh
 +-- [slot="sidebar"]               <- sticky aside (resizable, collapsible to 48px)
 |   +-- n-sidebar-header           <- absolute overlay, top
 |   +-- n-sidebar-content          <- scrollable, mask-image fade edges
@@ -95,13 +95,13 @@ native-app                         <- flex row, height: 100dvh
 |   |   +-- n-sidebar-item         <- generic row (icon + label + trailing)
 |   +-- n-sidebar-footer           <- absolute overlay, bottom
 +-- [content column]               <- flex column
-    +-- n-app-breadcrumb           <- grid bar (leading / label / trailing slots)
-    +-- n-app-canvas               <- flex row
-        +-- n-app-panel            <- flex-1 scrollable (main mode)
-        +-- n-app-panel[aside]     <- collapsible side panel (aside mode)
+    +-- n-dashboard-breadcrumb           <- grid bar (leading / label / trailing slots)
+    +-- n-dashboard-canvas               <- flex row
+        +-- n-dashboard-panel            <- flex-1 scrollable (main mode)
+        +-- n-dashboard-panel[aside]     <- collapsible side panel (aside mode)
 ```
 
-Collapsed: `[collapsed]` on `native-app` shrinks aside to 48px icon rail. Components respond via `@container sidebar (max-width: 80px)`.
+Collapsed: `[collapsed]` on `native-dashboard` shrinks aside to 48px icon rail. Components respond via `@container sidebar (max-width: 80px)`.
 
 ## Elevation Model
 
@@ -109,7 +109,7 @@ Collapsed: `[collapsed]` on `native-app` shrinks aside to 48px icon rail. Compon
 |-------|-------|------------|
 | body | `--n-body` | `:root` default |
 | control | `--n-control` | Form inputs (empty state) |
-| panel | `--n-panel` | n-toolbar, n-app-panel, filled inputs |
+| panel | `--n-panel` | n-toolbar, n-dashboard-panel, filled inputs |
 | button | `--n-button` | Button chrome |
 | widget | `--n-widget` | Checkbox/radio/switch |
 | card | `--n-card` | n-card |

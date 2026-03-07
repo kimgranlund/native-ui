@@ -123,7 +123,7 @@
     </style>
   </head>
   <body>
-    <native-app-spa><main>
+    <native-dashboard-spa><main>
 
     <h1>Clippable</h1>
     <p class="demo-desc">
@@ -326,7 +326,7 @@ list.addEventListener('native:clip-paste', (e) =&gt; {
       </table>
     </div>
 
-    </main></native-app-spa>
+    </main></native-dashboard-spa>
 
     <!-- Script 1: Register all traits BEFORE any component define() -->
     <script type="module">
@@ -336,7 +336,7 @@ list.addEventListener('native:clip-paste', (e) =&gt; {
 
     <!-- Script 2: Import components (runs after traits are registered) -->
     <script type="module">
-      import '../nav/native-app.ts';
+      import '../nav/native-dashboard.ts';
       import '../components/button/button.ts';
       import '../components/controller/controller.ts';
       import '../icons/icon.ts';

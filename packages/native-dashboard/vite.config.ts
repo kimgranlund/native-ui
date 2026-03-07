@@ -10,7 +10,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es'],
-      fileName: 'native-app',
+      fileName: 'native-dashboard',
     },
     rollupOptions: {
       external: [/^@nonoun\/native-ui/],

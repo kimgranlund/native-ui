@@ -28,7 +28,7 @@ When using extension packages, **load CSS in this order** — foundation first, 
 @import '@nonoun/native-ui/css/components';
 
 /* 3. Extension packages (any order among themselves) */
-@import '@nonoun/native-app/css';        /* sidebar layout */
+@import '@nonoun/native-dashboard/css';        /* sidebar layout */
 @import '@nonoun/native-chat/css';       /* chat components */
 @import '@nonoun/native-codemirror/css'; /* CodeMirror integration */
 
@@ -60,7 +60,7 @@ import '@nonoun/native-chat/register';  // extension packages
 | `@nonoun/native-ui/css/foundation` | Colors, tokens, themes, base, primitives only |
 | `@nonoun/native-ui/css/components` | Component styles only (requires foundation loaded first) |
 | `@nonoun/native-chat/css` | Chat component styles |
-| `@nonoun/native-app/css` | App shell + sidebar styles |
+| `@nonoun/native-dashboard/css` | App shell + sidebar styles |
 
 ### Key Rules
 

@@ -76,7 +76,7 @@
     </style>
   </head>
   <body>
-    <native-app-spa><main>
+    <native-dashboard-spa><main>
     <h1>A2UI Protocol</h1>
     <p class="demo-desc">
       Google A2UI (Agent-to-UI) protocol compatibility layer. Bidirectional conversion between A2UI flat adjacency lists and native-ui component trees.
@@ -228,9 +228,9 @@
       <div class="log" id="emit-output" style="max-height: 16rem; white-space: pre-wrap; word-break: break-all;">Click an emit button to convert a Planner result to A2UI format...</div>
     </n-panel>
 
-    </main></native-app-spa>
+    </main></native-dashboard-spa>
     <script type="module">
-      import '../../../src/nav/native-app.ts';
+      import '../../../src/nav/native-dashboard.ts';
       import '../../../src/components/button/button.ts';
       import '../../../src/components/input/input.ts';
       import '../../../src/components/checkbox/checkbox.ts';
@@ -263,8 +263,8 @@
       const emitOutput = document.getElementById('emit-output');
 
       // WHY: NApp.setup() is async — wait for the chat panel to exist.
-      const layout = document.querySelector('native-app-spa');
-      await customElements.whenDefined('native-app-spa');
+      const layout = document.querySelector('native-dashboard-spa');
+      await customElements.whenDefined('native-dashboard-spa');
       const chatPanel = await Promise.race([
         new Promise(resolve => {
           const check = () => {

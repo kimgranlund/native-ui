@@ -78,7 +78,7 @@
     </style>
   </head>
   <body>
-    <native-app-spa><main>
+    <native-dashboard-spa><main>
     <h1>Changelog</h1>
     <p class="demo-desc">
       Version history for <code>@nonoun/native-ui</code>. Each release lists new features, updates, and breaking changes with links to relevant demo pages.
@@ -485,7 +485,7 @@
               <ul>
                 <li><a href="/src/containers/header/header.html"><code>&lt;n-header&gt;</code></a> — Explicit <code>grid-column</code> placement on leading/trailing slots</li>
                 <li><code>PresentController</code> — Autofocus prevention: saves and restores <code>document.activeElement</code> around <code>dialog.showModal()</code></li>
-                <li>No-redundant-class-handles enforcement across core, native-app, native-chat, tree, calendar</li>
+                <li>No-redundant-class-handles enforcement across core, native-dashboard, native-chat, tree, calendar</li>
               </ul>
             </n-body>
           </n-card>
@@ -496,11 +496,11 @@
         <h3>Sub-Packages</h3>
         <div class="changelog-cards">
           <n-card>
-            <n-header><span slot="label">native-a2ui, native-app, native-chat</span></n-header>
+            <n-header><span slot="label">native-a2ui, native-dashboard, native-chat</span></n-header>
             <n-body>
               <ul>
                 <li><code>@nonoun/native-a2ui@0.1.5</code> — JSON-IN multi-line formatting, bidirectional COMPONENTS/UI pane editing, grouped preset dropdown</li>
-                <li><code>@nonoun/native-app@0.3.5</code> — Sidebar class-handle refactoring (tag-name selectors replace class selectors)</li>
+                <li><code>@nonoun/native-dashboard@0.3.5</code> — Sidebar class-handle refactoring (tag-name selectors replace class selectors)</li>
                 <li><code>@nonoun/native-chat@0.5.2</code> — CSS selector refactoring (class-based to <code>data-role</code>-based selectors)</li>
               </ul>
             </n-body>
@@ -736,9 +736,9 @@
       </div>
     </div>
 
-    </main></native-app-spa>
+    </main></native-dashboard-spa>
     <script type="module">
-      import './nav/native-app.ts';
+      import './nav/native-dashboard.ts';
       import './components/badge/badge.ts';
       import './containers/card/card.ts';
     </script>

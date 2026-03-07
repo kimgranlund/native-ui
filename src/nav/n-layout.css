@@ -1,6 +1,6 @@
-/* native-app — dev-only styles for sidebar chrome and command dialog.
-   Layout structure is handled by n-app-* components.
-   Injected into native-app's shadow root via ?inline import. */
+/* native-dashboard — dev-only styles for sidebar chrome and command dialog.
+   Layout structure is handled by n-dashboard-* components.
+   Injected into native-dashboard's shadow root via ?inline import. */
 
 /* ── Command Dialog ── */
 

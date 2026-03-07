@@ -13,7 +13,7 @@ npm install @nonoun/native-ui
 Optional extension packages:
 
 ```bash
-npm install @nonoun/native-app         # sidebar layout + navigation
+npm install @nonoun/native-dashboard         # sidebar layout + navigation
 npm install @nonoun/native-design      # design token inspector
 npm install @nonoun/native-chat        # chat panel
 npm install @nonoun/native-codemirror  # CodeMirror 6 integration
@@ -77,7 +77,7 @@ Foundation must come before components. When using extension packages, maintain 
 ```css
 @import '@nonoun/native-ui/css/foundation';   /* 1. colors, tokens, themes, base */
 @import '@nonoun/native-ui/css/components';    /* 2. component styles */
-@import '@nonoun/native-app/css';              /* 3. app shell (optional) */
+@import '@nonoun/native-dashboard/css';              /* 3. app shell (optional) */
 @import '@nonoun/native-chat/css';             /* 4. chat panel (optional) */
 @import '@nonoun/native-design/css';           /* 5. token inspector (optional) */
 @import './page.css';                          /* 6. page overrides */
@@ -114,7 +114,7 @@ When using extension packages, add their registrations:
 ```ts
 // src/scripts/setup.ts
 import '@nonoun/native-ui/register';
-import '@nonoun/native-app';
+import '@nonoun/native-dashboard';
 import '@nonoun/native-chat/register';
 import { registerAllTraits } from '@nonoun/native-ui';
 
@@ -222,7 +222,7 @@ Astro renders boolean attributes as present/absent. Use conditional expressions:
 
 ---
 
-## 7. Sidebar Layout (with `@nonoun/native-app`)
+## 7. Sidebar Layout (with `@nonoun/native-dashboard`)
 
 Full sidebar layout with navigation, breadcrumb, and collapsible aside.
 
@@ -255,7 +255,7 @@ const navGroups = [
 ---
 <BaseLayout title={title}>
   <style is:global>
-    @import '@nonoun/native-app/css';
+    @import '@nonoun/native-dashboard/css';
   </style>
 
   <n-sidebar id="layout-sidebar">
@@ -296,20 +296,20 @@ const navGroups = [
     </aside>
 
     <div>
-      <n-app-breadcrumb>
+      <n-dashboard-breadcrumb>
         <n-button variant="ghost" size="sm" slot="leading" id="sidebar-toggle">
           <n-icon name="sidebar-simple" size="md"></n-icon>
         </n-button>
         <n-breadcrumb>
           <n-breadcrumb-item current>{title}</n-breadcrumb-item>
         </n-breadcrumb>
-      </n-app-breadcrumb>
+      </n-dashboard-breadcrumb>
 
-      <n-app-canvas>
-        <n-app-panel>
+      <n-dashboard-canvas>
+        <n-dashboard-panel>
           <slot />
-        </n-app-panel>
-      </n-app-canvas>
+        </n-dashboard-panel>
+      </n-dashboard-canvas>
     </div>
   </n-sidebar>
 
@@ -363,15 +363,15 @@ document.addEventListener('astro:before-swap', ((e: any) => {
     const restore = swapFunctions.saveFocus();
 
     // Swap only the content panel (sidebar stays in DOM)
-    const currentPanel = currentSidebar.querySelector('n-app-panel:not([aside])');
-    const newPanel = newSidebar.querySelector('n-app-panel:not([aside])');
+    const currentPanel = currentSidebar.querySelector('n-dashboard-panel:not([aside])');
+    const newPanel = newSidebar.querySelector('n-dashboard-panel:not([aside])');
     if (currentPanel && newPanel) {
       currentPanel.replaceWith(document.adoptNode(newPanel));
     }
 
     // Swap breadcrumb text
-    const currentBreadcrumb = currentSidebar.querySelector('n-app-breadcrumb n-breadcrumb');
-    const newBreadcrumb = newSidebar.querySelector('n-app-breadcrumb n-breadcrumb');
+    const currentBreadcrumb = currentSidebar.querySelector('n-dashboard-breadcrumb n-breadcrumb');
+    const newBreadcrumb = newSidebar.querySelector('n-dashboard-breadcrumb n-breadcrumb');
     if (currentBreadcrumb && newBreadcrumb) {
       currentBreadcrumb.replaceWith(document.adoptNode(newBreadcrumb));
     }

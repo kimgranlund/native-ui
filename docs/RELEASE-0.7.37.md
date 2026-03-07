@@ -7,7 +7,7 @@
 |---------|---------|---------|
 | `@nonoun/native-ui` | 0.7.37 | CSS fixes, lifecycle hardening, sub-container alignment |
 | `@nonoun/native-a2ui` | 0.2.2 | Session layer, adapters, 4 demo pages, tests |
-| `@nonoun/native-app` | 0.3.17 | Sidebar nav fix |
+| `@nonoun/native-dashboard` | 0.3.17 | Sidebar nav fix |
 | `@nonoun/native-cdn` | 0.2.11 | Version bump |
 | `@nonoun/native-data-viz` | 0.2.0 | Renamed from native-chart |
 | `@nonoun/native-chat` | 0.5.23 | Version bump |
@@ -189,7 +189,7 @@ A full end-to-end demo at `packages/native-a2ui/src/a2a-tictactoe.html` showcasi
 - **Leak prevention:** Document-level listeners (`pointermove`, `pointerup`) are removed *before* dispatching `native:drop`, preventing leaks when event handlers navigate away.
 
 ### Sidebar Nav (`sidebar-nav-element.ts`)
-- Minor lifecycle fix for sidebar navigation in `@nonoun/native-app`.
+- Minor lifecycle fix for sidebar navigation in `@nonoun/native-dashboard`.
 
 ---
 

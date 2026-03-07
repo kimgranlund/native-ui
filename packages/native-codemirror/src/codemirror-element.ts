@@ -369,7 +369,7 @@ export class NCodemirror extends NativeElement {
     this.#view = new EditorView({
       state,
       parent: this,
-      // WHY: When the editor parent is slotted inside a shadow host (e.g. native-app),
+      // WHY: When the editor parent is slotted inside a shadow host (e.g. native-dashboard),
       // CM6's getRoot() follows assignedSlot → shadow root, then mounts its StyleModule
       // into the shadow root's adoptedStyleSheets. But the editor DOM stays in the light
       // DOM, so those styles don't apply. Force document root for correct style mounting.

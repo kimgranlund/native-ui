@@ -1,8 +1,8 @@
 /* Site build overrides — fix flash-prevention for static deployment.
-   In dev, native-app-spa sets [data-ready] after building the shell.
+   In dev, native-dashboard-spa sets [data-ready] after building the shell.
    In production, if setup fails, content stays hidden forever.
    This ensures content is always visible in the static site. */
 
-native-app-spa:not([data-ready]) > * {
+native-dashboard-spa:not([data-ready]) > * {
   visibility: visible !important;
 }

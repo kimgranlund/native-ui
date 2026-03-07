@@ -105,27 +105,27 @@ When two packages both declare rules for the same property on the same element, 
 | Component base styles | Component CSS | `native-ui` |
 | Token definitions | Foundation CSS | `native-ui` |
 | Attribute selectors (variant, size) | Component CSS | `native-ui` |
-| App-level sidebar layout | App layout CSS | `native-app` |
+| App-level sidebar layout | App layout CSS | `native-dashboard` |
 | Page-specific overrides | Page styles | Consumer |
 
 **Anti-pattern: competing declarations**
 
 ```css
 /* native-ui/n-panel.css */
-:where(n-app-panel) { padding: var(--n-space); }
+:where(n-dashboard-panel) { padding: var(--n-space); }
 
-/* native-app/app-panel.css — BAD: redeclares the same property */
-:where(n-app-panel) { padding: 0; }
+/* native-dashboard/app-panel.css — BAD: redeclares the same property */
+:where(n-dashboard-panel) { padding: 0; }
 ```
 
 **Correct approach:** The component owns its default padding. The app-level package extends with new concerns (grid placement, collapse behavior) but does not redeclare what the component already handles. If the default needs to change, it changes at the source.
 
 ```css
 /* native-ui/n-panel.css — owns padding */
-:where(n-app-panel) { padding: var(--n-space); }
+:where(n-dashboard-panel) { padding: var(--n-space); }
 
-/* native-app/app-panel.css — extends with layout concerns only */
-:where(n-app-panel)[aside] { grid-area: aside; }
+/* native-dashboard/app-panel.css — extends with layout concerns only */
+:where(n-dashboard-panel)[aside] { grid-area: aside; }
 ```
 
 **Practical test:** Search for any CSS property that appears in both `native-ui` and the consumer for the same selector. If found, one of them is wrong.
