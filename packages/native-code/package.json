@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-code",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Code editing components for @nonoun/native-ui — CodeMirror integration, markdown editor, live playground",
   "license": "MIT",
   "type": "module",

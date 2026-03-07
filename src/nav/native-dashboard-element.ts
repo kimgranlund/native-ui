@@ -2,14 +2,15 @@ import { NativeElement } from '../core/native-element.ts';
 import { ResizeController } from '../traits/resize-controller.ts';
 // WHY: Import source directly — the package entry resolves to dist/native-design.js
 // which pulls in dist/native-ui.js, creating dual-module conflicts in Vite dev.
-import '../../packages/native-design/src/index.ts';
-import '../../packages/native-chat/src/register.ts';
+// ~pkg/* aliases resolve to packages/*/src/ (see vite.config.ts).
+import '~pkg/native-design/index.ts';
+import '~pkg/native-ai/register.ts';
 import foundationCss from '../styles/n-index.css?inline';
 import componentsCss from '../styles/n-components.css?inline';
 import layoutDevCss from './n-layout.css?inline';
-import inspectorCss from '../../packages/native-design/src/design.css?inline';
-import chatCss from '../../packages/native-chat/src/chat.css?inline';
-import appCss from '../../packages/native-dashboard/src/app.css?inline';
+import inspectorCss from '~pkg/native-design/design.css?inline';
+import chatCss from '~pkg/native-ai/chat/chat.css?inline';
+import appCss from '~pkg/native-dashboard/app.css?inline';
 import sitemapData from './sitemap.json';
 
 // Import component registrations
@@ -34,7 +35,7 @@ import '../icons/phosphor/chat-dots.ts';
 import '../icons/phosphor/chat-dots-fill.ts';
 import '../icons/phosphor/sliders-horizontal.ts';
 import '../icons/phosphor/sliders-horizontal-fill.ts';
-import '../../packages/native-dashboard/src/index.ts';
+import '~pkg/native-dashboard/index.ts';
 import '../components/breadcrumb/breadcrumb.ts';
 import '../icons/phosphor/caret-up-down.ts';
 import '../icons/phosphor/plus.ts';

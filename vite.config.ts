@@ -22,6 +22,14 @@ export default defineConfig(({ command }) => ({
       '@nonoun/native-ai': resolve(__dirname, 'packages/native-ai/src/index.ts'),
       '@nonoun/native-data-viz/register': resolve(__dirname, 'packages/native-data-viz/src/register.ts'),
       '@nonoun/native-data-viz': resolve(__dirname, 'packages/native-data-viz/src/index.ts'),
+      // WHY: Short directory aliases for dev-only imports (CSS ?inline, source registration).
+      // Maps ~pkg/native-ai/foo → packages/native-ai/src/foo. Avoids ../../packages/ paths.
+      '~pkg/native-ai': resolve(__dirname, 'packages/native-ai/src'),
+      '~pkg/native-code': resolve(__dirname, 'packages/native-code/src'),
+      '~pkg/native-design': resolve(__dirname, 'packages/native-design/src'),
+      '~pkg/native-dashboard': resolve(__dirname, 'packages/native-dashboard/src'),
+      '~pkg/native-data-viz': resolve(__dirname, 'packages/native-data-viz/src'),
+      '~pkg/native-cdn': resolve(__dirname, 'packages/native-cdn/src'),
     } : {},
   },
   // WHY: srcdoc iframes (native-playground) have origin "null". ES module <script src>
