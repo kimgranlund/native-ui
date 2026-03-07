@@ -554,7 +554,7 @@ const UI_DIALOG: ComponentSchema = freezeSchema({
 // --- Container Components ---
 
 const UI_CARD: ComponentSchema = freezeSchema({
-  tag: 'n-card',
+  tag: 'n-container',
   category: 'container',
   description: 'Bounded surface container with optional header and footer slots.',
   attributes: [

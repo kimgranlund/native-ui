@@ -1,9 +1,9 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import '../card.ts';
+import '../article.ts';
 
 function create(attrs: Record<string, string> = {}): HTMLElement {
-  const el = document.createElement('n-card');
+  const el = document.createElement('n-container');
   for (const [k, v] of Object.entries(attrs)) {
     el.setAttribute(k, v);
   }
@@ -16,21 +16,21 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-describe('n-card', () => {
+describe('n-container', () => {
   it('is registered as a custom element', () => {
-    expect(customElements.get('n-card')).toBeDefined();
+    expect(customElements.get('n-container')).toBeDefined();
   });
 
   it('creates an instance via document.createElement', () => {
     const el = create();
     expect(el).toBeInstanceOf(HTMLElement);
-    expect(el.tagName.toLowerCase()).toBe('n-card');
+    expect(el.tagName.toLowerCase()).toBe('n-container');
   });
 
   it('renders slot content', () => {
     const el = create();
-    el.innerHTML = '<p>Card body</p>';
-    expect(el.querySelector('p')!.textContent).toBe('Card body');
+    el.innerHTML = '<p>Article body</p>';
+    expect(el.querySelector('p')!.textContent).toBe('Article body');
   });
 
   describe('interactive mode', () => {
@@ -55,7 +55,7 @@ describe('n-card', () => {
       // Spy on window.location assignment
       const locationSpy = vi.spyOn(window, 'location', 'get').mockReturnValue({
         ...window.location,
-        set href(val: string) {},
+        set href(_val: string) {},
         get href() { return ''; },
       } as Location);
 
@@ -98,16 +98,14 @@ describe('n-card', () => {
 
   describe('non-interactive mode', () => {
     it('does not respond to click', () => {
-      // Non-interactive card with href should do nothing (href is ignored without interactive)
       const el = create({ href: 'https://example.com' });
-      // Just verify no error is thrown
       el.click();
     });
   });
 
   describe('observed attributes', () => {
     it('observes interactive and href attributes', () => {
-      const Ctor = customElements.get('n-card') as any;
+      const Ctor = customElements.get('n-container') as any;
       expect(Ctor.observedAttributes).toContain('interactive');
       expect(Ctor.observedAttributes).toContain('href');
     });
@@ -118,7 +116,6 @@ describe('n-card', () => {
       const el = create({ interactive: '' });
       document.body.removeChild(el);
 
-      // After removal, dispatching events should not throw
       el.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     });
   });

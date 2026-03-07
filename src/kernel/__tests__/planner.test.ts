@@ -967,13 +967,13 @@ describe('edge cases', () => {
 // ── New Quick Builder Tests ──
 
 describe('Planner.card() static builder', () => {
-  it('creates a n-card root with body content', () => {
+  it('creates a n-container root with body content', () => {
     const result = Planner.card({ body: 'Hello world' });
     const root = result.plan.root;
-    // Single non-structural element (n-card) is wrapped in a div
+    // Single non-structural element (n-container) is wrapped in a div
     expect(root.children).toHaveLength(1);
     const card = root.children![0]!;
-    expect(card.tag).toBe('n-card');
+    expect(card.tag).toBe('n-container');
     // Body is a <p> child
     const body = card.children!.find((c) => c.tag === 'p');
     expect(body).toBeDefined();

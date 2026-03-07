@@ -1,14 +1,18 @@
 @layer ui {
 
   /* ══════════════════════════════════════════════════════════════════
-     <article> — Unified surface container (card + panel)
+     <article> / <n-container> — Unified surface container (card + panel)
+     <article> is CSS-only. <n-container> is the custom element version
+     (supports traits, interactive, href).
      Default = card elevation, no padding, no gap
      [data-kind="panel"] = panel elevation, 4× padding, 2× gap
      ══════════════════════════════════════════════════════════════════ */
 
+  :where(n-container):not(:defined) { visibility: hidden; }
+
   /* ── Base (card mode) ── */
 
-  :where(article) {
+  :where(article, n-container) {
     --n-ground: var(--n-card);
     --n-ground-hover: var(--n-card-hover);
 
@@ -43,7 +47,7 @@
 
   /* ── Panel mode ── */
 
-  :where(article[data-kind="panel"]) {
+  :where(article[data-kind="panel"], n-container[data-kind="panel"]) {
     --n-ground: var(--n-panel);
     gap: calc(var(--n-space) * 2);
     padding: calc(var(--n-space) * 4);
@@ -55,13 +59,13 @@
   /* WHY: Articles default to flex-grow for panel contexts. Inline mode
      opts out — articles size to content (feed, transcript, grid). */
 
-  :where(article)[inline] {
+  :where(article, n-container)[inline] {
     flex: 0 0 auto;
   }
 
   /* ── Slot-based children (card mode) ── */
 
-  :where(article) > :where([slot="header"]) {
+  :where(article, n-container) > :where([slot="header"]) {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -72,13 +76,13 @@
     color: var(--n-ink-strong);
   }
 
-  :where(article) > :where([slot="media"]) {
+  :where(article, n-container) > :where([slot="media"]) {
     display: block;
     width: 100%;
     object-fit: cover;
   }
 
-  :where(article) > :where([slot="footer"]) {
+  :where(article, n-container) > :where([slot="footer"]) {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -92,23 +96,23 @@
      between all children. [dividers] on a header/footer adds its own border.
      No borders by default — compact cards (stat cards) stay clean. */
 
-  :where(article)[dividers] > :where(:not(:first-child)) {
+  :where(article, n-container)[dividers] > :where(:not(:first-child)) {
     border-top: 1px solid var(--n-border-muted);
   }
 
   /* ── Named padding presets ── */
 
-  :where(article)[padding="none"]    { padding: 0; }
-  :where(article)[padding="tight"]   { padding: calc(var(--n-space) * 2); }
-  :where(article)[padding="regular"] { padding: calc(var(--n-space) * 4); }
-  :where(article)[padding="relaxed"] { padding: calc(var(--n-space) * 6); }
+  :where(article, n-container)[padding="none"]    { padding: 0; }
+  :where(article, n-container)[padding="tight"]   { padding: calc(var(--n-space) * 2); }
+  :where(article, n-container)[padding="regular"] { padding: calc(var(--n-space) * 4); }
+  :where(article, n-container)[padding="relaxed"] { padding: calc(var(--n-space) * 6); }
 
   /* ── Sub-container integration ── */
   /* WHY: Semantic HTML tags (<header>, <section>, <footer>) work as
      direct children of article. Structured mode activates when <header>
      or <footer> is present — overflow delegates to <section>. */
 
-  :where(article):has(> header, > footer) {
+  :where(article, n-container):has(> header, > footer) {
     --n-card-content-padding-block: calc(var(--n-space) * 4);
     --n-card-content-padding-inline: calc(var(--n-space) * 4);
     --n-card-content-gap: calc(var(--n-space) * 4);
@@ -116,7 +120,7 @@
     padding: 0;
   }
 
-  :where(article):has(> header, > footer) > :where(section) {
+  :where(article, n-container):has(> header, > footer) > :where(section) {
     flex: 1 1 0%;
     overflow-y: auto;
     scrollbar-width: none;
@@ -127,7 +131,7 @@
     flex-direction: column;
   }
 
-  :where(article) > :where(header) {
+  :where(article, n-container) > :where(header) {
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
@@ -142,21 +146,21 @@
   }
 
   /* Adaptive grid on header — nav (leading) + aside (trailing) */
-  :where(article) > :where(header):has(> nav):has(> aside) {
+  :where(article, n-container) > :where(header):has(> nav):has(> aside) {
     grid-template-columns: auto 1fr minmax(0, auto);
   }
-  :where(article) > :where(header):has(> nav):not(:has(> aside)) {
+  :where(article, n-container) > :where(header):has(> nav):not(:has(> aside)) {
     grid-template-columns: auto 1fr;
   }
-  :where(article) > :where(header):not(:has(> nav)):has(> aside) {
+  :where(article, n-container) > :where(header):not(:has(> nav)):has(> aside) {
     grid-template-columns: 1fr minmax(0, auto);
   }
-  :where(article) > :where(header) > :where(nav) {
+  :where(article, n-container) > :where(header) > :where(nav) {
     display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
   }
-  :where(article) > :where(header) > :where(aside) {
+  :where(article, n-container) > :where(header) > :where(aside) {
     grid-column: -1;
     display: flex;
     align-items: center;
@@ -165,7 +169,7 @@
     overflow: hidden;
   }
 
-  :where(article) > :where(footer) {
+  :where(article, n-container) > :where(footer) {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -178,7 +182,7 @@
   }
 
   /* Panel-mode section defaults — fixed padding/gap (no cascade vars) */
-  :where(article[data-kind="panel"]) > :where(section) {
+  :where(article[data-kind="panel"], n-container[data-kind="panel"]) > :where(section) {
     display: flex;
     flex-direction: column;
     gap: calc(var(--n-space) * 4);
@@ -189,18 +193,18 @@
 
   /* ── Interactive ── */
 
-  :where(article)[interactive] {
+  :where(article, n-container)[interactive] {
     cursor: pointer;
   }
 
-  :where(article)[interactive]:hover,
-  :where(article)[interactive][force-hover] {
+  :where(article, n-container)[interactive]:hover,
+  :where(article, n-container)[interactive][force-hover] {
     background: var(--n-ground-hover);
     border-color: var(--n-border-hover);
   }
 
-  :where(article)[interactive]:focus-visible,
-  :where(article)[interactive][force-focus-visible] {
+  :where(article, n-container)[interactive]:focus-visible,
+  :where(article, n-container)[interactive][force-focus-visible] {
     outline: 2px solid var(--n-focus-ring);
     outline-offset: 2px;
   }
@@ -249,28 +253,28 @@
    ══════════════════════════════════════════════════════════════════ */
 
 /* ── Bordered ── */
-:where(article)[bordered] {
+:where(article, n-container)[bordered] {
   border: 1px solid var(--n-border-muted);
 }
 
 /* ── Semantic sub-container attributes ── */
 
 /* Dividers — child-level opt-in */
-:where(article) > [dividers]:where(header) {
+:where(article, n-container) > [dividers]:where(header) {
   border-bottom: 1px solid var(--n-border-muted);
 }
-:where(article) > [dividers]:where(footer) {
+:where(article, n-container) > [dividers]:where(footer) {
   border-top: 1px solid var(--n-border-muted);
 }
 
 /* Sticky header/footer */
-:where(article) > [sticky]:where(header) {
+:where(article, n-container) > [sticky]:where(header) {
   position: sticky;
   top: 0;
   z-index: 1;
   background: inherit;
 }
-:where(article) > [sticky]:where(footer) {
+:where(article, n-container) > [sticky]:where(footer) {
   position: sticky;
   bottom: 0;
   z-index: 1;
@@ -278,12 +282,12 @@
 }
 
 /* Footer justify */
-:where(article) > [justify="start"]:where(footer)  { justify-content: flex-start; }
-:where(article) > [justify="center"]:where(footer) { justify-content: center; }
-:where(article) > [justify="spread"]:where(footer) { justify-content: space-between; }
+:where(article, n-container) > [justify="start"]:where(footer)  { justify-content: flex-start; }
+:where(article, n-container) > [justify="center"]:where(footer) { justify-content: center; }
+:where(article, n-container) > [justify="spread"]:where(footer) { justify-content: space-between; }
 
 /* Truncate — header label column */
-:where(article) > [truncate]:where(header) > :where(:not(nav):not(aside)) {
+:where(article, n-container) > [truncate]:where(header) > :where(:not(nav):not(aside)) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -291,21 +295,21 @@
 
 /* ── Panel: scrollbar / scrollable / fade ── */
 
-:where(article[data-kind="panel"])[show-scrollbar] {
+:where(article[data-kind="panel"], n-container[data-kind="panel"])[show-scrollbar] {
   scrollbar-width: thin;
 }
 
-[scrollable]:where(article[data-kind="panel"]) {
+[scrollable]:where(article[data-kind="panel"], n-container[data-kind="panel"]) {
   overflow-y: auto;
 }
 
-[fade]:where(article[data-kind="panel"]) {
+[fade]:where(article[data-kind="panel"], n-container[data-kind="panel"]) {
   --n-fade-top: calc((var(--n-size) + var(--n-space) * 4) * 1.25);
   --n-fade-bottom: calc((var(--n-size) + var(--n-space) * 4) * 1.25);
 }
 
 /* Fade masks — header/footer present → mask the section */
-[fade]:where(article[data-kind="panel"]):has(> header) > :where(section) {
+[fade]:where(article[data-kind="panel"], n-container[data-kind="panel"]):has(> header) > :where(section) {
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
@@ -314,7 +318,7 @@
   );
 }
 
-[fade]:where(article[data-kind="panel"]):has(> footer) > :where(section) {
+[fade]:where(article[data-kind="panel"], n-container[data-kind="panel"]):has(> footer) > :where(section) {
   mask-image: linear-gradient(
     to bottom,
     black 0,
@@ -323,7 +327,7 @@
   );
 }
 
-[fade]:where(article[data-kind="panel"]):has(> header):has(> footer) > :where(section) {
+[fade]:where(article[data-kind="panel"], n-container[data-kind="panel"]):has(> header):has(> footer) > :where(section) {
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
@@ -364,7 +368,7 @@
   }
 }
 
-:where(article[data-kind="panel"])[aside][open] {
+:where(article[data-kind="panel"], n-container[data-kind="panel"])[aside][open] {
   overflow-y: auto;
   padding: calc(var(--n-space) * 4);
 }
@@ -378,81 +382,81 @@
    children (<header>, <section>, <footer>) read with fallbacks. */
 
 /* Padding cascade — article level (shorthand sets both axes) */
-:where(article)[padding="0"]  { --n-card-content-padding-block: 0; --n-card-content-padding-inline: 0; }
-:where(article)[padding="1"]  { --n-card-content-padding-block: calc(var(--n-space) * 1); --n-card-content-padding-inline: calc(var(--n-space) * 1); }
-:where(article)[padding="2"]  { --n-card-content-padding-block: calc(var(--n-space) * 2); --n-card-content-padding-inline: calc(var(--n-space) * 2); }
-:where(article)[padding="3"]  { --n-card-content-padding-block: calc(var(--n-space) * 3); --n-card-content-padding-inline: calc(var(--n-space) * 3); }
-:where(article)[padding="4"]  { --n-card-content-padding-block: calc(var(--n-space) * 4); --n-card-content-padding-inline: calc(var(--n-space) * 4); }
-:where(article)[padding="6"]  { --n-card-content-padding-block: calc(var(--n-space) * 6); --n-card-content-padding-inline: calc(var(--n-space) * 6); }
-:where(article)[padding="8"]  { --n-card-content-padding-block: calc(var(--n-space) * 8); --n-card-content-padding-inline: calc(var(--n-space) * 8); }
-:where(article)[padding="12"] { --n-card-content-padding-block: calc(var(--n-space) * 12); --n-card-content-padding-inline: calc(var(--n-space) * 12); }
+:where(article, n-container)[padding="0"]  { --n-card-content-padding-block: 0; --n-card-content-padding-inline: 0; }
+:where(article, n-container)[padding="1"]  { --n-card-content-padding-block: calc(var(--n-space) * 1); --n-card-content-padding-inline: calc(var(--n-space) * 1); }
+:where(article, n-container)[padding="2"]  { --n-card-content-padding-block: calc(var(--n-space) * 2); --n-card-content-padding-inline: calc(var(--n-space) * 2); }
+:where(article, n-container)[padding="3"]  { --n-card-content-padding-block: calc(var(--n-space) * 3); --n-card-content-padding-inline: calc(var(--n-space) * 3); }
+:where(article, n-container)[padding="4"]  { --n-card-content-padding-block: calc(var(--n-space) * 4); --n-card-content-padding-inline: calc(var(--n-space) * 4); }
+:where(article, n-container)[padding="6"]  { --n-card-content-padding-block: calc(var(--n-space) * 6); --n-card-content-padding-inline: calc(var(--n-space) * 6); }
+:where(article, n-container)[padding="8"]  { --n-card-content-padding-block: calc(var(--n-space) * 8); --n-card-content-padding-inline: calc(var(--n-space) * 8); }
+:where(article, n-container)[padding="12"] { --n-card-content-padding-block: calc(var(--n-space) * 12); --n-card-content-padding-inline: calc(var(--n-space) * 12); }
 
 /* Padding-block longhand — article level (overrides shorthand) */
-:where(article)[padding-block="0"]  { --n-card-content-padding-block: 0; }
-:where(article)[padding-block="1"]  { --n-card-content-padding-block: calc(var(--n-space) * 1); }
-:where(article)[padding-block="2"]  { --n-card-content-padding-block: calc(var(--n-space) * 2); }
-:where(article)[padding-block="3"]  { --n-card-content-padding-block: calc(var(--n-space) * 3); }
-:where(article)[padding-block="4"]  { --n-card-content-padding-block: calc(var(--n-space) * 4); }
-:where(article)[padding-block="6"]  { --n-card-content-padding-block: calc(var(--n-space) * 6); }
-:where(article)[padding-block="8"]  { --n-card-content-padding-block: calc(var(--n-space) * 8); }
-:where(article)[padding-block="12"] { --n-card-content-padding-block: calc(var(--n-space) * 12); }
+:where(article, n-container)[padding-block="0"]  { --n-card-content-padding-block: 0; }
+:where(article, n-container)[padding-block="1"]  { --n-card-content-padding-block: calc(var(--n-space) * 1); }
+:where(article, n-container)[padding-block="2"]  { --n-card-content-padding-block: calc(var(--n-space) * 2); }
+:where(article, n-container)[padding-block="3"]  { --n-card-content-padding-block: calc(var(--n-space) * 3); }
+:where(article, n-container)[padding-block="4"]  { --n-card-content-padding-block: calc(var(--n-space) * 4); }
+:where(article, n-container)[padding-block="6"]  { --n-card-content-padding-block: calc(var(--n-space) * 6); }
+:where(article, n-container)[padding-block="8"]  { --n-card-content-padding-block: calc(var(--n-space) * 8); }
+:where(article, n-container)[padding-block="12"] { --n-card-content-padding-block: calc(var(--n-space) * 12); }
 
 /* Padding-inline longhand — article level (overrides shorthand) */
-:where(article)[padding-inline="0"]  { --n-card-content-padding-inline: 0; }
-:where(article)[padding-inline="1"]  { --n-card-content-padding-inline: calc(var(--n-space) * 1); }
-:where(article)[padding-inline="2"]  { --n-card-content-padding-inline: calc(var(--n-space) * 2); }
-:where(article)[padding-inline="3"]  { --n-card-content-padding-inline: calc(var(--n-space) * 3); }
-:where(article)[padding-inline="4"]  { --n-card-content-padding-inline: calc(var(--n-space) * 4); }
-:where(article)[padding-inline="6"]  { --n-card-content-padding-inline: calc(var(--n-space) * 6); }
-:where(article)[padding-inline="8"]  { --n-card-content-padding-inline: calc(var(--n-space) * 8); }
-:where(article)[padding-inline="12"] { --n-card-content-padding-inline: calc(var(--n-space) * 12); }
+:where(article, n-container)[padding-inline="0"]  { --n-card-content-padding-inline: 0; }
+:where(article, n-container)[padding-inline="1"]  { --n-card-content-padding-inline: calc(var(--n-space) * 1); }
+:where(article, n-container)[padding-inline="2"]  { --n-card-content-padding-inline: calc(var(--n-space) * 2); }
+:where(article, n-container)[padding-inline="3"]  { --n-card-content-padding-inline: calc(var(--n-space) * 3); }
+:where(article, n-container)[padding-inline="4"]  { --n-card-content-padding-inline: calc(var(--n-space) * 4); }
+:where(article, n-container)[padding-inline="6"]  { --n-card-content-padding-inline: calc(var(--n-space) * 6); }
+:where(article, n-container)[padding-inline="8"]  { --n-card-content-padding-inline: calc(var(--n-space) * 8); }
+:where(article, n-container)[padding-inline="12"] { --n-card-content-padding-inline: calc(var(--n-space) * 12); }
 
 /* Gap cascade — article level */
-:where(article)[gap="0"]  { --n-card-content-gap: 0; }
-:where(article)[gap="1"]  { --n-card-content-gap: calc(var(--n-space) * 1); }
-:where(article)[gap="2"]  { --n-card-content-gap: calc(var(--n-space) * 2); }
-:where(article)[gap="3"]  { --n-card-content-gap: calc(var(--n-space) * 3); }
-:where(article)[gap="4"]  { --n-card-content-gap: calc(var(--n-space) * 4); }
-:where(article)[gap="6"]  { --n-card-content-gap: calc(var(--n-space) * 6); }
-:where(article)[gap="8"]  { --n-card-content-gap: calc(var(--n-space) * 8); }
-:where(article)[gap="12"] { --n-card-content-gap: calc(var(--n-space) * 12); }
+:where(article, n-container)[gap="0"]  { --n-card-content-gap: 0; }
+:where(article, n-container)[gap="1"]  { --n-card-content-gap: calc(var(--n-space) * 1); }
+:where(article, n-container)[gap="2"]  { --n-card-content-gap: calc(var(--n-space) * 2); }
+:where(article, n-container)[gap="3"]  { --n-card-content-gap: calc(var(--n-space) * 3); }
+:where(article, n-container)[gap="4"]  { --n-card-content-gap: calc(var(--n-space) * 4); }
+:where(article, n-container)[gap="6"]  { --n-card-content-gap: calc(var(--n-space) * 6); }
+:where(article, n-container)[gap="8"]  { --n-card-content-gap: calc(var(--n-space) * 8); }
+:where(article, n-container)[gap="12"] { --n-card-content-gap: calc(var(--n-space) * 12); }
 
 /* Padding shorthand — child level */
-:where(article) > [padding="0"]:where(header, section, footer)  { --n-card-content-padding-block: 0; --n-card-content-padding-inline: 0; }
-:where(article) > [padding="1"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 1); --n-card-content-padding-inline: calc(var(--n-space) * 1); }
-:where(article) > [padding="2"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 2); --n-card-content-padding-inline: calc(var(--n-space) * 2); }
-:where(article) > [padding="3"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 3); --n-card-content-padding-inline: calc(var(--n-space) * 3); }
-:where(article) > [padding="4"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 4); --n-card-content-padding-inline: calc(var(--n-space) * 4); }
-:where(article) > [padding="6"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 6); --n-card-content-padding-inline: calc(var(--n-space) * 6); }
-:where(article) > [padding="8"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 8); --n-card-content-padding-inline: calc(var(--n-space) * 8); }
-:where(article) > [padding="12"]:where(header, section, footer) { --n-card-content-padding-block: calc(var(--n-space) * 12); --n-card-content-padding-inline: calc(var(--n-space) * 12); }
+:where(article, n-container) > [padding="0"]:where(header, section, footer)  { --n-card-content-padding-block: 0; --n-card-content-padding-inline: 0; }
+:where(article, n-container) > [padding="1"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 1); --n-card-content-padding-inline: calc(var(--n-space) * 1); }
+:where(article, n-container) > [padding="2"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 2); --n-card-content-padding-inline: calc(var(--n-space) * 2); }
+:where(article, n-container) > [padding="3"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 3); --n-card-content-padding-inline: calc(var(--n-space) * 3); }
+:where(article, n-container) > [padding="4"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 4); --n-card-content-padding-inline: calc(var(--n-space) * 4); }
+:where(article, n-container) > [padding="6"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 6); --n-card-content-padding-inline: calc(var(--n-space) * 6); }
+:where(article, n-container) > [padding="8"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 8); --n-card-content-padding-inline: calc(var(--n-space) * 8); }
+:where(article, n-container) > [padding="12"]:where(header, section, footer) { --n-card-content-padding-block: calc(var(--n-space) * 12); --n-card-content-padding-inline: calc(var(--n-space) * 12); }
 
 /* Padding-block longhand — child level */
-:where(article) > [padding-block="0"]:where(header, section, footer)  { --n-card-content-padding-block: 0; }
-:where(article) > [padding-block="1"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 1); }
-:where(article) > [padding-block="2"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 2); }
-:where(article) > [padding-block="3"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 3); }
-:where(article) > [padding-block="4"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 4); }
-:where(article) > [padding-block="6"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 6); }
-:where(article) > [padding-block="8"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 8); }
-:where(article) > [padding-block="12"]:where(header, section, footer) { --n-card-content-padding-block: calc(var(--n-space) * 12); }
+:where(article, n-container) > [padding-block="0"]:where(header, section, footer)  { --n-card-content-padding-block: 0; }
+:where(article, n-container) > [padding-block="1"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 1); }
+:where(article, n-container) > [padding-block="2"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 2); }
+:where(article, n-container) > [padding-block="3"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 3); }
+:where(article, n-container) > [padding-block="4"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 4); }
+:where(article, n-container) > [padding-block="6"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 6); }
+:where(article, n-container) > [padding-block="8"]:where(header, section, footer)  { --n-card-content-padding-block: calc(var(--n-space) * 8); }
+:where(article, n-container) > [padding-block="12"]:where(header, section, footer) { --n-card-content-padding-block: calc(var(--n-space) * 12); }
 
 /* Padding-inline longhand — child level */
-:where(article) > [padding-inline="0"]:where(header, section, footer)  { --n-card-content-padding-inline: 0; }
-:where(article) > [padding-inline="1"]:where(header, section, footer)  { --n-card-content-padding-inline: calc(var(--n-space) * 1); }
-:where(article) > [padding-inline="2"]:where(header, section, footer)  { --n-card-content-padding-inline: calc(var(--n-space) * 2); }
-:where(article) > [padding-inline="3"]:where(header, section, footer)  { --n-card-content-padding-inline: calc(var(--n-space) * 3); }
-:where(article) > [padding-inline="4"]:where(header, section, footer)  { --n-card-content-padding-inline: calc(var(--n-space) * 4); }
-:where(article) > [padding-inline="6"]:where(header, section, footer)  { --n-card-content-padding-inline: calc(var(--n-space) * 6); }
-:where(article) > [padding-inline="8"]:where(header, section, footer)  { --n-card-content-padding-inline: calc(var(--n-space) * 8); }
-:where(article) > [padding-inline="12"]:where(header, section, footer) { --n-card-content-padding-inline: calc(var(--n-space) * 12); }
+:where(article, n-container) > [padding-inline="0"]:where(header, section, footer)  { --n-card-content-padding-inline: 0; }
+:where(article, n-container) > [padding-inline="1"]:where(header, section, footer)  { --n-card-content-padding-inline: calc(var(--n-space) * 1); }
+:where(article, n-container) > [padding-inline="2"]:where(header, section, footer)  { --n-card-content-padding-inline: calc(var(--n-space) * 2); }
+:where(article, n-container) > [padding-inline="3"]:where(header, section, footer)  { --n-card-content-padding-inline: calc(var(--n-space) * 3); }
+:where(article, n-container) > [padding-inline="4"]:where(header, section, footer)  { --n-card-content-padding-inline: calc(var(--n-space) * 4); }
+:where(article, n-container) > [padding-inline="6"]:where(header, section, footer)  { --n-card-content-padding-inline: calc(var(--n-space) * 6); }
+:where(article, n-container) > [padding-inline="8"]:where(header, section, footer)  { --n-card-content-padding-inline: calc(var(--n-space) * 8); }
+:where(article, n-container) > [padding-inline="12"]:where(header, section, footer) { --n-card-content-padding-inline: calc(var(--n-space) * 12); }
 
 /* Gap override — child level (section only) */
-:where(article) > [gap="0"]:where(section)  { --n-card-content-gap: 0; }
-:where(article) > [gap="1"]:where(section)  { --n-card-content-gap: calc(var(--n-space) * 1); }
-:where(article) > [gap="2"]:where(section)  { --n-card-content-gap: calc(var(--n-space) * 2); }
-:where(article) > [gap="3"]:where(section)  { --n-card-content-gap: calc(var(--n-space) * 3); }
-:where(article) > [gap="4"]:where(section)  { --n-card-content-gap: calc(var(--n-space) * 4); }
-:where(article) > [gap="6"]:where(section)  { --n-card-content-gap: calc(var(--n-space) * 6); }
-:where(article) > [gap="8"]:where(section)  { --n-card-content-gap: calc(var(--n-space) * 8); }
-:where(article) > [gap="12"]:where(section) { --n-card-content-gap: calc(var(--n-space) * 12); }
+:where(article, n-container) > [gap="0"]:where(section)  { --n-card-content-gap: 0; }
+:where(article, n-container) > [gap="1"]:where(section)  { --n-card-content-gap: calc(var(--n-space) * 1); }
+:where(article, n-container) > [gap="2"]:where(section)  { --n-card-content-gap: calc(var(--n-space) * 2); }
+:where(article, n-container) > [gap="3"]:where(section)  { --n-card-content-gap: calc(var(--n-space) * 3); }
+:where(article, n-container) > [gap="4"]:where(section)  { --n-card-content-gap: calc(var(--n-space) * 4); }
+:where(article, n-container) > [gap="6"]:where(section)  { --n-card-content-gap: calc(var(--n-space) * 6); }
+:where(article, n-container) > [gap="8"]:where(section)  { --n-card-content-gap: calc(var(--n-space) * 8); }
+:where(article, n-container) > [gap="12"]:where(section) { --n-card-content-gap: calc(var(--n-space) * 12); }

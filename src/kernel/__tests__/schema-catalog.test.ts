@@ -176,9 +176,9 @@ describe('getSchemasForCategory', () => {
 
   it('returns correct count for container category', () => {
     const container = getSchemasForCategory('container');
-    // card
+    // article
     expect(container.length).toBe(1);
-    expect(container[0]!.tag).toBe('n-card');
+    expect(container[0]!.tag).toBe('n-container');
   });
 
   it('returns empty array for unused categories', () => {
@@ -552,8 +552,8 @@ describe('n-option schema', () => {
   });
 });
 
-describe('n-card schema', () => {
-  const schema = getSchema('n-card')!;
+describe('n-container schema', () => {
+  const schema = getSchema('n-container')!;
 
   it('is container category', () => {
     expect(schema.category).toBe('container');

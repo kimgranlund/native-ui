@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════════
-   Layout Utilities — .stack, .grid
+   Layout Utilities — .stack, .inset, .grid
    CSS-only layout containers. No custom element registration.
    ══════════════════════════════════════════════════════════════════ */
 
@@ -13,6 +13,17 @@
     min-width: 0;
     flex-direction: column;
     gap: calc(var(--n-space) * 4);
+  }
+
+  /* ── Inset ── */
+
+  :where(.inset) {
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    flex-direction: column;
+    gap: calc(var(--n-space) * 2);
+    padding-inline-start: calc(var(--n-space-k) * var(--n-space));
   }
 
   /* ── Grid ── */

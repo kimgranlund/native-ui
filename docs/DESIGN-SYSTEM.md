@@ -416,7 +416,7 @@ Density controls `--n-space-k`: `[density="compact"]` = 2, default = 4, `[densit
 | panel | `--n-panel` | Toolbars, sidebars, filled inputs |
 | button | `--n-button` | Button chrome |
 | widget | `--n-widget` | Checkbox/radio/switch base |
-| card | `--n-card` | Cards |
+| card | `--n-card` | Article surfaces |
 
 ## Specificity
 

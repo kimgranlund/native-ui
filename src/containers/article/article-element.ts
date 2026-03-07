@@ -1,11 +1,12 @@
 import { NativeElement } from '../../core/native-element.ts';
 
 /**
- * Card surface container with optional click-to-navigate behavior.
- * @attr {boolean} interactive - Makes the card focusable and clickable
+ * Article surface container with optional click-to-navigate behavior.
+ * Component version of <article> — supports traits, interactive, href.
+ * @attr {boolean} interactive - Makes the article focusable and clickable
  * @attr {string} href - Navigation URL when interactive
  */
-export class NCard extends NativeElement {
+export class NContainer extends NativeElement {
   static observedAttributes = ['interactive', 'href'];
 
   setup(): void {

@@ -580,7 +580,7 @@
               <td colspan="9" class="sub" style="padding-left:calc(var(--n-space) * 8);">↳ only when [interactive] attribute is set</td>
             </tr>
             <tr>
-              <td>n-section <span class="tag tag-container">container</span></td>
+              <td>n-container <span class="tag tag-container">container</span></td>
               <td class="a">○</td><!-- hover: visible element -->
               <td class="n">–</td><!-- active: not focusable -->
               <td class="n">–</td><!-- focus -->
@@ -1074,19 +1074,14 @@
             <n-table-cell><code>"top"</code> / <code>"bottom"</code> / <code>"left"</code> / <code>"right"</code></n-table-cell>
           </n-table-row>
           <n-table-row>
-            <n-table-cell>n-section</n-table-cell>
-            <n-table-cell><code>collapsible</code></n-table-cell>
-            <n-table-cell>Boolean — enables collapse behavior + chevron</n-table-cell>
+            <n-table-cell>n-container</n-table-cell>
+            <n-table-cell><code>interactive</code></n-table-cell>
+            <n-table-cell>Boolean — enables hover/focus states + click/keyboard</n-table-cell>
           </n-table-row>
           <n-table-row>
             <n-table-cell></n-table-cell>
-            <n-table-cell><code>collapsed</code></n-table-cell>
-            <n-table-cell>Boolean — hides content, rotates chevron</n-table-cell>
-          </n-table-row>
-          <n-table-row>
-            <n-table-cell></n-table-cell>
-            <n-table-cell><code>divider</code></n-table-cell>
-            <n-table-cell>Boolean — adds top border separator</n-table-cell>
+            <n-table-cell><code>href</code></n-table-cell>
+            <n-table-cell>URL — navigates on click/Enter when interactive</n-table-cell>
           </n-table-row>
           <n-table-row>
             <n-table-cell>n-slideshow</n-table-cell>

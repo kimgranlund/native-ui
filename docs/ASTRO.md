@@ -177,7 +177,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout title="Home">
   <main>
-    <n-card>
+    <n-container>
       <header>
         <h2>Welcome</h2>
       </header>
@@ -185,7 +185,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <n-button variant="primary" intent="accent">Get Started</n-button>
         <n-input placeholder="Search..." name="query"></n-input>
       </section>
-    </n-card>
+    </n-container>
   </main>
 </BaseLayout>
 ```
@@ -507,14 +507,14 @@ Dialogs work with standard `showModal()` / `close()` API:
 
 ```astro
 <n-dialog id="my-dialog">
-  <n-card>
+  <n-container>
     <header><h3>Confirm</h3></header>
     <section><p>Are you sure?</p></section>
     <footer>
       <n-button id="cancel-btn">Cancel</n-button>
       <n-button variant="primary" intent="accent" id="confirm-btn">Confirm</n-button>
     </footer>
-  </n-card>
+  </n-container>
 </n-dialog>
 
 <script>
@@ -601,7 +601,7 @@ When using View Transitions, add `transition:animate="none"` to elements that sh
 
 ### CSS-only containers need no JS
 
-`n-stack`, `n-grid`, `n-divider`, `n-inset` are pure CSS -- they work in server-rendered HTML without any JS. For sub-containers, prefer semantic HTML (`<header>`, `<section>`, `<footer>`) inside `n-card`, `n-panel`, and `n-drawer` — they have full CSS parity with the older `n-header`/`n-body`/`n-footer` tags.
+`n-stack`, `n-grid`, `n-divider`, `n-inset` are pure CSS -- they work in server-rendered HTML without any JS. For sub-containers, prefer semantic HTML (`<header>`, `<section>`, `<footer>`) inside `n-container`, `n-panel`, and `n-drawer` — they have full CSS parity with the older `n-header`/`n-body`/`n-footer` tags.
 
 ### Events use `native:` prefix with colon
 

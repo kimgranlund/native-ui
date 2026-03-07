@@ -73,7 +73,7 @@
      (large sizes, margins, text-transform) don't bleed in.
      Uses the container's --n-font-* scale for sizing. */
 
-  :where(article, n-section) :where(h1, h2, h3) {
+  :where(article, n-container) :where(h1, h2, h3) {
     margin: 0;
     font-weight: var(--n-button-font-weight);
     line-height: var(--n-control-line-height-relaxed);
@@ -82,9 +82,9 @@
     color: var(--n-ink-strong);
   }
 
-  :where(article, n-section) :where(h1) { font-size: var(--n-font-xl); }
-  :where(article, n-section) :where(h2) { font-size: var(--n-font-lg); }
-  :where(article, n-section) :where(h3) { font-size: var(--n-font-md); }
+  :where(article, n-container) :where(h1) { font-size: var(--n-font-xl); }
+  :where(article, n-container) :where(h2) { font-size: var(--n-font-lg); }
+  :where(article, n-container) :where(h3) { font-size: var(--n-font-md); }
 
   /* ── Reduced Motion ── */
 

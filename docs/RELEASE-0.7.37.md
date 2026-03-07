@@ -84,7 +84,7 @@ A full end-to-end demo at `packages/native-a2ui/src/a2a-tictactoe.html` showcasi
 
 ### Features
 
-**Dual independent surfaces** — Each player (X and O) has its own `n-card` with an A2UI surface mount. Both boards render the same game state independently via `session.receive()`.
+**Dual independent surfaces** — Each player (X and O) has its own `n-container` with an A2UI surface mount. Both boards render the same game state independently via `session.receive()`.
 
 **Model selection** — Footer selects let you pick any combination:
 - X player: Human, Claude Haiku 4.5
@@ -137,7 +137,7 @@ A full end-to-end demo at `packages/native-a2ui/src/a2a-tictactoe.html` showcasi
 - **Removed:** `margin-inline: var(--n-popover-viewport-margin)` from `:where(n-select) > :where(n-listbox[popover])`.
 - **Why:** This caused the dropdown listbox to be inset by ~4px from the trigger button edge, creating a visible misalignment. The viewport margin is only needed for block direction (top/bottom clipping prevention), not inline.
 
-### `n-card` (`card.css`)
+### `n-container` (`article.css`)
 - **Changed:** `gap: calc(var(--n-space) * 0)` → `gap: 0`.
 - **Why:** Simplified; the multiplication was unnecessary.
 

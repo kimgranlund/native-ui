@@ -100,11 +100,7 @@ export const COMPONENT_MANIFEST: readonly ComponentDescriptor[] = Object.freeze(
   desc('n-table-header', 'components/table', 'display', false, ['native:sort']),
 
   // Containers
-  desc('n-card', 'components/card', 'container', false, []),
-  desc('n-section', 'containers/section', 'container', false, [
-    'native:expand',
-    'native:collapse',
-  ]),
+  desc('n-container', 'containers/article', 'container', false, []),
   desc('n-toolbar', 'components/toolbar', 'container', false, []),
 
   // Other

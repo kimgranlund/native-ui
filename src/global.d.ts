@@ -52,8 +52,7 @@ import type { NSlideshow } from './components/slideshow/slideshow-element.ts';
 import type { NSlide } from './components/slideshow/slide-element.ts';
 import type { NCalendar } from './components/calendar/calendar-element.ts';
 import type { NController } from './components/controller/controller-element.ts';
-import type { NCard } from './components/card/card-element.ts';
-import type { NSection } from './containers/section/section-element.ts';
+import type { NContainer } from './containers/article/article-element.ts';
 import type { NToolbar } from './components/toolbar/toolbar-element.ts';
 import type { NIcon } from './icons/icon-element.ts';
 
@@ -133,8 +132,7 @@ declare global {
     'n-controller': NController;
 
     // Containers
-    'n-card': NCard;
-    'n-section': NSection;
+    'n-container': NContainer;
     'n-toolbar': NToolbar;
     // Icons
     'n-icon': NIcon;

@@ -41,8 +41,8 @@ describe('COMPONENT_MANIFEST', () => {
 
   it('has the expected number of entries', () => {
     // 12 form + 6 display + 9 navigation + 5 overlay + 6 command +
-    // 6 table + 3 container + 3 other = 50
-    expect(COMPONENT_MANIFEST.length).toBe(50);
+    // 6 table + 2 container + 3 other = 49
+    expect(COMPONENT_MANIFEST.length).toBe(49);
   });
 
   it('every descriptor has all required fields', () => {
@@ -127,7 +127,7 @@ describe('getDescriptor', () => {
   });
 
   it('returns descriptor for container component', () => {
-    const d = getDescriptor('n-card');
+    const d = getDescriptor('n-container');
     expect(d).toBeDefined();
     expect(d!.category).toBe('container');
   });

@@ -210,7 +210,7 @@
         margin-bottom: 0.5rem;
       }
 
-      .kanban-card {
+      .kanban-container {
         padding: 0.5rem 0.625rem;
         background: var(--n-panel-neutral);
         border: 1px solid var(--n-border-muted-neutral);
@@ -221,7 +221,7 @@
         transition: opacity 150ms ease, box-shadow 150ms ease;
       }
 
-      .kanban-card[dragging] {
+      .kanban-container[dragging] {
         opacity: 0.3;
       }
 
@@ -516,40 +516,40 @@
       <p class="demo-hint">
         <code>zoneSelector</code> enables dragging items across zone containers. Each column is a zone — items can be dragged between columns. The <code>[drag-zone-active]</code> attribute highlights the target zone during drag.
       </p>
-      <n-controller traits="draggable" data-trait-draggable-selector=".kanban-card" data-trait-draggable-zone-selector=".kanban-column" data-trait-draggable-axis="vertical" data-trait-draggable-mode="slot">
+      <n-controller traits="draggable" data-trait-draggable-selector=".kanban-container" data-trait-draggable-zone-selector=".kanban-column" data-trait-draggable-axis="vertical" data-trait-draggable-mode="slot">
         <div id="kanban-board" class="kanban-board">
           <div class="kanban-column">
             <div class="kanban-column-title">To Do</div>
-            <div class="kanban-card">Design mockups</div>
-            <div class="kanban-card">Write component API</div>
-            <div class="kanban-card">Set up CI pipeline</div>
+            <div class="kanban-container">Design mockups</div>
+            <div class="kanban-container">Write component API</div>
+            <div class="kanban-container">Set up CI pipeline</div>
           </div>
           <div class="kanban-column">
             <div class="kanban-column-title">In Progress</div>
-            <div class="kanban-card">Implement CSS</div>
-            <div class="kanban-card">Add keyboard support</div>
+            <div class="kanban-container">Implement CSS</div>
+            <div class="kanban-container">Add keyboard support</div>
           </div>
           <div class="kanban-column">
             <div class="kanban-column-title">Done</div>
-            <div class="kanban-card">Project setup</div>
+            <div class="kanban-container">Project setup</div>
           </div>
         </div>
       </n-controller>
       <div id="kanban-log" class="output"></div>
       <pre class="demo-code"><code>&lt;n-controller traits="draggable"
-  data-trait-draggable-selector=".kanban-card"
+  data-trait-draggable-selector=".kanban-container"
   data-trait-draggable-zone-selector=".kanban-column"
   data-trait-draggable-axis="vertical"
   data-trait-draggable-mode="slot"&gt;
   &lt;div class="kanban-board"&gt;
     &lt;div class="kanban-column"&gt;
       &lt;div class="kanban-column-title"&gt;To Do&lt;/div&gt;
-      &lt;div class="kanban-card"&gt;Design mockups&lt;/div&gt;
-      &lt;div class="kanban-card"&gt;Write component API&lt;/div&gt;
+      &lt;div class="kanban-container"&gt;Design mockups&lt;/div&gt;
+      &lt;div class="kanban-container"&gt;Write component API&lt;/div&gt;
     &lt;/div&gt;
     &lt;div class="kanban-column"&gt;
       &lt;div class="kanban-column-title"&gt;In Progress&lt;/div&gt;
-      &lt;div class="kanban-card"&gt;Implement CSS&lt;/div&gt;
+      &lt;div class="kanban-container"&gt;Implement CSS&lt;/div&gt;
     &lt;/div&gt;
     &lt;div class="kanban-column"&gt;
       &lt;div class="kanban-column-title"&gt;Done&lt;/div&gt;

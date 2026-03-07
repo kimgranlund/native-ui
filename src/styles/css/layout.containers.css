@@ -6,8 +6,6 @@
 
 /* Container components */
 @import '../../containers/article/article.css';
-@import '../../containers/panel/panel.css';
-@import '../../containers/section/section.css';
 
 @layer ui {
 

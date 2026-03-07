@@ -1,4 +1,4 @@
-import { define, NTextarea, NButton, NIcon, NToolbar, NDialog, NCard, NListbox, NOption, NOptionGroup, NOptionGroupHeader, NSelect, registerIcon } from '@nonoun/native-ui';
+import { define, NTextarea, NButton, NIcon, NToolbar, NDialog, NContainer, NListbox, NOption, NOptionGroup, NOptionGroupHeader, NSelect, registerIcon } from '@nonoun/native-ui';
 import { NChatInput } from './chat-input-element.ts';
 import { NChatPanel } from './chat-panel-element.ts';
 import { NChatFeed } from './feed/chat-feed-element.ts';
@@ -30,7 +30,7 @@ define('n-button', NButton);
 define('n-icon', NIcon);
 define('n-toolbar', NToolbar);
 define('n-dialog', NDialog);
-define('n-card', NCard);
+define('n-container', NContainer);
 define('n-listbox', NListbox);
 define('n-option', NOption);
 define('n-option-group', NOptionGroup);

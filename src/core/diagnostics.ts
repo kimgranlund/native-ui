@@ -23,7 +23,7 @@ const CORE_TAGS = [
   'n-pagination', 'n-pagination-dots',
   'n-drawer', 'n-tree', 'n-tree-item',
   'n-slideshow', 'n-slide', 'n-controller', 'n-gripper',
-  'n-card', 'n-section', 'n-toolbar', 'n-icon',
+  'n-container', 'n-toolbar', 'n-icon',
 ];
 
 export interface DiagnosticsReport {

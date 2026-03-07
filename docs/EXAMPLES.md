@@ -74,10 +74,10 @@ Button trigger opens a popover listbox. Arrow keys navigate. Selection dispatche
 
 ---
 
-## 4. Card with header, body, and footer
+## 4. Article with header, body, and footer
 
 ```html
-<n-card>
+<n-container>
   <header>
     <n-icon name="user"></n-icon>
     <span>User Profile</span>
@@ -86,21 +86,21 @@ Button trigger opens a popover listbox. Arrow keys navigate. Selection dispatche
     </n-button>
   </header>
   <section>
-    <p>Card content goes here.</p>
+    <p>Article content goes here.</p>
   </section>
   <footer>
     <n-button variant="ghost">Cancel</n-button>
     <n-button variant="primary" intent="accent">Save</n-button>
   </footer>
-</n-card>
+</n-container>
 ```
 
-Card with adaptive header (auto-detects children via `:has()`), scrollable body, right-aligned footer. Context borders added automatically.
+Article with adaptive header (auto-detects children via `:has()`), scrollable body, right-aligned footer. Context borders added automatically.
 
-- `n-card`: `size`, `interactive`, `dividers`, `padding` (`none`/`tight`/`regular`/`relaxed`)
+- `n-container`: `size`, `interactive`, `dividers`, `padding` (`none`/`tight`/`regular`/`relaxed`)
 - `<header>`: auto-adapts grid columns; `align` (`center`/`end`), `sticky`, `dividers`
 - `<section>`: scrollable body, `show-scrollbar`; `<footer>`: `justify` (`start`/`center`/`spread`), `sticky`
-- With `<section>` present, card delegates overflow to it (header/footer stay fixed)
+- With `<section>` present, article delegates overflow to it (header/footer stay fixed)
 
 ---
 
@@ -110,14 +110,14 @@ Card with adaptive header (auto-detects children via `:has()`), scrollable body,
 <n-button id="open-btn">Open Dialog</n-button>
 
 <n-dialog id="my-dialog">
-  <n-card>
+  <n-container>
     <header><span>Confirm Action</span></header>
     <section><p>Are you sure you want to continue?</p></section>
     <footer>
       <n-button id="cancel-btn">Cancel</n-button>
       <n-button id="confirm-btn" intent="accent">Confirm</n-button>
     </footer>
-  </n-card>
+  </n-container>
 </n-dialog>
 
 <script>
@@ -131,7 +131,7 @@ Card with adaptive header (auto-detects children via `:has()`), scrollable body,
 </script>
 ```
 
-Centered modal. Closes on backdrop click, Escape, or `close()`. Content wraps in `n-card`.
+Centered modal. Closes on backdrop click, Escape, or `close()`. Content wraps in `n-container`.
 
 - API: `showModal()`, `close()`
 - `no-close-on-escape`, `no-close-on-backdrop` -- close prevention
@@ -406,7 +406,7 @@ All colors are computed from 9 environment parameters using OKLCH (`oklch(L C H)
 | `--n-control` | Empty form inputs |
 | `--n-panel` | Toolbars, sidebars |
 | `--n-button` | Button chrome |
-| `--n-card` | Card surfaces |
+| `--n-card` | Article surfaces |
 | `--n-modal` | Dialog surfaces |
 
 **Semantic tokens** (two-tier resolution):

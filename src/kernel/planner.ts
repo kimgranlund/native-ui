@@ -628,7 +628,7 @@ export class Planner {
 
   /**
    * Build a content card with optional heading, body, media, and footer actions.
-   * Produces a `<n-card>` with slotted children.
+   * Produces a `<n-container>` with slotted children.
    */
   static card(
     card: CardIntent,
@@ -694,7 +694,7 @@ export class Planner {
       type: 'display',
       elements: [
         {
-          component: 'n-card',
+          component: 'n-container',
           attributes: Object.keys(cardAttrs).length > 0 ? cardAttrs : undefined,
           children,
         },

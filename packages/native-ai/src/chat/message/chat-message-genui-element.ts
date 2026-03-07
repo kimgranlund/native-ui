@@ -28,7 +28,7 @@ const FORBIDDEN_TAGS = new Set([
  *
  * Set the schema via property:
  * ```js
- * el.schema = { tag: 'n-card', children: [{ tag: 'p', text: 'Hello' }] };
+ * el.schema = { tag: 'n-container', children: [{ tag: 'p', text: 'Hello' }] };
  * ```
  *
  * @attr {string} schema-type - `a2ui` | `mcpui`
@@ -145,7 +145,7 @@ export class NChatMessageGenUI extends NativeElement {
   #renderLightboxPreview(schema: GenUINode): void {
     if (!this.#containerEl) return;
 
-    const preview = document.createElement('n-card');
+    const preview = document.createElement('n-container');
     preview.dataset.role = 'preview';
 
     const label = document.createElement('span');

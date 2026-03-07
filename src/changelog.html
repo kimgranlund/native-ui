@@ -90,17 +90,17 @@
       <h2>0.7.60 <span class="changelog-date">— March 2026</span></h2>
 
       <div class="changelog-section">
-        <h3><span class="badge" size="xs" intent="warning">Breaking</span> Container Consolidation: <code>&lt;n-card&gt;</code> + <code>&lt;n-panel&gt;</code> → <code>&lt;article&gt;</code></h3>
+        <h3><span class="badge" size="xs" intent="warning">Breaking</span> Container Consolidation: <code>&lt;n-container&gt;</code> + <code>&lt;n-panel&gt;</code> → <code>&lt;article&gt;</code></h3>
         <div class="changelog-cards">
           <article>
             <header><a href="/src/containers/article/article.html"><code>&lt;article&gt;</code></a> — Unified container element</header>
             <section>
-              <p>Consolidated <code>&lt;n-card&gt;</code> and <code>&lt;n-panel&gt;</code> into a single semantic HTML element. <code>&lt;article&gt;</code> is CSS-only — no custom element registration needed.</p>
+              <p>Consolidated <code>&lt;n-container&gt;</code> and <code>&lt;n-panel&gt;</code> into a single semantic HTML element. <code>&lt;article&gt;</code> is CSS-only — no custom element registration needed.</p>
               <ul>
-                <li><code>&lt;n-card&gt;</code> → <code>&lt;article&gt;</code> (default = card elevation)</li>
+                <li><code>&lt;n-container&gt;</code> → <code>&lt;article&gt;</code> (default = card elevation)</li>
                 <li><code>&lt;n-panel&gt;</code> → <code>&lt;article data-kind="panel"&gt;</code> (panel elevation)</li>
                 <li>All attributes preserved: <code>bordered</code>, <code>dividers</code>, <code>padding</code>, <code>gap</code>, <code>interactive</code>, <code>scrollable</code>, <code>fade</code>, etc.</li>
-                <li>Tokens <code>--n-card</code> and <code>--n-panel</code> unchanged (elevation tier names)</li>
+                <li>Tokens <code>--n-container</code> and <code>--n-panel</code> unchanged (elevation tier names)</li>
                 <li><code>NCard</code> class deleted — interactive click-to-navigate replaced by <code>&lt;a&gt;</code> wrapping</li>
                 <li>No JS import needed — works from CSS bundle alone</li>
               </ul>
@@ -110,7 +110,7 @@
             <header>Migration guide</header>
             <section>
               <ul>
-                <li>Replace <code>&lt;n-card&gt;</code> → <code>&lt;article&gt;</code></li>
+                <li>Replace <code>&lt;n-container&gt;</code> → <code>&lt;article&gt;</code></li>
                 <li>Replace <code>&lt;n-panel&gt;</code> → <code>&lt;article data-kind="panel"&gt;</code></li>
                 <li>Remove <code>import './containers/card/card.ts'</code> registration imports</li>
                 <li>Remove <code>NCard</code> from any imports — class no longer exists</li>

@@ -746,7 +746,7 @@
     font-size: var(--n-font-size-sm);
   }
 
-  :where(n-chat-message-genui) :where(n-card[data-role="preview"]) {
+  :where(n-chat-message-genui) :where(n-container[data-role="preview"]) {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -868,18 +868,18 @@
    ════════════════════════════════════════════════════
 
    Harmonizes seed + structured input spacing when composed
-   together as a starter surface (e.g. inside n-card, n-body).
+   together as a starter surface (e.g. inside n-container, n-body).
 
    Add `compact` attribute for tighter spacing (small cards,
    inline starters, sidebars).
 
    Usage:
-     <n-card class="n-chat-starter">
+     <n-container class="n-chat-starter">
        <n-body>
          <n-chat-message-seed></n-chat-message-seed>
          <n-chat-input-structured question="..."></n-chat-input-structured>
        </n-body>
-     </n-card>
+     </n-container>
 */
 
 .n-chat-starter {

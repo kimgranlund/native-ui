@@ -88,7 +88,7 @@ See [SETUP.md](SETUP.md) for complete SPA, SSR, and CDN setup instructions. See 
 | Change the global palette | `--n-env-hue-accent: 280` on `:root` | Overriding individual color steps |
 | Apply a theme | `<html theme="forest">` | Class-based theme toggling |
 | Space out components | CSS on a **wrapper** (`gap`, `margin`) | CSS on the components themselves |
-| Build a grid of cards | CSS Grid on a **wrapper** | CSS on `n-card` |
+| Build a grid of cards | CSS Grid on a **wrapper** | CSS on `n-container` |
 | Hide an element | `hidden` attribute | `n-button { display: none }` |
 
 ## Three Layers of Styling
@@ -194,13 +194,13 @@ Write CSS for **spacing, positioning, and layout** between components. Target wr
 <style>
   n-button { display: inline-flex; }
   n-input { border: 2px solid blue; }
-  n-card { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  n-container { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 </style>
 
 <!-- RIGHT: use attributes and tokens -->
 <n-button inline>Compact</n-button>
 <n-input intent="info"><!-- border follows intent --></n-input>
-<n-card><!-- shadow is built-in --></n-card>
+<n-container><!-- shadow is built-in --></n-container>
 ```
 
 ### Don't override colors per-component
@@ -231,14 +231,14 @@ n-button:hover { background-color: #1d4ed8; }
 <style>
   .card-header { padding: 1rem; font-weight: bold; border-bottom: 1px solid #eee; }
 </style>
-<n-card>
+<n-container>
   <header class="card-header">Title</header>
-</n-card>
+</n-container>
 
 <!-- RIGHT: semantic sub-containers handle their own padding, weight, and border -->
-<n-card>
+<n-container>
   <header padding="regular">Title</header>
-</n-card>
+</n-container>
 ```
 
 ## When CSS IS Appropriate

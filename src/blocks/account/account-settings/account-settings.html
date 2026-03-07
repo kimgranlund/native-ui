@@ -125,9 +125,12 @@
       <!-- ── Profile Section ── -->
 
       <div class="stack" gap="0">
-        <n-section>
-          <span slot="heading">Profile</span>
-          <span slot="description">Your public profile information. This is visible to other users.</span>
+        <article>
+          <header>
+            <span>Profile</span>
+          </header>
+          <section>
+          <p class="settings-section-description">Your public profile information. This is visible to other users.</p>
 
           <div class="stack" gap="4">
             <div class="avatar-row">
@@ -165,13 +168,17 @@
               </n-button>
             </div>
           </div>
-        </n-section>
+          </section>
+        </article>
 
         <!-- ── Notifications Section ── -->
 
-        <n-section divider>
-          <span slot="heading">Notifications</span>
-          <span slot="description">Choose how and when you want to be notified.</span>
+        <article>
+          <header dividers>
+            <span>Notifications</span>
+          </header>
+          <section>
+          <p class="settings-section-description">Choose how and when you want to be notified.</p>
 
           <div class="stack" gap="0">
             <div class="notification-row">
@@ -202,13 +209,17 @@
               </n-button>
             </div>
           </div>
-        </n-section>
+          </section>
+        </article>
 
         <!-- ── Security Section ── -->
 
-        <n-section divider>
-          <span slot="heading">Security</span>
-          <span slot="description">Update your password. We recommend using a strong, unique password.</span>
+        <article>
+          <header dividers>
+            <span>Security</span>
+          </header>
+          <section>
+          <p class="settings-section-description">Update your password. We recommend using a strong, unique password.</p>
 
           <form>
             <div class="stack" gap="4">
@@ -238,13 +249,16 @@
               </div>
             </div>
           </form>
-        </n-section>
+          </section>
+        </article>
 
         <!-- ── Danger Zone ── -->
 
-        <n-section divider>
-          <span slot="heading">Danger Zone</span>
-
+        <article>
+          <header dividers>
+            <span>Danger Zone</span>
+          </header>
+          <section>
           <div class="danger-zone">
             <div class="danger-zone-row">
               <div class="danger-zone-text">
@@ -259,7 +273,8 @@
               </n-button>
             </div>
           </div>
-        </n-section>
+          </section>
+        </article>
 
       </div>
     </div>
@@ -272,7 +287,6 @@
       import '../../../components/field/field.ts';
       import '../../../components/textarea/textarea.ts';
       import '../../../components/switch/switch.ts';
-      import '../../../containers/section/section.ts';
       import '../../../icons/icon.ts';
       import '../../../icons/phosphor/envelope.ts';
       import '../../../icons/phosphor/lock.ts';

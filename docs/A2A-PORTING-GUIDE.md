@@ -68,9 +68,9 @@ All four demos live in `packages/native-a2ui/src/`:
 
 **Layout:**
 - `<h1>` + description `<n-text>`
-- Outer `<n-card>` with:
+- Outer `<n-container>` with:
   - `<n-header>` containing `<n-toolbar>` with: Auto Play (primary), Next Move (default), Simulation switch, spacer, New Game button
-  - `<n-body>` containing `<n-grid cols="2">` with two `<n-card>` boards (each has `<n-body padding="none">` with a `.surface-mount` div)
+  - `<n-body>` containing `<n-grid cols="2">` with two `<n-container>` boards (each has `<n-body padding="none">` with a `.surface-mount` div)
   - `<n-footer justify="space-between">` with: X model select, score display, O model select
 - Collapsible `<details>` event log
 
@@ -125,7 +125,7 @@ In the Astro host, this is already handled by your global CSS setup. The A2UI pa
 The demos manually import each component's registration module. In the Astro host, if you're using the CDN bundle or a global registration script, these individual imports may not be needed. But ensure these components are registered:
 
 - `n-button`, `n-select`, `n-listbox`, `n-option`, `n-switch`
-- `n-card`, `n-toolbar`, `n-grid`, `n-stack`, `n-text`
+- `n-container`, `n-toolbar`, `n-grid`, `n-stack`, `n-text`
 - `n-header`, `n-body`, `n-footer`
 - `n-icon` (plus explicit icon module imports for `x` and `circle`)
 

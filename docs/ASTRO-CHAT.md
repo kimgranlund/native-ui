@@ -41,7 +41,7 @@ import { registerAllTraits } from '@nonoun/native-ui';
 registerAllTraits(); // optional — only if using <n-controller>
 ```
 
-`@nonoun/native-ai/register` registers 11 chat elements + 11 dogfooded core elements (`n-button`, `n-textarea`, `n-icon`, `n-toolbar`, `n-dialog`, `n-card`, `n-listbox`, `n-option`, `n-option-group`, `n-option-group-header`, `n-select`) + 11 Phosphor icons used internally.
+`@nonoun/native-ai/register` registers 11 chat elements + 11 dogfooded core elements (`n-button`, `n-textarea`, `n-icon`, `n-toolbar`, `n-dialog`, `n-container`, `n-listbox`, `n-option`, `n-option-group`, `n-option-group-header`, `n-select`) + 11 Phosphor icons used internally.
 
 ---
 
@@ -236,10 +236,10 @@ If the chat panel persists across pages (e.g. in a sidebar), wire events once ou
 
 ## 8. Starter Surface (Seeds + Structured Input)
 
-Use the `.n-chat-starter` class to compose seed prompts and structured input into a balanced starter card:
+Use the `.n-chat-starter` class to compose seed prompts and structured input into a balanced starter article:
 
 ```astro
-<n-card class="n-chat-starter">
+<n-container class="n-chat-starter">
   <n-body>
     <n-chat-message-seed id="starter-seeds"></n-chat-message-seed>
     <n-chat-input-structured
@@ -248,19 +248,19 @@ Use the `.n-chat-starter` class to compose seed prompts and structured input int
       id="starter-structured">
     </n-chat-input-structured>
   </n-body>
-</n-card>
+</n-container>
 ```
 
 For sidebars or compact layouts, add `compact`:
 
 ```astro
-<n-card class="n-chat-starter" compact>
+<n-container class="n-chat-starter" compact>
   <n-body>
     <n-chat-message-seed id="starter-seeds"></n-chat-message-seed>
     <n-chat-input-structured question="Quick start" type="single" id="starter-structured">
     </n-chat-input-structured>
   </n-body>
-</n-card>
+</n-container>
 ```
 
 Populate via JS after page load:

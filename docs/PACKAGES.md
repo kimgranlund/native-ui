@@ -102,7 +102,7 @@ All packages declare `@nonoun/native-ui` as a peer dependency. When native-ui bu
 For prototyping or non-bundled environments:
 
 ```html
-<link rel="stylesheet" href="https://cdn.example.com/@nonoun/native-cdn/dist/native-ui.css">
+<link rel="stylesheet" href="https://cdn.example.com/@nonoun/native-cdn/dist/foundation.css">
 <script src="https://cdn.example.com/@nonoun/native-cdn/dist/native-ui.iife.js"></script>
 <script>
   // Full API available on window.NativeUI

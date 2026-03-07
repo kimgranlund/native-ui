@@ -200,7 +200,7 @@ Attributes: `per-view`, `controls`, `indicators`, `autoplay`, `direction` (verti
 ### `n-dialog`
 Modal dialog (native `<dialog>`). Display: `contents`.
 
-Attributes: `no-close-on-escape`, `no-close-on-backdrop`. API: `showModal()`, `close()`. Events: `close`. Sizing: `--n-dialog-width`, `--n-dialog-shadow`. Typically wraps `n-card`.
+Attributes: `no-close-on-escape`, `no-close-on-backdrop`. API: `showModal()`, `close()`. Events: `close`. Sizing: `--n-dialog-width`, `--n-dialog-shadow`. Typically wraps `n-container`.
 
 ### `n-drawer`
 Slide-out panel (native `<dialog>`). Display: `contents`.

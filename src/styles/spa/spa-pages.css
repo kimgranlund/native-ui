@@ -8,7 +8,7 @@
 
 body {
   background: var(--n-doc-neutral);
-  color: var(--n-color-neutral-950);
+  color: var(--n-ink-neutral);
 }
 
 main {
@@ -52,10 +52,10 @@ h3:first-child {
 }
 
 /* ── Demo Sections ── */
-/* WHY: Panels are now <n-panel bordered> — flex column with gap.
+/* WHY: <article> containers use flex column with gap.
    Zero out child block margins so gap provides uniform spacing. */
 
-:where(n-panel) > :where(h3, .demo-row, .demo-desc, .demo-caption,
+:where(article) > :where(h3, .demo-row, .demo-desc, .demo-caption,
   .demo-hint, .demo-state-label, .demo-code, .log, .demo-event-log) {
   margin: 0;
 }
