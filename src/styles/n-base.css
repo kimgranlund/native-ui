@@ -43,7 +43,9 @@
     n-icon, n-tooltip,
     n-field, n-input-otp,
     n-sidebar-nav, n-sidebar-nav-item, n-sidebar-item, n-sidebar-group-header,
-    n-header, n-footer, n-toolbar
+    n-header, n-footer, n-toolbar,
+    n-card > header, n-card > footer,
+    n-panel > header, n-panel > footer
   ) {
     user-select: none;
   }

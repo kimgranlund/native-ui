@@ -22,11 +22,11 @@
     <n-panel bordered>
       <n-button id="open-right"><span slot="label">Open Right Drawer</span></n-button>
       <n-drawer id="drawer-right">
-        <n-header>
-          <span slot="label">Settings</span>
-          <n-button slot="trailing" variant="ghost" id="close-right"><n-icon name="x"></n-icon></n-button>
-        </n-header>
-        <n-body>
+        <header>
+          <span>Settings</span>
+          <n-button variant="ghost" id="close-right"><n-icon name="x"></n-icon></n-button>
+        </header>
+        <section>
           <n-field>
             <label slot="label">Display name</label>
             <n-input placeholder="Kim Granlund"></n-input>
@@ -36,25 +36,25 @@
             <n-input placeholder="kim@example.com"></n-input>
           </n-field>
           <n-switch>Dark mode</n-switch>
-        </n-body>
+        </section>
       </n-drawer>
       <pre class="demo-code"><code>&lt;n-button id="open-right"&gt;
   &lt;span slot="label"&gt;Open Right Drawer&lt;/span&gt;
 &lt;/n-button&gt;
 
 &lt;n-drawer id="drawer-right"&gt;
-  &lt;n-header&gt;
-    &lt;span slot="label"&gt;Settings&lt;/span&gt;
-    &lt;n-button slot="trailing" variant="ghost" id="close-right"&gt;
+  &lt;header&gt;
+    &lt;span&gt;Settings&lt;/span&gt;
+    &lt;n-button variant="ghost" id="close-right"&gt;
       &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
     &lt;/n-button&gt;
-  &lt;/n-header&gt;
-  &lt;n-body&gt;
+  &lt;/header&gt;
+  &lt;section&gt;
     &lt;n-field&gt;
       &lt;label slot="label"&gt;Display name&lt;/label&gt;
       &lt;n-input placeholder="Kim Granlund"&gt;&lt;/n-input&gt;
     &lt;/n-field&gt;
-  &lt;/n-body&gt;
+  &lt;/section&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
@@ -64,11 +64,11 @@
     <n-panel bordered>
       <n-button id="open-left"><span slot="label">Open Left Drawer</span></n-button>
       <n-drawer id="drawer-left" side="left">
-        <n-header>
-          <span slot="label">Documentation</span>
-          <n-button slot="trailing" variant="ghost" id="close-left"><n-icon name="x"></n-icon></n-button>
-        </n-header>
-        <n-body>
+        <header>
+          <span>Documentation</span>
+          <n-button variant="ghost" id="close-left"><n-icon name="x"></n-icon></n-button>
+        </header>
+        <section>
           <n-nav>
             <n-option-group>
               <n-option-group-header><n-icon name="house"></n-icon> Getting Started</n-option-group-header>
@@ -90,16 +90,16 @@
               <n-option value="examples">Examples</n-option>
             </n-option-group>
           </n-nav>
-        </n-body>
+        </section>
       </n-drawer>
       <pre class="demo-code"><code>&lt;n-drawer id="drawer-left" side="left"&gt;
-  &lt;n-header&gt;
-    &lt;span slot="label"&gt;Documentation&lt;/span&gt;
-    &lt;n-button slot="trailing" variant="ghost"&gt;
+  &lt;header&gt;
+    &lt;span&gt;Documentation&lt;/span&gt;
+    &lt;n-button variant="ghost"&gt;
       &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
     &lt;/n-button&gt;
-  &lt;/n-header&gt;
-  &lt;n-body&gt;...&lt;/n-body&gt;
+  &lt;/header&gt;
+  &lt;section&gt;...&lt;/section&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
@@ -109,31 +109,31 @@
     <n-panel bordered>
       <n-button id="open-bottom"><span slot="label">Open Bottom Drawer</span></n-button>
       <n-drawer id="drawer-bottom" side="bottom">
-        <n-header>
-          <span slot="label">Filters</span>
-          <n-button slot="trailing" variant="ghost" id="close-bottom"><n-icon name="x"></n-icon></n-button>
-        </n-header>
-        <n-body>
+        <header>
+          <span>Filters</span>
+          <n-button variant="ghost" id="close-bottom"><n-icon name="x"></n-icon></n-button>
+        </header>
+        <section>
           <n-stack direction="row" gap="2" wrap>
             <n-checkbox>In Stock</n-checkbox>
             <n-checkbox>On Sale</n-checkbox>
             <n-checkbox>Free Shipping</n-checkbox>
           </n-stack>
-        </n-body>
+        </section>
       </n-drawer>
       <pre class="demo-code"><code>&lt;n-drawer id="drawer-bottom" side="bottom"&gt;
-  &lt;n-header&gt;
-    &lt;span slot="label"&gt;Filters&lt;/span&gt;
-    &lt;n-button slot="trailing" variant="ghost"&gt;
+  &lt;header&gt;
+    &lt;span&gt;Filters&lt;/span&gt;
+    &lt;n-button variant="ghost"&gt;
       &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
     &lt;/n-button&gt;
-  &lt;/n-header&gt;
-  &lt;n-body&gt;
+  &lt;/header&gt;
+  &lt;section&gt;
     &lt;n-stack direction="row" gap="2" wrap&gt;
       &lt;n-checkbox&gt;In Stock&lt;/n-checkbox&gt;
       &lt;n-checkbox&gt;On Sale&lt;/n-checkbox&gt;
     &lt;/n-stack&gt;
-  &lt;/n-body&gt;
+  &lt;/section&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
@@ -143,13 +143,13 @@
     <n-panel bordered>
       <n-button id="open-top"><span slot="label">Open Top Drawer</span></n-button>
       <n-drawer id="drawer-top" side="top">
-        <n-header>
-          <span slot="label">Announcement</span>
-          <n-button slot="trailing" variant="ghost" id="close-top"><n-icon name="x"></n-icon></n-button>
-        </n-header>
-        <n-body>
+        <header>
+          <span>Announcement</span>
+          <n-button variant="ghost" id="close-top"><n-icon name="x"></n-icon></n-button>
+        </header>
+        <section>
           <p class="demo-text">This drawer slides in from the top edge.</p>
-        </n-body>
+        </section>
       </n-drawer>
     </n-panel>
 
@@ -160,11 +160,11 @@
       <p class="demo-hint">Header and footer stay fixed while the body scrolls independently.</p>
       <n-button id="open-footer"><span slot="label">Open Drawer with Footer</span></n-button>
       <n-drawer id="drawer-footer">
-        <n-header>
-          <span slot="label">Edit Profile</span>
-          <n-button slot="trailing" variant="ghost" id="close-footer"><n-icon name="x"></n-icon></n-button>
-        </n-header>
-        <n-body>
+        <header>
+          <span>Edit Profile</span>
+          <n-button variant="ghost" id="close-footer"><n-icon name="x"></n-icon></n-button>
+        </header>
+        <section>
           <n-field>
             <label slot="label">Display name</label>
             <n-input placeholder="Kim Granlund"></n-input>
@@ -180,29 +180,29 @@
           <n-switch>Dark mode</n-switch>
           <p class="demo-text-sm">Additional content to demonstrate scrolling within the body region while header and footer remain fixed.</p>
           <p class="demo-text-sm">Scroll down to verify that the header and footer remain fixed while this body content scrolls independently.</p>
-        </n-body>
-        <n-footer justify="spread">
+        </section>
+        <footer justify="spread">
           <n-button variant="ghost" id="cancel-footer"><span slot="label">Cancel</span></n-button>
           <n-button variant="primary" intent="accent"><span slot="label">Save Changes</span></n-button>
-        </n-footer>
+        </footer>
       </n-drawer>
       <pre class="demo-code"><code>&lt;n-drawer id="drawer-footer"&gt;
-  &lt;n-header&gt;
-    &lt;span slot="label"&gt;Edit Profile&lt;/span&gt;
-    &lt;n-button slot="trailing" variant="ghost"&gt;
+  &lt;header&gt;
+    &lt;span&gt;Edit Profile&lt;/span&gt;
+    &lt;n-button variant="ghost"&gt;
       &lt;n-icon name="x"&gt;&lt;/n-icon&gt;
     &lt;/n-button&gt;
-  &lt;/n-header&gt;
-  &lt;n-body&gt;
+  &lt;/header&gt;
+  &lt;section&gt;
     &lt;n-field&gt;
       &lt;label slot="label"&gt;Display name&lt;/label&gt;
       &lt;n-input placeholder="Kim Granlund"&gt;&lt;/n-input&gt;
     &lt;/n-field&gt;
-  &lt;/n-body&gt;
-  &lt;n-footer justify="spread"&gt;
+  &lt;/section&gt;
+  &lt;footer justify="spread"&gt;
     &lt;n-button variant="ghost"&gt;Cancel&lt;/n-button&gt;
     &lt;n-button variant="primary" intent="accent"&gt;Save Changes&lt;/n-button&gt;
-  &lt;/n-footer&gt;
+  &lt;/footer&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
@@ -216,31 +216,31 @@
         <n-button id="open-persistent"><span slot="label">Persistent (both)</span></n-button>
       </div>
       <n-drawer id="drawer-no-escape" no-close-on-escape>
-        <n-header>
-          <span slot="label">No Escape Close</span>
-          <n-button slot="trailing" variant="ghost" id="close-no-escape"><n-icon name="x"></n-icon></n-button>
-        </n-header>
-        <n-body>
+        <header>
+          <span>No Escape Close</span>
+          <n-button variant="ghost" id="close-no-escape"><n-icon name="x"></n-icon></n-button>
+        </header>
+        <section>
           <p class="demo-text">Pressing Escape won't close this drawer. Use the close button.</p>
-        </n-body>
+        </section>
       </n-drawer>
       <n-drawer id="drawer-no-backdrop" no-close-on-backdrop>
-        <n-header>
-          <span slot="label">No Backdrop Close</span>
-          <n-button slot="trailing" variant="ghost" id="close-no-backdrop"><n-icon name="x"></n-icon></n-button>
-        </n-header>
-        <n-body>
+        <header>
+          <span>No Backdrop Close</span>
+          <n-button variant="ghost" id="close-no-backdrop"><n-icon name="x"></n-icon></n-button>
+        </header>
+        <section>
           <p class="demo-text">Clicking the backdrop won't close this drawer. Use the close button or Escape.</p>
-        </n-body>
+        </section>
       </n-drawer>
       <n-drawer id="drawer-persistent" no-close-on-escape no-close-on-backdrop>
-        <n-header>
-          <span slot="label">Persistent Drawer</span>
-          <n-button slot="trailing" variant="ghost" id="close-persistent"><n-icon name="x"></n-icon></n-button>
-        </n-header>
-        <n-body>
+        <header>
+          <span>Persistent Drawer</span>
+          <n-button variant="ghost" id="close-persistent"><n-icon name="x"></n-icon></n-button>
+        </header>
+        <section>
           <p class="demo-text">Neither Escape nor backdrop click will close this. Only the close button works.</p>
-        </n-body>
+        </section>
       </n-drawer>
     </n-panel>
 

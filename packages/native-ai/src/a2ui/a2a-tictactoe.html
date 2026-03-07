@@ -62,8 +62,8 @@
     <!-- ── Game Card ── -->
 
     <n-card>
-      <n-header>
-        <n-toolbar slot="content" variant="ghost">
+      <header>
+        <n-toolbar variant="ghost">
           <n-button variant="primary" id="btn-auto">
             <span slot="label">Auto Play</span>
           </n-button>
@@ -76,22 +76,22 @@
             <span slot="label">New Game</span>
           </n-button>
         </n-toolbar>
-      </n-header>
-      <n-body>
+      </header>
+      <section>
         <n-grid cols="2" gap="4" id="grid-boards">
           <n-card id="card-x">
-            <n-body padding="none">
+            <section padding="none">
               <div class="surface-mount" id="surface-x"></div>
-            </n-body>
+            </section>
           </n-card>
           <n-card id="card-o">
-            <n-body padding="none">
+            <section padding="none">
               <div class="surface-mount" id="surface-o"></div>
-            </n-body>
+            </section>
           </n-card>
         </n-grid>
-      </n-body>
-      <n-footer justify="space-between">
+      </section>
+      <footer justify="space-between">
         <n-select id="model-x" placeholder="X player" inline>
           <n-button justify="spread"><span slot="label">Claude Haiku 4.5</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
           <n-listbox popover>
@@ -114,7 +114,7 @@
             <n-option value="gpt-4.1-nano">GPT-4.1 nano</n-option>
           </n-listbox>
         </n-select>
-      </n-footer>
+      </footer>
     </n-card>
 
     <!-- ── Event Log (debug) ── -->
@@ -122,9 +122,9 @@
     <details style="margin-top: 1rem;">
       <summary style="cursor:pointer; font-size:0.75rem; color:var(--n-ink-muted)">Session Events</summary>
       <n-card>
-        <n-body show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
+        <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
           <div id="event-log"></div>
-        </n-body>
+        </section>
       </n-card>
     </details>
 

@@ -40,10 +40,10 @@
 
     <div class="form-wrapper">
       <n-card>
-        <n-header>
-          <span slot="label">Send us a message</span>
-        </n-header>
-        <n-body>
+        <header>
+          <span>Send us a message</span>
+        </header>
+        <section>
           <form id="contact-form">
             <n-stack gap="4">
               <n-field required>
@@ -84,14 +84,14 @@
               </n-field>
             </n-stack>
           </form>
-        </n-body>
-        <n-footer>
+        </section>
+        <footer>
           <n-button variant="ghost"><span slot="label">Cancel</span></n-button>
           <n-button variant="primary" intent="accent" type="submit" form="contact-form">
             <n-icon name="envelope" slot="leading"></n-icon>
             <span slot="label">Send Message</span>
           </n-button>
-        </n-footer>
+        </footer>
       </n-card>
     </div>
     </n-stack>

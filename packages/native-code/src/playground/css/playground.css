@@ -49,7 +49,9 @@
 
   /* Toolbar button hover background (ghost variant forces transparent) */
   :where(native-playground) > :where(n-header) :where(n-button):hover,
-  :where(native-playground) > :where(n-header) :where(n-button)[force-hover] {
+  :where(native-playground) > :where(n-header) :where(n-button)[force-hover],
+  :where(native-playground) > :where(header) :where(n-button):hover,
+  :where(native-playground) > :where(header) :where(n-button)[force-hover] {
     background: var(--n-pg-editor-bg);
   }
 

@@ -50,17 +50,17 @@
           <span class="demo-col-label">Idle (empty input)</span>
           <n-chat>
             <n-panel padding="none">
-              <n-header dividers>
-                <span slot="leading"><n-icon name="chat-dots"></n-icon></span>
+              <header dividers>
+                <nav><n-icon name="chat-dots"></n-icon></nav>
                 <span>Assistant</span>
-                <span slot="trailing"><n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button></span>
-              </n-header>
-              <n-body>
+                <aside><n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button></aside>
+              </header>
+              <section>
                 <n-chat-content>
                   <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">Messages will appear here.</p>
                 </n-chat-content>
-              </n-body>
-              <n-footer dividers>
+              </section>
+              <footer dividers>
                 <n-chat-input>
                   <n-textarea placeholder="Ask anything" autogrow rows="3"></n-textarea>
                   <n-chat-input-actions>
@@ -90,7 +90,7 @@
                     </n-select>
                   </n-chat-input-actions>
                 </n-chat-input>
-              </n-footer>
+              </footer>
             </n-panel>
           </n-chat>
         </div>
@@ -100,17 +100,17 @@
           <span class="demo-col-label">Typing (with send button)</span>
           <n-chat>
             <n-panel padding="none">
-              <n-header dividers>
-                <span slot="leading"><n-icon name="chat-dots"></n-icon></span>
+              <header dividers>
+                <nav><n-icon name="chat-dots"></n-icon></nav>
                 <span>Assistant</span>
-                <span slot="trailing"><n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button></span>
-              </n-header>
-              <n-body>
+                <aside><n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button></aside>
+              </header>
+              <section>
                 <n-chat-content>
                   <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">Messages will appear here.</p>
                 </n-chat-content>
-              </n-body>
-              <n-footer dividers>
+              </section>
+              <footer dividers>
                 <n-chat-input>
                   <n-textarea placeholder="Ask anything" autogrow rows="3"></n-textarea>
                   <n-chat-input-actions>
@@ -141,29 +141,29 @@
                     <n-button variant="primary" intent="accent" radius="round" inline disabled data-role="submit"><n-icon name="arrow-up"></n-icon></n-button>
                   </n-chat-input-actions>
                 </n-chat-input>
-              </n-footer>
+              </footer>
             </n-panel>
           </n-chat>
         </div>
       </div>
       <pre class="demo-code"><code>&lt;n-chat&gt;
   &lt;n-panel padding="none"&gt;
-    &lt;n-header dividers&gt;
-      &lt;span slot="leading"&gt;&lt;n-icon name="chat-dots"&gt;&lt;/n-icon&gt;&lt;/span&gt;
+    &lt;header dividers&gt;
+      &lt;nav&gt;&lt;n-icon name="chat-dots"&gt;&lt;/n-icon&gt;&lt;/nav&gt;
       &lt;span&gt;Assistant&lt;/span&gt;
-      &lt;span slot="trailing"&gt;...&lt;/span&gt;
-    &lt;/n-header&gt;
-    &lt;n-body&gt;
+      &lt;aside&gt;...&lt;/aside&gt;
+    &lt;/header&gt;
+    &lt;section&gt;
       &lt;n-chat-content&gt;...&lt;/n-chat-content&gt;
-    &lt;/n-body&gt;
-    &lt;n-footer dividers&gt;
+    &lt;/section&gt;
+    &lt;footer dividers&gt;
       &lt;n-chat-input&gt;
         &lt;n-textarea placeholder="Ask anything" autogrow rows="3"&gt;&lt;/n-textarea&gt;
         &lt;n-chat-input-actions&gt;
           &lt;n-button variant="ghost" inline&gt;&lt;n-icon name="plus"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
         &lt;/n-chat-input-actions&gt;
       &lt;/n-chat-input&gt;
-    &lt;/n-footer&gt;
+    &lt;/footer&gt;
   &lt;/n-panel&gt;
 &lt;/n-chat&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
@@ -477,27 +477,27 @@ Step 4: Applying formatting rules...</pre>
         <div class="demo-col">
           <span class="demo-col-label">Default</span>
           <n-card class="n-chat-starter">
-            <n-body>
+            <section>
               <n-chat-message-seed id="starter-seeds"></n-chat-message-seed>
               <n-chat-input-structured
                 question="What would you like help with?"
                 type="single"
                 id="starter-structured"
               ></n-chat-input-structured>
-            </n-body>
+            </section>
           </n-card>
         </div>
         <div class="demo-col">
           <span class="demo-col-label">Compact</span>
           <n-card class="n-chat-starter" compact>
-            <n-body>
+            <section>
               <n-chat-message-seed id="starter-seeds-compact"></n-chat-message-seed>
               <n-chat-input-structured
                 question="Quick start"
                 type="single"
                 id="starter-structured-compact"
               ></n-chat-input-structured>
-            </n-body>
+            </section>
           </n-card>
         </div>
       </div>
@@ -554,8 +554,8 @@ Step 4: Applying formatting rules...</pre>
     <n-panel bordered>
       <div class="demo-grid">
         <div class="demo-col">
-          <span class="demo-col-label">Inside n-footer container</span>
-          <n-footer dividers>
+          <span class="demo-col-label">Inside footer container</span>
+          <footer dividers>
             <n-chat-input>
               <n-textarea placeholder="Ask anything" autogrow rows="2"></n-textarea>
               <n-chat-input-actions>
@@ -585,12 +585,12 @@ Step 4: Applying formatting rules...</pre>
                 </n-select>
               </n-chat-input-actions>
             </n-chat-input>
-          </n-footer>
+          </footer>
         </div>
 
         <div class="demo-col">
           <span class="demo-col-label">Compact (single row)</span>
-          <n-footer dividers>
+          <footer dividers>
             <n-chat-input compact>
               <n-textarea placeholder="Type a message..." autogrow rows="1"></n-textarea>
               <n-chat-input-actions>
@@ -599,26 +599,26 @@ Step 4: Applying formatting rules...</pre>
                 <n-button variant="primary" intent="accent" radius="round" inline disabled data-role="submit"><n-icon name="arrow-up"></n-icon></n-button>
               </n-chat-input-actions>
             </n-chat-input>
-          </n-footer>
+          </footer>
         </div>
       </div>
       <pre class="demo-code"><code>&lt;!-- Wrap in a container for surface styling --&gt;
-&lt;n-footer dividers&gt;
+&lt;footer dividers&gt;
   &lt;n-chat-input&gt;
     &lt;n-textarea placeholder="Ask anything" autogrow rows="2"&gt;&lt;/n-textarea&gt;
     &lt;n-chat-input-actions&gt;
       &lt;n-button variant="ghost" inline&gt;&lt;n-icon name="plus"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
     &lt;/n-chat-input-actions&gt;
   &lt;/n-chat-input&gt;
-&lt;/n-footer&gt;
+&lt;/footer&gt;
 
 &lt;!-- Compact --&gt;
-&lt;n-footer dividers&gt;
+&lt;footer dividers&gt;
   &lt;n-chat-input compact&gt;
     &lt;n-textarea placeholder="Type a message..." autogrow rows="1"&gt;&lt;/n-textarea&gt;
     &lt;n-chat-input-actions&gt;...&lt;/n-chat-input-actions&gt;
   &lt;/n-chat-input&gt;
-&lt;/n-footer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+&lt;/footer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
     </main></native-dashboard-spa>
@@ -868,13 +868,13 @@ Visit [MDN](https://developer.mozilla.org) for more.`;
         genuiInline.schema = {
           tag: 'n-card',
           children: [
-            { tag: 'n-header', children: [
+            { tag: 'header', children: [
               { tag: 'span', text: 'Generated Card' },
             ]},
-            { tag: 'n-body', children: [
+            { tag: 'section', children: [
               { tag: 'p', text: 'This UI was rendered from a schema object.' },
             ]},
-            { tag: 'n-footer', children: [
+            { tag: 'footer', children: [
               { tag: 'n-button', text: 'Confirm', attributes: { variant: 'primary', intent: 'accent' } },
               { tag: 'n-button', text: 'Cancel', attributes: { variant: 'ghost' } },
             ]},
@@ -887,10 +887,10 @@ Visit [MDN](https://developer.mozilla.org) for more.`;
         genuiLightbox.schema = {
           tag: 'n-card',
           children: [
-            { tag: 'n-header', children: [
+            { tag: 'header', children: [
               { tag: 'span', text: 'Interactive Form' },
             ]},
-            { tag: 'n-body', children: [
+            { tag: 'section', children: [
               { tag: 'p', text: 'Click "Open" to view in a dialog overlay.' },
               { tag: 'n-button', text: 'Submit', attributes: { variant: 'primary', intent: 'accent' } },
             ]},

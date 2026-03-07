@@ -19,10 +19,13 @@
 | `scrollable` | _(boolean)_ |
 | `fade` | _(boolean)_ |
 | `variant` | _(boolean)_ |
+| `sticky` | _(boolean)_ |
+| `justify` | `center`, `spread`, `start` |
 
 ## CSS Tokens
 
 - `--n-border-muted`
+- `--n-button-font-weight`
 - `--n-duration`
 - `--n-easing`
 - `--n-fade-bottom`
@@ -31,6 +34,7 @@
 - `--n-font-size`
 - `--n-ground`
 - `--n-icon-md`
+- `--n-ink-strong`
 - `--n-line-height`
 - `--n-panel`
 - `--n-radius`

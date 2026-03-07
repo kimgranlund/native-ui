@@ -177,8 +177,8 @@
         </n-text>
 
         <n-card id="form-card">
-          <n-header><span slot="label">Contact Form</span></n-header>
-          <n-body>
+          <header><span>Contact Form</span></header>
+          <section>
             <n-stack gap="3">
               <n-field label="Name">
                 <n-input placeholder="Your name"></n-input>
@@ -188,7 +188,7 @@
               </n-field>
               <n-button id="form-submit" intent="accent" variant="primary">Submit</n-button>
             </n-stack>
-          </n-body>
+          </section>
         </n-card>
 
         <!-- ── Custom Colors ── -->
@@ -237,7 +237,7 @@
         </n-text>
 
         <n-card>
-          <n-body>
+          <section>
             <n-stack gap="3">
               <n-stack direction="row" align="center" gap="3">
                 <n-text size="sm" style="min-width: 7rem;">Count: <strong id="count-val">30</strong></n-text>
@@ -264,7 +264,7 @@
                 <n-button id="playground-target" variant="secondary">Target (fire from here)</n-button>
               </n-stack>
             </n-stack>
-          </n-body>
+          </section>
         </n-card>
 
         <!-- ── Programmatic Presets ── -->
@@ -284,9 +284,9 @@
 
         <h3>Event Log</h3>
         <n-card>
-          <n-body show-scrollbar style="max-height: 8rem;">
+          <section show-scrollbar style="max-height: 8rem;">
             <div class="event-log" id="event-log"></div>
-          </n-body>
+          </section>
         </n-card>
 
       </main>

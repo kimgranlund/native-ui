@@ -301,13 +301,12 @@ export class NApp extends NativeElement {
 
     // Breadcrumb bar
     const currentEntry = sitemap.find(e => e.path === currentPath);
-    const breadcrumbBar = document.createElement('n-dashboard-breadcrumb');
+    const breadcrumbBar = document.createElement('nav');
 
     // Leading: sidebar toggle
     const sidebarToggle = document.createElement('n-button');
     sidebarToggle.setAttribute('variant', 'ghost');
     sidebarToggle.setAttribute('size', 'sm');
-    sidebarToggle.setAttribute('slot', 'leading');
     sidebarToggle.setAttribute('aria-label', 'Toggle sidebar');
     sidebarToggle.innerHTML = isCollapsed
       ? '<n-icon name="sidebar-simple-fill" size="md"></n-icon>'
@@ -340,10 +339,7 @@ export class NApp extends NativeElement {
     }
 
     // Trailing actions
-    const trailingActions = document.createElement('div');
-    trailingActions.setAttribute('slot', 'trailing');
-    trailingActions.style.display = 'flex';
-    trailingActions.style.alignItems = 'center';
+    const trailingActions = document.createElement('aside');
     trailingActions.style.gap = '0.125rem';
 
     // Inspector toggle
@@ -408,7 +404,8 @@ export class NApp extends NativeElement {
     breadcrumbBar.append(sidebarToggle, breadcrumb, trailingActions);
 
     // Canvas (body + chat)
-    const canvas = document.createElement('n-dashboard-canvas');
+    const canvas = document.createElement('section');
+    canvas.className = 'content';
 
     const body = document.createElement('n-panel');
     body.setAttribute('scrollable', '');
@@ -602,8 +599,7 @@ export class NApp extends NativeElement {
 
     canvas.append(body, inspector, chat);
 
-    // WHY: Content column is structural (not semantic) — plain div, not <main>.
-    const contentCol = document.createElement('div');
+    const contentCol = document.createElement('section');
     contentCol.append(breadcrumbBar, canvas);
 
     // Assemble layout

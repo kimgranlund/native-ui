@@ -103,7 +103,7 @@
 
     <n-dialog id="info-dialog">
       <n-card>
-        <n-body>
+        <section>
           <div class="dialog-icon dialog-icon-info">
             <n-icon name="info" aria-hidden="true"></n-icon>
           </div>
@@ -113,15 +113,15 @@
             but all data and history will be preserved. You can restore it at any time from
             the archive.
           </n-text>
-        </n-body>
-        <n-footer>
+        </section>
+        <footer>
           <n-button id="info-cancel">
             <span slot="label">Cancel</span>
           </n-button>
           <n-button id="info-confirm" intent="info">
             <span slot="label">Archive</span>
           </n-button>
-        </n-footer>
+        </footer>
       </n-card>
     </n-dialog>
 
@@ -129,7 +129,7 @@
 
     <n-dialog id="warning-dialog">
       <n-card>
-        <n-body>
+        <section>
           <div class="dialog-icon dialog-icon-warning">
             <n-icon name="warning" aria-hidden="true"></n-icon>
           </div>
@@ -138,15 +138,15 @@
             You have unsaved changes that will be lost if you leave this page.
             Would you like to save your work before continuing?
           </n-text>
-        </n-body>
-        <n-footer>
+        </section>
+        <footer>
           <n-button id="warning-discard">
             <span slot="label">Discard</span>
           </n-button>
           <n-button id="warning-save" intent="accent">
             <span slot="label">Save</span>
           </n-button>
-        </n-footer>
+        </footer>
       </n-card>
     </n-dialog>
 
@@ -154,7 +154,7 @@
 
     <n-dialog id="danger-dialog">
       <n-card>
-        <n-body>
+        <section>
           <div class="dialog-icon dialog-icon-danger">
             <n-icon name="trash" aria-hidden="true"></n-icon>
           </div>
@@ -163,8 +163,8 @@
             This action cannot be undone. All your data, projects, and settings
             will be permanently removed. Any active subscriptions will be cancelled immediately.
           </n-text>
-        </n-body>
-        <n-footer>
+        </section>
+        <footer>
           <n-button id="danger-cancel">
             <span slot="label">Cancel</span>
           </n-button>
@@ -172,7 +172,7 @@
             <n-icon name="trash" slot="leading"></n-icon>
             <span slot="label">Delete</span>
           </n-button>
-        </n-footer>
+        </footer>
       </n-card>
     </n-dialog>
     </n-stack>

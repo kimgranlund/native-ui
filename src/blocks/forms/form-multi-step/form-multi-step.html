@@ -88,17 +88,17 @@
 
     <div class="wizard-wrapper">
       <n-card>
-        <n-header>
-          <n-segmented-control id="step-indicator" value="personal" slot="label" style="width: 100%;">
+        <header>
+          <n-segmented-control id="step-indicator" value="personal" style="width: 100%;">
             <n-segment value="personal">1. Personal</n-segment>
             <n-segment value="address">2. Address</n-segment>
             <n-segment value="review">3. Review</n-segment>
           </n-segmented-control>
-        </n-header>
+        </header>
 
         <!-- ── Step 1: Personal Information ── -->
         <div class="step-panel" id="step-personal" active>
-          <n-body><n-stack gap="4">
+          <section><n-stack gap="4">
             <n-field required>
               <label slot="label">Full name</label>
               <n-input placeholder="Jane Doe" id="input-name" name="name">
@@ -131,12 +131,12 @@
               </n-button>
             </div>
           </div>
-          </n-body>
+          </section>
         </div>
 
         <!-- ── Step 2: Address ── -->
         <div class="step-panel" id="step-address">
-          <n-body><n-stack gap="4">
+          <section><n-stack gap="4">
             <n-field required>
               <label slot="label">Street address</label>
               <n-input placeholder="123 Main Street" id="input-address" name="address">
@@ -184,12 +184,12 @@
               </n-button>
             </div>
           </div>
-          </n-body>
+          </section>
         </div>
 
         <!-- ── Step 3: Review ── -->
         <div class="step-panel" id="step-review">
-          <n-body>
+          <section>
           <n-stack gap="4">
           <div>
             <h2>Review your information</h2>
@@ -242,7 +242,7 @@
               </n-button>
             </div>
           </div>
-          </n-body>
+          </section>
         </div>
       </n-card>
     </div>

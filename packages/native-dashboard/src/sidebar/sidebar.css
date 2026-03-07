@@ -116,6 +116,118 @@
     padding-inline-start: 0;
   }
 
+  /* ── Semantic layout selectors ── */
+  /* WHY: Semantic HTML alternatives to n-dashboard-breadcrumb, n-dashboard-canvas,
+     n-dashboard-panel. Both old and new selectors work simultaneously.
+     Layout: native-app > section > nav (breadcrumb) + section.content > main */
+
+  /* Breadcrumb bar — <nav> direct child of the content column */
+  :where(native-app) > :where(:not([slot])) > :where(nav) {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    min-height: var(--n-sidebar-item-height);
+    gap: calc(var(--n-space) * 2);
+    padding-block: var(--n-space);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    flex-shrink: 0;
+    min-width: 0;
+  }
+
+  /* Breadcrumb adaptive grid — leading + trailing */
+  :where(native-app) > :where(:not([slot])) > :where(nav):has(> :first-child + * + aside) {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  /* Breadcrumb — leading only */
+  :where(native-app) > :where(:not([slot])) > :where(nav):has(> :first-child + *):not(:has(> aside)) {
+    grid-template-columns: auto 1fr;
+  }
+
+  /* Breadcrumb — trailing only */
+  :where(native-app) > :where(:not([slot])) > :where(nav):has(> aside):not(:has(> :first-child + * + aside)) {
+    grid-template-columns: 1fr auto;
+  }
+
+  /* Trailing actions in breadcrumb */
+  :where(native-app) > :where(:not([slot])) > :where(nav) > :where(aside) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+  }
+
+  /* Canvas — content area (main + aside panels) */
+  :where(native-app) :where(section.content) {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    gap: calc(var(--n-space-k) * var(--n-space));
+    padding: 0 calc(var(--n-space-k) * var(--n-space)) calc(var(--n-space-k) * var(--n-space));
+  }
+
+  /* Main content panel */
+  :where(native-app) :where(section.content) > :where(main) {
+    --n-ground: var(--n-panel);
+
+    flex: 1;
+    min-width: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+    background: var(--n-ground);
+    border-radius: var(--n-radius);
+  }
+
+  :where(native-app) :where(section.content) > :where(main)[show-scrollbar] {
+    scrollbar-width: thin;
+  }
+
+  /* Semantic sub-containers inside main */
+  :where(native-app) :where(section.content) > :where(main):has(> header, > footer) {
+    overflow: hidden;
+  }
+
+  :where(native-app) :where(section.content) > :where(main):has(> header, > footer) > :where(section) {
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :where(native-app) :where(section.content) > :where(main) > :where(header) {
+    flex: none;
+    border-bottom: 1px solid var(--n-border-muted);
+    background: var(--n-ground);
+    z-index: 1;
+  }
+
+  :where(native-app) :where(section.content) > :where(main) > :where(footer) {
+    flex: none;
+    border-top: 1px solid var(--n-border-muted);
+    background: var(--n-ground);
+  }
+
+  /* Content max-width centering (same as app-panel.css semantic selectors) */
+  :where(native-app) :where(section.content) > :where(main) > :where(header) > *,
+  :where(native-app) :where(section.content) > :where(main) > :where(section) > *,
+  :where(native-app) :where(section.content) > :where(main) > :where(footer) > * {
+    max-width: var(--n-dashboard-panel-content-max-width, none);
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  /* Collapsed padding — semantic selectors */
+  :where(native-app)[collapsed] :where(section.content) {
+    padding-inline-start: 0;
+  }
+
+  :where(native-app)[collapsed] > :where(:not([slot])) > :where(nav) {
+    padding-inline-start: 0;
+  }
+
   /* ── Sidebar Header ── */
   /* WHY: Absolute-positioned overlay pinned to top of aside. Content scrolls
      underneath it. z-index: 2 sits above content (z-index: 0). */

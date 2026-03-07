@@ -98,74 +98,92 @@
 
               <!-- Team presence — session context -->
               <n-card>
-                <n-header>
-                  <n-icon name="users" slot="leading" size="sm"></n-icon>
-                  <span slot="label">Team</span>
-                </n-header>
-                <n-body>
+                <header>
+                  <nav>
+                    <n-icon name="users" size="sm"></n-icon>
+                  </nav>
+                  <span>Team</span>
+                </header>
+                <section>
                   <team-presence></team-presence>
-                </n-body>
+                </section>
               </n-card>
 
               <!-- Notification inbox — notification context -->
               <n-card>
-                <n-header>
-                  <n-icon name="bell" slot="leading" size="sm"></n-icon>
-                  <span slot="label">Inbox</span>
-                  <notif-panel-actions slot="trailing"></notif-panel-actions>
-                </n-header>
-                <n-body>
+                <header>
+                  <nav>
+                    <n-icon name="bell" size="sm"></n-icon>
+                  </nav>
+                  <span>Inbox</span>
+                  <aside>
+                    <notif-panel-actions></notif-panel-actions>
+                  </aside>
+                </header>
+                <section>
                   <notif-panel></notif-panel>
-                </n-body>
+                </section>
               </n-card>
 
               <!-- Activity feed — notification context -->
               <n-card>
-                <n-header>
-                  <n-icon name="pulse" slot="leading" size="sm"></n-icon>
-                  <span slot="label">Activity Feed</span>
-                  <n-badge slot="trailing" size="xs" intent="success">live</n-badge>
-                </n-header>
-                <n-body>
+                <header>
+                  <nav>
+                    <n-icon name="pulse" size="sm"></n-icon>
+                  </nav>
+                  <span>Activity Feed</span>
+                  <aside>
+                    <n-badge size="xs" intent="success">live</n-badge>
+                  </aside>
+                </header>
+                <section>
                   <activity-feed></activity-feed>
-                </n-body>
+                </section>
               </n-card>
 
               <!-- Preferences — session context (bidirectional) -->
               <n-card>
-                <n-header>
-                  <n-icon name="gear" slot="leading" size="sm"></n-icon>
-                  <span slot="label">Preferences</span>
-                </n-header>
-                <n-body>
+                <header>
+                  <nav>
+                    <n-icon name="gear" size="sm"></n-icon>
+                  </nav>
+                  <span>Preferences</span>
+                </header>
+                <section>
                   <notif-prefs></notif-prefs>
-                </n-body>
+                </section>
               </n-card>
 
               <!-- Stats — notification context -->
               <n-card style="grid-column: 1 / -1;">
-                <n-header>
-                  <n-icon name="chart-bar" slot="leading" size="sm"></n-icon>
-                  <span slot="label">Session Stats</span>
-                </n-header>
-                <n-body>
+                <header>
+                  <nav>
+                    <n-icon name="chart-bar" size="sm"></n-icon>
+                  </nav>
+                  <span>Session Stats</span>
+                </header>
+                <section>
                   <session-stats></session-stats>
-                </n-body>
+                </section>
               </n-card>
 
               <!-- Context event log -->
               <n-card style="grid-column: 1 / -1;">
-                <n-header>
-                  <n-icon name="terminal" slot="leading" size="sm"></n-icon>
-                  <span slot="label">Context Event Log</span>
-                  <n-badge slot="trailing" size="xs">live</n-badge>
-                </n-header>
-                <n-body>
+                <header>
+                  <nav>
+                    <n-icon name="terminal" size="sm"></n-icon>
+                  </nav>
+                  <span>Context Event Log</span>
+                  <aside>
+                    <n-badge size="xs">live</n-badge>
+                  </aside>
+                </header>
+                <section>
                   <p class="demo-hint" style="margin-bottom: 0.5rem;">
                     Every context subscription and signal update is logged — proof that reactive state flows from providers to arbitrarily nested consumers.
                   </p>
                   <ctx-log></ctx-log>
-                </n-body>
+                </section>
               </n-card>
 
             </n-grid>

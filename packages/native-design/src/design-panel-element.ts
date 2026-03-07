@@ -6,8 +6,8 @@ import type { NDesign } from './design-element.ts';
 /**
  * Stamped panel for the design token inspector.
  *
- * Creates `<n-header>` (icon, title, theme selector, family filter) and
- * `<n-body>` containing `<native-design>` directly as children.
+ * Creates `<header>` (icon, title, theme selector, family filter) and
+ * `<section>` containing `<native-design>` directly as children.
  * The host element itself is the panel surface — style via CSS.
  *
  * Usage:
@@ -35,22 +35,21 @@ export class NDesignPanel extends NativeElement {
     super.setup();
 
     // ── Header ──
-    const header = document.createElement('n-header');
+    const header = document.createElement('header');
     header.setAttribute('sticky', '');
 
+    const leading = document.createElement('nav');
     const icon = document.createElement('n-icon');
     icon.setAttribute('name', 'palette');
-    icon.setAttribute('slot', 'leading');
-    header.appendChild(icon);
+    leading.appendChild(icon);
+    header.appendChild(leading);
 
     const label = document.createElement('span');
-    label.setAttribute('slot', 'label');
     label.textContent = 'Design Tokens';
     header.appendChild(label);
 
-    // Content slot: theme selector + family filter
+    // Content row: theme selector + family filter
     const content = document.createElement('div');
-    content.setAttribute('slot', 'content');
 
     const themesEl = document.createElement('native-design-themes');
     themesEl.setAttribute('data', JSON.stringify(themes));
@@ -65,7 +64,7 @@ export class NDesignPanel extends NativeElement {
     header.appendChild(content);
 
     // ── Body ──
-    const body = document.createElement('n-body');
+    const body = document.createElement('section');
 
     const tokens = document.createElement('native-design') as NDesign;
     if (this.#schema) tokens.schema = this.#schema;

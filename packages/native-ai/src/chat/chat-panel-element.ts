@@ -29,8 +29,8 @@ export interface ModelOption {
 /**
  * Stamped panel for the chat interface.
  *
- * Creates `<n-header>` (icon, title), `<n-body>` containing
- * `<n-chat-content>`, and `<n-footer>` with `<n-chat-input>` directly
+ * Creates `<header>` (icon, title), `<section>` containing
+ * `<n-chat-content>`, and `<footer>` with `<n-chat-input>` directly
  * as children. The host element itself is the panel surface.
  *
  * ## Extension Points
@@ -291,28 +291,27 @@ export class NChatPanel extends NativeElement {
     }
 
     // ── Header ──
-    const header = document.createElement('n-header');
+    const header = document.createElement('header');
     header.setAttribute('dividers', '');
 
+    const leading = document.createElement('nav');
     const icon = document.createElement('n-icon');
     icon.setAttribute('name', 'chat-dots');
-    icon.setAttribute('slot', 'leading');
-    header.appendChild(icon);
+    leading.appendChild(icon);
+    header.appendChild(leading);
 
     const label = document.createElement('span');
-    label.setAttribute('slot', 'label');
     label.textContent = 'Assistant';
     header.appendChild(label);
 
     // Header trailing container — hosts stop/restart buttons + consumer slot
-    const headerTrailing = document.createElement('span');
-    headerTrailing.setAttribute('slot', 'trailing');
+    const headerTrailing = document.createElement('aside');
     headerTrailing.className = 'n-chat-panel-header-trailing';
     header.appendChild(headerTrailing);
     this.#headerTrailingContainer = headerTrailing;
 
     // ── Body ──
-    const body = document.createElement('n-body');
+    const body = document.createElement('section');
     const chatContent = document.createElement('n-chat-content');
 
     const chatFeed = document.createElement('n-chat-feed');
@@ -323,7 +322,7 @@ export class NChatPanel extends NativeElement {
     body.appendChild(chatContent);
 
     // ── Footer ──
-    const footer = document.createElement('n-footer');
+    const footer = document.createElement('footer');
     footer.setAttribute('dividers', '');
     this.#footer = footer;
 

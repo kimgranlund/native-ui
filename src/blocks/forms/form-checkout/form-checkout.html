@@ -111,11 +111,11 @@
         <n-stack gap="6">
           <!-- ── Shipping Information ── -->
           <n-card>
-            <n-header>
+            <header>
               <n-icon name="package" slot="leading"></n-icon>
-              <span slot="label">Shipping Information</span>
-            </n-header>
-            <n-body>
+              <span>Shipping Information</span>
+            </header>
+            <section>
               <n-stack gap="4">
                 <div class="grid-2">
                   <n-field required>
@@ -168,16 +168,16 @@
                   </n-select>
                 </n-field>
               </n-stack>
-            </n-body>
+            </section>
           </n-card>
 
           <!-- ── Payment Method ── -->
           <n-card>
-            <n-header>
+            <header>
               <n-icon name="credit-card" slot="leading"></n-icon>
-              <span slot="label">Payment Method</span>
-            </n-header>
-            <n-body>
+              <span>Payment Method</span>
+            </header>
+            <section>
               <n-stack gap="4">
                 <n-field>
                   <label slot="label">Payment type</label>
@@ -213,18 +213,18 @@
 
                 <n-checkbox name="save_card">Save card for future purchases</n-checkbox>
               </n-stack>
-            </n-body>
+            </section>
           </n-card>
         </n-stack>
 
         <!-- ── Right Column: Order Summary ── -->
         <div>
           <n-card>
-            <n-header>
+            <header>
               <n-icon name="receipt" slot="leading"></n-icon>
-              <span slot="label">Order Summary</span>
-            </n-header>
-            <n-body>
+              <span>Order Summary</span>
+            </header>
+            <section>
               <n-stack gap="2">
                 <div class="summary-line">
                   <div>
@@ -268,8 +268,8 @@
                   <span class="item-price">$232.38</span>
                 </div>
               </n-stack>
-            </n-body>
-            <n-footer justify="center">
+            </section>
+            <footer justify="center">
               <n-stack gap="3" align="stretch">
                 <n-button variant="primary" intent="accent" type="submit" form="checkout-form">
                   <n-icon name="shopping-cart" slot="leading"></n-icon>
@@ -279,7 +279,7 @@
                   Your payment information is encrypted and secure.
                 </n-text>
               </n-stack>
-            </n-footer>
+            </footer>
           </n-card>
         </div>
       </div>

@@ -44,16 +44,16 @@
     </p>
 
     <n-card>
-      <n-body>
+      <section>
         <n-stack direction="row">
           <n-button size="sm" variant="primary" id="init">
-            <span slot="label">Connect Both Agents</span>
+            <span>Connect Both Agents</span>
           </n-button>
           <n-button size="sm" variant="ghost" id="reset">
-            <span slot="label">Reset</span>
+            <span>Reset</span>
           </n-button>
         </n-stack>
-      </n-body>
+      </section>
     </n-card>
 
     <!-- ── Agent Surfaces ── -->
@@ -61,53 +61,57 @@
     <n-grid cols="2" style="margin-top: 1rem;">
       <!-- First-party -->
       <n-card>
-        <n-header>
-          <span slot="label">Your Assistant</span>
-          <n-badge slot="trailing" intent="accent">Full access</n-badge>
-        </n-header>
-        <n-body padding="regular">
+        <header>
+          <span>Your Assistant</span>
+          <aside>
+            <n-badge intent="accent">Full access</n-badge>
+          </aside>
+        </header>
+        <section padding="regular">
           <div class="surface-mount" id="surface-first" data-empty></div>
-        </n-body>
-        <n-footer>
+        </section>
+        <footer>
           <n-stack direction="row" wrap>
             <n-button size="sm" id="fp-settings">
-              <span slot="label">User Settings</span>
+              <span>User Settings</span>
             </n-button>
             <n-button size="sm" id="fp-profile">
-              <span slot="label">Edit Profile</span>
+              <span>Edit Profile</span>
             </n-button>
             <n-button size="sm" id="fp-dashboard">
-              <span slot="label">Dashboard</span>
+              <span>Dashboard</span>
             </n-button>
           </n-stack>
-        </n-footer>
+        </footer>
       </n-card>
 
       <!-- Third-party -->
       <n-card>
-        <n-header>
-          <span slot="label">Weather Plugin</span>
-          <n-badge slot="trailing" intent="warning">Sandboxed</n-badge>
-        </n-header>
-        <n-body padding="regular">
+        <header>
+          <span>Weather Plugin</span>
+          <aside>
+            <n-badge intent="warning">Sandboxed</n-badge>
+          </aside>
+        </header>
+        <section padding="regular">
           <div class="surface-mount" id="surface-third" data-empty></div>
-        </n-body>
-        <n-footer>
+        </section>
+        <footer>
           <n-stack direction="row" wrap>
             <n-button size="sm" id="tp-forecast">
-              <span slot="label">Show Forecast</span>
+              <span>Show Forecast</span>
             </n-button>
             <n-button size="sm" id="tp-alert">
-              <span slot="label">Weather Alert</span>
+              <span>Weather Alert</span>
             </n-button>
             <n-button size="sm" intent="danger" id="tp-sneak-form">
-              <span slot="label">Sneak a Form In</span>
+              <span>Sneak a Form In</span>
             </n-button>
             <n-button size="sm" intent="danger" id="tp-sneak-modal">
-              <span slot="label">Sneak a Modal In</span>
+              <span>Sneak a Modal In</span>
             </n-button>
           </n-stack>
-        </n-footer>
+        </footer>
       </n-card>
     </n-grid>
 
@@ -116,22 +120,26 @@
     <h2>Catalog Comparison</h2>
     <n-grid cols="2">
       <n-card>
-        <n-header>
-          <span slot="label">First-Party</span>
-          <n-text slot="trailing" muted size="sm" inline>full</n-text>
-        </n-header>
-        <n-body>
+        <header>
+          <span>First-Party</span>
+          <aside>
+            <n-text muted size="sm" inline>full</n-text>
+          </aside>
+        </header>
+        <section>
           <div class="catalog-types" id="catalog-first"></div>
-        </n-body>
+        </section>
       </n-card>
       <n-card>
-        <n-header>
-          <span slot="label">Third-Party</span>
-          <n-text slot="trailing" muted size="sm" inline>sandboxed</n-text>
-        </n-header>
-        <n-body>
+        <header>
+          <span>Third-Party</span>
+          <aside>
+            <n-text muted size="sm" inline>sandboxed</n-text>
+          </aside>
+        </header>
+        <section>
           <div class="catalog-types" id="catalog-third"></div>
-        </n-body>
+        </section>
       </n-card>
     </n-grid>
 
@@ -139,9 +147,9 @@
 
     <h2>Security Log</h2>
     <n-card>
-      <n-body show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
+      <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
         <div id="event-log"></div>
-      </n-body>
+      </section>
     </n-card>
 
     </main></native-dashboard-spa>

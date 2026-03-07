@@ -44,6 +44,12 @@
   min-width: 0;
 }
 
+/* ── Semantic sub-container integration ── */
+
+:where(native-design-panel) > :where(header) {
+  border-bottom: 1px solid var(--n-border-muted);
+}
+
 /* ── Section Structure ── */
 
 .native-design-section {

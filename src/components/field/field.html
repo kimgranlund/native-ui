@@ -153,10 +153,10 @@
     <h2>Form Composition</h2>
     <n-panel bordered style="max-width: 28rem;">
       <n-card>
-        <n-header>
-          <span slot="label">Create Account</span>
-        </n-header>
-        <n-body>
+        <header>
+          Create Account
+        </header>
+        <section>
           <n-stack gap="4">
             <n-field required>
               <label slot="label">Full name</label>
@@ -172,11 +172,11 @@
               <n-input placeholder="At least 8 characters" type="password"></n-input>
             </n-field>
           </n-stack>
-        </n-body>
-        <n-footer>
+        </section>
+        <footer>
           <n-button variant="ghost"><span slot="label">Cancel</span></n-button>
           <n-button variant="primary" intent="accent"><span slot="label">Create Account</span></n-button>
-        </n-footer>
+        </footer>
       </n-card>
     </n-panel>
 

@@ -36,28 +36,28 @@ n-dialog > n-card {
       <n-button id="open-basic">Open Dialog</n-button>
       <n-dialog id="basic-dialog">
         <n-card>
-          <n-header><span slot="label">Confirm Action</span></n-header>
-          <n-body>
+          <header><span>Confirm Action</span></header>
+          <section>
             <p class="demo-text">Are you sure you want to continue? This action cannot be undone.</p>
-          </n-body>
-          <n-footer>
+          </section>
+          <footer>
             <n-button id="basic-cancel">Cancel</n-button>
             <n-button id="basic-confirm" intent="accent">Confirm</n-button>
-          </n-footer>
+          </footer>
         </n-card>
       </n-dialog>
       <pre class="demo-code"><code>&lt;n-button id="open-btn"&gt;Open Dialog&lt;/n-button&gt;
 
 &lt;n-dialog id="my-dialog"&gt;
   &lt;n-card&gt;
-    &lt;n-header&gt;&lt;span slot="label"&gt;Confirm Action&lt;/span&gt;&lt;/n-header&gt;
-    &lt;n-body&gt;
+    &lt;header&gt;&lt;span&gt;Confirm Action&lt;/span&gt;&lt;/header&gt;
+    &lt;section&gt;
       &lt;p&gt;Are you sure you want to continue?&lt;/p&gt;
-    &lt;/n-body&gt;
-    &lt;n-footer&gt;
+    &lt;/section&gt;
+    &lt;footer&gt;
       &lt;n-button id="cancel-btn"&gt;Cancel&lt;/n-button&gt;
       &lt;n-button id="confirm-btn" intent="accent"&gt;Confirm&lt;/n-button&gt;
-    &lt;/n-footer&gt;
+    &lt;/footer&gt;
   &lt;/n-card&gt;
 &lt;/n-dialog&gt;
 
@@ -79,45 +79,45 @@ n-dialog > n-card {
       <n-button id="open-form">Edit Profile</n-button>
       <n-dialog id="form-dialog">
         <n-card>
-          <n-header><span slot="label">Edit Profile</span></n-header>
-          <n-body>
+          <header><span>Edit Profile</span></header>
+          <section>
             <n-text muted spacing="tight">Update your display name and email address.</n-text>
             <n-stack gap="3">
               <n-field>
-                <label slot="label">Name</label>
+                <label>Name</label>
                 <n-input placeholder="Your name"></n-input>
               </n-field>
               <n-field>
-                <label slot="label">Email</label>
+                <label>Email</label>
                 <n-input type="email" placeholder="you@example.com"></n-input>
               </n-field>
             </n-stack>
-          </n-body>
-          <n-footer>
+          </section>
+          <footer>
             <n-button id="form-cancel">Cancel</n-button>
             <n-button id="form-save" intent="accent">Save Changes</n-button>
-          </n-footer>
+          </footer>
         </n-card>
       </n-dialog>
       <pre class="demo-code"><code>&lt;n-dialog id="form-dialog"&gt;
   &lt;n-card&gt;
-    &lt;n-header&gt;&lt;span slot="label"&gt;Edit Profile&lt;/span&gt;&lt;/n-header&gt;
-    &lt;n-body&gt;
+    &lt;header&gt;&lt;span&gt;Edit Profile&lt;/span&gt;&lt;/header&gt;
+    &lt;section&gt;
       &lt;n-stack gap="3"&gt;
         &lt;n-field&gt;
-          &lt;label slot="label"&gt;Name&lt;/label&gt;
+          &lt;label&gt;Name&lt;/label&gt;
           &lt;n-input placeholder="Your name"&gt;&lt;/n-input&gt;
         &lt;/n-field&gt;
         &lt;n-field&gt;
-          &lt;label slot="label"&gt;Email&lt;/label&gt;
+          &lt;label&gt;Email&lt;/label&gt;
           &lt;n-input type="email" placeholder="you@example.com"&gt;&lt;/n-input&gt;
         &lt;/n-field&gt;
       &lt;/n-stack&gt;
-    &lt;/n-body&gt;
-    &lt;n-footer&gt;
+    &lt;/section&gt;
+    &lt;footer&gt;
       &lt;n-button&gt;Cancel&lt;/n-button&gt;
       &lt;n-button intent="accent"&gt;Save Changes&lt;/n-button&gt;
-    &lt;/n-footer&gt;
+    &lt;/footer&gt;
   &lt;/n-card&gt;
 &lt;/n-dialog&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
@@ -132,22 +132,22 @@ n-dialog > n-card {
       <n-button id="open-persistent">Open Persistent Dialog</n-button>
       <n-dialog id="persistent-dialog" no-close-on-backdrop>
         <n-card>
-          <n-header><span slot="label">Important Notice</span></n-header>
-          <n-body>
+          <header><span>Important Notice</span></header>
+          <section>
             <p class="demo-text">This dialog can only be closed by clicking the button below. Clicking the backdrop or pressing Escape won't dismiss it.</p>
-          </n-body>
-          <n-footer>
+          </section>
+          <footer>
             <n-button id="persistent-close" intent="accent">Got it</n-button>
-          </n-footer>
+          </footer>
         </n-card>
       </n-dialog>
       <pre class="demo-code"><code>&lt;n-dialog no-close-on-backdrop&gt;
   &lt;n-card&gt;
-    &lt;n-header&gt;&lt;span slot="label"&gt;Important Notice&lt;/span&gt;&lt;/n-header&gt;
-    &lt;n-body&gt;&lt;p&gt;Clicking outside won't close this dialog.&lt;/p&gt;&lt;/n-body&gt;
-    &lt;n-footer&gt;
+    &lt;header&gt;&lt;span&gt;Important Notice&lt;/span&gt;&lt;/header&gt;
+    &lt;section&gt;&lt;p&gt;Clicking outside won't close this dialog.&lt;/p&gt;&lt;/section&gt;
+    &lt;footer&gt;
       &lt;n-button intent="accent"&gt;Got it&lt;/n-button&gt;
-    &lt;/n-footer&gt;
+    &lt;/footer&gt;
   &lt;/n-card&gt;
 &lt;/n-dialog&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
@@ -162,13 +162,13 @@ n-dialog > n-card {
       <n-button id="open-no-esc">Open (no Escape close)</n-button>
       <n-dialog id="no-esc-dialog" no-close-on-escape>
         <n-card>
-          <n-header><span slot="label">Escape Disabled</span></n-header>
-          <n-body>
+          <header><span>Escape Disabled</span></header>
+          <section>
             <p class="demo-text">Press Escape — nothing happens. Click the backdrop or the button to close.</p>
-          </n-body>
-          <n-footer>
+          </section>
+          <footer>
             <n-button id="no-esc-close">Close</n-button>
-          </n-footer>
+          </footer>
         </n-card>
       </n-dialog>
     </n-panel>
@@ -180,30 +180,30 @@ n-dialog > n-card {
       <n-button id="open-danger" intent="danger">Delete Account</n-button>
       <n-dialog id="danger-dialog">
         <n-card>
-          <n-header><span slot="label" style="color: var(--n-ink-strong-danger);">Delete Account</span></n-header>
-          <n-body>
+          <header><span style="color: var(--n-ink-strong-danger);">Delete Account</span></header>
+          <section>
             <p class="demo-text">This will permanently delete your account and all associated data. This action cannot be reversed.</p>
-          </n-body>
-          <n-footer>
+          </section>
+          <footer>
             <n-button id="danger-cancel">Cancel</n-button>
             <n-button id="danger-confirm" intent="danger">Delete Forever</n-button>
-          </n-footer>
+          </footer>
         </n-card>
       </n-dialog>
       <pre class="demo-code"><code>&lt;n-button intent="danger"&gt;Delete Account&lt;/n-button&gt;
 
 &lt;n-dialog id="danger-dialog"&gt;
   &lt;n-card&gt;
-    &lt;n-header&gt;
-      &lt;span slot="label" style="color: var(--n-ink-strong-danger);"&gt;Delete Account&lt;/span&gt;
-    &lt;/n-header&gt;
-    &lt;n-body&gt;
+    &lt;header&gt;
+      &lt;span style="color: var(--n-ink-strong-danger);"&gt;Delete Account&lt;/span&gt;
+    &lt;/header&gt;
+    &lt;section&gt;
       &lt;p&gt;This will permanently delete your account.&lt;/p&gt;
-    &lt;/n-body&gt;
-    &lt;n-footer&gt;
+    &lt;/section&gt;
+    &lt;footer&gt;
       &lt;n-button&gt;Cancel&lt;/n-button&gt;
       &lt;n-button intent="danger"&gt;Delete Forever&lt;/n-button&gt;
-    &lt;/n-footer&gt;
+    &lt;/footer&gt;
   &lt;/n-card&gt;
 &lt;/n-dialog&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>

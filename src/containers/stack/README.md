@@ -16,9 +16,13 @@
 | `align` | `baseline`, `center`, `end`, `start`, `stretch` |
 | `justify` | `around`, `between`, `center`, `end`, `evenly`, `start` |
 | `wrap` | _(boolean)_ |
+| `sticky` | `bottom`, `top` |
+| `truncate` | _(boolean)_ |
+| `dividers` | _(boolean)_ |
 
 ## CSS Tokens
 
+- `--n-border-muted`
 - `--n-space`
 
 ## Usage

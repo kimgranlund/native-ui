@@ -41,70 +41,72 @@
 
     <h2>Review Flow</h2>
     <n-card>
-      <n-body>
+      <section>
         <n-stack direction="row" wrap>
           <n-button size="sm" variant="primary" id="start">
-            <span slot="label">Start Review</span>
+            <span>Start Review</span>
           </n-button>
           <n-button size="sm" id="handoff-copy">
-            <span slot="label">Hand off to Copy</span>
+            <span>Hand off to Copy</span>
           </n-button>
           <n-button size="sm" id="handoff-design">
-            <span slot="label">Hand off to Design</span>
+            <span>Hand off to Design</span>
           </n-button>
           <n-button size="sm" variant="ghost" id="reset">
-            <span slot="label">Reset</span>
+            <span>Reset</span>
           </n-button>
         </n-stack>
-      </n-body>
+      </section>
     </n-card>
 
     <!-- ── Shared Canvas ── -->
 
     <n-card style="margin-top: 1rem;">
-      <n-header>
-        <span slot="label">Shared Canvas — Landing Page</span>
-        <n-badge slot="trailing" id="owner-badge" intent="neutral">No owner</n-badge>
-      </n-header>
-      <n-body padding="regular">
+      <header>
+        <span>Shared Canvas — Landing Page</span>
+        <aside>
+          <n-badge id="owner-badge" intent="neutral">No owner</n-badge>
+        </aside>
+      </header>
+      <section padding="regular">
         <div class="surface-mount" id="shared-canvas" data-empty></div>
-      </n-body>
+      </section>
     </n-card>
 
     <!-- ── Per-Agent Actions ── -->
 
     <n-grid cols="2" style="margin-top: 1rem;">
       <n-card>
-        <n-header><span slot="label">Design Agent</span></n-header>
-        <n-body>
+        <header><span>Design Agent</span></header>
+        <section>
           <n-stack direction="row" wrap>
             <n-button size="sm" id="design-hero">
-              <span slot="label">Hero Section</span>
+              <span>Hero Section</span>
             </n-button>
             <n-button size="sm" id="design-features">
-              <span slot="label">Features Grid</span>
+              <span>Features Grid</span>
             </n-button>
             <n-button size="sm" id="design-cta">
-              <span slot="label">CTA Block</span>
+              <span>CTA Block</span>
             </n-button>
           </n-stack>
-        </n-body>
+        </section>
       </n-card>
       <n-card>
-        <n-header><span slot="label">Copy Agent</span></n-header>
-        <n-body>
+        <header><span>Copy Agent</span></header>
+        <section>
           <n-stack direction="row" wrap>
             <n-button size="sm" id="copy-headline">
-              <span slot="label">Write Headlines</span>
+              <span>Write Headlines</span>
             </n-button>
             <n-button size="sm" id="copy-benefits">
-              <span slot="label">Write Benefits</span>
+              <span>Write Benefits</span>
             </n-button>
             <n-button size="sm" id="copy-cta">
-              <span slot="label">Write CTA Copy</span>
+              <span>Write CTA Copy</span>
             </n-button>
           </n-stack>
-        </n-body>
+        </section>
       </n-card>
     </n-grid>
 
@@ -112,9 +114,9 @@
 
     <h2>Ownership Log</h2>
     <n-card>
-      <n-body show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
+      <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
         <div id="event-log"></div>
-      </n-body>
+      </section>
     </n-card>
 
     </main></native-dashboard-spa>

@@ -59,7 +59,10 @@
 
 /* ── Dark chrome header toolbar (chips + expand) ── */
 
-:where(native-a2ui) > :where(n-header) {
+:where(native-a2ui) > :where(n-header),
+:where(native-a2ui) > :where(header) {
+  display: flex;
+  align-items: center;
   flex: none;
   background: var(--n-pg-chrome);
   --n-ink: var(--n-pg-text-muted);
@@ -70,12 +73,15 @@
 
 /* Header button hover background */
 :where(native-a2ui) > :where(n-header) :where(n-button):hover,
-:where(native-a2ui) > :where(n-header) :where(n-button)[force-hover] {
+:where(native-a2ui) > :where(n-header) :where(n-button)[force-hover],
+:where(native-a2ui) > :where(header) :where(n-button):hover,
+:where(native-a2ui) > :where(header) :where(n-button)[force-hover] {
   background: var(--n-pg-editor-bg);
 }
 
 /* Chip active state — "panel is open" indicator */
-:where(native-a2ui) > :where(n-header) :where(n-button)[data-active] {
+:where(native-a2ui) > :where(n-header) :where(n-button)[data-active],
+:where(native-a2ui) > :where(header) :where(n-button)[data-active] {
   background: var(--n-pg-editor-bg);
   color: var(--n-pg-text-strong);
 }
@@ -173,7 +179,12 @@
 
 /* ── Pane Header (icon + label + close button) ── */
 
-:where(native-a2ui) :where(.a2ui-pane) > :where(n-header) {
+:where(native-a2ui) :where(.a2ui-pane) > :where(n-header),
+:where(native-a2ui) :where(.a2ui-pane) > :where(header) {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.375rem;
   flex: none;
   background: var(--n-pg-chrome);
   border-bottom: var(--n-pg-border);
@@ -189,12 +200,22 @@
   letter-spacing: 0.04em;
 }
 
-:where(native-a2ui) :where(.a2ui-pane) > :where(n-header) :where(n-icon) {
+:where(native-a2ui) :where(.a2ui-pane) > :where(header) > :where(nav),
+:where(native-a2ui) :where(.a2ui-pane) > :where(header) > :where(aside) {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+:where(native-a2ui) :where(.a2ui-pane) > :where(n-header) :where(n-icon),
+:where(native-a2ui) :where(.a2ui-pane) > :where(header) :where(n-icon) {
   font-size: 0.875rem;
 }
 
 :where(native-a2ui) :where(.a2ui-pane) > :where(n-header) :where(n-button):hover,
-:where(native-a2ui) :where(.a2ui-pane) > :where(n-header) :where(n-button)[force-hover] {
+:where(native-a2ui) :where(.a2ui-pane) > :where(n-header) :where(n-button)[force-hover],
+:where(native-a2ui) :where(.a2ui-pane) > :where(header) :where(n-button):hover,
+:where(native-a2ui) :where(.a2ui-pane) > :where(header) :where(n-button)[force-hover] {
   background: var(--n-pg-editor-bg);
 }
 

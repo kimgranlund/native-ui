@@ -33,30 +33,30 @@
     <h2>Structured (header + body + footer)</h2>
     <n-panel bordered>
       <n-card style="max-width: 24rem;">
-        <n-header dividers>
-          <span slot="label">Card Title</span>
-          <n-button slot="trailing" variant="ghost"><n-icon name="dots-three"></n-icon></n-button>
-        </n-header>
-        <n-body>
+        <header dividers>
+          <span>Card Title</span>
+          <aside><n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button></aside>
+        </header>
+        <section>
           <p>Card body content goes here. This demonstrates the structured layout with header, body, and footer sections.</p>
-        </n-body>
-        <n-footer dividers>
+        </section>
+        <footer dividers>
           <n-button variant="ghost"><span slot="label">Cancel</span></n-button>
           <n-button variant="primary" intent="accent"><span slot="label">Save</span></n-button>
-        </n-footer>
+        </footer>
       </n-card>
     <pre class="demo-code"><code>&lt;n-card&gt;
-  &lt;n-header&gt;
-    &lt;span slot="label"&gt;Card Title&lt;/span&gt;
-    &lt;n-button slot="trailing" variant="ghost"&gt;...&lt;/n-button&gt;
-  &lt;/n-header&gt;
-  &lt;n-body&gt;
+  &lt;header&gt;
+    &lt;span&gt;Card Title&lt;/span&gt;
+    &lt;aside&gt;&lt;n-button variant="ghost"&gt;...&lt;/n-button&gt;&lt;/aside&gt;
+  &lt;/header&gt;
+  &lt;section&gt;
     &lt;p&gt;Card body content goes here.&lt;/p&gt;
-  &lt;/n-body&gt;
-  &lt;n-footer&gt;
+  &lt;/section&gt;
+  &lt;footer&gt;
     &lt;n-button variant="ghost"&gt;Cancel&lt;/n-button&gt;
     &lt;n-button variant="primary" intent="accent"&gt;Save&lt;/n-button&gt;
-  &lt;/n-footer&gt;
+  &lt;/footer&gt;
 &lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
@@ -67,34 +67,34 @@
       <div class="demo-row">
         <n-card style="max-width: 18rem;">
           <div slot="media" style="height: 10rem; background: linear-gradient(135deg, var(--n-surface-accent), var(--n-surface-info));"></div>
-          <n-body padding="tight">
+          <section padding="tight">
             <h3 style="margin: 0 0 0.25rem;">Product Name</h3>
             <p class="demo-text-sm">A short description of the product.</p>
-          </n-body>
-          <n-footer padding="tight">
+          </section>
+          <footer padding="tight">
             <n-button variant="primary" intent="accent" size="sm"><span slot="label">Buy Now</span></n-button>
-          </n-footer>
+          </footer>
         </n-card>
         <n-card style="max-width: 18rem;">
           <div slot="media" style="height: 10rem; background: linear-gradient(135deg, var(--n-surface-success), var(--n-surface-warning));"></div>
-          <n-body padding="tight">
+          <section padding="tight">
             <h3 style="margin: 0 0 0.25rem;">Another Product</h3>
             <p class="demo-text-sm">Another description text.</p>
-          </n-body>
-          <n-footer padding="tight">
+          </section>
+          <footer padding="tight">
             <n-button variant="primary" intent="accent" size="sm"><span slot="label">Buy Now</span></n-button>
-          </n-footer>
+          </footer>
         </n-card>
       </div>
       <pre class="demo-code"><code>&lt;n-card&gt;
   &lt;div slot="media" style="height: 10rem; background: ..."&gt;&lt;/div&gt;
-  &lt;n-body&gt;
+  &lt;section&gt;
     &lt;h3&gt;Product Name&lt;/h3&gt;
     &lt;p&gt;A short description.&lt;/p&gt;
-  &lt;/n-body&gt;
-  &lt;n-footer&gt;
+  &lt;/section&gt;
+  &lt;footer&gt;
     &lt;n-button variant="primary" intent="accent" size="sm"&gt;Buy Now&lt;/n-button&gt;
-  &lt;/n-footer&gt;
+  &lt;/footer&gt;
 &lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
@@ -103,30 +103,30 @@
     <h2>Header with Leading & Trailing</h2>
     <n-panel bordered>
       <n-card style="max-width: 28rem;">
-        <n-header>
-          <n-badge slot="leading" intent="accent">New</n-badge>
-          <span slot="label">Card with Actions</span>
-          <n-button slot="trailing" variant="ghost"><n-icon name="dots-three"></n-icon></n-button>
-        </n-header>
-        <n-body>
+        <header>
+          <nav><n-badge intent="accent">New</n-badge></nav>
+          <span>Card with Actions</span>
+          <aside><n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button></aside>
+        </header>
+        <section>
           <p>The header uses a 3-column grid: leading / label / trailing. The card adds contextual divider borders automatically.</p>
-        </n-body>
-        <n-footer justify="spread">
+        </section>
+        <footer justify="spread">
           <n-button variant="ghost"><span slot="label">Cancel</span></n-button>
           <n-button variant="primary" intent="accent"><span slot="label">Save</span></n-button>
-        </n-footer>
+        </footer>
       </n-card>
     <pre class="demo-code"><code>&lt;n-card&gt;
-  &lt;n-header&gt;
-    &lt;n-badge slot="leading" intent="accent"&gt;New&lt;/n-badge&gt;
-    &lt;span slot="label"&gt;Card with Actions&lt;/span&gt;
-    &lt;n-button slot="trailing" variant="ghost"&gt;...&lt;/n-button&gt;
-  &lt;/n-header&gt;
-  &lt;n-body&gt;...&lt;/n-body&gt;
-  &lt;n-footer justify="spread"&gt;
+  &lt;header&gt;
+    &lt;nav&gt;&lt;n-badge intent="accent"&gt;New&lt;/n-badge&gt;&lt;/nav&gt;
+    &lt;span&gt;Card with Actions&lt;/span&gt;
+    &lt;aside&gt;&lt;n-button variant="ghost"&gt;...&lt;/n-button&gt;&lt;/aside&gt;
+  &lt;/header&gt;
+  &lt;section&gt;...&lt;/section&gt;
+  &lt;footer justify="spread"&gt;
     &lt;n-button variant="ghost"&gt;Cancel&lt;/n-button&gt;
     &lt;n-button variant="primary" intent="accent"&gt;Save&lt;/n-button&gt;
-  &lt;/n-footer&gt;
+  &lt;/footer&gt;
 &lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
@@ -153,22 +153,22 @@
     <n-panel bordered>
       <h3>size="sm"</h3>
       <n-card size="sm" style="max-width: 20rem;">
-        <n-header><span slot="label">Small Card</span></n-header>
-        <n-body><p>Compact padding.</p></n-body>
+        <header><span>Small Card</span></header>
+        <section><p>Compact padding.</p></section>
       </n-card>
       <h3>size="lg"</h3>
       <n-card size="lg" style="max-width: 20rem;">
-        <n-header><span slot="label">Large Card</span></n-header>
-        <n-body><p>Spacious padding.</p></n-body>
+        <header><span>Large Card</span></header>
+        <section><p>Spacious padding.</p></section>
       </n-card>
     <pre class="demo-code"><code>&lt;n-card size="sm"&gt;
-  &lt;n-header&gt;&lt;span slot="label"&gt;Small Card&lt;/span&gt;&lt;/n-header&gt;
-  &lt;n-body&gt;&lt;p&gt;Compact padding.&lt;/p&gt;&lt;/n-body&gt;
+  &lt;header&gt;&lt;span&gt;Small Card&lt;/span&gt;&lt;/header&gt;
+  &lt;section&gt;&lt;p&gt;Compact padding.&lt;/p&gt;&lt;/section&gt;
 &lt;/n-card&gt;
 
 &lt;n-card size="lg"&gt;
-  &lt;n-header&gt;&lt;span slot="label"&gt;Large Card&lt;/span&gt;&lt;/n-header&gt;
-  &lt;n-body&gt;&lt;p&gt;Spacious padding.&lt;/p&gt;&lt;/n-body&gt;
+  &lt;header&gt;&lt;span&gt;Large Card&lt;/span&gt;&lt;/header&gt;
+  &lt;section&gt;&lt;p&gt;Spacious padding.&lt;/p&gt;&lt;/section&gt;
 &lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
@@ -178,22 +178,22 @@
     <n-panel bordered>
       <n-grid cols="3" gap="4">
         <n-card>
-          <n-header><span slot="label">Revenue</span></n-header>
-          <n-body><p style="margin: 0; font-size: 1.5rem; font-weight: 700;">$45,231</p></n-body>
+          <header><span>Revenue</span></header>
+          <section><p style="margin: 0; font-size: 1.5rem; font-weight: 700;">$45,231</p></section>
         </n-card>
         <n-card>
-          <n-header><span slot="label">Users</span></n-header>
-          <n-body><p style="margin: 0; font-size: 1.5rem; font-weight: 700;">2,350</p></n-body>
+          <header><span>Users</span></header>
+          <section><p style="margin: 0; font-size: 1.5rem; font-weight: 700;">2,350</p></section>
         </n-card>
         <n-card>
-          <n-header><span slot="label">Conversion</span></n-header>
-          <n-body><p style="margin: 0; font-size: 1.5rem; font-weight: 700;">3.2%</p></n-body>
+          <header><span>Conversion</span></header>
+          <section><p style="margin: 0; font-size: 1.5rem; font-weight: 700;">3.2%</p></section>
         </n-card>
       </n-grid>
     <pre class="demo-code"><code>&lt;n-grid cols="3" gap="4"&gt;
   &lt;n-card&gt;
-    &lt;n-header&gt;&lt;span slot="label"&gt;Revenue&lt;/span&gt;&lt;/n-header&gt;
-    &lt;n-body&gt;&lt;p&gt;$45,231&lt;/p&gt;&lt;/n-body&gt;
+    &lt;header&gt;&lt;span&gt;Revenue&lt;/span&gt;&lt;/header&gt;
+    &lt;section&gt;&lt;p&gt;$45,231&lt;/p&gt;&lt;/section&gt;
   &lt;/n-card&gt;
   &lt;n-card&gt;...&lt;/n-card&gt;
   &lt;n-card&gt;...&lt;/n-card&gt;

@@ -51,4 +51,17 @@
     gap: calc(var(--n-space) * 2);
   }
 
+  /* ── Semantic slot selectors ── */
+  /* WHY: <aside> as trailing slot alternative to [slot="trailing"]. */
+
+  :where(n-dashboard-breadcrumb):has(> :first-child + * + aside) {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  :where(n-dashboard-breadcrumb) > :where(aside) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+  }
+
 }

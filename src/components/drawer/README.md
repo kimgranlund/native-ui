@@ -41,12 +41,16 @@ Public `--n-*` custom properties consumed by this component:
 - `--n-backdrop-opacity`
 - `--n-border-muted`
 - `--n-border-muted-neutral`
+- `--n-button-font-weight`
 - `--n-drawer-height`
 - `--n-drawer-width`
 - `--n-duration`
 - `--n-ink`
+- `--n-ink-strong`
 - `--n-panel`
 - `--n-shadow-lg`
+- `--n-size`
+- `--n-space`
 
 ## Usage
 

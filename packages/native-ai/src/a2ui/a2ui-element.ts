@@ -667,8 +667,8 @@ export class NA2UI extends NativeElement {
   // ── DOM construction ──
 
   #buildDOM(): void {
-    // ── Header (n-header > n-toolbar) ──
-    const headerWrap = document.createElement('n-header');
+    // ── Header (header > n-toolbar) ──
+    const headerWrap = document.createElement('header');
 
     const header = document.createElement('n-toolbar');
     header.setAttribute('size', 'sm');
@@ -678,7 +678,7 @@ export class NA2UI extends NativeElement {
     const presetSelect = document.createElement('n-select');
     presetSelect.setAttribute('size', 'sm');
     presetSelect.setAttribute('inline', '');
-    presetSelect.setAttribute('slot', 'leading');
+    /* slot removed — semantic header uses flow layout */
 
     const trigger = document.createElement('n-button');
     trigger.setAttribute('justify', 'spread');
@@ -713,8 +713,7 @@ export class NA2UI extends NativeElement {
     presetSelect.addEventListener('native:change', this.#onPresetChange);
     headerWrap.appendChild(presetSelect);
 
-    // Panel toggle chips + expand (trailing slot)
-    header.setAttribute('slot', 'trailing');
+    // Panel toggle chips + expand
     for (const id of PANEL_ORDER) {
       const chip = document.createElement('n-button');
       chip.setAttribute('variant', 'ghost');
@@ -780,22 +779,20 @@ export class NA2UI extends NativeElement {
       }
 
       // Pane header: [icon] [label] ... [X]
-      const paneHeader = document.createElement('n-header');
-      paneHeader.setAttribute('size', 'sm');
+      const paneHeader = document.createElement('header');
 
+      const leading = document.createElement('nav');
       const headerIcon = document.createElement('n-icon');
       headerIcon.setAttribute('name', PANEL_ICONS[id]);
-      headerIcon.setAttribute('slot', 'leading');
-      paneHeader.appendChild(headerIcon);
+      leading.appendChild(headerIcon);
+      paneHeader.appendChild(leading);
 
       const headerLabel = document.createElement('span');
-      headerLabel.setAttribute('slot', 'label');
       headerLabel.textContent = PANEL_LABELS[id];
       paneHeader.appendChild(headerLabel);
 
-      // Trailing actions — single slot="trailing" wrapper so n-header grid doesn't stack
-      const trailing = document.createElement('span');
-      trailing.setAttribute('slot', 'trailing');
+      // Trailing actions — aside wraps action buttons
+      const trailing = document.createElement('aside');
 
       // Reset button for editable panes (JS, HTML, CSS) — restores computed content
       if (id === 'js' || id === 'html' || id === 'css') {
@@ -1207,14 +1204,13 @@ export class NA2UI extends NativeElement {
     if (!mapping) return;
 
     // Header: [< Button] ... [Info | JSON]
-    const headerRow = document.createElement('n-header');
+    const headerRow = document.createElement('header');
     headerRow.className = 'a2ui-map-detail-header';
-    headerRow.setAttribute('padding', 'none');
 
+    const backNav = document.createElement('nav');
     const backBtn = document.createElement('n-button');
     backBtn.setAttribute('variant', 'ghost');
     backBtn.setAttribute('size', 'sm');
-    backBtn.setAttribute('slot', 'leading');
     backBtn.className = 'a2ui-map-back';
     backBtn.innerHTML = `<n-icon name="caret-left"></n-icon> ${mapping.a2uiType}`;
     backBtn.addEventListener('native:press', () => {
@@ -1223,17 +1219,18 @@ export class NA2UI extends NativeElement {
       this.#componentEditorEl = null;
       this.#renderComponentMap(el, activeTypes);
     });
-    headerRow.appendChild(backBtn);
+    backNav.appendChild(backBtn);
+    headerRow.appendChild(backNav);
 
     // Tab switch: Info | JSON
     const instances = this.#getComponentInstances(type);
     const hasInstances = instances.length > 0;
 
+    const detailTrailing = document.createElement('aside');
     const tabBar = document.createElement('n-segmented-control') as HTMLElement & { value: string | null };
     tabBar.className = 'a2ui-map-tab-bar';
     tabBar.setAttribute('size', 'xs');
     tabBar.setAttribute('inline', '');
-    tabBar.setAttribute('slot', 'trailing');
     tabBar.value = this.#detailTab;
 
     const infoTab = document.createElement('n-segment');
@@ -1253,7 +1250,8 @@ export class NA2UI extends NativeElement {
         this.#renderComponentMap(el, activeTypes);
       }
     });
-    headerRow.appendChild(tabBar);
+    detailTrailing.appendChild(tabBar);
+    headerRow.appendChild(detailTrailing);
     el.appendChild(headerRow);
 
     // ── Info tab content ──

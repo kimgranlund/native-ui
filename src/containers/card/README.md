@@ -41,6 +41,7 @@ Public `--n-*` custom properties consumed by this component:
 - `--n-ink-strong`
 - `--n-line-height`
 - `--n-radius`
+- `--n-size`
 - `--n-size-md`
 - `--n-space`
 - `--n-space-k`
