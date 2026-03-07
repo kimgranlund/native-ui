@@ -655,9 +655,35 @@
     position-area: inline-end span-block-end;
   }
 
+  /* ── Sidebar Section Label ── */
+  /* WHY: Standalone uppercase category header between sidebar groups.
+     Not collapsible (no <details>/<summary>). Hides in collapsed icon rail. */
+
+  :where(n-sidebar-section-label) {
+    display: block;
+    padding-block: var(--n-space);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    font-size: calc(var(--n-font-size) * 0.75);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--n-ink-muted);
+    user-select: none;
+    cursor: default;
+  }
+
+  :where(n-sidebar-section-label):not(:first-child) {
+    margin-block-start: calc(var(--n-space) * 4);
+  }
+
   /* ── Container Query: Collapsed Sidebar (nav) ── */
 
   @container sidebar (max-width: 80px) {
+
+    /* Section labels hide in collapsed icon rail */
+    :where(n-sidebar-section-label) {
+      display: none;
+    }
 
     /* Nav items hide entirely — only group headers (with icons) remain. */
     :where(n-sidebar-nav-item) {
