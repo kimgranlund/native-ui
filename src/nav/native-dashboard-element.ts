@@ -120,7 +120,7 @@ export class NApp extends NativeElement {
 
     // ── Build layout ──
 
-    const layout = document.createElement('native-dashboard') as HTMLElement;
+    const layout = document.createElement('native-app') as HTMLElement;
     if (isCollapsed) layout.setAttribute('collapsed', '');
 
     // ── Sidebar aside ──

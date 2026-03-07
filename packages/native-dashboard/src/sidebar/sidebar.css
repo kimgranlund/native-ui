@@ -1,6 +1,6 @@
 @layer ui {
 
-  :where(native-dashboard):not(:defined),
+  :where(native-app):not(:defined),
   :where(n-sidebar-item):not(:defined),
   :where(n-sidebar-nav):not(:defined),
   :where(n-sidebar-group):not(:defined),
@@ -8,14 +8,14 @@
   :where(n-sidebar-nav-item):not(:defined) { visibility: hidden; }
 
   /* ╭──────────────────────────────────────────────────────────╮
-     │  native-dashboard                                         │
+     │  native-app                                         │
      │  Full-page layout: collapsible/resizable sidebar aside   │
      │  + content column (breadcrumb, canvas, body, chat).      │
      ╰──────────────────────────────────────────────────────────╯ */
 
   /* ── Outer Layout ── */
 
-  :where(native-dashboard) {
+  :where(native-app) {
     display: flex;
     height: 100dvh;
   }
@@ -23,7 +23,7 @@
   /* WHY: Reserve sidebar width before JS builds the DOM — prevents layout shift.
      Collapsed state is read synchronously in the constructor so CSS matches immediately.
      Replaced by the real aside once [data-ready] is set. */
-  :where(native-dashboard):not([data-ready]):not([collapsed])::before {
+  :where(native-app):not([data-ready]):not([collapsed])::before {
     content: '';
     width: var(--n-sidebar-width);
     flex-shrink: 0;
@@ -31,7 +31,7 @@
     border-right: 1px solid var(--n-border-muted);
   }
 
-  :where(native-dashboard):not([data-ready])[collapsed]::before {
+  :where(native-app):not([data-ready])[collapsed]::before {
     content: '';
     width: 48px;
     flex-shrink: 0;
@@ -42,7 +42,7 @@
   /* ── Content Column ── */
   /* WHY: Everything except the aside forms a flex column. */
 
-  :where(native-dashboard) > :where(:not([slot])) {
+  :where(native-app) > :where(:not([slot])) {
     flex: 1 1 0%;
     min-width: 0;
     min-height: 0;
@@ -56,7 +56,7 @@
      ensures content behind the sidebar never bleeds through. The aside is also
      the containing block for absolute header/footer overlays. */
 
-  :where(native-dashboard) > :where([slot="sidebar"]) {
+  :where(native-app) > :where([slot="sidebar"]) {
     --n-sidebar-header-height: 0px;
     --n-sidebar-footer-height: 0px;
 
@@ -75,7 +75,7 @@
   }
 
   /* WHY: Disable width transition while dragging — it fights the pointer. */
-  :where(native-dashboard) > :where([slot="sidebar"][resizing]) {
+  :where(native-app) > :where([slot="sidebar"][resizing]) {
     transition: none;
   }
 
@@ -84,14 +84,14 @@
      [collapsed] drives the aside to 48px which triggers @container sidebar queries
      in this file and in child component CSS. */
 
-  :where(native-dashboard)[collapsed] > :where([slot="sidebar"]) {
+  :where(native-app)[collapsed] > :where([slot="sidebar"]) {
     width: 48px;
     min-width: 48px;
   }
 
   /* ── Resize Handle ── */
 
-  :where(native-dashboard) :where(.layout-resize-handle) {
+  :where(native-app) :where(.layout-resize-handle) {
     position: absolute;
     top: 0;
     right: 0;
@@ -101,18 +101,18 @@
     z-index: 1;
   }
 
-  :where(native-dashboard) :where(.layout-resize-handle):hover,
-  :where(native-dashboard) > :where([slot="sidebar"][resizing]) :where(.layout-resize-handle) {
+  :where(native-app) :where(.layout-resize-handle):hover,
+  :where(native-app) > :where([slot="sidebar"][resizing]) :where(.layout-resize-handle) {
     background: var(--n-border-muted);
   }
 
   /* WHY: When collapsed to icon rail, the sidebar edge meets content — drop left padding. */
 
-  :where(native-dashboard)[collapsed] :where(n-dashboard-canvas) {
+  :where(native-app)[collapsed] :where(n-dashboard-canvas) {
     padding-inline-start: 0;
   }
 
-  :where(native-dashboard)[collapsed] :where(n-dashboard-breadcrumb) {
+  :where(native-app)[collapsed] :where(n-dashboard-breadcrumb) {
     padding-inline-start: 0;
   }
 

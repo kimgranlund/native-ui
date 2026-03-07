@@ -13,7 +13,7 @@ define('n-sidebar-group-header', NSidebarGroupHeader);
 define('n-sidebar-group', NSidebarGroup);
 define('n-sidebar-nav', NSidebarNav);
 define('n-sidebar-item', NSidebarItem);
-define('native-dashboard', NSidebar);
+define('native-app', NSidebar);
 
 // Dogfooded core components (nav-group flyout creates listbox/option)
 define('n-listbox', NListbox);

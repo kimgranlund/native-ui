@@ -3,7 +3,7 @@ import { describe, it, expect, afterEach } from 'vitest';
 import '../index.ts';
 
 function create(): HTMLElement {
-  const el = document.createElement('native-dashboard');
+  const el = document.createElement('native-app');
   const aside = document.createElement('n-sidebar');
   aside.setAttribute('slot', 'sidebar');
   el.appendChild(aside);
@@ -21,7 +21,7 @@ async function createCollapsedWithGroups(): Promise<{
   group1: HTMLElement;
   group2: HTMLElement;
 }> {
-  const sidebar = document.createElement('native-dashboard');
+  const sidebar = document.createElement('native-app');
   sidebar.setAttribute('collapsed', '');
   const slot = document.createElement('div');
   slot.setAttribute('slot', 'sidebar');
@@ -62,9 +62,9 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-describe('native-dashboard', () => {
+describe('native-app', () => {
   it('is registered as a custom element', () => {
-    expect(customElements.get('native-dashboard')).toBeDefined();
+    expect(customElements.get('native-app')).toBeDefined();
   });
 
   it('sets data-ready on setup', () => {
@@ -107,7 +107,7 @@ describe('n-sidebar-item', () => {
 
 // ── Flyout coordinator ──
 
-describe('native-dashboard flyout coordinator', () => {
+describe('native-app flyout coordinator', () => {
   it('collapsed sidebar intercepts summary click to open flyout', async () => {
     const { group1 } = await createCollapsedWithGroups();
     const flyout = group1.querySelector('n-listbox[popover]')!;

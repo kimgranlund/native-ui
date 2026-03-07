@@ -41,7 +41,7 @@ function createGroupedNav(): HTMLElement {
 }
 
 async function createCollapsedSidebar(): Promise<{ sidebar: HTMLElement; nav: HTMLElement; group: HTMLElement }> {
-  const sidebar = document.createElement('native-dashboard');
+  const sidebar = document.createElement('native-app');
   sidebar.setAttribute('collapsed', '');
   const slot = document.createElement('div');
   slot.setAttribute('slot', 'sidebar');
@@ -410,7 +410,7 @@ describe('n-sidebar-group flyout (sidebar coordinator)', () => {
 
   it('opening a flyout closes sibling flyouts', async () => {
     // Two groups in the same collapsed sidebar
-    const sidebar = document.createElement('native-dashboard');
+    const sidebar = document.createElement('native-app');
     sidebar.setAttribute('collapsed', '');
     const slot = document.createElement('div');
     slot.setAttribute('slot', 'sidebar');

@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-design",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "OKLCH color design system inspector for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",
