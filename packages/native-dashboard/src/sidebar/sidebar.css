@@ -33,7 +33,7 @@
 
   :where(native-app):not([data-ready])[collapsed]::before {
     content: '';
-    width: 48px;
+    width: var(--n-sidebar-collapsed-width, 48px);
     flex-shrink: 0;
     background: var(--n-body);
     border-right: 1px solid var(--n-border-muted);
@@ -85,8 +85,8 @@
      in this file and in child component CSS. */
 
   :where(native-app)[collapsed] > :where([slot="sidebar"]) {
-    width: 48px;
-    min-width: 48px;
+    width: var(--n-sidebar-collapsed-width, 48px);
+    min-width: var(--n-sidebar-collapsed-width, 48px);
   }
 
   /* ── Resize Handle ── */
@@ -149,8 +149,21 @@
     grid-template-columns: 1fr auto;
   }
 
+  /* Leading cell — flex container for toggle button + breadcrumb */
+  :where(native-app) > :where(:not([slot])) > :where(nav) > :first-child {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+  }
+
+  /* Label area — prevent overflow */
+  :where(native-app) > :where(:not([slot])) > :where(nav) > :nth-child(2) {
+    min-width: 0;
+  }
+
   /* Trailing actions in breadcrumb */
-  :where(native-app) > :where(:not([slot])) > :where(nav) > :where(aside) {
+  :where(native-app) > :where(:not([slot])) > :where(nav) > :where(aside),
+  :where(native-app) > :where(:not([slot])) > :where(nav) > :where([slot="trailing"]) {
     display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
@@ -184,6 +197,14 @@
   }
 
   /* Semantic sub-containers inside main */
+
+  :where(native-app) :where(section.content) > :where(main) > :where(header),
+  :where(native-app) :where(section.content) > :where(main) > :where(section),
+  :where(native-app) :where(section.content) > :where(main) > :where(footer) {
+    padding: var(--n-dashboard-panel-content-padding, 0);
+    box-sizing: border-box;
+  }
+
   :where(native-app) :where(section.content) > :where(main):has(> header, > footer) {
     overflow: hidden;
   }
@@ -195,6 +216,11 @@
     scrollbar-width: none;
     display: flex;
     flex-direction: column;
+    gap: var(--n-dashboard-panel-content-gap, 0);
+  }
+
+  :where(native-app) :where(section.content) > :where(main)[show-scrollbar] > :where(section) {
+    scrollbar-width: thin;
   }
 
   :where(native-app) :where(section.content) > :where(main) > :where(header) {
@@ -217,6 +243,62 @@
     max-width: var(--n-dashboard-panel-content-max-width, none);
     width: 100%;
     margin-inline: auto;
+  }
+
+  /* Aside panel — semantic equivalent of n-dashboard-panel[aside] */
+  :where(native-app) :where(section.content) > :where(aside) {
+    --n-ground: var(--n-panel);
+
+    position: relative;
+    width: 0;
+    min-width: 0;
+    max-width: 480px;
+    overflow: clip;
+    padding: 0;
+    flex-shrink: 0;
+    background: var(--n-ground);
+    border-radius: var(--n-radius);
+    transition:
+      width var(--n-duration) var(--n-easing),
+      min-width var(--n-duration) var(--n-easing),
+      padding var(--n-duration) var(--n-easing),
+      margin var(--n-duration) var(--n-easing);
+  }
+
+  :where(native-app) :where(section.content) > :where(aside)[open] {
+    width: var(--n-aside-width, 360px);
+    min-width: var(--n-aside-min-width, 280px);
+    margin-inline-start: calc(var(--n-space-k) * var(--n-space));
+    overflow-y: auto;
+    padding: calc(var(--n-space-k) * var(--n-space));
+  }
+
+  /* WHY: When n-chat manages its own sub-container padding and scroll,
+     the layout container delegates — no own padding, no own scroll. */
+  :where(native-app) :where(section.content) > :where(aside)[open]:has(> n-chat) {
+    padding: 0;
+    overflow: visible;
+  }
+
+  /* WHY: Disable width transition while dragging — it fights the pointer. */
+  :where(native-app) :where(section.content) > :where(aside)[resizing] {
+    transition: none;
+  }
+
+  /* Aside resize handle */
+  :where(native-app) :where(section.content) > :where(aside) :where(.layout-resize-handle) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 1;
+  }
+
+  :where(native-app) :where(section.content) > :where(aside) :where(.layout-resize-handle):hover,
+  :where(native-app) :where(section.content) > :where(aside)[resizing] :where(.layout-resize-handle) {
+    background: var(--n-border-muted);
   }
 
   /* Collapsed padding — semantic selectors */
@@ -398,7 +480,7 @@
     margin-block: var(--n-popover-viewport-margin);
     margin-inline: 0;
     margin-inline-start: var(--n-popover-gap);
-    min-width: 200px;
+    min-width: var(--n-sidebar-popover-min-width, 200px);
     max-height: var(--n-popover-max-height);
     overflow-y: auto;
   }
@@ -754,7 +836,7 @@
     margin-block: var(--n-popover-viewport-margin);
     margin-inline: 0;
     margin-inline-start: var(--n-popover-gap);
-    min-width: 200px;
+    min-width: var(--n-sidebar-popover-min-width, 200px);
     max-height: var(--n-popover-max-height);
     overflow-y: auto;
   }
