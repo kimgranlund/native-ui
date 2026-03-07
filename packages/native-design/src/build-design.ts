@@ -118,7 +118,7 @@ function buildFamilyItems(family: string): TokenSectionItem[] {
  * with their full ramp of surfaces, solids, semantics, and scrims.
  *
  * Hosts can call this, mutate the result (drop sections, reorder, add custom
- * tokens), and pass the modified schema to `<native-tokens>`.
+ * tokens), and pass the modified schema to `<native-design>`.
  */
 export function createDefaultSchema(): TokenSchema {
   return {
@@ -137,10 +137,10 @@ export function createDefaultSchema(): TokenSchema {
 
 function createSectionEl(title: string, family?: string): HTMLElement {
   const section = document.createElement('div');
-  section.className = 'native-tokens-section';
+  section.className = 'native-design-section';
   if (family) section.dataset.family = family;
   const h = document.createElement('h3');
-  h.className = 'native-tokens-heading';
+  h.className = 'native-design-heading';
   h.textContent = title;
   section.appendChild(h);
   return section;
@@ -148,19 +148,19 @@ function createSectionEl(title: string, family?: string): HTMLElement {
 
 function createSubHeading(text: string): HTMLElement {
   const h = document.createElement('h4');
-  h.className = 'native-tokens-subheading';
+  h.className = 'native-design-subheading';
   h.textContent = text;
   return h;
 }
 
 function createColorStrip(data: Array<{ name: string; token: string }>): HTMLElement {
-  const el = document.createElement('native-tokens-colors');
+  const el = document.createElement('native-design-colors');
   el.setAttribute('data', JSON.stringify(data));
   return el;
 }
 
 function createVariableEl(item: TokenVariable): HTMLElement {
-  const el = document.createElement('native-tokens-variable');
+  const el = document.createElement('native-design-variable');
   el.setAttribute('data', JSON.stringify({
     name: item.name,
     type: 'number',
@@ -180,8 +180,8 @@ function createVariableEl(item: TokenVariable): HTMLElement {
  * Falls back to `createDefaultSchema()` when no schema is provided.
  *
  * This is a pure renderer — no header, filter, or theme controls.
- * The host provides those and wires them to the `<native-tokens>` element's
- * `family` attribute and the `native-tokens-theme-change` event.
+ * The host provides those and wires them to the `<native-design>` element's
+ * `family` attribute and the `native-design-theme-change` event.
  */
 export function buildTokens(container: HTMLElement, schema?: TokenSchema): void {
   const { sections } = schema ?? createDefaultSchema();

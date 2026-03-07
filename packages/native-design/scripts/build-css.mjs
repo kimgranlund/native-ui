@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-// Builds CSS outputs for @nonoun/native-tokens:
-//   dist/native-tokens.css  — inspector UI styles
+// Builds CSS outputs for @nonoun/native-design:
+//   dist/native-design.css  — inspector UI styles
 //   dist/foundation.css     — full foundation (colors + tokens + themes + base + primitives)
 
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
@@ -31,13 +31,13 @@ const foundationCSS =
   foundationFiles.map(read).join('\n');
 
 // Inspector UI styles
-const tokensCSS = readFileSync(resolve(pkg, 'src/tokens.css'), 'utf-8');
+const designCSS = readFileSync(resolve(pkg, 'src/design.css'), 'utf-8');
 
 // Write output
 mkdirSync(dist, { recursive: true });
 writeFileSync(resolve(dist, 'foundation.css'), foundationCSS);
-writeFileSync(resolve(dist, 'native-tokens.css'), tokensCSS);
+writeFileSync(resolve(dist, 'native-design.css'), designCSS);
 
 console.log('CSS build complete:');
 console.log(`  dist/foundation.css (${foundationFiles.length} files)`);
-console.log('  dist/native-tokens.css');
+console.log('  dist/native-design.css');

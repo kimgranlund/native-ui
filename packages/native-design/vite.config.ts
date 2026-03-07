@@ -7,7 +7,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es'],
-      fileName: 'native-tokens',
+      fileName: 'native-design',
     },
     rollupOptions: {
       external: [/^@nonoun\/native-ui/],

@@ -1,6 +1,6 @@
 import { NativeElement } from '@nonoun/native-ui';
 
-export interface NTokensThemeEntry {
+export interface NDesignThemeEntry {
   name: string;
   value: string;
 }
@@ -18,10 +18,10 @@ const ENV_TOKENS = [
   'n-env-hue-danger', 'n-env-chroma-danger', 'n-env-lightness-danger',
 ];
 
-export class NTokensThemes extends NativeElement {
+export class NDesignThemes extends NativeElement {
   static observedAttributes = ['data'];
 
-  #data: NTokensThemeEntry[] = [];
+  #data: NDesignThemeEntry[] = [];
 
   attributeChangedCallback(name: string, old: string | null, val: string | null): void {
     if (old === val) return;
@@ -80,8 +80,8 @@ export class NTokensThemes extends NativeElement {
       root.removeAttribute('theme');
     }
 
-    // Dispatch so sibling native-tokens-variable elements can sync their sliders
-    this.dispatchEvent(new CustomEvent('native-tokens-theme-change', {
+    // Dispatch so sibling native-design-variable elements can sync their sliders
+    this.dispatchEvent(new CustomEvent('native-design-theme-change', {
       bubbles: true,
       detail: { theme: value },
     }));

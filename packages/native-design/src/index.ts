@@ -1,28 +1,28 @@
-// native-tokens entry point — all registrations inline to survive tree-shaking.
-// Keeping define() calls here guarantees they appear in dist/native-tokens.js.
+// native-design entry point — all registrations inline to survive tree-shaking.
+// Keeping define() calls here guarantees they appear in dist/native-design.js.
 
 import { define, NRange, NSelect, NButton, NIcon, NListbox, NOption, registerIcon } from '@nonoun/native-ui';
 
-// native-tokens-* sub-elements
-import { NTokensVariable } from './tokens-variable-element.ts';
-import { NTokensColors } from './tokens-colors-element.ts';
-import { NTokensColorSwatch } from './tokens-color-swatch-element.ts';
-import { NTokensThemes } from './tokens-themes-element.ts';
-import { NTokens } from './tokens-element.ts';
-import { NTokensPanel } from './tokens-panel-element.ts';
+// native-design-* sub-elements
+import { NDesignVariable } from './design-variable-element.ts';
+import { NDesignColors } from './design-colors-element.ts';
+import { NDesignColorSwatch } from './design-color-swatch-element.ts';
+import { NDesignThemes } from './design-themes-element.ts';
+import { NDesign } from './design-element.ts';
+import { NDesignPanel } from './design-panel-element.ts';
 
-import { buildTokens, createDefaultSchema, themes, families, familyFilterOptions } from './build-tokens.ts';
+import { buildTokens, createDefaultSchema, themes, families, familyFilterOptions } from './build-design.ts';
 
 // ── Register all elements ──
 // define() is a no-op if the tag is already registered, so these are safe
 // even when the consumer also imports @nonoun/native-ui/register.
 
-define('native-tokens', NTokens);
-define('native-tokens-variable', NTokensVariable);
-define('native-tokens-colors', NTokensColors);
-define('native-tokens-color-swatch', NTokensColorSwatch);
-define('native-tokens-themes', NTokensThemes);
-define('native-tokens-panel', NTokensPanel);
+define('native-design', NDesign);
+define('native-design-variable', NDesignVariable);
+define('native-design-colors', NDesignColors);
+define('native-design-color-swatch', NDesignColorSwatch);
+define('native-design-themes', NDesignThemes);
+define('native-design-panel', NDesignPanel);
 
 // Dogfooded n-* components created via document.createElement
 define('n-range', NRange);
@@ -38,19 +38,19 @@ registerIcon('palette', '<svg viewBox="0 0 256 256" fill="currentColor"><path d=
 // ── Public API ──
 
 export {
-  NTokens,
-  NTokensPanel,
-  NTokensVariable,
-  NTokensColors,
-  NTokensColorSwatch,
-  NTokensThemes,
+  NDesign,
+  NDesignPanel,
+  NDesignVariable,
+  NDesignColors,
+  NDesignColorSwatch,
+  NDesignThemes,
   buildTokens,
   createDefaultSchema,
   themes,
   families,
   familyFilterOptions,
 };
-export type { TokenSchema, TokenSection, TokenSectionItem, TokenVariable, TokenStrip } from './build-tokens.ts';
-export type { NTokensVariableData } from './tokens-variable-element.ts';
-export type { NTokensColorEntry } from './tokens-colors-element.ts';
-export type { NTokensThemeEntry } from './tokens-themes-element.ts';
+export type { TokenSchema, TokenSection, TokenSectionItem, TokenVariable, TokenStrip } from './build-design.ts';
+export type { NDesignVariableData } from './design-variable-element.ts';
+export type { NDesignColorEntry } from './design-colors-element.ts';
+export type { NDesignThemeEntry } from './design-themes-element.ts';

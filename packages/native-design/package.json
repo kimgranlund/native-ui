@@ -1,25 +1,25 @@
 {
-  "name": "@nonoun/native-tokens",
-  "version": "0.5.15",
-  "description": "OKLCH color token inspector for @nonoun/native-ui",
+  "name": "@nonoun/native-design",
+  "version": "0.6.0",
+  "description": "OKLCH color design system inspector for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",
-  "main": "./dist/native-tokens.js",
-  "module": "./dist/native-tokens.js",
+  "main": "./dist/native-design.js",
+  "module": "./dist/native-design.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/native-tokens.js"
+      "default": "./dist/native-design.js"
     },
-    "./css": "./dist/native-tokens.css",
+    "./css": "./dist/native-design.css",
     "./css/foundation": "./dist/foundation.css"
   },
   "files": [
     "dist"
   ],
   "sideEffects": [
-    "./dist/native-tokens.js"
+    "./dist/native-design.js"
   ],
   "peerDependencies": {
     "@nonoun/native-ui": ">=0.6.0"

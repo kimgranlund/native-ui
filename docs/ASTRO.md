@@ -14,7 +14,7 @@ Optional extension packages:
 
 ```bash
 npm install @nonoun/native-app         # sidebar layout + navigation
-npm install @nonoun/native-tokens      # design token inspector
+npm install @nonoun/native-design      # design token inspector
 npm install @nonoun/native-chat        # chat panel
 npm install @nonoun/native-codemirror  # CodeMirror 6 integration
 npm install @nonoun/native-editor      # markdown editor
@@ -79,7 +79,7 @@ Foundation must come before components. When using extension packages, maintain 
 @import '@nonoun/native-ui/css/components';    /* 2. component styles */
 @import '@nonoun/native-app/css';              /* 3. app shell (optional) */
 @import '@nonoun/native-chat/css';             /* 4. chat panel (optional) */
-@import '@nonoun/native-tokens/css';           /* 5. token inspector (optional) */
+@import '@nonoun/native-design/css';           /* 5. token inspector (optional) */
 @import './page.css';                          /* 6. page overrides */
 ```
 

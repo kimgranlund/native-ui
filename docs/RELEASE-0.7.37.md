@@ -14,7 +14,7 @@
 | `@nonoun/native-codemirror` | 0.2.20 | Version bump |
 | `@nonoun/native-editor` | 0.2.15 | Version bump |
 | `@nonoun/native-playground` | 0.2.15 | Version bump |
-| `@nonoun/native-tokens` | 0.5.15 | Version bump |
+| `@nonoun/native-design` | 0.6.0 | Renamed from native-tokens |
 
 ---
 

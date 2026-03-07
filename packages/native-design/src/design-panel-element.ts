@@ -1,18 +1,18 @@
 import { NativeElement } from '@nonoun/native-ui';
-import { themes, familyFilterOptions } from './build-tokens.ts';
-import type { TokenSchema } from './build-tokens.ts';
-import type { NTokens } from './tokens-element.ts';
+import { themes, familyFilterOptions } from './build-design.ts';
+import type { TokenSchema } from './build-design.ts';
+import type { NDesign } from './design-element.ts';
 
 /**
  * Stamped panel for the design token inspector.
  *
  * Creates `<n-header>` (icon, title, theme selector, family filter) and
- * `<n-body>` containing `<native-tokens>` directly as children.
+ * `<n-body>` containing `<native-design>` directly as children.
  * The host element itself is the panel surface — style via CSS.
  *
  * Usage:
  * ```html
- * <native-tokens-panel></native-tokens-panel>
+ * <native-design-panel></native-design-panel>
  * ```
  *
  * The host can also set a custom schema:
@@ -20,15 +20,15 @@ import type { NTokens } from './tokens-element.ts';
  * panel.schema = customSchema;
  * ```
  */
-export class NTokensPanel extends NativeElement {
-  #tokens: NTokens | null = null;
+export class NDesignPanel extends NativeElement {
+  #design: NDesign | null = null;
   #schema: TokenSchema | undefined;
 
-  /** Pass-through to the inner `<native-tokens>` schema. */
+  /** Pass-through to the inner `<native-design>` schema. */
   get schema(): TokenSchema | undefined { return this.#schema; }
   set schema(val: TokenSchema | undefined) {
     this.#schema = val;
-    if (this.#tokens) this.#tokens.schema = val;
+    if (this.#design) this.#design.schema = val;
   }
 
   setup(): void {
@@ -52,7 +52,7 @@ export class NTokensPanel extends NativeElement {
     const content = document.createElement('div');
     content.setAttribute('slot', 'content');
 
-    const themesEl = document.createElement('native-tokens-themes');
+    const themesEl = document.createElement('native-design-themes');
     themesEl.setAttribute('data', JSON.stringify(themes));
 
     const filterCtrl = document.createElement('n-select');
@@ -67,10 +67,10 @@ export class NTokensPanel extends NativeElement {
     // ── Body ──
     const body = document.createElement('n-body');
 
-    const tokens = document.createElement('native-tokens') as NTokens;
+    const tokens = document.createElement('native-design') as NDesign;
     if (this.#schema) tokens.schema = this.#schema;
     body.appendChild(tokens);
-    this.#tokens = tokens;
+    this.#design = tokens;
 
     // ── Assemble ──
     this.append(header, body);
@@ -84,7 +84,7 @@ export class NTokensPanel extends NativeElement {
 
   teardown(): void {
     this.innerHTML = '';
-    this.#tokens = null;
+    this.#design = null;
     super.teardown();
   }
 }

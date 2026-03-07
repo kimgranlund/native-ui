@@ -8,7 +8,7 @@
 |---------|---------|---------|----------|
 | `@nonoun/native-ui` | 0.7.11 | Core: components, design system, traits, reactivity, icons | -- |
 | `@nonoun/native-app` | 0.3.7 | App shell: sidebar navigation, layout orchestration | `>=0.6.0` |
-| `@nonoun/native-tokens` | 0.5.5 | OKLCH color token inspector widget | `>=0.6.0` |
+| `@nonoun/native-design` | 0.5.5 | OKLCH color token inspector widget | `>=0.6.0` |
 | `@nonoun/native-chat` | 0.5.6 | Chat component system: feed, messages, avatar, activity, seeds, GenUI, stream transport | `>=0.6.0` |
 | `@nonoun/native-codemirror` | 0.2.13 | CodeMirror 6 integration layer (theme, extensions, re-exports) | `>=0.5.0` |
 | `@nonoun/native-editor` | 0.2.10 | Markdown editor with live preview | `>=0.5.0` |
@@ -37,7 +37,7 @@
 | Package | JS Entry (default) | JS Entry (register) | CSS Entry |
 |---------|--------------------|---------------------|-----------|
 | `@nonoun/native-app` | `.` | -- (default auto-registers) | `./css` |
-| `@nonoun/native-tokens` | `.` | -- (default auto-registers) | `./css`, `./css/foundation` |
+| `@nonoun/native-design` | `.` | -- (default auto-registers) | `./css`, `./css/foundation` |
 | `@nonoun/native-chat` | `.` | `./register` | `./css` |
 | `@nonoun/native-codemirror` | `.` | `./register` | `./css` |
 | `@nonoun/native-editor` | `.` | `./register` | `./css` |
@@ -53,7 +53,7 @@ Packages with `./register`: the default export gives classes only; import `./reg
 |---------|----------|
 | `@nonoun/native-ui/register` | All `n-*` elements (30+) |
 | `@nonoun/native-app` | `<native-app>`, `<n-sidebar-nav>`, `<n-sidebar-nav-item>`, `<n-sidebar-group>`, `<n-sidebar-group-header>`, `<n-sidebar-item>` |
-| `@nonoun/native-tokens` | `<native-tokens>`, `<native-tokens-panel>`, `<native-tokens-variable>`, `<native-tokens-colors>`, `<native-tokens-color-swatch>`, `<native-tokens-themes>` |
+| `@nonoun/native-design` | `<native-design>`, `<native-design-panel>`, `<native-design-variable>`, `<native-design-colors>`, `<native-design-color-swatch>`, `<native-design-themes>` |
 | `@nonoun/native-chat` | `<n-chat-input>`, `<native-chat-panel>`, `<n-chat-feed>`, `<n-chat-messages>`, `<n-chat-message>`, `<n-chat-avatar>`, `<n-chat-message-text>`, `<n-chat-message-activity>`, `<n-chat-message-seed>`, `<n-chat-message-genui>`, `<n-chat-input-structured>` |
 | `@nonoun/native-codemirror` | `<native-codemirror>` |
 | `@nonoun/native-editor` | `<native-editor>` |
@@ -69,7 +69,7 @@ Extension packages also register dogfooded core elements they create internally 
 native-ui (core)
   |
   +-- native-app
-  +-- native-tokens
+  +-- native-design
   +-- native-chat
   +-- native-cdn
   +-- native-codemirror
@@ -87,7 +87,7 @@ native-ui (core)
 ```
 packages/
   native-app/          @nonoun/native-app
-  native-tokens/       @nonoun/native-tokens
+  native-design/       @nonoun/native-design
   native-chat/         @nonoun/native-chat
   native-codemirror/   @nonoun/native-codemirror
   native-editor/       @nonoun/native-editor

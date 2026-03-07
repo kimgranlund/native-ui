@@ -1,13 +1,13 @@
 import { NativeElement } from '../core/native-element.ts';
 import { ResizeController } from '../traits/resize-controller.ts';
-// WHY: Import source directly — the package entry resolves to dist/native-tokens.js
+// WHY: Import source directly — the package entry resolves to dist/native-design.js
 // which pulls in dist/native-ui.js, creating dual-module conflicts in Vite dev.
-import '../../packages/native-tokens/src/index.ts';
+import '../../packages/native-design/src/index.ts';
 import '../../packages/native-chat/src/register.ts';
 import foundationCss from '../styles/n-index.css?inline';
 import componentsCss from '../styles/n-components.css?inline';
 import layoutDevCss from './n-layout.css?inline';
-import inspectorCss from '../../packages/native-tokens/src/tokens.css?inline';
+import inspectorCss from '../../packages/native-design/src/design.css?inline';
 import chatCss from '../../packages/native-chat/src/chat.css?inline';
 import appCss from '../../packages/native-app/src/app.css?inline';
 import sitemapData from './sitemap.json';
@@ -455,7 +455,7 @@ export class NApp extends NativeElement {
     };
 
     // Inspector panel — stamped panel IS the aside (no wrapper)
-    const inspector = document.createElement('native-tokens-panel');
+    const inspector = document.createElement('native-design-panel');
     inspector.setAttribute('aside', '');
     this.#inspectorPanel = inspector;
     const inspectorResizeHandle = document.createElement('div');

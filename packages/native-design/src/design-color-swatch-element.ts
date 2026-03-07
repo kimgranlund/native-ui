@@ -140,7 +140,7 @@ const COLOR_FORMATS: ColorFormat[] = [
 
 /* ── Element ── */
 
-export class NTokensColorSwatch extends NativeElement {
+export class NDesignColorSwatch extends NativeElement {
   static observedAttributes = ['token', 'name'];
 
   #popover: HTMLElement | null = null;
@@ -177,7 +177,7 @@ export class NTokensColorSwatch extends NativeElement {
 
     // Render label
     const label = document.createElement('span');
-    label.className = 'native-tokens-swatch-label';
+    label.className = 'native-design-swatch-label';
     label.textContent = this.name;
     this.#label = label;
     this.appendChild(label);
@@ -187,7 +187,7 @@ export class NTokensColorSwatch extends NativeElement {
     this.style.setProperty('anchor-name', `--${this.#anchorName}`);
 
     const popover = document.createElement('div');
-    popover.className = 'native-tokens-swatch-popover';
+    popover.className = 'native-design-swatch-popover';
     popover.setAttribute('popover', 'auto');
     popover.style.setProperty('position-anchor', `--${this.#anchorName}`);
     this.#popover = popover;
@@ -197,16 +197,16 @@ export class NTokensColorSwatch extends NativeElement {
     this.addEventListener('click', this.#onClick);
 
     // Listen for theme/variable changes to refresh
-    this.addEventListener('native-tokens-change', this.#onUpdate);
-    this.addEventListener('native-tokens-theme-change', this.#onUpdate);
+    this.addEventListener('native-design-change', this.#onUpdate);
+    this.addEventListener('native-design-theme-change', this.#onUpdate);
 
     requestAnimationFrame(() => this.#syncContrast());
   }
 
   teardown(): void {
     this.removeEventListener('click', this.#onClick);
-    this.removeEventListener('native-tokens-change', this.#onUpdate);
-    this.removeEventListener('native-tokens-theme-change', this.#onUpdate);
+    this.removeEventListener('native-design-change', this.#onUpdate);
+    this.removeEventListener('native-design-theme-change', this.#onUpdate);
     this.#popover = null;
     this.#label = null;
     this.innerHTML = '';
@@ -227,7 +227,7 @@ export class NTokensColorSwatch extends NativeElement {
 
   #onClick = (e: MouseEvent): void => {
     // Don't trigger if clicking inside the popover
-    if (this.#popover && (e.target as HTMLElement).closest('.native-tokens-swatch-popover')) return;
+    if (this.#popover && (e.target as HTMLElement).closest('.native-design-swatch-popover')) return;
 
     if (!this.#popover) return;
     this.#buildPopoverContent();
@@ -251,7 +251,7 @@ export class NTokensColorSwatch extends NativeElement {
 
     // Token name header
     const header = document.createElement('div');
-    header.className = 'native-tokens-swatch-popover-header';
+    header.className = 'native-design-swatch-popover-header';
     header.textContent = this.token;
     this.#popover.appendChild(header);
 
@@ -260,15 +260,15 @@ export class NTokensColorSwatch extends NativeElement {
       const value = fmt.fn(r, g, b, a);
 
       const row = document.createElement('button');
-      row.className = 'native-tokens-swatch-popover-row';
+      row.className = 'native-design-swatch-popover-row';
       row.type = 'button';
 
       const labelSpan = document.createElement('span');
-      labelSpan.className = 'native-tokens-swatch-popover-label';
+      labelSpan.className = 'native-design-swatch-popover-label';
       labelSpan.textContent = fmt.label;
 
       const valueSpan = document.createElement('span');
-      valueSpan.className = 'native-tokens-swatch-popover-value';
+      valueSpan.className = 'native-design-swatch-popover-value';
       valueSpan.textContent = value;
 
       row.append(labelSpan, valueSpan);

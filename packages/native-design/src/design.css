@@ -1,17 +1,17 @@
 /* ──────────────────────────────────────────────────────────────────────────────
-   native-tokens — Design system token inspector styles.
-   Opt-in via: @import '@nonoun/native-tokens/css';
+   native-design — Design system token inspector styles.
+   Opt-in via: @import '@nonoun/native-design/css';
    ────────────────────────────────────────────────────────────────────────────── */
 
 @layer ui {
 
 /* ── Host ── */
 
-:where(native-tokens) {
+:where(native-design) {
   display: block;
 }
 
-:where(native-tokens-panel) {
+:where(native-design-panel) {
   --n-ground: var(--n-panel);
 
   container-type: inline-size;
@@ -29,37 +29,37 @@
 
 /* ── Sub-container integration ── */
 
-:where(native-tokens-panel) > :where(n-header) {
+:where(native-design-panel) > :where(n-header) {
   border-bottom: 1px solid var(--n-border-muted);
 }
 
 /* WHY: Wide padding only above 22rem — asides (280–480px) keep compact defaults. */
 @container (min-width: 22rem) {
-  /*:where(native-tokens-panel) > :where(n-header) {}*/
-  /*:where(native-tokens-panel) > :where(n-body) {}*/
+  /*:where(native-design-panel) > :where(n-header) {}*/
+  /*:where(native-design-panel) > :where(n-body) {}*/
 }
 
-:where(native-tokens-panel) > :where(n-header) > :where([slot="content"]) > * {
+:where(native-design-panel) > :where(n-header) > :where([slot="content"]) > * {
   flex: 1;
   min-width: 0;
 }
 
 /* ── Section Structure ── */
 
-.native-tokens-section {
+.native-design-section {
   margin-block-end: 1rem;
 }
 
-.native-tokens-section[hidden] {
+.native-design-section[hidden] {
   display: none;
 }
 
-.native-tokens-section + .native-tokens-section:not([hidden]) {
+.native-design-section + .native-design-section:not([hidden]) {
   padding-block-start: 0.5rem;
   border-block-start: 1px solid var(--n-border-muted-neutral);
 }
 
-.native-tokens-heading {
+.native-design-heading {
   font-size: 0.6875rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -68,20 +68,20 @@
   margin: 0 0 0.5rem;
 }
 
-.native-tokens-subheading {
+.native-design-subheading {
   font-size: 0.625rem;
   font-weight: 500;
   color: var(--n-ink-placeholder-neutral);
   margin: 0.5rem 0 0.25rem;
 }
 
-/* ── native-tokens-variable ── */
+/* ── native-design-variable ── */
 
-:where(native-tokens-variable) {
+:where(native-design-variable) {
   display: block;
 }
 
-.native-tokens-variable-row {
+.native-design-variable-row {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -89,7 +89,7 @@
   padding-block: 0.125rem;
 }
 
-.native-tokens-variable-label {
+.native-design-variable-label {
   font-size: 0.6875rem;
   color: var(--n-ink-neutral);
   white-space: nowrap;
@@ -99,7 +99,7 @@
   max-width: 5rem;
 }
 
-.native-tokens-variable-value {
+.native-design-variable-value {
   font-size: 0.625rem;
   font-family: ui-monospace, monospace;
   color: var(--n-ink-muted-neutral);
@@ -111,22 +111,22 @@
   max-width: 5rem;
 }
 
-/* ── native-tokens-colors ── */
+/* ── native-design-colors ── */
 
-:where(native-tokens-colors) {
+:where(native-design-colors) {
   display: block;
 }
 
-.native-tokens-colors-strip {
+.native-design-colors-strip {
   display: flex;
   gap: 2px;
   border-radius: 0.375rem;
   overflow: hidden;
 }
 
-/* ── native-tokens-color-swatch ── */
+/* ── native-design-color-swatch ── */
 
-:where(native-tokens-color-swatch) {
+:where(native-design-color-swatch) {
   flex: 1;
   aspect-ratio: 1;
   min-width: 0;
@@ -137,7 +137,7 @@
   cursor: pointer;
 }
 
-.native-tokens-swatch-label {
+.native-design-swatch-label {
   font-size: 0.5rem;
   line-height: 1;
   text-align: center;
@@ -151,7 +151,7 @@
 
 /* ── Swatch Popover ── */
 
-.native-tokens-swatch-popover {
+.native-design-swatch-popover {
   position: fixed;
   position-area: block-end;
   position-try-fallbacks: flip-block;
@@ -180,23 +180,23 @@
     overlay 150ms ease allow-discrete;
 }
 
-.native-tokens-swatch-popover:popover-open {
+.native-design-swatch-popover:popover-open {
   opacity: 1;
   transform: scale(1);
 }
 
 @starting-style {
-  .native-tokens-swatch-popover:popover-open {
+  .native-design-swatch-popover:popover-open {
     opacity: 0;
     transform: scale(0.96);
   }
 }
 
-.native-tokens-swatch-popover[popover]:not(:popover-open) {
+.native-design-swatch-popover[popover]:not(:popover-open) {
   display: none;
 }
 
-.native-tokens-swatch-popover-header {
+.native-design-swatch-popover-header {
   font-size: 0.5625rem;
   font-family: ui-monospace, monospace;
   color: var(--n-ink-muted-neutral);
@@ -208,7 +208,7 @@
   text-overflow: ellipsis;
 }
 
-.native-tokens-swatch-popover-row {
+.native-design-swatch-popover-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -223,18 +223,18 @@
   text-align: left;
 }
 
-.native-tokens-swatch-popover-row:hover {
+.native-design-swatch-popover-row:hover {
   background: var(--n-control-neutral);
 }
 
-.native-tokens-swatch-popover-label {
+.native-design-swatch-popover-label {
   font-size: 0.5625rem;
   font-weight: 600;
   color: var(--n-ink-muted-neutral);
   min-width: 2.5rem;
 }
 
-.native-tokens-swatch-popover-value {
+.native-design-swatch-popover-value {
   font-size: 0.5625rem;
   font-family: ui-monospace, monospace;
   color: var(--n-ink-neutral);
@@ -243,9 +243,9 @@
   text-overflow: ellipsis;
 }
 
-/* ── native-tokens-themes ── */
+/* ── native-design-themes ── */
 
-:where(native-tokens-themes) {
+:where(native-design-themes) {
   display: contents;
 }
 
