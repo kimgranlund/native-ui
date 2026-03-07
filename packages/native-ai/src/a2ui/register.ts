@@ -14,6 +14,8 @@ import { NA2UI } from './a2ui-element.ts';
 // ── A2UI workbench ──
 define('native-a2ui', NA2UI);
 
+export { NA2UI };
+
 // ── Dogfooded n-* components created via document.createElement ──
 define('n-button', NButton);
 define('n-icon', NIcon);

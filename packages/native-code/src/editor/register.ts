@@ -14,3 +14,5 @@ import { NEditor } from './editor-element.ts';
 define('n-segmented-control', NSegmentedControl);
 define('n-segment', NSegment);
 define('native-editor', NEditor);
+
+export { NEditor };

@@ -11,3 +11,5 @@ import { define } from '@nonoun/native-ui';
 import { NPlayground } from './playground-element.ts';
 
 define('native-playground', NPlayground);
+
+export { NPlayground };

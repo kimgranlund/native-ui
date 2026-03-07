@@ -9,6 +9,6 @@
  *   import '@nonoun/native-code/register';
  */
 
-import './codemirror/register.ts';
-import './editor/register.ts';
-import './playground/register.ts';
+export { NCodemirror } from './codemirror/register.ts';
+export { NEditor } from './editor/register.ts';
+export { NPlayground } from './playground/register.ts';

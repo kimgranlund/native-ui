@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-ai",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "AI components for @nonoun/native-ui — A2UI protocol adapter + chat input/message layout",
   "license": "MIT",
   "type": "module",
@@ -56,7 +56,7 @@
   },
   "scripts": {
     "build": "npm run build:js && npm run build:css && npm run build:types",
-    "build:js": "vite build",
+    "build:js": "vite build && vite build --config vite.config.register.ts",
     "build:css": "cat src/a2ui/css/a2ui.css src/chat/chat.css > dist/native-ai.css",
     "build:types": "tsc -p tsconfig.build.json"
   },

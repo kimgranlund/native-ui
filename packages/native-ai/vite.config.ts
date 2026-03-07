@@ -32,7 +32,6 @@ export default defineConfig({
     lib: {
       entry: {
         'native-ai': resolve(__dirname, 'src/index.ts'),
-        'register': resolve(__dirname, 'src/register.ts'),
         'gateway': resolve(__dirname, 'src/gateway.ts'),
       },
       formats: ['es'],

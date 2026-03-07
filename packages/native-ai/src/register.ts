@@ -8,5 +8,10 @@
  *   import '@nonoun/native-ai/register';
  */
 
-import './a2ui/register.ts';
-import './chat/register.ts';
+export { NA2UI } from './a2ui/register.ts';
+export {
+  NChatInput, NChatPanel, NChatFeed, NChatAvatar,
+  NChatMessage, NChatMessages, NChatMessageText,
+  NChatMessageActivity, NChatMessageSeed, NChatMessageGenUI,
+  NChatInputStructured,
+} from './chat/register.ts';
