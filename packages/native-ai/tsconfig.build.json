@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "rewriteRelativeImportExtensions": true,
+    "paths": {
+      "@nonoun/native-ui": ["../../dist/index.d.ts"],
+      "@nonoun/native-codemirror": ["../native-codemirror/dist/index.d.ts"],
+      "@nonoun/native-codemirror/register": ["../native-codemirror/dist/register.d.ts"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.test.ts", "src/**/__tests__/**"]
+}

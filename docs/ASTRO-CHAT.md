@@ -7,7 +7,7 @@ Canonical recipe for wiring `native-chat-panel` into an Astro project. Assumes y
 ## 1. Install
 
 ```bash
-npm install @nonoun/native-ui @nonoun/native-chat
+npm install @nonoun/native-ui @nonoun/native-ai
 ```
 
 native-chat has a peer dependency on `@nonoun/native-ui >= 0.6.0`.
@@ -21,7 +21,7 @@ In your base layout's `<style is:global>`, add native-chat CSS **after** native-
 ```css
 @import '@nonoun/native-ui/css/foundation';   /* 1. colors, tokens, themes, base */
 @import '@nonoun/native-ui/css/components';    /* 2. component styles */
-@import '@nonoun/native-chat/css';             /* 3. chat panel + message styles */
+@import '@nonoun/native-ai/css';             /* 3. chat panel + message styles */
 ```
 
 Foundation must come before components. Chat CSS must come after both — it reads `--n-*` tokens defined by foundation and extends component selectors.
@@ -35,13 +35,13 @@ native-chat requires **explicit** registration (unlike `@nonoun/native-dashboard
 ```ts
 // src/scripts/setup.ts
 import '@nonoun/native-ui/register';
-import '@nonoun/native-chat/register';
+import '@nonoun/native-ai/register';
 import { registerAllTraits } from '@nonoun/native-ui';
 
 registerAllTraits(); // optional — only if using <n-controller>
 ```
 
-`@nonoun/native-chat/register` registers 11 chat elements + 11 dogfooded core elements (`n-button`, `n-textarea`, `n-icon`, `n-toolbar`, `n-dialog`, `n-card`, `n-listbox`, `n-option`, `n-option-group`, `n-option-group-header`, `n-select`) + 11 Phosphor icons used internally.
+`@nonoun/native-ai/register` registers 11 chat elements + 11 dogfooded core elements (`n-button`, `n-textarea`, `n-icon`, `n-toolbar`, `n-dialog`, `n-card`, `n-listbox`, `n-option`, `n-option-group`, `n-option-group-header`, `n-select`) + 11 Phosphor icons used internally.
 
 ---
 
@@ -325,7 +325,7 @@ const required = [
 const missing = required.filter(tag => !customElements.get(tag));
 if (missing.length) {
   console.error('Missing registrations:', missing);
-  console.error('Did you import @nonoun/native-chat/register?');
+  console.error('Did you import @nonoun/native-ai/register?');
 }
 ```
 
@@ -333,9 +333,9 @@ if (missing.length) {
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
-| Panel renders as empty box | Missing `@nonoun/native-chat/register` import | Add to setup script |
+| Panel renders as empty box | Missing `@nonoun/native-ai/register` import | Add to setup script |
 | Unstyled elements (no colors/spacing) | Missing foundation CSS | Add `@import '@nonoun/native-ui/css/foundation'` |
-| Chat-specific styles missing | Missing chat CSS | Add `@import '@nonoun/native-chat/css'` |
+| Chat-specific styles missing | Missing chat CSS | Add `@import '@nonoun/native-ai/css'` |
 | Toolbar actions clipped without overflow menu | Toolbar in header trailing slot without `fill` | Add `fill` attribute to toolbar |
 | Panel works in dev, blank in production | Tree-shaking removed `register` side effects | Ensure register imports are not dead-code-eliminated |
 | Elements styled but non-interactive | JS loaded but SSR pass ran first | Ensure `<script>` is client-side (not in frontmatter) |
@@ -367,7 +367,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 <BaseLayout title="Chat">
   <style is:global>
-    @import '@nonoun/native-chat/css';
+    @import '@nonoun/native-ai/css';
 
     .chat-container {
       height: calc(100vh - 4rem);
@@ -410,5 +410,5 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 **Setup script** must already include:
 ```ts
 import '@nonoun/native-ui/register';
-import '@nonoun/native-chat/register';
+import '@nonoun/native-ai/register';
 ```

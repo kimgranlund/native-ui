@@ -1,6 +1,6 @@
 # Package Ecosystem
 
-`@nonoun/native-ui` is a monorepo with a core library and seven extension packages. All packages are ESM-only (`"type": "module"`).
+`@nonoun/native-ui` is a monorepo with a core library and extension packages. All packages are ESM-only (`"type": "module"`).
 
 ## Package Overview
 
@@ -9,11 +9,10 @@
 | `@nonoun/native-ui` | 0.7.11 | Core: components, design system, traits, reactivity, icons | -- |
 | `@nonoun/native-dashboard` | 0.3.7 | App shell: sidebar navigation, layout orchestration | `>=0.6.0` |
 | `@nonoun/native-design` | 0.5.5 | OKLCH color token inspector widget | `>=0.6.0` |
-| `@nonoun/native-chat` | 0.5.6 | Chat component system: feed, messages, avatar, activity, seeds, GenUI, stream transport | `>=0.6.0` |
+| `@nonoun/native-ai` | 1.0.0 | A2UI protocol + chat components (merged from native-a2ui + native-chat) | `>=0.5.0` |
 | `@nonoun/native-codemirror` | 0.2.13 | CodeMirror 6 integration layer (theme, extensions, re-exports) | `>=0.5.0` |
 | `@nonoun/native-editor` | 0.2.10 | Markdown editor with live preview | `>=0.5.0` |
 | `@nonoun/native-playground` | 0.2.10 | Embeddable live code sandbox (HTML/CSS/JS) | `>=0.5.0` |
-| `@nonoun/native-a2ui` | 0.1.8 | A2UI protocol: adapter, transport, workbench | `>=0.5.0` |
 | `@nonoun/native-cdn` | 0.2.6 | Single-file IIFE bundle for CDN/artifact use | `>=0.5.0` |
 
 ## Export Maps
@@ -38,11 +37,10 @@
 |---------|--------------------|---------------------|-----------|
 | `@nonoun/native-dashboard` | `.` | -- (default auto-registers) | `./css` |
 | `@nonoun/native-design` | `.` | -- (default auto-registers) | `./css`, `./css/foundation` |
-| `@nonoun/native-chat` | `.` | `./register` | `./css` |
+| `@nonoun/native-ai` | `.` | `./register` | `./css` |
 | `@nonoun/native-codemirror` | `.` | `./register` | `./css` |
 | `@nonoun/native-editor` | `.` | `./register` | `./css` |
 | `@nonoun/native-playground` | `.` | `./register` | `./css` |
-| `@nonoun/native-a2ui` | `.` | `./register` | `./css` |
 | `@nonoun/native-cdn` | `.` (IIFE) | -- (auto-registers) | `./css` |
 
 Packages with `./register`: the default export gives classes only; import `./register` as a side-effect to call `customElements.define()`. Packages without `./register` auto-register on import.
@@ -54,11 +52,10 @@ Packages with `./register`: the default export gives classes only; import `./reg
 | `@nonoun/native-ui/register` | All `n-*` elements (30+) |
 | `@nonoun/native-dashboard` | `<native-dashboard>`, `<n-sidebar-nav>`, `<n-sidebar-nav-item>`, `<n-sidebar-group>`, `<n-sidebar-group-header>`, `<n-sidebar-item>` |
 | `@nonoun/native-design` | `<native-design>`, `<native-design-panel>`, `<native-design-variable>`, `<native-design-colors>`, `<native-design-color-swatch>`, `<native-design-themes>` |
-| `@nonoun/native-chat` | `<n-chat-input>`, `<native-chat-panel>`, `<n-chat-feed>`, `<n-chat-messages>`, `<n-chat-message>`, `<n-chat-avatar>`, `<n-chat-message-text>`, `<n-chat-message-activity>`, `<n-chat-message-seed>`, `<n-chat-message-genui>`, `<n-chat-input-structured>` |
+| `@nonoun/native-ai` | `<native-a2ui>`, `<n-chat-input>`, `<native-chat-panel>`, `<n-chat-feed>`, `<n-chat-messages>`, `<n-chat-message>`, `<n-chat-avatar>`, `<n-chat-message-text>`, `<n-chat-message-activity>`, `<n-chat-message-seed>`, `<n-chat-message-genui>`, `<n-chat-input-structured>` |
 | `@nonoun/native-codemirror` | `<native-codemirror>` |
 | `@nonoun/native-editor` | `<native-editor>` |
 | `@nonoun/native-playground` | `<native-playground>` |
-| `@nonoun/native-a2ui` | `<native-a2ui>` |
 | `@nonoun/native-cdn` | All `n-*` elements (re-exports core + auto-registers) |
 
 Extension packages also register dogfooded core elements they create internally (e.g., `n-button`, `n-listbox`). `define()` is idempotent -- duplicate calls are no-ops.
@@ -70,14 +67,13 @@ native-ui (core)
   |
   +-- native-dashboard
   +-- native-design
-  +-- native-chat
+  +-- native-ai (also depends on native-codemirror)
   +-- native-cdn
   +-- native-codemirror
   |     |
   |     +-- native-editor
   |     +-- native-playground
-  |     +-- native-a2ui
-  +-- native-a2ui (also depends on native-codemirror)
+  |     +-- native-ai
 ```
 
 `@nonoun/native-codemirror` is a shared dependency for all CodeMirror-based packages. It re-exports key CodeMirror APIs (`EditorView`, `EditorState`, `keymap`, etc.) so downstream packages import through it rather than depending on `@codemirror/*` directly.
@@ -88,11 +84,10 @@ native-ui (core)
 packages/
   native-dashboard/          @nonoun/native-dashboard
   native-design/       @nonoun/native-design
-  native-chat/         @nonoun/native-chat
+  native-ai/           @nonoun/native-ai
   native-codemirror/   @nonoun/native-codemirror
   native-editor/       @nonoun/native-editor
   native-playground/   @nonoun/native-playground
-  native-a2ui/         @nonoun/native-a2ui
   native-cdn/          @nonoun/native-cdn
 ```
 

@@ -44,7 +44,7 @@ export class Kernel {
   );
 
   /**
-   * A2UI protocol adapter. Requires `installA2UI(kernel)` from `@nonoun/native-a2ui`.
+   * A2UI protocol adapter. Requires `installA2UI(kernel)` from `@nonoun/native-ai`.
    * Throws if the plugin has not been installed.
    */
   get a2ui(): unknown {

@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A2A Sessions — Support Dashboard</title>
+    <link rel="stylesheet" href="../../../../src/styles/n-index.css" />
+    <link rel="stylesheet" href="../../../../src/styles/n-components.css" />
+    <link rel="stylesheet" href="../../../../src/styles/demo.css" />
+    <style>
+      .surface-mount {
+        min-height: 10rem;
+      }
+
+      .surface-mount[data-empty] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .surface-mount[data-empty]::before {
+        content: 'Agent not connected';
+        color: var(--n-ink-muted-neutral);
+        font-size: 0.8rem;
+      }
+    </style>
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+    <h1>A2A Sessions</h1>
+    <p class="demo-desc">
+      A support dashboard powered by two AI agents running in parallel sessions.
+      The <strong>Conversation Agent</strong> handles the customer interaction — collecting
+      information and suggesting solutions. The <strong>Analytics Agent</strong> watches the
+      conversation and surfaces relevant customer data, order history, and risk scores.
+      Both agents render to isolated surfaces on the same page, managed by a single
+      <code>NSessionManager</code>.
+    </p>
+
+    <!-- ── Scenario Steps ── -->
+
+    <h2>Scenario</h2>
+    <n-text muted>Walk through a support ticket. Each step simulates both agents responding to the same event.</n-text>
+
+    <n-card>
+      <n-body>
+        <n-stack gap="2">
+          <n-stack direction="row" align="center">
+            <n-text muted size="sm" inline style="min-width: 4rem;">Step 1</n-text>
+            <n-button size="sm" variant="primary" id="step-open">
+              <span slot="label">Customer opens ticket</span>
+            </n-button>
+          </n-stack>
+          <n-stack direction="row" align="center">
+            <n-text muted size="sm" inline style="min-width: 4rem;">Step 2</n-text>
+            <n-button size="sm" id="step-details">
+              <span slot="label">Agent requests details</span>
+            </n-button>
+          </n-stack>
+          <n-stack direction="row" align="center">
+            <n-text muted size="sm" inline style="min-width: 4rem;">Step 3</n-text>
+            <n-button size="sm" id="step-resolve">
+              <span slot="label">Agent proposes solution</span>
+            </n-button>
+          </n-stack>
+          <n-stack direction="row" align="center">
+            <n-text muted size="sm" inline style="min-width: 4rem;">Step 4</n-text>
+            <n-button size="sm" intent="danger" id="step-escalate">
+              <span slot="label">Escalate to human</span>
+            </n-button>
+          </n-stack>
+          <n-divider></n-divider>
+          <n-button size="sm" variant="ghost" id="step-reset" inline>
+            <span slot="label">Reset</span>
+          </n-button>
+        </n-stack>
+      </n-body>
+    </n-card>
+
+    <!-- ── Dashboard ── -->
+
+    <h2>Agent Surfaces</h2>
+    <n-grid cols="2">
+      <n-card>
+        <n-header>
+          <n-badge slot="leading" dot intent="neutral" id="dot-convo"></n-badge>
+          <span slot="label">Conversation Agent</span>
+        </n-header>
+        <n-body padding="regular">
+          <div class="surface-mount" id="surface-convo" data-empty></div>
+        </n-body>
+      </n-card>
+      <n-card>
+        <n-header>
+          <n-badge slot="leading" dot intent="neutral" id="dot-analytics"></n-badge>
+          <span slot="label">Analytics Agent</span>
+        </n-header>
+        <n-body padding="regular">
+          <div class="surface-mount" id="surface-analytics" data-empty></div>
+        </n-body>
+      </n-card>
+    </n-grid>
+
+    <!-- ── Event Log ── -->
+
+    <h2>Session Events</h2>
+    <n-card>
+      <n-body show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
+        <div id="event-log"></div>
+      </n-body>
+    </n-card>
+
+    </main></native-dashboard-spa>
+
+    <script type="module">
+      import '../../../../src/nav/native-dashboard.ts';
+      import '../../../../src/components/button/button.ts';
+      import '../../../../src/components/input/input.ts';
+      import '../../../../src/components/textarea/textarea.ts';
+      import '../../../../src/components/listbox/listbox.ts';
+      import '../../../../src/components/listbox/option.ts';
+      import '../../../../src/components/switch/switch.ts';
+      import '../../../../src/components/checkbox/checkbox.ts';
+      import '../../../../src/components/badge/badge.ts';
+      import '../../../../src/containers/card/card.ts';
+      import '../../../../src/icons/icon.ts';
+
+      import { Kernel, resetKernel } from '../../../../src/kernel/kernel.ts';
+      import { NSessionManager } from './session/session-manager.ts';
+      import { buildCatalogFromRegistry } from './session/catalog.ts';
+
+      // ── Setup ──
+
+      resetKernel();
+      const kernel = new Kernel({ allowUnregistered: true });
+      const manager = new NSessionManager(kernel);
+      const catalog = buildCatalogFromRegistry('core-only');
+
+      const surfaceConvo = document.getElementById('surface-convo');
+      const surfaceAnalytics = document.getElementById('surface-analytics');
+      manager.surfaces.registerMount('convo', surfaceConvo);
+      manager.surfaces.registerMount('analytics', surfaceAnalytics);
+
+      const eventLog = document.getElementById('event-log');
+      const dotConvo = document.getElementById('dot-convo');
+      const dotAnalytics = document.getElementById('dot-analytics');
+
+      let convoSession = null;
+      let analyticsSession = null;
+
+      function log(text, color = 'var(--n-ink-neutral)') {
+        const entry = document.createElement('div');
+        entry.style.color = color;
+        entry.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+        eventLog.prepend(entry);
+      }
+
+      function wireSession(session, label) {
+        session.on('surface-ready', (surfaceId) => {
+          log(`${label}: rendered surface "${surfaceId}"`, 'var(--n-ink-success)');
+          document.getElementById(`surface-${surfaceId === 'convo' ? 'convo' : 'analytics'}`)
+            ?.removeAttribute('data-empty');
+        });
+        session.on('interaction', (e) => {
+          log(`${label}: user ${e.eventType} "${e.componentId}"`, 'var(--n-ink-warning)');
+        });
+        session.on('status-change', (status) => {
+          log(`${label}: ${status}`, 'var(--n-ink-accent)');
+        });
+      }
+
+      function initSessions() {
+        if (convoSession && convoSession.status !== 'terminated') return;
+
+        convoSession = manager.createSession({
+          agentId: 'conversation-agent',
+          catalog,
+          surfaces: ['convo'],
+        });
+        wireSession(convoSession, 'Conversation');
+        dotConvo.setAttribute('intent', 'success');
+
+        analyticsSession = manager.createSession({
+          agentId: 'analytics-agent',
+          catalog,
+          surfaces: ['analytics'],
+        });
+        wireSession(analyticsSession, 'Analytics');
+        dotAnalytics.setAttribute('intent', 'success');
+
+        log('Both agent sessions connected', 'var(--n-ink-accent)');
+      }
+
+      function resetAll() {
+        manager.terminateAll();
+        surfaceConvo.innerHTML = '';
+        surfaceConvo.setAttribute('data-empty', '');
+        surfaceAnalytics.innerHTML = '';
+        surfaceAnalytics.setAttribute('data-empty', '');
+        dotConvo.setAttribute('intent', 'neutral');
+        dotAnalytics.setAttribute('intent', 'neutral');
+        convoSession = null;
+        analyticsSession = null;
+        log('All sessions terminated — dashboard reset', 'var(--n-ink-accent)');
+      }
+
+      // ── Step 1: Customer opens ticket ──
+
+      document.getElementById('step-open').addEventListener('native:press', () => {
+        initSessions();
+
+        convoSession.receive({
+          updateComponents: {
+            surfaceId: 'convo',
+            components: [
+              { id: 'root', component: 'Column', children: ['greeting', 'issue', 'actions'] },
+              { id: 'greeting', component: 'Text', text: 'Hi! I see you have an issue with order #4821. Let me help.' },
+              { id: 'issue', component: 'Card', child: 'issue-inner' },
+              { id: 'issue-inner', component: 'Column', children: ['issue-title', 'issue-desc'] },
+              { id: 'issue-title', component: 'Text', text: 'Reported Issue', variant: 'h4' },
+              { id: 'issue-desc', component: 'Text', text: '"My package arrived damaged and two items are missing from the box."' },
+              { id: 'actions', component: 'Row', children: ['btn-photo', 'btn-items'] },
+              { id: 'btn-photo', component: 'Button', text: 'Request photos', variant: 'primary', action: { event: { name: 'request_photos' } } },
+              { id: 'btn-items', component: 'Button', text: 'Which items?', action: { event: { name: 'ask_items' } } },
+            ],
+          },
+        });
+
+        analyticsSession.receive({
+          updateComponents: {
+            surfaceId: 'analytics',
+            components: [
+              { id: 'root', component: 'Column', children: ['title', 'name', 'order', 'history', 'risk'] },
+              { id: 'title', component: 'Text', text: 'Customer Profile', variant: 'h4' },
+              { id: 'name', component: 'Text', text: 'Sarah Chen — Premium member since 2023' },
+              { id: 'order', component: 'Card', child: 'order-inner' },
+              { id: 'order-inner', component: 'Column', children: ['order-title', 'order-items', 'order-total'] },
+              { id: 'order-title', component: 'Text', text: 'Order #4821', variant: 'h4' },
+              { id: 'order-items', component: 'Text', text: '3 items — shipped via Express (FedEx 7742-9901)' },
+              { id: 'order-total', component: 'Text', text: 'Total: $247.00' },
+              { id: 'history', component: 'Text', text: '12 previous orders, 0 prior claims' },
+              { id: 'risk', component: 'Text', text: 'Fraud risk: Very Low' },
+            ],
+          },
+        });
+
+        log('Step 1: Ticket opened — both agents responding', 'var(--n-ink-success)');
+      });
+
+      // ── Step 2: Agent requests details ──
+
+      document.getElementById('step-details').addEventListener('native:press', () => {
+        if (!convoSession || convoSession.status !== 'active') {
+          log('Start from Step 1', 'var(--n-ink-danger)');
+          return;
+        }
+
+        convoSession.receive({
+          updateComponents: {
+            surfaceId: 'convo',
+            components: [
+              { id: 'root', component: 'Column', children: ['q1', 'q2', 'q3', 'submit'] },
+              { id: 'q1', component: 'Text', text: 'To process your claim, I need a few details:' },
+              { id: 'q2', component: 'TextField', label: 'Which items are missing?', placeholder: 'e.g. Blue sweater, USB charger' },
+              { id: 'q3', component: 'TextField', label: 'Describe the damage', placeholder: 'e.g. Box was crushed, items wet' },
+              { id: 'submit', component: 'Button', text: 'Submit details', variant: 'primary', action: { event: { name: 'submit_details' } } },
+            ],
+          },
+        });
+
+        analyticsSession.receive({
+          updateComponents: {
+            surfaceId: 'analytics',
+            components: [
+              { id: 'root', component: 'Column', children: ['title', 'carrier', 'route', 'flag'] },
+              { id: 'title', component: 'Text', text: 'Shipping Intelligence', variant: 'h4' },
+              { id: 'carrier', component: 'Card', child: 'carrier-inner' },
+              { id: 'carrier-inner', component: 'Column', children: ['c-title', 'c-info', 'c-rate'] },
+              { id: 'c-title', component: 'Text', text: 'FedEx Route Analysis', variant: 'h4' },
+              { id: 'c-info', component: 'Text', text: 'Newark hub \u2192 Portland \u2014 3 transfers' },
+              { id: 'c-rate', component: 'Text', text: 'Damage rate on this route: 4.2% (above avg)' },
+              { id: 'route', component: 'Text', text: 'Similar claims on this route: 8 in last 30 days' },
+              { id: 'flag', component: 'Text', text: 'Recommendation: Auto-approve refund (high-value customer, low fraud risk, known problem route)' },
+            ],
+          },
+        });
+
+        log('Step 2: Details form shown, analytics flagged route issue', 'var(--n-ink-success)');
+      });
+
+      // ── Step 3: Propose solution ──
+
+      document.getElementById('step-resolve').addEventListener('native:press', () => {
+        if (!convoSession || convoSession.status !== 'active') {
+          log('Start from Step 1', 'var(--n-ink-danger)');
+          return;
+        }
+
+        convoSession.receive({
+          updateComponents: {
+            surfaceId: 'convo',
+            components: [
+              { id: 'root', component: 'Column', children: ['msg', 'options', 'accept', 'decline'] },
+              { id: 'msg', component: 'Text', text: 'Based on our records, I can offer you:' },
+              { id: 'options', component: 'Card', child: 'opts-inner' },
+              { id: 'opts-inner', component: 'Column', children: ['opt1', 'opt2', 'opt3'] },
+              { id: 'opt1', component: 'Text', text: 'Full refund of $247.00 to original payment' },
+              { id: 'opt2', component: 'Text', text: 'Replacement shipment (2-day express, no charge)' },
+              { id: 'opt3', component: 'Text', text: '$50 store credit + replacement of missing items' },
+              { id: 'accept', component: 'Button', text: 'Accept full refund', variant: 'primary', action: { event: { name: 'accept_refund' } } },
+              { id: 'decline', component: 'Button', text: 'I prefer replacement', action: { event: { name: 'request_replacement' } } },
+            ],
+          },
+        });
+
+        analyticsSession.receive({
+          updateComponents: {
+            surfaceId: 'analytics',
+            components: [
+              { id: 'root', component: 'Column', children: ['title', 'cost', 'ltv', 'rec'] },
+              { id: 'title', component: 'Text', text: 'Resolution Analysis', variant: 'h4' },
+              { id: 'cost', component: 'Card', child: 'cost-inner' },
+              { id: 'cost-inner', component: 'Column', children: ['cost-title', 'c1', 'c2', 'c3'] },
+              { id: 'cost-title', component: 'Text', text: 'Cost Comparison', variant: 'h4' },
+              { id: 'c1', component: 'Text', text: 'Full refund: -$247.00' },
+              { id: 'c2', component: 'Text', text: 'Replacement: -$89.00 (shipping + partial restock)' },
+              { id: 'c3', component: 'Text', text: 'Credit + replace missing: -$127.00' },
+              { id: 'ltv', component: 'Text', text: 'Customer LTV: $3,420 \u2014 retention priority: HIGH' },
+              { id: 'rec', component: 'Text', text: 'Optimal: Full refund (highest satisfaction, 94% retention rate for premium customers)' },
+            ],
+          },
+        });
+
+        log('Step 3: Solution options presented, cost analysis updated', 'var(--n-ink-success)');
+      });
+
+      // ── Step 4: Escalate ──
+
+      document.getElementById('step-escalate').addEventListener('native:press', () => {
+        if (!convoSession || convoSession.status !== 'active') {
+          log('Start from Step 1', 'var(--n-ink-danger)');
+          return;
+        }
+
+        convoSession.receive({
+          updateComponents: {
+            surfaceId: 'convo',
+            components: [
+              { id: 'root', component: 'Column', children: ['msg', 'info', 'status'] },
+              { id: 'msg', component: 'Text', text: 'I\'m connecting you with a specialist who can help further.' },
+              { id: 'info', component: 'Card', child: 'info-inner' },
+              { id: 'info-inner', component: 'Column', children: ['agent-name', 'agent-dept', 'agent-wait'] },
+              { id: 'agent-name', component: 'Text', text: 'Transferring to: Maria Santos', variant: 'h4' },
+              { id: 'agent-dept', component: 'Text', text: 'Senior Claims Specialist \u2014 Premium Support' },
+              { id: 'agent-wait', component: 'Text', text: 'Estimated wait: < 1 minute' },
+              { id: 'status', component: 'Text', text: 'All conversation context has been forwarded.' },
+            ],
+          },
+        });
+
+        manager.terminateSession(analyticsSession.id);
+        surfaceAnalytics.innerHTML = '';
+        dotAnalytics.setAttribute('intent', 'neutral');
+
+        // Static handoff message
+        const msg = document.createElement('n-text');
+        msg.setAttribute('muted', '');
+        msg.setAttribute('size', 'sm');
+        msg.textContent = 'Session ended \u2014 Analytics agent disconnected. Context transferred to human agent Maria Santos.';
+        surfaceAnalytics.appendChild(msg);
+
+        log('Step 4: Escalated to human \u2014 analytics agent terminated', 'var(--n-ink-danger)');
+      });
+
+      // ── Reset ──
+
+      document.getElementById('step-reset').addEventListener('native:press', () => {
+        resetAll();
+      });
+    </script>
+  </body>
+</html>

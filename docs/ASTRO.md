@@ -15,7 +15,7 @@ Optional extension packages:
 ```bash
 npm install @nonoun/native-dashboard         # sidebar layout + navigation
 npm install @nonoun/native-design      # design token inspector
-npm install @nonoun/native-chat        # chat panel
+npm install @nonoun/native-ai        # chat panel
 npm install @nonoun/native-codemirror  # CodeMirror 6 integration
 npm install @nonoun/native-editor      # markdown editor
 npm install @nonoun/native-playground  # live code sandbox
@@ -78,7 +78,7 @@ Foundation must come before components. When using extension packages, maintain 
 @import '@nonoun/native-ui/css/foundation';   /* 1. colors, tokens, themes, base */
 @import '@nonoun/native-ui/css/components';    /* 2. component styles */
 @import '@nonoun/native-dashboard/css';              /* 3. app shell (optional) */
-@import '@nonoun/native-chat/css';             /* 4. chat panel (optional) */
+@import '@nonoun/native-ai/css';             /* 4. chat panel (optional) */
 @import '@nonoun/native-design/css';           /* 5. token inspector (optional) */
 @import './page.css';                          /* 6. page overrides */
 ```
@@ -115,7 +115,7 @@ When using extension packages, add their registrations:
 // src/scripts/setup.ts
 import '@nonoun/native-ui/register';
 import '@nonoun/native-dashboard';
-import '@nonoun/native-chat/register';
+import '@nonoun/native-ai/register';
 import { registerAllTraits } from '@nonoun/native-ui';
 
 registerAllTraits();

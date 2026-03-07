@@ -6,11 +6,10 @@
 | Package | Version | Changes |
 |---------|---------|---------|
 | `@nonoun/native-ui` | 0.7.37 | CSS fixes, lifecycle hardening, sub-container alignment |
-| `@nonoun/native-a2ui` | 0.2.2 | Session layer, adapters, 4 demo pages, tests |
+| `@nonoun/native-ai` | 1.0.0 | Merged from native-a2ui (0.2.2) + native-chat (0.5.23) |
 | `@nonoun/native-dashboard` | 0.3.17 | Sidebar nav fix |
 | `@nonoun/native-cdn` | 0.2.11 | Version bump |
 | `@nonoun/native-data-viz` | 0.2.0 | Renamed from native-chart |
-| `@nonoun/native-chat` | 0.5.23 | Version bump |
 | `@nonoun/native-codemirror` | 0.2.20 | Version bump |
 | `@nonoun/native-editor` | 0.2.15 | Version bump |
 | `@nonoun/native-playground` | 0.2.15 | Version bump |
@@ -20,7 +19,7 @@
 
 ## Headline: A2UI Session Layer
 
-`@nonoun/native-a2ui` gains a complete session management system — the runtime that sits between agent protocols (A2A, AG-UI) and the A2UI surface rendering pipeline.
+`@nonoun/native-ai` gains a complete session management system — the runtime that sits between agent protocols (A2A, AG-UI) and the A2UI surface rendering pipeline.
 
 ### What is A2UI?
 

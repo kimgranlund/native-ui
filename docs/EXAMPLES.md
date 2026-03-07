@@ -483,14 +483,14 @@ All interactive components support `variant` and `intent` attributes. Variant co
 
 ---
 
-## 15. Chat interface (`@nonoun/native-chat`)
+## 15. Chat interface (`@nonoun/native-ai`)
 
 ```html
 <link rel="stylesheet" href="native-ui.css" />
 <link rel="stylesheet" href="native-chat.css" />
 <script type="module">
   import '@nonoun/native-ui/register';
-  import '@nonoun/native-chat/register';
+  import '@nonoun/native-ai/register';
 </script>
 
 <native-chat-panel show-stop>

@@ -104,9 +104,9 @@ The demos import from relative paths. In the Astro host, these become package im
 |-------------|-------------------|
 | `'../../../src/components/button/button.ts'` | `import '@nonoun/native-ui/components/button/button.js'` or register via CDN bundle |
 | `'../../../src/kernel/kernel.ts'` | `import { Kernel, resetKernel } from '@nonoun/native-ui/kernel'` |
-| `'./session/session-manager.ts'` | `import { NSessionManager } from '@nonoun/native-a2ui'` |
-| `'./session/catalog.ts'` | `import { buildCatalogFromRegistry } from '@nonoun/native-a2ui'` |
-| `'./protocol/a2ui-converter.ts'` | `import { a2uiToUINode, conversionToPlan } from '@nonoun/native-a2ui'` |
+| `'./session/session-manager.ts'` | `import { NSessionManager } from '@nonoun/native-ai'` |
+| `'./session/catalog.ts'` | `import { buildCatalogFromRegistry } from '@nonoun/native-ai'` |
+| `'./protocol/a2ui-converter.ts'` | `import { a2uiToUINode, conversionToPlan } from '@nonoun/native-ai'` |
 | `'../../../src/icons/phosphor/x.ts'` | `import '@nonoun/native-ui/icons/phosphor/x.js'` |
 | `'../../../src/icons/phosphor/circle.ts'` | `import '@nonoun/native-ui/icons/phosphor/circle.js'` |
 
@@ -135,9 +135,9 @@ Every A2UI page needs:
 
 ```js
 import { Kernel, resetKernel } from '@nonoun/native-ui/kernel';
-import { NSessionManager } from '@nonoun/native-a2ui';
-import { buildCatalogFromRegistry } from '@nonoun/native-a2ui';
-import { a2uiToUINode, conversionToPlan } from '@nonoun/native-a2ui';
+import { NSessionManager } from '@nonoun/native-ai';
+import { buildCatalogFromRegistry } from '@nonoun/native-ai';
+import { a2uiToUINode, conversionToPlan } from '@nonoun/native-ai';
 
 resetKernel();
 const kernel = new Kernel({ allowUnregistered: true });

@@ -29,7 +29,7 @@ When using extension packages, **load CSS in this order** — foundation first, 
 
 /* 3. Extension packages (any order among themselves) */
 @import '@nonoun/native-dashboard/css';        /* sidebar layout */
-@import '@nonoun/native-chat/css';       /* chat components */
+@import '@nonoun/native-ai/css';       /* chat components */
 @import '@nonoun/native-codemirror/css'; /* CodeMirror integration */
 
 /* 4. Your page/app CSS last */
@@ -48,7 +48,7 @@ import { registerAllTraits } from '@nonoun/native-ui';
 registerAllTraits(); // optional: only if using <n-controller>
 
 import '@nonoun/native-ui/register';
-import '@nonoun/native-chat/register';  // extension packages
+import '@nonoun/native-ai/register';  // extension packages
 ```
 
 ### CSS Entry Points
@@ -59,7 +59,7 @@ import '@nonoun/native-chat/register';  // extension packages
 | `@nonoun/native-ui/css/lean` | Same without `force-*` debug selectors (production) |
 | `@nonoun/native-ui/css/foundation` | Colors, tokens, themes, base, primitives only |
 | `@nonoun/native-ui/css/components` | Component styles only (requires foundation loaded first) |
-| `@nonoun/native-chat/css` | Chat component styles |
+| `@nonoun/native-ai/css` | Chat component styles |
 | `@nonoun/native-dashboard/css` | App shell + sidebar styles |
 
 ### Key Rules
