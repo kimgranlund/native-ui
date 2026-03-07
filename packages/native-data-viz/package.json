@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-data-viz",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "SVG charting & data visualization components for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",
