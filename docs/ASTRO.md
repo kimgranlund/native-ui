@@ -178,13 +178,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout title="Home">
   <main>
     <n-card>
-      <n-header>
+      <header>
         <h2>Welcome</h2>
-      </n-header>
-      <n-body>
+      </header>
+      <section>
         <n-button variant="primary" intent="accent">Get Started</n-button>
         <n-input placeholder="Search..." name="query"></n-input>
-      </n-body>
+      </section>
     </n-card>
   </main>
 </BaseLayout>
@@ -293,22 +293,23 @@ const navGroups = [
       </n-sidebar-footer>
     </aside>
 
-    <div>
-      <n-dashboard-breadcrumb>
-        <n-button variant="ghost" size="sm" slot="leading" id="sidebar-toggle">
+    <section>
+      <nav>
+        <n-button variant="ghost" size="sm" id="sidebar-toggle">
           <n-icon name="sidebar-simple" size="md"></n-icon>
         </n-button>
         <n-breadcrumb>
           <n-breadcrumb-item current>{title}</n-breadcrumb-item>
         </n-breadcrumb>
-      </n-dashboard-breadcrumb>
+        <aside><!-- trailing actions --></aside>
+      </nav>
 
-      <n-dashboard-canvas>
-        <n-dashboard-panel>
+      <section class="content">
+        <main>
           <slot />
-        </n-dashboard-panel>
-      </n-dashboard-canvas>
-    </div>
+        </main>
+      </section>
+    </section>
   </n-sidebar>
 
   <script>
@@ -361,15 +362,15 @@ document.addEventListener('astro:before-swap', ((e: any) => {
     const restore = swapFunctions.saveFocus();
 
     // Swap only the content panel (sidebar stays in DOM)
-    const currentPanel = currentSidebar.querySelector('n-dashboard-panel:not([aside])');
-    const newPanel = newSidebar.querySelector('n-dashboard-panel:not([aside])');
+    const currentPanel = currentSidebar.querySelector('main');
+    const newPanel = newSidebar.querySelector('main');
     if (currentPanel && newPanel) {
       currentPanel.replaceWith(document.adoptNode(newPanel));
     }
 
     // Swap breadcrumb text
-    const currentBreadcrumb = currentSidebar.querySelector('n-dashboard-breadcrumb n-breadcrumb');
-    const newBreadcrumb = newSidebar.querySelector('n-dashboard-breadcrumb n-breadcrumb');
+    const currentBreadcrumb = currentSidebar.querySelector('nav n-breadcrumb');
+    const newBreadcrumb = newSidebar.querySelector('nav n-breadcrumb');
     if (currentBreadcrumb && newBreadcrumb) {
       currentBreadcrumb.replaceWith(document.adoptNode(newBreadcrumb));
     }
@@ -507,12 +508,12 @@ Dialogs work with standard `showModal()` / `close()` API:
 ```astro
 <n-dialog id="my-dialog">
   <n-card>
-    <n-header><h3>Confirm</h3></n-header>
-    <n-body><p>Are you sure?</p></n-body>
-    <n-footer>
+    <header><h3>Confirm</h3></header>
+    <section><p>Are you sure?</p></section>
+    <footer>
       <n-button id="cancel-btn">Cancel</n-button>
       <n-button variant="primary" intent="accent" id="confirm-btn">Confirm</n-button>
-    </n-footer>
+    </footer>
   </n-card>
 </n-dialog>
 
@@ -600,7 +601,7 @@ When using View Transitions, add `transition:animate="none"` to elements that sh
 
 ### CSS-only containers need no JS
 
-`n-stack`, `n-grid`, `n-divider`, `n-inset`, `n-header`, `n-body`, `n-footer` are pure CSS -- they work in server-rendered HTML without any JS.
+`n-stack`, `n-grid`, `n-divider`, `n-inset` are pure CSS -- they work in server-rendered HTML without any JS. For sub-containers, prefer semantic HTML (`<header>`, `<section>`, `<footer>`) inside `n-card`, `n-panel`, and `n-drawer` — they have full CSS parity with the older `n-header`/`n-body`/`n-footer` tags.
 
 ### Events use `native:` prefix with colon
 

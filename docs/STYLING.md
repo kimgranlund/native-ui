@@ -232,12 +232,12 @@ n-button:hover { background-color: #1d4ed8; }
   .card-header { padding: 1rem; font-weight: bold; border-bottom: 1px solid #eee; }
 </style>
 <n-card>
-  <n-header class="card-header"><span slot="label">Title</span></n-header>
+  <header class="card-header">Title</header>
 </n-card>
 
-<!-- RIGHT: n-header handles its own padding, weight, and border -->
+<!-- RIGHT: semantic sub-containers handle their own padding, weight, and border -->
 <n-card>
-  <n-header padding="regular"><span slot="label">Title</span></n-header>
+  <header padding="regular">Title</header>
 </n-card>
 ```
 

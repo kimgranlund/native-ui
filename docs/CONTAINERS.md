@@ -16,15 +16,17 @@ Structural elements that group, frame, and organize content. Pure CSS or minimal
 
 **n-section** -- Semantic section. Slots: `heading` (bold), `description` (muted), `actions` (flex row alongside heading). Attributes: `padding`, `divider` (border-top), `collapsible` (clickable heading with chevron), `collapsed`.
 
-## Unified Sub-Containers
+## Sub-Containers
 
-`n-header`, `n-body`, `n-footer` work inside any flex-column parent (n-card, n-panel, n-drawer, n-dashboard-panel). When `n-body` is present, the parent sets `overflow: hidden; padding: 0` so body handles scroll while header/footer stay fixed.
+Semantic HTML tags (`<header>`, `<section>`, `<footer>`) are the recommended sub-containers inside `n-card`, `n-panel`, `n-drawer`, and `<main>`. All parent containers have full CSS parity for both semantic tags and the older `n-header`/`n-body`/`n-footer` custom element tags.
 
-**n-header** -- Display: `grid`. Slots: `leading`, `label` (or unslotted), `trailing`, `content` (full-width row below). Grid auto-adapts columns to present slots. Attributes: `align` (center/end), `padding` (none/tight/regular/relaxed), `sticky`, `dividers`, `truncate` (ellipsis on label slot).
+**`<header>`** -- Display: `grid`. Children auto-detect grid columns via `:has()`. Attributes: `align` (center/end), `padding` (none/tight/regular/relaxed), `sticky`, `dividers`, `truncate`.
 
-**n-body** -- Display: `flex column`. Fills remaining space, `overflow-y: auto`, scrollbar hidden by default. Attributes: `padding`, `show-scrollbar`. Auto-adds block padding next to `[dividers]` siblings.
+**`<section>`** -- Display: `flex column`. Fills remaining space, `overflow-y: auto`, scrollbar hidden by default. Attributes: `padding`, `show-scrollbar`.
 
-**n-footer** -- Display: `flex row`, end-aligned. Attributes: `justify` (start/center/spread), `padding`, `sticky`, `dividers`.
+**`<footer>`** -- Display: `flex row`, end-aligned. Attributes: `justify` (start/center/spread), `padding`, `sticky`, `dividers`.
+
+**Legacy tags** (`n-header`, `n-body`, `n-footer`) still work and are non-breaking. Migrate at your pace.
 
 **Parent context**: n-card and n-panel add `border-bottom` on n-header and `border-top` on n-footer. n-panel widens sub-container `padding-inline` at `@container (min-width: 22rem)`.
 
@@ -94,11 +96,11 @@ native-dashboard                         <- flex row, height: 100dvh
 |   |   |   +-- n-sidebar-nav-item <- leaf item
 |   |   +-- n-sidebar-item         <- generic row (icon + label + trailing)
 |   +-- n-sidebar-footer           <- absolute overlay, bottom
-+-- [content column]               <- flex column
-    +-- n-dashboard-breadcrumb           <- grid bar (leading / label / trailing slots)
-    +-- n-dashboard-canvas               <- flex row
-        +-- n-dashboard-panel            <- flex-1 scrollable (main mode)
-        +-- n-dashboard-panel[aside]     <- collapsible side panel (aside mode)
++-- <section>                      <- flex column (content column)
+    +-- <nav>                      <- grid bar (breadcrumb + actions)
+    +-- <section class="content">  <- flex row
+        +-- <main>                 <- flex-1 scrollable (main content)
+        +-- [aside panels]         <- collapsible side panel (CEs with [aside])
 ```
 
 Collapsed: `[collapsed]` on `native-dashboard` shrinks aside to 48px icon rail. Components respond via `@container sidebar (max-width: 80px)`.

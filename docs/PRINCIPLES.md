@@ -112,20 +112,20 @@ When two packages both declare rules for the same property on the same element, 
 
 ```css
 /* native-ui/n-panel.css */
-:where(n-dashboard-panel) { padding: var(--n-space); }
+:where(main) { padding: var(--n-space); }
 
-/* native-dashboard/app-panel.css — BAD: redeclares the same property */
-:where(n-dashboard-panel) { padding: 0; }
+/* native-dashboard/sidebar.css — BAD: redeclares the same property */
+:where(main) { padding: 0; }
 ```
 
 **Correct approach:** The component owns its default padding. The app-level package extends with new concerns (grid placement, collapse behavior) but does not redeclare what the component already handles. If the default needs to change, it changes at the source.
 
 ```css
 /* native-ui/n-panel.css — owns padding */
-:where(n-dashboard-panel) { padding: var(--n-space); }
+:where(main) { padding: var(--n-space); }
 
-/* native-dashboard/app-panel.css — extends with layout concerns only */
-:where(n-dashboard-panel)[aside] { grid-area: aside; }
+/* native-dashboard/sidebar.css — extends with layout concerns only */
+:where(section.content) > :where(main) { grid-area: main; }
 ```
 
 **Practical test:** Search for any CSS property that appears in both `native-ui` and the consumer for the same selector. If found, one of them is wrong.

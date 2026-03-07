@@ -78,29 +78,29 @@ Button trigger opens a popover listbox. Arrow keys navigate. Selection dispatche
 
 ```html
 <n-card>
-  <n-header>
-    <n-icon slot="leading" name="user"></n-icon>
-    <span slot="label">User Profile</span>
-    <n-button slot="trailing" variant="ghost" size="sm">
+  <header>
+    <n-icon name="user"></n-icon>
+    <span>User Profile</span>
+    <n-button variant="ghost" size="sm">
       <n-icon name="dots-three"></n-icon>
     </n-button>
-  </n-header>
-  <n-body>
+  </header>
+  <section>
     <p>Card content goes here.</p>
-  </n-body>
-  <n-footer>
+  </section>
+  <footer>
     <n-button variant="ghost">Cancel</n-button>
     <n-button variant="primary" intent="accent">Save</n-button>
-  </n-footer>
+  </footer>
 </n-card>
 ```
 
-Card with 3-column header (leading/label/trailing), scrollable body, right-aligned footer. Context borders added automatically.
+Card with adaptive header (auto-detects children via `:has()`), scrollable body, right-aligned footer. Context borders added automatically.
 
 - `n-card`: `size`, `interactive`, `dividers`, `padding` (`none`/`tight`/`regular`/`relaxed`)
-- `n-header`: slots `leading`/`label`/`trailing`/`content`; `align` (`center`/`end`), `sticky`, `dividers`
-- `n-body`: `show-scrollbar`; `n-footer`: `justify` (`start`/`center`/`spread`), `sticky`
-- With `n-body` present, card delegates overflow to body (header/footer stay fixed)
+- `<header>`: auto-adapts grid columns; `align` (`center`/`end`), `sticky`, `dividers`
+- `<section>`: scrollable body, `show-scrollbar`; `<footer>`: `justify` (`start`/`center`/`spread`), `sticky`
+- With `<section>` present, card delegates overflow to it (header/footer stay fixed)
 
 ---
 
@@ -111,12 +111,12 @@ Card with 3-column header (leading/label/trailing), scrollable body, right-align
 
 <n-dialog id="my-dialog">
   <n-card>
-    <n-header><span slot="label">Confirm Action</span></n-header>
-    <n-body><p>Are you sure you want to continue?</p></n-body>
-    <n-footer>
+    <header><span>Confirm Action</span></header>
+    <section><p>Are you sure you want to continue?</p></section>
+    <footer>
       <n-button id="cancel-btn">Cancel</n-button>
       <n-button id="confirm-btn" intent="accent">Confirm</n-button>
-    </n-footer>
+    </footer>
   </n-card>
 </n-dialog>
 
@@ -168,22 +168,22 @@ Horizontal tab bar with sliding underline indicator. Arrow keys navigate tabs.
 <n-button id="open-drawer"><span slot="label">Open Drawer</span></n-button>
 
 <n-drawer id="my-drawer">
-  <n-header>
-    <span slot="label">Settings</span>
-    <n-button slot="trailing" variant="ghost" id="close-drawer">
+  <header>
+    <span>Settings</span>
+    <n-button variant="ghost" id="close-drawer">
       <n-icon name="x"></n-icon>
     </n-button>
-  </n-header>
-  <n-body>
+  </header>
+  <section>
     <n-field>
       <label slot="label">Display name</label>
       <n-input placeholder="Kim Granlund"></n-input>
     </n-field>
-  </n-body>
-  <n-footer justify="spread">
+  </section>
+  <footer justify="spread">
     <n-button variant="ghost">Cancel</n-button>
     <n-button variant="primary" intent="accent">Save Changes</n-button>
-  </n-footer>
+  </footer>
 </n-drawer>
 
 <script>
