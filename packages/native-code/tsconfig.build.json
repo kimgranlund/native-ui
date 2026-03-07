@@ -9,9 +9,7 @@
     "rootDir": "src",
     "rewriteRelativeImportExtensions": true,
     "paths": {
-      "@nonoun/native-ui": ["../../dist/index.d.ts"],
-      "@nonoun/native-code": ["../native-code/dist/index.d.ts"],
-      "@nonoun/native-code/register": ["../native-code/dist/register.d.ts"]
+      "@nonoun/native-ui": ["../../dist/index.d.ts"]
     }
   },
   "include": ["src/**/*.ts"],

@@ -16,9 +16,7 @@ Optional extension packages:
 npm install @nonoun/native-dashboard         # sidebar layout + navigation
 npm install @nonoun/native-design      # design token inspector
 npm install @nonoun/native-ai        # chat panel
-npm install @nonoun/native-codemirror  # CodeMirror 6 integration
-npm install @nonoun/native-editor      # markdown editor
-npm install @nonoun/native-playground  # live code sandbox
+npm install @nonoun/native-code        # CodeMirror, markdown editor, live playground
 ```
 
 ---

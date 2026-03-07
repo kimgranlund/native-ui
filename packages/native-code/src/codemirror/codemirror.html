@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>native-codemirror — Package Demo</title>
-    <link rel="stylesheet" href="../../../src/styles/n-index.css" />
-    <link rel="stylesheet" href="../../../src/styles/n-components.css" />
-    <link rel="stylesheet" href="../../../src/styles/demo.css" />
+    <link rel="stylesheet" href="../../../../src/styles/n-index.css" />
+    <link rel="stylesheet" href="../../../../src/styles/n-components.css" />
+    <link rel="stylesheet" href="../../../../src/styles/demo.css" />
     <link rel="stylesheet" href="./css/codemirror.css" />
     <style>
       .editor-container {
@@ -176,7 +176,7 @@ const x = 42;</script>
     </main></native-dashboard-spa>
 
     <script type="module">
-      import '../../../src/nav/native-dashboard.ts';
+      import '../../../../src/nav/native-dashboard.ts';
       import './register.ts';
 
       import { createEditorView, EditorView } from './index.ts';
@@ -188,7 +188,7 @@ const x = 42;</script>
       // ── Factory demo ──
 
       createEditorView(document.getElementById('factory-demo'), {
-        doc: `import { createEditorView } from '@nonoun/native-codemirror';
+        doc: `import { createEditorView } from '@nonoun/native-code';
 
 const view = createEditorView(document.getElementById('editor'), {
   doc: 'console.log("hello");',

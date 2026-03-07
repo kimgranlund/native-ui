@@ -1,8 +1,8 @@
 import type { EditorView as EditorViewType, ViewUpdate } from '@codemirror/view';
 import type { Extension } from '@codemirror/state';
 import { NativeElement, createDisabledEffect, GatewayController, ResizeController, PresentController } from '@nonoun/native-ui';
-import { EditorView, EditorState, Compartment } from '@nonoun/native-codemirror';
-import { NTheme, NSyntaxHighlighting, NBaseExtensions } from '@nonoun/native-codemirror';
+import { EditorView, EditorState, Compartment } from '../codemirror/index.ts';
+import { NTheme, NSyntaxHighlighting, NBaseExtensions } from '../codemirror/index.ts';
 import { markdown } from '@codemirror/lang-markdown';
 import { placeholder as cmPlaceholder } from '@codemirror/view';
 import { commands, markdownKeymap } from './commands.ts';

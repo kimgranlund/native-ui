@@ -30,7 +30,7 @@ When using extension packages, **load CSS in this order** — foundation first, 
 /* 3. Extension packages (any order among themselves) */
 @import '@nonoun/native-dashboard/css';        /* sidebar layout */
 @import '@nonoun/native-ai/css';       /* chat components */
-@import '@nonoun/native-codemirror/css'; /* CodeMirror integration */
+@import '@nonoun/native-code/css';       /* CodeMirror, editor, playground */
 
 /* 4. Your page/app CSS last */
 @import './app.css';

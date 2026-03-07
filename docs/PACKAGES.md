@@ -10,9 +10,7 @@
 | `@nonoun/native-dashboard` | 0.3.7 | App shell: sidebar navigation, layout orchestration | `>=0.6.0` |
 | `@nonoun/native-design` | 0.5.5 | OKLCH color token inspector widget | `>=0.6.0` |
 | `@nonoun/native-ai` | 1.0.0 | A2UI protocol + chat components (merged from native-a2ui + native-chat) | `>=0.5.0` |
-| `@nonoun/native-codemirror` | 0.2.13 | CodeMirror 6 integration layer (theme, extensions, re-exports) | `>=0.5.0` |
-| `@nonoun/native-editor` | 0.2.10 | Markdown editor with live preview | `>=0.5.0` |
-| `@nonoun/native-playground` | 0.2.10 | Embeddable live code sandbox (HTML/CSS/JS) | `>=0.5.0` |
+| `@nonoun/native-code` | 1.0.0 | Code editing: CodeMirror integration, markdown editor, live playground (merged from native-codemirror + native-editor + native-playground) | `>=0.5.0` |
 | `@nonoun/native-cdn` | 0.2.6 | Single-file IIFE bundle for CDN/artifact use | `>=0.5.0` |
 
 ## Export Maps
@@ -38,9 +36,7 @@
 | `@nonoun/native-dashboard` | `.` | -- (default auto-registers) | `./css` |
 | `@nonoun/native-design` | `.` | -- (default auto-registers) | `./css`, `./css/foundation` |
 | `@nonoun/native-ai` | `.` | `./register` | `./css` |
-| `@nonoun/native-codemirror` | `.` | `./register` | `./css` |
-| `@nonoun/native-editor` | `.` | `./register` | `./css` |
-| `@nonoun/native-playground` | `.` | `./register` | `./css` |
+| `@nonoun/native-code` | `.` | `./register` | `./css` |
 | `@nonoun/native-cdn` | `.` (IIFE) | -- (auto-registers) | `./css` |
 
 Packages with `./register`: the default export gives classes only; import `./register` as a side-effect to call `customElements.define()`. Packages without `./register` auto-register on import.
@@ -53,9 +49,7 @@ Packages with `./register`: the default export gives classes only; import `./reg
 | `@nonoun/native-dashboard` | `<native-dashboard>`, `<n-sidebar-nav>`, `<n-sidebar-nav-item>`, `<n-sidebar-group>`, `<n-sidebar-group-header>`, `<n-sidebar-item>` |
 | `@nonoun/native-design` | `<native-design>`, `<native-design-panel>`, `<native-design-variable>`, `<native-design-colors>`, `<native-design-color-swatch>`, `<native-design-themes>` |
 | `@nonoun/native-ai` | `<native-a2ui>`, `<n-chat-input>`, `<native-chat-panel>`, `<n-chat-feed>`, `<n-chat-messages>`, `<n-chat-message>`, `<n-chat-avatar>`, `<n-chat-message-text>`, `<n-chat-message-activity>`, `<n-chat-message-seed>`, `<n-chat-message-genui>`, `<n-chat-input-structured>` |
-| `@nonoun/native-codemirror` | `<native-codemirror>` |
-| `@nonoun/native-editor` | `<native-editor>` |
-| `@nonoun/native-playground` | `<native-playground>` |
+| `@nonoun/native-code` | `<native-codemirror>`, `<native-editor>`, `<native-playground>` |
 | `@nonoun/native-cdn` | All `n-*` elements (re-exports core + auto-registers) |
 
 Extension packages also register dogfooded core elements they create internally (e.g., `n-button`, `n-listbox`). `define()` is idempotent -- duplicate calls are no-ops.
@@ -67,16 +61,12 @@ native-ui (core)
   |
   +-- native-dashboard
   +-- native-design
-  +-- native-ai (also depends on native-codemirror)
+  +-- native-ai (also depends on native-code)
   +-- native-cdn
-  +-- native-codemirror
-  |     |
-  |     +-- native-editor
-  |     +-- native-playground
-  |     +-- native-ai
+  +-- native-code
 ```
 
-`@nonoun/native-codemirror` is a shared dependency for all CodeMirror-based packages. It re-exports key CodeMirror APIs (`EditorView`, `EditorState`, `keymap`, etc.) so downstream packages import through it rather than depending on `@codemirror/*` directly.
+`@nonoun/native-code` consolidates all code editing into one package. It re-exports key CodeMirror APIs (`EditorView`, `EditorState`, `keymap`, etc.) and provides the markdown editor and live playground.
 
 ## Monorepo Structure
 
@@ -85,9 +75,7 @@ packages/
   native-dashboard/          @nonoun/native-dashboard
   native-design/       @nonoun/native-design
   native-ai/           @nonoun/native-ai
-  native-codemirror/   @nonoun/native-codemirror
-  native-editor/       @nonoun/native-editor
-  native-playground/   @nonoun/native-playground
+  native-code/         @nonoun/native-code
   native-cdn/          @nonoun/native-cdn
 ```
 

@@ -7,6 +7,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@nonoun/native-ui/register': resolve(__dirname, '../../src/register-all.ts'),
       '@nonoun/native-ui': resolve(__dirname, '../../src/index.ts'),
     },
   },
@@ -14,7 +15,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: {
-        'native-codemirror': resolve(__dirname, 'src/index.ts'),
+        'native-code': resolve(__dirname, 'src/index.ts'),
         'register': resolve(__dirname, 'src/register.ts'),
       },
       formats: ['es'],

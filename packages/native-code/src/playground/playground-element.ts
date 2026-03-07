@@ -1,6 +1,6 @@
 import { NativeElement, CopyController, ResizeController, PresentController } from '@nonoun/native-ui';
-import type { NCodemirror } from '@nonoun/native-codemirror';
-import '@nonoun/native-codemirror/register';
+import type { NCodemirror } from '../codemirror/index.ts';
+import '../codemirror/register.ts';
 import { createPlaygroundStore } from './playground-store.ts';
 import type { PlaygroundStore, ConsoleEntry } from './playground-store.ts';
 import { getLanguageExtension, TAB_LABELS } from './editors.ts';

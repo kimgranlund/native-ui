@@ -4,7 +4,7 @@
  * Side-effect module that registers the <native-playground> custom element.
  *
  * Usage:
- *   import '@nonoun/native-playground/register';
+ *   import '@nonoun/native-code/register';
  */
 
 import { define } from '@nonoun/native-ui';

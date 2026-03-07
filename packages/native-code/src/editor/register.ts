@@ -4,7 +4,7 @@
  * Side-effect module that registers the <native-editor> custom element.
  *
  * Usage:
- *   import '@nonoun/native-editor/register';
+ *   import '@nonoun/native-code/register';
  */
 
 import { define, NSegmentedControl, NSegment } from '@nonoun/native-ui';

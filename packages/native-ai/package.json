@@ -50,7 +50,7 @@
     }
   },
   "dependencies": {
-    "@nonoun/native-codemirror": "^0.2.0",
+    "@nonoun/native-code": "^1.0.0",
     "@codemirror/lang-json": "^6.0.0",
     "@codemirror/lint": "^6.0.0"
   },

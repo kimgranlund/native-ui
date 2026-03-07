@@ -36,7 +36,7 @@ export interface CreateEditorOptions {
  *
  * @example
  * ```ts
- * import { createEditorView } from '@nonoun/native-codemirror';
+ * import { createEditorView } from '@nonoun/native-code';
  *
  * const view = createEditorView(document.getElementById('editor')!, {
  *   doc: 'console.log("hello");',

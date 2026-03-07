@@ -10,7 +10,7 @@ export default defineConfig({
       '@nonoun/native-ui/kernel': resolve(__dirname, '../../src/kernel.ts'),
       '@nonoun/native-ui/register': resolve(__dirname, '../../src/register-all.ts'),
       '@nonoun/native-ui': resolve(__dirname, '../../src/index.ts'),
-      '@nonoun/native-codemirror': resolve(__dirname, '../native-codemirror/src/index.ts'),
+      '@nonoun/native-code': resolve(__dirname, '../native-code/src/index.ts'),
     },
   },
   publicDir: false,

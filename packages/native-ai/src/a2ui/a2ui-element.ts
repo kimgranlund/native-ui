@@ -21,12 +21,12 @@ import {
   Decoration,
   StateField,
   StateEffect,
-} from '@nonoun/native-codemirror';
-import type { NCodemirror } from '@nonoun/native-codemirror';
-import type { DecorationSet } from '@nonoun/native-codemirror';
+} from '@nonoun/native-code';
+import type { NCodemirror } from '@nonoun/native-code';
+import type { DecorationSet } from '@nonoun/native-code';
 import { json } from '@codemirror/lang-json';
 import { linter } from '@codemirror/lint';
-import '@nonoun/native-codemirror/register';
+import '@nonoun/native-code/register';
 
 import { a2uiLinter } from './a2ui-diagnostics.ts';
 

@@ -1,5 +1,5 @@
 /**
- * @nonoun/native-codemirror
+ * @nonoun/native-code — CodeMirror integration
  *
  * Shared CodeMirror 6 integration for the NativeUI ecosystem.
  *
