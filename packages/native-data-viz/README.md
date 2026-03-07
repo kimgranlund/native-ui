@@ -1,11 +1,11 @@
-# @nonoun/native-chart
+# @nonoun/native-data-viz
 
-SVG charting components for `@nonoun/native-ui`.
+SVG charting & data visualization components for `@nonoun/native-ui`.
 
 ## Install
 
 ```bash
-npm install @nonoun/native-chart
+npm install @nonoun/native-data-viz
 ```
 
 Peer dependency: `@nonoun/native-ui >= 0.7.0`.
@@ -13,9 +13,9 @@ Peer dependency: `@nonoun/native-ui >= 0.7.0`.
 ## Usage
 
 ```html
-<link rel="stylesheet" href="@nonoun/native-chart/css" />
+<link rel="stylesheet" href="@nonoun/native-data-viz/css" />
 <script type="module">
-  import '@nonoun/native-chart/register';
+  import '@nonoun/native-data-viz/register';
 </script>
 
 <n-chart type="line" palette="vivid" legend="bottom" grid="horizontal" animate></n-chart>

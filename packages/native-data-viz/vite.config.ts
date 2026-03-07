@@ -14,7 +14,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: {
-        'native-chart': resolve(__dirname, 'src/index.ts'),
+        'native-data-viz': resolve(__dirname, 'src/index.ts'),
         'register': resolve(__dirname, 'src/register.ts'),
       },
       formats: ['es'],
