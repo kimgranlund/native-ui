@@ -1,0 +1,101 @@
+/* ══════════════════════════════════════════════════════════════════
+   Utilities — opt-in CSS utilities.
+   ══════════════════════════════════════════════════════════════════ */
+
+@layer ui {
+
+  /* ── Prose content reset ──
+     Reusable scoped reset for rich text / markdown output regions.
+     Zeroes browser-default margins, sets vertical rhythm via gap on
+     the container. Consumers apply via [markdown-html] or .markdown-html. */
+
+  :where([markdown-html]),
+  :where(.markdown-html) {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--n-space) * 2);
+  }
+
+  :where([markdown-html]) :where(
+    p, h1, h2, h3, h4, h5, h6,
+    ul, ol, li,
+    blockquote, pre, hr,
+    div, figure, figcaption,
+    dl, dt, dd, details, summary
+  ),
+  :where(.markdown-html) :where(
+    p, h1, h2, h3, h4, h5, h6,
+    ul, ol, li,
+    blockquote, pre, hr,
+    div, figure, figcaption,
+    dl, dt, dd, details, summary
+  ) {
+    margin: 0;
+  }
+
+  :where([markdown-html]) :where(h1, h2, h3, h4, h5, h6),
+  :where(.markdown-html) :where(h1, h2, h3, h4, h5, h6) {
+    font-weight: var(--n-button-font-weight);
+    color: var(--n-ink-strong);
+    line-height: 1.3;
+  }
+
+  :where([markdown-html]) :where(h1),
+  :where(.markdown-html) :where(h1) { font-size: 1.5em; }
+  :where([markdown-html]) :where(h2),
+  :where(.markdown-html) :where(h2) { font-size: 1.25em; }
+  :where([markdown-html]) :where(h3),
+  :where(.markdown-html) :where(h3) { font-size: 1.125em; }
+
+  :where([markdown-html]) :where(code),
+  :where(.markdown-html) :where(code) {
+    font-family: var(--n-font-mono);
+    font-size: 0.875em;
+  }
+
+  :where([markdown-html]) :where(pre),
+  :where(.markdown-html) :where(pre) {
+    padding: calc(var(--n-space) * 2);
+    background: var(--n-control);
+    border-radius: var(--n-radius);
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  :where([markdown-html]) :where(pre) :where(code),
+  :where(.markdown-html) :where(pre) :where(code) {
+    font-size: inherit;
+  }
+
+  :where([markdown-html]) :where(blockquote),
+  :where(.markdown-html) :where(blockquote) {
+    border-inline-start: 3px solid var(--n-border-muted);
+    padding-inline-start: calc(var(--n-space) * 3);
+    color: var(--n-ink-muted);
+  }
+
+  :where([markdown-html]) :where(a),
+  :where(.markdown-html) :where(a) {
+    color: var(--n-ink);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  :where([markdown-html]) :where(ul, ol),
+  :where(.markdown-html) :where(ul, ol) {
+    padding-inline-start: 1.5em;
+  }
+
+  :where([markdown-html]) :where(li + li),
+  :where(.markdown-html) :where(li + li) {
+    margin-block-start: calc(var(--n-space) * 0.5);
+  }
+
+  :where([markdown-html]) :where(hr),
+  :where(.markdown-html) :where(hr) {
+    border: none;
+    height: 1px;
+    background: var(--n-border-muted);
+  }
+
+}

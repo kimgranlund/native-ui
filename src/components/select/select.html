@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n-select — Component Demo</title>
-    <link rel="stylesheet" href="../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../styles/n-components.css" />
-    <link rel="stylesheet" href="../../styles/demo.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     </head>
   <body>
     <native-dashboard-spa><main>
@@ -19,7 +19,7 @@
     <!-- ── Basic Usage ── -->
 
     <h2>Basic Usage</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div class="demo-row">
         <n-select>
           <n-button justify="spread">
@@ -46,12 +46,12 @@
     &lt;n-option value="cherry"&gt;Cherry&lt;/n-option&gt;
   &lt;/n-listbox&gt;
 &lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Pre-selected Value ── -->
 
     <h2>Pre-selected Value</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div class="demo-row">
         <n-select value="banana">
           <n-button justify="spread">
@@ -75,12 +75,12 @@
     &lt;n-option value="banana"&gt;Banana&lt;/n-option&gt;
   &lt;/n-listbox&gt;
 &lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div class="demo-row">
         <span class="demo-label">xs</span>
         <n-select size="xs">
@@ -142,12 +142,12 @@
     &lt;n-option value="a"&gt;Option A&lt;/n-option&gt;
   &lt;/n-listbox&gt;
 &lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Density ── -->
 
     <h2>Density</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <h3>xs</h3>
       <div class="demo-row" size="xs" density="compact">
         <span class="demo-label">compact</span>
@@ -269,12 +269,12 @@
 &lt;div density="loose"&gt;
   &lt;n-select&gt;...&lt;/n-select&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Variants ── -->
 
     <h2>Button Variants</h2>
-    <n-panel bordered size="sm">
+    <article data-kind="panel" bordered size="sm">
       <div class="demo-row">
         <n-select>
           <n-button justify="spread">
@@ -326,12 +326,12 @@
     &lt;n-option value="a"&gt;Alpha&lt;/n-option&gt;
   &lt;/n-listbox&gt;
 &lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <n-panel bordered size="sm">
+    <article data-kind="panel" bordered size="sm">
       <div class="demo-row">
         <n-select disabled>
           <n-button disabled justify="spread">
@@ -352,12 +352,12 @@
     &lt;n-option value="a"&gt;Alpha&lt;/n-option&gt;
   &lt;/n-listbox&gt;
 &lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Disabled Options ── -->
 
     <h2>Disabled Options</h2>
-    <n-panel bordered size="sm">
+    <article data-kind="panel" bordered size="sm">
       <div class="demo-row">
         <n-select>
           <n-button justify="spread">
@@ -382,12 +382,12 @@
     &lt;n-option value="admin" disabled&gt;Admin&lt;/n-option&gt;
   &lt;/n-listbox&gt;
 &lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Events ── -->
 
     <h2>Events</h2>
-    <n-panel bordered size="sm">
+    <article data-kind="panel" bordered size="sm">
       <n-select id="event-select">
         <n-button justify="spread">
           <span slot="label">Choose color</span>
@@ -417,12 +417,12 @@
       console.log(e.detail.value, e.detail.label);
     });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Form Association ── -->
 
     <h2>Form Association</h2>
-    <n-panel bordered size="sm">
+    <article data-kind="panel" bordered size="sm">
       <form id="demo-form">
         <div class="demo-col-sm" style="margin-bottom: 0.75rem;">
           <n-select name="color">
@@ -469,12 +469,12 @@
   &lt;/n-select&gt;
   &lt;button type="submit"&gt;Submit&lt;/button&gt;
 &lt;/form&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Data-Driven: Inline JSON ── -->
 
     <h2>Data-Driven: Inline JSON</h2>
-    <n-panel bordered size="sm">
+    <article data-kind="panel" bordered size="sm">
       <div class="demo-row">
         <n-select
           placeholder="Choose a country"
@@ -485,12 +485,12 @@
   placeholder="Choose a country"
   options='[{"value":"us","label":"United States"},{"value":"gb","label":"United Kingdom"}]'
 &gt;&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Data-Driven: Pre-selected ── -->
 
     <h2>Data-Driven: Pre-selected Value</h2>
-    <n-panel bordered size="sm">
+    <article data-kind="panel" bordered size="sm">
       <div class="demo-row">
         <n-select
           placeholder="Choose a country"
@@ -503,12 +503,12 @@
   value="de"
   options='[{"value":"us","label":"United States"},{"value":"de","label":"Germany"}]'
 &gt;&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Data-Driven: Disabled Options ── -->
 
     <h2>Data-Driven: Disabled Options</h2>
-    <n-panel bordered size="sm">
+    <article data-kind="panel" bordered size="sm">
       <div class="demo-row">
         <n-select
           placeholder="Choose a role"
@@ -519,12 +519,12 @@
   placeholder="Choose a role"
   options='[{"value":"viewer","label":"Viewer"},{"value":"admin","label":"Admin","disabled":true}]'
 &gt;&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Data-Driven: Dynamic Update ── -->
 
     <h2>Data-Driven: Dynamic Update</h2>
-    <n-panel bordered size="sm">
+    <article data-kind="panel" bordered size="sm">
       <div class="demo-row">
         <n-select id="dynamic-select" placeholder="Choose a fruit" options="[]"></n-select>
       </div>
@@ -542,7 +542,7 @@
     { value: 'banana', label: 'Banana' },
   ];
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     </main></native-dashboard-spa>
     <script type="module">

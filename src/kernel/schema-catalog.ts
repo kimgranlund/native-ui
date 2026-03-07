@@ -117,7 +117,7 @@ const LEADING_SLOT: SlotSchema = Object.freeze({
 const TRAILING_SLOT: SlotSchema = Object.freeze({
   name: 'trailing',
   description: 'Content placed after the main label (e.g. icon, badge).',
-  allowedTags: Object.freeze(['n-icon', 'span', 'img', 'n-badge']),
+  allowedTags: Object.freeze(['n-icon', 'span', 'img']),
 });
 
 // ── Helper ──
@@ -426,7 +426,7 @@ const UI_OPTION: ComponentSchema = freezeSchema({
 });
 
 const UI_BADGE: ComponentSchema = freezeSchema({
-  tag: 'n-badge',
+  tag: 'span.badge',
   category: 'display',
   description: 'Small status indicator or label tag.',
   attributes: [
@@ -451,7 +451,7 @@ const UI_BADGE: ComponentSchema = freezeSchema({
 });
 
 const UI_AVATAR: ComponentSchema = freezeSchema({
-  tag: 'n-avatar',
+  tag: 'span.avatar',
   category: 'display',
   description: 'User avatar image or fallback initials.',
   attributes: [

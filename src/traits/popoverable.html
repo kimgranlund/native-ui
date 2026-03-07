@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Popoverable — Trait Demo</title>
-    <link rel="stylesheet" href="../styles/n-index.css" />
-    <link rel="stylesheet" href="../styles/n-components.css" />
-    <link rel="stylesheet" href="../styles/demo.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-pages.css" />
     <style>
 
       main {
@@ -91,7 +91,7 @@
     <!-- ── Basic Popover ── -->
 
     <h2>Basic Popover</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         Uses <code>PopoverController</code> directly to wire an anchor button to a popover panel. Click outside or press Escape to close.
       </p>
@@ -119,12 +119,12 @@ host.addEventListener('native:dismiss', () =&gt; {
 
 // In an effect:
 popover.syncPopover(open.value);</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Multiple Popovers ── -->
 
     <h2>Multiple Popovers</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         Each popover joins the dismissable layer stack. Only the topmost one is dismissed first.
       </p>
@@ -142,12 +142,12 @@ popover.syncPopover(open.value);</code><n-button class="copy-btn" size="sm" vari
           </div>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Built-in: n-select ── -->
 
     <h2>Built-in: n-select</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         <code>n-select</code> uses Popoverable internally to anchor its dropdown listbox to the trigger button. CSS Anchor Positioning and dismiss-on-click-outside are handled automatically.
       </p>
@@ -158,7 +158,7 @@ popover.syncPopover(open.value);</code><n-button class="copy-btn" size="sm" vari
     {"value":"vue","label":"Vue"},
     {"value":"svelte","label":"Svelte"}
   ]'&gt;&lt;/n-select&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── API Reference ── -->
 

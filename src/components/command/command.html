@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n-command — Component Demo</title>
-    <link rel="stylesheet" href="../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../styles/n-components.css" />
-    <link rel="stylesheet" href="../../styles/demo.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     <style>
 .demo-grid {
         display: grid;
@@ -51,7 +51,7 @@
     <!-- ── Basic ── -->
 
     <h2>Basic Command Palette</h2>
-    <n-panel bordered intent="neutral" variant="secondary">
+    <article data-kind="panel" bordered intent="neutral" variant="secondary">
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Simple list</span>
@@ -91,12 +91,12 @@
     console.log(e.detail.value, e.detail.label);
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Grouped ── -->
 
     <h2>Grouped Commands</h2>
-    <n-panel bordered intent="neutral" variant="secondary">
+    <article data-kind="panel" bordered intent="neutral" variant="secondary">
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">With groups and shortcuts</span>
@@ -174,12 +174,12 @@
   &lt;/n-command-list&gt;
   &lt;n-command-empty&gt;No matching commands.&lt;/n-command-empty&gt;
 &lt;/n-command&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── With Disabled Items ── -->
 
     <h2>Disabled Items</h2>
-    <n-panel bordered intent="neutral" variant="secondary">
+    <article data-kind="panel" bordered intent="neutral" variant="secondary">
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Some items disabled</span>
@@ -201,12 +201,12 @@
       <pre class="demo-code"><code>&lt;n-command-item value="paste" disabled&gt;
   &lt;n-icon name="clipboard-text"&gt;&lt;/n-icon&gt; Paste (clipboard empty)
 &lt;/n-command-item&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <n-panel bordered variant="secondary">
+    <article data-kind="panel" bordered variant="secondary">
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">sm</span>
@@ -248,12 +248,12 @@
           </n-command>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Variants ── -->
 
     <h2>Variants</h2>
-    <n-panel bordered size="sm">
+    <article data-kind="panel" bordered size="sm">
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">secondary</span>
@@ -295,12 +295,12 @@
           </n-command>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Density ── -->
 
     <h2>Density</h2>
-    <n-panel bordered size="md" variant="secondary">
+    <article data-kind="panel" bordered size="md" variant="secondary">
       <div class="demo-grid">
         <div class="demo-col" density="loose">
           <span class="demo-col-label">loose</span>
@@ -342,12 +342,12 @@
           </n-command>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Radius ── -->
 
     <h2>Radius</h2>
-    <n-panel bordered size="sm" variant="secondary">
+    <article data-kind="panel" bordered size="sm" variant="secondary">
       <div class="demo-grid">
         <div class="demo-col" radius="sharp">
           <span class="demo-col-label">sharp</span>
@@ -389,12 +389,12 @@
           </n-command>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Cascading ── -->
 
     <h2>Cascading</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <h3>Section cascading all attributes</h3>
       <section size="sm" density="compact" radius="round" intent="accent">
         <div class="demo-grid">
@@ -426,12 +426,12 @@
           </div>
         </div>
       </section>
-    </n-panel>
+    </article>
 
     <!-- ── Keyboard Instructions ── -->
 
     <h2>Keyboard Navigation</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <table style="font-size: 0.8125rem; border-collapse: collapse; width: 100%;">
         <thead>
           <tr style="text-align: left; border-bottom: 1px solid var(--n-border-muted-neutral);">
@@ -449,7 +449,7 @@
           <tr><td style="padding: 0.375rem 0.5rem;"><code>Type</code></td><td style="padding: 0.375rem 0.5rem;">Filter items by search text</td></tr>
         </tbody>
       </table>
-    </n-panel>
+    </article>
 
     </main></native-dashboard-spa>
     <script type="module">

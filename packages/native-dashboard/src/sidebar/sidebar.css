@@ -8,7 +8,7 @@
   :where(n-sidebar-nav-item):not(:defined) { visibility: hidden; }
 
   /* ╭──────────────────────────────────────────────────────────╮
-     │  native-app                                         │
+     │  native-app                                              │
      │  Full-page layout: collapsible/resizable sidebar aside   │
      │  + content column (breadcrumb, canvas, body, chat).      │
      ╰──────────────────────────────────────────────────────────╯ */
@@ -236,7 +236,7 @@
     background: var(--n-ground);
   }
 
-  /* Content max-width centering (same as app-panel.css semantic selectors) */
+  /* Content max-width centering (same as dashboard-panel.css semantic selectors) */
   :where(native-app) :where(section.content) > :where(main) > :where(header) > *,
   :where(native-app) :where(section.content) > :where(main) > :where(section) > *,
   :where(native-app) :where(section.content) > :where(main) > :where(footer) > * {
@@ -623,7 +623,7 @@
   }
 
   /* Badge in nav item — push to trailing edge */
-  :where(n-sidebar-nav-item) > :where(n-badge) {
+  :where(n-sidebar-nav-item) > :where(.badge) {
     margin-inline-start: auto;
     flex-shrink: 0;
   }

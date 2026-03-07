@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Detail — Block</title>
-    <link rel="stylesheet" href="../../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <style>
       body {
         background: var(--n-doc-neutral);
@@ -151,7 +151,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
+    <div class="stack" gap="6">
 
     <!-- ── Breadcrumb ── -->
     <n-breadcrumb>
@@ -161,13 +161,13 @@
     </n-breadcrumb>
 
     <!-- ── Profile Header ── -->
-    <n-card>
+    <article>
       <div class="profile-header">
-        <n-avatar name="Kim Granlund" size="xl" intent="accent"></n-avatar>
+        <span class="avatar" name="Kim Granlund" size="xl" intent="accent">KG</span>
         <div class="profile-info">
           <div class="profile-name">
             Kim Granlund
-            <n-badge intent="success">Active</n-badge>
+            <span class="badge" intent="success">Active</span>
           </div>
           <div class="profile-meta">Senior Product Designer &middot; Design Team &middot; Joined Mar 2023</div>
         </div>
@@ -182,7 +182,7 @@
           </n-button>
         </div>
       </div>
-    </n-card>
+    </article>
 
     <!-- ── Tabs ── -->
     <n-tabs value="overview">
@@ -192,11 +192,11 @@
 
       <!-- ── Overview Panel ── -->
       <n-tab-panel value="overview">
-        <n-stack gap="4">
+        <div class="stack" gap="4">
         <div class="detail-grid">
           <div>
             <h2>Personal Information</h2>
-            <n-stack gap="3">
+            <div class="stack" gap="3">
               <div class="detail-item">
                 <span class="detail-label">Full Name</span>
                 <span class="detail-value">Kim Granlund</span>
@@ -213,12 +213,12 @@
                 <span class="detail-label">Location</span>
                 <span class="detail-value">San Francisco, CA</span>
               </div>
-            </n-stack>
+            </div>
           </div>
 
           <div>
             <h2>Work Information</h2>
-            <n-stack gap="3">
+            <div class="stack" gap="3">
               <div class="detail-item">
                 <span class="detail-label">Department</span>
                 <span class="detail-value">Design</span>
@@ -235,7 +235,7 @@
                 <span class="detail-label">Employee ID</span>
                 <span class="detail-value">EMP-2023-0472</span>
               </div>
-            </n-stack>
+            </div>
           </div>
         </div>
 
@@ -255,31 +255,31 @@
               <n-table-row>
                 <n-table-cell>Design System v3.0</n-table-cell>
                 <n-table-cell>Platform</n-table-cell>
-                <n-table-cell><n-badge intent="success">Active</n-badge></n-table-cell>
+                <n-table-cell><span class="badge" intent="success">Active</span></n-table-cell>
                 <n-table-cell>142</n-table-cell>
               </n-table-row>
               <n-table-row>
                 <n-table-cell>Mobile App Redesign</n-table-cell>
                 <n-table-cell>Mobile</n-table-cell>
-                <n-table-cell><n-badge intent="info">In Review</n-badge></n-table-cell>
+                <n-table-cell><span class="badge" intent="info">In Review</span></n-table-cell>
                 <n-table-cell>86</n-table-cell>
               </n-table-row>
               <n-table-row>
                 <n-table-cell>Dashboard Analytics</n-table-cell>
                 <n-table-cell>Data</n-table-cell>
-                <n-table-cell><n-badge>Completed</n-badge></n-table-cell>
+                <n-table-cell><span class="badge">Completed</span></n-table-cell>
                 <n-table-cell>64</n-table-cell>
               </n-table-row>
               <n-table-row>
                 <n-table-cell>Onboarding Flow</n-table-cell>
                 <n-table-cell>Growth</n-table-cell>
-                <n-table-cell><n-badge>Completed</n-badge></n-table-cell>
+                <n-table-cell><span class="badge">Completed</span></n-table-cell>
                 <n-table-cell>38</n-table-cell>
               </n-table-row>
             </n-table-body>
           </n-table>
         </div>
-        </n-stack>
+        </div>
       </n-tab-panel>
 
       <!-- ── Activity Panel ── -->
@@ -340,7 +340,7 @@
 
       <!-- ── Settings Panel ── -->
       <n-tab-panel value="settings">
-        <n-stack gap="4">
+        <div class="stack" gap="4">
         <div class="detail-grid">
           <div>
             <h2>Notifications</h2>
@@ -421,22 +421,19 @@
             </n-button>
           </div>
         </div>
-        </n-stack>
+        </div>
       </n-tab-panel>
     </n-tabs>
-    </n-stack>
+    </div>
 
     </main></native-dashboard-spa>
     <script type="module">
       import '../../../nav/native-dashboard.ts';
       import '../../../components/breadcrumb/breadcrumb.ts';
-      import '../../../components/avatar/avatar.ts';
-      import '../../../components/badge/badge.ts';
       import '../../../components/tabs/tabs.ts';
       import '../../../components/table/table.ts';
       import '../../../components/button/button.ts';
       import '../../../components/switch/switch.ts';
-      import '../../../containers/card/card.ts';
       import '../../../icons/icon.ts';
       import '../../../icons/phosphor/pencil-simple.ts';
       import '../../../icons/phosphor/trash.ts';

@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Slash Command — Trait Demo</title>
-    <link rel="stylesheet" href="../styles/n-index.css" />
-    <link rel="stylesheet" href="../styles/n-components.css" />
-    <link rel="stylesheet" href="../styles/demo.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-pages.css" />
     <style>
 
       main {
@@ -56,7 +56,7 @@
     <!-- ── Basic Slash Commands (Textarea) ── -->
 
     <h2>Basic Slash Commands</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         Type <code>/</code> in the textarea to see the command list. Arrow keys navigate, <strong>Enter</strong> selects, <strong>Escape</strong> closes. A styled tag is inserted on selection. Works mid-text — try typing some text then <code>/</code>.
       </p>
@@ -84,12 +84,12 @@ const slash = new SlashCommandController(wrapper, {
 wrapper.addEventListener('native:slash-select', (e) =&gt; {
   console.log('Selected:', e.detail.command);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── With n-input ── -->
 
     <h2>With n-input</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         Same pattern using <code>&lt;n-input&gt;</code> for single-line input. Type <code>/</code> or press <kbd>Cmd+/</kbd> to trigger the command popover.
       </p>
@@ -112,12 +112,12 @@ const slash = new SlashCommandController(wrapper, {
 wrapper.addEventListener('native:slash-select', (e) =&gt; {
   console.log('Selected:', e.detail.command);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Filtered Commands ── -->
 
     <h2>Filtered Commands</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         Typing after <code>/</code> filters the list. For example, <code>/he</code> shows only "Help". The filter matches against <code>label</code>, <code>value</code>, and <code>description</code>. The <code>native:slash-query</code> event fires on every keystroke with the current query and filtered command list.
       </p>
@@ -135,12 +135,12 @@ wrapper.addEventListener('native:slash-query', (e) =&gt; {
 wrapper.addEventListener('native:slash-select', (e) =&gt; {
   console.log('Selected:', e.detail.command.label);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Action Types ── -->
 
     <h2>Action Types</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         Commands support three action types via the <code>action</code> property:
         <strong>tag</strong> (default — inserts a styled pill),
@@ -161,12 +161,12 @@ wrapper.addEventListener('native:slash-select', (e) =&gt; {
     { value: 'emoji', label: 'Emoji', action: 'event', description: 'Open emoji picker' },
   ],
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Dynamic Commands ── -->
 
     <h2>Dynamic Commands</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         Commands can be updated at runtime via the <code>.commands</code> setter. Click the button to toggle between two command sets. If the popover is open, it re-renders immediately.
       </p>
@@ -191,7 +191,7 @@ toggleBtn.addEventListener('native:press', () =&gt; {
     slash.commands = setA;
   }
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── API Reference ── -->
 

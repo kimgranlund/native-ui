@@ -29,8 +29,9 @@ export interface ComponentMapping {
 const mappings: readonly ComponentMapping[] = [
   {
     a2uiType: 'Text',
-    nativeTag: 'n-text',
+    nativeTag: 'span',
     childStrategy: 'textContent',
+    defaultAttributes: { class: 'text' },
   },
   {
     a2uiType: 'Button',
@@ -120,18 +121,19 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Row',
-    nativeTag: 'n-stack',
+    nativeTag: 'div',
     childStrategy: 'children',
-    defaultAttributes: { direction: 'row' },
+    defaultAttributes: { class: 'stack', direction: 'row' },
   },
   {
     a2uiType: 'Column',
-    nativeTag: 'n-stack',
+    nativeTag: 'div',
     childStrategy: 'children',
+    defaultAttributes: { class: 'stack' },
   },
   {
     a2uiType: 'Card',
-    nativeTag: 'n-card',
+    nativeTag: 'article',
     childStrategy: 'children',
   },
   {
@@ -176,18 +178,20 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Divider',
-    nativeTag: 'n-divider',
+    nativeTag: 'hr',
     childStrategy: 'none',
   },
   {
     a2uiType: 'Badge',
-    nativeTag: 'n-badge',
+    nativeTag: 'span',
     childStrategy: 'textContent',
+    defaultAttributes: { class: 'badge' },
   },
   {
     a2uiType: 'Avatar',
-    nativeTag: 'n-avatar',
+    nativeTag: 'span',
     childStrategy: 'none',
+    defaultAttributes: { class: 'avatar' },
     propertyMap: {
       src: 'src',
       alt: 'alt',
@@ -266,9 +270,9 @@ const reverseMap = new Map<string, ComponentMapping>();
 for (const m of mappings) {
   forwardMap.set(m.a2uiType, m);
   // Only add to reverse map if the tag is unique or is a custom element.
-  // div/span/n-stack are ambiguous — handled by resolveA2UIType with attribute checks.
+  // div/span are ambiguous — handled by resolveA2UIType with attribute checks.
   // First mapping wins for shared tags (TextField before DateTimeInput for n-input).
-  if (m.nativeTag !== 'div' && m.nativeTag !== 'span' && m.nativeTag !== 'n-stack' && !reverseMap.has(m.nativeTag)) {
+  if (m.nativeTag !== 'div' && m.nativeTag !== 'span' && m.nativeTag !== 'hr' && !reverseMap.has(m.nativeTag)) {
     reverseMap.set(m.nativeTag, m);
   }
 }
@@ -299,11 +303,15 @@ export function resolveA2UIType(
   if (mapping) return mapping.a2uiType;
 
   // Fallback: disambiguate plain HTML tags and shared custom elements
-  if (tag === 'span') return 'Text';
-  if (tag === 'n-stack') {
-    return attributes?.direction === 'row' ? 'Row' : 'Column';
+  if (tag === 'span') {
+    if (attributes?.class?.includes('text')) return 'Text';
+    return 'Text';
   }
   if (tag === 'div') {
+    // div.stack with direction="row" → Row, otherwise → Column
+    if (attributes?.class?.includes('stack')) {
+      return attributes?.direction === 'row' ? 'Row' : 'Column';
+    }
     const style = attributes?.style ?? '';
     if (style.includes('flex-direction:column') || style.includes('flex-direction: column')) {
       return 'Column';
@@ -313,10 +321,10 @@ export function resolveA2UIType(
     }
     return 'Column'; // default layout direction
   }
+  if (tag === 'hr') return 'Divider';
   if (tag === 'img') return 'Image';
   if (tag === 'video') return 'Video';
   if (tag === 'audio') return 'AudioPlayer';
-  if (tag === 'hr') return 'Divider';
 
   // Heading tags → Text with variant
   if (/^h[1-6]$/.test(tag)) return 'Text';
@@ -334,16 +342,16 @@ const TEXT_VARIANT_TAG: Record<string, string> = {
   h5: 'h5',
   heading: 'h2',
   caption: 'small',
-  body: 'n-text',
+  body: 'span',
 };
 
 /**
  * For A2UI Text components, resolve the variant to an HTML tag.
- * Returns 'n-text' by default.
+ * Returns 'span' by default.
  */
 export function textVariantTag(variant?: string): string {
-  if (!variant) return 'n-text';
-  return TEXT_VARIANT_TAG[variant] ?? 'n-text';
+  if (!variant) return 'span';
+  return TEXT_VARIANT_TAG[variant] ?? 'span';
 }
 
 // ── DateTimeInput → Input Type ──

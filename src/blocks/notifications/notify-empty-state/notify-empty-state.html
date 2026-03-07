@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Empty State Patterns — Block</title>
-    <link rel="stylesheet" href="../../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <style>
       body {
         background: var(--n-doc-neutral);
@@ -63,7 +63,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
+    <div class="stack" gap="6">
     <div>
       <h1>Empty States</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -74,7 +74,7 @@
 
     <!-- -- No Data -- -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <h2>No Data</h2>
     <div class="empty-state">
       <n-icon name="folder" size="xl" aria-hidden="true"></n-icon>
@@ -85,17 +85,17 @@
         <span slot="label">Create Project</span>
       </n-button>
     </div>
-    </n-stack>
+    </div>
 
     <!-- -- No Search Results -- -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <h2>No Search Results</h2>
     <div class="empty-state">
       <n-icon name="magnifying-glass" size="xl" aria-hidden="true"></n-icon>
       <h3>No results found</h3>
       <p>We couldn't find anything matching "quarterly report". Try adjusting your search terms or clearing filters.</p>
-      <n-stack direction="row" gap="3">
+      <div class="stack" direction="row" gap="3">
         <n-button id="clear-search-btn">
           <n-icon name="x" slot="leading"></n-icon>
           <span slot="label">Clear Search</span>
@@ -103,29 +103,29 @@
         <n-button id="browse-all-btn">
           <span slot="label">Browse All</span>
         </n-button>
-      </n-stack>
+      </div>
     </div>
-    </n-stack>
+    </div>
 
     <!-- -- Error State -- -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <h2>Error State</h2>
     <div class="empty-state">
       <n-icon name="warning" size="xl" aria-hidden="true" style="color: var(--n-ink-strong-danger);"></n-icon>
       <h3>Something went wrong</h3>
       <p>We couldn't load your projects. This might be a temporary issue. Please check your connection and try again.</p>
-      <n-stack direction="row" gap="3">
+      <div class="stack" direction="row" gap="3">
         <n-button intent="accent" id="retry-btn">
           <span slot="label">Try Again</span>
         </n-button>
         <n-button id="support-btn">
           <span slot="label">Contact Support</span>
         </n-button>
-      </n-stack>
+      </div>
     </div>
-    </n-stack>
-    </n-stack>
+    </div>
+    </div>
 
     </main></native-dashboard-spa>
     <script type="module">

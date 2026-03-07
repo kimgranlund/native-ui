@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Confirmation Dialogs — Block</title>
-    <link rel="stylesheet" href="../../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <style>
       body {
         background: var(--n-doc-neutral);
@@ -30,7 +30,7 @@
         color: var(--n-ink-strong-neutral);
       }
 
-      n-dialog > n-card {
+      n-dialog > article {
         width: min(26rem, calc(100vw - 2rem));
         box-shadow:
           0 8px 30px oklch(0% 0 0 / 0.12),
@@ -70,7 +70,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
+    <div class="stack" gap="6">
     <div>
       <h1>Confirmation Dialogs</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -81,7 +81,7 @@
 
     <!-- -- Trigger Buttons -- -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <h2>Trigger Dialogs</h2>
     <div class="trigger-row">
       <n-button id="open-info" intent="info">
@@ -97,22 +97,22 @@
         <span slot="label">Delete Account</span>
       </n-button>
     </div>
-    </n-stack>
+    </div>
 
     <!-- -- Info Confirmation Dialog -- -->
 
     <n-dialog id="info-dialog">
-      <n-card>
+      <article>
         <section>
           <div class="dialog-icon dialog-icon-info">
             <n-icon name="info" aria-hidden="true"></n-icon>
           </div>
           <h3 style="font-size: 1.0625rem; font-weight: 700; margin: 0 0 0.25rem;">Archive project?</h3>
-          <n-text muted>
+          <span muted>
             This project will be moved to the archive. Team members will lose edit access,
             but all data and history will be preserved. You can restore it at any time from
             the archive.
-          </n-text>
+          </span>
         </section>
         <footer>
           <n-button id="info-cancel">
@@ -122,22 +122,22 @@
             <span slot="label">Archive</span>
           </n-button>
         </footer>
-      </n-card>
+      </article>
     </n-dialog>
 
     <!-- -- Warning Confirmation Dialog -- -->
 
     <n-dialog id="warning-dialog">
-      <n-card>
+      <article>
         <section>
           <div class="dialog-icon dialog-icon-warning">
             <n-icon name="warning" aria-hidden="true"></n-icon>
           </div>
           <h3 style="font-size: 1.0625rem; font-weight: 700; margin: 0 0 0.25rem;">Unsaved changes</h3>
-          <n-text muted>
+          <span muted>
             You have unsaved changes that will be lost if you leave this page.
             Would you like to save your work before continuing?
-          </n-text>
+          </span>
         </section>
         <footer>
           <n-button id="warning-discard">
@@ -147,22 +147,22 @@
             <span slot="label">Save</span>
           </n-button>
         </footer>
-      </n-card>
+      </article>
     </n-dialog>
 
     <!-- -- Danger Confirmation Dialog -- -->
 
     <n-dialog id="danger-dialog">
-      <n-card>
+      <article>
         <section>
           <div class="dialog-icon dialog-icon-danger">
             <n-icon name="trash" aria-hidden="true"></n-icon>
           </div>
           <h3 style="font-size: 1.0625rem; font-weight: 700; margin: 0 0 0.25rem; color: var(--n-ink-strong-danger);">Delete account?</h3>
-          <n-text muted>
+          <span muted>
             This action cannot be undone. All your data, projects, and settings
             will be permanently removed. Any active subscriptions will be cancelled immediately.
-          </n-text>
+          </span>
         </section>
         <footer>
           <n-button id="danger-cancel">
@@ -173,16 +173,15 @@
             <span slot="label">Delete</span>
           </n-button>
         </footer>
-      </n-card>
+      </article>
     </n-dialog>
-    </n-stack>
+    </div>
 
     </main></native-dashboard-spa>
     <script type="module">
       import '../../../nav/native-dashboard.ts';
       import '../../../components/button/button.ts';
       import '../../../components/dialog/dialog.ts';
-      import '../../../containers/card/card.ts';
       import '../../../icons/icon.ts';
       import '../../../icons/phosphor/info.ts';
       import '../../../icons/phosphor/warning.ts';

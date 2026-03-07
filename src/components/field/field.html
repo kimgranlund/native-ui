@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n-field — Component Demo</title>
-    <link rel="stylesheet" href="../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../styles/n-components.css" />
-    <link rel="stylesheet" href="../../styles/demo.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     </head>
   <body>
     <native-dashboard-spa><main>
@@ -19,8 +19,8 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <n-panel bordered>
-      <n-stack gap="4">
+    <article data-kind="panel" bordered>
+      <div class="stack" gap="4">
         <n-field>
           <label slot="label">Email address</label>
           <n-input placeholder="you@example.com"></n-input>
@@ -30,19 +30,19 @@
           <label slot="label">Password</label>
           <n-input placeholder="Enter password" type="password"></n-input>
         </n-field>
-      </n-stack>
+      </div>
       <pre class="demo-code"><code>&lt;n-field&gt;
   &lt;label slot="label"&gt;Email address&lt;/label&gt;
   &lt;n-input placeholder="you@example.com"&gt;&lt;/n-input&gt;
   &lt;span slot="description"&gt;We'll never share your email.&lt;/span&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Required ── -->
 
     <h2>Required</h2>
-    <n-panel bordered>
-      <n-stack gap="4">
+    <article data-kind="panel" bordered>
+      <div class="stack" gap="4">
         <n-field required>
           <label slot="label">Full name</label>
           <n-input placeholder="Jane Doe"></n-input>
@@ -52,19 +52,19 @@
           <label slot="label">Email</label>
           <n-input placeholder="you@example.com"></n-input>
         </n-field>
-      </n-stack>
+      </div>
       <pre class="demo-code"><code>&lt;n-field required&gt;
   &lt;label slot="label"&gt;Full name&lt;/label&gt;
   &lt;n-input placeholder="Jane Doe"&gt;&lt;/n-input&gt;
   &lt;span slot="description"&gt;As it appears on your ID.&lt;/span&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── With Error ── -->
 
     <h2>With Error</h2>
-    <n-panel bordered>
-      <n-stack gap="4">
+    <article data-kind="panel" bordered>
+      <div class="stack" gap="4">
         <n-field required invalid>
           <label slot="label">Username</label>
           <n-input placeholder="Choose a username" invalid></n-input>
@@ -76,30 +76,30 @@
           <span slot="description">Your personal website or blog.</span>
           <span slot="error">Please enter a valid URL.</span>
         </n-field>
-      </n-stack>
+      </div>
       <pre class="demo-code"><code>&lt;n-field required invalid&gt;
   &lt;label slot="label"&gt;Username&lt;/label&gt;
   &lt;n-input placeholder="Choose a username" invalid&gt;&lt;/n-input&gt;
   &lt;span slot="error"&gt;Username is already taken.&lt;/span&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-field disabled>
         <label slot="label">Account ID</label>
         <n-input placeholder="Auto-generated" value="acct_29x8f"></n-input>
         <span slot="description">This field cannot be changed.</span>
       </n-field>
-    </n-panel>
+    </article>
 
     <!-- ── With Other Controls ── -->
 
     <h2>With Other Controls</h2>
-    <n-panel bordered>
-      <n-stack gap="4">
+    <article data-kind="panel" bordered>
+      <div class="stack" gap="4">
         <n-field>
           <label slot="label">Theme preference</label>
           <n-select value="system" placeholder="Select theme" options='[{"value":"system","label":"System"},{"value":"light","label":"Light"},{"value":"dark","label":"Dark"}]'></n-select>
@@ -113,7 +113,7 @@
           <label slot="label">Notifications</label>
           <n-switch>Enable push notifications</n-switch>
         </n-field>
-      </n-stack>
+      </div>
       <pre class="demo-code"><code>&lt;n-field&gt;
   &lt;label slot="label"&gt;Theme preference&lt;/label&gt;
   &lt;n-select placeholder="Select theme"
@@ -126,13 +126,13 @@
   &lt;label slot="label"&gt;Notifications&lt;/label&gt;
   &lt;n-switch&gt;Enable push notifications&lt;/n-switch&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <n-panel bordered>
-      <n-stack gap="4">
+    <article data-kind="panel" bordered>
+      <div class="stack" gap="4">
         <n-field size="sm">
           <label slot="label">Small field</label>
           <n-input placeholder="Small input"></n-input>
@@ -145,19 +145,19 @@
           <label slot="label">Large field</label>
           <n-input placeholder="Large input"></n-input>
         </n-field>
-      </n-stack>
-    </n-panel>
+      </div>
+    </article>
 
     <!-- ── Form Composition ── -->
 
     <h2>Form Composition</h2>
-    <n-panel bordered style="max-width: 28rem;">
-      <n-card>
+    <article data-kind="panel" bordered style="max-width: 28rem;">
+      <article>
         <header>
           Create Account
         </header>
         <section>
-          <n-stack gap="4">
+          <div class="stack" gap="4">
             <n-field required>
               <label slot="label">Full name</label>
               <n-input placeholder="Jane Doe"></n-input>
@@ -171,14 +171,14 @@
               <label slot="label">Password</label>
               <n-input placeholder="At least 8 characters" type="password"></n-input>
             </n-field>
-          </n-stack>
+          </div>
         </section>
         <footer>
           <n-button variant="ghost"><span slot="label">Cancel</span></n-button>
           <n-button variant="primary" intent="accent"><span slot="label">Create Account</span></n-button>
         </footer>
-      </n-card>
-    </n-panel>
+      </article>
+    </article>
 
     </main></native-dashboard-spa>
     <script type="module">
@@ -192,7 +192,6 @@
       import '../checkbox/checkbox.ts';
       import '../switch/switch.ts';
       import '../button/button.ts';
-      import '../../containers/card/card.ts';
       import '../../icons/icon.ts';
       import '../../icons/phosphor/copy.ts';
       import '../../icons/phosphor/check.ts';

@@ -85,9 +85,6 @@ export { NField } from './components/field/field-element.ts';
 export { NTextarea } from './components/textarea/textarea-element.ts';
 export { NRange } from './components/range/range-element.ts';
 export { NInputOtp } from './components/input-otp/input-otp-element.ts';
-export { NAvatar } from './components/avatar/avatar-element.ts';
-export { NBadge } from './components/badge/badge-element.ts';
-export { NKbd } from './components/kbd/kbd-element.ts';
 export { NBreadcrumb } from './components/breadcrumb/breadcrumb-element.ts';
 export { NBreadcrumbItem } from './components/breadcrumb/breadcrumb-item-element.ts';
 export { NPagination } from './components/pagination/pagination-element.ts';
@@ -103,10 +100,10 @@ export { NGripper } from './components/gripper/gripper-element.ts';
 export type { GripperMode, GripperPlacement } from './components/gripper/gripper-element.ts';
 
 // Containers
-export { NCard } from './containers/card/card-element.ts';
+export { NCard } from './components/card/card-element.ts';
 export { NSection } from './containers/section/section-element.ts';
-export { NToolbar } from './containers/toolbar/toolbar-element.ts';
-export { NRoot } from './containers/root/root-element.ts';
+export { NToolbar } from './components/toolbar/toolbar-element.ts';
+export { NRoot } from './components/root/root-element.ts';
 // Event detail types
 export type { NPressDetail, NSelectDetail, NTextChangeDetail, NRangeValueDetail, NPickerChangeDetail, NToggleChangeDetail, NInputDetail, NDisabledDetail, NDragStartDetail, NDragMoveDetail, NDragOverDetail, NDropDetail, NDragCancelDetail, NInvalidDetail, NValidDetail, NRangeChangeDetail, NRangeSelectDetail, NFileDropDetail, NTextDropDetail, NSearchDetail, NClipDetail, NIntersectDetail, NCopyDetail, NVirtualChangeDetail, NSelectionChangeDetail, NHoverDetail, NSortDetail, NSwipeDetail, NResizeDetail, NResizeCancelDetail, NEditStartDetail, NEditCommitDetail, NEditCancelDetail, NPaginationDotsChangeDetail, NSlideChangeDetail, NSendDetail, NToastDetail, NTableSortDetail, NTableSelectDetail, NTableReorderDetail, NTableResizeDetail, NTableResizeEndDetail, NCalendarRangeDetail, NShortcutDetail, NGripStartDetail, NGripDetail, NGripEndDetail, NGripCancelDetail, NTossDetail, NBounceDetail, NFlipDetail, NParallaxMoveDetail, NConfettiDetail, NMagnetSnapDetail, NMagnetDropDetail, NCSSInspectDetail } from './events.ts';
 

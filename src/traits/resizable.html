@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Resizable — Trait Demo</title>
-    <link rel="stylesheet" href="../styles/n-index.css" />
-    <link rel="stylesheet" href="../styles/n-components.css" />
-    <link rel="stylesheet" href="../styles/demo.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-pages.css" />
     <style>
 
       main {
@@ -138,7 +138,7 @@
     <!-- ── Horizontal Resize ── -->
 
     <h2>Horizontal Resize</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-controller traits="resizable" data-trait-resizable-handle-selector=".resize-handle-right" data-trait-resizable-axis="horizontal" data-trait-resizable-min="150" data-trait-resizable-max="500">
         <div id="h-panel" class="resize-panel" style="width: 300px;">
           Drag the right edge to resize horizontally.
@@ -156,12 +156,12 @@
     &lt;div class="resize-handle resize-handle-right"&gt;&lt;/div&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Vertical Resize ── -->
 
     <h2>Vertical Resize</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-controller traits="resizable" data-trait-resizable-handle-selector=".resize-handle-bottom" data-trait-resizable-axis="vertical" data-trait-resizable-min="60" data-trait-resizable-max="400">
         <div id="v-panel" class="resize-panel" style="height: 120px;">
           Drag the bottom edge to resize vertically.
@@ -179,12 +179,12 @@
     &lt;div class="resize-handle resize-handle-bottom"&gt;&lt;/div&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Both Axes ── -->
 
     <h2>Both Axes (with min/max)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-controller traits="resizable" data-trait-resizable-handle-selector=".resize-handle-corner" data-trait-resizable-axis="both" data-trait-resizable-min="150" data-trait-resizable-max="500">
         <div id="both-panel" class="resize-panel" style="width: 300px; height: 120px;">
           Drag the corner to resize in both directions. Clamped to 150-500px.
@@ -202,7 +202,7 @@
     &lt;div class="resize-handle resize-handle-corner"&gt;&lt;/div&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── API Reference ── -->
 

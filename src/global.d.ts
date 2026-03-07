@@ -51,12 +51,10 @@ import type { NTreeItem } from './components/tree/tree-item-element.ts';
 import type { NSlideshow } from './components/slideshow/slideshow-element.ts';
 import type { NSlide } from './components/slideshow/slide-element.ts';
 import type { NCalendar } from './components/calendar/calendar-element.ts';
-import type { NAvatar } from './components/avatar/avatar-element.ts';
-import type { NBadge } from './components/badge/badge-element.ts';
 import type { NController } from './components/controller/controller-element.ts';
-import type { NCard } from './containers/card/card-element.ts';
+import type { NCard } from './components/card/card-element.ts';
 import type { NSection } from './containers/section/section-element.ts';
-import type { NToolbar } from './containers/toolbar/toolbar-element.ts';
+import type { NToolbar } from './components/toolbar/toolbar-element.ts';
 import type { NIcon } from './icons/icon-element.ts';
 
 declare global {
@@ -128,10 +126,8 @@ declare global {
     'n-slideshow': NSlideshow;
     'n-slide': NSlide;
 
-    // Components — Calendar / Display
+    // Components — Calendar
     'n-calendar': NCalendar;
-    'n-avatar': NAvatar;
-    'n-badge': NBadge;
 
     // Components — Utility
     'n-controller': NController;

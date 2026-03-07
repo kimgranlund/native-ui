@@ -5,47 +5,47 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n-header / n-body / n-footer — Sub-Container Demo</title>
-    <link rel="stylesheet" href="../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../styles/n-components.css" />
-    <link rel="stylesheet" href="../../styles/demo.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     </head>
   <body>
     <native-dashboard-spa><main>
     <h1>&lt;n-header&gt; / &lt;n-body&gt; / &lt;n-footer&gt;</h1>
     <p class="demo-desc">
-      Composable sub-containers for structuring surfaces. CSS-only. Work inside n-card, n-drawer, n-panel, or any flex column.
+      Composable sub-containers for structuring surfaces. CSS-only. Work inside n-card, n-drawer, article[data-kind="panel"], or any flex column.
     </p>
 
     <!-- ── n-header: Basic ── -->
 
     <h2>n-header — Basic</h2>
-    <n-panel bordered>
-      <n-card style="max-width: 24rem;">
+    <article data-kind="panel" bordered>
+      <article style="max-width: 24rem;">
         <header>
           <span>Card Title</span>
         </header>
         <section>
           <p>Body content with the default padding and scrollable overflow.</p>
         </section>
-      </n-card>
-    <pre class="demo-code"><code>&lt;n-card&gt;
+      </article>
+    <pre class="demo-code"><code>&lt;article&gt;
   &lt;header&gt;
     &lt;span&gt;Card Title&lt;/span&gt;
   &lt;/header&gt;
   &lt;section&gt;
     &lt;p&gt;Body content here.&lt;/p&gt;
   &lt;/section&gt;
-&lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+&lt;/article&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </article>
 
     <!-- ── n-header: With Slots ── -->
 
     <h2>n-header — Leading & Trailing Slots</h2>
-    <n-panel bordered>
-      <n-card style="max-width: 28rem;">
+    <article data-kind="panel" bordered>
+      <article style="max-width: 28rem;">
         <header>
           <nav>
-            <n-badge intent="accent">New</n-badge>
+            <span class="badge" intent="accent">New</span>
           </nav>
           <span>Card with Actions</span>
           <aside>
@@ -59,52 +59,52 @@
           <n-button variant="ghost"><span>Cancel</span></n-button>
           <n-button variant="primary" intent="accent"><span>Save</span></n-button>
         </footer>
-      </n-card>
+      </article>
     <pre class="demo-code"><code>&lt;header&gt;
   &lt;nav&gt;
-    &lt;n-badge intent="accent"&gt;New&lt;/n-badge&gt;
+    &lt;span class="badge" intent="accent"&gt;New&lt;/span&gt;
   &lt;/nav&gt;
   &lt;span&gt;Card with Actions&lt;/span&gt;
   &lt;aside&gt;
     &lt;n-button variant="ghost"&gt;...&lt;/n-button&gt;
   &lt;/aside&gt;
 &lt;/header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── n-header: Align ── -->
 
     <h2>n-header — Align</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div class="demo-row">
-        <n-card style="max-width: 18rem;">
+        <article style="max-width: 18rem;">
           <header>
             <span>Default (start)</span>
           </header>
           <section><p>Left-aligned label.</p></section>
-        </n-card>
-        <n-card style="max-width: 18rem;">
+        </article>
+        <article style="max-width: 18rem;">
           <header align="center">
             <span>Centered</span>
           </header>
           <section><p>Center-aligned label.</p></section>
-        </n-card>
-        <n-card style="max-width: 18rem;">
+        </article>
+        <article style="max-width: 18rem;">
           <header align="end">
             <span>End</span>
           </header>
           <section><p>End-aligned label.</p></section>
-        </n-card>
+        </article>
       </div>
       <pre class="demo-code"><code>&lt;header&gt;...&lt;/header&gt;
 &lt;header align="center"&gt;...&lt;/header&gt;
 &lt;header align="end"&gt;...&lt;/header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── n-header: Centered with leading/trailing ── -->
 
     <h2>n-header — Centered with Actions</h2>
-    <n-panel bordered>
-      <n-card style="max-width: 28rem;">
+    <article data-kind="panel" bordered>
+      <article style="max-width: 28rem;">
         <header align="center">
           <nav>
             <n-button variant="ghost"><n-icon name="caret-left"></n-icon></n-button>
@@ -117,7 +117,7 @@
         <section>
           <p>Common pattern: back button, centered title, close button.</p>
         </section>
-      </n-card>
+      </article>
     <pre class="demo-code"><code>&lt;header align="center"&gt;
   &lt;nav&gt;
     &lt;n-button variant="ghost"&gt;&lt;n-icon name="caret-left"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
@@ -127,7 +127,7 @@
     &lt;n-button variant="ghost"&gt;&lt;n-icon name="x"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
   &lt;/aside&gt;
 &lt;/header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── n-header: Truncate ── -->
 
@@ -135,21 +135,21 @@
     <p class="demo-desc">
       <code>[truncate]</code> adds text-overflow ellipsis to the label slot. Useful for long titles in fixed-width containers.
     </p>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div class="demo-row">
-        <n-card style="max-width: 18rem;">
+        <article style="max-width: 18rem;">
           <header>
             <span>This is a very long title that will overflow and wrap to multiple lines</span>
           </header>
           <section><p>Default — label wraps.</p></section>
-        </n-card>
-        <n-card style="max-width: 18rem;">
+        </article>
+        <article style="max-width: 18rem;">
           <header truncate>
             <span>This is a very long title that will be truncated with an ellipsis</span>
           </header>
           <section><p>With <code>[truncate]</code> — ellipsis.</p></section>
-        </n-card>
-        <n-card style="max-width: 18rem;">
+        </article>
+        <article style="max-width: 18rem;">
           <header truncate>
             <nav>
               <n-icon name="file-text"></n-icon>
@@ -160,18 +160,18 @@
             </aside>
           </header>
           <section><p>With slots — label truncates while leading/trailing stay visible.</p></section>
-        </n-card>
+        </article>
       </div>
       <pre class="demo-code"><code>&lt;header truncate&gt;
   &lt;span&gt;Very long title...&lt;/span&gt;
 &lt;/header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── n-body: Scrollable ── -->
 
     <h2>n-body — Scrollable Content</h2>
-    <n-panel bordered>
-      <n-card style="max-width: 24rem; height: 16rem;">
+    <article data-kind="panel" bordered>
+      <article style="max-width: 24rem; height: 16rem;">
         <header>
           <span>Scrollable Card</span>
         </header>
@@ -185,8 +185,8 @@
         <footer>
           <n-button variant="primary" intent="accent"><span>Done</span></n-button>
         </footer>
-      </n-card>
-    <pre class="demo-code"><code>&lt;n-card style="height: 16rem;"&gt;
+      </article>
+    <pre class="demo-code"><code>&lt;article style="height: 16rem;"&gt;
   &lt;header&gt;&lt;span&gt;Scrollable&lt;/span&gt;&lt;/header&gt;
   &lt;section&gt;
     &lt;p&gt;Long content that scrolls...&lt;/p&gt;
@@ -194,14 +194,14 @@
   &lt;footer&gt;
     &lt;n-button variant="primary" intent="accent"&gt;Done&lt;/n-button&gt;
   &lt;/footer&gt;
-&lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+&lt;/article&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </article>
 
     <!-- ── n-body: Show Scrollbar ── -->
 
     <h2>n-body — Visible Scrollbar</h2>
-    <n-panel bordered>
-      <n-card style="max-width: 24rem; height: 14rem;">
+    <article data-kind="panel" bordered>
+      <article style="max-width: 24rem; height: 14rem;">
         <header><span>With Scrollbar</span></header>
         <section show-scrollbar>
           <p>The <code>show-scrollbar</code> attribute reveals a thin scrollbar.</p>
@@ -209,87 +209,87 @@
           <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
           <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</p>
         </section>
-      </n-card>
+      </article>
     <pre class="demo-code"><code>&lt;section show-scrollbar&gt;
   &lt;p&gt;Scrollable content with a visible scrollbar.&lt;/p&gt;
 &lt;/section&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── n-footer: Justify ── -->
 
     <h2>n-footer — Justify Variants</h2>
-    <n-panel bordered>
-      <n-stack gap="4">
-        <n-card style="max-width: 28rem;">
+    <article data-kind="panel" bordered>
+      <div class="stack" gap="4">
+        <article style="max-width: 28rem;">
           <header><span>End (default)</span></header>
           <section><p>Actions aligned to the right.</p></section>
           <footer>
             <n-button variant="ghost"><span>Cancel</span></n-button>
             <n-button variant="primary" intent="accent"><span>Confirm</span></n-button>
           </footer>
-        </n-card>
-        <n-card style="max-width: 28rem;">
+        </article>
+        <article style="max-width: 28rem;">
           <header><span>Spread</span></header>
           <section><p>Cancel left, Save right.</p></section>
           <footer justify="spread">
             <n-button variant="ghost"><span>Cancel</span></n-button>
             <n-button variant="primary" intent="accent"><span>Save</span></n-button>
           </footer>
-        </n-card>
-        <n-card style="max-width: 28rem;">
+        </article>
+        <article style="max-width: 28rem;">
           <header><span>Start</span></header>
           <section><p>Actions aligned left.</p></section>
           <footer justify="start">
             <n-button variant="ghost"><span>Back</span></n-button>
             <n-button variant="primary" intent="accent"><span>Next</span></n-button>
           </footer>
-        </n-card>
-        <n-card style="max-width: 28rem;">
+        </article>
+        <article style="max-width: 28rem;">
           <header><span>Center</span></header>
           <section><p>Centered actions.</p></section>
           <footer justify="center">
             <n-button variant="primary" intent="accent"><span>Got it</span></n-button>
           </footer>
-        </n-card>
-      </n-stack>
+        </article>
+      </div>
     <pre class="demo-code"><code>&lt;footer&gt;...&lt;/footer&gt;                &lt;!-- end (default) --&gt;
 &lt;footer justify="spread"&gt;...&lt;/footer&gt;  &lt;!-- space-between --&gt;
 &lt;footer justify="start"&gt;...&lt;/footer&gt;   &lt;!-- left-aligned --&gt;
 &lt;footer justify="center"&gt;...&lt;/footer&gt;  &lt;!-- centered --&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes (inherit from parent)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div class="demo-row">
-        <n-card size="sm" style="max-width: 18rem;">
+        <article size="sm" style="max-width: 18rem;">
           <header><span>Small</span></header>
           <section><p>Compact padding.</p></section>
           <footer><n-button size="sm" variant="primary" intent="accent"><span>OK</span></n-button></footer>
-        </n-card>
-        <n-card style="max-width: 18rem;">
+        </article>
+        <article style="max-width: 18rem;">
           <header><span>Medium</span></header>
           <section><p>Default padding.</p></section>
           <footer><n-button variant="primary" intent="accent"><span>OK</span></n-button></footer>
-        </n-card>
-        <n-card size="lg" style="max-width: 18rem;">
+        </article>
+        <article size="lg" style="max-width: 18rem;">
           <header><span>Large</span></header>
           <section><p>Spacious padding.</p></section>
           <footer><n-button size="lg" variant="primary" intent="accent"><span>OK</span></n-button></footer>
-        </n-card>
+        </article>
       </div>
-      <pre class="demo-code"><code>&lt;n-card size="sm"&gt;
+      <pre class="demo-code"><code>&lt;article size="sm"&gt;
   &lt;header&gt;...&lt;/header&gt;
   &lt;section&gt;...&lt;/section&gt;
   &lt;footer&gt;...&lt;/footer&gt;
-&lt;/n-card&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+&lt;/article&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </article>
 
     <!-- ── In Drawer ── -->
 
     <h2>Inside a Drawer</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-button id="open-drawer"><span>Open Drawer</span></n-button>
       <n-drawer id="drawer-demo">
         <header>
@@ -328,14 +328,13 @@
     &lt;n-button variant="primary" intent="accent"&gt;Save&lt;/n-button&gt;
   &lt;/footer&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';
-      import '../card/card.ts';
+
       import '../../components/button/button.ts';
-      import '../../components/badge/badge.ts';
       import '../../components/drawer/drawer.ts';
       import '../../icons/icon.ts';
       import '../../icons/phosphor/dots-three.ts';

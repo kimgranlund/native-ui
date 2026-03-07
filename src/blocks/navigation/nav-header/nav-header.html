@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Top Navigation Bar — Block</title>
-    <link rel="stylesheet" href="../../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <style>
       body {
         background: var(--n-doc-neutral);
@@ -97,7 +97,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
+    <div class="stack" gap="6">
     <div>
       <h1>Top Navigation Bar</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -108,7 +108,7 @@
 
     <!-- -- With Breadcrumb -- -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <h2>With Breadcrumb Navigation</h2>
     <nav class="nav-bar" aria-label="Main navigation">
       <div class="nav-brand">
@@ -116,7 +116,7 @@
         Acme Inc
       </div>
 
-      <n-divider orientation="vertical"></n-divider>
+      <div class="divider" orientation="vertical"></div>
 
       <div class="nav-center">
         <n-breadcrumb size="sm">
@@ -134,21 +134,21 @@
           <n-button variant="ghost" size="sm" aria-label="Notifications">
             <n-icon name="bell"></n-icon>
           </n-button>
-          <n-badge intent="danger" floating>3</n-badge>
+          <span class="badge" intent="danger" floating>3</span>
         </div>
-        <n-divider orientation="vertical"></n-divider>
+        <div class="divider" orientation="vertical"></div>
         <div class="nav-user">
-          <n-avatar name="Kim Granlund" size="sm"></n-avatar>
+          <span class="avatar" name="Kim Granlund" size="sm">KG</span>
           <span class="nav-user-name">Kim Granlund</span>
           <n-icon name="caret-down" aria-hidden="true" style="color: var(--n-ink-muted-neutral);"></n-icon>
         </div>
       </div>
     </nav>
-    </n-stack>
+    </div>
 
     <!-- -- With Search Input -- -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <h2>With Search Input</h2>
     <nav class="nav-bar" aria-label="Main navigation with search">
       <div class="nav-brand">
@@ -156,7 +156,7 @@
         Acme Inc
       </div>
 
-      <n-divider orientation="vertical"></n-divider>
+      <div class="divider" orientation="vertical"></div>
 
       <div class="nav-center">
         <div class="search-input-wrapper">
@@ -171,21 +171,21 @@
           <n-button variant="ghost" size="sm" aria-label="Notifications">
             <n-icon name="bell"></n-icon>
           </n-button>
-          <n-badge intent="danger" floating>3</n-badge>
+          <span class="badge" intent="danger" floating>3</span>
         </div>
-        <n-divider orientation="vertical"></n-divider>
+        <div class="divider" orientation="vertical"></div>
         <div class="nav-user">
-          <n-avatar name="Kim Granlund" size="sm"></n-avatar>
+          <span class="avatar" name="Kim Granlund" size="sm">KG</span>
           <span class="nav-user-name">Kim Granlund</span>
           <n-icon name="caret-down" aria-hidden="true" style="color: var(--n-ink-muted-neutral);"></n-icon>
         </div>
       </div>
     </nav>
-    </n-stack>
+    </div>
 
     <!-- -- Compact Variant -- -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <h2>Compact (density)</h2>
     <nav class="nav-bar" aria-label="Compact navigation" density="compact">
       <div class="nav-brand">
@@ -193,7 +193,7 @@
         Acme Inc
       </div>
 
-      <n-divider orientation="vertical"></n-divider>
+      <div class="divider" orientation="vertical"></div>
 
       <div class="nav-center">
         <n-breadcrumb size="sm">
@@ -210,24 +210,22 @@
           <n-button variant="ghost" size="sm" aria-label="Notifications">
             <n-icon name="bell"></n-icon>
           </n-button>
-          <n-badge intent="danger" floating>3</n-badge>
+          <span class="badge" intent="danger" floating>3</span>
         </div>
-        <n-divider orientation="vertical"></n-divider>
+        <div class="divider" orientation="vertical"></div>
         <div class="nav-user">
-          <n-avatar name="Kim Granlund" size="xs"></n-avatar>
+          <span class="avatar" name="Kim Granlund" size="xs">KG</span>
         </div>
       </div>
     </nav>
-    </n-stack>
-    </n-stack>
+    </div>
+    </div>
 
     </main></native-dashboard-spa>
     <script type="module">
       import '../../../nav/native-dashboard.ts';
       import '../../../components/button/button.ts';
       import '../../../components/input/input.ts';
-      import '../../../components/avatar/avatar.ts';
-      import '../../../components/badge/badge.ts';
       import '../../../components/breadcrumb/breadcrumb.ts';
       import '../../../icons/icon.ts';
       import '../../../icons/phosphor/house.ts';

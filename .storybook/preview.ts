@@ -1,9 +1,9 @@
 import type { Preview } from '@storybook/web-components-vite';
 
 // Foundation CSS (colors, tokens, themes, base)
-import '../src/styles/n-index.css';
+import '../src/styles/spa/spa-app.css';
 // Component styles
-import '../src/styles/n-components.css';
+import '../src/styles/css/components.native-ui.css';
 
 // Register traits before component definitions
 import { registerAllTraits } from '../src/traits/register-all.ts';

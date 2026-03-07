@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Application Sidebar — Block</title>
-    <link rel="stylesheet" href="../../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <style>
       body {
         background: var(--n-doc-neutral);
@@ -208,7 +208,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
+    <div class="stack" gap="6">
     <div>
       <h1>Application Sidebar</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -219,7 +219,7 @@
 
     <!-- ── Full Sidebar ── -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <h2>Full Sidebar</h2>
     <div class="sidebar-preview">
       <nav class="sidebar-nav" aria-label="Application navigation">
@@ -238,7 +238,7 @@
         <a href="#" class="sidebar-nav-item">
           <n-icon name="folder"></n-icon>
           Projects
-          <n-badge class="sidebar-badge" size="xs">12</n-badge>
+          <span class="badge" class="sidebar-badge" size="xs">12</span>
         </a>
 
         <div class="sidebar-sub-items">
@@ -270,7 +270,7 @@
 
         <div class="sidebar-footer">
           <div class="sidebar-user">
-            <n-avatar name="Kim Granlund" size="sm" intent="accent"></n-avatar>
+            <span class="avatar" name="Kim Granlund" size="sm" intent="accent">KG</span>
             <div class="sidebar-user-info">
               <div class="sidebar-user-name">Kim Granlund</div>
               <div class="sidebar-user-email">kim@example.com</div>
@@ -285,11 +285,11 @@
         Main content area
       </div>
     </div>
-    </n-stack>
+    </div>
 
     <!-- ── Compact Sidebar ── -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <h2>Compact (Icon-only)</h2>
     <div class="sidebar-preview" style="min-height: 28rem;">
       <nav class="sidebar-nav sidebar-compact" aria-label="Compact navigation">
@@ -317,22 +317,20 @@
         </a>
 
         <div class="sidebar-footer">
-          <n-avatar name="Kim Granlund" size="sm" intent="accent"></n-avatar>
+          <span class="avatar" name="Kim Granlund" size="sm" intent="accent">KG</span>
         </div>
       </nav>
       <div class="sidebar-content">
         Main content area
       </div>
     </div>
-    </n-stack>
-    </n-stack>
+    </div>
+    </div>
 
     </main></native-dashboard-spa>
     <script type="module">
       import '../../../nav/native-dashboard.ts';
       import '../../../components/button/button.ts';
-      import '../../../components/avatar/avatar.ts';
-      import '../../../components/badge/badge.ts';
       import '../../../icons/icon.ts';
       import '../../../icons/phosphor/house.ts';
       import '../../../icons/phosphor/folder.ts';

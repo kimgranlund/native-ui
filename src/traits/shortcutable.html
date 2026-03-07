@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shortcutable Trait</title>
-  <link rel="stylesheet" href="../styles/n-index.css" />
-  <link rel="stylesheet" href="../styles/n-components.css" />
+  <link rel="stylesheet" href="../styles/spa/spa-app.css" />
+  <link rel="stylesheet" href="../styles/css/components.native-ui.css" />
   <style>
     .demo-section {
       padding: calc(var(--n-space) * 4);
@@ -46,7 +46,6 @@
     import '../nav/native-dashboard.ts';
     import '../components/button/button.ts';
     import '../components/input/input.ts';
-    import '../components/kbd/kbd.ts';
     import '../components/controller/controller.ts';
     import { ShortcutController } from './shortcut-controller.ts';
 
@@ -111,9 +110,9 @@
           <h3>Global Shortcuts</h3>
           <p>These shortcuts fire from anywhere on the page. Try pressing them:</p>
           <div class="shortcut-row" style="margin-top: 0.5rem;">
-            <n-kbd>Cmd/Ctrl + K</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Search</span>
-            <n-kbd>Shift + ?</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Help</span>
-            <n-kbd>Escape</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Dismiss</span>
+            <span class="kbd">Cmd/Ctrl + K</span> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Search</span>
+            <span class="kbd">Shift + ?</span> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Help</span>
+            <span class="kbd">Escape</span> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Dismiss</span>
           </div>
           <div id="log-global" class="shortcut-log">Press a shortcut to see it logged here.</div>
         </div>
@@ -123,8 +122,8 @@
           <h3>Scoped Shortcuts (click here to focus)</h3>
           <p>These only fire when this panel is focused. Click inside, then press:</p>
           <div class="shortcut-row" style="margin-top: 0.5rem;">
-            <n-kbd>Cmd/Ctrl + S</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Save</span>
-            <n-kbd>Cmd/Ctrl + Z</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Undo</span>
+            <span class="kbd">Cmd/Ctrl + S</span> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Save</span>
+            <span class="kbd">Cmd/Ctrl + Z</span> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Undo</span>
           </div>
           <div id="log-scoped" class="shortcut-log">Focus this panel, then press a shortcut.</div>
         </div>
@@ -134,7 +133,7 @@
           <h3>Allow Editable</h3>
           <p>This shortcut works inside the input field (<code>allowEditable: true</code>):</p>
           <div class="shortcut-row" style="margin-top: 0.5rem;">
-            <n-kbd>Cmd/Ctrl + Enter</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Submit</span>
+            <span class="kbd">Cmd/Ctrl + Enter</span> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Submit</span>
           </div>
           <n-input placeholder="Type here, then press Cmd+Enter"></n-input>
           <div id="log-editable" class="shortcut-log">Focus the input, then press Cmd/Ctrl + Enter.</div>
@@ -149,7 +148,7 @@
             data-trait-shortcutable-global="true">
             <div id="demo-declarative" style="outline: 1px dashed var(--n-border-muted); border-radius: var(--n-radius); padding: calc(var(--n-space) * 3);">
               <div class="shortcut-row">
-                <n-kbd>Ctrl + H</n-kbd> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Hello (declarative)</span>
+                <span class="kbd">Ctrl + H</span> <span style="font-size: 0.8125rem; color: var(--n-ink-muted);">Hello (declarative)</span>
               </div>
               <div id="log-declarative" class="shortcut-log">Press Ctrl+H to test the declarative adapter.</div>
             </div>

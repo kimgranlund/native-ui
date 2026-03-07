@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile Card — Block</title>
-    <link rel="stylesheet" href="../../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <style>
       body { background: var(--n-doc-neutral); color: var(--n-color-neutral-950); }
       main { padding: 2rem; }
@@ -124,15 +124,15 @@
 
     <h2>Standard</h2>
     <div class="profile-card-wrapper">
-      <n-card>
-        <n-stack gap="4" align="center">
+      <article>
+        <div class="stack" gap="4" align="center">
           <div class="profile-header">
-            <n-avatar name="Kim Granlund" size="xl" intent="accent"></n-avatar>
+            <span class="avatar" name="Kim Granlund" size="xl" intent="accent">KG</span>
             <div>
               <p class="profile-name">Kim Granlund</p>
               <p class="profile-role">Product Designer</p>
             </div>
-            <n-badge intent="success">Pro</n-badge>
+            <span class="badge" intent="success">Pro</span>
           </div>
 
           <div class="profile-stats">
@@ -160,18 +160,18 @@
               <span slot="label">Message</span>
             </n-button>
           </div>
-        </n-stack>
-      </n-card>
+        </div>
+      </article>
     </div>
 
     <!-- ── Multiple Cards ── -->
 
     <h2>Team Grid</h2>
     <div class="demo-grid">
-      <n-card>
-        <n-stack gap="4" align="center">
+      <article>
+        <div class="stack" gap="4" align="center">
           <div class="profile-header">
-            <n-avatar name="Alex Morgan" size="lg" intent="info"></n-avatar>
+            <span class="avatar" name="Alex Morgan" size="lg" intent="info">AM</span>
             <div>
               <p class="profile-name">Alex Morgan</p>
               <p class="profile-role">Engineering Lead</p>
@@ -199,13 +199,13 @@
               <span slot="label">Message</span>
             </n-button>
           </div>
-        </n-stack>
-      </n-card>
+        </div>
+      </article>
 
-      <n-card>
-        <n-stack gap="4" align="center">
+      <article>
+        <div class="stack" gap="4" align="center">
           <div class="profile-header">
-            <n-avatar name="Sara Chen" size="lg" intent="success"></n-avatar>
+            <span class="avatar" name="Sara Chen" size="lg" intent="success">SC</span>
             <div>
               <p class="profile-name">Sara Chen</p>
               <p class="profile-role">UX Researcher</p>
@@ -233,13 +233,13 @@
               <span slot="label">Message</span>
             </n-button>
           </div>
-        </n-stack>
-      </n-card>
+        </div>
+      </article>
 
-      <n-card>
-        <n-stack gap="4" align="center">
+      <article>
+        <div class="stack" gap="4" align="center">
           <div class="profile-header">
-            <n-avatar name="James Rivera" size="lg" intent="warning"></n-avatar>
+            <span class="avatar" name="James Rivera" size="lg" intent="warning">JR</span>
             <div>
               <p class="profile-name">James Rivera</p>
               <p class="profile-role">Frontend Developer</p>
@@ -267,18 +267,18 @@
               <span slot="label">Message</span>
             </n-button>
           </div>
-        </n-stack>
-      </n-card>
+        </div>
+      </article>
     </div>
 
     <!-- ── Compact Horizontal Variant ── -->
 
     <h2>Compact Horizontal</h2>
     <div style="max-width: 28rem;">
-      <n-stack gap="2">
-        <n-card>
+      <div class="stack" gap="2">
+        <article>
           <div class="profile-horizontal">
-            <n-avatar name="Kim Granlund" intent="accent"></n-avatar>
+            <span class="avatar" name="Kim Granlund" intent="accent">KG</span>
             <div class="profile-horizontal-info">
               <p class="profile-horizontal-name">Kim Granlund</p>
               <p class="profile-horizontal-role">Product Designer</p>
@@ -289,10 +289,10 @@
               </n-button>
             </div>
           </div>
-        </n-card>
-        <n-card>
+        </article>
+        <article>
           <div class="profile-horizontal">
-            <n-avatar name="Alex Morgan" intent="info"></n-avatar>
+            <span class="avatar" name="Alex Morgan" intent="info">AM</span>
             <div class="profile-horizontal-info">
               <p class="profile-horizontal-name">Alex Morgan</p>
               <p class="profile-horizontal-role">Engineering Lead</p>
@@ -303,10 +303,10 @@
               </n-button>
             </div>
           </div>
-        </n-card>
-        <n-card>
+        </article>
+        <article>
           <div class="profile-horizontal">
-            <n-avatar name="Sara Chen" intent="success"></n-avatar>
+            <span class="avatar" name="Sara Chen" intent="success">SC</span>
             <div class="profile-horizontal-info">
               <p class="profile-horizontal-name">Sara Chen</p>
               <p class="profile-horizontal-role">UX Researcher</p>
@@ -317,17 +317,14 @@
               </n-button>
             </div>
           </div>
-        </n-card>
-      </n-stack>
+        </article>
+      </div>
     </div>
 
     </main></native-dashboard-spa>
     <script type="module">
       import '../../../nav/native-dashboard.ts';
       import '../../../components/button/button.ts';
-      import '../../../components/avatar/avatar.ts';
-      import '../../../components/badge/badge.ts';
-      import '../../../containers/card/card.ts';
       import '../../../icons/icon.ts';
       import '../../../icons/phosphor/user-plus.ts';
       import '../../../icons/phosphor/chat-circle.ts';

@@ -29,17 +29,17 @@
 
 /* ── Sub-container integration ── */
 
-:where(native-design-panel) > :where(n-header) {
+:where(native-design-panel) > :where(header) {
   border-bottom: 1px solid var(--n-border-muted);
 }
 
 /* WHY: Wide padding only above 22rem — asides (280–480px) keep compact defaults. */
 @container (min-width: 22rem) {
-  /*:where(native-design-panel) > :where(n-header) {}*/
-  /*:where(native-design-panel) > :where(n-body) {}*/
+  /*:where(native-design-panel) > :where(header) {}*/
+  /*:where(native-design-panel) > :where(.body) {}*/
 }
 
-:where(native-design-panel) > :where(n-header) > :where([slot="content"]) > * {
+:where(native-design-panel) > :where(header) > :where([slot="content"]) > * {
   flex: 1;
   min-width: 0;
 }

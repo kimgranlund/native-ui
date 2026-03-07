@@ -4,27 +4,6 @@
 
 **CSS-only container** — no JavaScript class.
 
-**Display:** `flex`
-
-## Attributes
-
-| Attribute | Values |
-|-----------|--------|
-| `padding` | `none`, `regular`, `relaxed`, `tight` |
-| `justify` | `center`, `spread`, `start` |
-| `dividers` | _(boolean)_ |
-| `sticky` | _(boolean)_ |
-
-## CSS Tokens
-
-- `--n-border-muted`
-- `--n-font-size`
-- `--n-footer-padding-block`
-- `--n-footer-padding-inline`
-- `--n-line-height`
-- `--n-size`
-- `--n-space`
-
 ## Usage
 
 ```html

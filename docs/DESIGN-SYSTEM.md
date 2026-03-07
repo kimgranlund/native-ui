@@ -2,7 +2,7 @@
 
 OKLCH-based CSS design system with automatic dark mode via `light-dark()`. No class toggles, no JS theme switching.
 
-Source: `src/styles/n-primitives.css`, `n-tokens.css`, `n-themes.css`, `n-base.css`, `n-components.shared.css`.
+Source: `src/styles/css/primitives.css`, `css/tokens.css`, `css/themes.css`, `css/reset.css`, `css/tokens-ui.css`.
 
 ## CSS Layers
 
@@ -12,7 +12,7 @@ Source: `src/styles/n-primitives.css`, `n-tokens.css`, `n-themes.css`, `n-base.c
 @layer ui;       /* geometry tokens, attribute selectors, components */
 ```
 
-`n-themes.css` is intentionally unlayered -- `:where()` selectors at zero specificity.
+`css/themes.css` is intentionally unlayered -- `:where()` selectors at zero specificity.
 
 ## Dark Mode Mechanism: `light-dark()`
 
@@ -428,7 +428,7 @@ Density controls `--n-space-k`: `[density="compact"]` = 2, default = 4, `[densit
 
 Rules: never `!important`, no fallback chains `var(--n-X, var(--n-Y))`.
 
-**Disabled intent normalization**: All disabled components use neutral disabled colors regardless of intent. A `[aria-disabled="true"]` rule in `n-components.shared.css` forces all `--n-*-disabled` tokens to their neutral variants. This ensures consistent visual treatment — a disabled danger button looks identical to a disabled neutral button.
+**Disabled intent normalization**: All disabled components use neutral disabled colors regardless of intent. A `[aria-disabled="true"]` rule in `css/tokens-ui.css` forces all `--n-*-disabled` tokens to their neutral variants. This ensures consistent visual treatment — a disabled danger button looks identical to a disabled neutral button.
 
 ## Other Tokens
 

@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n-breadcrumb — Component Demo</title>
-    <link rel="stylesheet" href="../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../styles/n-components.css" />
-    <link rel="stylesheet" href="../../styles/demo.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     </head>
   <body>
     <native-dashboard-spa><main>
@@ -19,7 +19,7 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-breadcrumb>
         <n-breadcrumb-item href="/">Home</n-breadcrumb-item>
         <n-breadcrumb-item href="/products">Products</n-breadcrumb-item>
@@ -30,12 +30,12 @@
   &lt;n-breadcrumb-item href="/products"&gt;Products&lt;/n-breadcrumb-item&gt;
   &lt;n-breadcrumb-item current&gt;Widget Pro&lt;/n-breadcrumb-item&gt;
 &lt;/n-breadcrumb&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Deep path ── -->
 
     <h2>Deep Path</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-breadcrumb>
         <n-breadcrumb-item href="/">Home</n-breadcrumb-item>
         <n-breadcrumb-item href="/docs">Documentation</n-breadcrumb-item>
@@ -50,13 +50,13 @@
   &lt;n-breadcrumb-item href="/docs/components/buttons"&gt;Buttons&lt;/n-breadcrumb-item&gt;
   &lt;n-breadcrumb-item current&gt;Primary Button&lt;/n-breadcrumb-item&gt;
 &lt;/n-breadcrumb&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <n-panel bordered>
-      <n-stack gap="4">
+    <article data-kind="panel" bordered>
+      <div class="stack" gap="4">
         <n-breadcrumb size="sm">
           <n-breadcrumb-item href="/">Home</n-breadcrumb-item>
           <n-breadcrumb-item current>Settings</n-breadcrumb-item>
@@ -69,7 +69,7 @@
           <n-breadcrumb-item href="/">Home</n-breadcrumb-item>
           <n-breadcrumb-item current>Settings</n-breadcrumb-item>
         </n-breadcrumb>
-      </n-stack>
+      </div>
       <pre class="demo-code"><code>&lt;n-breadcrumb size="sm"&gt;
   &lt;n-breadcrumb-item href="/"&gt;Home&lt;/n-breadcrumb-item&gt;
   &lt;n-breadcrumb-item current&gt;Settings&lt;/n-breadcrumb-item&gt;
@@ -79,12 +79,12 @@
   &lt;n-breadcrumb-item href="/"&gt;Home&lt;/n-breadcrumb-item&gt;
   &lt;n-breadcrumb-item current&gt;Settings&lt;/n-breadcrumb-item&gt;
 &lt;/n-breadcrumb&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Debug States (force-*) ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
       </p>
@@ -93,7 +93,7 @@
         <n-breadcrumb-item href="/" force-focus-visible>Force focus-visible</n-breadcrumb-item>
         <n-breadcrumb-item current>Current</n-breadcrumb-item>
       </n-breadcrumb>
-    </n-panel>
+    </article>
 
     </main></native-dashboard-spa>
     <script type="module">

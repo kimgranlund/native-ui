@@ -114,8 +114,8 @@ The demos import from relative paths. In the Astro host, these become package im
 
 The demos load CSS via `<link>`:
 ```html
-<link rel="stylesheet" href="../../../src/styles/n-index.css" />
-<link rel="stylesheet" href="../../../src/styles/n-components.css" />
+<link rel="stylesheet" href="../../../src/styles/index.css" />
+<link rel="stylesheet" href="../../../src/styles/components.css" />
 ```
 
 In the Astro host, this is already handled by your global CSS setup. The A2UI pages need no additional CSS beyond what's already loaded — all components used (card, button, select, listbox, switch, toolbar, grid, stack, text, icon, header, body, footer) are in the standard component bundle.

@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 // Concatenates CSS source files into dist bundles:
-//   dist/foundation.css  — colors, tokens, themes, base, primitives
-//   dist/components.css   — all component styles
-//   dist/native-ui.css    — foundation + components (convenience)
+//   dist/colors.css       — OKLCH primitives, semantic tokens, themes
+//   dist/layout.css       — reset, utilities, containers
+//   dist/components.css   — component tokens, utilities, icons, all components
+//   dist/foundation.css   — colors + layout + components (everything)
 
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
@@ -17,18 +18,37 @@ function read(rel) {
   return readFileSync(resolve(root, rel), 'utf-8');
 }
 
-// Foundation CSS — ORDER MATTERS (cascade: colors → tokens → themes → base → primitives)
-const foundationFiles = [
-  'src/styles/n-primitives.css',
-  'src/styles/n-tokens.css',
-  'src/styles/n-themes.css',
-  'src/styles/n-base.css',
-  'src/styles/n-components.shared.css',
+// Resolve @import directives in a CSS file (one level deep).
+// WHY: Layout/container CSS files use @import for Vite dev mode.
+// The build script concatenates raw files, so we expand imports inline.
+function readWithImports(rel) {
+  const filePath = resolve(root, rel);
+  const dir = dirname(filePath);
+  let css = readFileSync(filePath, 'utf-8');
+  css = css.replace(/@import\s+['"]([^'"]+)['"]\s*;/g, (_match, importPath) => {
+    const absImport = resolve(dir, importPath);
+    return readFileSync(absImport, 'utf-8');
+  });
+  return css;
+}
+
+// Colors CSS — OKLCH primitives, semantic tokens, themes
+const colorFiles = [
+  'src/styles/css/colors.computed.css',
+  'src/styles/css/colors.semantic.css',
+  'src/styles/css/colors.themes.css',
 ];
 
-const foundationCSS =
-  '@layer colors, tokens, ui;\n\n' +
-  foundationFiles.map(read).join('\n');
+// Layout CSS — reset, utilities, containers
+const layoutBaseFiles = [
+  'src/styles/css/layout.reset.css',
+];
+
+// Component tokens & utilities — shared geometry, size scales, attribute selectors
+const componentTokenFiles = [
+  'src/styles/css/components.tokens.css',
+  'src/styles/css/components.utilities.css',
+];
 
 // Component CSS — auto-discovered via directory scan
 // WHY: Auto-discovery prevents new components from being silently excluded from the
@@ -53,43 +73,56 @@ function discoverCSS(dirs) {
   return results.sort();
 }
 
+// Layout & container CSS — loads before individual component CSS so that
+// component container-query overrides win the source-order tiebreak.
+const layoutFiles = [
+  'src/styles/css/layout.utilities.css',
+  'src/styles/css/layout.containers.css',
+];
+
 const componentFiles = [
   // WHY: Icon CSS first — it's a primitive used by all components. Later component
   // container query rules (e.g. sidebar collapsed) need to override icon display,
   // and at equal :where() specificity source order is the tiebreaker.
   ...(existsSync(resolve(root, 'src/icons/icon.css')) ? ['src/icons/icon.css'] : []),
-  ...discoverCSS(['src/components', 'src/containers']),
+  ...discoverCSS(['src/components']),
   ...(existsSync(resolve(root, 'src/a2ui/a2ui.css')) ? ['src/a2ui/a2ui.css'] : []),
 ];
 
-const componentsCSS = componentFiles.map(read).join('\n');
+// WHY: Layout files use readWithImports because they @import container CSS files.
+// Component files use plain read (no nested imports).
+const componentsCSS = [
+  ...componentTokenFiles.map(read),
+  ...layoutFiles.map(readWithImports),
+  ...componentFiles.map(read),
+].join('\n');
 
-// Strip force-* debug selector lines from CSS to produce lean output.
-// WHY: force-hover, force-active, force-focus, force-focus-visible are dev-only
-// attribute selectors for state debugging. They always appear as comma-separated
-// alternatives (e.g. `:where(n-button):hover,\n:where(n-button)[force-hover]`).
-// Stripping the force-* line and its trailing/leading comma produces valid CSS.
-function stripDebugSelectors(css) {
-  // Match lines containing [force-*] that are selector alternatives.
-  // Pattern: optional leading comma + line with [force-...] + optional trailing comma
-  // Handles both "selector,\n  force-line {" and "selector,\n  force-line," patterns.
-  return css.replace(/,\s*\n\s*[^\n]*\[force-[^\]]*\][^\n{]*/g, '');
-}
+// --- Assemble dist bundles ---
 
-const leanComponentsCSS = stripDebugSelectors(componentsCSS);
-const debugSaved = componentsCSS.length - leanComponentsCSS.length;
+const layerDecl = '@layer colors, tokens, ui;\n\n';
+
+const colorsCSS = layerDecl + colorFiles.map(read).join('\n');
+
+const layoutCSS = [
+  ...layoutBaseFiles.map(read),
+  ...layoutFiles.map(readWithImports),
+].join('\n');
+
+const foundationCSS = colorsCSS + '\n' + layoutCSS + '\n' + componentsCSS;
 
 // Write output
 mkdirSync(dist, { recursive: true });
-writeFileSync(resolve(dist, 'foundation.css'), foundationCSS);
+writeFileSync(resolve(dist, 'colors.css'), colorsCSS);
+writeFileSync(resolve(dist, 'layout.css'), layoutCSS);
 writeFileSync(resolve(dist, 'components.css'), componentsCSS);
-writeFileSync(resolve(dist, 'native-ui.css'), foundationCSS + '\n' + componentsCSS);
-writeFileSync(resolve(dist, 'components-lean.css'), leanComponentsCSS);
-writeFileSync(resolve(dist, 'native-ui-lean.css'), foundationCSS + '\n' + leanComponentsCSS);
+writeFileSync(resolve(dist, 'foundation.css'), foundationCSS);
+
+const colorCount = colorFiles.length;
+const layoutCount = layoutBaseFiles.length + layoutFiles.length;
+const componentCount = componentTokenFiles.length + layoutFiles.length + componentFiles.length;
 
 console.log('CSS build complete:');
-console.log(`  dist/foundation.css (${foundationFiles.length} files)`);
-console.log(`  dist/components.css (${componentFiles.length} files)`);
-console.log('  dist/native-ui.css');
-console.log(`  dist/components-lean.css (${debugSaved} bytes of force-* selectors stripped)`);
-console.log('  dist/native-ui-lean.css');
+console.log(`  dist/colors.css (${colorCount} files)`);
+console.log(`  dist/layout.css (${layoutCount} files)`);
+console.log(`  dist/components.css (${componentCount} files)`);
+console.log('  dist/foundation.css (colors + layout + components)');

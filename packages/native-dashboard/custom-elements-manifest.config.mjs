@@ -17,7 +17,7 @@ function nativeDashboardPlugin() {
           // Override map for tag names that don't follow the NSidebar → n-sidebar convention
           const TAG_OVERRIDES = { NSidebar: 'native-dashboard' };
 
-          // Derive tag name: NSidebarNav → n-sidebar-nav, NAppPanel → n-app-panel
+          // Derive tag name: NSidebarNav → n-sidebar-nav
           const tagName = TAG_OVERRIDES[decl.name] ?? `n-${decl.name
             .replace(/^N/, '')
             .replace(/([a-z])([A-Z])/g, '$1-$2')

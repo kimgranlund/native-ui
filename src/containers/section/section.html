@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n-section — Container Demo</title>
-    <link rel="stylesheet" href="../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../styles/n-components.css" />
-    <link rel="stylesheet" href="../../styles/demo.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     </head>
   <body>
     <native-dashboard-spa><main>
@@ -19,7 +19,7 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-section>
         <span slot="heading">Account Settings</span>
         <span slot="description">Manage your account preferences and personal information.</span>
@@ -32,13 +32,13 @@
   &lt;n-input placeholder="Display Name" value="Kim Granlund"&gt;&lt;/n-input&gt;
   &lt;n-input placeholder="Email" value="kim@example.com"&gt;&lt;/n-input&gt;
 &lt;/n-section&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── With Divider ── -->
 
     <h2>With Divider</h2>
-    <n-panel bordered>
-      <n-stack gap="0">
+    <article data-kind="panel" bordered>
+      <div class="stack" gap="0">
         <n-section>
           <span slot="heading">Profile</span>
           <n-input placeholder="Display Name" value="Kim Granlund"></n-input>
@@ -54,8 +54,8 @@
           <n-input placeholder="Current password" type="password"></n-input>
           <n-input placeholder="New password" type="password"></n-input>
         </n-section>
-      </n-stack>
-    <pre class="demo-code"><code>&lt;n-stack gap="0"&gt;
+      </div>
+    <pre class="demo-code"><code>&lt;div class="stack" gap="0"&gt;
   &lt;n-section&gt;
     &lt;span slot="heading"&gt;Profile&lt;/span&gt;
     &lt;n-input placeholder="Display Name"&gt;&lt;/n-input&gt;
@@ -68,14 +68,14 @@
     &lt;span slot="heading"&gt;Security&lt;/span&gt;
     &lt;n-input placeholder="Current password"&gt;&lt;/n-input&gt;
   &lt;/n-section&gt;
-&lt;/n-stack&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </article>
 
     <!-- ── Collapsible ── -->
 
     <h2>Collapsible</h2>
-    <n-panel bordered>
-      <n-stack gap="0">
+    <article data-kind="panel" bordered>
+      <div class="stack" gap="0">
         <n-section collapsible>
           <span slot="heading">Advanced Settings</span>
           <n-switch>Enable developer mode</n-switch>
@@ -87,7 +87,7 @@
           <n-switch>AI suggestions</n-switch>
           <n-switch>New editor</n-switch>
         </n-section>
-      </n-stack>
+      </div>
     <pre class="demo-code"><code>&lt;n-section collapsible&gt;
   &lt;span slot="heading"&gt;Advanced Settings&lt;/span&gt;
   &lt;n-switch&gt;Enable developer mode&lt;/n-switch&gt;
@@ -97,30 +97,30 @@
   &lt;span slot="heading"&gt;Experimental Features&lt;/span&gt;
   &lt;n-switch&gt;AI suggestions&lt;/n-switch&gt;
 &lt;/n-section&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Nested with Inset ── -->
 
     <h2>Nested with Inset</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-section>
         <span slot="heading">Privacy</span>
         <span slot="description">Control how your data is used.</span>
-        <n-inset>
+        <div class="inset">
           <n-checkbox>Allow analytics tracking</n-checkbox>
           <n-checkbox>Share usage data with partners</n-checkbox>
           <n-checkbox checked>Send crash reports</n-checkbox>
-        </n-inset>
+        </div>
       </n-section>
     <pre class="demo-code"><code>&lt;n-section&gt;
   &lt;span slot="heading"&gt;Privacy&lt;/span&gt;
   &lt;span slot="description"&gt;Control how your data is used.&lt;/span&gt;
-  &lt;n-inset&gt;
+  &lt;div class="inset"&gt;
     &lt;n-checkbox&gt;Allow analytics tracking&lt;/n-checkbox&gt;
     &lt;n-checkbox checked&gt;Send crash reports&lt;/n-checkbox&gt;
-  &lt;/n-inset&gt;
+  &lt;/div&gt;
 &lt;/n-section&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     </main></native-dashboard-spa>
     <script type="module">

@@ -5,13 +5,13 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n-inset — Container Demo</title>
-    <link rel="stylesheet" href="../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../styles/n-components.css" />
-    <link rel="stylesheet" href="../../styles/demo.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>&lt;n-inset&gt;</h1>
+    <h1>&lt;div class="inset"&gt;</h1>
     <p class="demo-desc">
       Content indentation container. Adds consistent inline-start padding without visual surface. CSS-only container.
     </p>
@@ -19,62 +19,62 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <span style="font-weight: 500;">Parent heading</span>
-      <n-inset>
+      <div class="inset">
         <span>Indented child 1</span>
         <span>Indented child 2</span>
         <span>Indented child 3</span>
-      </n-inset>
+      </div>
     <pre class="demo-code"><code>&lt;span&gt;Parent heading&lt;/span&gt;
-&lt;n-inset&gt;
+&lt;div class="inset"&gt;
   &lt;span&gt;Indented child 1&lt;/span&gt;
   &lt;span&gt;Indented child 2&lt;/span&gt;
   &lt;span&gt;Indented child 3&lt;/span&gt;
-&lt;/n-inset&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </article>
 
     <!-- ── With Checkboxes ── -->
 
     <h2>Nested Checkboxes</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-checkbox checked>Select all</n-checkbox>
-      <n-inset>
+      <div class="inset">
         <n-checkbox checked>Option A</n-checkbox>
         <n-checkbox checked>Option B</n-checkbox>
         <n-checkbox>Option C</n-checkbox>
-      </n-inset>
+      </div>
     <pre class="demo-code"><code>&lt;n-checkbox checked&gt;Select all&lt;/n-checkbox&gt;
-&lt;n-inset&gt;
+&lt;div class="inset"&gt;
   &lt;n-checkbox checked&gt;Option A&lt;/n-checkbox&gt;
   &lt;n-checkbox checked&gt;Option B&lt;/n-checkbox&gt;
   &lt;n-checkbox&gt;Option C&lt;/n-checkbox&gt;
-&lt;/n-inset&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </article>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div size="sm">
         <span style="font-weight: 500; font-size: 0.8125rem;">sm parent</span>
-        <n-inset>
+        <div class="inset">
           <span style="font-size: 0.8125rem;">sm indented content</span>
-        </n-inset>
+        </div>
       </div>
       <div size="lg" style="margin-top: 1rem;">
         <span style="font-weight: 500;">lg parent</span>
-        <n-inset>
+        <div class="inset">
           <span>lg indented content</span>
-        </n-inset>
+        </div>
       </div>
       <pre class="demo-code"><code>&lt;div size="sm"&gt;
   &lt;span&gt;sm parent&lt;/span&gt;
-  &lt;n-inset&gt;
+  &lt;div class="inset"&gt;
     &lt;span&gt;sm indented content&lt;/span&gt;
-  &lt;/n-inset&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     </main></native-dashboard-spa>
     <script type="module">

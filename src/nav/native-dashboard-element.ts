@@ -5,12 +5,12 @@ import { ResizeController } from '../traits/resize-controller.ts';
 // ~pkg/* aliases resolve to packages/*/src/ (see vite.config.ts).
 import '~pkg/native-design/index.ts';
 import '~pkg/native-ai/register.ts';
-import foundationCss from '../styles/n-index.css?inline';
-import componentsCss from '../styles/n-components.css?inline';
+import foundationCss from '../styles/spa/spa-app.css?inline';
+import componentsCss from '../styles/css/components.native-ui.css?inline';
 import layoutDevCss from './n-layout.css?inline';
 import inspectorCss from '~pkg/native-design/design.css?inline';
 import chatCss from '~pkg/native-ai/chat/chat.css?inline';
-import appCss from '~pkg/native-dashboard/app.css?inline';
+import appCss from '~pkg/native-dashboard/dashboard.css?inline';
 import sitemapData from './sitemap.json';
 
 // Import component registrations
@@ -52,8 +52,6 @@ import '../icons/phosphor/layout.ts';
 import '../icons/phosphor/code.ts';
 import '../icons/phosphor/code-fill.ts';
 import '../icons/phosphor/command.ts';
-import '../components/kbd/kbd.ts';
-import '../components/badge/badge.ts';
 
 interface SitemapEntry {
   title: string;
@@ -166,7 +164,7 @@ export class NApp extends NativeElement {
     searchHint.innerHTML =
       '<n-icon name="magnifying-glass" slot="leading"></n-icon>' +
       '<span slot="label">Search</span>' +
-      '<n-kbd slot="trailing"><n-icon name="command"></n-icon>K</n-kbd>';
+      '<span class="kbd" slot="trailing"><n-icon name="command"></n-icon>K</span>';
     searchItem.addEventListener('click', () => openDialog());
     searchItem.append(searchIconWell, searchHint);
 
@@ -234,7 +232,8 @@ export class NApp extends NativeElement {
         item.setAttribute('value', entry.path);
         item.textContent = entry.title;
         if (entry.badge) {
-          const badge = document.createElement('n-badge');
+          const badge = document.createElement('span');
+          badge.className = 'badge';
           badge.setAttribute('size', 'xs');
           const badgeConfig: Record<string, [string, string]> = {
             new: ['New', 'danger'],

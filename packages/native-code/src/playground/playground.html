@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>native-playground — Component Demo</title>
-    <link rel="stylesheet" href="../../../../src/styles/n-index.css" />
-    <link rel="stylesheet" href="../../../../src/styles/n-components.css" />
-    <link rel="stylesheet" href="../../../../src/styles/demo.css" />
+    <link rel="stylesheet" href="../../../../src/styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../../src/styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../../../src/styles/spa/spa-pages.css" />
     <link rel="stylesheet" href="../codemirror/css/codemirror.css" />
     <link rel="stylesheet" href="./css/playground.css" />
     </head>
@@ -64,10 +64,10 @@ document.querySelector('n-button')
     >
       <script type="playground/html">
 <div style="padding: 2rem; text-align: center;">
-  <n-badge>Badge</n-badge>
-  <n-badge intent="accent">Accent</n-badge>
-  <n-badge intent="success">Success</n-badge>
-  <n-badge intent="danger">Danger</n-badge>
+  <span class="badge">Badge</span>
+  <span class="badge" intent="accent">Accent</span>
+  <span class="badge" intent="success">Success</span>
+  <span class="badge" intent="danger">Danger</span>
 </div>
       </script>
       <script type="playground/css">
@@ -187,7 +187,7 @@ body {
       import '../../../../src/nav/native-dashboard.ts';
       import '../../../../src/components/button/button.ts';
       import '../../../../src/components/tabs/tabs.ts';
-      import '../../../../src/containers/toolbar/toolbar.ts';
+      import '../../../../src/components/toolbar/toolbar.ts';
       import '../../../../src/components/listbox/listbox.ts';
       import '../../../../src/components/listbox/option.ts';
       import '../../../../src/icons/icon.ts';

@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RovingFocusable — Trait Demo</title>
-    <link rel="stylesheet" href="../styles/n-index.css" />
-    <link rel="stylesheet" href="../styles/n-components.css" />
-    <link rel="stylesheet" href="../styles/demo.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-pages.css" />
     <style>
 
       main {
@@ -142,7 +142,7 @@
     <!-- ── Vertical Toolbar (Provider) ── -->
 
     <h2>Vertical (Arrow Up/Down)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> applies roving focus with vertical orientation. Tab into the toolbar, then use Up/Down arrows. The "Italic" item is disabled and skipped.
       </p>
@@ -168,12 +168,12 @@
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Horizontal Tab Bar (Provider) ── -->
 
     <h2>Horizontal (Arrow Left/Right)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         Horizontal orientation with wrap-around. Use Left/Right arrows to navigate. Focus wraps from last to first.
       </p>
@@ -198,12 +198,12 @@
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Built-in: n-listbox ── -->
 
     <h2>Built-in: n-listbox</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         <code>n-listbox</code> uses RovingFocusable internally. Arrow keys navigate between options.
       </p>
@@ -213,7 +213,7 @@
         <n-option value="svelte">Svelte</n-option>
         <n-option value="lit">Lit</n-option>
       </n-listbox>
-    </n-panel>
+    </article>
 
     <!-- ── API Reference ── -->
 

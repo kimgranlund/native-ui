@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pressable — Trait Demo</title>
-    <link rel="stylesheet" href="../styles/n-index.css" />
-    <link rel="stylesheet" href="../styles/n-components.css" />
-    <link rel="stylesheet" href="../styles/demo.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-pages.css" />
     <style>
 
       main {
@@ -117,7 +117,7 @@
     <!-- ── Basic Press (Provider) ── -->
 
     <h2>Basic Press (Provider)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> wraps each element and applies the pressable trait. Click or press Enter/Space.
       </p>
@@ -138,12 +138,12 @@
     Click or press Enter
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── On n-button (Built-in) ── -->
 
     <h2>On n-button (Built-in)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         <code>n-button</code> already uses the Pressable trait internally. The <code>native:press</code> event and <code>[pressed]</code> attribute work out of the box.
       </p>
@@ -160,12 +160,12 @@
     console.log('pressed!', e.detail.pointerType);
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Pointer Types ── -->
 
     <h2>Pointer Types</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-text-sm">
         The <code>native:press</code> event includes a <code>pointerType</code> in its detail — <code>"mouse"</code>, <code>"touch"</code>, <code>"pen"</code>, or <code>"keyboard"</code>.
       </p>
@@ -185,7 +185,7 @@
     // "mouse" | "touch" | "pen" | "keyboard"
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── API Reference ── -->
 

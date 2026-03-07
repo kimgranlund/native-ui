@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>A2A Catalog — Trust Levels</title>
-    <link rel="stylesheet" href="../../../../src/styles/n-index.css" />
-    <link rel="stylesheet" href="../../../../src/styles/n-components.css" />
-    <link rel="stylesheet" href="../../../../src/styles/demo.css" />
+    <link rel="stylesheet" href="../../../../src/styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../../src/styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../../../src/styles/spa/spa-pages.css" />
     <style>
       .surface-mount {
         min-height: 12rem;
@@ -43,35 +43,35 @@
       This is how you give agents UI access without giving them the keys to the kingdom.
     </p>
 
-    <n-card>
+    <article>
       <section>
-        <n-stack direction="row">
+        <div class="stack" direction="row">
           <n-button size="sm" variant="primary" id="init">
             <span>Connect Both Agents</span>
           </n-button>
           <n-button size="sm" variant="ghost" id="reset">
             <span>Reset</span>
           </n-button>
-        </n-stack>
+        </div>
       </section>
-    </n-card>
+    </article>
 
     <!-- ── Agent Surfaces ── -->
 
-    <n-grid cols="2" style="margin-top: 1rem;">
+    <div class="grid" cols="2" style="margin-top: 1rem;">
       <!-- First-party -->
-      <n-card>
+      <article>
         <header>
           <span>Your Assistant</span>
           <aside>
-            <n-badge intent="accent">Full access</n-badge>
+            <span class="badge" intent="accent">Full access</span>
           </aside>
         </header>
         <section padding="regular">
           <div class="surface-mount" id="surface-first" data-empty></div>
         </section>
         <footer>
-          <n-stack direction="row" wrap>
+          <div class="stack" direction="row" wrap>
             <n-button size="sm" id="fp-settings">
               <span>User Settings</span>
             </n-button>
@@ -81,23 +81,23 @@
             <n-button size="sm" id="fp-dashboard">
               <span>Dashboard</span>
             </n-button>
-          </n-stack>
+          </div>
         </footer>
-      </n-card>
+      </article>
 
       <!-- Third-party -->
-      <n-card>
+      <article>
         <header>
           <span>Weather Plugin</span>
           <aside>
-            <n-badge intent="warning">Sandboxed</n-badge>
+            <span class="badge" intent="warning">Sandboxed</span>
           </aside>
         </header>
         <section padding="regular">
           <div class="surface-mount" id="surface-third" data-empty></div>
         </section>
         <footer>
-          <n-stack direction="row" wrap>
+          <div class="stack" direction="row" wrap>
             <n-button size="sm" id="tp-forecast">
               <span>Show Forecast</span>
             </n-button>
@@ -110,47 +110,47 @@
             <n-button size="sm" intent="danger" id="tp-sneak-modal">
               <span>Sneak a Modal In</span>
             </n-button>
-          </n-stack>
+          </div>
         </footer>
-      </n-card>
-    </n-grid>
+      </article>
+    </div>
 
     <!-- ── Catalog Comparison ── -->
 
     <h2>Catalog Comparison</h2>
-    <n-grid cols="2">
-      <n-card>
+    <div class="grid" cols="2">
+      <article>
         <header>
           <span>First-Party</span>
           <aside>
-            <n-text muted size="sm" inline>full</n-text>
+            <span muted size="sm" inline>full</span>
           </aside>
         </header>
         <section>
           <div class="catalog-types" id="catalog-first"></div>
         </section>
-      </n-card>
-      <n-card>
+      </article>
+      <article>
         <header>
           <span>Third-Party</span>
           <aside>
-            <n-text muted size="sm" inline>sandboxed</n-text>
+            <span muted size="sm" inline>sandboxed</span>
           </aside>
         </header>
         <section>
           <div class="catalog-types" id="catalog-third"></div>
         </section>
-      </n-card>
-    </n-grid>
+      </article>
+    </div>
 
     <!-- ── Security Log ── -->
 
     <h2>Security Log</h2>
-    <n-card>
+    <article>
       <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
         <div id="event-log"></div>
       </section>
-    </n-card>
+    </article>
 
     </main></native-dashboard-spa>
 
@@ -165,8 +165,6 @@
       import '../../../../src/components/checkbox/checkbox.ts';
       import '../../../../src/components/select/select.ts';
       import '../../../../src/components/dialog/dialog.ts';
-      import '../../../../src/components/badge/badge.ts';
-      import '../../../../src/containers/card/card.ts';
       import '../../../../src/icons/icon.ts';
 
       import { Kernel, resetKernel } from '../../../../src/kernel/kernel.ts';
@@ -182,14 +180,14 @@
       const fullCatalog = buildCatalogFromRegistry('core-only');
 
       const sandboxedCatalog = new NCatalog([
-        { a2uiType: 'Text', tagName: 'n-text', properties: ['text', 'variant'], events: [] },
+        { a2uiType: 'Text', tagName: 'span', properties: ['text', 'variant'], events: [] },
         { a2uiType: 'Button', tagName: 'n-button', properties: ['text', 'variant', 'disabled'], events: ['native:press'] },
-        { a2uiType: 'Column', tagName: 'n-stack', properties: [], events: [] },
-        { a2uiType: 'Row', tagName: 'n-stack', properties: [], events: [] },
-        { a2uiType: 'Card', tagName: 'n-card', properties: [], events: [] },
+        { a2uiType: 'Column', tagName: 'div', properties: [], events: [] },
+        { a2uiType: 'Row', tagName: 'div', properties: [], events: [] },
+        { a2uiType: 'Card', tagName: 'article', properties: [], events: [] },
         { a2uiType: 'Icon', tagName: 'n-icon', properties: ['name'], events: [] },
         { a2uiType: 'Badge', tagName: 'n-badge', properties: ['text'], events: [] },
-        { a2uiType: 'Divider', tagName: 'n-divider', properties: [], events: [] },
+        { a2uiType: 'Divider', tagName: 'hr', properties: [], events: [] },
       ]);
 
       const deniedTypes = new Set(
@@ -215,12 +213,13 @@
         eventLog.prepend(entry);
       }
 
-      // Render catalog badges using n-badge
+      // Render catalog badges using span.badge
       function renderCatalogUI() {
         const firstEl = document.getElementById('catalog-first');
         firstEl.innerHTML = '';
         for (const e of fullCatalog.entries) {
-          const badge = document.createElement('n-badge');
+          const badge = document.createElement('span');
+          badge.className = 'badge';
           badge.setAttribute('size', 'sm');
           badge.textContent = e.a2uiType;
           firstEl.appendChild(badge);
@@ -229,7 +228,8 @@
         const thirdEl = document.getElementById('catalog-third');
         thirdEl.innerHTML = '';
         for (const e of fullCatalog.entries) {
-          const badge = document.createElement('n-badge');
+          const badge = document.createElement('span');
+          badge.className = 'badge';
           badge.setAttribute('size', 'sm');
           if (deniedTypes.has(e.a2uiType)) {
             badge.setAttribute('intent', 'danger');

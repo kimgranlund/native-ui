@@ -1,10 +1,8 @@
 @layer ui {
 
-  :where(n-badge):not(:defined) { visibility: hidden; }
-
   /* ── Badge Base ── */
 
-  :where(n-badge) {
+  :where(.badge) {
     white-space: nowrap;
     --n-font-weight: var(--n-button-font-weight);
     --n-radius: 9999px;
@@ -32,7 +30,7 @@
 
   /* ── Floating ── */
 
-  :where(n-badge[floating]) {
+  :where(.badge[floating]) {
     position: absolute;
     top: 0;
     right: 0;
@@ -42,7 +40,7 @@
 
   /* ── Dot ── */
 
-  :where(n-badge[dot]) {
+  :where(.badge[dot]) {
     width: var(--n-badge-dot);
     height: var(--n-badge-dot);
     min-width: 0;
@@ -52,6 +50,6 @@
     background: var(--n-ink);
   }
 
-  :where(n-badge[hidden]) { display: none; }
+  :where(.badge[hidden]) { display: none; }
 
 }

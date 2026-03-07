@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Selectable — Trait Demo</title>
-    <link rel="stylesheet" href="../styles/n-index.css" />
-    <link rel="stylesheet" href="../styles/n-components.css" />
-    <link rel="stylesheet" href="../styles/demo.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-pages.css" />
     <style>
 
       main {
@@ -115,7 +115,7 @@
     <!-- ── Multiple Selection ── -->
 
     <h2>Multiple Selection</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         Click to select, <strong>Shift+Click</strong> for range, <strong>Ctrl/Cmd+Click</strong> to toggle, <strong>Ctrl/Cmd+A</strong> to select all.
       </p>
@@ -149,12 +149,12 @@ list.addEventListener('native:selection-change', (e) =&gt; {
   const { selected, count } = e.detail;
   log(`Selected ${count} item(s)`);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Single Selection ── -->
 
     <h2>Single Selection</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         Mode set to <code>'single'</code>. Only one item can be selected at a time.
       </p>
@@ -185,7 +185,7 @@ list.addEventListener('native:selection-change', (e) =&gt; {
   const name = selected[0]?.textContent ?? 'none';
   log(`Selected: ${name}`);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── API Reference ── -->
 

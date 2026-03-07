@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Component State Grid — Style Demo</title>
-    <link rel="stylesheet" href="./index.css" />
-    <link rel="stylesheet" href="./components.css" />
+    <link rel="stylesheet" href="./spa/spa-app.css" />
+    <link rel="stylesheet" href="./css/components.native-ui.css" />
     <style>
       body {
         background: var(--n-doc-neutral);
@@ -45,20 +45,20 @@
       }
 
       /* ── Card state overrides ── */
-      .state-grid > n-card {
+      .state-grid > article {
         transition: box-shadow 0.2s, border-color 0.2s, opacity 0.2s;
       }
 
-      .state-grid > n-card.dimmed {
+      .state-grid > article.dimmed {
         opacity: 0.35;
       }
 
-      .state-grid > n-card.highlighted {
+      .state-grid > article.highlighted {
         border-color: var(--n-surface-accent);
         box-shadow: 0 0 0 2px var(--n-surface-accent);
       }
 
-      .state-grid > n-card.cat-hidden {
+      .state-grid > article.cat-hidden {
         display: none;
       }
 
@@ -265,9 +265,7 @@
       import '../nav/native-dashboard.ts';
       import '../components/segmented-control/segmented-control.ts';
       import '../components/input/input.ts';
-      import '../components/badge/badge.ts';
-      import '../containers/card/card.ts';
-      import '../containers/toolbar/toolbar.ts';
+      import '../components/toolbar/toolbar.ts';
       import '../icons/icon.ts';
       import '../components/button/button.ts';
       import '../icons/phosphor/copy.ts';
@@ -293,14 +291,14 @@
       <h1>Component State Grid</h1>
       <p>Each card shows the CSS color tokens a component uses per state. Hover or click a state pill to highlight every component that resolves to the same <code>background</code>, <code>color</code>, and <code>border-color</code> values.</p>
 
-      <n-panel bordered size="sm" style="flex-direction: row; flex-wrap: wrap; gap: calc(var(--n-space) * 4); margin-bottom: calc(var(--n-space) * 4);">
+      <article data-kind="panel" bordered size="sm" style="flex-direction: row; flex-wrap: wrap; gap: calc(var(--n-space) * 4); margin-bottom: calc(var(--n-space) * 4);">
         <div class="legend-item"><span class="legend-swatch" style="background: var(--n-surface-accent);"></span> accent-surface</div>
         <div class="legend-item"><span class="legend-swatch" style="background: white; border-color: var(--n-border-muted-neutral);"></span> white</div>
         <div class="legend-item"><span class="legend-swatch" style="background: var(--n-panel-neutral);"></span> panel</div>
         <div class="legend-item"><span class="legend-swatch" style="background: var(--n-control-neutral);"></span> control</div>
         <div class="legend-item"><span class="legend-swatch" style="background: var(--n-color-neutral-higher);"></span> button</div>
         <div class="legend-item"><span class="legend-swatch" style="background: transparent; border-color: var(--n-border-neutral);"></span> transparent</div>
-      </n-panel>
+      </article>
 
       <!-- Toolbar: category filters + state search -->
       <n-toolbar id="toolbar" size="sm">
@@ -313,13 +311,13 @@
           <n-segment value="display">Display</n-segment>
           <n-segment value="container">Container</n-segment>
         </n-segmented-control>
-        <n-divider orientation="vertical"></n-divider>
+        <div class="divider" orientation="vertical"></div>
         <n-input id="state-filter" placeholder="Filter states... (e.g. disabled, hover, active)" size="sm">
           <n-icon name="magnifying-glass" slot="leading"></n-icon>
         </n-input>
       </n-toolbar>
 
-      <n-panel bordered>
+      <article data-kind="panel" bordered>
       <pre class="demo-code"><code>/* ── State Token Resolution ── */
 /* Components set explicit defaults; attribute selectors override */
 
@@ -351,7 +349,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
   --n-color: var(--n-surface-ink);
   --n-border-color: transparent;
 }</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </n-panel>
+      </article>
 
       <div class="state-grid" id="grid"></div>
     </main></native-dashboard-spa>
@@ -661,7 +659,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
           ]
         },
         {
-          name: 'n-card',
+          name: 'article',
           category: 'container',
           states: [
             { state: '[interactive]:hover', bg: '(inherit)', color: '(inherit)', border: 'outline: --n-focus-ring', group: 'interaction' },
@@ -875,7 +873,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
       };
 
       for (const comp of components) {
-        const card = document.createElement('n-card');
+        const card = document.createElement('article');
         card.dataset.comp = comp.name;
         card.dataset.category = comp.category;
 
@@ -915,7 +913,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
         card.innerHTML = `
           <div slot="header">
             <span class="comp-card-name">${comp.name}</span>
-            <n-badge size="xs"${badgeAttr}>${categoryLabels[comp.category]}</n-badge>
+            <span class="badge" size="xs"${badgeAttr}>${categoryLabels[comp.category]}</span>
           </div>
           <div class="comp-card-body">${bodyHTML}</div>
         `;

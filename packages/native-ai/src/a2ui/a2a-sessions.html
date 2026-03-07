@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>A2A Sessions — Support Dashboard</title>
-    <link rel="stylesheet" href="../../../../src/styles/n-index.css" />
-    <link rel="stylesheet" href="../../../../src/styles/n-components.css" />
-    <link rel="stylesheet" href="../../../../src/styles/demo.css" />
+    <link rel="stylesheet" href="../../../../src/styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../../src/styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../../../src/styles/spa/spa-pages.css" />
     <style>
       .surface-mount {
         min-height: 10rem;
@@ -41,79 +41,79 @@
     <!-- ── Scenario Steps ── -->
 
     <h2>Scenario</h2>
-    <n-text muted>Walk through a support ticket. Each step simulates both agents responding to the same event.</n-text>
+    <span muted>Walk through a support ticket. Each step simulates both agents responding to the same event.</span>
 
-    <n-card>
+    <article>
       <section>
-        <n-stack gap="2">
-          <n-stack direction="row" align="center">
-            <n-text muted size="sm" inline style="min-width: 4rem;">Step 1</n-text>
+        <div class="stack" gap="2">
+          <div class="stack" direction="row" align="center">
+            <span muted size="sm" inline style="min-width: 4rem;">Step 1</span>
             <n-button size="sm" variant="primary" id="step-open">
               <span>Customer opens ticket</span>
             </n-button>
-          </n-stack>
-          <n-stack direction="row" align="center">
-            <n-text muted size="sm" inline style="min-width: 4rem;">Step 2</n-text>
+          </div>
+          <div class="stack" direction="row" align="center">
+            <span muted size="sm" inline style="min-width: 4rem;">Step 2</span>
             <n-button size="sm" id="step-details">
               <span>Agent requests details</span>
             </n-button>
-          </n-stack>
-          <n-stack direction="row" align="center">
-            <n-text muted size="sm" inline style="min-width: 4rem;">Step 3</n-text>
+          </div>
+          <div class="stack" direction="row" align="center">
+            <span muted size="sm" inline style="min-width: 4rem;">Step 3</span>
             <n-button size="sm" id="step-resolve">
               <span>Agent proposes solution</span>
             </n-button>
-          </n-stack>
-          <n-stack direction="row" align="center">
-            <n-text muted size="sm" inline style="min-width: 4rem;">Step 4</n-text>
+          </div>
+          <div class="stack" direction="row" align="center">
+            <span muted size="sm" inline style="min-width: 4rem;">Step 4</span>
             <n-button size="sm" intent="danger" id="step-escalate">
               <span>Escalate to human</span>
             </n-button>
-          </n-stack>
-          <n-divider></n-divider>
+          </div>
+          <hr>
           <n-button size="sm" variant="ghost" id="step-reset" inline>
             <span>Reset</span>
           </n-button>
-        </n-stack>
+        </div>
       </section>
-    </n-card>
+    </article>
 
     <!-- ── Dashboard ── -->
 
     <h2>Agent Surfaces</h2>
-    <n-grid cols="2">
-      <n-card>
+    <div class="grid" cols="2">
+      <article>
         <header>
           <nav>
-            <n-badge dot intent="neutral" id="dot-convo"></n-badge>
+            <span class="badge" dot intent="neutral" id="dot-convo"></span>
           </nav>
           <span>Conversation Agent</span>
         </header>
         <section padding="regular">
           <div class="surface-mount" id="surface-convo" data-empty></div>
         </section>
-      </n-card>
-      <n-card>
+      </article>
+      <article>
         <header>
           <nav>
-            <n-badge dot intent="neutral" id="dot-analytics"></n-badge>
+            <span class="badge" dot intent="neutral" id="dot-analytics"></span>
           </nav>
           <span>Analytics Agent</span>
         </header>
         <section padding="regular">
           <div class="surface-mount" id="surface-analytics" data-empty></div>
         </section>
-      </n-card>
-    </n-grid>
+      </article>
+    </div>
 
     <!-- ── Event Log ── -->
 
     <h2>Session Events</h2>
-    <n-card>
+    <article>
       <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
         <div id="event-log"></div>
       </section>
-    </n-card>
+    </article>
 
     </main></native-dashboard-spa>
 
@@ -126,8 +126,6 @@
       import '../../../../src/components/listbox/option.ts';
       import '../../../../src/components/switch/switch.ts';
       import '../../../../src/components/checkbox/checkbox.ts';
-      import '../../../../src/components/badge/badge.ts';
-      import '../../../../src/containers/card/card.ts';
       import '../../../../src/icons/icon.ts';
 
       import { Kernel, resetKernel } from '../../../../src/kernel/kernel.ts';
@@ -368,7 +366,8 @@
         dotAnalytics.setAttribute('intent', 'neutral');
 
         // Static handoff message
-        const msg = document.createElement('n-text');
+        const msg = document.createElement('span');
+        msg.className = 'text';
         msg.setAttribute('muted', '');
         msg.setAttribute('size', 'sm');
         msg.textContent = 'Session ended \u2014 Analytics agent disconnected. Context transferred to human agent Maria Santos.';

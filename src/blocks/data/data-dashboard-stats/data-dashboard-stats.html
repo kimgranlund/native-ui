@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard — Block</title>
-    <link rel="stylesheet" href="../../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <style>
       body {
         background: var(--n-doc-neutral);
@@ -309,7 +309,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
+    <div class="stack" gap="6">
 
     <!-- ── Page Header ── -->
     <div class="page-header">
@@ -330,76 +330,76 @@
 
     <!-- ── Stat Cards ── -->
     <div class="stats-grid">
-      <n-card>
+      <article>
         <div class="stat-header">
           <span class="stat-label">Total Revenue</span>
           <span class="stat-icon"><n-icon name="currency-dollar"></n-icon></span>
         </div>
         <div class="stat-value">$45,231.89</div>
         <div class="stat-change">
-          <n-badge intent="success">
+          <span class="badge" intent="success">
             <n-icon name="trend-up" style="width: 0.75rem; height: 0.75rem;"></n-icon>
             +20.1%
-          </n-badge>
+          </span>
           <span style="color: var(--n-ink-muted-neutral);">from last month</span>
         </div>
-      </n-card>
+      </article>
 
-      <n-card>
+      <article>
         <div class="stat-header">
           <span class="stat-label">Active Users</span>
           <span class="stat-icon"><n-icon name="users"></n-icon></span>
         </div>
         <div class="stat-value">2,350</div>
         <div class="stat-change">
-          <n-badge intent="success">
+          <span class="badge" intent="success">
             <n-icon name="trend-up" style="width: 0.75rem; height: 0.75rem;"></n-icon>
             +180
-          </n-badge>
+          </span>
           <span style="color: var(--n-ink-muted-neutral);">this week</span>
         </div>
-      </n-card>
+      </article>
 
-      <n-card>
+      <article>
         <div class="stat-header">
           <span class="stat-label">Orders</span>
           <span class="stat-icon"><n-icon name="shopping-bag"></n-icon></span>
         </div>
         <div class="stat-value">12,234</div>
         <div class="stat-change">
-          <n-badge intent="success">
+          <span class="badge" intent="success">
             <n-icon name="trend-up" style="width: 0.75rem; height: 0.75rem;"></n-icon>
             +19%
-          </n-badge>
+          </span>
           <span style="color: var(--n-ink-muted-neutral);">from last month</span>
         </div>
-      </n-card>
+      </article>
 
-      <n-card>
+      <article>
         <div class="stat-header">
           <span class="stat-label">Conversion Rate</span>
           <span class="stat-icon"><n-icon name="percent"></n-icon></span>
         </div>
         <div class="stat-value">3.2%</div>
         <div class="stat-change">
-          <n-badge intent="danger">
+          <span class="badge" intent="danger">
             <n-icon name="trend-down" style="width: 0.75rem; height: 0.75rem;"></n-icon>
             -0.4%
-          </n-badge>
+          </span>
           <span style="color: var(--n-ink-muted-neutral);">from last month</span>
         </div>
-      </n-card>
+      </article>
     </div>
 
     <!-- ── Revenue + Recent Sales ── -->
     <div class="content-grid">
       <!-- Revenue Overview -->
-      <n-card>
+      <article>
         <header>
           <span>Revenue Overview</span>
         </header>
         <section>
-        <n-text muted size="sm" style="margin-bottom: 1rem;">Daily revenue for the current week</n-text>
+        <span muted size="sm" style="margin-bottom: 1rem;">Daily revenue for the current week</span>
         <div class="chart-row">
           <span class="chart-label">Mon</span>
           <div class="chart-bar-track"><div class="chart-bar-fill" style="width: 65%;"></div></div>
@@ -440,17 +440,17 @@
           <span>$38,116</span>
         </div>
         </section>
-      </n-card>
+      </article>
 
       <!-- Recent Sales -->
-      <n-card>
+      <article>
         <header>
           <span>Recent Sales</span>
         </header>
         <section>
-        <n-text muted size="sm" style="margin-bottom: 1rem;">You made 265 sales this month.</n-text>
+        <span muted size="sm" style="margin-bottom: 1rem;">You made 265 sales this month.</span>
         <div class="sale-item">
-          <n-avatar name="Olivia Martin" size="sm"></n-avatar>
+          <span class="avatar" name="Olivia Martin" size="sm">OM</span>
           <div class="sale-info">
             <div class="sale-name">Olivia Martin</div>
             <div class="sale-email">olivia.martin@email.com</div>
@@ -458,7 +458,7 @@
           <span class="sale-amount">+$1,999.00</span>
         </div>
         <div class="sale-item">
-          <n-avatar name="Jackson Lee" size="sm"></n-avatar>
+          <span class="avatar" name="Jackson Lee" size="sm">JL</span>
           <div class="sale-info">
             <div class="sale-name">Jackson Lee</div>
             <div class="sale-email">jackson.lee@email.com</div>
@@ -466,7 +466,7 @@
           <span class="sale-amount">+$39.00</span>
         </div>
         <div class="sale-item">
-          <n-avatar name="Isabella Nguyen" size="sm"></n-avatar>
+          <span class="avatar" name="Isabella Nguyen" size="sm">IN</span>
           <div class="sale-info">
             <div class="sale-name">Isabella Nguyen</div>
             <div class="sale-email">isabella.nguyen@email.com</div>
@@ -474,7 +474,7 @@
           <span class="sale-amount">+$299.00</span>
         </div>
         <div class="sale-item">
-          <n-avatar name="William Kim" size="sm"></n-avatar>
+          <span class="avatar" name="William Kim" size="sm">WK</span>
           <div class="sale-info">
             <div class="sale-name">William Kim</div>
             <div class="sale-email">will@email.com</div>
@@ -482,7 +482,7 @@
           <span class="sale-amount">+$99.00</span>
         </div>
         <div class="sale-item">
-          <n-avatar name="Sofia Davis" size="sm"></n-avatar>
+          <span class="avatar" name="Sofia Davis" size="sm">SD</span>
           <div class="sale-info">
             <div class="sale-name">Sofia Davis</div>
             <div class="sale-email">sofia.davis@email.com</div>
@@ -490,16 +490,16 @@
           <span class="sale-amount">+$149.00</span>
         </div>
         </section>
-      </n-card>
+      </article>
     </div>
 
     <!-- ── Recent Orders Table ── -->
-    <n-card>
+    <article>
       <header>
         <span>Recent Orders</span>
       </header>
       <section>
-      <n-text muted size="sm" style="margin-bottom: 1rem;">Latest transactions across all channels.</n-text>
+      <span muted size="sm" style="margin-bottom: 1rem;">Latest transactions across all channels.</span>
       <n-table style="grid-template-columns: 120px 2fr 100px 100px 120px;">
         <n-table-head>
           <n-table-row>
@@ -514,42 +514,42 @@
           <n-table-row>
             <n-table-cell>#3210</n-table-cell>
             <n-table-cell>Olivia Martin</n-table-cell>
-            <n-table-cell><n-badge intent="success">Paid</n-badge></n-table-cell>
+            <n-table-cell><span class="badge" intent="success">Paid</span></n-table-cell>
             <n-table-cell>$1,999.00</n-table-cell>
             <n-table-cell>Feb 20, 2026</n-table-cell>
           </n-table-row>
           <n-table-row>
             <n-table-cell>#3209</n-table-cell>
             <n-table-cell>Jackson Lee</n-table-cell>
-            <n-table-cell><n-badge intent="success">Paid</n-badge></n-table-cell>
+            <n-table-cell><span class="badge" intent="success">Paid</span></n-table-cell>
             <n-table-cell>$39.00</n-table-cell>
             <n-table-cell>Feb 19, 2026</n-table-cell>
           </n-table-row>
           <n-table-row>
             <n-table-cell>#3208</n-table-cell>
             <n-table-cell>Isabella Nguyen</n-table-cell>
-            <n-table-cell><n-badge intent="info">Processing</n-badge></n-table-cell>
+            <n-table-cell><span class="badge" intent="info">Processing</span></n-table-cell>
             <n-table-cell>$299.00</n-table-cell>
             <n-table-cell>Feb 19, 2026</n-table-cell>
           </n-table-row>
           <n-table-row>
             <n-table-cell>#3207</n-table-cell>
             <n-table-cell>William Kim</n-table-cell>
-            <n-table-cell><n-badge intent="success">Paid</n-badge></n-table-cell>
+            <n-table-cell><span class="badge" intent="success">Paid</span></n-table-cell>
             <n-table-cell>$99.00</n-table-cell>
             <n-table-cell>Feb 18, 2026</n-table-cell>
           </n-table-row>
           <n-table-row>
             <n-table-cell>#3206</n-table-cell>
             <n-table-cell>Sofia Davis</n-table-cell>
-            <n-table-cell><n-badge intent="warning">Pending</n-badge></n-table-cell>
+            <n-table-cell><span class="badge" intent="warning">Pending</span></n-table-cell>
             <n-table-cell>$149.00</n-table-cell>
             <n-table-cell>Feb 18, 2026</n-table-cell>
           </n-table-row>
           <n-table-row>
             <n-table-cell>#3205</n-table-cell>
             <n-table-cell>Liam Chen</n-table-cell>
-            <n-table-cell><n-badge>Refunded</n-badge></n-table-cell>
+            <n-table-cell><span class="badge">Refunded</span></n-table-cell>
             <n-table-cell>$59.00</n-table-cell>
             <n-table-cell>Feb 17, 2026</n-table-cell>
           </n-table-row>
@@ -557,20 +557,20 @@
       </n-table>
       </section>
       <footer>
-        <n-text muted size="sm">Showing 1–6 of 48 orders</n-text>
+        <span muted size="sm">Showing 1–6 of 48 orders</span>
         <n-pagination total="8" value="1" size="sm"></n-pagination>
       </footer>
-    </n-card>
+    </article>
 
     <!-- ── Top Products + Activity Feed ── -->
     <div class="content-grid-half">
       <!-- Top Products -->
-      <n-card>
+      <article>
         <header>
           <span>Top Products</span>
         </header>
         <section>
-        <n-text muted size="sm" style="margin-bottom: 1rem;">Best sellers this month by units sold.</n-text>
+        <span muted size="sm" style="margin-bottom: 1rem;">Best sellers this month by units sold.</span>
         <div class="product-row">
           <span class="product-name">Headphones</span>
           <div class="product-bar-track"><div class="product-bar-fill accent" style="width: 100%;"></div></div>
@@ -597,15 +597,15 @@
           <span class="product-count">348</span>
         </div>
         </section>
-      </n-card>
+      </article>
 
       <!-- Activity Feed -->
-      <n-card>
+      <article>
         <header>
           <span>Recent Activity</span>
         </header>
         <section>
-        <n-text muted size="sm" style="margin-bottom: 1rem;">Latest actions across the platform.</n-text>
+        <span muted size="sm" style="margin-bottom: 1rem;">Latest actions across the platform.</span>
         <div class="activity-item">
           <span class="activity-dot"></span>
           <div class="activity-content">
@@ -642,9 +642,9 @@
           </div>
         </div>
         </section>
-      </n-card>
+      </article>
     </div>
-    </n-stack>
+    </div>
 
     </main></native-dashboard-spa>
     <script type="module">
@@ -652,11 +652,8 @@
       import '../../../components/button/button.ts';
       import '../../../components/select/select.ts';
       import '../../../components/listbox/listbox.ts';
-      import '../../../components/badge/badge.ts';
       import '../../../components/table/table.ts';
-      import '../../../components/avatar/avatar.ts';
       import '../../../components/pagination/pagination.ts';
-      import '../../../containers/card/card.ts';
       import '../../../icons/icon.ts';
       import '../../../icons/phosphor/currency-dollar.ts';
       import '../../../icons/phosphor/users.ts';

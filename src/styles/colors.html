@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Color Boiler Plate</title>
-    <link rel="stylesheet" href="./index.css" />
-    <link rel="stylesheet" href="./components.css" />
+    <link rel="stylesheet" href="./spa/spa-app.css" />
+    <link rel="stylesheet" href="./css/components.native-ui.css" />
     <style>
       body {
         background: var(--n-color-neutral-dim);
@@ -350,7 +350,7 @@
       <div class="adjustments" id="adjustments"></div>
     </header>
 
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
     <pre class="demo-code"><code>/* ── Color Environment Parameters ── */
 :root {
   --n-env-lightness-min: 0.25;
@@ -377,7 +377,7 @@
   background: var(--n-surface-accent);
   color: var(--n-surface-ink-accent);
 }</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <div id="families"></div>
 

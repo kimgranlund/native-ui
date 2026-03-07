@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-ui",
-  "version": "0.7.59",
+  "version": "0.7.61",
   "description": "Zero-dependency web component library with an OKLCH CSS design system, signal-based reactivity, and composable trait controllers",
   "license": "MIT",
   "type": "module",
@@ -28,11 +28,11 @@
       "types": "./dist/reactivity/index.d.ts",
       "default": "./dist/reactivity.js"
     },
-    "./css": "./dist/native-ui.css",
-    "./css/foundation": "./dist/foundation.css",
+    "./css": "./dist/foundation.css",
+    "./css/colors": "./dist/colors.css",
+    "./css/layout": "./dist/layout.css",
     "./css/components": "./dist/components.css",
-    "./css/components-lean": "./dist/components-lean.css",
-    "./css/lean": "./dist/native-ui-lean.css"
+    "./css/foundation": "./dist/foundation.css"
   },
   "files": [
     "dist"

@@ -13,7 +13,7 @@ npm install @nonoun/native-ui
 **1. Load CSS** (required — CSS is not bundled with JS):
 
 ```html
-<link rel="stylesheet" href="node_modules/@nonoun/native-ui/dist/native-ui.css">
+<link rel="stylesheet" href="node_modules/@nonoun/native-ui/dist/foundation.css">
 ```
 
 Or via a bundler:
@@ -56,11 +56,11 @@ define('n-button', NButton);
 
 | Import | Description |
 |--------|-------------|
-| `@nonoun/native-ui/css` | Foundation + all component styles |
-| `@nonoun/native-ui/css/lean` | Same without `force-*` debug selectors (production) |
-| `@nonoun/native-ui/css/foundation` | Colors, tokens, themes, base, primitives only |
-| `@nonoun/native-ui/css/components` | Component styles only (requires foundation) |
-| `@nonoun/native-ui/css/components-lean` | Component styles without debug selectors |
+| `@nonoun/native-ui/css` | Full CSS: colors + layout + components (everything) |
+| `@nonoun/native-ui/css/colors` | OKLCH primitives, semantic tokens, themes |
+| `@nonoun/native-ui/css/layout` | Reset, utilities, containers |
+| `@nonoun/native-ui/css/components` | Component tokens, utilities, icons, all component styles |
+| `@nonoun/native-ui/css/foundation` | Alias for `./css` |
 
 ## CSS Architecture
 

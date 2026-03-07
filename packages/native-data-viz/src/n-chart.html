@@ -5,10 +5,10 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n-chart — Component Demo</title>
-    <link rel="stylesheet" href="../../../src/styles/n-index.css" />
-    <link rel="stylesheet" href="../../../src/styles/n-components.css" />
+    <link rel="stylesheet" href="../../../src/styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../src/styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="./css/chart.css" />
-    <link rel="stylesheet" href="../../../src/styles/demo.css" />
+    <link rel="stylesheet" href="../../../src/styles/spa/spa-pages.css" />
     <style>
       .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
       .kpi-card { display: flex; flex-direction: column; gap: 0.25rem; padding: 0.75rem; background: var(--n-panel-neutral); border: 1px solid var(--n-border-muted-neutral); border-radius: var(--n-radius); }
@@ -259,15 +259,19 @@
 
     <!-- ── Palette Selector ── -->
 
-    <n-panel bordered style="display: flex; align-items: center; gap: 1rem;">
-      <label style="font-weight: 600; font-size: 0.8125rem;">Color Palette</label>
-      <n-select id="palette-select" placeholder="default" options='[{"value":"default","label":"Default (tokens)"},{"value":"vivid","label":"Vivid"},{"value":"pastel","label":"Pastel"},{"value":"earth","label":"Earth"},{"value":"ocean","label":"Ocean"},{"value":"sunset","label":"Sunset"},{"value":"forest","label":"Forest"},{"value":"neon","label":"Neon"},{"value":"mono","label":"Mono (single-hue)"},{"value":"accessible","label":"Accessible (colorblind-safe)"}]' inline></n-select>
-    </n-panel>
+    <article data-kind="panel" bordered>
+      <header>
+        <span slot="label">Color Palette</span>
+        <span slot="trailing">
+          <n-select id="palette-select" placeholder="default" options='[{"value":"default","label":"Default (tokens)"},{"value":"vivid","label":"Vivid"},{"value":"pastel","label":"Pastel"},{"value":"earth","label":"Earth"},{"value":"ocean","label":"Ocean"},{"value":"sunset","label":"Sunset"},{"value":"forest","label":"Forest"},{"value":"neon","label":"Neon"},{"value":"mono","label":"Mono (single-hue)"},{"value":"accessible","label":"Accessible (colorblind-safe)"}]' inline></n-select>
+        </span>
+      </header>
+    </article>
 
     <!-- ── Widget Tier — KPI Cards ── -->
 
     <h2>Widget Tier — KPI Cards</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">Inline sparklines inside KPI cards. <code>type="sparkline"</code> renders with zero margins and no axes.</p>
       <div class="kpi-grid">
         <div class="kpi-card">
@@ -303,49 +307,49 @@
           <n-chart class="kpi-sparkline" type="sparkline" style="height: 1.5rem; width: 100%;"></n-chart>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Card Tier — Compact Charts ── -->
 
     <h2>Card Tier — Compact Charts</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">Charts embedded in small panels or sidebar cards. Aspect ratio constrained, legend hidden to save space.</p>
       <div class="chart-grid-2">
-        <n-panel bordered>
+        <article data-kind="panel" bordered>
           <h3>Line</h3>
           <n-chart id="card-line" type="line" legend="none" aspect="4:3" animate></n-chart>
-        </n-panel>
-        <n-panel bordered>
+        </article>
+        <article data-kind="panel" bordered>
           <h3>Bar</h3>
           <n-chart id="card-bar" type="bar" legend="none" aspect="4:3" animate></n-chart>
-        </n-panel>
-        <n-panel bordered>
+        </article>
+        <article data-kind="panel" bordered>
           <h3>Area</h3>
           <n-chart id="card-area" type="line" area smooth legend="none" aspect="4:3" animate></n-chart>
-        </n-panel>
-        <n-panel bordered>
+        </article>
+        <article data-kind="panel" bordered>
           <h3>Scatter</h3>
           <n-chart id="card-scatter" type="scatter" legend="none" aspect="4:3" animate></n-chart>
-        </n-panel>
+        </article>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Dashboard — Line Charts ── -->
 
     <h2>Dashboard — Line Chart</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-chart id="dash-line" type="line" animate y-label="Revenue ($K)" aspect="21:9"></n-chart>
-    </n-panel>
+    </article>
 
     <h2>Smooth Line + Area</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-chart id="dash-smooth-area" type="line" smooth area animate aspect="21:9"></n-chart>
-    </n-panel>
+    </article>
 
     <!-- ── Bar Chart Modes ── -->
 
     <h2>Bar Chart Modes</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div class="chart-grid-2">
         <div class="demo-col">
           <h3>Grouped</h3>
@@ -356,57 +360,57 @@
           <n-chart id="bar-stacked" type="bar" stacked animate aspect="4:3"></n-chart>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Horizontal Bars ── -->
 
     <h2>Horizontal Bar Chart</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-chart id="bar-horizontal" type="bar" horizontal animate legend="none" aspect="21:9"></n-chart>
-    </n-panel>
+    </article>
 
     <!-- ── Scatter / Bubble ── -->
 
     <h2>Scatter / Bubble</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-chart id="scatter-full" type="scatter" animate x-label="Metric X" y-label="Metric Y" aspect="16:9"></n-chart>
-    </n-panel>
+    </article>
 
     <!-- ── Stacked Area ── -->
 
     <h2>Stacked Area (Multi-Series)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-chart id="stacked-area" type="line" area stacked animate legend="top" aspect="21:9"></n-chart>
-    </n-panel>
+    </article>
 
     <!-- ── Reference Lines ── -->
 
     <h2>Reference Lines</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">Manual reference lines via the <code>referenceLines</code> property. Horizontal (y-axis), vertical (x-axis), with label and style options.</p>
       <n-chart id="ref-chart" type="line" animate aspect="21:9"></n-chart>
-    </n-panel>
+    </article>
 
     <!-- ── Average Lines ── -->
 
     <h2>Average Lines</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint"><code>average</code> attribute auto-computes per-series average and renders dashed lines in series color.</p>
       <n-chart id="avg-chart" type="line" average animate aspect="21:9"></n-chart>
-    </n-panel>
+    </article>
 
     <!-- ── Reference + Average Combined ── -->
 
     <h2>Reference + Average Combined</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">Manual reference lines combined with auto-computed averages.</p>
       <n-chart id="ref-avg-chart" type="line" average animate aspect="21:9"></n-chart>
-    </n-panel>
+    </article>
 
     <!-- ── Grid Modes ── -->
 
     <h2>Grid Modes</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint"><code>grid</code> attribute: <code>horizontal</code> (default), <code>vertical</code>, <code>both</code>, <code>none</code>.</p>
       <div class="chart-grid-4">
         <div class="demo-col">
@@ -426,12 +430,12 @@
           <n-chart class="grid-mode-chart" type="line" grid="none" legend="none" aspect="4:3" animate></n-chart>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Legend Positions ── -->
 
     <h2>Legend Positions</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint"><code>legend</code> attribute: <code>top</code>, <code>bottom</code> (default), <code>none</code>.</p>
       <div class="chart-grid-3">
         <div class="demo-col">
@@ -447,12 +451,12 @@
           <n-chart class="legend-pos-chart" type="line" legend="none" aspect="4:3" animate></n-chart>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Aspect Ratios ── -->
 
     <h2>Aspect Ratios</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint"><code>aspect</code> attribute constrains height from width: <code>16:9</code>, <code>4:3</code>, <code>1:1</code>.</p>
       <div class="chart-grid-2">
         <div class="demo-col">
@@ -464,28 +468,28 @@
           <n-chart class="aspect-chart" type="bar" aspect="1:1" legend="none" animate></n-chart>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Custom Series Colors ── -->
 
     <h2>Custom Series Colors</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">Per-series <code>color</code> override with raw OKLCH values.</p>
       <n-chart id="custom-colors" type="line" smooth animate aspect="21:9"></n-chart>
-    </n-panel>
+    </article>
 
     <!-- ── Multi-Series — Full Palette ── -->
 
     <h2>Multi-Series — Full Palette</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">6 series auto-assigned from the OKLCH color palette (accent, success, warning, danger, info, neutral).</p>
       <n-chart id="full-palette" type="line" animate legend="top" aspect="16:9"></n-chart>
-    </n-panel>
+    </article>
 
     <!-- ── Sparklines in Table ── -->
 
     <h2>Sparklines in Table</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <table class="sparkline-table">
         <thead>
           <tr><th>Metric</th><th>Trend</th><th>Current</th><th>Change</th></tr>
@@ -517,23 +521,23 @@
           </tr>
         </tbody>
       </table>
-    </n-panel>
+    </article>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint"><code>disabled</code> attribute greys out the chart and disables pointer interactions.</p>
       <n-chart id="disabled-chart" type="line" disabled animate aspect="21:9"></n-chart>
-    </n-panel>
+    </article>
 
     <!-- ── Events ── -->
 
     <h2>Events</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">Hover, click, or toggle legend items on any chart above.</p>
       <div id="event-log" class="demo-event-log">No events yet</div>
-    </n-panel>
+    </article>
 
     </main></native-dashboard-spa>
     <script type="module">

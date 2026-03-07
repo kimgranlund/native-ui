@@ -8,7 +8,7 @@
  *   import '@nonoun/native-ai/register';
  */
 
-import { define, NButton, NIcon, NToolbar, NSelect, NListbox, NOption, NOptionGroup, NOptionGroupHeader, NBadge, NSegmentedControl, NSegment, registerIcon } from '@nonoun/native-ui';
+import { define, NButton, NIcon, NToolbar, NSelect, NListbox, NOption, NOptionGroup, NOptionGroupHeader, NSegmentedControl, NSegment, registerIcon } from '@nonoun/native-ui';
 import { NA2UI } from './a2ui-element.ts';
 
 // ── A2UI workbench ──
@@ -25,7 +25,6 @@ define('n-listbox', NListbox);
 define('n-option', NOption);
 define('n-option-group', NOptionGroup);
 define('n-option-group-header', NOptionGroupHeader);
-define('n-badge', NBadge);
 define('n-segmented-control', NSegmentedControl);
 define('n-segment', NSegment);
 

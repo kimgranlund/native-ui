@@ -21,11 +21,11 @@ npm install @nonoun/native-ui
 
 | Import | Description |
 |--------|-------------|
-| `@nonoun/native-ui/css` | Foundation + all component styles |
-| `@nonoun/native-ui/css/lean` | Same without `force-*` debug selectors (production) |
-| `@nonoun/native-ui/css/foundation` | Colors, tokens, themes, base, primitives only |
-| `@nonoun/native-ui/css/components` | Component styles only (requires foundation) |
-| `@nonoun/native-ui/css/components-lean` | Component styles without debug selectors |
+| `@nonoun/native-ui/css` | Full CSS: colors + layout + components (everything) |
+| `@nonoun/native-ui/css/colors` | OKLCH primitives, semantic tokens, themes |
+| `@nonoun/native-ui/css/layout` | Reset, utilities, containers |
+| `@nonoun/native-ui/css/components` | Component tokens, utilities, icons, all component styles |
+| `@nonoun/native-ui/css/foundation` | Alias for `./css` |
 
 ### Key Rules
 
@@ -107,7 +107,7 @@ Import native-ui as ES modules directly in the browser. No build step, full tree
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://esm.sh/@nonoun/native-ui@latest/dist/native-ui.css" />
+<link rel="stylesheet" href="https://esm.sh/@nonoun/native-ui@latest/dist/foundation.css" />
 
 <!-- JS: register individual elements -->
 <script type="module">
@@ -176,7 +176,7 @@ foundation -> components -> app-level -> page-specific
 @import './page.css';                         /* 4. page overrides */
 ```
 
-The internal foundation cascade is `n-primitives.css -> n-tokens.css -> n-themes.css -> n-base.css -> n-components.shared.css`. Do not reorder.
+The internal foundation cascade is `colors.computed -> colors.semantic -> colors.themes -> layout.reset -> components.tokens -> components.utilities`. Do not reorder.
 
 ---
 
@@ -218,7 +218,7 @@ CSS is not bundled with JS. Load the convenience bundle for simplicity:
 @import '@nonoun/native-ui/css';
 ```
 
-Or for production without debug selectors: `@nonoun/native-ui/css/lean`.
+Or load granular bundles: `@nonoun/native-ui/css/colors`, `@nonoun/native-ui/css/layout`, `@nonoun/native-ui/css/components`.
 
 ### 2. Register traits before components
 
@@ -318,6 +318,6 @@ You should see: styled button with accent fill, input with placeholder, working 
 | CSS loaded | Verify both foundation and component CSS are present |
 | JS loaded | Verify `register` import or individual `define()` calls run |
 | Load order | Foundation CSS before component CSS |
-| Lean CSS | Use `@nonoun/native-ui/css/lean` to strip debug selectors |
+| Granular CSS | Use `css/colors`, `css/layout`, `css/components` for fine-grained loading |
 | Traits | Only call `registerAllTraits()` if using `<n-controller>` |
 | `sideEffects` | The `register` entry is marked in package.json -- bundlers will not tree-shake it |

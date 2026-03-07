@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Editable — Trait Demo</title>
-    <link rel="stylesheet" href="../styles/n-index.css" />
-    <link rel="stylesheet" href="../styles/n-components.css" />
-    <link rel="stylesheet" href="../styles/demo.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-pages.css" />
     <style>
 
       main {
@@ -134,7 +134,7 @@
     <!-- ── Double-Click to Edit (Provider) ── -->
 
     <h2>Double-Click to Edit <span class="pattern-badge provider">Provider</span></h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> with <code>for=".edit-item"</code> applies an <code>EditController</code> to each matching item. Double-click to start editing. Press <strong>Enter</strong> to commit or <strong>Escape</strong> to cancel.
       </p>
@@ -162,12 +162,12 @@
 list.addEventListener('native:edit-commit', (e) =&gt; {
   const { value, previousValue } = e.detail;
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Click to Edit (Provider) ── -->
 
     <h2>Click to Edit <span class="pattern-badge provider">Provider</span></h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         Trigger set to <code>'click'</code>. Single click activates editing mode. The <code>for</code> selector applies the trait to each matching descendant individually.
       </p>
@@ -188,12 +188,12 @@ list.addEventListener('native:edit-commit', (e) =&gt; {
     &lt;div class="edit-item"&gt;Task Charlie&lt;/div&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── EditController Direct ── -->
 
     <h2>EditController — Attach to Any Element</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint">
         Use <code>EditController</code> directly on any element without the trait adapter or <code>&lt;n-controller&gt;</code>. Double-click to edit.
       </p>
@@ -219,7 +219,7 @@ item.addEventListener('native:edit-cancel', (e) =&gt; {
 // Properties: editor.isEditing, editor.originalValue, editor.currentValue
 // Methods: editor.startEdit(), editor.commitEdit(), editor.cancelEdit()
 // Later: editor.destroy();</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── API Reference ── -->
 

@@ -4,27 +4,6 @@
 
 **CSS-only container** — no JavaScript class.
 
-**Display:** `flex`
-
-## Attributes
-
-| Attribute | Values |
-|-----------|--------|
-| `direction` | `column-reverse`, `row`, `row-reverse` |
-| `padding` | `none`, `regular`, `relaxed`, `tight` |
-| `gap` | `0`, `1`, `2`, `3`, `4`, `6`, `8` |
-| `align` | `baseline`, `center`, `end`, `start`, `stretch` |
-| `justify` | `around`, `between`, `center`, `end`, `evenly`, `start` |
-| `wrap` | _(boolean)_ |
-| `sticky` | `bottom`, `top` |
-| `truncate` | _(boolean)_ |
-| `dividers` | _(boolean)_ |
-
-## CSS Tokens
-
-- `--n-border-muted`
-- `--n-space`
-
 ## Usage
 
 ```html

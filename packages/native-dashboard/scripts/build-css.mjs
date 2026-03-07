@@ -15,9 +15,9 @@ function read(rel) {
 // Order: sidebar first (structural parent), then siblings
 const cssFiles = [
   'src/sidebar/sidebar.css',
-  'src/app-breadcrumb/app-breadcrumb.css',
-  'src/app-canvas/app-canvas.css',
-  'src/app-panel/app-panel.css',
+  'src/dashboard-breadcrumb/dashboard-breadcrumb.css',
+  'src/dashboard-canvas/dashboard-canvas.css',
+  'src/dashboard-panel/dashboard-panel.css',
 ];
 
 const output = cssFiles.map(read).join('\n');

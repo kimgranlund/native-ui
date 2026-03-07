@@ -250,7 +250,7 @@ CSS is appropriate for things the component API doesn't cover:
 | **Page layout** | Grid, flex, margins between components |
 | **Container sizing** | `max-width`, `min-height` on wrapper divs |
 | **Custom animations** | `@keyframes` on wrapper elements |
-| **Prose content** | Typography for rendered markdown/HTML (use `[n-prose]`) |
+| **Prose content** | Typography for rendered markdown/HTML (use `[markdown-html]`) |
 | **Scoped token overrides** | `--n-background` on a section container |
 | **Application-specific layout** | Sidebar widths, header heights, responsive breakpoints |
 

@@ -1,14 +1,12 @@
 @layer ui {
 
-  :where(n-kbd):not(:defined) { visibility: hidden; }
-
   /* ╭──────────────────────────────────────────────────────────╮
-     │  n-kbd                                                   │
+     │  .kbd                                                    │
      │  Keyboard shortcut indicator. Own font/size scale         │
-     │  (like n-badge) — zero-attribute = md.                   │
+     │  (like .badge) — zero-attribute = md.                    │
      ╰──────────────────────────────────────────────────────────╯ */
 
-  :where(n-kbd) {
+  :where(.kbd) {
     --n-icon-size: 1.125em;
     --n-ground: var(--n-body);
 

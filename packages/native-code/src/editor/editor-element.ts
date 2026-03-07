@@ -498,7 +498,8 @@ export class NEditor extends NativeElement {
 
     for (const key of items) {
       if (key === '|') {
-        const divider = document.createElement('n-divider');
+        const divider = document.createElement('div');
+        divider.className = 'divider';
         divider.setAttribute('orientation', 'vertical');
         toolbar.appendChild(divider);
         continue;

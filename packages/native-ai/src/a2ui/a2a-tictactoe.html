@@ -5,16 +5,16 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>A2A Tic-Tac-Toe — Claude vs ChatGPT</title>
-    <link rel="stylesheet" href="../../../../src/styles/n-index.css" />
-    <link rel="stylesheet" href="../../../../src/styles/n-components.css" />
-    <link rel="stylesheet" href="../../../../src/styles/demo.css" />
+    <link rel="stylesheet" href="../../../../src/styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../../src/styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../../../src/styles/spa/spa-pages.css" />
     <style>
       .surface-mount {
         flex: 1;
         display: flex;
         min-height: 0;
       }
-      #grid-boards > n-card { aspect-ratio: 1; min-height: 420px; transition: outline-color 0.2s, outline-width 0.2s; }
+      #grid-boards > article { aspect-ratio: 1; min-height: 420px; transition: outline-color 0.2s, outline-width 0.2s; }
       #card-x.active { outline: 3px solid var(--n-ink-accent); outline-offset: 3px; animation: pulse-x 2s ease-in-out infinite; }
       #card-o.active { outline: 3px solid var(--n-ink-danger); outline-offset: 3px; animation: pulse-o 2s ease-in-out infinite; }
       @keyframes pulse-x {
@@ -29,11 +29,11 @@
       #card-o.winner { outline: 6px solid var(--n-ink-danger); outline-offset: 3px; }
       #model-x.active > n-button { outline: 3px solid var(--n-ink-accent); outline-offset: 3px; }
       #model-o.active > n-button { outline: 3px solid var(--n-ink-danger); outline-offset: 3px; }
-      .surface-mount n-stack[data-empty]:hover {
+      .surface-mount .stack[data-empty]:hover {
         background: var(--n-panel-hover) !important;
         cursor: pointer;
       }
-      .surface-mount n-stack:not([data-empty]) {
+      .surface-mount .stack:not([data-empty]) {
         cursor: default;
       }
       .surface-mount n-icon {
@@ -50,18 +50,18 @@
   <body>
     <native-dashboard-spa><main>
     <h1>A2A Tic-Tac-Toe</h1>
-    <n-text muted>
+    <span muted>
       Two AI agents play Tic-Tac-Toe through the A2A (Agent-to-Agent) protocol.
       Each player gets its own A2UI surface — an independent rendering context where the agent
       writes board state as declarative components. The kernel converts these into live DOM.
       Pick any combination of Claude, ChatGPT, or Human for X and O. In simulation mode,
       a local minimax AI replaces API calls for instant play. Auto Play runs the full game;
       Next Move advances one turn at a time.
-    </n-text>
+    </span>
 
     <!-- ── Game Card ── -->
 
-    <n-card>
+    <article>
       <header>
         <n-toolbar variant="ghost">
           <n-button variant="primary" id="btn-auto">
@@ -78,18 +78,18 @@
         </n-toolbar>
       </header>
       <section>
-        <n-grid cols="2" gap="4" id="grid-boards">
-          <n-card id="card-x">
+        <div class="grid" cols="2" gap="4" id="grid-boards">
+          <article id="card-x">
             <section padding="none">
               <div class="surface-mount" id="surface-x"></div>
             </section>
-          </n-card>
-          <n-card id="card-o">
+          </article>
+          <article id="card-o">
             <section padding="none">
               <div class="surface-mount" id="surface-o"></div>
             </section>
-          </n-card>
-        </n-grid>
+          </article>
+        </div>
       </section>
       <footer justify="space-between">
         <n-select id="model-x" placeholder="X player" inline>
@@ -99,11 +99,11 @@
             <n-option value="claude-haiku-4-5-20251001" selected>Claude Haiku 4.5</n-option>
           </n-listbox>
         </n-select>
-        <n-stack direction="row" gap="3" align="center" justify="center">
+        <div class="stack" direction="row" gap="3" align="center" justify="center">
           <span class="score-num" id="score-claude">0</span>
           <span class="score-dash">–</span>
           <span class="score-num" id="score-gpt">0</span>
-        </n-stack>
+        </div>
         <n-select id="model-o" placeholder="O player" inline>
           <n-button justify="spread"><span slot="label">GPT-5 mini</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
           <n-listbox popover>
@@ -115,17 +115,17 @@
           </n-listbox>
         </n-select>
       </footer>
-    </n-card>
+    </article>
 
     <!-- ── Event Log (debug) ── -->
 
     <details style="margin-top: 1rem;">
       <summary style="cursor:pointer; font-size:0.75rem; color:var(--n-ink-muted)">Session Events</summary>
-      <n-card>
+      <article>
         <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
           <div id="event-log"></div>
         </section>
-      </n-card>
+      </article>
     </details>
 
     </main></native-dashboard-spa>
@@ -137,8 +137,7 @@
       import '../../../../src/components/listbox/listbox.ts';
       import '../../../../src/components/listbox/option.ts';
       import '../../../../src/components/switch/switch.ts';
-      import '../../../../src/containers/card/card.ts';
-      import '../../../../src/containers/toolbar/toolbar.ts';
+      import '../../../../src/components/toolbar/toolbar.ts';
       import '../../../../src/icons/icon.ts';
       import '../../../../src/icons/phosphor/x.ts';
       import '../../../../src/icons/phosphor/circle.ts';
@@ -450,9 +449,9 @@ Pick the best cell. Reply with ONLY the cell number (a single digit). Nothing el
 
       // Listen for clicks on surface mounts — cells are grid children of the board root
       function getCellIndex(mount, e) {
-        const grid = mount.querySelector('n-stack');
+        const grid = mount.querySelector('.stack');
         if (!grid) return -1;
-        const cell = e.target.closest('n-stack');
+        const cell = e.target.closest('.stack');
         if (!cell || cell === grid) return -1;
         return Array.from(grid.children).indexOf(cell);
       }

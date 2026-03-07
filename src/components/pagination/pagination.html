@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n-pagination — Component Demo</title>
-    <link rel="stylesheet" href="../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../styles/n-components.css" />
-    <link rel="stylesheet" href="../../styles/demo.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     </head>
   <body>
     <native-dashboard-spa><main>
@@ -19,40 +19,40 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-pagination total="10" value="1"></n-pagination>
         <pre class="demo-code"><code>&lt;n-pagination total="10" value="1"&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Middle page ── -->
 
     <h2>Middle Page</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-pagination total="20" value="10"></n-pagination>
         <pre class="demo-code"><code>&lt;n-pagination total="20" value="10"&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Few pages ── -->
 
     <h2>Few Pages</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-pagination total="3" value="2"></n-pagination>
         <pre class="demo-code"><code>&lt;n-pagination total="3" value="2"&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Many pages ── -->
 
     <h2>Many Pages</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-pagination total="100" value="50" siblings="2"></n-pagination>
         <pre class="demo-code"><code>&lt;n-pagination total="100" value="50" siblings="2"&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Boundaries ── -->
 
     <h2>Boundaries</h2>
-    <n-panel bordered>
-      <n-stack gap="4">
+    <article data-kind="panel" bordered>
+      <div class="stack" gap="4">
         <div>
           <p class="demo-hint" style="margin-bottom: 0.5rem;">boundaries="2" (show 2 pages at each edge)</p>
           <n-pagination total="50" value="25" boundaries="2"></n-pagination>
@@ -61,29 +61,29 @@
           <p class="demo-hint" style="margin-bottom: 0.5rem;">boundaries="0" (no boundary pages)</p>
           <n-pagination total="50" value="25" boundaries="0"></n-pagination>
         </div>
-      </n-stack>
+      </div>
     <pre class="demo-code"><code>&lt;n-pagination total="50" value="25" boundaries="2"&gt;&lt;/n-pagination&gt;
 &lt;n-pagination total="50" value="25" boundaries="0"&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <n-panel bordered>
-      <n-stack gap="4">
+    <article data-kind="panel" bordered>
+      <div class="stack" gap="4">
         <n-pagination total="10" value="3" size="sm"></n-pagination>
         <n-pagination total="10" value="3"></n-pagination>
         <n-pagination total="10" value="3" size="lg"></n-pagination>
-      </n-stack>
+      </div>
     <pre class="demo-code"><code>&lt;n-pagination total="10" value="3" size="sm"&gt;&lt;/n-pagination&gt;
 &lt;n-pagination total="10" value="3"&gt;&lt;/n-pagination&gt;
 &lt;n-pagination total="10" value="3" size="lg"&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Live ── -->
 
     <h2>Live (click to navigate)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-text-sm">
         Current page: <strong id="page-display">5</strong>
       </p>
@@ -96,15 +96,15 @@
     console.log('Page:', e.detail.value);
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-pagination total="10" value="5" disabled></n-pagination>
         <pre class="demo-code"><code>&lt;n-pagination total="10" value="5" disabled&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     </main></native-dashboard-spa>
     <script type="module">

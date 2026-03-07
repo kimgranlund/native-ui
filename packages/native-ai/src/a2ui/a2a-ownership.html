@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>A2A Ownership — Design Review Handoff</title>
-    <link rel="stylesheet" href="../../../../src/styles/n-index.css" />
-    <link rel="stylesheet" href="../../../../src/styles/n-components.css" />
-    <link rel="stylesheet" href="../../../../src/styles/demo.css" />
+    <link rel="stylesheet" href="../../../../src/styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../../src/styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../../../src/styles/spa/spa-pages.css" />
     <style>
       .surface-mount {
         min-height: 14rem;
@@ -40,9 +40,9 @@
     <!-- ── Review Flow ── -->
 
     <h2>Review Flow</h2>
-    <n-card>
+    <article>
       <section>
-        <n-stack direction="row" wrap>
+        <div class="stack" direction="row" wrap>
           <n-button size="sm" variant="primary" id="start">
             <span>Start Review</span>
           </n-button>
@@ -55,31 +55,31 @@
           <n-button size="sm" variant="ghost" id="reset">
             <span>Reset</span>
           </n-button>
-        </n-stack>
+        </div>
       </section>
-    </n-card>
+    </article>
 
     <!-- ── Shared Canvas ── -->
 
-    <n-card style="margin-top: 1rem;">
+    <article style="margin-top: 1rem;">
       <header>
         <span>Shared Canvas — Landing Page</span>
         <aside>
-          <n-badge id="owner-badge" intent="neutral">No owner</n-badge>
+          <span class="badge" id="owner-badge" intent="neutral">No owner</span>
         </aside>
       </header>
       <section padding="regular">
         <div class="surface-mount" id="shared-canvas" data-empty></div>
       </section>
-    </n-card>
+    </article>
 
     <!-- ── Per-Agent Actions ── -->
 
-    <n-grid cols="2" style="margin-top: 1rem;">
-      <n-card>
+    <div class="grid" cols="2" style="margin-top: 1rem;">
+      <article>
         <header><span>Design Agent</span></header>
         <section>
-          <n-stack direction="row" wrap>
+          <div class="stack" direction="row" wrap>
             <n-button size="sm" id="design-hero">
               <span>Hero Section</span>
             </n-button>
@@ -89,13 +89,13 @@
             <n-button size="sm" id="design-cta">
               <span>CTA Block</span>
             </n-button>
-          </n-stack>
+          </div>
         </section>
-      </n-card>
-      <n-card>
+      </article>
+      <article>
         <header><span>Copy Agent</span></header>
         <section>
-          <n-stack direction="row" wrap>
+          <div class="stack" direction="row" wrap>
             <n-button size="sm" id="copy-headline">
               <span>Write Headlines</span>
             </n-button>
@@ -105,19 +105,19 @@
             <n-button size="sm" id="copy-cta">
               <span>Write CTA Copy</span>
             </n-button>
-          </n-stack>
+          </div>
         </section>
-      </n-card>
-    </n-grid>
+      </article>
+    </div>
 
     <!-- ── Ownership Log ── -->
 
     <h2>Ownership Log</h2>
-    <n-card>
+    <article>
       <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
         <div id="event-log"></div>
       </section>
-    </n-card>
+    </article>
 
     </main></native-dashboard-spa>
 
@@ -128,8 +128,6 @@
       import '../../../../src/components/textarea/textarea.ts';
       import '../../../../src/components/switch/switch.ts';
       import '../../../../src/components/checkbox/checkbox.ts';
-      import '../../../../src/components/badge/badge.ts';
-      import '../../../../src/containers/card/card.ts';
       import '../../../../src/icons/icon.ts';
 
       import { Kernel, resetKernel } from '../../../../src/kernel/kernel.ts';

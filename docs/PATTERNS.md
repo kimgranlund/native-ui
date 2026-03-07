@@ -251,7 +251,7 @@ Coordinators re-dispatch: internal `native:select` from listbox becomes public `
 :where(n-button)[force-hover] { background: var(--n-background-hover); }
 ```
 
-Lean CSS variants (`components-lean.css`, `native-ui-lean.css`) strip `force-*` selectors for production.
+`force-*` selectors are included in `components.css` for dev/debug use.
 
 ---
 

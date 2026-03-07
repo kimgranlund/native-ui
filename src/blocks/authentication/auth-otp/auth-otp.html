@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Verify OTP — Auth Block</title>
-    <link rel="stylesheet" href="../../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <style>
       body { background: var(--n-doc-neutral); color: var(--n-color-neutral-950); }
       main { padding: 2rem; }
@@ -116,23 +116,23 @@
           <p class="auth-subheading">
             We sent a 6-digit code to <span class="auth-email-highlight">kim@example.com</span>. Enter it below to verify your identity.
           </p>
-          <n-card>
-            <n-stack gap="4">
+          <article>
+            <div class="stack" gap="4">
               <form>
-                <n-stack gap="4">
+                <div class="stack" gap="4">
                   <div class="otp-center">
                     <n-input-otp name="otp" length="6"></n-input-otp>
                   </div>
                   <n-button variant="primary" intent="accent" type="submit">
                     <span slot="label">Verify</span>
                   </n-button>
-                </n-stack>
+                </div>
               </form>
               <p class="auth-resend-text">
                 Didn't receive a code? <n-button variant="ghost" inline class="auth-resend-link">Resend code</n-button>
               </p>
-            </n-stack>
-          </n-card>
+            </div>
+          </article>
           <a href="#" class="auth-back-link">
             <n-icon name="arrow-left" size="sm"></n-icon>
             Back to sign in
@@ -146,7 +146,6 @@
       import '../../../nav/native-dashboard.ts';
       import '../../../components/button/button.ts';
       import '../../../components/input-otp/input-otp.ts';
-      import '../../../containers/card/card.ts';
       import '../../../icons/icon.ts';
       import '../../../icons/phosphor/shield-check.ts';
       import '../../../icons/phosphor/arrow-left.ts';

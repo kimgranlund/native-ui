@@ -25,12 +25,12 @@ function collectHtmlEntries(dir: string, base = ''): Record<string, string> {
   return entries;
 }
 
-// WHY: Inject n-site.css and site-entry.ts into every page.
+// WHY: Inject site.css and site-entry.ts into every page.
 // Uses Vite's HtmlTagDescriptor API so the script tag is properly
 // resolved and bundled during the build pipeline.
 function injectSiteAssets(): Plugin {
   const css = readFileSync(
-    resolve(__dirname, 'src/styles/n-site.css'),
+    resolve(__dirname, 'src/styles/spa/spa-reset.css'),
     'utf8',
   );
   return {

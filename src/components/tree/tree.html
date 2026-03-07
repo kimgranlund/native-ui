@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n-tree — Component Demo</title>
-    <link rel="stylesheet" href="../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../styles/n-components.css" />
-    <link rel="stylesheet" href="../../styles/demo.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     <style>
 .log {
         font-family: monospace;
@@ -31,7 +31,7 @@
     <!-- ── Basic ── -->
 
     <h2>File Browser</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-tree>
         <n-tree-item expanded>
           <span slot="label">src</span>
@@ -81,12 +81,12 @@
     &lt;/n-tree-item&gt;
   &lt;/n-tree-item&gt;
 &lt;/n-tree&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Navigation ── -->
 
     <h2>Navigation</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-tree>
         <n-tree-item expanded>
           <span slot="label">Getting Started</span>
@@ -130,12 +130,12 @@
     &lt;/n-tree-item&gt;
   &lt;/n-tree-item&gt;
 &lt;/n-tree&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Event Log ── -->
 
     <h2>Event Log</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-tree id="event-tree">
         <n-tree-item expanded>
           <span slot="label">Documents</span>
@@ -167,12 +167,12 @@ const tree = document.getElementById('event-tree');
 tree.querySelectorAll('n-tree-item').forEach((item) =&gt; {
   observer.observe(item, { attributes: true });
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-tree disabled>
         <n-tree-item expanded>
           <span slot="label">Project</span>
@@ -192,12 +192,12 @@ tree.querySelectorAll('n-tree-item').forEach((item) =&gt; {
     &lt;/n-tree-item&gt;
   &lt;/n-tree-item&gt;
 &lt;/n-tree&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Debug States (force-*) ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to individual <code>n-tree-item</code> elements.
       </p>
@@ -212,7 +212,7 @@ tree.querySelectorAll('n-tree-item').forEach((item) =&gt; {
           <span slot="label">Normal</span>
         </n-tree-item>
       </n-tree>
-    </n-panel>
+    </article>
 
     </main></native-dashboard-spa>
     <script type="module">

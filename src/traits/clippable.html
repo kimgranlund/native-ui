@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Clippable — Trait Demo</title>
-    <link rel="stylesheet" href="../styles/n-index.css" />
-    <link rel="stylesheet" href="../styles/n-components.css" />
-    <link rel="stylesheet" href="../styles/demo.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-pages.css" />
     <style>
 
       main {
@@ -133,7 +133,7 @@
     <!-- ── Copy & Paste ── -->
 
     <h2>Copy &amp; Paste</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint" style="margin-bottom: 0.5rem;">
         Click to select items, then use keyboard shortcuts to copy. Focus the list first by clicking an item.
       </p>
@@ -166,12 +166,12 @@
 list.addEventListener('native:clip-copy', (e) =&gt; {
   log(`Copied ${e.detail.items.length} item(s)`);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Cut & Paste ── -->
 
     <h2>Cut &amp; Paste</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint" style="margin-bottom: 0.5rem;">
         <strong>Ctrl/Cmd+X</strong> marks items with <code>[clip-cut]</code> (dimmed). <strong>Ctrl/Cmd+V</strong> dispatches a paste event.
       </p>
@@ -206,7 +206,7 @@ list.addEventListener('native:clip-cut', (e) =&gt; {
 list.addEventListener('native:clip-paste', (e) =&gt; {
   log(`Paste: "${e.detail.data}"`);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── API Reference ── -->
 

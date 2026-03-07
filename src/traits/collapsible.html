@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Collapsible — Trait Demo</title>
-    <link rel="stylesheet" href="../styles/n-index.css" />
-    <link rel="stylesheet" href="../styles/n-components.css" />
-    <link rel="stylesheet" href="../styles/demo.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-pages.css" />
     <style>
 
       main {
@@ -57,7 +57,7 @@
     <!-- ── Basic Toggle ── -->
 
     <h2>Basic Toggle</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-button id="toggle-btn">Toggle Content</n-button>
       <collapse-demo traits="collapsible" id="section1">
         <div class="collapse-content">
@@ -82,12 +82,12 @@
   el.addEventListener('native:expand', () =&gt; console.log('Expanded'));
   el.addEventListener('native:collapse', () =&gt; console.log('Collapsed'));
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Initially Collapsed ── -->
 
     <h2>Initially Collapsed</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-button id="expand-btn">Expand</n-button>
       <collapse-demo traits="collapsible" id="section2" collapsed>
         <div class="collapse-content">
@@ -107,12 +107,12 @@
   if (ctrl.collapsed) ctrl.expand();
   else ctrl.collapse();
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Custom Duration ── -->
 
     <h2>Custom Duration (500ms)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-button id="slow-btn">Toggle Slow</n-button>
       <collapse-demo traits="collapsible" data-trait-collapsible-duration="500" id="section3">
         <div class="collapse-content">
@@ -135,7 +135,7 @@
   });
   ctrl.toggle();
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── API Reference ── -->
 

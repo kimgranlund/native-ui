@@ -4,39 +4,6 @@
 
 **CSS-only container** — no JavaScript class.
 
-**Display:** `grid`
-
-## Attributes
-
-| Attribute | Values |
-|-----------|--------|
-| `padding` | `none`, `regular`, `relaxed`, `tight` |
-| `truncate` | _(boolean)_ |
-| `align` | `center`, `end` |
-| `dividers` | _(boolean)_ |
-| `sticky` | _(boolean)_ |
-
-## Slots
-
-| Slot |
-|------|
-| `content` |
-| `label` |
-| `leading` |
-| `trailing` |
-
-## CSS Tokens
-
-- `--n-border-muted`
-- `--n-button-font-weight`
-- `--n-font-size`
-- `--n-header-padding-block`
-- `--n-header-padding-inline`
-- `--n-ink-strong`
-- `--n-line-height`
-- `--n-size`
-- `--n-space`
-
 ## Usage
 
 ```html

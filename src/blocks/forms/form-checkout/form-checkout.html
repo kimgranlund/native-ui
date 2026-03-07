@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Checkout Form — Block</title>
-    <link rel="stylesheet" href="../../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <style>
       body {
         background: var(--n-doc-neutral);
@@ -97,7 +97,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
+    <div class="stack" gap="6">
     <div>
       <h1>Checkout</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -108,15 +108,15 @@
     <form id="checkout-form">
       <div class="checkout-layout">
         <!-- ── Left Column: Shipping + Payment ── -->
-        <n-stack gap="6">
+        <div class="stack" gap="6">
           <!-- ── Shipping Information ── -->
-          <n-card>
+          <article>
             <header>
               <n-icon name="package" slot="leading"></n-icon>
               <span>Shipping Information</span>
             </header>
             <section>
-              <n-stack gap="4">
+              <div class="stack" gap="4">
                 <div class="grid-2">
                   <n-field required>
                     <label slot="label">First name</label>
@@ -167,18 +167,18 @@
                     </n-listbox>
                   </n-select>
                 </n-field>
-              </n-stack>
+              </div>
             </section>
-          </n-card>
+          </article>
 
           <!-- ── Payment Method ── -->
-          <n-card>
+          <article>
             <header>
               <n-icon name="credit-card" slot="leading"></n-icon>
               <span>Payment Method</span>
             </header>
             <section>
-              <n-stack gap="4">
+              <div class="stack" gap="4">
                 <n-field>
                   <label slot="label">Payment type</label>
                   <n-radio-group name="payment_method" value="credit-card" orientation="horizontal">
@@ -212,20 +212,20 @@
                 </n-field>
 
                 <n-checkbox name="save_card">Save card for future purchases</n-checkbox>
-              </n-stack>
+              </div>
             </section>
-          </n-card>
-        </n-stack>
+          </article>
+        </div>
 
         <!-- ── Right Column: Order Summary ── -->
         <div>
-          <n-card>
+          <article>
             <header>
               <n-icon name="receipt" slot="leading"></n-icon>
               <span>Order Summary</span>
             </header>
             <section>
-              <n-stack gap="2">
+              <div class="stack" gap="2">
                 <div class="summary-line">
                   <div>
                     <span class="item-name">Wireless Headphones</span>
@@ -248,7 +248,7 @@
                   <span class="item-price">$29.99</span>
                 </div>
 
-                <n-divider></n-divider>
+                <hr>
 
                 <div class="summary-line">
                   <span style="color: var(--n-ink-muted-neutral);">Subtotal</span>
@@ -267,24 +267,24 @@
                   <span>Total</span>
                   <span class="item-price">$232.38</span>
                 </div>
-              </n-stack>
+              </div>
             </section>
             <footer justify="center">
-              <n-stack gap="3" align="stretch">
+              <div class="stack" gap="3" align="stretch">
                 <n-button variant="primary" intent="accent" type="submit" form="checkout-form">
                   <n-icon name="shopping-cart" slot="leading"></n-icon>
                   <span slot="label">Place Order</span>
                 </n-button>
-                <n-text size="xs" muted style="text-align: center;">
+                <span size="xs" muted style="text-align: center;">
                   Your payment information is encrypted and secure.
-                </n-text>
-              </n-stack>
+                </span>
+              </div>
             </footer>
-          </n-card>
+          </article>
         </div>
       </div>
     </form>
-    </n-stack>
+    </div>
 
     </main></native-dashboard-spa>
     <script type="module">
@@ -297,7 +297,6 @@
       import '../../../components/radio/radio.ts';
       import '../../../components/checkbox/checkbox.ts';
       import '../../../components/button/button.ts';
-      import '../../../containers/card/card.ts';
       import '../../../icons/icon.ts';
       import '../../../icons/phosphor/package.ts';
       import '../../../icons/phosphor/map-pin.ts';

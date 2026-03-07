@@ -711,7 +711,7 @@ export class NA2UI extends NativeElement {
 
     presetSelect.appendChild(listbox);
     presetSelect.addEventListener('native:change', this.#onPresetChange);
-    headerWrap.appendChild(presetSelect);
+    header.appendChild(presetSelect);
 
     // Panel toggle chips + expand
     for (const id of PANEL_ORDER) {
@@ -835,7 +835,8 @@ export class NA2UI extends NativeElement {
         playBtn.addEventListener('native:press', this.#onPlayAll);
 
         // Divider
-        const sep = document.createElement('n-divider');
+        const sep = document.createElement('div');
+        sep.className = 'divider';
         sep.setAttribute('orientation', 'vertical');
 
         // Lifecycle insert buttons
@@ -1111,8 +1112,8 @@ export class NA2UI extends NativeElement {
       const row = document.createElement('div');
       row.className = 'a2ui-log-entry';
 
-      const typeSpan = document.createElement('n-badge');
-      typeSpan.className = `a2ui-log-type a2ui-log-type--${entry.type}`;
+      const typeSpan = document.createElement('span');
+      typeSpan.className = `badge a2ui-log-type a2ui-log-type--${entry.type}`;
       typeSpan.textContent = entry.type.toUpperCase();
 
       const timeSpan = document.createElement('span');

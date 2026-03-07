@@ -4,22 +4,6 @@
 
 **CSS-only container** — no JavaScript class.
 
-**Display:** `flex`
-
-## Attributes
-
-| Attribute | Values |
-|-----------|--------|
-| `orientation` | `vertical` |
-
-## CSS Tokens
-
-- `--n-border-muted`
-- `--n-font-size`
-- `--n-ink-muted`
-- `--n-letter-spacing`
-- `--n-space`
-
 ## Usage
 
 ```html

@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n-panel — Container Demo</title>
-    <link rel="stylesheet" href="../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../styles/n-components.css" />
-    <link rel="stylesheet" href="../../styles/demo.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     <style>
 .sidebar-demo {
         display: flex;
@@ -65,24 +65,24 @@
     <n-panel bordered>
       <div class="sidebar-demo">
         <n-panel bordered scrollable>
-          <n-stack gap="1">
+          <div class="stack" gap="1">
             <n-button variant="ghost" justify="spread" style="width: 100%;"><n-icon name="house" slot="leading"></n-icon><span slot="label">Dashboard</span></n-button>
             <n-button variant="ghost" justify="spread" style="width: 100%;"><n-icon name="folder" slot="leading"></n-icon><span slot="label">Projects</span></n-button>
             <n-button variant="ghost" justify="spread" style="width: 100%;"><n-icon name="gear" slot="leading"></n-icon><span slot="label">Settings</span></n-button>
-          </n-stack>
+          </div>
         </n-panel>
         <div class="content-area">
           Main content area. The panel serves as a sidebar surface.
         </div>
       </div>
       <pre class="demo-code"><code>&lt;n-panel bordered&gt;
-  &lt;n-stack gap="1"&gt;
+  &lt;div class="stack" gap="1"&gt;
     &lt;n-button variant="ghost" justify="spread"&gt;
       &lt;n-icon name="house" slot="leading"&gt;&lt;/n-icon&gt;
       &lt;span slot="label"&gt;Dashboard&lt;/span&gt;
     &lt;/n-button&gt;
     &lt;n-button variant="ghost" justify="spread"&gt;...&lt;/n-button&gt;
-  &lt;/n-stack&gt;
+  &lt;/div&gt;
 &lt;/n-panel&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-panel>
 
@@ -90,14 +90,14 @@
 
     <h2>Sizes</h2>
     <n-panel bordered>
-      <n-stack gap="4">
+      <div class="stack" gap="4">
         <n-panel bordered size="sm">
           <p style="margin: 0; font-size: 0.8125rem;">Small panel — compact padding</p>
         </n-panel>
         <n-panel bordered size="lg">
           <p>Large panel — spacious padding</p>
         </n-panel>
-      </n-stack>
+      </div>
     <pre class="demo-code"><code>&lt;n-panel bordered size="sm"&gt;
   &lt;p&gt;Small panel&lt;/p&gt;
 &lt;/n-panel&gt;
@@ -123,7 +123,7 @@
 
     <h2>Scrollable</h2>
     <n-panel bordered>
-      <n-text size="sm" muted>Panels don't scroll by default. Add <code>[scrollable]</code> when content may overflow a bounded height.</n-text>
+      <span size="sm" muted>Panels don't scroll by default. Add <code>[scrollable]</code> when content may overflow a bounded height.</span>
       <n-panel bordered scrollable style="max-height: 10rem;">
         <p>Line 1</p>
         <p>Line 2</p>
@@ -145,7 +145,7 @@
 
     <h2>Fade</h2>
     <n-panel bordered>
-      <n-text size="sm" muted>Add <code>[fade]</code> to dissolve content as it scrolls under header/footer. Uses <code>mask-image</code> on <code>&lt;n-body&gt;</code>. Override <code>--n-fade-top</code> / <code>--n-fade-bottom</code> for custom fade distances.</n-text>
+      <span size="sm" muted>Add <code>[fade]</code> to dissolve content as it scrolls under header/footer. Uses <code>mask-image</code> on <code>&lt;n-body&gt;</code>. Override <code>--n-fade-top</code> / <code>--n-fade-bottom</code> for custom fade distances.</span>
       <n-panel bordered fade style="height: 16rem;">
         <header>Panel Title</header>
         <section>

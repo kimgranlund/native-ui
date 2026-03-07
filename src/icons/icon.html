@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n-icon — Component Demo</title>
-    <link rel="stylesheet" href="../styles/n-index.css" />
-    <link rel="stylesheet" href="../styles/n-components.css" />
-    <link rel="stylesheet" href="../styles/demo.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../styles/spa/spa-pages.css" />
     <style>
 .demo-grid {
         display: flex;
@@ -66,7 +66,7 @@
     <!-- ── Basic Icons ── -->
 
     <h2>Basic Icons</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div class="icon-row">
         <div class="icon-card">
           <n-icon name="house"></n-icon>
@@ -109,12 +109,12 @@
           <span class="icon-card-label">pencil-simple</span>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">xs (0.75rem)</span>
@@ -137,12 +137,12 @@
           <n-icon name="house" size="xl"></n-icon>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Color Inheritance ── -->
 
     <h2>Color Inheritance</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div class="icon-row">
         <span style="color: var(--n-ink-accent);">
           <n-icon name="heart"></n-icon> Accent
@@ -160,12 +160,12 @@
           <n-icon name="info"></n-icon> Info
         </span>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Accessibility ── -->
 
     <h2>Accessibility</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <h3>Decorative (default — aria-hidden="true")</h3>
       <div class="icon-row">
         <n-icon name="house"></n-icon>
@@ -181,12 +181,12 @@
           → role="img", aria-label="Approved"
         </span>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Inside Buttons ── -->
 
     <h2>Inside Buttons</h2>
-    <n-panel bordered intent="accent" size="sm">
+    <article data-kind="panel" bordered intent="accent" size="sm">
       <div class="icon-row">
         <n-button variant="primary">
           <n-icon name="plus"></n-icon>
@@ -204,12 +204,12 @@
           <n-icon name="x"></n-icon>
         </n-button>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Dynamic Name Change ── -->
 
     <h2>Dynamic Name Change</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div class="demo-grid">
         <div class="demo-col">
           <n-icon id="dynamic-icon" name="house" size="xl"></n-icon>
@@ -228,12 +228,12 @@
           </n-select>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     <!-- ── Late Registration ── -->
 
     <h2>Late Registration</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <p class="demo-hint" style="margin-bottom: 0.5rem;">
         The icon below has name="late-demo" but the icon hasn't been registered yet.
         Click the button to register it dynamically.
@@ -243,12 +243,12 @@
         <n-button id="register-btn" variant="secondary" size="sm">Register "late-demo" icon</n-button>
       </div>
       <div class="log" id="late-log"></div>
-    </n-panel>
+    </article>
 
     <!-- ── Navigation Icons ── -->
 
     <h2>Navigation Icons</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div class="icon-row">
         <div class="icon-card">
           <n-icon name="caret-up"></n-icon>
@@ -283,7 +283,7 @@
           <span class="icon-card-label">arrow-right</span>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     </main></native-dashboard-spa>
     <script type="module">

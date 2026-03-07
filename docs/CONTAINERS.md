@@ -18,36 +18,22 @@ Structural elements that group, frame, and organize content. Pure CSS or minimal
 
 ## Sub-Containers
 
-Semantic HTML tags (`<header>`, `<section>`, `<footer>`) are the recommended sub-containers inside `n-card`, `n-panel`, `n-drawer`, and `<main>`. All parent containers have full CSS parity for both semantic tags and the older `n-header`/`n-body`/`n-footer` custom element tags.
+Semantic HTML tags and CSS classes are the sub-containers inside `<article>` (card/panel), `n-drawer`, and `<main>`. Defined in `css/containers.css`.
 
 **`<header>`** -- Display: `grid`. Children auto-detect grid columns via `:has()`. Attributes: `align` (center/end), `padding` (none/tight/regular/relaxed), `sticky`, `dividers`, `truncate`.
 
-**`<section>`** -- Display: `flex column`. Fills remaining space, `overflow-y: auto`, scrollbar hidden by default. Attributes: `padding`, `show-scrollbar`.
+**`<div class="body">`** (or `<section>`) -- Display: `flex column`. Fills remaining space, `overflow-y: auto`, scrollbar hidden by default. Attributes: `padding`, `show-scrollbar`.
 
 **`<footer>`** -- Display: `flex row`, end-aligned. Attributes: `justify` (start/center/spread), `padding`, `sticky`, `dividers`.
 
-**Legacy tags** (`n-header`, `n-body`, `n-footer`) still work and are non-breaking. Migrate at your pace.
-
-**Parent context**: n-card and n-panel add `border-bottom` on n-header and `border-top` on n-footer. n-panel widens sub-container `padding-inline` at `@container (min-width: 22rem)`.
-
-## Text Utility
-
-**n-text** -- CSS-only text block for muted captions, descriptions, and labels. Display: `block` (default); `[inline]` switches to `display: inline`.
-
-Attributes: `size` (xs/sm/md/lg/xl), `muted` (muted ink color), `strong` (bold + strong ink), `inline` (inline display), `spacing` (tight/regular/relaxed — bottom margin for stacked blocks), `truncate` (ellipsis overflow), `uppercase` (text-transform + letter-spacing).
-
-```html
-<n-text size="sm" muted>Helper caption below an input.</n-text>
-<n-text strong>Important label</n-text>
-<n-text size="xs" uppercase muted>Section heading</n-text>
-```
+**Parent context**: `<article>` adds `border-bottom` on `<header>` and `border-top` on `<footer>`. Panel widens sub-container `padding-inline` at `@container (min-width: 22rem)`.
 
 ## Content Reset
 
-**`[n-prose]` / `.n-prose`** -- Reusable scoped rich-text reset (defined in `n-base.css`). Apply to any container rendering user-generated or markdown-sourced HTML. Provides: flex column with gap-based vertical rhythm, margin reset on all block elements, heading styles (weight, color, scale), code/pre styling (`--n-font-mono`, `--n-control` background), blockquote border, link underline, list padding, hr styling. All selectors use `:where()` for zero specificity.
+**`[markdown-html]` / `.markdown-html`** -- Reusable scoped rich-text reset (defined in `css/reset.css`). Apply to any container rendering user-generated or markdown-sourced HTML. Provides: flex column with gap-based vertical rhythm, margin reset on all block elements, heading styles (weight, color, scale), code/pre styling (`--n-font-mono`, `--n-control` background), blockquote border, link underline, list padding, hr styling. All selectors use `:where()` for zero specificity.
 
 ```html
-<div n-prose>
+<div markdown-html>
   <h2>Title</h2>
   <p>Paragraph with <code>inline code</code> and a <a href="#">link</a>.</p>
   <pre><code>code block</code></pre>
@@ -57,13 +43,11 @@ Attributes: `size` (xs/sm/md/lg/xl), `muted` (muted ink color), `strong` (bold +
 
 ## Layout Primitives
 
-**n-stack** -- Flex stacking (default: column). Attributes: `direction` (row/column-reverse/row-reverse), `gap` (0-8, multiplier of `--n-space`), `align` (start/center/end/stretch/baseline), `justify` (start/center/end/between/around/evenly), `wrap`, `padding`.
+**`.stack`** -- Flex stacking (default: column). Defined in `css/layout.css`. Attributes: `direction` (row/column-reverse/row-reverse), `gap` (0-8, multiplier of `--n-space`), `align` (start/center/end/stretch/baseline), `justify` (start/center/end/between/around/evenly), `wrap`, `padding`.
 
-**n-grid** -- CSS grid. Default: `auto-fill, minmax(16rem, 1fr)`. Attributes: `cols` (1-6, fixed count), `min` (8rem-24rem, auto-fill min width), `gap` (0-8), `padding`.
+**`.grid`** -- CSS grid. Defined in `css/layout.css`. Default: `auto-fill, minmax(16rem, 1fr)`. Attributes: `cols` (1-6, fixed count), `min` (8rem-24rem, auto-fill min width), `gap` (0-8), `padding`.
 
-**n-divider** -- Horizontal/vertical rule with optional text label. Attribute: `orientation` (vertical). Empty = line; with text = line segments flanking label.
-
-**n-inset** -- Inline-start indentation via `padding-inline-start`. No attributes.
+**`<hr>`** / **`.divider`** -- Horizontal/vertical rule with optional text label. Defined in `css/containers.css`. Attribute: `orientation` (vertical). `<hr>` for standard horizontal rules; `<div class="divider">` for vertical or text-labeled dividers.
 
 **n-toolbar** -- Horizontal action bar with `role="toolbar"` and roving focus. Elevation: `--n-panel`. Children shrink-wrap by default. Per-item `[fill]` grows one child; toolbar-level `[fill]` grows all. Overflow menu via `[data-overflow]` system with inline SVG icon (no icon import dependency). Attributes: `padding`, `fill`, `variant` (`plain` — transparent/unstyled for embedding in headers, chat controls, or other containers; preserves layout + keyboard nav + overflow).
 
@@ -73,13 +57,13 @@ Attributes: `size` (xs/sm/md/lg/xl), `muted` (muted ink color), `strong` (bold +
 
 ```html
 <!-- Plain toolbar inside a header -->
-<n-header>
+<header>
   <span slot="label">Title</span>
   <n-toolbar variant="plain" slot="trailing">
     <n-button variant="ghost" icon="gear"></n-button>
     <n-button variant="ghost" icon="x"></n-button>
   </n-toolbar>
-</n-header>
+</header>
 ```
 
 ## App Layout (`@nonoun/native-dashboard`)

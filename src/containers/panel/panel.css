@@ -38,20 +38,20 @@
   /* WHY: When n-body is present, delegate overflow to it so
      header/footer stay fixed while body scrolls. */
 
-  :where(n-panel):has(> n-body) {
+  :where(n-panel):has(> .body) {
     overflow: hidden;
     padding: 0;
   }
-  :where(n-panel) > :where(n-body) {
+  :where(n-panel) > :where(.body) {
     overflow-y: auto;
     scrollbar-width: none;
   }
 
-  :where(n-panel) > :where(n-header) {
+  :where(n-panel) > :where(header) {
     border-bottom: 1px solid var(--n-border-muted);
   }
 
-  :where(n-panel) > :where(n-footer) {
+  :where(n-panel) > :where(footer) {
     border-top: 1px solid var(--n-border-muted);
   }
 
@@ -218,7 +218,7 @@
 }
 
 /* Top fade — header present */
-[fade]:where(n-panel):has(> n-header) > :where(n-body) {
+[fade]:where(n-panel):has(> header) > :where(.body) {
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
@@ -228,7 +228,7 @@
 }
 
 /* Bottom fade — footer present */
-[fade]:where(n-panel):has(> n-footer) > :where(n-body) {
+[fade]:where(n-panel):has(> footer) > :where(.body) {
   mask-image: linear-gradient(
     to bottom,
     black 0,
@@ -238,7 +238,7 @@
 }
 
 /* Both fades — header AND footer present */
-[fade]:where(n-panel):has(> n-header):has(> n-footer) > :where(n-body) {
+[fade]:where(n-panel):has(> header):has(> footer) > :where(.body) {
   mask-image: linear-gradient(
     to bottom,
     transparent 0,

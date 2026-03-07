@@ -147,7 +147,8 @@ export class NChatInputStructured extends NativeElement {
     }
 
     // Options
-    const grid = document.createElement('n-stack');
+    const grid = document.createElement('div');
+    grid.className = 'stack';
     grid.setAttribute('direction', 'row');
     grid.setAttribute('wrap', '');
     grid.setAttribute('role', type === 'multi' ? 'group' : 'radiogroup');

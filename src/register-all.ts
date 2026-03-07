@@ -50,9 +50,6 @@ import { NField } from './components/field/field-element.ts';
 import { NTextarea } from './components/textarea/textarea-element.ts';
 import { NRange } from './components/range/range-element.ts';
 import { NInputOtp } from './components/input-otp/input-otp-element.ts';
-import { NAvatar } from './components/avatar/avatar-element.ts';
-import { NBadge } from './components/badge/badge-element.ts';
-import { NKbd } from './components/kbd/kbd-element.ts';
 import { NBreadcrumb } from './components/breadcrumb/breadcrumb-element.ts';
 import { NBreadcrumbItem } from './components/breadcrumb/breadcrumb-item-element.ts';
 import { NPagination } from './components/pagination/pagination-element.ts';
@@ -66,10 +63,10 @@ import { NController } from './components/controller/controller-element.ts';
 import { NGripper } from './components/gripper/gripper-element.ts';
 
 // Containers (with JS behavior)
-import { NCard } from './containers/card/card-element.ts';
+import { NCard } from './components/card/card-element.ts';
 import { NSection } from './containers/section/section-element.ts';
-import { NToolbar } from './containers/toolbar/toolbar-element.ts';
-import { NRoot } from './containers/root/root-element.ts';
+import { NToolbar } from './components/toolbar/toolbar-element.ts';
+import { NRoot } from './components/root/root-element.ts';
 // Icons
 import { NIcon } from './icons/icon-element.ts';
 
@@ -113,9 +110,6 @@ define('n-field', NField);
 define('n-textarea', NTextarea);
 define('n-range', NRange);
 define('n-input-otp', NInputOtp);
-define('n-avatar', NAvatar);
-define('n-badge', NBadge);
-define('n-kbd', NKbd);
 define('n-breadcrumb', NBreadcrumb);
 define('n-breadcrumb-item', NBreadcrumbItem);
 define('n-pagination', NPagination);

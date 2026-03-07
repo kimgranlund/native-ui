@@ -5,9 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>n-pagination-dots — Component Demo</title>
-    <link rel="stylesheet" href="../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../styles/n-components.css" />
-    <link rel="stylesheet" href="../../styles/demo.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     <style>
 .nav-main {
         padding: 2rem;
@@ -25,15 +25,15 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-pagination-dots count="5" active="0"></n-pagination-dots>
     <pre class="demo-code"><code>&lt;n-pagination-dots count="5" active="0"&gt;&lt;/n-pagination-dots&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Different Counts ── -->
 
     <h2>Different Counts</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
         <n-pagination-dots count="3" active="1"></n-pagination-dots>
         <n-pagination-dots count="5" active="2"></n-pagination-dots>
@@ -44,36 +44,36 @@
 &lt;n-pagination-dots count="5" active="2"&gt;&lt;/n-pagination-dots&gt;
 &lt;n-pagination-dots count="7" active="3"&gt;&lt;/n-pagination-dots&gt;
 &lt;n-pagination-dots count="10" active="5"&gt;&lt;/n-pagination-dots&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Paddles ── -->
 
     <h2>Paddles</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
         <n-pagination-dots count="5" active="0" paddles></n-pagination-dots>
         <n-pagination-dots count="10" active="4" paddles></n-pagination-dots>
       </div>
     <pre class="demo-code"><code>&lt;n-pagination-dots count="5" active="0" paddles&gt;&lt;/n-pagination-dots&gt;
 &lt;n-pagination-dots count="10" active="4" paddles&gt;&lt;/n-pagination-dots&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Vertical ── -->
 
     <h2>Vertical</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div style="display: flex; gap: 1.5rem; align-items: flex-start;">
         <n-pagination-dots count="5" active="2" orientation="vertical"></n-pagination-dots>
         <n-pagination-dots count="5" active="1" orientation="vertical" paddles></n-pagination-dots>
       </div>
     <pre class="demo-code"><code>&lt;n-pagination-dots count="5" active="2" orientation="vertical"&gt;&lt;/n-pagination-dots&gt;
 &lt;n-pagination-dots count="5" active="1" orientation="vertical" paddles&gt;&lt;/n-pagination-dots&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Max Dots (windowing) ── -->
 
     <h2>Max Dots (windowing)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
         <div>
           <div class="demo-state-label">15 dots, max-dots=7 (default)</div>
@@ -91,20 +91,20 @@
     <pre class="demo-code"><code>&lt;n-pagination-dots count="15" active="7" paddles&gt;&lt;/n-pagination-dots&gt;
 &lt;n-pagination-dots count="20" active="10" paddles max-dots="5"&gt;&lt;/n-pagination-dots&gt;
 &lt;n-pagination-dots count="12" active="0" paddles max-dots="3"&gt;&lt;/n-pagination-dots&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Variant: plain ── -->
 
     <h2>Variant: plain (no container)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-pagination-dots count="5" active="2" variant="plain"></n-pagination-dots>
     <pre class="demo-code"><code>&lt;n-pagination-dots count="5" active="2" variant="plain"&gt;&lt;/n-pagination-dots&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Radius ── -->
 
     <h2>Radius</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
         <n-pagination-dots count="5" active="2"></n-pagination-dots>
         <n-pagination-dots count="5" active="2" radius="rounded"></n-pagination-dots>
@@ -113,12 +113,12 @@
     <pre class="demo-code"><code>&lt;n-pagination-dots count="5" active="2"&gt;&lt;/n-pagination-dots&gt;
 &lt;n-pagination-dots count="5" active="2" radius="rounded"&gt;&lt;/n-pagination-dots&gt;
 &lt;n-pagination-dots count="5" active="2" radius="sharp"&gt;&lt;/n-pagination-dots&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
         <n-pagination-dots count="5" active="2" size="xs"></n-pagination-dots>
         <n-pagination-dots count="5" active="2" size="sm"></n-pagination-dots>
@@ -131,12 +131,12 @@
 &lt;n-pagination-dots count="5" active="2"&gt;&lt;/n-pagination-dots&gt;
 &lt;n-pagination-dots count="5" active="2" size="lg"&gt;&lt;/n-pagination-dots&gt;
 &lt;n-pagination-dots count="5" active="2" size="xl"&gt;&lt;/n-pagination-dots&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Intent ── -->
 
     <h2>Intent</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
         <n-pagination-dots count="5" active="2"></n-pagination-dots>
         <n-pagination-dots count="5" active="2" intent="accent"></n-pagination-dots>
@@ -148,20 +148,20 @@
     <pre class="demo-code"><code>&lt;n-pagination-dots count="5" active="2" intent="accent"&gt;&lt;/n-pagination-dots&gt;
 &lt;n-pagination-dots count="5" active="2" intent="success"&gt;&lt;/n-pagination-dots&gt;
 &lt;n-pagination-dots count="5" active="2" intent="danger"&gt;&lt;/n-pagination-dots&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-pagination-dots count="5" active="2" disabled></n-pagination-dots>
     <pre class="demo-code"><code>&lt;n-pagination-dots count="5" active="2" disabled&gt;&lt;/n-pagination-dots&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Event log ── -->
 
     <h2>Interactive (event log)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-pagination-dots count="6" active="0" paddles id="event-demo"></n-pagination-dots>
       <pre id="event-log" class="demo-event-log"></pre>
     <pre class="demo-code"><code>&lt;n-pagination-dots count="6" active="0" paddles&gt;&lt;/n-pagination-dots&gt;
@@ -172,12 +172,12 @@
       console.log('index:', e.detail.index);
     });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Programmatic control ── -->
 
     <h2>Programmatic control</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <n-pagination-dots count="5" active="0" paddles id="prog-demo"></n-pagination-dots>
       <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
         <n-button size="sm" variant="secondary" id="prog-prev">Previous</n-button>
@@ -189,12 +189,12 @@ dots.active = 3;   // jump to index 3
 dots.count = 8;    // change total count
 dots.prev();       // go to previous
 dots.next();       // go to next</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </n-panel>
+    </article>
 
     <!-- ── Debug States ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <n-panel bordered>
+    <article data-kind="panel" bordered>
       <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
         <div>
           <div class="demo-state-label">force-hover</div>
@@ -209,7 +209,7 @@ dots.next();       // go to next</code><n-button class="copy-btn" size="sm" vari
           <n-pagination-dots count="5" active="2" force-focus-visible></n-pagination-dots>
         </div>
       </div>
-    </n-panel>
+    </article>
 
     </main></native-dashboard-spa>
     <script type="module">

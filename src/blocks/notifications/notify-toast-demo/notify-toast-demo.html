@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Toast Notification Showcase — Block</title>
-    <link rel="stylesheet" href="../../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <style>
       body {
         background: var(--n-doc-neutral);
@@ -33,7 +33,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
+    <div class="stack" gap="6">
     <div>
       <h1>Toast Notifications</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -44,66 +44,66 @@
 
     <!-- -- Intent Variants -- -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <div>
       <h2>Intent Variants</h2>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">
         One button per intent. Click to trigger a toast styled for that intent.
       </p>
     </div>
-    <n-grid columns="auto-fill" min="10rem" gap="3">
-      <n-stack gap="2">
+    <div class="grid" columns="auto-fill" min="10rem" gap="3">
+      <div class="stack" gap="2">
         <n-button id="toast-default" size="md" style="width: 100%;">
           <n-icon name="bell" slot="leading"></n-icon>
           <span slot="label">Default</span>
         </n-button>
-        <n-text size="xs" muted>Neutral notification</n-text>
-      </n-stack>
+        <span size="xs" muted>Neutral notification</span>
+      </div>
 
-      <n-stack gap="2">
+      <div class="stack" gap="2">
         <n-button id="toast-info" intent="info" size="md" style="width: 100%;">
           <n-icon name="info" slot="leading"></n-icon>
           <span slot="label">Info</span>
         </n-button>
-        <n-text size="xs" muted>Informational message</n-text>
-      </n-stack>
+        <span size="xs" muted>Informational message</span>
+      </div>
 
-      <n-stack gap="2">
+      <div class="stack" gap="2">
         <n-button id="toast-success" intent="success" size="md" style="width: 100%;">
           <n-icon name="check" slot="leading"></n-icon>
           <span slot="label">Success</span>
         </n-button>
-        <n-text size="xs" muted>Action completed</n-text>
-      </n-stack>
+        <span size="xs" muted>Action completed</span>
+      </div>
 
-      <n-stack gap="2">
+      <div class="stack" gap="2">
         <n-button id="toast-warning" intent="warning" size="md" style="width: 100%;">
           <n-icon name="warning" slot="leading"></n-icon>
           <span slot="label">Warning</span>
         </n-button>
-        <n-text size="xs" muted>Caution needed</n-text>
-      </n-stack>
+        <span size="xs" muted>Caution needed</span>
+      </div>
 
-      <n-stack gap="2">
+      <div class="stack" gap="2">
         <n-button id="toast-danger" intent="danger" size="md" style="width: 100%;">
           <n-icon name="warning-circle" slot="leading"></n-icon>
           <span slot="label">Danger</span>
         </n-button>
-        <n-text size="xs" muted>Error or failure</n-text>
-      </n-stack>
-    </n-grid>
-    </n-stack>
+        <span size="xs" muted>Error or failure</span>
+      </div>
+    </div>
+    </div>
 
     <!-- -- Special Cases -- -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <div>
       <h2>Special Cases</h2>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">
         Long messages and non-dismissible toasts to test edge cases.
       </p>
     </div>
-    <n-stack direction="row" gap="3" wrap>
+    <div class="stack" direction="row" gap="3" wrap>
       <n-button id="toast-long">
         <n-icon name="file-text" slot="leading"></n-icon>
         <span slot="label">Long Message</span>
@@ -112,19 +112,19 @@
         <n-icon name="lock" slot="leading"></n-icon>
         <span slot="label">Non-dismissible (sticky)</span>
       </n-button>
-    </n-stack>
-    </n-stack>
+    </div>
+    </div>
 
     <!-- -- Batch Operations -- -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <div>
       <h2>Batch Operations</h2>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">
         Spawn multiple toasts at once or dismiss them all.
       </p>
     </div>
-    <n-stack direction="row" gap="3" wrap>
+    <div class="stack" direction="row" gap="3" wrap>
       <n-button id="toast-batch" intent="accent">
         <n-icon name="plus" slot="leading"></n-icon>
         <span slot="label">Spawn 5 Toasts</span>
@@ -133,9 +133,9 @@
         <n-icon name="x" slot="leading"></n-icon>
         <span slot="label">Dismiss All</span>
       </n-button>
-    </n-stack>
-    </n-stack>
-    </n-stack>
+    </div>
+    </div>
+    </div>
 
     </main></native-dashboard-spa>
     <script type="module">

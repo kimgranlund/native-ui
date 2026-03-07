@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Command Palette — Block</title>
-    <link rel="stylesheet" href="../../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <style>
       body {
         background: var(--n-doc-neutral);
@@ -81,7 +81,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
+    <div class="stack" gap="6">
     <div>
       <h1>Command Palette</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -92,7 +92,7 @@
 
     <!-- -- Trigger Area -- -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <h2>Open Command Palette</h2>
     <div class="trigger-area">
       <n-button id="open-palette" intent="accent" size="lg">
@@ -159,11 +159,11 @@
         </n-command>
       </div>
     </n-dialog>
-    </n-stack>
+    </div>
 
     <!-- -- Inline Preview -- -->
 
-    <n-stack gap="4">
+    <div class="stack" gap="4">
     <div>
       <h2>Inline Preview</h2>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">
@@ -199,8 +199,8 @@
         <n-command-empty>No results.</n-command-empty>
       </n-command>
     </div>
-    </n-stack>
-    </n-stack>
+    </div>
+    </div>
 
     </main></native-dashboard-spa>
     <script type="module">

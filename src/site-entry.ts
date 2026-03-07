@@ -10,8 +10,6 @@ import './site-register-traits.ts';
 
 // All component registrations
 import './components/accordion/accordion.ts';
-import './components/avatar/avatar.ts';
-import './components/badge/badge.ts';
 import './components/breadcrumb/breadcrumb.ts';
 import './components/button/button.ts';
 import './components/calendar/calendar.ts';
@@ -40,9 +38,9 @@ import './components/tooltip/tooltip.ts';
 import './components/tree/tree.ts';
 
 // Container registrations
-import './containers/card/card.ts';
+import './components/card/card.ts';
 import './containers/section/section.ts';
-import './containers/toolbar/toolbar.ts';
+import './components/toolbar/toolbar.ts';
 // native-dashboard components (layout + nav)
 import '../packages/native-dashboard/src/index.ts';
 

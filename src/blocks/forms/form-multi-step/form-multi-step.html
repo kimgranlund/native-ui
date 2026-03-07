@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Multi-Step Form — Block</title>
-    <link rel="stylesheet" href="../../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <style>
       body {
         background: var(--n-doc-neutral);
@@ -78,7 +78,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
+    <div class="stack" gap="6">
     <div>
       <h1>Create Account</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -87,7 +87,7 @@
     </div>
 
     <div class="wizard-wrapper">
-      <n-card>
+      <article>
         <header>
           <n-segmented-control id="step-indicator" value="personal" style="width: 100%;">
             <n-segment value="personal">1. Personal</n-segment>
@@ -98,7 +98,7 @@
 
         <!-- ── Step 1: Personal Information ── -->
         <div class="step-panel" id="step-personal" active>
-          <section><n-stack gap="4">
+          <section><div class="stack" gap="4">
             <n-field required>
               <label slot="label">Full name</label>
               <n-input placeholder="Jane Doe" id="input-name" name="name">
@@ -120,7 +120,7 @@
                 <n-icon name="phone" slot="leading"></n-icon>
               </n-input>
             </n-field>
-          </n-stack>
+          </div>
 
           <div class="step-actions">
             <div></div>
@@ -136,7 +136,7 @@
 
         <!-- ── Step 2: Address ── -->
         <div class="step-panel" id="step-address">
-          <section><n-stack gap="4">
+          <section><div class="stack" gap="4">
             <n-field required>
               <label slot="label">Street address</label>
               <n-input placeholder="123 Main Street" id="input-address" name="address">
@@ -170,7 +170,7 @@
               <label slot="label">ZIP code</label>
               <n-input placeholder="94102" id="input-zip" name="zip"></n-input>
             </n-field>
-          </n-stack>
+          </div>
 
           <div class="step-actions">
             <n-button variant="ghost" id="btn-prev-2">
@@ -190,7 +190,7 @@
         <!-- ── Step 3: Review ── -->
         <div class="step-panel" id="step-review">
           <section>
-          <n-stack gap="4">
+          <div class="stack" gap="4">
           <div>
             <h2>Review your information</h2>
             <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -198,7 +198,7 @@
           </p>
           </div>
 
-          <n-stack gap="2">
+          <div class="stack" gap="2">
             <div class="review-row">
               <span class="review-label">Name</span>
               <span class="review-value" id="review-name">--</span>
@@ -227,8 +227,8 @@
               <span class="review-label">ZIP</span>
               <span class="review-value" id="review-zip">--</span>
             </div>
-          </n-stack>
-          </n-stack>
+          </div>
+          </div>
 
           <div class="step-actions">
             <n-button variant="ghost" id="btn-prev-3">
@@ -244,9 +244,9 @@
           </div>
           </section>
         </div>
-      </n-card>
+      </article>
     </div>
-    </n-stack>
+    </div>
 
     </main></native-dashboard-spa>
     <script type="module">
@@ -258,7 +258,6 @@
       import '../../../components/listbox/option.ts';
       import '../../../components/segmented-control/segmented-control.ts';
       import '../../../components/button/button.ts';
-      import '../../../containers/card/card.ts';
       import '../../../icons/icon.ts';
       import '../../../icons/phosphor/user.ts';
       import '../../../icons/phosphor/envelope.ts';

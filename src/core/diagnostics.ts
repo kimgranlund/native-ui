@@ -19,7 +19,6 @@ const CORE_TAGS = [
   'n-tabs', 'n-tab', 'n-tab-panel', 'n-tab-panels',
   'n-table', 'n-table-head', 'n-table-body', 'n-table-row', 'n-table-header', 'n-table-cell',
   'n-calendar', 'n-field', 'n-textarea', 'n-range', 'n-input-otp',
-  'n-avatar', 'n-badge', 'n-kbd',
   'n-breadcrumb', 'n-breadcrumb-item',
   'n-pagination', 'n-pagination-dots',
   'n-drawer', 'n-tree', 'n-tree-item',

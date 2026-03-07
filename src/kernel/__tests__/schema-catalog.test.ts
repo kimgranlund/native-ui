@@ -26,9 +26,9 @@ describe('SCHEMA_CATALOG', () => {
     expect(SCHEMA_CATALOG.size).toBe(18);
   });
 
-  it('all tags start with "n-"', () => {
+  it('all tags start with "n-" or are CSS class selectors', () => {
     for (const tag of SCHEMA_CATALOG.keys()) {
-      expect(tag).toMatch(/^n-/);
+      expect(tag).toMatch(/^(n-|span\.|div\.)/);
     }
   });
 
@@ -588,8 +588,8 @@ describe('n-tabs schema', () => {
   });
 });
 
-describe('n-badge schema', () => {
-  const schema = getSchema('n-badge')!;
+describe('span.badge schema', () => {
+  const schema = getSchema('span.badge')!;
 
   it('is display category', () => {
     expect(schema.category).toBe('display');
@@ -688,8 +688,8 @@ describe('n-range schema', () => {
   });
 });
 
-describe('n-avatar schema', () => {
-  const schema = getSchema('n-avatar')!;
+describe('span.avatar schema', () => {
+  const schema = getSchema('span.avatar')!;
 
   it('has src and alt attributes', () => {
     const src = schema.attributes.find((a) => a.name === 'src');
@@ -784,8 +784,8 @@ describe('aria requirements', () => {
     expect(schema.aria.autoLabeled).toBe(true);
   });
 
-  it('n-badge is autoLabeled', () => {
-    const schema = getSchema('n-badge')!;
+  it('span.badge is autoLabeled', () => {
+    const schema = getSchema('span.badge')!;
     expect(schema.aria.autoLabeled).toBe(true);
   });
 
@@ -795,8 +795,8 @@ describe('aria requirements', () => {
     expect(schema.aria.requiredAttributes).toContain('aria-hidden');
   });
 
-  it('n-avatar requires aria-label', () => {
-    const schema = getSchema('n-avatar')!;
+  it('span.avatar requires aria-label', () => {
+    const schema = getSchema('span.avatar')!;
     expect(schema.aria.requiredAttributes).toContain('aria-label');
   });
 

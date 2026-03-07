@@ -5,8 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up — Auth Block</title>
-    <link rel="stylesheet" href="../../../styles/n-index.css" />
-    <link rel="stylesheet" href="../../../styles/n-components.css" />
+    <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <style>
       body { background: var(--n-doc-neutral); color: var(--n-color-neutral-950); }
       main { padding: 2rem; }
@@ -117,10 +117,10 @@
           </div>
           <p class="auth-heading">Create your account</p>
           <p class="auth-subheading">Start your free 14-day trial, no credit card required</p>
-          <n-card>
-            <n-stack gap="4">
+          <article>
+            <div class="stack" gap="4">
               <form>
-                <n-stack gap="4">
+                <div class="stack" gap="4">
                   <n-field required>
                     <label slot="label">Full name</label>
                     <n-input placeholder="Kim Granlund" name="name">
@@ -152,9 +152,9 @@
                   <n-button variant="primary" intent="accent" type="submit">
                     <span slot="label">Create Account</span>
                   </n-button>
-                </n-stack>
+                </div>
               </form>
-              <n-divider>or continue with</n-divider>
+              <div class="divider">or continue with</div>
               <div class="oauth-row">
                 <n-button>
                   <n-icon name="google-logo" slot="leading"></n-icon>
@@ -165,8 +165,8 @@
                   <span slot="label">GitHub</span>
                 </n-button>
               </div>
-            </n-stack>
-          </n-card>
+            </div>
+          </article>
           <p class="auth-footer-text">
             Already have an account? <a href="#">Sign in</a>
           </p>
@@ -181,7 +181,6 @@
       import '../../../components/input/input.ts';
       import '../../../components/field/field.ts';
       import '../../../components/checkbox/checkbox.ts';
-      import '../../../containers/card/card.ts';
       import '../../../icons/icon.ts';
       import '../../../icons/phosphor/user.ts';
       import '../../../icons/phosphor/envelope.ts';

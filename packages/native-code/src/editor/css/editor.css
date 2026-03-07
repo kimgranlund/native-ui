@@ -29,7 +29,6 @@
   /*  Card header (toolbar chrome)                                       */
   /* ------------------------------------------------------------------ */
 
-  :where(native-editor) > :where(n-header),
   :where(native-editor) > :where(header) {
     border-bottom: 1px solid var(--n-border, #3e4451);
     background: var(--n-color-neutral-higher, #21252b);

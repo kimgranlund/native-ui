@@ -4,25 +4,6 @@
 
 **CSS-only container** — no JavaScript class.
 
-**Display:** `flex`
-
-## Attributes
-
-| Attribute | Values |
-|-----------|--------|
-| `dividers` | _(boolean)_ |
-| `padding` | `none`, `regular`, `relaxed`, `tight` |
-| `show-scrollbar` | _(boolean)_ |
-
-## CSS Tokens
-
-- `--n-body-padding-block`
-- `--n-body-padding-inline`
-- `--n-font-size`
-- `--n-line-height`
-- `--n-size`
-- `--n-space`
-
 ## Usage
 
 ```html

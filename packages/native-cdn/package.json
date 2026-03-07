@@ -1,13 +1,13 @@
 {
   "name": "@nonoun/native-cdn",
-  "version": "0.2.14",
+  "version": "0.2.16",
   "description": "Single-file IIFE bundle of @nonoun/native-ui for CDN and artifact use",
   "license": "MIT",
   "type": "module",
   "main": "./dist/native-ui.iife.js",
   "exports": {
     ".": "./dist/native-ui.iife.js",
-    "./css": "./dist/native-ui.css"
+    "./css": "./dist/foundation.css"
   },
   "files": [
     "dist"
@@ -18,7 +18,7 @@
   "scripts": {
     "build": "npm run build:js && npm run build:css",
     "build:js": "vite build",
-    "build:css": "cp ../../dist/native-ui.css dist/native-ui.css"
+    "build:css": "cp ../../dist/foundation.css dist/foundation.css"
   },
   "publishConfig": {
     "access": "public"

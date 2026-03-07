@@ -4,13 +4,6 @@
 
 **CSS-only container** — no JavaScript class.
 
-**Display:** `flex`
-
-## CSS Tokens
-
-- `--n-space`
-- `--n-space-k`
-
 ## Usage
 
 ```html

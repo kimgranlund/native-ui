@@ -142,12 +142,12 @@
 
   /* ── Sub-container integration ── */
 
-  :where(native-chat-panel) > :where(n-header) {
+  :where(native-chat-panel) > :where(header) {
     background: var(--n-chat-panel-header-background);
     border-bottom: 1px solid var(--n-chat-panel-header-border);
   }
 
-  :where(native-chat-panel) > :where(n-header) :where([slot="label"]) {
+  :where(native-chat-panel) > :where(header) :where([slot="label"]) {
     font-weight: var(--n-chat-panel-header-label-font-weight);
     letter-spacing: var(--n-chat-panel-header-label-letter-spacing);
   }
@@ -158,11 +158,11 @@
     gap: calc(var(--n-space) * 2);
   }
 
-  :where(native-chat-panel) > :where(n-body) {
+  :where(native-chat-panel) > :where(.body) {
     background: var(--n-chat-panel-body-background);
   }
 
-  :where(native-chat-panel) > :where(n-footer) {
+  :where(native-chat-panel) > :where(footer) {
     background: var(--n-chat-panel-footer-background);
     border-top: 1px solid var(--n-chat-panel-footer-border);
   }
@@ -712,7 +712,7 @@
     align-self: flex-start;
   }
 
-  :where(n-chat-message-seed) > :where(n-stack) {
+  :where(n-chat-message-seed) > :where(.stack) {
     gap: var(--n-chat-seed-gap);
   }
 
@@ -775,7 +775,7 @@
     font-weight: var(--n-button-font-weight);
   }
 
-  :where(n-chat-input-structured) > :where(n-stack) {
+  :where(n-chat-input-structured) > :where(.stack) {
     flex: 0 0 auto;
     gap: var(--n-chat-seed-gap);
   }

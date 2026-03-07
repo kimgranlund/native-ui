@@ -119,7 +119,7 @@ const SELF_LABELING_TAGS: ReadonlySet<string> = new Set([
   'n-button', 'button', 'a', 'label', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
   'p', 'span', 'li', 'td', 'th', 'caption', 'summary', 'legend',
   'n-option', 'n-command-item', 'n-breadcrumb-item', 'n-tab', 'n-switch',
-  'n-badge',
+  'span.badge',
 ]);
 
 /**

@@ -23,11 +23,11 @@
 | `@nonoun/native-ui/register` | `dist/register-all.js` | Side-effect: registers all `n-*` custom elements |
 | `@nonoun/native-ui/kernel` | `dist/kernel.js` | Kernel + plugin registry (separate entry point) |
 | `@nonoun/native-ui/traits` | `dist/traits.js` | Trait controllers only |
-| `@nonoun/native-ui/css` | `dist/native-ui.css` | Full CSS: foundation + components |
-| `@nonoun/native-ui/css/foundation` | `dist/foundation.css` | Colors, tokens, themes, base, primitives |
-| `@nonoun/native-ui/css/components` | `dist/components.css` | All component styles (incl. `force-*` debug selectors) |
-| `@nonoun/native-ui/css/components-lean` | `dist/components-lean.css` | Component styles without `force-*` debug selectors |
-| `@nonoun/native-ui/css/lean` | `dist/native-ui-lean.css` | Foundation + components-lean (production) |
+| `@nonoun/native-ui/css` | `dist/foundation.css` | Full CSS: colors + layout + components (everything) |
+| `@nonoun/native-ui/css/colors` | `dist/colors.css` | OKLCH primitives, semantic tokens, themes |
+| `@nonoun/native-ui/css/layout` | `dist/layout.css` | Reset, utilities, containers |
+| `@nonoun/native-ui/css/components` | `dist/components.css` | Component tokens, utilities, icons, all component styles |
+| `@nonoun/native-ui/css/foundation` | `dist/foundation.css` | Alias for `./css` (colors + layout + components) |
 
 ### Extension Packages
 
