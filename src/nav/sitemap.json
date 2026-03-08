@@ -1,4 +1,5 @@
 [
+  { "title": "Noodleable", "path": "/src/traits/noodleable.html", "group": "Updates", "badge": "new" },
   { "title": "Flippable", "path": "/src/traits/flippable.html", "group": "Updates", "badge": "new" },
   { "title": "Parallaxable", "path": "/src/traits/parallaxable.html", "group": "Updates", "badge": "new" },
   { "title": "Confettible", "path": "/src/traits/confettible.html", "group": "Updates", "badge": "new" },
@@ -81,6 +82,7 @@
   { "title": "CSS Inspectable", "path": "/src/traits/css-inspectable.html", "group": "Traits", "badge": "new" },
   { "title": "Flippable", "path": "/src/traits/flippable.html", "group": "Traits", "badge": "new" },
   { "title": "Magnetizable", "path": "/src/traits/magnetizable.html", "group": "Traits", "badge": "new" },
+  { "title": "Noodleable", "path": "/src/traits/noodleable.html", "group": "Traits", "badge": "new" },
   { "title": "Parallaxable", "path": "/src/traits/parallaxable.html", "group": "Traits", "badge": "new" },
   { "title": "Tossable", "path": "/src/traits/tossable.html", "group": "Traits", "badge": "new" },
   { "title": "Validatable", "path": "/src/traits/validatable.html", "group": "Traits" },

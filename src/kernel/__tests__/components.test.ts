@@ -64,9 +64,9 @@ describe('COMPONENT_MANIFEST', () => {
     expect(new Set(tags).size).toBe(tags.length);
   });
 
-  it('all tags start with "n-" or are CSS class selectors', () => {
+  it('all tags start with "n-"', () => {
     for (const d of COMPONENT_MANIFEST) {
-      expect(d.tag).toMatch(/^(n-|span\.|div\.)/);
+      expect(d.tag).toMatch(/^n-/);
     }
   });
 

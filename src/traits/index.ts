@@ -66,6 +66,8 @@ export { ConfettiController } from './confetti-controller.ts';
 export type { ConfettiOptions } from './confetti-controller.ts';
 export { MagnetController } from './magnet-controller.ts';
 export type { MagnetOptions } from './magnet-controller.ts';
+export { NoodleController } from './noodle-controller.ts';
+export type { NoodleOptions, NoodleConnection, PortSide } from './noodle-controller.ts';
 export { isTypingContext } from './typing-context.ts';
 export { registerAllTraits } from './register-all.ts';
 
@@ -109,3 +111,4 @@ export { parallaxableAdapter } from './adapters/parallaxable-adapter.ts';
 export { cssInspectableAdapter } from './adapters/css-inspectable-adapter.ts';
 export { confettibleAdapter } from './adapters/confettible-adapter.ts';
 export { magnetizableAdapter } from './adapters/magnetizable-adapter.ts';
+export { noodleableAdapter } from './adapters/noodleable-adapter.ts';

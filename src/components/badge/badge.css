@@ -2,7 +2,7 @@
 
   /* ── Badge Base ── */
 
-  :where(.badge) {
+  :where(n-badge) {
     white-space: nowrap;
     --n-font-weight: var(--n-button-font-weight);
     --n-radius: 9999px;
@@ -30,7 +30,7 @@
 
   /* ── Floating ── */
 
-  :where(.badge[floating]) {
+  :where(n-badge[floating]) {
     position: absolute;
     top: 0;
     right: 0;
@@ -40,7 +40,7 @@
 
   /* ── Dot ── */
 
-  :where(.badge[dot]) {
+  :where(n-badge[dot]) {
     width: var(--n-badge-dot);
     height: var(--n-badge-dot);
     min-width: 0;
@@ -50,6 +50,6 @@
     background: var(--n-ink);
   }
 
-  :where(.badge[hidden]) { display: none; }
+  :where(n-badge[hidden]) { display: none; }
 
 }

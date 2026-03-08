@@ -22,7 +22,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>&lt;span class="kbd"&gt;</h1>
+    <h1>&lt;n-kbd&gt;</h1>
     <p class="demo-desc">
       Keyboard shortcut indicator. Own font/size scale like n-badge.
     </p>
@@ -33,38 +33,38 @@
     <n-container data-kind="panel" bordered>
       <div class="demo-row">
         <span class="demo-label">xs</span>
-        <span class="kbd" size="xs"><n-icon name="command"></n-icon></span>
-        <span class="kbd" size="xs">K</span>
-        <span class="kbd" size="xs">Shift</span>
-        <span class="kbd" size="xs"><n-icon name="command"></n-icon>K</span>
+        <n-kbd size="xs"><n-icon name="command"></n-icon></n-kbd>
+        <n-kbd size="xs">K</n-kbd>
+        <n-kbd size="xs">Shift</n-kbd>
+        <n-kbd size="xs"><n-icon name="command"></n-icon>K</n-kbd>
       </div>
       <div class="demo-row">
         <span class="demo-label">sm</span>
-        <span class="kbd" size="sm"><n-icon name="command"></n-icon></span>
-        <span class="kbd" size="sm">K</span>
-        <span class="kbd" size="sm">Shift</span>
-        <span class="kbd" size="sm"><n-icon name="command"></n-icon>K</span>
+        <n-kbd size="sm"><n-icon name="command"></n-icon></n-kbd>
+        <n-kbd size="sm">K</n-kbd>
+        <n-kbd size="sm">Shift</n-kbd>
+        <n-kbd size="sm"><n-icon name="command"></n-icon>K</n-kbd>
       </div>
       <div class="demo-row">
         <span class="demo-label">md</span>
-        <span class="kbd" size="md"><n-icon name="command"></n-icon></span>
-        <span class="kbd" size="md">K</span>
-        <span class="kbd" size="md">Shift</span>
-        <span class="kbd" size="md"><n-icon name="command"></n-icon>K</span>
+        <n-kbd size="md"><n-icon name="command"></n-icon></n-kbd>
+        <n-kbd size="md">K</n-kbd>
+        <n-kbd size="md">Shift</n-kbd>
+        <n-kbd size="md"><n-icon name="command"></n-icon>K</n-kbd>
       </div>
       <div class="demo-row">
         <span class="demo-label">lg</span>
-        <span class="kbd" size="lg"><n-icon name="command"></n-icon></span>
-        <span class="kbd" size="lg">K</span>
-        <span class="kbd" size="lg">Shift</span>
-        <span class="kbd" size="lg"><n-icon name="command"></n-icon>K</span>
+        <n-kbd size="lg"><n-icon name="command"></n-icon></n-kbd>
+        <n-kbd size="lg">K</n-kbd>
+        <n-kbd size="lg">Shift</n-kbd>
+        <n-kbd size="lg"><n-icon name="command"></n-icon>K</n-kbd>
       </div>
       <div class="demo-row">
         <span class="demo-label">xl</span>
-        <span class="kbd" size="xl"><n-icon name="command"></n-icon></span>
-        <span class="kbd" size="xl">K</span>
-        <span class="kbd" size="xl">Shift</span>
-        <span class="kbd" size="xl"><n-icon name="command"></n-icon>K</span>
+        <n-kbd size="xl"><n-icon name="command"></n-icon></n-kbd>
+        <n-kbd size="xl">K</n-kbd>
+        <n-kbd size="xl">Shift</n-kbd>
+        <n-kbd size="xl"><n-icon name="command"></n-icon>K</n-kbd>
       </div>
     </n-container>
 
@@ -73,15 +73,15 @@
     <h2>Standalone</h2>
     <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <span class="kbd"><n-icon name="command"></n-icon></span>
-        <span class="kbd">K</span>
-        <span class="kbd">Shift</span>
-        <span class="kbd"><n-icon name="key-return"></n-icon></span>
-        <span class="kbd">Esc</span>
-        <span class="kbd"><n-icon name="command"></n-icon>K</span>
-        <span class="kbd"><n-icon name="option"></n-icon></span>
-        <span class="kbd"><n-icon name="control"></n-icon></span>
-        <span class="kbd"><n-icon name="backspace"></n-icon></span>
+        <n-kbd><n-icon name="command"></n-icon></n-kbd>
+        <n-kbd>K</n-kbd>
+        <n-kbd>Shift</n-kbd>
+        <n-kbd><n-icon name="key-return"></n-icon></n-kbd>
+        <n-kbd>Esc</n-kbd>
+        <n-kbd><n-icon name="command"></n-icon>K</n-kbd>
+        <n-kbd><n-icon name="option"></n-icon></n-kbd>
+        <n-kbd><n-icon name="control"></n-icon></n-kbd>
+        <n-kbd><n-icon name="backspace"></n-icon></n-kbd>
       </div>
     </n-container>
 
@@ -90,13 +90,13 @@
     <h2>Combinations</h2>
     <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <span><span class="kbd"><n-icon name="command"></n-icon></span> + <span class="kbd">C</span> — Copy</span>
+        <span><n-kbd><n-icon name="command"></n-icon></n-kbd> + <n-kbd>C</n-kbd> — Copy</span>
       </div>
       <div class="demo-row">
-        <span><span class="kbd"><n-icon name="command"></n-icon></span> + <span class="kbd">V</span> — Paste</span>
+        <span><n-kbd><n-icon name="command"></n-icon></n-kbd> + <n-kbd>V</n-kbd> — Paste</span>
       </div>
       <div class="demo-row">
-        <span><span class="kbd"><n-icon name="control"></n-icon></span> + <span class="kbd">Shift</span> + <span class="kbd">P</span> — Command palette</span>
+        <span><n-kbd><n-icon name="control"></n-icon></n-kbd> + <n-kbd>Shift</n-kbd> + <n-kbd>P</n-kbd> — Command palette</span>
       </div>
     </n-container>
 
@@ -105,13 +105,13 @@
     <h2>Inside buttons</h2>
     <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <n-button size="sm">Search <span class="kbd" size="xs"><n-icon name="command"></n-icon>K</span></n-button>
-        <n-button size="md">Save <span class="kbd" size="sm"><n-icon name="command"></n-icon>S</span></n-button>
-        <n-button size="lg">Open <span class="kbd" size="sm"><n-icon name="command"></n-icon>O</span></n-button>
+        <n-button size="sm">Search <n-kbd size="xs"><n-icon name="command"></n-icon>K</n-kbd></n-button>
+        <n-button size="md">Save <n-kbd size="sm"><n-icon name="command"></n-icon>S</n-kbd></n-button>
+        <n-button size="lg">Open <n-kbd size="sm"><n-icon name="command"></n-icon>O</n-kbd></n-button>
       </div>
       <div class="demo-row">
-        <n-button size="md" intent="accent">Copy <span class="kbd" size="sm"><n-icon name="command"></n-icon>C</span></n-button>
-        <n-button size="md" intent="danger">Delete <span class="kbd" size="sm"><n-icon name="backspace"></n-icon></span></n-button>
+        <n-button size="md" intent="accent">Copy <n-kbd size="sm"><n-icon name="command"></n-icon>C</n-kbd></n-button>
+        <n-button size="md" intent="danger">Delete <n-kbd size="sm"><n-icon name="backspace"></n-icon></n-kbd></n-button>
       </div>
     </n-container>
 
@@ -120,7 +120,7 @@
     <h2>Inline with text</h2>
     <n-container data-kind="panel" bordered>
       <p class="demo-text">
-        Press <span class="kbd"><n-icon name="command"></n-icon>K</span> to open search, <span class="kbd">Esc</span> to close.
+        Press <n-kbd><n-icon name="command"></n-icon>K</n-kbd> to open search, <n-kbd>Esc</n-kbd> to close.
       </p>
     </n-container>
 

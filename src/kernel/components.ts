@@ -58,8 +58,8 @@ export const COMPONENT_MANIFEST: readonly ComponentDescriptor[] = Object.freeze(
   desc('n-listbox', 'components/listbox', 'display', false, ['native:select']),
   desc('n-option', 'components/option', 'display', false, ['native:select']),
   desc('n-option-group', 'components/option-group', 'display', false, []),
-  desc('span.badge', 'components/badge', 'display', false, []),
-  desc('span.avatar', 'components/avatar', 'display', false, []),
+  desc('n-badge', 'components/badge', 'display', false, []),
+  desc('n-avatar', 'components/avatar', 'display', false, []),
   desc('n-icon', 'icons/n-icon', 'display', false, []),
 
   // Navigation components

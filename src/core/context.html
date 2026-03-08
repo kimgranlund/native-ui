@@ -133,7 +133,7 @@
                   </nav>
                   <span>Activity Feed</span>
                   <aside>
-                    <span class="badge" size="xs" intent="success">live</span>
+                    <n-badge size="xs" intent="success">live</n-badge>
                   </aside>
                 </n-header>
                 <n-body>
@@ -175,7 +175,7 @@
                   </nav>
                   <span>Context Event Log</span>
                   <aside>
-                    <span class="badge" size="xs">live</span>
+                    <n-badge size="xs">live</n-badge>
                   </aside>
                 </n-header>
                 <n-body>
@@ -359,8 +359,8 @@
           this.innerHTML = `
             <n-toolbar>
               <div class="avatar-wrap">
-                <span class="avatar" name="You" size="sm" intent="accent">Y</span>
-                <span class="badge" intent="success" floating dot></span>
+                <n-avatar name="You" size="sm" intent="accent">Y</n-avatar>
+                <n-badge intent="success" floating dot></n-badge>
               </div>
               <div class="toolbar-info">
                 <div class="toolbar-name"></div>
@@ -417,8 +417,8 @@
                 return `
                   <div class="row" style="display:flex;align-items:center;gap:0.5rem;">
                     <div class="avatar-wrap">
-                      <span class="avatar" name="${name}" size="sm" intent="${m.intent}">${name.split(' ').map(p => p[0]).join('').toUpperCase().slice(0,2)}</span>
-                      <span class="badge" intent="${m.online ? 'success' : 'neutral'}" floating dot></span>
+                      <n-avatar name="${name}" size="sm" intent="${m.intent}">${name.split(' ').map(p => p[0]).join('').toUpperCase().slice(0,2)}</n-avatar>
+                      <n-badge intent="${m.online ? 'success' : 'neutral'}" floating dot></n-badge>
                     </div>
                     <div>
                       <div class="presence-name">${label}</div>
@@ -444,7 +444,7 @@
             this.addEffect(() => {
               const c = ctx.count.value;
               this.innerHTML = `
-                ${c > 0 ? `<span class="badge" intent="danger" size="xs">${c}</span>` : ''}
+                ${c > 0 ? `<n-badge intent="danger" size="xs">${c}</n-badge>` : ''}
                 <n-button variant="ghost" size="xs" data-action="clear" ${c === 0 ? 'disabled' : ''}>
                   <n-icon name="trash" slot="leading"></n-icon>
                 </n-button>

@@ -2,7 +2,7 @@
 
   /* ── Avatar Base ── */
 
-  :where(.avatar) {
+  :where(n-avatar) {
     --n-font-weight: var(--n-button-font-weight);
 
     display: inline-flex;
@@ -28,7 +28,7 @@
 
   /* ── Image ── */
 
-  :where(.avatar) > :where(img) {
+  :where(n-avatar) > :where(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -37,10 +37,10 @@
 
   /* ── Fallback icon ── */
 
-  :where(.avatar) > :where(n-icon) {
+  :where(n-avatar) > :where(n-icon) {
     font-size: calc(var(--n-font-size) * 1.125);
   }
 
-  :where(.avatar[hidden]) { display: none; }
+  :where(n-avatar[hidden]) { display: none; }
 
 }

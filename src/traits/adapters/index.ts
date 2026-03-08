@@ -31,3 +31,4 @@ export { parallaxableAdapter } from './parallaxable-adapter.ts';
 export { cssInspectableAdapter } from './css-inspectable-adapter.ts';
 export { confettibleAdapter } from './confettible-adapter.ts';
 export { magnetizableAdapter } from './magnetizable-adapter.ts';
+export { noodleableAdapter } from './noodleable-adapter.ts';

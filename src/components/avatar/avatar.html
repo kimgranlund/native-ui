@@ -11,7 +11,7 @@
     </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>&lt;span class="avatar"&gt;</h1>
+    <h1>&lt;n-avatar&gt;</h1>
     <p class="demo-desc">
       User/entity image with initials fallback. Shows image, initials from name, or placeholder.
     </p>
@@ -21,14 +21,14 @@
     <h2>Initials</h2>
     <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <span class="avatar" name="Kim Granlund">KG</span>
-        <span class="avatar" name="Jane Doe">JD</span>
-        <span class="avatar" name="Alice">A</span>
-        <span class="avatar" name="Bob Smith">BS</span>
+        <n-avatar name="Kim Granlund">KG</n-avatar>
+        <n-avatar name="Jane Doe">JD</n-avatar>
+        <n-avatar name="Alice">A</n-avatar>
+        <n-avatar name="Bob Smith">BS</n-avatar>
       </div>
-      <pre class="demo-code"><code>&lt;span class="avatar" name="Kim Granlund"&gt;&lt;/span&gt;
-&lt;span class="avatar" name="Jane Doe"&gt;&lt;/span&gt;
-&lt;span class="avatar" name="Alice"&gt;&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+      <pre class="demo-code"><code>&lt;n-avatar name="Kim Granlund"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="Jane Doe"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="Alice"&gt;&lt;/n-avatar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
     <!-- ── Fallback (no name, no src) ── -->
@@ -36,10 +36,10 @@
     <h2>Fallback</h2>
     <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <span class="avatar"></span>
+        <n-avatar></n-avatar>
       </div>
       <pre class="demo-code"><code>&lt;!-- No name or src: shows generic placeholder --&gt;
-&lt;span class="avatar"&gt;&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+&lt;n-avatar&gt;&lt;/n-avatar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
     <!-- ── Image (broken src shows initials) ── -->
@@ -47,10 +47,10 @@
     <h2>Image (broken src falls back)</h2>
     <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <span class="avatar" src="/nonexistent-image.jpg" name="Fallback User"><img src="/nonexistent-image.jpg" alt="Fallback User"></span>
+        <n-avatar src="/nonexistent-image.jpg" name="Fallback User"><img src="/nonexistent-image.jpg" alt="Fallback User"></n-avatar>
       </div>
       <pre class="demo-code"><code>&lt;!-- Broken src falls back to initials from name --&gt;
-&lt;span class="avatar" src="/photo.jpg" name="Fallback User"&gt;&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+&lt;n-avatar src="/photo.jpg" name="Fallback User"&gt;&lt;/n-avatar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
     <!-- ── Sizes ── -->
@@ -58,17 +58,17 @@
     <h2>Sizes</h2>
     <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <span class="avatar" name="XS" size="xs">X</span>
-        <span class="avatar" name="SM" size="sm">S</span>
-        <span class="avatar" name="MD" size="md">M</span>
-        <span class="avatar" name="LG" size="lg">L</span>
-        <span class="avatar" name="XL" size="xl">X</span>
+        <n-avatar name="XS" size="xs">X</n-avatar>
+        <n-avatar name="SM" size="sm">S</n-avatar>
+        <n-avatar name="MD" size="md">M</n-avatar>
+        <n-avatar name="LG" size="lg">L</n-avatar>
+        <n-avatar name="XL" size="xl">X</n-avatar>
       </div>
-      <pre class="demo-code"><code>&lt;span class="avatar" name="XS" size="xs"&gt;&lt;/span&gt;
-&lt;span class="avatar" name="SM" size="sm"&gt;&lt;/span&gt;
-&lt;span class="avatar" name="MD" size="md"&gt;&lt;/span&gt;
-&lt;span class="avatar" name="LG" size="lg"&gt;&lt;/span&gt;
-&lt;span class="avatar" name="XL" size="xl"&gt;&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+      <pre class="demo-code"><code>&lt;n-avatar name="XS" size="xs"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="SM" size="sm"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="MD" size="md"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="LG" size="lg"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="XL" size="xl"&gt;&lt;/n-avatar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
     <!-- ── Intents ── -->
@@ -76,16 +76,16 @@
     <h2>Intents</h2>
     <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <span class="avatar" name="Default">D</span>
-        <span class="avatar" name="Accent" intent="accent">A</span>
-        <span class="avatar" name="Info" intent="info">I</span>
-        <span class="avatar" name="Success" intent="success">S</span>
-        <span class="avatar" name="Warning" intent="warning">W</span>
-        <span class="avatar" name="Danger" intent="danger">D</span>
+        <n-avatar name="Default">D</n-avatar>
+        <n-avatar name="Accent" intent="accent">A</n-avatar>
+        <n-avatar name="Info" intent="info">I</n-avatar>
+        <n-avatar name="Success" intent="success">S</n-avatar>
+        <n-avatar name="Warning" intent="warning">W</n-avatar>
+        <n-avatar name="Danger" intent="danger">D</n-avatar>
       </div>
-      <pre class="demo-code"><code>&lt;span class="avatar" name="Accent" intent="accent"&gt;&lt;/span&gt;
-&lt;span class="avatar" name="Success" intent="success"&gt;&lt;/span&gt;
-&lt;span class="avatar" name="Danger" intent="danger"&gt;&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+      <pre class="demo-code"><code>&lt;n-avatar name="Accent" intent="accent"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="Success" intent="success"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="Danger" intent="danger"&gt;&lt;/n-avatar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
     <!-- ── Radius ── -->
@@ -93,13 +93,13 @@
     <h2>Radius</h2>
     <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <span class="avatar" name="Circle">C</span>
-        <span class="avatar" name="Round" radius="round">R</span>
-        <span class="avatar" name="Sharp" radius="sharp">S</span>
+        <n-avatar name="Circle">C</n-avatar>
+        <n-avatar name="Round" radius="round">R</n-avatar>
+        <n-avatar name="Sharp" radius="sharp">S</n-avatar>
       </div>
-      <pre class="demo-code"><code>&lt;span class="avatar" name="Circle"&gt;&lt;/span&gt;
-&lt;span class="avatar" name="Round" radius="round"&gt;&lt;/span&gt;
-&lt;span class="avatar" name="Sharp" radius="sharp"&gt;&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+      <pre class="demo-code"><code>&lt;n-avatar name="Circle"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="Round" radius="round"&gt;&lt;/n-avatar&gt;
+&lt;n-avatar name="Sharp" radius="sharp"&gt;&lt;/n-avatar&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
     <!-- ── Group composition ── -->
@@ -107,16 +107,16 @@
     <h2>Avatar Group</h2>
     <n-container data-kind="panel" bordered>
       <div class="demo-row" style="gap: -0.5rem;">
-        <span class="avatar" name="Alice Johnson" style="outline: 2px solid var(--n-body-neutral);">AJ</span>
-        <span class="avatar" name="Bob Smith" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);">BS</span>
-        <span class="avatar" name="Charlie Doe" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);">CD</span>
-        <span class="avatar" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);">+3</span>
+        <n-avatar name="Alice Johnson" style="outline: 2px solid var(--n-body-neutral);">AJ</n-avatar>
+        <n-avatar name="Bob Smith" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);">BS</n-avatar>
+        <n-avatar name="Charlie Doe" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);">CD</n-avatar>
+        <n-avatar style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);">+3</n-avatar>
       </div>
       <pre class="demo-code"><code>&lt;!-- Overlapping avatar group with outline ring --&gt;
 &lt;div style="display: flex;"&gt;
-  &lt;span class="avatar" name="Alice" style="outline: 2px solid var(--n-body-neutral);"&gt;&lt;/span&gt;
-  &lt;span class="avatar" name="Bob" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);"&gt;&lt;/span&gt;
-  &lt;span class="avatar" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);"&gt;+3&lt;/span&gt;
+  &lt;n-avatar name="Alice" style="outline: 2px solid var(--n-body-neutral);"&gt;&lt;/n-avatar&gt;
+  &lt;n-avatar name="Bob" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);"&gt;&lt;/n-avatar&gt;
+  &lt;n-avatar style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);"&gt;+3&lt;/n-avatar&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 

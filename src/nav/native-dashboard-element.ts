@@ -164,7 +164,7 @@ export class NApp extends NativeElement {
     searchHint.innerHTML =
       '<n-icon name="magnifying-glass" slot="leading"></n-icon>' +
       '<span slot="label">Search</span>' +
-      '<span class="kbd" slot="trailing"><n-icon name="command"></n-icon>K</span>';
+      '<n-kbd slot="trailing"><n-icon name="command"></n-icon>K</n-kbd>';
     searchItem.addEventListener('click', () => openDialog());
     searchItem.append(searchIconWell, searchHint);
 
@@ -232,8 +232,7 @@ export class NApp extends NativeElement {
         item.setAttribute('value', entry.path);
         item.textContent = entry.title;
         if (entry.badge) {
-          const badge = document.createElement('span');
-          badge.className = 'badge';
+          const badge = document.createElement('n-badge');
           badge.setAttribute('size', 'xs');
           const badgeConfig: Record<string, [string, string]> = {
             new: ['New', 'danger'],

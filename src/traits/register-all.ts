@@ -33,6 +33,7 @@ import {
   cssInspectableAdapter,
   confettibleAdapter,
   magnetizableAdapter,
+  noodleableAdapter,
 } from './adapters/index.ts';
 
 /**
@@ -73,4 +74,5 @@ export function registerAllTraits(): void {
   registerTrait(cssInspectableAdapter);
   registerTrait(confettibleAdapter);
   registerTrait(magnetizableAdapter);
+  registerTrait(noodleableAdapter);
 }

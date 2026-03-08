@@ -426,7 +426,7 @@ const UI_OPTION: ComponentSchema = freezeSchema({
 });
 
 const UI_BADGE: ComponentSchema = freezeSchema({
-  tag: 'span.badge',
+  tag: 'n-badge',
   category: 'display',
   description: 'Small status indicator or label tag.',
   attributes: [
@@ -451,7 +451,7 @@ const UI_BADGE: ComponentSchema = freezeSchema({
 });
 
 const UI_AVATAR: ComponentSchema = freezeSchema({
-  tag: 'span.avatar',
+  tag: 'n-avatar',
   category: 'display',
   description: 'User avatar image or fallback initials.',
   attributes: [

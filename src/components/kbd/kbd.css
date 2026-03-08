@@ -1,12 +1,12 @@
 @layer ui {
 
   /* ╭──────────────────────────────────────────────────────────╮
-     │  .kbd                                                    │
+     │  n-kbd                                                    │
      │  Keyboard shortcut indicator. Own font/size scale         │
      │  (like .badge) — zero-attribute = md.                    │
      ╰──────────────────────────────────────────────────────────╯ */
 
-  :where(.kbd) {
+  :where(n-kbd) {
     --n-icon-size: 1.125em;
     --n-ground: var(--n-body);
 

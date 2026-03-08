@@ -8,20 +8,20 @@
 
   /* ── Base ── */
 
-  :where(.avatar-group) {
+  :where(n-avatar-group) {
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-end;
     align-items: center;
   }
 
-  :where(.avatar-group) > :where(.avatar) {
+  :where(n-avatar-group) > :where(n-avatar) {
     margin-inline-start: -0.5rem;
     outline: 2px solid var(--n-ground, var(--n-body-neutral));
     outline-offset: -1px;
   }
 
-  :where(.avatar-group) > :where(.avatar):last-child {
+  :where(n-avatar-group) > :where(n-avatar):last-child {
     margin-inline-start: 0;
   }
 
