@@ -227,7 +227,8 @@
 :where(native-a2ui) :where([data-panel="json-in"]) :where(.a2ui-pane-content),
 :where(native-a2ui) :where([data-panel="js"]) :where(.a2ui-pane-content),
 :where(native-a2ui) :where([data-panel="html"]) :where(.a2ui-pane-content),
-:where(native-a2ui) :where([data-panel="css"]) :where(.a2ui-pane-content) {
+:where(native-a2ui) :where([data-panel="css"]) :where(.a2ui-pane-content),
+:where(native-a2ui) :where([data-panel="schema"]) :where(.a2ui-pane-content) {
   padding: 0;
   overflow: hidden;
 }
@@ -438,7 +439,8 @@
 
 /* ── Toolbar (playback controls inside JSON-IN pane) ── */
 
-:where(native-a2ui) :where([data-panel="json-in"]) > :where(n-toolbar) {
+:where(native-a2ui) :where([data-panel="json-in"]) > :where(n-toolbar),
+:where(native-a2ui) :where([data-panel="schema"]) > :where(n-toolbar) {
   flex: none;
   background: var(--n-pg-chrome);
   border-bottom: var(--n-pg-border);
@@ -447,13 +449,16 @@
 }
 
 /* Override n-divider flex:1 inside toolbar — just be a thin line */
-:where(native-a2ui) :where([data-panel="json-in"]) > :where(n-toolbar) :where(n-divider) {
+:where(native-a2ui) :where([data-panel="json-in"]) > :where(n-toolbar) :where(n-divider),
+:where(native-a2ui) :where([data-panel="schema"]) > :where(n-toolbar) :where(n-divider) {
   flex: none;
 }
 
 /* Toolbar button hover */
 :where(native-a2ui) :where([data-panel="json-in"]) > :where(n-toolbar) :where(n-button):hover,
-:where(native-a2ui) :where([data-panel="json-in"]) > :where(n-toolbar) :where(n-button)[force-hover] {
+:where(native-a2ui) :where([data-panel="json-in"]) > :where(n-toolbar) :where(n-button)[force-hover],
+:where(native-a2ui) :where([data-panel="schema"]) > :where(n-toolbar) :where(n-button):hover,
+:where(native-a2ui) :where([data-panel="schema"]) > :where(n-toolbar) :where(n-button)[force-hover] {
   background: var(--n-pg-editor-bg);
 }
 

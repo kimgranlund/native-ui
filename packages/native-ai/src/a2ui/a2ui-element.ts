@@ -35,13 +35,14 @@ import { Kernel, resetKernel } from '@nonoun/native-ui/kernel';
 import { createA2UIAdapter } from './protocol/a2ui-adapter.ts';
 import type { A2UIAdapter } from './protocol/a2ui-adapter.ts';
 import { PRESETS, PRESET_GROUPS } from './a2ui-presets.ts';
-import { COMPONENT_MAP, getComponentCategory, getCompatibleTypes } from './protocol/a2ui-component-map.ts';
+import { ComponentRegistry, defaultRegistry } from './protocol/a2ui-component-map.ts';
+
 
 // ── Types ──
 
-type PanelId = 'json-in' | 'json-out' | 'html' | 'css' | 'js' | 'components';
+type PanelId = 'json-in' | 'json-out' | 'html' | 'css' | 'js' | 'components' | 'schema';
 
-const PANEL_ORDER: readonly PanelId[] = ['json-in', 'json-out', 'html', 'css', 'js', 'components'];
+const PANEL_ORDER: readonly PanelId[] = ['json-in', 'json-out', 'html', 'css', 'js', 'components', 'schema'];
 
 const PANEL_LABELS: Record<PanelId, string> = {
   'json-in': 'IN',
@@ -50,6 +51,7 @@ const PANEL_LABELS: Record<PanelId, string> = {
   'css': 'CSS',
   'js': 'JS',
   'components': 'UI',
+  'schema': 'SCHEMA',
 };
 
 const PANEL_ICONS: Record<PanelId, string> = {
@@ -59,6 +61,7 @@ const PANEL_ICONS: Record<PanelId, string> = {
   'css': 'palette',
   'js': 'terminal',
   'components': 'squares-four',
+  'schema': 'file-code',
 };
 
 interface LogEntry {
@@ -133,12 +136,16 @@ export class NA2UI extends NativeElement {
   #cssEditorEl: (HTMLElement & NCodemirror) | null = null;
   #componentEditorEl: (HTMLElement & NCodemirror) | null = null;
   #componentMapEl: HTMLDivElement | null = null;
+  #schemaEditorEl: (HTMLElement & NCodemirror) | null = null;
   #previewEl: HTMLDivElement | null = null;
   #previewRegionEl: HTMLDivElement | null = null;
   #splitEl: HTMLDivElement | null = null;
   #paneEls: Map<PanelId, HTMLDivElement> = new Map();
   #paneContentEls: Map<PanelId, HTMLDivElement> = new Map();
   #chipEls: Map<PanelId, HTMLElement> = new Map();
+
+  // Registry
+  #registry: ComponentRegistry = defaultRegistry.clone();
 
   // Kernel + Adapter
   #kernel: InstanceType<typeof Kernel> | null = null;
@@ -237,9 +244,30 @@ export class NA2UI extends NativeElement {
 
     // Effect: render COMPONENTS/UI pane (component mapping table)
     this.addEffect(() => {
+      this.#registry.version.value; // track registry mutations
       const activeTypes = this.#activeA2UITypes.value;
       if (!this.#componentMapEl) return;
       this.#renderComponentMap(this.#componentMapEl, activeTypes);
+    });
+
+    // Effect: init + sync SCHEMA pane editor
+    this.addEffect(() => {
+      const ver = this.#registry.version.value; // track registry mutations
+      const editor = this.#schemaEditorEl;
+      if (!editor) return;
+      // Init extensions once
+      if (!editor.extensions?.length) {
+        requestAnimationFrame(() => {
+          editor.extensions = [json()];
+          editor.value = JSON.stringify(this.#registry.toJSON(), null, 2);
+        });
+        return;
+      }
+      // Sync: update content when registry changes (but not if editor is focused)
+      const root = editor.shadowRoot ?? editor;
+      if (root.querySelector('.cm-focused')) return; // don't clobber mid-edit
+      editor.value = JSON.stringify(this.#registry.toJSON(), null, 2);
+      void ver; // suppress unused
     });
 
     // Effect: render JSON-OUT pane (protocol messages)
@@ -350,6 +378,7 @@ export class NA2UI extends NativeElement {
     this.#cssEditorEl = null;
     this.#componentEditorEl = null;
     this.#componentMapEl = null;
+    this.#schemaEditorEl = null;
     this.#previewEl = null;
 
     super.teardown();
@@ -361,6 +390,7 @@ export class NA2UI extends NativeElement {
     resetKernel();
     this.#kernel = new Kernel({ allowUnregistered: true });
     this.#adapter = createA2UIAdapter(this.#kernel, {
+      registry: this.#registry,
       onClientMessage: (msg) => {
         this.#appendOutLog('received', msg);
       },
@@ -390,6 +420,55 @@ export class NA2UI extends NativeElement {
     try { this.#adapter?.destroy(); } catch (_e) { /* ignore */ }
     this.#adapter = null;
     this.#kernel = null;
+  }
+
+  /** Destroy and recreate adapter (after registry swap). */
+  #reinitAdapter(): void {
+    const savedStream = this.#stream.value;
+    this.#destroyAdapter();
+    this.#initAdapter();
+    if (savedStream) {
+      // Reset playback state so #playAll replays from the start
+      this.#cursor.value = 0;
+      if (this.#previewEl) this.#previewEl.textContent = '';
+      this.stream = savedStream;
+      this.#playAll();
+    }
+  }
+
+  // ── Schema pane actions ──
+
+  #applySchema(): void {
+    const editor = this.#schemaEditorEl;
+    if (!editor) return;
+    let data: unknown;
+    try { data = JSON.parse(editor.value); } catch { return; }
+    if (!data || typeof data !== 'object') return;
+    this.#registry = ComponentRegistry.fromJSON(data as ReturnType<ComponentRegistry['toJSON']>);
+    this.#reinitAdapter();
+    if (this.#componentMapEl) {
+      this.#renderComponentMap(this.#componentMapEl, this.#activeA2UITypes.value);
+    }
+  }
+
+  #formatSchema(): void {
+    const editor = this.#schemaEditorEl;
+    if (!editor) return;
+    try {
+      const parsed = JSON.parse(editor.value);
+      editor.value = JSON.stringify(parsed, null, 2);
+    } catch { /* invalid JSON — leave as-is */ }
+  }
+
+  #resetSchema(): void {
+    this.#registry = defaultRegistry.clone();
+    this.#reinitAdapter();
+    if (this.#schemaEditorEl) {
+      this.#schemaEditorEl.value = JSON.stringify(this.#registry.toJSON(), null, 2);
+    }
+    if (this.#componentMapEl) {
+      this.#renderComponentMap(this.#componentMapEl, this.#activeA2UITypes.value);
+    }
   }
 
   // ── Inspector state (COMPONENTS pane) ──
@@ -853,6 +932,30 @@ export class NA2UI extends NativeElement {
         pane.appendChild(toolbar);
       }
 
+      // SCHEMA pane gets an action toolbar
+      if (id === 'schema') {
+        const toolbar = document.createElement('n-toolbar');
+        toolbar.setAttribute('variant', 'plain');
+        toolbar.setAttribute('size', 'sm');
+        toolbar.setAttribute('fill', '');
+
+        const applyBtn = this.#createToolbarButton('Apply schema', 'play', true);
+        applyBtn.addEventListener('native:press', () => this.#applySchema());
+
+        const formatBtn = this.#createToolbarButton('Format JSON', 'text-align-left');
+        formatBtn.addEventListener('native:press', () => this.#formatSchema());
+
+        const sep = document.createElement('div');
+        sep.className = 'divider';
+        sep.setAttribute('orientation', 'vertical');
+
+        const resetBtn = this.#createToolbarButton('Reset to defaults', 'arrow-counter-clockwise');
+        resetBtn.addEventListener('native:press', () => this.#resetSchema());
+
+        toolbar.append(applyBtn, formatBtn, sep, resetBtn);
+        pane.appendChild(toolbar);
+      }
+
       // Content area
       const content = document.createElement('div');
       content.className = 'a2ui-pane-content';
@@ -870,6 +973,11 @@ export class NA2UI extends NativeElement {
         else if (id === 'css') this.#cssEditorEl = editorEl;
       } else if (id === 'components') {
         this.#componentMapEl = content;
+      } else if (id === 'schema') {
+        const schemaEditor = document.createElement('native-codemirror') as HTMLElement & NCodemirror;
+        schemaEditor.setAttribute('line-numbers', 'false');
+        content.appendChild(schemaEditor);
+        this.#schemaEditorEl = schemaEditor;
       }
 
       // Resize handle (every pane gets one; controller created only for non-last visible)
@@ -1161,7 +1269,7 @@ export class NA2UI extends NativeElement {
 
     // Body
     const tbody = document.createElement('tbody');
-    for (const [_key, mapping] of COMPONENT_MAP) {
+    for (const [_key, mapping] of this.#registry) {
       const row = document.createElement('tr');
       row.className = 'a2ui-map-row';
       if (activeTypes.has(mapping.a2uiType)) {
@@ -1178,7 +1286,7 @@ export class NA2UI extends NativeElement {
       tdTag.appendChild(code);
 
       const tdCat = document.createElement('td');
-      tdCat.textContent = getComponentCategory(mapping.a2uiType);
+      tdCat.textContent = this.#registry.getComponentCategory(mapping.a2uiType);
       tdCat.className = 'a2ui-map-category';
 
       row.append(tdType, tdTag, tdCat);
@@ -1194,17 +1302,17 @@ export class NA2UI extends NativeElement {
     const summary = document.createElement('div');
     summary.className = 'a2ui-map-summary';
     summary.textContent = activeTypes.size > 0
-      ? `${activeTypes.size} of ${COMPONENT_MAP.size} types active`
-      : `${COMPONENT_MAP.size} supported component types`;
+      ? `${activeTypes.size} of ${this.#registry.size} types active`
+      : `${this.#registry.size} supported component types`;
 
     el.append(summary, table);
   }
 
   #renderComponentDetail(el: HTMLDivElement, type: string, activeTypes: Set<string>): void {
-    const mapping = COMPONENT_MAP.get(type);
+    const mapping = this.#registry.get(type);
     if (!mapping) return;
 
-    // Header: [< Button] ... [Info | JSON]
+    // Header: [< Type] ... [Info | JSON]
     const headerRow = document.createElement('n-header');
     headerRow.className = 'a2ui-map-detail-header';
 
@@ -1223,7 +1331,7 @@ export class NA2UI extends NativeElement {
     backNav.appendChild(backBtn);
     headerRow.appendChild(backNav);
 
-    // Tab switch: Info | JSON
+    // Tab bar
     const instances = this.#getComponentInstances(type);
     const hasInstances = instances.length > 0;
 
@@ -1265,7 +1373,7 @@ export class NA2UI extends NativeElement {
       const props: [string, string][] = [
         ['Tag', mapping.nativeTag],
         ['Children', mapping.childStrategy],
-        ['Category', getComponentCategory(mapping.a2uiType)],
+        ['Category', this.#registry.getComponentCategory(mapping.a2uiType)],
       ];
       if (mapping.actionEvent) props.push(['Action', mapping.actionEvent]);
       if (mapping.defaultAttributes) {
@@ -1293,7 +1401,7 @@ export class NA2UI extends NativeElement {
       el.appendChild(detail);
 
       // Compatible alternatives
-      const compatible = getCompatibleTypes(mapping.a2uiType).filter(t => t !== type);
+      const compatible = this.#registry.getCompatibleTypes(mapping.a2uiType).filter(t => t !== type);
       const isSwappable = activeTypes.has(type);
       if (compatible.length > 0) {
         const altSection = document.createElement('div');
@@ -1305,7 +1413,7 @@ export class NA2UI extends NativeElement {
         altSection.appendChild(altTitle);
 
         for (const altType of compatible) {
-          const altMapping = COMPONENT_MAP.get(altType);
+          const altMapping = this.#registry.get(altType);
           if (!altMapping) continue;
 
           const altRow = document.createElement('div');
@@ -1357,33 +1465,37 @@ export class NA2UI extends NativeElement {
     }
 
     // ── JSON tab content ──
-    const editorSection = document.createElement('div');
-    editorSection.className = 'a2ui-map-editor-section';
+    if (this.#detailTab === 'json') {
+      const editorSection = document.createElement('div');
+      editorSection.className = 'a2ui-map-editor-section';
 
-    const editorToolbar = document.createElement('n-toolbar');
-    editorToolbar.className = 'a2ui-map-editor-toolbar';
+      const editorToolbar = document.createElement('n-toolbar');
+      editorToolbar.className = 'a2ui-map-editor-toolbar';
 
-    const applyBtn = document.createElement('n-button');
-    applyBtn.setAttribute('variant', 'ghost');
-    applyBtn.setAttribute('size', 'sm');
-    applyBtn.title = 'Apply changes to stream';
-    applyBtn.innerHTML = '<n-icon name="play" weight="fill"></n-icon>';
-    applyBtn.addEventListener('native:press', () => this.#applyComponentEdits(type));
-    editorToolbar.appendChild(applyBtn);
+      const applyBtn = document.createElement('n-button');
+      applyBtn.setAttribute('variant', 'ghost');
+      applyBtn.setAttribute('size', 'sm');
+      applyBtn.title = 'Apply changes to stream';
+      applyBtn.innerHTML = '<n-icon name="play" weight="fill"></n-icon>';
+      applyBtn.addEventListener('native:press', () => this.#applyComponentEdits(type));
+      editorToolbar.appendChild(applyBtn);
 
-    editorSection.appendChild(editorToolbar);
+      editorSection.appendChild(editorToolbar);
 
-    const editorEl = document.createElement('native-codemirror') as HTMLElement & NCodemirror;
-    editorEl.setAttribute('line-numbers', 'false');
-    editorSection.appendChild(editorEl);
-    this.#componentEditorEl = editorEl;
+      const editorEl = document.createElement('native-codemirror') as HTMLElement & NCodemirror;
+      editorEl.setAttribute('line-numbers', 'false');
+      editorSection.appendChild(editorEl);
+      this.#componentEditorEl = editorEl;
 
-    requestAnimationFrame(() => {
-      editorEl.extensions = [json()];
-      editorEl.value = JSON.stringify(instances, null, 2);
-    });
+      requestAnimationFrame(() => {
+        editorEl.extensions = [json()];
+        editorEl.value = JSON.stringify(instances, null, 2);
+      });
 
-    el.appendChild(editorSection);
+      el.appendChild(editorSection);
+      return;
+    }
+
   }
 
   /** Extract all component instances of a given A2UI type from the current envelopes. */

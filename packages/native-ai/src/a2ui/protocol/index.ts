@@ -5,8 +5,8 @@ export { SurfaceManager, createSurfaceManager, resolveJsonPointer, setJsonPointe
 export type { SurfaceState } from './a2ui-surface.ts';
 export { a2uiToUINode, uiNodeToA2UI, conversionToPlan } from './a2ui-converter.ts';
 export type { ConversionResult, DataBindingEntry, ToUINodeOptions, ToA2UIOptions } from './a2ui-converter.ts';
-export { resolveNativeTag, resolveA2UIType, COMPONENT_MAP, getSupportedTypes, textVariantTag, textFieldInputType, dateTimeInputType } from './a2ui-component-map.ts';
-export type { ComponentMapping, ChildStrategy } from './a2ui-component-map.ts';
+export { ComponentRegistry, defaultRegistry, resolveNativeTag, resolveA2UIType, COMPONENT_MAP, getSupportedTypes, getComponentCategory, getCompatibleTypes, textVariantTag, textFieldInputType, dateTimeInputType } from './a2ui-component-map.ts';
+export type { ComponentMapping, ChildStrategy, RegistrySnapshot } from './a2ui-component-map.ts';
 export {
   isDataBinding,
   isCreateSurface,

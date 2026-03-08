@@ -17,6 +17,7 @@ import { parseServerMessage, isCatalogRequest } from './a2ui-types.ts';
 import { uiNodeToA2UI } from './a2ui-converter.ts';
 import type { ToA2UIOptions } from './a2ui-converter.ts';
 import { getSupportedTypes } from './a2ui-component-map.ts';
+import type { ComponentRegistry } from './a2ui-component-map.ts';
 import { SurfaceManager } from './a2ui-surface.ts';
 import type { SurfaceState } from './a2ui-surface.ts';
 import type { A2UIKernelBridge as Kernel } from './kernel-bridge.ts';
@@ -29,6 +30,7 @@ export interface A2UIAdapterOptions {
   readonly version?: A2UIProtocolVersion;
   readonly onClientMessage?: (msg: A2UIClientMessage) => void;
   readonly onRender?: (surfaceId: string, container: HTMLElement) => void;
+  readonly registry?: ComponentRegistry;
 }
 
 // ── Adapter ──
@@ -43,6 +45,7 @@ export class A2UIAdapter {
       kernel,
       (msg) => { this.#options.onClientMessage?.(msg); },
       (surfaceId, container) => { this.#options.onRender?.(surfaceId, container); },
+      this.#options.registry,
     );
   }
 
@@ -79,10 +82,11 @@ export class A2UIAdapter {
   }
 
   #handleCatalogRequest(surfaceId?: string): void {
+    const types = this.#options.registry?.getSupportedTypes() ?? getSupportedTypes();
     const response: A2UICatalogResponse = {
       catalog: {
         ...(surfaceId ? { surfaceId } : {}),
-        supportedTypes: [...getSupportedTypes()],
+        supportedTypes: [...types],
         version: this.#options.version ?? '0.9',
       },
     };
@@ -107,6 +111,7 @@ export class A2UIAdapter {
     const options: ToA2UIOptions = {
       surfaceId: sid,
       version: this.#options.version,
+      registry: this.#options.registry,
     };
 
     const components = uiNodeToA2UI(plan.root, options);
@@ -146,7 +151,7 @@ export class A2UIAdapter {
    * Returns the list of A2UI component types supported by this adapter.
    */
   getSupportedTypes(): readonly string[] {
-    return getSupportedTypes();
+    return this.#options.registry?.getSupportedTypes() ?? getSupportedTypes();
   }
 
   // ── Lifecycle ──

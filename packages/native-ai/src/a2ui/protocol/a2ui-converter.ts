@@ -16,6 +16,7 @@ import {
   textFieldInputType,
   dateTimeInputType,
 } from './a2ui-component-map.ts';
+import type { ComponentRegistry } from './a2ui-component-map.ts';
 
 // ── Conversion Result ──
 
@@ -37,11 +38,13 @@ export interface ToUINodeOptions {
   readonly rootId?: string;
   readonly surfaceId?: string;
   readonly version?: A2UIProtocolVersion;
+  readonly registry?: ComponentRegistry;
 }
 
 export interface ToA2UIOptions {
   readonly surfaceId?: string;
   readonly version?: A2UIProtocolVersion;
+  readonly registry?: ComponentRegistry;
 }
 
 // ── Known A2UI component properties (not to be treated as attributes) ──
@@ -108,8 +111,11 @@ export function a2uiToUINode(
   const bindings = new Map<string, DataBindingEntry[]>();
   const warnings: string[] = [];
   const surfaceId = options?.surfaceId ?? 'default';
+  const resolve = options?.registry
+    ? (type: string) => options.registry!.resolveNativeTag(type)
+    : resolveNativeTag;
 
-  const root = resolveComponent(rootId, index, visited, bindings, warnings, surfaceId);
+  const root = resolveComponent(rootId, index, visited, bindings, warnings, surfaceId, resolve);
 
   // 4. Detect orphans
   const orphans = components
@@ -130,6 +136,7 @@ function resolveComponent(
   bindings: Map<string, DataBindingEntry[]>,
   warnings: string[],
   surfaceId: string,
+  resolve: (type: string) => import('./a2ui-component-map.ts').ComponentMapping | null = resolveNativeTag,
 ): UINode {
   // Cycle detection
   if (visited.has(id)) {
@@ -144,7 +151,7 @@ function resolveComponent(
     return { id, tag: 'div', textContent: `[Missing: ${id}]` };
   }
 
-  const mapping = resolveNativeTag(comp.component);
+  const mapping = resolve(comp.component);
   if (!mapping) {
     warnings.push(`Unknown A2UI type "${comp.component}" for component "${id}"`);
     return {
@@ -307,7 +314,7 @@ function resolveComponent(
       // Recursively resolve the child's own children for the panel content
       const panelChildIds = child.children ?? (child.child ? [child.child] : undefined);
       const panelChildren = panelChildIds
-        ? panelChildIds.map((pid) => resolveComponent(pid, index, visited, bindings, warnings, surfaceId))
+        ? panelChildIds.map((pid) => resolveComponent(pid, index, visited, bindings, warnings, surfaceId, resolve))
         : undefined;
 
       const panelText = typeof child.text === 'string' ? child.text : undefined;
@@ -366,7 +373,7 @@ function resolveComponent(
     }
   } else if (childIds && childIds.length > 0) {
     children = childIds.map((childId) =>
-      resolveComponent(childId, index, visited, bindings, warnings, surfaceId),
+      resolveComponent(childId, index, visited, bindings, warnings, surfaceId, resolve),
     );
   }
 
@@ -456,7 +463,13 @@ export function uiNodeToA2UI(
   options?: ToA2UIOptions,
 ): readonly A2UIComponent[] {
   const components: A2UIComponent[] = [];
-  flattenNode(root, components, options?.surfaceId ?? 'default');
+  const resolveReverse = options?.registry
+    ? (tag: string, attrs?: Readonly<Record<string, string>>) => options.registry!.resolveA2UIType(tag, attrs)
+    : resolveA2UIType;
+  const resolveForward = options?.registry
+    ? (type: string) => options.registry!.resolveNativeTag(type)
+    : resolveNativeTag;
+  flattenNode(root, components, options?.surfaceId ?? 'default', resolveReverse, resolveForward);
   return components;
 }
 
@@ -464,8 +477,10 @@ function flattenNode(
   node: UINode,
   components: A2UIComponent[],
   surfaceId: string,
+  resolveReverse: (tag: string, attrs?: Readonly<Record<string, string>>) => string | null = resolveA2UIType,
+  resolveForward: (type: string) => import('./a2ui-component-map.ts').ComponentMapping | null = resolveNativeTag,
 ): void {
-  const a2uiType = resolveA2UIType(node.tag, node.attributes as Record<string, string> | undefined);
+  const a2uiType = resolveReverse(node.tag, node.attributes as Record<string, string> | undefined);
   if (!a2uiType) {
     // Unknown tag — emit as generic Column wrapper
     const comp: A2UIComponent = {
@@ -478,13 +493,13 @@ function flattenNode(
 
     if (node.children) {
       for (const child of node.children) {
-        flattenNode(child, components, surfaceId);
+        flattenNode(child, components, surfaceId, resolveReverse, resolveForward);
       }
     }
     return;
   }
 
-  const mapping = resolveNativeTag(a2uiType);
+  const mapping = resolveForward(a2uiType);
   const comp: Record<string, unknown> = {
     id: node.id,
     component: a2uiType,
@@ -516,7 +531,7 @@ function flattenNode(
     } else {
       comp.children = node.children.map((c) => c.id);
       for (const child of node.children) {
-        flattenNode(child, components, surfaceId);
+        flattenNode(child, components, surfaceId, resolveReverse, resolveForward);
       }
     }
   }

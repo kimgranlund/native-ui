@@ -3,7 +3,14 @@
  *
  * Bidirectional mapping between A2UI abstract component types
  * and native-ui concrete HTML/custom element tags.
+ *
+ * The `ComponentRegistry` class provides a mutable registry with
+ * change tracking via a signal. The default singleton (`defaultRegistry`)
+ * preserves backward compatibility with existing free-function imports.
  */
+
+import { signal } from '@nonoun/native-ui';
+import type { Signal } from '@nonoun/native-ui';
 
 // ── Child Strategy ──
 
@@ -24,9 +31,168 @@ export interface ComponentMapping {
   readonly actionEvent?: string;
 }
 
-// ── Forward Map: A2UI Type → native-ui ──
+// ── Serialized Registry ──
 
-const mappings: readonly ComponentMapping[] = [
+export interface RegistrySnapshot {
+  readonly mappings: ComponentMapping[];
+  readonly categories: Record<string, string>;
+}
+
+// ── Component Registry ──
+
+export class ComponentRegistry {
+  #forward = new Map<string, ComponentMapping>();
+  #reverse = new Map<string, ComponentMapping>();
+  #categories = new Map<string, string>();
+  #version: Signal<number>;
+
+  constructor(mappings: readonly ComponentMapping[], categories?: Readonly<Record<string, string>>) {
+    this.#version = signal(0);
+    for (const m of mappings) this.#addInternal(m);
+    if (categories) {
+      for (const [type, cat] of Object.entries(categories)) {
+        this.#categories.set(type, cat);
+      }
+    }
+  }
+
+  // ── Change Tracking ──
+
+  get version(): Signal<number> { return this.#version; }
+
+  // ── Read API ──
+
+  get(type: string): ComponentMapping | undefined { return this.#forward.get(type); }
+  has(type: string): boolean { return this.#forward.has(type); }
+  get size(): number { return this.#forward.size; }
+  keys(): IterableIterator<string> { return this.#forward.keys(); }
+  values(): IterableIterator<ComponentMapping> { return this.#forward.values(); }
+  entries(): IterableIterator<[string, ComponentMapping]> { return this.#forward.entries(); }
+  forEach(cb: (mapping: ComponentMapping, type: string, map: Map<string, ComponentMapping>) => void): void {
+    this.#forward.forEach(cb);
+  }
+  [Symbol.iterator](): IterableIterator<[string, ComponentMapping]> { return this.#forward[Symbol.iterator](); }
+
+  // ── Mutation API ──
+
+  add(mapping: ComponentMapping, notify = true): void {
+    this.#addInternal(mapping);
+    if (notify) this.#version.value++;
+  }
+
+  update(a2uiType: string, patch: Partial<Omit<ComponentMapping, 'a2uiType'>>): void {
+    const existing = this.#forward.get(a2uiType);
+    if (!existing) return;
+    const updated: ComponentMapping = { ...existing, ...patch };
+    this.#forward.set(a2uiType, updated);
+    this.#rebuildReverse();
+    this.#version.value++;
+  }
+
+  remove(a2uiType: string): void {
+    if (!this.#forward.has(a2uiType)) return;
+    this.#forward.delete(a2uiType);
+    this.#categories.delete(a2uiType);
+    this.#rebuildReverse();
+    this.#version.value++;
+  }
+
+  setCategory(a2uiType: string, category: string): void {
+    this.#categories.set(a2uiType, category);
+    this.#version.value++;
+  }
+
+  // ── Serialization ──
+
+  toJSON(): RegistrySnapshot {
+    const mappings = Array.from(this.#forward.values());
+    const categories: Record<string, string> = {};
+    for (const [type, cat] of this.#categories) categories[type] = cat;
+    return { mappings, categories };
+  }
+
+  static fromJSON(data: RegistrySnapshot): ComponentRegistry {
+    return new ComponentRegistry(data.mappings, data.categories);
+  }
+
+  clone(): ComponentRegistry {
+    return ComponentRegistry.fromJSON(this.toJSON());
+  }
+
+  // ── Lookup Functions ──
+
+  resolveNativeTag(a2uiType: string): ComponentMapping | null {
+    return this.#forward.get(a2uiType) ?? null;
+  }
+
+  resolveA2UIType(tag: string, attributes?: Readonly<Record<string, string>>): string | null {
+    // Check data-a2ui attribute first (for div/span disambiguation)
+    const a2uiAttr = attributes?.['data-a2ui'];
+    if (a2uiAttr && this.#forward.has(a2uiAttr)) return a2uiAttr;
+
+    // Direct reverse lookup
+    const mapping = this.#reverse.get(tag);
+    if (mapping) return mapping.a2uiType;
+
+    // Fallback: disambiguate plain HTML tags and shared custom elements
+    if (tag === 'span') {
+      if (attributes?.class?.includes('text')) return 'Text';
+      return 'Text';
+    }
+    if (tag === 'n-stack') {
+      return attributes?.direction === 'row' ? 'Row' : 'Column';
+    }
+    if (tag === 'div') {
+      if (attributes?.class?.includes('stack')) {
+        return attributes?.direction === 'row' ? 'Row' : 'Column';
+      }
+      const style = attributes?.style ?? '';
+      if (style.includes('flex-direction:column') || style.includes('flex-direction: column')) return 'Column';
+      if (style.includes('display:flex') || style.includes('display: flex')) return 'Row';
+      return 'Column';
+    }
+    if (tag === 'img') return 'Image';
+    if (tag === 'video') return 'Video';
+    if (tag === 'audio') return 'AudioPlayer';
+    if (/^h[1-6]$/.test(tag)) return 'Text';
+    return null;
+  }
+
+  getSupportedTypes(): readonly string[] {
+    return Array.from(this.#forward.keys());
+  }
+
+  getComponentCategory(a2uiType: string): string {
+    return this.#categories.get(a2uiType) ?? 'other';
+  }
+
+  getCompatibleTypes(a2uiType: string): readonly string[] {
+    const cat = this.getComponentCategory(a2uiType);
+    return Array.from(this.#forward.keys()).filter(t => this.getComponentCategory(t) === cat);
+  }
+
+  // ── Internals ──
+
+  #addInternal(mapping: ComponentMapping): void {
+    this.#forward.set(mapping.a2uiType, mapping);
+    if (mapping.nativeTag !== 'div' && mapping.nativeTag !== 'span' && !this.#reverse.has(mapping.nativeTag)) {
+      this.#reverse.set(mapping.nativeTag, mapping);
+    }
+  }
+
+  #rebuildReverse(): void {
+    this.#reverse.clear();
+    for (const m of this.#forward.values()) {
+      if (m.nativeTag !== 'div' && m.nativeTag !== 'span' && !this.#reverse.has(m.nativeTag)) {
+        this.#reverse.set(m.nativeTag, m);
+      }
+    }
+  }
+}
+
+// ── Default Seed Data ──
+
+const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
   {
     a2uiType: 'Text',
     nativeTag: 'span',
@@ -121,15 +287,14 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Row',
-    nativeTag: 'div',
+    nativeTag: 'n-stack',
     childStrategy: 'children',
-    defaultAttributes: { class: 'stack', direction: 'row' },
+    defaultAttributes: { direction: 'row' },
   },
   {
     a2uiType: 'Column',
-    nativeTag: 'div',
+    nativeTag: 'n-stack',
     childStrategy: 'children',
-    defaultAttributes: { class: 'stack' },
   },
   {
     a2uiType: 'Card',
@@ -183,15 +348,13 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Badge',
-    nativeTag: 'span',
+    nativeTag: 'n-badge',
     childStrategy: 'textContent',
-    defaultAttributes: { class: 'badge' },
   },
   {
     a2uiType: 'Avatar',
-    nativeTag: 'span',
+    nativeTag: 'n-avatar',
     childStrategy: 'none',
-    defaultAttributes: { class: 'avatar' },
     propertyMap: {
       src: 'src',
       alt: 'alt',
@@ -262,73 +425,69 @@ const mappings: readonly ComponentMapping[] = [
   },
 ];
 
-// ── Lookup Structures ──
+const DEFAULT_CATEGORIES: Record<string, string> = {
+  Text: 'display',
+  Icon: 'display',
+  Image: 'display',
+  Badge: 'display',
+  Avatar: 'display',
+  Divider: 'display',
+  Progress: 'display',
+  Button: 'action',
+  TextField: 'input',
+  TextArea: 'input',
+  CheckBox: 'input',
+  Switch: 'input',
+  ChoicePicker: 'input',
+  Select: 'input',
+  Slider: 'input',
+  DateTimeInput: 'input',
+  Row: 'layout',
+  Column: 'layout',
+  Card: 'container',
+  Modal: 'container',
+  Accordion: 'container',
+  AccordionItem: 'container',
+  Tabs: 'navigation',
+  List: 'navigation',
+  ListItem: 'navigation',
+  Breadcrumb: 'navigation',
+  Video: 'media',
+  AudioPlayer: 'media',
+  Table: 'data',
+  Toast: 'feedback',
+};
 
-const forwardMap = new Map<string, ComponentMapping>();
-const reverseMap = new Map<string, ComponentMapping>();
+// ── Default Singleton Registry ──
 
-for (const m of mappings) {
-  forwardMap.set(m.a2uiType, m);
-  // Only add to reverse map if the tag is unique or is a custom element.
-  // div/span are ambiguous — handled by resolveA2UIType with attribute checks.
-  // First mapping wins for shared tags (TextField before DateTimeInput for n-input).
-  if (m.nativeTag !== 'div' && m.nativeTag !== 'span' && !reverseMap.has(m.nativeTag)) {
-    reverseMap.set(m.nativeTag, m);
-  }
-}
+export const defaultRegistry = new ComponentRegistry(DEFAULT_MAPPINGS, DEFAULT_CATEGORIES);
 
-/** All component mappings, keyed by A2UI type */
-export const COMPONENT_MAP: ReadonlyMap<string, ComponentMapping> = forwardMap;
+/** All component mappings, keyed by A2UI type. */
+export const COMPONENT_MAP: ComponentRegistry = defaultRegistry;
 
-// ── Forward: A2UI Type → native-ui ──
+// ── Backward-Compatible Free Functions ──
 
 export function resolveNativeTag(a2uiType: string): ComponentMapping | null {
-  return forwardMap.get(a2uiType) ?? null;
+  return defaultRegistry.resolveNativeTag(a2uiType);
 }
-
-// ── Reverse: native-ui Tag → A2UI Type ──
 
 export function resolveA2UIType(
   tag: string,
   attributes?: Readonly<Record<string, string>>,
 ): string | null {
-  // Check data-a2ui attribute first (for div/span disambiguation)
-  const a2uiAttr = attributes?.['data-a2ui'];
-  if (a2uiAttr && forwardMap.has(a2uiAttr)) {
-    return a2uiAttr;
-  }
+  return defaultRegistry.resolveA2UIType(tag, attributes);
+}
 
-  // Direct reverse lookup
-  const mapping = reverseMap.get(tag);
-  if (mapping) return mapping.a2uiType;
+export function getSupportedTypes(): readonly string[] {
+  return defaultRegistry.getSupportedTypes();
+}
 
-  // Fallback: disambiguate plain HTML tags and shared custom elements
-  if (tag === 'span') {
-    if (attributes?.class?.includes('text')) return 'Text';
-    return 'Text';
-  }
-  if (tag === 'div') {
-    // div.stack with direction="row" → Row, otherwise → Column
-    if (attributes?.class?.includes('stack')) {
-      return attributes?.direction === 'row' ? 'Row' : 'Column';
-    }
-    const style = attributes?.style ?? '';
-    if (style.includes('flex-direction:column') || style.includes('flex-direction: column')) {
-      return 'Column';
-    }
-    if (style.includes('display:flex') || style.includes('display: flex')) {
-      return 'Row';
-    }
-    return 'Column'; // default layout direction
-  }
-  if (tag === 'img') return 'Image';
-  if (tag === 'video') return 'Video';
-  if (tag === 'audio') return 'AudioPlayer';
+export function getComponentCategory(a2uiType: string): string {
+  return defaultRegistry.getComponentCategory(a2uiType);
+}
 
-  // Heading tags → Text with variant
-  if (/^h[1-6]$/.test(tag)) return 'Text';
-
-  return null;
+export function getCompatibleTypes(a2uiType: string): readonly string[] {
+  return defaultRegistry.getCompatibleTypes(a2uiType);
 }
 
 // ── Text Variant → HTML Tag ──
@@ -382,61 +541,4 @@ const TEXT_FIELD_VARIANT_TYPE: Record<string, string> = {
 export function textFieldInputType(variant?: string): string {
   if (!variant) return 'text';
   return TEXT_FIELD_VARIANT_TYPE[variant] ?? 'text';
-}
-
-/**
- * Get all supported A2UI component types.
- */
-export function getSupportedTypes(): readonly string[] {
-  return Array.from(forwardMap.keys());
-}
-
-// ── Component Categories ──
-
-const CATEGORY_MAP: Record<string, string> = {
-  Text: 'display',
-  Icon: 'display',
-  Image: 'display',
-  Badge: 'display',
-  Avatar: 'display',
-  Divider: 'display',
-  Progress: 'display',
-  Button: 'action',
-  TextField: 'input',
-  TextArea: 'input',
-  CheckBox: 'input',
-  Switch: 'input',
-  ChoicePicker: 'input',
-  Select: 'input',
-  Slider: 'input',
-  DateTimeInput: 'input',
-  Row: 'layout',
-  Column: 'layout',
-  Card: 'container',
-  Modal: 'container',
-  Accordion: 'container',
-  AccordionItem: 'container',
-  Tabs: 'navigation',
-  List: 'navigation',
-  ListItem: 'navigation',
-  Breadcrumb: 'navigation',
-  Video: 'media',
-  AudioPlayer: 'media',
-  Table: 'data',
-  Toast: 'feedback',
-};
-
-/**
- * Get the category for an A2UI component type.
- */
-export function getComponentCategory(a2uiType: string): string {
-  return CATEGORY_MAP[a2uiType] ?? 'other';
-}
-
-/**
- * Get all component types in the same category.
- */
-export function getCompatibleTypes(a2uiType: string): readonly string[] {
-  const cat = getComponentCategory(a2uiType);
-  return Array.from(forwardMap.keys()).filter(t => getComponentCategory(t) === cat);
 }

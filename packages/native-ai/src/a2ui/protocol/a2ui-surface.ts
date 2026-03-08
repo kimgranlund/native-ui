@@ -24,6 +24,7 @@ import {
 } from './a2ui-types.ts';
 import type { DataBindingEntry } from './a2ui-converter.ts';
 import { a2uiToUINode, conversionToPlan } from './a2ui-converter.ts';
+import type { ComponentRegistry } from './a2ui-component-map.ts';
 import type { A2UIKernelBridge as Kernel } from './kernel-bridge.ts';
 import type { PatchOp } from './kernel-bridge.ts';
 
@@ -94,6 +95,7 @@ export class SurfaceManager {
   #kernel: Kernel;
   #onAction: (msg: A2UIActionMessage) => void;
   #onRender: ((surfaceId: string, container: HTMLElement) => void) | null;
+  #registry: ComponentRegistry | undefined;
   #surfaces = new Map<string, SurfaceRecord>();
   #surfaceCount: Signal<number> = signal(0);
 
@@ -103,10 +105,12 @@ export class SurfaceManager {
     kernel: Kernel,
     onAction: (msg: A2UIActionMessage) => void,
     onRender?: (surfaceId: string, container: HTMLElement) => void,
+    registry?: ComponentRegistry,
   ) {
     this.#kernel = kernel;
     this.#onAction = onAction;
     this.#onRender = onRender ?? null;
+    this.#registry = registry;
   }
 
   // ── Message Dispatch ──
@@ -199,6 +203,7 @@ export class SurfaceManager {
   #renderSurface(record: SurfaceRecord): void {
     const conversion = a2uiToUINode(record.components, {
       surfaceId: record.surfaceId,
+      registry: this.#registry,
     });
 
     // Store bindings
@@ -223,7 +228,7 @@ export class SurfaceManager {
   }
 
   #patchSurface(record: SurfaceRecord, newComponents: readonly A2UIComponent[]): void {
-    const ops = diffComponents(record.components, newComponents, record.surfaceId);
+    const ops = diffComponents(record.components, newComponents, record.surfaceId, this.#registry);
     if (ops.length === 0) return;
 
     this.#kernel.patchPlan({
@@ -236,6 +241,7 @@ export class SurfaceManager {
     // Re-convert to update bindings
     const conversion = a2uiToUINode(newComponents, {
       surfaceId: record.surfaceId,
+      registry: this.#registry,
     });
     record.bindings = new Map(conversion.bindings);
 
@@ -418,6 +424,7 @@ export function diffComponents(
   oldComponents: readonly A2UIComponent[],
   newComponents: readonly A2UIComponent[],
   surfaceId: string,
+  registry?: ComponentRegistry,
 ): readonly PatchOp[] {
   const oldIndex = new Map<string, A2UIComponent>();
   for (const c of oldComponents) oldIndex.set(c.id, c);
@@ -439,7 +446,7 @@ export function diffComponents(
     if (!oldIndex.has(id)) {
       const parent = findParent(id, newComponents);
       if (parent) {
-        const conversion = a2uiToUINode([comp], { surfaceId, rootId: id });
+        const conversion = a2uiToUINode([comp], { surfaceId, rootId: id, registry });
         ops.push({ type: 'add', parentId: parent, node: conversion.root });
       }
     }
@@ -453,7 +460,7 @@ export function diffComponents(
     // Component type changed — full replace needed
     if (newComp.component !== oldComp.component) {
       const relevantComponents = collectSubtree(id, newComponents);
-      const conversion = a2uiToUINode(relevantComponents, { surfaceId, rootId: id });
+      const conversion = a2uiToUINode(relevantComponents, { surfaceId, rootId: id, registry });
       ops.push({ type: 'replace', targetId: id, node: conversion.root });
       continue;
     }
@@ -463,7 +470,7 @@ export function diffComponents(
     const newChildren = JSON.stringify(newComp.children ?? newComp.child ?? []);
     if (oldChildren !== newChildren) {
       const relevantComponents = collectSubtree(id, newComponents);
-      const conversion = a2uiToUINode(relevantComponents, { surfaceId, rootId: id });
+      const conversion = a2uiToUINode(relevantComponents, { surfaceId, rootId: id, registry });
       ops.push({ type: 'replace', targetId: id, node: conversion.root });
       continue;
     }
@@ -545,6 +552,7 @@ function collectSubtree(rootId: string, components: readonly A2UIComponent[]): A
 export function createSurfaceManager(
   kernel: Kernel,
   onAction: (msg: A2UIActionMessage) => void,
+  registry?: ComponentRegistry,
 ): SurfaceManager {
-  return new SurfaceManager(kernel, onAction);
+  return new SurfaceManager(kernel, onAction, undefined, registry);
 }
