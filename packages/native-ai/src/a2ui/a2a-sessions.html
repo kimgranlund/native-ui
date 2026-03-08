@@ -44,7 +44,7 @@
     <span muted>Walk through a support ticket. Each step simulates both agents responding to the same event.</span>
 
     <n-container>
-      <section>
+      <n-body>
         <n-stack gap="2">
           <n-stack direction="row" align="center">
             <span muted size="sm" inline style="min-width: 4rem;">Step 1</span>
@@ -75,7 +75,7 @@
             <span>Reset</span>
           </n-button>
         </n-stack>
-      </section>
+      </n-body>
     </n-container>
 
     <!-- ── Dashboard ── -->
@@ -83,26 +83,26 @@
     <h2>Agent Surfaces</h2>
     <n-grid cols="2">
       <n-container>
-        <header>
+        <n-header>
           <nav>
             <span class="badge" dot intent="neutral" id="dot-convo"></span>
           </nav>
           <span>Conversation Agent</span>
-        </header>
-        <section padding="regular">
+        </n-header>
+        <n-body padding="regular">
           <div class="surface-mount" id="surface-convo" data-empty></div>
-        </section>
+        </n-body>
       </n-container>
       <n-container>
-        <header>
+        <n-header>
           <nav>
             <span class="badge" dot intent="neutral" id="dot-analytics"></span>
           </nav>
           <span>Analytics Agent</span>
-        </header>
-        <section padding="regular">
+        </n-header>
+        <n-body padding="regular">
           <div class="surface-mount" id="surface-analytics" data-empty></div>
-        </section>
+        </n-body>
       </n-container>
     </n-grid>
 
@@ -110,9 +110,9 @@
 
     <h2>Session Events</h2>
     <n-container>
-      <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
+      <n-body show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
         <div id="event-log"></div>
-      </section>
+      </n-body>
     </n-container>
 
     </main></native-dashboard-spa>

@@ -476,7 +476,7 @@ export class NEditor extends NativeElement {
   // ── DOM Construction ──
 
   #buildToolbar(): void {
-    const header = document.createElement('header');
+    const header = document.createElement('n-header');
     const toolbar = document.createElement('n-toolbar');
     toolbar.setAttribute('size', 'md');
     toolbar.setAttribute('variant', 'plain');

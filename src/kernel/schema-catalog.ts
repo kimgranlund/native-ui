@@ -565,9 +565,10 @@ const UI_CARD: ComponentSchema = freezeSchema({
   properties: [],
   slots: [
     DEFAULT_SLOT,
-    freeze({ name: 'header', description: 'Card header content area.' }),
-    freeze({ name: 'footer', description: 'Card footer content area.' }),
   ],
+  allowedChildren: Object.freeze([
+    'n-header', 'n-body', 'n-footer', 'img', 'n-picture',
+  ]),
   events: [],
   aria: freeze({}),
   formAssociated: false,

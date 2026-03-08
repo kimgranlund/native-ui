@@ -112,6 +112,7 @@ export interface NavItemIntent {
 /** Tags that suppress the wrapper div when they are the sole root element. */
 const STRUCTURAL_TAGS: ReadonlySet<string> = new Set([
   'div', 'form', 'section', 'main', 'nav', 'header', 'footer', 'article', 'aside',
+  'n-header', 'n-body', 'n-footer',
 ]);
 
 /** Tags that are self-labeling (text content serves as the accessible name). */
@@ -651,11 +652,10 @@ export class Planner {
       });
     }
 
-    // Header slot
+    // Header (n-header direct child)
     if (card.heading) {
       children.push({
-        component: 'div',
-        slot: 'header',
+        component: 'n-header',
         children: [{ component: 'span', label: card.heading }],
       });
     }
@@ -666,11 +666,10 @@ export class Planner {
       label: card.body,
     });
 
-    // Footer slot with action buttons
+    // Footer (n-footer direct child)
     if (card.footer && card.footer.length > 0) {
       children.push({
-        component: 'div',
-        slot: 'footer',
+        component: 'n-footer',
         children: card.footer.map((btn) => ({
           component: 'n-button',
           label: btn.label,

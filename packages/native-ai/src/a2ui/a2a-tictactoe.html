@@ -62,7 +62,7 @@
     <!-- ── Game Card ── -->
 
     <n-container>
-      <header>
+      <n-header>
         <n-toolbar variant="ghost">
           <n-button variant="primary" id="btn-auto">
             <span slot="label">Auto Play</span>
@@ -76,22 +76,22 @@
             <span slot="label">New Game</span>
           </n-button>
         </n-toolbar>
-      </header>
-      <section>
+      </n-header>
+      <n-body>
         <n-grid cols="2" gap="4" id="grid-boards">
           <n-container id="card-x">
-            <section padding="none">
+            <n-body padding="none">
               <div class="surface-mount" id="surface-x"></div>
-            </section>
+            </n-body>
           </n-container>
           <n-container id="card-o">
-            <section padding="none">
+            <n-body padding="none">
               <div class="surface-mount" id="surface-o"></div>
-            </section>
+            </n-body>
           </n-container>
         </n-grid>
-      </section>
-      <footer justify="space-between">
+      </n-body>
+      <n-footer justify="space-between">
         <n-select id="model-x" placeholder="X player" inline>
           <n-button justify="spread"><span slot="label">Claude Haiku 4.5</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
           <n-listbox popover>
@@ -114,7 +114,7 @@
             <n-option value="gpt-4.1-nano">GPT-4.1 nano</n-option>
           </n-listbox>
         </n-select>
-      </footer>
+      </n-footer>
     </n-container>
 
     <!-- ── Event Log (debug) ── -->
@@ -122,9 +122,9 @@
     <details style="margin-top: 1rem;">
       <summary style="cursor:pointer; font-size:0.75rem; color:var(--n-ink-muted)">Session Events</summary>
       <n-container>
-        <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
+        <n-body show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
           <div id="event-log"></div>
-        </section>
+        </n-body>
       </n-container>
     </details>
 

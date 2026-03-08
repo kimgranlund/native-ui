@@ -980,12 +980,11 @@ describe('Planner.card() static builder', () => {
     expect(body!.textContent).toBe('Hello world');
   });
 
-  it('adds header slot when heading is provided', () => {
+  it('adds n-header child when heading is provided', () => {
     const result = Planner.card({ heading: 'My Card', body: 'Content' });
     const card = result.plan.root.children![0]!;
-    const header = card.children!.find((c) => c.slot === 'header');
+    const header = card.children!.find((c) => c.tag === 'n-header');
     expect(header).toBeDefined();
-    expect(header!.tag).toBe('div');
     // Header contains a span with heading text
     expect(header!.children![0]!.textContent).toBe('My Card');
   });
@@ -1004,7 +1003,7 @@ describe('Planner.card() static builder', () => {
     expect(media!.attributes!['style']).toContain('12rem');
   });
 
-  it('adds footer slot with action buttons', () => {
+  it('adds n-footer child with action buttons', () => {
     const result = Planner.card({
       body: 'Content',
       footer: [
@@ -1013,7 +1012,7 @@ describe('Planner.card() static builder', () => {
       ],
     });
     const card = result.plan.root.children![0]!;
-    const footer = card.children!.find((c) => c.slot === 'footer');
+    const footer = card.children!.find((c) => c.tag === 'n-footer');
     expect(footer).toBeDefined();
     expect(footer!.children).toHaveLength(2);
     expect(getButtonLabel(footer!.children![0]!)).toBe('Cancel');

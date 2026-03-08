@@ -668,7 +668,7 @@ export class NA2UI extends NativeElement {
 
   #buildDOM(): void {
     // ── Header (header > n-toolbar) ──
-    const headerWrap = document.createElement('header');
+    const headerWrap = document.createElement('n-header');
 
     const header = document.createElement('n-toolbar');
     header.setAttribute('size', 'sm');
@@ -779,7 +779,7 @@ export class NA2UI extends NativeElement {
       }
 
       // Pane header: [icon] [label] ... [X]
-      const paneHeader = document.createElement('header');
+      const paneHeader = document.createElement('n-header');
 
       const leading = document.createElement('nav');
       const headerIcon = document.createElement('n-icon');
@@ -1205,7 +1205,7 @@ export class NA2UI extends NativeElement {
     if (!mapping) return;
 
     // Header: [< Button] ... [Info | JSON]
-    const headerRow = document.createElement('header');
+    const headerRow = document.createElement('n-header');
     headerRow.className = 'a2ui-map-detail-header';
 
     const backNav = document.createElement('nav');

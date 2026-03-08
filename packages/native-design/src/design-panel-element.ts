@@ -35,7 +35,7 @@ export class NDesignPanel extends NativeElement {
     super.setup();
 
     // ── Header ──
-    const header = document.createElement('header');
+    const header = document.createElement('n-header');
     header.setAttribute('sticky', '');
 
     const leading = document.createElement('nav');
@@ -64,7 +64,7 @@ export class NDesignPanel extends NativeElement {
     header.appendChild(content);
 
     // ── Body ──
-    const body = document.createElement('section');
+    const body = document.createElement('n-body');
 
     const tokens = document.createElement('native-design') as NDesign;
     if (this.#schema) tokens.schema = this.#schema;

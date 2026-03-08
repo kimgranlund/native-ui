@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-dashboard",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "Dashboard layout and navigation components for @nonoun/native-ui",
   "license": "MIT",
   "type": "module",

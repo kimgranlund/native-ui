@@ -102,11 +102,11 @@
     scrollbar-width: none;
   }
 
-  :where(n-dashboard-panel) > :where(header) {
+  :where(n-dashboard-panel) > :where(n-header) {
     border-bottom: 1px solid var(--n-border-muted);
   }
 
-  :where(n-dashboard-panel) > :where(footer) {
+  :where(n-dashboard-panel) > :where(n-footer) {
     border-top: 1px solid var(--n-border-muted);
   }
 

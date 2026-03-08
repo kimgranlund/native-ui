@@ -41,7 +41,7 @@
 
     <h2>Review Flow</h2>
     <n-container>
-      <section>
+      <n-body>
         <n-stack direction="row" wrap>
           <n-button size="sm" variant="primary" id="start">
             <span>Start Review</span>
@@ -56,29 +56,29 @@
             <span>Reset</span>
           </n-button>
         </n-stack>
-      </section>
+      </n-body>
     </n-container>
 
     <!-- ── Shared Canvas ── -->
 
     <n-container style="margin-top: 1rem;">
-      <header>
+      <n-header>
         <span>Shared Canvas — Landing Page</span>
         <aside>
           <span class="badge" id="owner-badge" intent="neutral">No owner</span>
         </aside>
-      </header>
-      <section padding="regular">
+      </n-header>
+      <n-body padding="regular">
         <div class="surface-mount" id="shared-canvas" data-empty></div>
-      </section>
+      </n-body>
     </n-container>
 
     <!-- ── Per-Agent Actions ── -->
 
     <n-grid cols="2" style="margin-top: 1rem;">
       <n-container>
-        <header><span>Design Agent</span></header>
-        <section>
+        <n-header><span>Design Agent</span></n-header>
+        <n-body>
           <n-stack direction="row" wrap>
             <n-button size="sm" id="design-hero">
               <span>Hero Section</span>
@@ -90,11 +90,11 @@
               <span>CTA Block</span>
             </n-button>
           </n-stack>
-        </section>
+        </n-body>
       </n-container>
       <n-container>
-        <header><span>Copy Agent</span></header>
-        <section>
+        <n-header><span>Copy Agent</span></n-header>
+        <n-body>
           <n-stack direction="row" wrap>
             <n-button size="sm" id="copy-headline">
               <span>Write Headlines</span>
@@ -106,7 +106,7 @@
               <span>Write CTA Copy</span>
             </n-button>
           </n-stack>
-        </section>
+        </n-body>
       </n-container>
     </n-grid>
 
@@ -114,9 +114,9 @@
 
     <h2>Ownership Log</h2>
     <n-container>
-      <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
+      <n-body show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
         <div id="event-log"></div>
-      </section>
+      </n-body>
     </n-container>
 
     </main></native-dashboard-spa>

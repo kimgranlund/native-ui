@@ -559,11 +559,12 @@ describe('n-container schema', () => {
     expect(schema.category).toBe('container');
   });
 
-  it('has header and footer slots', () => {
+  it('has default slot and allowed children', () => {
     const slotNames = schema.slots.map((s) => s.name);
-    expect(slotNames).toContain('header');
-    expect(slotNames).toContain('footer');
     expect(slotNames).toContain(''); // default slot
+    expect(schema.allowedChildren).toContain('n-header');
+    expect(schema.allowedChildren).toContain('n-body');
+    expect(schema.allowedChildren).toContain('n-footer');
   });
 
   it('has no events', () => {

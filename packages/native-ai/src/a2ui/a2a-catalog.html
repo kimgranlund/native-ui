@@ -44,7 +44,7 @@
     </p>
 
     <n-container>
-      <section>
+      <n-body>
         <n-stack direction="row">
           <n-button size="sm" variant="primary" id="init">
             <span>Connect Both Agents</span>
@@ -53,7 +53,7 @@
             <span>Reset</span>
           </n-button>
         </n-stack>
-      </section>
+      </n-body>
     </n-container>
 
     <!-- ── Agent Surfaces ── -->
@@ -61,16 +61,16 @@
     <n-grid cols="2" style="margin-top: 1rem;">
       <!-- First-party -->
       <n-container>
-        <header>
+        <n-header>
           <span>Your Assistant</span>
           <aside>
             <span class="badge" intent="accent">Full access</span>
           </aside>
-        </header>
-        <section padding="regular">
+        </n-header>
+        <n-body padding="regular">
           <div class="surface-mount" id="surface-first" data-empty></div>
-        </section>
-        <footer>
+        </n-body>
+        <n-footer>
           <n-stack direction="row" wrap>
             <n-button size="sm" id="fp-settings">
               <span>User Settings</span>
@@ -82,21 +82,21 @@
               <span>Dashboard</span>
             </n-button>
           </n-stack>
-        </footer>
+        </n-footer>
       </n-container>
 
       <!-- Third-party -->
       <n-container>
-        <header>
+        <n-header>
           <span>Weather Plugin</span>
           <aside>
             <span class="badge" intent="warning">Sandboxed</span>
           </aside>
-        </header>
-        <section padding="regular">
+        </n-header>
+        <n-body padding="regular">
           <div class="surface-mount" id="surface-third" data-empty></div>
-        </section>
-        <footer>
+        </n-body>
+        <n-footer>
           <n-stack direction="row" wrap>
             <n-button size="sm" id="tp-forecast">
               <span>Show Forecast</span>
@@ -111,7 +111,7 @@
               <span>Sneak a Modal In</span>
             </n-button>
           </n-stack>
-        </footer>
+        </n-footer>
       </n-container>
     </n-grid>
 
@@ -120,26 +120,26 @@
     <h2>Catalog Comparison</h2>
     <n-grid cols="2">
       <n-container>
-        <header>
+        <n-header>
           <span>First-Party</span>
           <aside>
             <span muted size="sm" inline>full</span>
           </aside>
-        </header>
-        <section>
+        </n-header>
+        <n-body>
           <div class="catalog-types" id="catalog-first"></div>
-        </section>
+        </n-body>
       </n-container>
       <n-container>
-        <header>
+        <n-header>
           <span>Third-Party</span>
           <aside>
             <span muted size="sm" inline>sandboxed</span>
           </aside>
-        </header>
-        <section>
+        </n-header>
+        <n-body>
           <div class="catalog-types" id="catalog-third"></div>
-        </section>
+        </n-body>
       </n-container>
     </n-grid>
 
@@ -147,9 +147,9 @@
 
     <h2>Security Log</h2>
     <n-container>
-      <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
+      <n-body show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
         <div id="event-log"></div>
-      </section>
+      </n-body>
     </n-container>
 
     </main></native-dashboard-spa>

@@ -291,7 +291,7 @@ export class NChatPanel extends NativeElement {
     }
 
     // ── Header ──
-    const header = document.createElement('header');
+    const header = document.createElement('n-header');
     header.setAttribute('dividers', '');
 
     const leading = document.createElement('nav');
@@ -311,7 +311,7 @@ export class NChatPanel extends NativeElement {
     this.#headerTrailingContainer = headerTrailing;
 
     // ── Body ──
-    const body = document.createElement('section');
+    const body = document.createElement('n-body');
     const chatContent = document.createElement('n-chat-content');
 
     const chatFeed = document.createElement('n-chat-feed');
@@ -322,7 +322,7 @@ export class NChatPanel extends NativeElement {
     body.appendChild(chatContent);
 
     // ── Footer ──
-    const footer = document.createElement('footer');
+    const footer = document.createElement('n-footer');
     footer.setAttribute('dividers', '');
     this.#footer = footer;
 

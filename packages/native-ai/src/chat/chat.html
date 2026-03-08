@@ -50,17 +50,17 @@
           <span class="demo-col-label">Idle (empty input)</span>
           <n-chat>
             <n-container data-kind="panel" padding="none">
-              <header dividers>
+              <n-header dividers>
                 <nav><n-icon name="chat-dots"></n-icon></nav>
                 <span>Assistant</span>
                 <aside><n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button></aside>
-              </header>
-              <section>
+              </n-header>
+              <n-body>
                 <n-chat-content>
                   <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">Messages will appear here.</p>
                 </n-chat-content>
-              </section>
-              <footer dividers>
+              </n-body>
+              <n-footer dividers>
                 <n-chat-input>
                   <n-textarea placeholder="Ask anything" autogrow rows="3"></n-textarea>
                   <n-chat-input-actions>
@@ -90,7 +90,7 @@
                     </n-select>
                   </n-chat-input-actions>
                 </n-chat-input>
-              </footer>
+              </n-footer>
             </n-container>
           </n-chat>
         </div>
@@ -100,17 +100,17 @@
           <span class="demo-col-label">Typing (with send button)</span>
           <n-chat>
             <n-container data-kind="panel" padding="none">
-              <header dividers>
+              <n-header dividers>
                 <nav><n-icon name="chat-dots"></n-icon></nav>
                 <span>Assistant</span>
                 <aside><n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button></aside>
-              </header>
-              <section>
+              </n-header>
+              <n-body>
                 <n-chat-content>
                   <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">Messages will appear here.</p>
                 </n-chat-content>
-              </section>
-              <footer dividers>
+              </n-body>
+              <n-footer dividers>
                 <n-chat-input>
                   <n-textarea placeholder="Ask anything" autogrow rows="3"></n-textarea>
                   <n-chat-input-actions>
@@ -141,7 +141,7 @@
                     <n-button variant="primary" intent="accent" radius="round" inline disabled data-role="submit"><n-icon name="arrow-up"></n-icon></n-button>
                   </n-chat-input-actions>
                 </n-chat-input>
-              </footer>
+              </n-footer>
             </n-container>
           </n-chat>
         </div>
@@ -477,27 +477,27 @@ Step 4: Applying formatting rules...</pre>
         <div class="demo-col">
           <span class="demo-col-label">Default</span>
           <n-container class="n-chat-starter">
-            <section>
+            <n-body>
               <n-chat-message-seed id="starter-seeds"></n-chat-message-seed>
               <n-chat-input-structured
                 question="What would you like help with?"
                 type="single"
                 id="starter-structured"
               ></n-chat-input-structured>
-            </section>
+            </n-body>
           </n-container>
         </div>
         <div class="demo-col">
           <span class="demo-col-label">Compact</span>
           <n-container class="n-chat-starter" density="2">
-            <section>
+            <n-body>
               <n-chat-message-seed id="starter-seeds-compact"></n-chat-message-seed>
               <n-chat-input-structured
                 question="Quick start"
                 type="single"
                 id="starter-structured-compact"
               ></n-chat-input-structured>
-            </section>
+            </n-body>
           </n-container>
         </div>
       </div>
@@ -555,7 +555,7 @@ Step 4: Applying formatting rules...</pre>
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Inside footer container</span>
-          <footer dividers>
+          <n-footer dividers>
             <n-chat-input>
               <n-textarea placeholder="Ask anything" autogrow rows="2"></n-textarea>
               <n-chat-input-actions>
@@ -585,12 +585,12 @@ Step 4: Applying formatting rules...</pre>
                 </n-select>
               </n-chat-input-actions>
             </n-chat-input>
-          </footer>
+          </n-footer>
         </div>
 
         <div class="demo-col">
           <span class="demo-col-label">Compact (single row)</span>
-          <footer dividers>
+          <n-footer dividers>
             <n-chat-input compact>
               <n-textarea placeholder="Type a message..." autogrow rows="1"></n-textarea>
               <n-chat-input-actions>
@@ -599,7 +599,7 @@ Step 4: Applying formatting rules...</pre>
                 <n-button variant="primary" intent="accent" radius="round" inline disabled data-role="submit"><n-icon name="arrow-up"></n-icon></n-button>
               </n-chat-input-actions>
             </n-chat-input>
-          </footer>
+          </n-footer>
         </div>
       </div>
       <pre class="demo-code"><code>&lt;!-- Wrap in a container for surface styling --&gt;

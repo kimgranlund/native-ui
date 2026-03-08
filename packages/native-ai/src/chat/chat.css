@@ -142,12 +142,12 @@
 
   /* ── Sub-container integration ── */
 
-  :where(native-chat-panel) > :where(header) {
+  :where(native-chat-panel) > :where(n-header) {
     background: var(--n-chat-panel-header-background);
     border-bottom: 1px solid var(--n-chat-panel-header-border);
   }
 
-  :where(native-chat-panel) > :where(header) :where([slot="label"]) {
+  :where(native-chat-panel) > :where(n-header) :where([slot="label"]) {
     font-weight: var(--n-chat-panel-header-label-font-weight);
     letter-spacing: var(--n-chat-panel-header-label-letter-spacing);
   }
@@ -162,23 +162,7 @@
     background: var(--n-chat-panel-body-background);
   }
 
-  :where(native-chat-panel) > :where(footer) {
-    background: var(--n-chat-panel-footer-background);
-    border-top: 1px solid var(--n-chat-panel-footer-border);
-  }
-
-  /* ── Semantic sub-container integration ── */
-
-  :where(native-chat-panel) > :where(header) {
-    background: var(--n-chat-panel-header-background);
-    border-bottom: 1px solid var(--n-chat-panel-header-border);
-  }
-
-  :where(native-chat-panel) > :where(section) {
-    background: var(--n-chat-panel-body-background);
-  }
-
-  :where(native-chat-panel) > :where(footer) {
+  :where(native-chat-panel) > :where(n-footer) {
     background: var(--n-chat-panel-footer-background);
     border-top: 1px solid var(--n-chat-panel-footer-border);
   }
