@@ -50,7 +50,7 @@
     <!-- ── Basic ── -->
 
     <h2>Basic Listbox</h2>
-    <article data-kind="panel" bordered intent="neutral">
+    <n-container data-kind="panel" bordered intent="neutral">
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Default (single select)</span>
@@ -90,12 +90,12 @@
   &lt;n-option value="cherry"&gt;Cherry&lt;/n-option&gt;
   &lt;n-option value="date" disabled&gt;Date&lt;/n-option&gt;
 &lt;/n-listbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Grouped Options ── -->
 
     <h2>Grouped Options</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">With icons</span>
@@ -149,12 +149,12 @@
     &lt;n-option value="structure"&gt;Project Structure&lt;/n-option&gt;
   &lt;/n-option-group&gt;
 &lt;/n-listbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">xs</span>
@@ -192,12 +192,12 @@
       <pre class="demo-code"><code>&lt;n-listbox size="sm"&gt;...&lt;/n-listbox&gt;
 &lt;n-listbox size="md"&gt;...&lt;/n-listbox&gt;
 &lt;n-listbox size="lg"&gt;...&lt;/n-listbox&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Intents ── -->
 
     <h2>Intents</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">Neutral</span>
@@ -224,12 +224,12 @@
           </n-listbox>
         </div>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── Variants ── -->
 
     <h2>Variants</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <div class="demo-grid">
         <div class="demo-col">
           <span class="demo-col-label">primary</span>
@@ -272,12 +272,12 @@
           </n-listbox>
         </div>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── Density ── -->
 
     <h2>Density</h2>
-    <article data-kind="panel" bordered size="md">
+    <n-container data-kind="panel" bordered size="md">
       <div class="demo-grid">
         <div class="demo-col" density="loose">
           <span class="demo-col-label">loose</span>
@@ -304,12 +304,12 @@
           </n-listbox>
         </div>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── Radius ── -->
 
     <h2>Radius</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <div class="demo-grid">
         <div class="demo-col" radius="sharp">
           <span class="demo-col-label">sharp</span>
@@ -336,12 +336,12 @@
           </n-listbox>
         </div>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── Cascading ── -->
 
     <h2>Cascading</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>Parent size="md", child overrides</h3>
       <div class="demo-grid" size="md" intent="accent">
         <div class="demo-col">
@@ -388,12 +388,12 @@
           </div>
         </div>
       </section>
-    </article>
+    </n-container>
 
     <!-- ── Events ── -->
 
     <h2>Events</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <n-listbox id="event-listbox" variant="secondary" style="max-width: 220px;">
         <n-option value="red">Red</n-option>
         <n-option value="green">Green</n-option>
@@ -412,12 +412,12 @@
     console.log(e.detail.value);
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Debug States (force-*) ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to individual <code>n-option</code> elements.
       </p>
@@ -427,7 +427,7 @@
         <n-option value="focus" force-focus-visible>Force focus-visible</n-option>
         <n-option value="normal">Normal</n-option>
       </n-listbox>
-    </article>
+    </n-container>
 
     </main></native-dashboard-spa>
     <script type="module">

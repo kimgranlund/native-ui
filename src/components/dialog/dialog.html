@@ -32,33 +32,33 @@ n-dialog > article {
     <!-- ── Basic Dialog ── -->
 
     <h2>Basic Dialog</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-button id="open-basic">Open Dialog</n-button>
       <n-dialog id="basic-dialog">
-        <article>
-          <header><span>Confirm Action</span></header>
-          <section>
+        <n-container>
+          <n-header><span>Confirm Action</span></n-header>
+          <n-body>
             <p class="demo-text">Are you sure you want to continue? This action cannot be undone.</p>
-          </section>
-          <footer>
+          </n-body>
+          <n-footer>
             <n-button id="basic-cancel">Cancel</n-button>
             <n-button id="basic-confirm" intent="accent">Confirm</n-button>
-          </footer>
-        </article>
+          </n-footer>
+        </n-container>
       </n-dialog>
       <pre class="demo-code"><code>&lt;n-button id="open-btn"&gt;Open Dialog&lt;/n-button&gt;
 
 &lt;n-dialog id="my-dialog"&gt;
-  &lt;article&gt;
-    &lt;header&gt;&lt;span&gt;Confirm Action&lt;/span&gt;&lt;/header&gt;
-    &lt;section&gt;
+  &lt;n-container&gt;
+    &lt;n-header&gt;&lt;span&gt;Confirm Action&lt;/span&gt;&lt;/n-header&gt;
+    &lt;n-body&gt;
       &lt;p&gt;Are you sure you want to continue?&lt;/p&gt;
-    &lt;/section&gt;
-    &lt;footer&gt;
+    &lt;/n-body&gt;
+    &lt;n-footer&gt;
       &lt;n-button id="cancel-btn"&gt;Cancel&lt;/n-button&gt;
       &lt;n-button id="confirm-btn" intent="accent"&gt;Confirm&lt;/n-button&gt;
-    &lt;/footer&gt;
-  &lt;/article&gt;
+    &lt;/n-footer&gt;
+  &lt;/n-container&gt;
 &lt;/n-dialog&gt;
 
 &lt;script&gt;
@@ -70,19 +70,19 @@ n-dialog > article {
   document.getElementById('confirm-btn')
     .addEventListener('native:press', () =&gt; dialog.close());
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Form Dialog ── -->
 
     <h2>Form Dialog</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-button id="open-form">Edit Profile</n-button>
       <n-dialog id="form-dialog">
-        <article>
-          <header><span>Edit Profile</span></header>
-          <section>
+        <n-container>
+          <n-header><span>Edit Profile</span></n-header>
+          <n-body>
             <span muted spacing="tight">Update your display name and email address.</span>
-            <div class="stack" gap="3">
+            <n-stack gap="3">
               <n-field>
                 <label>Name</label>
                 <n-input placeholder="Your name"></n-input>
@@ -91,19 +91,19 @@ n-dialog > article {
                 <label>Email</label>
                 <n-input type="email" placeholder="you@example.com"></n-input>
               </n-field>
-            </div>
-          </section>
-          <footer>
+            </n-stack>
+          </n-body>
+          <n-footer>
             <n-button id="form-cancel">Cancel</n-button>
             <n-button id="form-save" intent="accent">Save Changes</n-button>
-          </footer>
-        </article>
+          </n-footer>
+        </n-container>
       </n-dialog>
       <pre class="demo-code"><code>&lt;n-dialog id="form-dialog"&gt;
-  &lt;article&gt;
-    &lt;header&gt;&lt;span&gt;Edit Profile&lt;/span&gt;&lt;/header&gt;
-    &lt;section&gt;
-      &lt;div class="stack" gap="3"&gt;
+  &lt;n-container&gt;
+    &lt;n-header&gt;&lt;span&gt;Edit Profile&lt;/span&gt;&lt;/n-header&gt;
+    &lt;n-body&gt;
+      &lt;n-stack gap="3"&gt;
         &lt;n-field&gt;
           &lt;label&gt;Name&lt;/label&gt;
           &lt;n-input placeholder="Your name"&gt;&lt;/n-input&gt;
@@ -112,101 +112,101 @@ n-dialog > article {
           &lt;label&gt;Email&lt;/label&gt;
           &lt;n-input type="email" placeholder="you@example.com"&gt;&lt;/n-input&gt;
         &lt;/n-field&gt;
-      &lt;/div&gt;
-    &lt;/section&gt;
-    &lt;footer&gt;
+      &lt;/n-stack&gt;
+    &lt;/n-body&gt;
+    &lt;n-footer&gt;
       &lt;n-button&gt;Cancel&lt;/n-button&gt;
       &lt;n-button intent="accent"&gt;Save Changes&lt;/n-button&gt;
-    &lt;/footer&gt;
-  &lt;/article&gt;
+    &lt;/n-footer&gt;
+  &lt;/n-container&gt;
 &lt;/n-dialog&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── No Close on Backdrop ── -->
 
     <h2>No Close on Backdrop</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-text-sm">
         This dialog has <code>no-close-on-backdrop</code> — clicking outside doesn't close it. You must use the button.
       </p>
       <n-button id="open-persistent">Open Persistent Dialog</n-button>
       <n-dialog id="persistent-dialog" no-close-on-backdrop>
-        <article>
-          <header><span>Important Notice</span></header>
-          <section>
+        <n-container>
+          <n-header><span>Important Notice</span></n-header>
+          <n-body>
             <p class="demo-text">This dialog can only be closed by clicking the button below. Clicking the backdrop or pressing Escape won't dismiss it.</p>
-          </section>
-          <footer>
+          </n-body>
+          <n-footer>
             <n-button id="persistent-close" intent="accent">Got it</n-button>
-          </footer>
-        </article>
+          </n-footer>
+        </n-container>
       </n-dialog>
       <pre class="demo-code"><code>&lt;n-dialog no-close-on-backdrop&gt;
-  &lt;article&gt;
-    &lt;header&gt;&lt;span&gt;Important Notice&lt;/span&gt;&lt;/header&gt;
-    &lt;section&gt;&lt;p&gt;Clicking outside won't close this dialog.&lt;/p&gt;&lt;/section&gt;
-    &lt;footer&gt;
+  &lt;n-container&gt;
+    &lt;n-header&gt;&lt;span&gt;Important Notice&lt;/span&gt;&lt;/n-header&gt;
+    &lt;n-body&gt;&lt;p&gt;Clicking outside won't close this dialog.&lt;/p&gt;&lt;/n-body&gt;
+    &lt;n-footer&gt;
       &lt;n-button intent="accent"&gt;Got it&lt;/n-button&gt;
-    &lt;/footer&gt;
-  &lt;/article&gt;
+    &lt;/n-footer&gt;
+  &lt;/n-container&gt;
 &lt;/n-dialog&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── No Close on Escape ── -->
 
     <h2>No Close on Escape</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-text-sm">
         This dialog has <code>no-close-on-escape</code> — pressing Escape doesn't close it. Backdrop click still works.
       </p>
       <n-button id="open-no-esc">Open (no Escape close)</n-button>
       <n-dialog id="no-esc-dialog" no-close-on-escape>
-        <article>
-          <header><span>Escape Disabled</span></header>
-          <section>
+        <n-container>
+          <n-header><span>Escape Disabled</span></n-header>
+          <n-body>
             <p class="demo-text">Press Escape — nothing happens. Click the backdrop or the button to close.</p>
-          </section>
-          <footer>
+          </n-body>
+          <n-footer>
             <n-button id="no-esc-close">Close</n-button>
-          </footer>
-        </article>
+          </n-footer>
+        </n-container>
       </n-dialog>
-    </article>
+    </n-container>
 
     <!-- ── Danger Dialog ── -->
 
     <h2>Danger Variant</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-button id="open-danger" intent="danger">Delete Account</n-button>
       <n-dialog id="danger-dialog">
-        <article>
-          <header><span style="color: var(--n-ink-strong-danger);">Delete Account</span></header>
-          <section>
+        <n-container>
+          <n-header><span style="color: var(--n-ink-strong-danger);">Delete Account</span></n-header>
+          <n-body>
             <p class="demo-text">This will permanently delete your account and all associated data. This action cannot be reversed.</p>
-          </section>
-          <footer>
+          </n-body>
+          <n-footer>
             <n-button id="danger-cancel">Cancel</n-button>
             <n-button id="danger-confirm" intent="danger">Delete Forever</n-button>
-          </footer>
-        </article>
+          </n-footer>
+        </n-container>
       </n-dialog>
       <pre class="demo-code"><code>&lt;n-button intent="danger"&gt;Delete Account&lt;/n-button&gt;
 
 &lt;n-dialog id="danger-dialog"&gt;
-  &lt;article&gt;
-    &lt;header&gt;
+  &lt;n-container&gt;
+    &lt;n-header&gt;
       &lt;span style="color: var(--n-ink-strong-danger);"&gt;Delete Account&lt;/span&gt;
-    &lt;/header&gt;
-    &lt;section&gt;
+    &lt;/n-header&gt;
+    &lt;n-body&gt;
       &lt;p&gt;This will permanently delete your account.&lt;/p&gt;
-    &lt;/section&gt;
-    &lt;footer&gt;
+    &lt;/n-body&gt;
+    &lt;n-footer&gt;
       &lt;n-button&gt;Cancel&lt;/n-button&gt;
       &lt;n-button intent="danger"&gt;Delete Forever&lt;/n-button&gt;
-    &lt;/footer&gt;
-  &lt;/article&gt;
+    &lt;/n-footer&gt;
+  &lt;/n-container&gt;
 &lt;/n-dialog&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     </main></native-dashboard-spa>
     <script type="module">

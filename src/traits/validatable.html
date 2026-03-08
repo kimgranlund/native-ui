@@ -104,7 +104,7 @@
     <!-- ── Required Field ── -->
 
     <h2>Required Field</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         Uses <code>ValidateController</code> directly on a wrapper div with a <code>native:input</code> inside.
       </p>
@@ -134,12 +134,12 @@ field.addEventListener('native:valid', () =&gt; {
 button.addEventListener('native:press', () =&gt; {
   validator.validate();
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Multiple Rules ── -->
 
     <h2>Multiple Rules (min length + pattern)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="field-wrapper" id="password-field">
         <label>Password</label>
         <n-input type="password" placeholder="Enter a password"></n-input>
@@ -153,12 +153,12 @@ button.addEventListener('native:press', () =&gt; {
   ValidateController.pattern(/[A-Z]/, 'Must contain an uppercase letter'),
   ValidateController.pattern(/[0-9]/, 'Must contain a number'),
 ];</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Validate on Blur ── -->
 
     <h2>Validate on Blur</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="field-wrapper" id="email-field">
         <label>Email</label>
         <n-input type="email" placeholder="you@example.com"></n-input>
@@ -171,7 +171,7 @@ button.addEventListener('native:press', () =&gt; {
 emailInput.addEventListener('focusout', () =&gt; {
   validator.validate();
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── API Reference ── -->
 

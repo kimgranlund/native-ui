@@ -1,0 +1,32 @@
+@layer ui {
+
+  /* ── Body ── */
+  /* Generic content region. Fills remaining flex space.
+     Does NOT declare overflow by default — scrolling is
+     inherited from the parent height constraint. */
+
+  :where(n-body) {
+    --n-padding-block: calc(var(--n-space) * var(--n-space-k));
+    --n-padding-inline: calc(var(--n-space) * var(--n-space-k));
+
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    min-height: calc(var(--n-size) + var(--n-padding-block) * 2);
+    flex-direction: column;
+    gap: calc(var(--n-space) * var(--n-space-k));
+    padding-block: var(--n-padding-block);
+    padding-inline: var(--n-padding-inline);
+
+    font-size: var(--n-font-size);
+    line-height: var(--n-line-height);
+    box-sizing: border-box;
+  }
+
+}
+
+/* ── Attribute API (unlayered) ── */
+
+:where(n-body)[show-scrollbar] {
+  scrollbar-width: thin;
+}

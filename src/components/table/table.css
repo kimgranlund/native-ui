@@ -106,57 +106,6 @@
     white-space: nowrap;
   }
 
-  /* ── Sortable Header ── */
-
-  :where(n-table-header)[sortable] {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: calc(var(--n-space));
-  }
-
-  :where(n-table-header)[sortable]:hover,
-  :where(n-table-header)[sortable][force-hover] {
-    color: var(--n-ink-hover);
-  }
-
-  :where(n-table-header)[sortable]:focus-visible,
-  :where(n-table-header)[sortable][force-focus-visible] {
-    outline: 2px solid var(--n-focus-ring);
-    outline-offset: -2px;
-  }
-
-  /* ── Sort Indicator ── */
-  /* WHY: Arrow drawn via CSS mask so it inherits currentColor.
-     Rotates to point up (asc) or down (desc). Hidden when sort="none". */
-
-  :where(n-table-header)[sortable]::after {
-    content: '';
-    width: 1em;
-    height: 1em;
-    flex-shrink: 0;
-    background: currentColor;
-    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M205.66,117.66a8,8,0,0,1-11.32,0L136,59.31V216a8,8,0,0,1-16,0V59.31L61.66,117.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0l72,72A8,8,0,0,1,205.66,117.66Z'/%3E%3C/svg%3E");
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M205.66,117.66a8,8,0,0,1-11.32,0L136,59.31V216a8,8,0,0,1-16,0V59.31L61.66,117.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0l72,72A8,8,0,0,1,205.66,117.66Z'/%3E%3C/svg%3E");
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    opacity: 0;
-    transition:
-      transform var(--n-duration) var(--n-easing),
-      opacity var(--n-duration) var(--n-easing);
-  }
-
-  :where(n-table-header)[sort="asc"]::after {
-    opacity: 1;
-    transform: rotate(0deg);
-  }
-
-  :where(n-table-header)[sort="desc"]::after {
-    opacity: 1;
-    transform: rotate(180deg);
-  }
-
   /* ── Body Cell ── */
 
   :where(n-table-cell) {
@@ -192,49 +141,6 @@
 
   :where(n-table[variant="plain"]) :where(n-table-cell:first-child, n-table-header:first-child) {
     padding-inline-start: 0;
-  }
-
-  /* ── Colspan Row ── */
-  /* WHY: A spanning row opts out of subgrid so its content fills the full width.
-     Used for category headers, section dividers, or full-width messages.
-     grid-column: 1 / -1 is inherited from the base row rule. */
-
-  :where(n-table-row)[colspan] {
-    grid-template-columns: 1fr;
-  }
-
-  :where(n-table-body) > :where(n-table-row)[colspan] {
-    background: var(--n-panel);
-    font-size: var(--n-group-header-font);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--n-ink-muted);
-  }
-
-  :where(n-table-body) > :where(n-table-row)[colspan]:hover,
-  :where(n-table-body) > :where(n-table-row)[colspan][force-hover] {
-    background: var(--n-panel);
-  }
-
-  :where(n-table[selectable]) :where(n-table-body) > :where(n-table-row)[colspan] {
-    cursor: default;
-  }
-
-  :where(n-table-row)[hidden] {
-    display: none;
-  }
-
-  /* ── Sticky Colspan Row ── */
-  /* WHY: Category headers stick below the sticky header row when scrolling.
-     --n-header-height is measured and set by JS (ResizeObserver) on <n-table>.
-     Falls back to 0px when no header is present. Scoped to [sticky-header]
-     because without it the table has overflow: hidden — no scroll context. */
-
-  :where(n-table[sticky-header]) :where(n-table-row)[colspan][sticky] {
-    position: sticky;
-    top: var(--n-header-height, 0px);
-    z-index: 2;
   }
 
   /* ── Sticky Header & Column ── */
@@ -347,4 +253,40 @@
     z-index: 1;
   }
 
+}
+
+/* ── Attribute API (unlayered) ── */
+
+/* Colspan Row */
+:where(n-table-row)[colspan] {
+  grid-template-columns: 1fr;
+}
+
+:where(n-table-body) > :where(n-table-row)[colspan] {
+  background: var(--n-panel);
+  font-size: var(--n-group-header-font);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--n-ink-muted);
+}
+
+:where(n-table-body) > :where(n-table-row)[colspan]:hover,
+:where(n-table-body) > :where(n-table-row)[colspan][force-hover] {
+  background: var(--n-panel);
+}
+
+:where(n-table[selectable]) :where(n-table-body) > :where(n-table-row)[colspan] {
+  cursor: default;
+}
+
+:where(n-table-row)[hidden] {
+  display: none;
+}
+
+/* Sticky Colspan Row */
+:where(n-table[sticky-header]) :where(n-table-row)[colspan][sticky] {
+  position: sticky;
+  top: var(--n-header-height, 0px);
+  z-index: 2;
 }

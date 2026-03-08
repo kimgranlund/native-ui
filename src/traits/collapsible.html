@@ -57,7 +57,7 @@
     <!-- ── Basic Toggle ── -->
 
     <h2>Basic Toggle</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-button id="toggle-btn">Toggle Content</n-button>
       <collapse-demo traits="collapsible" id="section1">
         <div class="collapse-content">
@@ -82,12 +82,12 @@
   el.addEventListener('native:expand', () =&gt; console.log('Expanded'));
   el.addEventListener('native:collapse', () =&gt; console.log('Collapsed'));
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Initially Collapsed ── -->
 
     <h2>Initially Collapsed</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-button id="expand-btn">Expand</n-button>
       <collapse-demo traits="collapsible" id="section2" collapsed>
         <div class="collapse-content">
@@ -107,12 +107,12 @@
   if (ctrl.collapsed) ctrl.expand();
   else ctrl.collapse();
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Custom Duration ── -->
 
     <h2>Custom Duration (500ms)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-button id="slow-btn">Toggle Slow</n-button>
       <collapse-demo traits="collapsible" data-trait-collapsible-duration="500" id="section3">
         <div class="collapse-content">
@@ -135,7 +135,7 @@
   });
   ctrl.toggle();
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── API Reference ── -->
 

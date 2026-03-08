@@ -61,7 +61,7 @@
 
     <!-- ── Game Card ── -->
 
-    <article>
+    <n-container>
       <header>
         <n-toolbar variant="ghost">
           <n-button variant="primary" id="btn-auto">
@@ -78,18 +78,18 @@
         </n-toolbar>
       </header>
       <section>
-        <div class="grid" cols="2" gap="4" id="grid-boards">
-          <article id="card-x">
+        <n-grid cols="2" gap="4" id="grid-boards">
+          <n-container id="card-x">
             <section padding="none">
               <div class="surface-mount" id="surface-x"></div>
             </section>
-          </article>
-          <article id="card-o">
+          </n-container>
+          <n-container id="card-o">
             <section padding="none">
               <div class="surface-mount" id="surface-o"></div>
             </section>
-          </article>
-        </div>
+          </n-container>
+        </n-grid>
       </section>
       <footer justify="space-between">
         <n-select id="model-x" placeholder="X player" inline>
@@ -99,11 +99,11 @@
             <n-option value="claude-haiku-4-5-20251001" selected>Claude Haiku 4.5</n-option>
           </n-listbox>
         </n-select>
-        <div class="stack" direction="row" gap="3" align="center" justify="center">
+        <n-stack direction="row" gap="3" align="center" justify="center">
           <span class="score-num" id="score-claude">0</span>
           <span class="score-dash">–</span>
           <span class="score-num" id="score-gpt">0</span>
-        </div>
+        </n-stack>
         <n-select id="model-o" placeholder="O player" inline>
           <n-button justify="spread"><span slot="label">GPT-5 mini</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
           <n-listbox popover>
@@ -115,17 +115,17 @@
           </n-listbox>
         </n-select>
       </footer>
-    </article>
+    </n-container>
 
     <!-- ── Event Log (debug) ── -->
 
     <details style="margin-top: 1rem;">
       <summary style="cursor:pointer; font-size:0.75rem; color:var(--n-ink-muted)">Session Events</summary>
-      <article>
+      <n-container>
         <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
           <div id="event-log"></div>
         </section>
-      </article>
+      </n-container>
     </details>
 
     </main></native-dashboard-spa>

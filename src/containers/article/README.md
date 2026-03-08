@@ -18,9 +18,9 @@ Component version of <article> — supports traits, interactive, href.
 
 | Slot |
 |------|
-| `footer` |
-| `header` |
+| `leading` |
 | `media` |
+| `trailing` |
 
 ## CSS Tokens
 
@@ -28,7 +28,6 @@ Public `--n-*` custom properties consumed by this component:
 
 - `--n-border-hover`
 - `--n-border-muted`
-- `--n-button-font-weight`
 - `--n-card`
 - `--n-card-hover`
 - `--n-duration`
@@ -41,8 +40,9 @@ Public `--n-*` custom properties consumed by this component:
 - `--n-ground`
 - `--n-ground-hover`
 - `--n-icon-md`
-- `--n-ink-strong`
 - `--n-line-height`
+- `--n-padding-block`
+- `--n-padding-inline`
 - `--n-panel`
 - `--n-radius`
 - `--n-size`

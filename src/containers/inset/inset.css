@@ -1,0 +1,14 @@
+@layer ui {
+
+  /* ── Inset ── */
+
+  :where(n-inset) {
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    flex-direction: column;
+    gap: calc(var(--n-space) * 2);
+    padding-inline-start: calc(var(--n-space-k) * var(--n-space));
+  }
+
+}

@@ -33,6 +33,10 @@ export type { ToastOptions, ValidationRule, DragOptions, RangeSelectOptions, Res
 export { PressController, HoverController, CopyController, IntersectController, DropZoneController, SortController, ValidateController, FocusTrapController, CollapsibleController, RovingFocusController, DismissController, ToastController, PopoverController, ListNavigateController, DialogController, GatewayController, PresentController, registerAllTraits } from './traits/index.ts';
 export type { PressOptions, HoverOptions, CopyOptions, IntersectOptions, DropZoneOptions, SortOptions, ValidateOptions, CollapsibleOptions, RovingFocusOptions, ListNavigateOptions, DialogOptions, GatewayOptions, PresentOptions } from './traits/index.ts';
 
+// Store
+export { StoreController } from './controllers/store-controller.ts';
+export type { StoreControllerOptions } from './controllers/store-controller.ts';
+
 // Trait adapters (for selective registration via registerTrait())
 export { pressableAdapter, hoverableAdapter, copyableAdapter, intersectableAdapter, droppableAdapter, sortableAdapter, validatableAdapter, focusTrappableAdapter, collapsibleAdapter, rovingFocusableAdapter, dismissableAdapter, toastableAdapter, popoverableAdapter, listNavigableAdapter, dialogableAdapter, draggableAdapter, rangeSelectableAdapter, resizableAdapter, virtualizableAdapter, selectableAdapter, searchableAdapter, clippableAdapter, swipeableAdapter, editableAdapter, presentableAdapter, slashCommandableAdapter, shortcutableAdapter, tossableAdapter, flippableAdapter, parallaxableAdapter, cssInspectableAdapter, confettibleAdapter, magnetizableAdapter } from './traits/index.ts';
 

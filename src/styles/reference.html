@@ -605,13 +605,13 @@
         </table>
       </div>
 
-      <article data-kind="panel" bordered>
+      <n-container data-kind="panel" bordered>
       <pre class="demo-code"><code>&lt;!-- Interactive state attributes on components --&gt;
 &lt;n-button force-hover&gt;Hovered&lt;/n-button&gt;
 &lt;n-button force-active&gt;Active&lt;/n-button&gt;
 &lt;n-button disabled&gt;Disabled&lt;/n-button&gt;
 &lt;n-input force-focus&gt;&lt;/n-input&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </article>
+      </n-container>
 
       <!-- ========================================== -->
       <h2>Selection &amp; Value States</h2>
@@ -829,7 +829,7 @@
         </table>
       </div>
 
-      <article data-kind="panel" bordered>
+      <n-container data-kind="panel" bordered>
       <pre class="demo-code"><code>&lt;!-- Selection states --&gt;
 &lt;n-option aria-selected="true"&gt;Selected&lt;/n-option&gt;
 &lt;n-checkbox aria-checked="true"&gt;Checked&lt;/n-checkbox&gt;
@@ -838,7 +838,7 @@
 
 &lt;!-- Value states --&gt;
 &lt;n-input&gt;&lt;/n-input&gt;  &lt;!-- :state(empty) when no value --&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </article>
+      </n-container>
 
       <!-- ========================================== -->
       <h2>Primitive Attributes (via <code>ui.primitives.css</code>)</h2>
@@ -883,7 +883,7 @@
         </n-table-body>
       </n-table>
 
-      <article data-kind="panel" bordered>
+      <n-container data-kind="panel" bordered>
       <pre class="demo-code"><code>&lt;!-- Primitive attributes cascade via CSS custom properties --&gt;
 &lt;div size="sm" intent="accent" density="compact" radius="round"&gt;
   &lt;n-button variant="primary"&gt;Inherits all&lt;/n-button&gt;
@@ -894,7 +894,7 @@
 &lt;n-button size="lg" intent="danger" variant="primary"&gt;
   Large Danger
 &lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </article>
+      </n-container>
 
       <!-- ========================================== -->
       <h2>Component-Specific Attributes</h2>
@@ -1126,7 +1126,7 @@
         </n-table-body>
       </n-table>
 
-      <article data-kind="panel" bordered>
+      <n-container data-kind="panel" bordered>
       <pre class="demo-code"><code>&lt;!-- Component-specific attributes --&gt;
 &lt;n-button justify="spread"&gt;
   &lt;span slot="label"&gt;Select...&lt;/span&gt;
@@ -1136,7 +1136,7 @@
 &lt;n-textarea rows="5" autogrow&gt;&lt;/n-textarea&gt;
 &lt;n-input-otp mask length="6"&gt;&lt;/n-input-otp&gt;
 &lt;span class="badge" floating dot intent="danger"&gt;&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </article>
+      </n-container>
 
       <!-- ========================================== -->
       <h2>Container Layout Attributes</h2>
@@ -1151,7 +1151,7 @@
         </n-table-head>
         <n-table-body>
           <n-table-row>
-            <n-table-cell>div.stack</n-table-cell>
+            <n-table-cell>&lt;n-stack&gt;</n-table-cell>
             <n-table-cell><code>direction</code></n-table-cell>
             <n-table-cell><code>"row"</code> / <code>"column-reverse"</code> / <code>"row-reverse"</code></n-table-cell>
           </n-table-row>
@@ -1168,7 +1168,7 @@
           <n-table-row>
             <n-table-cell></n-table-cell>
             <n-table-cell><code>justify</code></n-table-cell>
-            <n-table-cell><code>"start"</code> / <code>"center"</code> / <code>"end"</code> / <code>"between"</code> / <code>"around"</code> / <code>"evenly"</code></n-table-cell>
+            <n-table-cell><code>"start"</code> / <code>"center"</code> / <code>"end"</code> / <code>"spread"</code> / <code>"around"</code> / <code>"evenly"</code></n-table-cell>
           </n-table-row>
           <n-table-row>
             <n-table-cell></n-table-cell>
@@ -1176,7 +1176,7 @@
             <n-table-cell>Boolean — enables flex-wrap</n-table-cell>
           </n-table-row>
           <n-table-row>
-            <n-table-cell>div.grid</n-table-cell>
+            <n-table-cell>&lt;n-grid&gt;</n-table-cell>
             <n-table-cell><code>cols</code></n-table-cell>
             <n-table-cell><code>1</code>–<code>6</code> — fixed column count</n-table-cell>
           </n-table-row>
@@ -1191,28 +1191,28 @@
             <n-table-cell><code>0</code>–<code>8</code></n-table-cell>
           </n-table-row>
           <n-table-row>
-            <n-table-cell>div.divider</n-table-cell>
+            <n-table-cell>&lt;n-divider&gt;</n-table-cell>
             <n-table-cell><code>orientation</code></n-table-cell>
             <n-table-cell><code>"vertical"</code> (default: horizontal)</n-table-cell>
           </n-table-row>
         </n-table-body>
       </n-table>
 
-      <article data-kind="panel" bordered>
+      <n-container data-kind="panel" bordered>
       <pre class="demo-code"><code>&lt;!-- Container layout attributes --&gt;
-&lt;div class="stack" direction="row" gap="4" align="center" wrap&gt;
+&lt;n-stack direction="row" gap="4" align="center" wrap&gt;
   &lt;n-button&gt;A&lt;/n-button&gt;
   &lt;n-button&gt;B&lt;/n-button&gt;
-&lt;/div&gt;
+&lt;/n-stack&gt;
 
-&lt;div class="grid" cols="3" gap="4"&gt;
-  &lt;article&gt;...&lt;/article&gt;
-  &lt;article&gt;...&lt;/article&gt;
-  &lt;article&gt;...&lt;/article&gt;
-&lt;/div&gt;
+&lt;n-grid cols="3" gap="4"&gt;
+  &lt;n-container&gt;...&lt;/n-container&gt;
+  &lt;n-container&gt;...&lt;/n-container&gt;
+  &lt;n-container&gt;...&lt;/n-container&gt;
+&lt;/n-grid&gt;
 
-&lt;div class="divider" orientation="vertical"&gt;&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </article>
+&lt;n-divider orientation="vertical"&gt;&lt;/n-divider&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+      </n-container>
 
       <!-- ========================================== -->
       <h2>Events</h2>
@@ -1457,7 +1457,7 @@
         </table>
       </div>
 
-      <article data-kind="panel" bordered>
+      <n-container data-kind="panel" bordered>
       <pre class="demo-code"><code>&lt;!-- Listening to component events --&gt;
 &lt;n-button id="my-btn"&gt;Click me&lt;/n-button&gt;
 &lt;script&gt;
@@ -1474,7 +1474,7 @@
       console.log('Value:', e.detail.value);
     });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </article>
+      </n-container>
 
       <!-- ========================================== -->
       <h2>Form Association</h2>
@@ -1570,7 +1570,7 @@
         </n-table-body>
       </n-table>
 
-      <article data-kind="panel" bordered>
+      <n-container data-kind="panel" bordered>
       <pre class="demo-code"><code>&lt;!-- Form-associated components work with native forms --&gt;
 &lt;form&gt;
   &lt;n-field label="Email" required&gt;
@@ -1585,7 +1585,7 @@
 
   &lt;n-button type="submit" variant="primary"&gt;Submit&lt;/n-button&gt;
 &lt;/form&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </article>
+      </n-container>
 
       <!-- ========================================== -->
       <h2>ARIA Roles</h2>
@@ -1636,7 +1636,7 @@
         </n-table-body>
       </n-table>
 
-      <article data-kind="panel" bordered>
+      <n-container data-kind="panel" bordered>
       <pre class="demo-code"><code>&lt;!-- ARIA roles are set automatically via ElementInternals --&gt;
 &lt;!-- No manual role attributes needed --&gt;
 &lt;n-button&gt;role="button"&lt;/n-button&gt;
@@ -1646,7 +1646,7 @@
 &lt;/n-listbox&gt;
 &lt;n-checkbox&gt; &lt;!-- role="checkbox" --&gt;
 &lt;n-switch&gt; &lt;!-- role="switch" --&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </article>
+      </n-container>
 
       <!-- ========================================== -->
       <h2>Keyboard Navigation</h2>
@@ -1758,7 +1758,7 @@
         </n-table-body>
       </n-table>
 
-      <article data-kind="panel" bordered>
+      <n-container data-kind="panel" bordered>
       <pre class="demo-code"><code>&lt;!-- Keyboard patterns are built-in --&gt;
 &lt;!-- Listbox: Arrow keys, Home, End, Enter --&gt;
 &lt;n-listbox&gt;
@@ -1771,7 +1771,7 @@
   &lt;n-tab value="1"&gt;Tab 1&lt;/n-tab&gt;
   &lt;n-tab value="2"&gt;Tab 2&lt;/n-tab&gt;
 &lt;/n-tabs&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </article>
+      </n-container>
 
       <!-- ========================================== -->
       <h2>Customization Patterns</h2>

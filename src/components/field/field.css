@@ -15,12 +15,6 @@
     gap: var(--n-field-gap, calc(var(--n-space) * 2));
   }
 
-  /* ── Gap ── */
-
-  :where(n-field)[gap="none"] { gap: 0; }
-  :where(n-field)[gap="tight"] { gap: var(--n-space); }
-  :where(n-field)[gap="relaxed"] { gap: calc(var(--n-space) * 4); }
-
   /* ── Label ── */
 
   :where(n-field) > :where([slot="label"]) {
@@ -73,3 +67,9 @@
   :where(n-field[hidden]) { display: none; }
 
 }
+
+/* ── Attribute API (unlayered) ── */
+
+:where(n-field)[gap="none"] { gap: 0; }
+:where(n-field)[gap="tight"] { gap: var(--n-space); }
+:where(n-field)[gap="relaxed"] { gap: calc(var(--n-space) * 4); }

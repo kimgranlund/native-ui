@@ -13,24 +13,6 @@
       h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
       h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; margin-top: 2rem; color: var(--n-ink-strong-neutral); }
 
-      .auth-centered {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(100vh - 8rem);
-      }
-
-      .auth-card-wrapper {
-        width: 100%;
-        max-width: 24rem;
-      }
-
-      .auth-logo {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 1.5rem;
-      }
-
       .auth-logo-mark {
         width: 2.5rem;
         height: 2.5rem;
@@ -44,59 +26,12 @@
         font-size: 1.125rem;
       }
 
-      .auth-heading {
-        text-align: center;
-        margin-bottom: 0.25rem;
-        font-size: 1.25rem;
-        font-weight: 700;
-      }
-
-      .auth-subheading {
-        text-align: center;
-        color: var(--n-ink-muted-neutral);
-        font-size: 0.875rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .auth-footer-text {
-        text-align: center;
-        font-size: 0.8125rem;
-        color: var(--n-ink-muted-neutral);
-        margin-top: 1.5rem;
-      }
-
-      .auth-footer-text a {
+      .auth-link {
         color: var(--n-ink-accent);
         text-decoration: none;
         font-weight: 500;
       }
-
-      .auth-footer-text a:hover {
-        text-decoration: underline;
-      }
-
-      .terms-text {
-        font-size: 0.8125rem;
-        color: var(--n-ink-muted-neutral);
-      }
-
-      .terms-text a {
-        color: var(--n-ink-accent);
-        text-decoration: none;
-      }
-
-      .terms-text a:hover {
-        text-decoration: underline;
-      }
-
-      .oauth-row {
-        display: flex;
-        gap: calc(var(--n-space) * 3);
-      }
-
-      .oauth-row > * {
-        flex: 1;
-      }
+      .auth-link:hover { text-decoration: underline; }
     </style>
   </head>
   <body>
@@ -110,17 +45,17 @@
 
     <h2>Create Account</h2>
     <div style="background: var(--n-body-neutral); border: 1px solid var(--n-border-muted-neutral); border-radius: 0.5rem; overflow: hidden; margin-bottom: 1rem;">
-      <div class="auth-centered" style="min-height: 48rem;">
-        <div class="auth-card-wrapper">
-          <div class="auth-logo">
-            <div class="auth-logo-mark">N</div>
-          </div>
-          <p class="auth-heading">Create your account</p>
-          <p class="auth-subheading">Start your free 14-day trial, no credit card required</p>
-          <article>
-            <div class="stack" gap="4">
+      <div style="display: flex; justify-content: center; align-items: center; min-height: 48rem;">
+        <n-container bordered inline padding="4" gap="4" style="width: 100%; max-width: 24rem;">
+          <n-header align="center" style="display: flex; flex-direction: column; gap: 0.25rem;">
+            <div class="auth-logo-mark" style="margin-bottom: 0.5rem;">N</div>
+            <strong style="font-size: 1.25rem;">Create your account</strong>
+            <span style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">Start your free 14-day trial, no credit card required</span>
+          </n-header>
+          <n-body>
+            <n-stack gap="4">
               <form>
-                <div class="stack" gap="4">
+                <n-stack gap="4">
                   <n-field required>
                     <label slot="label">Full name</label>
                     <n-input placeholder="Kim Granlund" name="name">
@@ -147,15 +82,15 @@
                     </n-input>
                   </n-field>
                   <n-checkbox name="terms" required>
-                    <span class="terms-text">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+                    <span style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral);">I agree to the <a href="#" class="auth-link">Terms of Service</a> and <a href="#" class="auth-link">Privacy Policy</a></span>
                   </n-checkbox>
                   <n-button variant="primary" intent="accent" type="submit">
                     <span slot="label">Create Account</span>
                   </n-button>
-                </div>
+                </n-stack>
               </form>
-              <div class="divider">or continue with</div>
-              <div class="oauth-row">
+              <n-divider>or continue with</n-divider>
+              <n-grid cols="2" gap="3">
                 <n-button>
                   <n-icon name="google-logo" slot="leading"></n-icon>
                   <span slot="label">Google</span>
@@ -164,13 +99,15 @@
                   <n-icon name="github-logo" slot="leading"></n-icon>
                   <span slot="label">GitHub</span>
                 </n-button>
-              </div>
-            </div>
-          </article>
-          <p class="auth-footer-text">
-            Already have an account? <a href="#">Sign in</a>
-          </p>
-        </div>
+              </n-grid>
+            </n-stack>
+          </n-body>
+          <n-footer justify="center">
+            <span style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral);">
+              Already have an account? <a href="#" class="auth-link">Sign in</a>
+            </span>
+          </n-footer>
+        </n-container>
       </div>
     </div>
 

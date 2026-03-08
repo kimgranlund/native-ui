@@ -11,7 +11,7 @@
     </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>&lt;div class="inset"&gt;</h1>
+    <h1>&lt;n-inset&gt;</h1>
     <p class="demo-desc">
       Content indentation container. Adds consistent inline-start padding without visual surface. CSS-only container.
     </p>
@@ -19,62 +19,62 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <span style="font-weight: 500;">Parent heading</span>
-      <div class="inset">
+      <n-inset>
         <span>Indented child 1</span>
         <span>Indented child 2</span>
         <span>Indented child 3</span>
-      </div>
+      </n-inset>
     <pre class="demo-code"><code>&lt;span&gt;Parent heading&lt;/span&gt;
-&lt;div class="inset"&gt;
+&lt;n-inset&gt;
   &lt;span&gt;Indented child 1&lt;/span&gt;
   &lt;span&gt;Indented child 2&lt;/span&gt;
   &lt;span&gt;Indented child 3&lt;/span&gt;
-&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;/n-inset&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── With Checkboxes ── -->
 
     <h2>Nested Checkboxes</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-checkbox checked>Select all</n-checkbox>
-      <div class="inset">
+      <n-inset>
         <n-checkbox checked>Option A</n-checkbox>
         <n-checkbox checked>Option B</n-checkbox>
         <n-checkbox>Option C</n-checkbox>
-      </div>
+      </n-inset>
     <pre class="demo-code"><code>&lt;n-checkbox checked&gt;Select all&lt;/n-checkbox&gt;
-&lt;div class="inset"&gt;
+&lt;n-inset&gt;
   &lt;n-checkbox checked&gt;Option A&lt;/n-checkbox&gt;
   &lt;n-checkbox checked&gt;Option B&lt;/n-checkbox&gt;
   &lt;n-checkbox&gt;Option C&lt;/n-checkbox&gt;
-&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;/n-inset&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div size="sm">
         <span style="font-weight: 500; font-size: 0.8125rem;">sm parent</span>
-        <div class="inset">
+        <n-inset>
           <span style="font-size: 0.8125rem;">sm indented content</span>
-        </div>
+        </n-inset>
       </div>
       <div size="lg" style="margin-top: 1rem;">
         <span style="font-weight: 500;">lg parent</span>
-        <div class="inset">
+        <n-inset>
           <span>lg indented content</span>
-        </div>
+        </n-inset>
       </div>
       <pre class="demo-code"><code>&lt;div size="sm"&gt;
   &lt;span&gt;sm parent&lt;/span&gt;
-  &lt;div class="inset"&gt;
+  &lt;n-inset&gt;
     &lt;span&gt;sm indented content&lt;/span&gt;
-  &lt;/div&gt;
+  &lt;/n-inset&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     </main></native-dashboard-spa>
     <script type="module">

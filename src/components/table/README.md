@@ -44,7 +44,6 @@ Public `--n-*` custom properties consumed by this component:
 - `--n-font-weight`
 - `--n-group-header-font`
 - `--n-ink`
-- `--n-ink-hover`
 - `--n-ink-muted`
 - `--n-ink-strong`
 - `--n-letter-spacing`

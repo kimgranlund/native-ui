@@ -70,7 +70,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <div class="stack" gap="6">
+    <n-stack gap="6">
     <div>
       <h1>Confirmation Dialogs</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -81,7 +81,7 @@
 
     <!-- -- Trigger Buttons -- -->
 
-    <div class="stack" gap="4">
+    <n-stack gap="4">
     <h2>Trigger Dialogs</h2>
     <div class="trigger-row">
       <n-button id="open-info" intent="info">
@@ -97,13 +97,13 @@
         <span slot="label">Delete Account</span>
       </n-button>
     </div>
-    </div>
+    </n-stack>
 
     <!-- -- Info Confirmation Dialog -- -->
 
     <n-dialog id="info-dialog">
-      <article>
-        <section>
+      <n-container>
+        <n-body>
           <div class="dialog-icon dialog-icon-info">
             <n-icon name="info" aria-hidden="true"></n-icon>
           </div>
@@ -113,23 +113,23 @@
             but all data and history will be preserved. You can restore it at any time from
             the archive.
           </span>
-        </section>
-        <footer>
+        </n-body>
+        <n-footer>
           <n-button id="info-cancel">
             <span slot="label">Cancel</span>
           </n-button>
           <n-button id="info-confirm" intent="info">
             <span slot="label">Archive</span>
           </n-button>
-        </footer>
-      </article>
+        </n-footer>
+      </n-container>
     </n-dialog>
 
     <!-- -- Warning Confirmation Dialog -- -->
 
     <n-dialog id="warning-dialog">
-      <article>
-        <section>
+      <n-container>
+        <n-body>
           <div class="dialog-icon dialog-icon-warning">
             <n-icon name="warning" aria-hidden="true"></n-icon>
           </div>
@@ -138,23 +138,23 @@
             You have unsaved changes that will be lost if you leave this page.
             Would you like to save your work before continuing?
           </span>
-        </section>
-        <footer>
+        </n-body>
+        <n-footer>
           <n-button id="warning-discard">
             <span slot="label">Discard</span>
           </n-button>
           <n-button id="warning-save" intent="accent">
             <span slot="label">Save</span>
           </n-button>
-        </footer>
-      </article>
+        </n-footer>
+      </n-container>
     </n-dialog>
 
     <!-- -- Danger Confirmation Dialog -- -->
 
     <n-dialog id="danger-dialog">
-      <article>
-        <section>
+      <n-container>
+        <n-body>
           <div class="dialog-icon dialog-icon-danger">
             <n-icon name="trash" aria-hidden="true"></n-icon>
           </div>
@@ -163,8 +163,8 @@
             This action cannot be undone. All your data, projects, and settings
             will be permanently removed. Any active subscriptions will be cancelled immediately.
           </span>
-        </section>
-        <footer>
+        </n-body>
+        <n-footer>
           <n-button id="danger-cancel">
             <span slot="label">Cancel</span>
           </n-button>
@@ -172,10 +172,10 @@
             <n-icon name="trash" slot="leading"></n-icon>
             <span slot="label">Delete</span>
           </n-button>
-        </footer>
-      </article>
+        </n-footer>
+      </n-container>
     </n-dialog>
-    </div>
+    </n-stack>
 
     </main></native-dashboard-spa>
     <script type="module">

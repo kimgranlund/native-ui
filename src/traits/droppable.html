@@ -166,7 +166,7 @@
     <!-- ── File Drop Zone (Provider) ── -->
 
     <h2>File Drop Zone (Provider)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         <code>&lt;n-controller traits="droppable"&gt;</code> wraps a plain div. Drop any files onto the zone.
       </p>
@@ -192,12 +192,12 @@
     }
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Image Only (Provider) ── -->
 
     <h2>Image Only (Provider)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         <code>data-trait-droppable-accept="image/*"</code> filter. Shows <code>[drop-invalid]</code> when a non-image is dragged over.
       </p>
@@ -215,12 +215,12 @@
     Drop images here
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Text Drop (Provider) ── -->
 
     <h2>Text Drop (Provider)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         Drop plain text from a browser selection. Select text elsewhere and drag it onto the zone.
       </p>
@@ -244,12 +244,12 @@
     console.log('Dropped text:', e.detail.text);
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Single File (Provider) ── -->
 
     <h2>Single File (Provider)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         <code>data-trait-droppable-multiple="false"</code>. Only the first file is accepted when multiple are dropped.
       </p>
@@ -267,7 +267,7 @@
     Drop a single file
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── API Reference ── -->
 

@@ -299,7 +299,7 @@
           Each card has its own parallax controller via <code>&lt;n-controller&gt;</code>. Grid of holographic trading cards.
         </span>
 
-        <div class="grid" cols="3" gap="4" id="provider-cards">
+        <n-grid cols="3" gap="4" id="provider-cards">
           <n-controller traits="parallaxable" data-trait-parallaxable-glare="true">
             <div class="parallax-card holo-1">
               <span class="card-label">Amethyst</span>
@@ -336,14 +336,14 @@
               <span class="card-sub">Prismatic</span>
             </div>
           </n-controller>
-        </div>
+        </n-grid>
 
         <h3>Provider Event Log</h3>
-        <article>
-          <section show-scrollbar style="max-height: 8rem;">
+        <n-container>
+          <n-body show-scrollbar style="max-height: 8rem;">
             <div class="event-log" id="provider-log"></div>
-          </section>
-        </article>
+          </n-body>
+        </n-container>
 
         <!-- 4. High Tilt -->
 
@@ -372,38 +372,38 @@
         </div>
 
         <h3>Options</h3>
-        <article>
-          <section>
-            <div class="stack" gap="3">
-              <div class="stack" direction="row" align="center" gap="3">
+        <n-container>
+          <n-body>
+            <n-stack gap="3">
+              <n-stack direction="row" align="center" gap="3">
                 <span size="sm" style="min-width: 9rem;">Max Tilt: <strong id="tilt-val">15</strong> deg</span>
                 <n-range id="opt-tilt" min="1" max="45" step="1" value="15" style="flex:1;"></n-range>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <span size="sm" style="min-width: 9rem;">Perspective: <strong id="perspective-val">1000</strong> px</span>
                 <n-range id="opt-perspective" min="200" max="2000" step="50" value="1000" style="flex:1;"></n-range>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <span size="sm" style="min-width: 9rem;">Scale: <strong id="scale-val">1.05</strong></span>
                 <n-range id="opt-scale" min="1" max="1.3" step="0.01" value="1.05" style="flex:1;"></n-range>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <span size="sm" style="min-width: 9rem;">Speed: <strong id="speed-val">300</strong> ms</span>
                 <n-range id="opt-speed" min="50" max="800" step="25" value="300" style="flex:1;"></n-range>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <n-switch id="opt-glare">Glare overlay</n-switch>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <span size="sm" style="min-width: 9rem;">Glare opacity: <strong id="glare-opacity-val">0.35</strong></span>
                 <n-range id="opt-glare-opacity" min="0" max="1" step="0.05" value="0.35" style="flex:1;"></n-range>
-              </div>
-              <div class="stack" direction="row" gap="2">
+              </n-stack>
+              <n-stack direction="row" gap="2">
                 <n-button id="btn-reset" variant="secondary">Reset Tilt</n-button>
-              </div>
-            </div>
-          </section>
-        </article>
+              </n-stack>
+            </n-stack>
+          </n-body>
+        </n-container>
 
         <!-- 6. CSS Custom Property Demo -->
 
@@ -412,7 +412,7 @@
           <code>--parallax-percent-x</code> and <code>--parallax-percent-y</code> drive the box-shadow offset — no JS needed for the shadow effect.
         </span>
 
-        <div class="grid" cols="2" gap="4">
+        <n-grid cols="2" gap="4">
           <n-controller traits="parallaxable" data-trait-parallaxable-scale="1">
             <div class="shadow-card">
               <span class="card-label">Dynamic Shadow</span>
@@ -425,16 +425,16 @@
               <span class="card-sub">maxTilt: 20, no scale</span>
             </div>
           </n-controller>
-        </div>
+        </n-grid>
 
         <!-- 7. Event Log -->
 
         <h3>Controller Event Log</h3>
-        <article>
-          <section show-scrollbar style="max-height: 8rem;">
+        <n-container>
+          <n-body show-scrollbar style="max-height: 8rem;">
             <div class="event-log" id="controller-log"></div>
-          </section>
-        </article>
+          </n-body>
+        </n-container>
 
       </main>
     </native-dashboard-spa>

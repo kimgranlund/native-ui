@@ -124,15 +124,15 @@
 
       <!-- ── Profile Section ── -->
 
-      <div class="stack" gap="0">
-        <article>
-          <header>
+      <n-stack gap="0">
+        <n-container>
+          <n-header>
             <span>Profile</span>
-          </header>
-          <section>
+          </n-header>
+          <n-body>
           <p class="settings-section-description">Your public profile information. This is visible to other users.</p>
 
-          <div class="stack" gap="4">
+          <n-stack gap="4">
             <div class="avatar-row">
               <span class="avatar" name="Kim Granlund" size="lg" intent="accent">KG</span>
               <div class="avatar-info">
@@ -167,20 +167,20 @@
                 <span slot="label">Save Profile</span>
               </n-button>
             </div>
-          </div>
-          </section>
-        </article>
+          </n-stack>
+          </n-body>
+        </n-container>
 
         <!-- ── Notifications Section ── -->
 
-        <article>
-          <header dividers>
+        <n-container>
+          <n-header dividers>
             <span>Notifications</span>
-          </header>
-          <section>
+          </n-header>
+          <n-body>
           <p class="settings-section-description">Choose how and when you want to be notified.</p>
 
-          <div class="stack" gap="0">
+          <n-stack gap="0">
             <div class="notification-row">
               <div>
                 <div class="notification-label">Email notifications</div>
@@ -208,21 +208,21 @@
                 <span slot="label">Save Preferences</span>
               </n-button>
             </div>
-          </div>
-          </section>
-        </article>
+          </n-stack>
+          </n-body>
+        </n-container>
 
         <!-- ── Security Section ── -->
 
-        <article>
-          <header dividers>
+        <n-container>
+          <n-header dividers>
             <span>Security</span>
-          </header>
-          <section>
+          </n-header>
+          <n-body>
           <p class="settings-section-description">Update your password. We recommend using a strong, unique password.</p>
 
           <form>
-            <div class="stack" gap="4">
+            <n-stack gap="4">
               <n-field required>
                 <label slot="label">Current password</label>
                 <n-input type="password" placeholder="Enter current password" name="current_password">
@@ -247,18 +247,18 @@
                   <span slot="label">Update Password</span>
                 </n-button>
               </div>
-            </div>
+            </n-stack>
           </form>
-          </section>
-        </article>
+          </n-body>
+        </n-container>
 
         <!-- ── Danger Zone ── -->
 
-        <article>
-          <header dividers>
+        <n-container>
+          <n-header dividers>
             <span>Danger Zone</span>
-          </header>
-          <section>
+          </n-header>
+          <n-body>
           <div class="danger-zone">
             <div class="danger-zone-row">
               <div class="danger-zone-text">
@@ -273,10 +273,10 @@
               </n-button>
             </div>
           </div>
-          </section>
-        </article>
+          </n-body>
+        </n-container>
 
-      </div>
+      </n-stack>
     </div>
 
     </main></native-dashboard-spa>

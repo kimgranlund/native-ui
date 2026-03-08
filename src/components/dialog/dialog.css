@@ -38,7 +38,7 @@
   }
 
   /* ── Sizing API ──
-     WHY: Host pages set width and box-shadow directly on n-card inside n-dialog.
+     WHY: Host pages set width and box-shadow directly on article/n-container inside n-dialog.
      Expose custom properties so consumers can set these declaratively on n-dialog
      without reaching into children. */
 

@@ -447,7 +447,7 @@
 }
 
 /* Override n-divider flex:1 inside toolbar — just be a thin line */
-:where(native-a2ui) :where([data-panel="json-in"]) > :where(n-toolbar) :where(.divider) {
+:where(native-a2ui) :where([data-panel="json-in"]) > :where(n-toolbar) :where(n-divider) {
   flex: none;
 }
 

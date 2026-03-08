@@ -39,7 +39,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>&lt;div class="grid"&gt;</h1>
+    <h1>&lt;n-grid&gt;</h1>
     <p class="demo-desc">
       CSS grid layout container. Responsive auto-fill or fixed columns. CSS-only container.
     </p>
@@ -47,117 +47,117 @@
     <!-- ── Auto-fill (default) ── -->
 
     <h2>Auto-fill (default, min 16rem)</h2>
-    <article data-kind="panel" bordered>
-      <div class="grid">
+    <n-container data-kind="panel" bordered>
+      <n-grid>
         <div class="demo-box">Card 1</div>
         <div class="demo-box">Card 2</div>
         <div class="demo-box">Card 3</div>
         <div class="demo-box">Card 4</div>
         <div class="demo-box">Card 5</div>
         <div class="demo-box">Card 6</div>
-      </div>
-    <pre class="demo-code"><code>&lt;div class="grid"&gt;
+      </n-grid>
+    <pre class="demo-code"><code>&lt;n-grid&gt;
   &lt;div&gt;Card 1&lt;/div&gt;
   &lt;div&gt;Card 2&lt;/div&gt;
   &lt;div&gt;Card 3&lt;/div&gt;
   &lt;div&gt;Card 4&lt;/div&gt;
-&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;/n-grid&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Fixed Columns ── -->
 
     <h2>Fixed Columns</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>cols="2"</h3>
-      <div class="grid" cols="2">
+      <n-grid cols="2">
         <div class="demo-box">Col 1</div>
         <div class="demo-box">Col 2</div>
         <div class="demo-box">Col 3</div>
         <div class="demo-box">Col 4</div>
-      </div>
+      </n-grid>
       <h3>cols="3"</h3>
-      <div class="grid" cols="3">
+      <n-grid cols="3">
         <div class="demo-box">Col 1</div>
         <div class="demo-box">Col 2</div>
         <div class="demo-box">Col 3</div>
-      </div>
+      </n-grid>
       <h3>cols="4"</h3>
-      <div class="grid" cols="4">
+      <n-grid cols="4">
         <div class="demo-box">1</div>
         <div class="demo-box">2</div>
         <div class="demo-box">3</div>
         <div class="demo-box">4</div>
-      </div>
-    <pre class="demo-code"><code>&lt;div class="grid" cols="2"&gt;
+      </n-grid>
+    <pre class="demo-code"><code>&lt;n-grid cols="2"&gt;
   &lt;div&gt;Col 1&lt;/div&gt;
   &lt;div&gt;Col 2&lt;/div&gt;
-&lt;/div&gt;
+&lt;/n-grid&gt;
 
-&lt;div class="grid" cols="3"&gt;...&lt;/div&gt;
-&lt;div class="grid" cols="4"&gt;...&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;n-grid cols="3"&gt;...&lt;/n-grid&gt;
+&lt;n-grid cols="4"&gt;...&lt;/n-grid&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Min Column Width ── -->
 
     <h2>Min Column Width</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>min="10rem" (more columns)</h3>
-      <div class="grid" min="10rem">
+      <n-grid min="10rem">
         <div class="demo-box">A</div>
         <div class="demo-box">B</div>
         <div class="demo-box">C</div>
         <div class="demo-box">D</div>
         <div class="demo-box">E</div>
         <div class="demo-box">F</div>
-      </div>
+      </n-grid>
       <h3>min="24rem" (fewer columns)</h3>
-      <div class="grid" min="24rem">
+      <n-grid min="24rem">
         <div class="demo-box">A</div>
         <div class="demo-box">B</div>
         <div class="demo-box">C</div>
         <div class="demo-box">D</div>
-      </div>
-    <pre class="demo-code"><code>&lt;div class="grid" min="10rem"&gt;
+      </n-grid>
+    <pre class="demo-code"><code>&lt;n-grid min="10rem"&gt;
   &lt;div&gt;A&lt;/div&gt;
   &lt;div&gt;B&lt;/div&gt;
   ...
-&lt;/div&gt;
+&lt;/n-grid&gt;
 
-&lt;div class="grid" min="24rem"&gt;...&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;n-grid min="24rem"&gt;...&lt;/n-grid&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Gap ── -->
 
     <h2>Gap Sizes</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>gap="1"</h3>
-      <div class="grid" cols="3" gap="1">
+      <n-grid cols="3" gap="1">
         <div class="demo-box">A</div>
         <div class="demo-box">B</div>
         <div class="demo-box">C</div>
-      </div>
+      </n-grid>
       <h3>gap="4"</h3>
-      <div class="grid" cols="3" gap="4">
+      <n-grid cols="3" gap="4">
         <div class="demo-box">A</div>
         <div class="demo-box">B</div>
         <div class="demo-box">C</div>
-      </div>
+      </n-grid>
       <h3>gap="8"</h3>
-      <div class="grid" cols="3" gap="8">
+      <n-grid cols="3" gap="8">
         <div class="demo-box">A</div>
         <div class="demo-box">B</div>
         <div class="demo-box">C</div>
-      </div>
-    <pre class="demo-code"><code>&lt;div class="grid" cols="3" gap="1"&gt;...&lt;/div&gt;
-&lt;div class="grid" cols="3" gap="4"&gt;...&lt;/div&gt;
-&lt;div class="grid" cols="3" gap="8"&gt;...&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+      </n-grid>
+    <pre class="demo-code"><code>&lt;n-grid cols="3" gap="1"&gt;...&lt;/n-grid&gt;
+&lt;n-grid cols="3" gap="4"&gt;...&lt;/n-grid&gt;
+&lt;n-grid cols="3" gap="8"&gt;...&lt;/n-grid&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Composition ── -->
 
     <h2>Composition (stat cards)</h2>
-    <article data-kind="panel" bordered>
-      <div class="grid" cols="4" gap="4">
+    <n-container data-kind="panel" bordered>
+      <n-grid cols="4" gap="4">
         <div class="stat-card">
           <div class="stat-label">Revenue</div>
           <div class="stat-value">$45,231</div>
@@ -174,15 +174,15 @@
           <div class="stat-label">Conversion</div>
           <div class="stat-value">3.2%</div>
         </div>
-      </div>
-    <pre class="demo-code"><code>&lt;div class="grid" cols="4" gap="4"&gt;
+      </n-grid>
+    <pre class="demo-code"><code>&lt;n-grid cols="4" gap="4"&gt;
   &lt;div class="stat-card"&gt;
     &lt;div class="stat-label"&gt;Revenue&lt;/div&gt;
     &lt;div class="stat-value"&gt;$45,231&lt;/div&gt;
   &lt;/div&gt;
   ...
-&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;/n-grid&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     </main></native-dashboard-spa>
     <script type="module">

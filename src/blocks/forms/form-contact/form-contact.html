@@ -30,7 +30,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <div class="stack" gap="6">
+    <n-stack gap="6">
     <div>
       <h1>Contact Us</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -39,13 +39,13 @@
     </div>
 
     <div class="form-wrapper">
-      <article>
-        <header>
+      <n-container>
+        <n-header>
           <span>Send us a message</span>
-        </header>
-        <section>
+        </n-header>
+        <n-body>
           <form id="contact-form">
-            <div class="stack" gap="4">
+            <n-stack gap="4">
               <n-field required>
                 <label slot="label">Full name</label>
                 <n-input placeholder="Jane Doe" name="name">
@@ -82,19 +82,19 @@
                 <n-textarea placeholder="Tell us how we can help..." rows="5" name="message" autogrow></n-textarea>
                 <span slot="description">Minimum 20 characters.</span>
               </n-field>
-            </div>
+            </n-stack>
           </form>
-        </section>
-        <footer>
+        </n-body>
+        <n-footer>
           <n-button variant="ghost"><span slot="label">Cancel</span></n-button>
           <n-button variant="primary" intent="accent" type="submit" form="contact-form">
             <n-icon name="envelope" slot="leading"></n-icon>
             <span slot="label">Send Message</span>
           </n-button>
-        </footer>
-      </article>
+        </n-footer>
+      </n-container>
     </div>
-    </div>
+    </n-stack>
 
     </main></native-dashboard-spa>
     <script type="module">

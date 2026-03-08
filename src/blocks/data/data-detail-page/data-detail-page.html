@@ -151,7 +151,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <div class="stack" gap="6">
+    <n-stack gap="6">
 
     <!-- ── Breadcrumb ── -->
     <n-breadcrumb>
@@ -161,7 +161,7 @@
     </n-breadcrumb>
 
     <!-- ── Profile Header ── -->
-    <article>
+    <n-container>
       <div class="profile-header">
         <span class="avatar" name="Kim Granlund" size="xl" intent="accent">KG</span>
         <div class="profile-info">
@@ -182,7 +182,7 @@
           </n-button>
         </div>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── Tabs ── -->
     <n-tabs value="overview">
@@ -192,11 +192,11 @@
 
       <!-- ── Overview Panel ── -->
       <n-tab-panel value="overview">
-        <div class="stack" gap="4">
+        <n-stack gap="4">
         <div class="detail-grid">
           <div>
             <h2>Personal Information</h2>
-            <div class="stack" gap="3">
+            <n-stack gap="3">
               <div class="detail-item">
                 <span class="detail-label">Full Name</span>
                 <span class="detail-value">Kim Granlund</span>
@@ -213,12 +213,12 @@
                 <span class="detail-label">Location</span>
                 <span class="detail-value">San Francisco, CA</span>
               </div>
-            </div>
+            </n-stack>
           </div>
 
           <div>
             <h2>Work Information</h2>
-            <div class="stack" gap="3">
+            <n-stack gap="3">
               <div class="detail-item">
                 <span class="detail-label">Department</span>
                 <span class="detail-value">Design</span>
@@ -235,7 +235,7 @@
                 <span class="detail-label">Employee ID</span>
                 <span class="detail-value">EMP-2023-0472</span>
               </div>
-            </div>
+            </n-stack>
           </div>
         </div>
 
@@ -279,7 +279,7 @@
             </n-table-body>
           </n-table>
         </div>
-        </div>
+        </n-stack>
       </n-tab-panel>
 
       <!-- ── Activity Panel ── -->
@@ -340,7 +340,7 @@
 
       <!-- ── Settings Panel ── -->
       <n-tab-panel value="settings">
-        <div class="stack" gap="4">
+        <n-stack gap="4">
         <div class="detail-grid">
           <div>
             <h2>Notifications</h2>
@@ -421,10 +421,10 @@
             </n-button>
           </div>
         </div>
-        </div>
+        </n-stack>
       </n-tab-panel>
     </n-tabs>
-    </div>
+    </n-stack>
 
     </main></native-dashboard-spa>
     <script type="module">

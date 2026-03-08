@@ -1,0 +1,73 @@
+@layer ui {
+
+  /* ── <hr> ── */
+
+  :where(hr) {
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    align-items: center;
+    gap: calc(var(--n-space) * var(--n-space-k));
+    border: 0;
+    color: var(--n-ink-muted);
+    font-size: var(--n-font-size);
+    letter-spacing: var(--n-letter-spacing);
+    margin: 0;
+    flex-direction: row;
+    border-top: 1px solid var(--n-border-muted);
+  }
+
+  /* ── <n-divider> ── */
+
+  :where(n-divider) {
+    display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
+    align-items: center;
+    gap: calc(var(--n-space) * var(--n-space-k));
+    border: 0;
+    color: var(--n-ink-muted);
+    font-size: var(--n-font-size);
+    letter-spacing: var(--n-letter-spacing);
+  }
+
+  /* Horizontal with text content */
+  :where(n-divider):not([orientation="vertical"]) {
+    flex-direction: row;
+  }
+
+  :where(n-divider):not([orientation="vertical"]):empty {
+    border-top: 1px solid var(--n-border-muted);
+  }
+
+  :where(n-divider):not([orientation="vertical"]):not(:empty)::before,
+  :where(n-divider):not([orientation="vertical"]):not(:empty)::after {
+    content: '';
+    flex: 1;
+    border-top: 1px solid var(--n-border-muted);
+  }
+
+  /* ── Attribute API ── */
+
+  :where(n-divider)[orientation="vertical"] {
+    align-self: stretch;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+  }
+
+  :where(n-divider)[orientation="vertical"]:empty::after {
+    content: '';
+    align-self: center;
+    height: 100%;
+    border-left: 1px solid var(--n-border-muted);
+  }
+
+  :where(n-divider)[orientation="vertical"]:not(:empty)::before,
+  :where(n-divider)[orientation="vertical"]:not(:empty)::after {
+    content: '';
+    flex: 1;
+    border-left: 1px solid var(--n-border-muted);
+  }
+
+}

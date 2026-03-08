@@ -39,16 +39,6 @@
     gap: var(--n-dot-gap);
   }
 
-  /* ── Vertical ── */
-
-  [orientation="vertical"]:where(n-pagination-dots) {
-    flex-direction: column;
-  }
-
-  [orientation="vertical"]:where(n-pagination-dots) > :where([part="dots"]) {
-    flex-direction: column;
-  }
-
   /* ── Floating Indicator ── */
   /* WHY: Real DOM element (not ::before) so JS can set --n-dot-index directly.
      CSS transitions on transform work reliably without @property registration,
@@ -75,16 +65,6 @@
     transition:
       transform calc(var(--n-duration) * 1.5) var(--n-easing),
       background var(--n-duration) var(--n-easing);
-  }
-
-  [orientation="vertical"]:where(n-pagination-dots):state(ready) > :where([part="dots"]) > :where(.n-dot-indicator) {
-    top: 0;
-    left: 50%;
-    width: var(--n-dot-size);
-    height: var(--n-dot-indicator-length);
-    transform:
-      translateX(-50%)
-      translateY(calc(var(--n-dot-index, 0) * (var(--n-dot-size) + var(--n-dot-gap))));
   }
 
   /* ── Dot button (hit area) ── */
@@ -135,11 +115,6 @@
     margin-inline: calc((var(--n-dot-indicator-length) - var(--n-dot-size)) / 2);
   }
 
-  [orientation="vertical"]:where(n-pagination-dots) :where(button[aria-selected="true"]) {
-    margin-inline: 0;
-    margin-block: calc((var(--n-dot-indicator-length) - var(--n-dot-size)) / 2);
-  }
-
   :where(n-pagination-dots) :where(button[aria-selected="true"]) > :where(span) {
     background: transparent;
   }
@@ -180,11 +155,6 @@
     display: none;
   }
 
-  [paddles]:where(n-pagination-dots) > :where([part="prev"]),
-  [paddles]:where(n-pagination-dots) > :where([part="next"]) {
-    display: inline-flex;
-  }
-
   /* ── Disabled ── */
 
   :where(n-pagination-dots)[aria-disabled="true"] {
@@ -203,13 +173,6 @@
     opacity: 0.4;
   }
 
-  /* ── Variant: plain (no container background) ── */
-
-  [variant="plain"]:where(n-pagination-dots) {
-    background: transparent;
-    padding: 0;
-  }
-
   /* ── Hidden ── */
 
   :where(n-pagination-dots[hidden]) { display: none; }
@@ -226,4 +189,39 @@
     }
   }
 
+}
+
+/* ── Attribute API (unlayered) ── */
+
+[orientation="vertical"]:where(n-pagination-dots) {
+  flex-direction: column;
+}
+
+[orientation="vertical"]:where(n-pagination-dots) > :where([part="dots"]) {
+  flex-direction: column;
+}
+
+[orientation="vertical"]:where(n-pagination-dots):state(ready) > :where([part="dots"]) > :where(.n-dot-indicator) {
+  top: 0;
+  left: 50%;
+  width: var(--n-dot-size);
+  height: var(--n-dot-indicator-length);
+  transform:
+    translateX(-50%)
+    translateY(calc(var(--n-dot-index, 0) * (var(--n-dot-size) + var(--n-dot-gap))));
+}
+
+[orientation="vertical"]:where(n-pagination-dots) :where(button[aria-selected="true"]) {
+  margin-inline: 0;
+  margin-block: calc((var(--n-dot-indicator-length) - var(--n-dot-size)) / 2);
+}
+
+[paddles]:where(n-pagination-dots) > :where([part="prev"]),
+[paddles]:where(n-pagination-dots) > :where([part="next"]) {
+  display: inline-flex;
+}
+
+[variant="plain"]:where(n-pagination-dots) {
+  background: transparent;
+  padding: 0;
 }

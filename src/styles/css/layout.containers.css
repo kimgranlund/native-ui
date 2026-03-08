@@ -1,34 +1,36 @@
 /* ══════════════════════════════════════════════════════════════════
-   Containers — semantic sub-containers + all container component CSS.
-   <header>, .body, <footer>, <hr> / .divider are defined inline.
+   Containers — sub-containers + container component CSS.
+   <n-header>, <n-footer>, <aside> are defined inline.
    Container components are @imported from src/containers/.
    ══════════════════════════════════════════════════════════════════ */
 
 /* Container components */
 @import '../../containers/article/article.css';
+@import '../../containers/body/body.css';
+@import '../../containers/divider/divider.css';
 
 @layer ui {
 
   /* ╭──────────────────────────────────────────────────────────╮
-     │  <header>                                                │
+     │  <n-header>                                              │
      │  Generic sub-container header with leading / label /     │
      │  trailing slots + optional content row below.            │
      │  Grid adapts columns to which slots are present.         │
-     │  Parent containers (article, n-drawer) provide            │
+     │  Parent containers (article, n-drawer) provide           │
      │  context-specific overrides.                             │
      ╰──────────────────────────────────────────────────────────╯ */
 
-  :where(header) {
-    --n-header-padding-block: calc(var(--n-space) * 4);
-    --n-header-padding-inline: calc(var(--n-space) * 4);
+  :where(n-header) {
+    --n-padding-block: var(--n-space);
+    --n-padding-inline: calc(var(--n-space) * var(--n-space-k));
 
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
     gap: calc(var(--n-space) * 2);
-    min-height: calc(var(--n-size) + var(--n-header-padding-block) * 2);
-    padding-block: var(--n-header-padding-block);
-    padding-inline: var(--n-header-padding-inline);
+    min-height: calc(var(--n-size) + var(--n-padding-block) * 2);
+    padding-block: var(--n-padding-block);
+    padding-inline: var(--n-padding-inline);
     font-weight: var(--n-button-font-weight);
     color: var(--n-ink-strong);
     min-width: 0;
@@ -40,31 +42,31 @@
 
   /* ── Slots ── */
 
-  :where(header):has(> [slot="leading"]):has(> [slot="trailing"]) {
+  :where(n-header):has(> [slot="leading"]):has(> [slot="trailing"]) {
     grid-template-columns: auto 1fr minmax(0, auto);
   }
 
-  :where(header):has(> [slot="leading"]):not(:has(> [slot="trailing"])) {
+  :where(n-header):has(> [slot="leading"]):not(:has(> [slot="trailing"])) {
     grid-template-columns: auto 1fr;
   }
 
-  :where(header):not(:has(> [slot="leading"])):has(> [slot="trailing"]) {
+  :where(n-header):not(:has(> [slot="leading"])):has(> [slot="trailing"]) {
     grid-template-columns: 1fr minmax(0, auto);
   }
 
-  :where(header) > :where([slot="leading"]) {
+  :where(n-header) > :where([slot="leading"]) {
     grid-column: 1;
     display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
   }
 
-  :where(header) > :where([slot="label"]),
-  :where(header) > :where(:not([slot])) {
+  :where(n-header) > :where([slot="label"]),
+  :where(n-header) > :where(:not([slot])) {
     min-width: 0;
   }
 
-  :where(header) > :where([slot="trailing"]) {
+  :where(n-header) > :where([slot="trailing"]) {
     grid-column: -1;
     display: flex;
     align-items: center;
@@ -73,7 +75,7 @@
     overflow: hidden;
   }
 
-  :where(header) > :where([slot="content"]) {
+  :where(n-header) > :where([slot="content"]) {
     grid-column: 1 / -1;
     display: flex;
     align-items: center;
@@ -82,57 +84,22 @@
   }
 
   /* ╭──────────────────────────────────────────────────────────╮
-     │  .body                                                   │
-     │  Generic content region. Fills remaining flex space.     │
-     │  Does NOT declare overflow by default — scrolling is     │
-     │  inherited from the parent height constraint.            │
-     ╰──────────────────────────────────────────────────────────╯ */
-
-  :where(.body) {
-    --n-body-padding-block: calc(var(--n-space) * 4);
-    --n-body-padding-inline: calc(var(--n-space) * 4);
-
-    display: flex;
-    flex: 1 1 0%;
-    min-width: 0;
-    min-height: calc(var(--n-size) + var(--n-body-padding-block) * 2);
-    flex-direction: column;
-    gap: calc(var(--n-space) * 4);
-    padding-block: var(--n-body-padding-block);
-    padding-inline: var(--n-body-padding-inline);
-
-    font-size: var(--n-font-size);
-    line-height: var(--n-line-height);
-    box-sizing: border-box;
-  }
-
-  /* ── Divider breathing room ── */
-
-  :where(header)[dividers] + :where(.body) {
-    padding-block-start: calc(var(--n-space) * 2);
-  }
-
-  :where(.body):has(+ :where(footer)[dividers]) {
-    padding-block-end: calc(var(--n-space) * 2);
-  }
-
-  /* ╭──────────────────────────────────────────────────────────╮
-     │  <footer>                                                │
+     │  <n-footer>                                              │
      │  Generic sub-container footer with flex row layout.      │
      │  Actions align to the end by default.                   │
      ╰──────────────────────────────────────────────────────────╯ */
 
-  :where(footer) {
-    --n-footer-padding-block: calc(var(--n-space) * 4);
-    --n-footer-padding-inline: calc(var(--n-space) * 4);
+  :where(n-footer) {
+    --n-padding-block: var(--n-space);
+    --n-padding-inline: calc(var(--n-space) * var(--n-space-k));
 
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: calc(var(--n-space) * 2);
-    min-height: calc(var(--n-size) + var(--n-footer-padding-block) * 2);
-    padding-block: var(--n-footer-padding-block);
-    padding-inline: var(--n-footer-padding-inline);
+    min-height: calc(var(--n-size) + var(--n-padding-block) * 2);
+    padding-block: var(--n-padding-block);
+    padding-inline: var(--n-padding-inline);
     min-width: 0;
 
     font-size: var(--n-font-size);
@@ -141,85 +108,113 @@
   }
 
   /* ╭──────────────────────────────────────────────────────────╮
-     │  <hr> / .divider                                         │
-     │  Horizontal or vertical separator. <hr> for empty         │
-     │  horizontal lines; .divider for vertical or text content. │
+     │  <aside>                                                 │
+     │  Collapsible side panel. Animates width on [open].       │
+     │  Used by dashboard layout for chat + inspector panels.   │
      ╰──────────────────────────────────────────────────────────╯ */
 
-  :where(hr) {
-    display: flex;
-    flex: 1 1 0%;
+  :where(aside) {
+    flex: none;
+    position: relative;
+    display: none;
+    width: 0;
     min-width: 0;
-    align-items: center;
-    gap: calc(var(--n-space) * 4);
-    border: 0;
-    color: var(--n-ink-muted);
-    font-size: var(--n-font-size);
-    letter-spacing: var(--n-letter-spacing);
+    max-width: 480px;
+    overflow: clip;
+    padding: 0;
+    transition:
+      display var(--n-duration) var(--n-easing) allow-discrete,
+      width var(--n-duration) var(--n-easing),
+      min-width var(--n-duration) var(--n-easing),
+      padding var(--n-duration) var(--n-easing);
+  }
+
+  :where(aside[open]) {
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    min-width: 280px;
+  }
+
+  :where(aside[resizing]) {
+    transition: none;
+  }
+
+  /* ── Resize handle ── */
+
+  :where(aside) :where(.layout-resize-handle) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 2;
+  }
+
+  :where(aside) :where(.layout-resize-handle):hover,
+  :where(aside[resizing]) :where(.layout-resize-handle) {
+    background: var(--n-border-muted);
+  }
+
+  :where(.layout-resize-handle[popover]) {
+    position: fixed;
+    inset: unset;
+    width: 4px;
     margin: 0;
-    flex-direction: row;
-    border-top: 1px solid var(--n-border-muted);
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: col-resize;
   }
 
-  :where(.divider) {
-    display: flex;
-    flex: 1 1 0%;
-    min-width: 0;
-    align-items: center;
-    gap: calc(var(--n-space) * 4);
-    border: 0;
-    color: var(--n-ink-muted);
-    font-size: var(--n-font-size);
-    letter-spacing: var(--n-letter-spacing);
+  :where(.layout-resize-handle[popover]):hover,
+  :where(aside[resizing]) :where(.layout-resize-handle[popover]) {
+    background: var(--n-border-muted);
   }
 
-  /* Horizontal with text content */
-  :where(.divider):not([orientation="vertical"]) {
-    flex-direction: row;
+  :where(.layout-resize-handle[popover]):not(:popover-open) {
+    display: none;
   }
 
-  :where(.divider):not([orientation="vertical"]):empty {
-    border-top: 1px solid var(--n-border-muted);
-  }
-
-  :where(.divider):not([orientation="vertical"]):not(:empty)::before,
-  :where(.divider):not([orientation="vertical"]):not(:empty)::after {
-    content: '';
-    flex: 1;
-    border-top: 1px solid var(--n-border-muted);
+  @starting-style {
+    :where(aside[open]) {
+      width: 0;
+      min-width: 0;
+    }
   }
 
 }
 
-/* ── Header Attribute API ── */
+/* ══════════════════════════════════════════════════════════════════
+   Attribute API (unlayered)
+   Selectors at (0,1,0) — beat layered component defaults.
+   ══════════════════════════════════════════════════════════════════ */
 
-:where(header)[padding="none"] { --n-header-padding-block: 0; --n-header-padding-inline: 0; }
-:where(header)[padding="tight"] { --n-header-padding-block: calc(var(--n-space) * 4); --n-header-padding-inline: calc(var(--n-space) * 4); }
-:where(header)[padding="regular"] { --n-header-padding-block: calc(var(--n-space) * 6); --n-header-padding-inline: calc(var(--n-space) * 6); }
-:where(header)[padding="relaxed"] { --n-header-padding-block: calc(var(--n-space) * 8); --n-header-padding-inline: calc(var(--n-space) * 8); }
+/* ── Header ── */
 
-[truncate]:where(header) > :where([slot="label"]),
-[truncate]:where(header) > :where(:not([slot])) {
+[truncate]:where(n-header) > :where([slot="label"]),
+[truncate]:where(n-header) > :where(:not([slot])) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-:where(header)[align="center"] > :where([slot="label"]),
-:where(header)[align="center"] > :where(:not([slot])) {
+:where(n-header)[align="center"] > :where([slot="label"]),
+:where(n-header)[align="center"] > :where(:not([slot])) {
   text-align: center;
 }
 
-:where(header)[align="end"] > :where([slot="label"]),
-:where(header)[align="end"] > :where(:not([slot])) {
+:where(n-header)[align="end"] > :where([slot="label"]),
+:where(n-header)[align="end"] > :where(:not([slot])) {
   text-align: end;
 }
 
-:where(header)[dividers] {
+:where(n-header)[dividers] {
   position: relative;
 }
 
-:where(header)[dividers]::after {
+:where(n-header)[dividers]::after {
   content: '';
   position: absolute;
   inset-inline: 0;
@@ -228,40 +223,28 @@
   background: var(--n-border-muted);
 }
 
-:where(header)[sticky] {
+:where(n-header)[dividers] + :where(n-body) {
+  padding-block-start: calc(var(--n-space) * 2);
+}
+
+:where(n-body):has(+ :where(n-footer)[dividers]) {
+  padding-block-end: calc(var(--n-space) * 2);
+}
+
+:where(n-header)[sticky] {
   position: sticky;
   top: 0;
   z-index: 1;
   background: inherit;
 }
 
-/* ── Body Attribute API ── */
+/* ── Footer ── */
 
-:where(.body)[padding="none"] { --n-body-padding-block: 0; --n-body-padding-inline: 0; }
-:where(.body)[padding="tight"] { --n-body-padding-inline: calc(var(--n-space) * 4); }
-:where(.body)[padding="regular"] { --n-body-padding-block: calc(var(--n-space) * 4); --n-body-padding-inline: calc(var(--n-space) * 6); }
-:where(.body)[padding="relaxed"] { --n-body-padding-block: calc(var(--n-space) * 6); --n-body-padding-inline: calc(var(--n-space) * 8); }
-
-:where(.body)[show-scrollbar] {
-  scrollbar-width: thin;
-}
-
-/* ── Footer Attribute API ── */
-
-:where(footer)[padding="none"] { --n-footer-padding-block: 0; --n-footer-padding-inline: 0; }
-:where(footer)[padding="tight"] { --n-footer-padding-block: calc(var(--n-space) * 4); --n-footer-padding-inline: calc(var(--n-space) * 4); }
-:where(footer)[padding="regular"] { --n-footer-padding-block: calc(var(--n-space) * 6); --n-footer-padding-inline: calc(var(--n-space) * 6); }
-:where(footer)[padding="relaxed"] { --n-footer-padding-block: calc(var(--n-space) * 8); --n-footer-padding-inline: calc(var(--n-space) * 8); }
-
-:where(footer)[justify="start"]  { justify-content: flex-start; }
-:where(footer)[justify="center"] { justify-content: center; }
-:where(footer)[justify="spread"] { justify-content: space-between; }
-
-:where(footer)[dividers] {
+:where(n-footer)[dividers] {
   position: relative;
 }
 
-:where(footer)[dividers]::before {
+:where(n-footer)[dividers]::before {
   content: '';
   position: absolute;
   inset-inline: 0;
@@ -270,32 +253,43 @@
   background: var(--n-border-muted);
 }
 
-:where(footer)[sticky] {
+:where(n-footer)[sticky] {
   position: sticky;
   bottom: 0;
   z-index: 1;
   background: inherit;
 }
 
-/* ── Divider Attribute API ── */
+/* ── Padding ── */
 
-:where(.divider)[orientation="vertical"] {
-  align-self: stretch;
-  flex-direction: column;
-  justify-content: center;
-  width: auto;
-}
+[padding="none"] { --n-padding-block: 0; --n-padding-inline: 0; }
+[padding="tight"] { --n-padding-block: calc(var(--n-space) * 4); --n-padding-inline: calc(var(--n-space) * 4); }
+[padding="regular"] { --n-padding-block: calc(var(--n-space) * 6); --n-padding-inline: calc(var(--n-space) * 6); }
+[padding="relaxed"] { --n-padding-block: calc(var(--n-space) * 8); --n-padding-inline: calc(var(--n-space) * 8); }
 
-:where(.divider)[orientation="vertical"]:empty::after {
-  content: '';
-  align-self: center;
-  height: 100%;
-  border-left: 1px solid var(--n-border-muted);
-}
+/* ── Justify ── */
 
-:where(.divider)[orientation="vertical"]:not(:empty)::before,
-:where(.divider)[orientation="vertical"]:not(:empty)::after {
-  content: '';
-  flex: 1;
-  border-left: 1px solid var(--n-border-muted);
-}
+[justify="start"]   { justify-content: flex-start; }
+[justify="center"]  { justify-content: center; }
+[justify="end"]     { justify-content: flex-end; }
+[justify="spread"]  { justify-content: space-between; }
+[justify="around"]  { justify-content: space-around; }
+[justify="evenly"]  { justify-content: space-evenly; }
+
+/* ── Gap ── */
+
+[gap="0"] { gap: 0; }
+[gap="1"] { gap: calc(var(--n-space) * 1); }
+[gap="2"] { gap: calc(var(--n-space) * 2); }
+[gap="3"] { gap: calc(var(--n-space) * 3); }
+[gap="4"] { gap: calc(var(--n-space) * 4); }
+[gap="6"] { gap: calc(var(--n-space) * 6); }
+[gap="8"] { gap: calc(var(--n-space) * 8); }
+
+/* ── Align ── */
+
+[align="start"]    { align-items: flex-start; }
+[align="center"]   { align-items: center; }
+[align="end"]      { align-items: flex-end; }
+[align="stretch"]  { align-items: stretch; }
+[align="baseline"] { align-items: baseline; }

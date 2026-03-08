@@ -50,28 +50,6 @@
     animation: n-toast-in var(--n-duration) var(--n-easing);
   }
 
-  /* ── Intent ── */
-
-  :where(n-toast)[intent="info"] {
-    background: var(--n-surface-info);
-    color: var(--n-surface-ink-info);
-  }
-
-  :where(n-toast)[intent="success"] {
-    background: var(--n-surface-success);
-    color: var(--n-surface-ink-success);
-  }
-
-  :where(n-toast)[intent="warning"] {
-    background: var(--n-surface-warning);
-    color: var(--n-surface-ink-warning);
-  }
-
-  :where(n-toast)[intent="danger"] {
-    background: var(--n-surface-danger);
-    color: var(--n-surface-ink-danger);
-  }
-
   /* ── Children ── */
 
   :where(n-toast) :where(.n-toast-message) {
@@ -107,4 +85,26 @@
     }
   }
 
+}
+
+/* ── Attribute API (unlayered) ── */
+
+:where(n-toast)[intent="info"] {
+  background: var(--n-surface-info);
+  color: var(--n-surface-ink-info);
+}
+
+:where(n-toast)[intent="success"] {
+  background: var(--n-surface-success);
+  color: var(--n-surface-ink-success);
+}
+
+:where(n-toast)[intent="warning"] {
+  background: var(--n-surface-warning);
+  color: var(--n-surface-ink-warning);
+}
+
+:where(n-toast)[intent="danger"] {
+  background: var(--n-surface-danger);
+  color: var(--n-surface-ink-danger);
 }

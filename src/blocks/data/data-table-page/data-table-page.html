@@ -58,7 +58,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <div class="stack" gap="6">
+    <n-stack gap="6">
 
     <!-- ── Page Header ── -->
     <div class="page-header">
@@ -75,8 +75,8 @@
     </div>
 
     <!-- ── Toolbar + Table ── -->
-    <article>
-      <header>
+    <n-container>
+      <n-header>
       <div class="toolbar-row">
         <div class="search-input">
           <n-input size="sm" placeholder="Search users...">
@@ -90,10 +90,10 @@
           options='[{"value":"all","label":"All Roles"},{"value":"admin","label":"Admin"},{"value":"editor","label":"Editor"},{"value":"viewer","label":"Viewer"}]'>
         </n-select>
       </div>
-      </header>
+      </n-header>
 
       <!-- ── Data Table ── -->
-      <section>
+      <n-body>
       <n-table style="grid-template-columns: 2fr 2fr 100px 100px 120px;">
         <n-table-head>
           <n-table-row>
@@ -227,15 +227,15 @@
           </n-table-row>
         </n-table-body>
       </n-table>
-      </section>
+      </n-body>
 
       <!-- ── Table Footer ── -->
-      <footer>
+      <n-footer>
         <span muted size="sm">Showing 1-10 of 87 users</span>
         <n-pagination total="9" value="1" size="sm"></n-pagination>
-      </footer>
-    </article>
-    </div>
+      </n-footer>
+    </n-container>
+    </n-stack>
 
     </main></native-dashboard-spa>
     <script type="module">

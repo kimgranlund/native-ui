@@ -158,7 +158,7 @@
     gap: calc(var(--n-space) * 2);
   }
 
-  :where(native-chat-panel) > :where(.body) {
+  :where(native-chat-panel) > :where(n-body) {
     background: var(--n-chat-panel-body-background);
   }
 
@@ -712,7 +712,7 @@
     align-self: flex-start;
   }
 
-  :where(n-chat-message-seed) > :where(.stack) {
+  :where(n-chat-message-seed) > :where(n-stack) {
     gap: var(--n-chat-seed-gap);
   }
 
@@ -775,7 +775,7 @@
     font-weight: var(--n-button-font-weight);
   }
 
-  :where(n-chat-input-structured) > :where(.stack) {
+  :where(n-chat-input-structured) > :where(n-stack) {
     flex: 0 0 auto;
     gap: var(--n-chat-seed-gap);
   }

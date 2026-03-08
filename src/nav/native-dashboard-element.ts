@@ -348,7 +348,7 @@ export class NApp extends NativeElement {
     inspectorToggle.setAttribute('aria-label', 'Toggle inspector');
     inspectorToggle.innerHTML = '<n-icon name="sliders-horizontal" size="md"></n-icon>';
     inspectorToggle.addEventListener('click', () => {
-      inspector.toggleAttribute('open');
+      inspectorAside.toggleAttribute('open');
     });
 
     // Chat toggle
@@ -358,7 +358,7 @@ export class NApp extends NativeElement {
     chatToggle.setAttribute('aria-label', 'Toggle chat');
     chatToggle.innerHTML = '<n-icon name="chat-dots" size="md"></n-icon>';
     chatToggle.addEventListener('click', () => {
-      chat.toggleAttribute('open');
+      chatAside.toggleAttribute('open');
     });
 
     // Code toggle — drives the page's `.demo-code` blocks.
@@ -452,15 +452,16 @@ export class NApp extends NativeElement {
       handle.style.height = `${rect.height}px`;
     };
 
-    // Inspector panel — stamped panel IS the aside (no wrapper)
+    // Inspector panel — wrapped in <aside>
+    const inspectorAside = document.createElement('aside');
     const inspector = document.createElement('native-design-panel');
-    inspector.setAttribute('aside', '');
+    inspectorAside.appendChild(inspector);
     this.#inspectorPanel = inspector;
     const inspectorResizeHandle = document.createElement('div');
     inspectorResizeHandle.className = 'layout-resize-handle';
     inspectorResizeHandle.setAttribute('popover', 'manual');
-    inspector.prepend(inspectorResizeHandle);
-    this.#inspectorResize = new ResizeController(inspector, {
+    inspectorAside.prepend(inspectorResizeHandle);
+    this.#inspectorResize = new ResizeController(inspectorAside, {
       handleSelector: '.layout-resize-handle',
       axis: 'horizontal',
       min: 280,
@@ -470,27 +471,27 @@ export class NApp extends NativeElement {
 
     // WHY: ResizeObserver keeps handle pinned during resize dragging + transitions.
     new ResizeObserver(() => {
-      if (inspector.hasAttribute('open')) syncHandlePosition(inspector, inspectorResizeHandle);
-    }).observe(inspector);
+      if (inspectorAside.hasAttribute('open')) syncHandlePosition(inspectorAside, inspectorResizeHandle);
+    }).observe(inspectorAside);
 
     // WHY: Sync toggle icon + popover handle when inspector opens/closes.
     this.#inspectorObserver = new MutationObserver(() => {
-      const isOpen = inspector.hasAttribute('open');
+      const isOpen = inspectorAside.hasAttribute('open');
       inspectorToggle.innerHTML = isOpen
         ? '<n-icon name="sliders-horizontal-fill" size="md"></n-icon>'
         : '<n-icon name="sliders-horizontal" size="md"></n-icon>';
       if (isOpen) {
         inspectorResizeHandle.showPopover();
-        syncHandlePosition(inspector, inspectorResizeHandle);
+        syncHandlePosition(inspectorAside, inspectorResizeHandle);
       } else {
         try { inspectorResizeHandle.hidePopover(); } catch { /* already hidden */ }
       }
     });
-    this.#inspectorObserver.observe(inspector, { attributes: true, attributeFilter: ['open'] });
+    this.#inspectorObserver.observe(inspectorAside, { attributes: true, attributeFilter: ['open'] });
 
-    // Chat panel — stamped panel IS the aside (no wrapper)
+    // Chat panel — wrapped in <aside>
+    const chatAside = document.createElement('aside');
     const chat = document.createElement('native-chat-panel');
-    chat.setAttribute('aside', '');
     chat.setAttribute('size', 'md');
     chat.setAttribute('gateway', 'claude');
     chat.setAttribute('gateway-url', '/api/anthropic');
@@ -565,11 +566,12 @@ export class NApp extends NativeElement {
     }) as EventListener);
 
     this.#chatPanel = chat;
+    chatAside.appendChild(chat);
     const chatResizeHandle = document.createElement('div');
     chatResizeHandle.className = 'layout-resize-handle';
     chatResizeHandle.setAttribute('popover', 'manual');
-    chat.prepend(chatResizeHandle);
-    this.#chatResize = new ResizeController(chat, {
+    chatAside.prepend(chatResizeHandle);
+    this.#chatResize = new ResizeController(chatAside, {
       handleSelector: '.layout-resize-handle',
       axis: 'horizontal',
       min: 280,
@@ -579,25 +581,25 @@ export class NApp extends NativeElement {
 
     // WHY: ResizeObserver keeps handle pinned during resize dragging + transitions.
     new ResizeObserver(() => {
-      if (chat.hasAttribute('open')) syncHandlePosition(chat, chatResizeHandle);
-    }).observe(chat);
+      if (chatAside.hasAttribute('open')) syncHandlePosition(chatAside, chatResizeHandle);
+    }).observe(chatAside);
 
     // WHY: Sync toggle icon + popover handle when chat opens/closes.
     this.#chatObserver = new MutationObserver(() => {
-      const isOpen = chat.hasAttribute('open');
+      const isOpen = chatAside.hasAttribute('open');
       chatToggle.innerHTML = isOpen
         ? '<n-icon name="chat-dots-fill" size="md"></n-icon>'
         : '<n-icon name="chat-dots" size="md"></n-icon>';
       if (isOpen) {
         chatResizeHandle.showPopover();
-        syncHandlePosition(chat, chatResizeHandle);
+        syncHandlePosition(chatAside, chatResizeHandle);
       } else {
         try { chatResizeHandle.hidePopover(); } catch { /* already hidden */ }
       }
     });
-    this.#chatObserver.observe(chat, { attributes: true, attributeFilter: ['open'] });
+    this.#chatObserver.observe(chatAside, { attributes: true, attributeFilter: ['open'] });
 
-    canvas.append(body, inspector, chat);
+    canvas.append(body, inspectorAside, chatAside);
 
     const contentCol = document.createElement('section');
     contentCol.append(breadcrumbBar, canvas);

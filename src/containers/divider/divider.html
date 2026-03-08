@@ -19,7 +19,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>&lt;div class="divider"&gt;</h1>
+    <h1>&lt;n-divider&gt;</h1>
     <p class="demo-desc">
       Horizontal or vertical rule between content sections. CSS-only container.
     </p>
@@ -27,115 +27,115 @@
     <!-- ── Basic ── -->
 
     <h2>Horizontal (default)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p>Content above the divider.</p>
       <hr>
       <p>Content below the divider.</p>
     <pre class="demo-code"><code>&lt;p&gt;Content above the divider.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;Content below the divider.&lt;/p&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── With Label ── -->
 
     <h2>With Label</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p>Sign in with your account.</p>
-      <div class="divider">or</div>
+      <n-divider>or</n-divider>
       <p>Continue as guest.</p>
-    </article>
+    </n-container>
 
-    <article data-kind="panel" bordered>
-      <div class="divider">or continue with</div>
-    <pre class="demo-code"><code>&lt;div class="divider"&gt;or&lt;/div&gt;
+    <n-container data-kind="panel" bordered>
+      <n-divider>or continue with</n-divider>
+    <pre class="demo-code"><code>&lt;n-divider&gt;or&lt;/n-divider&gt;
 
-&lt;div class="divider"&gt;or continue with&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;n-divider&gt;or continue with&lt;/n-divider&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Vertical ── -->
 
     <h2>Vertical</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="vertical-container">
         <span>Left</span>
-        <div class="divider" orientation="vertical"></div>
+        <n-divider orientation="vertical"></n-divider>
         <span>Right</span>
       </div>
-    </article>
+    </n-container>
 
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="vertical-container">
         <span>One</span>
-        <div class="divider" orientation="vertical"></div>
+        <n-divider orientation="vertical"></n-divider>
         <span>Two</span>
-        <div class="divider" orientation="vertical"></div>
+        <n-divider orientation="vertical"></n-divider>
         <span>Three</span>
       </div>
       <pre class="demo-code"><code>&lt;div style="display: flex; align-items: center; gap: 1rem; height: 4rem;"&gt;
   &lt;span&gt;Left&lt;/span&gt;
-  &lt;div class="divider" orientation="vertical"&gt;&lt;/div&gt;
+  &lt;n-divider orientation="vertical"&gt;&lt;/n-divider&gt;
   &lt;span&gt;Right&lt;/span&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Vertical With Label ── -->
 
     <h2>Vertical With Label</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="vertical-container" style="height: 6rem;">
         <span>Left</span>
-        <div class="divider" orientation="vertical">or</div>
+        <n-divider orientation="vertical">or</n-divider>
         <span>Right</span>
       </div>
-      <pre class="demo-code"><code>&lt;div class="divider" orientation="vertical"&gt;or&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+      <pre class="demo-code"><code>&lt;n-divider orientation="vertical"&gt;or&lt;/n-divider&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes (inherit from parent)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>size="xs"</h3>
       <div size="xs">
-        <div class="divider">xs label</div>
+        <n-divider>xs label</n-divider>
       </div>
       <h3>size="sm"</h3>
       <div size="sm">
-        <div class="divider">sm label</div>
+        <n-divider>sm label</n-divider>
       </div>
       <h3>size="md"</h3>
       <div size="md">
-        <div class="divider">md label</div>
+        <n-divider>md label</n-divider>
       </div>
       <h3>size="lg"</h3>
       <div size="lg">
-        <div class="divider">lg label</div>
+        <n-divider>lg label</n-divider>
       </div>
       <h3>size="xl"</h3>
       <div size="xl">
-        <div class="divider">xl label</div>
+        <n-divider>xl label</n-divider>
       </div>
       <pre class="demo-code"><code>&lt;div size="sm"&gt;
-  &lt;div class="divider"&gt;sm label&lt;/div&gt;
+  &lt;n-divider&gt;sm label&lt;/n-divider&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Composition ── -->
 
     <h2>Composition (with buttons)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-button variant="primary" intent="accent" style="width: 100%;"><span slot="label">Sign In</span></n-button>
-      <div class="divider">or continue with</div>
+      <n-divider>or continue with</n-divider>
       <div class="demo-actions">
         <n-button style="flex: 1;"><n-icon name="google-logo" slot="leading"></n-icon><span slot="label">Google</span></n-button>
         <n-button style="flex: 1;"><n-icon name="github-logo" slot="leading"></n-icon><span slot="label">GitHub</span></n-button>
       </div>
       <pre class="demo-code"><code>&lt;n-button variant="primary" intent="accent" style="width: 100%;"&gt;Sign In&lt;/n-button&gt;
-&lt;div class="divider"&gt;or continue with&lt;/div&gt;
+&lt;n-divider&gt;or continue with&lt;/n-divider&gt;
 &lt;div class="demo-actions"&gt;
   &lt;n-button style="flex: 1;"&gt;Google&lt;/n-button&gt;
   &lt;n-button style="flex: 1;"&gt;GitHub&lt;/n-button&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     </main></native-dashboard-spa>
     <script type="module">

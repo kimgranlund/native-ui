@@ -97,7 +97,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <div class="stack" gap="6">
+    <n-stack gap="6">
     <div>
       <h1>Checkout</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -108,15 +108,15 @@
     <form id="checkout-form">
       <div class="checkout-layout">
         <!-- ── Left Column: Shipping + Payment ── -->
-        <div class="stack" gap="6">
+        <n-stack gap="6">
           <!-- ── Shipping Information ── -->
-          <article>
-            <header>
+          <n-container>
+            <n-header>
               <n-icon name="package" slot="leading"></n-icon>
               <span>Shipping Information</span>
-            </header>
-            <section>
-              <div class="stack" gap="4">
+            </n-header>
+            <n-body>
+              <n-stack gap="4">
                 <div class="grid-2">
                   <n-field required>
                     <label slot="label">First name</label>
@@ -167,18 +167,18 @@
                     </n-listbox>
                   </n-select>
                 </n-field>
-              </div>
-            </section>
-          </article>
+              </n-stack>
+            </n-body>
+          </n-container>
 
           <!-- ── Payment Method ── -->
-          <article>
-            <header>
+          <n-container>
+            <n-header>
               <n-icon name="credit-card" slot="leading"></n-icon>
               <span>Payment Method</span>
-            </header>
-            <section>
-              <div class="stack" gap="4">
+            </n-header>
+            <n-body>
+              <n-stack gap="4">
                 <n-field>
                   <label slot="label">Payment type</label>
                   <n-radio-group name="payment_method" value="credit-card" orientation="horizontal">
@@ -212,20 +212,20 @@
                 </n-field>
 
                 <n-checkbox name="save_card">Save card for future purchases</n-checkbox>
-              </div>
-            </section>
-          </article>
-        </div>
+              </n-stack>
+            </n-body>
+          </n-container>
+        </n-stack>
 
         <!-- ── Right Column: Order Summary ── -->
         <div>
-          <article>
-            <header>
+          <n-container>
+            <n-header>
               <n-icon name="receipt" slot="leading"></n-icon>
               <span>Order Summary</span>
-            </header>
-            <section>
-              <div class="stack" gap="2">
+            </n-header>
+            <n-body>
+              <n-stack gap="2">
                 <div class="summary-line">
                   <div>
                     <span class="item-name">Wireless Headphones</span>
@@ -267,10 +267,10 @@
                   <span>Total</span>
                   <span class="item-price">$232.38</span>
                 </div>
-              </div>
-            </section>
-            <footer justify="center">
-              <div class="stack" gap="3" align="stretch">
+              </n-stack>
+            </n-body>
+            <n-footer justify="center">
+              <n-stack gap="3" align="stretch">
                 <n-button variant="primary" intent="accent" type="submit" form="checkout-form">
                   <n-icon name="shopping-cart" slot="leading"></n-icon>
                   <span slot="label">Place Order</span>
@@ -278,13 +278,13 @@
                 <span size="xs" muted style="text-align: center;">
                   Your payment information is encrypted and secure.
                 </span>
-              </div>
-            </footer>
-          </article>
+              </n-stack>
+            </n-footer>
+          </n-container>
         </div>
       </div>
     </form>
-    </div>
+    </n-stack>
 
     </main></native-dashboard-spa>
     <script type="module">

@@ -94,24 +94,24 @@
             <!-- Toolbar — consumes BOTH contexts -->
             <app-toolbar></app-toolbar>
 
-            <div class="grid" cols="2" gap="3">
+            <n-grid cols="2" gap="3">
 
               <!-- Team presence — session context -->
-              <article>
-                <header>
+              <n-container>
+                <n-header>
                   <nav>
                     <n-icon name="users" size="sm"></n-icon>
                   </nav>
                   <span>Team</span>
-                </header>
-                <section>
+                </n-header>
+                <n-body>
                   <team-presence></team-presence>
-                </section>
-              </article>
+                </n-body>
+              </n-container>
 
               <!-- Notification inbox — notification context -->
-              <article>
-                <header>
+              <n-container>
+                <n-header>
                   <nav>
                     <n-icon name="bell" size="sm"></n-icon>
                   </nav>
@@ -119,15 +119,15 @@
                   <aside>
                     <notif-panel-actions></notif-panel-actions>
                   </aside>
-                </header>
-                <section>
+                </n-header>
+                <n-body>
                   <notif-panel></notif-panel>
-                </section>
-              </article>
+                </n-body>
+              </n-container>
 
               <!-- Activity feed — notification context -->
-              <article>
-                <header>
+              <n-container>
+                <n-header>
                   <nav>
                     <n-icon name="pulse" size="sm"></n-icon>
                   </nav>
@@ -135,41 +135,41 @@
                   <aside>
                     <span class="badge" size="xs" intent="success">live</span>
                   </aside>
-                </header>
-                <section>
+                </n-header>
+                <n-body>
                   <activity-feed></activity-feed>
-                </section>
-              </article>
+                </n-body>
+              </n-container>
 
               <!-- Preferences — session context (bidirectional) -->
-              <article>
-                <header>
+              <n-container>
+                <n-header>
                   <nav>
                     <n-icon name="gear" size="sm"></n-icon>
                   </nav>
                   <span>Preferences</span>
-                </header>
-                <section>
+                </n-header>
+                <n-body>
                   <notif-prefs></notif-prefs>
-                </section>
-              </article>
+                </n-body>
+              </n-container>
 
               <!-- Stats — notification context -->
-              <article style="grid-column: 1 / -1;">
-                <header>
+              <n-container style="grid-column: 1 / -1;">
+                <n-header>
                   <nav>
                     <n-icon name="chart-bar" size="sm"></n-icon>
                   </nav>
                   <span>Session Stats</span>
-                </header>
-                <section>
+                </n-header>
+                <n-body>
                   <session-stats></session-stats>
-                </section>
-              </article>
+                </n-body>
+              </n-container>
 
               <!-- Context event log -->
-              <article style="grid-column: 1 / -1;">
-                <header>
+              <n-container style="grid-column: 1 / -1;">
+                <n-header>
                   <nav>
                     <n-icon name="terminal" size="sm"></n-icon>
                   </nav>
@@ -177,16 +177,16 @@
                   <aside>
                     <span class="badge" size="xs">live</span>
                   </aside>
-                </header>
-                <section>
+                </n-header>
+                <n-body>
                   <p class="demo-hint" style="margin-bottom: 0.5rem;">
                     Every context subscription and signal update is logged — proof that reactive state flows from providers to arbitrarily nested consumers.
                   </p>
                   <ctx-log></ctx-log>
-                </section>
-              </article>
+                </n-body>
+              </n-container>
 
-            </div>
+            </n-grid>
 
           </notif-provider>
         </session-provider>
@@ -471,10 +471,10 @@
               const list = ctx.items.value;
               if (list.length === 0) {
                 this.innerHTML = `
-                  <div class="stack" align="center" gap="2" style="padding: 2rem 0; color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">
+                  <n-stack align="center" gap="2" style="padding: 2rem 0; color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">
                     <n-icon name="bell" size="28"></n-icon>
                     <span>All clear — no notifications</span>
-                  </div>`;
+                  </n-stack>`;
                 return;
               }
               this.innerHTML = list.map(n => `
@@ -607,31 +607,31 @@
             this.addEffect(() => {
               const s = ctx.stats.value;
               this.innerHTML = `
-                <div class="stack" gap="3">
-                  <div class="grid" cols="4" gap="2">
-                    <div class="stack" gap="1">
+                <n-stack gap="3">
+                  <n-grid cols="4" gap="2">
+                    <n-stack gap="1">
                       <div class="stat-value" style="color: var(--n-ink-info);">${s.info}</div>
                       <div class="stat-label">Info</div>
-                    </div>
-                    <div class="stack" gap="1">
+                    </n-stack>
+                    <n-stack gap="1">
                       <div class="stat-value" style="color: var(--n-ink-success);">${s.success}</div>
                       <div class="stat-label">Success</div>
-                    </div>
-                    <div class="stack" gap="1">
+                    </n-stack>
+                    <n-stack gap="1">
                       <div class="stat-value" style="color: var(--n-ink-warning);">${s.warning}</div>
                       <div class="stat-label">Warning</div>
-                    </div>
-                    <div class="stack" gap="1">
+                    </n-stack>
+                    <n-stack gap="1">
                       <div class="stat-value" style="color: var(--n-ink-danger);">${s.danger}</div>
                       <div class="stat-label">Danger</div>
-                    </div>
-                  </div>
+                    </n-stack>
+                  </n-grid>
                   <div style="display:flex;justify-content:center;gap:1.5rem;font-size:0.75rem;color:var(--n-ink-muted-neutral);">
                     <span><strong style="color:var(--n-ink-neutral);">${s.total}</strong> total</span>
                     <span><strong style="color:var(--n-ink-neutral);">${s.dismissed}</strong> dismissed</span>
                     <span><strong style="color:var(--n-ink-neutral);">${ctx.count.value}</strong> pending</span>
                   </div>
-                </div>`;
+                </n-stack>`;
             });
           });
         }

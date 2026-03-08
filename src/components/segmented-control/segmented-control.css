@@ -149,19 +149,17 @@
     color: var(--n-ink-disabled);
   }
 
-  /* ── Inline mode ── */
-  /* WHY: Default is block (grid) so segmented controls fill available width.
-     [inline] restores shrink-wrap sizing. */
-
-  :where(n-segmented-control)[inline] {
-    display: inline-grid;
-    width: auto;
-  }
-
   :where(n-segmented-control)[aria-disabled="true"] > :where(.n-segmented-indicator) {
     background: var(--n-panel-disabled);
   }
 
   :where(n-segmented-control[hidden]) { display: none; }
 
+}
+
+/* ── Attribute API (unlayered) ── */
+
+:where(n-segmented-control)[inline] {
+  display: inline-grid;
+  width: auto;
 }

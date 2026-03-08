@@ -97,7 +97,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <div class="stack" gap="6">
+    <n-stack gap="6">
     <div>
       <h1>Top Navigation Bar</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -108,7 +108,7 @@
 
     <!-- -- With Breadcrumb -- -->
 
-    <div class="stack" gap="4">
+    <n-stack gap="4">
     <h2>With Breadcrumb Navigation</h2>
     <nav class="nav-bar" aria-label="Main navigation">
       <div class="nav-brand">
@@ -116,7 +116,7 @@
         Acme Inc
       </div>
 
-      <div class="divider" orientation="vertical"></div>
+      <n-divider orientation="vertical"></n-divider>
 
       <div class="nav-center">
         <n-breadcrumb size="sm">
@@ -136,7 +136,7 @@
           </n-button>
           <span class="badge" intent="danger" floating>3</span>
         </div>
-        <div class="divider" orientation="vertical"></div>
+        <n-divider orientation="vertical"></n-divider>
         <div class="nav-user">
           <span class="avatar" name="Kim Granlund" size="sm">KG</span>
           <span class="nav-user-name">Kim Granlund</span>
@@ -144,11 +144,11 @@
         </div>
       </div>
     </nav>
-    </div>
+    </n-stack>
 
     <!-- -- With Search Input -- -->
 
-    <div class="stack" gap="4">
+    <n-stack gap="4">
     <h2>With Search Input</h2>
     <nav class="nav-bar" aria-label="Main navigation with search">
       <div class="nav-brand">
@@ -156,7 +156,7 @@
         Acme Inc
       </div>
 
-      <div class="divider" orientation="vertical"></div>
+      <n-divider orientation="vertical"></n-divider>
 
       <div class="nav-center">
         <div class="search-input-wrapper">
@@ -173,7 +173,7 @@
           </n-button>
           <span class="badge" intent="danger" floating>3</span>
         </div>
-        <div class="divider" orientation="vertical"></div>
+        <n-divider orientation="vertical"></n-divider>
         <div class="nav-user">
           <span class="avatar" name="Kim Granlund" size="sm">KG</span>
           <span class="nav-user-name">Kim Granlund</span>
@@ -181,11 +181,11 @@
         </div>
       </div>
     </nav>
-    </div>
+    </n-stack>
 
     <!-- -- Compact Variant -- -->
 
-    <div class="stack" gap="4">
+    <n-stack gap="4">
     <h2>Compact (density)</h2>
     <nav class="nav-bar" aria-label="Compact navigation" density="compact">
       <div class="nav-brand">
@@ -193,7 +193,7 @@
         Acme Inc
       </div>
 
-      <div class="divider" orientation="vertical"></div>
+      <n-divider orientation="vertical"></n-divider>
 
       <div class="nav-center">
         <n-breadcrumb size="sm">
@@ -212,14 +212,14 @@
           </n-button>
           <span class="badge" intent="danger" floating>3</span>
         </div>
-        <div class="divider" orientation="vertical"></div>
+        <n-divider orientation="vertical"></n-divider>
         <div class="nav-user">
           <span class="avatar" name="Kim Granlund" size="xs">KG</span>
         </div>
       </div>
     </nav>
-    </div>
-    </div>
+    </n-stack>
+    </n-stack>
 
     </main></native-dashboard-spa>
     <script type="module">

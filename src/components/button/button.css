@@ -125,15 +125,6 @@
     text-overflow: ellipsis;
   }
 
-  /* ── Inline mode ── */
-  /* WHY: Default is block (grid) so buttons fill available width in flex/grid layouts.
-     [inline] restores shrink-wrap for buttons placed inline with text. */
-
-  :where(n-button)[inline] {
-    display: inline-grid;
-    width: auto;
-  }
-
   /* ── Icon-only mode ── */
 
   :where(n-button):where(:has(> n-icon:only-child)) {
@@ -142,4 +133,11 @@
     padding-inline: var(--n-space);
   }
 
+}
+
+/* ── Attribute API (unlayered) ── */
+
+:where(n-button)[inline] {
+  display: inline-grid;
+  width: auto;
 }

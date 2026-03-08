@@ -1,0 +1,40 @@
+/* ─── Density ─── */
+/* WHY: Outside @layer ui so attribute selectors at (0,1,0) beat
+   layered component defaults. Matches the pattern used by [size],
+   [radius], [intent] in components.tokens.css. */
+
+[density="compact"] {
+  --n-space-k: 2;
+}
+[density="default"] {
+  --n-space-k: 4;
+}
+[density="loose"] {
+  --n-space-k: 6;
+}
+
+/* Numeric density — direct --n-space-k multiplier */
+[density="0"] {
+  --n-space-k: 0;
+}
+[density="1"] {
+  --n-space-k: 1;
+}
+[density="2"] {
+  --n-space-k: 2;
+}
+[density="3"] {
+  --n-space-k: 3;
+}
+[density="4"] {
+  --n-space-k: 4;
+}
+[density="6"] {
+  --n-space-k: 6;
+}
+[density="8"] {
+  --n-space-k: 8;
+}
+[density="12"] {
+  --n-space-k: 12;
+}

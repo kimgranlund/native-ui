@@ -13,25 +13,7 @@
       h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
       h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; margin-top: 2rem; color: var(--n-ink-strong-neutral); }
 
-      /* ── Centered card variant ── */
-      .auth-centered {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(100vh - 8rem);
-      }
-
-      .auth-card-wrapper {
-        width: 100%;
-        max-width: 24rem;
-      }
-
-      .auth-logo {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 1.5rem;
-      }
-
+      /* ── Auth logo ── */
       .auth-logo-mark {
         width: 2.5rem;
         height: 2.5rem;
@@ -45,77 +27,24 @@
         font-size: 1.125rem;
       }
 
-      .auth-heading {
-        text-align: center;
-        margin-bottom: 0.25rem;
-        font-size: 1.25rem;
-        font-weight: 700;
-      }
-
-      .auth-subheading {
-        text-align: center;
-        color: var(--n-ink-muted-neutral);
-        font-size: 0.875rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .auth-footer-text {
-        text-align: center;
-        font-size: 0.8125rem;
-        color: var(--n-ink-muted-neutral);
-        margin-top: 1.5rem;
-      }
-
-      .auth-footer-text a {
+      /* ── Auth links ── */
+      .auth-link {
         color: var(--n-ink-accent);
         text-decoration: none;
         font-weight: 500;
       }
-
-      .auth-footer-text a:hover {
-        text-decoration: underline;
-      }
-
-      .auth-row-between {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .auth-forgot-link {
-        font-size: 0.8125rem;
-        color: var(--n-ink-accent);
-        text-decoration: none;
-        font-weight: 500;
-      }
-
-      .auth-forgot-link:hover {
-        text-decoration: underline;
-      }
-
-      .oauth-row {
-        display: flex;
-        gap: calc(var(--n-space) * 3);
-      }
-
-      .oauth-row > * {
-        flex: 1;
-      }
+      .auth-link:hover { text-decoration: underline; }
 
       /* ── Split layout variant ── */
       .auth-split {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        min-height: calc(100vh - 8rem);
+        min-height: 36rem;
       }
 
       @media (max-width: 48rem) {
-        .auth-split {
-          grid-template-columns: 1fr;
-        }
-        .auth-split-image {
-          display: none;
-        }
+        .auth-split { grid-template-columns: 1fr; }
+        .auth-split-image { display: none; }
       }
 
       .auth-split-image {
@@ -135,11 +64,6 @@
         justify-content: center;
         padding: 2rem;
       }
-
-      .auth-split-form .auth-card-wrapper {
-        max-width: 22rem;
-        width: 100%;
-      }
     </style>
   </head>
   <body>
@@ -153,17 +77,17 @@
 
     <h2>Centered Card</h2>
     <div style="background: var(--n-body-neutral); border: 1px solid var(--n-border-muted-neutral); border-radius: 0.5rem; overflow: hidden; margin-bottom: 1rem;">
-      <div class="auth-centered" style="min-height: 42rem;">
-        <div class="auth-card-wrapper">
-          <div class="auth-logo">
-            <div class="auth-logo-mark">N</div>
-          </div>
-          <p class="auth-heading">Welcome back</p>
-          <p class="auth-subheading">Sign in to your account to continue</p>
-          <article>
-            <div class="stack" gap="4">
+      <div style="display: flex; justify-content: center; align-items: center; min-height: 42rem;">
+        <n-container bordered inline padding="4" gap="4" style="width: 100%; max-width: 24rem;">
+          <n-header align="center" style="flex-direction: column; display: flex; gap: 0.25rem;">
+            <div class="auth-logo-mark" style="margin-bottom: 0.5rem;">N</div>
+            <strong style="font-size: 1.25rem;">Welcome back</strong>
+            <span style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">Sign in to your account to continue</span>
+          </n-header>
+          <n-body>
+            <n-stack gap="4">
               <form>
-                <div class="stack" gap="4">
+                <n-stack gap="4">
                   <n-field required>
                     <label slot="label">Email</label>
                     <n-input type="email" placeholder="kim@example.com" name="email">
@@ -176,17 +100,17 @@
                       <n-icon name="lock" slot="leading"></n-icon>
                     </n-input>
                   </n-field>
-                  <div class="auth-row-between">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
                     <n-checkbox name="remember">Remember me</n-checkbox>
-                    <a href="#" class="auth-forgot-link">Forgot password?</a>
+                    <a href="#" class="auth-link" style="font-size: 0.8125rem;">Forgot password?</a>
                   </div>
                   <n-button variant="primary" intent="accent" type="submit">
                     <span slot="label">Sign In</span>
                   </n-button>
-                </div>
+                </n-stack>
               </form>
-              <div class="divider">or continue with</div>
-              <div class="oauth-row">
+              <n-divider>or continue with</n-divider>
+              <n-grid cols="2" gap="3">
                 <n-button>
                   <n-icon name="google-logo" slot="leading"></n-icon>
                   <span slot="label">Google</span>
@@ -195,13 +119,15 @@
                   <n-icon name="github-logo" slot="leading"></n-icon>
                   <span slot="label">GitHub</span>
                 </n-button>
-              </div>
-            </div>
-          </article>
-          <p class="auth-footer-text">
-            Don't have an account? <a href="#">Sign up</a>
-          </p>
-        </div>
+              </n-grid>
+            </n-stack>
+          </n-body>
+          <n-footer justify="center">
+            <span style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral);">
+              Don't have an account? <a href="#" class="auth-link">Sign up</a>
+            </span>
+          </n-footer>
+        </n-container>
       </div>
     </div>
 
@@ -209,56 +135,62 @@
 
     <h2>Split Layout</h2>
     <div style="background: var(--n-body-neutral); border: 1px solid var(--n-border-muted-neutral); border-radius: 0.5rem; overflow: hidden; margin-bottom: 1rem;">
-      <div class="auth-split" style="min-height: 36rem;">
+      <div class="auth-split">
         <div class="auth-split-image">
-          <div class="stack" align="center" gap="4">
+          <n-stack align="center" gap="4">
             <div class="auth-logo-mark" style="width: 3.5rem; height: 3.5rem; font-size: 1.5rem;">N</div>
             <p style="margin: 0; font-size: 1.5rem;">Build something great.</p>
             <p style="margin: 0; font-size: 0.875rem; opacity: 0.8;">Trusted by over 10,000 teams worldwide.</p>
-          </div>
+          </n-stack>
         </div>
         <div class="auth-split-form">
-          <div class="auth-card-wrapper">
-            <p class="auth-heading" style="text-align: left;">Welcome back</p>
-            <p class="auth-subheading" style="text-align: left;">Sign in to your account to continue</p>
-            <form>
-              <div class="stack" gap="4">
-                <n-field required>
-                  <label slot="label">Email</label>
-                  <n-input type="email" placeholder="kim@example.com" name="email">
-                    <n-icon name="envelope" slot="leading"></n-icon>
-                  </n-input>
-                </n-field>
-                <n-field required>
-                  <label slot="label">Password</label>
-                  <n-input type="password" placeholder="Enter your password" name="password">
-                    <n-icon name="lock" slot="leading"></n-icon>
-                  </n-input>
-                </n-field>
-                <div class="auth-row-between">
-                  <n-checkbox name="remember">Remember me</n-checkbox>
-                  <a href="#" class="auth-forgot-link">Forgot password?</a>
-                </div>
-                <n-button variant="primary" intent="accent" type="submit">
-                  <span slot="label">Sign In</span>
-                </n-button>
-                <div class="divider">or continue with</div>
-                <div class="oauth-row">
-                  <n-button>
-                    <n-icon name="google-logo" slot="leading"></n-icon>
-                    <span slot="label">Google</span>
+          <n-container inline padding="4" gap="4" style="max-width: 22rem; width: 100%;">
+            <n-header style="display: flex; flex-direction: column; gap: 0.25rem;">
+              <strong style="font-size: 1.25rem;">Welcome back</strong>
+              <span style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">Sign in to your account to continue</span>
+            </n-header>
+            <n-body>
+              <form>
+                <n-stack gap="4">
+                  <n-field required>
+                    <label slot="label">Email</label>
+                    <n-input type="email" placeholder="kim@example.com" name="email">
+                      <n-icon name="envelope" slot="leading"></n-icon>
+                    </n-input>
+                  </n-field>
+                  <n-field required>
+                    <label slot="label">Password</label>
+                    <n-input type="password" placeholder="Enter your password" name="password">
+                      <n-icon name="lock" slot="leading"></n-icon>
+                    </n-input>
+                  </n-field>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <n-checkbox name="remember">Remember me</n-checkbox>
+                    <a href="#" class="auth-link" style="font-size: 0.8125rem;">Forgot password?</a>
+                  </div>
+                  <n-button variant="primary" intent="accent" type="submit">
+                    <span slot="label">Sign In</span>
                   </n-button>
-                  <n-button>
-                    <n-icon name="github-logo" slot="leading"></n-icon>
-                    <span slot="label">GitHub</span>
-                  </n-button>
-                </div>
-              </div>
-            </form>
-            <p class="auth-footer-text" style="text-align: left;">
-              Don't have an account? <a href="#">Sign up</a>
-            </p>
-          </div>
+                  <n-divider>or continue with</n-divider>
+                  <n-grid cols="2" gap="3">
+                    <n-button>
+                      <n-icon name="google-logo" slot="leading"></n-icon>
+                      <span slot="label">Google</span>
+                    </n-button>
+                    <n-button>
+                      <n-icon name="github-logo" slot="leading"></n-icon>
+                      <span slot="label">GitHub</span>
+                    </n-button>
+                  </n-grid>
+                </n-stack>
+              </form>
+            </n-body>
+            <n-footer>
+              <span style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral);">
+                Don't have an account? <a href="#" class="auth-link">Sign up</a>
+              </span>
+            </n-footer>
+          </n-container>
         </div>
       </div>
     </div>

@@ -43,8 +43,8 @@
     n-icon, n-tooltip,
     n-field, n-input-otp,
     n-sidebar-nav, n-sidebar-nav-item, n-sidebar-item, n-sidebar-group-header,
-    header, footer, n-toolbar,
-    article > header, article > footer
+    n-header, n-footer, n-toolbar,
+    article > n-header, article > n-footer
   ) {
     user-select: none;
   }

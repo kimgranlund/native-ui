@@ -219,10 +219,10 @@
     display: none;
   }
 
-  /* ── Inline mode ── */
+}
 
-  :where(n-tabs)[inline] {
-    display: inline-grid;
-  }
+/* ── Attribute API (unlayered) ── */
 
+:where(n-tabs)[inline] {
+  display: inline-grid;
 }

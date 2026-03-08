@@ -117,7 +117,7 @@
     <!-- ── 10,000 Items ── -->
 
     <h2>10,000 Items</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="stats">
         <span>Total: <strong>10,000</strong></span>
         <span>Rendered: <strong id="rendered-count">0</strong></span>
@@ -146,12 +146,12 @@ host.addEventListener('native:virtual-change', (e) =&gt; {
 
 // Initial render
 renderRows(vctrl.start, vctrl.end);</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Dynamic Count ── -->
 
     <h2>Dynamic Count</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
         <n-button id="add-btn" size="sm">Add 1,000</n-button>
         <n-button id="reset-btn" size="sm">Reset to 100</n-button>
@@ -177,12 +177,12 @@ resetBtn.addEventListener('native:press', () =&gt; {
   dynamicCount = 100;
   vctrl2.updateCount(dynamicCount);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── VirtualScrollController: Attach to Any Element ── -->
 
     <h2>VirtualScrollController — Attach to Any Element</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         Use <code>VirtualScrollController</code> to add virtual scrolling to an existing element without subclassing. Same events, same API — no trait mixin required.
       </p>
@@ -211,7 +211,7 @@ vctrl.enable(viewport, content, 5000);
 host.addEventListener('native:virtual-change', (e) =&gt; {
   renderRows(e.detail.start, e.detail.end);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── API Reference ── -->
 

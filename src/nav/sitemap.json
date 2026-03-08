@@ -23,6 +23,7 @@
   { "title": "Combobox", "path": "/src/components/combobox/combobox.html", "group": "Components" },
   { "title": "Command", "path": "/src/components/command/command.html", "group": "Components" },
   { "title": "Controller", "path": "/src/components/controller/controller.html", "group": "Components" },
+  { "title": "Store (Provider)", "path": "/src/components/controller/store.html", "group": "Components", "badge": "new" },
   { "title": "Dialog", "path": "/src/components/dialog/dialog.html", "group": "Components" },
   { "title": "Drawer", "path": "/src/components/drawer/drawer.html", "group": "Components" },
   { "title": "Field", "path": "/src/components/field/field.html", "group": "Components" },

@@ -40,9 +40,9 @@
     <!-- ── Review Flow ── -->
 
     <h2>Review Flow</h2>
-    <article>
+    <n-container>
       <section>
-        <div class="stack" direction="row" wrap>
+        <n-stack direction="row" wrap>
           <n-button size="sm" variant="primary" id="start">
             <span>Start Review</span>
           </n-button>
@@ -55,13 +55,13 @@
           <n-button size="sm" variant="ghost" id="reset">
             <span>Reset</span>
           </n-button>
-        </div>
+        </n-stack>
       </section>
-    </article>
+    </n-container>
 
     <!-- ── Shared Canvas ── -->
 
-    <article style="margin-top: 1rem;">
+    <n-container style="margin-top: 1rem;">
       <header>
         <span>Shared Canvas — Landing Page</span>
         <aside>
@@ -71,15 +71,15 @@
       <section padding="regular">
         <div class="surface-mount" id="shared-canvas" data-empty></div>
       </section>
-    </article>
+    </n-container>
 
     <!-- ── Per-Agent Actions ── -->
 
-    <div class="grid" cols="2" style="margin-top: 1rem;">
-      <article>
+    <n-grid cols="2" style="margin-top: 1rem;">
+      <n-container>
         <header><span>Design Agent</span></header>
         <section>
-          <div class="stack" direction="row" wrap>
+          <n-stack direction="row" wrap>
             <n-button size="sm" id="design-hero">
               <span>Hero Section</span>
             </n-button>
@@ -89,13 +89,13 @@
             <n-button size="sm" id="design-cta">
               <span>CTA Block</span>
             </n-button>
-          </div>
+          </n-stack>
         </section>
-      </article>
-      <article>
+      </n-container>
+      <n-container>
         <header><span>Copy Agent</span></header>
         <section>
-          <div class="stack" direction="row" wrap>
+          <n-stack direction="row" wrap>
             <n-button size="sm" id="copy-headline">
               <span>Write Headlines</span>
             </n-button>
@@ -105,19 +105,19 @@
             <n-button size="sm" id="copy-cta">
               <span>Write CTA Copy</span>
             </n-button>
-          </div>
+          </n-stack>
         </section>
-      </article>
-    </div>
+      </n-container>
+    </n-grid>
 
     <!-- ── Ownership Log ── -->
 
     <h2>Ownership Log</h2>
-    <article>
+    <n-container>
       <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
         <div id="event-log"></div>
       </section>
-    </article>
+    </n-container>
 
     </main></native-dashboard-spa>
 

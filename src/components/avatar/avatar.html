@@ -19,7 +19,7 @@
     <!-- ── Initials ── -->
 
     <h2>Initials</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-row">
         <span class="avatar" name="Kim Granlund">KG</span>
         <span class="avatar" name="Jane Doe">JD</span>
@@ -29,34 +29,34 @@
       <pre class="demo-code"><code>&lt;span class="avatar" name="Kim Granlund"&gt;&lt;/span&gt;
 &lt;span class="avatar" name="Jane Doe"&gt;&lt;/span&gt;
 &lt;span class="avatar" name="Alice"&gt;&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Fallback (no name, no src) ── -->
 
     <h2>Fallback</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-row">
         <span class="avatar"></span>
       </div>
       <pre class="demo-code"><code>&lt;!-- No name or src: shows generic placeholder --&gt;
 &lt;span class="avatar"&gt;&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Image (broken src shows initials) ── -->
 
     <h2>Image (broken src falls back)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-row">
         <span class="avatar" src="/nonexistent-image.jpg" name="Fallback User"><img src="/nonexistent-image.jpg" alt="Fallback User"></span>
       </div>
       <pre class="demo-code"><code>&lt;!-- Broken src falls back to initials from name --&gt;
 &lt;span class="avatar" src="/photo.jpg" name="Fallback User"&gt;&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-row">
         <span class="avatar" name="XS" size="xs">X</span>
         <span class="avatar" name="SM" size="sm">S</span>
@@ -69,12 +69,12 @@
 &lt;span class="avatar" name="MD" size="md"&gt;&lt;/span&gt;
 &lt;span class="avatar" name="LG" size="lg"&gt;&lt;/span&gt;
 &lt;span class="avatar" name="XL" size="xl"&gt;&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Intents ── -->
 
     <h2>Intents</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-row">
         <span class="avatar" name="Default">D</span>
         <span class="avatar" name="Accent" intent="accent">A</span>
@@ -86,12 +86,12 @@
       <pre class="demo-code"><code>&lt;span class="avatar" name="Accent" intent="accent"&gt;&lt;/span&gt;
 &lt;span class="avatar" name="Success" intent="success"&gt;&lt;/span&gt;
 &lt;span class="avatar" name="Danger" intent="danger"&gt;&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Radius ── -->
 
     <h2>Radius</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-row">
         <span class="avatar" name="Circle">C</span>
         <span class="avatar" name="Round" radius="round">R</span>
@@ -100,12 +100,12 @@
       <pre class="demo-code"><code>&lt;span class="avatar" name="Circle"&gt;&lt;/span&gt;
 &lt;span class="avatar" name="Round" radius="round"&gt;&lt;/span&gt;
 &lt;span class="avatar" name="Sharp" radius="sharp"&gt;&lt;/span&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Group composition ── -->
 
     <h2>Avatar Group</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-row" style="gap: -0.5rem;">
         <span class="avatar" name="Alice Johnson" style="outline: 2px solid var(--n-body-neutral);">AJ</span>
         <span class="avatar" name="Bob Smith" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);">BS</span>
@@ -118,7 +118,7 @@
   &lt;span class="avatar" name="Bob" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);"&gt;&lt;/span&gt;
   &lt;span class="avatar" style="margin-inline-start: -0.5rem; outline: 2px solid var(--n-body-neutral);"&gt;+3&lt;/span&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     </main></native-dashboard-spa>
     <script type="module">

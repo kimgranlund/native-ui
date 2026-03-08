@@ -1,0 +1,37 @@
+@layer ui {
+
+  /* ── Grid ── */
+
+  :where(n-grid) {
+    --n-padding-block: 0;
+    --n-padding-inline: 0;
+
+    display: grid;
+    flex: 1 1 0%;
+    min-width: 0;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: calc(var(--n-space) * 2);
+    padding-block: var(--n-padding-block);
+    padding-inline: var(--n-padding-inline);
+  }
+
+}
+
+/* ── Attribute API (unlayered) ── */
+
+/* Fixed columns */
+:where(n-grid)[cols="1"] { grid-template-columns: 1fr; }
+:where(n-grid)[cols="2"] { grid-template-columns: repeat(2, 1fr); }
+:where(n-grid)[cols="3"] { grid-template-columns: repeat(3, 1fr); }
+:where(n-grid)[cols="4"] { grid-template-columns: repeat(4, 1fr); }
+:where(n-grid)[cols="5"] { grid-template-columns: repeat(5, 1fr); }
+:where(n-grid)[cols="6"] { grid-template-columns: repeat(6, 1fr); }
+
+/* Min column width (auto-fill) */
+:where(n-grid)[min="8rem"] { grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr)); }
+:where(n-grid)[min="10rem"] { grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); }
+:where(n-grid)[min="12rem"] { grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); }
+:where(n-grid)[min="14rem"] { grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
+:where(n-grid)[min="16rem"] { grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); }
+:where(n-grid)[min="20rem"] { grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); }
+:where(n-grid)[min="24rem"] { grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr)); }

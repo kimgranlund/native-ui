@@ -127,7 +127,7 @@
     <!-- ── Command Bus ── -->
 
     <h2>Command Bus</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <span size="sm" muted>
         Dispatch commands through the bus. Handlers receive typed payloads. Middleware can intercept, log, or transform commands.
       </span>
@@ -147,12 +147,12 @@
         <span><span class="label">Commands:</span> <span class="value" id="cmd-count">0</span></span>
       </div>
       <div class="log" id="cmd-log"></div>
-    </article>
+    </n-container>
 
     <!-- ── Undo / Redo ── -->
 
     <h2>Undo / Redo</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <span size="sm" muted>
         Commands with undo metadata are tracked. Use Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z or the buttons below.
       </span>
@@ -168,23 +168,23 @@
         <span><span class="label">Undo stack:</span> <span class="value" id="undo-count">0</span></span>
         <span><span class="label">Redo stack:</span> <span class="value" id="redo-count">0</span></span>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── Focus Router ── -->
 
     <h2>Focus Router (Keyboard Shortcuts)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <span size="sm" muted>
         Global keyboard shortcuts registered through the focus router. Try pressing the keys below (click outside any input first).
       </span>
       <div class="shortcut-list" id="shortcut-list"></div>
       <div class="log" id="shortcut-log"></div>
-    </article>
+    </n-container>
 
     <!-- ── Overlay Manager ── -->
 
     <h2>Overlay Manager</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <span size="sm" muted>
         Centralized overlay stack with z-index arbitration. Escape closes the top overlay. Click outside to dismiss.
       </span>
@@ -203,12 +203,12 @@
         <span><span class="label">Stack depth:</span> <span class="value" id="overlay-depth">0</span></span>
         <span><span class="label">Top:</span> <span class="value" id="overlay-top">none</span></span>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── Plan Executor ── -->
 
     <h2>Plan Executor (GenUI)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <span size="sm" muted>
         Validate and render a declarative UI schema. Events wire to the command bus. Edit the JSON and click "Execute Plan".
       </span>
@@ -227,12 +227,12 @@
       <h3>Rendered Output</h3>
       <div class="plan-output" id="plan-output"></div>
       <div class="log" id="plan-log"></div>
-    </article>
+    </n-container>
 
     <!-- ── Patch Protocol ── -->
 
     <h2>Patch Protocol</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <span size="sm" muted>
         Apply incremental patches to a rendered plan. Execute a plan above first, then try patching it.
       </span>
@@ -251,12 +251,12 @@
         </n-button>
       </div>
       <div class="log" id="patch-log"></div>
-    </article>
+    </n-container>
 
     <!-- ── Accessibility Validation ── -->
 
     <h2>Accessibility Validation</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <span size="sm" muted>
         Validate a plan against accessibility rules before rendering. Try plans with and without proper labeling.
       </span>
@@ -272,12 +272,12 @@
         </n-button>
       </div>
       <div class="log" id="a11y-log"></div>
-    </article>
+    </n-container>
 
     <!-- ── Observability ── -->
 
     <h2>Observability</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <span size="sm" muted>
         All kernel activity is logged. View the event log and performance metrics.
       </span>
@@ -297,12 +297,12 @@
         <span><span class="label">Perf samples:</span> <span class="value" id="obs-perf-count">0</span></span>
       </div>
       <div class="log" id="obs-log"></div>
-    </article>
+    </n-container>
 
     <!-- ── Workflow Engine ── -->
 
     <h2>Workflow Engine (Statechart)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <span size="sm" muted>
         A traffic light statechart: green → yellow → red → green. Guards, context, and transition history included.
       </span>
@@ -326,12 +326,12 @@
         <span><span class="label">Cycles:</span> <span class="value" id="wf-cycles">0</span></span>
       </div>
       <div class="log" id="wf-log"></div>
-    </article>
+    </n-container>
 
     <!-- ── Policy & Capability ── -->
 
     <h2>Policy &amp; Capability</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <span size="sm" muted>
         Grant/revoke capabilities and add deny rules. The policy engine middleware blocks unauthorized commands on the bus.
       </span>
@@ -362,12 +362,12 @@
         <span><span class="label">Last decision:</span> <span class="value" id="pol-last">-</span></span>
       </div>
       <div class="log" id="pol-log"></div>
-    </article>
+    </n-container>
 
     <!-- ── Component Integration ── -->
 
     <h2>Component Integration</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <span size="sm" muted>
         The component manifest describes all 49 native-ui components. Use the event bridge to auto-route component events to the command bus.
       </span>
@@ -387,12 +387,12 @@
         <span><span class="label">Bridge:</span> <span class="value" id="ci-bridge-status">not installed</span></span>
       </div>
       <div class="log" id="ci-log"></div>
-    </article>
+    </n-container>
 
     <!-- ── Workflow Templates ── -->
 
     <h2>Workflow Templates</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <span size="sm" muted>
         Pre-built workflow definitions for common patterns. Select a template and run it through the workflow engine.
       </span>
@@ -424,12 +424,12 @@
         <span><span class="label">Events:</span> <span class="value" id="wft-events">-</span></span>
       </div>
       <div class="log" id="wft-log"></div>
-    </article>
+    </n-container>
 
     <!-- ── Schema Catalog ── -->
 
     <h2>Schema Catalog</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <span size="sm" muted>
         Introspect the component schema catalog. Each schema describes attributes, properties, slots, events, and ARIA requirements.
       </span>
@@ -448,12 +448,12 @@
         </n-button>
       </div>
       <div class="log" id="sc-log" style="max-height: 20rem;"></div>
-    </article>
+    </n-container>
 
     <!-- ── GenUI Planner ── -->
 
     <h2>GenUI Planner</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <span size="sm" muted>
         Generate validated UI plans from structured intents. The planner auto-adds ARIA attributes, validates accessibility, and produces frozen plans ready for the executor.
       </span>
@@ -504,7 +504,7 @@
       <h3>Rendered Output</h3>
       <div class="plan-output" id="gp-output"></div>
       <div class="log" id="gp-log"></div>
-    </article>
+    </n-container>
 
     </main></native-dashboard-spa>
     <script type="module">

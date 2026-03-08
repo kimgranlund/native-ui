@@ -19,7 +19,7 @@
     <!-- ── Variants ── -->
 
     <h2>Variants</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <div class="demo-row">
         <span class="demo-label">outline</span>
         <n-input variant="outline" placeholder="Outline input"></n-input>
@@ -35,12 +35,12 @@
       <pre class="demo-code"><code>&lt;n-input variant="outline" placeholder="Outline input"&gt;&lt;/n-input&gt;
 &lt;n-input variant="default" placeholder="Default input"&gt;&lt;/n-input&gt;
 &lt;n-input variant="ghost" placeholder="Ghost input"&gt;&lt;/n-input&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-row">
         <span class="demo-label">xs</span>
         <n-input size="xs" placeholder="Extra small"></n-input>
@@ -64,12 +64,12 @@
       <pre class="demo-code"><code>&lt;n-input size="sm" placeholder="Small"&gt;&lt;/n-input&gt;
 &lt;n-input size="md" placeholder="Medium"&gt;&lt;/n-input&gt;
 &lt;n-input size="lg" placeholder="Large"&gt;&lt;/n-input&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Intents ── -->
 
     <h2>Intents</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <div class="demo-row">
         <n-input intent="neutral" placeholder="Neutral"></n-input>
         <n-input intent="accent" placeholder="Accent"></n-input>
@@ -80,12 +80,12 @@
         <n-input intent="warning" placeholder="Warning"></n-input>
         <n-input intent="danger" placeholder="Danger"></n-input>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── Disabled & Readonly ── -->
 
     <h2>Disabled &amp; Readonly</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <div class="demo-row">
         <span class="demo-label">disabled</span>
         <n-input disabled placeholder="Disabled"></n-input>
@@ -94,12 +94,12 @@
         <span class="demo-label">readonly</span>
         <n-input readonly value="Read-only value"></n-input>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── With Icons (Slots) ── -->
 
     <h2>With Icons</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <h3>Leading icon</h3>
       <div class="demo-row">
         <n-input placeholder="Search...">
@@ -133,12 +133,12 @@
   &lt;n-icon name="lock" slot="leading"&gt;&lt;/n-icon&gt;
   &lt;n-icon name="eye" slot="trailing"&gt;&lt;/n-icon&gt;
 &lt;/n-input&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Ghost Composability ── -->
 
     <h2>Ghost — Composability</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <h3>Ghost input standalone</h3>
       <div class="demo-row">
         <n-input variant="ghost" placeholder="Ghost input — no chrome"></n-input>
@@ -149,12 +149,12 @@
         <n-icon name="magnifying-glass" style="color: var(--n-ink-muted-neutral);"></n-icon>
         <n-input variant="ghost" placeholder="Search inside container..." style="flex: 1;"></n-input>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── Density ── -->
 
     <h2>Density</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>xs</h3>
       <div class="demo-row" size="xs" density="compact">
         <span class="demo-label">compact</span>
@@ -224,24 +224,24 @@
         <span class="demo-label">loose</span>
         <n-input placeholder="Loose"></n-input>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── Inline ── -->
 
     <h2>Inline</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <p style="margin: 0 0 0.5rem; font-size: 0.875rem;">
         Enter your name: <n-input inline placeholder="Name" style="width: 12rem;"></n-input> and submit.
       </p>
       <span size="xs" muted>
         The <code>inline</code> attribute restores shrink-wrap sizing for inputs placed inline with text.
       </span>
-    </article>
+    </n-container>
 
     <!-- ── Radius ── -->
 
     <h2>Radius</h2>
-    <article data-kind="panel" bordered size="md">
+    <n-container data-kind="panel" bordered size="md">
       <div class="demo-row" radius="sharp">
         <span class="demo-label">sharp</span>
         <n-input placeholder="Sharp radius"></n-input>
@@ -254,12 +254,12 @@
         <span class="demo-label">round</span>
         <n-input placeholder="Round radius"></n-input>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── Events ── -->
 
     <h2>Events</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <n-input id="event-input" placeholder="Type to see events..."></n-input>
       <div class="log" id="event-log"></div>
       <pre class="demo-code"><code>&lt;n-input id="event-input" placeholder="Type to see events..."&gt;&lt;/n-input&gt;
@@ -273,12 +273,12 @@
     console.log('native:change', e.detail.value);
   });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Form Association ── -->
 
     <h2>Form Association</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <form id="demo-form">
         <div class="demo-col-sm" style="margin-bottom: 0.75rem;">
           <n-input name="username" placeholder="Username">
@@ -307,12 +307,12 @@
   &lt;n-button variant="primary" type="submit"&gt;Submit&lt;/n-button&gt;
   &lt;n-button variant="secondary" type="reset"&gt;Reset&lt;/n-button&gt;
 &lt;/form&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Cascading ── -->
 
     <h2>Cascading</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>Parent size="md", child overrides</h3>
       <div class="demo-row" size="md">
         <n-input placeholder="Inherited md"></n-input>
@@ -328,12 +328,12 @@
           <n-input variant="ghost" placeholder="All inherited"></n-input>
         </div>
       </section>
-    </article>
+    </n-container>
 
     <!-- ── Variants x Intents ── -->
 
     <h2>Variants x Intents</h2>
-    <article data-kind="panel" bordered size="sm">
+    <n-container data-kind="panel" bordered size="sm">
       <h3>Outline</h3>
       <div class="demo-row">
         <n-input variant="outline" intent="neutral" placeholder="Neutral"></n-input>
@@ -361,16 +361,16 @@
         <n-input variant="ghost" intent="warning" placeholder="Warning"></n-input>
         <n-input variant="ghost" intent="danger" placeholder="Danger"></n-input>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── Debug States (force-*) ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
       </p>
-      <div class="stack" gap="4">
+      <n-stack gap="4">
         <div>
           <span size="xs" muted>force-hover (empty)</span>
           <n-input force-hover placeholder="Hovered input"></n-input>
@@ -387,8 +387,8 @@
           <span size="xs" muted>force-focus (filled)</span>
           <n-input force-focus value="Filled + focused"></n-input>
         </div>
-      </div>
-    </article>
+      </n-stack>
+    </n-container>
 
     </main></native-dashboard-spa>
     <script type="module">

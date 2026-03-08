@@ -1,4 +1,6 @@
 import { NativeElement } from '../../core/native-element.ts';
+import { ContextRequestEvent } from '../../core/context.ts';
+import { StoreController } from '../../controllers/store-controller.ts';
 import { getTrait, onTraitRegistered, getRegisteredTraitNames } from '../../registries/trait-registry.ts';
 import { collectTraitOptions, parseTraitAttribute } from '../../core/trait-options.ts';
 
@@ -13,10 +15,10 @@ type ControllerMap = Map<string, unknown>;
  * Three modes:
  * - **Wrapper** (default): Applies traits to first element child
  * - **Selector** (`for="selector"`): Applies traits to matching descendants
- * - **Provider** (`provides="..."`): Exposes services via context (future)
+ * - **Provider** (`provides="..."`): Exposes a StoreController via context
  */
 export class NController extends NativeElement {
-  static observedAttributes = ['traits', 'for', 'provides'];
+  static observedAttributes = ['traits', 'for', 'provides', 'src'];
 
   /** Per-target controller instances: target → Map<traitName, instance> */
   #targets = new Map<HTMLElement, ControllerMap>();
@@ -32,6 +34,12 @@ export class NController extends NativeElement {
   #traitUnsub: (() => void) | null = null;
   #alive = false;
 
+  /** Provider mode: StoreController instance exposed via context */
+  #store: StoreController | null = null;
+
+  /** Context provider protocol — keyed store instances */
+  #contexts = new Map<string, unknown>();
+
   // WHY: Override connectedCallback to prevent NativeElement from running its
   // trait-on-self protocol. NController delegates traits to children, never
   // to itself. We call setup() directly (same as NativeElement) but skip
@@ -40,11 +48,13 @@ export class NController extends NativeElement {
     if (this.#alive) return;
     this.#alive = true;
     this.renewReady();
+    this.addEventListener('context-request', this.#onContextRequest as EventListener);
     this.setup();
   }
 
   disconnectedCallback(): void {
     this.#alive = false;
+    this.removeEventListener('context-request', this.#onContextRequest as EventListener);
     // WHY: Delegate to parent which calls teardown() + disposes effects
     super.disconnectedCallback();
   }
@@ -57,6 +67,9 @@ export class NController extends NativeElement {
 
   teardown(): void {
     this.#destroyAll();
+    this.#store?.destroy();
+    this.#store = null;
+    this.#contexts.clear();
     this.#childObserver?.disconnect();
     this.#childObserver = null;
     this.#optionObserver?.disconnect();
@@ -78,9 +91,17 @@ export class NController extends NativeElement {
     if (name === 'traits' || name === 'for' || name === 'provides') {
       // Full re-apply — destroy old, create new
       this.#destroyAll();
+      this.#store?.destroy();
+      this.#store = null;
+      this.#contexts.clear();
       this.#childObserver?.disconnect();
       this.#childObserver = null;
       this.#apply();
+    }
+
+    if (name === 'src' && this.#store) {
+      const src = this.getAttribute('src');
+      if (src) this.#store.load(src);
     }
   }
 
@@ -89,8 +110,7 @@ export class NController extends NativeElement {
   #apply(): void {
     const provides = this.getAttribute('provides');
     if (provides !== null) {
-      // Provider mode — expose services, don't apply traits to children.
-      // Future: use ContextProvider to expose services.
+      this.#applyProvider(provides);
       return;
     }
 
@@ -262,6 +282,37 @@ export class NController extends NativeElement {
     if (attempt === 0) queueMicrotask(tick);
     else requestAnimationFrame(tick);
   }
+
+  // ── Provider mode ──
+
+  #applyProvider(key: string): void {
+    this.#store = new StoreController();
+
+    // Seed from data-store-* attributes
+    for (const attr of this.attributes) {
+      if (attr.name.startsWith('data-store-')) {
+        const storeKey = attr.name.slice('data-store-'.length);
+        this.#store.set(storeKey, attr.value);
+      }
+    }
+
+    // Expose via context protocol
+    this.#contexts.set(key, this.#store);
+
+    // Fetch if src is present
+    const src = this.getAttribute('src');
+    if (src) this.#store.load(src);
+  }
+
+  // WHY: Arrow property to preserve `this` binding
+  #onContextRequest = (e: Event): void => {
+    if (!(e instanceof ContextRequestEvent)) return;
+    const value = this.#contexts.get(e.context);
+    if (value !== undefined) {
+      e.stopPropagation();
+      e.callback(value);
+    }
+  };
 
   #destroyControllersFor(target: HTMLElement, controllers: ControllerMap): void {
     for (const [name, instance] of controllers) {

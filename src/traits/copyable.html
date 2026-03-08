@@ -149,7 +149,7 @@
     <!-- ── Basic Copy (Injection) ── -->
 
     <h2>Basic Copy <span class="pattern-badge injection">Injection</span></h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         <code>traits="copyable pressable"</code> on a minimal NativeElement shell. Click triggers copy via <code>native:press</code>. The <code>[copied]</code> attribute provides visual feedback for 2 seconds.
       </p>
@@ -172,12 +172,12 @@ define('copy-demo', CopyDemo);
 el.addEventListener('native:press', () =&gt; {
   el.getTraitController('copyable')?.copy();
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Copy with Getter ── -->
 
     <h2>Copy with Getter</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         The copyable adapter takes static <code>value</code> strings. For dynamic values (like timestamps), use <code>CopyController</code> directly with a getter function.
       </p>
@@ -194,12 +194,12 @@ const copy = new CopyController(el, {
 });
 
 el.addEventListener('native:press', () =&gt; copy.copy());</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Custom Duration (Injection) ── -->
 
     <h2>Custom Duration (500ms) <span class="pattern-badge injection">Injection</span></h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         <code>data-trait-copyable-feedback-duration="500"</code> for quick feedback instead of the default 2000ms.
       </p>
@@ -214,12 +214,12 @@ el.addEventListener('native:press', () =&gt; copy.copy());</code><n-button class
   &lt;span class="copy-label"&gt;Quick feedback copy&lt;/span&gt;
   &lt;span class="copy-indicator"&gt;Copy&lt;/span&gt;
 &lt;/copy-demo&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Provider Pattern ── -->
 
     <h2>Provider Pattern <span class="pattern-badge provider">Provider</span></h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> applies copyable to a plain <code>&lt;div&gt;</code>. No NativeElement subclass needed for the target. The controller manages <code>[copied]</code> feedback; a click listener triggers <code>copy()</code>.
       </p>
@@ -237,7 +237,7 @@ el.addEventListener('native:press', () =&gt; copy.copy());</code><n-button class
     &lt;span class="copy-indicator"&gt;Copy&lt;/span&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── API Reference ── -->
 

@@ -107,7 +107,7 @@
     <!-- ── Focus Trap ── -->
 
     <h2>Focus Trap</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         Uses <code>FocusTrapController</code> directly on a plain element. Tab cycles between the inputs and buttons.
       </p>
@@ -145,12 +145,12 @@ function hide() {
   trap.disable(); // restores focus to previous element
   region.setAttribute('hidden', '');
 }</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Without Autofocus ── -->
 
     <h2>Without Autofocus</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         When no <code>[autofocus]</code> element exists, focus goes to the first focusable child.
       </p>
@@ -162,26 +162,26 @@ function hide() {
           <n-button id="close-btn2">Close</n-button>
         </div>
       </div>
-    </article>
+    </n-container>
 
     <!-- ── Built-in: n-dialog ── -->
 
     <h2>Built-in: n-dialog</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         <code>n-dialog</code> uses FocusTrappable internally. When a modal dialog opens, focus is automatically trapped within it.
       </p>
       <n-button id="open-dialog">Open Dialog</n-button>
       <n-dialog id="demo-dialog">
-        <article style="width: 20rem; padding: 1.5rem;">
+        <n-container style="width: 20rem; padding: 1.5rem;">
           <p style="margin-bottom: 1rem;">Focus is trapped inside this dialog. Tab only cycles between these buttons.</p>
           <div class="trap-actions">
             <n-button intent="accent">Action</n-button>
             <n-button id="close-dialog">Close</n-button>
           </div>
-        </article>
+        </n-container>
       </n-dialog>
-    </article>
+    </n-container>
 
     <!-- ── API Reference ── -->
 

@@ -74,7 +74,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <div class="stack" gap="6">
+    <n-stack gap="6">
     <div>
       <h1>Error Pages</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -85,7 +85,7 @@
 
     <!-- -- 404 Not Found -- -->
 
-    <div class="stack" gap="4">
+    <n-stack gap="4">
     <h2>404 — Not Found</h2>
     <div class="error-page">
       <div class="error-code" aria-hidden="true">404</div>
@@ -96,17 +96,17 @@
         <span slot="label">Go Home</span>
       </n-button>
     </div>
-    </div>
+    </n-stack>
 
     <!-- -- 500 Server Error -- -->
 
-    <div class="stack" gap="4">
+    <n-stack gap="4">
     <h2>500 — Server Error</h2>
     <div class="error-page">
       <div class="error-code" aria-hidden="true">500</div>
       <h3>Server error</h3>
       <p>Something went wrong on our end. Our team has been notified and is working on a fix. Please try again in a few moments.</p>
-      <div class="stack" direction="row" gap="3">
+      <n-stack direction="row" gap="3">
         <n-button variant="primary" intent="accent" id="retry-btn">
           <span slot="label">Try Again</span>
         </n-button>
@@ -114,13 +114,13 @@
           <n-icon name="house" slot="leading"></n-icon>
           <span slot="label">Go Home</span>
         </n-button>
-      </div>
+      </n-stack>
     </div>
-    </div>
+    </n-stack>
 
     <!-- -- Maintenance -- -->
 
-    <div class="stack" gap="4">
+    <n-stack gap="4">
     <h2>Maintenance</h2>
     <div class="error-page">
       <n-icon name="gear" size="xl" aria-hidden="true"></n-icon>
@@ -131,8 +131,8 @@
         <span slot="label">Check Status</span>
       </n-button>
     </div>
-    </div>
-    </div>
+    </n-stack>
+    </n-stack>
 
     </main></native-dashboard-spa>
     <script type="module">

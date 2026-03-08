@@ -7,7 +7,7 @@
 Three modes:
 - **Wrapper** (default): Applies traits to first element child
 - **Selector** (`for="selector"`): Applies traits to matching descendants
-- **Provider** (`provides="..."`): Exposes services via context (future)
+- **Provider** (`provides="..."`): Exposes a StoreController via context
 
 **Class:** `NController`
 
@@ -18,6 +18,7 @@ Three modes:
 | `traits` | `string` |  |
 | `for` | `string` |  |
 | `provides` | `string` |  |
+| `src` | `string` |  |
 
 ## Usage
 

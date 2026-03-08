@@ -19,31 +19,31 @@
     <!-- ── n-header: Basic ── -->
 
     <h2>n-header — Basic</h2>
-    <article data-kind="panel" bordered>
-      <article style="max-width: 24rem;">
-        <header>
+    <n-container data-kind="panel" bordered>
+      <n-container style="max-width: 24rem;">
+        <n-header>
           <span>Card Title</span>
-        </header>
-        <section>
+        </n-header>
+        <n-body>
           <p>Body content with the default padding and scrollable overflow.</p>
-        </section>
-      </article>
-    <pre class="demo-code"><code>&lt;article&gt;
-  &lt;header&gt;
+        </n-body>
+      </n-container>
+    <pre class="demo-code"><code>&lt;n-container&gt;
+  &lt;n-header&gt;
     &lt;span&gt;Card Title&lt;/span&gt;
-  &lt;/header&gt;
-  &lt;section&gt;
+  &lt;/n-header&gt;
+  &lt;n-body&gt;
     &lt;p&gt;Body content here.&lt;/p&gt;
-  &lt;/section&gt;
-&lt;/article&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+  &lt;/n-body&gt;
+&lt;/n-container&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── n-header: With Slots ── -->
 
     <h2>n-header — Leading & Trailing Slots</h2>
-    <article data-kind="panel" bordered>
-      <article style="max-width: 28rem;">
-        <header>
+    <n-container data-kind="panel" bordered>
+      <n-container style="max-width: 28rem;">
+        <n-header>
           <nav>
             <span class="badge" intent="accent">New</span>
           </nav>
@@ -51,16 +51,16 @@
           <aside>
             <n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button>
           </aside>
-        </header>
-        <section>
+        </n-header>
+        <n-body>
           <p>The header uses a 3-column grid: leading / label / trailing.</p>
-        </section>
-        <footer>
+        </n-body>
+        <n-footer>
           <n-button variant="ghost"><span>Cancel</span></n-button>
           <n-button variant="primary" intent="accent"><span>Save</span></n-button>
-        </footer>
-      </article>
-    <pre class="demo-code"><code>&lt;header&gt;
+        </n-footer>
+      </n-container>
+    <pre class="demo-code"><code>&lt;n-header&gt;
   &lt;nav&gt;
     &lt;span class="badge" intent="accent"&gt;New&lt;/span&gt;
   &lt;/nav&gt;
@@ -68,44 +68,44 @@
   &lt;aside&gt;
     &lt;n-button variant="ghost"&gt;...&lt;/n-button&gt;
   &lt;/aside&gt;
-&lt;/header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;/n-header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── n-header: Align ── -->
 
     <h2>n-header — Align</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <article style="max-width: 18rem;">
-          <header>
+        <n-container style="max-width: 18rem;">
+          <n-header>
             <span>Default (start)</span>
-          </header>
-          <section><p>Left-aligned label.</p></section>
-        </article>
-        <article style="max-width: 18rem;">
-          <header align="center">
+          </n-header>
+          <n-body><p>Left-aligned label.</p></n-body>
+        </n-container>
+        <n-container style="max-width: 18rem;">
+          <n-header align="center">
             <span>Centered</span>
-          </header>
-          <section><p>Center-aligned label.</p></section>
-        </article>
-        <article style="max-width: 18rem;">
-          <header align="end">
+          </n-header>
+          <n-body><p>Center-aligned label.</p></n-body>
+        </n-container>
+        <n-container style="max-width: 18rem;">
+          <n-header align="end">
             <span>End</span>
-          </header>
-          <section><p>End-aligned label.</p></section>
-        </article>
+          </n-header>
+          <n-body><p>End-aligned label.</p></n-body>
+        </n-container>
       </div>
-      <pre class="demo-code"><code>&lt;header&gt;...&lt;/header&gt;
-&lt;header align="center"&gt;...&lt;/header&gt;
-&lt;header align="end"&gt;...&lt;/header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+      <pre class="demo-code"><code>&lt;n-header&gt;...&lt;/n-header&gt;
+&lt;n-header align="center"&gt;...&lt;/n-header&gt;
+&lt;n-header align="end"&gt;...&lt;/n-header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── n-header: Centered with leading/trailing ── -->
 
     <h2>n-header — Centered with Actions</h2>
-    <article data-kind="panel" bordered>
-      <article style="max-width: 28rem;">
-        <header align="center">
+    <n-container data-kind="panel" bordered>
+      <n-container style="max-width: 28rem;">
+        <n-header align="center">
           <nav>
             <n-button variant="ghost"><n-icon name="caret-left"></n-icon></n-button>
           </nav>
@@ -113,12 +113,12 @@
           <aside>
             <n-button variant="ghost"><n-icon name="x"></n-icon></n-button>
           </aside>
-        </header>
-        <section>
+        </n-header>
+        <n-body>
           <p>Common pattern: back button, centered title, close button.</p>
-        </section>
-      </article>
-    <pre class="demo-code"><code>&lt;header align="center"&gt;
+        </n-body>
+      </n-container>
+    <pre class="demo-code"><code>&lt;n-header align="center"&gt;
   &lt;nav&gt;
     &lt;n-button variant="ghost"&gt;&lt;n-icon name="caret-left"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
   &lt;/nav&gt;
@@ -126,8 +126,8 @@
   &lt;aside&gt;
     &lt;n-button variant="ghost"&gt;&lt;n-icon name="x"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
   &lt;/aside&gt;
-&lt;/header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;/n-header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── n-header: Truncate ── -->
 
@@ -135,22 +135,22 @@
     <p class="demo-desc">
       <code>[truncate]</code> adds text-overflow ellipsis to the label slot. Useful for long titles in fixed-width containers.
     </p>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <article style="max-width: 18rem;">
-          <header>
+        <n-container style="max-width: 18rem;">
+          <n-header>
             <span>This is a very long title that will overflow and wrap to multiple lines</span>
-          </header>
-          <section><p>Default — label wraps.</p></section>
-        </article>
-        <article style="max-width: 18rem;">
-          <header truncate>
+          </n-header>
+          <n-body><p>Default — label wraps.</p></n-body>
+        </n-container>
+        <n-container style="max-width: 18rem;">
+          <n-header truncate>
             <span>This is a very long title that will be truncated with an ellipsis</span>
-          </header>
-          <section><p>With <code>[truncate]</code> — ellipsis.</p></section>
-        </article>
-        <article style="max-width: 18rem;">
-          <header truncate>
+          </n-header>
+          <n-body><p>With <code>[truncate]</code> — ellipsis.</p></n-body>
+        </n-container>
+        <n-container style="max-width: 18rem;">
+          <n-header truncate>
             <nav>
               <n-icon name="file-text"></n-icon>
             </nav>
@@ -158,147 +158,147 @@
             <aside>
               <n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button>
             </aside>
-          </header>
-          <section><p>With slots — label truncates while leading/trailing stay visible.</p></section>
-        </article>
+          </n-header>
+          <n-body><p>With slots — label truncates while leading/trailing stay visible.</p></n-body>
+        </n-container>
       </div>
-      <pre class="demo-code"><code>&lt;header truncate&gt;
+      <pre class="demo-code"><code>&lt;n-header truncate&gt;
   &lt;span&gt;Very long title...&lt;/span&gt;
-&lt;/header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;/n-header&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── n-body: Scrollable ── -->
 
     <h2>n-body — Scrollable Content</h2>
-    <article data-kind="panel" bordered>
-      <article style="max-width: 24rem; height: 16rem;">
-        <header>
+    <n-container data-kind="panel" bordered>
+      <n-container style="max-width: 24rem; height: 16rem;">
+        <n-header>
           <span>Scrollable Card</span>
-        </header>
-        <section>
+        </n-header>
+        <n-body>
           <p>This card has a fixed height. The body scrolls independently while the header stays pinned.</p>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
           <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </section>
-        <footer>
+        </n-body>
+        <n-footer>
           <n-button variant="primary" intent="accent"><span>Done</span></n-button>
-        </footer>
-      </article>
-    <pre class="demo-code"><code>&lt;article style="height: 16rem;"&gt;
-  &lt;header&gt;&lt;span&gt;Scrollable&lt;/span&gt;&lt;/header&gt;
-  &lt;section&gt;
+        </n-footer>
+      </n-container>
+    <pre class="demo-code"><code>&lt;n-container style="height: 16rem;"&gt;
+  &lt;n-header&gt;&lt;span&gt;Scrollable&lt;/span&gt;&lt;/n-header&gt;
+  &lt;n-body&gt;
     &lt;p&gt;Long content that scrolls...&lt;/p&gt;
-  &lt;/section&gt;
-  &lt;footer&gt;
+  &lt;/n-body&gt;
+  &lt;n-footer&gt;
     &lt;n-button variant="primary" intent="accent"&gt;Done&lt;/n-button&gt;
-  &lt;/footer&gt;
-&lt;/article&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+  &lt;/n-footer&gt;
+&lt;/n-container&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── n-body: Show Scrollbar ── -->
 
     <h2>n-body — Visible Scrollbar</h2>
-    <article data-kind="panel" bordered>
-      <article style="max-width: 24rem; height: 14rem;">
-        <header><span>With Scrollbar</span></header>
-        <section show-scrollbar>
+    <n-container data-kind="panel" bordered>
+      <n-container style="max-width: 24rem; height: 14rem;">
+        <n-header><span>With Scrollbar</span></n-header>
+        <n-body show-scrollbar>
           <p>The <code>show-scrollbar</code> attribute reveals a thin scrollbar.</p>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
           <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.</p>
-        </section>
-      </article>
-    <pre class="demo-code"><code>&lt;section show-scrollbar&gt;
+        </n-body>
+      </n-container>
+    <pre class="demo-code"><code>&lt;n-body show-scrollbar&gt;
   &lt;p&gt;Scrollable content with a visible scrollbar.&lt;/p&gt;
-&lt;/section&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;/n-body&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── n-footer: Justify ── -->
 
     <h2>n-footer — Justify Variants</h2>
-    <article data-kind="panel" bordered>
-      <div class="stack" gap="4">
-        <article style="max-width: 28rem;">
-          <header><span>End (default)</span></header>
-          <section><p>Actions aligned to the right.</p></section>
-          <footer>
+    <n-container data-kind="panel" bordered>
+      <n-stack gap="4">
+        <n-container style="max-width: 28rem;">
+          <n-header><span>End (default)</span></n-header>
+          <n-body><p>Actions aligned to the right.</p></n-body>
+          <n-footer>
             <n-button variant="ghost"><span>Cancel</span></n-button>
             <n-button variant="primary" intent="accent"><span>Confirm</span></n-button>
-          </footer>
-        </article>
-        <article style="max-width: 28rem;">
-          <header><span>Spread</span></header>
-          <section><p>Cancel left, Save right.</p></section>
-          <footer justify="spread">
+          </n-footer>
+        </n-container>
+        <n-container style="max-width: 28rem;">
+          <n-header><span>Spread</span></n-header>
+          <n-body><p>Cancel left, Save right.</p></n-body>
+          <n-footer justify="spread">
             <n-button variant="ghost"><span>Cancel</span></n-button>
             <n-button variant="primary" intent="accent"><span>Save</span></n-button>
-          </footer>
-        </article>
-        <article style="max-width: 28rem;">
-          <header><span>Start</span></header>
-          <section><p>Actions aligned left.</p></section>
-          <footer justify="start">
+          </n-footer>
+        </n-container>
+        <n-container style="max-width: 28rem;">
+          <n-header><span>Start</span></n-header>
+          <n-body><p>Actions aligned left.</p></n-body>
+          <n-footer justify="start">
             <n-button variant="ghost"><span>Back</span></n-button>
             <n-button variant="primary" intent="accent"><span>Next</span></n-button>
-          </footer>
-        </article>
-        <article style="max-width: 28rem;">
-          <header><span>Center</span></header>
-          <section><p>Centered actions.</p></section>
-          <footer justify="center">
+          </n-footer>
+        </n-container>
+        <n-container style="max-width: 28rem;">
+          <n-header><span>Center</span></n-header>
+          <n-body><p>Centered actions.</p></n-body>
+          <n-footer justify="center">
             <n-button variant="primary" intent="accent"><span>Got it</span></n-button>
-          </footer>
-        </article>
-      </div>
-    <pre class="demo-code"><code>&lt;footer&gt;...&lt;/footer&gt;                &lt;!-- end (default) --&gt;
-&lt;footer justify="spread"&gt;...&lt;/footer&gt;  &lt;!-- space-between --&gt;
-&lt;footer justify="start"&gt;...&lt;/footer&gt;   &lt;!-- left-aligned --&gt;
-&lt;footer justify="center"&gt;...&lt;/footer&gt;  &lt;!-- centered --&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+          </n-footer>
+        </n-container>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-footer&gt;...&lt;/n-footer&gt;                &lt;!-- end (default) --&gt;
+&lt;n-footer justify="spread"&gt;...&lt;/n-footer&gt;  &lt;!-- space-between --&gt;
+&lt;n-footer justify="start"&gt;...&lt;/n-footer&gt;   &lt;!-- left-aligned --&gt;
+&lt;n-footer justify="center"&gt;...&lt;/n-footer&gt;  &lt;!-- centered --&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes (inherit from parent)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <article size="sm" style="max-width: 18rem;">
-          <header><span>Small</span></header>
-          <section><p>Compact padding.</p></section>
-          <footer><n-button size="sm" variant="primary" intent="accent"><span>OK</span></n-button></footer>
-        </article>
-        <article style="max-width: 18rem;">
-          <header><span>Medium</span></header>
-          <section><p>Default padding.</p></section>
-          <footer><n-button variant="primary" intent="accent"><span>OK</span></n-button></footer>
-        </article>
-        <article size="lg" style="max-width: 18rem;">
-          <header><span>Large</span></header>
-          <section><p>Spacious padding.</p></section>
-          <footer><n-button size="lg" variant="primary" intent="accent"><span>OK</span></n-button></footer>
-        </article>
+        <n-container size="sm" style="max-width: 18rem;">
+          <n-header><span>Small</span></n-header>
+          <n-body><p>Compact padding.</p></n-body>
+          <n-footer><n-button size="sm" variant="primary" intent="accent"><span>OK</span></n-button></n-footer>
+        </n-container>
+        <n-container style="max-width: 18rem;">
+          <n-header><span>Medium</span></n-header>
+          <n-body><p>Default padding.</p></n-body>
+          <n-footer><n-button variant="primary" intent="accent"><span>OK</span></n-button></n-footer>
+        </n-container>
+        <n-container size="lg" style="max-width: 18rem;">
+          <n-header><span>Large</span></n-header>
+          <n-body><p>Spacious padding.</p></n-body>
+          <n-footer><n-button size="lg" variant="primary" intent="accent"><span>OK</span></n-button></n-footer>
+        </n-container>
       </div>
-      <pre class="demo-code"><code>&lt;article size="sm"&gt;
-  &lt;header&gt;...&lt;/header&gt;
-  &lt;section&gt;...&lt;/section&gt;
-  &lt;footer&gt;...&lt;/footer&gt;
-&lt;/article&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+      <pre class="demo-code"><code>&lt;n-container size="sm"&gt;
+  &lt;n-header&gt;...&lt;/n-header&gt;
+  &lt;n-body&gt;...&lt;/n-body&gt;
+  &lt;n-footer&gt;...&lt;/n-footer&gt;
+&lt;/n-container&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── In Drawer ── -->
 
     <h2>Inside a Drawer</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-button id="open-drawer"><span>Open Drawer</span></n-button>
       <n-drawer id="drawer-demo">
-        <header>
+        <n-header>
           <span>Drawer Title</span>
           <aside>
             <n-button variant="ghost" id="close-drawer"><n-icon name="x"></n-icon></n-button>
           </aside>
-        </header>
-        <section>
+        </n-header>
+        <n-body>
           <p>The drawer uses header / section / footer. The header and footer stay fixed while the section scrolls.</p>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
           <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
@@ -307,28 +307,28 @@
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
           <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
           <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-        </section>
-        <footer justify="spread">
+        </n-body>
+        <n-footer justify="spread">
           <n-button variant="ghost" id="cancel-drawer"><span>Cancel</span></n-button>
           <n-button variant="primary" intent="accent"><span>Save Changes</span></n-button>
-        </footer>
+        </n-footer>
       </n-drawer>
     <pre class="demo-code"><code>&lt;n-drawer&gt;
-  &lt;header&gt;
+  &lt;n-header&gt;
     &lt;span&gt;Drawer Title&lt;/span&gt;
     &lt;aside&gt;
       &lt;n-button variant="ghost"&gt;&lt;n-icon name="x"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
     &lt;/aside&gt;
-  &lt;/header&gt;
-  &lt;section&gt;
+  &lt;/n-header&gt;
+  &lt;n-body&gt;
     &lt;p&gt;Scrollable content...&lt;/p&gt;
-  &lt;/section&gt;
-  &lt;footer justify="spread"&gt;
+  &lt;/n-body&gt;
+  &lt;n-footer justify="spread"&gt;
     &lt;n-button variant="ghost"&gt;Cancel&lt;/n-button&gt;
     &lt;n-button variant="primary" intent="accent"&gt;Save&lt;/n-button&gt;
-  &lt;/footer&gt;
+  &lt;/n-footer&gt;
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     </main></native-dashboard-spa>
     <script type="module">

@@ -98,43 +98,6 @@
         opacity: 0.2;
       }
 
-      /* ── Layout card ── */
-
-      .layout-card {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-        border-radius: var(--n-radius);
-        overflow: hidden;
-        border: 1px solid var(--n-border-muted-neutral);
-        background: var(--n-container-neutral);
-        width: 20rem;
-      }
-
-      .layout-card .card-header {
-        padding: 0.75rem 1rem;
-        background: var(--n-panel-neutral);
-        border-bottom: 1px solid var(--n-border-muted-neutral);
-        font-weight: 600;
-        font-size: 0.875rem;
-      }
-
-      .layout-card .card-body {
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        font-size: 0.8125rem;
-        color: var(--n-ink-muted-neutral);
-      }
-
-      .layout-card .card-footer {
-        padding: 0.75rem 1rem;
-        border-top: 1px solid var(--n-border-muted-neutral);
-        display: flex;
-        gap: 0.5rem;
-        justify-content: flex-end;
-      }
 
       /* ── Nested example ── */
 
@@ -322,17 +285,17 @@
           <div class="component-cell">
             <span class="component-cell-label">Card Layout</span>
             <n-controller traits="css-inspectable">
-              <div class="layout-card inspect-target provider-target">
-                <div class="card-header">Card Title</div>
-                <div class="card-body">
+              <n-container bordered inline class="inspect-target provider-target" style="width: 20rem;">
+                <n-header dividers>Card Title</n-header>
+                <n-body style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral);">
                   <span>First line of content</span>
                   <span>Second line with more detail</span>
-                </div>
-                <div class="card-footer">
+                </n-body>
+                <n-footer dividers>
                   <n-button variant="secondary" size="sm">Cancel</n-button>
                   <n-button size="sm">Save</n-button>
-                </div>
-              </div>
+                </n-footer>
+              </n-container>
             </n-controller>
           </div>
 
@@ -365,11 +328,11 @@
         </div>
 
         <h3>Provider Event Log</h3>
-        <article>
-          <section show-scrollbar style="max-height: 8rem;">
+        <n-container>
+          <n-body show-scrollbar style="max-height: 8rem;">
             <div class="event-log" id="provider-log"></div>
-          </section>
-        </article>
+          </n-body>
+        </n-container>
 
         <!-- ── Controller Demo ── -->
 
@@ -379,59 +342,59 @@
         </span>
 
         <div style="display: flex; justify-content: center; padding: 3rem 0;">
-          <div class="layout-card inspect-target" id="controller-target">
-            <div class="card-header">Inspectable Card</div>
-            <div class="card-body">
+          <n-container bordered inline class="inspect-target" id="controller-target" style="width: 20rem;">
+            <n-header dividers>Inspectable Card</n-header>
+            <n-body style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral);">
               <span>Hover me to explode layers</span>
               <span>Move your mouse for 3D tilt</span>
               <div class="nested-inner">Nested child element</div>
-            </div>
-            <div class="card-footer">
+            </n-body>
+            <n-footer dividers>
               <n-button variant="secondary" size="sm">Action A</n-button>
               <n-button size="sm">Action B</n-button>
-            </div>
-          </div>
+            </n-footer>
+          </n-container>
         </div>
 
         <!-- ── Options ── -->
 
         <h3>Options</h3>
-        <article>
-          <section>
-            <div class="stack" gap="3">
-              <div class="stack" direction="row" align="center" gap="3">
+        <n-container>
+          <n-body>
+            <n-stack gap="3">
+              <n-stack direction="row" align="center" gap="3">
                 <span size="sm" style="min-width: 8rem;">Depth: <strong id="depth-val">16</strong>px</span>
                 <n-range id="opt-depth" min="10" max="150" step="2" value="16" style="flex:1;"></n-range>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <span size="sm" style="min-width: 8rem;">Scale: <strong id="scale-val">0.85</strong></span>
                 <n-range id="opt-scale" min="0.5" max="1.2" step="0.05" value="0.85" style="flex:1;"></n-range>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <span size="sm" style="min-width: 8rem;">Perspective: <strong id="perspective-val">1200</strong>px</span>
                 <n-range id="opt-perspective" min="400" max="3000" step="100" value="1200" style="flex:1;"></n-range>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <span size="sm" style="min-width: 8rem;">Max Tilt: <strong id="max-tilt-val">60</strong>&deg;</span>
                 <n-range id="opt-max-tilt" min="1" max="90" step="1" value="60" style="flex:1;"></n-range>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <span size="sm" style="min-width: 8rem;">Tilt Radius: <strong id="tilt-radius-val">384</strong>px</span>
                 <n-range id="opt-tilt-radius" min="100" max="1000" step="16" value="384" style="flex:1;"></n-range>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <n-switch id="opt-labels" checked>Show layer labels</n-switch>
-              </div>
-            </div>
-          </section>
-        </article>
+              </n-stack>
+            </n-stack>
+          </n-body>
+        </n-container>
 
         <h3>Controller Event Log</h3>
-        <article>
-          <section show-scrollbar style="max-height: 8rem;">
+        <n-container>
+          <n-body show-scrollbar style="max-height: 8rem;">
             <div class="event-log" id="controller-log"></div>
-          </section>
-        </article>
+          </n-body>
+        </n-container>
 
         <!-- ── Pick Mode Demo ── -->
 
@@ -442,23 +405,23 @@
 
         <n-controller traits="css-inspectable" data-trait-css-inspectable-pick>
           <div class="inspect-target" id="pick-target" style="display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start;">
-            <div class="layout-card">
-              <div class="card-header">Card One</div>
-              <div class="card-body">
+            <n-container bordered inline style="width: 20rem;">
+              <n-header dividers>Card One</n-header>
+              <n-body style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral);">
                 <span>First card content</span>
                 <span>With multiple children</span>
-              </div>
-              <div class="card-footer">
+              </n-body>
+              <n-footer dividers>
                 <n-button size="sm">Action</n-button>
-              </div>
-            </div>
-            <div class="layout-card">
-              <div class="card-header">Card Two</div>
-              <div class="card-body">
+              </n-footer>
+            </n-container>
+            <n-container bordered inline style="width: 20rem;">
+              <n-header dividers>Card Two</n-header>
+              <n-body style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral);">
                 <span>Second card content</span>
                 <div class="nested-inner">Nested element</div>
-              </div>
-            </div>
+              </n-body>
+            </n-container>
             <div style="display: flex; flex-direction: column; gap: 0.75rem; min-width: 14rem;">
               <n-input placeholder="Username"></n-input>
               <n-input placeholder="Email" type="email"></n-input>
@@ -468,17 +431,17 @@
         </n-controller>
 
         <h3>Pick Mode Event Log</h3>
-        <article>
-          <section show-scrollbar style="max-height: 8rem;">
+        <n-container>
+          <n-body show-scrollbar style="max-height: 8rem;">
             <div class="event-log" id="pick-log"></div>
-          </section>
-        </article>
+          </n-body>
+        </n-container>
 
         <!-- ── Attribute Reference ── -->
 
         <h3>Adapter Attributes (<code>data-trait-css-inspectable-*</code>)</h3>
-        <article>
-          <section>
+        <n-container>
+          <n-body>
             <table style="width: 100%; font-size: 0.8125rem; border-collapse: collapse;">
               <thead>
                 <tr style="text-align: left; border-bottom: 1px solid var(--n-border-muted-neutral);">
@@ -530,8 +493,8 @@
                 </tr>
               </tbody>
             </table>
-          </section>
-        </article>
+          </n-body>
+        </n-container>
 
       </main>
     </native-dashboard-spa>

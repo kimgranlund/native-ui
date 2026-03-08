@@ -298,11 +298,11 @@
         </div>
 
         <h3>Provider Event Log</h3>
-        <article>
-          <section show-scrollbar style="max-height: 8rem;">
+        <n-container>
+          <n-body show-scrollbar style="max-height: 8rem;">
             <div class="event-log" id="provider-log"></div>
-          </section>
-        </article>
+          </n-body>
+        </n-container>
 
         <!-- ── Controller Demo ── -->
 
@@ -321,43 +321,43 @@
         <!-- ── Options ── -->
 
         <h3>Options</h3>
-        <article>
-          <section>
-            <div class="stack" gap="3">
-              <div class="stack" direction="row" align="center" gap="3">
+        <n-container>
+          <n-body>
+            <n-stack gap="3">
+              <n-stack direction="row" align="center" gap="3">
                 <span size="sm" style="min-width: 7rem;">Friction: <strong id="friction-val">0.95</strong></span>
                 <n-range id="opt-friction" min="0.8" max="0.99" step="0.01" value="0.95" style="flex:1;"></n-range>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <span size="sm" style="min-width: 7rem;">Bounce damping: <strong id="damping-val">0.60</strong></span>
                 <n-range id="opt-damping" min="0.1" max="0.9" step="0.05" value="0.6" style="flex:1;"></n-range>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <span size="sm" style="min-width: 7rem;">Gravity: <strong id="gravity-val">0.00</strong></span>
                 <n-range id="opt-gravity" min="0" max="2" step="0.1" value="0" style="flex:1;"></n-range>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <n-switch id="opt-spin">Spin</n-switch>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <n-switch id="opt-bounce" checked>Bounce off edges</n-switch>
-              </div>
-              <div class="stack" direction="row" align="center" gap="3">
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
                 <n-switch id="opt-return">Return to origin</n-switch>
-              </div>
-              <div class="stack" direction="row" gap="2">
+              </n-stack>
+              <n-stack direction="row" gap="2">
                 <n-button id="btn-reset" variant="secondary">Reset Position</n-button>
-              </div>
-            </div>
-          </section>
-        </article>
+              </n-stack>
+            </n-stack>
+          </n-body>
+        </n-container>
 
         <h3>Controller Event Log</h3>
-        <article>
-          <section show-scrollbar style="max-height: 8rem;">
+        <n-container>
+          <n-body show-scrollbar style="max-height: 8rem;">
             <div class="event-log" id="controller-log"></div>
-          </section>
-        </article>
+          </n-body>
+        </n-container>
 
       </main>
     </native-dashboard-spa>

@@ -81,7 +81,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <div class="stack" gap="6">
+    <n-stack gap="6">
     <div>
       <h1>Command Palette</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
@@ -92,7 +92,7 @@
 
     <!-- -- Trigger Area -- -->
 
-    <div class="stack" gap="4">
+    <n-stack gap="4">
     <h2>Open Command Palette</h2>
     <div class="trigger-area">
       <n-button id="open-palette" intent="accent" size="lg">
@@ -159,11 +159,11 @@
         </n-command>
       </div>
     </n-dialog>
-    </div>
+    </n-stack>
 
     <!-- -- Inline Preview -- -->
 
-    <div class="stack" gap="4">
+    <n-stack gap="4">
     <div>
       <h2>Inline Preview</h2>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">
@@ -199,8 +199,8 @@
         <n-command-empty>No results.</n-command-empty>
       </n-command>
     </div>
-    </div>
-    </div>
+    </n-stack>
+    </n-stack>
 
     </main></native-dashboard-spa>
     <script type="module">

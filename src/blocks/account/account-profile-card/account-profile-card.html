@@ -124,8 +124,8 @@
 
     <h2>Standard</h2>
     <div class="profile-card-wrapper">
-      <article>
-        <div class="stack" gap="4" align="center">
+      <n-container>
+        <n-stack gap="4" align="center">
           <div class="profile-header">
             <span class="avatar" name="Kim Granlund" size="xl" intent="accent">KG</span>
             <div>
@@ -160,16 +160,16 @@
               <span slot="label">Message</span>
             </n-button>
           </div>
-        </div>
-      </article>
+        </n-stack>
+      </n-container>
     </div>
 
     <!-- ── Multiple Cards ── -->
 
     <h2>Team Grid</h2>
     <div class="demo-grid">
-      <article>
-        <div class="stack" gap="4" align="center">
+      <n-container>
+        <n-stack gap="4" align="center">
           <div class="profile-header">
             <span class="avatar" name="Alex Morgan" size="lg" intent="info">AM</span>
             <div>
@@ -199,11 +199,11 @@
               <span slot="label">Message</span>
             </n-button>
           </div>
-        </div>
-      </article>
+        </n-stack>
+      </n-container>
 
-      <article>
-        <div class="stack" gap="4" align="center">
+      <n-container>
+        <n-stack gap="4" align="center">
           <div class="profile-header">
             <span class="avatar" name="Sara Chen" size="lg" intent="success">SC</span>
             <div>
@@ -233,11 +233,11 @@
               <span slot="label">Message</span>
             </n-button>
           </div>
-        </div>
-      </article>
+        </n-stack>
+      </n-container>
 
-      <article>
-        <div class="stack" gap="4" align="center">
+      <n-container>
+        <n-stack gap="4" align="center">
           <div class="profile-header">
             <span class="avatar" name="James Rivera" size="lg" intent="warning">JR</span>
             <div>
@@ -267,16 +267,16 @@
               <span slot="label">Message</span>
             </n-button>
           </div>
-        </div>
-      </article>
+        </n-stack>
+      </n-container>
     </div>
 
     <!-- ── Compact Horizontal Variant ── -->
 
     <h2>Compact Horizontal</h2>
     <div style="max-width: 28rem;">
-      <div class="stack" gap="2">
-        <article>
+      <n-stack gap="2">
+        <n-container>
           <div class="profile-horizontal">
             <span class="avatar" name="Kim Granlund" intent="accent">KG</span>
             <div class="profile-horizontal-info">
@@ -289,8 +289,8 @@
               </n-button>
             </div>
           </div>
-        </article>
-        <article>
+        </n-container>
+        <n-container>
           <div class="profile-horizontal">
             <span class="avatar" name="Alex Morgan" intent="info">AM</span>
             <div class="profile-horizontal-info">
@@ -303,8 +303,8 @@
               </n-button>
             </div>
           </div>
-        </article>
-        <article>
+        </n-container>
+        <n-container>
           <div class="profile-horizontal">
             <span class="avatar" name="Sara Chen" intent="success">SC</span>
             <div class="profile-horizontal-info">
@@ -317,8 +317,8 @@
               </n-button>
             </div>
           </div>
-        </article>
-      </div>
+        </n-container>
+      </n-stack>
     </div>
 
     </main></native-dashboard-spa>

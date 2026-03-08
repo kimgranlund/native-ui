@@ -26,7 +26,7 @@
     <!-- ── Basic Table ── -->
 
     <h2>Basic Table</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-table style="grid-template-columns: 1fr 1fr 1fr;">
         <n-table-head>
           <n-table-row>
@@ -69,12 +69,12 @@
     &lt;/n-table-row&gt;
   &lt;/n-table-body&gt;
 &lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Sortable Columns ── -->
 
     <h2>Sortable Columns</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-table id="sortable-table" style="grid-template-columns: 2fr 1fr 80px;">
         <n-table-head>
           <n-table-row>
@@ -96,12 +96,12 @@
   &lt;/n-table-head&gt;
   &lt;n-table-body&gt;...&lt;/n-table-body&gt;
 &lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Selectable Rows ── -->
 
     <h2>Selectable Rows</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-table selectable style="grid-template-columns: 1fr 1fr 100px;">
         <n-table-head>
           <n-table-row>
@@ -150,12 +150,12 @@
     &lt;/n-table-row&gt;
   &lt;/n-table-body&gt;
 &lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>sm</h3>
       <n-table size="sm" style="grid-template-columns: 1fr 1fr 1fr;">
         <n-table-head>
@@ -227,12 +227,12 @@
     <pre class="demo-code"><code>&lt;n-table size="sm" style="grid-template-columns: 1fr 1fr 1fr;"&gt;...&lt;/n-table&gt;
 &lt;n-table style="grid-template-columns: 1fr 1fr 1fr;"&gt;...&lt;/n-table&gt;
 &lt;n-table size="lg" style="grid-template-columns: 1fr 1fr 1fr;"&gt;...&lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Plain Variant ── -->
 
     <h2>Plain Variant</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-caption">
         Editorial / documentation tables that sit inline with prose. No outer border, no radius, no header fill, no row hover.
       </p>
@@ -277,12 +277,12 @@
   &lt;/n-table-head&gt;
   &lt;n-table-body&gt;...&lt;/n-table-body&gt;
 &lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Colspan Rows ── -->
 
     <h2>Colspan Rows</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-caption">
         Full-width category headers that opt out of subgrid. Hidden automatically when the table is sorted.
       </p>
@@ -335,12 +335,12 @@
     &lt;/n-table-row&gt;
   &lt;/n-table-body&gt;
 &lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Sticky Header ── -->
 
     <h2>Sticky Header</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-caption">
         Header row stays fixed when scrolling vertically. Requires constrained height on the table.
       </p>
@@ -365,12 +365,12 @@
   &lt;/n-table-head&gt;
   &lt;n-table-body&gt;...&lt;/n-table-body&gt;
 &lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Sticky Column ── -->
 
     <h2>Sticky Column</h2>
-    <article data-kind="panel" bordered style="max-width: 400px;">
+    <n-container data-kind="panel" bordered style="max-width: 400px;">
       <p class="demo-caption">
         First column stays fixed when scrolling horizontally. Requires constrained width.
       </p>
@@ -419,12 +419,12 @@
   &lt;/n-table-head&gt;
   &lt;n-table-body&gt;...&lt;/n-table-body&gt;
 &lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Sticky Colspan Rows ── -->
 
     <h2>Sticky Colspan Rows</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-caption">
         Section headers stick below the table header as you scroll, like iOS section headers.
         Each section header pushes the previous one up.
@@ -448,12 +448,12 @@
     &lt;n-table-row&gt;...&lt;/n-table-row&gt;
   &lt;/n-table-body&gt;
 &lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Reorderable Rows ── -->
 
     <h2>Reorderable Rows</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-caption">
         Drag rows to reorder. DOM is auto-reordered unless the <code>native:table-reorder</code> event is cancelled.
       </p>
@@ -503,12 +503,12 @@
     &lt;/n-table-row&gt;
   &lt;/n-table-body&gt;
 &lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Resizable Columns ── -->
 
     <h2>Resizable Columns</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-caption">
         Drag the right edge of any header cell to resize columns.
       </p>
@@ -549,12 +549,12 @@
   &lt;/n-table-head&gt;
   &lt;n-table-body&gt;...&lt;/n-table-body&gt;
 &lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Sortable + Resizable ── -->
 
     <h2>Sortable + Resizable</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-caption">
         Click header text to sort, drag header edge to resize. Both coexist without conflict.
       </p>
@@ -579,12 +579,12 @@
   &lt;/n-table-head&gt;
   &lt;n-table-body&gt;...&lt;/n-table-body&gt;
 &lt;/n-table&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Debug States (force-*) ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing. Applied to individual rows and headers.
       </p>
@@ -619,7 +619,7 @@
           </n-table-row>
         </n-table-body>
       </n-table>
-    </article>
+    </n-container>
 
     </main></native-dashboard-spa>
     <script type="module">

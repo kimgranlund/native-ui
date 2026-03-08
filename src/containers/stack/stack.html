@@ -20,7 +20,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>&lt;div class="stack"&gt;</h1>
+    <h1>&lt;n-stack&gt;</h1>
     <p class="demo-desc">
       Flex layout utility. Vertical or horizontal stacking with configurable gap, alignment, and wrapping. CSS-only container.
     </p>
@@ -28,136 +28,136 @@
     <!-- ── Vertical (default) ── -->
 
     <h2>Vertical (default)</h2>
-    <article data-kind="panel" bordered>
-      <div class="stack">
+    <n-container data-kind="panel" bordered>
+      <n-stack>
         <div class="demo-box">Item 1</div>
         <div class="demo-box">Item 2</div>
         <div class="demo-box">Item 3</div>
-      </div>
-    <pre class="demo-code"><code>&lt;div class="stack"&gt;
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-stack&gt;
   &lt;div&gt;Item 1&lt;/div&gt;
   &lt;div&gt;Item 2&lt;/div&gt;
   &lt;div&gt;Item 3&lt;/div&gt;
-&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;/n-stack&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Horizontal ── -->
 
     <h2>Horizontal</h2>
-    <article data-kind="panel" bordered>
-      <div class="stack" direction="row">
+    <n-container data-kind="panel" bordered>
+      <n-stack direction="row">
         <div class="demo-box">Item 1</div>
         <div class="demo-box">Item 2</div>
         <div class="demo-box">Item 3</div>
-      </div>
-    <pre class="demo-code"><code>&lt;div class="stack" direction="row"&gt;
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-stack direction="row"&gt;
   &lt;div&gt;Item 1&lt;/div&gt;
   &lt;div&gt;Item 2&lt;/div&gt;
   &lt;div&gt;Item 3&lt;/div&gt;
-&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;/n-stack&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Gap sizes ── -->
 
     <h2>Gap Sizes</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>gap="0"</h3>
-      <div class="stack" direction="row" gap="0">
+      <n-stack direction="row" gap="0">
         <div class="demo-box">A</div>
         <div class="demo-box">B</div>
         <div class="demo-box">C</div>
-      </div>
+      </n-stack>
       <h3>gap="1"</h3>
-      <div class="stack" direction="row" gap="1">
+      <n-stack direction="row" gap="1">
         <div class="demo-box">A</div>
         <div class="demo-box">B</div>
         <div class="demo-box">C</div>
-      </div>
+      </n-stack>
       <h3>gap="2" (default)</h3>
-      <div class="stack" direction="row" gap="2">
+      <n-stack direction="row" gap="2">
         <div class="demo-box">A</div>
         <div class="demo-box">B</div>
         <div class="demo-box">C</div>
-      </div>
+      </n-stack>
       <h3>gap="4"</h3>
-      <div class="stack" direction="row" gap="4">
+      <n-stack direction="row" gap="4">
         <div class="demo-box">A</div>
         <div class="demo-box">B</div>
         <div class="demo-box">C</div>
-      </div>
+      </n-stack>
       <h3>gap="8"</h3>
-      <div class="stack" direction="row" gap="8">
+      <n-stack direction="row" gap="8">
         <div class="demo-box">A</div>
         <div class="demo-box">B</div>
         <div class="demo-box">C</div>
-      </div>
-    <pre class="demo-code"><code>&lt;div class="stack" direction="row" gap="0"&gt;...&lt;/div&gt;
-&lt;div class="stack" direction="row" gap="2"&gt;...&lt;/div&gt;
-&lt;div class="stack" direction="row" gap="4"&gt;...&lt;/div&gt;
-&lt;div class="stack" direction="row" gap="8"&gt;...&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-stack direction="row" gap="0"&gt;...&lt;/n-stack&gt;
+&lt;n-stack direction="row" gap="2"&gt;...&lt;/n-stack&gt;
+&lt;n-stack direction="row" gap="4"&gt;...&lt;/n-stack&gt;
+&lt;n-stack direction="row" gap="8"&gt;...&lt;/n-stack&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Alignment ── -->
 
     <h2>Alignment</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>align="start"</h3>
-      <div class="stack" direction="row" align="start" style="height: 6rem;">
+      <n-stack direction="row" align="start" style="height: 6rem;">
         <div class="demo-box">Short</div>
         <div class="demo-box" style="padding: 1.5rem 1rem;">Tall</div>
         <div class="demo-box">Short</div>
-      </div>
+      </n-stack>
       <h3>align="center"</h3>
-      <div class="stack" direction="row" align="center" style="height: 6rem;">
+      <n-stack direction="row" align="center" style="height: 6rem;">
         <div class="demo-box">Short</div>
         <div class="demo-box" style="padding: 1.5rem 1rem;">Tall</div>
         <div class="demo-box">Short</div>
-      </div>
+      </n-stack>
       <h3>align="end"</h3>
-      <div class="stack" direction="row" align="end" style="height: 6rem;">
+      <n-stack direction="row" align="end" style="height: 6rem;">
         <div class="demo-box">Short</div>
         <div class="demo-box" style="padding: 1.5rem 1rem;">Tall</div>
         <div class="demo-box">Short</div>
-      </div>
-    <pre class="demo-code"><code>&lt;div class="stack" direction="row" align="start"&gt;...&lt;/div&gt;
-&lt;div class="stack" direction="row" align="center"&gt;...&lt;/div&gt;
-&lt;div class="stack" direction="row" align="end"&gt;...&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-stack direction="row" align="start"&gt;...&lt;/n-stack&gt;
+&lt;n-stack direction="row" align="center"&gt;...&lt;/n-stack&gt;
+&lt;n-stack direction="row" align="end"&gt;...&lt;/n-stack&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Justify ── -->
 
     <h2>Justify</h2>
-    <article data-kind="panel" bordered>
-      <h3>justify="between"</h3>
-      <div class="stack" direction="row" justify="between">
+    <n-container data-kind="panel" bordered>
+      <h3>justify="spread"</h3>
+      <n-stack direction="row" justify="spread">
         <div class="demo-box">Left</div>
         <div class="demo-box">Right</div>
-      </div>
+      </n-stack>
       <h3>justify="center"</h3>
-      <div class="stack" direction="row" justify="center">
+      <n-stack direction="row" justify="center">
         <div class="demo-box">Centered</div>
         <div class="demo-box">Items</div>
-      </div>
+      </n-stack>
       <h3>justify="evenly"</h3>
-      <div class="stack" direction="row" justify="evenly">
+      <n-stack direction="row" justify="evenly">
         <div class="demo-box">A</div>
         <div class="demo-box">B</div>
         <div class="demo-box">C</div>
-      </div>
-    <pre class="demo-code"><code>&lt;div class="stack" direction="row" justify="between"&gt;
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-stack direction="row" justify="spread"&gt;
   &lt;div&gt;Left&lt;/div&gt;
   &lt;div&gt;Right&lt;/div&gt;
-&lt;/div&gt;
+&lt;/n-stack&gt;
 
-&lt;div class="stack" direction="row" justify="center"&gt;...&lt;/div&gt;
-&lt;div class="stack" direction="row" justify="evenly"&gt;...&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;n-stack direction="row" justify="center"&gt;...&lt;/n-stack&gt;
+&lt;n-stack direction="row" justify="evenly"&gt;...&lt;/n-stack&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Wrap ── -->
 
     <h2>Wrap</h2>
-    <article data-kind="panel" bordered>
-      <div class="stack" direction="row" wrap gap="2">
+    <n-container data-kind="panel" bordered>
+      <n-stack direction="row" wrap gap="2">
         <div class="demo-box">Tag 1</div>
         <div class="demo-box">Tag 2</div>
         <div class="demo-box">Tag 3</div>
@@ -168,50 +168,50 @@
         <div class="demo-box">Tag 8</div>
         <div class="demo-box">Tag 9</div>
         <div class="demo-box">Tag 10</div>
-      </div>
-    <pre class="demo-code"><code>&lt;div class="stack" direction="row" wrap gap="2"&gt;
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-stack direction="row" wrap gap="2"&gt;
   &lt;div&gt;Tag 1&lt;/div&gt;
   &lt;div&gt;Tag 2&lt;/div&gt;
   ...
-&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;/n-stack&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     <!-- ── Composition ── -->
 
     <h2>Composition (with components)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>Form layout</h3>
-      <div class="stack" gap="4">
+      <n-stack gap="4">
         <n-input placeholder="Email address"></n-input>
         <n-input placeholder="Password" type="password"></n-input>
-        <div class="stack" direction="row" justify="between" align="center">
+        <n-stack direction="row" justify="spread" align="center">
           <n-checkbox>Remember me</n-checkbox>
           <n-button variant="primary" intent="accent"><span slot="label">Sign In</span></n-button>
-        </div>
-      </div>
-    <pre class="demo-code"><code>&lt;div class="stack" gap="4"&gt;
+        </n-stack>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-stack gap="4"&gt;
   &lt;n-input placeholder="Email address"&gt;&lt;/n-input&gt;
   &lt;n-input placeholder="Password" type="password"&gt;&lt;/n-input&gt;
-  &lt;div class="stack" direction="row" justify="between" align="center"&gt;
+  &lt;n-stack direction="row" justify="spread" align="center"&gt;
     &lt;n-checkbox&gt;Remember me&lt;/n-checkbox&gt;
     &lt;n-button variant="primary" intent="accent"&gt;Sign In&lt;/n-button&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+  &lt;/n-stack&gt;
+&lt;/n-stack&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>Button group</h3>
-      <div class="stack" direction="row" gap="2">
+      <n-stack direction="row" gap="2">
         <n-button variant="primary" intent="accent"><span slot="label">Save</span></n-button>
         <n-button><span slot="label">Cancel</span></n-button>
         <n-button variant="ghost" intent="danger"><span slot="label">Delete</span></n-button>
-      </div>
-    <pre class="demo-code"><code>&lt;div class="stack" direction="row" gap="2"&gt;
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-stack direction="row" gap="2"&gt;
   &lt;n-button variant="primary" intent="accent"&gt;Save&lt;/n-button&gt;
   &lt;n-button&gt;Cancel&lt;/n-button&gt;
   &lt;n-button variant="ghost" intent="danger"&gt;Delete&lt;/n-button&gt;
-&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+&lt;/n-stack&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
 
     </main></native-dashboard-spa>
     <script type="module">

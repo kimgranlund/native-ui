@@ -291,14 +291,14 @@
       <h1>Component State Grid</h1>
       <p>Each card shows the CSS color tokens a component uses per state. Hover or click a state pill to highlight every component that resolves to the same <code>background</code>, <code>color</code>, and <code>border-color</code> values.</p>
 
-      <article data-kind="panel" bordered size="sm" style="flex-direction: row; flex-wrap: wrap; gap: calc(var(--n-space) * 4); margin-bottom: calc(var(--n-space) * 4);">
+      <n-container data-kind="panel" bordered size="sm" style="flex-direction: row; flex-wrap: wrap; gap: calc(var(--n-space) * 4); margin-bottom: calc(var(--n-space) * 4);">
         <div class="legend-item"><span class="legend-swatch" style="background: var(--n-surface-accent);"></span> accent-surface</div>
         <div class="legend-item"><span class="legend-swatch" style="background: white; border-color: var(--n-border-muted-neutral);"></span> white</div>
         <div class="legend-item"><span class="legend-swatch" style="background: var(--n-panel-neutral);"></span> panel</div>
         <div class="legend-item"><span class="legend-swatch" style="background: var(--n-control-neutral);"></span> control</div>
         <div class="legend-item"><span class="legend-swatch" style="background: var(--n-color-neutral-higher);"></span> button</div>
         <div class="legend-item"><span class="legend-swatch" style="background: transparent; border-color: var(--n-border-neutral);"></span> transparent</div>
-      </article>
+      </n-container>
 
       <!-- Toolbar: category filters + state search -->
       <n-toolbar id="toolbar" size="sm">
@@ -311,13 +311,13 @@
           <n-segment value="display">Display</n-segment>
           <n-segment value="container">Container</n-segment>
         </n-segmented-control>
-        <div class="divider" orientation="vertical"></div>
+        <n-divider orientation="vertical"></n-divider>
         <n-input id="state-filter" placeholder="Filter states... (e.g. disabled, hover, active)" size="sm">
           <n-icon name="magnifying-glass" slot="leading"></n-icon>
         </n-input>
       </n-toolbar>
 
-      <article data-kind="panel" bordered>
+      <n-container data-kind="panel" bordered>
       <pre class="demo-code"><code>/* ── State Token Resolution ── */
 /* Components set explicit defaults; attribute selectors override */
 
@@ -349,7 +349,7 @@ pointer-events: none;</code><n-button class="copy-btn" size="sm" variant="ghost"
   --n-color: var(--n-surface-ink);
   --n-border-color: transparent;
 }</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-      </article>
+      </n-container>
 
       <div class="state-grid" id="grid"></div>
     </main></native-dashboard-spa>

@@ -135,15 +135,6 @@
     outline-offset: 0;
   }
 
-  /* ── Inline mode ── */
-  /* WHY: Default is block (flex) so inputs fill available width in flex/grid layouts.
-     [inline] restores shrink-wrap for inline use cases. */
-
-  :where(n-input)[inline] {
-    display: inline-flex;
-    width: auto;
-  }
-
   :where(n-input)[aria-disabled="true"] {
     background: var(--n-background-disabled);
     color: var(--n-color-disabled);
@@ -152,4 +143,11 @@
     pointer-events: none;
   }
 
+}
+
+/* ── Attribute API (unlayered) ── */
+
+:where(n-input)[inline] {
+  display: inline-flex;
+  width: auto;
 }

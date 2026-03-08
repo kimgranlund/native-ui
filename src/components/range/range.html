@@ -26,8 +26,8 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <article data-kind="panel" bordered>
-      <div class="stack" gap="4">
+    <n-container data-kind="panel" bordered>
+      <n-stack gap="4">
         <n-field>
           <label slot="label">Volume</label>
           <n-range value="75"></n-range>
@@ -36,18 +36,18 @@
           <label slot="label">Brightness</label>
           <n-range value="50"></n-range>
         </n-field>
-      </div>
+      </n-stack>
     <pre class="demo-code"><code>&lt;n-field&gt;
   &lt;label slot="label"&gt;Volume&lt;/label&gt;
   &lt;n-range value="75"&gt;&lt;/n-range&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Custom Range ── -->
 
     <h2>Custom Range</h2>
-    <article data-kind="panel" bordered>
-      <div class="stack" gap="4">
+    <n-container data-kind="panel" bordered>
+      <n-stack gap="4">
         <n-field>
           <label slot="label">Temperature (°F)</label>
           <n-range min="60" max="85" step="1" value="72"></n-range>
@@ -58,7 +58,7 @@
           <n-range min="0" max="1" step="0.1" value="0.8"></n-range>
           <span slot="description">0 – 1, step 0.1</span>
         </n-field>
-      </div>
+      </n-stack>
     <pre class="demo-code"><code>&lt;n-field&gt;
   &lt;label slot="label"&gt;Temperature (&deg;F)&lt;/label&gt;
   &lt;n-range min="60" max="85" step="1" value="72"&gt;&lt;/n-range&gt;
@@ -69,12 +69,12 @@
   &lt;label slot="label"&gt;Opacity&lt;/label&gt;
   &lt;n-range min="0" max="1" step="0.1" value="0.8"&gt;&lt;/n-range&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Disabled ── -->
 
     <h2>Disabled</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-field disabled>
         <label slot="label">Locked slider</label>
         <n-range value="30"></n-range>
@@ -83,12 +83,12 @@
   &lt;label slot="label"&gt;Locked slider&lt;/label&gt;
   &lt;n-range value="30"&gt;&lt;/n-range&gt;
 &lt;/n-field&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="demo-row">
         <span class="demo-label">xs</span>
         <n-range size="xs" value="40"></n-range>
@@ -114,30 +114,30 @@
 &lt;n-range size="md" value="60"&gt;&lt;/n-range&gt;
 &lt;n-range size="lg" value="70"&gt;&lt;/n-range&gt;
 &lt;n-range size="xl" value="80"&gt;&lt;/n-range&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Density ── -->
 
     <h2>Density</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>compact</h3>
-      <div class="stack" gap="4" density="compact">
+      <n-stack gap="4" density="compact">
         <n-range size="sm" value="40"></n-range>
         <n-range value="60"></n-range>
         <n-range size="lg" value="80"></n-range>
-      </div>
+      </n-stack>
       <h3>default</h3>
-      <div class="stack" gap="4">
+      <n-stack gap="4">
         <n-range size="sm" value="40"></n-range>
         <n-range value="60"></n-range>
         <n-range size="lg" value="80"></n-range>
-      </div>
+      </n-stack>
       <h3>loose</h3>
-      <div class="stack" gap="4" density="loose">
+      <n-stack gap="4" density="loose">
         <n-range size="sm" value="40"></n-range>
         <n-range value="60"></n-range>
         <n-range size="lg" value="80"></n-range>
-      </div>
+      </n-stack>
       <pre class="demo-code"><code>&lt;div density="compact"&gt;
   &lt;n-range value="60"&gt;&lt;/n-range&gt;
 &lt;/div&gt;
@@ -145,30 +145,30 @@
 &lt;div density="loose"&gt;
   &lt;n-range value="60"&gt;&lt;/n-range&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Intents ── -->
 
     <h2>Intents</h2>
-    <article data-kind="panel" bordered>
-      <div class="stack" gap="4">
+    <n-container data-kind="panel" bordered>
+      <n-stack gap="4">
         <n-range intent="neutral" value="50"></n-range>
         <n-range intent="accent" value="65"></n-range>
         <n-range intent="info" value="55"></n-range>
         <n-range intent="success" value="85"></n-range>
         <n-range intent="warning" value="45"></n-range>
         <n-range intent="danger" value="25"></n-range>
-      </div>
+      </n-stack>
     <pre class="demo-code"><code>&lt;n-range intent="accent" value="65"&gt;&lt;/n-range&gt;
 &lt;n-range intent="success" value="85"&gt;&lt;/n-range&gt;
 &lt;n-range intent="warning" value="45"&gt;&lt;/n-range&gt;
 &lt;n-range intent="danger" value="25"&gt;&lt;/n-range&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Live Value ── -->
 
     <h2>Live Value</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <n-field>
         <label slot="label">Zoom: <span id="zoom-value" class="value-display">100%</span></label>
         <n-range id="zoom-range" min="50" max="200" step="10" value="100"></n-range>
@@ -181,33 +181,33 @@
       console.log('Zoom:', e.detail.value + '%');
     });
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Cascading ── -->
 
     <h2>Cascading</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <h3>Parent size="sm", intent="success"</h3>
-      <div class="stack" gap="4" size="sm" intent="success">
+      <n-stack gap="4" size="sm" intent="success">
         <n-range value="50"></n-range>
         <n-range size="lg" value="70"></n-range>
         <n-range intent="danger" value="30"></n-range>
-      </div>
+      </n-stack>
       <pre class="demo-code"><code>&lt;div size="sm" intent="success"&gt;
   &lt;n-range value="50"&gt;&lt;/n-range&gt;
   &lt;n-range size="lg" value="70"&gt;&lt;/n-range&gt;
   &lt;n-range intent="danger" value="30"&gt;&lt;/n-range&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Debug States (force-*) ── -->
 
     <h2>Debug States (<code>force-*</code>)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-caption">
         Attribute-driven pseudo-state overrides for DevTools debugging and visual testing.
       </p>
-      <div class="stack" gap="4">
+      <n-stack gap="4">
         <div>
           <div class="demo-state-label">force-hover</div>
           <n-range force-hover value="50"></n-range>
@@ -220,8 +220,8 @@
           <div class="demo-state-label">force-focus-visible</div>
           <n-range force-focus-visible value="50"></n-range>
         </div>
-      </div>
-    </article>
+      </n-stack>
+    </n-container>
 
     </main></native-dashboard-spa>
     <script type="module">

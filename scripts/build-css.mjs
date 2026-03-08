@@ -46,6 +46,7 @@ const layoutBaseFiles = [
 
 // Component tokens & utilities — shared geometry, size scales, attribute selectors
 const componentTokenFiles = [
+  'src/styles/css/components.computed.css',
   'src/styles/css/components.tokens.css',
   'src/styles/css/components.utilities.css',
 ];

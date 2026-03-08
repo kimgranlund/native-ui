@@ -13,18 +13,6 @@
       h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
       h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; margin-top: 2rem; color: var(--n-ink-strong-neutral); }
 
-      .auth-centered {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: calc(100vh - 8rem);
-      }
-
-      .auth-card-wrapper {
-        width: 100%;
-        max-width: 24rem;
-      }
-
       .auth-icon-circle {
         width: 3rem;
         height: 3rem;
@@ -34,66 +22,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 1rem;
       }
 
-      .auth-heading {
-        text-align: center;
-        margin-bottom: 0.25rem;
-        font-size: 1.25rem;
-        font-weight: 700;
-      }
-
-      .auth-subheading {
-        text-align: center;
-        color: var(--n-ink-muted-neutral);
-        font-size: 0.875rem;
-        margin-bottom: 1.5rem;
-        line-height: 1.5;
-      }
-
-      .auth-email-highlight {
-        font-weight: 600;
-        color: var(--n-ink-strong-neutral);
-      }
-
-      .auth-resend-text {
-        text-align: center;
-        font-size: 0.8125rem;
-        color: var(--n-ink-muted-neutral);
-      }
-
-      .auth-resend-link {
+      .auth-link {
         color: var(--n-ink-accent);
-        font-weight: 500;
-        font-size: inherit;
-        min-height: unset;
-        padding: 0;
-      }
-
-      .auth-resend-link:hover {
-        text-decoration: underline;
-      }
-
-      .auth-back-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.375rem;
-        font-size: 0.8125rem;
-        color: var(--n-ink-muted-neutral);
         text-decoration: none;
-        margin-top: 1.5rem;
+        font-weight: 500;
       }
-
-      .auth-back-link:hover {
-        color: var(--n-ink-neutral);
-      }
-
-      .otp-center {
-        display: flex;
-        justify-content: center;
-      }
+      .auth-link:hover { text-decoration: underline; }
     </style>
   </head>
   <body>
@@ -107,37 +43,41 @@
 
     <h2>Enter Verification Code</h2>
     <div style="background: var(--n-body-neutral); border: 1px solid var(--n-border-muted-neutral); border-radius: 0.5rem; overflow: hidden; margin-bottom: 1rem;">
-      <div class="auth-centered" style="min-height: 32rem;">
-        <div class="auth-card-wrapper">
-          <div class="auth-icon-circle">
-            <n-icon name="shield-check" size="lg"></n-icon>
-          </div>
-          <p class="auth-heading">Enter verification code</p>
-          <p class="auth-subheading">
-            We sent a 6-digit code to <span class="auth-email-highlight">kim@example.com</span>. Enter it below to verify your identity.
-          </p>
-          <article>
-            <div class="stack" gap="4">
+      <div style="display: flex; justify-content: center; align-items: center; min-height: 32rem;">
+        <n-container bordered inline padding="4" gap="4" style="width: 100%; max-width: 24rem;">
+          <n-header align="center" style="display: flex; flex-direction: column; gap: 0.25rem;">
+            <div class="auth-icon-circle" style="margin-bottom: 0.5rem;">
+              <n-icon name="shield-check" size="lg"></n-icon>
+            </div>
+            <strong style="font-size: 1.25rem;">Enter verification code</strong>
+            <span style="color: var(--n-ink-muted-neutral); font-size: 0.875rem; line-height: 1.5;">
+              We sent a 6-digit code to <span style="font-weight: 600; color: var(--n-ink-strong-neutral);">kim@example.com</span>. Enter it below to verify your identity.
+            </span>
+          </n-header>
+          <n-body>
+            <n-stack gap="4">
               <form>
-                <div class="stack" gap="4">
-                  <div class="otp-center">
+                <n-stack gap="4">
+                  <div style="display: flex; justify-content: center;">
                     <n-input-otp name="otp" length="6"></n-input-otp>
                   </div>
                   <n-button variant="primary" intent="accent" type="submit">
                     <span slot="label">Verify</span>
                   </n-button>
-                </div>
+                </n-stack>
               </form>
-              <p class="auth-resend-text">
-                Didn't receive a code? <n-button variant="ghost" inline class="auth-resend-link">Resend code</n-button>
+              <p style="text-align: center; font-size: 0.8125rem; color: var(--n-ink-muted-neutral); margin: 0;">
+                Didn't receive a code? <n-button variant="ghost" inline style="color: var(--n-ink-accent); font-weight: 500; font-size: inherit; min-height: unset; padding: 0;">Resend code</n-button>
               </p>
-            </div>
-          </article>
-          <a href="#" class="auth-back-link">
-            <n-icon name="arrow-left" size="sm"></n-icon>
-            Back to sign in
-          </a>
-        </div>
+            </n-stack>
+          </n-body>
+          <n-footer justify="center">
+            <a href="#" class="auth-link" style="display: flex; align-items: center; gap: 0.375rem; font-size: 0.8125rem; color: var(--n-ink-muted-neutral);">
+              <n-icon name="arrow-left" size="sm"></n-icon>
+              Back to sign in
+            </a>
+          </n-footer>
+        </n-container>
       </div>
     </div>
 

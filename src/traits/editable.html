@@ -134,7 +134,7 @@
     <!-- ── Double-Click to Edit (Provider) ── -->
 
     <h2>Double-Click to Edit <span class="pattern-badge provider">Provider</span></h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         <code>&lt;n-controller&gt;</code> with <code>for=".edit-item"</code> applies an <code>EditController</code> to each matching item. Double-click to start editing. Press <strong>Enter</strong> to commit or <strong>Escape</strong> to cancel.
       </p>
@@ -162,12 +162,12 @@
 list.addEventListener('native:edit-commit', (e) =&gt; {
   const { value, previousValue } = e.detail;
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Click to Edit (Provider) ── -->
 
     <h2>Click to Edit <span class="pattern-badge provider">Provider</span></h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         Trigger set to <code>'click'</code>. Single click activates editing mode. The <code>for</code> selector applies the trait to each matching descendant individually.
       </p>
@@ -188,12 +188,12 @@ list.addEventListener('native:edit-commit', (e) =&gt; {
     &lt;div class="edit-item"&gt;Task Charlie&lt;/div&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── EditController Direct ── -->
 
     <h2>EditController — Attach to Any Element</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         Use <code>EditController</code> directly on any element without the trait adapter or <code>&lt;n-controller&gt;</code>. Double-click to edit.
       </p>
@@ -219,7 +219,7 @@ item.addEventListener('native:edit-cancel', (e) =&gt; {
 // Properties: editor.isEditing, editor.originalValue, editor.currentValue
 // Methods: editor.startEdit(), editor.commitEdit(), editor.cancelEdit()
 // Later: editor.destroy();</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── API Reference ── -->
 

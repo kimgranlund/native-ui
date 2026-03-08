@@ -43,46 +43,46 @@
     <h2>Scenario</h2>
     <span muted>Walk through a support ticket. Each step simulates both agents responding to the same event.</span>
 
-    <article>
+    <n-container>
       <section>
-        <div class="stack" gap="2">
-          <div class="stack" direction="row" align="center">
+        <n-stack gap="2">
+          <n-stack direction="row" align="center">
             <span muted size="sm" inline style="min-width: 4rem;">Step 1</span>
             <n-button size="sm" variant="primary" id="step-open">
               <span>Customer opens ticket</span>
             </n-button>
-          </div>
-          <div class="stack" direction="row" align="center">
+          </n-stack>
+          <n-stack direction="row" align="center">
             <span muted size="sm" inline style="min-width: 4rem;">Step 2</span>
             <n-button size="sm" id="step-details">
               <span>Agent requests details</span>
             </n-button>
-          </div>
-          <div class="stack" direction="row" align="center">
+          </n-stack>
+          <n-stack direction="row" align="center">
             <span muted size="sm" inline style="min-width: 4rem;">Step 3</span>
             <n-button size="sm" id="step-resolve">
               <span>Agent proposes solution</span>
             </n-button>
-          </div>
-          <div class="stack" direction="row" align="center">
+          </n-stack>
+          <n-stack direction="row" align="center">
             <span muted size="sm" inline style="min-width: 4rem;">Step 4</span>
             <n-button size="sm" intent="danger" id="step-escalate">
               <span>Escalate to human</span>
             </n-button>
-          </div>
+          </n-stack>
           <hr>
           <n-button size="sm" variant="ghost" id="step-reset" inline>
             <span>Reset</span>
           </n-button>
-        </div>
+        </n-stack>
       </section>
-    </article>
+    </n-container>
 
     <!-- ── Dashboard ── -->
 
     <h2>Agent Surfaces</h2>
-    <div class="grid" cols="2">
-      <article>
+    <n-grid cols="2">
+      <n-container>
         <header>
           <nav>
             <span class="badge" dot intent="neutral" id="dot-convo"></span>
@@ -92,8 +92,8 @@
         <section padding="regular">
           <div class="surface-mount" id="surface-convo" data-empty></div>
         </section>
-      </article>
-      <article>
+      </n-container>
+      <n-container>
         <header>
           <nav>
             <span class="badge" dot intent="neutral" id="dot-analytics"></span>
@@ -103,17 +103,17 @@
         <section padding="regular">
           <div class="surface-mount" id="surface-analytics" data-empty></div>
         </section>
-      </article>
-    </div>
+      </n-container>
+    </n-grid>
 
     <!-- ── Event Log ── -->
 
     <h2>Session Events</h2>
-    <article>
+    <n-container>
       <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
         <div id="event-log"></div>
       </section>
-    </article>
+    </n-container>
 
     </main></native-dashboard-spa>
 

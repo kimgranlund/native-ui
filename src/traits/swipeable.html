@@ -158,7 +158,7 @@
     <!-- ── Horizontal Swipe (Provider) ── -->
 
     <h2>Horizontal Swipe <span class="pattern-badge provider">Provider</span></h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         Default axis. <code>&lt;n-controller&gt;</code> applies swipeable to the first child. Detects left and right swipes. Click and drag horizontally.
       </p>
@@ -180,12 +180,12 @@
 card.addEventListener('native:swipe', (e) =&gt; {
   const { direction, distance, velocity } = e.detail;
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Vertical Swipe (Provider) ── -->
 
     <h2>Vertical Swipe <span class="pattern-badge provider">Provider</span></h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         Axis set to <code>'vertical'</code>. Detects up and down swipes.
       </p>
@@ -203,12 +203,12 @@ card.addEventListener('native:swipe', (e) =&gt; {
     &lt;span class="swipe-hint"&gt;Click and drag vertically&lt;/span&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Both Axes (Provider) ── -->
 
     <h2>Both Axes <span class="pattern-badge provider">Provider</span></h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         Axis set to <code>'both'</code>. Detects the dominant direction from the gesture.
       </p>
@@ -226,12 +226,12 @@ card.addEventListener('native:swipe', (e) =&gt; {
     &lt;span class="swipe-hint"&gt;Click and drag in any direction&lt;/span&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Custom Threshold (Provider) ── -->
 
     <h2>Custom Threshold <span class="pattern-badge provider">Provider</span></h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         Higher threshold (<strong>100px</strong>) and velocity (<strong>0.5 px/ms</strong>). Requires a longer, faster swipe to trigger.
       </p>
@@ -251,12 +251,12 @@ card.addEventListener('native:swipe', (e) =&gt; {
     &lt;span class="swipe-hint"&gt;Requires 100px / 0.5 px/ms&lt;/span&gt;
   &lt;/div&gt;
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── SwipeController Direct ── -->
 
     <h2>SwipeController — Attach to Any Element</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         Use <code>SwipeController</code> directly on any element without the trait adapter or <code>&lt;n-controller&gt;</code>.
       </p>
@@ -281,7 +281,7 @@ card.addEventListener('native:swipe', (e) =&gt; {
 
 // Later: swipe.disabled = true;
 // Later: swipe.destroy();</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── API Reference ── -->
 

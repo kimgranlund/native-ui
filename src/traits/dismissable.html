@@ -96,7 +96,7 @@
     <!-- ── Click Outside to Dismiss ── -->
 
     <h2>Click Outside to Dismiss</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         Uses <code>DismissController</code> directly on a plain element. Call <code>enable()</code> to join the dismiss stack, <code>disable()</code> to leave.
       </p>
@@ -123,12 +123,12 @@ function hidePanel() {
 }
 
 panel.addEventListener('native:dismiss', () =&gt; hidePanel());</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Nested Layers ── -->
 
     <h2>Nested Layers (Stack)</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         Open both panels. Only the topmost one receives dismiss events. After the top panel is dismissed, the bottom panel becomes the new top.
       </p>
@@ -155,35 +155,35 @@ panelB.removeAttribute('hidden');
 dismissB.enable();
 
 // Escape/click-outside dismisses B first, then A</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── Built-in: n-dialog ── -->
 
     <h2>Built-in: n-dialog</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <p class="demo-hint">
         <code>n-dialog</code> uses Dismissable internally. Escape and backdrop click close the dialog automatically.
       </p>
       <n-button id="open-dialog">Open Dialog</n-button>
       <n-dialog id="demo-dialog">
-        <article style="width: 20rem; padding: 1.5rem;">
+        <n-container style="width: 20rem; padding: 1.5rem;">
           <p style="margin-bottom: 1rem;">This dialog uses Dismissable internally. Press Escape or click the backdrop to close.</p>
           <n-button id="close-dialog" intent="accent">Close</n-button>
-        </article>
+        </n-container>
       </n-dialog>
       <pre class="demo-code"><code>&lt;n-button id="open"&gt;Open Dialog&lt;/n-button&gt;
 &lt;n-dialog id="dialog"&gt;
-  &lt;article&gt;
+  &lt;n-container&gt;
     &lt;p&gt;Dialog content&lt;/p&gt;
     &lt;n-button id="close"&gt;Close&lt;/n-button&gt;
-  &lt;/article&gt;
+  &lt;/n-container&gt;
 &lt;/n-dialog&gt;
 
 &lt;script&gt;
   open.addEventListener('native:press', () =&gt; dialog.showModal());
   close.addEventListener('native:press', () =&gt; dialog.close());
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
-    </article>
+    </n-container>
 
     <!-- ── API Reference ── -->
 

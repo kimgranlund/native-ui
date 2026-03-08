@@ -208,21 +208,21 @@
             Wrap elements with <code>&lt;n-controller traits="flippable"&gt;</code>. Click to toggle.
           </span>
 
-          <div class="stack" direction="row" gap="4" style="flex-wrap: wrap;">
+          <n-stack direction="row" gap="4" style="flex-wrap: wrap;">
             <n-controller traits="flippable">
               <div class="flip-card">
                 <div class="flip-inner">
                   <div class="flip-face flip-front">
-                    <div class="stack" align="center" gap="2">
+                    <n-stack align="center" gap="2">
                       <span class="flip-label">Front</span>
                       <span muted size="sm">Click to flip</span>
-                    </div>
+                    </n-stack>
                   </div>
                   <div class="flip-face flip-back" data-flip-back>
-                    <div class="stack" align="center" gap="2">
+                    <n-stack align="center" gap="2">
                       <span class="flip-label">Back</span>
                       <span muted size="sm">Click to unflip</span>
-                    </div>
+                    </n-stack>
                   </div>
                 </div>
               </div>
@@ -233,21 +233,21 @@
               <div class="flip-card">
                 <div class="flip-inner">
                   <div class="flip-face flip-front">
-                    <div class="stack" align="center" gap="2">
+                    <n-stack align="center" gap="2">
                       <span class="flip-label">Hover</span>
                       <span muted size="sm">Hover to flip</span>
-                    </div>
+                    </n-stack>
                   </div>
                   <div class="flip-face flip-back" data-flip-back>
-                    <div class="stack" align="center" gap="2">
+                    <n-stack align="center" gap="2">
                       <span class="flip-label">Back</span>
                       <span muted size="sm">Move away to unflip</span>
-                    </div>
+                    </n-stack>
                   </div>
                 </div>
               </div>
             </n-controller>
-          </div>
+          </n-stack>
 
           <!-- ── Axis Options ── -->
 
@@ -256,58 +256,58 @@
             Y-axis (default) vs X-axis flip side by side. Click each card.
           </span>
 
-          <div class="stack" direction="row" gap="4" style="flex-wrap: wrap;">
-            <div class="stack" gap="1" align="center">
+          <n-stack direction="row" gap="4" style="flex-wrap: wrap;">
+            <n-stack gap="1" align="center">
               <n-controller traits="flippable" data-trait-flippable-axis="y">
                 <div class="flip-card">
                   <div class="flip-inner">
                     <div class="flip-face flip-front">
-                      <div class="stack" align="center" gap="2">
+                      <n-stack align="center" gap="2">
                         <span class="flip-label">Y-Axis</span>
                         <span muted size="sm">rotateY(180deg)</span>
-                      </div>
+                      </n-stack>
                     </div>
                     <div class="flip-face flip-back" data-flip-back>
-                      <div class="stack" align="center" gap="2">
+                      <n-stack align="center" gap="2">
                         <span class="flip-label">Back</span>
                         <span muted size="sm">Y-Axis flip</span>
-                      </div>
+                      </n-stack>
                     </div>
                   </div>
                 </div>
               </n-controller>
               <span muted size="sm">axis="y"</span>
-            </div>
+            </n-stack>
 
-            <div class="stack" gap="1" align="center">
+            <n-stack gap="1" align="center">
               <n-controller traits="flippable" data-trait-flippable-axis="x">
                 <div class="flip-card">
                   <div class="flip-inner">
                     <div class="flip-face flip-front">
-                      <div class="stack" align="center" gap="2">
+                      <n-stack align="center" gap="2">
                         <span class="flip-label">X-Axis</span>
                         <span muted size="sm">rotateX(180deg)</span>
-                      </div>
+                      </n-stack>
                     </div>
                     <div class="flip-face flip-back x-axis" data-flip-back>
-                      <div class="stack" align="center" gap="2">
+                      <n-stack align="center" gap="2">
                         <span class="flip-label">Back</span>
                         <span muted size="sm">X-Axis flip</span>
-                      </div>
+                      </n-stack>
                     </div>
                   </div>
                 </div>
               </n-controller>
               <span muted size="sm">axis="x"</span>
-            </div>
-          </div>
+            </n-stack>
+          </n-stack>
 
           <h3>Provider Event Log</h3>
-          <article>
-            <section show-scrollbar style="max-height: 8rem;">
+          <n-container>
+            <n-body show-scrollbar style="max-height: 8rem;">
               <div class="event-log" id="provider-log"></div>
-            </section>
-          </article>
+            </n-body>
+          </n-container>
         </div>
 
         <!-- ── Programmatic Demo ── -->
@@ -317,30 +317,30 @@
           <code>new FlipController(el, { trigger: 'manual' })</code> — use buttons to call <code>flip()</code>, <code>unflip()</code>, <code>toggle()</code>.
         </span>
 
-        <div class="stack" direction="row" gap="4" align="start" style="flex-wrap: wrap;">
+        <n-stack direction="row" gap="4" align="start" style="flex-wrap: wrap;">
           <div class="flip-card" id="prog-card">
             <div class="flip-inner">
               <div class="flip-face flip-front">
-                <div class="stack" align="center" gap="2">
+                <n-stack align="center" gap="2">
                   <span class="flip-label">Manual</span>
                   <span muted size="sm">Use buttons below</span>
-                </div>
+                </n-stack>
               </div>
               <div class="flip-face flip-back" data-flip-back>
-                <div class="stack" align="center" gap="2">
+                <n-stack align="center" gap="2">
                   <span class="flip-label">Back</span>
                   <span muted size="sm">Flipped programmatically</span>
-                </div>
+                </n-stack>
               </div>
             </div>
           </div>
 
-          <div class="stack" gap="2">
+          <n-stack gap="2">
             <n-button id="btn-flip" variant="secondary">flip()</n-button>
             <n-button id="btn-unflip" variant="secondary">unflip()</n-button>
             <n-button id="btn-toggle" intent="accent">toggle()</n-button>
-          </div>
-        </div>
+          </n-stack>
+        </n-stack>
 
         <!-- ── Options Playground ── -->
 
@@ -349,57 +349,57 @@
           Adjust options live on the controller instance. Click the card to flip.
         </span>
 
-        <div class="stack" direction="row" gap="4" align="start" style="flex-wrap: wrap;">
+        <n-stack direction="row" gap="4" align="start" style="flex-wrap: wrap;">
           <div class="flip-card" id="opt-card">
             <div class="flip-inner">
               <div class="flip-face flip-front">
-                <div class="stack" align="center" gap="2">
+                <n-stack align="center" gap="2">
                   <span class="flip-label">Options</span>
                   <span muted size="sm">Adjust controls</span>
-                </div>
+                </n-stack>
               </div>
               <div class="flip-face flip-back" data-flip-back>
-                <div class="stack" align="center" gap="2">
+                <n-stack align="center" gap="2">
                   <span class="flip-label">Back</span>
                   <span muted size="sm">Customized flip</span>
-                </div>
+                </n-stack>
               </div>
             </div>
           </div>
 
-          <article style="flex: 1; min-width: 16rem;">
-            <section>
-              <div class="stack" gap="3">
-                <div class="stack" direction="row" align="center" gap="3">
+          <n-container style="flex: 1; min-width: 16rem;">
+            <n-body>
+              <n-stack gap="3">
+                <n-stack direction="row" align="center" gap="3">
                   <span size="sm" style="min-width: 7rem;">Axis:</span>
                   <n-select id="opt-axis" options='[{"value":"y","label":"Y-axis"},{"value":"x","label":"X-axis"}]' placeholder="Y-axis" style="flex:1;"></n-select>
-                </div>
-                <div class="stack" direction="row" align="center" gap="3">
+                </n-stack>
+                <n-stack direction="row" align="center" gap="3">
                   <span size="sm" style="min-width: 7rem;">Duration: <strong id="duration-val">600ms</strong></span>
                   <n-range id="opt-duration" min="100" max="2000" step="50" value="600" style="flex:1;"></n-range>
-                </div>
-                <div class="stack" direction="row" align="center" gap="3">
+                </n-stack>
+                <n-stack direction="row" align="center" gap="3">
                   <span size="sm" style="min-width: 7rem;">Perspective: <strong id="perspective-val">1000px</strong></span>
                   <n-range id="opt-perspective" min="200" max="3000" step="50" value="1000" style="flex:1;"></n-range>
-                </div>
-                <div class="stack" direction="row" align="center" gap="3">
+                </n-stack>
+                <n-stack direction="row" align="center" gap="3">
                   <span size="sm" style="min-width: 7rem;">Trigger:</span>
                   <n-select id="opt-trigger" options='[{"value":"click","label":"Click"},{"value":"hover","label":"Hover"},{"value":"manual","label":"Manual"}]' placeholder="Click" style="flex:1;"></n-select>
-                </div>
-                <div class="stack" direction="row" align="center" gap="3">
+                </n-stack>
+                <n-stack direction="row" align="center" gap="3">
                   <n-switch id="opt-disabled">Disabled</n-switch>
-                </div>
-              </div>
-            </section>
-          </article>
-        </div>
+                </n-stack>
+              </n-stack>
+            </n-body>
+          </n-container>
+        </n-stack>
 
         <h3>Options Event Log</h3>
-        <article>
-          <section show-scrollbar style="max-height: 8rem;">
+        <n-container>
+          <n-body show-scrollbar style="max-height: 8rem;">
             <div class="event-log" id="opt-log"></div>
-          </section>
-        </article>
+          </n-body>
+        </n-container>
 
       </main>
     </native-dashboard-spa>

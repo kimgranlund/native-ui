@@ -13,12 +13,9 @@
    ================================================================ */
 
 @layer ui {
-
   :root {
-
     --n-font-family: system-ui, -apple-system, sans-serif;
     --n-font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
-
 
     /* ═══════════════════════════════════════════
        SCALES
@@ -217,81 +214,6 @@
     --n-ink-disabled: var(--n-ink-disabled-neutral);
   }
 
-  /* ═══════════════════════════════════════════
-     ATTRIBUTE SELECTORS
-     Resolve tokens based on HTML attributes
-     ═══════════════════════════════════════════ */
-
-  /* ─── Size ─── */
-
-  [size="xs"] {
-    --n-size: var(--n-size-xs);
-    --n-font-size: var(--n-font-xs);
-    --n-letter-spacing: var(--n-tracking-xs);
-    --n-space: var(--n-space-xs);
-    --n-icon-size: var(--n-icon-xs);
-    --n-widget-size: var(--n-widget-xs);
-    --n-widget-font: var(--n-widget-font-xs);
-  }
-
-  [size="sm"] {
-    --n-size: var(--n-size-sm);
-    --n-font-size: var(--n-font-sm);
-    --n-letter-spacing: var(--n-tracking-sm);
-    --n-space: var(--n-space-sm);
-    --n-icon-size: var(--n-icon-sm);
-    --n-widget-size: var(--n-widget-sm);
-    --n-widget-font: var(--n-widget-font-sm);
-  }
-
-  [size="md"] {
-    --n-size: var(--n-size-md);
-    --n-font-size: var(--n-font-md);
-    --n-letter-spacing: var(--n-tracking-md);
-    --n-space: var(--n-space-md);
-    --n-icon-size: var(--n-icon-md);
-    --n-widget-size: var(--n-widget-md);
-    --n-widget-font: var(--n-widget-font-md);
-  }
-
-  [size="lg"] {
-    --n-size: var(--n-size-lg);
-    --n-font-size: var(--n-font-lg);
-    --n-letter-spacing: var(--n-tracking-lg);
-    --n-space: var(--n-space-lg);
-    --n-icon-size: var(--n-icon-lg);
-    --n-widget-size: var(--n-widget-lg);
-    --n-widget-font: var(--n-widget-font-lg);
-  }
-
-  [size="xl"] {
-    --n-size: var(--n-size-xl);
-    --n-font-size: var(--n-font-xl);
-    --n-letter-spacing: var(--n-tracking-xl);
-    --n-space: var(--n-space-xl);
-    --n-icon-size: var(--n-icon-xl);
-    --n-widget-size: var(--n-widget-xl);
-    --n-widget-font: var(--n-widget-font-xl);
-  }
-
-  /* ─── Density ─── */
-
-  [density="compact"] { --n-space-k: 2; }
-  [density="default"] { --n-space-k: 4; }
-  [density="loose"]   { --n-space-k: 6; }
-
-  /* ─── Radius ─── */
-
-  [radius="round"] {
-    --n-radius: min(calc(var(--n-size) / 2), var(--n-radius-round));
-  }
-  [radius="rounded"] {
-    --n-radius: calc(var(--n-space) * 2);
-  }
-  [radius="sharp"] {
-    --n-radius: var(--n-radius-sharp);
-  }
-
   /* ─── Toggle Control Defaults ─── */
   /* Checkboxes, radios, switches, range sliders, and calendars use
      accent-colored surface fills for their checked/active states.
@@ -307,382 +229,451 @@
     --n-surface-ink-active: var(--n-surface-ink-active-accent);
     --n-surface-ink-disabled: var(--n-surface-ink-disabled-accent);
   }
+}
 
-  /* ─── Intent ─── */
+/* ═══════════════════════════════════════════════════════════════════
+   Attribute API (unlayered)
+   Selectors at (0,1,0) — beat layered component defaults and
+   unlayered `:where()` consumer CSS. Matches toolbar.css pattern.
+   ═══════════════════════════════════════════════════════════════════ */
 
-  [intent="neutral"] {
-    --n-card: var(--n-card-neutral);
-    --n-card-hover: var(--n-card-hover-neutral);
-    --n-panel: var(--n-panel-neutral);
-    --n-panel-hover: var(--n-panel-hover-neutral);
-    --n-panel-active: var(--n-panel-active-neutral);
-    --n-panel-disabled: var(--n-panel-disabled-neutral);
-    --n-button: var(--n-button-neutral);
-    --n-button-hover: var(--n-button-hover-neutral);
-    --n-button-active: var(--n-button-active-neutral);
-    --n-button-disabled: var(--n-button-disabled-neutral);
-    --n-control: var(--n-control-neutral);
-    --n-control-hover: var(--n-control-hover-neutral);
-    --n-control-active: var(--n-control-active-neutral);
-    --n-control-disabled: var(--n-control-disabled-neutral);
-    --n-widget: var(--n-color-neutral-higher);
-    --n-widget-hover: var(--n-control-hover-neutral);
-    --n-widget-active: var(--n-control-active-neutral);
-    --n-widget-disabled: var(--n-control-disabled-neutral);
-    --n-surface: var(--n-surface-neutral);
-    --n-surface-hover: var(--n-surface-hover-neutral);
-    --n-surface-active: var(--n-surface-active-neutral);
-    --n-surface-disabled: var(--n-surface-disabled-neutral);
-    --n-surface-ink: var(--n-surface-ink-neutral);
-    --n-surface-ink-hover: var(--n-surface-ink-hover-neutral);
-    --n-surface-ink-active: var(--n-surface-ink-active-neutral);
-    --n-surface-ink-disabled: var(--n-surface-ink-disabled-neutral);
-    --n-border: var(--n-border-neutral);
-    --n-border-hover: var(--n-border-hover-neutral);
-    --n-border-active: var(--n-border-active-neutral);
-    --n-border-disabled: var(--n-color-neutral-highest);
-    --n-border-muted: var(--n-border-muted-neutral);
-    --n-ink: var(--n-ink-neutral);
-    --n-ink-strong: var(--n-ink-strong-neutral);
-    --n-ink-inverse: var(--n-ink-inverse-neutral);
-    --n-ink-muted: var(--n-ink-muted-neutral);
-    --n-ink-placeholder: var(--n-ink-placeholder-neutral);
-    --n-ink-hover: var(--n-ink-hover-neutral);
-    --n-ink-active: var(--n-ink-active-neutral);
-    --n-ink-disabled: var(--n-ink-disabled-neutral);
-  }
+/* ─── Size ─── */
 
-  [intent="accent"] {
-    --n-card: var(--n-card-accent);
-    --n-card-hover: var(--n-card-hover-accent);
-    --n-panel: var(--n-panel-accent);
-    --n-panel-hover: var(--n-panel-hover-accent);
-    --n-panel-active: var(--n-panel-active-accent);
-    --n-panel-disabled: var(--n-panel-disabled-accent);
-    --n-button: var(--n-button-accent);
-    --n-button-hover: var(--n-button-hover-accent);
-    --n-button-active: var(--n-button-active-accent);
-    --n-button-disabled: var(--n-button-disabled-accent);
-    --n-control: var(--n-control-accent);
-    --n-control-hover: var(--n-control-hover-accent);
-    --n-control-active: var(--n-control-active-accent);
-    --n-control-disabled: var(--n-control-disabled-accent);
-    --n-widget: var(--n-color-accent-higher);
-    --n-widget-hover: var(--n-control-hover-accent);
-    --n-widget-active: var(--n-control-active-accent);
-    --n-widget-disabled: var(--n-control-disabled-accent);
-    --n-surface: var(--n-surface-accent);
-    --n-surface-hover: var(--n-surface-hover-accent);
-    --n-surface-active: var(--n-surface-active-accent);
-    --n-surface-disabled: var(--n-surface-disabled-accent);
-    --n-surface-ink: var(--n-surface-ink-accent);
-    --n-surface-ink-hover: var(--n-surface-ink-hover-accent);
-    --n-surface-ink-active: var(--n-surface-ink-active-accent);
-    --n-surface-ink-disabled: var(--n-surface-ink-disabled-accent);
-    --n-border: var(--n-border-accent);
-    --n-border-hover: var(--n-border-hover-accent);
-    --n-border-active: var(--n-border-active-accent);
-    --n-border-disabled: var(--n-color-neutral-highest);
-    --n-border-muted: var(--n-border-muted-accent);
-    --n-ink: var(--n-ink-accent);
-    --n-ink-strong: var(--n-ink-strong-accent);
-    --n-ink-inverse: var(--n-ink-inverse-accent);
-    --n-ink-muted: var(--n-ink-muted-accent);
-    --n-ink-placeholder: var(--n-ink-placeholder-accent);
-    --n-ink-hover: var(--n-ink-hover-accent);
-    --n-ink-active: var(--n-ink-active-accent);
-    --n-ink-disabled: var(--n-ink-disabled-accent);
-  }
+[size="xs"] {
+  --n-size: var(--n-size-xs);
+  --n-font-size: var(--n-font-xs);
+  --n-letter-spacing: var(--n-tracking-xs);
+  --n-space: var(--n-space-xs);
+  --n-icon-size: var(--n-icon-xs);
+  --n-widget-size: var(--n-widget-xs);
+  --n-widget-font: var(--n-widget-font-xs);
+}
 
-  [intent="info"] {
-    --n-card: var(--n-card-info);
-    --n-card-hover: var(--n-card-hover-info);
-    --n-panel: var(--n-panel-info);
-    --n-panel-hover: var(--n-panel-hover-info);
-    --n-panel-active: var(--n-panel-active-info);
-    --n-panel-disabled: var(--n-panel-disabled-info);
-    --n-button: var(--n-button-info);
-    --n-button-hover: var(--n-button-hover-info);
-    --n-button-active: var(--n-button-active-info);
-    --n-button-disabled: var(--n-button-disabled-info);
-    --n-control: var(--n-control-info);
-    --n-control-hover: var(--n-control-hover-info);
-    --n-control-active: var(--n-control-active-info);
-    --n-control-disabled: var(--n-control-disabled-info);
-    --n-widget: var(--n-color-info-higher);
-    --n-widget-hover: var(--n-control-hover-info);
-    --n-widget-active: var(--n-control-active-info);
-    --n-widget-disabled: var(--n-control-disabled-info);
-    --n-surface: var(--n-surface-info);
-    --n-surface-hover: var(--n-surface-hover-info);
-    --n-surface-active: var(--n-surface-active-info);
-    --n-surface-disabled: var(--n-surface-disabled-info);
-    --n-surface-ink: var(--n-surface-ink-info);
-    --n-surface-ink-hover: var(--n-surface-ink-hover-info);
-    --n-surface-ink-active: var(--n-surface-ink-active-info);
-    --n-surface-ink-disabled: var(--n-surface-ink-disabled-info);
-    --n-border: var(--n-border-info);
-    --n-border-hover: var(--n-border-hover-info);
-    --n-border-active: var(--n-border-active-info);
-    --n-border-disabled: var(--n-color-neutral-highest);
-    --n-border-muted: var(--n-border-muted-info);
-    --n-ink: var(--n-ink-info);
-    --n-ink-strong: var(--n-ink-strong-info);
-    --n-ink-inverse: var(--n-ink-inverse-info);
-    --n-ink-muted: var(--n-ink-muted-info);
-    --n-ink-placeholder: var(--n-ink-placeholder-info);
-    --n-ink-hover: var(--n-ink-hover-info);
-    --n-ink-active: var(--n-ink-active-info);
-    --n-ink-disabled: var(--n-ink-disabled-info);
-  }
+[size="sm"] {
+  --n-size: var(--n-size-sm);
+  --n-font-size: var(--n-font-sm);
+  --n-letter-spacing: var(--n-tracking-sm);
+  --n-space: var(--n-space-sm);
+  --n-icon-size: var(--n-icon-sm);
+  --n-widget-size: var(--n-widget-sm);
+  --n-widget-font: var(--n-widget-font-sm);
+}
 
-  [intent="success"] {
-    --n-card: var(--n-card-success);
-    --n-card-hover: var(--n-card-hover-success);
-    --n-panel: var(--n-panel-success);
-    --n-panel-hover: var(--n-panel-hover-success);
-    --n-panel-active: var(--n-panel-active-success);
-    --n-panel-disabled: var(--n-panel-disabled-success);
-    --n-button: var(--n-button-success);
-    --n-button-hover: var(--n-button-hover-success);
-    --n-button-active: var(--n-button-active-success);
-    --n-button-disabled: var(--n-button-disabled-success);
-    --n-control: var(--n-control-success);
-    --n-control-hover: var(--n-control-hover-success);
-    --n-control-active: var(--n-control-active-success);
-    --n-control-disabled: var(--n-control-disabled-success);
-    --n-widget: var(--n-color-success-higher);
-    --n-widget-hover: var(--n-control-hover-success);
-    --n-widget-active: var(--n-control-active-success);
-    --n-widget-disabled: var(--n-control-disabled-success);
-    --n-surface: var(--n-surface-success);
-    --n-surface-hover: var(--n-surface-hover-success);
-    --n-surface-active: var(--n-surface-active-success);
-    --n-surface-disabled: var(--n-surface-disabled-success);
-    --n-surface-ink: var(--n-surface-ink-success);
-    --n-surface-ink-hover: var(--n-surface-ink-hover-success);
-    --n-surface-ink-active: var(--n-surface-ink-active-success);
-    --n-surface-ink-disabled: var(--n-surface-ink-disabled-success);
-    --n-border: var(--n-border-success);
-    --n-border-hover: var(--n-border-hover-success);
-    --n-border-active: var(--n-border-active-success);
-    --n-border-disabled: var(--n-color-neutral-highest);
-    --n-border-muted: var(--n-border-muted-success);
-    --n-ink: var(--n-ink-success);
-    --n-ink-strong: var(--n-ink-strong-success);
-    --n-ink-inverse: var(--n-ink-inverse-success);
-    --n-ink-muted: var(--n-ink-muted-success);
-    --n-ink-placeholder: var(--n-ink-placeholder-success);
-    --n-ink-hover: var(--n-ink-hover-success);
-    --n-ink-active: var(--n-ink-active-success);
-    --n-ink-disabled: var(--n-ink-disabled-success);
-  }
+[size="md"] {
+  --n-size: var(--n-size-md);
+  --n-font-size: var(--n-font-md);
+  --n-letter-spacing: var(--n-tracking-md);
+  --n-space: var(--n-space-md);
+  --n-icon-size: var(--n-icon-md);
+  --n-widget-size: var(--n-widget-md);
+  --n-widget-font: var(--n-widget-font-md);
+}
 
-  [intent="warning"] {
-    --n-card: var(--n-card-warning);
-    --n-card-hover: var(--n-card-hover-warning);
-    --n-panel: var(--n-panel-warning);
-    --n-panel-hover: var(--n-panel-hover-warning);
-    --n-panel-active: var(--n-panel-active-warning);
-    --n-panel-disabled: var(--n-panel-disabled-warning);
-    --n-button: var(--n-button-warning);
-    --n-button-hover: var(--n-button-hover-warning);
-    --n-button-active: var(--n-button-active-warning);
-    --n-button-disabled: var(--n-button-disabled-warning);
-    --n-control: var(--n-control-warning);
-    --n-control-hover: var(--n-control-hover-warning);
-    --n-control-active: var(--n-control-active-warning);
-    --n-control-disabled: var(--n-control-disabled-warning);
-    --n-widget: var(--n-color-warning-higher);
-    --n-widget-hover: var(--n-control-hover-warning);
-    --n-widget-active: var(--n-control-active-warning);
-    --n-widget-disabled: var(--n-control-disabled-warning);
-    --n-surface: var(--n-surface-warning);
-    --n-surface-hover: var(--n-surface-hover-warning);
-    --n-surface-active: var(--n-surface-active-warning);
-    --n-surface-disabled: var(--n-surface-disabled-warning);
-    --n-surface-ink: var(--n-surface-ink-warning);
-    --n-surface-ink-hover: var(--n-surface-ink-hover-warning);
-    --n-surface-ink-active: var(--n-surface-ink-active-warning);
-    --n-surface-ink-disabled: var(--n-surface-ink-disabled-warning);
-    --n-border: var(--n-border-warning);
-    --n-border-hover: var(--n-border-hover-warning);
-    --n-border-active: var(--n-border-active-warning);
-    --n-border-disabled: var(--n-color-neutral-highest);
-    --n-border-muted: var(--n-border-muted-warning);
-    --n-ink: var(--n-ink-warning);
-    --n-ink-strong: var(--n-ink-strong-warning);
-    --n-ink-inverse: var(--n-ink-inverse-warning);
-    --n-ink-muted: var(--n-ink-muted-warning);
-    --n-ink-placeholder: var(--n-ink-placeholder-warning);
-    --n-ink-hover: var(--n-ink-hover-warning);
-    --n-ink-active: var(--n-ink-active-warning);
-    --n-ink-disabled: var(--n-ink-disabled-warning);
-  }
+[size="lg"] {
+  --n-size: var(--n-size-lg);
+  --n-font-size: var(--n-font-lg);
+  --n-letter-spacing: var(--n-tracking-lg);
+  --n-space: var(--n-space-lg);
+  --n-icon-size: var(--n-icon-lg);
+  --n-widget-size: var(--n-widget-lg);
+  --n-widget-font: var(--n-widget-font-lg);
+}
 
-  [intent="danger"] {
-    --n-card: var(--n-card-danger);
-    --n-card-hover: var(--n-card-hover-danger);
-    --n-panel: var(--n-panel-danger);
-    --n-panel-hover: var(--n-panel-hover-danger);
-    --n-panel-active: var(--n-panel-active-danger);
-    --n-panel-disabled: var(--n-panel-disabled-danger);
-    --n-button: var(--n-button-danger);
-    --n-button-hover: var(--n-button-hover-danger);
-    --n-button-active: var(--n-button-active-danger);
-    --n-button-disabled: var(--n-button-disabled-danger);
-    --n-control: var(--n-control-danger);
-    --n-control-hover: var(--n-control-hover-danger);
-    --n-control-active: var(--n-control-active-danger);
-    --n-control-disabled: var(--n-control-disabled-danger);
-    --n-widget: var(--n-color-danger-higher);
-    --n-widget-hover: var(--n-control-hover-danger);
-    --n-widget-active: var(--n-control-active-danger);
-    --n-widget-disabled: var(--n-control-disabled-danger);
-    --n-surface: var(--n-surface-danger);
-    --n-surface-hover: var(--n-surface-hover-danger);
-    --n-surface-active: var(--n-surface-active-danger);
-    --n-surface-disabled: var(--n-surface-disabled-danger);
-    --n-surface-ink: var(--n-surface-ink-danger);
-    --n-surface-ink-hover: var(--n-surface-ink-hover-danger);
-    --n-surface-ink-active: var(--n-surface-ink-active-danger);
-    --n-surface-ink-disabled: var(--n-surface-ink-disabled-danger);
-    --n-border: var(--n-border-danger);
-    --n-border-hover: var(--n-border-hover-danger);
-    --n-border-active: var(--n-border-active-danger);
-    --n-border-disabled: var(--n-color-neutral-highest);
-    --n-border-muted: var(--n-border-muted-danger);
-    --n-ink: var(--n-ink-danger);
-    --n-ink-strong: var(--n-ink-strong-danger);
-    --n-ink-inverse: var(--n-ink-inverse-danger);
-    --n-ink-muted: var(--n-ink-muted-danger);
-    --n-ink-placeholder: var(--n-ink-placeholder-danger);
-    --n-ink-hover: var(--n-ink-hover-danger);
-    --n-ink-active: var(--n-ink-active-danger);
-    --n-ink-disabled: var(--n-ink-disabled-danger);
-  }
+[size="xl"] {
+  --n-size: var(--n-size-xl);
+  --n-font-size: var(--n-font-xl);
+  --n-letter-spacing: var(--n-tracking-xl);
+  --n-space: var(--n-space-xl);
+  --n-icon-size: var(--n-icon-xl);
+  --n-widget-size: var(--n-widget-xl);
+  --n-widget-font: var(--n-widget-font-xl);
+}
 
-  /* ─── Disabled intent override ─── */
-  /* WHY: Disabled components should look neutral regardless of intent.
-     Same (0,1,0) specificity as intent selectors — wins by source order. */
+/* ─── Radius ─── */
 
-  [aria-disabled="true"] {
-    --n-panel-disabled: var(--n-panel-disabled-neutral);
-    --n-button-disabled: var(--n-button-disabled-neutral);
-    --n-control-disabled: var(--n-control-disabled-neutral);
-    --n-widget-disabled: var(--n-control-disabled-neutral);
-    --n-surface-disabled: var(--n-surface-disabled-neutral);
-    --n-surface-ink-disabled: var(--n-surface-ink-disabled-neutral);
-    --n-border-disabled: var(--n-color-neutral-highest);
-    --n-ink-disabled: var(--n-ink-disabled-neutral);
-  }
+[radius="round"] {
+  --n-radius: min(calc(var(--n-size) / 2), var(--n-radius-round));
+}
+[radius="rounded"] {
+  --n-radius: calc(var(--n-space) * 2);
+}
+[radius="sharp"] {
+  --n-radius: var(--n-radius-sharp);
+}
 
-  /* ─── Variant ─── */
+/* ─── Intent ─── */
 
-  [variant="primary"] {
-    --n-background: var(--n-surface);
-    --n-background-hover: var(--n-surface-hover);
-    --n-background-active: var(--n-surface-active);
-    --n-background-disabled: var(--n-surface-disabled);
-    --n-color: var(--n-surface-ink);
-    --n-color-hover: var(--n-surface-ink-hover);
-    --n-color-active: var(--n-surface-ink-active);
-    --n-color-disabled: var(--n-surface-ink-disabled);
-    --n-border-color: transparent;
-    --n-border-color-hover: transparent;
-    --n-border-color-active: transparent;
-    --n-border-color-disabled: transparent;
-  }
+[intent="neutral"] {
+  --n-card: var(--n-card-neutral);
+  --n-card-hover: var(--n-card-hover-neutral);
+  --n-panel: var(--n-panel-neutral);
+  --n-panel-hover: var(--n-panel-hover-neutral);
+  --n-panel-active: var(--n-panel-active-neutral);
+  --n-panel-disabled: var(--n-panel-disabled-neutral);
+  --n-button: var(--n-button-neutral);
+  --n-button-hover: var(--n-button-hover-neutral);
+  --n-button-active: var(--n-button-active-neutral);
+  --n-button-disabled: var(--n-button-disabled-neutral);
+  --n-control: var(--n-control-neutral);
+  --n-control-hover: var(--n-control-hover-neutral);
+  --n-control-active: var(--n-control-active-neutral);
+  --n-control-disabled: var(--n-control-disabled-neutral);
+  --n-widget: var(--n-color-neutral-higher);
+  --n-widget-hover: var(--n-control-hover-neutral);
+  --n-widget-active: var(--n-control-active-neutral);
+  --n-widget-disabled: var(--n-control-disabled-neutral);
+  --n-surface: var(--n-surface-neutral);
+  --n-surface-hover: var(--n-surface-hover-neutral);
+  --n-surface-active: var(--n-surface-active-neutral);
+  --n-surface-disabled: var(--n-surface-disabled-neutral);
+  --n-surface-ink: var(--n-surface-ink-neutral);
+  --n-surface-ink-hover: var(--n-surface-ink-hover-neutral);
+  --n-surface-ink-active: var(--n-surface-ink-active-neutral);
+  --n-surface-ink-disabled: var(--n-surface-ink-disabled-neutral);
+  --n-border: var(--n-border-neutral);
+  --n-border-hover: var(--n-border-hover-neutral);
+  --n-border-active: var(--n-border-active-neutral);
+  --n-border-disabled: var(--n-color-neutral-highest);
+  --n-border-muted: var(--n-border-muted-neutral);
+  --n-ink: var(--n-ink-neutral);
+  --n-ink-strong: var(--n-ink-strong-neutral);
+  --n-ink-inverse: var(--n-ink-inverse-neutral);
+  --n-ink-muted: var(--n-ink-muted-neutral);
+  --n-ink-placeholder: var(--n-ink-placeholder-neutral);
+  --n-ink-hover: var(--n-ink-hover-neutral);
+  --n-ink-active: var(--n-ink-active-neutral);
+  --n-ink-disabled: var(--n-ink-disabled-neutral);
+}
 
-  [variant="secondary"] {
-    --n-background: var(--n-button);
-    --n-background-hover: var(--n-button-hover);
-    --n-background-active: var(--n-button-active);
-    --n-background-disabled: var(--n-button-disabled);
-    --n-color: var(--n-ink);
-    --n-color-hover: var(--n-ink-hover);
-    --n-color-active: var(--n-ink-active);
-    --n-color-disabled: var(--n-ink-disabled);
-    --n-border-color: var(--n-border-muted);
-    --n-border-color-hover: var(--n-border-hover);
-    --n-border-color-active: var(--n-border-active);
-    --n-border-color-disabled: transparent;
-  }
+[intent="accent"] {
+  --n-card: var(--n-card-accent);
+  --n-card-hover: var(--n-card-hover-accent);
+  --n-panel: var(--n-panel-accent);
+  --n-panel-hover: var(--n-panel-hover-accent);
+  --n-panel-active: var(--n-panel-active-accent);
+  --n-panel-disabled: var(--n-panel-disabled-accent);
+  --n-button: var(--n-button-accent);
+  --n-button-hover: var(--n-button-hover-accent);
+  --n-button-active: var(--n-button-active-accent);
+  --n-button-disabled: var(--n-button-disabled-accent);
+  --n-control: var(--n-control-accent);
+  --n-control-hover: var(--n-control-hover-accent);
+  --n-control-active: var(--n-control-active-accent);
+  --n-control-disabled: var(--n-control-disabled-accent);
+  --n-widget: var(--n-color-accent-higher);
+  --n-widget-hover: var(--n-control-hover-accent);
+  --n-widget-active: var(--n-control-active-accent);
+  --n-widget-disabled: var(--n-control-disabled-accent);
+  --n-surface: var(--n-surface-accent);
+  --n-surface-hover: var(--n-surface-hover-accent);
+  --n-surface-active: var(--n-surface-active-accent);
+  --n-surface-disabled: var(--n-surface-disabled-accent);
+  --n-surface-ink: var(--n-surface-ink-accent);
+  --n-surface-ink-hover: var(--n-surface-ink-hover-accent);
+  --n-surface-ink-active: var(--n-surface-ink-active-accent);
+  --n-surface-ink-disabled: var(--n-surface-ink-disabled-accent);
+  --n-border: var(--n-border-accent);
+  --n-border-hover: var(--n-border-hover-accent);
+  --n-border-active: var(--n-border-active-accent);
+  --n-border-disabled: var(--n-color-neutral-highest);
+  --n-border-muted: var(--n-border-muted-accent);
+  --n-ink: var(--n-ink-accent);
+  --n-ink-strong: var(--n-ink-strong-accent);
+  --n-ink-inverse: var(--n-ink-inverse-accent);
+  --n-ink-muted: var(--n-ink-muted-accent);
+  --n-ink-placeholder: var(--n-ink-placeholder-accent);
+  --n-ink-hover: var(--n-ink-hover-accent);
+  --n-ink-active: var(--n-ink-active-accent);
+  --n-ink-disabled: var(--n-ink-disabled-accent);
+}
 
-  [variant="default"] {
-    --n-background: var(--n-button-neutral);
-    --n-background-hover: var(--n-button-hover-neutral);
-    --n-background-active: var(--n-button-active-neutral);
-    --n-background-disabled: var(--n-button-disabled-neutral);
-    --n-color: var(--n-ink);
-    --n-color-hover: var(--n-ink-hover);
-    --n-color-active: var(--n-ink-active);
-    --n-color-disabled: var(--n-ink-disabled);
-    --n-border-color: var(--n-border-muted-neutral);
-    --n-border-color-hover: var(--n-border-hover-neutral);
-    --n-border-color-active: var(--n-border-active-neutral);
-    --n-border-color-disabled: transparent;
-  }
+[intent="info"] {
+  --n-card: var(--n-card-info);
+  --n-card-hover: var(--n-card-hover-info);
+  --n-panel: var(--n-panel-info);
+  --n-panel-hover: var(--n-panel-hover-info);
+  --n-panel-active: var(--n-panel-active-info);
+  --n-panel-disabled: var(--n-panel-disabled-info);
+  --n-button: var(--n-button-info);
+  --n-button-hover: var(--n-button-hover-info);
+  --n-button-active: var(--n-button-active-info);
+  --n-button-disabled: var(--n-button-disabled-info);
+  --n-control: var(--n-control-info);
+  --n-control-hover: var(--n-control-hover-info);
+  --n-control-active: var(--n-control-active-info);
+  --n-control-disabled: var(--n-control-disabled-info);
+  --n-widget: var(--n-color-info-higher);
+  --n-widget-hover: var(--n-control-hover-info);
+  --n-widget-active: var(--n-control-active-info);
+  --n-widget-disabled: var(--n-control-disabled-info);
+  --n-surface: var(--n-surface-info);
+  --n-surface-hover: var(--n-surface-hover-info);
+  --n-surface-active: var(--n-surface-active-info);
+  --n-surface-disabled: var(--n-surface-disabled-info);
+  --n-surface-ink: var(--n-surface-ink-info);
+  --n-surface-ink-hover: var(--n-surface-ink-hover-info);
+  --n-surface-ink-active: var(--n-surface-ink-active-info);
+  --n-surface-ink-disabled: var(--n-surface-ink-disabled-info);
+  --n-border: var(--n-border-info);
+  --n-border-hover: var(--n-border-hover-info);
+  --n-border-active: var(--n-border-active-info);
+  --n-border-disabled: var(--n-color-neutral-highest);
+  --n-border-muted: var(--n-border-muted-info);
+  --n-ink: var(--n-ink-info);
+  --n-ink-strong: var(--n-ink-strong-info);
+  --n-ink-inverse: var(--n-ink-inverse-info);
+  --n-ink-muted: var(--n-ink-muted-info);
+  --n-ink-placeholder: var(--n-ink-placeholder-info);
+  --n-ink-hover: var(--n-ink-hover-info);
+  --n-ink-active: var(--n-ink-active-info);
+  --n-ink-disabled: var(--n-ink-disabled-info);
+}
 
-  [variant="ghost"] {
-    --n-background: transparent;
-    --n-background-hover: transparent;
-    --n-background-active: transparent;
-    --n-background-disabled: transparent;
-    --n-color: var(--n-ink);
-    --n-color-hover: var(--n-ink-hover);
-    --n-color-active: var(--n-ink-active);
-    --n-color-disabled: var(--n-ink-disabled);
-    --n-border-color: transparent;
-    --n-border-color-hover: transparent;
-    --n-border-color-active: transparent;
-    --n-border-color-disabled: transparent;
-  }
+[intent="success"] {
+  --n-card: var(--n-card-success);
+  --n-card-hover: var(--n-card-hover-success);
+  --n-panel: var(--n-panel-success);
+  --n-panel-hover: var(--n-panel-hover-success);
+  --n-panel-active: var(--n-panel-active-success);
+  --n-panel-disabled: var(--n-panel-disabled-success);
+  --n-button: var(--n-button-success);
+  --n-button-hover: var(--n-button-hover-success);
+  --n-button-active: var(--n-button-active-success);
+  --n-button-disabled: var(--n-button-disabled-success);
+  --n-control: var(--n-control-success);
+  --n-control-hover: var(--n-control-hover-success);
+  --n-control-active: var(--n-control-active-success);
+  --n-control-disabled: var(--n-control-disabled-success);
+  --n-widget: var(--n-color-success-higher);
+  --n-widget-hover: var(--n-control-hover-success);
+  --n-widget-active: var(--n-control-active-success);
+  --n-widget-disabled: var(--n-control-disabled-success);
+  --n-surface: var(--n-surface-success);
+  --n-surface-hover: var(--n-surface-hover-success);
+  --n-surface-active: var(--n-surface-active-success);
+  --n-surface-disabled: var(--n-surface-disabled-success);
+  --n-surface-ink: var(--n-surface-ink-success);
+  --n-surface-ink-hover: var(--n-surface-ink-hover-success);
+  --n-surface-ink-active: var(--n-surface-ink-active-success);
+  --n-surface-ink-disabled: var(--n-surface-ink-disabled-success);
+  --n-border: var(--n-border-success);
+  --n-border-hover: var(--n-border-hover-success);
+  --n-border-active: var(--n-border-active-success);
+  --n-border-disabled: var(--n-color-neutral-highest);
+  --n-border-muted: var(--n-border-muted-success);
+  --n-ink: var(--n-ink-success);
+  --n-ink-strong: var(--n-ink-strong-success);
+  --n-ink-inverse: var(--n-ink-inverse-success);
+  --n-ink-muted: var(--n-ink-muted-success);
+  --n-ink-placeholder: var(--n-ink-placeholder-success);
+  --n-ink-hover: var(--n-ink-hover-success);
+  --n-ink-active: var(--n-ink-active-success);
+  --n-ink-disabled: var(--n-ink-disabled-success);
+}
 
-  [variant="outline"] {
-    --n-background: transparent;
-    --n-background-hover: var(--n-panel-hover);
-    --n-background-active: var(--n-panel-active);
-    --n-background-disabled: transparent;
-    --n-color: var(--n-ink);
-    --n-color-hover: var(--n-ink-hover);
-    --n-color-active: var(--n-ink-active);
-    --n-color-disabled: var(--n-ink-disabled);
-    --n-border-color: var(--n-border);
-    --n-border-color-hover: var(--n-border-hover);
-    --n-border-color-active: var(--n-border-active);
-    --n-border-color-disabled: transparent;
-  }
+[intent="warning"] {
+  --n-card: var(--n-card-warning);
+  --n-card-hover: var(--n-card-hover-warning);
+  --n-panel: var(--n-panel-warning);
+  --n-panel-hover: var(--n-panel-hover-warning);
+  --n-panel-active: var(--n-panel-active-warning);
+  --n-panel-disabled: var(--n-panel-disabled-warning);
+  --n-button: var(--n-button-warning);
+  --n-button-hover: var(--n-button-hover-warning);
+  --n-button-active: var(--n-button-active-warning);
+  --n-button-disabled: var(--n-button-disabled-warning);
+  --n-control: var(--n-control-warning);
+  --n-control-hover: var(--n-control-hover-warning);
+  --n-control-active: var(--n-control-active-warning);
+  --n-control-disabled: var(--n-control-disabled-warning);
+  --n-widget: var(--n-color-warning-higher);
+  --n-widget-hover: var(--n-control-hover-warning);
+  --n-widget-active: var(--n-control-active-warning);
+  --n-widget-disabled: var(--n-control-disabled-warning);
+  --n-surface: var(--n-surface-warning);
+  --n-surface-hover: var(--n-surface-hover-warning);
+  --n-surface-active: var(--n-surface-active-warning);
+  --n-surface-disabled: var(--n-surface-disabled-warning);
+  --n-surface-ink: var(--n-surface-ink-warning);
+  --n-surface-ink-hover: var(--n-surface-ink-hover-warning);
+  --n-surface-ink-active: var(--n-surface-ink-active-warning);
+  --n-surface-ink-disabled: var(--n-surface-ink-disabled-warning);
+  --n-border: var(--n-border-warning);
+  --n-border-hover: var(--n-border-hover-warning);
+  --n-border-active: var(--n-border-active-warning);
+  --n-border-disabled: var(--n-color-neutral-highest);
+  --n-border-muted: var(--n-border-muted-warning);
+  --n-ink: var(--n-ink-warning);
+  --n-ink-strong: var(--n-ink-strong-warning);
+  --n-ink-inverse: var(--n-ink-inverse-warning);
+  --n-ink-muted: var(--n-ink-muted-warning);
+  --n-ink-placeholder: var(--n-ink-placeholder-warning);
+  --n-ink-hover: var(--n-ink-hover-warning);
+  --n-ink-active: var(--n-ink-active-warning);
+  --n-ink-disabled: var(--n-ink-disabled-warning);
+}
 
-  [variant="selected"] {
-    --n-background: white;
-    --n-background-hover: var(--n-panel-hover);
-    --n-background-active: var(--n-panel-active);
-    --n-background-disabled: var(--n-panel-disabled);
-    --n-color: var(--n-ink-inverse);
-    --n-color-hover: var(--n-ink-hover);
-    --n-color-active: var(--n-ink-active);
-    --n-color-disabled: var(--n-ink-disabled);
-    --n-border-color: transparent;
-    --n-border-color-hover: var(--n-border-hover);
-    --n-border-color-active: var(--n-border-active);
-    --n-border-color-disabled: transparent;
-  }
+[intent="danger"] {
+  --n-card: var(--n-card-danger);
+  --n-card-hover: var(--n-card-hover-danger);
+  --n-panel: var(--n-panel-danger);
+  --n-panel-hover: var(--n-panel-hover-danger);
+  --n-panel-active: var(--n-panel-active-danger);
+  --n-panel-disabled: var(--n-panel-disabled-danger);
+  --n-button: var(--n-button-danger);
+  --n-button-hover: var(--n-button-hover-danger);
+  --n-button-active: var(--n-button-active-danger);
+  --n-button-disabled: var(--n-button-disabled-danger);
+  --n-control: var(--n-control-danger);
+  --n-control-hover: var(--n-control-hover-danger);
+  --n-control-active: var(--n-control-active-danger);
+  --n-control-disabled: var(--n-control-disabled-danger);
+  --n-widget: var(--n-color-danger-higher);
+  --n-widget-hover: var(--n-control-hover-danger);
+  --n-widget-active: var(--n-control-active-danger);
+  --n-widget-disabled: var(--n-control-disabled-danger);
+  --n-surface: var(--n-surface-danger);
+  --n-surface-hover: var(--n-surface-hover-danger);
+  --n-surface-active: var(--n-surface-active-danger);
+  --n-surface-disabled: var(--n-surface-disabled-danger);
+  --n-surface-ink: var(--n-surface-ink-danger);
+  --n-surface-ink-hover: var(--n-surface-ink-hover-danger);
+  --n-surface-ink-active: var(--n-surface-ink-active-danger);
+  --n-surface-ink-disabled: var(--n-surface-ink-disabled-danger);
+  --n-border: var(--n-border-danger);
+  --n-border-hover: var(--n-border-hover-danger);
+  --n-border-active: var(--n-border-active-danger);
+  --n-border-disabled: var(--n-color-neutral-highest);
+  --n-border-muted: var(--n-border-muted-danger);
+  --n-ink: var(--n-ink-danger);
+  --n-ink-strong: var(--n-ink-strong-danger);
+  --n-ink-inverse: var(--n-ink-inverse-danger);
+  --n-ink-muted: var(--n-ink-muted-danger);
+  --n-ink-placeholder: var(--n-ink-placeholder-danger);
+  --n-ink-hover: var(--n-ink-hover-danger);
+  --n-ink-active: var(--n-ink-active-danger);
+  --n-ink-disabled: var(--n-ink-disabled-danger);
+}
 
-  [variant="plain"] {
-    --n-background: transparent;
-    --n-background-hover: transparent;
-    --n-background-active: transparent;
-    --n-background-disabled: transparent;
-    --n-color: var(--n-ink);
-    --n-color-hover: var(--n-ink-hover);
-    --n-color-active: var(--n-ink-active);
-    --n-color-disabled: var(--n-ink-disabled);
-    --n-border-color: transparent;
-    --n-border-color-hover: transparent;
-    --n-border-color-active: transparent;
-    --n-border-color-disabled: transparent;
-    --n-radius: 0;
-  }
+/* ─── Disabled intent override ─── */
+/* WHY: Disabled components should look neutral regardless of intent.
+   Same (0,1,0) specificity as intent selectors — wins by source order. */
 
+[aria-disabled="true"] {
+  --n-panel-disabled: var(--n-panel-disabled-neutral);
+  --n-button-disabled: var(--n-button-disabled-neutral);
+  --n-control-disabled: var(--n-control-disabled-neutral);
+  --n-widget-disabled: var(--n-control-disabled-neutral);
+  --n-surface-disabled: var(--n-surface-disabled-neutral);
+  --n-surface-ink-disabled: var(--n-surface-ink-disabled-neutral);
+  --n-border-disabled: var(--n-color-neutral-highest);
+  --n-ink-disabled: var(--n-ink-disabled-neutral);
+}
+
+/* ─── Variant ─── */
+
+[variant="primary"] {
+  --n-background: var(--n-surface);
+  --n-background-hover: var(--n-surface-hover);
+  --n-background-active: var(--n-surface-active);
+  --n-background-disabled: var(--n-surface-disabled);
+  --n-color: var(--n-surface-ink);
+  --n-color-hover: var(--n-surface-ink-hover);
+  --n-color-active: var(--n-surface-ink-active);
+  --n-color-disabled: var(--n-surface-ink-disabled);
+  --n-border-color: transparent;
+  --n-border-color-hover: transparent;
+  --n-border-color-active: transparent;
+  --n-border-color-disabled: transparent;
+}
+
+[variant="secondary"] {
+  --n-background: var(--n-button);
+  --n-background-hover: var(--n-button-hover);
+  --n-background-active: var(--n-button-active);
+  --n-background-disabled: var(--n-button-disabled);
+  --n-color: var(--n-ink);
+  --n-color-hover: var(--n-ink-hover);
+  --n-color-active: var(--n-ink-active);
+  --n-color-disabled: var(--n-ink-disabled);
+  --n-border-color: var(--n-border-muted);
+  --n-border-color-hover: var(--n-border-hover);
+  --n-border-color-active: var(--n-border-active);
+  --n-border-color-disabled: transparent;
+}
+
+[variant="default"] {
+  --n-background: var(--n-button-neutral);
+  --n-background-hover: var(--n-button-hover-neutral);
+  --n-background-active: var(--n-button-active-neutral);
+  --n-background-disabled: var(--n-button-disabled-neutral);
+  --n-color: var(--n-ink);
+  --n-color-hover: var(--n-ink-hover);
+  --n-color-active: var(--n-ink-active);
+  --n-color-disabled: var(--n-ink-disabled);
+  --n-border-color: var(--n-border-muted-neutral);
+  --n-border-color-hover: var(--n-border-hover-neutral);
+  --n-border-color-active: var(--n-border-active-neutral);
+  --n-border-color-disabled: transparent;
+}
+
+[variant="ghost"] {
+  --n-background: transparent;
+  --n-background-hover: transparent;
+  --n-background-active: transparent;
+  --n-background-disabled: transparent;
+  --n-color: var(--n-ink);
+  --n-color-hover: var(--n-ink-hover);
+  --n-color-active: var(--n-ink-active);
+  --n-color-disabled: var(--n-ink-disabled);
+  --n-border-color: transparent;
+  --n-border-color-hover: transparent;
+  --n-border-color-active: transparent;
+  --n-border-color-disabled: transparent;
+}
+
+[variant="outline"] {
+  --n-background: transparent;
+  --n-background-hover: var(--n-panel-hover);
+  --n-background-active: var(--n-panel-active);
+  --n-background-disabled: transparent;
+  --n-color: var(--n-ink);
+  --n-color-hover: var(--n-ink-hover);
+  --n-color-active: var(--n-ink-active);
+  --n-color-disabled: var(--n-ink-disabled);
+  --n-border-color: var(--n-border);
+  --n-border-color-hover: var(--n-border-hover);
+  --n-border-color-active: var(--n-border-active);
+  --n-border-color-disabled: transparent;
+}
+
+[variant="selected"] {
+  --n-background: white;
+  --n-background-hover: var(--n-panel-hover);
+  --n-background-active: var(--n-panel-active);
+  --n-background-disabled: var(--n-panel-disabled);
+  --n-color: var(--n-ink-inverse);
+  --n-color-hover: var(--n-ink-hover);
+  --n-color-active: var(--n-ink-active);
+  --n-color-disabled: var(--n-ink-disabled);
+  --n-border-color: transparent;
+  --n-border-color-hover: var(--n-border-hover);
+  --n-border-color-active: var(--n-border-active);
+  --n-border-color-disabled: transparent;
+}
+
+[variant="plain"] {
+  --n-background: transparent;
+  --n-background-hover: transparent;
+  --n-background-active: transparent;
+  --n-background-disabled: transparent;
+  --n-color: var(--n-ink);
+  --n-color-hover: var(--n-ink-hover);
+  --n-color-active: var(--n-ink-active);
+  --n-color-disabled: var(--n-ink-disabled);
+  --n-border-color: transparent;
+  --n-border-color-hover: transparent;
+  --n-border-color-active: transparent;
+  --n-border-color-disabled: transparent;
+  --n-radius: 0;
 }

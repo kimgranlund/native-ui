@@ -43,24 +43,24 @@
       This is how you give agents UI access without giving them the keys to the kingdom.
     </p>
 
-    <article>
+    <n-container>
       <section>
-        <div class="stack" direction="row">
+        <n-stack direction="row">
           <n-button size="sm" variant="primary" id="init">
             <span>Connect Both Agents</span>
           </n-button>
           <n-button size="sm" variant="ghost" id="reset">
             <span>Reset</span>
           </n-button>
-        </div>
+        </n-stack>
       </section>
-    </article>
+    </n-container>
 
     <!-- ── Agent Surfaces ── -->
 
-    <div class="grid" cols="2" style="margin-top: 1rem;">
+    <n-grid cols="2" style="margin-top: 1rem;">
       <!-- First-party -->
-      <article>
+      <n-container>
         <header>
           <span>Your Assistant</span>
           <aside>
@@ -71,7 +71,7 @@
           <div class="surface-mount" id="surface-first" data-empty></div>
         </section>
         <footer>
-          <div class="stack" direction="row" wrap>
+          <n-stack direction="row" wrap>
             <n-button size="sm" id="fp-settings">
               <span>User Settings</span>
             </n-button>
@@ -81,12 +81,12 @@
             <n-button size="sm" id="fp-dashboard">
               <span>Dashboard</span>
             </n-button>
-          </div>
+          </n-stack>
         </footer>
-      </article>
+      </n-container>
 
       <!-- Third-party -->
-      <article>
+      <n-container>
         <header>
           <span>Weather Plugin</span>
           <aside>
@@ -97,7 +97,7 @@
           <div class="surface-mount" id="surface-third" data-empty></div>
         </section>
         <footer>
-          <div class="stack" direction="row" wrap>
+          <n-stack direction="row" wrap>
             <n-button size="sm" id="tp-forecast">
               <span>Show Forecast</span>
             </n-button>
@@ -110,16 +110,16 @@
             <n-button size="sm" intent="danger" id="tp-sneak-modal">
               <span>Sneak a Modal In</span>
             </n-button>
-          </div>
+          </n-stack>
         </footer>
-      </article>
-    </div>
+      </n-container>
+    </n-grid>
 
     <!-- ── Catalog Comparison ── -->
 
     <h2>Catalog Comparison</h2>
-    <div class="grid" cols="2">
-      <article>
+    <n-grid cols="2">
+      <n-container>
         <header>
           <span>First-Party</span>
           <aside>
@@ -129,8 +129,8 @@
         <section>
           <div class="catalog-types" id="catalog-first"></div>
         </section>
-      </article>
-      <article>
+      </n-container>
+      <n-container>
         <header>
           <span>Third-Party</span>
           <aside>
@@ -140,17 +140,17 @@
         <section>
           <div class="catalog-types" id="catalog-third"></div>
         </section>
-      </article>
-    </div>
+      </n-container>
+    </n-grid>
 
     <!-- ── Security Log ── -->
 
     <h2>Security Log</h2>
-    <article>
+    <n-container>
       <section show-scrollbar style="max-height: 10rem; font-family: ui-monospace, monospace; font-size: 0.7rem;">
         <div id="event-log"></div>
       </section>
-    </article>
+    </n-container>
 
     </main></native-dashboard-spa>
 

@@ -35,54 +35,54 @@
 
     <h2>createEditorView()</h2>
     <p class="demo-hint">One-line factory — creates a themed editor with all base extensions.</p>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="editor-container" id="factory-demo"></div>
-    </article>
+    </n-container>
 
     <!-- ── JavaScript ── -->
 
     <h2>JavaScript</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="editor-container" id="js-demo"></div>
-    </article>
+    </n-container>
 
     <!-- ── HTML ── -->
 
     <h2>HTML</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="editor-container" id="html-demo"></div>
-    </article>
+    </n-container>
 
     <!-- ── CSS ── -->
 
     <h2>CSS</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="editor-container" id="css-demo"></div>
-    </article>
+    </n-container>
 
     <!-- ── Markdown ── -->
 
     <h2>Markdown</h2>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="editor-container" id="md-demo"></div>
-    </article>
+    </n-container>
 
     <!-- ── Read-only ── -->
 
     <h2>Read-only</h2>
     <p class="demo-hint">Selectable but not editable. Useful for documentation code blocks.</p>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="editor-container editor-container-sm" id="readonly-demo"></div>
-    </article>
+    </n-container>
 
     <!-- ── Custom Extensions ── -->
 
     <h2>Custom Extensions</h2>
     <p class="demo-hint">Pass additional extensions via the <code>extensions</code> option. This example adds a change listener.</p>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <div class="editor-container editor-container-sm" id="custom-demo"></div>
       <div class="log" id="change-log" style="max-height: 80px;"></div>
-    </article>
+    </n-container>
 
     <!-- ════════════════════════════════════════════════════════════════ -->
     <!--  <native-codemirror> Element                                    -->
@@ -99,7 +99,7 @@
     <!-- ── Element: Basic ── -->
 
     <h3>Basic (with &lt;script type="text/plain"&gt; content)</h3>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <native-codemirror id="el-basic" style="height: 220px;">
         <script type="text/plain">
 function greet(name) {
@@ -108,70 +108,70 @@ function greet(name) {
 
 console.log(greet('NativeUI'));</script>
       </native-codemirror>
-    </article>
+    </n-container>
 
     <!-- ── Element: Placeholder ── -->
 
     <h3>Placeholder</h3>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <native-codemirror id="el-placeholder" placeholder="Start typing..." style="height: 120px;"></native-codemirror>
-    </article>
+    </n-container>
 
     <!-- ── Element: Read-only ── -->
 
     <h3>Read-only</h3>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <native-codemirror id="el-readonly" readonly style="height: 120px;">
         <script type="text/plain">
 // This editor is read-only — you can select but not edit.
 const pi = 3.14159;</script>
       </native-codemirror>
-    </article>
+    </n-container>
 
     <!-- ── Element: Disabled ── -->
 
     <h3>Disabled</h3>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <native-codemirror id="el-disabled" disabled style="height: 120px;">
         <script type="text/plain">
 // Disabled — no interaction at all.
 const frozen = true;</script>
       </native-codemirror>
-    </article>
+    </n-container>
 
     <!-- ── Element: No line numbers ── -->
 
     <h3>No Line Numbers</h3>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <native-codemirror id="el-no-ln" line-numbers="false" style="height: 120px;">
         <script type="text/plain">
 // Line numbers hidden via line-numbers="false"
 const clean = true;</script>
       </native-codemirror>
-    </article>
+    </n-container>
 
     <!-- ── Element: Line wrapping ── -->
 
     <h3>Line Wrapping</h3>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <native-codemirror id="el-wrap" line-wrapping style="height: 160px;">
         <script type="text/plain">
 // This editor has line-wrapping enabled. Long lines will wrap instead of scrolling horizontally. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</script>
       </native-codemirror>
-    </article>
+    </n-container>
 
     <!-- ── Element: Events ── -->
 
     <h3>Events</h3>
     <p class="demo-hint">Type to see <code>native:input</code> events. Blur to see <code>native:change</code>.</p>
-    <article data-kind="panel" bordered>
+    <n-container data-kind="panel" bordered>
       <native-codemirror id="el-events" style="height: 120px;">
         <script type="text/plain">
 // Type here and watch the log below
 const x = 42;</script>
       </native-codemirror>
       <div class="log" id="el-event-log" style="max-height: 80px;"></div>
-    </article>
+    </n-container>
 
     </main></native-dashboard-spa>
 
