@@ -26,8 +26,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'demo',
           components: [
-            { id: 'root', component: 'Column', children: ['heading', 'text', 'button'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body'] },
+            { id: 'card-header', component: 'Header', children: ['heading'] },
             { id: 'heading', component: 'Text', text: 'Hello, A2UI!', variant: 'h2' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['text', 'button'] },
             { id: 'text', component: 'Text', text: 'This UI was generated from a flat A2UI component list.' },
             { id: 'button', component: 'Button', text: 'Click Me', variant: 'primary', action: { event: { name: 'hello_click' } } },
           ],
@@ -46,12 +49,16 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'demo',
           components: [
-            { id: 'root', component: 'Column', children: ['title', 'name-field', 'email-field', 'message-field', 'actions'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+            { id: 'card-header', component: 'Header', children: ['title'] },
             { id: 'title', component: 'Text', text: 'Contact Us', variant: 'h2' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['name-field', 'email-field', 'message-field'] },
             { id: 'name-field', component: 'TextField', label: 'Full Name', placeholder: 'John Doe' },
             { id: 'email-field', component: 'TextField', label: 'Email Address', placeholder: 'john@example.com', variant: 'shortText' },
             { id: 'message-field', component: 'TextArea', label: 'Message', placeholder: 'How can we help?' },
-            { id: 'actions', component: 'Row', children: ['button-submit', 'button-cancel'] },
+            { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+            { id: 'card-actions', component: 'Row', children: ['button-submit', 'button-cancel'] },
             { id: 'button-submit', component: 'Button', text: 'Send Message', variant: 'primary', action: { event: { name: 'submit_form', context: {} } } },
             { id: 'button-cancel', component: 'Button', text: 'Cancel', action: { event: { name: 'cancel_form' } } },
           ],
@@ -72,7 +79,7 @@ export const PRESETS: Record<string, PresetEntry> = {
           components: [
             { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
             { id: 'card-header', component: 'Header', children: ['product-name'] },
-            { id: 'product-name', component: 'Text', text: 'Premium Widget', variant: 'h3' },
+            { id: 'product-name', component: 'Text', text: 'Premium Widget', variant: 'h2' },
             { id: 'card-body', component: 'Body', child: 'card-content' },
             { id: 'card-content', component: 'Column', children: ['product-description', 'product-price'] },
             { id: 'product-description', component: 'Text', text: 'A high-quality widget built with native web components. Supports all modern browsers.' },
@@ -97,8 +104,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'demo',
           components: [
-            { id: 'root', component: 'Column', children: ['title', 'task-list'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body'] },
+            { id: 'card-header', component: 'Header', children: ['title'] },
             { id: 'title', component: 'Text', text: 'Today\'s Tasks', variant: 'h2' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['task-list'] },
             { id: 'task-list', component: 'List', children: ['task-1', 'task-2', 'task-3', 'task-4'] },
             { id: 'task-1', component: 'ListItem', text: 'Review pull requests', value: 'review-pr' },
             { id: 'task-2', component: 'ListItem', text: 'Update documentation', value: 'update-docs' },
@@ -120,8 +130,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'demo',
           components: [
-            { id: 'root', component: 'Column', children: ['title', 'nav-row', 'overview-section', 'specs-section', 'reviews-section'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body'] },
+            { id: 'card-header', component: 'Header', children: ['title'] },
             { id: 'title', component: 'Text', text: 'Product Details', variant: 'h2' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['nav-row', 'overview-section', 'specs-section', 'reviews-section'] },
             { id: 'nav-row', component: 'Row', children: ['nav-overview', 'nav-specs', 'nav-reviews'] },
             { id: 'nav-overview', component: 'Button', text: 'Overview', variant: 'primary', action: { event: { name: 'tab_overview' } } },
             { id: 'nav-specs', component: 'Button', text: 'Specs', action: { event: { name: 'tab_specs' } } },
@@ -153,8 +166,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'demo',
           components: [
-            { id: 'root', component: 'Column', children: ['greeting', 'counter-row'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body'] },
+            { id: 'card-header', component: 'Header', children: ['greeting'] },
             { id: 'greeting', component: 'Text', text: { path: '/greeting' }, variant: 'h2' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['counter-row'] },
             { id: 'counter-row', component: 'Row', children: ['counter-label', 'button-increment'] },
             { id: 'counter-label', component: 'Text', text: { path: '/counter' } },
             { id: 'button-increment', component: 'Button', text: 'Increment', variant: 'primary', action: { event: { name: 'increment' } } },
@@ -176,8 +192,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'demo',
           components: [
-            { id: 'root', component: 'Column', children: ['title', 'count', 'button-increment'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body'] },
+            { id: 'card-header', component: 'Header', children: ['title'] },
             { id: 'title', component: 'Text', text: { path: '/title' }, variant: 'h2' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['count', 'button-increment'] },
             { id: 'count', component: 'Text', text: { path: '/count' } },
             { id: 'button-increment', component: 'Button', text: 'Increment', variant: 'primary', action: { event: { name: 'increment' } } },
           ],
@@ -200,8 +219,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'panel-a',
           components: [
-            { id: 'root', component: 'Column', children: ['heading', 'button'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body'] },
+            { id: 'card-header', component: 'Header', children: ['heading'] },
             { id: 'heading', component: 'Text', text: 'Panel A', variant: 'h2' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['button'] },
             { id: 'button', component: 'Button', text: 'Action', variant: 'primary', action: { event: { name: 'panel_a_action' } } },
           ],
         },
@@ -212,8 +234,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'panel-b',
           components: [
-            { id: 'root', component: 'Column', children: ['heading', 'badge'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body'] },
+            { id: 'card-header', component: 'Header', children: ['heading'] },
             { id: 'heading', component: 'Text', text: 'Panel B', variant: 'h2' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['badge'] },
             { id: 'badge', component: 'Badge', text: 'Secondary Surface' },
           ],
         },
@@ -232,8 +257,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'demo',
           components: [
-            { id: 'root', component: 'Column', children: ['title', 'task-list'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body'] },
+            { id: 'card-header', component: 'Header', children: ['title'] },
             { id: 'title', component: 'Text', text: 'Task List', variant: 'h2' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['task-list'] },
             { id: 'task-list', component: 'List', children: ['task-a', 'task-b'] },
             { id: 'task-a', component: 'ListItem', text: 'Task A', value: 'a' },
             { id: 'task-b', component: 'ListItem', text: 'Task B', value: 'b' },
@@ -245,8 +273,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'demo',
           components: [
-            { id: 'root', component: 'Column', children: ['title', 'task-list'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body'] },
+            { id: 'card-header', component: 'Header', children: ['title'] },
             { id: 'title', component: 'Text', text: 'Task List', variant: 'h2' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['task-list'] },
             { id: 'task-list', component: 'List', children: ['task-a', 'task-b', 'task-c'] },
             { id: 'task-a', component: 'ListItem', text: 'Task A', value: 'a' },
             { id: 'task-b', component: 'ListItem', text: 'Task B', value: 'b' },
@@ -259,8 +290,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'demo',
           components: [
-            { id: 'root', component: 'Column', children: ['title', 'task-list'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body'] },
+            { id: 'card-header', component: 'Header', children: ['title'] },
             { id: 'title', component: 'Text', text: 'Task List', variant: 'h2' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['task-list'] },
             { id: 'task-list', component: 'List', children: ['task-a', 'task-b', 'task-c'] },
             { id: 'task-a', component: 'ListItem', text: 'Task A (done \u2713)', value: 'a' },
             { id: 'task-b', component: 'ListItem', text: 'Task B', value: 'b' },
@@ -281,8 +315,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'demo',
           components: [
-            { id: 'root', component: 'Column', children: ['title', 'form-row', 'divider', 'preview-card'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body'] },
+            { id: 'card-header', component: 'Header', children: ['title'] },
             { id: 'title', component: 'Text', text: 'Live Preview \u2014 Data Binding', variant: 'h2' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['form-row', 'divider', 'preview-card'] },
             { id: 'form-row', component: 'Column', children: ['name-field', 'role-field', 'bio-field'] },
             { id: 'name-field', component: 'TextField', label: 'Name', placeholder: 'Type your name...' },
             { id: 'role-field', component: 'TextField', label: 'Role', placeholder: 'e.g. Engineer' },
@@ -315,8 +352,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'demo',
           components: [
-            { id: 'root', component: 'Column', children: ['header', 'steps', 'divider-1', 'step-content', 'divider-2', 'nav-row'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+            { id: 'card-header', component: 'Header', children: ['header'] },
             { id: 'header', component: 'Text', text: 'Create New Project', variant: 'h2' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['steps', 'divider-1', 'step-content', 'divider-2'] },
             { id: 'steps', component: 'Row', children: ['step-1', 'step-sep-1', 'step-2', 'step-sep-2', 'step-3'] },
             { id: 'step-1', component: 'Badge', text: '1. Details' },
             { id: 'step-sep-1', component: 'Text', text: '\u2192' },
@@ -332,7 +372,8 @@ export const PRESETS: Record<string, PresetEntry> = {
             { id: 'visibility-public', component: 'CheckBox', label: 'Public \u2014 anyone can view' },
             { id: 'visibility-private', component: 'CheckBox', label: 'Private \u2014 invited members only' },
             { id: 'divider-2', component: 'Divider' },
-            { id: 'nav-row', component: 'Row', children: ['button-cancel', 'button-next'] },
+            { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+            { id: 'card-actions', component: 'Row', children: ['button-cancel', 'button-next'] },
             { id: 'button-cancel', component: 'Button', text: 'Cancel', action: { event: { name: 'wizard_cancel' } } },
             { id: 'button-next', component: 'Button', text: 'Next: Team \u2192', variant: 'primary', action: { event: { name: 'wizard_next' } } },
           ],
@@ -384,9 +425,12 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
           surfaceId: 'demo',
           components: [
-            { id: 'root', component: 'Column', children: ['header', 'description', 'divider-1', 'notification-section', 'divider-2', 'privacy-section', 'divider-3', 'appearance-section', 'divider-4', 'save-row'] },
+            { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+            { id: 'card-header', component: 'Header', children: ['header', 'description'] },
             { id: 'header', component: 'Text', text: 'Preferences', variant: 'h2' },
             { id: 'description', component: 'Text', text: 'Manage your notification, privacy, and display settings.', variant: 'caption' },
+            { id: 'card-body', component: 'Body', child: 'card-content' },
+            { id: 'card-content', component: 'Column', children: ['divider-1', 'notification-section', 'divider-2', 'privacy-section', 'divider-3', 'appearance-section', 'divider-4'] },
             { id: 'divider-1', component: 'Divider' },
             { id: 'notification-section', component: 'Column', children: ['notification-title', 'notification-email', 'notification-push', 'notification-sms', 'notification-marketing'] },
             { id: 'notification-title', component: 'Text', text: 'Notifications', variant: 'h3' },
@@ -406,7 +450,8 @@ export const PRESETS: Record<string, PresetEntry> = {
             { id: 'appearance-compact', component: 'Switch', label: 'Compact mode' },
             { id: 'appearance-animations', component: 'Switch', label: 'Reduce animations' },
             { id: 'divider-4', component: 'Divider' },
-            { id: 'save-row', component: 'Row', children: ['button-reset', 'button-save'] },
+            { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+            { id: 'card-actions', component: 'Row', children: ['button-reset', 'button-save'] },
             { id: 'button-reset', component: 'Button', text: 'Reset to Defaults', action: { event: { name: 'reset_settings' } } },
             { id: 'button-save', component: 'Button', text: 'Save Preferences', variant: 'primary', action: { event: { name: 'save_settings' } } },
           ],
@@ -425,10 +470,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'patient-row', 'divider-1', 'cbc-card', 'metabolic-card', 'lipid-card', 'divider-2', 'actions'] },
-
-          // Header
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Lab Results \u2014 Comprehensive Panel', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['patient-row', 'divider-1', 'cbc-card', 'metabolic-card', 'lipid-card', 'divider-2'] },
           { id: 'patient-row', component: 'Row', children: ['patient-name', 'patient-dob', 'specimen-date', 'status-badge'] },
           { id: 'patient-name', component: 'Text', text: 'Patient: Jane Doe' },
           { id: 'patient-dob', component: 'Text', text: 'DOB: 1985-03-15' },
@@ -519,7 +565,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'lipid-note', component: 'Text', text: 'Historical: TC was 235 (2025-08), 228 (2025-11). Trending down with dietary changes.', variant: 'caption' },
 
           { id: 'divider-2', component: 'Divider' },
-          { id: 'actions', component: 'Row', children: ['button-download', 'button-share', 'button-history'] },
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['button-download', 'button-share', 'button-history'] },
           { id: 'button-download', component: 'Button', text: 'Download PDF', variant: 'primary', action: { event: { name: 'download_results' } } },
           { id: 'button-share', component: 'Button', text: 'Share with Provider', action: { event: { name: 'share_results' } } },
           { id: 'button-history', component: 'Button', text: 'View History', action: { event: { name: 'view_history' } } },
@@ -539,9 +586,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'patient-row', 'divider-1', 'vitals-row', 'divider-2', 'trend-card', 'divider-3', 'alert-card', 'actions'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Patient Vitals \u2014 Real-Time', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['patient-row', 'divider-1', 'vitals-row', 'divider-2', 'trend-card', 'divider-3', 'alert-card'] },
           { id: 'patient-row', component: 'Row', children: ['patient-name', 'patient-mrn', 'patient-location'] },
           { id: 'patient-name', component: 'Text', text: 'Robert Chen, 67M' },
           { id: 'patient-mrn', component: 'Badge', text: 'MRN: 4820193' },
@@ -608,7 +657,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'alert-2-badge', component: 'Badge', text: 'Info' },
           { id: 'alert-2-text', component: 'Text', text: 'Next vitals check due at 14:00' },
 
-          { id: 'actions', component: 'Row', children: ['button-chart', 'button-order', 'button-note'] },
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['button-chart', 'button-order', 'button-note'] },
           { id: 'button-chart', component: 'Button', text: 'Full Chart', action: { event: { name: 'view_chart' } } },
           { id: 'button-order', component: 'Button', text: 'New Order', variant: 'primary', action: { event: { name: 'new_order' } } },
           { id: 'button-note', component: 'Button', text: 'Add Note', action: { event: { name: 'add_note' } } },
@@ -628,9 +678,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'patient-row', 'divider-1', 'active-card', 'divider-2', 'discontinued-card', 'divider-3', 'interaction-card', 'actions'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Medication Reconciliation', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['patient-row', 'divider-1', 'active-card', 'divider-2', 'discontinued-card', 'divider-3', 'interaction-card'] },
           { id: 'patient-row', component: 'Row', children: ['patient-name', 'patient-allergies'] },
           { id: 'patient-name', component: 'Text', text: 'Maria Garcia, 54F' },
           { id: 'patient-allergies', component: 'Badge', text: 'Allergies: Penicillin, Sulfa' },
@@ -690,7 +742,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'interaction-1-badge', component: 'Badge', text: 'Low Risk' },
           { id: 'interaction-1-text', component: 'Text', text: 'Aspirin + Lisinopril: may reduce antihypertensive effect. Monitor BP.' },
 
-          { id: 'actions', component: 'Row', children: ['button-reconcile', 'button-add-medication', 'button-print'] },
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['button-reconcile', 'button-add-medication', 'button-print'] },
           { id: 'button-reconcile', component: 'Button', text: 'Confirm Reconciliation', variant: 'primary', action: { event: { name: 'confirm_reconciliation' } } },
           { id: 'button-add-medication', component: 'Button', text: 'Add Medication', action: { event: { name: 'add_medication' } } },
           { id: 'button-print', component: 'Button', text: 'Print List', action: { event: { name: 'print_med_list' } } },
@@ -710,9 +763,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'urgency-row', 'divider-1', 'patient-card', 'referral-card', 'clinical-card', 'divider-2', 'actions'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Specialist Referral', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['urgency-row', 'divider-1', 'patient-card', 'referral-card', 'clinical-card', 'divider-2'] },
           { id: 'urgency-row', component: 'Row', children: ['urgency-label', 'urgency-badge'] },
           { id: 'urgency-label', component: 'Text', text: 'Priority:' },
           { id: 'urgency-badge', component: 'Badge', text: 'Routine' },
@@ -752,7 +807,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'clinical-notes', component: 'TextArea', label: 'Additional Notes', placeholder: 'Relevant labs, imaging, prior treatments...' },
           { id: 'divider-2', component: 'Divider' },
 
-          { id: 'actions', component: 'Row', children: ['button-submit', 'button-save-draft', 'button-cancel'] },
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['button-submit', 'button-save-draft', 'button-cancel'] },
           { id: 'button-submit', component: 'Button', text: 'Submit Referral', variant: 'primary', action: { event: { name: 'submit_referral' } } },
           { id: 'button-save-draft', component: 'Button', text: 'Save Draft', action: { event: { name: 'save_draft' } } },
           { id: 'button-cancel', component: 'Button', text: 'Cancel', action: { event: { name: 'cancel_referral' } } },
@@ -772,9 +828,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'search-row', 'divider-1', 'results-card', 'divider-2', 'detail-card'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'ICD-10-CM Code Lookup', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['search-row', 'divider-1', 'results-card', 'divider-2', 'detail-card'] },
           { id: 'search-row', component: 'Row', children: ['search-field', 'button-search'] },
           { id: 'search-field', component: 'TextField', label: 'Search by code or description', placeholder: 'e.g. E11.65 or "type 2 diabetes"' },
           { id: 'button-search', component: 'Button', text: 'Search', variant: 'primary', action: { event: { name: 'icd_search' } } },
@@ -834,9 +892,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'progress-row', 'divider-1', 'demographics-card', 'insurance-card', 'history-card', 'divider-2', 'actions'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Patient Intake Form', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['progress-row', 'divider-1', 'demographics-card', 'insurance-card', 'history-card', 'divider-2'] },
           { id: 'progress-row', component: 'Row', children: ['progress-1', 'progress-2', 'progress-3'] },
           { id: 'progress-1', component: 'Badge', text: '1. Demographics' },
           { id: 'progress-2', component: 'Text', text: '2. Insurance', variant: 'caption' },
@@ -879,7 +939,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'history-medications', component: 'TextArea', label: 'Current Medications', placeholder: 'List all medications, doses, and frequency...' },
           { id: 'divider-2', component: 'Divider' },
 
-          { id: 'actions', component: 'Row', children: ['button-submit', 'button-save'] },
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['button-submit', 'button-save'] },
           { id: 'button-submit', component: 'Button', text: 'Submit Intake Form', variant: 'primary', action: { event: { name: 'submit_intake' } } },
           { id: 'button-save', component: 'Button', text: 'Save Progress', action: { event: { name: 'save_intake' } } },
         ],
@@ -898,9 +959,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'divider-1', 'auth-1-card', 'auth-2-card', 'auth-3-card', 'divider-2', 'button-new-authorization'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Prior Authorization Tracker', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['divider-1', 'auth-1-card', 'auth-2-card', 'auth-3-card', 'divider-2'] },
           { id: 'divider-1', component: 'Divider' },
 
           { id: 'auth-1-card', component: 'Card', children: ['auth-1-header', 'auth-1-body'] },
@@ -969,6 +1032,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'auth-3-button-alternative', component: 'Button', text: 'Alternative Therapy', action: { event: { name: 'alt_therapy' } } },
           { id: 'divider-2', component: 'Divider' },
 
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['button-new-authorization'] },
           { id: 'button-new-authorization', component: 'Button', text: 'New Prior Authorization', variant: 'primary', action: { event: { name: 'new_prior_auth' } } },
         ],
       },
@@ -986,9 +1051,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'patient-row', 'divider-1', 'goals-card', 'interventions-card', 'follow-up-card', 'divider-2', 'team-card', 'actions'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Care Plan \u2014 Diabetes Management', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['patient-row', 'divider-1', 'goals-card', 'interventions-card', 'follow-up-card', 'divider-2', 'team-card'] },
           { id: 'patient-row', component: 'Row', children: ['care-plan-patient', 'care-plan-dx', 'care-plan-date'] },
           { id: 'care-plan-patient', component: 'Text', text: 'Thomas Brown, 58M' },
           { id: 'care-plan-dx', component: 'Badge', text: 'E11.65 \u2014 T2DM w/ hyperglycemia' },
@@ -1060,7 +1127,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'team-endo', component: 'Text', text: 'Endocrinology: Dr. James Chen, MD' },
           { id: 'team-diet', component: 'Text', text: 'Dietitian: Angela Torres, RD' },
 
-          { id: 'actions', component: 'Row', children: ['button-update', 'button-share', 'button-print'] },
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['button-update', 'button-share', 'button-print'] },
           { id: 'button-update', component: 'Button', text: 'Update Plan', variant: 'primary', action: { event: { name: 'update_care_plan' } } },
           { id: 'button-share', component: 'Button', text: 'Share with Patient', action: { event: { name: 'share_care_plan' } } },
           { id: 'button-print', component: 'Button', text: 'Print', action: { event: { name: 'print_care_plan' } } },
@@ -1080,9 +1148,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'subtitle', 'divider-1', 'starters-title', 'starter-list', 'mains-title', 'mains-list', 'desserts-title', 'dessert-list', 'divider-2', 'dietary-row', 'button-reserve'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'The Lighthouse \u2014 Dinner Menu', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['subtitle', 'divider-1', 'starters-title', 'starter-list', 'mains-title', 'mains-list', 'desserts-title', 'dessert-list', 'divider-2', 'dietary-row'] },
           { id: 'subtitle', component: 'Text', text: 'Mediterranean cuisine \u00b7 Open 18:00\u201322:30 \u00b7 Smart casual', variant: 'caption' },
           { id: 'divider-1', component: 'Divider' },
 
@@ -1129,6 +1199,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'dietary-row', component: 'Row', children: ['dietary-note', 'button-allergen'] },
           { id: 'dietary-note', component: 'Text', text: '(V) = Vegetarian \u00b7 Please inform staff of allergies', variant: 'caption' },
           { id: 'button-allergen', component: 'Button', text: 'View Allergens', action: { event: { name: 'view_allergens' } } },
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['button-reserve'] },
           { id: 'button-reserve', component: 'Button', text: 'Reserve a Table', variant: 'primary', action: { event: { name: 'reserve_table' } } },
         ],
       },
@@ -1146,9 +1218,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'room-info', 'divider-1', 'order-title', 'item-list', 'divider-2', 'special-label', 'special-field', 'summary-card', 'button-place-order'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Room Service', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['room-info', 'divider-1', 'order-title', 'item-list', 'divider-2', 'special-label', 'special-field', 'summary-card'] },
           { id: 'room-info', component: 'Row', children: ['room-badge', 'hours-text'] },
           { id: 'room-badge', component: 'Badge', text: 'Room 412' },
           { id: 'hours-text', component: 'Text', text: 'Available 06:00\u201323:00 \u00b7 Delivery in 25\u201335 min', variant: 'caption' },
@@ -1191,6 +1265,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'summary-text', component: 'Text', text: 'Estimated total (service charge included):' },
           { id: 'summary-total', component: 'Text', text: '\u20ac0.00', variant: 'h4' },
 
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['button-place-order'] },
           { id: 'button-place-order', component: 'Button', text: 'Place Order', variant: 'primary', action: { event: { name: 'place_room_service' } } },
         ],
       },
@@ -1208,9 +1284,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'subtitle', 'divider-1', 'spa-card', 'pool-card', 'gym-card', 'divider-2', 'concierge-row'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Hotel Amenities', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['subtitle', 'divider-1', 'spa-card', 'pool-card', 'gym-card', 'divider-2'] },
           { id: 'subtitle', component: 'Text', text: 'Grand Marina Resort \u00b7 Your stay: Feb 18\u201322', variant: 'caption' },
           { id: 'divider-1', component: 'Divider' },
 
@@ -1262,7 +1340,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'button-join-class', component: 'Button', text: 'Join Class', action: { event: { name: 'join_class' } } },
 
           { id: 'divider-2', component: 'Divider' },
-          { id: 'concierge-row', component: 'Row', children: ['concierge-text', 'button-concierge'] },
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['concierge-text', 'button-concierge'] },
           { id: 'concierge-text', component: 'Text', text: 'Need something else? Our concierge is available 24/7.' },
           { id: 'button-concierge', component: 'Button', text: 'Contact Concierge', variant: 'primary', action: { event: { name: 'contact_concierge' } } },
         ],
@@ -1281,9 +1360,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'search-row', 'divider-1', 'room-1-card', 'room-2-card', 'room-3-card'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Room Recommendations', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['search-row', 'divider-1', 'room-1-card', 'room-2-card', 'room-3-card'] },
           { id: 'search-row', component: 'Row', children: ['dates-text', 'guests-text', 'button-modify-search'] },
           { id: 'dates-text', component: 'Text', text: 'Mar 5\u20139, 2026 (4 nights)' },
           { id: 'guests-text', component: 'Badge', text: '2 Adults' },
@@ -1378,9 +1459,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'steps-row', 'divider-1', 'booking-card', 'guest-card', 'extras-card', 'divider-2', 'total-card', 'button-confirm'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Complete Your Booking', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['steps-row', 'divider-1', 'booking-card', 'guest-card', 'extras-card', 'divider-2', 'total-card'] },
           { id: 'steps-row', component: 'Row', children: ['step-1', 'step-2', 'step-3'] },
           { id: 'step-1', component: 'Badge', text: '1. Room \u2713' },
           { id: 'step-2', component: 'Badge', text: '2. Details' },
@@ -1447,6 +1530,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'total-total-label', component: 'Text', text: 'Total', variant: 'h3' },
           { id: 'total-total-value', component: 'Text', text: '\u20ac1,322', variant: 'h3' },
 
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['button-confirm'] },
           { id: 'button-confirm', component: 'Button', text: 'Continue to Payment', variant: 'primary', action: { event: { name: 'continue_payment' } } },
         ],
       },
@@ -1464,9 +1549,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'room-badge', 'divider-1', 'messages', 'divider-2', 'quick-actions', 'input-row'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Concierge', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['room-badge', 'divider-1', 'messages', 'divider-2', 'quick-actions'] },
           { id: 'room-badge', component: 'Badge', text: 'Room 412 \u00b7 Grand Marina Resort' },
           { id: 'divider-1', component: 'Divider' },
 
@@ -1509,7 +1596,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'quick-action-tours', component: 'Button', text: 'Tours', action: { event: { name: 'concierge_tours' } } },
           { id: 'quick-action-tickets', component: 'Button', text: 'Tickets', action: { event: { name: 'concierge_tickets' } } },
 
-          { id: 'input-row', component: 'Row', children: ['message-input', 'button-send-message'] },
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['message-input', 'button-send-message'] },
           { id: 'message-input', component: 'TextField', placeholder: 'Type a message...' },
           { id: 'button-send-message', component: 'Button', text: 'Send', variant: 'primary', action: { event: { name: 'send_concierge_msg' } } },
         ],
@@ -1528,9 +1616,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'room-row', 'divider-1', 'charges-card', 'divider-2', 'payment-card', 'feedback-card', 'divider-3', 'button-checkout'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Express Checkout', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['room-row', 'divider-1', 'charges-card', 'divider-2', 'payment-card', 'feedback-card', 'divider-3'] },
           { id: 'room-row', component: 'Row', children: ['room-number', 'stay-dates'] },
           { id: 'room-number', component: 'Badge', text: 'Room 412 \u2014 Junior Suite' },
           { id: 'stay-dates', component: 'Text', text: 'Feb 18\u201322, 2026 (4 nights)' },
@@ -1583,6 +1673,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'feedback-question', component: 'TextArea', placeholder: 'We\'d love to hear your feedback...' },
           { id: 'divider-3', component: 'Divider' },
 
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['button-checkout'] },
           { id: 'button-checkout', component: 'Button', text: 'Complete Checkout', variant: 'primary', action: { event: { name: 'complete_checkout' } } },
         ],
       },
@@ -1600,9 +1692,11 @@ export const PRESETS: Record<string, PresetEntry> = {
         updateComponents: {
         surfaceId: 'demo',
         components: [
-          { id: 'root', component: 'Column', children: ['header', 'subtitle', 'divider-1', 'beach-card', 'culture-card', 'food-card', 'divider-2', 'button-custom-itinerary'] },
-
+          { id: 'root', component: 'Card', children: ['card-header', 'card-body', 'card-footer'] },
+          { id: 'card-header', component: 'Header', children: ['header'] },
           { id: 'header', component: 'Text', text: 'Local Guide \u2014 Santorini', variant: 'h2' },
+          { id: 'card-body', component: 'Body', child: 'card-content' },
+          { id: 'card-content', component: 'Column', children: ['subtitle', 'divider-1', 'beach-card', 'culture-card', 'food-card', 'divider-2'] },
           { id: 'subtitle', component: 'Text', text: 'Curated experiences near Grand Marina Resort', variant: 'caption' },
           { id: 'divider-1', component: 'Divider' },
 
@@ -1660,6 +1754,8 @@ export const PRESETS: Record<string, PresetEntry> = {
           { id: 'food-2-button', component: 'Button', text: 'Reserve', action: { event: { name: 'reserve_metaxy' } } },
           { id: 'divider-2', component: 'Divider' },
 
+          { id: 'card-footer', component: 'Footer', children: ['card-actions'] },
+          { id: 'card-actions', component: 'Row', children: ['button-custom-itinerary'] },
           { id: 'button-custom-itinerary', component: 'Button', text: 'Ask Concierge for Custom Itinerary', variant: 'primary', action: { event: { name: 'custom_itinerary' } } },
         ],
       },
