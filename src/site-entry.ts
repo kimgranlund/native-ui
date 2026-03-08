@@ -38,7 +38,7 @@ import './components/tooltip/tooltip.ts';
 import './components/tree/tree.ts';
 
 // Container registrations
-import './containers/article/article.ts';
+import './containers/container/container.ts';
 import './components/toolbar/toolbar.ts';
 // native-dashboard components (layout + nav)
 import '../packages/native-dashboard/src/index.ts';

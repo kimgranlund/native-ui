@@ -104,7 +104,7 @@ export { NGripper } from './components/gripper/gripper-element.ts';
 export type { GripperMode, GripperPlacement } from './components/gripper/gripper-element.ts';
 
 // Containers
-export { NContainer } from './containers/article/article-element.ts';
+export { NContainer } from './containers/container/container-element.ts';
 export { NToolbar } from './components/toolbar/toolbar-element.ts';
 export { NRoot } from './components/root/root-element.ts';
 // Event detail types

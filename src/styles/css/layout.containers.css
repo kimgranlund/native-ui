@@ -1,11 +1,11 @@
 /* ══════════════════════════════════════════════════════════════════
    Containers — sub-containers + container component CSS.
-   <n-header>, <n-footer>, <aside> are defined inline.
+   <n-header>, <n-footer>, <n-aside> are defined inline.
    Container components are @imported from src/containers/.
    ══════════════════════════════════════════════════════════════════ */
 
 /* Container components */
-@import '../../containers/article/article.css';
+@import '../../containers/container/container.css';
 @import '../../containers/body/body.css';
 @import '../../containers/divider/divider.css';
 
@@ -108,12 +108,12 @@
   }
 
   /* ╭──────────────────────────────────────────────────────────╮
-     │  <aside>                                                 │
+     │  <n-aside>                                               │
      │  Collapsible side panel. Animates width on [open].       │
      │  Used by dashboard layout for chat + inspector panels.   │
      ╰──────────────────────────────────────────────────────────╯ */
 
-  :where(aside) {
+  :where(n-aside) {
     flex: none;
     position: relative;
     display: none;
@@ -129,20 +129,20 @@
       padding var(--n-duration) var(--n-easing);
   }
 
-  :where(aside[open]) {
+  :where(n-aside[open]) {
     display: flex;
     flex-direction: column;
     width: 360px;
     min-width: 280px;
   }
 
-  :where(aside[resizing]) {
+  :where(n-aside[resizing]) {
     transition: none;
   }
 
   /* ── Resize handle ── */
 
-  :where(aside) :where(.layout-resize-handle) {
+  :where(n-aside) :where(.layout-resize-handle) {
     position: absolute;
     top: 0;
     left: 0;
@@ -152,8 +152,8 @@
     z-index: 2;
   }
 
-  :where(aside) :where(.layout-resize-handle):hover,
-  :where(aside[resizing]) :where(.layout-resize-handle) {
+  :where(n-aside) :where(.layout-resize-handle):hover,
+  :where(n-aside[resizing]) :where(.layout-resize-handle) {
     background: var(--n-border-muted);
   }
 
@@ -169,7 +169,7 @@
   }
 
   :where(.layout-resize-handle[popover]):hover,
-  :where(aside[resizing]) :where(.layout-resize-handle[popover]) {
+  :where(n-aside[resizing]) :where(.layout-resize-handle[popover]) {
     background: var(--n-border-muted);
   }
 
@@ -178,7 +178,7 @@
   }
 
   @starting-style {
-    :where(aside[open]) {
+    :where(n-aside[open]) {
       width: 0;
       min-width: 0;
     }

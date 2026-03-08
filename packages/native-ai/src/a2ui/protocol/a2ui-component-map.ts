@@ -133,7 +133,7 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Card',
-    nativeTag: 'article',
+    nativeTag: 'n-container',
     childStrategy: 'children',
   },
   {

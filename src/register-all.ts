@@ -63,7 +63,7 @@ import { NController } from './components/controller/controller-element.ts';
 import { NGripper } from './components/gripper/gripper-element.ts';
 
 // Containers (with JS behavior)
-import { NContainer } from './containers/article/article-element.ts';
+import { NContainer } from './containers/container/container-element.ts';
 import { NToolbar } from './components/toolbar/toolbar-element.ts';
 import { NRoot } from './components/root/root-element.ts';
 // Icons

@@ -44,7 +44,7 @@
     n-field, n-input-otp,
     n-sidebar-nav, n-sidebar-nav-item, n-sidebar-item, n-sidebar-group-header,
     n-header, n-footer, n-toolbar,
-    article > n-header, article > n-footer
+    n-container > n-header, n-container > n-footer
   ) {
     user-select: none;
   }
@@ -73,7 +73,7 @@
      (large sizes, margins, text-transform) don't bleed in.
      Uses the container's --n-font-* scale for sizing. */
 
-  :where(article, n-container) :where(h1, h2, h3) {
+  :where(n-container) :where(h1, h2, h3) {
     margin: 0;
     font-weight: var(--n-button-font-weight);
     line-height: var(--n-control-line-height-relaxed);
@@ -82,9 +82,9 @@
     color: var(--n-ink-strong);
   }
 
-  :where(article, n-container) :where(h1) { font-size: var(--n-font-xl); }
-  :where(article, n-container) :where(h2) { font-size: var(--n-font-lg); }
-  :where(article, n-container) :where(h3) { font-size: var(--n-font-md); }
+  :where(n-container) :where(h1) { font-size: var(--n-font-xl); }
+  :where(n-container) :where(h2) { font-size: var(--n-font-lg); }
+  :where(n-container) :where(h3) { font-size: var(--n-font-md); }
 
   /* ── Reduced Motion ── */
 

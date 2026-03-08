@@ -405,7 +405,7 @@ export class NApp extends NativeElement {
     const canvas = document.createElement('section');
     canvas.className = 'content';
 
-    const body = document.createElement('article');
+    const body = document.createElement('n-container');
     body.dataset.kind = 'panel';
     body.setAttribute('scrollable', '');
     // WHY: <slot> projects author's <main> from light DOM without moving it —
@@ -451,8 +451,8 @@ export class NApp extends NativeElement {
       handle.style.height = `${rect.height}px`;
     };
 
-    // Inspector panel — wrapped in <aside>
-    const inspectorAside = document.createElement('aside');
+    // Inspector panel — wrapped in <n-aside>
+    const inspectorAside = document.createElement('n-aside');
     const inspector = document.createElement('native-design-panel');
     inspectorAside.appendChild(inspector);
     this.#inspectorPanel = inspector;
@@ -488,8 +488,8 @@ export class NApp extends NativeElement {
     });
     this.#inspectorObserver.observe(inspectorAside, { attributes: true, attributeFilter: ['open'] });
 
-    // Chat panel — wrapped in <aside>
-    const chatAside = document.createElement('aside');
+    // Chat panel — wrapped in <n-aside>
+    const chatAside = document.createElement('n-aside');
     const chat = document.createElement('native-chat-panel');
     chat.setAttribute('size', 'md');
     chat.setAttribute('gateway', 'claude');

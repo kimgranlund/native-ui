@@ -52,7 +52,7 @@ import type { NSlideshow } from './components/slideshow/slideshow-element.ts';
 import type { NSlide } from './components/slideshow/slide-element.ts';
 import type { NCalendar } from './components/calendar/calendar-element.ts';
 import type { NController } from './components/controller/controller-element.ts';
-import type { NContainer } from './containers/article/article-element.ts';
+import type { NContainer } from './containers/container/container-element.ts';
 import type { NToolbar } from './components/toolbar/toolbar-element.ts';
 import type { NIcon } from './icons/icon-element.ts';
 

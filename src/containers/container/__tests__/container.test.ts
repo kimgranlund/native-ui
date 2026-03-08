@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import '../article.ts';
+import '../container.ts';
 
 function create(attrs: Record<string, string> = {}): HTMLElement {
   const el = document.createElement('n-container');

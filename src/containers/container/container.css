@@ -1,9 +1,7 @@
 @layer ui {
 
   /* ══════════════════════════════════════════════════════════════════
-     <article> / <n-container> — Unified surface container (card + panel)
-     <article> is CSS-only. <n-container> is the custom element version
-     (supports traits, interactive, href).
+     <n-container> — Unified surface container (card + panel)
      Default = card elevation, no padding, no gap
      [data-kind="panel"] = panel elevation, 4× padding, 2× gap
      ══════════════════════════════════════════════════════════════════ */
@@ -12,7 +10,7 @@
 
   /* ── Base (card mode) ── */
 
-  :where(article, n-container) {
+  :where(n-container) {
     --n-ground: var(--n-card);
     --n-ground-hover: var(--n-card-hover);
 
@@ -47,7 +45,7 @@
 
   /* ── Panel mode ── */
 
-  :where(article[data-kind="panel"], n-container[data-kind="panel"]) {
+  :where(n-container[data-kind="panel"]) {
     --n-ground: var(--n-panel);
     gap: calc(var(--n-space) * var(--n-space-k));
     padding: calc(var(--n-space) * var(--n-space-k));
@@ -57,7 +55,7 @@
 
   /* ── Media slot ── */
 
-  :where(article, n-container) > :where([slot="media"]) {
+  :where(n-container) > :where([slot="media"]) {
     display: block;
     width: 100%;
     object-fit: cover;
@@ -65,15 +63,15 @@
 
   /* ── Sub-container integration ── */
   /* WHY: Sub-container elements (<n-header>, <n-body>, <n-footer>) work as
-     direct children of article. Structured mode activates when <n-header>
+     direct children of n-container. Structured mode activates when <n-header>
      or <n-footer> is present — overflow delegates to <n-body>. */
 
-  :where(article, n-container):has(> n-header, > n-footer) {
+  :where(n-container):has(> n-header, > n-footer) {
     overflow: hidden;
     padding: 0;
   }
 
-  :where(article, n-container):has(> n-header, > n-footer) > :where(n-body) {
+  :where(n-container):has(> n-header, > n-footer) > :where(n-body) {
     flex: 1 1 0%;
     overflow-y: auto;
     scrollbar-width: none;
@@ -83,25 +81,25 @@
     flex-direction: column;
   }
 
-  /* ── Article n-header grid columns — nav (leading) + aside (trailing) ──
-     WHY: Articles use <nav>/<aside> children for leading/trailing slots
+  /* ── Container n-header grid columns — nav (leading) + aside (trailing) ──
+     WHY: Containers use <nav>/<aside> children for leading/trailing slots
      instead of the generic n-header [slot="leading"]/[slot="trailing"]. */
 
-  :where(article, n-container) > :where(n-header):has(> nav):has(> aside) {
+  :where(n-container) > :where(n-header):has(> nav):has(> aside) {
     grid-template-columns: auto 1fr minmax(0, auto);
   }
-  :where(article, n-container) > :where(n-header):has(> nav):not(:has(> aside)) {
+  :where(n-container) > :where(n-header):has(> nav):not(:has(> aside)) {
     grid-template-columns: auto 1fr;
   }
-  :where(article, n-container) > :where(n-header):not(:has(> nav)):has(> aside) {
+  :where(n-container) > :where(n-header):not(:has(> nav)):has(> aside) {
     grid-template-columns: 1fr minmax(0, auto);
   }
-  :where(article, n-container) > :where(n-header) > :where(nav) {
+  :where(n-container) > :where(n-header) > :where(nav) {
     display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
   }
-  :where(article, n-container) > :where(n-header) > :where(aside) {
+  :where(n-container) > :where(n-header) > :where(aside) {
     grid-column: -1;
     display: flex;
     align-items: center;
@@ -111,7 +109,7 @@
   }
 
   /* Panel-mode section defaults */
-  :where(article[data-kind="panel"], n-container[data-kind="panel"]) > :where(n-body) {
+  :where(n-container[data-kind="panel"]) > :where(n-body) {
     display: flex;
     flex-direction: column;
     gap: calc(var(--n-space) * var(--n-space-k));
@@ -127,49 +125,49 @@
    Selectors at (0,1,0) — beat layered component defaults.
    ══════════════════════════════════════════════════════════════════ */
 
-:where(article, n-container)[inline] {
+:where(n-container)[inline] {
   flex: 0 0 auto;
 }
 
-:where(article, n-container)[dividers] > :where(:not(:first-child)) {
+:where(n-container)[dividers] > :where(:not(:first-child)) {
   border-top: 1px solid var(--n-border-muted);
 }
 
-:where(article, n-container)[interactive] {
+:where(n-container)[interactive] {
   cursor: pointer;
 }
 
-:where(article, n-container)[interactive]:hover,
-:where(article, n-container)[interactive][force-hover] {
+:where(n-container)[interactive]:hover,
+:where(n-container)[interactive][force-hover] {
   background: var(--n-ground-hover);
   border-color: var(--n-border-hover);
 }
 
-:where(article, n-container)[interactive]:focus-visible,
-:where(article, n-container)[interactive][force-focus-visible] {
+:where(n-container)[interactive]:focus-visible,
+:where(n-container)[interactive][force-focus-visible] {
   outline: 2px solid var(--n-focus-ring);
   outline-offset: 2px;
 }
 
-:where(article, n-container)[bordered] {
+:where(n-container)[bordered] {
   border: 1px solid var(--n-border-muted);
 }
 
-:where(article[data-kind="panel"], n-container[data-kind="panel"])[show-scrollbar] {
+:where(n-container[data-kind="panel"])[show-scrollbar] {
   scrollbar-width: thin;
 }
 
-[scrollable]:where(article[data-kind="panel"], n-container[data-kind="panel"]) {
+[scrollable]:where(n-container[data-kind="panel"]) {
   overflow-y: auto;
 }
 
-[fade]:where(article[data-kind="panel"], n-container[data-kind="panel"]) {
+[fade]:where(n-container[data-kind="panel"]) {
   --n-fade-top: calc((var(--n-size) + var(--n-space) * var(--n-space-k)) * 1.25);
   --n-fade-bottom: calc((var(--n-size) + var(--n-space) * var(--n-space-k)) * 1.25);
 }
 
 /* Fade masks — header/footer present → mask the section */
-[fade]:where(article[data-kind="panel"], n-container[data-kind="panel"]):has(> n-header) > :where(n-body) {
+[fade]:where(n-container[data-kind="panel"]):has(> n-header) > :where(n-body) {
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
@@ -178,7 +176,7 @@
   );
 }
 
-[fade]:where(article[data-kind="panel"], n-container[data-kind="panel"]):has(> n-footer) > :where(n-body) {
+[fade]:where(n-container[data-kind="panel"]):has(> n-footer) > :where(n-body) {
   mask-image: linear-gradient(
     to bottom,
     black 0,
@@ -187,7 +185,7 @@
   );
 }
 
-[fade]:where(article[data-kind="panel"], n-container[data-kind="panel"]):has(> n-header):has(> n-footer) > :where(n-body) {
+[fade]:where(n-container[data-kind="panel"]):has(> n-header):has(> n-footer) > :where(n-body) {
   mask-image: linear-gradient(
     to bottom,
     transparent 0,

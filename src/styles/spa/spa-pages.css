@@ -52,10 +52,10 @@ h3:first-child {
 }
 
 /* ── Demo Sections ── */
-/* WHY: <article> containers use flex column with gap.
+/* WHY: <n-container> containers use flex column with gap.
    Zero out child block margins so gap provides uniform spacing. */
 
-:where(article) > :where(h3, .demo-row, .demo-desc, .demo-caption,
+:where(n-container) > :where(h3, .demo-row, .demo-desc, .demo-caption,
   .demo-hint, .demo-state-label, .demo-code, .log, .demo-event-log) {
   margin: 0;
 }

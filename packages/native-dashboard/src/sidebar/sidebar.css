@@ -246,7 +246,7 @@
   }
 
   /* Aside panel — semantic equivalent of n-dashboard-panel[aside] */
-  :where(native-app) :where(section.content) > :where(aside) {
+  :where(native-app) :where(section.content) > :where(n-aside) {
     --n-ground: var(--n-panel);
 
     position: relative;
@@ -265,7 +265,7 @@
       margin var(--n-duration) var(--n-easing);
   }
 
-  :where(native-app) :where(section.content) > :where(aside)[open] {
+  :where(native-app) :where(section.content) > :where(n-aside)[open] {
     width: var(--n-aside-width, 360px);
     min-width: var(--n-aside-min-width, 280px);
     margin-inline-start: calc(var(--n-space-k) * var(--n-space));
@@ -275,18 +275,18 @@
 
   /* WHY: When n-chat manages its own sub-container padding and scroll,
      the layout container delegates — no own padding, no own scroll. */
-  :where(native-app) :where(section.content) > :where(aside)[open]:has(> n-chat) {
+  :where(native-app) :where(section.content) > :where(n-aside)[open]:has(> n-chat) {
     padding: 0;
     overflow: visible;
   }
 
   /* WHY: Disable width transition while dragging — it fights the pointer. */
-  :where(native-app) :where(section.content) > :where(aside)[resizing] {
+  :where(native-app) :where(section.content) > :where(n-aside)[resizing] {
     transition: none;
   }
 
   /* Aside resize handle */
-  :where(native-app) :where(section.content) > :where(aside) :where(.layout-resize-handle) {
+  :where(native-app) :where(section.content) > :where(n-aside) :where(.layout-resize-handle) {
     position: absolute;
     top: 0;
     left: 0;
@@ -296,8 +296,8 @@
     z-index: 1;
   }
 
-  :where(native-app) :where(section.content) > :where(aside) :where(.layout-resize-handle):hover,
-  :where(native-app) :where(section.content) > :where(aside)[resizing] :where(.layout-resize-handle) {
+  :where(native-app) :where(section.content) > :where(n-aside) :where(.layout-resize-handle):hover,
+  :where(native-app) :where(section.content) > :where(n-aside)[resizing] :where(.layout-resize-handle) {
     background: var(--n-border-muted);
   }
 
