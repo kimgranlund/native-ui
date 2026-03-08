@@ -178,7 +178,7 @@ const mappings: readonly ComponentMapping[] = [
   },
   {
     a2uiType: 'Divider',
-    nativeTag: 'hr',
+    nativeTag: 'n-divider',
     childStrategy: 'none',
   },
   {
@@ -272,7 +272,7 @@ for (const m of mappings) {
   // Only add to reverse map if the tag is unique or is a custom element.
   // div/span are ambiguous — handled by resolveA2UIType with attribute checks.
   // First mapping wins for shared tags (TextField before DateTimeInput for n-input).
-  if (m.nativeTag !== 'div' && m.nativeTag !== 'span' && m.nativeTag !== 'hr' && !reverseMap.has(m.nativeTag)) {
+  if (m.nativeTag !== 'div' && m.nativeTag !== 'span' && !reverseMap.has(m.nativeTag)) {
     reverseMap.set(m.nativeTag, m);
   }
 }
@@ -321,7 +321,6 @@ export function resolveA2UIType(
     }
     return 'Column'; // default layout direction
   }
-  if (tag === 'hr') return 'Divider';
   if (tag === 'img') return 'Image';
   if (tag === 'video') return 'Video';
   if (tag === 'audio') return 'AudioPlayer';
