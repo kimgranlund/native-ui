@@ -56,7 +56,11 @@ const KNOWN_PROPS = new Set([
   'justify', 'align', 'weight', 'direction',
   'enableDate', 'enableTime', 'options', 'filterable', 'displayStyle',
   'validationRegexp', 'checks', 'trigger', 'content', 'tabs', 'poster',
+  'header', 'footer',
 ]);
+
+/** A2UI types that map to n-container sub-containers */
+const SUB_CONTAINER_TYPES = new Set(['Header', 'Body', 'Footer']);
 
 // ── Flat → Tree: a2uiToUINode ──
 
@@ -371,7 +375,67 @@ function resolveComponent(
         if (comp.label) attributes.placeholder = String(comp.label);
       }
     }
-  } else if (childIds && childIds.length > 0) {
+  }
+
+  // Card: structure children into n-header / n-body / n-footer sub-containers.
+  // If children are already Header/Body/Footer types, pass through as-is.
+  // Otherwise, wrap bare children in <n-body> and synthesize header/footer from properties.
+  else if (comp.component === 'Card' && childIds && childIds.length > 0) {
+    const hasSubContainers = childIds.some((cid) => {
+      const c = index.get(cid);
+      return c ? SUB_CONTAINER_TYPES.has(c.component) : false;
+    });
+
+    if (hasSubContainers) {
+      // Children are already structured — pass through
+      children = childIds.map((childId) =>
+        resolveComponent(childId, index, visited, bindings, warnings, surfaceId, resolve),
+      );
+    } else {
+      // Auto-wrap: synthesize n-header / n-body / n-footer from Card properties + children
+      children = [];
+
+      // Synthesize <n-header> from header property or label
+      const headerText = (comp.header as string | undefined) ?? (comp.label as string | undefined);
+      if (headerText) {
+        children.push({
+          id: `${id}-header`,
+          tag: 'n-header',
+          children: [{
+            id: `${id}-header-label`,
+            tag: 'span',
+            attributes: { slot: 'label' },
+            textContent: headerText,
+          }],
+        });
+      }
+
+      // Wrap content children in <n-body>
+      const bodyChildren = childIds.map((childId) =>
+        resolveComponent(childId, index, visited, bindings, warnings, surfaceId, resolve),
+      );
+      children.push({
+        id: `${id}-body`,
+        tag: 'n-body',
+        children: bodyChildren,
+      });
+
+      // Synthesize <n-footer> from footer property
+      const footerText = comp.footer as string | undefined;
+      if (footerText) {
+        children.push({
+          id: `${id}-footer`,
+          tag: 'n-footer',
+          textContent: footerText,
+        });
+      }
+
+      // Don't use comp.label as textContent since we used it for header
+      if (headerText) textContent = undefined;
+    }
+  }
+
+  else if (childIds && childIds.length > 0) {
     children = childIds.map((childId) =>
       resolveComponent(childId, index, visited, bindings, warnings, surfaceId, resolve),
     );

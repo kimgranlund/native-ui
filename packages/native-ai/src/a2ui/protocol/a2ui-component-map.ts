@@ -302,6 +302,21 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     childStrategy: 'children',
   },
   {
+    a2uiType: 'Header',
+    nativeTag: 'n-header',
+    childStrategy: 'children',
+  },
+  {
+    a2uiType: 'Body',
+    nativeTag: 'n-body',
+    childStrategy: 'children',
+  },
+  {
+    a2uiType: 'Footer',
+    nativeTag: 'n-footer',
+    childStrategy: 'children',
+  },
+  {
     a2uiType: 'Modal',
     nativeTag: 'n-dialog',
     childStrategy: 'children',
@@ -445,6 +460,9 @@ const DEFAULT_CATEGORIES: Record<string, string> = {
   Row: 'layout',
   Column: 'layout',
   Card: 'container',
+  Header: 'container',
+  Body: 'container',
+  Footer: 'container',
   Modal: 'container',
   Accordion: 'container',
   AccordionItem: 'container',
