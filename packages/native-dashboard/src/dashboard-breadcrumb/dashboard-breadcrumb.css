@@ -15,7 +15,7 @@
     min-height: var(--n-sidebar-item-height);
     gap: calc(var(--n-space) * 2);
     padding-block: var(--n-space);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-inline: var(--n-space) calc(var(--n-space-k) * var(--n-space));
     flex-shrink: 0;
     min-width: 0;
   }

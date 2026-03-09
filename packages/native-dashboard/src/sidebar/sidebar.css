@@ -129,7 +129,7 @@
     min-height: var(--n-sidebar-item-height);
     gap: calc(var(--n-space) * 2);
     padding-block: var(--n-space);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-inline: var(--n-space) calc(var(--n-space-k) * var(--n-space));
     flex-shrink: 0;
     min-width: 0;
   }
@@ -175,7 +175,8 @@
     flex: 1;
     min-height: 0;
     gap: calc(var(--n-space-k) * var(--n-space));
-    padding: 0 calc(var(--n-space-k) * var(--n-space)) calc(var(--n-space-k) * var(--n-space));
+    padding-block-end: calc(var(--n-space-k) * var(--n-space));
+    padding-inline-end: calc(var(--n-space-k) * var(--n-space));
   }
 
   /* Main content panel */
