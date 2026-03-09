@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-audio — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    </head>
+  <body>
+    <native-dashboard-spa><main>
+    <h1>&lt;n-audio&gt;</h1>
+    <p class="demo-desc">
+      CSS-only audio container with token-aware border-radius and responsive sizing. Wraps a native <code>&lt;audio&gt;</code> element.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <n-container data-kind="panel" bordered>
+      <div class="demo-row" style="flex-direction: column; max-width: 28rem;">
+        <n-audio>
+          <audio controls>
+            <source src="#" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        </n-audio>
+      </div>
+    <pre class="demo-code"><code>&lt;n-audio&gt;
+  &lt;audio controls&gt;
+    &lt;source src="track.mp3" type="audio/mpeg"&gt;
+  &lt;/audio&gt;
+&lt;/n-audio&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── With Radius ── -->
+
+    <h2>Border Radius</h2>
+    <n-container data-kind="panel" bordered>
+      <div class="demo-row" style="flex-direction: column; gap: 1rem; max-width: 28rem;">
+        <div>
+          <span class="text" muted size="sm">radius="sharp"</span>
+          <n-audio radius="sharp">
+            <audio controls>
+              <source src="#" type="audio/mpeg">
+            </audio>
+          </n-audio>
+        </div>
+        <div>
+          <span class="text" muted size="sm">radius="round"</span>
+          <n-audio radius="round">
+            <audio controls>
+              <source src="#" type="audio/mpeg">
+            </audio>
+          </n-audio>
+        </div>
+        <div>
+          <span class="text" muted size="sm">radius="pill"</span>
+          <n-audio radius="pill">
+            <audio controls>
+              <source src="#" type="audio/mpeg">
+            </audio>
+          </n-audio>
+        </div>
+      </div>
+    <pre class="demo-code"><code>&lt;n-audio radius="sharp"&gt;
+  &lt;audio controls&gt;...&lt;/audio&gt;
+&lt;/n-audio&gt;
+
+&lt;n-audio radius="round"&gt;
+  &lt;audio controls&gt;...&lt;/audio&gt;
+&lt;/n-audio&gt;
+
+&lt;n-audio radius="pill"&gt;
+  &lt;audio controls&gt;...&lt;/audio&gt;
+&lt;/n-audio&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── In a Card ── -->
+
+    <h2>Inside a Container</h2>
+    <n-container data-kind="panel" bordered>
+      <n-container style="max-width: 24rem;">
+        <header>
+          <span>Now Playing</span>
+        </header>
+        <div class="body">
+          <n-audio>
+            <audio controls>
+              <source src="#" type="audio/mpeg">
+            </audio>
+          </n-audio>
+        </div>
+      </n-container>
+    <pre class="demo-code"><code>&lt;n-container&gt;
+  &lt;header&gt;
+    &lt;span&gt;Now Playing&lt;/span&gt;
+  &lt;/header&gt;
+  &lt;div class="body"&gt;
+    &lt;n-audio&gt;
+      &lt;audio controls&gt;
+        &lt;source src="track.mp3" type="audio/mpeg"&gt;
+      &lt;/audio&gt;
+    &lt;/n-audio&gt;
+  &lt;/div&gt;
+&lt;/n-container&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>radius</code></td><td><code>"sharp" | "round" | "pill"</code></td><td>inherited</td><td>Border radius preset. Inherits <code>--n-radius</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Custom Properties</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--n-radius</code></td><td>inherited</td><td>Border radius applied to the container.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></native-dashboard-spa>
+    <script type="module">
+      import '../../nav/native-dashboard.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+      import '../../containers/container/container.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

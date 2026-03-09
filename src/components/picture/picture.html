@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-picture — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    </head>
+  <body>
+    <native-dashboard-spa><main>
+    <h1>&lt;n-picture&gt;</h1>
+    <p class="demo-desc">
+      CSS-only image container with token-aware border-radius, responsive sizing, object-fit control, and aspect ratio presets.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <n-container data-kind="panel" bordered>
+      <div class="demo-row">
+        <n-picture style="max-width: 20rem;">
+          <img src="https://picsum.photos/seed/native-1/400/300" alt="Sample image" />
+        </n-picture>
+      </div>
+    <pre class="demo-code"><code>&lt;n-picture&gt;
+  &lt;img src="photo.jpg" alt="Sample image" /&gt;
+&lt;/n-picture&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Object Fit ── -->
+
+    <h2>Object Fit</h2>
+    <n-container data-kind="panel" bordered>
+      <div class="demo-row">
+        <div>
+          <span class="text" muted size="sm">fit="cover" (default)</span>
+          <n-picture style="width: 12rem; height: 8rem;">
+            <img src="https://picsum.photos/seed/native-2/400/300" alt="Cover fit" />
+          </n-picture>
+        </div>
+        <div>
+          <span class="text" muted size="sm">fit="contain"</span>
+          <n-picture fit="contain" style="width: 12rem; height: 8rem; background: var(--n-control);">
+            <img src="https://picsum.photos/seed/native-2/400/300" alt="Contain fit" />
+          </n-picture>
+        </div>
+        <div>
+          <span class="text" muted size="sm">fit="fill"</span>
+          <n-picture fit="fill" style="width: 12rem; height: 8rem;">
+            <img src="https://picsum.photos/seed/native-2/400/300" alt="Fill fit" />
+          </n-picture>
+        </div>
+        <div>
+          <span class="text" muted size="sm">fit="none"</span>
+          <n-picture fit="none" style="width: 12rem; height: 8rem;">
+            <img src="https://picsum.photos/seed/native-2/400/300" alt="None fit" />
+          </n-picture>
+        </div>
+      </div>
+    <pre class="demo-code"><code>&lt;n-picture fit="cover"&gt;...&lt;/n-picture&gt;
+&lt;n-picture fit="contain"&gt;...&lt;/n-picture&gt;
+&lt;n-picture fit="fill"&gt;...&lt;/n-picture&gt;
+&lt;n-picture fit="none"&gt;...&lt;/n-picture&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Aspect Ratio ── -->
+
+    <h2>Aspect Ratio</h2>
+    <n-container data-kind="panel" bordered>
+      <div class="demo-row">
+        <div>
+          <span class="text" muted size="sm">aspect="square" (1:1)</span>
+          <n-picture aspect="square" style="width: 10rem;">
+            <img src="https://picsum.photos/seed/native-3/400/300" alt="Square aspect" />
+          </n-picture>
+        </div>
+        <div>
+          <span class="text" muted size="sm">aspect="video" (16:9)</span>
+          <n-picture aspect="video" style="width: 16rem;">
+            <img src="https://picsum.photos/seed/native-3/400/300" alt="Video aspect" />
+          </n-picture>
+        </div>
+        <div>
+          <span class="text" muted size="sm">aspect="photo" (4:3)</span>
+          <n-picture aspect="photo" style="width: 12rem;">
+            <img src="https://picsum.photos/seed/native-3/400/300" alt="Photo aspect" />
+          </n-picture>
+        </div>
+      </div>
+    <pre class="demo-code"><code>&lt;n-picture aspect="square"&gt;...&lt;/n-picture&gt;
+&lt;n-picture aspect="video"&gt;...&lt;/n-picture&gt;
+&lt;n-picture aspect="photo"&gt;...&lt;/n-picture&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Border Radius ── -->
+
+    <h2>Border Radius</h2>
+    <n-container data-kind="panel" bordered>
+      <div class="demo-row">
+        <div>
+          <span class="text" muted size="sm">radius="sharp"</span>
+          <n-picture radius="sharp" style="width: 10rem;">
+            <img src="https://picsum.photos/seed/native-4/400/300" alt="Sharp radius" />
+          </n-picture>
+        </div>
+        <div>
+          <span class="text" muted size="sm">radius="round"</span>
+          <n-picture radius="round" style="width: 10rem;">
+            <img src="https://picsum.photos/seed/native-4/400/300" alt="Round radius" />
+          </n-picture>
+        </div>
+        <div>
+          <span class="text" muted size="sm">radius="pill"</span>
+          <n-picture radius="pill" aspect="square" style="width: 10rem;">
+            <img src="https://picsum.photos/seed/native-4/400/300" alt="Pill radius" />
+          </n-picture>
+        </div>
+      </div>
+    <pre class="demo-code"><code>&lt;n-picture radius="sharp"&gt;...&lt;/n-picture&gt;
+&lt;n-picture radius="round"&gt;...&lt;/n-picture&gt;
+&lt;n-picture radius="pill" aspect="square"&gt;...&lt;/n-picture&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Inline Mode ── -->
+
+    <h2>Inline Mode</h2>
+    <n-container data-kind="panel" bordered>
+      <p>
+        Text before
+        <n-picture inline style="width: 4rem; vertical-align: middle;">
+          <img src="https://picsum.photos/seed/native-5/100/100" alt="Inline image" />
+        </n-picture>
+        text after the inline image.
+      </p>
+    <pre class="demo-code"><code>&lt;p&gt;
+  Text before
+  &lt;n-picture inline style="width: 4rem;"&gt;
+    &lt;img src="photo.jpg" alt="Inline" /&gt;
+  &lt;/n-picture&gt;
+  text after.
+&lt;/p&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── In a Card ── -->
+
+    <h2>Inside a Container</h2>
+    <n-container data-kind="panel" bordered>
+      <div class="demo-row">
+        <n-container style="max-width: 18rem;">
+          <n-picture>
+            <img src="https://picsum.photos/seed/native-6/400/250" alt="Card image" />
+          </n-picture>
+          <div class="body" style="padding: var(--n-space);">
+            <h3 style="margin: 0 0 0.25rem;">Mountain View</h3>
+            <span class="text" muted size="sm">A scenic landscape photograph.</span>
+          </div>
+        </n-container>
+        <n-container style="max-width: 18rem;">
+          <n-picture aspect="video">
+            <img src="https://picsum.photos/seed/native-7/400/250" alt="Card image" />
+          </n-picture>
+          <div class="body" style="padding: var(--n-space);">
+            <h3 style="margin: 0 0 0.25rem;">Ocean Sunset</h3>
+            <span class="text" muted size="sm">A 16:9 video aspect ratio image.</span>
+          </div>
+        </n-container>
+      </div>
+    <pre class="demo-code"><code>&lt;n-container&gt;
+  &lt;n-picture aspect="video"&gt;
+    &lt;img src="photo.jpg" alt="Card image" /&gt;
+  &lt;/n-picture&gt;
+  &lt;div class="body"&gt;
+    &lt;h3&gt;Ocean Sunset&lt;/h3&gt;
+    &lt;span class="text" muted size="sm"&gt;Description.&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/n-container&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>fit</code></td><td><code>"cover" | "contain" | "fill" | "none"</code></td><td><code>cover</code></td><td>Controls <code>object-fit</code> on the child <code>&lt;img&gt;</code>.</td></tr>
+          <tr><td><code>aspect</code></td><td><code>"square" | "video" | "photo"</code></td><td>none</td><td>Constrains the image to a fixed aspect ratio. <code>square</code> = 1:1, <code>video</code> = 16:9, <code>photo</code> = 4:3.</td></tr>
+          <tr><td><code>inline</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Switches from block to inline-block display.</td></tr>
+          <tr><td><code>radius</code></td><td><code>"sharp" | "round" | "pill"</code></td><td>inherited</td><td>Border radius preset. Inherits <code>--n-radius</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Custom Properties</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--n-radius</code></td><td>inherited</td><td>Border radius applied to the container. Clips the child image.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></native-dashboard-spa>
+    <script type="module">
+      import '../../nav/native-dashboard.ts';
+      import '../button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+      import '../../containers/container/container.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-cdn",
-  "version": "0.2.16",
+  "version": "0.2.17",
   "description": "Single-file IIFE bundle of @nonoun/native-ui for CDN and artifact use",
   "license": "MIT",
   "type": "module",

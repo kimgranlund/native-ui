@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-body — Container Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+    <h1>&lt;n-body&gt;</h1>
+    <p class="demo-desc">
+      Scrollable content region that fills remaining flex space. CSS-only container — no JavaScript. Used inside <code>&lt;n-container&gt;</code>, <code>&lt;n-drawer&gt;</code>, or any flex column parent.
+    </p>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic</h2>
+    <n-container data-kind="panel" bordered>
+      <n-container style="max-width: 24rem;">
+        <n-header><span>Card Title</span></n-header>
+        <n-body>
+          <p>The body fills all remaining vertical space in a flex column. It has default padding from the spacing scale.</p>
+        </n-body>
+      </n-container>
+    <pre class="demo-code"><code>&lt;n-container&gt;
+  &lt;n-header&gt;&lt;span&gt;Card Title&lt;/span&gt;&lt;/n-header&gt;
+  &lt;n-body&gt;
+    &lt;p&gt;Content fills remaining space.&lt;/p&gt;
+  &lt;/n-body&gt;
+&lt;/n-container&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Scrollable ── -->
+
+    <h2>Scrollable Content</h2>
+    <p class="demo-desc">
+      When the parent container has a fixed height, <code>&lt;n-body&gt;</code> scrolls independently while siblings (<code>&lt;n-header&gt;</code>, <code>&lt;n-footer&gt;</code>) stay pinned. The scrollbar is hidden by default.
+    </p>
+    <n-container data-kind="panel" bordered>
+      <n-container style="max-width: 24rem; height: 16rem;">
+        <n-header><span>Scrollable Card</span></n-header>
+        <n-body>
+          <p>This card has a fixed height. The body scrolls independently while the header and footer stay pinned.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </n-body>
+        <n-footer>
+          <n-button variant="primary" intent="accent"><span>Done</span></n-button>
+        </n-footer>
+      </n-container>
+    <pre class="demo-code"><code>&lt;n-container style="height: 16rem;"&gt;
+  &lt;n-header&gt;&lt;span&gt;Scrollable&lt;/span&gt;&lt;/n-header&gt;
+  &lt;n-body&gt;
+    &lt;p&gt;Long content that scrolls...&lt;/p&gt;
+  &lt;/n-body&gt;
+  &lt;n-footer&gt;
+    &lt;n-button variant="primary" intent="accent"&gt;Done&lt;/n-button&gt;
+  &lt;/n-footer&gt;
+&lt;/n-container&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Show Scrollbar ── -->
+
+    <h2>Visible Scrollbar</h2>
+    <p class="demo-desc">
+      The <code>[show-scrollbar]</code> attribute reveals a thin scrollbar, making it clear the content is scrollable.
+    </p>
+    <n-container data-kind="panel" bordered>
+      <n-stack direction="row" gap="4">
+        <n-container style="max-width: 20rem; height: 14rem;">
+          <n-header><span>Hidden (default)</span></n-header>
+          <n-body>
+            <p>Scrollbar is hidden by default. Content still scrolls.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+          </n-body>
+        </n-container>
+        <n-container style="max-width: 20rem; height: 14rem;">
+          <n-header><span>Visible</span></n-header>
+          <n-body show-scrollbar>
+            <p>The <code>show-scrollbar</code> attribute reveals a thin scrollbar track.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+          </n-body>
+        </n-container>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;!-- Default: scrollbar hidden --&gt;
+&lt;n-body&gt;...&lt;/n-body&gt;
+
+&lt;!-- Thin scrollbar visible --&gt;
+&lt;n-body show-scrollbar&gt;...&lt;/n-body&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Padding ── -->
+
+    <h2>Padding Scale</h2>
+    <p class="demo-desc">
+      The <code>[padding]</code> attribute overrides the default spacing. Available values: <code>none</code>, <code>tight</code>, <code>regular</code>, <code>relaxed</code>.
+    </p>
+    <n-container data-kind="panel" bordered>
+      <n-stack gap="4">
+        <n-container style="max-width: 24rem;">
+          <n-header><span>padding="none"</span></n-header>
+          <n-body padding="none" style="background: var(--n-panel-neutral);">
+            <p>No padding. Content touches the edges.</p>
+          </n-body>
+        </n-container>
+        <n-container style="max-width: 24rem;">
+          <n-header><span>padding="tight"</span></n-header>
+          <n-body padding="tight" style="background: var(--n-panel-neutral);">
+            <p>Tight padding. Compact spacing for dense layouts.</p>
+          </n-body>
+        </n-container>
+        <n-container style="max-width: 24rem;">
+          <n-header><span>(default)</span></n-header>
+          <n-body style="background: var(--n-panel-neutral);">
+            <p>Default padding. Balanced for general content.</p>
+          </n-body>
+        </n-container>
+        <n-container style="max-width: 24rem;">
+          <n-header><span>padding="regular"</span></n-header>
+          <n-body padding="regular" style="background: var(--n-panel-neutral);">
+            <p>Regular padding. More breathing room.</p>
+          </n-body>
+        </n-container>
+        <n-container style="max-width: 24rem;">
+          <n-header><span>padding="relaxed"</span></n-header>
+          <n-body padding="relaxed" style="background: var(--n-panel-neutral);">
+            <p>Relaxed padding. Maximum spaciousness.</p>
+          </n-body>
+        </n-container>
+      </n-stack>
+    <pre class="demo-code"><code>&lt;n-body padding="none"&gt;...&lt;/n-body&gt;
+&lt;n-body padding="tight"&gt;...&lt;/n-body&gt;
+&lt;n-body&gt;...&lt;/n-body&gt;                &lt;!-- default --&gt;
+&lt;n-body padding="regular"&gt;...&lt;/n-body&gt;
+&lt;n-body padding="relaxed"&gt;...&lt;/n-body&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── With Header + Footer ── -->
+
+    <h2>Header / Body / Footer Composition</h2>
+    <p class="demo-desc">
+      The standard three-part layout. The parent container delegates overflow to <code>&lt;n-body&gt;</code> when <code>&lt;n-header&gt;</code> or <code>&lt;n-footer&gt;</code> is present, so the body scrolls while siblings stay fixed.
+    </p>
+    <n-container data-kind="panel" bordered>
+      <n-container style="max-width: 28rem; height: 18rem;">
+        <n-header>
+          <span>Settings</span>
+          <aside>
+            <n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button>
+          </aside>
+        </n-header>
+        <n-body>
+          <p>Header and footer stay pinned. This body region scrolls independently.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisi vel consectetur interdum.</p>
+        </n-body>
+        <n-footer justify="spread">
+          <n-button variant="ghost"><span>Cancel</span></n-button>
+          <n-button variant="primary" intent="accent"><span>Save Changes</span></n-button>
+        </n-footer>
+      </n-container>
+    <pre class="demo-code"><code>&lt;n-container style="height: 18rem;"&gt;
+  &lt;n-header&gt;
+    &lt;span&gt;Settings&lt;/span&gt;
+    &lt;aside&gt;
+      &lt;n-button variant="ghost"&gt;&lt;n-icon name="dots-three"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;
+    &lt;/aside&gt;
+  &lt;/n-header&gt;
+  &lt;n-body&gt;
+    &lt;p&gt;Scrollable content...&lt;/p&gt;
+  &lt;/n-body&gt;
+  &lt;n-footer justify="spread"&gt;
+    &lt;n-button variant="ghost"&gt;Cancel&lt;/n-button&gt;
+    &lt;n-button variant="primary" intent="accent"&gt;Save Changes&lt;/n-button&gt;
+  &lt;/n-footer&gt;
+&lt;/n-container&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Standalone ── -->
+
+    <h2>Standalone (No Header/Footer)</h2>
+    <p class="demo-desc">
+      <code>&lt;n-body&gt;</code> works on its own as a flex-grow content region. Without a height-constrained parent, it simply fills available space without scrolling.
+    </p>
+    <n-container data-kind="panel" bordered>
+      <n-container style="max-width: 24rem; height: 12rem; display: flex; flex-direction: column;">
+        <n-body>
+          <p>Standalone body inside a flex column. Fills all available vertical space.</p>
+        </n-body>
+      </n-container>
+    <pre class="demo-code"><code>&lt;div style="display: flex; flex-direction: column; height: 12rem;"&gt;
+  &lt;n-body&gt;
+    &lt;p&gt;Fills all available space.&lt;/p&gt;
+  &lt;/n-body&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Inside a Drawer ── -->
+
+    <h2>Inside a Drawer</h2>
+    <p class="demo-desc">
+      When <code>&lt;n-body&gt;</code> is present inside a drawer, the drawer delegates overflow to the body so header and footer stay fixed while the body scrolls.
+    </p>
+    <n-container data-kind="panel" bordered>
+      <n-button id="open-drawer"><span>Open Drawer</span></n-button>
+      <n-drawer id="drawer-demo">
+        <n-header>
+          <span>Drawer Title</span>
+          <aside>
+            <n-button variant="ghost" id="close-drawer"><n-icon name="x"></n-icon></n-button>
+          </aside>
+        </n-header>
+        <n-body>
+          <p>The drawer delegates scrolling to the body. Header and footer stay fixed.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </n-body>
+        <n-footer>
+          <n-button variant="ghost" id="cancel-drawer"><span>Close</span></n-button>
+          <n-button variant="primary" intent="accent"><span>Apply</span></n-button>
+        </n-footer>
+      </n-drawer>
+    <pre class="demo-code"><code>&lt;n-drawer&gt;
+  &lt;n-header&gt;
+    &lt;span&gt;Drawer Title&lt;/span&gt;
+    &lt;aside&gt;&lt;n-button variant="ghost"&gt;&lt;n-icon name="x"&gt;&lt;/n-icon&gt;&lt;/n-button&gt;&lt;/aside&gt;
+  &lt;/n-header&gt;
+  &lt;n-body&gt;
+    &lt;p&gt;Scrollable content...&lt;/p&gt;
+  &lt;/n-body&gt;
+  &lt;n-footer&gt;
+    &lt;n-button variant="ghost"&gt;Close&lt;/n-button&gt;
+    &lt;n-button variant="primary" intent="accent"&gt;Apply&lt;/n-button&gt;
+  &lt;/n-footer&gt;
+&lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Fade Mask ── -->
+
+    <h2>Fade Mask</h2>
+    <p class="demo-desc">
+      When the parent <code>&lt;n-container data-kind="panel"&gt;</code> has the <code>[fade]</code> attribute, the body gets gradient masks at the top and/or bottom edges, hinting that more content is available.
+    </p>
+    <n-container data-kind="panel" bordered>
+      <n-container data-kind="panel" fade style="max-width: 24rem; height: 16rem;">
+        <n-header><span>Fade Edges</span></n-header>
+        <n-body>
+          <p>Notice the soft gradient fade at the top and bottom edges of the scrollable area.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+          <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </n-body>
+        <n-footer>
+          <n-button variant="primary" intent="accent"><span>Done</span></n-button>
+        </n-footer>
+      </n-container>
+    <pre class="demo-code"><code>&lt;n-container data-kind="panel" fade style="height: 16rem;"&gt;
+  &lt;n-header&gt;&lt;span&gt;Fade Edges&lt;/span&gt;&lt;/n-header&gt;
+  &lt;n-body&gt;
+    &lt;p&gt;Content with gradient fade at edges...&lt;/p&gt;
+  &lt;/n-body&gt;
+  &lt;n-footer&gt;...&lt;/n-footer&gt;
+&lt;/n-container&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Rich Content ── -->
+
+    <h2>Rich Content</h2>
+    <p class="demo-desc">
+      <code>&lt;n-body&gt;</code> is a flex column with gap, so child elements space evenly. Use it for forms, lists, or mixed content.
+    </p>
+    <n-container data-kind="panel" bordered>
+      <n-container style="max-width: 28rem;">
+        <n-header><span>User Profile</span></n-header>
+        <n-body>
+          <n-input placeholder="Full name"></n-input>
+          <n-input placeholder="Email address"></n-input>
+          <n-textarea placeholder="Bio" rows="3"></n-textarea>
+        </n-body>
+        <n-footer>
+          <n-button variant="ghost"><span>Cancel</span></n-button>
+          <n-button variant="primary" intent="accent"><span>Save Profile</span></n-button>
+        </n-footer>
+      </n-container>
+    <pre class="demo-code"><code>&lt;n-container&gt;
+  &lt;n-header&gt;&lt;span&gt;User Profile&lt;/span&gt;&lt;/n-header&gt;
+  &lt;n-body&gt;
+    &lt;n-input placeholder="Full name"&gt;&lt;/n-input&gt;
+    &lt;n-input placeholder="Email address"&gt;&lt;/n-input&gt;
+    &lt;n-textarea placeholder="Bio" rows="3"&gt;&lt;/n-textarea&gt;
+  &lt;/n-body&gt;
+  &lt;n-footer&gt;
+    &lt;n-button variant="ghost"&gt;Cancel&lt;/n-button&gt;
+    &lt;n-button variant="primary" intent="accent"&gt;Save Profile&lt;/n-button&gt;
+  &lt;/n-footer&gt;
+&lt;/n-container&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>show-scrollbar</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows a thin scrollbar when content overflows. Default hides the scrollbar.</td></tr>
+          <tr><td><code>padding</code></td><td><code>"none" | "tight" | "regular" | "relaxed"</code></td><td>default</td><td>Padding scale override. Default uses <code>--n-space * --n-space-k</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Custom Properties</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--n-padding-block</code></td><td><code>calc(var(--n-space) * var(--n-space-k))</code></td><td>Vertical padding.</td></tr>
+          <tr><td><code>--n-padding-inline</code></td><td><code>calc(var(--n-space) * var(--n-space-k))</code></td><td>Horizontal padding.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Behavior</h3>
+      <table class="api-table">
+        <thead><tr><th>Context</th><th>Behavior</th></tr></thead>
+        <tbody>
+          <tr><td>Inside <code>&lt;n-container&gt;</code> with <code>&lt;n-header&gt;</code> or <code>&lt;n-footer&gt;</code></td><td>Gets <code>overflow-y: auto</code> and <code>scrollbar-width: none</code>. Parent sets <code>overflow: hidden</code> to delegate scrolling.</td></tr>
+          <tr><td>Inside <code>&lt;n-container data-kind="panel"&gt;</code></td><td>Gets flex column layout with gap and padding from the spacing scale.</td></tr>
+          <tr><td>Inside <code>&lt;n-drawer&gt;</code></td><td>Drawer delegates overflow to body so header/footer stay fixed.</td></tr>
+          <tr><td>Standalone</td><td>Fills remaining flex space (<code>flex: 1 1 0%</code>). No scrolling unless parent constrains height.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></native-dashboard-spa>
+    <script type="module">
+      import '../../nav/native-dashboard.ts';
+
+      import '../../components/button/button.ts';
+      import '../../components/drawer/drawer.ts';
+      import '../../components/input/input.ts';
+      import '../../components/textarea/textarea.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/dots-three.ts';
+      import '../../icons/phosphor/x.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+
+      // Drawer demo
+      const drawer = document.getElementById('drawer-demo');
+      document.getElementById('open-drawer').addEventListener('native:press', () => drawer.show());
+      document.getElementById('close-drawer').addEventListener('native:press', () => drawer.close());
+      document.getElementById('cancel-drawer').addEventListener('native:press', () => drawer.close());
+
+      // ── Copy buttons ──
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
