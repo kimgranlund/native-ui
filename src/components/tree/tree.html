@@ -214,6 +214,87 @@ tree.querySelectorAll('n-tree-item').forEach((item) =&gt; {
       </n-tree>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes (<code>n-tree</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables interaction for all tree items. Sets <code>aria-disabled="true"</code>.</td></tr>
+          <tr><td><code>aria-label</code></td><td><code>string</code></td><td><code>"Tree"</code></td><td>Accessible label for the tree landmark.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Attributes (<code>n-tree-item</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>expanded</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Whether child items are visible.</td></tr>
+          <tr><td><code>selected</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Whether this item is selected.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables interaction for this item.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Slots (<code>n-tree-item</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Slot</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>label</code></td><td>The clickable label row. Made focusable for roving focus.</td></tr>
+          <tr><td>(default)</td><td>Child <code>n-tree-item</code> elements (nested items).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[aria-disabled="true"]</code></td><td>Disabled state on tree or item.</td></tr>
+          <tr><td><code>[expanded]</code></td><td>Present on expanded tree items. Shows child group.</td></tr>
+          <tr><td><code>[aria-selected="true"]</code></td><td>Selected item. Highlighted background.</td></tr>
+          <tr><td><code>[expandable]</code></td><td>Auto-set on items with child tree items. Adds caret icon.</td></tr>
+          <tr><td><code>[force-hover]</code></td><td>Forces hover on item label for debugging/testing.</td></tr>
+          <tr><td><code>[force-focus-visible]</code></td><td>Forces focus ring on item label for debugging/testing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>ArrowUp</code> / <code>ArrowDown</code></td><td>Move focus between visible item labels (roving focus).</td></tr>
+          <tr><td><code>ArrowRight</code></td><td>Expand the focused item, or move focus to first child.</td></tr>
+          <tr><td><code>ArrowLeft</code></td><td>Collapse the focused item, or move focus to parent item.</td></tr>
+          <tr><td><code>Enter</code> / <code>Space</code></td><td>Select the focused item and toggle expand/collapse.</td></tr>
+          <tr><td><code>Home</code> / <code>End</code></td><td>Move focus to first/last visible item (roving focus).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Role (<code>n-tree</code>)</td><td><code>tree</code> (via <code>ElementInternals</code>)</td></tr>
+          <tr><td>Role (<code>n-tree-item</code>)</td><td><code>treeitem</code> (via <code>ElementInternals</code>)</td></tr>
+          <tr><td>ARIA attributes</td><td><code>aria-expanded</code> on expandable items, <code>aria-selected</code> on all items.</td></tr>
+          <tr><td>Focus</td><td>Roving focus on <code>[slot="label"]</code> elements. Single <code>tabindex="0"</code> in the tree.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

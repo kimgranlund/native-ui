@@ -401,6 +401,80 @@
           </n-body>
         </n-container>
 
+        <!-- ── API Reference ── -->
+
+        <h2>API</h2>
+
+        <div class="api-section">
+          <h3>Provider Usage</h3>
+          <table class="api-table">
+            <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>data-trait-flippable-axis</code></td>
+                <td><code>"x" | "y"</code></td>
+                <td><code>"y"</code></td>
+                <td>Flip axis. <code>y</code> = horizontal flip (rotateY), <code>x</code> = vertical flip (rotateX).</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-flippable-duration</code></td>
+                <td><code>number</code></td>
+                <td><code>600</code></td>
+                <td>Flip animation duration in ms.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-flippable-perspective</code></td>
+                <td><code>number</code></td>
+                <td><code>1000</code></td>
+                <td>CSS perspective in px.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-flippable-trigger</code></td>
+                <td><code>"click" | "hover" | "manual"</code></td>
+                <td><code>"click"</code></td>
+                <td>Trigger mode. <code>hover</code> flips on mouseenter, unflips on mouseleave. <code>manual</code> requires calling <code>flip()</code>/<code>toggle()</code>.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-flippable-disabled</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Disable the flip controller.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>Events</h3>
+          <table class="api-table">
+            <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>native:flip</code></td>
+                <td><code>{ flipped, axis }</code></td>
+                <td>Fired on flip/unflip. <code>flipped</code> is a boolean, <code>axis</code> is <code>"x"</code> or <code>"y"</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>CSS</h3>
+          <table class="api-table">
+            <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>[data-flip-back]</code></td>
+                <td>Mark the back-face element. Must have <code>backface-visibility: hidden</code> and the inverse rotation transform.</td>
+              </tr>
+              <tr>
+                <td><code>[flipped]</code></td>
+                <td>Present on the host element while in the flipped state.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
       </main>
     </native-dashboard-spa>
   </body>

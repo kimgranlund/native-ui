@@ -348,6 +348,105 @@
           </n-body>
         </n-container>
 
+        <!-- ── API Reference ── -->
+
+        <h2>API</h2>
+
+        <div class="api-section">
+          <h3>Provider Usage</h3>
+          <table class="api-table">
+            <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>data-trait-magnetizable-selector</code></td>
+                <td><code>string</code></td>
+                <td><code>:scope > *</code></td>
+                <td>CSS selector for draggable items within host.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-magnetizable-threshold</code></td>
+                <td><code>number</code></td>
+                <td><code>20</code></td>
+                <td>Snap threshold distance in px.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-magnetizable-grid-size</code></td>
+                <td><code>number</code></td>
+                <td><code>0</code></td>
+                <td>Snap-to-grid size in px. <code>0</code> means snap to elements only.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-magnetizable-strength</code></td>
+                <td><code>number</code></td>
+                <td><code>1</code></td>
+                <td>Snap strength 0-1. <code>1</code> is instant snap, lower values ease toward the snap point.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-magnetizable-guides</code></td>
+                <td><code>boolean</code></td>
+                <td><code>true</code></td>
+                <td>Show guide lines when snapping.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-magnetizable-guide-color</code></td>
+                <td><code>string</code></td>
+                <td><code>var(--n-color-accent-500)</code></td>
+                <td>Guide line color.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-magnetizable-snap-to-edges</code></td>
+                <td><code>boolean</code></td>
+                <td><code>true</code></td>
+                <td>Enable snap to container edges.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-magnetizable-snap-to-siblings</code></td>
+                <td><code>boolean</code></td>
+                <td><code>true</code></td>
+                <td>Enable snap to sibling element edges and centers.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-magnetizable-disabled</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Disable the magnet controller.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>Events</h3>
+          <table class="api-table">
+            <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>native:magnet-snap</code></td>
+                <td><code>{ item, x, y, snappedTo, axis }</code></td>
+                <td>Fired during drag when an item snaps. <code>snappedTo</code> is the snap type (e.g. edge/center). <code>axis</code> is <code>"x"</code>, <code>"y"</code>, or <code>"both"</code>.</td>
+              </tr>
+              <tr>
+                <td><code>native:magnet-drop</code></td>
+                <td><code>{ item, x, y }</code></td>
+                <td>Fired when the item is released after dragging.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>CSS</h3>
+          <table class="api-table">
+            <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>[magnet-snapping]</code></td>
+                <td>Present on a dragged item while it is snapping to an edge, sibling, or grid position.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
       </main>
     </native-dashboard-spa>
   </body>

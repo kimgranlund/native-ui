@@ -451,6 +451,91 @@
       </table>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables all interaction. Sets <code>aria-disabled="true"</code>.</td></tr>
+          <tr><td><code>intent</code></td><td><code>"neutral" | "accent" | "info" | "success" | "warning" | "danger"</code></td><td>inherited</td><td>Color intent. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>density</code></td><td><code>"compact" | "default" | "loose"</code></td><td>inherited</td><td>Inline padding density. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>radius</code></td><td><code>"sharp" | "default" | "round"</code></td><td>inherited</td><td>Border radius. CSS-only.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Child Elements</h3>
+      <table class="api-table">
+        <thead><tr><th>Element</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;n-command-input&gt;</code></td><td>Search input wrapper. Contains a native <code>&lt;input&gt;</code> for typing.</td></tr>
+          <tr><td><code>&lt;n-command-list&gt;</code></td><td>Scrollable container for items and groups.</td></tr>
+          <tr><td><code>&lt;n-command-group&gt;</code></td><td>Group of related items with a heading. Auto-hides when all items are filtered out.</td></tr>
+          <tr><td><code>&lt;n-command-item&gt;</code></td><td>Selectable action item. Uses same CSS as <code>n-option</code>.</td></tr>
+          <tr><td><code>&lt;n-command-empty&gt;</code></td><td>Empty state shown when no items match the filter.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:change</code></td><td><code>{ value, label }</code></td><td>Fired when an item is selected (click or Enter).</td></tr>
+          <tr><td><code>native:dismiss</code></td><td>—</td><td>Fired on Escape key press.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Target</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[aria-disabled="true"]</code></td><td><code>n-command</code></td><td>Disabled state on the command palette.</td></tr>
+          <tr><td><code>[active]</code></td><td><code>n-command-item</code></td><td>Keyboard-highlighted item.</td></tr>
+          <tr><td><code>[hidden]</code></td><td><code>n-command-item</code></td><td>Filtered-out item.</td></tr>
+          <tr><td><code>[force-hover]</code></td><td><code>n-command-item</code></td><td>Forces hover appearance on item.</td></tr>
+          <tr><td><code>[force-active]</code></td><td><code>n-command-item</code></td><td>Forces active appearance on item.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>ArrowDown</code></td><td>Moves to next visible item.</td></tr>
+          <tr><td><code>ArrowUp</code></td><td>Moves to previous visible item.</td></tr>
+          <tr><td><code>Home</code></td><td>Moves to first visible item.</td></tr>
+          <tr><td><code>End</code></td><td>Moves to last visible item.</td></tr>
+          <tr><td><code>Enter</code></td><td>Selects the active item.</td></tr>
+          <tr><td><code>Escape</code></td><td>Fires <code>native:dismiss</code> event.</td></tr>
+          <tr><td>Type</td><td>Filters items by search text (first match is always highlighted).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Role</td><td><code>search</code> (via <code>ElementInternals</code> on <code>n-command</code>)</td></tr>
+          <tr><td>List role</td><td><code>n-command-list</code> acts as the listbox with <code>aria-activedescendant</code>.</td></tr>
+          <tr><td>Focus</td><td>Focus stays in the search input. Items are highlighted via <code>[active]</code> attribute (virtual focus).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

@@ -9,10 +9,6 @@
     <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     <style>
-.nav-main {
-        padding: 2rem;
-        max-width: 52rem;
-      }
 /* Slide content for demos */
       .slide-content {
         min-height: 12rem;
@@ -49,7 +45,7 @@
 </style>
   </head>
   <body>
-    <native-dashboard-spa><main class="nav-main">
+    <native-dashboard-spa><main>
     <h1>&lt;n-slideshow&gt;</h1>
     <p class="demo-desc">
       CSS-first carousel using scroll-snap, IntersectionObserver, and zero JS for touch/swipe.
@@ -237,6 +233,82 @@
         </div>
       </div>
     </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>direction</code></td><td><code>"horizontal" | "vertical"</code></td><td><code>"horizontal"</code></td><td>Scroll direction of the carousel.</td></tr>
+          <tr><td><code>controls</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows prev/next navigation buttons.</td></tr>
+          <tr><td><code>indicators</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows dot indicators below slides.</td></tr>
+          <tr><td><code>autoplay</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Enables automatic slide advancement. Pauses on hover/focus. Respects <code>prefers-reduced-motion</code>.</td></tr>
+          <tr><td><code>interval</code></td><td><code>number</code></td><td><code>5000</code></td><td>Autoplay interval in milliseconds.</td></tr>
+          <tr><td><code>loop</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Enables infinite looping (wraps from last to first and vice versa).</td></tr>
+          <tr><td><code>peek</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows partial adjacent slides at the edges.</td></tr>
+          <tr><td><code>per-view</code></td><td><code>number</code></td><td><code>1</code></td><td>Number of slides visible at once.</td></tr>
+          <tr><td><code>gap</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Adds spacing between slides.</td></tr>
+          <tr><td><code>index</code></td><td><code>number</code></td><td><code>0</code></td><td>Active slide index (0-based). Setting navigates to that slide.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables keyboard navigation. Sets <code>aria-disabled="true"</code>.</td></tr>
+          <tr><td><code>intent</code></td><td><code>"neutral" | "accent" | "info" | "success" | "warning" | "danger"</code></td><td>inherited</td><td>Color intent. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:slide-change</code></td><td><code>{ index, slide }</code></td><td>Fired when the active slide changes (via scroll snap, controls, or API).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[aria-disabled="true"]</code></td><td>Disabled state. Disables track interaction and dims controls.</td></tr>
+          <tr><td><code>[force-hover]</code></td><td>Forces hover appearance on controls and indicators.</td></tr>
+          <tr><td><code>[force-focus-visible]</code></td><td>Forces focus ring on controls and indicators.</td></tr>
+          <tr><td><code>n-slide[active]</code></td><td>Present on the currently visible slide.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>ArrowRight</code> / <code>ArrowDown</code></td><td>Next slide (direction-dependent).</td></tr>
+          <tr><td><code>ArrowLeft</code> / <code>ArrowUp</code></td><td>Previous slide (direction-dependent).</td></tr>
+          <tr><td><code>Home</code></td><td>Go to first slide.</td></tr>
+          <tr><td><code>End</code></td><td>Go to last slide.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Role</td><td><code>region</code> (via <code>ElementInternals</code>)</td></tr>
+          <tr><td>Roledescription</td><td><code>carousel</code></td></tr>
+          <tr><td>Label</td><td><code>aria-label="Slideshow"</code> (default, overridable)</td></tr>
+          <tr><td>Live region</td><td>Announces "Slide X of Y" on change.</td></tr>
+          <tr><td>Slides</td><td>Each <code>n-slide</code> has <code>role="group"</code>, <code>aria-roledescription="slide"</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
 
     </main></native-dashboard-spa>
     <script type="module">

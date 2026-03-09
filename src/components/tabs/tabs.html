@@ -234,6 +234,88 @@ tabs.value = 'preview';</code></pre>
       </n-tabs>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes — <code>&lt;n-tabs&gt;</code></h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>value</code></td><td><code>string</code></td><td>—</td><td>Currently selected tab value.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables all tabs. Cascades to child <code>&lt;n-tab&gt;</code> elements.</td></tr>
+          <tr><td><code>orientation</code></td><td><code>"horizontal" | "vertical"</code></td><td><code>"horizontal"</code></td><td>Layout direction. Horizontal uses row layout with underline indicator; vertical uses column with side indicator.</td></tr>
+          <tr><td><code>intent</code></td><td><code>"neutral" | "accent" | "info" | "success" | "warning" | "danger"</code></td><td>inherited</td><td>Color intent. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>density</code></td><td><code>"compact" | "default" | "loose"</code></td><td>inherited</td><td>Inline padding density. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>inline</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shrink-wraps the tabs container.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Attributes — <code>&lt;n-tab&gt;</code></h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>value</code></td><td><code>string</code></td><td>—</td><td>Tab value used for selection matching.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables this individual tab.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:change</code></td><td><code>{ value, label }</code></td><td>Fired when the active tab changes.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Target</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[aria-selected="true"]</code></td><td><code>n-tab</code></td><td>Active tab.</td></tr>
+          <tr><td><code>[aria-disabled="true"]</code></td><td><code>n-tabs</code></td><td>Disabled tablist.</td></tr>
+          <tr><td><code>[pressed]</code></td><td><code>n-tab</code></td><td>Present while pointer or key is held down.</td></tr>
+          <tr><td><code>[force-hover]</code></td><td><code>n-tab</code></td><td>Forces hover appearance on tab.</td></tr>
+          <tr><td><code>[force-active]</code></td><td><code>n-tab</code></td><td>Forces active appearance on tab.</td></tr>
+          <tr><td><code>[force-focus-visible]</code></td><td><code>n-tab</code></td><td>Forces focus ring on tab.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>ArrowRight</code> / <code>ArrowDown</code></td><td>Moves to next tab and selects it.</td></tr>
+          <tr><td><code>ArrowLeft</code> / <code>ArrowUp</code></td><td>Moves to previous tab and selects it.</td></tr>
+          <tr><td><code>Home</code></td><td>Moves to first tab.</td></tr>
+          <tr><td><code>End</code></td><td>Moves to last tab.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Role</td><td><code>tablist</code> (via <code>ElementInternals</code> on <code>n-tabs</code>)</td></tr>
+          <tr><td>Tab items</td><td><code>n-tab</code> with <code>role="tab"</code>, <code>aria-selected</code>, <code>aria-controls</code></td></tr>
+          <tr><td>Panels</td><td><code>n-tab-panel</code> with <code>role="tabpanel"</code>, <code>aria-labelledby</code></td></tr>
+          <tr><td>Focus</td><td>Roving tabindex managed by <code>ListNavigateController</code>. Only the selected tab is tabbable.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

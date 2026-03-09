@@ -180,6 +180,71 @@
       </n-container>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Cascades disabled state to the child control. Sets <code>aria-disabled="true"</code> on the field.</td></tr>
+          <tr><td><code>required</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Cascades required state to the child control. Shows asterisk after label.</td></tr>
+          <tr><td><code>invalid</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Set automatically on <code>native:invalid</code> event. Shows the error slot.</td></tr>
+          <tr><td><code>gap</code></td><td><code>"none" | "tight" | "relaxed"</code></td><td>—</td><td>Vertical gap between label, control, and description.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Slots</h3>
+      <table class="api-table">
+        <thead><tr><th>Slot</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>label</code></td><td>Field label text. Wired to the control via <code>aria-labelledby</code>.</td></tr>
+          <tr><td><code>description</code></td><td>Help text below the control. Wired via <code>aria-describedby</code>.</td></tr>
+          <tr><td><code>error</code></td><td>Error message, hidden until <code>[invalid]</code> is set. Added to <code>aria-describedby</code> when visible.</td></tr>
+          <tr><td>(default)</td><td>The form control (n-input, n-select, n-checkbox, etc.).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events (listened)</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:invalid</code></td><td><code>{ message? }</code></td><td>Sets <code>[invalid]</code> and updates error slot text.</td></tr>
+          <tr><td><code>native:valid</code></td><td>—</td><td>Removes <code>[invalid]</code> and error from <code>aria-describedby</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[aria-disabled="true"]</code></td><td>Disabled state. Label and description show disabled color.</td></tr>
+          <tr><td><code>[invalid]</code></td><td>Validation error state. Shows the error slot.</td></tr>
+          <tr><td><code>[required]</code></td><td>Required state. Appends asterisk to label.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>ARIA wiring</td><td>Auto-wires <code>aria-labelledby</code> and <code>aria-describedby</code> on the child control.</td></tr>
+          <tr><td>Control discovery</td><td>Finds the first unslotted form control (<code>n-input</code>, <code>n-select</code>, <code>n-checkbox</code>, etc.).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

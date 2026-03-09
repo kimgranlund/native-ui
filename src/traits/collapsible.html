@@ -140,42 +140,49 @@
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
-    <div class="demo-section" style="padding: 0; border: none; background: none;">
-      <table style="width: 100%; border-collapse: collapse; font-size: 0.8125rem;">
-        <thead>
-          <tr>
-            <th style="text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid var(--n-border-muted-neutral); color: var(--n-ink-strong-neutral);">Property / Method</th>
-            <th style="text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid var(--n-border-muted-neutral); color: var(--n-ink-strong-neutral);">Description</th>
-          </tr>
-        </thead>
+
+    <div class="api-section">
+      <h3>Provider Usage</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>toggle()</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Toggle between expanded and collapsed</td>
+            <td><code>data-trait-collapsible-duration</code></td>
+            <td><code>number</code></td>
+            <td><code>200</code></td>
+            <td>Animation duration in milliseconds.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>native:expand</code></td>
+            <td>none</td>
+            <td>Fired after expand animation completes.</td>
           </tr>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>expand()</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Expand the content</td>
+            <td><code>native:collapse</code></td>
+            <td>none</td>
+            <td>Fired after collapse animation completes.</td>
           </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
           <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>collapse()</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Collapse the content</td>
-          </tr>
-          <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>collapsed</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Boolean — current collapsed state</td>
-          </tr>
-          <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>data-trait-collapsible-duration</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Animation duration in ms (default: 200)</td>
-          </tr>
-          <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>native:expand</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Event dispatched after expand animation completes</td>
-          </tr>
-          <tr>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);"><code>native:collapse</code></td>
-            <td style="padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--n-border-muted-neutral);">Event dispatched after collapse animation completes</td>
+            <td><code>[collapsed]</code></td>
+            <td>Present on the element when collapsed. Set initially or by the controller after collapse animation.</td>
           </tr>
         </tbody>
       </table>

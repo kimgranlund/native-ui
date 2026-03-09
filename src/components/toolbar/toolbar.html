@@ -365,6 +365,73 @@
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>orientation</code></td><td><code>"horizontal" | "vertical"</code></td><td><code>"horizontal"</code></td><td>Axis of the toolbar. Vertical stacks items and switches keyboard nav to ArrowUp/ArrowDown.</td></tr>
+          <tr><td><code>variant</code></td><td><code>"plain"</code></td><td>—</td><td>Strips background, border, and radius for embedded use inside headers.</td></tr>
+          <tr><td><code>fill</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Distributes available space evenly across all items.</td></tr>
+          <tr><td><code>padding</code></td><td><code>"none" | "tight" | "regular" | "relaxed"</code></td><td>—</td><td>Overrides default padding.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>density</code></td><td><code>"compact" | "default" | "loose"</code></td><td>inherited</td><td>Inline padding density. CSS-only, cascades from parent.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Attributes (child items)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>fill</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Per-item: lets a single child grow to fill available space.</td></tr>
+          <tr><td><code>overflow-priority</code></td><td><code>"low" | "normal" | "high"</code></td><td><code>"normal"</code></td><td>Controls which items hide first when space is limited. Low hides first, high hides last.</td></tr>
+          <tr><td><code>overflow-pin</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Keeps the item always visible (never overflows).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:toolbar-overflow</code></td><td><code>{ visibleCount, overflowedCount, overflowedLabels, availableWidth, totalWidth }</code></td><td>Fired whenever overflow visibility changes.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>ArrowLeft</code> / <code>ArrowRight</code></td><td>Move focus between toolbar items (horizontal).</td></tr>
+          <tr><td><code>ArrowUp</code> / <code>ArrowDown</code></td><td>Move focus between toolbar items (vertical).</td></tr>
+          <tr><td><code>Home</code></td><td>Focus first toolbar item.</td></tr>
+          <tr><td><code>End</code></td><td>Focus last toolbar item.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Role</td><td><code>toolbar</code> (via <code>ElementInternals</code>)</td></tr>
+          <tr><td>Label</td><td><code>aria-label="Toolbar"</code> (default, overridable)</td></tr>
+          <tr><td>Focus</td><td>Roving focus via <code>RovingFocusController</code>.</td></tr>
+          <tr><td>Overflow</td><td>Overflowed items move to a popover <code>n-listbox</code> menu.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

@@ -211,6 +211,78 @@ dots.next();       // go to next</code><n-button class="copy-btn" size="sm" vari
       </div>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>count</code></td><td><code>number</code></td><td><code>0</code></td><td>Number of dots to render.</td></tr>
+          <tr><td><code>active</code></td><td><code>number</code></td><td><code>0</code></td><td>Zero-based index of the active dot.</td></tr>
+          <tr><td><code>max-dots</code></td><td><code>number</code></td><td><code>7</code></td><td>Maximum visible dots before windowing. Edge dots scale down when more exist beyond view.</td></tr>
+          <tr><td><code>paddles</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows prev/next navigation buttons.</td></tr>
+          <tr><td><code>orientation</code></td><td><code>"horizontal" | "vertical"</code></td><td><code>"horizontal"</code></td><td>Layout direction of the dots.</td></tr>
+          <tr><td><code>variant</code></td><td><code>"plain"</code></td><td>—</td><td>Removes container background and padding.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables all dots. Sets <code>aria-disabled="true"</code>.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>intent</code></td><td><code>"neutral" | "accent" | "info" | "success" | "warning" | "danger"</code></td><td>inherited</td><td>Color intent. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>radius</code></td><td><code>"sharp" | "default" | "round"</code></td><td>inherited</td><td>Border radius. CSS-only.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:change</code></td><td><code>{ index }</code></td><td>Fired when a dot is clicked or navigated to. <code>index</code> is the zero-based dot index.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[aria-disabled="true"]</code></td><td>Disabled state. Dims all dots and prevents interaction.</td></tr>
+          <tr><td><code>[force-hover]</code></td><td>Forces hover appearance on inactive dots.</td></tr>
+          <tr><td><code>[force-active]</code></td><td>Forces active/pressed appearance on inactive dots.</td></tr>
+          <tr><td><code>[force-focus-visible]</code></td><td>Forces focus ring on dot buttons.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>ArrowRight</code> / <code>ArrowDown</code></td><td>Move to next dot (wraps around, direction-dependent).</td></tr>
+          <tr><td><code>ArrowLeft</code> / <code>ArrowUp</code></td><td>Move to previous dot (wraps around, direction-dependent).</td></tr>
+          <tr><td><code>Home</code></td><td>Go to first dot.</td></tr>
+          <tr><td><code>End</code></td><td>Go to last dot.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Role</td><td><code>tablist</code> (via <code>ElementInternals</code>)</td></tr>
+          <tr><td>Label</td><td><code>aria-label="Slide indicators"</code> (default, overridable)</td></tr>
+          <tr><td>Dots</td><td>Each dot is <code>role="tab"</code> with <code>aria-selected</code> and <code>aria-label="Go to slide N"</code>.</td></tr>
+          <tr><td>Focus</td><td>Roving <code>tabindex</code> — only the active dot is focusable.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

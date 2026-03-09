@@ -437,64 +437,127 @@
           </n-body>
         </n-container>
 
-        <!-- ── Attribute Reference ── -->
+        <!-- ── API Reference ── -->
 
-        <h3>Adapter Attributes (<code>data-trait-css-inspectable-*</code>)</h3>
-        <n-container>
-          <n-body>
-            <table style="width: 100%; font-size: 0.8125rem; border-collapse: collapse;">
-              <thead>
-                <tr style="text-align: left; border-bottom: 1px solid var(--n-border-muted-neutral);">
-                  <th style="padding: 0.5rem 0.75rem;">Attribute</th>
-                  <th style="padding: 0.5rem 0.75rem;">Default</th>
-                  <th style="padding: 0.5rem 0.75rem;">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="border-bottom: 1px solid var(--n-border-muted-neutral);">
-                  <td style="padding: 0.5rem 0.75rem;"><code>data-trait-css-inspectable-depth</code></td>
-                  <td style="padding: 0.5rem 0.75rem;">60</td>
-                  <td style="padding: 0.5rem 0.75rem;">Z-spacing between exploded layers (px)</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--n-border-muted-neutral);">
-                  <td style="padding: 0.5rem 0.75rem;"><code>data-trait-css-inspectable-scale</code></td>
-                  <td style="padding: 0.5rem 0.75rem;">0.85</td>
-                  <td style="padding: 0.5rem 0.75rem;">Scale factor during inspection</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--n-border-muted-neutral);">
-                  <td style="padding: 0.5rem 0.75rem;"><code>data-trait-css-inspectable-perspective</code></td>
-                  <td style="padding: 0.5rem 0.75rem;">1200</td>
-                  <td style="padding: 0.5rem 0.75rem;">CSS perspective distance (px)</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--n-border-muted-neutral);">
-                  <td style="padding: 0.5rem 0.75rem;"><code>data-trait-css-inspectable-max-tilt</code></td>
-                  <td style="padding: 0.5rem 0.75rem;">25</td>
-                  <td style="padding: 0.5rem 0.75rem;">Max mouse tilt angle (deg)</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--n-border-muted-neutral);">
-                  <td style="padding: 0.5rem 0.75rem;"><code>data-trait-css-inspectable-tilt-radius</code></td>
-                  <td style="padding: 0.5rem 0.75rem;">300</td>
-                  <td style="padding: 0.5rem 0.75rem;">Mouse distance for max tilt (px)</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--n-border-muted-neutral);">
-                  <td style="padding: 0.5rem 0.75rem;"><code>data-trait-css-inspectable-labels</code></td>
-                  <td style="padding: 0.5rem 0.75rem;">true</td>
-                  <td style="padding: 0.5rem 0.75rem;">Show tag/id/class labels on layers</td>
-                </tr>
-                <tr style="border-bottom: 1px solid var(--n-border-muted-neutral);">
-                  <td style="padding: 0.5rem 0.75rem;"><code>data-trait-css-inspectable-pick</code></td>
-                  <td style="padding: 0.5rem 0.75rem;">false</td>
-                  <td style="padding: 0.5rem 0.75rem;">Enable pick mode (Alt+click to choose target)</td>
-                </tr>
-                <tr>
-                  <td style="padding: 0.5rem 0.75rem;"><code>data-trait-css-inspectable-disabled</code></td>
-                  <td style="padding: 0.5rem 0.75rem;">false</td>
-                  <td style="padding: 0.5rem 0.75rem;">Disable the inspector</td>
-                </tr>
-              </tbody>
-            </table>
-          </n-body>
-        </n-container>
+        <h2>API</h2>
+
+        <div class="api-section">
+          <h3>Provider Usage</h3>
+          <table class="api-table">
+            <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>data-trait-css-inspectable-depth</code></td>
+                <td><code>number</code></td>
+                <td><code>16</code></td>
+                <td>Z-spacing between exploded layers in px.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-scale</code></td>
+                <td><code>number</code></td>
+                <td><code>0.85</code></td>
+                <td>Scale factor during inspection.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-perspective</code></td>
+                <td><code>number</code></td>
+                <td><code>1200</code></td>
+                <td>CSS perspective distance in px.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-max-tilt</code></td>
+                <td><code>number</code></td>
+                <td><code>60</code></td>
+                <td>Maximum mouse tilt angle in degrees.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-tilt-radius</code></td>
+                <td><code>number</code></td>
+                <td><code>384</code></td>
+                <td>Mouse distance from center for max tilt in px.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-labels</code></td>
+                <td><code>boolean</code></td>
+                <td><code>true</code></td>
+                <td>Show tag/id/class labels on layers via <code>data-inspect-label</code>.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-recursive</code></td>
+                <td><code>boolean</code></td>
+                <td><code>true</code></td>
+                <td>Walk all descendants recursively, not just direct children.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-pick</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Enable pick mode: Alt+hover highlights descendants, Alt+click picks the inspection target.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-disabled</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Disable the inspector.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>Events</h3>
+          <table class="api-table">
+            <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>native:inspect</code></td>
+                <td><code>{ active, layers }</code></td>
+                <td>Fired when inspection activates or deactivates. <code>active</code> is a boolean, <code>layers</code> is the number of exploded layers.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>CSS</h3>
+          <table class="api-table">
+            <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>[inspecting]</code></td>
+                <td>Present on the host while 3D inspection is active.</td>
+              </tr>
+              <tr>
+                <td><code>[inspect-ready]</code></td>
+                <td>Present when Alt is held and the element is ready for inspection (crosshair cursor).</td>
+              </tr>
+              <tr>
+                <td><code>[inspect-layer]</code></td>
+                <td>Set on each exploded child element during inspection.</td>
+              </tr>
+              <tr>
+                <td><code>[inspect-hover]</code></td>
+                <td>Set on the hovered layer during inspection.</td>
+              </tr>
+              <tr>
+                <td><code>[inspect-selected]</code></td>
+                <td>Set on the clicked/selected layer during inspection.</td>
+              </tr>
+              <tr>
+                <td><code>[data-inspect-label]</code></td>
+                <td>Set on layers when <code>labels: true</code>. Value is the tag/id/class string for CSS <code>::after</code> display.</td>
+              </tr>
+              <tr>
+                <td><code>--inspect-tilt-y</code></td>
+                <td>CSS custom property with current Y tilt angle (for label counter-rotation).</td>
+              </tr>
+              <tr>
+                <td><code>--inspect-tilt-x</code></td>
+                <td>CSS custom property with current X tilt angle (for label counter-rotation).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
       </main>
     </native-dashboard-spa>

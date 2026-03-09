@@ -9,17 +9,7 @@
     <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     <style>
-.demo-row + .demo-row {
-        margin-top: 0.75rem;
-      }
-
-      .demo-label {
-        font-size: 0.75rem;
-        color: var(--n-ink-muted-neutral);
-        min-width: 2rem;
-      }
-
-      .icon-badge-wrapper {
+.icon-badge-wrapper {
         position: relative;
         display: inline-flex;
       }
@@ -313,6 +303,38 @@
   Inbox &lt;n-badge intent="accent" size="xs"&gt;3&lt;/n-badge&gt;
 &lt;/n-button&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>intent</code></td><td><code>"accent" | "info" | "success" | "warning" | "danger"</code></td><td>neutral</td><td>Semantic color intent.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td><code>"md"</code></td><td>Badge size scale.</td></tr>
+          <tr><td><code>variant</code></td><td><code>"default" | "outline" | "ghost"</code></td><td>solid (no attribute)</td><td>Visual variant. Omit for solid fill.</td></tr>
+          <tr><td><code>radius</code></td><td><code>"sharp" | "round"</code></td><td>pill (9999px)</td><td>Border radius preset.</td></tr>
+          <tr><td><code>floating</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Absolutely positions the badge (top-right) for overlaying on icons or avatars. Parent needs <code>position: relative</code>.</td></tr>
+          <tr><td><code>dot</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Renders as a small status dot with no text content.</td></tr>
+          <tr><td><code>hidden</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Hides the badge (<code>display: none</code>).</td></tr>
+          <tr><td><code>max</code></td><td><code>number</code></td><td>none</td><td>Clamps displayed numeric value. Shows <code>max+</code> when exceeded (e.g. <code>99+</code>).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Custom Properties</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--n-radius</code></td><td><code>9999px</code></td><td>Border radius. Override for custom rounding.</td></tr>
+          <tr><td><code>--n-font-weight</code></td><td><code>var(--n-button-font-weight)</code></td><td>Badge text weight.</td></tr>
+        </tbody>
+      </table>
+    </div>
 
     </main></native-dashboard-spa>
     <script type="module">

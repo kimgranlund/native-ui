@@ -223,6 +223,81 @@
       </n-stack>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>value</code></td><td><code>number</code></td><td><code>50</code></td><td>Current value.</td></tr>
+          <tr><td><code>min</code></td><td><code>number</code></td><td><code>0</code></td><td>Minimum value.</td></tr>
+          <tr><td><code>max</code></td><td><code>number</code></td><td><code>100</code></td><td>Maximum value.</td></tr>
+          <tr><td><code>step</code></td><td><code>number</code></td><td><code>1</code></td><td>Step increment. Values snap to this increment.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables interaction. Sets <code>aria-disabled="true"</code> and removes from tab order.</td></tr>
+          <tr><td><code>required</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Marks as required for form validation.</td></tr>
+          <tr><td><code>name</code></td><td><code>string</code></td><td>—</td><td>Form field name for submission.</td></tr>
+          <tr><td><code>intent</code></td><td><code>"neutral" | "accent" | "info" | "success" | "warning" | "danger"</code></td><td>inherited</td><td>Color intent. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:input</code></td><td><code>{ value }</code></td><td>Fired continuously during drag.</td></tr>
+          <tr><td><code>native:change</code></td><td><code>{ value }</code></td><td>Fired on drag end or keyboard change.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[pressed]</code></td><td>Present while the thumb is being dragged.</td></tr>
+          <tr><td><code>[aria-disabled="true"]</code></td><td>Disabled state. Use for custom disabled styling.</td></tr>
+          <tr><td><code>[force-hover]</code></td><td>Forces hover appearance for debugging/testing.</td></tr>
+          <tr><td><code>[force-active]</code></td><td>Forces active/pressed appearance for debugging/testing.</td></tr>
+          <tr><td><code>[force-focus-visible]</code></td><td>Forces focus ring on thumb for debugging/testing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>ArrowRight</code> / <code>ArrowUp</code></td><td>Increase by step.</td></tr>
+          <tr><td><code>ArrowLeft</code> / <code>ArrowDown</code></td><td>Decrease by step.</td></tr>
+          <tr><td><code>PageUp</code></td><td>Increase by step &times; 10.</td></tr>
+          <tr><td><code>PageDown</code></td><td>Decrease by step &times; 10.</td></tr>
+          <tr><td><code>Home</code></td><td>Jump to minimum.</td></tr>
+          <tr><td><code>End</code></td><td>Jump to maximum.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Role</td><td><code>slider</code> (via <code>ElementInternals</code>)</td></tr>
+          <tr><td>ARIA attributes</td><td><code>aria-valuenow</code>, <code>aria-valuemin</code>, <code>aria-valuemax</code> synced to value/min/max.</td></tr>
+          <tr><td>Form associated</td><td>Yes — participates in form submission, reset, and validation.</td></tr>
+          <tr><td>Focus</td><td><code>tabindex="0"</code>, managed by disabled effect.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

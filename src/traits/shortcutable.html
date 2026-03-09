@@ -6,6 +6,7 @@
   <title>Shortcutable Trait</title>
   <link rel="stylesheet" href="../styles/spa/spa-app.css" />
   <link rel="stylesheet" href="../styles/css/components.native-ui.css" />
+  <link rel="stylesheet" href="../styles/spa/spa-pages.css" />
   <style>
     .demo-section {
       padding: calc(var(--n-space) * 4);
@@ -165,6 +166,75 @@
         </div>
 
       </div>
+
+      <!-- ── API Reference ── -->
+
+      <h2>API</h2>
+
+      <div class="api-section">
+        <h3>Provider Usage</h3>
+        <table class="api-table">
+          <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>data-trait-shortcutable-shortcuts</code></td>
+              <td><code>JSON</code></td>
+              <td><code>[]</code></td>
+              <td>JSON array of shortcut bindings. Each object: <code>{ id, combo, allowEditable?, preventDefault?, stopPropagation? }</code>.</td>
+            </tr>
+            <tr>
+              <td><code>data-trait-shortcutable-global</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Listen on <code>document</code> (capture phase) instead of the host element.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="api-section">
+        <h3>Combo Syntax</h3>
+        <table class="api-table">
+          <thead><tr><th>Modifier</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>mod</code></td>
+              <td>Meta on Mac, Ctrl on Windows/Linux. Example: <code>"mod+k"</code>.</td>
+            </tr>
+            <tr>
+              <td><code>ctrl</code>, <code>meta</code>, <code>shift</code>, <code>alt</code></td>
+              <td>Explicit modifier keys. Combine with <code>+</code>. Example: <code>"ctrl+shift+s"</code>.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="api-section">
+        <h3>Events</h3>
+        <table class="api-table">
+          <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>native:shortcut</code></td>
+              <td><code>{ id, combo }</code></td>
+              <td>Fired on the host when a registered shortcut matches. <code>id</code> is the binding identifier, <code>combo</code> is the combo string.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="api-section">
+        <h3>CSS</h3>
+        <table class="api-table">
+          <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td colspan="2">No CSS attributes are set by this controller. Shortcut handling is purely event-driven.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </main>
   </native-dashboard-spa>
 </body>

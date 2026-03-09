@@ -189,54 +189,123 @@
 
         <!-- ── API Reference ── -->
 
-        <h3>Options</h3>
-        <n-container bordered>
-          <n-body padding="tight">
-            <table style="width: 100%; font-size: 0.75rem; border-collapse: collapse;">
-              <thead>
-                <tr style="text-align: left; border-bottom: 1px solid var(--n-border-muted-neutral);">
-                  <th style="padding: 0.375rem 0.5rem;">Option</th>
-                  <th style="padding: 0.375rem 0.5rem;">Type</th>
-                  <th style="padding: 0.375rem 0.5rem;">Default</th>
-                  <th style="padding: 0.375rem 0.5rem;">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>selector</code></td><td>string</td><td><code>[data-noodle-port]</code></td><td>CSS selector for connectable elements</td></tr>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>editable</code></td><td>boolean</td><td>false</td><td>Enable drag-to-connect and click-to-delete</td></tr>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>color</code></td><td>string</td><td><code>var(--n-color-accent-500)</code></td><td>Noodle stroke color</td></tr>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>strokeWidth</code></td><td>number</td><td>2</td><td>Noodle stroke width in px</td></tr>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>tension</code></td><td>number</td><td>0.5</td><td>Bezier control point distance (0-1)</td></tr>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>showPorts</code></td><td>boolean</td><td>true (when editable)</td><td>Show port indicator dots</td></tr>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>portSize</code></td><td>number</td><td>10</td><td>Port dot size in px</td></tr>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>style</code></td><td>string</td><td>bezier</td><td><code>bezier</code>, <code>step</code>, or <code>straight</code></td></tr>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>animated</code></td><td>boolean</td><td>false</td><td>Flowing dash animation on noodles</td></tr>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>connections</code></td><td>NoodleConnection[]</td><td>[]</td><td>Initial connections array</td></tr>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>disabled</code></td><td>boolean</td><td>false</td><td>Disable the controller</td></tr>
-              </tbody>
-            </table>
-          </n-body>
-        </n-container>
+        <h2>API</h2>
 
-        <h3>Events</h3>
-        <n-container bordered>
-          <n-body padding="tight">
-            <table style="width: 100%; font-size: 0.75rem; border-collapse: collapse;">
-              <thead>
-                <tr style="text-align: left; border-bottom: 1px solid var(--n-border-muted-neutral);">
-                  <th style="padding: 0.375rem 0.5rem;">Event</th>
-                  <th style="padding: 0.375rem 0.5rem;">Detail</th>
-                  <th style="padding: 0.375rem 0.5rem;">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>native:noodle-connect</code></td><td><code>{ id, from, to, fromPort, toPort }</code></td><td>New connection created</td></tr>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>native:noodle-disconnect</code></td><td><code>{ id, from, to, fromPort, toPort }</code></td><td>Connection removed</td></tr>
-                <tr><td style="padding: 0.375rem 0.5rem;"><code>native:noodle-drag</code></td><td><code>{ from, fromPort, x, y }</code></td><td>Connection being dragged</td></tr>
-              </tbody>
-            </table>
-          </n-body>
-        </n-container>
+        <div class="api-section">
+          <h3>Provider Usage</h3>
+          <table class="api-table">
+            <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>data-trait-noodleable-selector</code></td>
+                <td><code>string</code></td>
+                <td><code>[data-noodle-port]</code></td>
+                <td>CSS selector for connectable elements.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-noodleable-editable</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Enable drag-to-connect and click-to-delete.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-noodleable-color</code></td>
+                <td><code>string</code></td>
+                <td><code>var(--n-color-accent-500)</code></td>
+                <td>Noodle stroke color.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-noodleable-stroke-width</code></td>
+                <td><code>number</code></td>
+                <td><code>2</code></td>
+                <td>Noodle stroke width in px.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-noodleable-tension</code></td>
+                <td><code>number</code></td>
+                <td><code>0.5</code></td>
+                <td>Bezier control point distance (0-1).</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-noodleable-show-ports</code></td>
+                <td><code>boolean</code></td>
+                <td><code>true</code> (when editable)</td>
+                <td>Show port indicator dots.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-noodleable-port-size</code></td>
+                <td><code>number</code></td>
+                <td><code>10</code></td>
+                <td>Port dot size in px.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-noodleable-style</code></td>
+                <td><code>"bezier" | "step" | "straight"</code></td>
+                <td><code>"bezier"</code></td>
+                <td>Curve style for noodle paths.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-noodleable-animated</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Flowing dash animation on noodles.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-noodleable-connections</code></td>
+                <td><code>JSON</code></td>
+                <td><code>[]</code></td>
+                <td>Initial connections array (JSON string of <code>NoodleConnection[]</code>).</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-noodleable-disabled</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Disable the controller.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>Events</h3>
+          <table class="api-table">
+            <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>native:noodle-connect</code></td>
+                <td><code>{ id, from, to, fromPort, toPort }</code></td>
+                <td>Fired when a new connection is created.</td>
+              </tr>
+              <tr>
+                <td><code>native:noodle-disconnect</code></td>
+                <td><code>{ id, from, to, fromPort, toPort }</code></td>
+                <td>Fired when a connection is removed.</td>
+              </tr>
+              <tr>
+                <td><code>native:noodle-drag</code></td>
+                <td><code>{ from, fromPort, x, y }</code></td>
+                <td>Fired while a connection is being dragged from a port.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>CSS</h3>
+          <table class="api-table">
+            <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>[data-noodle-port]</code></td>
+                <td>Attribute on connectable elements. Value is a space-separated list of port sides: <code>left</code>, <code>right</code>, <code>top</code>, <code>bottom</code>.</td>
+              </tr>
+              <tr>
+                <td><code>[data-noodle-port-indicator]</code></td>
+                <td>Port indicator dots created by the controller when <code>showPorts</code> is true. Style with CSS for hover feedback.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
       </main>
     </native-dashboard-spa>

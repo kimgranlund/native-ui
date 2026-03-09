@@ -264,6 +264,83 @@
       </n-sidebar-nav>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes (n-sidebar-nav)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>value</code></td><td><code>string</code></td><td>—</td><td>Currently selected nav item value.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables all nav items. Sets <code>aria-disabled="true"</code>.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Attributes (n-sidebar-nav-item)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>value</code></td><td><code>string</code></td><td><code>""</code></td><td>Item value emitted on selection.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables this individual nav item.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:change</code></td><td><code>{ value, label }</code></td><td>Fired when selection changes.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[aria-disabled="true"]</code></td><td>Disabled state on nav or individual item.</td></tr>
+          <tr><td><code>n-sidebar-nav-item[aria-current="page"]</code></td><td>Currently selected nav item.</td></tr>
+          <tr><td><code>n-sidebar-nav-item[force-hover]</code></td><td>Forces hover appearance on a nav item.</td></tr>
+          <tr><td><code>n-sidebar-nav-item[force-active]</code></td><td>Forces active appearance on a nav item.</td></tr>
+          <tr><td><code>n-sidebar-nav-item[force-focus-visible]</code></td><td>Forces focus ring on a nav item.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>ArrowUp</code> / <code>ArrowDown</code></td><td>Move focus between nav items (roving focus).</td></tr>
+          <tr><td><code>Home</code></td><td>Focus first nav item.</td></tr>
+          <tr><td><code>End</code></td><td>Focus last nav item.</td></tr>
+          <tr><td><code>Enter</code> / <code>Space</code></td><td>Select the focused nav item.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Role</td><td><code>navigation</code> (via <code>ElementInternals</code>)</td></tr>
+          <tr><td>Selection</td><td><code>aria-current="page"</code> on the selected item.</td></tr>
+          <tr><td>Focus</td><td>Roving focus via <code>ListNavigateController</code> (vertical orientation).</td></tr>
+          <tr><td>Groups</td><td><code>n-sidebar-group</code> wraps collapsible sections with <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

@@ -621,6 +621,103 @@
       </n-table>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes (<code>n-table</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>selectable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Enables row selection on click.</td></tr>
+          <tr><td><code>resizable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Enables column resize handles on header cells.</td></tr>
+          <tr><td><code>reorderable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Enables drag-to-reorder rows.</td></tr>
+          <tr><td><code>cols</code></td><td><code>string</code></td><td>—</td><td>Sets <code>grid-template-columns</code> (e.g. <code>"auto auto 1fr"</code>).</td></tr>
+          <tr><td><code>sticky-header</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Makes the header row sticky on scroll. Measures header height for colspan positioning.</td></tr>
+          <tr><td><code>sticky-column</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Makes the first column sticky on horizontal scroll. CSS-only.</td></tr>
+          <tr><td><code>variant</code></td><td><code>"plain"</code></td><td>—</td><td>Plain variant: no outer border, no radius, no header fill, no row hover.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>radius</code></td><td><code>"sharp" | "default" | "round"</code></td><td>inherited</td><td>Border radius. CSS-only.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Attributes (<code>n-table-header</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>sortable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Enables click-to-sort on this column.</td></tr>
+          <tr><td><code>sort</code></td><td><code>"none" | "asc" | "desc"</code></td><td><code>"none"</code></td><td>Current sort state (managed by n-table store).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Attributes (<code>n-table-row</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>value</code></td><td><code>string</code></td><td>—</td><td>Row identifier used for selection tracking.</td></tr>
+          <tr><td><code>selected</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Whether this row is selected (managed by n-table store).</td></tr>
+          <tr><td><code>colspan</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Full-width category header row. Hidden when sorting is active.</td></tr>
+          <tr><td><code>sticky</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Makes a colspan row sticky below the header (requires <code>sticky-header</code>).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:table-sort</code></td><td><code>{ column, direction }</code></td><td>Fired when sort changes. <code>direction</code>: <code>"asc"</code>, <code>"desc"</code>, or <code>null</code>.</td></tr>
+          <tr><td><code>native:table-select</code></td><td><code>{ value, selected, allSelected }</code></td><td>Fired when row selection changes. <code>allSelected</code> is an array of all selected values.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[aria-selected="true"]</code></td><td>Selected row. Highlighted background.</td></tr>
+          <tr><td><code>[aria-sort="ascending"]</code></td><td>Column header sorted ascending.</td></tr>
+          <tr><td><code>[aria-sort="descending"]</code></td><td>Column header sorted descending.</td></tr>
+          <tr><td><code>[resizing]</code></td><td>Present on the table during column resize.</td></tr>
+          <tr><td><code>[dragging]</code></td><td>Present on the row being dragged during reorder.</td></tr>
+          <tr><td><code>[force-hover]</code></td><td>Forces hover on rows for debugging/testing.</td></tr>
+          <tr><td><code>[force-focus-visible]</code></td><td>Forces focus ring on selectable rows for debugging/testing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>Tab</code></td><td>Move focus between interactive elements (sort headers, selectable rows).</td></tr>
+          <tr><td><code>Enter</code> / <code>Space</code></td><td>Toggle sort on a sortable header, or select a row.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Role</td><td><code>table</code> (via <code>ElementInternals</code>)</td></tr>
+          <tr><td>Sort</td><td><code>aria-sort</code> on sortable header cells.</td></tr>
+          <tr><td>Selection</td><td><code>aria-selected</code> on selectable rows.</td></tr>
+          <tr><td>Structure</td><td><code>n-table-head</code> + <code>n-table-body</code> row groups with CSS <code>display: contents</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

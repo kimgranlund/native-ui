@@ -244,6 +244,80 @@ el.multiple = true;</code></pre>
       </n-accordion>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes (<code>n-accordion</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>multiple</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Allows multiple items to be open simultaneously. When removed, closes all but the first open item.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables all accordion items. Sets <code>aria-disabled="true"</code>.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>radius</code></td><td><code>"sharp" | "default" | "round"</code></td><td>inherited</td><td>Border radius. CSS-only.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Attributes (<code>n-accordion-item</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>open</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Whether the item content is expanded.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables toggling this item.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Slots (<code>n-accordion-item</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Slot</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>heading</code></td><td>Summary text shown in the clickable header row.</td></tr>
+          <tr><td>(default)</td><td>Collapsible content panel.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[aria-disabled="true"]</code></td><td>Disabled state on accordion or item.</td></tr>
+          <tr><td><code>[open]</code></td><td>Present on expanded accordion items.</td></tr>
+          <tr><td><code>[force-hover]</code></td><td>Forces hover on item summary for debugging/testing.</td></tr>
+          <tr><td><code>[force-focus-visible]</code></td><td>Forces focus ring on item summary for debugging/testing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>Enter</code> / <code>Space</code></td><td>Toggle the focused item open/closed.</td></tr>
+          <tr><td><code>Tab</code></td><td>Move focus between summary elements.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Structure</td><td>Uses native <code>&lt;details&gt;</code>/<code>&lt;summary&gt;</code> for built-in disclosure semantics.</td></tr>
+          <tr><td>Focus</td><td>Summary elements are natively focusable.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

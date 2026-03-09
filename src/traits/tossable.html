@@ -359,6 +359,93 @@
           </n-body>
         </n-container>
 
+        <!-- ── API Reference ── -->
+
+        <h2>API</h2>
+
+        <div class="api-section">
+          <h3>Provider Usage</h3>
+          <table class="api-table">
+            <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>data-trait-tossable-friction</code></td>
+                <td><code>number</code></td>
+                <td><code>0.95</code></td>
+                <td>Deceleration factor per frame. <code>0.95</code> = slows 5% each frame.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-tossable-bounce</code></td>
+                <td><code>boolean</code></td>
+                <td><code>true</code></td>
+                <td>Bounce off viewport edges.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-tossable-bounce-damping</code></td>
+                <td><code>number</code></td>
+                <td><code>0.6</code></td>
+                <td>Velocity multiplier on bounce (energy loss).</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-tossable-gravity</code></td>
+                <td><code>number</code></td>
+                <td><code>0</code></td>
+                <td>Gravity in px/frame<sup>2</sup> added to vertical velocity. <code>0</code> = no gravity.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-tossable-spin</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Track angular velocity from pointer movement and spin during momentum.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-tossable-return-on-end</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Animate back to origin after momentum ends.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-tossable-disabled</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Disable the toss controller.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>Events</h3>
+          <table class="api-table">
+            <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>native:toss</code></td>
+                <td><code>{ x, y, velocityX, velocityY, bounces, rotation }</code></td>
+                <td>Fired when momentum animation ends. <code>bounces</code> is the total number of edge bounces. <code>rotation</code> is the final angle in degrees.</td>
+              </tr>
+              <tr>
+                <td><code>native:bounce</code></td>
+                <td><code>{ edge, x, y }</code></td>
+                <td>Fired on each viewport edge bounce. <code>edge</code> is <code>"left"</code>, <code>"right"</code>, <code>"top"</code>, or <code>"bottom"</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>CSS</h3>
+          <table class="api-table">
+            <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>[tossing]</code></td>
+                <td>Present on the element while it is being dragged or animating momentum. Use for grab cursor and shadow effects.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
       </main>
     </native-dashboard-spa>
   </body>

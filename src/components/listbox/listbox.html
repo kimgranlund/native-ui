@@ -429,6 +429,78 @@
       </n-listbox>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables interaction. Sets <code>aria-disabled="true"</code>.</td></tr>
+          <tr><td><code>multiple</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Enables multi-select mode (toggle selection).</td></tr>
+          <tr><td><code>virtual-focus</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Uses <code>[active]</code> attribute instead of roving tabindex. Set automatically by <code>&lt;n-combobox&gt;</code>.</td></tr>
+          <tr><td><code>intent</code></td><td><code>"neutral" | "accent" | "info" | "success" | "warning" | "danger"</code></td><td>inherited</td><td>Color intent. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>density</code></td><td><code>"compact" | "default" | "loose"</code></td><td>inherited</td><td>Inline padding density. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>radius</code></td><td><code>"sharp" | "default" | "round"</code></td><td>inherited</td><td>Border radius. CSS-only.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:change</code></td><td><code>{ value, label }</code></td><td>Fired when selection changes (click or keyboard).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Target</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[aria-disabled="true"]</code></td><td><code>n-listbox</code></td><td>Disabled state on the listbox.</td></tr>
+          <tr><td><code>[aria-selected="true"]</code></td><td><code>n-option</code></td><td>Selected option.</td></tr>
+          <tr><td><code>[active]</code></td><td><code>n-option</code></td><td>Keyboard-highlighted option.</td></tr>
+          <tr><td><code>[force-hover]</code></td><td><code>n-option</code></td><td>Forces hover appearance on option.</td></tr>
+          <tr><td><code>[force-active]</code></td><td><code>n-option</code></td><td>Forces active appearance on option.</td></tr>
+          <tr><td><code>[force-focus-visible]</code></td><td><code>n-option</code></td><td>Forces focus ring on option.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>ArrowDown</code></td><td>Moves to next option.</td></tr>
+          <tr><td><code>ArrowUp</code></td><td>Moves to previous option.</td></tr>
+          <tr><td><code>Home</code></td><td>Moves to first option.</td></tr>
+          <tr><td><code>End</code></td><td>Moves to last option.</td></tr>
+          <tr><td><code>Enter</code> / <code>Space</code></td><td>Selects the focused option.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Role</td><td><code>listbox</code> (via <code>ElementInternals</code>)</td></tr>
+          <tr><td>Options</td><td><code>n-option</code> children with <code>role="option"</code>, <code>aria-selected</code></td></tr>
+          <tr><td>Active descendant</td><td><code>aria-activedescendant</code> tracks the keyboard-highlighted option.</td></tr>
+          <tr><td>Focus</td><td>Roving tabindex across options (or virtual focus via <code>[active]</code> when inside combobox).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

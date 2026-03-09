@@ -213,6 +213,50 @@
 &lt;/n-stack&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>direction</code></td><td><code>"row" | "column-reverse" | "row-reverse"</code></td><td><code>column</code></td><td>Flex direction. Default is vertical stacking.</td></tr>
+          <tr><td><code>gap</code></td><td><code>"0" | "1" | "2" | "3" | "4" | "6" | "8"</code></td><td><code>"2"</code></td><td>Gap multiplier (<code>--n-space * N</code>).</td></tr>
+          <tr><td><code>wrap</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Enables flex wrapping.</td></tr>
+          <tr><td><code>justify</code></td><td><code>"start" | "center" | "end" | "spread" | "around" | "evenly"</code></td><td>start</td><td>Justify content along the main axis.</td></tr>
+          <tr><td><code>align</code></td><td><code>"start" | "center" | "end" | "stretch" | "baseline"</code></td><td><code>stretch</code></td><td>Align items along the cross axis.</td></tr>
+          <tr><td><code>padding</code></td><td><code>"none" | "tight" | "regular" | "relaxed"</code></td><td><code>"none"</code></td><td>Padding scale.</td></tr>
+          <tr><td><code>sticky</code></td><td><code>"top" | "bottom"</code></td><td>none</td><td>Sticks the stack to the top or bottom of the scroll container.</td></tr>
+          <tr><td><code>truncate</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Truncates child text with ellipsis (excludes nav/aside).</td></tr>
+          <tr><td><code>dividers</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Adds horizontal divider borders between children.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Adaptive Grid Slots</h3>
+      <table class="api-table">
+        <thead><tr><th>Child Element</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;nav&gt;</code></td><td>Leading slot. When present, stack auto-switches to grid layout.</td></tr>
+          <tr><td><code>&lt;aside&gt;</code></td><td>Trailing slot. When present, stack auto-switches to grid layout.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Custom Properties</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--n-padding-block</code></td><td><code>0</code></td><td>Vertical padding.</td></tr>
+          <tr><td><code>--n-padding-inline</code></td><td><code>0</code></td><td>Horizontal padding.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

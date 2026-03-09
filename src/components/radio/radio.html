@@ -286,6 +286,89 @@
       </div>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes — <code>&lt;n-radio-group&gt;</code></h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>value</code></td><td><code>string</code></td><td>—</td><td>Currently selected radio value.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables all radios in the group.</td></tr>
+          <tr><td><code>required</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Marks as required for form validation.</td></tr>
+          <tr><td><code>name</code></td><td><code>string</code></td><td>—</td><td>Form field name.</td></tr>
+          <tr><td><code>orientation</code></td><td><code>"vertical" | "horizontal"</code></td><td><code>"vertical"</code></td><td>Layout direction of radio items.</td></tr>
+          <tr><td><code>intent</code></td><td><code>"neutral" | "accent" | "info" | "success" | "warning" | "danger"</code></td><td>inherited</td><td>Color intent. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Attributes — <code>&lt;n-radio&gt;</code></h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>value</code></td><td><code>string</code></td><td><code>""</code></td><td>Radio value emitted on selection.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables this individual radio.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Dispatched by</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:change</code></td><td><code>{ value, label }</code></td><td><code>n-radio-group</code></td><td>Fired when the selected radio changes.</td></tr>
+          <tr><td><code>native:select</code></td><td><code>{ value, label }</code></td><td><code>n-radio</code></td><td>Fired on individual radio click (internal, caught by group).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[aria-checked="true"]</code></td><td>Selected radio.</td></tr>
+          <tr><td><code>[aria-checked="false"]</code></td><td>Unselected radio.</td></tr>
+          <tr><td><code>[aria-disabled="true"]</code></td><td>Disabled state.</td></tr>
+          <tr><td><code>[pressed]</code></td><td>Present while pointer or key is held down.</td></tr>
+          <tr><td><code>[force-hover]</code></td><td>Forces hover appearance for debugging/testing.</td></tr>
+          <tr><td><code>[force-active]</code></td><td>Forces active appearance for debugging/testing.</td></tr>
+          <tr><td><code>[force-focus-visible]</code></td><td>Forces focus ring for debugging/testing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>ArrowDown</code> / <code>ArrowRight</code></td><td>Moves to next radio and selects it.</td></tr>
+          <tr><td><code>ArrowUp</code> / <code>ArrowLeft</code></td><td>Moves to previous radio and selects it.</td></tr>
+          <tr><td><code>Enter</code> / <code>Space</code></td><td>Selects the focused radio.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Group role</td><td><code>radiogroup</code> (via <code>ElementInternals</code> on <code>n-radio-group</code>)</td></tr>
+          <tr><td>Item role</td><td><code>radio</code> (via <code>ElementInternals</code> on <code>n-radio</code>)</td></tr>
+          <tr><td>Form associated</td><td>Yes — <code>n-radio-group</code> participates in form submission, validation, reset, and restore.</td></tr>
+          <tr><td>Focus</td><td>Roving tabindex managed by <code>ListNavigateController</code>. Only the active radio is tabbable.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

@@ -120,6 +120,35 @@
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>name</code></td><td><code>string</code></td><td>none</td><td>User/entity name. Used for accessible label and initials fallback.</td></tr>
+          <tr><td><code>src</code></td><td><code>string</code></td><td>none</td><td>Image URL. Falls back to initials (from <code>name</code>) or placeholder icon on error.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td><code>"md"</code></td><td>Avatar size scale.</td></tr>
+          <tr><td><code>intent</code></td><td><code>"accent" | "info" | "success" | "warning" | "danger"</code></td><td>neutral</td><td>Semantic color intent for the background fill.</td></tr>
+          <tr><td><code>radius</code></td><td><code>"sharp" | "round" | "circle"</code></td><td><code>"circle"</code></td><td>Border radius preset.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Custom Properties</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--n-radius</code></td><td>inherited</td><td>Border radius. Override for custom rounding.</td></tr>
+          <tr><td><code>--n-font-weight</code></td><td><code>var(--n-button-font-weight)</code></td><td>Initials text weight.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

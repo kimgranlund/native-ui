@@ -184,6 +184,35 @@
 &lt;/n-grid&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>cols</code></td><td><code>"1" | "2" | "3" | "4" | "5" | "6"</code></td><td>auto-fill</td><td>Fixed column count. Omit for responsive auto-fill.</td></tr>
+          <tr><td><code>min</code></td><td><code>"8rem" | "10rem" | "12rem" | "14rem" | "16rem" | "20rem" | "24rem"</code></td><td><code>"16rem"</code></td><td>Minimum column width for auto-fill mode.</td></tr>
+          <tr><td><code>gap</code></td><td><code>"0" | "1" | "2" | "3" | "4" | "6" | "8"</code></td><td><code>"2"</code></td><td>Gap multiplier (<code>--n-space * N</code>).</td></tr>
+          <tr><td><code>padding</code></td><td><code>"none" | "tight" | "regular" | "relaxed"</code></td><td><code>"none"</code></td><td>Padding scale.</td></tr>
+          <tr><td><code>align</code></td><td><code>"start" | "center" | "end" | "stretch" | "baseline"</code></td><td><code>stretch</code></td><td>Align items along the cross axis.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Custom Properties</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--n-padding-block</code></td><td><code>0</code></td><td>Vertical padding.</td></tr>
+          <tr><td><code>--n-padding-inline</code></td><td><code>0</code></td><td>Horizontal padding.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

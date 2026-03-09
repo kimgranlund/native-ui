@@ -330,6 +330,73 @@
 &lt;/n-drawer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>&lt;n-header&gt; Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>align</code></td><td><code>"center" | "end"</code></td><td>start</td><td>Text alignment of the label slot.</td></tr>
+          <tr><td><code>truncate</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Truncates the label with ellipsis on overflow.</td></tr>
+          <tr><td><code>dividers</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Adds a bottom border line below the header.</td></tr>
+          <tr><td><code>sticky</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Sticks the header to the top of the scroll container.</td></tr>
+          <tr><td><code>padding</code></td><td><code>"none" | "tight" | "regular" | "relaxed"</code></td><td>default</td><td>Padding scale override.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size context (inherits from parent container).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>&lt;n-header&gt; Slots</h3>
+      <table class="api-table">
+        <thead><tr><th>Slot</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>&lt;nav&gt;</code></td><td>Leading slot (column 1). Use for back buttons, icons, or badges.</td></tr>
+          <tr><td>(default / <code>[slot="label"]</code>)</td><td>Label slot (column 2). The main title text.</td></tr>
+          <tr><td><code>&lt;aside&gt;</code></td><td>Trailing slot (column 3). Use for action buttons or controls.</td></tr>
+          <tr><td><code>[slot="content"]</code></td><td>Full-width row below the title. Use for subtitles or tabs.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>&lt;n-body&gt; Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>show-scrollbar</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows a thin scrollbar when content overflows.</td></tr>
+          <tr><td><code>padding</code></td><td><code>"none" | "tight" | "regular" | "relaxed"</code></td><td>default</td><td>Padding scale override.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>&lt;n-footer&gt; Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>justify</code></td><td><code>"start" | "center" | "end" | "spread" | "around" | "evenly"</code></td><td><code>"end"</code></td><td>Horizontal alignment of footer actions.</td></tr>
+          <tr><td><code>dividers</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Adds a top border line above the footer.</td></tr>
+          <tr><td><code>sticky</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Sticks the footer to the bottom of the scroll container.</td></tr>
+          <tr><td><code>padding</code></td><td><code>"none" | "tight" | "regular" | "relaxed"</code></td><td>default</td><td>Padding scale override.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Custom Properties</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--n-padding-block</code></td><td><code>var(--n-space)</code></td><td>Vertical padding for header/footer.</td></tr>
+          <tr><td><code>--n-padding-inline</code></td><td><code>calc(var(--n-space) * var(--n-space-k))</code></td><td>Horizontal padding for header/footer/body.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

@@ -386,6 +386,84 @@
       </div>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>value</code></td><td><code>string</code></td><td><code>""</code></td><td>Current text value.</td></tr>
+          <tr><td><code>placeholder</code></td><td><code>string</code></td><td>—</td><td>Placeholder text shown when empty.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables interaction. Sets <code>aria-disabled="true"</code> and removes from tab order.</td></tr>
+          <tr><td><code>readonly</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Prevents editing while remaining focusable.</td></tr>
+          <tr><td><code>required</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Marks as required for form validation.</td></tr>
+          <tr><td><code>name</code></td><td><code>string</code></td><td>—</td><td>Form field name for submission.</td></tr>
+          <tr><td><code>rows</code></td><td><code>1 | 2 | 3 | 4 | 5 | 6 | 8 | 10</code></td><td><code>3</code></td><td>Minimum visible rows (sets min-height via <code>--n-rows</code>).</td></tr>
+          <tr><td><code>maxlength</code></td><td><code>number</code></td><td>—</td><td>Maximum character count. Triggers <code>tooLong</code> validity.</td></tr>
+          <tr><td><code>autogrow</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Automatically grows height to fit content. Disables resize handle.</td></tr>
+          <tr><td><code>pattern</code></td><td><code>string</code></td><td>—</td><td>Regex pattern for validation (<code>patternMismatch</code>).</td></tr>
+          <tr><td><code>formatting</code></td><td><code>string</code></td><td>—</td><td>Space-separated list of enabled formats (e.g. <code>"code bold italic"</code>).</td></tr>
+          <tr><td><code>variant</code></td><td><code>"secondary"</code></td><td><code>"secondary"</code></td><td>Visual variant. CSS-only.</td></tr>
+          <tr><td><code>intent</code></td><td><code>"neutral" | "accent" | "info" | "success" | "warning" | "danger"</code></td><td>inherited</td><td>Color intent. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>radius</code></td><td><code>"sharp" | "default" | "round"</code></td><td><code>"round"</code></td><td>Border radius. CSS-only.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:input</code></td><td><code>{ value }</code></td><td>Fired on each keystroke.</td></tr>
+          <tr><td><code>native:change</code></td><td><code>{ value }</code></td><td>Fired on blur.</td></tr>
+          <tr><td><code>native:format</code></td><td><code>{ type, value }</code></td><td>Fired after inline formatting is applied.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>:state(empty)</code></td><td>Present when the textarea has no content. Used for placeholder display.</td></tr>
+          <tr><td><code>[aria-disabled="true"]</code></td><td>Disabled state. Use for custom disabled styling.</td></tr>
+          <tr><td><code>[force-hover]</code></td><td>Forces hover appearance for debugging/testing.</td></tr>
+          <tr><td><code>[force-focus]</code></td><td>Forces focus appearance for debugging/testing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>Cmd/Ctrl+B</code></td><td>Toggle bold formatting (when <code>formatting</code> includes <code>"bold"</code>).</td></tr>
+          <tr><td><code>Cmd/Ctrl+I</code></td><td>Toggle italic formatting (when <code>formatting</code> includes <code>"italic"</code>).</td></tr>
+          <tr><td><code>Cmd/Ctrl+E</code></td><td>Toggle code formatting (when <code>formatting</code> includes <code>"code"</code>).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Role</td><td><code>textbox</code> (via <code>ElementInternals</code>)</td></tr>
+          <tr><td><code>aria-multiline</code></td><td><code>true</code></td></tr>
+          <tr><td>Form associated</td><td>Yes — participates in form submission, reset, and validation.</td></tr>
+          <tr><td>Focus</td><td><code>tabindex="0"</code>, managed by disabled effect.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

@@ -436,6 +436,110 @@
           </n-body>
         </n-container>
 
+        <!-- ── API Reference ── -->
+
+        <h2>API</h2>
+
+        <div class="api-section">
+          <h3>Provider Usage</h3>
+          <table class="api-table">
+            <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>data-trait-parallaxable-max-tilt</code></td>
+                <td><code>number</code></td>
+                <td><code>15</code></td>
+                <td>Maximum tilt angle in degrees.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-parallaxable-perspective</code></td>
+                <td><code>number</code></td>
+                <td><code>1000</code></td>
+                <td>CSS perspective in px.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-parallaxable-speed</code></td>
+                <td><code>number</code></td>
+                <td><code>300</code></td>
+                <td>Transition speed when entering/leaving in ms.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-parallaxable-scale</code></td>
+                <td><code>number</code></td>
+                <td><code>1.05</code></td>
+                <td>Scale factor on hover.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-parallaxable-glare</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Enable glare/shine gradient overlay.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-parallaxable-glare-opacity</code></td>
+                <td><code>number</code></td>
+                <td><code>0.35</code></td>
+                <td>Maximum glare opacity (0-1).</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-parallaxable-gyroscope</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Enable gyroscope input on mobile devices.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-parallaxable-disabled</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Disable the parallax controller.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>Events</h3>
+          <table class="api-table">
+            <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>native:parallax-move</code></td>
+                <td><code>{ tiltX, tiltY, percentX, percentY }</code></td>
+                <td>Fired on every mouse move while hovering. <code>tiltX</code>/<code>tiltY</code> are angles in degrees. <code>percentX</code>/<code>percentY</code> are -1 to 1 normalized positions.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>CSS</h3>
+          <table class="api-table">
+            <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>[parallax-active]</code></td>
+                <td>Present on the element while the pointer is over it and tilt is active.</td>
+              </tr>
+              <tr>
+                <td><code>--parallax-tilt-x</code></td>
+                <td>CSS custom property with current X tilt value (number, degrees).</td>
+              </tr>
+              <tr>
+                <td><code>--parallax-tilt-y</code></td>
+                <td>CSS custom property with current Y tilt value (number, degrees).</td>
+              </tr>
+              <tr>
+                <td><code>--parallax-percent-x</code></td>
+                <td>CSS custom property with normalized X position (-1 to 1). Useful for driving box-shadow offsets.</td>
+              </tr>
+              <tr>
+                <td><code>--parallax-percent-y</code></td>
+                <td>CSS custom property with normalized Y position (-1 to 1). Useful for driving box-shadow offsets.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
       </main>
     </native-dashboard-spa>
   </body>

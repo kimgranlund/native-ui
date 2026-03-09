@@ -95,6 +95,68 @@
       </n-breadcrumb>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes (<code>n-breadcrumb</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>aria-label</code></td><td><code>string</code></td><td><code>"Breadcrumb"</code></td><td>Accessible label for the navigation landmark.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Attributes (<code>n-breadcrumb-item</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>href</code></td><td><code>string</code></td><td>—</td><td>Navigation URL. Navigates on click or Enter/Space.</td></tr>
+          <tr><td><code>current</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Marks as the current page. Disables navigation and sets <code>aria-current="page"</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[current]</code></td><td>Current page item. Bold text, non-interactive.</td></tr>
+          <tr><td><code>[force-hover]</code></td><td>Forces hover appearance on items for debugging/testing.</td></tr>
+          <tr><td><code>[force-focus-visible]</code></td><td>Forces focus ring on items for debugging/testing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>Enter</code> / <code>Space</code></td><td>Navigate to the item's <code>href</code>.</td></tr>
+          <tr><td><code>Tab</code></td><td>Move focus between breadcrumb items.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Role (<code>n-breadcrumb</code>)</td><td><code>navigation</code> (via <code>ElementInternals</code>)</td></tr>
+          <tr><td>Role (<code>n-breadcrumb-item</code>)</td><td><code>link</code> (via <code>ElementInternals</code>)</td></tr>
+          <tr><td>Current page</td><td><code>aria-current="page"</code> and <code>aria-disabled="true"</code> on <code>[current]</code> items.</td></tr>
+          <tr><td>Separator</td><td>CSS <code>::after</code> pseudo-element (<code>/</code> by default, configurable via <code>--n-breadcrumb-separator</code>).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

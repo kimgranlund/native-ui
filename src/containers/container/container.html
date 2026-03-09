@@ -200,6 +200,54 @@
 &lt;/n-grid&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>data-kind</code></td><td><code>"panel"</code></td><td>card</td><td>Elevation mode. Default is card elevation. <code>"panel"</code> uses panel elevation with auto padding and gap.</td></tr>
+          <tr><td><code>bordered</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Adds a subtle border (<code>--n-border-muted</code>).</td></tr>
+          <tr><td><code>interactive</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Makes the container focusable and clickable with hover/focus states.</td></tr>
+          <tr><td><code>href</code></td><td><code>string</code></td><td>none</td><td>Navigation URL when clicked (requires <code>interactive</code>).</td></tr>
+          <tr><td><code>inline</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Switches from flex-grow to shrink-wrap sizing.</td></tr>
+          <tr><td><code>dividers</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Adds horizontal divider borders between direct children.</td></tr>
+          <tr><td><code>scrollable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Enables vertical scrolling (panel mode only).</td></tr>
+          <tr><td><code>show-scrollbar</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows a thin scrollbar (panel mode only).</td></tr>
+          <tr><td><code>fade</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Applies gradient fade masks to body edges (panel mode only).</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td><code>"md"</code></td><td>Size context inherited by children (spacing, font, icon).</td></tr>
+          <tr><td><code>intent</code></td><td><code>"accent" | "info" | "success" | "warning" | "danger"</code></td><td>neutral</td><td>Semantic color intent.</td></tr>
+          <tr><td><code>radius</code></td><td><code>"sharp" | "round" | "pill"</code></td><td>inherited</td><td>Border radius preset.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Slots</h3>
+      <table class="api-table">
+        <thead><tr><th>Slot</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>media</code></td><td>Full-width image or media region at the top of the container.</td></tr>
+          <tr><td>(default)</td><td>Body content. Use <code>&lt;n-header&gt;</code>, <code>&lt;n-body&gt;</code>, <code>&lt;n-footer&gt;</code> for structured layout.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Custom Properties</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--n-ground</code></td><td><code>var(--n-card)</code></td><td>Background color. Panel mode uses <code>var(--n-panel)</code>.</td></tr>
+          <tr><td><code>--n-ground-hover</code></td><td><code>var(--n-card-hover)</code></td><td>Hover background (interactive mode).</td></tr>
+          <tr><td><code>--n-radius</code></td><td>inherited</td><td>Border radius.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

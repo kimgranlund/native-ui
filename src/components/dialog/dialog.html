@@ -208,6 +208,78 @@ n-dialog > article {
 &lt;/n-dialog&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>no-close-on-escape</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Prevents closing the dialog on Escape key press.</td></tr>
+          <tr><td><code>no-close-on-backdrop</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Prevents closing the dialog on backdrop click.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Methods</h3>
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>showModal()</code></td><td>Opens the dialog as a modal (top layer). Creates a native <code>&lt;dialog&gt;</code> and calls <code>dialog.showModal()</code>.</td></tr>
+          <tr><td><code>close()</code></td><td>Closes the dialog.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>close</code></td><td>—</td><td>Fired when the dialog is closed.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Custom Properties</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--n-dialog-width</code></td><td><code>auto</code></td><td>Width of the dialog content.</td></tr>
+          <tr><td><code>--n-dialog-shadow</code></td><td><code>none</code></td><td>Box shadow on the dialog content.</td></tr>
+          <tr><td><code>--n-backdrop-color</code></td><td>theme</td><td>Backdrop color behind the dialog.</td></tr>
+          <tr><td><code>--n-backdrop-opacity</code></td><td>theme</td><td>Backdrop opacity.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>Escape</code></td><td>Closes the dialog (unless <code>no-close-on-escape</code> is set).</td></tr>
+          <tr><td><code>Tab</code></td><td>Cycles focus within the dialog (focus trap).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Pattern</td><td>Creates a native <code>&lt;dialog&gt;</code> element, promoted to the top layer via <code>showModal()</code>. CSS custom properties inherit normally.</td></tr>
+          <tr><td>Focus trap</td><td>Yes — <code>Tab</code> cycles within the dialog while open.</td></tr>
+          <tr><td>Backdrop</td><td>Native <code>::backdrop</code> pseudo-element styled with <code>--n-backdrop-*</code> tokens.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';

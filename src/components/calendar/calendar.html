@@ -120,6 +120,86 @@
       </div>
     </n-container>
 
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>value</code></td><td><code>string</code></td><td>—</td><td>Selected date in ISO format (YYYY-MM-DD).</td></tr>
+          <tr><td><code>min</code></td><td><code>string</code></td><td>—</td><td>Minimum selectable date in ISO format. Dates before this are disabled.</td></tr>
+          <tr><td><code>max</code></td><td><code>string</code></td><td>—</td><td>Maximum selectable date in ISO format. Dates after this are disabled.</td></tr>
+          <tr><td><code>range</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Enables range selection mode (click start, hover preview, click end, click clear).</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables all interaction. Sets <code>aria-disabled="true"</code>.</td></tr>
+          <tr><td><code>name</code></td><td><code>string</code></td><td>—</td><td>Form field name for form association.</td></tr>
+          <tr><td><code>required</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Marks the field as required for form validation.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>intent</code></td><td><code>"neutral" | "accent" | "info" | "success" | "warning" | "danger"</code></td><td>inherited</td><td>Color intent. CSS-only, cascades from parent.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:change</code></td><td><code>{ value }</code></td><td>Fired on single date selection. <code>value</code> is ISO format (YYYY-MM-DD).</td></tr>
+          <tr><td><code>native:range-select</code></td><td><code>{ start, end }</code></td><td>Fired on range commit (range mode only). Both values in ISO format.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Selectors</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>[aria-disabled="true"]</code></td><td>Disabled state. Dims all content and prevents interaction.</td></tr>
+          <tr><td><code>[force-hover]</code></td><td>Forces hover appearance on all internal cells.</td></tr>
+          <tr><td><code>[force-focus-visible]</code></td><td>Forces focus ring on the calendar container.</td></tr>
+          <tr><td><code>[view="day"]</code></td><td>Day view (7-column grid).</td></tr>
+          <tr><td><code>[view="month"]</code></td><td>Month view (4-column grid).</td></tr>
+          <tr><td><code>[view="year"]</code></td><td>Year view (4-column grid).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><code>ArrowLeft</code></td><td>Previous day.</td></tr>
+          <tr><td><code>ArrowRight</code></td><td>Next day.</td></tr>
+          <tr><td><code>ArrowUp</code></td><td>Same day, previous week.</td></tr>
+          <tr><td><code>ArrowDown</code></td><td>Same day, next week.</td></tr>
+          <tr><td><code>Home</code></td><td>First day of current week.</td></tr>
+          <tr><td><code>End</code></td><td>Last day of current week.</td></tr>
+          <tr><td><code>PageUp</code></td><td>Previous month (Shift: previous year).</td></tr>
+          <tr><td><code>PageDown</code></td><td>Next month (Shift: next year).</td></tr>
+          <tr><td><code>Enter</code> / <code>Space</code></td><td>Select the focused date.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Accessibility</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Role</td><td><code>group</code> (via <code>ElementInternals</code>)</td></tr>
+          <tr><td>Label</td><td><code>aria-label</code> set to current month/year title (e.g. "March 2026").</td></tr>
+          <tr><td>Grid</td><td>Internal <code>.cal-grid</code> has <code>role="grid"</code>.</td></tr>
+          <tr><td>Form associated</td><td>Yes — submits selected date as form data.</td></tr>
+          <tr><td>Focus</td><td><code>tabindex="0"</code> on the calendar container.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     </main></native-dashboard-spa>
     <script type="module">
       import '../../nav/native-dashboard.ts';
