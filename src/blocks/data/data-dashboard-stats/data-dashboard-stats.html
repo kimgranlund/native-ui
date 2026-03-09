@@ -14,28 +14,6 @@
         color: var(--n-color-neutral-950);
       }
 
-      /* ── Page Header ── */
-
-      main > header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 1rem;
-        background: var(--n-doc-neutral);
-      }
-
-      main > header p {
-        font-size: 0.875rem;
-        color: var(--n-ink-muted-neutral);
-      }
-
-      main > header aside {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-      }
-
       /* ── Stat Cards ── */
 
       .stats-grid {
@@ -286,10 +264,10 @@
 
     <!-- ── Page Header ── -->
     <header>
-      <div>
+      <nav>
         <h1>Dashboard</h1>
-        <p>Key performance indicators for the current period.</p>
-      </div>
+        <div class="demo-desc">Key performance indicators for the current period.</div>
+      </nav>
       <aside>
         <n-select size="sm" placeholder="Last 30 days"
           options='[{"value":"7d","label":"Last 7 days"},{"value":"30d","label":"Last 30 days"},{"value":"90d","label":"Last 90 days"},{"value":"12m","label":"Last 12 months"}]'>

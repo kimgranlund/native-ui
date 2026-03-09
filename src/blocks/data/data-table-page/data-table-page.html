@@ -20,20 +20,6 @@
         margin: 0;
       }
 
-      main > header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        background: var(--n-doc-neutral);
-      }
-
-      main > header > div {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-      }
-
       .toolbar-row {
         display: flex;
         align-items: center;
@@ -56,16 +42,16 @@
   <body>
     <native-dashboard-spa><main>
     <header>
-      <div>
-        <h1 style="margin-bottom: 0;">Users</h1>
-        <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
-          Manage your team members and their account permissions.
-        </p>
-      </div>
-      <n-button variant="primary" intent="accent" size="sm">
-        <n-icon name="plus" slot="leading"></n-icon>
-        <span slot="label">New User</span>
-      </n-button>
+      <nav>
+        <h1>Users</h1>
+        <div class="demo-desc">Manage your team members and their account permissions.</div>
+      </nav>
+      <aside>
+        <n-button variant="primary" intent="accent" size="sm">
+          <n-icon name="plus" slot="leading"></n-icon>
+          <span slot="label">New User</span>
+        </n-button>
+      </aside>
     </header>
 
     <section>

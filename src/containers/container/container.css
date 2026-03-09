@@ -2,8 +2,8 @@
 
   /* ══════════════════════════════════════════════════════════════════
      <n-container> — Unified surface container (card + panel)
-     Default = card elevation, no padding, no gap
-     [data-kind="panel"] = panel elevation, 4× padding, 2× gap
+     Default = card elevation, density-scaled padding + gap
+     [data-kind="panel"] = panel elevation
      ══════════════════════════════════════════════════════════════════ */
 
   :where(n-container):not(:defined) { visibility: hidden; }
@@ -27,7 +27,8 @@
     flex: 1 1 0%;
     min-width: 0;
     flex-direction: column;
-    gap: 0;
+    gap: calc(var(--n-space) * var(--n-space-k));
+    padding: calc(var(--n-space) * var(--n-space-k));
     background: var(--n-ground);
     border-radius: var(--n-radius);
 
@@ -47,8 +48,6 @@
 
   :where(n-container[data-kind="panel"]) {
     --n-ground: var(--n-panel);
-    gap: calc(var(--n-space) * var(--n-space-k));
-    padding: calc(var(--n-space) * var(--n-space-k));
     overflow: visible;
     scrollbar-width: none;
   }
@@ -157,7 +156,7 @@
   scrollbar-width: thin;
 }
 
-[padding="0"]:where(n-container[data-kind="panel"]) {
+[padding="0"]:where(n-container) {
   padding: 0;
 }
 
