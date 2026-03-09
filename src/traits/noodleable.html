@@ -10,18 +10,6 @@
     <link rel="stylesheet" href="../styles/spa/spa-pages.css" />
     <style>
 
-      main {
-        padding: 2rem;
-        max-width: 64rem;
-      }
-      h3 {
-        font-size: 0.8125rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        margin-top: 1.25rem;
-        color: var(--n-ink-strong-neutral);
-      }
-
       /* ── Noodle arena ── */
 
       .noodle-arena {
@@ -46,29 +34,11 @@
         cursor: grab;
         transition: box-shadow 200ms ease;
         text-align: center;
+        background: var(--n-button);
+        border: 1px solid var(--n-border-muted);
+        color: var(--n-ink);
       }
       .flow-node:active { cursor: grabbing; }
-
-      .flow-node.input {
-        background: var(--n-surface-accent);
-        border: 1px solid var(--n-border-accent);
-        color: var(--n-ink-accent);
-      }
-      .flow-node.process {
-        background: var(--n-surface-info);
-        border: 1px solid var(--n-border-info);
-        color: var(--n-ink-info);
-      }
-      .flow-node.output {
-        background: var(--n-surface-success);
-        border: 1px solid var(--n-border-success);
-        color: var(--n-ink-success);
-      }
-      .flow-node.condition {
-        background: var(--n-surface-warning);
-        border: 1px solid var(--n-border-warning);
-        color: var(--n-ink-warning);
-      }
 
       .flow-node[magnet-snapping] {
         box-shadow: 0 0 0 2px var(--n-color-accent-500), 0 4px 16px rgba(0,0,0,0.12);
@@ -92,14 +62,6 @@
       .event-log .connect { color: var(--n-ink-success); }
       .event-log .disconnect { color: var(--n-ink-danger); }
 
-      /* ── Hints ── */
-
-      .hint {
-        font-size: 0.75rem;
-        color: var(--n-ink-muted-neutral);
-        margin-bottom: 0.75rem;
-      }
-
     </style>
 
     <!-- Register traits BEFORE component define() -->
@@ -116,7 +78,7 @@
     <native-dashboard-spa>
       <main>
         <h2>Noodleable</h2>
-        <p class="hint">
+        <p class="demo-desc">
           Draw SVG noodle connections between DOM elements. Supports bezier, step, and straight curve styles.
           In edit mode, drag between port dots to create connections; click a noodle to remove it.
         </p>
@@ -124,31 +86,31 @@
         <!-- ── 1. Static Connections ── -->
 
         <h3>Static Connections</h3>
-        <p class="hint">Pre-wired connections. Read-only display with bezier curves.</p>
+        <p class="demo-desc">Pre-wired connections. Read-only display with bezier curves.</p>
         <div class="noodle-arena" id="static-arena">
-          <div class="flow-node input" id="s-in1" data-noodle-port="right" style="left: 2rem; top: 2.5rem;">Input A</div>
-          <div class="flow-node input" id="s-in2" data-noodle-port="right" style="left: 2rem; top: 8rem;">Input B</div>
-          <div class="flow-node process" id="s-proc" data-noodle-port="left right" style="left: 15rem; top: 5rem;">Merge</div>
-          <div class="flow-node output" id="s-out" data-noodle-port="left" style="left: 28rem; top: 5rem;">Output</div>
+          <div class="flow-node" intent="accent" id="s-in1" data-noodle-port="right" style="left: 2rem; top: 2.5rem;">Input A</div>
+          <div class="flow-node" intent="accent" id="s-in2" data-noodle-port="right" style="left: 2rem; top: 8rem;">Input B</div>
+          <div class="flow-node" intent="info" id="s-proc" data-noodle-port="left right" style="left: 15rem; top: 5rem;">Merge</div>
+          <div class="flow-node" intent="success" id="s-out" data-noodle-port="left" style="left: 28rem; top: 5rem;">Output</div>
         </div>
 
         <!-- ── 2. Interactive Flow Builder ── -->
 
         <h3>Flow Builder (Editable)</h3>
-        <p class="hint">Drag between port dots to connect. Click a noodle to remove it. Drag nodes to reposition.</p>
+        <p class="demo-desc">Drag between port dots to connect. Click a noodle to remove it. Drag nodes to reposition.</p>
         <div class="noodle-arena" id="flow-arena" style="min-height: 460px;">
           <!-- Inputs -->
-          <div class="flow-node input" id="f-sensor" data-noodle-port="right" style="left: 1.5rem; top: 2rem;">Sensor</div>
-          <div class="flow-node input" id="f-api" data-noodle-port="right" style="left: 1.5rem; top: 8rem;">API Feed</div>
-          <div class="flow-node input" id="f-config" data-noodle-port="right" style="left: 1.5rem; top: 14rem;">Config</div>
+          <div class="flow-node" intent="accent" id="f-sensor" data-noodle-port="right" style="left: 1.5rem; top: 2rem;">Sensor</div>
+          <div class="flow-node" intent="accent" id="f-api" data-noodle-port="right" style="left: 1.5rem; top: 8rem;">API Feed</div>
+          <div class="flow-node" intent="accent" id="f-config" data-noodle-port="right" style="left: 1.5rem; top: 14rem;">Config</div>
           <!-- Processing -->
-          <div class="flow-node process" id="f-filter" data-noodle-port="left right" style="left: 14rem; top: 3.5rem;">Filter</div>
-          <div class="flow-node condition" id="f-branch" data-noodle-port="left right" style="left: 14rem; top: 10rem;">Branch</div>
-          <div class="flow-node process" id="f-transform" data-noodle-port="left right" style="left: 26rem; top: 6.5rem;">Transform</div>
+          <div class="flow-node" intent="info" id="f-filter" data-noodle-port="left right" style="left: 14rem; top: 3.5rem;">Filter</div>
+          <div class="flow-node" intent="warning" id="f-branch" data-noodle-port="left right" style="left: 14rem; top: 10rem;">Branch</div>
+          <div class="flow-node" intent="info" id="f-transform" data-noodle-port="left right" style="left: 26rem; top: 6.5rem;">Transform</div>
           <!-- Outputs -->
-          <div class="flow-node output" id="f-display" data-noodle-port="left" style="left: 38rem; top: 3.5rem;">Display</div>
-          <div class="flow-node output" id="f-log" data-noodle-port="left" style="left: 38rem; top: 10rem;">Log</div>
-          <div class="flow-node output" id="f-alert" data-noodle-port="left" style="left: 38rem; top: 16rem;">Alert</div>
+          <div class="flow-node" intent="success" id="f-display" data-noodle-port="left" style="left: 38rem; top: 3.5rem;">Display</div>
+          <div class="flow-node" intent="success" id="f-log" data-noodle-port="left" style="left: 38rem; top: 10rem;">Log</div>
+          <div class="flow-node" intent="success" id="f-alert" data-noodle-port="left" style="left: 38rem; top: 16rem;">Alert</div>
         </div>
 
         <!-- ── 3. Style Comparison ── -->
@@ -156,24 +118,24 @@
         <h3>Curve Styles</h3>
         <div class="stack" direction="row" gap="4" style="display: flex; gap: 1rem;">
           <div style="flex: 1;">
-            <p class="hint">Bezier</p>
+            <p class="demo-desc">Bezier</p>
             <div class="noodle-arena" id="style-bezier" style="min-height: 160px;">
-              <div class="flow-node input" id="bz-a" data-noodle-port="right" style="left: 1rem; top: 1.5rem;">A</div>
-              <div class="flow-node output" id="bz-b" data-noodle-port="left" style="left: 10rem; top: 4rem;">B</div>
+              <div class="flow-node" intent="accent" id="bz-a" data-noodle-port="right" style="left: 1rem; top: 1.5rem;">A</div>
+              <div class="flow-node" intent="success" id="bz-b" data-noodle-port="left" style="left: 10rem; top: 4rem;">B</div>
             </div>
           </div>
           <div style="flex: 1;">
-            <p class="hint">Step</p>
+            <p class="demo-desc">Step</p>
             <div class="noodle-arena" id="style-step" style="min-height: 160px;">
-              <div class="flow-node input" id="st-a" data-noodle-port="right" style="left: 1rem; top: 1.5rem;">A</div>
-              <div class="flow-node output" id="st-b" data-noodle-port="left" style="left: 10rem; top: 4rem;">B</div>
+              <div class="flow-node" intent="accent" id="st-a" data-noodle-port="right" style="left: 1rem; top: 1.5rem;">A</div>
+              <div class="flow-node" intent="success" id="st-b" data-noodle-port="left" style="left: 10rem; top: 4rem;">B</div>
             </div>
           </div>
           <div style="flex: 1;">
-            <p class="hint">Straight</p>
+            <p class="demo-desc">Straight</p>
             <div class="noodle-arena" id="style-straight" style="min-height: 160px;">
-              <div class="flow-node input" id="sl-a" data-noodle-port="right" style="left: 1rem; top: 1.5rem;">A</div>
-              <div class="flow-node output" id="sl-b" data-noodle-port="left" style="left: 10rem; top: 4rem;">B</div>
+              <div class="flow-node" intent="accent" id="sl-a" data-noodle-port="right" style="left: 1rem; top: 1.5rem;">A</div>
+              <div class="flow-node" intent="success" id="sl-b" data-noodle-port="left" style="left: 10rem; top: 4rem;">B</div>
             </div>
           </div>
         </div>
@@ -181,11 +143,11 @@
         <!-- ── Event Log ── -->
 
         <h3>Event Log</h3>
-        <n-container bordered>
-          <n-body padding="tight" show-scrollbar style="max-height: 8rem;">
+        <article bordered>
+          <div class="body" padding="tight" show-scrollbar style="max-height: 8rem;">
             <div class="event-log" id="event-log"></div>
-          </n-body>
-        </n-container>
+          </div>
+        </article>
 
         <!-- ── API Reference ── -->
 
