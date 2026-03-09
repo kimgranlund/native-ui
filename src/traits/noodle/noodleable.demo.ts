@@ -21,8 +21,8 @@ const intents = ['accent', 'info', 'success', 'warning', 'danger'];
 if (flowArena && flowViewport && flowTransform) {
   magnet = new MagnetController(flowArena, {
     selector: '.flow-node',
-    snapToEdges: true,
-    threshold: 15,
+    snapToEdges: false,
+    snapToSiblings: false,
     guides: false,
   });
 
@@ -37,9 +37,18 @@ if (flowArena && flowViewport && flowTransform) {
     ],
   });
 
-  // ── Guides Toggle ──
+  // ── Snap & Guides Toggles ──
 
+  const snapToggle = document.getElementById('flow-snap-toggle') as HTMLInputElement | null;
   const guidesToggle = document.getElementById('flow-guides-toggle') as HTMLInputElement | null;
+
+  snapToggle?.addEventListener('native:change', () => {
+    if (magnet) {
+      magnet.snapToSiblings = snapToggle.checked;
+      magnet.snapToEdges = snapToggle.checked;
+    }
+  });
+
   guidesToggle?.addEventListener('native:change', () => {
     if (magnet) magnet.guides = guidesToggle.checked;
   });
@@ -74,6 +83,14 @@ if (flowArena && flowViewport && flowTransform) {
   flowArena.addEventListener('native:magnet-drop', () => {
     noodle?.update();
     syncCanvasToEditor();
+  });
+
+  // Keep add button attached to node during drag
+  flowArena.addEventListener('pointermove', () => {
+    if (flowArena.hasAttribute('magnetized')) {
+      noodle?.update();
+      updateAddButtonPosition();
+    }
   });
   flowArena.addEventListener('native:noodle-connect', () => syncCanvasToEditor());
   flowArena.addEventListener('native:noodle-disconnect', () => syncCanvasToEditor());
@@ -176,6 +193,30 @@ if (flowArena && flowViewport && flowTransform) {
     if (!addBtn.parentNode) flowArena.appendChild(addBtn);
     hoveredNode = node;
     hoveredPort = port;
+  }
+
+  function updateAddButtonPosition() {
+    if (hoveredNode && hoveredPort && addBtn?.parentNode) {
+      const pos = getNodePosition(hoveredNode);
+      const btnSize = 28;
+      const gap = 6;
+      let btnX = 0, btnY = 0;
+      if (hoveredPort === 'right') {
+        btnX = pos.x + hoveredNode.offsetWidth + gap;
+        btnY = pos.y + hoveredNode.offsetHeight / 2 - btnSize / 2;
+      } else if (hoveredPort === 'left') {
+        btnX = pos.x - btnSize - gap;
+        btnY = pos.y + hoveredNode.offsetHeight / 2 - btnSize / 2;
+      } else if (hoveredPort === 'bottom') {
+        btnX = pos.x + hoveredNode.offsetWidth / 2 - btnSize / 2;
+        btnY = pos.y + hoveredNode.offsetHeight + gap;
+      } else {
+        btnX = pos.x + hoveredNode.offsetWidth / 2 - btnSize / 2;
+        btnY = pos.y - btnSize - gap;
+      }
+      addBtn.style.left = btnX + 'px';
+      addBtn.style.top = btnY + 'px';
+    }
   }
 
   function scheduleHide() {

@@ -34,6 +34,8 @@ interface SnapAxis {
   guidePos: number | null;
   /** What the item snapped to */
   snapType: 'grid' | 'edge' | 'sibling';
+  /** When true, show guide only — do not adjust position */
+  guideOnly?: boolean;
 }
 
 interface SnapResult {
@@ -130,17 +132,17 @@ export class MagnetController {
     // Calculate snap
     const snap = this.#calculateSnap(state.item, rawTx, rawTy);
 
-    // Apply — interpolate with strength (1 = instant snap)
+    // Apply — interpolate with strength (1 = instant snap), skip guide-only axes
     let finalTx = rawTx;
     let finalTy = rawTy;
 
-    if (snap.x) finalTx = rawTx + (snap.x.translate - rawTx) * this.strength;
-    if (snap.y) finalTy = rawTy + (snap.y.translate - rawTy) * this.strength;
+    if (snap.x && !snap.x.guideOnly) finalTx = rawTx + (snap.x.translate - rawTx) * this.strength;
+    if (snap.y && !snap.y.guideOnly) finalTy = rawTy + (snap.y.translate - rawTy) * this.strength;
 
     state.item.style.translate = `${finalTx}px ${finalTy}px`;
 
-    // Snapping state
-    const isSnapping = snap.x !== null || snap.y !== null;
+    // Snapping state (only real snaps, not guide-only)
+    const isSnapping = (snap.x !== null && !snap.x.guideOnly) || (snap.y !== null && !snap.y.guideOnly);
     state.item.toggleAttribute('magnet-snapping', isSnapping);
 
     // Guides (positioned at the snap line, not the item)
@@ -241,8 +243,9 @@ export class MagnetController {
       }
     }
 
-    // Sibling snap (screen-space edge comparison)
-    if (this.snapToSiblings) {
+    // Sibling detection (for snap and/or guide-only)
+    if (this.snapToSiblings || this.guides) {
+      const siblingGuideOnly = !this.snapToSiblings;
       const siblings = this.host.querySelectorAll(this.selector);
 
       for (const sibling of siblings) {
@@ -262,6 +265,7 @@ export class MagnetController {
                 translate: rawTx + (sibEdge - itemEdge),
                 guidePos: sibEdge - hostRect.left,
                 snapType: 'sibling',
+                guideOnly: siblingGuideOnly,
               };
             }
           }
@@ -280,6 +284,7 @@ export class MagnetController {
                 translate: rawTy + (sibEdge - itemEdge),
                 guidePos: sibEdge - hostRect.top,
                 snapType: 'sibling',
+                guideOnly: siblingGuideOnly,
               };
             }
           }
@@ -287,8 +292,9 @@ export class MagnetController {
       }
     }
 
-    // Edge snap (container edges)
-    if (this.snapToEdges) {
+    // Edge detection (for snap and/or guide-only)
+    if (this.snapToEdges || this.guides) {
+      const edgeGuideOnly = !this.snapToEdges;
       // Left edge
       const distLeft = Math.abs(projected.left - hostRect.left);
       if (distLeft < bestDistX) {
@@ -297,6 +303,7 @@ export class MagnetController {
           translate: rawTx + (hostRect.left - projected.left),
           guidePos: 0,
           snapType: 'edge',
+          guideOnly: edgeGuideOnly,
         };
       }
       // Right edge
@@ -307,6 +314,7 @@ export class MagnetController {
           translate: rawTx + (hostRect.right - projected.right),
           guidePos: hostRect.width,
           snapType: 'edge',
+          guideOnly: edgeGuideOnly,
         };
       }
       // Top edge
@@ -317,6 +325,7 @@ export class MagnetController {
           translate: rawTy + (hostRect.top - projected.top),
           guidePos: 0,
           snapType: 'edge',
+          guideOnly: edgeGuideOnly,
         };
       }
       // Bottom edge
@@ -327,6 +336,7 @@ export class MagnetController {
           translate: rawTy + (hostRect.bottom - projected.bottom),
           guidePos: hostRect.height,
           snapType: 'edge',
+          guideOnly: edgeGuideOnly,
         };
       }
     }
