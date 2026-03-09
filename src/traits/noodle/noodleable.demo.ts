@@ -23,7 +23,7 @@ if (flowArena && flowViewport && flowTransform) {
     selector: '.flow-node',
     snapToEdges: true,
     threshold: 15,
-    guides: true,
+    guides: false,
   });
 
   noodle = new NoodleController(flowArena, {
@@ -122,41 +122,71 @@ if (flowArena && flowViewport && flowTransform) {
   let addBtn: HTMLElement | null = null;
   let hoveredNode: HTMLElement | null = null;
   let hoveredPort: string | null = null;
+  let hideTimer: number | null = null;
+
+  function getNodePosition(node: HTMLElement): { x: number; y: number } {
+    let tx = 0, ty = 0;
+    const translate = node.style.translate;
+    if (translate) {
+      const parts = translate.match(/-?[\d.]+/g);
+      if (parts) { tx = parseFloat(parts[0]) || 0; ty = parseFloat(parts[1]) || 0; }
+    }
+    return { x: node.offsetLeft + tx, y: node.offsetTop + ty };
+  }
 
   function showAddButton(node: HTMLElement, port: string) {
+    if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
     if (!addBtn) {
       addBtn = document.createElement('button');
       addBtn.className = 'flow-add-btn';
       addBtn.textContent = '+';
-      addBtn.addEventListener('click', (e) => {
+      addBtn.addEventListener('pointerdown', (e) => {
         e.stopPropagation();
+        e.preventDefault();
         if (hoveredNode && hoveredPort) addNodeFromPort(hoveredNode, hoveredPort);
         hideAddButton();
       });
+      addBtn.addEventListener('pointerenter', () => {
+        if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+      });
+      addBtn.addEventListener('pointerleave', () => {
+        scheduleHide();
+      });
     }
+    const pos = getNodePosition(node);
     let btnX = 0;
     let btnY = 0;
+    const btnSize = 28;
+    const gap = 6;
     if (port === 'right') {
-      btnX = node.offsetLeft + node.offsetWidth + 8;
-      btnY = node.offsetTop + node.offsetHeight / 2 - 10;
+      btnX = pos.x + node.offsetWidth + gap;
+      btnY = pos.y + node.offsetHeight / 2 - btnSize / 2;
     } else if (port === 'left') {
-      btnX = node.offsetLeft - 28;
-      btnY = node.offsetTop + node.offsetHeight / 2 - 10;
+      btnX = pos.x - btnSize - gap;
+      btnY = pos.y + node.offsetHeight / 2 - btnSize / 2;
     } else if (port === 'bottom') {
-      btnX = node.offsetLeft + node.offsetWidth / 2 - 10;
-      btnY = node.offsetTop + node.offsetHeight + 8;
+      btnX = pos.x + node.offsetWidth / 2 - btnSize / 2;
+      btnY = pos.y + node.offsetHeight + gap;
     } else {
-      btnX = node.offsetLeft + node.offsetWidth / 2 - 10;
-      btnY = node.offsetTop - 28;
+      btnX = pos.x + node.offsetWidth / 2 - btnSize / 2;
+      btnY = pos.y - btnSize - gap;
     }
     addBtn.style.left = btnX + 'px';
     addBtn.style.top = btnY + 'px';
-    flowArena.appendChild(addBtn);
+    if (!addBtn.parentNode) flowArena.appendChild(addBtn);
     hoveredNode = node;
     hoveredPort = port;
   }
 
+  function scheduleHide() {
+    if (hideTimer) clearTimeout(hideTimer);
+    hideTimer = window.setTimeout(() => {
+      hideAddButton();
+    }, 300);
+  }
+
   function hideAddButton() {
+    if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
     if (addBtn?.parentNode) addBtn.parentNode.removeChild(addBtn);
     hoveredNode = null;
     hoveredPort = null;
@@ -173,9 +203,7 @@ if (flowArena && flowViewport && flowTransform) {
   flowArena.addEventListener('pointerleave', (e) => {
     const target = e.target as HTMLElement;
     if (!target.classList?.contains('flow-node')) return;
-    setTimeout(() => {
-      if (addBtn && !addBtn.matches(':hover')) hideAddButton();
-    }, 150);
+    scheduleHide();
   }, true);
 
   function addNodeFromPort(sourceNode: HTMLElement, sourcePort: string) {

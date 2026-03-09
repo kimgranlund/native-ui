@@ -55,13 +55,13 @@
 
 .flow-add-btn {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: 1px solid var(--n-border-accent);
   background: var(--n-button-accent);
   color: var(--n-ink-accent);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 700;
   line-height: 1;
   display: flex;
@@ -70,11 +70,12 @@
   cursor: pointer;
   z-index: 10;
   padding: 0;
-  transition: transform 100ms ease;
+  transition: transform 100ms ease, box-shadow 100ms ease;
 }
 
 .flow-add-btn:hover {
-  transform: scale(1.2);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 3px var(--n-color-accent-200);
 }
 
 /* ── Split Layout ── */
