@@ -613,8 +613,8 @@
     outline-offset: -2px;
   }
 
-  /* Badge in nav item — push to trailing edge */
-  :where(n-sidebar-nav-item) > :where(.badge) {
+  /* Badge in nav item — push to trailing edge (non-slotted fallback) */
+  :where(n-sidebar-nav-item) > :where(n-badge, .badge):not([slot]) {
     margin-inline-start: auto;
     flex-shrink: 0;
   }
