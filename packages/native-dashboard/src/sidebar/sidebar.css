@@ -538,7 +538,8 @@
     --n-font-weight: var(--n-text-font-weight);
     --n-line-height: var(--n-control-line-height-dense);
 
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
     align-items: center;
     gap: calc(var(--n-space) * 2);
     padding-inline: calc(var(--n-space-k) * var(--n-space));
@@ -559,6 +560,43 @@
       border-color var(--n-duration) var(--n-easing),
       opacity var(--n-duration) var(--n-easing),
       transform var(--n-duration) var(--n-easing);
+  }
+
+  /* ── Nav Item Slots ── */
+
+  :where(n-sidebar-nav-item):has(> [slot="leading"]):has(> [slot="trailing"]) {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  :where(n-sidebar-nav-item):has(> [slot="leading"]):not(:has(> [slot="trailing"])) {
+    grid-template-columns: auto 1fr;
+  }
+
+  :where(n-sidebar-nav-item):not(:has(> [slot="leading"])):has(> [slot="trailing"]) {
+    grid-template-columns: 1fr auto;
+  }
+
+  :where(n-sidebar-nav-item) > :where([slot="leading"]) {
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+  }
+
+  :where(n-sidebar-nav-item) > :where(:not([slot])) {
+    min-width: 0;
+  }
+
+  :where(n-sidebar-nav-item) > :where([slot="trailing"]) {
+    grid-column: -1;
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    min-width: 0;
+  }
+
+  :where(n-sidebar-nav-item) > :where([slot="content"]) {
+    grid-column: 1 / -1;
   }
 
   /* ── Nav Item States ── */
@@ -589,10 +627,10 @@
     outline-offset: -2px;
   }
 
-  /* Badge in nav item — push to trailing edge */
-  :where(n-sidebar-nav-item) > :where(.badge) {
-    margin-inline-start: auto;
-    flex-shrink: 0;
+  /* Badge in nav item — backwards compat for non-slotted badges */
+  :where(n-sidebar-nav-item) > :where(.badge):not([slot]) {
+    grid-column: -1;
+    justify-self: end;
   }
 
   /* ── Nav Group ── */
