@@ -4,6 +4,8 @@
 
 > Virtualizes a scrollable list by rendering only visible items, dispatching `native:virtual-change`.
 
+**Trait name:** `virtual-scroll` (for use with `<n-controller traits="virtual-scroll">` or self-trait `traits="virtual-scroll"`)
+
 ## Constructor
 
 ```ts
@@ -16,13 +18,6 @@ new VirtualScrollController(host: HTMLElement, options?: VirtualScrollOptions)
 |--------|------|----------|-------------|
 | `itemHeight` | `number` | no |  |
 | `overscan` | `number` | no |  |
-
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `start` | `number` | yes |
-| `end` | `number` | yes |
 
 ## Events Dispatched
 
@@ -39,10 +34,52 @@ new VirtualScrollController(host: HTMLElement, options?: VirtualScrollOptions)
 | `updateCount()` | `count: number` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **enable(scrollEl, container, totalCount) called** → Creates top and bottom spacer elements for scroll height simulation, Inserts spacers into container (prepend/append), Adds passive scroll listener, Computes initial visible range and dispatches native:virtual-change
+- **Scroll event on scroll element** → Calculates visible range from scrollTop and viewport height, Adds overscan buffer items above and below visible range, Updates spacer heights to maintain total scroll height, Dispatches native:virtual-change with start, end, totalCount (only if range changed)
+- **updateCount(count) called** → Updates total count and recomputes visible range
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { VirtualScrollController } from '@nonoun/native-ui';
 const ctrl = new VirtualScrollController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="virtual-scroll">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="virtual-scroll">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-virtual-scroll-*` attributes:
+
+```html
+<n-controller traits="virtual-scroll" data-trait-virtual-scroll-itemHeight="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `virtual-scroll-controller.md` | Controller documentation |
+| `virtual-scroll-controller.ts` | Controller (reactive state + behavior) |
+| `virtualizable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `virtualizable.html` | Demo page |
+| `virtualizable.test.ts` | Tests |

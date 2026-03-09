@@ -1,0 +1,45 @@
+component:
+tag: n-stack
+category: container
+css_only: true
+description: Flex container for stacking children vertically (default) or horizontally.
+source:
+  css: src/containers/stack/stack.css
+  demo: src/containers/stack/stack.html
+display: flex
+css_attributes:
+  direction:
+    type: enum
+    values:
+      - column-reverse
+      - row
+      - row-reverse
+    description: Flex direction (default column)
+  wrap:
+    type: boolean
+    description: Enables flex wrap for flowing children
+  sticky:
+    type: enum
+    values:
+      - bottom
+      - top
+    description: Makes the stack sticky to top or bottom of scroll container
+  truncate:
+    type: boolean
+    description: Truncates overflowing text with ellipsis
+  dividers:
+    type: boolean
+    description: Adds divider borders between children
+css_tokens:
+  --n-border-muted:
+    description: Muted border color
+  --n-padding-block:
+    description: ""
+    default: "0"
+  --n-padding-inline:
+    description: ""
+    default: "0"
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier

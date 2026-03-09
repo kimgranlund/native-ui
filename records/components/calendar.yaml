@@ -1,0 +1,158 @@
+component: NCalendar
+tag: n-calendar
+category: component
+description: Calendar date picker with day/month/year views and optional range selection.
+source:
+  element: src/components/calendar/calendar-element.ts
+  css: src/components/calendar/calendar.css
+  registration: src/components/calendar/calendar.ts
+  demo: src/components/calendar/calendar.html
+attributes:
+  value:
+    type: string
+    description: Selected date in ISO format (YYYY-MM-DD)
+  min:
+    type: string
+    description: Minimum selectable date in ISO format
+  max:
+    type: string
+    description: Maximum selectable date in ISO format
+  disabled:
+    type: boolean
+    description: Disables interaction
+  name:
+    type: string
+    description: Form field name
+  range:
+    type: boolean
+    description: Enables range selection mode
+  required:
+    type: string
+css_attributes:
+  view:
+    type: enum
+    values:
+      - day
+      - month
+      - year
+    description: Current calendar view level
+events:
+  native:range-select:
+    description: Fired on range commit with `{ start, end }` detail
+  native:change:
+    description: Fired on single date selection with `{ value }` detail
+css_tokens:
+  --n-background:
+    description: Background color
+    default: var(--n-surface)
+  --n-background-active:
+    description: Background on press
+    default: var(--n-panel-active)
+  --n-background-hover:
+    description: Background on hover
+    default: var(--n-surface-hover)
+  --n-border-color:
+    description: Border color
+    default: transparent
+  --n-border-color-active:
+    description: Border on press
+    default: transparent
+  --n-border-color-hover:
+    description: Border on hover
+    default: transparent
+  --n-border-muted:
+    description: Muted border color
+  --n-button-font-weight:
+    description: Font weight
+  --n-color:
+    description: Text/foreground color
+    default: var(--n-surface-ink)
+  --n-color-active:
+    description: Text/foreground color
+    default: var(--n-ink-active)
+  --n-color-hover:
+    description: Text on hover
+    default: var(--n-surface-ink-hover)
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-text-font-weight)
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-active:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-ink-inverse:
+    description: Ink (text) color
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-ink-strong:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-text-line-height)
+  --n-panel:
+    description: Panel background color
+  --n-panel-active:
+    description: Panel background on press
+  --n-panel-hover:
+    description: Panel background on hover
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-surface:
+    description: Surface background color
+  --n-surface-hover:
+    description: Surface background on hover
+  --n-surface-ink:
+    description: Ink (text) color
+  --n-surface-ink-hover:
+    description: Ink on hover
+  --n-text-font-weight:
+    description: Font weight
+  --n-text-line-height:
+    description: Line height
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: group
+  form_associated: true
+  keyboard:
+    - key: ArrowRight
+      action: Moves focus to the next day/month/year
+    - key: ArrowLeft
+      action: Moves focus to the previous day/month/year
+    - key: ArrowDown
+      action: Moves focus down one week/row
+    - key: ArrowUp
+      action: Moves focus up one week/row
+    - key: Home
+      action: Moves focus to the first day of the month
+    - key: End
+      action: Moves focus to the last day of the month
+    - key: Enter
+      action: Selects the focused date or drills into month/year view
+behavior:
+  - trigger: click on date cell
+    actions: [Selects date and fires native:change]
+  - trigger: range selection
+    actions: [Click start then end date and fires native:range-select]
+compose:
+  children: []
+  parents: [n-field]

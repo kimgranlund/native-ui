@@ -1,0 +1,77 @@
+trait: clipboard
+controller: ClipboardController
+description: Handles keyboard-driven cut/copy/paste operations on selected items, dispatching `native:clip-copy`,
+  `native:clip-cut`, and `native:clip-paste`.
+source:
+  controller: src/traits/clipboard/clipboard-controller.ts
+  adapter: src/traits/clipboard/clippable-adapter.ts
+  demo: src/traits/clipboard/clippable.html
+  test: src/traits/clipboard/clippable.test.ts
+options:
+  selector:
+    type: string
+    required: true
+  disabled:
+    type: boolean
+injected_events:
+  native:clip-copy:
+    detail:
+      items:
+        type: string
+      data:
+        type: string
+  native:clip-cut:
+    detail:
+      items:
+        type: string
+      data:
+        type: string
+  native:clip-paste:
+    detail:
+      data:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+  serialize:
+    returns: string
+    params: "items: HTMLElement[]"
+  deserialize:
+    returns: string[]
+    params: "data: string"
+  cancelCut:
+    returns: void
+consumption:
+  imperative: new ClipboardController(element, options)
+  provider: <n-controller traits="clipboard">
+  self_trait: <n-button traits="clipboard">
+behavior:
+  - trigger: "Ctrl/Cmd+C keydown on host with selected items matching selector"
+    actions:
+      - "Serializes selected elements via serialize()"
+      - "Writes serialized text to system clipboard"
+      - "Dispatches native:clip-copy with items and data"
+  - trigger: "Ctrl/Cmd+X keydown on host with selected items matching selector"
+    actions:
+      - "Serializes selected elements via serialize()"
+      - "Writes serialized text to system clipboard"
+      - "Cancels any previous cut (removes clip-cut attr from old items)"
+      - "Sets clip-cut attribute on each cut item"
+      - "Dispatches native:clip-cut with items and data"
+  - trigger: "Ctrl/Cmd+V keydown on host with selected items matching selector"
+    actions:
+      - "Reads text from system clipboard"
+      - "Cancels any pending cut (removes clip-cut attr)"
+      - "Dispatches native:clip-paste with clipboard data"
+a11y:
+  keyboard:
+    - key: "Ctrl/Cmd+C"
+      action: "Copies selected items to clipboard"
+    - key: "Ctrl/Cmd+X"
+      action: "Cuts selected items to clipboard, marks them with clip-cut attribute"
+    - key: "Ctrl/Cmd+V"
+      action: "Pastes clipboard text, dispatches native:clip-paste"

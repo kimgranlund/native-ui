@@ -1,0 +1,89 @@
+trait: magnet
+controller: MagnetController
+description: Snap elements toward each other or to a grid when dragged within a threshold distance.
+source:
+  controller: src/traits/magnet/magnet-controller.ts
+  adapter: src/traits/magnet/magnetizable-adapter.ts
+  demo: src/traits/magnet/magnetizable.html
+  test: src/traits/magnet/magnetizable.test.ts
+options:
+  selector:
+    type: string
+    description: CSS selector for draggable items within host (default ':scope > ')
+  threshold:
+    type: number
+    description: Snap threshold distance in px — how close before snapping (default 20)
+  gridSize:
+    type: number
+    description: Snap to grid size in px — 0 means snap to other elements only (default 0)
+  strength:
+    type: number
+    description: Snap strength 0-1 — 1 is instant snap, lower values ease toward snap point (default 1)
+  guides:
+    type: boolean
+    description: Show guide lines when snapping (default true)
+  guideColor:
+    type: string
+    description: Guide line color (default 'var(--n-color-accent-500)')
+  snapToEdges:
+    type: boolean
+    description: Enable snap to container edges (default true)
+  snapToSiblings:
+    type: boolean
+    description: Enable snap to sibling element edges/centers (default true)
+  disabled:
+    type: boolean
+    description: Disable the controller
+injected_events:
+  native:magnet-snap:
+    detail:
+      item:
+        type: string
+      x:
+        type: string
+      y:
+        type: string
+      snappedTo:
+        type: string
+      axis:
+        type: string
+  native:magnet-drop:
+    detail:
+      item:
+        type: string
+      x:
+        type: string
+      y:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new MagnetController(element, options)
+  provider: <n-controller traits="magnet">
+  self_trait: <n-button traits="magnet">
+behavior:
+  - trigger: "Pointerdown on an item matching selector within host"
+    actions:
+      - "Captures pointer on host"
+      - "Sets magnetized attribute on host"
+      - "Records grab offset for translate calculation"
+  - trigger: "Pointermove during drag"
+    actions:
+      - "Calculates raw translate from pointer delta"
+      - "Computes snap candidates: grid snap, sibling edge/center alignment, container edge snap"
+      - "Applies snap with strength interpolation (0-1)"
+      - "Sets magnet-snapping attribute on item when snapping"
+      - "Shows guide lines at snap positions when guides option is enabled"
+      - "Dispatches native:magnet-snap on snap enter (edge-triggered)"
+  - trigger: "Pointerup after drag"
+    actions:
+      - "Removes magnet-snapping attribute and guide lines"
+      - "Dispatches native:magnet-drop with item and final x/y position"
+      - "Releases pointer capture"
+a11y:
+  keyboard: []

@@ -6,59 +6,163 @@
 
 **Class:** `NTable`
 
+**ARIA role:** `table`
+**Internal controllers:** `ColumnResizeController`, `TableDragController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `selectable` | `boolean` | Enables row selection on click |
-| `resizable` | `boolean` | Enables column resize handles |
-| `reorderable` | `boolean` | Enables drag-to-reorder rows |
-| `cols` | `string` | Sets grid-template-columns (e.g., "auto auto 1fr") |
-| `sticky-header` | `boolean` | Enables sticky header row with measured height |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `selectable` | `boolean` |  | Enables row selection on click |
+| `resizable` | `boolean` |  | Enables column resize handles |
+| `reorderable` | `boolean` |  | Enables drag-to-reorder rows |
+| `cols` | `string` |  | Sets grid-template-columns (e.g., "auto auto 1fr") |
+| `sticky-header` | `boolean` |  | Enables sticky header row with measured height |
 
-## Properties
+## CSS Attributes
 
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `store` | `TableStore` | no |  |
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `variant` | enum | `plain` | Removes default borders and background styling |
+| `sticky-column` | boolean | _(boolean)_ | Enables sticky first column during horizontal scroll |
+| `resizing` | boolean | _(boolean)_ | Present while a column is being resized |
+| `colspan` | boolean | _(boolean)_ | Enables column spanning for header cells |
+| `dragging` | boolean | _(boolean)_ | Present while a row is being drag-reordered |
+| `sticky` | boolean | _(boolean)_ | Enables sticky positioning on headers |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:table-sort` | Fired when sort changes with `{ column, direction }` detail |
-| `native:table-select` | Fired when row selection changes with `{ value, selected, allSelected }` detail |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:table-sort` | _(none)_ | Fired when sort changes with `{ column, direction }` detail |
+| `native:table-select` | _(none)_ | Fired when row selection changes with `{ value, selected, allSelected }` detail |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-panel)` | Background color |
+| `--n-border-color` | `var(--n-border-muted)` | Border color |
+| `--n-border-muted` |  | Muted border color |
+| `--n-button-font-weight` |  | Font weight |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-text-font-weight)` | Font weight |
+| `--n-group-header-font` |  | Font size for group header labels |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-text-line-height)` | Line height |
+| `--n-panel` |  | Panel background color |
+| `--n-panel-hover` |  | Panel background on hover |
+| `--n-radius` |  | Border radius |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+| `--n-surface` |  | Surface background color |
+| `--n-surface-hover` |  | Surface background on hover |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-surface-ink-hover` |  | Ink on hover |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-text-line-height` |  | Line height |
 
-- `--n-border-color`
-- `--n-border-muted`
-- `--n-button-font-weight`
-- `--n-color`
-- `--n-duration`
-- `--n-easing`
-- `--n-focus-ring`
-- `--n-font-size`
-- `--n-font-weight`
-- `--n-group-header-font`
-- `--n-ink`
-- `--n-ink-muted`
-- `--n-ink-strong`
-- `--n-letter-spacing`
-- `--n-line-height`
-- `--n-panel`
-- `--n-panel-hover`
-- `--n-radius`
-- `--n-space`
-- `--n-space-k`
-- `--n-surface`
-- `--n-surface-hover`
-- `--n-surface-ink`
-- `--n-surface-ink-hover`
-- `--n-text-font-weight`
-- `--n-text-line-height`
+## Accessibility
+
+- **Role:** `table`
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Toggles row selection when selectable |
+
+## Behavior
+
+- **click on sortable header** → Cycles sort direction and fires native:table-sort
+- **click on row (selectable)** → Toggles row selection and fires native:table-select
+
+## Composition
+
+### Children
+- `<n-table-head>`
+- `<n-table-body>`
+- `<n-table-row>`
+- `<n-table-header>`
+- `<n-table-cell>`
+
+## Usage
+
+### Minimal
+
+```html
+<n-table></n-table>
+```
+
+### Examples
+
+```html
+<n-table id="sortable-table" style="grid-template-columns: 2fr 1fr 80px;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header sortable column="name">Name</n-table-header>
+            <n-table-header sortable column="language">Language</n-table-header>
+            <n-table-header sortable column="stars">Stars</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body id="sortable-body">
+        </n-table-body>
+      </n-table>
+```
+
+```html
+<n-table sticky-header style="grid-template-columns: 1fr 1fr 100px; max-height: 200px;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Name</n-table-header>
+            <n-table-header>Department</n-table-header>
+            <n-table-header>Status</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body id="sticky-body">
+        </n-table-body>
+      </n-table>
+```
+
+```html
+<n-table sticky-header style="grid-template-columns: 2fr 1fr 80px; max-height: 280px;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Name</n-table-header>
+            <n-table-header>Role</n-table-header>
+            <n-table-header>Salary</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body id="sticky-colspan-body">
+        </n-table-body>
+      </n-table>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `column-resize/` | Sub-directory (1 files) |
+| `drag-controller/` | Sub-directory (1 files) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `store/` | Sub-directory (1 files) |
+| `table-body-element.ts` | Element class (behavior, no CSS) |
+| `table-cell-element.ts` | Element class (behavior, no CSS) |
+| `table-element.ts` | Element class (behavior, no CSS) |
+| `table-head-element.ts` | Element class (behavior, no CSS) |
+| `table-header-element.ts` | Element class (behavior, no CSS) |
+| `table-row-element.ts` | Element class (behavior, no CSS) |
+| `table.css` | Styles |
+| `table.html` | Demo page |
+| `table.ts` | Custom element registration (define()) |
 
 ---
 
@@ -68,12 +172,145 @@ Public `--n-*` custom properties consumed by this component:
 
 **Class:** `NTableRow`
 
-### Attributes
+**ARIA role:** `row`
+**Internal controllers:** `ColumnResizeController`, `TableDragController`
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `value` | `string` | Row identifier used for selection tracking |
-| `selected` | `boolean` | Whether this row is selected |
+## Attributes
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | `string` |  | Row identifier used for selection tracking |
+| `selected` | `boolean` |  | Whether this row is selected |
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `selectable` | boolean | _(boolean)_ | Inherited row selection mode from parent table |
+| `variant` | enum | `plain` | Inherited variant from parent table |
+| `sticky-header` | boolean | _(boolean)_ | Inherited sticky header mode from parent table |
+| `sticky-column` | boolean | _(boolean)_ | Inherited sticky column mode from parent table |
+| `resizable` | boolean | _(boolean)_ | Inherited column resize mode from parent table |
+| `resizing` | boolean | _(boolean)_ | Present while a column is being resized |
+| `reorderable` | boolean | _(boolean)_ | Inherited row reorder mode from parent table |
+| `colspan` | boolean | _(boolean)_ | Inherited column spanning from parent table |
+| `dragging` | boolean | _(boolean)_ | Present while this row is being drag-reordered |
+| `sticky` | boolean | _(boolean)_ | Enables sticky positioning |
+
+## Events
+
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:row-select` | _(none)_ | Fired when this row is selected or deselected |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-panel)` | Background color |
+| `--n-border-color` | `var(--n-border-muted)` | Border color |
+| `--n-border-muted` |  | Muted border color |
+| `--n-button-font-weight` |  | Font weight |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-text-font-weight)` | Font weight |
+| `--n-group-header-font` |  | Font size for group header labels |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-text-line-height)` | Line height |
+| `--n-panel` |  | Panel background color |
+| `--n-panel-hover` |  | Panel background on hover |
+| `--n-radius` |  | Border radius |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+| `--n-surface` |  | Surface background color |
+| `--n-surface-hover` |  | Surface background on hover |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-surface-ink-hover` |  | Ink on hover |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-text-line-height` |  | Line height |
+
+## Accessibility
+
+- **Role:** `row`
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Toggles selection when selectable |
+
+## Behavior
+
+- **click (selectable)** → Toggles selected attribute and fires native:row-select
+
+## Composition
+
+### Children
+- `<n-table-header>`
+- `<n-table-cell>`
+
+### Parents
+- `<n-table-head>`
+- `<n-table-body>`
+
+## Usage
+
+### Minimal
+
+```html
+<n-table-row></n-table-row>
+```
+
+### Examples
+
+```html
+<n-table-row>
+            <n-table-header>Name</n-table-header>
+            <n-table-header>Role</n-table-header>
+            <n-table-header>Status</n-table-header>
+          </n-table-row>
+```
+
+```html
+<n-table-row>
+            <n-table-cell>Alice Johnson</n-table-cell>
+            <n-table-cell>Engineer</n-table-cell>
+            <n-table-cell>Active</n-table-cell>
+          </n-table-row>
+```
+
+```html
+<n-table-row>
+            <n-table-cell>Bob Smith</n-table-cell>
+            <n-table-cell>Designer</n-table-cell>
+            <n-table-cell>Active</n-table-cell>
+          </n-table-row>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `column-resize/` | Sub-directory (1 files) |
+| `drag-controller/` | Sub-directory (1 files) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `store/` | Sub-directory (1 files) |
+| `table-body-element.ts` | Element class (behavior, no CSS) |
+| `table-cell-element.ts` | Element class (behavior, no CSS) |
+| `table-element.ts` | Element class (behavior, no CSS) |
+| `table-head-element.ts` | Element class (behavior, no CSS) |
+| `table-header-element.ts` | Element class (behavior, no CSS) |
+| `table-row-element.ts` | Element class (behavior, no CSS) |
+| `table.css` | Styles |
+| `table.html` | Demo page |
+| `table.ts` | Custom element registration (define()) |
 
 ---
 
@@ -83,6 +320,132 @@ Public `--n-*` custom properties consumed by this component:
 
 **Class:** `NTableBody`
 
+**ARIA role:** `rowgroup`
+**Internal controllers:** `ColumnResizeController`, `TableDragController`
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `selectable` | boolean | _(boolean)_ | Inherited row selection mode from parent table |
+| `variant` | enum | `plain` | Inherited variant from parent table |
+| `sticky-header` | boolean | _(boolean)_ | Inherited sticky header mode from parent table |
+| `sticky-column` | boolean | _(boolean)_ | Inherited sticky column mode from parent table |
+| `resizable` | boolean | _(boolean)_ | Inherited column resize mode from parent table |
+| `resizing` | boolean | _(boolean)_ | Present while a column is being resized |
+| `reorderable` | boolean | _(boolean)_ | Inherited row reorder mode from parent table |
+| `colspan` | boolean | _(boolean)_ | Inherited column spanning from parent table |
+| `dragging` | boolean | _(boolean)_ | Present while a row is being drag-reordered |
+| `sticky` | boolean | _(boolean)_ | Enables sticky positioning |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-panel)` | Background color |
+| `--n-border-color` | `var(--n-border-muted)` | Border color |
+| `--n-border-muted` |  | Muted border color |
+| `--n-button-font-weight` |  | Font weight |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-text-font-weight)` | Font weight |
+| `--n-group-header-font` |  | Font size for group header labels |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-text-line-height)` | Line height |
+| `--n-panel` |  | Panel background color |
+| `--n-panel-hover` |  | Panel background on hover |
+| `--n-radius` |  | Border radius |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+| `--n-surface` |  | Surface background color |
+| `--n-surface-hover` |  | Surface background on hover |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-surface-ink-hover` |  | Ink on hover |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-text-line-height` |  | Line height |
+
+## Accessibility
+
+- **Role:** `rowgroup`
+
+## Composition
+
+### Children
+- `<n-table-row>`
+
+### Parents
+- `<n-table>`
+
+## Usage
+
+### Minimal
+
+```html
+<n-table-body></n-table-body>
+```
+
+### Examples
+
+```html
+<n-table-body id="sortable-body">
+        </n-table-body>
+```
+
+```html
+<n-table-body>
+          <n-table-row>
+            <n-table-cell>NODE_ENV</n-table-cell>
+            <n-table-cell>production</n-table-cell>
+            <n-table-cell>string</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>PORT</n-table-cell>
+            <n-table-cell>3000</n-table-cell>
+            <n-table-cell>number</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+```
+
+```html
+<n-table-body>
+          <n-table-row>
+            <n-table-cell>NODE_ENV</n-table-cell>
+            <n-table-cell>production</n-table-cell>
+            <n-table-cell>string</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>PORT</n-table-cell>
+            <n-table-cell>3000</n-table-cell>
+            <n-table-cell>number</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `column-resize/` | Sub-directory (1 files) |
+| `drag-controller/` | Sub-directory (1 files) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `store/` | Sub-directory (1 files) |
+| `table-body-element.ts` | Element class (behavior, no CSS) |
+| `table-cell-element.ts` | Element class (behavior, no CSS) |
+| `table-element.ts` | Element class (behavior, no CSS) |
+| `table-head-element.ts` | Element class (behavior, no CSS) |
+| `table-header-element.ts` | Element class (behavior, no CSS) |
+| `table-row-element.ts` | Element class (behavior, no CSS) |
+| `table.css` | Styles |
+| `table.html` | Demo page |
+| `table.ts` | Custom element registration (define()) |
+
 ---
 
 ## n-table-cell
@@ -90,6 +453,106 @@ Public `--n-*` custom properties consumed by this component:
 > Structural table cell within a table row.
 
 **Class:** `NTableCell`
+
+**ARIA role:** `cell`
+**Internal controllers:** `ColumnResizeController`, `TableDragController`
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `selectable` | boolean | _(boolean)_ | Inherited row selection mode from parent table |
+| `variant` | enum | `plain` | Inherited variant from parent table |
+| `sticky-header` | boolean | _(boolean)_ | Inherited sticky header mode from parent table |
+| `sticky-column` | boolean | _(boolean)_ | Inherited sticky column mode from parent table |
+| `resizable` | boolean | _(boolean)_ | Inherited column resize mode from parent table |
+| `resizing` | boolean | _(boolean)_ | Present while a column is being resized |
+| `reorderable` | boolean | _(boolean)_ | Inherited row reorder mode from parent table |
+| `colspan` | boolean | _(boolean)_ | Inherited column spanning from parent table |
+| `dragging` | boolean | _(boolean)_ | Present while a row is being drag-reordered |
+| `sticky` | boolean | _(boolean)_ | Enables sticky positioning |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-panel)` | Background color |
+| `--n-border-color` | `var(--n-border-muted)` | Border color |
+| `--n-border-muted` |  | Muted border color |
+| `--n-button-font-weight` |  | Font weight |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-text-font-weight)` | Font weight |
+| `--n-group-header-font` |  | Font size for group header labels |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-text-line-height)` | Line height |
+| `--n-panel` |  | Panel background color |
+| `--n-panel-hover` |  | Panel background on hover |
+| `--n-radius` |  | Border radius |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+| `--n-surface` |  | Surface background color |
+| `--n-surface-hover` |  | Surface background on hover |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-surface-ink-hover` |  | Ink on hover |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-text-line-height` |  | Line height |
+
+## Accessibility
+
+- **Role:** `cell`
+
+## Composition
+
+### Parents
+- `<n-table-row>`
+
+## Usage
+
+### Minimal
+
+```html
+<n-table-cell></n-table-cell>
+```
+
+### Examples
+
+```html
+<n-table-cell>Alice Johnson</n-table-cell>
+```
+
+```html
+<n-table-cell>Bob Smith</n-table-cell>
+```
+
+```html
+<n-table-cell>Carol White</n-table-cell>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `column-resize/` | Sub-directory (1 files) |
+| `drag-controller/` | Sub-directory (1 files) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `store/` | Sub-directory (1 files) |
+| `table-body-element.ts` | Element class (behavior, no CSS) |
+| `table-cell-element.ts` | Element class (behavior, no CSS) |
+| `table-element.ts` | Element class (behavior, no CSS) |
+| `table-head-element.ts` | Element class (behavior, no CSS) |
+| `table-header-element.ts` | Element class (behavior, no CSS) |
+| `table-row-element.ts` | Element class (behavior, no CSS) |
+| `table.css` | Styles |
+| `table.html` | Demo page |
+| `table.ts` | Custom element registration (define()) |
 
 ---
 
@@ -99,6 +562,127 @@ Public `--n-*` custom properties consumed by this component:
 
 **Class:** `NTableHead`
 
+**ARIA role:** `rowgroup`
+**Internal controllers:** `ColumnResizeController`, `TableDragController`
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `selectable` | boolean | _(boolean)_ | Inherited row selection mode from parent table |
+| `variant` | enum | `plain` | Inherited variant from parent table |
+| `sticky-header` | boolean | _(boolean)_ | Inherited sticky header mode from parent table |
+| `sticky-column` | boolean | _(boolean)_ | Inherited sticky column mode from parent table |
+| `resizable` | boolean | _(boolean)_ | Inherited column resize mode from parent table |
+| `resizing` | boolean | _(boolean)_ | Present while a column is being resized |
+| `reorderable` | boolean | _(boolean)_ | Inherited row reorder mode from parent table |
+| `colspan` | boolean | _(boolean)_ | Inherited column spanning from parent table |
+| `dragging` | boolean | _(boolean)_ | Present while a row is being drag-reordered |
+| `sticky` | boolean | _(boolean)_ | Enables sticky positioning |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-panel)` | Background color |
+| `--n-border-color` | `var(--n-border-muted)` | Border color |
+| `--n-border-muted` |  | Muted border color |
+| `--n-button-font-weight` |  | Font weight |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-text-font-weight)` | Font weight |
+| `--n-group-header-font` |  | Font size for group header labels |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-text-line-height)` | Line height |
+| `--n-panel` |  | Panel background color |
+| `--n-panel-hover` |  | Panel background on hover |
+| `--n-radius` |  | Border radius |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+| `--n-surface` |  | Surface background color |
+| `--n-surface-hover` |  | Surface background on hover |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-surface-ink-hover` |  | Ink on hover |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-text-line-height` |  | Line height |
+
+## Accessibility
+
+- **Role:** `rowgroup`
+
+## Composition
+
+### Children
+- `<n-table-row>`
+
+### Parents
+- `<n-table>`
+
+## Usage
+
+### Minimal
+
+```html
+<n-table-head></n-table-head>
+```
+
+### Examples
+
+```html
+<n-table-head>
+          <n-table-row>
+            <n-table-header>Name</n-table-header>
+            <n-table-header>Role</n-table-header>
+            <n-table-header>Status</n-table-header>
+          </n-table-row>
+        </n-table-head>
+```
+
+```html
+<n-table-head>
+          <n-table-row>
+            <n-table-header sortable column="name">Name</n-table-header>
+            <n-table-header sortable column="language">Language</n-table-header>
+            <n-table-header sortable column="stars">Stars</n-table-header>
+          </n-table-row>
+        </n-table-head>
+```
+
+```html
+<n-table-head>
+          <n-table-row>
+            <n-table-header>Product</n-table-header>
+            <n-table-header>Category</n-table-header>
+            <n-table-header>Price</n-table-header>
+          </n-table-row>
+        </n-table-head>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `column-resize/` | Sub-directory (1 files) |
+| `drag-controller/` | Sub-directory (1 files) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `store/` | Sub-directory (1 files) |
+| `table-body-element.ts` | Element class (behavior, no CSS) |
+| `table-cell-element.ts` | Element class (behavior, no CSS) |
+| `table-element.ts` | Element class (behavior, no CSS) |
+| `table-head-element.ts` | Element class (behavior, no CSS) |
+| `table-header-element.ts` | Element class (behavior, no CSS) |
+| `table-row-element.ts` | Element class (behavior, no CSS) |
+| `table.css` | Styles |
+| `table.html` | Demo page |
+| `table.ts` | Custom element registration (define()) |
+
 ---
 
 ## n-table-header
@@ -107,27 +691,125 @@ Public `--n-*` custom properties consumed by this component:
 
 **Class:** `NTableHeader`
 
-### Attributes
+**ARIA role:** `columnheader`
+**Internal controllers:** `ColumnResizeController`, `TableDragController`
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `sort` | `string` | Current sort state: "none" | "asc" | "desc" |
-| `sortable` | `boolean` | Enables click-to-sort behavior |
+## Attributes
 
-### Properties
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `sort` | `string` |  | Current sort state: "none" | "asc" | "desc" |
+| `sortable` | `boolean` |  | Enables click-to-sort behavior |
 
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `column` | `string` | yes |  |
+## CSS Attributes
 
-### Events
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `selectable` | boolean | _(boolean)_ | Inherited row selection mode from parent table |
+| `variant` | enum | `plain` | Inherited variant from parent table |
+| `sticky-header` | boolean | _(boolean)_ | Inherited sticky header mode from parent table |
+| `sticky-column` | boolean | _(boolean)_ | Inherited sticky column mode from parent table |
+| `resizable` | boolean | _(boolean)_ | Inherited column resize mode from parent table |
+| `resizing` | boolean | _(boolean)_ | Present while a column is being resized |
+| `reorderable` | boolean | _(boolean)_ | Inherited row reorder mode from parent table |
+| `colspan` | boolean | _(boolean)_ | Inherited column spanning from parent table |
+| `dragging` | boolean | _(boolean)_ | Present while a row is being drag-reordered |
+| `sticky` | boolean | _(boolean)_ | Enables sticky positioning |
 
-| Event | Description |
-|-------|-------------|
-| `native:sort` | Fired on sort toggle with `{ column }` detail |
+## Events
+
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:sort` | _(none)_ | Fired on sort toggle with `{ column }` detail |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-panel)` | Background color |
+| `--n-border-color` | `var(--n-border-muted)` | Border color |
+| `--n-border-muted` |  | Muted border color |
+| `--n-button-font-weight` |  | Font weight |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-text-font-weight)` | Font weight |
+| `--n-group-header-font` |  | Font size for group header labels |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-text-line-height)` | Line height |
+| `--n-panel` |  | Panel background color |
+| `--n-panel-hover` |  | Panel background on hover |
+| `--n-radius` |  | Border radius |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+| `--n-surface` |  | Surface background color |
+| `--n-surface-hover` |  | Surface background on hover |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-surface-ink-hover` |  | Ink on hover |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-text-line-height` |  | Line height |
+
+## Accessibility
+
+- **Role:** `columnheader`
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Toggles sort direction when sortable |
+
+## Behavior
+
+- **click (sortable)** → Cycles sort state and fires native:sort
+
+## Composition
+
+### Parents
+- `<n-table-row>`
 
 ## Usage
 
+### Minimal
+
 ```html
-<n-table></n-table>
+<n-table-header></n-table-header>
 ```
+
+### Examples
+
+```html
+<n-table-header sortable column="name">Name</n-table-header>
+```
+
+```html
+<n-table-header sortable column="language">Language</n-table-header>
+```
+
+```html
+<n-table-header sortable column="stars">Stars</n-table-header>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `column-resize/` | Sub-directory (1 files) |
+| `drag-controller/` | Sub-directory (1 files) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `store/` | Sub-directory (1 files) |
+| `table-body-element.ts` | Element class (behavior, no CSS) |
+| `table-cell-element.ts` | Element class (behavior, no CSS) |
+| `table-element.ts` | Element class (behavior, no CSS) |
+| `table-head-element.ts` | Element class (behavior, no CSS) |
+| `table-header-element.ts` | Element class (behavior, no CSS) |
+| `table-row-element.ts` | Element class (behavior, no CSS) |
+| `table.css` | Styles |
+| `table.html` | Demo page |
+| `table.ts` | Custom element registration (define()) |

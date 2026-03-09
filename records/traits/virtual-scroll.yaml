@@ -1,0 +1,55 @@
+trait: virtual-scroll
+controller: VirtualScrollController
+description: Virtualizes a scrollable list by rendering only visible items, dispatching `native:virtual-change`.
+source:
+  controller: src/traits/virtual-scroll/virtual-scroll-controller.ts
+  adapter: src/traits/virtual-scroll/virtualizable-adapter.ts
+  demo: src/traits/virtual-scroll/virtualizable.html
+  test: src/traits/virtual-scroll/virtualizable.test.ts
+options:
+  itemHeight:
+    type: number
+  overscan:
+    type: number
+injected_events:
+  native:virtual-change:
+    detail:
+      start:
+        type: string
+      end:
+        type: string
+      totalCount:
+        type: string
+methods:
+  enable:
+    returns: void
+    params: "scrollEl: HTMLElement, container: HTMLElement, totalCount: number"
+  disable:
+    returns: void
+  updateCount:
+    returns: void
+    params: "count: number"
+  destroy:
+    returns: void
+consumption:
+  imperative: new VirtualScrollController(element, options)
+  provider: <n-controller traits="virtual-scroll">
+  self_trait: <n-button traits="virtual-scroll">
+behavior:
+  - trigger: "enable(scrollEl, container, totalCount) called"
+    actions:
+      - "Creates top and bottom spacer elements for scroll height simulation"
+      - "Inserts spacers into container (prepend/append)"
+      - "Adds passive scroll listener"
+      - "Computes initial visible range and dispatches native:virtual-change"
+  - trigger: "Scroll event on scroll element"
+    actions:
+      - "Calculates visible range from scrollTop and viewport height"
+      - "Adds overscan buffer items above and below visible range"
+      - "Updates spacer heights to maintain total scroll height"
+      - "Dispatches native:virtual-change with start, end, totalCount (only if range changed)"
+  - trigger: "updateCount(count) called"
+    actions:
+      - "Updates total count and recomputes visible range"
+a11y:
+  keyboard: []

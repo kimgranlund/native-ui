@@ -1,0 +1,71 @@
+component: NTooltip
+tag: n-tooltip
+category: component
+description: Tooltip popover anchored to its parent element with delay and placement control.
+source:
+  element: src/components/tooltip/tooltip-element.ts
+  css: src/components/tooltip/tooltip.css
+  registration: src/components/tooltip/tooltip.ts
+  demo: src/components/tooltip/tooltip.html
+attributes:
+  placement:
+    type: string
+    description: 'Position relative to anchor: "top" | "bottom" | "left" | "right"'
+  delay:
+    type: number
+    description: Show delay in milliseconds (default 500)
+  disabled:
+    type: boolean
+    description: Prevents tooltip from showing
+css_tokens:
+  --n-border-muted:
+    description: Muted border color
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-font-size:
+    description: Font size
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-popover-from:
+    description: Opening animation transform origin
+    default: perspective(800px) scale(0.96) rotateY(10deg)
+  --n-popover-origin:
+    description: CSS transform-origin for popover animation
+    default: left center
+  --n-popover-viewport-margin:
+    description: Margin from viewport edges for auto-placement
+  --n-radius:
+    description: Border radius
+  --n-shadow-md:
+    description: Medium shadow for tooltip elevation
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+  --n-surface:
+    description: Tooltip surface background
+  --n-surface-ink:
+    description: Ink (text) color
+  --n-text-font-weight:
+    description: Font weight
+  --n-text-line-height:
+    description: Line height
+  --n-tooltip-max-width:
+    description: Maximum width of the tooltip
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  keyboard:
+    - key: Escape
+      action: Hides the tooltip
+behavior:
+  - trigger: hover/focus on parent element
+    actions: [Shows tooltip after delay using Popover API with CSS anchor positioning]
+  - trigger: mouseleave/blur on parent
+    actions: [Hides tooltip]
+compose:
+  children: []
+  parents: [n-button, any element]

@@ -1,0 +1,68 @@
+trait: selection
+controller: SelectionController
+description: Manages single or multi-select item state with Ctrl/Shift modifiers, dispatching `native:selection-change`.
+source:
+  controller: src/traits/selection/selection-controller.ts
+  adapter: src/traits/selection/selectable-adapter.ts
+  demo: src/traits/selection/selectable.html
+  test: src/traits/selection/selectable.test.ts
+options:
+  selector:
+    type: string
+    required: true
+  mode:
+    type: "'single' | 'multiple'"
+  disabled:
+    type: boolean
+injected_events:
+  native:selection-change:
+    detail:
+      selected:
+        type: string
+      count:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+  select:
+    returns: void
+    params: "item: HTMLElement"
+  toggle:
+    returns: void
+    params: "item: HTMLElement"
+  rangeTo:
+    returns: void
+    params: "item: HTMLElement"
+  selectAll:
+    returns: void
+  clear:
+    returns: void
+  getSelection:
+    returns: HTMLElement[]
+  handleClick:
+    returns: void
+    params: "item: HTMLElement, modifiers: { shift: boolean; ctrl: boolean }"
+consumption:
+  imperative: new SelectionController(element, options)
+  provider: <n-controller traits="selection">
+  self_trait: <n-button traits="selection">
+behavior:
+  - trigger: "Click on an item matching selector"
+    actions:
+      - "Plain click: selects only that item (clears others), sets anchor"
+      - "Ctrl/Cmd+click (multiple mode): toggles item selection, updates anchor"
+      - "Shift+click (multiple mode): selects contiguous range from anchor to clicked item"
+      - "Sets selected and selection-anchor attributes on items"
+      - "Dispatches native:selection-change with selected array and count"
+  - trigger: "Ctrl/Cmd+A keydown"
+    actions:
+      - "Selects all items (multiple mode only)"
+      - "Dispatches native:selection-change"
+a11y:
+  keyboard:
+    - key: "Ctrl/Cmd+A"
+      action: "Selects all items (multiple mode only)"

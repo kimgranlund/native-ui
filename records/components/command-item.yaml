@@ -1,0 +1,88 @@
+component: NCommandItem
+tag: n-command-item
+category: component
+description: Selectable item within a command palette.
+source:
+  element: src/components/command/command-item-element.ts
+  css: src/components/command/command.css
+  registration: src/components/command/command.ts
+  demo: src/components/command/command.html
+attributes:
+  value:
+    type: string
+    description: Item value emitted on selection
+  disabled:
+    type: boolean
+    description: Disables this item
+  keywords:
+    type: string
+    description: Additional search terms for filtering
+events:
+  native:select:
+    description: Fired on click with `{ value, label }` detail
+slots:
+  heading:
+    description: Item label content (text, icons, or rich markup)
+css_tokens:
+  --n-background:
+    description: Background color
+    default: var(--n-control)
+  --n-border-color:
+    description: Border color
+    default: var(--n-border-rest)
+  --n-border-muted-neutral:
+    description: Muted border color
+  --n-border-rest:
+    description: Resting border color
+  --n-color:
+    description: Text/foreground color
+    default: var(--n-ink)
+  --n-control:
+    description: Control surface background
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+  --n-group-header-font:
+    description: Font size for group header labels
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-ink-placeholder:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+  --n-popover-max-height:
+    description: Maximum height of the scrollable list area
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+controllers:
+  - DataListController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: option
+behavior:
+  - trigger: click
+    actions: [Fires native:select with value and label]
+compose:
+  children: [n-icon, span]
+  parents: [n-command-list, n-command-group]

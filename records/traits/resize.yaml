@@ -1,0 +1,124 @@
+trait: resize
+controller: ResizeController
+description: Handles pointer-driven element resizing via a drag handle, dispatching `native:resize-start`,
+  `native:resize-move`, `native:resize-end`, and `native:resize-cancel`.
+source:
+  controller: src/traits/resize/resize-controller.ts
+  adapter: src/traits/resize/resizable-adapter.ts
+  demo: src/traits/resize/resizable.html
+  test: src/traits/resize/resizable.test.ts
+options:
+  handleSelector:
+    type: string
+    description: CSS selector for handle elements within the host. Not needed when `handle` is set.
+  handle:
+    type: HTMLElement
+    description: External handle element. When set, pointerdown listens on this element instead of the host.
+  axis:
+    type: "'horizontal' | 'vertical' | 'both'"
+  min:
+    type: number
+  max:
+    type: number
+  disabled:
+    type: boolean
+  reverse:
+    type: boolean
+    description: Reverse drag direction (e.g. left-edge handle that grows width on leftward drag).
+  handleMode:
+    type: "'edge' | 'corner'"
+    description: "Handle mode: 'edge' for single-axis edge handles (default), 'corner' for two-axis corner handles."
+  handles:
+    type: HandlePosition[]
+    description: Which corner handles to use (corner mode only). Defaults to all four.
+  minWidth:
+    type: number
+    description: Minimum width constraint (corner mode). Falls back to `min` if not set.
+  maxWidth:
+    type: number
+    description: Maximum width constraint (corner mode). Falls back to `max` if not set.
+  minHeight:
+    type: number
+    description: Minimum height constraint (corner mode). Falls back to `min` if not set.
+  maxHeight:
+    type: number
+    description: Maximum height constraint (corner mode). Falls back to `max` if not set.
+  step:
+    type: number
+    description: Snap-to-grid increment in pixels. 0 = no snapping.
+  stateAttribute:
+    type: string
+    description: "Attribute name set on host (and handle) during resize. Default: 'resizing'."
+  eventTarget:
+    type: HTMLElement
+    description: Element that receives resize events. Defaults to `host`.
+injected_events:
+  native:resize-start:
+    detail:
+      width:
+        type: string
+      height:
+        type: string
+      handle:
+        type: string
+  native:resize-move:
+    detail:
+      width:
+        type: string
+      height:
+        type: string
+      handle:
+        type: string
+      delta:
+        type: string
+      dy:
+        type: string
+  native:resize-end:
+    detail:
+      width:
+        type: string
+      height:
+        type: string
+      handle:
+        type: string
+  native:resize-cancel:
+    detail:
+      handle:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new ResizeController(element, options)
+  provider: <n-controller traits="resize">
+  self_trait: <n-button traits="resize">
+behavior:
+  - trigger: "Pointerdown on handle element (matched by handleSelector or handle option)"
+    actions:
+      - "Records start position and initial width/height"
+      - "Sets pointer capture"
+      - "Sets stateAttribute (default 'resizing') on host and handle"
+      - "Dispatches native:resize-start with width, height, handle"
+  - trigger: "Pointermove during resize"
+    actions:
+      - "Calculates delta from pointer movement (respects axis and reverse options)"
+      - "Applies step snapping if configured"
+      - "Clamps new dimensions within min/max constraints"
+      - "Sets host width/height via inline style"
+      - "Dispatches native:resize-move with width, height, handle, delta, dy"
+  - trigger: "Pointerup during resize"
+    actions:
+      - "Removes stateAttribute from host and handle"
+      - "Dispatches native:resize-end with final width, height, handle"
+  - trigger: "Escape key during resize"
+    actions:
+      - "Restores original width/height"
+      - "Dispatches native:resize-cancel with handle"
+a11y:
+  keyboard:
+    - key: "Escape"
+      action: "Cancels the resize operation and restores original dimensions"

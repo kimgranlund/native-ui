@@ -1,0 +1,157 @@
+component: NSwitch
+tag: n-switch
+category: component
+description: Toggle switch with on/off state and form association.
+source:
+  element: src/components/switch/switch-element.ts
+  css: src/components/switch/switch.css
+  registration: src/components/switch/switch.ts
+  demo: src/components/switch/switch.html
+attributes:
+  checked:
+    type: boolean
+    description: Whether the switch is on
+  disabled:
+    type: boolean
+    description: Disables interaction
+  name:
+    type: string
+    description: Form field name
+  value:
+    type: string
+    description: Form value when checked (defaults to "on")
+  required:
+    type: boolean
+    description: Marks as required for form validation
+css_attributes:
+  intent:
+    type: boolean
+    description: Applies intent-colored styling to the switch when checked
+  pressed:
+    type: boolean
+    description: Visually shows the switch in its active/pressed state
+events:
+  native:change:
+    description: Fired on toggle with `{ checked, value }` detail
+css_tokens:
+  --n-border-active:
+    description: Border color on press (tier-1 definition)
+  --n-border-disabled:
+    description: Border color when disabled (tier-1 definition)
+  --n-border-hover:
+    description: Border color on hover (tier-1 definition)
+  --n-border-muted:
+    description: Muted border color
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-text-font-weight)
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-space:
+    description: Block/gap spacing
+  --n-surface:
+    description: Checked-state track background color
+  --n-surface-active:
+    description: Checked-state track background on press
+  --n-surface-disabled:
+    description: Checked-state track background when disabled
+  --n-surface-hover:
+    description: Checked-state track background on hover
+  --n-surface-ink:
+    description: Ink (text) color
+  --n-surface-ink-disabled:
+    description: Ink when disabled
+  --n-text-font-weight:
+    description: Font weight
+  --n-thumb-bg:
+    description: Thumb circle background color
+    default: var(--n-ink-muted)
+  --n-thumb-bg-disabled:
+    description: Thumb circle background when disabled
+    default: var(--n-border-disabled)
+  --n-thumb-offset:
+    description: Inset offset of the thumb from the track edge
+    default: calc(var(--n-space) / 2)
+  --n-thumb-size:
+    description: Diameter of the thumb circle
+    default: calc(var(--n-widget-size) - var(--n-space))
+  --n-track-bg:
+    description: Unchecked track background color
+    default: var(--n-widget)
+  --n-track-bg-active:
+    description: Unchecked track background on press
+    default: var(--n-widget-active)
+  --n-track-bg-disabled:
+    description: Unchecked track background when disabled
+    default: var(--n-widget-disabled)
+  --n-track-bg-hover:
+    description: Unchecked track background on hover
+    default: var(--n-widget-hover)
+  --n-track-border:
+    description: Track border color at rest
+    default: var(--n-border-muted)
+  --n-track-border-active:
+    description: Track border color on press
+    default: var(--n-border-active)
+  --n-track-border-disabled:
+    description: Track border color when disabled
+    default: var(--n-border-disabled)
+  --n-track-border-hover:
+    description: Track border color on hover
+    default: var(--n-border-hover)
+  --n-track-width:
+    description: Total width of the switch track
+    default: calc(var(--n-widget-size) * 1.75)
+  --n-widget:
+    description: Widget surface color (tier-1 definition)
+  --n-widget-active:
+    description: Widget surface color on press (tier-1 definition)
+  --n-widget-disabled:
+    description: Widget surface color when disabled (tier-1 definition)
+  --n-widget-hover:
+    description: Widget surface color on hover (tier-1 definition)
+  --n-widget-size:
+    description: Component height
+controllers:
+  - PressController
+traits:
+  compatible: [press, hover, focus-visible, tooltip]
+  incompatible: []
+a11y:
+  role: switch
+  form_associated: true
+  aria_states:
+    - aria-checked (true or false)
+    - aria-disabled
+  keyboard:
+    - key: Enter
+      action: Toggles the switch on/off
+    - key: Space
+      action: Toggles the switch on/off
+behavior:
+  - trigger: native:press
+    actions: [Toggles checked state, dispatches native:change with checked and value]
+compose:
+  children: []
+  parents: [n-field, form]

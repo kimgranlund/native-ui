@@ -1,0 +1,96 @@
+component: NTab
+tag: n-tab
+category: component
+description: Individual tab within a tabs component.
+source:
+  element: src/components/tabs/tab-element.ts
+  css: src/components/tabs/tabs.css
+  registration: src/components/tabs/tabs.ts
+  demo: src/components/tabs/tabs.html
+attributes:
+  disabled:
+    type: boolean
+    description: Disables this tab
+  value:
+    type: string
+    description: Tab value used for selection matching
+css_attributes:
+  orientation:
+    type: enum
+    values:
+      - vertical
+    description: Inherited vertical layout from parent tabs
+  pressed:
+    type: boolean
+    description: Present while the tab is being pressed
+  inline:
+    type: boolean
+    description: Inherited inline mode from parent tabs
+events:
+  native:select:
+    description: Fired on press with `{ value, label }` detail
+css_tokens:
+  --n-border-muted:
+    description: Muted border color
+  --n-button-font-weight:
+    description: Font weight
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-button-font-weight)
+  --n-indicator-index:
+    description: Index position of the sliding indicator
+    default: "0"
+  --n-ink-active:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+  --n-surface:
+    description: Surface background color
+  --n-surface-ink:
+    description: Ink (text) color
+  --n-surface-ink-hover:
+    description: Ink on hover
+  --n-tab-count:
+    description: Total number of tabs (auto-set for indicator sizing)
+    default: "1"
+  --n-tabs-indicator:
+    description: Indicator accent color
+controllers:
+  - PressController
+  - ListNavigateController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: tab
+behavior:
+  - trigger: click
+    actions: [Fires native:select with value and label]
+compose:
+  children: [n-icon, span]
+  parents: [n-tabs]

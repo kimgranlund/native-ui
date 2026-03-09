@@ -1,0 +1,69 @@
+component: NDrawer
+tag: n-drawer
+category: component
+description: Slide-in drawer panel using a native dialog element.
+source:
+  element: src/components/drawer/drawer-element.ts
+  css: src/components/drawer/drawer.css
+  registration: src/components/drawer/drawer.ts
+  demo: src/components/drawer/drawer.html
+attributes:
+  side:
+    type: string
+    description: 'Slide-in direction: "left" | "right" | "top" | "bottom"'
+  no-close-on-escape:
+    type: boolean
+    description: Prevents closing on Escape key
+  no-close-on-backdrop:
+    type: boolean
+    description: Prevents closing on backdrop click
+events:
+  close:
+    description: Fired when the drawer is closed
+css_tokens:
+  --n-backdrop-color:
+    description: Backdrop overlay color
+  --n-backdrop-opacity:
+    description: Backdrop overlay opacity
+  --n-border-muted:
+    description: Muted border color
+  --n-border-muted-neutral:
+    description: Muted border color
+  --n-button-font-weight:
+    description: Font weight
+  --n-drawer-height:
+    description: Drawer panel height (for top/bottom side)
+  --n-drawer-width:
+    description: Drawer panel width (for left/right side)
+  --n-duration:
+    description: Transition duration
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-strong:
+    description: Ink (text) color
+  --n-panel:
+    description: Panel background color
+  --n-shadow-lg:
+    description: Large shadow for drawer elevation
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+controllers:
+  - DialogController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: dialog
+  keyboard:
+    - key: Escape
+      action: Closes the drawer unless no-close-on-escape is set
+behavior:
+  - trigger: open() method
+    actions: [Shows drawer via dialog.showModal() with slide-in animation]
+  - trigger: backdrop click
+    actions: [Closes the drawer unless no-close-on-backdrop is set]
+compose:
+  children: [n-header, n-body, n-footer]
+  parents: []

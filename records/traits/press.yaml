@@ -1,0 +1,52 @@
+trait: press
+controller: PressController
+description: Handles pointer and keyboard press interactions, dispatching `native:press` events.
+source:
+  controller: src/traits/press/press-controller.ts
+  adapter: src/traits/press/pressable-adapter.ts
+  demo: src/traits/press/pressable.html
+  test: src/traits/press/pressable.test.ts
+options:
+  disabled:
+    type: boolean | (() => boolean)
+injected_events:
+  native:press:
+    detail:
+      pointerType:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new PressController(element, options)
+  provider: <n-controller traits="press">
+  self_trait: <n-button traits="press">
+behavior:
+  - trigger: "Pointerdown (left button) on host"
+    actions:
+      - "Captures pointer on host"
+      - "Sets pressed attribute on host"
+  - trigger: "Pointerup while captured"
+    actions:
+      - "Removes pressed attribute"
+      - "Dispatches native:press with pointerType"
+  - trigger: "Pointercancel or lost pointer capture"
+    actions:
+      - "Removes pressed attribute without dispatching"
+  - trigger: "Enter or Space keydown on host"
+    actions:
+      - "Sets pressed attribute (Space prevents page scroll)"
+  - trigger: "Enter or Space keyup on host"
+    actions:
+      - "Removes pressed attribute"
+      - "Dispatches native:press with pointerType 'keyboard'"
+a11y:
+  keyboard:
+    - key: "Enter"
+      action: "Triggers a press action"
+    - key: "Space"
+      action: "Triggers a press action"

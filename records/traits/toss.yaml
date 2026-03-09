@@ -1,0 +1,91 @@
+trait: toss
+controller: TossController
+description: Pick up an element, fling it with momentum — physics-based deceleration, gravity, spin, and optional edge bounce.
+source:
+  controller: src/traits/toss/toss-controller.ts
+  adapter: src/traits/toss/tossable-adapter.ts
+  demo: src/traits/toss/tossable.html
+  test: src/traits/toss/tossable.test.ts
+options:
+  friction:
+    type: number
+    description: Deceleration factor per frame — 0.95 = slows 5% each frame (default 0.95)
+  bounce:
+    type: boolean
+    description: Bounce off viewport edges (default true)
+  bounceDamping:
+    type: number
+    description: Velocity multiplier on bounce (default 0.6)
+  gravity:
+    type: number
+    description: Gravity — px/frame² added to vertical velocity each frame. 0 = no gravity (default 0)
+  spin:
+    type: boolean
+    description: Track angular velocity from pointer movement and spin during momentum (default false)
+  returnOnEnd:
+    type: boolean
+    description: Animate back to origin after momentum ends (default false)
+  disabled:
+    type: boolean
+    description: Disable the controller
+injected_events:
+  native:bounce:
+    detail:
+      edge:
+        type: string
+      x:
+        type: string
+      y:
+        type: string
+      velocityX:
+        type: string
+      velocityY:
+        type: string
+  native:toss:
+    detail:
+      x:
+        type: string
+      y:
+        type: string
+      velocityX:
+        type: string
+      velocityY:
+        type: string
+      bounces:
+        type: string
+      rotation:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new TossController(element, options)
+  provider: <n-controller traits="toss">
+  self_trait: <n-button traits="toss">
+behavior:
+  - trigger: "Pointerdown on host"
+    actions:
+      - "Stops any running momentum animation"
+      - "Captures pointer on host, sets tossing attribute"
+      - "Records grab offset and saves origin for returnOnEnd"
+  - trigger: "Pointermove during drag"
+    actions:
+      - "Moves element by applying translate transform"
+      - "Samples pointer positions for velocity calculation (ring buffer of last 4)"
+      - "Tracks angular velocity from horizontal pointer movement (spin mode)"
+  - trigger: "Pointerup (release/fling)"
+    actions:
+      - "Computes velocity from last pointer samples"
+      - "Starts rAF-driven momentum animation with friction deceleration"
+      - "Applies gravity to vertical velocity each frame"
+      - "Applies spin rotation from angular velocity"
+      - "Bounces off viewport edges with damping (if bounce enabled)"
+      - "Dispatches native:bounce with edge, position, and velocity on each bounce"
+      - "When velocity drops below 0.5px/frame, stops and dispatches native:toss"
+      - "Optionally animates back to origin (returnOnEnd)"
+a11y:
+  keyboard: []

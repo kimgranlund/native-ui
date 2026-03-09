@@ -2,7 +2,9 @@
 
 # SlashCommandController
 
-> Detects `/` at the caret position (preceded by whitespace or at text start), shows a caret-anchored command listbox popover, filters by query, and dispatches selection events. Works anywhere in the text, not just at the start.  Events: - `native:slash-query` — dispatched on host when typing after `/`. Detail: `{ query, commands }` - `native:slash-select` — dispatched on host when a command is selected. Detail: `{ command }`
+> Detects `/` at the caret position (preceded by whitespace or at text start), shows a caret-anchored command listbox popover, filters by query, and dispatches selection events. Works anywhere in the text, not just at the start. Events: - `native:slash-query` — dispatched on host when typing after `/`. Detail: `{ query, commands }` - `native:slash-select` — dispatched on host when a command is selected. Detail: `{ command }`
+
+**Trait name:** `slash-command` (for use with `<n-controller traits="slash-command">` or self-trait `traits="slash-command"`)
 
 ## Constructor
 
@@ -17,13 +19,6 @@ new SlashCommandController(host: HTMLElement, options?: SlashCommandOptions)
 | `input` | `HTMLElement` | yes |  |
 | `commands` | `SlashCommand[]` | yes |  |
 
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `commands` | `SlashCommand[]` | no |
-| `open` | `boolean` | yes |
-
 ## Events Dispatched
 
 | Event | Detail |
@@ -37,10 +32,68 @@ new SlashCommandController(host: HTMLElement, options?: SlashCommandOptions)
 |--------|------------|---------|
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Selects the highlighted command |
+| `Tab` | Selects the closest matching command (query 2+ chars) |
+| `ArrowDown` | Highlights next command in list |
+| `ArrowUp` | Highlights previous command in list |
+| `Escape` | Closes the command popover |
+| `Ctrl/Cmd+/` | Inserts / at caret or toggles popover |
+
+## Behavior
+
+- **native:input event on host (text typed after /)** → Detects / at caret position (preceded by whitespace or at text start), Extracts query text between / and caret, Creates caret-anchored listbox popover with filtered command options, Dispatches native:slash-query with query and matching commands
+- **Enter key while popover is open** → Selects the active (highlighted) command option, Depending on action type: inserts styled tag (tag), plain text (insert), or just fires event (event), Removes /query text from the input, Dispatches native:slash-select with command and action
+- **Tab key while popover is open (query 2+ chars)** → Selects the active or first matching command
+- **ArrowDown/ArrowUp while popover is open** → Delegates to listbox for keyboard navigation
+- **Escape key while popover is open** → Closes the command popover without selecting
+- **Ctrl/Cmd+/ shortcut** → Inserts / at caret and opens popover, or closes if already open
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { SlashCommandController } from '@nonoun/native-ui';
 const ctrl = new SlashCommandController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="slash-command">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="slash-command">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-slash-command-*` attributes:
+
+```html
+<n-controller traits="slash-command" data-trait-slash-command-input="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `slash-command-controller.md` | Controller documentation |
+| `slash-command-controller.ts` | Controller (reactive state + behavior) |
+| `slash-command.html` | Demo page |
+| `slash-command.test.ts` | Tests |
+| `slash-commandable-adapter.ts` | Trait adapter (declarative provider bridge) |

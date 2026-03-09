@@ -4,6 +4,8 @@
 
 > Manages column sort state and dispatches `native:sort` events.
 
+**Trait name:** `sort` (for use with `<n-controller traits="sort">` or self-trait `traits="sort"`)
+
 ## Constructor
 
 ```ts
@@ -16,12 +18,6 @@ new SortController(host: HTMLElement, options?: SortOptions)
 |--------|------|----------|-------------|
 | `selector` | `string` | no |  |
 | `disabled` | `boolean` | no |  |
-
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `sortDirection` | `SortDirection` | yes |
 
 ## Events Dispatched
 
@@ -37,10 +33,50 @@ new SortController(host: HTMLElement, options?: SortOptions)
 | `detach()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **Click on a column header matching selector** → Cycles sort direction: asc -> desc -> none (same column) or resets to asc (new column), Syncs aria-sort attribute on all headers (ascending/descending/removed), Dispatches native:sort with column name and direction
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { SortController } from '@nonoun/native-ui';
 const ctrl = new SortController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="sort">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="sort">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-sort-*` attributes:
+
+```html
+<n-controller traits="sort" data-trait-sort-selector="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `sort-controller.md` | Controller documentation |
+| `sort-controller.ts` | Controller (reactive state + behavior) |
+| `sortable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `sortable.html` | Demo page |
+| `sortable.test.ts` | Tests |

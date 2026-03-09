@@ -6,70 +6,143 @@
 
 **Class:** `NButton`
 
+**ARIA role:** `button`
+**Form-associated:** yes (participates in `<form>` submission, reset, validation)
+**Internal controllers:** `PressController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `disabled` | `boolean` | Disables interaction |
-| `type` | `string` | Form button type: "button" | "submit" | "reset" |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `disabled` | `boolean` |  | Disables interaction |
+| `type` | `string` |  | Form button type: "button" | "submit" | "reset" |
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `pressed` | boolean | _(boolean)_ | Visually shows the button in its active/pressed state |
+| `justify` | enum | `spread` | Spreads the label to fill available space with text left-aligned (used for dropdown triggers) |
+| `inline` | boolean | _(boolean)_ | Switches from block-level grid to inline-grid so the button sizes to its content |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:press` | Fired on activation (click, Enter, Space) |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:press` | _(none)_ | Fired on activation (click, Enter, Space) |
 
 ## Slots
 
-| Slot |
-|------|
-| `label` |
-| `leading` |
-| `trailing` |
+| Slot | Description |
+|------|-------------|
+| `label` | Primary text content of the button, placed in the center grid column |
+| `leading` | Content before the label (e.g. icon), placed in the first grid column |
+| `trailing` | Content after the label (e.g. icon or caret), placed in the last grid column |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-button)` | Background color |
+| `--n-background-active` | `var(--n-button-active)` | Background on press |
+| `--n-background-disabled` | `var(--n-button-disabled)` | Background when disabled |
+| `--n-background-hover` | `var(--n-button-hover)` | Background on hover |
+| `--n-border-active` |  | Border color on press (tier-1 definition) |
+| `--n-border-color` | `var(--n-border-muted)` | Border color |
+| `--n-border-color-active` | `var(--n-border-active)` | Border on press |
+| `--n-border-color-disabled` | `transparent` | Border when disabled |
+| `--n-border-color-hover` | `var(--n-border-hover)` | Border on hover |
+| `--n-border-hover` |  | Border color on hover (tier-1 definition) |
+| `--n-border-muted` |  | Muted border color |
+| `--n-button` |  | Button surface color |
+| `--n-button-active` |  | Button surface color |
+| `--n-button-disabled` |  | Button surface color |
+| `--n-button-font-weight` |  | Font weight |
+| `--n-button-hover` |  | Button surface color |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-color-active` | `var(--n-ink-active)` | Text/foreground color |
+| `--n-color-disabled` | `var(--n-ink-disabled)` | Text when disabled |
+| `--n-color-hover` | `var(--n-ink-hover)` | Text on hover |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-button-font-weight)` | Font weight |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-active` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-hover` |  | Ink on hover |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-control-line-height)` | Line height |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
 
-- `--n-background`
-- `--n-background-active`
-- `--n-background-disabled`
-- `--n-background-hover`
-- `--n-border-active`
-- `--n-border-color`
-- `--n-border-color-active`
-- `--n-border-color-disabled`
-- `--n-border-color-hover`
-- `--n-border-hover`
-- `--n-border-muted`
-- `--n-button`
-- `--n-button-active`
-- `--n-button-disabled`
-- `--n-button-font-weight`
-- `--n-button-hover`
-- `--n-color`
-- `--n-color-active`
-- `--n-color-disabled`
-- `--n-color-hover`
-- `--n-control-line-height`
-- `--n-duration`
-- `--n-easing`
-- `--n-focus-ring`
-- `--n-font-size`
-- `--n-font-weight`
-- `--n-ink`
-- `--n-ink-active`
-- `--n-ink-disabled`
-- `--n-ink-hover`
-- `--n-letter-spacing`
-- `--n-line-height`
-- `--n-radius`
-- `--n-size`
-- `--n-space`
-- `--n-space-k`
+## Accessibility
+
+- **Role:** `button`
+- **Form-associated:** participates in form submission, reset, and validation
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Activates the button and fires native:press |
+| `Space` | Activates the button and fires native:press |
+
+## Behavior
+
+- **native:press** → Submits form if type="submit", resets form if type="reset"
+- **click** → PressController converts to native:press event
+
+## Composition
+
+### Children
+- `<n-icon>`
+- `<span>`
+
+### Parents
+- `<n-select>`
+- `<n-toolbar>`
+- `<n-dialog>`
+- `<form>`
+
+## Compatible Traits
+
+`press`, `hover`, `tooltip`, `focus-visible`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-button></n-button>
 ```
+
+### Examples
+
+```html
+<n-button variant="primary" size="sm"><span slot="label">Primary</span></n-button>
+```
+
+```html
+<n-button variant="secondary" size="sm"><span slot="label">Secondary</span></n-button>
+```
+
+```html
+<n-button variant="outline" size="sm"><span slot="label">Outline</span></n-button>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `button-element.ts` | Element class (behavior, no CSS) |
+| `button.css` | Styles |
+| `button.html` | Demo page |
+| `button.stories.ts` | Storybook stories |
+| `button.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |

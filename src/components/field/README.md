@@ -6,37 +6,107 @@
 
 **Class:** `NField`
 
+**ARIA role:** `group`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `disabled` | `boolean` | Cascades disabled state to the child control |
-| `required` | `boolean` | Cascades required state to the child control |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `disabled` | `boolean` |  | Cascades disabled state to the child control |
+| `required` | `boolean` |  | Cascades required state to the child control |
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `invalid` | boolean | _(boolean)_ | Displays the field in an error state with red styling |
+| `gap` | enum | `none`, `relaxed`, `tight` | Controls vertical spacing between label, control, and description |
 
 ## Slots
 
-| Slot |
-|------|
-| `description` |
-| `error` |
-| `label` |
+| Slot | Description |
+|------|-------------|
+| `description` | Helper text displayed below the control |
+| `error` | Error message shown when the field is invalid |
+| `label` | Label text displayed above the control |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-button-font-weight` |  | Font weight |
+| `--n-control-line-height` |  | Line height |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-button-font-weight)` | Font weight |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-line-height` | `var(--n-control-line-height)` | Line height |
+| `--n-space` |  | Block/gap spacing |
 
-- `--n-button-font-weight`
-- `--n-control-line-height`
-- `--n-font-size`
-- `--n-font-weight`
-- `--n-ink-disabled`
-- `--n-ink-muted`
-- `--n-ink-strong`
-- `--n-line-height`
-- `--n-space`
+## Accessibility
+
+- **Role:** `group`
+
+## Behavior
+
+- **connectedCallback** → Wires aria-labelledby and aria-describedby from label/description/error slots to child control
+
+## Composition
+
+### Children
+- `<n-input>`
+- `<n-select>`
+- `<n-textarea>`
+- `<n-checkbox>`
+- `<n-switch>`
+- `<n-radio-group>`
+- `<n-range>`
+- `<n-calendar>`
+
+### Parents
+- `<form>`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-field></n-field>
 ```
+
+### Examples
+
+```html
+<n-field>
+          <label slot="label">Email address</label>
+          <n-input placeholder="you@example.com"></n-input>
+          <span slot="description">We'll never share your email.</span>
+        </n-field>
+```
+
+```html
+<n-field>
+          <label slot="label">Password</label>
+          <n-input placeholder="Enter password" type="password"></n-input>
+        </n-field>
+```
+
+```html
+<n-field required>
+          <label slot="label">Full name</label>
+          <n-input placeholder="Jane Doe"></n-input>
+          <span slot="description">As it appears on your ID.</span>
+        </n-field>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `field-element.ts` | Element class (behavior, no CSS) |
+| `field.css` | Styles |
+| `field.html` | Demo page |
+| `field.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |

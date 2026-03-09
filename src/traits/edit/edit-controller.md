@@ -4,6 +4,8 @@
 
 > Enables inline text editing on the host element, dispatching `native:edit-start`, `native:edit-commit`, and `native:edit-cancel`.
 
+**Trait name:** `edit` (for use with `<n-controller traits="edit">` or self-trait `traits="edit"`)
+
 ## Constructor
 
 ```ts
@@ -16,14 +18,6 @@ new EditController(host: HTMLElement, options?: EditOptions)
 |--------|------|----------|-------------|
 | `trigger` | `'click' | 'dblclick'` | no |  |
 | `disabled` | `boolean` | no |  |
-
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `isEditing` | `boolean` | yes |
-| `originalValue` | `string` | yes |
-| `currentValue` | `string` | yes |
 
 ## Events Dispatched
 
@@ -44,10 +38,62 @@ new EditController(host: HTMLElement, options?: EditOptions)
 | `commitEdit()` | `—` | `string` |
 | `cancelEdit()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Commits the inline edit |
+| `Escape` | Cancels the inline edit and restores original text |
+
+## Behavior
+
+- **Click or double-click on host (configurable via trigger option)** → Stores current text as original value, Sets contenteditable='plaintext-only' and editing attribute on host, Focuses host and selects all text (cursor at end), Dispatches native:edit-start with current value
+- **Enter key while editing** → Commits edit: captures current text, removes contenteditable and editing attribute, Dispatches native:edit-commit with value and previousValue
+- **Escape key while editing** → Restores original text content, Removes contenteditable and editing attribute, Dispatches native:edit-cancel with original value
+- **Blur while editing** → Auto-commits the edit (same as Enter)
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { EditController } from '@nonoun/native-ui';
 const ctrl = new EditController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="edit">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="edit">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-edit-*` attributes:
+
+```html
+<n-controller traits="edit" data-trait-edit-trigger="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `edit-controller.md` | Controller documentation |
+| `edit-controller.ts` | Controller (reactive state + behavior) |
+| `editable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `editable.html` | Demo page |
+| `editable.test.ts` | Tests |

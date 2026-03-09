@@ -1,0 +1,37 @@
+controller: StoreController
+description: Reactive key-value store with signal-backed values and remote JSON loading.
+source:
+  controller: src/controllers/store/store-controller.ts
+options:
+  parse:
+    type: "(res: Response) => Promise<Record<string, unknown>>"
+    description: "Parse fetch response. Default: `res.json()`"
+signals:
+  loading:
+    type: boolean
+    description: Whether a remote load is in progress
+  error:
+    type: string | null
+    description: Error message from the last failed load, or null
+methods:
+  get:
+    returns: Signal<T>
+    description: Get or create a reactive signal for a key
+  set:
+    returns: void
+    description: Set a value by key, creating the signal if needed
+  setAll:
+    returns: void
+    description: Bulk-set values from a plain object
+  load:
+    returns: Promise<boolean>
+    description: Fetch JSON from a URL and populate signals from top-level keys
+  has:
+    returns: boolean
+    description: Check whether a key exists in the store
+  keys:
+    returns: IterableIterator<string>
+    description: Return an iterator of all current keys
+  destroy:
+    returns: void
+    description: Abort any pending fetch and clean up

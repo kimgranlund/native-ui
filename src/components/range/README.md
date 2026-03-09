@@ -6,47 +6,109 @@
 
 **Class:** `NRange`
 
+**ARIA role:** `slider`
+**Form-associated:** yes (participates in `<form>` submission, reset, validation)
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `value` | `number` | Current value (default 50) |
-| `min` | `number` | Minimum value (default 0) |
-| `max` | `number` | Maximum value (default 100) |
-| `step` | `number` | Step increment (default 1) |
-| `disabled` | `boolean` | Disables interaction |
-| `name` | `string` | Form field name |
-| `required` | `boolean` | Marks as required for form validation |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | `number` |  | Current value (default 50) |
+| `min` | `number` |  | Minimum value (default 0) |
+| `max` | `number` |  | Maximum value (default 100) |
+| `step` | `number` |  | Step increment (default 1) |
+| `disabled` | `boolean` |  | Disables interaction |
+| `name` | `string` |  | Form field name |
+| `required` | `boolean` |  | Marks as required for form validation |
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `intent` | boolean | _(boolean)_ | Visual intent coloring for the track fill |
+| `pressed` | boolean | _(boolean)_ | Present while the thumb is being dragged |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:input` | Fired continuously during drag with `{ value }` detail |
-| `native:change` | Fired on drag end or keyboard change with `{ value }` detail |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:input` | _(none)_ | Fired continuously during drag with `{ value }` detail |
+| `native:change` | _(none)_ | Fired on drag end or keyboard change with `{ value }` detail |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-border-muted` |  | Muted border color |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-progress` | `0.5` | Normalized position (0 to 1) for the track fill |
+| `--n-shadow-sm` |  | Small shadow for thumb elevation |
+| `--n-surface` |  | Thumb surface color |
+| `--n-surface-active` |  | Thumb surface on press |
+| `--n-surface-disabled` |  | Thumb surface when disabled |
+| `--n-surface-hover` |  | Thumb surface on hover |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-surface-ink-disabled` |  | Ink when disabled |
+| `--n-widget` |  | Track background color |
+| `--n-widget-disabled` |  | Track background when disabled |
+| `--n-widget-size` |  | Component height |
 
-- `--n-border-muted`
-- `--n-duration`
-- `--n-easing`
-- `--n-focus-ring`
-- `--n-progress`
-- `--n-shadow-sm`
-- `--n-surface`
-- `--n-surface-active`
-- `--n-surface-disabled`
-- `--n-surface-hover`
-- `--n-surface-ink`
-- `--n-surface-ink-disabled`
-- `--n-widget`
-- `--n-widget-disabled`
-- `--n-widget-size`
+## Accessibility
+
+- **Role:** `slider`
+- **Form-associated:** participates in form submission, reset, and validation
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `ArrowRight` | Increases value by one step |
+| `ArrowUp` | Increases value by one step |
+| `ArrowLeft` | Decreases value by one step |
+| `ArrowDown` | Decreases value by one step |
+| `Home` | Sets value to minimum |
+| `End` | Sets value to maximum |
+
+## Behavior
+
+- **pointer drag on thumb** → Updates value continuously and fires native:input then native:change on release
+
+## Composition
+
+### Parents
+- `<n-field>`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-range></n-range>
 ```
+
+### Examples
+
+```html
+<n-range value="75"></n-range>
+```
+
+```html
+<n-range value="50"></n-range>
+```
+
+```html
+<n-range min="60" max="85" step="1" value="72"></n-range>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `range-element.ts` | Element class (behavior, no CSS) |
+| `range.css` | Styles |
+| `range.html` | Demo page |
+| `range.ts` | Custom element registration (define()) |
+| `README.md` | Documentation (auto-generated) |

@@ -1,0 +1,69 @@
+trait: range-select
+controller: RangeSelectController
+description: Enables contiguous range selection via drag or click, dispatching `native:range-change` and `native:range-select`.
+source:
+  controller: src/traits/range-select/range-select-controller.ts
+  adapter: src/traits/range-select/range-selectable-adapter.ts
+  demo: src/traits/range-select/range-selectable.html
+  test: src/traits/range-select/range-selectable.test.ts
+options:
+  selector:
+    type: string
+    required: true
+  mode:
+    type: "'drag' | 'click'"
+  disabled:
+    type: boolean
+injected_events:
+  native:range-change:
+    detail:
+      startIndex:
+        type: number
+      endIndex:
+        type: number
+      items:
+        type: HTMLElement[]
+  native:range-select:
+    detail:
+      startIndex:
+        type: number
+      endIndex:
+        type: number
+      items:
+        type: HTMLElement[]
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+  clearRange:
+    returns: void
+consumption:
+  imperative: new RangeSelectController(element, options)
+  provider: <n-controller traits="range-select">
+  self_trait: <n-button traits="range-select">
+behavior:
+  - trigger: "Pointerdown on item (drag mode)"
+    actions:
+      - "Records start index, sets pointer capture"
+      - "Sets range-selected, range-start, and range-end attributes"
+  - trigger: "Pointermove during drag"
+    actions:
+      - "Updates end index based on element under pointer"
+      - "Updates range-selected/range-start/range-end attributes on all items"
+      - "Dispatches native:range-change with startIndex, endIndex, items"
+  - trigger: "Pointerup (drag mode)"
+    actions:
+      - "Dispatches native:range-select with final startIndex, endIndex, items"
+  - trigger: "First click on item (click mode)"
+    actions:
+      - "Sets start index, enters 'selecting' phase"
+      - "Hover previews range as pointer moves over items"
+  - trigger: "Second click on item (click mode)"
+    actions:
+      - "Sets end index, enters 'adjusting' phase (drag fine-tune)"
+      - "Pointerup commits and dispatches native:range-select"
+a11y:
+  keyboard: []

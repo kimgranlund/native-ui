@@ -1,0 +1,41 @@
+component:
+tag: n-badge
+category: component
+css_only: true
+description: Inline badge for counts, labels, or status dot indicators.
+source:
+  css: src/components/badge/badge.css
+  demo: src/components/badge/badge.html
+display: inline-flex
+css_attributes:
+  floating:
+    type: boolean
+    description: Positions the badge as an overlay anchored to the top-right of its parent
+  dot:
+    type: boolean
+    description: Renders as a small status dot without text content
+css_tokens:
+  --n-badge-dot:
+    description: Size of the dot indicator
+  --n-button-font-weight:
+    description: Font weight
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-button-font-weight)
+  --n-ink:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-radius:
+    description: Border radius
+    default: 9999px
+  --n-space:
+    description: Block/gap spacing
+  --n-surface:
+    description: Background surface color
+  --n-surface-ink:
+    description: Text color on the surface
+  --n-widget-font:
+    description: Widget-scale font size
+  --n-widget-xs:
+    description: Extra-small widget size for minimum dimensions

@@ -1,0 +1,21 @@
+component: NRoot
+tag: n-root
+category: component
+description: Host container with optional shadow DOM isolation boundary.
+source:
+  element: src/components/root/root-element.ts
+  css: src/components/root/root.css
+  registration: src/components/root/n-root.ts
+attributes:
+  mode:
+    type: "'light'|'shadow'"
+    description: "Isolation mode (default: 'light')"
+traits:
+  compatible: []
+  incompatible: []
+behavior:
+  - trigger: connectedCallback
+    actions: [Optionally creates shadow DOM isolation boundary based on mode attribute]
+compose:
+  children: []
+  parents: []

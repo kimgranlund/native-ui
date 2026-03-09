@@ -1,0 +1,44 @@
+component:
+tag: n-progress
+category: component
+css_only: true
+description: Read-only progress bar driven by a --n-progress custom property (0 to 1).
+source:
+  css: src/components/progress/progress.css
+  demo: src/components/progress/progress.html
+display: flex
+css_attributes:
+  intent:
+    type: enum
+    values:
+      - accent
+      - danger
+      - success
+      - warning
+    description: Sets the fill color via intent tokens
+  size:
+    type: enum
+    values:
+      - lg
+      - sm
+      - xs
+    description: Controls track height
+  indeterminate:
+    type: boolean
+    description: Shows an animated indeterminate loading state
+css_tokens:
+  --n-control:
+    description: Track background color
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-ink:
+    description: Fill bar color
+  --n-progress:
+    description: Progress value from 0 to 1
+    default: "0"
+  --n-radius:
+    description: Border radius
+  --n-space:
+    description: Block/gap spacing

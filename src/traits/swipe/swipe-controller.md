@@ -4,6 +4,8 @@
 
 > Detects touch/pointer swipe gestures and dispatches `native:swipe` with direction and velocity.
 
+**Trait name:** `swipe` (for use with `<n-controller traits="swipe">` or self-trait `traits="swipe"`)
+
 ## Constructor
 
 ```ts
@@ -19,13 +21,6 @@ new SwipeController(host: HTMLElement, options?: SwipeOptions)
 | `axis` | `'horizontal' | 'vertical' | 'both'` | no |  |
 | `disabled` | `boolean` | no |  |
 
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `distance` | `number` | yes |
-| `velocity` | `number` | yes |
-
 ## Events Dispatched
 
 | Event | Detail |
@@ -40,10 +35,52 @@ new SwipeController(host: HTMLElement, options?: SwipeOptions)
 | `detach()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **Pointerdown on host (left button, primary touch only)** → Records start position and time, Captures pointer on host, Sets swiping attribute on host
+- **Pointerup after swipe gesture** → Calculates distance, direction, and velocity from start to end, If distance >= threshold and velocity >= velocityThreshold:, Sets swipe-{direction} attribute briefly (300ms) for CSS animation, Dispatches native:swipe with direction, distance, velocity
+- **Pointercancel during swipe** → Removes swiping attribute, cleans up without dispatching
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { SwipeController } from '@nonoun/native-ui';
 const ctrl = new SwipeController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="swipe">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="swipe">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-swipe-*` attributes:
+
+```html
+<n-controller traits="swipe" data-trait-swipe-threshold="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `swipe-controller.md` | Controller documentation |
+| `swipe-controller.ts` | Controller (reactive state + behavior) |
+| `swipeable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `swipeable.html` | Demo page |
+| `swipeable.test.ts` | Tests |

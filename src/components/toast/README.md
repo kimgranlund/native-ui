@@ -7,38 +7,60 @@ Created by ToastController — not typically authored in HTML directly.
 
 **Class:** `NToast`
 
+**ARIA role:** `alert`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `message` | `string` | Toast message text |
-| `dismissible` | `boolean` | Show dismiss button |
-| `intent` | `'info'|'success'|'warning'|'danger'` | Visual intent (default: info) |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `message` | `string` |  | Toast message text |
+| `dismissible` | `boolean` |  | Show dismiss button |
+| `intent` | `'info'|'success'|'warning'|'danger'` |  | Visual intent (default: info) |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:dismiss` |  |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:dismiss` | _(none)_ | Fired when the toast is dismissed by user or auto-timeout |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-radius` |  | Border radius |
+| `--n-surface-danger` |  | Background for danger intent toasts |
+| `--n-surface-info` |  | Background for info intent toasts |
+| `--n-surface-ink-danger` |  | Ink (text) color |
+| `--n-surface-ink-info` |  | Ink (text) color |
+| `--n-surface-ink-success` |  | Ink (text) color |
+| `--n-surface-ink-warning` |  | Ink (text) color |
+| `--n-surface-success` |  | Background for success intent toasts |
+| `--n-surface-warning` |  | Background for warning intent toasts |
 
-- `--n-duration`
-- `--n-easing`
-- `--n-radius`
-- `--n-surface-danger`
-- `--n-surface-info`
-- `--n-surface-ink-danger`
-- `--n-surface-ink-info`
-- `--n-surface-ink-success`
-- `--n-surface-ink-warning`
-- `--n-surface-success`
-- `--n-surface-warning`
+## Accessibility
+
+- **Role:** `alert`
+
+## Behavior
+
+- **dismissible click** → Fires native:dismiss and removes the toast
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-toast></n-toast>
 ```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `toast-element.ts` | Element class (behavior, no CSS) |
+| `toast.css` | Styles |
+| `toast.ts` | Custom element registration (define()) |

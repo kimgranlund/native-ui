@@ -4,6 +4,8 @@
 
 > Creates and manages a native `<dialog>` element with modal, close, and dismiss behavior.
 
+**Trait name:** `dialog` (for use with `<n-controller traits="dialog">` or self-trait `traits="dialog"`)
+
 ## Constructor
 
 ```ts
@@ -16,11 +18,11 @@ new DialogController(host: HTMLElement, options?: DialogOptions)
 |--------|------|----------|-------------|
 | `contentTarget` | `(dialog: HTMLDialogElement) => HTMLElement` | no |  |
 
-## Properties
+## Events Dispatched
 
-| Property | Type | Readonly |
-|----------|------|----------|
-| `open` | `boolean` | yes |
+| Event | Detail |
+|-------|--------|
+| `close` | _(none)_ |
 
 ## Methods
 
@@ -30,10 +32,63 @@ new DialogController(host: HTMLElement, options?: DialogOptions)
 | `close()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Escape` | Closes the modal dialog (unless no-close-on-escape is set) |
+
+## Behavior
+
+- **Construction** → Creates a native <dialog> element, Moves all host children into the dialog (or contentTarget wrapper), Appends dialog to host, Listens for cancel, click, and native:dismiss events
+- **showModal() called** → Opens dialog as modal via native showModal(), Sets open attribute on host, Defers focus to [autofocus] or first focusable descendant
+- **Escape key pressed (native cancel event)** → Prevents default cancel behavior, Closes dialog unless host has no-close-on-escape attribute
+- **Click on dialog backdrop** → Closes dialog unless host has no-close-on-backdrop attribute
+- **native:dismiss event on host** → Closes dialog unless host has no-close-on-escape attribute
+- **close() called** → Closes native dialog, Removes open attribute from host, Dispatches close event
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { DialogController } from '@nonoun/native-ui';
 const ctrl = new DialogController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="dialog">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="dialog">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-dialog-*` attributes:
+
+```html
+<n-controller traits="dialog" data-trait-dialog-contentTarget="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `dialog-controller.md` | Controller documentation |
+| `dialog-controller.test.ts` | Tests |
+| `dialog-controller.ts` | Controller (reactive state + behavior) |
+| `dialogable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `dialogable.html` | Demo page |

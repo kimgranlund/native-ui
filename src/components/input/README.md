@@ -12,89 +12,146 @@ surface handles editing.
 
 **Class:** `NInput`
 
+**ARIA role:** `textbox`
+**Form-associated:** yes (participates in `<form>` submission, reset, validation)
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `value` | `string` | Current text value |
-| `placeholder` | `string` | Placeholder text shown when empty |
-| `disabled` | `boolean` | Disables interaction |
-| `readonly` | `boolean` | Prevents editing while remaining focusable |
-| `required` | `boolean` | Marks as required for form validation |
-| `pattern` | `string` |  |
-| `type` | `string` | Input type ("text" or "password") — password masks via CSS text-security |
-| `formatting` | `string` | Space-separated list of enabled formats (e.g. "code") |
-| `name` | `string` | Form field name |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | `string` |  | Current text value |
+| `placeholder` | `string` |  | Placeholder text shown when empty |
+| `disabled` | `boolean` |  | Disables interaction |
+| `readonly` | `boolean` |  | Prevents editing while remaining focusable |
+| `required` | `boolean` |  | Marks as required for form validation |
+| `pattern` | `string` |  | Regex pattern for constraint validation |
+| `type` | `string` |  | Input type ("text" or "password") — password masks via CSS text-security |
+| `formatting` | `string` |  | Space-separated list of enabled formats (e.g. "code") |
+| `name` | `string` |  | Form field name |
 
-## Properties
+## CSS Attributes
 
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `readOnly` | `boolean` | no |  |
-
-## Methods
-
-| Method | Parameters | Returns |
-|--------|------------|---------|
-| `select()` | `—` | `void` |
-| `focus()` | `options?: FocusOptions` | `void` |
-| `applyFormat()` | `type: string` | `void` |
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `inline` | boolean | _(boolean)_ | Switches from block-level to inline display so the input sizes to its content |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:format` | Fired after formatting with `{ type, value }` detail |
-| `native:input` | Fired on each keystroke with `{ value }` detail |
-| `native:change` | Fired on blur with `{ value }` detail |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:format` | _(none)_ | Fired after formatting with `{ type, value }` detail |
+| `native:input` | _(none)_ | Fired on each keystroke with `{ value }` detail |
+| `native:change` | _(none)_ | Fired on blur with `{ value }` detail |
 
 ## Slots
 
-| Slot |
-|------|
-| `leading` |
-| `trailing` |
+| Slot | Description |
+|------|-------------|
+| `leading` | Content before the input surface (e.g. search icon), ordered via CSS |
+| `trailing` | Content after the input surface (e.g. clear button), ordered via CSS |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-control)` | Background color |
+| `--n-background-disabled` | `var(--n-control-disabled)` | Background when disabled |
+| `--n-background-hover` | `var(--n-control-hover)` | Background on hover |
+| `--n-border-color` | `var(--n-border-rest)` | Border color |
+| `--n-border-color-disabled` | `transparent` | Border when disabled |
+| `--n-border-color-hover` | `var(--n-border-muted)` | Border on hover |
+| `--n-border-muted` |  | Muted border color |
+| `--n-border-rest` |  | Default border color at rest (tier-1 definition) |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-color-disabled` | `var(--n-ink-disabled)` | Text when disabled |
+| `--n-color-hover` | `var(--n-ink-hover)` | Text on hover |
+| `--n-control` |  | Control surface color (tier-1 definition) |
+| `--n-control-disabled` |  | Control surface color when disabled (tier-1 definition) |
+| `--n-control-hover` |  | Control surface color on hover (tier-1 definition) |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-input-font-weight)` | Font weight |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-hover` |  | Ink on hover |
+| `--n-ink-placeholder` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-input-font-weight` |  | Font weight |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-control-line-height)` | Line height |
+| `--n-panel` |  | Panel surface color (tier-1 definition) |
+| `--n-panel-hover` |  | Panel surface color on hover (tier-1 definition) |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
 
-- `--n-background`
-- `--n-background-disabled`
-- `--n-background-hover`
-- `--n-border-color`
-- `--n-border-color-disabled`
-- `--n-border-color-hover`
-- `--n-border-muted`
-- `--n-border-rest`
-- `--n-color`
-- `--n-color-disabled`
-- `--n-color-hover`
-- `--n-control`
-- `--n-control-disabled`
-- `--n-control-hover`
-- `--n-control-line-height`
-- `--n-duration`
-- `--n-easing`
-- `--n-focus-ring`
-- `--n-font-size`
-- `--n-font-weight`
-- `--n-ink`
-- `--n-ink-disabled`
-- `--n-ink-hover`
-- `--n-ink-placeholder`
-- `--n-ink-strong`
-- `--n-input-font-weight`
-- `--n-letter-spacing`
-- `--n-panel`
-- `--n-panel-hover`
-- `--n-radius`
-- `--n-size`
-- `--n-space`
-- `--n-space-k`
+## Accessibility
+
+- **Role:** `textbox`
+- **Form-associated:** participates in form submission, reset, and validation
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Submits the parent form (implicit submission), prevented inside n-combobox |
+| `Cmd/Ctrl+E` | Toggles code formatting on the selected text when formatting="code" is enabled |
+
+## Behavior
+
+- **input** → Updates form value, dispatches native:input with current value
+- **blur** → Dispatches native:change with final value
+- **mousedown on host** → Redirects focus to the inner contenteditable surface
+
+## Composition
+
+### Children
+- `<n-icon>`
+- `<span>`
+
+### Parents
+- `<n-combobox>`
+- `<n-field>`
+- `<form>`
+
+## Compatible Traits
+
+`hover`, `focus-visible`, `tooltip`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-input></n-input>
 ```
+
+### Examples
+
+```html
+<n-input variant="outline" placeholder="Outline input"></n-input>
+```
+
+```html
+<n-input variant="default" placeholder="Default input"></n-input>
+```
+
+```html
+<n-input variant="ghost" placeholder="Ghost input"></n-input>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `input-element.ts` | Element class (behavior, no CSS) |
+| `input.css` | Styles |
+| `input.html` | Demo page |
+| `input.stories.ts` | Storybook stories |
+| `input.ts` | Custom element registration (define()) |
+| `README.md` | Documentation (auto-generated) |

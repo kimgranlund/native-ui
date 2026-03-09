@@ -4,6 +4,8 @@
 
 > Handles keyboard-driven cut/copy/paste operations on selected items, dispatching `native:clip-copy`, `native:clip-cut`, and `native:clip-paste`.
 
+**Trait name:** `clipboard` (for use with `<n-controller traits="clipboard">` or self-trait `traits="clipboard"`)
+
 ## Constructor
 
 ```ts
@@ -16,13 +18,6 @@ new ClipboardController(host: HTMLElement, options?: ClipboardOptions)
 |--------|------|----------|-------------|
 | `selector` | `string` | yes |  |
 | `disabled` | `boolean` | no |  |
-
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `hasCutPending` | `boolean` | yes |
-| `cutItems` | `Set<HTMLElement>` | yes |
 
 ## Events Dispatched
 
@@ -43,10 +38,62 @@ new ClipboardController(host: HTMLElement, options?: ClipboardOptions)
 | `deserialize()` | `data: string` | `string[]` |
 | `cancelCut()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Ctrl/Cmd+C` | Copies selected items to clipboard |
+| `Ctrl/Cmd+X` | Cuts selected items to clipboard, marks them with clip-cut attribute |
+| `Ctrl/Cmd+V` | Pastes clipboard text, dispatches native:clip-paste |
+
+## Behavior
+
+- **Ctrl/Cmd+C keydown on host with selected items matching selector** → Serializes selected elements via serialize(), Writes serialized text to system clipboard, Dispatches native:clip-copy with items and data
+- **Ctrl/Cmd+X keydown on host with selected items matching selector** → Serializes selected elements via serialize(), Writes serialized text to system clipboard, Cancels any previous cut (removes clip-cut attr from old items), Sets clip-cut attribute on each cut item, Dispatches native:clip-cut with items and data
+- **Ctrl/Cmd+V keydown on host with selected items matching selector** → Reads text from system clipboard, Cancels any pending cut (removes clip-cut attr), Dispatches native:clip-paste with clipboard data
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { ClipboardController } from '@nonoun/native-ui';
 const ctrl = new ClipboardController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="clipboard">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="clipboard">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-clipboard-*` attributes:
+
+```html
+<n-controller traits="clipboard" data-trait-clipboard-selector="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `clipboard-controller.md` | Controller documentation |
+| `clipboard-controller.ts` | Controller (reactive state + behavior) |
+| `clippable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `clippable.html` | Demo page |
+| `clippable.test.ts` | Tests |

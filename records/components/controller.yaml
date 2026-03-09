@@ -1,0 +1,41 @@
+component: NController
+tag: n-controller
+category: component
+description: |-
+  `<n-controller>` — Structural trait provider.
+
+  Three modes:
+  - **Wrapper** (default): Applies traits to first element child
+  - **Selector** (`for="selector"`): Applies traits to matching descendants
+  - **Provider** (`provides="..."`): Exposes a StoreController via context
+source:
+  element: src/components/controller/controller-element.ts
+  css: src/components/controller/controller.css
+  registration: src/components/controller/controller.ts
+  demo: src/components/controller/controller.html
+attributes:
+  traits:
+    type: string
+    description: Space-separated list of trait names to apply (e.g. "pressable draggable")
+  for:
+    type: string
+    description: CSS selector targeting descendants to receive traits
+  provides:
+    type: string
+    description: Context key name to expose a StoreController to descendants
+  src:
+    type: string
+    description: URL to fetch JSON data into the provided store
+controllers:
+  - StoreController
+traits:
+  compatible: []
+  incompatible: []
+behavior:
+  - trigger: connectedCallback
+    actions: [Applies traits to first child (wrapper mode) or selector matches (for mode)]
+  - trigger: provides attribute
+    actions: [Creates StoreController and exposes via context protocol]
+compose:
+  children: []
+  parents: []

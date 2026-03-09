@@ -2,25 +2,69 @@
 
 # n-grid
 
-**CSS-only container** — no JavaScript class.
+> CSS grid container with column count or auto-fill min-width presets.
+
+**CSS-only element** — styled purely via CSS, no JavaScript class required.
 
 **Display:** `grid`
 
-## Attributes
+## CSS Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `cols` | `1`, `2`, `3`, `4`, `5`, `6` |
-| `min` | `10rem`, `12rem`, `14rem`, `16rem`, `20rem`, `24rem`, `8rem` |
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `cols` | enum | `1`, `2`, `3`, `4`, `5`, `6` | Fixed number of equal-width columns |
+| `min` | enum | `10rem`, `12rem`, `14rem`, `16rem`, `20rem`, `24rem`, `8rem` | Minimum column width for auto-fill responsive grid |
 
-## CSS Tokens
+## CSS Custom Properties
 
-- `--n-padding-block`
-- `--n-padding-inline`
-- `--n-space`
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-padding-block` | `0` | Vertical padding inside the grid |
+| `--n-padding-inline` | `0` | Horizontal padding inside the grid |
+| `--n-space` |  | Block/gap spacing |
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-grid></n-grid>
 ```
+
+### Examples
+
+```html
+<n-grid>
+        <div class="demo-box">Card 1</div>
+        <div class="demo-box">Card 2</div>
+        <div class="demo-box">Card 3</div>
+        <div class="demo-box">Card 4</div>
+        <div class="demo-box">Card 5</div>
+        <div class="demo-box">Card 6</div>
+      </n-grid>
+```
+
+```html
+<n-grid cols="2">
+        <div class="demo-box">Col 1</div>
+        <div class="demo-box">Col 2</div>
+        <div class="demo-box">Col 3</div>
+        <div class="demo-box">Col 4</div>
+      </n-grid>
+```
+
+```html
+<n-grid cols="3">
+        <div class="demo-box">Col 1</div>
+        <div class="demo-box">Col 2</div>
+        <div class="demo-box">Col 3</div>
+      </n-grid>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `grid.css` | Styles |
+| `grid.html` | Demo page |
+| `README.md` | Documentation (auto-generated) |

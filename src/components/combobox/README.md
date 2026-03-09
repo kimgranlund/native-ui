@@ -6,42 +6,127 @@
 
 **Class:** `NCombobox`
 
+**ARIA role:** `combobox`
+**Form-associated:** yes (participates in `<form>` submission, reset, validation)
+**Internal controllers:** `PopoverController`, `DataListController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `value` | `string` | Currently selected value |
-| `disabled` | `boolean` | Disables interaction |
-| `name` | `string` | Form field name |
-| `options` | `string` | JSON array of `{ value, label }` objects for data-driven mode |
-| `src` | `string` | URL to fetch options from for data-driven mode |
-| `placeholder` | `string` | Placeholder text for the input |
-| `required` | `string` |  |
-
-## Properties
-
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `store` | `DataListController<ComboboxOption>` | yes |  |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | `string` |  | Currently selected value |
+| `disabled` | `boolean` |  | Disables interaction |
+| `name` | `string` |  | Form field name |
+| `options` | `string` |  | JSON array of `{ value, label }` objects for data-driven mode |
+| `src` | `string` |  | URL to fetch options from for data-driven mode |
+| `placeholder` | `string` |  | Placeholder text for the input |
+| `required` | `string` |  |  |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:change` | Fired when selection changes with `{ value, label }` detail |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:change` | _(none)_ | Fired when selection changes with `{ value, label }` detail |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-popover-gap` |  | Gap between items |
+| `--n-popover-max-height` |  | Maximum height of the dropdown popover |
+| `--n-popover-viewport-margin` |  | Minimum margin between the popover and viewport edge |
 
-- `--n-duration`
-- `--n-easing`
-- `--n-popover-gap`
-- `--n-popover-max-height`
-- `--n-popover-viewport-margin`
+## Accessibility
+
+- **Role:** `combobox`
+- **Form-associated:** participates in form submission, reset, and validation
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `ArrowDown` | Opens the listbox if closed, moves active highlight to the next visible option |
+| `ArrowUp` | Opens the listbox if closed, moves active highlight to the previous visible option |
+| `Enter` | Selects the active option and closes the listbox |
+| `Escape` | Closes the listbox without changing selection |
+| `Home` | Moves active highlight to the first visible option |
+| `End` | Moves active highlight to the last visible option |
+
+## Behavior
+
+- **focusin on input** → Opens the popover listbox
+- **native:input on input** → Filters options by query text, opens listbox if closed
+- **native:select on option** → Sets value, updates input text to label, closes popover, dispatches native:change
+- **native:dismiss** → Closes the popover listbox
+
+## Composition
+
+### Children
+- `<n-input>`
+- `<n-listbox>`
+- `<n-option>`
+- `<n-option-group>`
+
+### Parents
+- `<n-field>`
+- `<form>`
+
+## Compatible Traits
+
+`hover`, `focus-visible`, `dismissable`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-combobox></n-combobox>
 ```
+
+### Examples
+
+```html
+<n-combobox size="sm">
+          <n-input placeholder="Small..."></n-input>
+          <n-listbox popover>
+            <n-option value="a" label="Alpha">Alpha</n-option>
+            <n-option value="b" label="Bravo">Bravo</n-option>
+            <n-option value="c" label="Charlie">Charlie</n-option>
+          </n-listbox>
+        </n-combobox>
+```
+
+```html
+<n-combobox size="md">
+          <n-input placeholder="Medium..."></n-input>
+          <n-listbox popover>
+            <n-option value="a" label="Alpha">Alpha</n-option>
+            <n-option value="b" label="Bravo">Bravo</n-option>
+            <n-option value="c" label="Charlie">Charlie</n-option>
+          </n-listbox>
+        </n-combobox>
+```
+
+```html
+<n-combobox size="lg">
+          <n-input placeholder="Large..."></n-input>
+          <n-listbox popover>
+            <n-option value="a" label="Alpha">Alpha</n-option>
+            <n-option value="b" label="Bravo">Bravo</n-option>
+            <n-option value="c" label="Charlie">Charlie</n-option>
+          </n-listbox>
+        </n-combobox>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `combobox-element.ts` | Element class (behavior, no CSS) |
+| `combobox.css` | Styles |
+| `combobox.html` | Demo page |
+| `combobox.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |

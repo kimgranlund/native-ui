@@ -1,0 +1,76 @@
+component: NPagination
+tag: n-pagination
+category: component
+description: Pagination control rendering page buttons with ellipsis and prev/next navigation.
+source:
+  element: src/components/pagination/pagination-element.ts
+  css: src/components/pagination/pagination.css
+  registration: src/components/pagination/pagination.ts
+  demo: src/components/pagination/pagination.html
+attributes:
+  total:
+    type: number
+    description: Total number of pages
+  value:
+    type: number
+    description: Current page number (1-based)
+  siblings:
+    type: number
+    description: Number of sibling pages shown around current
+  boundaries:
+    type: number
+    description: Number of boundary pages shown at start/end
+  disabled:
+    type: boolean
+    description: Disables all pagination buttons
+events:
+  native:change:
+    description: Fired when page changes with `{ value }` detail
+css_tokens:
+  --n-background:
+    description: Background color
+    default: var(--n-surface)
+  --n-background-active:
+    description: Background on press
+    default: var(--n-panel-active)
+  --n-background-hover:
+    description: Background on hover
+    default: var(--n-panel-hover)
+  --n-border-color:
+    description: Border color
+    default: var(--n-surface)
+  --n-color:
+    description: Text/foreground color
+    default: var(--n-surface-ink)
+  --n-font-size:
+    description: Font size
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-panel-active:
+    description: Panel background on press
+  --n-panel-hover:
+    description: Panel background on hover
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-surface:
+    description: Surface background color
+  --n-surface-ink:
+    description: Text color on the surface
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: navigation
+  keyboard:
+    - key: Enter
+      action: Activates the focused page button
+behavior:
+  - trigger: click on page button
+    actions: [Updates value and fires native:change with the new page number]
+compose:
+  children: []
+  parents: []

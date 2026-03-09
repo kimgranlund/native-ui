@@ -6,54 +6,108 @@
 
 **Class:** `NInputOtp`
 
+**ARIA role:** `group`
+**Form-associated:** yes (participates in `<form>` submission, reset, validation)
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `value` | `string` | Current OTP value |
-| `length` | `number` | Number of cells (default 6, max 12) |
-| `disabled` | `boolean` | Disables interaction |
-| `name` | `string` | Form field name |
-| `pattern` | `string` | Regex pattern for allowed characters (default "[0-9]") |
-| `mask` | `string` | Mask character for display |
-| `required` | `string` |  |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | `string` |  | Current OTP value |
+| `length` | `number` |  | Number of cells (default 6, max 12) |
+| `disabled` | `boolean` |  | Disables interaction |
+| `name` | `string` |  | Form field name |
+| `pattern` | `string` |  | Regex pattern for allowed characters (default "[0-9]") |
+| `mask` | `string` |  | Mask character for display |
+| `required` | `string` |  |  |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:input` | Fired on each cell change with `{ value }` detail |
-| `native:change` | Fired when all cells are filled with `{ value }` detail |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:input` | _(none)_ | Fired on each cell change with `{ value }` detail |
+| `native:change` | _(none)_ | Fired when all cells are filled with `{ value }` detail |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `transparent` | Background color |
+| `--n-border` |  | Resting border color |
+| `--n-border-color` | `var(--n-border)` | Border color |
+| `--n-border-color-disabled` | `transparent` | Border when disabled |
+| `--n-border-color-hover` | `var(--n-border-hover)` | Border on hover |
+| `--n-border-hover` |  | Border color on hover |
+| `--n-button-font-weight` |  | Font weight |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-color-disabled` | `var(--n-ink-disabled)` | Text when disabled |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-button-font-weight)` | Font weight |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-control-line-height)` | Line height |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
 
-- `--n-background`
-- `--n-border`
-- `--n-border-color`
-- `--n-border-color-disabled`
-- `--n-border-color-hover`
-- `--n-border-hover`
-- `--n-button-font-weight`
-- `--n-color`
-- `--n-color-disabled`
-- `--n-control-line-height`
-- `--n-duration`
-- `--n-easing`
-- `--n-focus-ring`
-- `--n-font-size`
-- `--n-font-weight`
-- `--n-ink`
-- `--n-ink-disabled`
-- `--n-letter-spacing`
-- `--n-line-height`
-- `--n-radius`
-- `--n-size`
-- `--n-space`
+## Accessibility
+
+- **Role:** `group`
+- **Form-associated:** participates in form submission, reset, and validation
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Backspace` | Clears current cell and moves focus to previous cell |
+| `ArrowLeft` | Moves focus to the previous cell |
+| `ArrowRight` | Moves focus to the next cell |
+| `Delete` | Clears the current cell value |
+
+## Behavior
+
+- **character input** → Fills current cell and advances focus to next cell
+- **paste** → Distributes pasted characters across cells and fires native:change if complete
+
+## Composition
+
+### Parents
+- `<n-field>`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-input-otp></n-input-otp>
 ```
+
+### Examples
+
+```html
+<n-input-otp length="4"></n-input-otp>
+```
+
+```html
+<n-input-otp mask></n-input-otp>
+```
+
+```html
+<n-input-otp value="123456"></n-input-otp>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `input-otp-element.ts` | Element class (behavior, no CSS) |
+| `input-otp.css` | Styles |
+| `input-otp.html` | Demo page |
+| `input-otp.ts` | Custom element registration (define()) |
+| `README.md` | Documentation (auto-generated) |

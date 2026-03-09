@@ -1,0 +1,7 @@
+component:
+tag: n-header
+category: component
+css_only: true
+description: Grid-based header with leading, label, and trailing slot regions.
+source:
+  demo: src/containers/header/header.html

@@ -4,6 +4,8 @@
 
 > Manages arrow-key roving tabindex focus across a set of child items.
 
+**Trait name:** `roving-focus` (for use with `<n-controller traits="roving-focus">` or self-trait `traits="roving-focus"`)
+
 ## Constructor
 
 ```ts
@@ -27,10 +29,66 @@ new RovingFocusController(host: HTMLElement, options?: RovingFocusOptions)
 | `detach()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `ArrowDown` | Moves focus to next item (vertical/both orientation) |
+| `ArrowUp` | Moves focus to previous item (vertical/both orientation) |
+| `ArrowRight` | Moves focus to next item (horizontal/both orientation) |
+| `ArrowLeft` | Moves focus to previous item (horizontal/both orientation) |
+| `Home` | Moves focus to first item |
+| `End` | Moves focus to last item |
+
+## Behavior
+
+- **attach() called** → Sets tabindex='0' on first item, tabindex='-1' on all others, Adds keydown and focusin listeners on host
+- **Arrow key pressed while focused within host** → Moves tabindex='0' to next/previous item based on orientation, Focuses the new active item, Wraps around if wrap option is true
+- **Home/End key pressed** → Moves focus to first or last item respectively
+- **Host element receives focus** → Redirects focus to the currently active item
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { RovingFocusController } from '@nonoun/native-ui';
 const ctrl = new RovingFocusController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="roving-focus">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="roving-focus">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-roving-focus-*` attributes:
+
+```html
+<n-controller traits="roving-focus" data-trait-roving-focus-selector="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `roving-focus-controller.md` | Controller documentation |
+| `roving-focus-controller.ts` | Controller (reactive state + behavior) |
+| `roving-focusable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `roving-focusable.html` | Demo page |
+| `roving-focusable.test.ts` | Tests |

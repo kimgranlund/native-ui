@@ -6,54 +6,121 @@
 
 **Class:** `NDrawer`
 
+**ARIA role:** `dialog`
+**Internal controllers:** `DialogController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `side` | `string` | Slide-in direction: "left" | "right" | "top" | "bottom" |
-| `no-close-on-escape` | `boolean` | Prevents closing on Escape key |
-| `no-close-on-backdrop` | `boolean` | Prevents closing on backdrop click |
-
-## Properties
-
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `open` | `boolean` | yes |  |
-
-## Methods
-
-| Method | Parameters | Returns |
-|--------|------------|---------|
-| `showModal()` | `—` | `void` |
-| `close()` | `—` | `void` |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `side` | `string` |  | Slide-in direction: "left" | "right" | "top" | "bottom" |
+| `no-close-on-escape` | `boolean` |  | Prevents closing on Escape key |
+| `no-close-on-backdrop` | `boolean` |  | Prevents closing on backdrop click |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `close` | Fired when the drawer is closed |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `close` | _(none)_ | Fired when the drawer is closed |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-backdrop-color` |  | Backdrop overlay color |
+| `--n-backdrop-opacity` |  | Backdrop overlay opacity |
+| `--n-border-muted` |  | Muted border color |
+| `--n-border-muted-neutral` |  | Muted border color |
+| `--n-button-font-weight` |  | Font weight |
+| `--n-drawer-height` |  | Drawer panel height (for top/bottom side) |
+| `--n-drawer-width` |  | Drawer panel width (for left/right side) |
+| `--n-duration` |  | Transition duration |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-panel` |  | Panel background color |
+| `--n-shadow-lg` |  | Large shadow for drawer elevation |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
 
-- `--n-backdrop-color`
-- `--n-backdrop-opacity`
-- `--n-border-muted`
-- `--n-border-muted-neutral`
-- `--n-button-font-weight`
-- `--n-drawer-height`
-- `--n-drawer-width`
-- `--n-duration`
-- `--n-ink`
-- `--n-ink-strong`
-- `--n-panel`
-- `--n-shadow-lg`
-- `--n-size`
-- `--n-space`
+## Accessibility
+
+- **Role:** `dialog`
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Escape` | Closes the drawer unless no-close-on-escape is set |
+
+## Behavior
+
+- **open() method** → Shows drawer via dialog.showModal() with slide-in animation
+- **backdrop click** → Closes the drawer unless no-close-on-backdrop is set
+
+## Composition
+
+### Children
+- `<n-header>`
+- `<n-body>`
+- `<n-footer>`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-drawer></n-drawer>
 ```
+
+### Examples
+
+```html
+<n-drawer id="drawer-bottom" side="bottom">
+        <n-header>
+          <span>Filters</span>
+          <n-button variant="ghost" id="close-bottom"><n-icon name="x"></n-icon></n-button>
+        </n-header>
+        <n-body>
+          <n-stack direction="row" gap="2" wrap>
+            <n-checkbox>In Stock</n-checkbox>
+            <n-checkbox>On Sale</n-checkbox>
+            <n-checkbox>Free Shipping</n-checkbox>
+          </n-stack>
+        </n-body>
+      </n-drawer>
+```
+
+```html
+<n-drawer id="drawer-top" side="top">
+        <n-header>
+          <span>Announcement</span>
+          <n-button variant="ghost" id="close-top"><n-icon name="x"></n-icon></n-button>
+        </n-header>
+        <n-body>
+          <p class="demo-text">This drawer slides in from the top edge.</p>
+        </n-body>
+      </n-drawer>
+```
+
+```html
+<n-drawer id="drawer-no-escape" no-close-on-escape>
+        <n-header>
+          <span>No Escape Close</span>
+          <n-button variant="ghost" id="close-no-escape"><n-icon name="x"></n-icon></n-button>
+        </n-header>
+        <n-body>
+          <p class="demo-text">Pressing Escape won't close this drawer. Use the close button.</p>
+        </n-body>
+      </n-drawer>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `drawer-element.ts` | Element class (behavior, no CSS) |
+| `drawer.css` | Styles |
+| `drawer.html` | Demo page |
+| `drawer.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |

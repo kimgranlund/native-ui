@@ -2,24 +2,58 @@
 
 # n-picture
 
-**CSS-only container** — no JavaScript class.
+> Image container with responsive sizing, object-fit control, and aspect ratio presets.
+
+**CSS-only element** — styled purely via CSS, no JavaScript class required.
 
 **Display:** `block`
 
-## Attributes
+## CSS Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `fit` | `contain`, `fill`, `none` |
-| `aspect` | `photo`, `square`, `video` |
-| `inline` | _(boolean)_ |
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `fit` | enum | `contain`, `fill`, `none` | Controls the object-fit of the child image (default cover) |
+| `aspect` | enum | `photo`, `square`, `video` | Sets aspect ratio preset (4:3, 1:1, or 16:9) |
+| `inline` | boolean | _(boolean)_ | Switches from block to inline-block display |
 
-## CSS Tokens
+## CSS Custom Properties
 
-- `--n-radius`
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-radius` |  | Border radius |
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-picture></n-picture>
 ```
+
+### Examples
+
+```html
+<n-picture style="max-width: 20rem;">
+          <img src="https://picsum.photos/seed/native-1/400/300" alt="Sample image" />
+        </n-picture>
+```
+
+```html
+<n-picture style="width: 12rem; height: 8rem;">
+            <img src="https://picsum.photos/seed/native-2/400/300" alt="Cover fit" />
+          </n-picture>
+```
+
+```html
+<n-picture fit="contain" style="width: 12rem; height: 8rem; background: var(--n-control);">
+            <img src="https://picsum.photos/seed/native-2/400/300" alt="Contain fit" />
+          </n-picture>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `picture.css` | Styles |
+| `picture.html` | Demo page |
+| `README.md` | Documentation (auto-generated) |

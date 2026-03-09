@@ -4,6 +4,8 @@
 
 > Burst of confetti particles from an element. DOM-based particles with randomized trajectories + gravity.
 
+**Trait name:** `confetti` (for use with `<n-controller traits="confetti">` or self-trait `traits="confetti"`)
+
 ## Constructor
 
 ```ts
@@ -25,12 +27,6 @@ new ConfettiController(host: HTMLElement, options?: ConfettiOptions)
 | `shapes` | `'square' | 'circle' | 'mixed'` | no | Particle shapes: 'square' | 'circle' | 'mixed' (default 'mixed') |
 | `disabled` | `boolean` | no | Disable the controller |
 
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `active` | `boolean` | yes |
-
 ## Events Dispatched
 
 | Event | Detail |
@@ -46,10 +42,51 @@ new ConfettiController(host: HTMLElement, options?: ConfettiOptions)
 | `destroy()` | `—` | `void` |
 | `fire()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **Click on host (when trigger is 'click')** → Calls fire() to burst confetti from host center
+- **fire() called programmatically** → Calculates origin from host bounding rect center, Creates fixed overlay container with pointer-events:none, Spawns count particles with randomized angles, velocities, colors, and shapes, Dispatches native:confetti with count and origin, Animates particles with gravity, air resistance, and rotation via rAF, Fades out particles over last 30% of duration, Removes overlay container after duration expires
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { ConfettiController } from '@nonoun/native-ui';
 const ctrl = new ConfettiController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="confetti">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="confetti">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-confetti-*` attributes:
+
+```html
+<n-controller traits="confetti" data-trait-confetti-count="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `confetti-controller.md` | Controller documentation |
+| `confetti-controller.ts` | Controller (reactive state + behavior) |
+| `confettible-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `confettible.html` | Demo page |
+| `confettible.test.ts` | Tests |

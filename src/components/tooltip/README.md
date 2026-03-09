@@ -8,36 +8,83 @@
 
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `placement` | `string` | Position relative to anchor: "top" | "bottom" | "left" | "right" |
-| `delay` | `number` | Show delay in milliseconds (default 500) |
-| `disabled` | `boolean` | Prevents tooltip from showing |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `placement` | `string` |  | Position relative to anchor: "top" | "bottom" | "left" | "right" |
+| `delay` | `number` |  | Show delay in milliseconds (default 500) |
+| `disabled` | `boolean` |  | Prevents tooltip from showing |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-border-muted` |  | Muted border color |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-font-size` |  | Font size |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-popover-from` | `perspective(800px) scale(0.96) rotateY(10deg)` | Opening animation transform origin |
+| `--n-popover-origin` | `left center` | CSS transform-origin for popover animation |
+| `--n-popover-viewport-margin` |  | Margin from viewport edges for auto-placement |
+| `--n-radius` |  | Border radius |
+| `--n-shadow-md` |  | Medium shadow for tooltip elevation |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+| `--n-surface` |  | Tooltip surface background |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-text-line-height` |  | Line height |
+| `--n-tooltip-max-width` |  | Maximum width of the tooltip |
 
-- `--n-border-muted`
-- `--n-duration`
-- `--n-easing`
-- `--n-font-size`
-- `--n-letter-spacing`
-- `--n-popover-from`
-- `--n-popover-origin`
-- `--n-popover-viewport-margin`
-- `--n-radius`
-- `--n-shadow-md`
-- `--n-space`
-- `--n-space-k`
-- `--n-surface`
-- `--n-surface-ink`
-- `--n-text-font-weight`
-- `--n-text-line-height`
-- `--n-tooltip-max-width`
+## Accessibility
+
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Escape` | Hides the tooltip |
+
+## Behavior
+
+- **hover/focus on parent element** → Shows tooltip after delay using Popover API with CSS anchor positioning
+- **mouseleave/blur on parent** → Hides tooltip
+
+## Composition
+
+### Parents
+- `<n-button>`
+- `<any element>`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-tooltip></n-tooltip>
 ```
+
+### Examples
+
+```html
+<n-tooltip placement="top">Tooltip above the button</n-tooltip>
+```
+
+```html
+<n-tooltip placement="bottom">Tooltip below the button</n-tooltip>
+```
+
+```html
+<n-tooltip placement="left">Tooltip to the left</n-tooltip>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `tooltip-element.ts` | Element class (behavior, no CSS) |
+| `tooltip.css` | Styles |
+| `tooltip.html` | Demo page |
+| `tooltip.ts` | Custom element registration (define()) |

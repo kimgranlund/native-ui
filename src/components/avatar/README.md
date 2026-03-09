@@ -2,23 +2,52 @@
 
 # n-avatar
 
-**CSS-only container** — no JavaScript class.
+> Circular or rounded avatar displaying an image, icon, or initials.
+
+**CSS-only element** — styled purely via CSS, no JavaScript class required.
 
 **Display:** `inline-flex`
 
-## CSS Tokens
+## CSS Custom Properties
 
-- `--n-button-font-weight`
-- `--n-font-size`
-- `--n-font-weight`
-- `--n-letter-spacing`
-- `--n-radius`
-- `--n-size`
-- `--n-surface`
-- `--n-surface-ink`
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-button-font-weight` |  | Font weight |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-button-font-weight)` | Font weight |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-surface` |  | Background surface color |
+| `--n-surface-ink` |  | Ink (text) color |
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-avatar></n-avatar>
 ```
+
+### Examples
+
+```html
+<n-avatar name="Kim Granlund">KG</n-avatar>
+```
+
+```html
+<n-avatar name="Jane Doe">JD</n-avatar>
+```
+
+```html
+<n-avatar name="Alice">A</n-avatar>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `avatar-group.css` | Styles |
+| `avatar.css` | Styles |
+| `avatar.html` | Demo page |
+| `README.md` | Documentation (auto-generated) |

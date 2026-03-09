@@ -1,0 +1,66 @@
+component: NField
+tag: n-field
+category: component
+description: Form field wrapper that wires label, description, and error slots to a child control via ARIA.
+source:
+  element: src/components/field/field-element.ts
+  css: src/components/field/field.css
+  registration: src/components/field/field.ts
+  demo: src/components/field/field.html
+attributes:
+  disabled:
+    type: boolean
+    description: Cascades disabled state to the child control
+  required:
+    type: boolean
+    description: Cascades required state to the child control
+css_attributes:
+  invalid:
+    type: boolean
+    description: Displays the field in an error state with red styling
+  gap:
+    type: enum
+    values:
+      - none
+      - relaxed
+      - tight
+    description: Controls vertical spacing between label, control, and description
+slots:
+  description:
+    description: Helper text displayed below the control
+  error:
+    description: Error message shown when the field is invalid
+  label:
+    description: Label text displayed above the control
+css_tokens:
+  --n-button-font-weight:
+    description: Font weight
+  --n-control-line-height:
+    description: Line height
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-button-font-weight)
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-ink-strong:
+    description: Ink (text) color
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-space:
+    description: Block/gap spacing
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: group
+behavior:
+  - trigger: connectedCallback
+    actions: [Wires aria-labelledby and aria-describedby from label/description/error slots to child control]
+compose:
+  children: [n-input, n-select, n-textarea, n-checkbox, n-switch, n-radio-group, n-range, n-calendar]
+  parents: [form]

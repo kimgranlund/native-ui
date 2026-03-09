@@ -4,6 +4,8 @@
 
 > Manages single or multi-select item state with Ctrl/Shift modifiers, dispatching `native:selection-change`.
 
+**Trait name:** `selection` (for use with `<n-controller traits="selection">` or self-trait `traits="selection"`)
+
 ## Constructor
 
 ```ts
@@ -39,10 +41,59 @@ new SelectionController(host: HTMLElement, options?: SelectionOptions)
 | `getSelection()` | `—` | `HTMLElement[]` |
 | `handleClick()` | `item: HTMLElement, modifiers: { shift: boolean; ctrl: boolean }` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Ctrl/Cmd+A` | Selects all items (multiple mode only) |
+
+## Behavior
+
+- **Click on an item matching selector** → Plain click: selects only that item (clears others), sets anchor, Ctrl/Cmd+click (multiple mode): toggles item selection, updates anchor, Shift+click (multiple mode): selects contiguous range from anchor to clicked item, Sets selected and selection-anchor attributes on items, Dispatches native:selection-change with selected array and count
+- **Ctrl/Cmd+A keydown** → Selects all items (multiple mode only), Dispatches native:selection-change
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { SelectionController } from '@nonoun/native-ui';
 const ctrl = new SelectionController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="selection">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="selection">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-selection-*` attributes:
+
+```html
+<n-controller traits="selection" data-trait-selection-selector="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `selectable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `selectable.html` | Demo page |
+| `selectable.test.ts` | Tests |
+| `selection-controller.md` | Controller documentation |
+| `selection-controller.ts` | Controller (reactive state + behavior) |

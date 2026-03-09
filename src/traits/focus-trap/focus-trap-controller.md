@@ -4,6 +4,8 @@
 
 > Traps Tab key focus within the host element, cycling between first and last focusable children.
 
+**Trait name:** `focus-trap` (for use with `<n-controller traits="focus-trap">` or self-trait `traits="focus-trap"`)
+
 ## Constructor
 
 ```ts
@@ -18,10 +20,51 @@ new FocusTrapController(host: HTMLElement)
 | `disable()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Tab` | Moves focus to next focusable child, wrapping from last to first |
+| `Shift+Tab` | Moves focus to previous focusable child, wrapping from first to last |
+
+## Behavior
+
+- **enable() called** → Saves currently focused element for later restoration, Adds keydown listener for Tab trapping, Focuses [autofocus] element, or first focusable child, or the host itself
+- **Tab key while trap is enabled** → If focus is on last focusable and Tab pressed, wraps to first focusable, If focus is on first focusable and Shift+Tab pressed, wraps to last focusable
+- **disable() called** → Removes keydown listener, Restores focus to the previously focused element (if still connected)
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { FocusTrapController } from '@nonoun/native-ui';
 const ctrl = new FocusTrapController(element);
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="focus-trap">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="focus-trap">Self-applying</n-button>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `focus-trap-controller.md` | Controller documentation |
+| `focus-trap-controller.ts` | Controller (reactive state + behavior) |
+| `focus-trappable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `focus-trappable.html` | Demo page |
+| `focus-trappable.test.ts` | Tests |

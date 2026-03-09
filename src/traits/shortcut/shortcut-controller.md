@@ -2,7 +2,9 @@
 
 # ShortcutController
 
-> Keyboard shortcut controller.  Registers keyboard shortcuts on a host element (or globally on `document`). Fires `native:shortcut` event on the host with `{ id, combo }` detail.  ```ts const ctrl = new ShortcutController(host, { shortcuts: [ { id: 'search', combo: 'mod+k', handler: () => openSearch() }, { id: 'help', combo: 'shift+?', handler: () => showHelp() }, ], global: true, }); ```
+> Keyboard shortcut controller. Registers keyboard shortcuts on a host element (or globally on `document`). Fires `native:shortcut` event on the host with `{ id, combo }` detail. ```ts const ctrl = new ShortcutController(host, { shortcuts: [ { id: 'search', combo: 'mod+k', handler: () => openSearch() }, { id: 'help', combo: 'shift+?', handler: () => showHelp() }, ], global: true, }); ```
+
+**Trait name:** `shortcut` (for use with `<n-controller traits="shortcut">` or self-trait `traits="shortcut"`)
 
 ## Constructor
 
@@ -31,10 +33,58 @@ new ShortcutController(host: HTMLElement, options?: ShortcutOptions)
 | `remove()` | `id: string` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Configured combo strings (e.g. mod+k, shift+?)` | Fires the registered shortcut handler and native:shortcut event |
+
+## Behavior
+
+- **Keydown matching a registered combo (on host or document if global)** → Skips if target is in typing context (input/textarea/contenteditable) unless allowEditable, Checks conditional guard (when callback) if defined, Prevents default browser action (unless preventDefault is false), Dispatches native:shortcut with id and combo, Calls handler callback if defined, First matching binding wins (stops checking further bindings)
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { ShortcutController } from '@nonoun/native-ui';
 const ctrl = new ShortcutController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="shortcut">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="shortcut">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-shortcut-*` attributes:
+
+```html
+<n-controller traits="shortcut" data-trait-shortcut-shortcuts="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `shortcut-controller.md` | Controller documentation |
+| `shortcut-controller.ts` | Controller (reactive state + behavior) |
+| `shortcut.test.ts` | Tests |
+| `shortcutable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `shortcutable.html` | Demo page |

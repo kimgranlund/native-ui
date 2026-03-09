@@ -2,6 +2,10 @@
 
 # GatewayController
 
+> Manages load/save fetch lifecycle with reactive signals for loading, saving, error, and dirty state.
+
+**Trait name:** `gateway` (for use with `<n-controller traits="gateway">` or self-trait `traits="gateway"`)
+
 ## Constructor
 
 ```ts
@@ -25,10 +29,53 @@ new GatewayController(host: HTMLElement, options?: GatewayOptions)
 | `abort()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **load(url) called** → Aborts any in-flight load request, Sets loading signal to true, clears error, Fetches URL with abort support, Parses response via parse option, Sets loading to false, dirty to false on success, Sets error signal on failure
+- **save(url, content) called** → Aborts any in-flight save request, Sets saving signal to true, clears error, Sends PUT request with serialized content and Content-Type header, Sets saving to false, dirty to false on success, Sets error signal on failure
+- **markDirty() called** → Sets dirty signal to true
+- **markClean() called** → Sets dirty signal to false
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { GatewayController } from '@nonoun/native-ui';
 const ctrl = new GatewayController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="gateway">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="gateway">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-gateway-*` attributes:
+
+```html
+<n-controller traits="gateway" data-trait-gateway-parse="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `gateway-controller.md` | Controller documentation |
+| `gateway-controller.test.ts` | Tests |
+| `gateway-controller.ts` | Controller (reactive state + behavior) |
+| `gatewayable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `gatewayable.html` | Demo page |

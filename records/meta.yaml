@@ -1,0 +1,20 @@
+namespace: native-ui
+package: "@nonoun/native-ui"
+version: "0.7.70"
+tag_prefix: "n-"
+event_prefix: "native:"
+css_prefix: "--n-"
+protocol_version: "1.0"
+
+categories:
+  - component
+  - container
+  - trait
+  - controller
+
+record_locations:
+  components: records/components/
+  containers: records/containers/
+  traits: records/traits/
+  controllers: records/controllers/
+  theme: records/theme/

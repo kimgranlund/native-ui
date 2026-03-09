@@ -4,6 +4,8 @@
 
 > Mouse-position tilt effect — subtle rotateX/rotateY transform relative to element center. Optional glare overlay and gyroscope support.
 
+**Trait name:** `parallax` (for use with `<n-controller traits="parallax">` or self-trait `traits="parallax"`)
+
 ## Constructor
 
 ```ts
@@ -38,10 +40,53 @@ new ParallaxController(host: HTMLElement, options?: ParallaxOptions)
 | `destroy()` | `—` | `void` |
 | `reset()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **Pointer enters host** → Sets parallax-active attribute on host, Enables will-change:transform for GPU acceleration, Applies enter transition
+- **Pointer moves over host** → Calculates tilt from pointer distance to element center (-1 to 1 range), Applies perspective + rotateX/rotateY + scale transform, Updates CSS custom properties (--parallax-tilt-x/y, --parallax-percent-x/y), Updates glare gradient position if glare enabled, Dispatches native:parallax-move with tiltX, tiltY, percentX, percentY
+- **Pointer leaves host** → Removes parallax-active attribute, Smoothly transitions back to flat (no tilt, scale 1), Clears will-change after transition
+- **DeviceOrientation event (gyroscope mode)** → Maps beta/gamma device angles to tilt values, Applies same transform and glare updates as pointer mode, Dispatches native:parallax-move
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { ParallaxController } from '@nonoun/native-ui';
 const ctrl = new ParallaxController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="parallax">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="parallax">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-parallax-*` attributes:
+
+```html
+<n-controller traits="parallax" data-trait-parallax-maxTilt="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `parallax-controller.md` | Controller documentation |
+| `parallax-controller.ts` | Controller (reactive state + behavior) |
+| `parallaxable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `parallaxable.html` | Demo page |
+| `parallaxable.test.ts` | Tests |

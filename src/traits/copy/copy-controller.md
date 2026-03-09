@@ -4,6 +4,8 @@
 
 > Copies a value to the clipboard and shows visual feedback, dispatching `native:copy`.
 
+**Trait name:** `copy` (for use with `<n-controller traits="copy">` or self-trait `traits="copy"`)
+
 ## Constructor
 
 ```ts
@@ -29,10 +31,50 @@ new CopyController(host: HTMLElement, options?: CopyOptions)
 |--------|------------|---------|
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **copy() called** → Resolves value (calls function if value is a function), Writes resolved value to system clipboard, Sets copied attribute on host for visual feedback, Removes copied attribute after feedbackDuration ms, Dispatches native:copy with value
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { CopyController } from '@nonoun/native-ui';
 const ctrl = new CopyController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="copy">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="copy">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-copy-*` attributes:
+
+```html
+<n-controller traits="copy" data-trait-copy-value="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `copy-controller.md` | Controller documentation |
+| `copy-controller.ts` | Controller (reactive state + behavior) |
+| `copyable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `copyable.html` | Demo page |
+| `copyable.test.ts` | Tests |

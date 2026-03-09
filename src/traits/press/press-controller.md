@@ -4,6 +4,8 @@
 
 > Handles pointer and keyboard press interactions, dispatching `native:press` events.
 
+**Trait name:** `press` (for use with `<n-controller traits="press">` or self-trait `traits="press"`)
+
 ## Constructor
 
 ```ts
@@ -30,10 +32,63 @@ new PressController(host: HTMLElement, options?: PressOptions)
 | `detach()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Triggers a press action |
+| `Space` | Triggers a press action |
+
+## Behavior
+
+- **Pointerdown (left button) on host** → Captures pointer on host, Sets pressed attribute on host
+- **Pointerup while captured** → Removes pressed attribute, Dispatches native:press with pointerType
+- **Pointercancel or lost pointer capture** → Removes pressed attribute without dispatching
+- **Enter or Space keydown on host** → Sets pressed attribute (Space prevents page scroll)
+- **Enter or Space keyup on host** → Removes pressed attribute, Dispatches native:press with pointerType 'keyboard'
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { PressController } from '@nonoun/native-ui';
 const ctrl = new PressController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="press">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="press">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-press-*` attributes:
+
+```html
+<n-controller traits="press" data-trait-press-disabled="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `press-controller.md` | Controller documentation |
+| `press-controller.ts` | Controller (reactive state + behavior) |
+| `pressable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `pressable.html` | Demo page |
+| `pressable.test.ts` | Tests |

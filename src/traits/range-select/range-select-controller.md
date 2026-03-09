@@ -4,6 +4,8 @@
 
 > Enables contiguous range selection via drag or click, dispatching `native:range-change` and `native:range-select`.
 
+**Trait name:** `range-select` (for use with `<n-controller traits="range-select">` or self-trait `traits="range-select"`)
+
 ## Constructor
 
 ```ts
@@ -22,8 +24,8 @@ new RangeSelectController(host: HTMLElement, options?: RangeSelectOptions)
 
 | Event | Detail |
 |-------|--------|
-| `native:range-change` | `{ startIndex, endIndex, items, hi + 1) }` |
-| `native:range-select` | `{ startIndex, endIndex, items, hi + 1) }` |
+| `native:range-change` | `{ startIndex, endIndex, items }` |
+| `native:range-select` | `{ startIndex, endIndex, items }` |
 
 ## Methods
 
@@ -34,10 +36,54 @@ new RangeSelectController(host: HTMLElement, options?: RangeSelectOptions)
 | `destroy()` | `—` | `void` |
 | `clearRange()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **Pointerdown on item (drag mode)** → Records start index, sets pointer capture, Sets range-selected, range-start, and range-end attributes
+- **Pointermove during drag** → Updates end index based on element under pointer, Updates range-selected/range-start/range-end attributes on all items, Dispatches native:range-change with startIndex, endIndex, items
+- **Pointerup (drag mode)** → Dispatches native:range-select with final startIndex, endIndex, items
+- **First click on item (click mode)** → Sets start index, enters 'selecting' phase, Hover previews range as pointer moves over items
+- **Second click on item (click mode)** → Sets end index, enters 'adjusting' phase (drag fine-tune), Pointerup commits and dispatches native:range-select
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { RangeSelectController } from '@nonoun/native-ui';
 const ctrl = new RangeSelectController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="range-select">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="range-select">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-range-select-*` attributes:
+
+```html
+<n-controller traits="range-select" data-trait-range-select-selector="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `range-select-controller.md` | Controller documentation |
+| `range-select-controller.ts` | Controller (reactive state + behavior) |
+| `range-selectable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `range-selectable.html` | Demo page |
+| `range-selectable.test.ts` | Tests |

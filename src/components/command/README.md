@@ -6,58 +6,157 @@
 
 **Class:** `NCommand`
 
+**ARIA role:** `search`
+**Internal controllers:** `DataListController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `disabled` | `boolean` | Disables interaction |
-
-## Properties
-
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `store` | `DataListController<DataItem>` | yes |  |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `disabled` | `boolean` |  | Disables interaction |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:change` | Fired when an item is selected with `{ value, label }` detail |
-| `native:dismiss` | Fired on Escape key press |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:change` | _(none)_ | Fired when an item is selected with `{ value, label }` detail |
+| `native:dismiss` | _(none)_ | Fired on Escape key press |
 
 ## Slots
 
-| Slot |
-|------|
-| `heading` |
+| Slot | Description |
+|------|-------------|
+| `heading` | Optional heading displayed above the command list |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-control)` | Background color |
+| `--n-border-color` | `var(--n-border-rest)` | Border color |
+| `--n-border-muted-neutral` |  | Muted border color |
+| `--n-border-rest` |  | Resting border color |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-control` |  | Control surface background |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` |  | Font weight |
+| `--n-group-header-font` |  | Font size for group header labels |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-placeholder` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` |  | Line height |
+| `--n-popover-max-height` |  | Maximum height of the scrollable list area |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
 
-- `--n-background`
-- `--n-border-color`
-- `--n-border-muted-neutral`
-- `--n-border-rest`
-- `--n-color`
-- `--n-control`
-- `--n-control-line-height`
-- `--n-duration`
-- `--n-easing`
-- `--n-font-size`
-- `--n-font-weight`
-- `--n-group-header-font`
-- `--n-ink`
-- `--n-ink-disabled`
-- `--n-ink-muted`
-- `--n-ink-placeholder`
-- `--n-letter-spacing`
-- `--n-line-height`
-- `--n-popover-max-height`
-- `--n-radius`
-- `--n-size`
-- `--n-space`
-- `--n-space-k`
+## Accessibility
+
+- **Role:** `search`
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `ArrowDown` | Moves highlight to the next visible item |
+| `ArrowUp` | Moves highlight to the previous visible item |
+| `Home` | Moves highlight to the first visible item |
+| `End` | Moves highlight to the last visible item |
+| `Enter` | Selects the highlighted item and fires native:change |
+| `Escape` | Fires native:dismiss for closing the palette |
+
+## Behavior
+
+- **typing in command-input** → Filters visible items by query text
+- **click on command-item** → Selects item and fires native:change with value and label
+
+## Composition
+
+### Children
+- `<n-command-input>`
+- `<n-command-list>`
+- `<n-command-group>`
+- `<n-command-item>`
+- `<n-command-empty>`
+
+### Parents
+- `<n-dialog>`
+
+## Usage
+
+### Minimal
+
+```html
+<n-command></n-command>
+```
+
+### Examples
+
+```html
+<n-command size="sm">
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+```
+
+```html
+<n-command size="md">
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+```
+
+```html
+<n-command size="lg">
+            <n-command-input>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+            <n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+          </n-command>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `command-element.ts` | Element class (behavior, no CSS) |
+| `command-empty-element.ts` | Element class (behavior, no CSS) |
+| `command-empty.ts` | Source module |
+| `command-group-element.ts` | Element class (behavior, no CSS) |
+| `command-group.ts` | Source module |
+| `command-input-element.ts` | Element class (behavior, no CSS) |
+| `command-input.ts` | Source module |
+| `command-item-element.ts` | Element class (behavior, no CSS) |
+| `command-item.ts` | Source module |
+| `command-list-element.ts` | Element class (behavior, no CSS) |
+| `command-list.ts` | Source module |
+| `command.css` | Styles |
+| `command.html` | Demo page |
+| `command.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
 
 ---
 
@@ -67,32 +166,117 @@ Public `--n-*` custom properties consumed by this component:
 
 **Class:** `NCommandItem`
 
-### Attributes
+**ARIA role:** `option`
+**Internal controllers:** `DataListController`
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `value` | `string` | Item value emitted on selection |
-| `disabled` | `boolean` | Disables this item |
-| `keywords` | `string` | Additional search terms for filtering |
+## Attributes
 
-### Properties
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | `string` |  | Item value emitted on selection |
+| `disabled` | `boolean` |  | Disables this item |
+| `keywords` | `string` |  | Additional search terms for filtering |
 
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `label` | `string` | yes |  |
-| `searchText` | `string` | yes |  |
+## Events
 
-### Events
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:select` | _(none)_ | Fired on click with `{ value, label }` detail |
 
-| Event | Description |
-|-------|-------------|
-| `native:select` | Fired on click with `{ value, label }` detail |
+## Slots
 
-### Slots
+| Slot | Description |
+|------|-------------|
+| `heading` | Item label content (text, icons, or rich markup) |
 
-| Slot |
-|------|
-| `heading` |
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-control)` | Background color |
+| `--n-border-color` | `var(--n-border-rest)` | Border color |
+| `--n-border-muted-neutral` |  | Muted border color |
+| `--n-border-rest` |  | Resting border color |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-control` |  | Control surface background |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` |  | Font weight |
+| `--n-group-header-font` |  | Font size for group header labels |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-placeholder` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` |  | Line height |
+| `--n-popover-max-height` |  | Maximum height of the scrollable list area |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+
+## Accessibility
+
+- **Role:** `option`
+
+## Behavior
+
+- **click** → Fires native:select with value and label
+
+## Composition
+
+### Children
+- `<n-icon>`
+- `<span>`
+
+### Parents
+- `<n-command-list>`
+- `<n-command-group>`
+
+## Usage
+
+### Minimal
+
+```html
+<n-command-item></n-command-item>
+```
+
+### Examples
+
+```html
+<n-command-item value="new-file"><n-icon name="plus"></n-icon> New File</n-command-item>
+```
+
+```html
+<n-command-item value="open-file"><n-icon name="folder-open"></n-icon> Open File</n-command-item>
+```
+
+```html
+<n-command-item value="save"><n-icon name="floppy-disk"></n-icon> Save</n-command-item>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `command-element.ts` | Element class (behavior, no CSS) |
+| `command-empty-element.ts` | Element class (behavior, no CSS) |
+| `command-empty.ts` | Source module |
+| `command-group-element.ts` | Element class (behavior, no CSS) |
+| `command-group.ts` | Source module |
+| `command-input-element.ts` | Element class (behavior, no CSS) |
+| `command-input.ts` | Source module |
+| `command-item-element.ts` | Element class (behavior, no CSS) |
+| `command-item.ts` | Source module |
+| `command-list-element.ts` | Element class (behavior, no CSS) |
+| `command-list.ts` | Source module |
+| `command.css` | Styles |
+| `command.html` | Demo page |
+| `command.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
 
 ---
 
@@ -102,11 +286,110 @@ Public `--n-*` custom properties consumed by this component:
 
 **Class:** `NCommandList`
 
-### Slots
+**ARIA role:** `listbox`
+**Internal controllers:** `DataListController`
 
-| Slot |
-|------|
-| `heading` |
+## Slots
+
+| Slot | Description |
+|------|-------------|
+| `heading` | Optional heading for the list section |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-control)` | Background color |
+| `--n-border-color` | `var(--n-border-rest)` | Border color |
+| `--n-border-muted-neutral` |  | Muted border color |
+| `--n-border-rest` |  | Resting border color |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-control` |  | Control surface background |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` |  | Font weight |
+| `--n-group-header-font` |  | Font size for group header labels |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-placeholder` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` |  | Line height |
+| `--n-popover-max-height` |  | Maximum height of the scrollable list area |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+
+## Accessibility
+
+- **Role:** `listbox`
+
+## Composition
+
+### Children
+- `<n-command-item>`
+- `<n-command-group>`
+
+### Parents
+- `<n-command>`
+
+## Usage
+
+### Minimal
+
+```html
+<n-command-list></n-command-list>
+```
+
+### Examples
+
+```html
+<n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+```
+
+```html
+<n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+```
+
+```html
+<n-command-list>
+              <n-command-item value="a">Alpha</n-command-item>
+              <n-command-item value="b">Bravo</n-command-item>
+              <n-command-item value="c">Charlie</n-command-item>
+            </n-command-list>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `command-element.ts` | Element class (behavior, no CSS) |
+| `command-empty-element.ts` | Element class (behavior, no CSS) |
+| `command-empty.ts` | Source module |
+| `command-group-element.ts` | Element class (behavior, no CSS) |
+| `command-group.ts` | Source module |
+| `command-input-element.ts` | Element class (behavior, no CSS) |
+| `command-input.ts` | Source module |
+| `command-item-element.ts` | Element class (behavior, no CSS) |
+| `command-item.ts` | Source module |
+| `command-list-element.ts` | Element class (behavior, no CSS) |
+| `command-list.ts` | Source module |
+| `command.css` | Styles |
+| `command.html` | Demo page |
+| `command.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
 
 ---
 
@@ -116,11 +399,90 @@ Public `--n-*` custom properties consumed by this component:
 
 **Class:** `NCommandEmpty`
 
-### Slots
+**ARIA role:** `status`
+**Internal controllers:** `DataListController`
 
-| Slot |
-|------|
-| `heading` |
+## Slots
+
+| Slot | Description |
+|------|-------------|
+| `heading` | Content shown when no items match the query |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-control)` | Background color |
+| `--n-border-color` | `var(--n-border-rest)` | Border color |
+| `--n-border-muted-neutral` |  | Muted border color |
+| `--n-border-rest` |  | Resting border color |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-control` |  | Control surface background |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` |  | Font weight |
+| `--n-group-header-font` |  | Font size for group header labels |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-placeholder` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` |  | Line height |
+| `--n-popover-max-height` |  | Maximum height of the scrollable list area |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+
+## Accessibility
+
+- **Role:** `status`
+
+## Composition
+
+### Parents
+- `<n-command>`
+
+## Usage
+
+### Minimal
+
+```html
+<n-command-empty></n-command-empty>
+```
+
+### Examples
+
+```html
+<n-command-empty>No results found.</n-command-empty>
+```
+
+```html
+<n-command-empty>No matching commands.</n-command-empty>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `command-element.ts` | Element class (behavior, no CSS) |
+| `command-empty-element.ts` | Element class (behavior, no CSS) |
+| `command-empty.ts` | Source module |
+| `command-group-element.ts` | Element class (behavior, no CSS) |
+| `command-group.ts` | Source module |
+| `command-input-element.ts` | Element class (behavior, no CSS) |
+| `command-input.ts` | Source module |
+| `command-item-element.ts` | Element class (behavior, no CSS) |
+| `command-item.ts` | Source module |
+| `command-list-element.ts` | Element class (behavior, no CSS) |
+| `command-list.ts` | Source module |
+| `command.css` | Styles |
+| `command.html` | Demo page |
+| `command.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
 
 ---
 
@@ -130,11 +492,84 @@ Public `--n-*` custom properties consumed by this component:
 
 **Class:** `NCommandGroup`
 
-### Slots
+**ARIA role:** `group`
+**Internal controllers:** `DataListController`
 
-| Slot |
-|------|
-| `heading` |
+## Slots
+
+| Slot | Description |
+|------|-------------|
+| `heading` | Group heading label displayed above the group items |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-control)` | Background color |
+| `--n-border-color` | `var(--n-border-rest)` | Border color |
+| `--n-border-muted-neutral` |  | Muted border color |
+| `--n-border-rest` |  | Resting border color |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-control` |  | Control surface background |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` |  | Font weight |
+| `--n-group-header-font` |  | Font size for group header labels |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-placeholder` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` |  | Line height |
+| `--n-popover-max-height` |  | Maximum height of the scrollable list area |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+
+## Accessibility
+
+- **Role:** `group`
+
+## Composition
+
+### Children
+- `<n-command-item>`
+
+### Parents
+- `<n-command>`
+- `<n-command-list>`
+
+## Usage
+
+### Minimal
+
+```html
+<n-command-group></n-command-group>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `command-element.ts` | Element class (behavior, no CSS) |
+| `command-empty-element.ts` | Element class (behavior, no CSS) |
+| `command-empty.ts` | Source module |
+| `command-group-element.ts` | Element class (behavior, no CSS) |
+| `command-group.ts` | Source module |
+| `command-input-element.ts` | Element class (behavior, no CSS) |
+| `command-input.ts` | Source module |
+| `command-item-element.ts` | Element class (behavior, no CSS) |
+| `command-item.ts` | Source module |
+| `command-list-element.ts` | Element class (behavior, no CSS) |
+| `command-list.ts` | Source module |
+| `command.css` | Styles |
+| `command.html` | Demo page |
+| `command.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
 
 ---
 
@@ -144,33 +579,110 @@ Public `--n-*` custom properties consumed by this component:
 
 **Class:** `NCommandInput`
 
-### Properties
+**ARIA role:** `searchbox`
+**Internal controllers:** `DataListController`
 
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `inputElement` | `HTMLInputElement | null` | yes |  |
+## Events
 
-### Methods
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:input` | _(none)_ | Fired on keystroke with `{ value }` detail |
 
-| Method | Parameters | Returns |
-|--------|------------|---------|
-| `focus()` | `options?: FocusOptions` | `void` |
-| `clear()` | `—` | `void` |
+## Slots
 
-### Events
+| Slot | Description |
+|------|-------------|
+| `heading` | Optional icon or prefix rendered before the search input |
 
-| Event | Description |
-|-------|-------------|
-| `native:input` | Fired on keystroke with `{ value }` detail |
+## CSS Custom Properties
 
-### Slots
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-control)` | Background color |
+| `--n-border-color` | `var(--n-border-rest)` | Border color |
+| `--n-border-muted-neutral` |  | Muted border color |
+| `--n-border-rest` |  | Resting border color |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-control` |  | Control surface background |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` |  | Font weight |
+| `--n-group-header-font` |  | Font size for group header labels |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-placeholder` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` |  | Line height |
+| `--n-popover-max-height` |  | Maximum height of the scrollable list area |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
 
-| Slot |
-|------|
-| `heading` |
+## Accessibility
+
+- **Role:** `searchbox`
+
+## Behavior
+
+- **keystroke** → Fires native:input with current value to filter command items
+
+## Composition
+
+### Parents
+- `<n-command>`
 
 ## Usage
 
+### Minimal
+
 ```html
-<n-command></n-command>
+<n-command-input></n-command-input>
 ```
+
+### Examples
+
+```html
+<n-command-input>
+              <n-icon name="magnifying-glass"></n-icon>
+              <input type="text" placeholder="Type to search..." />
+            </n-command-input>
+```
+
+```html
+<n-command-input>
+              <n-icon name="magnifying-glass"></n-icon>
+              <input type="text" placeholder="Search commands..." />
+            </n-command-input>
+```
+
+```html
+<n-command-input>
+              <n-icon name="magnifying-glass"></n-icon>
+              <input type="text" placeholder="Search..." />
+            </n-command-input>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `command-element.ts` | Element class (behavior, no CSS) |
+| `command-empty-element.ts` | Element class (behavior, no CSS) |
+| `command-empty.ts` | Source module |
+| `command-group-element.ts` | Element class (behavior, no CSS) |
+| `command-group.ts` | Source module |
+| `command-input-element.ts` | Element class (behavior, no CSS) |
+| `command-input.ts` | Source module |
+| `command-item-element.ts` | Element class (behavior, no CSS) |
+| `command-item.ts` | Source module |
+| `command-list-element.ts` | Element class (behavior, no CSS) |
+| `command-list.ts` | Source module |
+| `command.css` | Styles |
+| `command.html` | Demo page |
+| `command.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |

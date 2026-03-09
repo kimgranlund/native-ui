@@ -1,0 +1,14 @@
+component:
+tag: n-video
+category: component
+css_only: true
+description: Video container with token-aware border-radius and responsive sizing.
+source:
+  css: src/components/video/video.css
+  demo: src/components/video/video.html
+display: block
+css_tokens:
+  --n-control:
+    description: Background color behind the video element
+  --n-radius:
+    description: Border radius

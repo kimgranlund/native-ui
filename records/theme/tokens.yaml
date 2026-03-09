@@ -1,0 +1,62 @@
+# tokens.yaml — Abstract design token vocabulary for native-ui.
+
+color_families:
+  - name: neutral
+    description: Default chrome, backgrounds, borders
+  - name: accent
+    description: Primary brand color, default CTA
+  - name: info
+    description: Informational context
+  - name: success
+    description: Positive outcome, confirmation
+  - name: warning
+    description: Caution, attention needed
+  - name: danger
+    description: Destructive action, error state
+
+semantic_roles:
+  surface: Background fill
+  ink: Text/foreground on surface
+  border: Edge/separator stroke
+  button: Interactive control surface
+  widget: Toggle/checkbox/radio indicator
+  ground: Elevation context (inherited)
+  focus-ring: Focus indicator outline
+  shadow: Drop shadow/elevation
+
+state_modifiers:
+  - hover
+  - active
+  - disabled
+  - muted
+
+spacing_scales:
+  - name: space
+    description: Gap and block padding
+    steps: [2xs, xs, sm, md, lg, xl, 2xl]
+  - name: space-k
+    description: Inline padding multiplier
+    default: 2
+
+typography_scales:
+  - name: font-size
+    steps: [2xs, xs, sm, md, lg, xl, 2xl]
+  - name: font-weight
+    values: [regular, medium, semibold, bold]
+  - name: line-height
+    context: [body, control, heading]
+  - name: letter-spacing
+    context: [body, control, heading]
+
+size_scales:
+  - name: size
+    description: Component min-height
+    steps: [xs, sm, md, lg, xl]
+  - name: radius
+    description: Border radius
+    steps: [none, sm, md, lg, full]
+
+density_scales:
+  - name: density
+    description: Compactness of padding/spacing
+    steps: [compact, normal, comfortable]

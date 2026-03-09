@@ -2,27 +2,55 @@
 
 # n-divider
 
-**CSS-only container** — no JavaScript class.
+> Horizontal or vertical divider line with optional text label.
+
+**CSS-only element** — styled purely via CSS, no JavaScript class required.
 
 **Display:** `flex`
 
-## Attributes
+## CSS Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `orientation` | `vertical` |
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `orientation` | enum | `vertical` | Renders a vertical divider instead of horizontal |
 
-## CSS Tokens
+## CSS Custom Properties
 
-- `--n-border-muted`
-- `--n-font-size`
-- `--n-ink-muted`
-- `--n-letter-spacing`
-- `--n-space`
-- `--n-space-k`
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-border-muted` |  | Muted border color |
+| `--n-font-size` |  | Font size |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-divider></n-divider>
 ```
+
+### Examples
+
+```html
+<n-divider>or continue with</n-divider>
+```
+
+```html
+<n-divider orientation="vertical"></n-divider>
+```
+
+```html
+<n-divider orientation="vertical"></n-divider>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `divider.css` | Styles |
+| `divider.html` | Demo page |
+| `README.md` | Documentation (auto-generated) |

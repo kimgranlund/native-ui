@@ -1,0 +1,30 @@
+component:
+tag: n-picture
+category: component
+css_only: true
+description: Image container with responsive sizing, object-fit control, and aspect ratio presets.
+source:
+  css: src/components/picture/picture.css
+  demo: src/components/picture/picture.html
+display: block
+css_attributes:
+  fit:
+    type: enum
+    values:
+      - contain
+      - fill
+      - none
+    description: Controls the object-fit of the child image (default cover)
+  aspect:
+    type: enum
+    values:
+      - photo
+      - square
+      - video
+    description: Sets aspect ratio preset (4:3, 1:1, or 16:9)
+  inline:
+    type: boolean
+    description: Switches from block to inline-block display
+css_tokens:
+  --n-radius:
+    description: Border radius

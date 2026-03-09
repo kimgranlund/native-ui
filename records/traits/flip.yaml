@@ -1,0 +1,65 @@
+trait: flip
+controller: FlipController
+description: "3D card flip on click/press with front/back content. CSS transform: rotateY(180deg) with perspective."
+source:
+  controller: src/traits/flip/flip-controller.ts
+  adapter: src/traits/flip/flippable-adapter.ts
+  demo: src/traits/flip/flippable.html
+  test: src/traits/flip/flippable.test.ts
+options:
+  axis:
+    type: "'x' | 'y'"
+    description: "Flip axis: 'x' or 'y' (default 'y')"
+  duration:
+    type: number
+    description: Flip duration in ms (default 600)
+  perspective:
+    type: number
+    description: Perspective in px (default 1000)
+  trigger:
+    type: "'click' | 'hover' | 'manual'"
+    description: "Trigger: 'click' | 'hover' | 'manual' (default 'click')"
+  disabled:
+    type: boolean
+    description: Disable the controller
+injected_events:
+  native:flip:
+    detail:
+      flipped:
+        type: string
+      axis:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+  flip:
+    returns: void
+  unflip:
+    returns: void
+  toggle:
+    returns: void
+consumption:
+  imperative: new FlipController(element, options)
+  provider: <n-controller traits="flip">
+  self_trait: <n-button traits="flip">
+behavior:
+  - trigger: "Construction"
+    actions:
+      - "Applies perspective, preserve-3d, and transition styles to host"
+      - "Sets backface-visibility:hidden on children, rotates [slot=back] or [data-flip-back] children 180deg"
+  - trigger: "Click on host (when trigger is 'click')"
+    actions:
+      - "Toggles flipped state"
+      - "Applies rotateY(180deg) or rotateX(180deg) transform based on axis"
+      - "Sets/removes flipped attribute on host"
+      - "Dispatches native:flip with flipped and axis"
+  - trigger: "Pointer enter/leave on host (when trigger is 'hover')"
+    actions:
+      - "Flips on enter, unflips on leave"
+      - "Dispatches native:flip with flipped and axis"
+a11y:
+  keyboard: []

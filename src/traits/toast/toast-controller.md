@@ -4,6 +4,8 @@
 
 > Creates and manages toast notifications within its own host element. Each controller owns its own container and toast entries — no global singleton. Container uses [popover="manual"] for top-layer rendering while inheriting CSS custom properties from the host's position in the component tree.
 
+**Trait name:** `toast` (for use with `<n-controller traits="toast">` or self-trait `traits="toast"`)
+
 ## Constructor
 
 ```ts
@@ -25,10 +27,42 @@ new ToastController(host: HTMLElement)
 | `dismissAllToasts()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **toast(options) called** → Creates popover container on first use (role=status, aria-live=polite), Creates n-toast element with message, intent, and optional dismiss button, Appends toast to container, Schedules auto-dismiss after duration (default 4000ms), Dispatches native:toast with id, message, intent
+- **native:dismiss event from toast's close button** → Removes the toast element and clears its timer, If last toast, hides and removes the container
+- **dismissAllToasts() called** → Removes all toast elements and clears all timers, Hides and removes the container
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { ToastController } from '@nonoun/native-ui';
 const ctrl = new ToastController(element);
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="toast">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="toast">Self-applying</n-button>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `toast-controller.md` | Controller documentation |
+| `toast-controller.ts` | Controller (reactive state + behavior) |
+| `toastable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `toastable.html` | Demo page |
+| `toastable.test.ts` | Tests |

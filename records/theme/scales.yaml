@@ -1,0 +1,33 @@
+# scales.yaml — Concrete scale values for native-ui token system.
+
+size:
+  xs: 1.5rem   # 24px
+  sm: 2rem     # 32px
+  md: 2.5rem   # 40px
+  lg: 3rem     # 48px
+  xl: 3.5rem   # 56px
+
+font_size:
+  2xs: 0.625rem  # 10px
+  xs: 0.75rem    # 12px
+  sm: 0.8125rem  # 13px
+  md: 0.875rem   # 14px
+  lg: 1rem       # 16px
+  xl: 1.125rem   # 18px
+  2xl: 1.25rem   # 20px
+
+space:
+  2xs: 0.125rem  # 2px
+  xs: 0.25rem    # 4px
+  sm: 0.5rem     # 8px
+  md: 0.75rem    # 12px
+  lg: 1rem       # 16px
+  xl: 1.5rem     # 24px
+  2xl: 2rem      # 32px
+
+radius:
+  none: 0
+  sm: 0.25rem    # 4px
+  md: 0.5rem     # 8px
+  lg: 0.75rem    # 12px
+  full: 9999px

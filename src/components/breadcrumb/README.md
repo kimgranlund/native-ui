@@ -6,23 +6,98 @@
 
 **Class:** `NBreadcrumb`
 
-## CSS Tokens
+**ARIA role:** `navigation`
 
-Public `--n-*` custom properties consumed by this component:
+## CSS Attributes
 
-- `--n-button-font-weight`
-- `--n-control-line-height`
-- `--n-duration`
-- `--n-easing`
-- `--n-focus-ring`
-- `--n-font-size`
-- `--n-font-weight`
-- `--n-ink`
-- `--n-ink-muted`
-- `--n-ink-strong`
-- `--n-line-height`
-- `--n-radius`
-- `--n-space`
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `current` | boolean | _(boolean)_ | Marks the item as the current page with aria-current |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-button-font-weight` |  | Font weight |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-button-font-weight)` | Font weight |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-line-height` | `var(--n-control-line-height)` | Line height |
+| `--n-radius` |  | Border radius |
+| `--n-space` |  | Block/gap spacing |
+
+## Accessibility
+
+- **Role:** `navigation`
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Navigates to the breadcrumb item href |
+| `Space` | Navigates to the breadcrumb item href |
+
+## Behavior
+
+- **click on breadcrumb-item** → Navigates to the item href unless current
+
+## Composition
+
+### Children
+- `<n-breadcrumb-item>`
+
+## Usage
+
+### Minimal
+
+```html
+<n-breadcrumb></n-breadcrumb>
+```
+
+### Examples
+
+```html
+<n-breadcrumb>
+        <n-breadcrumb-item href="/">Home</n-breadcrumb-item>
+        <n-breadcrumb-item href="/products">Products</n-breadcrumb-item>
+        <n-breadcrumb-item current>Widget Pro</n-breadcrumb-item>
+      </n-breadcrumb>
+```
+
+```html
+<n-breadcrumb>
+        <n-breadcrumb-item href="/">Home</n-breadcrumb-item>
+        <n-breadcrumb-item href="/docs">Documentation</n-breadcrumb-item>
+        <n-breadcrumb-item href="/docs/components">Components</n-breadcrumb-item>
+        <n-breadcrumb-item href="/docs/components/buttons">Buttons</n-breadcrumb-item>
+        <n-breadcrumb-item current>Primary Button</n-breadcrumb-item>
+      </n-breadcrumb>
+```
+
+```html
+<n-breadcrumb size="sm">
+          <n-breadcrumb-item href="/">Home</n-breadcrumb-item>
+          <n-breadcrumb-item current>Settings</n-breadcrumb-item>
+        </n-breadcrumb>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `breadcrumb-element.ts` | Element class (behavior, no CSS) |
+| `breadcrumb-item-element.ts` | Element class (behavior, no CSS) |
+| `breadcrumb.css` | Styles |
+| `breadcrumb.html` | Demo page |
+| `breadcrumb.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
 
 ---
 
@@ -32,15 +107,83 @@ Public `--n-*` custom properties consumed by this component:
 
 **Class:** `NBreadcrumbItem`
 
-### Attributes
+**ARIA role:** `link`
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `href` | `string` | Navigation URL |
-| `current` | `boolean` | Marks as the current page (disables navigation) |
+## Attributes
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `href` | `string` |  | Navigation URL |
+| `current` | `boolean` |  | Marks as the current page (disables navigation) |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-button-font-weight` |  | Font weight |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-button-font-weight)` | Font weight |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-line-height` | `var(--n-control-line-height)` | Line height |
+| `--n-radius` |  | Border radius |
+| `--n-space` |  | Block/gap spacing |
+
+## Accessibility
+
+- **Role:** `link`
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Navigates to the href URL |
+| `Space` | Navigates to the href URL |
+
+## Behavior
+
+- **click** → Navigates to href unless current attribute is set
+
+## Composition
+
+### Parents
+- `<n-breadcrumb>`
 
 ## Usage
 
+### Minimal
+
 ```html
-<n-breadcrumb></n-breadcrumb>
+<n-breadcrumb-item></n-breadcrumb-item>
 ```
+
+### Examples
+
+```html
+<n-breadcrumb-item href="/">Home</n-breadcrumb-item>
+```
+
+```html
+<n-breadcrumb-item href="/products">Products</n-breadcrumb-item>
+```
+
+```html
+<n-breadcrumb-item current>Widget Pro</n-breadcrumb-item>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `breadcrumb-element.ts` | Element class (behavior, no CSS) |
+| `breadcrumb-item-element.ts` | Element class (behavior, no CSS) |
+| `breadcrumb.css` | Styles |
+| `breadcrumb.html` | Demo page |
+| `breadcrumb.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |

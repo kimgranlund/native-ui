@@ -4,11 +4,19 @@
 
 > Manages a dismiss layer that dispatches `native:dismiss` on outside click or Escape.
 
+**Trait name:** `dismiss` (for use with `<n-controller traits="dismiss">` or self-trait `traits="dismiss"`)
+
 ## Constructor
 
 ```ts
 new DismissController(host: HTMLElement)
 ```
+
+## Events Dispatched
+
+| Event | Detail |
+|-------|--------|
+| `native:dismiss` | _(none)_ |
 
 ## Methods
 
@@ -18,10 +26,51 @@ new DismissController(host: HTMLElement)
 | `disable()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Escape` | Dispatches native:dismiss on the topmost dismiss layer |
+
+## Behavior
+
+- **enable() called** → Pushes host onto global dismiss stack after one rAF (prevents opening click from dismissing)
+- **Escape key pressed (handled by global dismiss stack)** → Dispatches native:dismiss on the topmost element in the stack
+- **Click outside the topmost element in the stack** → Dispatches native:dismiss on the topmost element in the stack
+- **disable() or destroy() called** → Cancels pending rAF if still waiting, Removes host from global dismiss stack
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { DismissController } from '@nonoun/native-ui';
 const ctrl = new DismissController(element);
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="dismiss">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="dismiss">Self-applying</n-button>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `dismiss-controller.md` | Controller documentation |
+| `dismiss-controller.ts` | Controller (reactive state + behavior) |
+| `dismissable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `dismissable.html` | Demo page |
+| `dismissable.test.ts` | Tests |

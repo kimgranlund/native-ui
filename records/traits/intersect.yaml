@@ -1,0 +1,45 @@
+trait: intersect
+controller: IntersectController
+description: Observes intersection visibility changes on the host, dispatching `native:intersect`.
+source:
+  controller: src/traits/intersect/intersect-controller.ts
+  adapter: src/traits/intersect/intersectable-adapter.ts
+  demo: src/traits/intersect/intersectable.html
+  test: src/traits/intersect/intersectable.test.ts
+options:
+  threshold:
+    type: number
+  root:
+    type: string | null
+  margin:
+    type: string
+  once:
+    type: boolean
+  disabled:
+    type: boolean
+injected_events:
+  native:intersect:
+    detail:
+      isIntersecting:
+        type: string
+      ratio:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new IntersectController(element, options)
+  provider: <n-controller traits="intersect">
+  self_trait: <n-button traits="intersect">
+behavior:
+  - trigger: "Host enters or exits viewport intersection threshold"
+    actions:
+      - "Sets or removes intersecting attribute on host"
+      - "Dispatches native:intersect with isIntersecting and ratio"
+      - "If once is true, disconnects observer after first intersection"
+a11y:
+  keyboard: []

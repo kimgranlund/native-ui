@@ -1,0 +1,14 @@
+component:
+tag: n-inset
+category: container
+css_only: true
+description: Negative-margin container that bleeds content into the parent padding area.
+source:
+  css: src/containers/inset/inset.css
+  demo: src/containers/inset/inset.html
+display: flex
+css_tokens:
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier

@@ -6,69 +6,133 @@
 
 **Class:** `NCalendar`
 
+**ARIA role:** `group`
+**Form-associated:** yes (participates in `<form>` submission, reset, validation)
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `value` | `string` | Selected date in ISO format (YYYY-MM-DD) |
-| `min` | `string` | Minimum selectable date in ISO format |
-| `max` | `string` | Maximum selectable date in ISO format |
-| `disabled` | `boolean` | Disables interaction |
-| `name` | `string` | Form field name |
-| `range` | `boolean` | Enables range selection mode |
-| `required` | `string` |  |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | `string` |  | Selected date in ISO format (YYYY-MM-DD) |
+| `min` | `string` |  | Minimum selectable date in ISO format |
+| `max` | `string` |  | Maximum selectable date in ISO format |
+| `disabled` | `boolean` |  | Disables interaction |
+| `name` | `string` |  | Form field name |
+| `range` | `boolean` |  | Enables range selection mode |
+| `required` | `string` |  |  |
 
-## Properties
+## CSS Attributes
 
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `store` | `CalendarStore` | yes |  |
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `view` | enum | `day`, `month`, `year` | Current calendar view level |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:range-select` | Fired on range commit with `{ start, end }` detail |
-| `native:change` | Fired on single date selection with `{ value }` detail |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:range-select` | _(none)_ | Fired on range commit with `{ start, end }` detail |
+| `native:change` | _(none)_ | Fired on single date selection with `{ value }` detail |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-surface)` | Background color |
+| `--n-background-active` | `var(--n-panel-active)` | Background on press |
+| `--n-background-hover` | `var(--n-surface-hover)` | Background on hover |
+| `--n-border-color` | `transparent` | Border color |
+| `--n-border-color-active` | `transparent` | Border on press |
+| `--n-border-color-hover` | `transparent` | Border on hover |
+| `--n-border-muted` |  | Muted border color |
+| `--n-button-font-weight` |  | Font weight |
+| `--n-color` | `var(--n-surface-ink)` | Text/foreground color |
+| `--n-color-active` | `var(--n-ink-active)` | Text/foreground color |
+| `--n-color-hover` | `var(--n-surface-ink-hover)` | Text on hover |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-text-font-weight)` | Font weight |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-active` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-hover` |  | Ink on hover |
+| `--n-ink-inverse` |  | Ink (text) color |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-text-line-height)` | Line height |
+| `--n-panel` |  | Panel background color |
+| `--n-panel-active` |  | Panel background on press |
+| `--n-panel-hover` |  | Panel background on hover |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-surface` |  | Surface background color |
+| `--n-surface-hover` |  | Surface background on hover |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-surface-ink-hover` |  | Ink on hover |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-text-line-height` |  | Line height |
 
-- `--n-background`
-- `--n-background-hover`
-- `--n-border-color`
-- `--n-border-muted`
-- `--n-button-font-weight`
-- `--n-color`
-- `--n-color-hover`
-- `--n-duration`
-- `--n-easing`
-- `--n-focus-ring`
-- `--n-font-size`
-- `--n-ink`
-- `--n-ink-active`
-- `--n-ink-disabled`
-- `--n-ink-hover`
-- `--n-ink-inverse`
-- `--n-ink-muted`
-- `--n-ink-strong`
-- `--n-letter-spacing`
-- `--n-panel`
-- `--n-panel-active`
-- `--n-panel-hover`
-- `--n-radius`
-- `--n-size`
-- `--n-space`
-- `--n-surface`
-- `--n-surface-hover`
-- `--n-surface-ink`
-- `--n-surface-ink-hover`
-- `--n-text-font-weight`
-- `--n-text-line-height`
+## Accessibility
+
+- **Role:** `group`
+- **Form-associated:** participates in form submission, reset, and validation
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `ArrowRight` | Moves focus to the next day/month/year |
+| `ArrowLeft` | Moves focus to the previous day/month/year |
+| `ArrowDown` | Moves focus down one week/row |
+| `ArrowUp` | Moves focus up one week/row |
+| `Home` | Moves focus to the first day of the month |
+| `End` | Moves focus to the last day of the month |
+| `Enter` | Selects the focused date or drills into month/year view |
+
+## Behavior
+
+- **click on date cell** → Selects date and fires native:change
+- **range selection** → Click start then end date and fires native:range-select
+
+## Composition
+
+### Parents
+- `<n-field>`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-calendar></n-calendar>
 ```
+
+### Examples
+
+```html
+<n-calendar id="single"></n-calendar>
+```
+
+```html
+<n-calendar value="2026-02-14"></n-calendar>
+```
+
+```html
+<n-calendar min="2026-02-10" max="2026-02-25"></n-calendar>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `calendar-element.ts` | Element class (behavior, no CSS) |
+| `calendar.css` | Styles |
+| `calendar.html` | Demo page |
+| `calendar.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `store/` | Sub-directory (1 files) |

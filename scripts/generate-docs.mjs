@@ -1,565 +1,639 @@
-// AUTO-GENERATED docs script — reads CEM + source files to produce per-component/controller .md files.
+// generate-docs.mjs — Generates per-component/trait/controller .md files from YAML records.
 // Usage: node scripts/generate-docs.mjs
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from 'fs';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
+import YAML from 'yaml';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
-const CEM_PATH = join(ROOT, 'dist/custom-elements.json');
-const TRAITS_DIR = join(ROOT, 'src/traits');
-const COMPONENTS_DIR = join(ROOT, 'src/components');
-const CONTAINERS_DIR = join(ROOT, 'src/containers');
+const RECORDS_DIR = join(ROOT, 'records');
 
-// ── CEM parsing ──
+// ── File inventory ──
 
-function loadCEM() {
-  const raw = readFileSync(CEM_PATH, 'utf8');
-  return JSON.parse(raw);
+const FILE_PURPOSE = {
+  'index.ts': 'Barrel exports',
+  'README.md': 'Documentation (auto-generated)',
+};
+
+function inferFilePurpose(file, dirName) {
+  if (FILE_PURPOSE[file]) return FILE_PURPOSE[file];
+  if (file.endsWith('.test.ts')) return 'Tests';
+  if (file.endsWith('.stories.ts')) return 'Storybook stories';
+  if (file.endsWith('.html')) return 'Demo page';
+  if (file.endsWith('.css')) return 'Styles';
+  if (file.endsWith('-adapter.ts')) return 'Trait adapter (declarative provider bridge)';
+  if (file.endsWith('-controller.ts')) return 'Controller (reactive state + behavior)';
+  if (file.endsWith('-controller.md')) return 'Controller documentation';
+  if (file.endsWith('-store.ts')) return 'Store (complex reactive state)';
+  if (file.endsWith('-element.ts')) return 'Element class (behavior, no CSS)';
+  if (file === `${dirName}.ts` || file === `n-${dirName}.ts`) return 'Custom element registration (define())';
+  return 'Source module';
 }
 
-// ── CSS extraction ──
-
-function extractSlots(cssPath) {
-  if (!existsSync(cssPath)) return [];
-  const css = readFileSync(cssPath, 'utf8');
-  const slots = new Set();
-  const re = /\[slot=["']([^"']+)["']\]/g;
-  let m;
-  while ((m = re.exec(css)) !== null) slots.add(m[1]);
-  return [...slots].sort();
+function extractFileInventory(dir) {
+  if (!existsSync(dir)) return [];
+  const dirName = basename(dir);
+  const files = [];
+  try {
+    for (const entry of readdirSync(dir)) {
+      const fullPath = join(dir, entry);
+      const stat = statSync(fullPath);
+      if (stat.isFile()) {
+        files.push({ file: entry, purpose: inferFilePurpose(entry, dirName) });
+      } else if (stat.isDirectory() && entry !== '__tests__' && entry !== 'node_modules') {
+        const subFiles = readdirSync(fullPath).filter((f) => !f.startsWith('.'));
+        files.push({ file: `${entry}/`, purpose: `Sub-directory (${subFiles.length} files)` });
+      }
+    }
+  } catch { /* ignore */ }
+  return files.sort((a, b) => a.file.localeCompare(b.file));
 }
 
-function extractCSSTokens(cssPath) {
-  if (!existsSync(cssPath)) return [];
-  const css = readFileSync(cssPath, 'utf8');
-  const tokens = new Set();
-  const re = /var\((--n-[^,)]+)\)/g;
-  let m;
-  while ((m = re.exec(css)) !== null) tokens.add(m[1]);
-  return [...tokens].sort();
-}
+// ── Demo HTML extraction ──
 
-function extractCSSAttributes(cssPath) {
-  if (!existsSync(cssPath)) return [];
-  const css = readFileSync(cssPath, 'utf8');
-  const attrs = new Map(); // name → Set<values>
-  // Match [attr] and [attr="value"] selectors, excluding slot/popover/hidden/aria/data/role
-  const re = /\[([a-z][\w-]*)(?:=["']([^"']+)["'])?\]/g;
-  const skip = new Set(['slot', 'popover', 'hidden', 'open', 'role', 'tabindex', 'contenteditable', 'draggable']);
-  let m;
-  while ((m = re.exec(css)) !== null) {
-    const name = m[1];
-    if (skip.has(name) || name.startsWith('aria-') || name.startsWith('data-') || name.startsWith('force-')) continue;
-    if (!attrs.has(name)) attrs.set(name, new Set());
-    if (m[2]) attrs.get(name).add(m[2]);
-  }
-  return [...attrs.entries()].map(([name, values]) => ({
-    name,
-    values: [...values].sort(),
-  }));
-}
-
-function extractCSSDisplay(cssPath) {
-  if (!existsSync(cssPath)) return null;
-  const css = readFileSync(cssPath, 'utf8');
-  // Match the base rule display value (first display: ... in the file)
-  const m = css.match(/display:\s*([^;]+)/);
-  return m ? m[1].trim() : null;
-}
-
-// ── Controller parsing ──
-
-function parseController(filePath) {
-  if (!existsSync(filePath)) return null;
-  const src = readFileSync(filePath, 'utf8');
-
-  // Extract class JSDoc
-  const classDocMatch = src.match(/\/\*\*\s*([^*](?:[^*]|\*(?!\/))*?)\*\/\s*export class (\w+)/);
-  const description = classDocMatch ? classDocMatch[1].replace(/\s*\*\s*/g, ' ').trim() : '';
-  const className = classDocMatch
-    ? classDocMatch[2]
-    : basename(filePath, '.ts')
-        .replace(/-(\w)/g, (_, c) => c.toUpperCase())
-        .replace(/^\w/, (c) => c.toUpperCase());
-
-  // Extract options interface
-  const optionsMatch = src.match(/export interface (\w+Options)\s*\{([^}]+)\}/s);
-  const optionsName = optionsMatch ? optionsMatch[1] : null;
-  const optionsFields = [];
-  if (optionsMatch) {
-    const body = optionsMatch[2];
-    const fieldRe = /(?:\/\*\*\s*(.*?)\s*\*\/\s*)?(\w+)(\?)?:\s*([^;]+);/g;
-    let fm;
-    while ((fm = fieldRe.exec(body)) !== null) {
-      optionsFields.push({
-        name: fm[2],
-        optional: !!fm[3],
-        type: fm[4].trim(),
-        description: fm[1] ? fm[1].replace(/\s*\*\s*/g, ' ').trim() : '',
-      });
+function extractDemoSnippets(dir) {
+  if (!existsSync(dir)) return [];
+  const htmlFiles = readdirSync(dir).filter((f) => f.endsWith('.html'));
+  if (htmlFiles.length === 0) return [];
+  const snippets = [];
+  for (const file of htmlFiles) {
+    const html = readFileSync(join(dir, file), 'utf8');
+    const re = /<pre\s+class="demo-code"><code>([\s\S]*?)<\/code><\/pre>/g;
+    let m;
+    while ((m = re.exec(html)) !== null) {
+      const code = m[1]
+        .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim();
+      if (code.length > 10 && code.length < 1000) snippets.push(code);
     }
   }
-
-  // Extract ALL events dispatched (with or without detail)
-  const events = [];
-  const seenEvents = new Set();
-
-  // Pass 1: events WITH detail
-  const eventWithDetailRe = /new CustomEvent\(['"]([^'"]+)['"]\s*,\s*\{[^}]*detail:\s*\{([^}]*)\}/g;
-  let em;
-  while ((em = eventWithDetailRe.exec(src)) !== null) {
-    if (seenEvents.has(em[1])) continue;
-    seenEvents.add(em[1]);
-    const raw = em[2].replace(/\s+/g, ' ').trim();
-    const fields = raw
-      .split(',')
-      .map((f) => f.trim())
-      .filter(Boolean)
-      .map((f) => {
-        const [key] = f.split(':').map((s) => s.trim());
-        return key;
-      })
-      .join(', ');
-    events.push({ name: em[1], detail: fields });
-  }
-
-  // Pass 2: events WITHOUT detail
-  const eventRe = /new CustomEvent\(['"]([^'"]+)['"]/g;
-  while ((em = eventRe.exec(src)) !== null) {
-    if (seenEvents.has(em[1])) continue;
-    seenEvents.add(em[1]);
-    events.push({ name: em[1], detail: '' });
-  }
-
-  // Extract public methods (not starting with #, not constructor, not keywords)
-  const SKIP_METHODS = new Set([
-    'constructor', 'if', 'for', 'while', 'switch', 'return',
-    'const', 'let', 'var', 'new', 'else', 'try', 'catch', 'typeof',
-  ]);
-  const methods = [];
-  const methodRe = /^\s+(?:readonly\s+)?(\w+)\s*\(([^)]*)\)\s*(?::\s*([^\s{]+))?\s*\{/gm;
-  let mm;
-  while ((mm = methodRe.exec(src)) !== null) {
-    const name = mm[1];
-    if (name.startsWith('#') || SKIP_METHODS.has(name)) continue;
-    const params = mm[2].trim();
-    const returnType = mm[3] || 'void';
-    if (!methods.find((m) => m.name === name)) {
-      methods.push({ name, params, returnType });
-    }
-  }
-
-  // Extract getters
-  const properties = [];
-  const getterRe = /^\s+get\s+(\w+)\s*\(\s*\)\s*(?::\s*(\S+))?\s*\{/gm;
-  let gm;
-  while ((gm = getterRe.exec(src)) !== null) {
-    if (gm[1].startsWith('#')) continue;
-    // Check if there's a matching setter
-    const hasSetter = new RegExp(`^\\s+set\\s+${gm[1]}\\s*\\(`, 'm').test(src);
-    properties.push({
-      name: gm[1],
-      type: gm[2] || 'unknown',
-      readonly: !hasSetter,
-    });
-  }
-
-  // Always include destroy if present and not already captured
-  if (src.includes('destroy()') && !methods.find((m) => m.name === 'destroy')) {
-    methods.push({ name: 'destroy', params: '', returnType: 'void' });
-  }
-
-  return { className, description, optionsName, optionsFields, events, methods, properties };
+  return [...new Set(snippets)].slice(0, 5);
 }
 
-// ── CEM member extraction for components ──
-
-const SKIP_MEMBERS = new Set([
-  'onFormDisabled', 'onFormReset', 'onFormStateRestore', 'role',
-  'setup', 'teardown', 'addEffect', 'deferChildren', 'getTraitController',
-  'connectedCallback', 'disconnectedCallback', 'attributeChangedCallback',
-  'formAssociatedCallback', 'formDisabledCallback', 'formResetCallback', 'formStateRestoreCallback',
-]);
-
-function extractPublicMembers(decl) {
-  const members = decl.members || [];
-  const publicMethods = [];
-  const publicFields = [];
-
-  for (const m of members) {
-    if (m.privacy === 'private' || m.privacy === 'protected') continue;
-    if (m.inheritedFrom) continue;
-    if (m.name.startsWith('#') || m.name.startsWith('_')) continue;
-    if (SKIP_MEMBERS.has(m.name)) continue;
-
-    if (m.kind === 'method') {
-      const params = (m.parameters || [])
-        .map((p) => `${p.name}${p.optional ? '?' : ''}: ${p.type?.text || 'unknown'}`)
-        .join(', ');
-      publicMethods.push({
-        name: m.name,
-        params,
-        returnType: m.return?.type?.text || 'void',
-      });
-    } else if (m.kind === 'field') {
-      // Skip fields that duplicate attributes
-      const isAttr = (decl.attributes || []).some((a) => a.name === m.name);
-      if (isAttr) continue;
-      publicFields.push({
-        name: m.name,
-        type: m.type?.text || 'unknown',
-        readonly: !!m.readonly,
-        default: m.default || '',
-      });
+function extractDemoUsageExamples(dir, tagName) {
+  if (!existsSync(dir)) return [];
+  const htmlFiles = readdirSync(dir).filter((f) => f.endsWith('.html'));
+  if (htmlFiles.length === 0) return [];
+  const examples = [];
+  for (const file of htmlFiles) {
+    const html = readFileSync(join(dir, file), 'utf8');
+    const tagRe = new RegExp(`(<${tagName}[^>]*>[\\s\\S]*?<\\/${tagName}>)`, 'g');
+    let m;
+    let count = 0;
+    while ((m = tagRe.exec(html)) !== null && count < 3) {
+      const snippet = m[1].trim();
+      if (snippet.length > 20 && snippet.length < 500 && snippet.includes(' ')) {
+        examples.push(snippet);
+        count++;
+      }
     }
   }
-
-  return { publicMethods, publicFields };
+  return examples.slice(0, 3);
 }
 
-// ── Markdown generation: Components ──
+// ── YAML helpers ──
 
-function generateComponentMd(elements, dir) {
+function loadRecord(path) {
+  return YAML.parse(readFileSync(path, 'utf8'));
+}
+
+function loadAllRecords(subdir) {
+  const dir = join(RECORDS_DIR, subdir);
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((f) => f.endsWith('.yaml'))
+    .map((f) => ({ file: f, name: basename(f, '.yaml'), record: loadRecord(join(dir, f)) }));
+}
+
+// ── Resolve source directory from record ──
+
+function resolveDir(record) {
+  const src = record.source;
+  if (!src) return null;
+  const first = src.element || src.css || src.controller || src.demo;
+  if (!first) return null;
+  return join(ROOT, dirname(first));
+}
+
+// ── Component README generation ──
+
+function generateComponentReadme(record) {
   const lines = [`<!-- AUTO-GENERATED by scripts/generate-docs.mjs — DO NOT EDIT -->`, ``];
 
-  // Primary element first (shortest tag name or the directory name)
-  const dirName = basename(dir);
-  elements.sort((a, b) => {
-    if (a.tagName === dirName) return -1;
-    if (b.tagName === dirName) return 1;
-    return a.tagName.length - b.tagName.length;
-  });
+  // Title
+  lines.push(`# ${record.tag}`, ``);
+  if (record.description) lines.push(`> ${record.description}`, ``);
 
-  for (let i = 0; i < elements.length; i++) {
-    const { tagName, cls, attrs, events, slots, cssTokens, publicMethods, publicFields } = elements[i];
-    const level = i === 0 ? '#' : '##';
-
-    lines.push(`${level} ${tagName}`, ``);
-
-    if (cls.description) {
-      lines.push(`> ${cls.description}`, ``);
-    }
-
-    lines.push(`**Class:** \`${cls.name}\``, ``);
-
-    // Attributes
-    if (attrs.length > 0) {
-      lines.push(`${level}# Attributes`, ``);
-      lines.push(`| Attribute | Type | Description |`);
-      lines.push(`|-----------|------|-------------|`);
-      for (const attr of attrs) {
-        const type = attr.type?.text || 'string';
-        const desc = attr.description || '';
-        lines.push(`| \`${attr.name}\` | \`${type}\` | ${desc} |`);
-      }
-      lines.push(``);
-    }
-
-    // Public fields (from CEM, not duplicating attributes)
-    if (publicFields.length > 0) {
-      lines.push(`${level}# Properties`, ``);
-      lines.push(`| Property | Type | Readonly | Description |`);
-      lines.push(`|----------|------|----------|-------------|`);
-      for (const f of publicFields) {
-        lines.push(`| \`${f.name}\` | \`${f.type}\` | ${f.readonly ? 'yes' : 'no'} | ${f.default ? `Default: \`${f.default}\`` : ''} |`);
-      }
-      lines.push(``);
-    }
-
-    // Public methods (from CEM)
-    if (publicMethods.length > 0) {
-      lines.push(`${level}# Methods`, ``);
-      lines.push(`| Method | Parameters | Returns |`);
-      lines.push(`|--------|------------|---------|`);
-      for (const m of publicMethods) {
-        lines.push(`| \`${m.name}()\` | \`${m.params || '—'}\` | \`${m.returnType}\` |`);
-      }
-      lines.push(``);
-    }
-
-    // Events
-    if (events.length > 0) {
-      lines.push(`${level}# Events`, ``);
-      lines.push(`| Event | Description |`);
-      lines.push(`|-------|-------------|`);
-      for (const event of events) {
-        lines.push(`| \`${event.name}\` | ${event.description || ''} |`);
-      }
-      lines.push(``);
-    }
-
-    // Slots
-    if (slots.length > 0) {
-      lines.push(`${level}# Slots`, ``);
-      lines.push(`| Slot |`);
-      lines.push(`|------|`);
-      for (const slot of slots) {
-        lines.push(`| \`${slot}\` |`);
-      }
-      lines.push(``);
-    }
-
-    // CSS tokens (only on primary element)
-    if (i === 0 && cssTokens.length > 0) {
-      lines.push(`${level}# CSS Tokens`, ``);
-      lines.push(`Public \`--n-*\` custom properties consumed by this component:`, ``);
-      for (const token of cssTokens) {
-        lines.push(`- \`${token}\``);
-      }
-      lines.push(``);
-    }
-
-    // Separator between elements
-    if (i < elements.length - 1) {
-      lines.push(`---`, ``);
-    }
+  // CSS-only badge
+  if (record.css_only) {
+    lines.push(`**CSS-only element** — styled purely via CSS, no JavaScript class required.`, ``);
+  } else if (record.component) {
+    lines.push(`**Class:** \`${record.component}\``, ``);
   }
 
-  // Usage (after all elements)
-  const primary = elements[0];
-  lines.push(`## Usage`, ``);
-  lines.push('```html');
-  lines.push(`<${primary.tagName}></${primary.tagName}>`);
-  lines.push('```');
-  lines.push(``);
+  if (record.display) lines.push(`**Display:** \`${record.display}\``, ``);
 
-  return lines.join('\n');
-}
+  // Architecture summary
+  const archNotes = [];
+  if (record.a11y?.role) archNotes.push(`**ARIA role:** \`${record.a11y.role}\``);
+  if (record.a11y?.form_associated) archNotes.push(`**Form-associated:** yes (participates in \`<form>\` submission, reset, validation)`);
+  if (record.controllers?.length > 0) {
+    archNotes.push(`**Internal controllers:** ${record.controllers.map((c) => `\`${c}\``).join(', ')}`);
+  }
+  if (archNotes.length > 0) lines.push(...archNotes, ``);
 
-// ── Markdown generation: CSS-only containers ──
-
-function generateCSSOnlyMd(tagName, cssPath) {
-  const display = extractCSSDisplay(cssPath);
-  const attrs = extractCSSAttributes(cssPath);
-  const slots = extractSlots(cssPath);
-  const tokens = extractCSSTokens(cssPath);
-
-  const lines = [`<!-- AUTO-GENERATED by scripts/generate-docs.mjs — DO NOT EDIT -->`, ``, `# ${tagName}`, ``];
-  lines.push(`**CSS-only container** — no JavaScript class.`, ``);
-
-  if (display) lines.push(`**Display:** \`${display}\``, ``);
-
-  if (attrs.length > 0) {
+  // JS Attributes
+  if (record.attributes && Object.keys(record.attributes).length > 0) {
     lines.push(`## Attributes`, ``);
-    lines.push(`| Attribute | Values |`);
-    lines.push(`|-----------|--------|`);
-    for (const attr of attrs) {
-      const vals = attr.values.length > 0 ? attr.values.map((v) => `\`${v}\``).join(', ') : '_(boolean)_';
-      lines.push(`| \`${attr.name}\` | ${vals} |`);
+    lines.push(`| Attribute | Type | Default | Description |`);
+    lines.push(`|-----------|------|---------|-------------|`);
+    for (const [name, attr] of Object.entries(record.attributes)) {
+      const type = attr.type || 'string';
+      const def = attr.default != null ? `\`${attr.default}\`` : '';
+      const desc = attr.description || '';
+      lines.push(`| \`${name}\` | \`${type}\` | ${def} | ${desc} |`);
     }
     lines.push(``);
   }
 
-  if (slots.length > 0) {
-    lines.push(`## Slots`, ``);
-    lines.push(`| Slot |`);
-    lines.push(`|------|`);
-    for (const slot of slots) {
-      lines.push(`| \`${slot}\` |`);
-    }
-    lines.push(``);
-  }
-
-  if (tokens.length > 0) {
-    lines.push(`## CSS Tokens`, ``);
-    for (const token of tokens) {
-      lines.push(`- \`${token}\``);
-    }
-    lines.push(``);
-  }
-
-  lines.push(`## Usage`, ``);
-  lines.push('```html');
-  lines.push(`<${tagName}></${tagName}>`);
-  lines.push('```');
-  lines.push(``);
-
-  return lines.join('\n');
-}
-
-// ── Markdown generation: Controllers ──
-
-function generateControllerMd(info) {
-  const lines = [`<!-- AUTO-GENERATED by scripts/generate-docs.mjs — DO NOT EDIT -->`, ``, `# ${info.className}`, ``];
-
-  if (info.description) {
-    lines.push(`> ${info.description}`, ``);
-  }
-
-  // Constructor
-  if (info.optionsName) {
-    lines.push(`## Constructor`, ``);
-    lines.push('```ts');
-    lines.push(`new ${info.className}(host: HTMLElement, options?: ${info.optionsName})`);
-    lines.push('```');
-    lines.push(``);
-  } else {
-    lines.push(`## Constructor`, ``);
-    lines.push('```ts');
-    lines.push(`new ${info.className}(host: HTMLElement)`);
-    lines.push('```');
-    lines.push(``);
-  }
-
-  // Options
-  if (info.optionsFields.length > 0) {
-    lines.push(`## Options`, ``);
-    lines.push(`| Option | Type | Required | Description |`);
-    lines.push(`|--------|------|----------|-------------|`);
-    for (const f of info.optionsFields) {
-      lines.push(`| \`${f.name}\` | \`${f.type}\` | ${f.optional ? 'no' : 'yes'} | ${f.description} |`);
-    }
-    lines.push(``);
-  }
-
-  // Properties (getters/setters)
-  if (info.properties.length > 0) {
-    lines.push(`## Properties`, ``);
-    lines.push(`| Property | Type | Readonly |`);
-    lines.push(`|----------|------|----------|`);
-    for (const p of info.properties) {
-      lines.push(`| \`${p.name}\` | \`${p.type}\` | ${p.readonly ? 'yes' : 'no'} |`);
+  // CSS Attributes
+  if (record.css_attributes && Object.keys(record.css_attributes).length > 0) {
+    lines.push(`## CSS Attributes`, ``);
+    lines.push(`| Attribute | Type | Values | Description |`);
+    lines.push(`|-----------|------|--------|-------------|`);
+    for (const [name, attr] of Object.entries(record.css_attributes)) {
+      const type = attr.type || 'string';
+      const vals = attr.values?.map((v) => `\`${v}\``).join(', ') || (type === 'boolean' ? '_(boolean)_' : '');
+      const desc = attr.description || '';
+      lines.push(`| \`${name}\` | ${type} | ${vals} | ${desc} |`);
     }
     lines.push(``);
   }
 
   // Events
-  if (info.events.length > 0) {
+  if (record.events && Object.keys(record.events).length > 0) {
+    lines.push(`## Events`, ``);
+    lines.push(`| Event | Detail | Description |`);
+    lines.push(`|-------|--------|-------------|`);
+    for (const [name, evt] of Object.entries(record.events)) {
+      const detail = evt.detail ? `\`{ ${Object.keys(evt.detail).join(', ')} }\`` : '_(none)_';
+      const desc = evt.description || '';
+      lines.push(`| \`${name}\` | ${detail} | ${desc} |`);
+    }
+    lines.push(``);
+  }
+
+  // Slots
+  if (record.slots && Object.keys(record.slots).length > 0) {
+    lines.push(`## Slots`, ``);
+    lines.push(`| Slot | Description |`);
+    lines.push(`|------|-------------|`);
+    for (const [name, slot] of Object.entries(record.slots)) {
+      lines.push(`| \`${name}\` | ${slot.description || ''} |`);
+    }
+    lines.push(``);
+  }
+
+  // CSS Custom Properties
+  if (record.css_tokens && Object.keys(record.css_tokens).length > 0) {
+    lines.push(`## CSS Custom Properties`, ``);
+    lines.push(`| Token | Default | Purpose |`);
+    lines.push(`|-------|---------|---------|`);
+    for (const [name, token] of Object.entries(record.css_tokens)) {
+      const def = token.default ? `\`${token.default}\`` : '';
+      lines.push(`| \`${name}\` | ${def} | ${token.description || ''} |`);
+    }
+    lines.push(``);
+  }
+
+  // Accessibility
+  if (record.a11y) {
+    const a11y = record.a11y;
+    const hasContent = a11y.role || a11y.form_associated || (a11y.keyboard?.length > 0) || (a11y.required_aria?.length > 0);
+    if (hasContent) {
+      lines.push(`## Accessibility`, ``);
+      if (a11y.role) lines.push(`- **Role:** \`${a11y.role}\``);
+      if (a11y.form_associated) lines.push(`- **Form-associated:** participates in form submission, reset, and validation`);
+      if (a11y.required_aria?.length > 0) {
+        for (const aria of a11y.required_aria) {
+          lines.push(`- **Required ARIA:** \`${aria.attribute}\` ${aria.condition ? `(when ${aria.condition})` : ''}`);
+        }
+      }
+      lines.push(``);
+      if (a11y.keyboard?.length > 0) {
+        lines.push(`### Keyboard`, ``);
+        lines.push(`| Key | Action |`);
+        lines.push(`|-----|--------|`);
+        for (const k of a11y.keyboard) {
+          lines.push(`| \`${k.key}\` | ${k.action || ''} |`);
+        }
+        lines.push(``);
+      }
+    }
+  }
+
+  // Behavior
+  if (record.behavior?.length > 0) {
+    lines.push(`## Behavior`, ``);
+    for (const b of record.behavior) {
+      const actions = Array.isArray(b.actions) ? b.actions.join(', ') : b.actions;
+      lines.push(`- **${b.trigger}** → ${actions}`);
+    }
+    lines.push(``);
+  }
+
+  // Composition
+  if (record.compose) {
+    const { children, parents } = record.compose;
+    if (children?.length > 0 || parents?.length > 0) {
+      lines.push(`## Composition`, ``);
+      if (children?.length > 0) {
+        lines.push(`### Children`);
+        for (const c of children) {
+          const tag = typeof c === 'string' ? c : c.tag;
+          const desc = typeof c === 'string' ? '' : (c.description || '');
+          lines.push(`- \`<${tag}>\`${desc ? ` — ${desc}` : ''}`);
+        }
+        lines.push(``);
+      }
+      if (parents?.length > 0) {
+        lines.push(`### Parents`);
+        for (const p of parents) {
+          const tag = typeof p === 'string' ? p : p.tag;
+          const desc = typeof p === 'string' ? '' : (p.description || '');
+          lines.push(`- \`<${tag}>\`${desc ? ` — ${desc}` : ''}`);
+        }
+        lines.push(``);
+      }
+    }
+  }
+
+  // Traits compatibility
+  if (record.traits?.compatible?.length > 0) {
+    lines.push(`## Compatible Traits`, ``);
+    lines.push(record.traits.compatible.map((t) => `\`${t}\``).join(', '), ``);
+  }
+
+  // Usage
+  lines.push(`## Usage`, ``);
+  lines.push(`### Minimal`, ``);
+  lines.push('```html');
+  lines.push(`<${record.tag}></${record.tag}>`);
+  lines.push('```', ``);
+
+  // Demo examples
+  const dir = resolveDir(record);
+  if (dir) {
+    const snippets = extractDemoSnippets(dir);
+    if (snippets.length > 0) {
+      lines.push(`### Examples from Demo`, ``);
+      for (const snippet of snippets.slice(0, 3)) {
+        lines.push('```html', snippet, '```', ``);
+      }
+    } else {
+      const examples = extractDemoUsageExamples(dir, record.tag);
+      if (examples.length > 0) {
+        lines.push(`### Examples`, ``);
+        for (const ex of examples.slice(0, 3)) {
+          lines.push('```html', ex, '```', ``);
+        }
+      }
+    }
+  }
+
+  // File inventory
+  if (dir) {
+    const files = extractFileInventory(dir);
+    if (files.length > 0) {
+      lines.push(`## File Inventory`, ``);
+      lines.push(`| File | Purpose |`);
+      lines.push(`|------|---------|`);
+      for (const f of files) lines.push(`| \`${f.file}\` | ${f.purpose} |`);
+      lines.push(``);
+    }
+  }
+
+  return lines.join('\n');
+}
+
+// ── Trait README generation ──
+
+function generateTraitReadme(record) {
+  const lines = [`<!-- AUTO-GENERATED by scripts/generate-docs.mjs — DO NOT EDIT -->`, ``];
+
+  lines.push(`# ${record.controller}`, ``);
+  if (record.description) lines.push(`> ${record.description}`, ``);
+
+  lines.push(`**Trait name:** \`${record.trait}\` (for use with \`<n-controller traits="${record.trait}">\` or self-trait \`traits="${record.trait}"\`)`, ``);
+
+  // Constructor
+  lines.push(`## Constructor`, ``);
+  lines.push('```ts');
+  const hasOptions = record.options && Object.keys(record.options).length > 0;
+  const optionsType = `${record.controller.replace('Controller', '')}Options`;
+  lines.push(`new ${record.controller}(host: HTMLElement${hasOptions ? `, options?: ${optionsType}` : ''})`);
+  lines.push('```', ``);
+
+  // Options
+  if (hasOptions) {
+    lines.push(`## Options`, ``);
+    lines.push(`| Option | Type | Required | Description |`);
+    lines.push(`|--------|------|----------|-------------|`);
+    for (const [name, opt] of Object.entries(record.options)) {
+      const required = opt.required ? 'yes' : 'no';
+      lines.push(`| \`${name}\` | \`${opt.type}\` | ${required} | ${opt.description || ''} |`);
+    }
+    lines.push(``);
+  }
+
+  // Events
+  if (record.injected_events && Object.keys(record.injected_events).length > 0) {
     lines.push(`## Events Dispatched`, ``);
     lines.push(`| Event | Detail |`);
     lines.push(`|-------|--------|`);
-    for (const e of info.events) {
-      const detail = e.detail ? `\`{ ${e.detail} }\`` : '_(none)_';
-      lines.push(`| \`${e.name}\` | ${detail} |`);
+    for (const [name, evt] of Object.entries(record.injected_events)) {
+      const detail = evt.detail ? `\`{ ${Object.keys(evt.detail).join(', ')} }\`` : '_(none)_';
+      lines.push(`| \`${name}\` | ${detail} |`);
     }
     lines.push(``);
   }
 
   // Methods
-  if (info.methods.length > 0) {
+  if (record.methods && Object.keys(record.methods).length > 0) {
     lines.push(`## Methods`, ``);
     lines.push(`| Method | Parameters | Returns |`);
     lines.push(`|--------|------------|---------|`);
-    for (const m of info.methods) {
-      lines.push(`| \`${m.name}()\` | \`${m.params || '—'}\` | \`${m.returnType}\` |`);
+    for (const [name, method] of Object.entries(record.methods)) {
+      lines.push(`| \`${name}()\` | \`${method.params || '—'}\` | \`${method.returns}\` |`);
     }
     lines.push(``);
   }
 
-  // Usage
-  lines.push(`## Usage`, ``);
-  lines.push('```ts');
-  lines.push(`import { ${info.className} } from '@nonoun/native-ui';`);
-  if (info.optionsName) {
-    lines.push(`const ctrl = new ${info.className}(element, { /* options */ });`);
-  } else {
-    lines.push(`const ctrl = new ${info.className}(element);`);
+  // Accessibility
+  if (record.a11y?.keyboard?.length > 0) {
+    lines.push(`## Accessibility`, ``);
+    lines.push(`### Keyboard`, ``);
+    lines.push(`| Key | Action |`);
+    lines.push(`|-----|--------|`);
+    for (const k of record.a11y.keyboard) {
+      lines.push(`| \`${k.key}\` | ${k.action || ''} |`);
+    }
+    lines.push(``);
   }
+
+  // Behavior
+  if (record.behavior?.length > 0) {
+    lines.push(`## Behavior`, ``);
+    for (const b of record.behavior) {
+      const actions = Array.isArray(b.actions) ? b.actions.join(', ') : b.actions;
+      lines.push(`- **${b.trigger}** → ${actions}`);
+    }
+    lines.push(``);
+  }
+
+  // Consumption patterns
+  lines.push(`## Consumption Patterns`, ``);
+  lines.push(`### 1. Imperative (Controller)`, ``);
+  lines.push('```ts');
+  lines.push(`import { ${record.controller} } from '@nonoun/native-ui';`);
+  lines.push(`const ctrl = new ${record.controller}(element${hasOptions ? ', { /* options */ }' : ''});`);
   lines.push(`// In teardown: ctrl.destroy();`);
-  lines.push('```');
-  lines.push(``);
+  lines.push('```', ``);
+
+  lines.push(`### 2. Declarative (Provider)`, ``);
+  lines.push('```html');
+  lines.push(`<n-controller traits="${record.trait}">`);
+  lines.push(`  <div>Target element</div>`);
+  lines.push(`</n-controller>`);
+  lines.push('```', ``);
+
+  lines.push(`### 3. Self-trait`, ``);
+  lines.push('```html');
+  lines.push(`<n-button traits="${record.trait}">Self-applying</n-button>`);
+  lines.push('```', ``);
+
+  // Trait option attributes
+  if (hasOptions) {
+    const firstOpt = Object.keys(record.options)[0];
+    lines.push(`### Trait Option Attributes`, ``);
+    lines.push(`When used as a provider or self-trait, options are passed via \`data-trait-${record.trait}-*\` attributes:`, ``);
+    lines.push('```html');
+    lines.push(`<n-controller traits="${record.trait}" data-trait-${record.trait}-${firstOpt}="value">`);
+    lines.push(`  <div>Target</div>`);
+    lines.push(`</n-controller>`);
+    lines.push('```', ``);
+  }
+
+  // File inventory
+  const dir = resolveDir(record);
+  if (dir) {
+    const files = extractFileInventory(dir);
+    if (files.length > 0) {
+      lines.push(`## File Inventory`, ``);
+      lines.push(`| File | Purpose |`);
+      lines.push(`|------|---------|`);
+      for (const f of files) lines.push(`| \`${f.file}\` | ${f.purpose} |`);
+      lines.push(``);
+    }
+  }
 
   return lines.join('\n');
+}
+
+// ── Controller README generation ──
+
+function generateControllerReadme(record) {
+  // Reuse trait format but without consumption patterns
+  const lines = [`<!-- AUTO-GENERATED by scripts/generate-docs.mjs — DO NOT EDIT -->`, ``];
+
+  lines.push(`# ${record.controller}`, ``);
+  if (record.description) lines.push(`> ${record.description}`, ``);
+
+  // Options
+  if (record.options && Object.keys(record.options).length > 0) {
+    lines.push(`## Options`, ``);
+    lines.push(`| Option | Type | Description |`);
+    lines.push(`|--------|------|-------------|`);
+    for (const [name, opt] of Object.entries(record.options)) {
+      lines.push(`| \`${name}\` | \`${opt.type}\` | ${opt.description || ''} |`);
+    }
+    lines.push(``);
+  }
+
+  // Events
+  if (record.injected_events && Object.keys(record.injected_events).length > 0) {
+    lines.push(`## Events Dispatched`, ``);
+    lines.push(`| Event | Detail |`);
+    lines.push(`|-------|--------|`);
+    for (const [name, evt] of Object.entries(record.injected_events)) {
+      const detail = evt.detail ? `\`{ ${Object.keys(evt.detail).join(', ')} }\`` : '_(none)_';
+      lines.push(`| \`${name}\` | ${detail} |`);
+    }
+    lines.push(``);
+  }
+
+  // Methods
+  if (record.methods && Object.keys(record.methods).length > 0) {
+    lines.push(`## Methods`, ``);
+    lines.push(`| Method | Returns |`);
+    lines.push(`|--------|---------|`);
+    for (const [name, method] of Object.entries(record.methods)) {
+      lines.push(`| \`${name}()\` | \`${method.returns}\` |`);
+    }
+    lines.push(``);
+  }
+
+  // File inventory
+  const dir = resolveDir(record);
+  if (dir) {
+    const files = extractFileInventory(dir);
+    if (files.length > 0) {
+      lines.push(`## File Inventory`, ``);
+      lines.push(`| File | Purpose |`);
+      lines.push(`|------|---------|`);
+      for (const f of files) lines.push(`| \`${f.file}\` | ${f.purpose} |`);
+      lines.push(``);
+    }
+  }
+
+  return lines.join('\n');
+}
+
+// ── Group records by source directory ──
+
+function groupByDir(records) {
+  const groups = new Map();
+  for (const { record, name } of records) {
+    const dir = resolveDir(record);
+    if (!dir) continue;
+    if (!groups.has(dir)) groups.set(dir, []);
+    groups.get(dir).push({ record, name });
+  }
+  return groups;
 }
 
 // ── Main ──
 
 function main() {
-  const cem = loadCEM();
   let componentCount = 0;
+  let traitCount = 0;
   let controllerCount = 0;
-  let cssOnlyCount = 0;
 
-  // 1. Group CEM elements by directory
-  const dirGroups = new Map(); // dir → [{tagName, cls, mod}]
-  for (const mod of cem.modules) {
-    for (const decl of mod.declarations || []) {
-      if (!decl.tagName) continue;
-      const srcPath = join(ROOT, mod.path);
-      const dir = dirname(srcPath);
-      if (!dirGroups.has(dir)) dirGroups.set(dir, []);
-      dirGroups.get(dir).push({ decl, mod });
-    }
-  }
+  // 1. Load all records
+  const componentRecords = loadAllRecords('components');
+  const containerRecords = loadAllRecords('containers');
+  const traitRecords = loadAllRecords('traits');
+  const controllerRecords = loadAllRecords('controllers');
 
-  // 2. Generate combined README per directory
+  // 2. Group component/container records by source directory
+  const allCompRecords = [...componentRecords, ...containerRecords];
+  const dirGroups = groupByDir(allCompRecords);
+
+  // 3. Generate one README per source directory
   for (const [dir, entries] of dirGroups) {
-    const elements = [];
+    // If single record in dir, just generate its README
+    // If multiple records, generate combined README with primary first
+    const lines = [];
 
-    // Find CSS file for this directory (for slots + tokens)
+    // Sort: primary element first (tag matches dir name or is shortest)
     const dirName = basename(dir);
-    const cssFile = join(dir, `${dirName}.css`);
+    entries.sort((a, b) => {
+      const aMatch = a.record.tag === `n-${dirName}`;
+      const bMatch = b.record.tag === `n-${dirName}`;
+      if (aMatch && !bMatch) return -1;
+      if (!aMatch && bMatch) return 1;
+      return a.record.tag.length - b.record.tag.length;
+    });
 
-    for (const { decl, mod } of entries) {
-      const tagCssFile = join(dir, `${decl.tagName}.css`);
-      const cssPath = existsSync(tagCssFile) ? tagCssFile : existsSync(cssFile) ? cssFile : null;
-
-      const slots = cssPath ? extractSlots(cssPath) : [];
-      const cssTokens = cssPath ? extractCSSTokens(cssPath) : [];
-      const { publicMethods, publicFields } = extractPublicMembers(decl);
-
-      elements.push({
-        tagName: decl.tagName,
-        cls: decl,
-        attrs: decl.attributes || [],
-        events: decl.events || [],
-        slots,
-        cssTokens,
-        publicMethods,
-        publicFields,
-      });
-    }
-
-    const md = generateComponentMd(elements, dir);
-    writeFileSync(join(dir, 'README.md'), md);
-    componentCount += elements.length;
-  }
-
-  // 3. Generate CSS-only container docs
-  for (const containerDir of [COMPONENTS_DIR, CONTAINERS_DIR]) {
-    if (!existsSync(containerDir)) continue;
-    for (const name of readdirSync(containerDir)) {
-      const dir = join(containerDir, name);
-      // Skip directories that already got a CEM-based README
-      if (dirGroups.has(dir)) continue;
-      // Look for a CSS file
-      const cssFile = join(dir, `${name}.css`);
-      if (!existsSync(cssFile)) continue;
-      // This is a CSS-only component/container
-      // Derive tag name from the CSS file (check for n- prefixed selectors)
-      const cssContent = readFileSync(cssFile, 'utf8');
-      const tagMatch = cssContent.match(/:where\((n-[\w-]+)\)/);
-      const tagName = tagMatch ? tagMatch[1] : `n-${name}`;
-      const md = generateCSSOnlyMd(tagName, cssFile);
+    if (entries.length === 1) {
+      const md = generateComponentReadme(entries[0].record);
       writeFileSync(join(dir, 'README.md'), md);
-      cssOnlyCount++;
+      componentCount++;
+    } else {
+      // Combined README for multi-element directories
+      const primary = entries[0];
+      lines.push(generateComponentReadme(primary.record));
+
+      for (let i = 1; i < entries.length; i++) {
+        lines.push(`---`, ``);
+        // Generate secondary element section (reduced heading level)
+        const secMd = generateComponentReadme(entries[i].record);
+        // Replace top-level headings with sub-headings
+        const adjusted = secMd
+          .replace('<!-- AUTO-GENERATED by scripts/generate-docs.mjs — DO NOT EDIT -->\n\n', '')
+          .replace(/^# /gm, '## ')
+          .replace(/^## ## /gm, '### ');
+        lines.push(adjusted);
+      }
+      writeFileSync(join(dir, 'README.md'), lines.join('\n'));
+      componentCount += entries.length;
     }
   }
 
-  // 4. Generate controller docs
-  const docsDir = join(TRAITS_DIR, 'docs');
-  if (!existsSync(docsDir)) mkdirSync(docsDir, { recursive: true });
+  // 4. Handle directories without records (CSS-only from shared files)
+  const SRC_DIRS = [join(ROOT, 'src/components'), join(ROOT, 'src/containers')];
+  for (const srcDir of SRC_DIRS) {
+    if (!existsSync(srcDir)) continue;
+    for (const name of readdirSync(srcDir)) {
+      const dir = join(srcDir, name);
+      if (!statSync(dir).isDirectory()) continue;
+      if (name === '__tests__') continue;
+      if (existsSync(join(dir, 'README.md'))) continue; // Already handled
 
-  const controllerFiles = readdirSync(TRAITS_DIR).filter(
-    (f) => f.endsWith('-controller.ts') && !f.endsWith('.test.ts'),
-  );
+      const dirFiles = readdirSync(dir);
+      if (dirFiles.length === 0) continue;
 
-  for (const file of controllerFiles) {
-    const filePath = join(TRAITS_DIR, file);
-    const info = parseController(filePath);
-    if (!info) continue;
+      const lines = [`<!-- AUTO-GENERATED by scripts/generate-docs.mjs — DO NOT EDIT -->`, ``, `# n-${name}`, ``];
+      lines.push(`**CSS-only element** — styled via shared CSS files (layout.css, containers.css, or content.css).`, ``);
 
-    const md = generateControllerMd(info);
-    const outName = file.replace('.ts', '.md');
-    writeFileSync(join(docsDir, outName), md);
+      const files = extractFileInventory(dir);
+      if (files.length > 0) {
+        lines.push(`## File Inventory`, ``);
+        lines.push(`| File | Purpose |`);
+        lines.push(`|------|---------|`);
+        for (const f of files) lines.push(`| \`${f.file}\` | ${f.purpose} |`);
+        lines.push(``);
+      }
+      lines.push(`## Usage`, ``);
+      lines.push('```html');
+      lines.push(`<n-${name}></n-${name}>`);
+      lines.push('```', ``);
+      writeFileSync(join(dir, 'README.md'), lines.join('\n'));
+      componentCount++;
+    }
+  }
+
+  // 5. Generate trait docs
+  for (const { record } of traitRecords) {
+    const dir = resolveDir(record);
+    if (!dir) continue;
+    const md = generateTraitReadme(record);
+    const outName = basename(record.source.controller).replace('.ts', '.md');
+    writeFileSync(join(dir, outName), md);
+    traitCount++;
+  }
+
+  // 6. Generate standalone controller docs
+  for (const { record } of controllerRecords) {
+    const dir = resolveDir(record);
+    if (!dir) continue;
+
+    // Check for hand-written docs
+    const existingMd = readdirSync(dir).find((f) => f.endsWith('.md'));
+    if (existingMd) {
+      const content = readFileSync(join(dir, existingMd), 'utf8');
+      if (!content.includes('AUTO-GENERATED')) continue;
+    }
+
+    const md = generateControllerReadme(record);
+    const outName = basename(record.source.controller).replace('.ts', '.md');
+    writeFileSync(join(dir, outName), md);
     controllerCount++;
   }
 
-  console.log(
-    `Docs generated: ${componentCount} elements (${dirGroups.size} directories), ${cssOnlyCount} CSS-only, ${controllerCount} controllers`,
-  );
+  console.log(`Docs generated from YAML records: ${componentCount} components/containers, ${traitCount} traits, ${controllerCount} controllers`);
 }
 
 main();

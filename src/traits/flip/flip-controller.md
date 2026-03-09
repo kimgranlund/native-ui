@@ -4,6 +4,8 @@
 
 > 3D card flip on click/press with front/back content. CSS transform: rotateY(180deg) with perspective.
 
+**Trait name:** `flip` (for use with `<n-controller traits="flip">` or self-trait `traits="flip"`)
+
 ## Constructor
 
 ```ts
@@ -19,12 +21,6 @@ new FlipController(host: HTMLElement, options?: FlipOptions)
 | `perspective` | `number` | no | Perspective in px (default 1000) |
 | `trigger` | `'click' | 'hover' | 'manual'` | no | Trigger: 'click' | 'hover' | 'manual' (default 'click') |
 | `disabled` | `boolean` | no | Disable the controller |
-
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `flipped` | `boolean` | yes |
 
 ## Events Dispatched
 
@@ -43,10 +39,52 @@ new FlipController(host: HTMLElement, options?: FlipOptions)
 | `unflip()` | `—` | `void` |
 | `toggle()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **Construction** → Applies perspective, preserve-3d, and transition styles to host, Sets backface-visibility:hidden on children, rotates [slot=back] or [data-flip-back] children 180deg
+- **Click on host (when trigger is 'click')** → Toggles flipped state, Applies rotateY(180deg) or rotateX(180deg) transform based on axis, Sets/removes flipped attribute on host, Dispatches native:flip with flipped and axis
+- **Pointer enter/leave on host (when trigger is 'hover')** → Flips on enter, unflips on leave, Dispatches native:flip with flipped and axis
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { FlipController } from '@nonoun/native-ui';
 const ctrl = new FlipController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="flip">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="flip">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-flip-*` attributes:
+
+```html
+<n-controller traits="flip" data-trait-flip-axis="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `flip-controller.md` | Controller documentation |
+| `flip-controller.ts` | Controller (reactive state + behavior) |
+| `flippable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `flippable.html` | Demo page |
+| `flippable.test.ts` | Tests |

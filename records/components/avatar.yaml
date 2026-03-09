@@ -1,0 +1,27 @@
+component:
+tag: n-avatar
+category: component
+css_only: true
+description: Circular or rounded avatar displaying an image, icon, or initials.
+source:
+  css: src/components/avatar/avatar.css
+  demo: src/components/avatar/avatar.html
+display: inline-flex
+css_tokens:
+  --n-button-font-weight:
+    description: Font weight
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-button-font-weight)
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+  --n-surface:
+    description: Background surface color
+  --n-surface-ink:
+    description: Ink (text) color

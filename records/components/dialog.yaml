@@ -1,0 +1,50 @@
+component: NDialog
+tag: n-dialog
+category: component
+description: Modal dialog wrapper using a native dialog element promoted to the top layer.
+source:
+  element: src/components/dialog/dialog-element.ts
+  css: src/components/dialog/dialog.css
+  registration: src/components/dialog/dialog.ts
+  demo: src/components/dialog/dialog.html
+attributes:
+  no-close-on-escape:
+    type: boolean
+    description: Prevents closing on Escape key
+  no-close-on-backdrop:
+    type: boolean
+    description: Prevents closing on backdrop click
+events:
+  close:
+    description: Fired when the dialog is closed
+css_tokens:
+  --n-backdrop-color:
+    description: Text/foreground color
+  --n-backdrop-opacity:
+    description: Opacity of the backdrop overlay behind the dialog
+  --n-ink:
+    description: Ink (text) color
+controllers:
+  - DialogController
+traits:
+  compatible: [dismissable]
+  incompatible: []
+a11y:
+  role: dialog
+  keyboard:
+    - key: Escape
+      action: Closes the dialog unless no-close-on-escape is set
+    - key: Tab
+      action: Traps focus within the dialog (native dialog behavior)
+behavior:
+  - trigger: Escape key (cancel event)
+    actions: [Closes the dialog unless no-close-on-escape is set]
+  - trigger: Click on backdrop
+    actions: [Closes the dialog unless no-close-on-backdrop is set]
+  - trigger: native:dismiss
+    actions: [Closes the dialog unless no-close-on-escape is set]
+  - trigger: showModal()
+    actions: [Opens the dialog as modal in top layer, focuses autofocus or first focusable element]
+compose:
+  children: [n-header, n-body, n-footer, n-button, form]
+  parents: []

@@ -2,7 +2,9 @@
 
 # CSSInspectController
 
-> Explode child layers in 3D space with interactive mouse-driven tilt.  Two modes: -  Fixed host  (default): the host element is the inspection target. Click to activate, Escape/click-outside to dismiss. -  Pick mode  (`pick: true`): the host is a container. Alt+hover highlights any descendant, Alt+click picks that element as the inspection target.  On activation, the target is deep-cloned into a popover (top layer) so the 3D explosion escapes ancestor overflow clipping. The original is hidden with visibility:hidden to preserve layout.
+> Explode child layers in 3D space with interactive mouse-driven tilt. Two modes: - **Fixed host** (default): the host element is the inspection target. Click to activate, Escape/click-outside to dismiss. - **Pick mode** (`pick: true`): the host is a container. Alt+hover highlights any descendant, Alt+click picks that element as the inspection target. On activation, the target is deep-cloned into a popover (top layer) so the 3D explosion escapes ancestor overflow clipping. The original is hidden with visibility:hidden to preserve layout.
+
+**Trait name:** `css-inspect` (for use with `<n-controller traits="css-inspect">` or self-trait `traits="css-inspect"`)
 
 ## Constructor
 
@@ -24,13 +26,6 @@ new CSSInspectController(host: HTMLElement, options?: CSSInspectOptions)
 | `pick` | `boolean` | no | Pick mode: Alt+hover highlights descendants, Alt+click picks the inspection target (default false) |
 | `disabled` | `boolean` | no | Disable the controller |
 
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `active` | `boolean` | yes |
-| `inspectRoot` | `HTMLElement` | yes |
-
 ## Events Dispatched
 
 | Event | Detail |
@@ -47,10 +42,65 @@ new CSSInspectController(host: HTMLElement, options?: CSSInspectOptions)
 | `inspect()` | `target?: HTMLElement` | `void` |
 | `dismiss()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Alt (hold)` | Enables hover highlighting and ready state for inspection |
+| `Escape` | Dismisses the 3D inspection view |
+
+## Behavior
+
+- **Alt key held + pointer enters host (pre-inspection)** → Sets inspect-ready attribute on host, Shows highlight overlay via top-layer popover
+- **Alt+pointerdown or Alt+click on host (fixed mode) or hovered child (pick mode)** → Deep-clones target into a popover (top layer) to escape overflow clipping, Hides original with visibility:hidden to preserve layout, Applies preserve-3d and perspective to popover wrapper, Explodes child layers with translateZ based on DOM depth, Computes initial tilt from pointer position, Dispatches native:inspect with active:true and layer count
+- **Pointer moves over document while active** → Tilts the 3D clone based on pointer distance from center
+- **Pointer moves over clone children while active** → Sets inspect-hover attribute on hovered element and ancestors
+- **Click on clone child while active** → Sets inspect-selected attribute on clicked element and ancestors
+- **Mouse wheel while active** → Adjusts depth multiplier to expand/contract layer spacing
+- **Escape key or click outside popover while active** → Tears down clone and popover, Restores original element visibility, Dispatches native:inspect with active:false and layer count
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { CSSInspectController } from '@nonoun/native-ui';
 const ctrl = new CSSInspectController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="css-inspect">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="css-inspect">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-css-inspect-*` attributes:
+
+```html
+<n-controller traits="css-inspect" data-trait-css-inspect-depth="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `css-inspect-controller.md` | Controller documentation |
+| `css-inspect-controller.ts` | Controller (reactive state + behavior) |
+| `css-inspectable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `css-inspectable.html` | Demo page |
+| `css-inspectable.test.ts` | Tests |

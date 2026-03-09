@@ -4,6 +4,8 @@
 
 > Wires anchor positioning between elements and manages popover show/hide with dismiss layer.
 
+**Trait name:** `popover` (for use with `<n-controller traits="popover">` or self-trait `traits="popover"`)
+
 ## Constructor
 
 ```ts
@@ -18,10 +20,50 @@ new PopoverController(host: HTMLElement)
 | `syncPopover()` | `open: boolean` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Escape` | Closes the popover (via dismiss layer) |
+
+## Behavior
+
+- **wirePopover(anchor, popover) called** → Generates unique anchor name, Sets anchor-name CSS property on anchor element, Sets position-anchor CSS property on popover element
+- **syncPopover(true) called** → Detects if popover should flip above anchor (measures space above/below), Sets position-area and animation origin CSS for flipped placement if needed, Shows popover via native showPopover(), Enables dismiss layer (Escape and click-outside close)
+- **syncPopover(false) called** → Hides popover via native hidePopover(), Clears flip-related CSS properties, Disables dismiss layer
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { PopoverController } from '@nonoun/native-ui';
 const ctrl = new PopoverController(element);
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="popover">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="popover">Self-applying</n-button>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `popover-controller.md` | Controller documentation |
+| `popover-controller.ts` | Controller (reactive state + behavior) |
+| `popoverable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `popoverable.html` | Demo page |
+| `popoverable.test.ts` | Tests |

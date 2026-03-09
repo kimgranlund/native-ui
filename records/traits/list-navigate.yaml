@@ -1,0 +1,71 @@
+trait: list-navigate
+controller: ListNavigateController
+description: Coordinates roving focus, ARIA selection sync, and child select events for list-based components.
+source:
+  controller: src/traits/list-navigate/list-navigate-controller.ts
+  adapter: src/traits/list-navigate/list-navigable-adapter.ts
+  demo: src/traits/list-navigate/list-navigable.html
+  test: src/traits/list-navigate/list-navigable.test.ts
+options:
+  itemSelector:
+    type: string
+  ariaAttr:
+    type: "'aria-selected' | 'aria-checked' | 'aria-current'"
+  autoSync:
+    type: boolean
+  orientation:
+    type: "'horizontal' | 'vertical' | 'both'"
+  wrap:
+    type: boolean
+  disabled:
+    type: boolean
+  onChildSelect:
+    type: "(detail: { value: string"
+  label:
+    type: string }) => void
+    required: true
+  addEffect:
+    type: "(fn: () => void) => void"
+  deferChildren:
+    type: "(fn: () => void) => void"
+injected_events:
+  native:change:
+    detail:
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new ListNavigateController(element, options)
+  provider: <n-controller traits="list-navigate">
+  self_trait: <n-button traits="list-navigate">
+behavior:
+  - trigger: "native:select event bubbles from a child item"
+    actions:
+      - "Calls onChildSelect callback with value and label from event detail"
+      - "Default callback: sets listValue signal and dispatches native:change"
+  - trigger: "autoSync enabled with addEffect/deferChildren"
+    actions:
+      - "Watches listValue signal for changes"
+      - "Syncs aria-selected/aria-checked/aria-current on all items matching itemSelector"
+  - trigger: "Arrow key navigation (delegated to internal RovingFocusController)"
+    actions:
+      - "Moves focus between items based on orientation (vertical/horizontal/both)"
+      - "Wraps around if wrap option is true"
+a11y:
+  keyboard:
+    - key: "ArrowDown"
+      action: "Moves focus to next item (vertical/both orientation)"
+    - key: "ArrowUp"
+      action: "Moves focus to previous item (vertical/both orientation)"
+    - key: "ArrowRight"
+      action: "Moves focus to next item (horizontal/both orientation)"
+    - key: "ArrowLeft"
+      action: "Moves focus to previous item (horizontal/both orientation)"
+    - key: "Home"
+      action: "Moves focus to first item"
+    - key: "End"
+      action: "Moves focus to last item"

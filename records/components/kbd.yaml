@@ -1,0 +1,28 @@
+component:
+tag: n-kbd
+category: component
+css_only: true
+description: Keyboard shortcut indicator styled as a key cap.
+source:
+  css: src/components/kbd/kbd.css
+  demo: src/components/kbd/kbd.html
+display: inline-flex
+css_tokens:
+  --n-body:
+    description: Body background for ground context
+  --n-border-muted:
+    description: Muted border color
+  --n-ground:
+    description: Elevation/surface context
+    default: var(--n-body)
+  --n-icon-size:
+    description: Component height
+    default: 1.125em
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-space:
+    description: Block/gap spacing
+  --n-widget-font:
+    description: Widget-scale font size
+  --n-widget-xs:
+    description: Extra-small widget size for minimum dimensions

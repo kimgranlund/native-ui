@@ -6,71 +6,135 @@
 
 **Class:** `NSwitch`
 
+**ARIA role:** `switch`
+**Form-associated:** yes (participates in `<form>` submission, reset, validation)
+**Internal controllers:** `PressController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `checked` | `boolean` | Whether the switch is on |
-| `disabled` | `boolean` | Disables interaction |
-| `name` | `string` | Form field name |
-| `value` | `string` | Form value when checked (defaults to "on") |
-| `required` | `boolean` | Marks as required for form validation |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `checked` | `boolean` |  | Whether the switch is on |
+| `disabled` | `boolean` |  | Disables interaction |
+| `name` | `string` |  | Form field name |
+| `value` | `string` |  | Form value when checked (defaults to "on") |
+| `required` | `boolean` |  | Marks as required for form validation |
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `intent` | boolean | _(boolean)_ | Applies intent-colored styling to the switch when checked |
+| `pressed` | boolean | _(boolean)_ | Visually shows the switch in its active/pressed state |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:change` | Fired on toggle with `{ checked, value }` detail |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:change` | _(none)_ | Fired on toggle with `{ checked, value }` detail |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-border-active` |  | Border color on press (tier-1 definition) |
+| `--n-border-disabled` |  | Border color when disabled (tier-1 definition) |
+| `--n-border-hover` |  | Border color on hover (tier-1 definition) |
+| `--n-border-muted` |  | Muted border color |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-text-font-weight)` | Font weight |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-hover` |  | Ink on hover |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-control-line-height)` | Line height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-surface` |  | Checked-state track background color |
+| `--n-surface-active` |  | Checked-state track background on press |
+| `--n-surface-disabled` |  | Checked-state track background when disabled |
+| `--n-surface-hover` |  | Checked-state track background on hover |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-surface-ink-disabled` |  | Ink when disabled |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-thumb-bg` | `var(--n-ink-muted)` | Thumb circle background color |
+| `--n-thumb-bg-disabled` | `var(--n-border-disabled)` | Thumb circle background when disabled |
+| `--n-thumb-offset` | `calc(var(--n-space) / 2)` | Inset offset of the thumb from the track edge |
+| `--n-thumb-size` | `calc(var(--n-widget-size) - var(--n-space))` | Diameter of the thumb circle |
+| `--n-track-bg` | `var(--n-widget)` | Unchecked track background color |
+| `--n-track-bg-active` | `var(--n-widget-active)` | Unchecked track background on press |
+| `--n-track-bg-disabled` | `var(--n-widget-disabled)` | Unchecked track background when disabled |
+| `--n-track-bg-hover` | `var(--n-widget-hover)` | Unchecked track background on hover |
+| `--n-track-border` | `var(--n-border-muted)` | Track border color at rest |
+| `--n-track-border-active` | `var(--n-border-active)` | Track border color on press |
+| `--n-track-border-disabled` | `var(--n-border-disabled)` | Track border color when disabled |
+| `--n-track-border-hover` | `var(--n-border-hover)` | Track border color on hover |
+| `--n-track-width` | `calc(var(--n-widget-size) * 1.75)` | Total width of the switch track |
+| `--n-widget` |  | Widget surface color (tier-1 definition) |
+| `--n-widget-active` |  | Widget surface color on press (tier-1 definition) |
+| `--n-widget-disabled` |  | Widget surface color when disabled (tier-1 definition) |
+| `--n-widget-hover` |  | Widget surface color on hover (tier-1 definition) |
+| `--n-widget-size` |  | Component height |
 
-- `--n-border-active`
-- `--n-border-disabled`
-- `--n-border-hover`
-- `--n-border-muted`
-- `--n-control-line-height`
-- `--n-duration`
-- `--n-easing`
-- `--n-focus-ring`
-- `--n-font-size`
-- `--n-font-weight`
-- `--n-ink`
-- `--n-ink-disabled`
-- `--n-ink-hover`
-- `--n-ink-muted`
-- `--n-letter-spacing`
-- `--n-line-height`
-- `--n-space`
-- `--n-surface`
-- `--n-surface-active`
-- `--n-surface-disabled`
-- `--n-surface-hover`
-- `--n-surface-ink`
-- `--n-surface-ink-disabled`
-- `--n-text-font-weight`
-- `--n-thumb-bg`
-- `--n-thumb-bg-disabled`
-- `--n-thumb-offset`
-- `--n-thumb-size`
-- `--n-track-bg`
-- `--n-track-bg-active`
-- `--n-track-bg-disabled`
-- `--n-track-bg-hover`
-- `--n-track-border`
-- `--n-track-border-active`
-- `--n-track-border-disabled`
-- `--n-track-border-hover`
-- `--n-track-width`
-- `--n-widget`
-- `--n-widget-active`
-- `--n-widget-disabled`
-- `--n-widget-hover`
-- `--n-widget-size`
+## Accessibility
+
+- **Role:** `switch`
+- **Form-associated:** participates in form submission, reset, and validation
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Toggles the switch on/off |
+| `Space` | Toggles the switch on/off |
+
+## Behavior
+
+- **native:press** → Toggles checked state, dispatches native:change with checked and value
+
+## Composition
+
+### Parents
+- `<n-field>`
+- `<form>`
+
+## Compatible Traits
+
+`press`, `hover`, `focus-visible`, `tooltip`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-switch></n-switch>
 ```
+
+### Examples
+
+```html
+<n-switch>Airplane mode</n-switch>
+```
+
+```html
+<n-switch checked>Dark mode</n-switch>
+```
+
+```html
+<n-switch size="xs" checked>Extra small</n-switch>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `switch-element.ts` | Element class (behavior, no CSS) |
+| `switch.css` | Styles |
+| `switch.html` | Demo page |
+| `switch.ts` | Custom element registration (define()) |

@@ -1,0 +1,78 @@
+component: NCombobox
+tag: n-combobox
+category: component
+description: Filterable select (combobox) coordinator wiring a text input to a popover listbox.
+source:
+  element: src/components/combobox/combobox-element.ts
+  css: src/components/combobox/combobox.css
+  registration: src/components/combobox/combobox.ts
+  demo: src/components/combobox/combobox.html
+attributes:
+  value:
+    type: string
+    description: Currently selected value
+  disabled:
+    type: boolean
+    description: Disables interaction
+  name:
+    type: string
+    description: Form field name
+  options:
+    type: string
+    description: JSON array of `{ value, label }` objects for data-driven mode
+  src:
+    type: string
+    description: URL to fetch options from for data-driven mode
+  placeholder:
+    type: string
+    description: Placeholder text for the input
+  required:
+    type: string
+events:
+  native:change:
+    description: Fired when selection changes with `{ value, label }` detail
+css_tokens:
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-popover-gap:
+    description: Gap between items
+  --n-popover-max-height:
+    description: Maximum height of the dropdown popover
+  --n-popover-viewport-margin:
+    description: Minimum margin between the popover and viewport edge
+controllers:
+  - PopoverController
+  - DataListController
+traits:
+  compatible: [hover, focus-visible, dismissable]
+  incompatible: []
+a11y:
+  role: combobox
+  form_associated: true
+  keyboard:
+    - key: ArrowDown
+      action: Opens the listbox if closed, moves active highlight to the next visible option
+    - key: ArrowUp
+      action: Opens the listbox if closed, moves active highlight to the previous visible option
+    - key: Enter
+      action: Selects the active option and closes the listbox
+    - key: Escape
+      action: Closes the listbox without changing selection
+    - key: Home
+      action: Moves active highlight to the first visible option
+    - key: End
+      action: Moves active highlight to the last visible option
+behavior:
+  - trigger: focusin on input
+    actions: [Opens the popover listbox]
+  - trigger: native:input on input
+    actions: [Filters options by query text, opens listbox if closed]
+  - trigger: native:select on option
+    actions: [Sets value, updates input text to label, closes popover, dispatches native:change]
+  - trigger: native:dismiss
+    actions: [Closes the popover listbox]
+compose:
+  children: [n-input, n-listbox, n-option, n-option-group]
+  parents: [n-field, form]

@@ -4,6 +4,8 @@
 
 > Handles native drag-and-drop file/data reception, dispatching `native:drop-enter`, `native:drop-leave`, and `native:drop` events.
 
+**Trait name:** `drop-zone` (for use with `<n-controller traits="drop-zone">` or self-trait `traits="drop-zone"`)
+
 ## Constructor
 
 ```ts
@@ -34,10 +36,53 @@ new DropZoneController(host: HTMLElement, options?: DropZoneOptions)
 | `detach()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **Native dragenter on host** → Increments drag counter (handles nested child enter/leave), Validates MIME type against accept pattern, Sets drop-active or drop-invalid attribute on host, Dispatches native:drop-enter with valid flag on first enter
+- **Native dragover on host** → Prevents default to allow drop, Sets dropEffect to 'copy'
+- **Native dragleave on host** → Decrements drag counter, When counter reaches 0, removes drop-active/drop-invalid attributes, Dispatches native:drop-leave
+- **Native drop on host** → Resets drag counter and removes drop-active/drop-invalid attributes, For file drops: collects files (respects multiple option), dispatches native:drop with type:'file', files, dataTransfer, For text drops: extracts text/plain data, dispatches native:drop with type:'text', text
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { DropZoneController } from '@nonoun/native-ui';
 const ctrl = new DropZoneController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="drop-zone">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="drop-zone">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-drop-zone-*` attributes:
+
+```html
+<n-controller traits="drop-zone" data-trait-drop-zone-accept="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `drop-zone-controller.md` | Controller documentation |
+| `drop-zone-controller.ts` | Controller (reactive state + behavior) |
+| `droppable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `droppable.html` | Demo page |
+| `droppable.test.ts` | Tests |

@@ -6,17 +6,70 @@
 
 **Class:** `NIcon`
 
+**ARIA role:** `img (when aria-label is set)`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `name` | `string` | Icon name from the Phosphor icon set |
-| `weight` | `string` | Icon weight: "regular" (default) or "fill" |
-| `size` | `string` | Icon size override |
-| `aria-label` | `string` | Accessible label (sets role="img" when present) |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `name` | `string` |  | Icon name from the Phosphor icon set |
+| `weight` | `string` |  | Icon weight: "regular" (default) or "fill" |
+| `size` | `string` |  | Icon size override |
+| `aria-label` | `string` |  | Accessible label (sets role="img" when present) |
+
+## Accessibility
+
+- **Role:** `img (when aria-label is set)`
+
+## Behavior
+
+- **name attribute change** → Looks up SVG from global icon registry and renders inline
+
+## Composition
+
+### Parents
+- `<n-button>`
+- `<n-tab>`
+- `<n-command-item>`
+- `<n-tree-item>`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-icon></n-icon>
 ```
+
+### Examples
+
+```html
+<n-icon name="house"></n-icon>
+```
+
+```html
+<n-icon name="gear"></n-icon>
+```
+
+```html
+<n-icon name="bell"></n-icon>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `custom/` | Sub-directory (1 files) |
+| `icon-element.d.ts` | Source module |
+| `icon-element.d.ts.map` | Source module |
+| `icon-element.ts` | Element class (behavior, no CSS) |
+| `icon.css` | Styles |
+| `icon.html` | Demo page |
+| `icon.ts` | Source module |
+| `icons.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `phosphor/` | Sub-directory (3025 files) |
+| `README.md` | Documentation (auto-generated) |
+| `registry.d.ts` | Source module |
+| `registry.d.ts.map` | Source module |
+| `registry.ts` | Source module |

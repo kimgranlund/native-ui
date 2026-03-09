@@ -2,7 +2,9 @@
 
 # PresentController
 
-> Shows content in a full-viewport dialog overlay with an optional close button.  Wraps the host element in a modal `<dialog>` at its current DOM position. `showModal()` promotes to the top layer for rendering, so the dialog stays in the original DOM context — CSS custom properties inherit normally. On dismiss the host is unwrapped back to its original position.  Events: - `native:present` — dispatched after dialog opens - `native:dismiss` — dispatched after dialog closes and host is restored
+> Shows content in a full-viewport dialog overlay with an optional close button. Wraps the host element in a modal `<dialog>` at its current DOM position. `showModal()` promotes to the top layer for rendering, so the dialog stays in the original DOM context — CSS custom properties inherit normally. On dismiss the host is unwrapped back to its original position. Events: - `native:present` — dispatched after dialog opens - `native:dismiss` — dispatched after dialog closes and host is restored
+
+**Trait name:** `present` (for use with `<n-controller traits="present">` or self-trait `traits="present"`)
 
 ## Constructor
 
@@ -16,12 +18,6 @@ new PresentController(host: HTMLElement, options?: PresentOptions)
 |--------|------|----------|-------------|
 | `inset` | `string` | no | Safety margin from viewport edges (default: '2rem') |
 | `closeButton` | `boolean` | no | Show close X button in top-right corner (default: true) |
-
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `open` | `boolean` | yes |
 
 ## Events Dispatched
 
@@ -39,10 +35,61 @@ new PresentController(host: HTMLElement, options?: PresentOptions)
 | `dismiss()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Escape` | Dismisses the presentation overlay |
+
+## Behavior
+
+- **present() called** → Creates a native <dialog> with dark backdrop and centering wrapper, Optionally adds a close button in top-right corner, Moves host into dialog at its original DOM position (preserves CSS inheritance), Sets _reparenting flag on host and descendants to prevent teardown/setup, Opens dialog via showModal() (promotes to top layer), Sets presented attribute on host, Dispatches native:present
+- **Escape key pressed (native cancel event)** → Prevents default cancel behavior, Calls dismiss()
+- **Click on dialog backdrop** → Calls dismiss()
+- **dismiss() called** → Closes native dialog, Replaces dialog element with host (restores original DOM position), Removes presented attribute, Dispatches native:dismiss
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { PresentController } from '@nonoun/native-ui';
 const ctrl = new PresentController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="present">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="present">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-present-*` attributes:
+
+```html
+<n-controller traits="present" data-trait-present-inset="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `present-controller.md` | Controller documentation |
+| `present-controller.test.ts` | Tests |
+| `present-controller.ts` | Controller (reactive state + behavior) |
+| `presentable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `presentable.html` | Demo page |

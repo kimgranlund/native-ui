@@ -1,0 +1,55 @@
+trait: gateway
+controller: GatewayController
+description: Manages load/save fetch lifecycle with reactive signals for loading, saving, error, and dirty state.
+source:
+  controller: src/traits/gateway/gateway-controller.ts
+  adapter: src/traits/gateway/gatewayable-adapter.ts
+  demo: src/traits/gateway/gatewayable.html
+  test: src/traits/gateway/gateway-controller.test.ts
+options:
+  parse:
+    type: "(res: Response) => Promise<string>"
+    description: "Parse the fetch response into a string. Default: `res.text()`"
+  serialize:
+    type: "(content: string) => BodyInit"
+    description: "Build the save request body from content. Default: plain text body"
+  contentType:
+    type: string
+    description: "Content-Type header for save requests. Default: `text/plain`"
+methods:
+  markDirty:
+    returns: void
+  markClean:
+    returns: void
+  abort:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new GatewayController(element, options)
+  provider: <n-controller traits="gateway">
+  self_trait: <n-button traits="gateway">
+behavior:
+  - trigger: "load(url) called"
+    actions:
+      - "Aborts any in-flight load request"
+      - "Sets loading signal to true, clears error"
+      - "Fetches URL with abort support"
+      - "Parses response via parse option"
+      - "Sets loading to false, dirty to false on success"
+      - "Sets error signal on failure"
+  - trigger: "save(url, content) called"
+    actions:
+      - "Aborts any in-flight save request"
+      - "Sets saving signal to true, clears error"
+      - "Sends PUT request with serialized content and Content-Type header"
+      - "Sets saving to false, dirty to false on success"
+      - "Sets error signal on failure"
+  - trigger: "markDirty() called"
+    actions:
+      - "Sets dirty signal to true"
+  - trigger: "markClean() called"
+    actions:
+      - "Sets dirty signal to false"
+a11y:
+  keyboard: []

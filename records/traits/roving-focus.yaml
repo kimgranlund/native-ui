@@ -1,0 +1,58 @@
+trait: roving-focus
+controller: RovingFocusController
+description: Manages arrow-key roving tabindex focus across a set of child items.
+source:
+  controller: src/traits/roving-focus/roving-focus-controller.ts
+  adapter: src/traits/roving-focus/roving-focusable-adapter.ts
+  demo: src/traits/roving-focus/roving-focusable.html
+  test: src/traits/roving-focus/roving-focusable.test.ts
+options:
+  selector:
+    type: string
+  orientation:
+    type: "'horizontal' | 'vertical' | 'both'"
+  wrap:
+    type: boolean
+  disabled:
+    type: boolean
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new RovingFocusController(element, options)
+  provider: <n-controller traits="roving-focus">
+  self_trait: <n-button traits="roving-focus">
+behavior:
+  - trigger: "attach() called"
+    actions:
+      - "Sets tabindex='0' on first item, tabindex='-1' on all others"
+      - "Adds keydown and focusin listeners on host"
+  - trigger: "Arrow key pressed while focused within host"
+    actions:
+      - "Moves tabindex='0' to next/previous item based on orientation"
+      - "Focuses the new active item"
+      - "Wraps around if wrap option is true"
+  - trigger: "Home/End key pressed"
+    actions:
+      - "Moves focus to first or last item respectively"
+  - trigger: "Host element receives focus"
+    actions:
+      - "Redirects focus to the currently active item"
+a11y:
+  keyboard:
+    - key: "ArrowDown"
+      action: "Moves focus to next item (vertical/both orientation)"
+    - key: "ArrowUp"
+      action: "Moves focus to previous item (vertical/both orientation)"
+    - key: "ArrowRight"
+      action: "Moves focus to next item (horizontal/both orientation)"
+    - key: "ArrowLeft"
+      action: "Moves focus to previous item (horizontal/both orientation)"
+    - key: "Home"
+      action: "Moves focus to first item"
+    - key: "End"
+      action: "Moves focus to last item"

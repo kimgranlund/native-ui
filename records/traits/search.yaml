@@ -1,0 +1,54 @@
+trait: search
+controller: SearchController
+description: Filters child items by a text query, toggling visibility and dispatching `native:search`.
+source:
+  controller: src/traits/search/search-controller.ts
+  adapter: src/traits/search/searchable-adapter.ts
+  demo: src/traits/search/searchable.html
+  test: src/traits/search/searchable.test.ts
+options:
+  selector:
+    type: string
+    required: true
+  textField:
+    type: string
+  disabled:
+    type: boolean
+injected_events:
+  native:search:
+    detail:
+      query:
+        type: string
+      matchCount:
+        type: string
+      total:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+  clear:
+    returns: void
+consumption:
+  imperative: new SearchController(element, options)
+  provider: <n-controller traits="search">
+  self_trait: <n-button traits="search">
+behavior:
+  - trigger: "filter(query) called"
+    actions:
+      - "Queries all items matching selector"
+      - "Case-insensitive text match against textField (default textContent)"
+      - "Sets search-match attribute on matching items, search-hidden on non-matching"
+      - "Dispatches native:search with query, matchCount, total"
+  - trigger: "filter('') called with empty query"
+    actions:
+      - "Shows all items (removes search-hidden, sets search-match on all)"
+      - "Dispatches native:search with matchCount equal to total"
+  - trigger: "clear() called"
+    actions:
+      - "Removes search-hidden and search-match attributes from all items"
+a11y:
+  keyboard: []

@@ -2,22 +2,51 @@
 
 # n-kbd
 
-**CSS-only container** — no JavaScript class.
+> Keyboard shortcut indicator styled as a key cap.
+
+**CSS-only element** — styled purely via CSS, no JavaScript class required.
 
 **Display:** `inline-flex`
 
-## CSS Tokens
+## CSS Custom Properties
 
-- `--n-body`
-- `--n-border-muted`
-- `--n-ground`
-- `--n-ink-muted`
-- `--n-space`
-- `--n-widget-font`
-- `--n-widget-xs`
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-body` |  | Body background for ground context |
+| `--n-border-muted` |  | Muted border color |
+| `--n-ground` | `var(--n-body)` | Elevation/surface context |
+| `--n-icon-size` | `1.125em` | Component height |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-space` |  | Block/gap spacing |
+| `--n-widget-font` |  | Widget-scale font size |
+| `--n-widget-xs` |  | Extra-small widget size for minimum dimensions |
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-kbd></n-kbd>
 ```
+
+### Examples
+
+```html
+<n-kbd size="xs"><n-icon name="command"></n-icon></n-kbd>
+```
+
+```html
+<n-kbd size="xs">K</n-kbd>
+```
+
+```html
+<n-kbd size="xs">Shift</n-kbd>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `kbd.css` | Styles |
+| `kbd.html` | Demo page |
+| `README.md` | Documentation (auto-generated) |

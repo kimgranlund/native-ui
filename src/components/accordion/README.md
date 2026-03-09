@@ -8,35 +8,125 @@
 
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `multiple` | `boolean` | Allows multiple items to be open simultaneously |
-| `disabled` | `boolean` | Disables all accordion items |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `multiple` | `boolean` |  | Allows multiple items to be open simultaneously |
+| `disabled` | `boolean` |  | Disables all accordion items |
 
-## CSS Tokens
+## CSS Attributes
 
-Public `--n-*` custom properties consumed by this component:
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `part` | enum | `content` | Targets the content wrapper inside each accordion item |
 
-- `--n-border-muted`
-- `--n-button-font-weight`
-- `--n-control-line-height`
-- `--n-duration`
-- `--n-easing`
-- `--n-focus-ring`
-- `--n-font-size`
-- `--n-icon-size`
-- `--n-ink-disabled`
-- `--n-ink-hover`
-- `--n-ink-muted`
-- `--n-ink-strong`
-- `--n-letter-spacing`
-- `--n-panel-hover`
-- `--n-radius`
-- `--n-size`
-- `--n-space`
-- `--n-space-k`
-- `--n-text-font-weight`
-- `--n-text-line-height`
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-border-muted` |  | Muted border color |
+| `--n-button-font-weight` |  | Font weight |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-icon-size` |  | Component height |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-hover` |  | Ink on hover |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-panel-hover` |  | Panel background on hover |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-text-line-height` |  | Line height |
+
+## Accessibility
+
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Toggles the focused accordion item open or closed |
+| `Space` | Toggles the focused accordion item open or closed |
+
+## Behavior
+
+- **toggle (from details)** → In single mode closes other open items
+
+## Composition
+
+### Children
+- `<n-accordion-item>`
+
+## Usage
+
+### Minimal
+
+```html
+<n-accordion></n-accordion>
+```
+
+### Examples
+
+```html
+<n-accordion>
+        <n-accordion-item>
+          <span slot="heading">Enabled item</span>
+          This item works normally.
+        </n-accordion-item>
+        <n-accordion-item disabled>
+          <span slot="heading">Disabled item</span>
+          This content should not be reachable.
+        </n-accordion-item>
+        <n-accordion-item>
+          <span slot="heading">Another enabled item</span>
+          This item also works normally.
+        </n-accordion-item>
+      </n-accordion>
+```
+
+```html
+<n-accordion size="sm">
+          <n-accordion-item>
+            <span slot="heading">Small accordion</span>
+            Compact size for tight spaces.
+          </n-accordion-item>
+          <n-accordion-item>
+            <span slot="heading">Another small item</span>
+            Second item at small size.
+          </n-accordion-item>
+        </n-accordion>
+```
+
+```html
+<n-accordion size="lg">
+          <n-accordion-item>
+            <span slot="heading">Large accordion</span>
+            Generous size for prominent sections.
+          </n-accordion-item>
+          <n-accordion-item>
+            <span slot="heading">Another large item</span>
+            Second item at large size.
+          </n-accordion-item>
+        </n-accordion>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `accordion-element.ts` | Element class (behavior, no CSS) |
+| `accordion-item-element.ts` | Element class (behavior, no CSS) |
+| `accordion.css` | Styles |
+| `accordion.html` | Demo page |
+| `accordion.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
 
 ---
 
@@ -46,15 +136,108 @@ Public `--n-*` custom properties consumed by this component:
 
 **Class:** `NAccordionItem`
 
-### Attributes
+## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `open` | `boolean` | Whether the item content is expanded |
-| `disabled` | `boolean` | Disables toggling |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `open` | `boolean` |  | Whether the item content is expanded |
+| `disabled` | `boolean` |  | Disables toggling |
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `part` | enum | `content` | Targets the content wrapper below the summary |
+
+## Slots
+
+| Slot | Description |
+|------|-------------|
+| `heading` | Content rendered inside the summary trigger |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-border-muted` |  | Muted border color |
+| `--n-button-font-weight` |  | Font weight |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-icon-size` |  | Component height |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-hover` |  | Ink on hover |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-ink-strong` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-panel-hover` |  | Panel background on hover |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-text-line-height` |  | Line height |
+
+## Accessibility
+
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Toggles the item open or closed |
+| `Space` | Toggles the item open or closed |
+
+## Behavior
+
+- **click on summary** → Toggles open attribute and syncs native details element
+
+## Composition
+
+### Parents
+- `<n-accordion>`
 
 ## Usage
 
+### Minimal
+
 ```html
-<n-accordion></n-accordion>
+<n-accordion-item></n-accordion-item>
 ```
+
+### Examples
+
+```html
+<n-accordion-item open>
+          <span slot="heading">What is this library?</span>
+          A pure CSS + Web Component design system built on OKLCH color science, CSS custom property inheritance, and zero-specificity attribute selectors.
+        </n-accordion-item>
+```
+
+```html
+<n-accordion-item>
+          <span slot="heading">How does the cascade work?</span>
+          Every value a component consumes flows through three tiers: Public (--n-*) tokens, Local (--n-*) resolved by attribute selectors, and Component reads.
+        </n-accordion-item>
+```
+
+```html
+<n-accordion-item>
+          <span slot="heading">Can I customize colors?</span>
+          Yes! Override the 9 color environment parameters in n-primitives.css or use the theme presets (forest, rose, zinc) for quick changes.
+        </n-accordion-item>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `accordion-element.ts` | Element class (behavior, no CSS) |
+| `accordion-item-element.ts` | Element class (behavior, no CSS) |
+| `accordion.css` | Styles |
+| `accordion.html` | Demo page |
+| `accordion.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |

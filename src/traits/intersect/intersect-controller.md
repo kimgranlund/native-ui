@@ -4,6 +4,8 @@
 
 > Observes intersection visibility changes on the host, dispatching `native:intersect`.
 
+**Trait name:** `intersect` (for use with `<n-controller traits="intersect">` or self-trait `traits="intersect"`)
+
 ## Constructor
 
 ```ts
@@ -34,10 +36,50 @@ new IntersectController(host: HTMLElement, options?: IntersectOptions)
 | `detach()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **Host enters or exits viewport intersection threshold** → Sets or removes intersecting attribute on host, Dispatches native:intersect with isIntersecting and ratio, If once is true, disconnects observer after first intersection
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { IntersectController } from '@nonoun/native-ui';
 const ctrl = new IntersectController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="intersect">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="intersect">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-intersect-*` attributes:
+
+```html
+<n-controller traits="intersect" data-trait-intersect-threshold="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `intersect-controller.md` | Controller documentation |
+| `intersect-controller.ts` | Controller (reactive state + behavior) |
+| `intersectable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `intersectable.html` | Demo page |
+| `intersectable.test.ts` | Tests |

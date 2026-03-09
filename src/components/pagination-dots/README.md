@@ -6,60 +6,103 @@
 
 **Class:** `NPaginationDots`
 
+**ARIA role:** `tablist`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `count` | `number` | Number of dots to render |
-| `active` | `number` | Zero-based index of the active dot |
-| `disabled` | `boolean` | Disables all dots |
-| `max-dots` | `number` | Maximum visible dots before windowing (default 7) |
-| `paddles` | `boolean` | Show prev/next navigation buttons |
-| `variant` | `string` | Visual variant: (default) | "plain" |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `count` | `number` |  | Number of dots to render |
+| `active` | `number` |  | Zero-based index of the active dot |
+| `disabled` | `boolean` |  | Disables all dots |
+| `max-dots` | `number` |  | Maximum visible dots before windowing (default 7) |
+| `paddles` | `boolean` |  | Show prev/next navigation buttons |
+| `variant` | `string` |  | Visual variant: (default) | "plain" |
 
-## Properties
+## CSS Attributes
 
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `maxDots` | `number` | no |  |
-
-## Methods
-
-| Method | Parameters | Returns |
-|--------|------------|---------|
-| `prev()` | `—` | `void` |
-| `next()` | `—` | `void` |
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `part` | enum | `dots`, `next`, `prev` | Targets internal dot container or paddle buttons |
+| `orientation` | enum | `vertical` | Arranges dots vertically instead of horizontally |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:change` | Fired when a dot is clicked with `{ index }` detail |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:change` | _(none)_ | Fired when a dot is clicked with `{ index }` detail |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-border` |  | Resting border color |
+| `--n-border-active` |  | Border color when active |
+| `--n-border-hover` |  | Border color on hover |
+| `--n-control` |  | Control surface background |
+| `--n-dot-background` | `var(--n-border)` | Background color |
+| `--n-dot-background-active` | `var(--n-border-active)` | Background on press |
+| `--n-dot-background-hover` | `var(--n-border-hover)` | Background on hover |
+| `--n-dot-gap` | `var(--n-space)` | Gap between items |
+| `--n-dot-indicator-length` | `calc(var(--n-dot-size) * 2)` | Width of the active dot indicator |
+| `--n-dot-selected` | `white` | Color of the active dot |
+| `--n-dot-size` | `calc(var(--n-size) * 0.22)` | Component height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
 
-- `--n-border`
-- `--n-border-active`
-- `--n-border-hover`
-- `--n-control`
-- `--n-dot-background`
-- `--n-dot-background-active`
-- `--n-dot-background-hover`
-- `--n-dot-gap`
-- `--n-dot-indicator-length`
-- `--n-dot-selected`
-- `--n-dot-size`
-- `--n-duration`
-- `--n-easing`
-- `--n-focus-ring`
-- `--n-radius`
-- `--n-size`
-- `--n-space`
+## Accessibility
+
+- **Role:** `tablist`
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Home` | Activates the first dot |
+| `End` | Activates the last dot |
+
+## Behavior
+
+- **click on dot** → Sets active index and fires native:change
+
+## Composition
+
+### Parents
+- `<n-slideshow>`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-pagination-dots></n-pagination-dots>
 ```
+
+### Examples
+
+```html
+<n-pagination-dots count="5" active="0"></n-pagination-dots>
+```
+
+```html
+<n-pagination-dots count="3" active="1"></n-pagination-dots>
+```
+
+```html
+<n-pagination-dots count="5" active="2"></n-pagination-dots>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `n-pagination-dots.html` | Demo page |
+| `n-pagination-dots.ts` | Custom element registration (define()) |
+| `pagination-dots-element.ts` | Element class (behavior, no CSS) |
+| `pagination-dots.css` | Styles |
+| `README.md` | Documentation (auto-generated) |

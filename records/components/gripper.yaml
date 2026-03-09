@@ -1,0 +1,90 @@
+component: NGripper
+tag: n-gripper
+category: component
+description: |-
+  Declarative gripper handle that escapes overflow via Popover API
+  and positions itself via CSS Anchor Positioning. Delegates resize
+  logic to ResizeController.
+source:
+  element: src/components/gripper/gripper-element.ts
+  css: src/components/gripper/gripper.css
+  registration: src/components/gripper/n-gripper.ts
+  demo: src/components/gripper/n-gripper.html
+attributes:
+  mode:
+    type: string
+    description: "Grip mode: resize-horizontal, resize-vertical, resize-corner"
+  for:
+    type: string
+    description: ID of the target element to manipulate
+  placement:
+    type: string
+    description: "Where to place relative to target: start, end, top, bottom, top-start, etc."
+  min:
+    type: number
+    description: Minimum value (px) for resize (both axes fallback)
+  max:
+    type: number
+    description: Maximum value (px) for resize (both axes fallback)
+  min-width:
+    type: number
+    description: Minimum width (px) for corner mode. Falls back to `min`.
+  max-width:
+    type: number
+    description: Maximum width (px) for corner mode. Falls back to `max`.
+  min-height:
+    type: number
+    description: Minimum height (px) for corner mode. Falls back to `min`.
+  max-height:
+    type: number
+    description: Maximum height (px) for corner mode. Falls back to `max`.
+  step:
+    type: number
+    description: Snap-to-grid increment (px)
+  reverse:
+    type: boolean
+    description: Reverse drag direction
+  disabled:
+    type: boolean
+    description: Disable interaction
+css_attributes:
+  gripping:
+    type: boolean
+    description: Present while a drag-resize operation is active
+events:
+  native:grip-start:
+    description: Fired when a grip drag begins
+  native:grip-move:
+    description: Fired continuously during grip drag with position data
+  native:grip-end:
+    description: Fired when the grip drag completes
+  native:grip-cancel:
+    description: Fired when the grip drag is cancelled
+css_tokens:
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-ink-muted:
+    description: Ink (text) color
+controllers:
+  - ResizeController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  keyboard:
+    - key: ArrowRight
+      action: Increases width by step increment
+    - key: ArrowLeft
+      action: Decreases width by step increment
+    - key: ArrowDown
+      action: Increases height by step increment
+    - key: ArrowUp
+      action: Decreases height by step increment
+behavior:
+  - trigger: pointerdown + drag
+    actions: [Resizes the target element via CSS custom properties]
+compose:
+  children: []
+  parents: []

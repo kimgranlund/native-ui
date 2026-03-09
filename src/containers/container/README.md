@@ -9,53 +9,126 @@ Component version of <article> — supports traits, interactive, href.
 
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `interactive` | `boolean` | Makes the article focusable and clickable |
-| `href` | `string` | Navigation URL when interactive |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `interactive` | `boolean` |  | Makes the article focusable and clickable |
+| `href` | `string` |  | Navigation URL when interactive |
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `inline` | boolean | _(boolean)_ | Switches to inline-flex display for inline placement |
+| `dividers` | boolean | _(boolean)_ | Adds divider borders between child sections |
+| `bordered` | boolean | _(boolean)_ | Adds a visible border around the container |
+| `show-scrollbar` | boolean | _(boolean)_ | Shows the scrollbar instead of hiding it |
+| `scrollable` | boolean | _(boolean)_ | Enables overflow scrolling on the body region |
+| `fade` | boolean | _(boolean)_ | Adds gradient fade-out masks at scroll edges |
 
 ## Slots
 
-| Slot |
-|------|
-| `leading` |
-| `media` |
-| `trailing` |
+| Slot | Description |
+|------|-------------|
+| `leading` | Content placed at the start of the header row |
+| `media` | Full-bleed media content above the body |
+| `trailing` | Content placed at the end of the header row |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-border-hover` |  | Border color on hover |
+| `--n-border-muted` |  | Muted border color |
+| `--n-card` |  | Card surface background |
+| `--n-card-hover` |  | Card surface on hover |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-fade-bottom` | `calc((var(--n-size) + var(--n-space) * var(--n-space-k)) * 1.25)` | Height of the bottom gradient fade mask |
+| `--n-fade-top` | `calc((var(--n-size) + var(--n-space) * var(--n-space-k)) * 1.25)` | Height of the top gradient fade mask |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-md` |  | Medium font size tier |
+| `--n-font-size` | `var(--n-font-md)` | Font size |
+| `--n-ground` | `var(--n-panel)` | Elevation/surface context |
+| `--n-ground-hover` | `var(--n-card-hover)` | Elevation/surface context |
+| `--n-icon-md` |  | Medium icon size tier |
+| `--n-icon-size` | `var(--n-icon-md)` | Component height |
+| `--n-letter-spacing` | `var(--n-tracking-md)` | Letter spacing |
+| `--n-line-height` |  | Line height |
+| `--n-padding-block` |  | Vertical padding inside content areas |
+| `--n-padding-inline` |  | Horizontal padding inside content areas |
+| `--n-panel` |  | Panel background color |
+| `--n-radius` |  | Border radius |
+| `--n-size` | `var(--n-size-md)` | Component height |
+| `--n-size-md` |  | Component height |
+| `--n-space` | `var(--n-space-md)` | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+| `--n-space-md` |  | Block/gap spacing |
+| `--n-tracking-md` |  | Medium letter-spacing tier |
+| `--n-widget-font` | `var(--n-widget-font-md)` |  |
+| `--n-widget-font-md` |  | Medium widget font size tier |
+| `--n-widget-md` |  | Medium widget size tier |
+| `--n-widget-size` | `var(--n-widget-md)` | Component height |
 
-- `--n-border-hover`
-- `--n-border-muted`
-- `--n-card`
-- `--n-card-hover`
-- `--n-duration`
-- `--n-easing`
-- `--n-fade-bottom`
-- `--n-fade-top`
-- `--n-focus-ring`
-- `--n-font-md`
-- `--n-font-size`
-- `--n-ground`
-- `--n-ground-hover`
-- `--n-icon-md`
-- `--n-line-height`
-- `--n-padding-block`
-- `--n-padding-inline`
-- `--n-panel`
-- `--n-radius`
-- `--n-size`
-- `--n-size-md`
-- `--n-space`
-- `--n-space-k`
-- `--n-space-md`
-- `--n-tracking-md`
-- `--n-widget-font-md`
-- `--n-widget-md`
+## Accessibility
+
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Navigates to href when interactive |
+
+## Behavior
+
+- **click (interactive)** → Navigates to href URL
+
+## Composition
+
+### Children
+- `<n-header>`
+- `<n-body>`
+- `<n-footer>`
+- `<n-divider>`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-container></n-container>
 ```
+
+### Examples
+
+```html
+<n-container data-kind="panel" bordered>
+      <n-container style="max-width: 24rem;">
+        <p>A simple card with just body content. No header or footer.</p>
+      </n-container>
+```
+
+```html
+<n-container data-kind="panel" bordered>
+      <div class="demo-row">
+        <n-container interactive style="max-width: 16rem;">
+          <p>Click this card. It has hover and focus states.</p>
+        </n-container>
+```
+
+```html
+<n-container interactive style="max-width: 16rem;">
+          <p>Another interactive card. Tab to focus.</p>
+        </n-container>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `container-element.ts` | Element class (behavior, no CSS) |
+| `container.css` | Styles |
+| `container.html` | Demo page |
+| `container.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `panel.html` | Demo page |
+| `README.md` | Documentation (auto-generated) |

@@ -4,6 +4,8 @@
 
 > Enables pointer-driven drag-and-drop with drop, slot, or preview reordering.
 
+**Trait name:** `drag` (for use with `<n-controller traits="drag">` or self-trait `traits="drag"`)
+
 ## Constructor
 
 ```ts
@@ -40,10 +42,65 @@ new DragController(host: HTMLElement, options?: DragOptions)
 | `detach()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Escape` | Cancels the current drag operation and restores original position |
+
+## Behavior
+
+- **Pointerdown on a draggable item matching selector** → Records drag start position, grab offset, and source zone, Sets pointer capture on the item, Adds document-level pointermove/pointerup/pointercancel/keydown listeners
+- **First pointermove after pointerdown** → Creates ghost clone in top-layer popover for unconstrained drag rendering, Sets dragging attribute on original item, Dispatches native:drag-start with item and index
+- **Pointermove during drag (drop mode)** → Moves ghost to follow pointer, Hit-tests drop zones by pointer position within bounds, Sets drag-over attribute and outline on hovered zone, Dispatches native:drag-move and native:drag-over
+- **Pointermove during drag (slot mode)** → Moves ghost to follow pointer, Computes insertion index from ghost center vs item centers, Inserts placeholder element at insertion gap (1D modes), Sets drag-slot-before/drag-slot-after attributes, Dispatches native:drag-move and native:drag-over
+- **Pointermove during drag (preview mode)** → Moves ghost to follow pointer, Physically moves the dragged item in the DOM to the target position, Uses View Transitions for smooth grid reflow animation when available, Dispatches native:drag-move and native:drag-over
+- **Pointerup (drop)** → Releases pointer capture, Dispatches native:drop with item, fromIndex, toIndex, insertBefore, sourceZone, targetZone, Cleans up ghost, placeholder, and drag attributes
+- **Escape key during drag** → Restores preview mode item to original position, Dispatches native:drag-cancel with item, Cleans up all drag state
+- **Pointercancel during drag** → Restores preview mode item to original position, Dispatches native:drag-cancel with item, Cleans up all drag state
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { DragController } from '@nonoun/native-ui';
 const ctrl = new DragController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="drag">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="drag">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-drag-*` attributes:
+
+```html
+<n-controller traits="drag" data-trait-drag-selector="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `drag-controller.md` | Controller documentation |
+| `drag-controller.ts` | Controller (reactive state + behavior) |
+| `draggable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `draggable.html` | Demo page |
+| `draggable.test.ts` | Tests |

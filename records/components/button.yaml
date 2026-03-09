@@ -1,0 +1,146 @@
+component: NButton
+tag: n-button
+category: component
+description: Button component with press feedback and form association.
+source:
+  element: src/components/button/button-element.ts
+  css: src/components/button/button.css
+  registration: src/components/button/button.ts
+  demo: src/components/button/button.html
+attributes:
+  disabled:
+    type: boolean
+    description: Disables interaction
+  type:
+    type: string
+    description: 'Form button type: "button" | "submit" | "reset"'
+css_attributes:
+  pressed:
+    type: boolean
+    description: Visually shows the button in its active/pressed state
+  justify:
+    type: enum
+    values:
+      - spread
+    description: Spreads the label to fill available space with text left-aligned (used for dropdown triggers)
+  inline:
+    type: boolean
+    description: Switches from block-level grid to inline-grid so the button sizes to its content
+events:
+  native:press:
+    description: Fired on activation (click, Enter, Space)
+slots:
+  label:
+    description: Primary text content of the button, placed in the center grid column
+  leading:
+    description: Content before the label (e.g. icon), placed in the first grid column
+  trailing:
+    description: Content after the label (e.g. icon or caret), placed in the last grid column
+css_tokens:
+  --n-background:
+    description: Background color
+    default: var(--n-button)
+  --n-background-active:
+    description: Background on press
+    default: var(--n-button-active)
+  --n-background-disabled:
+    description: Background when disabled
+    default: var(--n-button-disabled)
+  --n-background-hover:
+    description: Background on hover
+    default: var(--n-button-hover)
+  --n-border-active:
+    description: Border color on press (tier-1 definition)
+  --n-border-color:
+    description: Border color
+    default: var(--n-border-muted)
+  --n-border-color-active:
+    description: Border on press
+    default: var(--n-border-active)
+  --n-border-color-disabled:
+    description: Border when disabled
+    default: transparent
+  --n-border-color-hover:
+    description: Border on hover
+    default: var(--n-border-hover)
+  --n-border-hover:
+    description: Border color on hover (tier-1 definition)
+  --n-border-muted:
+    description: Muted border color
+  --n-button:
+    description: Button surface color
+  --n-button-active:
+    description: Button surface color
+  --n-button-disabled:
+    description: Button surface color
+  --n-button-font-weight:
+    description: Font weight
+  --n-button-hover:
+    description: Button surface color
+  --n-color:
+    description: Text/foreground color
+    default: var(--n-ink)
+  --n-color-active:
+    description: Text/foreground color
+    default: var(--n-ink-active)
+  --n-color-disabled:
+    description: Text when disabled
+    default: var(--n-ink-disabled)
+  --n-color-hover:
+    description: Text on hover
+    default: var(--n-ink-hover)
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-button-font-weight)
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-active:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+controllers:
+  - PressController
+traits:
+  compatible: [press, hover, tooltip, focus-visible]
+  incompatible: []
+a11y:
+  role: button
+  form_associated: true
+  keyboard:
+    - key: Enter
+      action: Activates the button and fires native:press
+    - key: Space
+      action: Activates the button and fires native:press
+behavior:
+  - trigger: native:press
+    actions: [Submits form if type="submit", resets form if type="reset"]
+  - trigger: click
+    actions: [PressController converts to native:press event]
+compose:
+  children: [n-icon, span]
+  parents: [n-select, n-toolbar, n-dialog, form]

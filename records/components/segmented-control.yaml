@@ -1,0 +1,105 @@
+component: NSegmentedControl
+tag: n-segmented-control
+category: component
+description: Segmented control with a sliding indicator for single-value selection.
+source:
+  element: src/components/segmented-control/segmented-control-element.ts
+  css: src/components/segmented-control/segmented-control.css
+  registration: src/components/segmented-control/segmented-control.ts
+  demo: src/components/segmented-control/segmented-control.html
+attributes:
+  value:
+    type: string
+    description: Currently selected segment value
+  disabled:
+    type: boolean
+    description: Disables all segments
+  name:
+    type: string
+    description: Form field name
+  required:
+    type: string
+css_attributes:
+  pressed:
+    type: boolean
+    description: Present while a segment is being pressed
+  inline:
+    type: boolean
+    description: Shrinks control to fit content width
+events:
+  native:change:
+    description: Fired when selection changes with `{ value, label }` detail
+css_tokens:
+  --n-background:
+    description: Background color
+    default: var(--n-control)
+  --n-border-color:
+    description: Border color
+    default: var(--n-border-rest)
+  --n-border-rest:
+    description: Resting border color
+  --n-button-font-weight:
+    description: Font weight
+  --n-control:
+    description: Control surface background
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-button-font-weight)
+  --n-ink-active:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-ink-inverse:
+    description: Ink (text) color
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-panel-disabled:
+    description: Panel background when disabled
+  --n-radius:
+    description: Border radius
+  --n-segment-count:
+    description: Total number of segments (auto-set for indicator sizing)
+    default: "1"
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+controllers:
+  - PressController
+  - ListNavigateController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: radiogroup
+  form_associated: true
+  keyboard:
+    - key: ArrowRight
+      action: Moves selection to the next segment
+    - key: ArrowLeft
+      action: Moves selection to the previous segment
+behavior:
+  - trigger: click on segment
+    actions: [Selects segment and fires native:change with value and label]
+compose:
+  children: [n-segment]
+  parents: [n-field, n-toolbar]

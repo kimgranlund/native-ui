@@ -1,0 +1,33 @@
+component: NIcon
+tag: n-icon
+category: component
+description: Icon component rendering SVG from the global icon registry.
+source:
+  element: src/icons/icon-element.ts
+  css: src/icons/icon.css
+  registration: src/icons/icon.ts
+  demo: src/icons/icon.html
+attributes:
+  name:
+    type: string
+    description: Icon name from the Phosphor icon set
+  weight:
+    type: string
+    description: 'Icon weight: "regular" (default) or "fill"'
+  size:
+    type: string
+    description: Icon size override
+  aria-label:
+    type: string
+    description: Accessible label (sets role="img" when present)
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: img (when aria-label is set)
+behavior:
+  - trigger: name attribute change
+    actions: [Looks up SVG from global icon registry and renders inline]
+compose:
+  children: []
+  parents: [n-button, n-tab, n-command-item, n-tree-item]

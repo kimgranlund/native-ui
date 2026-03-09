@@ -1,0 +1,73 @@
+component: NCommandEmpty
+tag: n-command-empty
+category: component
+description: Empty state display shown when no command items match the current query.
+source:
+  element: src/components/command/command-empty-element.ts
+  css: src/components/command/command.css
+  registration: src/components/command/command.ts
+  demo: src/components/command/command.html
+slots:
+  heading:
+    description: Content shown when no items match the query
+css_tokens:
+  --n-background:
+    description: Background color
+    default: var(--n-control)
+  --n-border-color:
+    description: Border color
+    default: var(--n-border-rest)
+  --n-border-muted-neutral:
+    description: Muted border color
+  --n-border-rest:
+    description: Resting border color
+  --n-color:
+    description: Text/foreground color
+    default: var(--n-ink)
+  --n-control:
+    description: Control surface background
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+  --n-group-header-font:
+    description: Font size for group header labels
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-ink-placeholder:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+  --n-popover-max-height:
+    description: Maximum height of the scrollable list area
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+controllers:
+  - DataListController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: status
+behavior: []
+compose:
+  children: []
+  parents: [n-command]

@@ -1,0 +1,73 @@
+component: NCommandList
+tag: n-command-list
+category: component
+description: Structural listbox container for command palette items.
+source:
+  element: src/components/command/command-list-element.ts
+  css: src/components/command/command.css
+  registration: src/components/command/command.ts
+  demo: src/components/command/command.html
+slots:
+  heading:
+    description: Optional heading for the list section
+css_tokens:
+  --n-background:
+    description: Background color
+    default: var(--n-control)
+  --n-border-color:
+    description: Border color
+    default: var(--n-border-rest)
+  --n-border-muted-neutral:
+    description: Muted border color
+  --n-border-rest:
+    description: Resting border color
+  --n-color:
+    description: Text/foreground color
+    default: var(--n-ink)
+  --n-control:
+    description: Control surface background
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+  --n-group-header-font:
+    description: Font size for group header labels
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-ink-placeholder:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+  --n-popover-max-height:
+    description: Maximum height of the scrollable list area
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+controllers:
+  - DataListController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: listbox
+behavior: []
+compose:
+  children: [n-command-item, n-command-group]
+  parents: [n-command]

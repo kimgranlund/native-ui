@@ -4,6 +4,8 @@
 
 > Snap elements toward each other or to a grid when dragged within a threshold distance.
 
+**Trait name:** `magnet` (for use with `<n-controller traits="magnet">` or self-trait `traits="magnet"`)
+
 ## Constructor
 
 ```ts
@@ -39,10 +41,52 @@ new MagnetController(host: HTMLElement, options?: MagnetOptions)
 | `detach()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **Pointerdown on an item matching selector within host** → Captures pointer on host, Sets magnetized attribute on host, Records grab offset for translate calculation
+- **Pointermove during drag** → Calculates raw translate from pointer delta, Computes snap candidates: grid snap, sibling edge/center alignment, container edge snap, Applies snap with strength interpolation (0-1), Sets magnet-snapping attribute on item when snapping, Shows guide lines at snap positions when guides option is enabled, Dispatches native:magnet-snap on snap enter (edge-triggered)
+- **Pointerup after drag** → Removes magnet-snapping attribute and guide lines, Dispatches native:magnet-drop with item and final x/y position, Releases pointer capture
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { MagnetController } from '@nonoun/native-ui';
 const ctrl = new MagnetController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="magnet">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="magnet">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-magnet-*` attributes:
+
+```html
+<n-controller traits="magnet" data-trait-magnet-selector="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `magnet-controller.md` | Controller documentation |
+| `magnet-controller.ts` | Controller (reactive state + behavior) |
+| `magnetizable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `magnetizable.html` | Demo page |
+| `magnetizable.test.ts` | Tests |

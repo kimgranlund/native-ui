@@ -1,0 +1,40 @@
+trait: dismiss
+controller: DismissController
+description: Manages a dismiss layer that dispatches `native:dismiss` on outside click or Escape.
+source:
+  controller: src/traits/dismiss/dismiss-controller.ts
+  adapter: src/traits/dismiss/dismissable-adapter.ts
+  demo: src/traits/dismiss/dismissable.html
+  test: src/traits/dismiss/dismissable.test.ts
+methods:
+  enable:
+    returns: void
+  disable:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new DismissController(element, options)
+  provider: <n-controller traits="dismiss">
+  self_trait: <n-button traits="dismiss">
+injected_events:
+  native:dismiss:
+    detail:
+behavior:
+  - trigger: "enable() called"
+    actions:
+      - "Pushes host onto global dismiss stack after one rAF (prevents opening click from dismissing)"
+  - trigger: "Escape key pressed (handled by global dismiss stack)"
+    actions:
+      - "Dispatches native:dismiss on the topmost element in the stack"
+  - trigger: "Click outside the topmost element in the stack"
+    actions:
+      - "Dispatches native:dismiss on the topmost element in the stack"
+  - trigger: "disable() or destroy() called"
+    actions:
+      - "Cancels pending rAF if still waiting"
+      - "Removes host from global dismiss stack"
+a11y:
+  keyboard:
+    - key: "Escape"
+      action: "Dispatches native:dismiss on the topmost dismiss layer"

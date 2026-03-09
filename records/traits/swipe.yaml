@@ -1,0 +1,54 @@
+trait: swipe
+controller: SwipeController
+description: Detects touch/pointer swipe gestures and dispatches `native:swipe` with direction and velocity.
+source:
+  controller: src/traits/swipe/swipe-controller.ts
+  adapter: src/traits/swipe/swipeable-adapter.ts
+  demo: src/traits/swipe/swipeable.html
+  test: src/traits/swipe/swipeable.test.ts
+options:
+  threshold:
+    type: number
+  velocityThreshold:
+    type: number
+  axis:
+    type: "'horizontal' | 'vertical' | 'both'"
+  disabled:
+    type: boolean
+injected_events:
+  native:swipe:
+    detail:
+      direction:
+        type: string
+      distance:
+        type: string
+      velocity:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new SwipeController(element, options)
+  provider: <n-controller traits="swipe">
+  self_trait: <n-button traits="swipe">
+behavior:
+  - trigger: "Pointerdown on host (left button, primary touch only)"
+    actions:
+      - "Records start position and time"
+      - "Captures pointer on host"
+      - "Sets swiping attribute on host"
+  - trigger: "Pointerup after swipe gesture"
+    actions:
+      - "Calculates distance, direction, and velocity from start to end"
+      - "If distance >= threshold and velocity >= velocityThreshold:"
+      - "Sets swipe-{direction} attribute briefly (300ms) for CSS animation"
+      - "Dispatches native:swipe with direction, distance, velocity"
+  - trigger: "Pointercancel during swipe"
+    actions:
+      - "Removes swiping attribute, cleans up without dispatching"
+a11y:
+  keyboard: []

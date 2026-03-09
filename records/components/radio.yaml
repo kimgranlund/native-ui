@@ -1,0 +1,156 @@
+component: NRadio
+tag: n-radio
+category: component
+description: Individual radio button within a radio group.
+source:
+  element: src/components/radio/radio-element.ts
+  css: src/components/radio/radio.css
+  registration: src/components/radio/radio.ts
+  demo: src/components/radio/radio.html
+attributes:
+  disabled:
+    type: boolean
+    description: Disables this radio
+  value:
+    type: string
+    description: Radio value emitted on selection
+css_attributes:
+  orientation:
+    type: enum
+    values:
+      - horizontal
+    description: Lays out the radio group horizontally instead of the default vertical
+  pressed:
+    type: boolean
+    description: Visually shows the radio in its active/pressed state
+events:
+  native:select:
+    description: Fired on click with `{ value, label }` detail
+css_tokens:
+  --n-background:
+    description: Background color
+    default: var(--n-widget)
+  --n-background-active:
+    description: Background on press
+    default: var(--n-widget-active)
+  --n-background-disabled:
+    description: Background when disabled
+    default: var(--n-widget-disabled)
+  --n-background-hover:
+    description: Background on hover
+    default: var(--n-widget-hover)
+  --n-border-active:
+    description: Border color on press (tier-1 definition)
+  --n-border-color:
+    description: Border color
+    default: var(--n-border-muted)
+  --n-border-color-active:
+    description: Border on press
+    default: var(--n-border-active)
+  --n-border-color-disabled:
+    description: Border when disabled
+    default: transparent
+  --n-border-color-hover:
+    description: Border on hover
+    default: var(--n-border-hover)
+  --n-border-hover:
+    description: Border color on hover (tier-1 definition)
+  --n-border-muted:
+    description: Muted border color
+  --n-circle-size:
+    description: Component height
+    default: var(--n-widget-size)
+  --n-color:
+    description: Text/foreground color
+    default: var(--n-ink)
+  --n-color-disabled:
+    description: Text when disabled
+    default: var(--n-ink-disabled)
+  --n-color-hover:
+    description: Text on hover
+    default: var(--n-ink-hover)
+  --n-control-line-height:
+    description: Line height
+  --n-dot-size:
+    description: Component height
+    default: calc(var(--n-circle-size) * 0.4)
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-text-font-weight)
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-radius:
+    description: Border radius
+    default: 50%
+  --n-space:
+    description: Block/gap spacing
+  --n-surface:
+    description: Selected-state background color for the radio circle
+  --n-surface-active:
+    description: Selected-state background on press
+  --n-surface-disabled:
+    description: Selected-state background when disabled
+  --n-surface-hover:
+    description: Selected-state background on hover
+  --n-surface-ink:
+    description: Ink (text) color
+  --n-surface-ink-disabled:
+    description: Ink when disabled
+  --n-text-font-weight:
+    description: Font weight
+  --n-widget:
+    description: Unselected-state widget surface color (tier-1 definition)
+  --n-widget-active:
+    description: Unselected-state widget surface on press (tier-1 definition)
+  --n-widget-disabled:
+    description: Unselected-state widget surface when disabled (tier-1 definition)
+  --n-widget-hover:
+    description: Unselected-state widget surface on hover (tier-1 definition)
+  --n-widget-size:
+    description: Component height
+controllers:
+  - PressController
+  - ListNavigateController
+traits:
+  compatible: [press, hover, focus-visible, tooltip, list-navigate]
+  incompatible: []
+a11y:
+  role: radio
+  form_associated: true
+  aria_states:
+    - aria-checked (true or false)
+    - aria-disabled
+  keyboard:
+    - key: Enter
+      action: Selects this radio and fires native:select
+    - key: Space
+      action: Selects this radio and fires native:select
+    - key: ArrowDown
+      action: Moves focus to the next radio in the group (via ListNavigateController)
+    - key: ArrowUp
+      action: Moves focus to the previous radio in the group (via ListNavigateController)
+behavior:
+  - trigger: click
+    actions: [Dispatches native:select with value and label]
+  - trigger: Enter or Space keydown
+    actions: [Dispatches native:select with value and label]
+compose:
+  children: []
+  parents: [n-radio-group, n-field, form]

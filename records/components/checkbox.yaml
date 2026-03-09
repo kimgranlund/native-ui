@@ -1,0 +1,157 @@
+component: NCheckbox
+tag: n-checkbox
+category: component
+description: Checkbox toggle with tri-state support and form association.
+source:
+  element: src/components/checkbox/checkbox-element.ts
+  css: src/components/checkbox/checkbox.css
+  registration: src/components/checkbox/checkbox.ts
+  demo: src/components/checkbox/checkbox.html
+attributes:
+  checked:
+    type: boolean
+    description: Whether the checkbox is checked
+  indeterminate:
+    type: boolean
+    description: Whether the checkbox is in an indeterminate state
+  disabled:
+    type: boolean
+    description: Disables interaction
+  name:
+    type: string
+    description: Form field name
+  value:
+    type: string
+    description: Form value when checked (defaults to "on")
+  required:
+    type: boolean
+    description: Marks as required for form validation
+css_attributes:
+  intent:
+    type: boolean
+    description: Applies intent-colored styling to the checkbox when checked
+  pressed:
+    type: boolean
+    description: Visually shows the checkbox in its active/pressed state
+events:
+  native:change:
+    description: Fired on toggle with `{ checked, value }` detail
+css_tokens:
+  --n-background:
+    description: Background color
+    default: var(--n-widget)
+  --n-background-active:
+    description: Background on press
+    default: var(--n-widget-active)
+  --n-background-disabled:
+    description: Background when disabled
+    default: var(--n-widget-disabled)
+  --n-background-hover:
+    description: Background on hover
+    default: var(--n-widget-hover)
+  --n-border-active:
+    description: Border color on press (tier-1 definition)
+  --n-border-color:
+    description: Border color
+    default: var(--n-border-muted)
+  --n-border-color-active:
+    description: Border on press
+    default: var(--n-border-active)
+  --n-border-color-disabled:
+    description: Border when disabled
+    default: transparent
+  --n-border-color-hover:
+    description: Border on hover
+    default: var(--n-border-hover)
+  --n-border-hover:
+    description: Border color on hover (tier-1 definition)
+  --n-border-muted:
+    description: Muted border color
+  --n-box-size:
+    description: Component height
+    default: var(--n-widget-size)
+  --n-color:
+    description: Text/foreground color
+    default: var(--n-ink)
+  --n-color-disabled:
+    description: Text when disabled
+    default: var(--n-ink-disabled)
+  --n-color-hover:
+    description: Text on hover
+    default: var(--n-ink-hover)
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-text-font-weight)
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-radius:
+    description: Border radius
+    default: calc(var(--n-space) * 2)
+  --n-space:
+    description: Block/gap spacing
+  --n-surface:
+    description: Checked-state background color
+  --n-surface-active:
+    description: Checked-state background on press
+  --n-surface-disabled:
+    description: Checked-state background when disabled
+  --n-surface-hover:
+    description: Checked-state background on hover
+  --n-surface-ink:
+    description: Ink (text) color
+  --n-surface-ink-disabled:
+    description: Ink when disabled
+  --n-text-font-weight:
+    description: Font weight
+  --n-widget:
+    description: Unchecked-state widget surface color (tier-1 definition)
+  --n-widget-active:
+    description: Unchecked-state widget surface on press (tier-1 definition)
+  --n-widget-disabled:
+    description: Unchecked-state widget surface when disabled (tier-1 definition)
+  --n-widget-hover:
+    description: Unchecked-state widget surface on hover (tier-1 definition)
+  --n-widget-size:
+    description: Component height
+controllers:
+  - PressController
+traits:
+  compatible: [press, hover, focus-visible, tooltip]
+  incompatible: []
+a11y:
+  role: checkbox
+  form_associated: true
+  aria_states:
+    - aria-checked (true, false, or mixed for indeterminate)
+    - aria-disabled
+    - aria-required
+  keyboard:
+    - key: Enter
+      action: Toggles checked state (clears indeterminate first if set)
+    - key: Space
+      action: Toggles checked state (clears indeterminate first if set)
+behavior:
+  - trigger: native:press
+    actions: [Clears indeterminate if set then checks, otherwise toggles checked, dispatches native:change]
+compose:
+  children: []
+  parents: [n-field, form]

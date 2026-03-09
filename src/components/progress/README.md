@@ -2,30 +2,58 @@
 
 # n-progress
 
-**CSS-only container** — no JavaScript class.
+> Read-only progress bar driven by a --n-progress custom property (0 to 1).
+
+**CSS-only element** — styled purely via CSS, no JavaScript class required.
 
 **Display:** `flex`
 
-## Attributes
+## CSS Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `intent` | `accent`, `danger`, `success`, `warning` |
-| `size` | `lg`, `sm`, `xs` |
-| `indeterminate` | _(boolean)_ |
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `intent` | enum | `accent`, `danger`, `success`, `warning` | Sets the fill color via intent tokens |
+| `size` | enum | `lg`, `sm`, `xs` | Controls track height |
+| `indeterminate` | boolean | _(boolean)_ | Shows an animated indeterminate loading state |
 
-## CSS Tokens
+## CSS Custom Properties
 
-- `--n-control`
-- `--n-duration`
-- `--n-easing`
-- `--n-ink`
-- `--n-progress`
-- `--n-radius`
-- `--n-space`
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-control` |  | Track background color |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-ink` |  | Fill bar color |
+| `--n-progress` | `0` | Progress value from 0 to 1 |
+| `--n-radius` |  | Border radius |
+| `--n-space` |  | Block/gap spacing |
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-progress></n-progress>
 ```
+
+### Examples
+
+```html
+<n-progress style="--n-progress: 0;"></n-progress>
+```
+
+```html
+<n-progress style="--n-progress: 0.25;"></n-progress>
+```
+
+```html
+<n-progress style="--n-progress: 0.5;"></n-progress>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `progress.css` | Styles |
+| `progress.html` | Demo page |
+| `README.md` | Documentation (auto-generated) |

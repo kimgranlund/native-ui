@@ -1,0 +1,77 @@
+trait: slash-command
+controller: SlashCommandController
+description: "Detects `/` at the caret position (preceded by whitespace or at text start), shows a caret-anchored
+  command listbox popover, filters by query, and dispatches selection events. Works anywhere in the text, not just at
+  the start. Events: - `native:slash-query` — dispatched on host when typing after `/`. Detail: `{ query, commands }` -
+  `native:slash-select` — dispatched on host when a command is selected. Detail: `{ command }`"
+source:
+  controller: src/traits/slash-command/slash-command-controller.ts
+  adapter: src/traits/slash-command/slash-commandable-adapter.ts
+  demo: src/traits/slash-command/slash-command.html
+  test: src/traits/slash-command/slash-command.test.ts
+options:
+  input:
+    type: HTMLElement
+    required: true
+  commands:
+    type: SlashCommand[]
+    required: true
+injected_events:
+  native:slash-query:
+    detail:
+      query:
+        type: string
+      commands:
+        type: string
+  native:slash-select:
+    detail:
+      command:
+        type: string
+      action:
+        type: string
+methods:
+  destroy:
+    returns: void
+consumption:
+  imperative: new SlashCommandController(element, options)
+  provider: <n-controller traits="slash-command">
+  self_trait: <n-button traits="slash-command">
+behavior:
+  - trigger: "native:input event on host (text typed after /)"
+    actions:
+      - "Detects / at caret position (preceded by whitespace or at text start)"
+      - "Extracts query text between / and caret"
+      - "Creates caret-anchored listbox popover with filtered command options"
+      - "Dispatches native:slash-query with query and matching commands"
+  - trigger: "Enter key while popover is open"
+    actions:
+      - "Selects the active (highlighted) command option"
+      - "Depending on action type: inserts styled tag (tag), plain text (insert), or just fires event (event)"
+      - "Removes /query text from the input"
+      - "Dispatches native:slash-select with command and action"
+  - trigger: "Tab key while popover is open (query 2+ chars)"
+    actions:
+      - "Selects the active or first matching command"
+  - trigger: "ArrowDown/ArrowUp while popover is open"
+    actions:
+      - "Delegates to listbox for keyboard navigation"
+  - trigger: "Escape key while popover is open"
+    actions:
+      - "Closes the command popover without selecting"
+  - trigger: "Ctrl/Cmd+/ shortcut"
+    actions:
+      - "Inserts / at caret and opens popover, or closes if already open"
+a11y:
+  keyboard:
+    - key: "Enter"
+      action: "Selects the highlighted command"
+    - key: "Tab"
+      action: "Selects the closest matching command (query 2+ chars)"
+    - key: "ArrowDown"
+      action: "Highlights next command in list"
+    - key: "ArrowUp"
+      action: "Highlights previous command in list"
+    - key: "Escape"
+      action: "Closes the command popover"
+    - key: "Ctrl/Cmd+/"
+      action: "Inserts / at caret or toggles popover"

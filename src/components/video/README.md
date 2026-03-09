@@ -2,17 +2,58 @@
 
 # n-video
 
-**CSS-only container** — no JavaScript class.
+> Video container with token-aware border-radius and responsive sizing.
+
+**CSS-only element** — styled purely via CSS, no JavaScript class required.
 
 **Display:** `block`
 
-## CSS Tokens
+## CSS Custom Properties
 
-- `--n-control`
-- `--n-radius`
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-control` |  | Background color behind the video element |
+| `--n-radius` |  | Border radius |
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-video></n-video>
 ```
+
+### Examples
+
+```html
+<n-video>
+          <video controls width="100%">
+            <source src="#" type="video/mp4">
+            Your browser does not support the video element.
+          </video>
+        </n-video>
+```
+
+```html
+<n-video radius="sharp">
+            <video controls width="100%">
+              <source src="#" type="video/mp4">
+            </video>
+          </n-video>
+```
+
+```html
+<n-video radius="round">
+            <video controls width="100%">
+              <source src="#" type="video/mp4">
+            </video>
+          </n-video>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `README.md` | Documentation (auto-generated) |
+| `video.css` | Styles |
+| `video.html` | Demo page |

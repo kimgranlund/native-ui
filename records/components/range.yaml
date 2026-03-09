@@ -1,0 +1,100 @@
+component: NRange
+tag: n-range
+category: component
+description: Range slider input with keyboard and pointer interaction.
+source:
+  element: src/components/range/range-element.ts
+  css: src/components/range/range.css
+  registration: src/components/range/range.ts
+  demo: src/components/range/range.html
+attributes:
+  value:
+    type: number
+    description: Current value (default 50)
+  min:
+    type: number
+    description: Minimum value (default 0)
+  max:
+    type: number
+    description: Maximum value (default 100)
+  step:
+    type: number
+    description: Step increment (default 1)
+  disabled:
+    type: boolean
+    description: Disables interaction
+  name:
+    type: string
+    description: Form field name
+  required:
+    type: boolean
+    description: Marks as required for form validation
+css_attributes:
+  intent:
+    type: boolean
+    description: Visual intent coloring for the track fill
+  pressed:
+    type: boolean
+    description: Present while the thumb is being dragged
+events:
+  native:input:
+    description: Fired continuously during drag with `{ value }` detail
+  native:change:
+    description: Fired on drag end or keyboard change with `{ value }` detail
+css_tokens:
+  --n-border-muted:
+    description: Muted border color
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-progress:
+    description: Normalized position (0 to 1) for the track fill
+    default: "0.5"
+  --n-shadow-sm:
+    description: Small shadow for thumb elevation
+  --n-surface:
+    description: Thumb surface color
+  --n-surface-active:
+    description: Thumb surface on press
+  --n-surface-disabled:
+    description: Thumb surface when disabled
+  --n-surface-hover:
+    description: Thumb surface on hover
+  --n-surface-ink:
+    description: Ink (text) color
+  --n-surface-ink-disabled:
+    description: Ink when disabled
+  --n-widget:
+    description: Track background color
+  --n-widget-disabled:
+    description: Track background when disabled
+  --n-widget-size:
+    description: Component height
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: slider
+  form_associated: true
+  keyboard:
+    - key: ArrowRight
+      action: Increases value by one step
+    - key: ArrowUp
+      action: Increases value by one step
+    - key: ArrowLeft
+      action: Decreases value by one step
+    - key: ArrowDown
+      action: Decreases value by one step
+    - key: Home
+      action: Sets value to minimum
+    - key: End
+      action: Sets value to maximum
+behavior:
+  - trigger: pointer drag on thumb
+    actions: [Updates value continuously and fires native:input then native:change on release]
+compose:
+  children: []
+  parents: [n-field]

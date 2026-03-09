@@ -1,0 +1,102 @@
+component: NPaginationDots
+tag: n-pagination-dots
+category: component
+description: Pagination dot indicator for slideshows, onboarding flows, and step wizards.
+source:
+  element: src/components/pagination-dots/pagination-dots-element.ts
+  css: src/components/pagination-dots/pagination-dots.css
+  registration: src/components/pagination-dots/n-pagination-dots.ts
+  demo: src/components/pagination-dots/n-pagination-dots.html
+attributes:
+  count:
+    type: number
+    description: Number of dots to render
+  active:
+    type: number
+    description: Zero-based index of the active dot
+  disabled:
+    type: boolean
+    description: Disables all dots
+  max-dots:
+    type: number
+    description: Maximum visible dots before windowing (default 7)
+  paddles:
+    type: boolean
+    description: Show prev/next navigation buttons
+  variant:
+    type: string
+    description: 'Visual variant: (default) | "plain"'
+css_attributes:
+  part:
+    type: enum
+    values:
+      - dots
+      - next
+      - prev
+    description: Targets internal dot container or paddle buttons
+  orientation:
+    type: enum
+    values:
+      - vertical
+    description: Arranges dots vertically instead of horizontally
+events:
+  native:change:
+    description: Fired when a dot is clicked with `{ index }` detail
+css_tokens:
+  --n-border:
+    description: Resting border color
+  --n-border-active:
+    description: Border color when active
+  --n-border-hover:
+    description: Border color on hover
+  --n-control:
+    description: Control surface background
+  --n-dot-background:
+    description: Background color
+    default: var(--n-border)
+  --n-dot-background-active:
+    description: Background on press
+    default: var(--n-border-active)
+  --n-dot-background-hover:
+    description: Background on hover
+    default: var(--n-border-hover)
+  --n-dot-gap:
+    description: Gap between items
+    default: var(--n-space)
+  --n-dot-indicator-length:
+    description: Width of the active dot indicator
+    default: calc(var(--n-dot-size) * 2)
+  --n-dot-selected:
+    description: Color of the active dot
+    default: white
+  --n-dot-size:
+    description: Component height
+    default: calc(var(--n-size) * 0.22)
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: tablist
+  keyboard:
+    - key: Home
+      action: Activates the first dot
+    - key: End
+      action: Activates the last dot
+behavior:
+  - trigger: click on dot
+    actions: [Sets active index and fires native:change]
+compose:
+  children: []
+  parents: [n-slideshow]

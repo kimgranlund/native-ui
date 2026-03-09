@@ -1,0 +1,57 @@
+component: NToast
+tag: n-toast
+category: component
+description: |-
+  Toast notification element with intent-based styling and optional dismiss button.
+  Created by ToastController — not typically authored in HTML directly.
+source:
+  element: src/components/toast/toast-element.ts
+  css: src/components/toast/toast.css
+  registration: src/components/toast/toast.ts
+attributes:
+  message:
+    type: string
+    description: Toast message text
+  dismissible:
+    type: boolean
+    description: Show dismiss button
+  intent:
+    type: "'info'|'success'|'warning'|'danger'"
+    description: "Visual intent (default: info)"
+events:
+  native:dismiss:
+    description: Fired when the toast is dismissed by user or auto-timeout
+css_tokens:
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-radius:
+    description: Border radius
+  --n-surface-danger:
+    description: Background for danger intent toasts
+  --n-surface-info:
+    description: Background for info intent toasts
+  --n-surface-ink-danger:
+    description: Ink (text) color
+  --n-surface-ink-info:
+    description: Ink (text) color
+  --n-surface-ink-success:
+    description: Ink (text) color
+  --n-surface-ink-warning:
+    description: Ink (text) color
+  --n-surface-success:
+    description: Background for success intent toasts
+  --n-surface-warning:
+    description: Background for warning intent toasts
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: alert
+behavior:
+  - trigger: dismissible click
+    actions: [Fires native:dismiss and removes the toast]
+compose:
+  children: []
+  parents: []

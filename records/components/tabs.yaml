@@ -1,0 +1,113 @@
+component: NTabs
+tag: n-tabs
+category: component
+description: Tab container managing tab selection, panel visibility, and a sliding indicator.
+source:
+  element: src/components/tabs/tabs-element.ts
+  css: src/components/tabs/tabs.css
+  registration: src/components/tabs/tabs.ts
+  demo: src/components/tabs/tabs.html
+attributes:
+  value:
+    type: string
+    description: Currently selected tab value
+  disabled:
+    type: boolean
+    description: Disables all tabs
+  orientation:
+    type: string
+    description: 'Layout direction: "horizontal" | "vertical"'
+css_attributes:
+  pressed:
+    type: boolean
+    description: Visually shows a tab in its active/pressed state
+  inline:
+    type: boolean
+    description: Switches from block-level to inline display
+events:
+  native:change:
+    description: Fired when the active tab changes with `{ value, label }` detail
+css_tokens:
+  --n-border-muted:
+    description: Muted border color
+  --n-button-font-weight:
+    description: Font weight
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-button-font-weight)
+  --n-indicator-index:
+    description: Zero-based index of the selected tab, used to position the sliding indicator
+    default: "0"
+  --n-ink-active:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+  --n-surface:
+    description: Surface background color for selected tab indicator
+  --n-surface-ink:
+    description: Ink (text) color
+  --n-surface-ink-hover:
+    description: Ink on hover
+  --n-tab-count:
+    description: Total number of tabs, used with indicator-index to calculate indicator width
+    default: "1"
+  --n-tabs-indicator:
+    description: Color of the sliding tab indicator line
+controllers:
+  - PressController
+  - ListNavigateController
+traits:
+  compatible: [hover, focus-visible]
+  incompatible: []
+a11y:
+  role: tablist
+  keyboard:
+    - key: ArrowRight
+      action: Moves focus to the next tab (horizontal orientation)
+    - key: ArrowLeft
+      action: Moves focus to the previous tab (horizontal orientation)
+    - key: ArrowDown
+      action: Moves focus to the next tab (vertical orientation)
+    - key: ArrowUp
+      action: Moves focus to the previous tab (vertical orientation)
+    - key: Home
+      action: Moves focus to the first tab
+    - key: End
+      action: Moves focus to the last tab
+    - key: Enter
+      action: Activates the focused tab
+    - key: Space
+      action: Activates the focused tab
+behavior:
+  - trigger: native:select on n-tab
+    actions: [Updates selected value, shows matching panel, repositions indicator, dispatches native:change]
+  - trigger: disabled attribute change
+    actions: [Cascades disabled state to all child n-tab elements]
+compose:
+  children: [n-tab, n-tab-panels, n-tab-panel]
+  parents: []

@@ -1,0 +1,87 @@
+component: NTree
+tag: n-tree
+category: component
+description: Tree view with roving focus and keyboard navigation across nested items.
+source:
+  element: src/components/tree/tree-element.ts
+  css: src/components/tree/tree.css
+  registration: src/components/tree/tree.ts
+  demo: src/components/tree/tree.html
+attributes:
+  disabled:
+    type: boolean
+    description: Disables interaction
+css_attributes:
+  expanded:
+    type: boolean
+    description: Present on items with visible children
+slots:
+  label:
+    description: Label text for each tree item
+css_tokens:
+  --n-button-font-weight:
+    description: Font weight
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-button-font-weight)
+  --n-icon-size:
+    description: Component height
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-panel-hover:
+    description: Panel background on hover
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+  --n-surface:
+    description: Surface background color
+  --n-surface-ink:
+    description: Ink (text) color
+  --n-text-font-weight:
+    description: Font weight
+controllers:
+  - RovingFocusController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: tree
+  keyboard:
+    - key: ArrowRight
+      action: Expands the focused item or moves to first child
+    - key: ArrowLeft
+      action: Collapses the focused item or moves to parent
+    - key: ArrowDown
+      action: Moves focus to the next visible item
+    - key: ArrowUp
+      action: Moves focus to the previous visible item
+    - key: Enter
+      action: Toggles expansion of the focused item
+behavior: []
+compose:
+  children: [n-tree-item]
+  parents: []

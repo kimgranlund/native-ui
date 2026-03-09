@@ -6,42 +6,136 @@
 
 **Class:** `NSelect`
 
+**ARIA role:** `combobox`
+**Form-associated:** yes (participates in `<form>` submission, reset, validation)
+**Internal controllers:** `PopoverController`, `SelectController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `value` | `string` | Currently selected value |
-| `disabled` | `boolean` | Disables interaction |
-| `name` | `string` | Form field name |
-| `options` | `string` | JSON array of `{ value, label }` objects for data-driven mode |
-| `src` | `string` | URL to fetch options from for data-driven mode |
-| `placeholder` | `string` | Placeholder text when no value is selected |
-| `required` | `string` |  |
-
-## Properties
-
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `controller` | `SelectController` | yes |  |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | `string` |  | Currently selected value |
+| `disabled` | `boolean` |  | Disables interaction |
+| `name` | `string` |  | Form field name |
+| `options` | `string` |  | JSON array of `{ value, label }` objects for data-driven mode |
+| `src` | `string` |  | URL to fetch options from for data-driven mode |
+| `placeholder` | `string` |  | Placeholder text when no value is selected |
+| `required` | `string` |  |  |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:change` | Fired when selection changes with `{ value, label }` detail |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:change` | _(none)_ | Fired when selection changes with `{ value, label }` detail |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-popover-gap` |  | Gap between items |
+| `--n-popover-max-height` |  | Maximum height of the dropdown popover |
+| `--n-popover-viewport-margin` |  | Minimum margin between the popover and viewport edge |
 
-- `--n-duration`
-- `--n-easing`
-- `--n-popover-gap`
-- `--n-popover-max-height`
-- `--n-popover-viewport-margin`
+## Accessibility
+
+- **Role:** `combobox`
+- **Form-associated:** participates in form submission, reset, and validation
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `ArrowDown` | Opens the listbox if closed, moves focus to the next option |
+| `ArrowUp` | Opens the listbox if closed, moves focus to the previous option |
+| `Enter` | Selects the active option when open, toggles the listbox when closed |
+| `Space` | Selects the active option when open, toggles the listbox when closed |
+| `Escape` | Closes the listbox without changing selection |
+| `Home` | Moves focus to the first option |
+| `End` | Moves focus to the last option |
+
+## Behavior
+
+- **native:press on trigger** → Toggles the popover listbox open/closed
+- **native:select on option** → Sets value and label, closes popover, dispatches native:change
+- **native:dismiss** → Closes the popover listbox
+
+## Composition
+
+### Children
+- `<n-button>`
+- `<n-listbox>`
+- `<n-option>`
+- `<n-option-group>`
+
+### Parents
+- `<n-field>`
+- `<form>`
+
+## Compatible Traits
+
+`hover`, `focus-visible`, `tooltip`, `dismissable`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-select></n-select>
 ```
+
+### Examples
+
+```html
+<n-select value="banana">
+          <n-button justify="spread">
+            <span slot="label">Choose a fruit</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="apple">Apple</n-option>
+            <n-option value="banana">Banana</n-option>
+            <n-option value="cherry">Cherry</n-option>
+          </n-listbox>
+        </n-select>
+```
+
+```html
+<n-select size="xs">
+          <n-button justify="spread">
+            <span slot="label">Extra small</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+          </n-listbox>
+        </n-select>
+```
+
+```html
+<n-select size="sm">
+          <n-button justify="spread">
+            <span slot="label">Small</span>
+            <n-icon name="caret-up-down" slot="trailing"></n-icon>
+          </n-button>
+          <n-listbox popover>
+            <n-option value="a">Option A</n-option>
+            <n-option value="b">Option B</n-option>
+          </n-listbox>
+        </n-select>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `controller/` | Sub-directory (1 files) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `select-element.ts` | Element class (behavior, no CSS) |
+| `select.css` | Styles |
+| `select.html` | Demo page |
+| `select.stories.ts` | Storybook stories |
+| `select.ts` | Custom element registration (define()) |

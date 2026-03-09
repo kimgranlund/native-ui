@@ -1,0 +1,48 @@
+trait: hover
+controller: HoverController
+description: Tracks pointer enter/leave with configurable delays, dispatching `native:hover-start` and `native:hover-end`.
+source:
+  controller: src/traits/hover/hover-controller.ts
+  adapter: src/traits/hover/hoverable-adapter.ts
+  demo: src/traits/hover/hoverable.html
+  test: src/traits/hover/hoverable.test.ts
+options:
+  delay:
+    type: number
+  leaveDelay:
+    type: number
+  disabled:
+    type: boolean
+injected_events:
+  native:hover-start:
+    detail:
+      pointerType:
+        type: string
+  native:hover-end:
+    detail:
+      pointerType:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new HoverController(element, options)
+  provider: <n-controller traits="hover">
+  self_trait: <n-button traits="hover">
+behavior:
+  - trigger: "Pointer enters host"
+    actions:
+      - "Cancels any pending leave timer"
+      - "After delay ms (default 0), sets hovered attribute on host"
+      - "Dispatches native:hover-start with pointerType"
+  - trigger: "Pointer leaves host"
+    actions:
+      - "Cancels any pending enter timer"
+      - "After leaveDelay ms (default 0), removes hovered attribute"
+      - "Dispatches native:hover-end with pointerType"
+a11y:
+  keyboard: []

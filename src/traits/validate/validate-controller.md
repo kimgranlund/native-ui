@@ -4,6 +4,8 @@
 
 > Runs validation rules against a value and dispatches `native:valid` or `native:invalid` events.
 
+**Trait name:** `validate` (for use with `<n-controller traits="validate">` or self-trait `traits="validate"`)
+
 ## Constructor
 
 ```ts
@@ -16,13 +18,6 @@ new ValidateController(host: HTMLElement, options?: ValidateOptions)
 |--------|------|----------|-------------|
 | `rules` | `ValidationRule[]` | no |  |
 | `internals` | `ElementInternals` | no | When provided, bridges to the Constraint Validation API via `setValidity()`. |
-
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `valid` | `boolean` | yes |
-| `errorMessage` | `string` | yes |
 
 ## Events Dispatched
 
@@ -39,10 +34,51 @@ new ValidateController(host: HTMLElement, options?: ValidateOptions)
 | `clearValidation()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **validate(value) called** → Runs validation rules in order, first failure wins, On failure: sets invalid and aria-invalid attributes, bridges to Constraint Validation API if internals provided, Dispatches native:invalid with message and value, On success: removes invalid and aria-invalid attributes, clears validity, Dispatches native:valid with value
+- **clearValidation() called** → Removes invalid and aria-invalid attributes, Clears Constraint Validation API validity
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { ValidateController } from '@nonoun/native-ui';
 const ctrl = new ValidateController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="validate">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="validate">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-validate-*` attributes:
+
+```html
+<n-controller traits="validate" data-trait-validate-rules="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `validatable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `validatable.html` | Demo page |
+| `validatable.test.ts` | Tests |
+| `validate-controller.md` | Controller documentation |
+| `validate-controller.ts` | Controller (reactive state + behavior) |

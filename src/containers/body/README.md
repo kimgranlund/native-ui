@@ -2,28 +2,68 @@
 
 # n-body
 
-**CSS-only container** — no JavaScript class.
+> Scrollable content region with flex layout and hidden scrollbar by default.
+
+**CSS-only element** — styled purely via CSS, no JavaScript class required.
 
 **Display:** `flex`
 
-## Attributes
+## CSS Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `show-scrollbar` | _(boolean)_ |
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `show-scrollbar` | boolean | _(boolean)_ | Shows the scrollbar instead of hiding it |
 
-## CSS Tokens
+## CSS Custom Properties
 
-- `--n-font-size`
-- `--n-line-height`
-- `--n-padding-block`
-- `--n-padding-inline`
-- `--n-size`
-- `--n-space`
-- `--n-space-k`
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-font-size` |  | Font size |
+| `--n-line-height` |  | Line height |
+| `--n-padding-block` | `calc(var(--n-space) * var(--n-space-k))` | Vertical padding inside the body |
+| `--n-padding-inline` | `calc(var(--n-space) * var(--n-space-k))` | Horizontal padding inside the body |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-body></n-body>
 ```
+
+### Examples
+
+```html
+<n-body>
+          <p>The body fills all remaining vertical space in a flex column. It has default padding from the spacing scale.</p>
+        </n-body>
+```
+
+```html
+<n-body>
+            <p>Scrollbar is hidden by default. Content still scrolls.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+          </n-body>
+```
+
+```html
+<n-body show-scrollbar>
+            <p>The <code>show-scrollbar</code> attribute reveals a thin scrollbar track.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+          </n-body>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `body.css` | Styles |
+| `body.html` | Demo page |
+| `README.md` | Documentation (auto-generated) |

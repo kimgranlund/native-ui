@@ -1,0 +1,87 @@
+component: NTreeItem
+tag: n-tree-item
+category: component
+description: Expandable tree item with nesting support and selection.
+source:
+  element: src/components/tree/tree-item-element.ts
+  css: src/components/tree/tree.css
+  registration: src/components/tree/tree.ts
+  demo: src/components/tree/tree.html
+attributes:
+  expanded:
+    type: boolean
+    description: Whether child items are visible
+  selected:
+    type: boolean
+    description: Whether this item is selected
+  disabled:
+    type: boolean
+    description: Disables interaction
+slots:
+  label:
+    description: Item label text content
+css_tokens:
+  --n-button-font-weight:
+    description: Font weight
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-button-font-weight)
+  --n-icon-size:
+    description: Component height
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-panel-hover:
+    description: Panel background on hover
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+  --n-surface:
+    description: Surface background color
+  --n-surface-ink:
+    description: Ink (text) color
+  --n-text-font-weight:
+    description: Font weight
+controllers:
+  - RovingFocusController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: treeitem
+  keyboard:
+    - key: ArrowRight
+      action: Expands item or moves to first child
+    - key: ArrowLeft
+      action: Collapses item or moves to parent
+    - key: Enter
+      action: Toggles expansion
+behavior:
+  - trigger: click on expand toggle
+    actions: [Toggles expanded attribute and shows/hides children]
+compose:
+  children: [n-tree-item]
+  parents: [n-tree, n-tree-item]

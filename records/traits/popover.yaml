@@ -1,0 +1,42 @@
+trait: popover
+controller: PopoverController
+description: Wires anchor positioning between elements and manages popover show/hide with dismiss layer.
+source:
+  controller: src/traits/popover/popover-controller.ts
+  adapter: src/traits/popover/popoverable-adapter.ts
+  demo: src/traits/popover/popoverable.html
+  test: src/traits/popover/popoverable.test.ts
+methods:
+  wirePopover:
+    returns: void
+    params: "anchor: HTMLElement, popover: HTMLElement"
+  syncPopover:
+    returns: void
+    params: "open: boolean"
+  destroy:
+    returns: void
+consumption:
+  imperative: new PopoverController(element, options)
+  provider: <n-controller traits="popover">
+  self_trait: <n-button traits="popover">
+behavior:
+  - trigger: "wirePopover(anchor, popover) called"
+    actions:
+      - "Generates unique anchor name"
+      - "Sets anchor-name CSS property on anchor element"
+      - "Sets position-anchor CSS property on popover element"
+  - trigger: "syncPopover(true) called"
+    actions:
+      - "Detects if popover should flip above anchor (measures space above/below)"
+      - "Sets position-area and animation origin CSS for flipped placement if needed"
+      - "Shows popover via native showPopover()"
+      - "Enables dismiss layer (Escape and click-outside close)"
+  - trigger: "syncPopover(false) called"
+    actions:
+      - "Hides popover via native hidePopover()"
+      - "Clears flip-related CSS properties"
+      - "Disables dismiss layer"
+a11y:
+  keyboard:
+    - key: "Escape"
+      action: "Closes the popover (via dismiss layer)"

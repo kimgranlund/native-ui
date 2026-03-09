@@ -8,33 +8,113 @@ logic to ResizeController.
 
 **Class:** `NGripper`
 
+**Internal controllers:** `ResizeController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `mode` | `string` | Grip mode: resize-horizontal, resize-vertical, resize-corner |
-| `for` | `string` | ID of the target element to manipulate |
-| `placement` | `string` | Where to place relative to target: start, end, top, bottom, top-start, etc. |
-| `min` | `number` | Minimum value (px) for resize (both axes fallback) |
-| `max` | `number` | Maximum value (px) for resize (both axes fallback) |
-| `min-width` | `number` | Minimum width (px) for corner mode. Falls back to `min`. |
-| `max-width` | `number` | Maximum width (px) for corner mode. Falls back to `max`. |
-| `min-height` | `number` | Minimum height (px) for corner mode. Falls back to `min`. |
-| `max-height` | `number` | Maximum height (px) for corner mode. Falls back to `max`. |
-| `step` | `number` | Snap-to-grid increment (px) |
-| `reverse` | `boolean` | Reverse drag direction |
-| `disabled` | `boolean` | Disable interaction |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `mode` | `string` |  | Grip mode: resize-horizontal, resize-vertical, resize-corner |
+| `for` | `string` |  | ID of the target element to manipulate |
+| `placement` | `string` |  | Where to place relative to target: start, end, top, bottom, top-start, etc. |
+| `min` | `number` |  | Minimum value (px) for resize (both axes fallback) |
+| `max` | `number` |  | Maximum value (px) for resize (both axes fallback) |
+| `min-width` | `number` |  | Minimum width (px) for corner mode. Falls back to `min`. |
+| `max-width` | `number` |  | Maximum width (px) for corner mode. Falls back to `max`. |
+| `min-height` | `number` |  | Minimum height (px) for corner mode. Falls back to `min`. |
+| `max-height` | `number` |  | Maximum height (px) for corner mode. Falls back to `max`. |
+| `step` | `number` |  | Snap-to-grid increment (px) |
+| `reverse` | `boolean` |  | Reverse drag direction |
+| `disabled` | `boolean` |  | Disable interaction |
 
-## CSS Tokens
+## CSS Attributes
 
-Public `--n-*` custom properties consumed by this component:
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `gripping` | boolean | _(boolean)_ | Present while a drag-resize operation is active |
 
-- `--n-duration`
-- `--n-easing`
-- `--n-ink-muted`
+## Events
+
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:grip-start` | _(none)_ | Fired when a grip drag begins |
+| `native:grip-move` | _(none)_ | Fired continuously during grip drag with position data |
+| `native:grip-end` | _(none)_ | Fired when the grip drag completes |
+| `native:grip-cancel` | _(none)_ | Fired when the grip drag is cancelled |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-ink-muted` |  | Ink (text) color |
+
+## Accessibility
+
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `ArrowRight` | Increases width by step increment |
+| `ArrowLeft` | Decreases width by step increment |
+| `ArrowDown` | Increases height by step increment |
+| `ArrowUp` | Decreases height by step increment |
+
+## Behavior
+
+- **pointerdown + drag** → Resizes the target element via CSS custom properties
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-gripper></n-gripper>
 ```
+
+### Examples
+
+```html
+<n-gripper
+      mode="resize-horizontal"
+      for="panel-h"
+      placement="end"
+      min="160"
+      max="600"
+    ></n-gripper>
+```
+
+```html
+<n-gripper
+      mode="resize-vertical"
+      for="panel-v"
+      placement="bottom"
+      min="80"
+      max="400"
+    ></n-gripper>
+```
+
+```html
+<n-gripper
+      mode="resize-corner"
+      for="panel-c"
+      placement="bottom-end"
+      min-width="200"
+      max-width="600"
+      min-height="100"
+      max-height="400"
+    ></n-gripper>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `gripper-element.ts` | Element class (behavior, no CSS) |
+| `gripper.css` | Styles |
+| `index.ts` | Barrel exports |
+| `n-gripper.html` | Demo page |
+| `n-gripper.ts` | Custom element registration (define()) |
+| `README.md` | Documentation (auto-generated) |

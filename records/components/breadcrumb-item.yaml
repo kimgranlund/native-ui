@@ -1,0 +1,61 @@
+component: NBreadcrumbItem
+tag: n-breadcrumb-item
+category: component
+description: Individual breadcrumb link item.
+source:
+  element: src/components/breadcrumb/breadcrumb-item-element.ts
+  css: src/components/breadcrumb/breadcrumb.css
+  registration: src/components/breadcrumb/breadcrumb.ts
+  demo: src/components/breadcrumb/breadcrumb.html
+attributes:
+  href:
+    type: string
+    description: Navigation URL
+  current:
+    type: boolean
+    description: Marks as the current page (disables navigation)
+css_tokens:
+  --n-button-font-weight:
+    description: Font weight
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-button-font-weight)
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-ink-strong:
+    description: Ink (text) color
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-radius:
+    description: Border radius
+  --n-space:
+    description: Block/gap spacing
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: link
+  keyboard:
+    - key: Enter
+      action: Navigates to the href URL
+    - key: Space
+      action: Navigates to the href URL
+behavior:
+  - trigger: click
+    actions: [Navigates to href unless current attribute is set]
+compose:
+  children: []
+  parents: [n-breadcrumb]

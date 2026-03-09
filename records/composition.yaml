@@ -1,0 +1,72 @@
+# composition.yaml — Cross-reference compatibility graph for native-ui.
+# Validated at build time against individual component/trait/controller records.
+
+trait_compatibility:
+  press: [n-button, n-listbox, n-select, n-combobox, n-tabs, n-accordion, n-checkbox, n-switch, n-radio, n-segmented-control, n-tree, n-breadcrumb, n-pagination, n-command-list]
+  hover: [n-button, n-listbox, n-select, n-combobox, n-tabs, n-checkbox, n-switch, n-radio, n-tooltip]
+  tooltip: [n-button, n-icon]
+  drag: [n-button, n-dialog, n-drawer, n-table]
+  popover: [n-select, n-combobox, n-command-list, n-tooltip]
+  dismiss: [n-dialog, n-drawer, n-select, n-combobox, n-command-list]
+  focus-trap: [n-dialog, n-drawer]
+  list-navigate: [n-listbox, n-select, n-combobox, n-command-list, n-tabs]
+  resize: [n-dialog, n-drawer, n-table]
+  validate: [n-input, n-textarea, n-select, n-combobox, n-checkbox, n-switch, n-radio-group, n-range]
+  copy: [n-button, n-input, n-textarea]
+  sort: [n-table]
+  virtual-scroll: [n-listbox, n-table]
+  selection: [n-listbox, n-table]
+  roving-focus: [n-tabs, n-radio-group, n-segmented-control, n-toolbar]
+  toast: [n-toast]
+  confetti: [n-button]
+  toss: [n-button, n-dialog]
+  flip: [n-button]
+  parallax: []
+  magnet: []
+  css-inspect: []
+  edit: [n-input, n-textarea]
+  search: [n-combobox, n-command-list]
+  collapsible: [n-accordion-item]
+  intersect: []
+  present: [n-dialog, n-drawer, n-toast]
+  gateway: [n-dialog, n-drawer, n-tooltip]
+  swipe: [n-drawer, n-slideshow]
+  drop-zone: []
+  shortcut: [n-button, n-command-list]
+  slash-command: [n-input, n-textarea]
+  range-select: [n-calendar, n-range]
+  noodle: []
+
+trait_relationships:
+  requires:
+    toss: [drag]
+    flip: [press]
+  conflicts:
+    drag: [sort]
+
+controller_compatibility:
+  StoreController: [n-listbox, n-select, n-combobox, n-table]
+
+slot_constraints:
+  n-button:
+    label: [text, span]
+    leading: [n-icon]
+    trailing: [n-icon]
+  n-select:
+    trigger: [n-button]
+    default: [n-listbox]
+  n-combobox:
+    trigger: [n-input]
+    default: [n-listbox]
+  n-tabs:
+    default: [n-tab-panel]
+  n-accordion:
+    default: [n-accordion-item]
+  n-dialog:
+    default: [text, n-stack, n-grid]
+
+nesting:
+  self_nesting_prohibited: [n-dialog, n-drawer, n-tabs]
+  invalid_parents:
+    n-option: [n-button]
+    n-tab-panel: [n-listbox]

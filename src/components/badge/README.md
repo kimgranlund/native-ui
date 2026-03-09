@@ -2,33 +2,61 @@
 
 # n-badge
 
-**CSS-only container** — no JavaScript class.
+> Inline badge for counts, labels, or status dot indicators.
+
+**CSS-only element** — styled purely via CSS, no JavaScript class required.
 
 **Display:** `inline-flex`
 
-## Attributes
+## CSS Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `floating` | _(boolean)_ |
-| `dot` | _(boolean)_ |
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `floating` | boolean | _(boolean)_ | Positions the badge as an overlay anchored to the top-right of its parent |
+| `dot` | boolean | _(boolean)_ | Renders as a small status dot without text content |
 
-## CSS Tokens
+## CSS Custom Properties
 
-- `--n-badge-dot`
-- `--n-button-font-weight`
-- `--n-font-weight`
-- `--n-ink`
-- `--n-letter-spacing`
-- `--n-radius`
-- `--n-space`
-- `--n-surface`
-- `--n-surface-ink`
-- `--n-widget-font`
-- `--n-widget-xs`
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-badge-dot` |  | Size of the dot indicator |
+| `--n-button-font-weight` |  | Font weight |
+| `--n-font-weight` | `var(--n-button-font-weight)` | Font weight |
+| `--n-ink` |  | Ink (text) color |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-radius` | `9999px` | Border radius |
+| `--n-space` |  | Block/gap spacing |
+| `--n-surface` |  | Background surface color |
+| `--n-surface-ink` |  | Text color on the surface |
+| `--n-widget-font` |  | Widget-scale font size |
+| `--n-widget-xs` |  | Extra-small widget size for minimum dimensions |
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-badge></n-badge>
 ```
+
+### Examples
+
+```html
+<n-badge size="xs">3</n-badge>
+```
+
+```html
+<n-badge size="xs">42</n-badge>
+```
+
+```html
+<n-badge size="xs">New</n-badge>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `badge.css` | Styles |
+| `badge.html` | Demo page |
+| `README.md` | Documentation (auto-generated) |

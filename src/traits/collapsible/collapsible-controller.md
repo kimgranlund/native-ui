@@ -4,6 +4,8 @@
 
 > Animates expand/collapse transitions on the host, dispatching `native:expand` and `native:collapse`.
 
+**Trait name:** `collapsible` (for use with `<n-controller traits="collapsible">` or self-trait `traits="collapsible"`)
+
 ## Constructor
 
 ```ts
@@ -15,12 +17,6 @@ new CollapsibleController(host: HTMLElement, options?: CollapsibleOptions)
 | Option | Type | Required | Description |
 |--------|------|----------|-------------|
 | `duration` | `number` | no |  |
-
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `collapsed` | `boolean` | no |
 
 ## Events Dispatched
 
@@ -38,10 +34,51 @@ new CollapsibleController(host: HTMLElement, options?: CollapsibleOptions)
 | `toggle()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **expand() called (or collapsed property set to false)** → Guards if already expanded or animating, Removes collapsed attribute from host, Sets overflow:clip and height:0 on host, Measures scrollHeight, animates height to target over duration ms, On transitionend, cleans up inline styles, Dispatches native:expand
+- **collapse() called (or collapsed property set to true)** → Guards if already collapsed or animating, Measures current scrollHeight, sets overflow:clip, Animates height from current to 0 over duration ms, On transitionend, sets collapsed attribute, cleans up inline styles, Dispatches native:collapse
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { CollapsibleController } from '@nonoun/native-ui';
 const ctrl = new CollapsibleController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="collapsible">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="collapsible">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-collapsible-*` attributes:
+
+```html
+<n-controller traits="collapsible" data-trait-collapsible-duration="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `collapsible-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `collapsible-controller.md` | Controller documentation |
+| `collapsible-controller.ts` | Controller (reactive state + behavior) |
+| `collapsible.html` | Demo page |
+| `collapsible.test.ts` | Tests |

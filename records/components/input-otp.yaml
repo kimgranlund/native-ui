@@ -1,0 +1,111 @@
+component: NInputOtp
+tag: n-input-otp
+category: component
+description: One-time password input with individual character cells and paste support.
+source:
+  element: src/components/input-otp/input-otp-element.ts
+  css: src/components/input-otp/input-otp.css
+  registration: src/components/input-otp/input-otp.ts
+  demo: src/components/input-otp/input-otp.html
+attributes:
+  value:
+    type: string
+    description: Current OTP value
+  length:
+    type: number
+    description: Number of cells (default 6, max 12)
+  disabled:
+    type: boolean
+    description: Disables interaction
+  name:
+    type: string
+    description: Form field name
+  pattern:
+    type: string
+    description: Regex pattern for allowed characters (default "[0-9]")
+  mask:
+    type: string
+    description: Mask character for display
+  required:
+    type: string
+events:
+  native:input:
+    description: Fired on each cell change with `{ value }` detail
+  native:change:
+    description: Fired when all cells are filled with `{ value }` detail
+css_tokens:
+  --n-background:
+    description: Background color
+    default: transparent
+  --n-border:
+    description: Resting border color
+  --n-border-color:
+    description: Border color
+    default: var(--n-border)
+  --n-border-color-disabled:
+    description: Border when disabled
+    default: transparent
+  --n-border-color-hover:
+    description: Border on hover
+    default: var(--n-border-hover)
+  --n-border-hover:
+    description: Border color on hover
+  --n-button-font-weight:
+    description: Font weight
+  --n-color:
+    description: Text/foreground color
+    default: var(--n-ink)
+  --n-color-disabled:
+    description: Text when disabled
+    default: var(--n-ink-disabled)
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-button-font-weight)
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: group
+  form_associated: true
+  keyboard:
+    - key: Backspace
+      action: Clears current cell and moves focus to previous cell
+    - key: ArrowLeft
+      action: Moves focus to the previous cell
+    - key: ArrowRight
+      action: Moves focus to the next cell
+    - key: Delete
+      action: Clears the current cell value
+behavior:
+  - trigger: character input
+    actions: [Fills current cell and advances focus to next cell]
+  - trigger: paste
+    actions: [Distributes pasted characters across cells and fires native:change if complete]
+compose:
+  children: []
+  parents: [n-field]

@@ -1,0 +1,124 @@
+component: NOption
+tag: n-option
+category: component
+description: Selectable option within a listbox or select dropdown.
+source:
+  element: src/components/listbox/option-element.ts
+  css: src/components/listbox/listbox.css
+  registration: src/components/listbox/listbox.ts
+  demo: src/components/listbox/listbox.html
+attributes:
+  value:
+    type: string
+    description: Option value submitted on selection
+  disabled:
+    type: boolean
+    description: Disables this option
+  label:
+    type: string
+    description: Display label (falls back to text content)
+css_attributes:
+  active:
+    type: boolean
+    description: Set on the currently highlighted option during keyboard navigation
+events:
+  native:select:
+    description: Fired on click with `{ value, label }` detail
+css_tokens:
+  --n-background:
+    description: Background color
+    default: transparent
+  --n-background-active:
+    description: Background on press
+    default: var(--n-panel-active)
+  --n-background-disabled:
+    description: Background when disabled
+    default: transparent
+  --n-background-hover:
+    description: Background on hover
+    default: var(--n-panel-hover)
+  --n-border-color:
+    description: Border color
+    default: var(--n-border-rest)
+  --n-border-muted-neutral:
+    description: Muted border color
+  --n-border-rest:
+    description: Resting border color
+  --n-color:
+    description: Text/foreground color
+    default: var(--n-ink)
+  --n-color-active:
+    description: Text/foreground color
+    default: var(--n-ink-active)
+  --n-color-disabled:
+    description: Text when disabled
+    default: var(--n-ink-disabled)
+  --n-color-hover:
+    description: Text on hover
+    default: var(--n-ink-hover)
+  --n-control:
+    description: Control surface background
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-text-font-weight)
+  --n-group-header-font:
+    description: Font size for group header labels
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-active:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-panel-active:
+    description: Panel background on press
+  --n-panel-hover:
+    description: Panel background on hover
+  --n-popover-from:
+    description: Opening animation transform origin
+    default: perspective(800px) scale(0.96) rotateX(-20deg)
+  --n-popover-origin:
+    description: CSS transform-origin for popover animation
+    default: top center
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+  --n-text-font-weight:
+    description: Font weight
+controllers:
+  - ListNavigateController
+  - DataListController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: option
+behavior:
+  - trigger: click
+    actions: [Fires native:select with value and label]
+compose:
+  children: [n-icon, span]
+  parents: [n-listbox, n-select, n-combobox, n-option-group]

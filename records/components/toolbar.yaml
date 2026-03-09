@@ -1,0 +1,117 @@
+component: NToolbar
+tag: n-toolbar
+category: component
+description: |-
+  Horizontal action bar with toolbar role, roving focus, and responsive overflow menu.
+
+  **Variants:**
+  - *(default)* — panel background, border, border-radius, padding.
+  - `variant="plain"` — zero-chrome: transparent background, no border,
+    no border-radius, no padding. Stable API for embedded action rows
+    (e.g. header trailing slots, chat controls) that need toolbar layout
+    and overflow without container chrome.
+source:
+  element: src/components/toolbar/toolbar-element.ts
+  css: src/components/toolbar/toolbar.css
+  registration: src/components/toolbar/toolbar.ts
+  demo: src/components/toolbar/toolbar.html
+attributes:
+  orientation:
+    type: string
+    description: 'Layout direction: "horizontal" (default) | "vertical"'
+css_attributes:
+  fill:
+    type: boolean
+    description: Stretches children to fill available space equally
+  padding:
+    type: enum
+    values:
+      - none
+      - regular
+      - relaxed
+      - tight
+    description: Controls internal padding density
+  variant:
+    type: enum
+    values:
+      - plain
+    description: Zero-chrome variant with no background, border, or padding
+events:
+  native:toolbar-overflow:
+    description: Fired when items overflow into the overflow menu
+css_tokens:
+  --n-background:
+    description: Background color
+    default: var(--n-ground)
+  --n-border-color:
+    description: Border color
+    default: var(--n-border-muted)
+  --n-border-muted:
+    description: Muted border color
+  --n-font-md:
+    description: Medium font size tier
+  --n-font-size:
+    description: Font size
+    default: var(--n-font-md)
+  --n-ground:
+    description: Elevation/surface context
+    default: var(--n-panel)
+  --n-icon-md:
+    description: Medium icon size tier
+  --n-icon-size:
+    description: Component height
+    default: var(--n-icon-md)
+  --n-letter-spacing:
+    description: Letter spacing
+    default: var(--n-tracking-md)
+  --n-line-height:
+    description: Line height
+  --n-panel:
+    description: Panel background color
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+    default: var(--n-size-md)
+  --n-size-md:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+    default: var(--n-space-md)
+  --n-space-md:
+    description: Block/gap spacing
+  --n-tracking-md:
+    description: Medium letter-spacing tier
+  --n-widget-font:
+    description: ""
+    default: var(--n-widget-font-md)
+  --n-widget-font-md:
+    description: Medium widget font size tier
+  --n-widget-md:
+    description: Medium widget size tier
+  --n-widget-size:
+    description: Component height
+    default: var(--n-widget-md)
+controllers:
+  - RovingFocusController
+  - PopoverController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: toolbar
+  keyboard:
+    - key: ArrowRight
+      action: Moves focus to the next toolbar item
+    - key: ArrowLeft
+      action: Moves focus to the previous toolbar item
+    - key: Home
+      action: Moves focus to the first toolbar item
+    - key: End
+      action: Moves focus to the last toolbar item
+behavior:
+  - trigger: resize observer
+    actions: [Moves overflowing items into a popover overflow menu]
+compose:
+  children: [n-button, n-segmented-control, n-icon]
+  parents: [n-header, n-container]

@@ -1,0 +1,47 @@
+trait: collapsible
+controller: CollapsibleController
+description: Animates expand/collapse transitions on the host, dispatching `native:expand` and `native:collapse`.
+source:
+  controller: src/traits/collapsible/collapsible-controller.ts
+  adapter: src/traits/collapsible/collapsible-adapter.ts
+  demo: src/traits/collapsible/collapsible.html
+  test: src/traits/collapsible/collapsible.test.ts
+options:
+  duration:
+    type: number
+injected_events:
+  native:expand:
+    detail:
+  native:collapse:
+    detail:
+methods:
+  expand:
+    returns: void
+  collapse:
+    returns: void
+  toggle:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new CollapsibleController(element, options)
+  provider: <n-controller traits="collapsible">
+  self_trait: <n-button traits="collapsible">
+behavior:
+  - trigger: "expand() called (or collapsed property set to false)"
+    actions:
+      - "Guards if already expanded or animating"
+      - "Removes collapsed attribute from host"
+      - "Sets overflow:clip and height:0 on host"
+      - "Measures scrollHeight, animates height to target over duration ms"
+      - "On transitionend, cleans up inline styles"
+      - "Dispatches native:expand"
+  - trigger: "collapse() called (or collapsed property set to true)"
+    actions:
+      - "Guards if already collapsed or animating"
+      - "Measures current scrollHeight, sets overflow:clip"
+      - "Animates height from current to 0 over duration ms"
+      - "On transitionend, sets collapsed attribute, cleans up inline styles"
+      - "Dispatches native:collapse"
+a11y:
+  keyboard: []

@@ -4,6 +4,8 @@
 
 > Coordinates roving focus, ARIA selection sync, and child select events for list-based components.
 
+**Trait name:** `list-navigate` (for use with `<n-controller traits="list-navigate">` or self-trait `traits="list-navigate"`)
+
 ## Constructor
 
 ```ts
@@ -21,12 +23,9 @@ new ListNavigateController(host: HTMLElement, options?: ListNavigateOptions)
 | `wrap` | `boolean` | no |  |
 | `disabled` | `boolean` | no |  |
 | `onChildSelect` | `(detail: { value: string` | no |  |
-
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `rovingFocus` | `RovingFocusController` | yes |
+| `label` | `string }) => void` | yes |  |
+| `addEffect` | `(fn: () => void) => void` | no |  |
+| `deferChildren` | `(fn: () => void) => void` | no |  |
 
 ## Events Dispatched
 
@@ -42,10 +41,65 @@ new ListNavigateController(host: HTMLElement, options?: ListNavigateOptions)
 | `detach()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `ArrowDown` | Moves focus to next item (vertical/both orientation) |
+| `ArrowUp` | Moves focus to previous item (vertical/both orientation) |
+| `ArrowRight` | Moves focus to next item (horizontal/both orientation) |
+| `ArrowLeft` | Moves focus to previous item (horizontal/both orientation) |
+| `Home` | Moves focus to first item |
+| `End` | Moves focus to last item |
+
+## Behavior
+
+- **native:select event bubbles from a child item** → Calls onChildSelect callback with value and label from event detail, Default callback: sets listValue signal and dispatches native:change
+- **autoSync enabled with addEffect/deferChildren** → Watches listValue signal for changes, Syncs aria-selected/aria-checked/aria-current on all items matching itemSelector
+- **Arrow key navigation (delegated to internal RovingFocusController)** → Moves focus between items based on orientation (vertical/horizontal/both), Wraps around if wrap option is true
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { ListNavigateController } from '@nonoun/native-ui';
 const ctrl = new ListNavigateController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="list-navigate">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="list-navigate">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-list-navigate-*` attributes:
+
+```html
+<n-controller traits="list-navigate" data-trait-list-navigate-itemSelector="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `list-navigable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `list-navigable.html` | Demo page |
+| `list-navigable.test.ts` | Tests |
+| `list-navigate-controller.md` | Controller documentation |
+| `list-navigate-controller.ts` | Controller (reactive state + behavior) |

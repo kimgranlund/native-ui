@@ -6,42 +6,121 @@
 
 **Class:** `NDialog`
 
+**ARIA role:** `dialog`
+**Internal controllers:** `DialogController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `no-close-on-escape` | `boolean` | Prevents closing on Escape key |
-| `no-close-on-backdrop` | `boolean` | Prevents closing on backdrop click |
-
-## Properties
-
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `open` | `boolean` | yes |  |
-
-## Methods
-
-| Method | Parameters | Returns |
-|--------|------------|---------|
-| `showModal()` | `—` | `void` |
-| `close()` | `—` | `void` |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `no-close-on-escape` | `boolean` |  | Prevents closing on Escape key |
+| `no-close-on-backdrop` | `boolean` |  | Prevents closing on backdrop click |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `close` | Fired when the dialog is closed |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `close` | _(none)_ | Fired when the dialog is closed |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-backdrop-color` |  | Text/foreground color |
+| `--n-backdrop-opacity` |  | Opacity of the backdrop overlay behind the dialog |
+| `--n-ink` |  | Ink (text) color |
 
-- `--n-backdrop-color`
-- `--n-backdrop-opacity`
-- `--n-ink`
+## Accessibility
+
+- **Role:** `dialog`
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Escape` | Closes the dialog unless no-close-on-escape is set |
+| `Tab` | Traps focus within the dialog (native dialog behavior) |
+
+## Behavior
+
+- **Escape key (cancel event)** → Closes the dialog unless no-close-on-escape is set
+- **Click on backdrop** → Closes the dialog unless no-close-on-backdrop is set
+- **native:dismiss** → Closes the dialog unless no-close-on-escape is set
+- **showModal()** → Opens the dialog as modal in top layer, focuses autofocus or first focusable element
+
+## Composition
+
+### Children
+- `<n-header>`
+- `<n-body>`
+- `<n-footer>`
+- `<n-button>`
+- `<form>`
+
+## Compatible Traits
+
+`dismissable`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-dialog></n-dialog>
 ```
+
+### Examples
+
+```html
+<n-dialog id="basic-dialog">
+        <n-container>
+          <n-header><span>Confirm Action</span></n-header>
+          <n-body>
+            <p class="demo-text">Are you sure you want to continue? This action cannot be undone.</p>
+          </n-body>
+          <n-footer>
+            <n-button id="basic-cancel">Cancel</n-button>
+            <n-button id="basic-confirm" intent="accent">Confirm</n-button>
+          </n-footer>
+        </n-container>
+      </n-dialog>
+```
+
+```html
+<n-dialog id="persistent-dialog" no-close-on-backdrop>
+        <n-container>
+          <n-header><span>Important Notice</span></n-header>
+          <n-body>
+            <p class="demo-text">This dialog can only be closed by clicking the button below. Clicking the backdrop or pressing Escape won't dismiss it.</p>
+          </n-body>
+          <n-footer>
+            <n-button id="persistent-close" intent="accent">Got it</n-button>
+          </n-footer>
+        </n-container>
+      </n-dialog>
+```
+
+```html
+<n-dialog id="no-esc-dialog" no-close-on-escape>
+        <n-container>
+          <n-header><span>Escape Disabled</span></n-header>
+          <n-body>
+            <p class="demo-text">Press Escape — nothing happens. Click the backdrop or the button to close.</p>
+          </n-body>
+          <n-footer>
+            <n-button id="no-esc-close">Close</n-button>
+          </n-footer>
+        </n-container>
+      </n-dialog>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `dialog-element.ts` | Element class (behavior, no CSS) |
+| `dialog.css` | Styles |
+| `dialog.html` | Demo page |
+| `dialog.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |

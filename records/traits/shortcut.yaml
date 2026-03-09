@@ -1,0 +1,51 @@
+trait: shortcut
+controller: ShortcutController
+description: "Keyboard shortcut controller. Registers keyboard shortcuts on a host element (or globally on `document`).
+  Fires `native:shortcut` event on the host with `{ id, combo }` detail. ```ts const ctrl = new ShortcutController(host,
+  { shortcuts: [ { id: 'search', combo: 'mod+k', handler: () => openSearch() }, { id: 'help', combo: 'shift+?', handler:
+  () => showHelp() }, ], global: true, }); ```"
+source:
+  controller: src/traits/shortcut/shortcut-controller.ts
+  adapter: src/traits/shortcut/shortcutable-adapter.ts
+  demo: src/traits/shortcut/shortcutable.html
+  test: src/traits/shortcut/shortcut.test.ts
+options:
+  shortcuts:
+    type: ShortcutBinding[]
+    description: Initial shortcut bindings.
+  global:
+    type: boolean
+    description: Listen on document (capture phase) instead of host. Default false.
+injected_events:
+  native:shortcut:
+    detail:
+      id:
+        type: string
+      combo:
+        type: string
+methods:
+  add:
+    returns: void
+    params: "binding: ShortcutBinding"
+  remove:
+    returns: void
+    params: "id: string"
+  destroy:
+    returns: void
+consumption:
+  imperative: new ShortcutController(element, options)
+  provider: <n-controller traits="shortcut">
+  self_trait: <n-button traits="shortcut">
+behavior:
+  - trigger: "Keydown matching a registered combo (on host or document if global)"
+    actions:
+      - "Skips if target is in typing context (input/textarea/contenteditable) unless allowEditable"
+      - "Checks conditional guard (when callback) if defined"
+      - "Prevents default browser action (unless preventDefault is false)"
+      - "Dispatches native:shortcut with id and combo"
+      - "Calls handler callback if defined"
+      - "First matching binding wins (stops checking further bindings)"
+a11y:
+  keyboard:
+    - key: "Configured combo strings (e.g. mod+k, shift+?)"
+      action: "Fires the registered shortcut handler and native:shortcut event"

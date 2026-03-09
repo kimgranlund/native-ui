@@ -1,0 +1,40 @@
+component:
+tag: n-grid
+category: container
+css_only: true
+description: CSS grid container with column count or auto-fill min-width presets.
+source:
+  css: src/containers/grid/grid.css
+  demo: src/containers/grid/grid.html
+display: grid
+css_attributes:
+  cols:
+    type: enum
+    values:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+      - "5"
+      - "6"
+    description: Fixed number of equal-width columns
+  min:
+    type: enum
+    values:
+      - 10rem
+      - 12rem
+      - 14rem
+      - 16rem
+      - 20rem
+      - 24rem
+      - 8rem
+    description: Minimum column width for auto-fill responsive grid
+css_tokens:
+  --n-padding-block:
+    description: Vertical padding inside the grid
+    default: "0"
+  --n-padding-inline:
+    description: Horizontal padding inside the grid
+    default: "0"
+  --n-space:
+    description: Block/gap spacing

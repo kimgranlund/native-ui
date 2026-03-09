@@ -1,0 +1,7 @@
+component:
+tag: n-nav
+category: component
+css_only: true
+description: Navigation menu container for sidebar or top-bar link groups.
+source:
+  demo: src/components/nav/nav.html

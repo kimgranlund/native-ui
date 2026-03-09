@@ -1,0 +1,99 @@
+trait: css-inspect
+controller: CSSInspectController
+description: "Explode child layers in 3D space with interactive mouse-driven tilt. Two modes: - **Fixed host**
+  (default): the host element is the inspection target. Click to activate, Escape/click-outside to dismiss. - **Pick
+  mode** (`pick: true`): the host is a container. Alt+hover highlights any descendant, Alt+click picks that element as
+  the inspection target. On activation, the target is deep-cloned into a popover (top layer) so the 3D explosion escapes
+  ancestor overflow clipping. The original is hidden with visibility:hidden to preserve layout."
+source:
+  controller: src/traits/css-inspect/css-inspect-controller.ts
+  adapter: src/traits/css-inspect/css-inspectable-adapter.ts
+  demo: src/traits/css-inspect/css-inspectable.html
+  test: src/traits/css-inspect/css-inspectable.test.ts
+options:
+  depth:
+    type: number
+    description: Z-spacing between depth levels in px (default 16)
+  scale:
+    type: number
+    description: Scale factor when inspecting (default 0.85)
+  maxTilt:
+    type: number
+    description: Maximum rotation angle in degrees (default 60)
+  tiltRadius:
+    type: number
+    description: Distance from host center (in px) at which max tilt is reached (default 384 ≈ 24rem)
+  perspective:
+    type: number
+    description: CSS perspective in px (default 1200)
+  labels:
+    type: boolean
+    description: Show layer labels via data-inspect-label (default true)
+  recursive:
+    type: boolean
+    description: Walk all descendants recursively, not just direct children (default true)
+  pick:
+    type: boolean
+    description: "Pick mode: Alt+hover highlights descendants, Alt+click picks the inspection target (default false)"
+  disabled:
+    type: boolean
+    description: Disable the controller
+injected_events:
+  native:inspect:
+    detail:
+      active:
+        type: string
+      layers:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+  inspect:
+    returns: void
+    params: "target?: HTMLElement"
+  dismiss:
+    returns: void
+consumption:
+  imperative: new CSSInspectController(element, options)
+  provider: <n-controller traits="css-inspect">
+  self_trait: <n-button traits="css-inspect">
+behavior:
+  - trigger: "Alt key held + pointer enters host (pre-inspection)"
+    actions:
+      - "Sets inspect-ready attribute on host"
+      - "Shows highlight overlay via top-layer popover"
+  - trigger: "Alt+pointerdown or Alt+click on host (fixed mode) or hovered child (pick mode)"
+    actions:
+      - "Deep-clones target into a popover (top layer) to escape overflow clipping"
+      - "Hides original with visibility:hidden to preserve layout"
+      - "Applies preserve-3d and perspective to popover wrapper"
+      - "Explodes child layers with translateZ based on DOM depth"
+      - "Computes initial tilt from pointer position"
+      - "Dispatches native:inspect with active:true and layer count"
+  - trigger: "Pointer moves over document while active"
+    actions:
+      - "Tilts the 3D clone based on pointer distance from center"
+  - trigger: "Pointer moves over clone children while active"
+    actions:
+      - "Sets inspect-hover attribute on hovered element and ancestors"
+  - trigger: "Click on clone child while active"
+    actions:
+      - "Sets inspect-selected attribute on clicked element and ancestors"
+  - trigger: "Mouse wheel while active"
+    actions:
+      - "Adjusts depth multiplier to expand/contract layer spacing"
+  - trigger: "Escape key or click outside popover while active"
+    actions:
+      - "Tears down clone and popover"
+      - "Restores original element visibility"
+      - "Dispatches native:inspect with active:false and layer count"
+a11y:
+  keyboard:
+    - key: "Alt (hold)"
+      action: "Enables hover highlighting and ready state for inspection"
+    - key: "Escape"
+      action: "Dismisses the 3D inspection view"

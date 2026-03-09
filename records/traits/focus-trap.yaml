@@ -1,0 +1,39 @@
+trait: focus-trap
+controller: FocusTrapController
+description: Traps Tab key focus within the host element, cycling between first and last focusable children.
+source:
+  controller: src/traits/focus-trap/focus-trap-controller.ts
+  adapter: src/traits/focus-trap/focus-trappable-adapter.ts
+  demo: src/traits/focus-trap/focus-trappable.html
+  test: src/traits/focus-trap/focus-trappable.test.ts
+methods:
+  enable:
+    returns: void
+  disable:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new FocusTrapController(element, options)
+  provider: <n-controller traits="focus-trap">
+  self_trait: <n-button traits="focus-trap">
+behavior:
+  - trigger: "enable() called"
+    actions:
+      - "Saves currently focused element for later restoration"
+      - "Adds keydown listener for Tab trapping"
+      - "Focuses [autofocus] element, or first focusable child, or the host itself"
+  - trigger: "Tab key while trap is enabled"
+    actions:
+      - "If focus is on last focusable and Tab pressed, wraps to first focusable"
+      - "If focus is on first focusable and Shift+Tab pressed, wraps to last focusable"
+  - trigger: "disable() called"
+    actions:
+      - "Removes keydown listener"
+      - "Restores focus to the previously focused element (if still connected)"
+a11y:
+  keyboard:
+    - key: "Tab"
+      action: "Moves focus to next focusable child, wrapping from last to first"
+    - key: "Shift+Tab"
+      action: "Moves focus to previous focusable child, wrapping from first to last"

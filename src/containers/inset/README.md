@@ -2,17 +2,55 @@
 
 # n-inset
 
-**CSS-only container** — no JavaScript class.
+> Negative-margin container that bleeds content into the parent padding area.
+
+**CSS-only element** — styled purely via CSS, no JavaScript class required.
 
 **Display:** `flex`
 
-## CSS Tokens
+## CSS Custom Properties
 
-- `--n-space`
-- `--n-space-k`
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-inset></n-inset>
 ```
+
+### Examples
+
+```html
+<n-inset>
+        <span>Indented child 1</span>
+        <span>Indented child 2</span>
+        <span>Indented child 3</span>
+      </n-inset>
+```
+
+```html
+<n-inset>
+        <n-checkbox checked>Option A</n-checkbox>
+        <n-checkbox checked>Option B</n-checkbox>
+        <n-checkbox>Option C</n-checkbox>
+      </n-inset>
+```
+
+```html
+<n-inset>
+          <span style="font-size: 0.8125rem;">sm indented content</span>
+        </n-inset>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `inset.css` | Styles |
+| `inset.html` | Demo page |
+| `README.md` | Documentation (auto-generated) |

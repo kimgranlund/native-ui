@@ -6,43 +6,121 @@
 
 **Class:** `NTree`
 
+**ARIA role:** `tree`
+**Internal controllers:** `RovingFocusController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `disabled` | `boolean` | Disables interaction |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `disabled` | `boolean` |  | Disables interaction |
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `expanded` | boolean | _(boolean)_ | Present on items with visible children |
 
 ## Slots
 
-| Slot |
-|------|
-| `label` |
+| Slot | Description |
+|------|-------------|
+| `label` | Label text for each tree item |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-button-font-weight` |  | Font weight |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-button-font-weight)` | Font weight |
+| `--n-icon-size` |  | Component height |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-hover` |  | Ink on hover |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-control-line-height)` | Line height |
+| `--n-panel-hover` |  | Panel background on hover |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+| `--n-surface` |  | Surface background color |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-text-font-weight` |  | Font weight |
 
-- `--n-button-font-weight`
-- `--n-control-line-height`
-- `--n-duration`
-- `--n-easing`
-- `--n-focus-ring`
-- `--n-font-size`
-- `--n-font-weight`
-- `--n-icon-size`
-- `--n-ink`
-- `--n-ink-disabled`
-- `--n-ink-hover`
-- `--n-letter-spacing`
-- `--n-line-height`
-- `--n-panel-hover`
-- `--n-radius`
-- `--n-size`
-- `--n-space`
-- `--n-space-k`
-- `--n-surface`
-- `--n-surface-ink`
-- `--n-text-font-weight`
+## Accessibility
+
+- **Role:** `tree`
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `ArrowRight` | Expands the focused item or moves to first child |
+| `ArrowLeft` | Collapses the focused item or moves to parent |
+| `ArrowDown` | Moves focus to the next visible item |
+| `ArrowUp` | Moves focus to the previous visible item |
+| `Enter` | Toggles expansion of the focused item |
+
+## Composition
+
+### Children
+- `<n-tree-item>`
+
+## Usage
+
+### Minimal
+
+```html
+<n-tree></n-tree>
+```
+
+### Examples
+
+```html
+<n-tree disabled>
+        <n-tree-item expanded>
+          <span slot="label">Project</span>
+          <n-tree-item>
+            <span slot="label">README.md</span>
+          </n-tree-item>
+          <n-tree-item>
+            <span slot="label">package.json</span>
+          </n-tree-item>
+        </n-tree-item>
+      </n-tree>
+```
+
+```html
+<n-tree>
+        <n-tree-item force-hover>
+          <span slot="label">Force hover</span>
+        </n-tree-item>
+        <n-tree-item force-focus-visible>
+          <span slot="label">Force focus-visible</span>
+        </n-tree-item>
+        <n-tree-item>
+          <span slot="label">Normal</span>
+        </n-tree-item>
+      </n-tree>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `tree-element.ts` | Element class (behavior, no CSS) |
+| `tree-item-element.ts` | Element class (behavior, no CSS) |
+| `tree.css` | Styles |
+| `tree.html` | Demo page |
+| `tree.ts` | Custom element registration (define()) |
 
 ---
 
@@ -52,22 +130,114 @@ Public `--n-*` custom properties consumed by this component:
 
 **Class:** `NTreeItem`
 
-### Attributes
+**ARIA role:** `treeitem`
+**Internal controllers:** `RovingFocusController`
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `expanded` | `boolean` | Whether child items are visible |
-| `selected` | `boolean` | Whether this item is selected |
-| `disabled` | `boolean` | Disables interaction |
+## Attributes
 
-### Slots
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `expanded` | `boolean` |  | Whether child items are visible |
+| `selected` | `boolean` |  | Whether this item is selected |
+| `disabled` | `boolean` |  | Disables interaction |
 
-| Slot |
-|------|
-| `label` |
+## Slots
+
+| Slot | Description |
+|------|-------------|
+| `label` | Item label text content |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-button-font-weight` |  | Font weight |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-button-font-weight)` | Font weight |
+| `--n-icon-size` |  | Component height |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-hover` |  | Ink on hover |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-control-line-height)` | Line height |
+| `--n-panel-hover` |  | Panel background on hover |
+| `--n-radius` |  | Border radius |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
+| `--n-surface` |  | Surface background color |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-text-font-weight` |  | Font weight |
+
+## Accessibility
+
+- **Role:** `treeitem`
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `ArrowRight` | Expands item or moves to first child |
+| `ArrowLeft` | Collapses item or moves to parent |
+| `Enter` | Toggles expansion |
+
+## Behavior
+
+- **click on expand toggle** → Toggles expanded attribute and shows/hides children
+
+## Composition
+
+### Children
+- `<n-tree-item>`
+
+### Parents
+- `<n-tree>`
+- `<n-tree-item>`
 
 ## Usage
 
+### Minimal
+
 ```html
-<n-tree></n-tree>
+<n-tree-item></n-tree-item>
 ```
+
+### Examples
+
+```html
+<n-tree-item expanded>
+          <span slot="label">src</span>
+          <n-tree-item>
+            <span slot="label">index.ts</span>
+          </n-tree-item>
+```
+
+```html
+<n-tree-item expanded>
+            <span slot="label">components</span>
+            <n-tree-item>
+              <span slot="label">n-button.ts</span>
+            </n-tree-item>
+```
+
+```html
+<n-tree-item>
+              <span slot="label">n-input.ts</span>
+            </n-tree-item>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `tree-element.ts` | Element class (behavior, no CSS) |
+| `tree-item-element.ts` | Element class (behavior, no CSS) |
+| `tree.css` | Styles |
+| `tree.html` | Demo page |
+| `tree.ts` | Custom element registration (define()) |

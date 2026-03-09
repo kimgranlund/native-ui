@@ -8,12 +8,28 @@
 
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `mode` | `'light'|'shadow'` | Isolation mode (default: 'light') |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `mode` | `'light'|'shadow'` |  | Isolation mode (default: 'light') |
+
+## Behavior
+
+- **connectedCallback** → Optionally creates shadow DOM isolation boundary based on mode attribute
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-root></n-root>
 ```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `n-root.ts` | Custom element registration (define()) |
+| `README.md` | Documentation (auto-generated) |
+| `root-element.ts` | Element class (behavior, no CSS) |
+| `root.css` | Styles |

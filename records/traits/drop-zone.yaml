@@ -1,0 +1,65 @@
+trait: drop-zone
+controller: DropZoneController
+description: Handles native drag-and-drop file/data reception, dispatching `native:drop-enter`, `native:drop-leave`, and
+  `native:drop` events.
+source:
+  controller: src/traits/drop-zone/drop-zone-controller.ts
+  adapter: src/traits/drop-zone/droppable-adapter.ts
+  demo: src/traits/drop-zone/droppable.html
+  test: src/traits/drop-zone/droppable.test.ts
+options:
+  accept:
+    type: string
+  disabled:
+    type: boolean
+  multiple:
+    type: boolean
+injected_events:
+  native:drop-enter:
+    detail:
+      valid:
+        type: string
+  native:drop:
+    detail:
+      type:
+        type: string
+      files:
+        type: string
+      dataTransfer:
+        type: string
+  native:drop-leave:
+    detail:
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new DropZoneController(element, options)
+  provider: <n-controller traits="drop-zone">
+  self_trait: <n-button traits="drop-zone">
+behavior:
+  - trigger: "Native dragenter on host"
+    actions:
+      - "Increments drag counter (handles nested child enter/leave)"
+      - "Validates MIME type against accept pattern"
+      - "Sets drop-active or drop-invalid attribute on host"
+      - "Dispatches native:drop-enter with valid flag on first enter"
+  - trigger: "Native dragover on host"
+    actions:
+      - "Prevents default to allow drop"
+      - "Sets dropEffect to 'copy'"
+  - trigger: "Native dragleave on host"
+    actions:
+      - "Decrements drag counter"
+      - "When counter reaches 0, removes drop-active/drop-invalid attributes"
+      - "Dispatches native:drop-leave"
+  - trigger: "Native drop on host"
+    actions:
+      - "Resets drag counter and removes drop-active/drop-invalid attributes"
+      - "For file drops: collects files (respects multiple option), dispatches native:drop with type:'file', files, dataTransfer"
+      - "For text drops: extracts text/plain data, dispatches native:drop with type:'text', text"
+a11y:
+  keyboard: []

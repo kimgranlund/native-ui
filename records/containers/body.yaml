@@ -1,0 +1,30 @@
+component:
+tag: n-body
+category: container
+css_only: true
+description: Scrollable content region with flex layout and hidden scrollbar by default.
+source:
+  css: src/containers/body/body.css
+  demo: src/containers/body/body.html
+display: flex
+css_attributes:
+  show-scrollbar:
+    type: boolean
+    description: Shows the scrollbar instead of hiding it
+css_tokens:
+  --n-font-size:
+    description: Font size
+  --n-line-height:
+    description: Line height
+  --n-padding-block:
+    description: Vertical padding inside the body
+    default: calc(var(--n-space) * var(--n-space-k))
+  --n-padding-inline:
+    description: Horizontal padding inside the body
+    default: calc(var(--n-space) * var(--n-space-k))
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier

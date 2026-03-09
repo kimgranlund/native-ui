@@ -4,6 +4,8 @@
 
 > Pick up an element, fling it with momentum — physics-based deceleration, gravity, spin, and optional edge bounce.
 
+**Trait name:** `toss` (for use with `<n-controller traits="toss">` or self-trait `traits="toss"`)
+
 ## Constructor
 
 ```ts
@@ -22,15 +24,6 @@ new TossController(host: HTMLElement, options?: TossOptions)
 | `returnOnEnd` | `boolean` | no | Animate back to origin after momentum ends (default false) |
 | `disabled` | `boolean` | no | Disable the controller |
 
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `animating` | `boolean` | yes |
-| `x` | `number` | yes |
-| `y` | `number` | yes |
-| `rotation` | `number` | yes |
-
 ## Events Dispatched
 
 | Event | Detail |
@@ -46,10 +39,52 @@ new TossController(host: HTMLElement, options?: TossOptions)
 | `detach()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **Pointerdown on host** → Stops any running momentum animation, Captures pointer on host, sets tossing attribute, Records grab offset and saves origin for returnOnEnd
+- **Pointermove during drag** → Moves element by applying translate transform, Samples pointer positions for velocity calculation (ring buffer of last 4), Tracks angular velocity from horizontal pointer movement (spin mode)
+- **Pointerup (release/fling)** → Computes velocity from last pointer samples, Starts rAF-driven momentum animation with friction deceleration, Applies gravity to vertical velocity each frame, Applies spin rotation from angular velocity, Bounces off viewport edges with damping (if bounce enabled), Dispatches native:bounce with edge, position, and velocity on each bounce, When velocity drops below 0.5px/frame, stops and dispatches native:toss, Optionally animates back to origin (returnOnEnd)
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { TossController } from '@nonoun/native-ui';
 const ctrl = new TossController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="toss">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="toss">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-toss-*` attributes:
+
+```html
+<n-controller traits="toss" data-trait-toss-friction="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `toss-controller.md` | Controller documentation |
+| `toss-controller.ts` | Controller (reactive state + behavior) |
+| `tossable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `tossable.html` | Demo page |
+| `tossable.test.ts` | Tests |

@@ -11,17 +11,64 @@ Three modes:
 
 **Class:** `NController`
 
+**Internal controllers:** `StoreController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `traits` | `string` |  |
-| `for` | `string` |  |
-| `provides` | `string` |  |
-| `src` | `string` |  |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `traits` | `string` |  | Space-separated list of trait names to apply (e.g. "pressable draggable") |
+| `for` | `string` |  | CSS selector targeting descendants to receive traits |
+| `provides` | `string` |  | Context key name to expose a StoreController to descendants |
+| `src` | `string` |  | URL to fetch JSON data into the provided store |
+
+## Behavior
+
+- **connectedCallback** → Applies traits to first child (wrapper mode) or selector matches (for mode)
+- **provides attribute** → Creates StoreController and exposes via context protocol
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-controller></n-controller>
 ```
+
+### Examples
+
+```html
+<n-controller traits="hoverable" data-trait-hoverable-delay="200">
+        <div class="demo-card">
+          Wrapped child gets hoverable (200ms delay)
+        </div>
+      </n-controller>
+```
+
+```html
+<n-controller traits="hoverable" data-trait-hoverable-delay="100" for=".card">
+        <div class="flex-row">
+          <div class="card demo-card" style="flex: 1;">Card A</div>
+          <div class="card demo-card" style="flex: 1;">Card B</div>
+          <div class="card demo-card" style="flex: 1;">Card C</div>
+        </div>
+      </n-controller>
+```
+
+```html
+<n-controller traits="hoverable pressable" for=".dynamic-item">
+        <div id="dynamic-list" class="flex-col"></div>
+      </n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `controller-element.ts` | Element class (behavior, no CSS) |
+| `controller.css` | Styles |
+| `controller.html` | Demo page |
+| `controller.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `store.html` | Demo page |

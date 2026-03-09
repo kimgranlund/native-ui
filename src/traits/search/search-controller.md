@@ -4,6 +4,8 @@
 
 > Filters child items by a text query, toggling visibility and dispatching `native:search`.
 
+**Trait name:** `search` (for use with `<n-controller traits="search">` or self-trait `traits="search"`)
+
 ## Constructor
 
 ```ts
@@ -17,12 +19,6 @@ new SearchController(host: HTMLElement, options?: SearchOptions)
 | `selector` | `string` | yes |  |
 | `textField` | `string` | no |  |
 | `disabled` | `boolean` | no |  |
-
-## Properties
-
-| Property | Type | Readonly |
-|----------|------|----------|
-| `query` | `string` | yes |
 
 ## Events Dispatched
 
@@ -39,10 +35,52 @@ new SearchController(host: HTMLElement, options?: SearchOptions)
 | `destroy()` | `—` | `void` |
 | `clear()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **filter(query) called** → Queries all items matching selector, Case-insensitive text match against textField (default textContent), Sets search-match attribute on matching items, search-hidden on non-matching, Dispatches native:search with query, matchCount, total
+- **filter('') called with empty query** → Shows all items (removes search-hidden, sets search-match on all), Dispatches native:search with matchCount equal to total
+- **clear() called** → Removes search-hidden and search-match attributes from all items
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { SearchController } from '@nonoun/native-ui';
 const ctrl = new SearchController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="search">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="search">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-search-*` attributes:
+
+```html
+<n-controller traits="search" data-trait-search-selector="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `search-controller.md` | Controller documentation |
+| `search-controller.ts` | Controller (reactive state + behavior) |
+| `searchable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `searchable.html` | Demo page |
+| `searchable.test.ts` | Tests |

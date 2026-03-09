@@ -1,0 +1,129 @@
+component: NTableHeader
+tag: n-table-header
+category: component
+description: Column header cell with optional sort toggle.
+source:
+  element: src/components/table/table-header-element.ts
+  css: src/components/table/table.css
+  registration: src/components/table/table.ts
+  demo: src/components/table/table.html
+attributes:
+  sort:
+    type: string
+    description: 'Current sort state: "none" | "asc" | "desc"'
+  sortable:
+    type: boolean
+    description: Enables click-to-sort behavior
+css_attributes:
+  selectable:
+    type: boolean
+    description: Inherited row selection mode from parent table
+  variant:
+    type: enum
+    values:
+      - plain
+    description: Inherited variant from parent table
+  sticky-header:
+    type: boolean
+    description: Inherited sticky header mode from parent table
+  sticky-column:
+    type: boolean
+    description: Inherited sticky column mode from parent table
+  resizable:
+    type: boolean
+    description: Inherited column resize mode from parent table
+  resizing:
+    type: boolean
+    description: Present while a column is being resized
+  reorderable:
+    type: boolean
+    description: Inherited row reorder mode from parent table
+  colspan:
+    type: boolean
+    description: Inherited column spanning from parent table
+  dragging:
+    type: boolean
+    description: Present while a row is being drag-reordered
+  sticky:
+    type: boolean
+    description: Enables sticky positioning
+events:
+  native:sort:
+    description: Fired on sort toggle with `{ column }` detail
+css_tokens:
+  --n-background:
+    description: Background color
+    default: var(--n-panel)
+  --n-border-color:
+    description: Border color
+    default: var(--n-border-muted)
+  --n-border-muted:
+    description: Muted border color
+  --n-button-font-weight:
+    description: Font weight
+  --n-color:
+    description: Text/foreground color
+    default: var(--n-ink)
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-text-font-weight)
+  --n-group-header-font:
+    description: Font size for group header labels
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-ink-strong:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-text-line-height)
+  --n-panel:
+    description: Panel background color
+  --n-panel-hover:
+    description: Panel background on hover
+  --n-radius:
+    description: Border radius
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+  --n-surface:
+    description: Surface background color
+  --n-surface-hover:
+    description: Surface background on hover
+  --n-surface-ink:
+    description: Ink (text) color
+  --n-surface-ink-hover:
+    description: Ink on hover
+  --n-text-font-weight:
+    description: Font weight
+  --n-text-line-height:
+    description: Line height
+controllers:
+  - ColumnResizeController
+  - TableDragController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: columnheader
+  keyboard:
+    - key: Enter
+      action: Toggles sort direction when sortable
+behavior:
+  - trigger: click (sortable)
+    actions: [Cycles sort state and fires native:sort]
+compose:
+  children: []
+  parents: [n-table-row]

@@ -1,0 +1,78 @@
+component: NAccordion
+tag: n-accordion
+category: component
+description: Accordion container that manages disclosure of its accordion-item children.
+source:
+  element: src/components/accordion/accordion-element.ts
+  css: src/components/accordion/accordion.css
+  registration: src/components/accordion/accordion.ts
+  demo: src/components/accordion/accordion.html
+attributes:
+  multiple:
+    type: boolean
+    description: Allows multiple items to be open simultaneously
+  disabled:
+    type: boolean
+    description: Disables all accordion items
+css_attributes:
+  part:
+    type: enum
+    values:
+      - content
+    description: Targets the content wrapper inside each accordion item
+css_tokens:
+  --n-border-muted:
+    description: Muted border color
+  --n-button-font-weight:
+    description: Font weight
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-icon-size:
+    description: Component height
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-ink-strong:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-panel-hover:
+    description: Panel background on hover
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+  --n-text-font-weight:
+    description: Font weight
+  --n-text-line-height:
+    description: Line height
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  keyboard:
+    - key: Enter
+      action: Toggles the focused accordion item open or closed
+    - key: Space
+      action: Toggles the focused accordion item open or closed
+behavior:
+  - trigger: toggle (from details)
+    actions: [In single mode closes other open items]
+compose:
+  children: [n-accordion-item]
+  parents: []

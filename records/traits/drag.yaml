@@ -1,0 +1,127 @@
+trait: drag
+controller: DragController
+description: Enables pointer-driven drag-and-drop with drop, slot, or preview reordering.
+source:
+  controller: src/traits/drag/drag-controller.ts
+  adapter: src/traits/drag/draggable-adapter.ts
+  demo: src/traits/drag/draggable.html
+  test: src/traits/drag/draggable.test.ts
+options:
+  selector:
+    type: string
+    required: true
+  dropZoneSelector:
+    type: string
+  zoneSelector:
+    type: string
+    description: CSS selector for zone containers that items can be dragged between (e.g., kanban columns).
+  axis:
+    type: "'vertical' | 'horizontal' | 'both'"
+  mode:
+    type: "'drop' | 'slot' | 'preview'"
+  disabled:
+    type: boolean
+  animate:
+    type: boolean
+    description: "Enable view-transition animation for preview mode grid reordering (default: true)."
+injected_events:
+  native:drag-cancel:
+    detail:
+      item:
+        type: string
+  native:drag-start:
+    detail:
+      item:
+        type: string
+      index:
+        type: string
+  native:drag-move:
+    detail:
+      item:
+        type: string
+      x:
+        type: string
+      y:
+        type: string
+  native:drag-over:
+    detail:
+      item:
+        type: string
+      target:
+        type: string
+      index:
+        type: string
+  native:drop:
+    detail:
+      item:
+        type: string
+      fromIndex:
+        type: string
+      toIndex:
+        type: string
+      insertBefore:
+        type: string
+      sourceZone:
+        type: string
+      targetZone:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new DragController(element, options)
+  provider: <n-controller traits="drag">
+  self_trait: <n-button traits="drag">
+behavior:
+  - trigger: "Pointerdown on a draggable item matching selector"
+    actions:
+      - "Records drag start position, grab offset, and source zone"
+      - "Sets pointer capture on the item"
+      - "Adds document-level pointermove/pointerup/pointercancel/keydown listeners"
+  - trigger: "First pointermove after pointerdown"
+    actions:
+      - "Creates ghost clone in top-layer popover for unconstrained drag rendering"
+      - "Sets dragging attribute on original item"
+      - "Dispatches native:drag-start with item and index"
+  - trigger: "Pointermove during drag (drop mode)"
+    actions:
+      - "Moves ghost to follow pointer"
+      - "Hit-tests drop zones by pointer position within bounds"
+      - "Sets drag-over attribute and outline on hovered zone"
+      - "Dispatches native:drag-move and native:drag-over"
+  - trigger: "Pointermove during drag (slot mode)"
+    actions:
+      - "Moves ghost to follow pointer"
+      - "Computes insertion index from ghost center vs item centers"
+      - "Inserts placeholder element at insertion gap (1D modes)"
+      - "Sets drag-slot-before/drag-slot-after attributes"
+      - "Dispatches native:drag-move and native:drag-over"
+  - trigger: "Pointermove during drag (preview mode)"
+    actions:
+      - "Moves ghost to follow pointer"
+      - "Physically moves the dragged item in the DOM to the target position"
+      - "Uses View Transitions for smooth grid reflow animation when available"
+      - "Dispatches native:drag-move and native:drag-over"
+  - trigger: "Pointerup (drop)"
+    actions:
+      - "Releases pointer capture"
+      - "Dispatches native:drop with item, fromIndex, toIndex, insertBefore, sourceZone, targetZone"
+      - "Cleans up ghost, placeholder, and drag attributes"
+  - trigger: "Escape key during drag"
+    actions:
+      - "Restores preview mode item to original position"
+      - "Dispatches native:drag-cancel with item"
+      - "Cleans up all drag state"
+  - trigger: "Pointercancel during drag"
+    actions:
+      - "Restores preview mode item to original position"
+      - "Dispatches native:drag-cancel with item"
+      - "Cleans up all drag state"
+a11y:
+  keyboard:
+    - key: "Escape"
+      action: "Cancels the current drag operation and restores original position"

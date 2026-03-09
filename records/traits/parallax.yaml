@@ -1,0 +1,83 @@
+trait: parallax
+controller: ParallaxController
+description: Mouse-position tilt effect — subtle rotateX/rotateY transform relative to element center. Optional glare
+  overlay and gyroscope support.
+source:
+  controller: src/traits/parallax/parallax-controller.ts
+  adapter: src/traits/parallax/parallaxable-adapter.ts
+  demo: src/traits/parallax/parallaxable.html
+  test: src/traits/parallax/parallaxable.test.ts
+options:
+  maxTilt:
+    type: number
+    description: Maximum tilt angle in degrees (default 15)
+  perspective:
+    type: number
+    description: Perspective in px (default 1000)
+  speed:
+    type: number
+    description: Transition speed when entering/leaving in ms (default 300)
+  scale:
+    type: number
+    description: Scale factor on hover (default 1.05)
+  glare:
+    type: boolean
+    description: Enable glare/shine effect via CSS gradient (default false)
+  glareOpacity:
+    type: number
+    description: Max glare opacity 0-1 (default 0.35)
+  gyroscope:
+    type: boolean
+    description: Enable gyroscope on mobile (default false)
+  disabled:
+    type: boolean
+    description: Disable the controller
+injected_events:
+  native:parallax-move:
+    detail:
+      tiltX:
+        type: string
+      tiltY:
+        type: string
+      percentX:
+        type: string
+      percentY:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+  reset:
+    returns: void
+consumption:
+  imperative: new ParallaxController(element, options)
+  provider: <n-controller traits="parallax">
+  self_trait: <n-button traits="parallax">
+behavior:
+  - trigger: "Pointer enters host"
+    actions:
+      - "Sets parallax-active attribute on host"
+      - "Enables will-change:transform for GPU acceleration"
+      - "Applies enter transition"
+  - trigger: "Pointer moves over host"
+    actions:
+      - "Calculates tilt from pointer distance to element center (-1 to 1 range)"
+      - "Applies perspective + rotateX/rotateY + scale transform"
+      - "Updates CSS custom properties (--parallax-tilt-x/y, --parallax-percent-x/y)"
+      - "Updates glare gradient position if glare enabled"
+      - "Dispatches native:parallax-move with tiltX, tiltY, percentX, percentY"
+  - trigger: "Pointer leaves host"
+    actions:
+      - "Removes parallax-active attribute"
+      - "Smoothly transitions back to flat (no tilt, scale 1)"
+      - "Clears will-change after transition"
+  - trigger: "DeviceOrientation event (gyroscope mode)"
+    actions:
+      - "Maps beta/gamma device angles to tilt values"
+      - "Applies same transform and glare updates as pointer mode"
+      - "Dispatches native:parallax-move"
+a11y:
+  keyboard: []

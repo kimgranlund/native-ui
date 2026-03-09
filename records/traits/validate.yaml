@@ -1,0 +1,51 @@
+trait: validate
+controller: ValidateController
+description: Runs validation rules against a value and dispatches `native:valid` or `native:invalid` events.
+source:
+  controller: src/traits/validate/validate-controller.ts
+  adapter: src/traits/validate/validatable-adapter.ts
+  demo: src/traits/validate/validatable.html
+  test: src/traits/validate/validatable.test.ts
+options:
+  rules:
+    type: ValidationRule[]
+  internals:
+    type: ElementInternals
+    description: When provided, bridges to the Constraint Validation API via `setValidity()`.
+injected_events:
+  native:invalid:
+    detail:
+      message:
+        type: string
+      value:
+        type: string
+  native:valid:
+    detail:
+      value:
+        type: string
+methods:
+  validate:
+    returns: boolean
+    params: "value?: string"
+  clearValidation:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new ValidateController(element, options)
+  provider: <n-controller traits="validate">
+  self_trait: <n-button traits="validate">
+behavior:
+  - trigger: "validate(value) called"
+    actions:
+      - "Runs validation rules in order, first failure wins"
+      - "On failure: sets invalid and aria-invalid attributes, bridges to Constraint Validation API if internals provided"
+      - "Dispatches native:invalid with message and value"
+      - "On success: removes invalid and aria-invalid attributes, clears validity"
+      - "Dispatches native:valid with value"
+  - trigger: "clearValidation() called"
+    actions:
+      - "Removes invalid and aria-invalid attributes"
+      - "Clears Constraint Validation API validity"
+a11y:
+  keyboard: []

@@ -4,6 +4,8 @@
 
 > Tracks pointer enter/leave with configurable delays, dispatching `native:hover-start` and `native:hover-end`.
 
+**Trait name:** `hover` (for use with `<n-controller traits="hover">` or self-trait `traits="hover"`)
+
 ## Constructor
 
 ```ts
@@ -33,10 +35,51 @@ new HoverController(host: HTMLElement, options?: HoverOptions)
 | `detach()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **Pointer enters host** → Cancels any pending leave timer, After delay ms (default 0), sets hovered attribute on host, Dispatches native:hover-start with pointerType
+- **Pointer leaves host** → Cancels any pending enter timer, After leaveDelay ms (default 0), removes hovered attribute, Dispatches native:hover-end with pointerType
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { HoverController } from '@nonoun/native-ui';
 const ctrl = new HoverController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="hover">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="hover">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-hover-*` attributes:
+
+```html
+<n-controller traits="hover" data-trait-hover-delay="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `hover-controller.md` | Controller documentation |
+| `hover-controller.ts` | Controller (reactive state + behavior) |
+| `hoverable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `hoverable.html` | Demo page |
+| `hoverable.test.ts` | Tests |

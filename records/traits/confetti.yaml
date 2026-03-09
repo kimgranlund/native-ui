@@ -1,0 +1,76 @@
+trait: confetti
+controller: ConfettiController
+description: Burst of confetti particles from an element. DOM-based particles with randomized trajectories + gravity.
+source:
+  controller: src/traits/confetti/confetti-controller.ts
+  adapter: src/traits/confetti/confettible-adapter.ts
+  demo: src/traits/confetti/confettible.html
+  test: src/traits/confetti/confettible.test.ts
+options:
+  count:
+    type: number
+    description: Number of particles (default 30)
+  spread:
+    type: number
+    description: Spread angle in degrees (default 90)
+  velocity:
+    type: number
+    description: Initial velocity in px/frame (default 12)
+  gravity:
+    type: number
+    description: Gravity in px/frame² (default 0.5)
+  size:
+    type: "[number, number]"
+    description: Particle size range [min, max] in px (default [6, 10])
+  colors:
+    type: string[]
+    description: "Colors array (default: rainbow)"
+  duration:
+    type: number
+    description: Duration before cleanup in ms (default 2000)
+  trigger:
+    type: "'click' | 'manual'"
+    description: "Trigger: 'click' | 'manual' (default 'click')"
+  shapes:
+    type: "'square' | 'circle' | 'mixed'"
+    description: "Particle shapes: 'square' | 'circle' | 'mixed' (default 'mixed')"
+  disabled:
+    type: boolean
+    description: Disable the controller
+injected_events:
+  native:confetti:
+    detail:
+      count:
+        type: string
+      origin:
+        type: string
+      y:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+  fire:
+    returns: void
+consumption:
+  imperative: new ConfettiController(element, options)
+  provider: <n-controller traits="confetti">
+  self_trait: <n-button traits="confetti">
+behavior:
+  - trigger: "Click on host (when trigger is 'click')"
+    actions:
+      - "Calls fire() to burst confetti from host center"
+  - trigger: "fire() called programmatically"
+    actions:
+      - "Calculates origin from host bounding rect center"
+      - "Creates fixed overlay container with pointer-events:none"
+      - "Spawns count particles with randomized angles, velocities, colors, and shapes"
+      - "Dispatches native:confetti with count and origin"
+      - "Animates particles with gravity, air resistance, and rotation via rAF"
+      - "Fades out particles over last 30% of duration"
+      - "Removes overlay container after duration expires"
+a11y:
+  keyboard: []

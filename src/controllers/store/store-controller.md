@@ -56,3 +56,11 @@ store.get('email').value; // → fetched value
   <!-- Children can request the store via context -->
 </n-controller>
 ```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `store-controller.md` | Controller documentation |
+| `store-controller.test.ts` | Tests |
+| `store-controller.ts` | Controller (reactive state + behavior) |

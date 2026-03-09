@@ -6,70 +6,134 @@
 
 **Class:** `NCheckbox`
 
+**ARIA role:** `checkbox`
+**Form-associated:** yes (participates in `<form>` submission, reset, validation)
+**Internal controllers:** `PressController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `checked` | `boolean` | Whether the checkbox is checked |
-| `indeterminate` | `boolean` | Whether the checkbox is in an indeterminate state |
-| `disabled` | `boolean` | Disables interaction |
-| `name` | `string` | Form field name |
-| `value` | `string` | Form value when checked (defaults to "on") |
-| `required` | `boolean` | Marks as required for form validation |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `checked` | `boolean` |  | Whether the checkbox is checked |
+| `indeterminate` | `boolean` |  | Whether the checkbox is in an indeterminate state |
+| `disabled` | `boolean` |  | Disables interaction |
+| `name` | `string` |  | Form field name |
+| `value` | `string` |  | Form value when checked (defaults to "on") |
+| `required` | `boolean` |  | Marks as required for form validation |
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `intent` | boolean | _(boolean)_ | Applies intent-colored styling to the checkbox when checked |
+| `pressed` | boolean | _(boolean)_ | Visually shows the checkbox in its active/pressed state |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:change` | Fired on toggle with `{ checked, value }` detail |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:change` | _(none)_ | Fired on toggle with `{ checked, value }` detail |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-widget)` | Background color |
+| `--n-background-active` | `var(--n-widget-active)` | Background on press |
+| `--n-background-disabled` | `var(--n-widget-disabled)` | Background when disabled |
+| `--n-background-hover` | `var(--n-widget-hover)` | Background on hover |
+| `--n-border-active` |  | Border color on press (tier-1 definition) |
+| `--n-border-color` | `var(--n-border-muted)` | Border color |
+| `--n-border-color-active` | `var(--n-border-active)` | Border on press |
+| `--n-border-color-disabled` | `transparent` | Border when disabled |
+| `--n-border-color-hover` | `var(--n-border-hover)` | Border on hover |
+| `--n-border-hover` |  | Border color on hover (tier-1 definition) |
+| `--n-border-muted` |  | Muted border color |
+| `--n-box-size` | `var(--n-widget-size)` | Component height |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-color-disabled` | `var(--n-ink-disabled)` | Text when disabled |
+| `--n-color-hover` | `var(--n-ink-hover)` | Text on hover |
+| `--n-control-line-height` |  | Line height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-text-font-weight)` | Font weight |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-hover` |  | Ink on hover |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-control-line-height)` | Line height |
+| `--n-radius` | `calc(var(--n-space) * 2)` | Border radius |
+| `--n-space` |  | Block/gap spacing |
+| `--n-surface` |  | Checked-state background color |
+| `--n-surface-active` |  | Checked-state background on press |
+| `--n-surface-disabled` |  | Checked-state background when disabled |
+| `--n-surface-hover` |  | Checked-state background on hover |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-surface-ink-disabled` |  | Ink when disabled |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-widget` |  | Unchecked-state widget surface color (tier-1 definition) |
+| `--n-widget-active` |  | Unchecked-state widget surface on press (tier-1 definition) |
+| `--n-widget-disabled` |  | Unchecked-state widget surface when disabled (tier-1 definition) |
+| `--n-widget-hover` |  | Unchecked-state widget surface on hover (tier-1 definition) |
+| `--n-widget-size` |  | Component height |
 
-- `--n-background`
-- `--n-background-active`
-- `--n-background-disabled`
-- `--n-background-hover`
-- `--n-border-active`
-- `--n-border-color`
-- `--n-border-color-active`
-- `--n-border-color-disabled`
-- `--n-border-color-hover`
-- `--n-border-hover`
-- `--n-border-muted`
-- `--n-box-size`
-- `--n-color`
-- `--n-color-disabled`
-- `--n-color-hover`
-- `--n-control-line-height`
-- `--n-duration`
-- `--n-easing`
-- `--n-focus-ring`
-- `--n-font-size`
-- `--n-font-weight`
-- `--n-ink`
-- `--n-ink-disabled`
-- `--n-ink-hover`
-- `--n-letter-spacing`
-- `--n-line-height`
-- `--n-radius`
-- `--n-space`
-- `--n-surface`
-- `--n-surface-active`
-- `--n-surface-disabled`
-- `--n-surface-hover`
-- `--n-surface-ink`
-- `--n-surface-ink-disabled`
-- `--n-text-font-weight`
-- `--n-widget`
-- `--n-widget-active`
-- `--n-widget-disabled`
-- `--n-widget-hover`
-- `--n-widget-size`
+## Accessibility
+
+- **Role:** `checkbox`
+- **Form-associated:** participates in form submission, reset, and validation
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Toggles checked state (clears indeterminate first if set) |
+| `Space` | Toggles checked state (clears indeterminate first if set) |
+
+## Behavior
+
+- **native:press** → Clears indeterminate if set then checks, otherwise toggles checked, dispatches native:change
+
+## Composition
+
+### Parents
+- `<n-field>`
+- `<form>`
+
+## Compatible Traits
+
+`press`, `hover`, `focus-visible`, `tooltip`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-checkbox></n-checkbox>
 ```
+
+### Examples
+
+```html
+<n-checkbox>Accept terms and conditions</n-checkbox>
+```
+
+```html
+<n-checkbox checked>Email notifications</n-checkbox>
+```
+
+```html
+<n-checkbox indeterminate>Select all</n-checkbox>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `checkbox-element.ts` | Element class (behavior, no CSS) |
+| `checkbox.css` | Styles |
+| `checkbox.html` | Demo page |
+| `checkbox.ts` | Custom element registration (define()) |
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |

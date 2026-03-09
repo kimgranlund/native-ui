@@ -6,70 +6,140 @@
 
 **Class:** `NRadio`
 
+**ARIA role:** `radio`
+**Form-associated:** yes (participates in `<form>` submission, reset, validation)
+**Internal controllers:** `PressController`, `ListNavigateController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `disabled` | `boolean` | Disables this radio |
-| `value` | `string` | Radio value emitted on selection |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `disabled` | `boolean` |  | Disables this radio |
+| `value` | `string` |  | Radio value emitted on selection |
 
-## Properties
+## CSS Attributes
 
-| Property | Type | Readonly | Description |
-|----------|------|----------|-------------|
-| `label` | `string` | yes |  |
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `orientation` | enum | `horizontal` | Lays out the radio group horizontally instead of the default vertical |
+| `pressed` | boolean | _(boolean)_ | Visually shows the radio in its active/pressed state |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:select` | Fired on click with `{ value, label }` detail |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:select` | _(none)_ | Fired on click with `{ value, label }` detail |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-widget)` | Background color |
+| `--n-background-active` | `var(--n-widget-active)` | Background on press |
+| `--n-background-disabled` | `var(--n-widget-disabled)` | Background when disabled |
+| `--n-background-hover` | `var(--n-widget-hover)` | Background on hover |
+| `--n-border-active` |  | Border color on press (tier-1 definition) |
+| `--n-border-color` | `var(--n-border-muted)` | Border color |
+| `--n-border-color-active` | `var(--n-border-active)` | Border on press |
+| `--n-border-color-disabled` | `transparent` | Border when disabled |
+| `--n-border-color-hover` | `var(--n-border-hover)` | Border on hover |
+| `--n-border-hover` |  | Border color on hover (tier-1 definition) |
+| `--n-border-muted` |  | Muted border color |
+| `--n-circle-size` | `var(--n-widget-size)` | Component height |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-color-disabled` | `var(--n-ink-disabled)` | Text when disabled |
+| `--n-color-hover` | `var(--n-ink-hover)` | Text on hover |
+| `--n-control-line-height` |  | Line height |
+| `--n-dot-size` | `calc(var(--n-circle-size) * 0.4)` | Component height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-text-font-weight)` | Font weight |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-hover` |  | Ink on hover |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-control-line-height)` | Line height |
+| `--n-radius` | `50%` | Border radius |
+| `--n-space` |  | Block/gap spacing |
+| `--n-surface` |  | Selected-state background color for the radio circle |
+| `--n-surface-active` |  | Selected-state background on press |
+| `--n-surface-disabled` |  | Selected-state background when disabled |
+| `--n-surface-hover` |  | Selected-state background on hover |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-surface-ink-disabled` |  | Ink when disabled |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-widget` |  | Unselected-state widget surface color (tier-1 definition) |
+| `--n-widget-active` |  | Unselected-state widget surface on press (tier-1 definition) |
+| `--n-widget-disabled` |  | Unselected-state widget surface when disabled (tier-1 definition) |
+| `--n-widget-hover` |  | Unselected-state widget surface on hover (tier-1 definition) |
+| `--n-widget-size` |  | Component height |
 
-- `--n-background`
-- `--n-background-active`
-- `--n-background-disabled`
-- `--n-background-hover`
-- `--n-border-active`
-- `--n-border-color`
-- `--n-border-color-active`
-- `--n-border-color-disabled`
-- `--n-border-color-hover`
-- `--n-border-hover`
-- `--n-border-muted`
-- `--n-circle-size`
-- `--n-color`
-- `--n-color-disabled`
-- `--n-color-hover`
-- `--n-control-line-height`
-- `--n-dot-size`
-- `--n-duration`
-- `--n-easing`
-- `--n-focus-ring`
-- `--n-font-size`
-- `--n-font-weight`
-- `--n-ink`
-- `--n-ink-disabled`
-- `--n-ink-hover`
-- `--n-letter-spacing`
-- `--n-line-height`
-- `--n-radius`
-- `--n-space`
-- `--n-surface`
-- `--n-surface-active`
-- `--n-surface-disabled`
-- `--n-surface-hover`
-- `--n-surface-ink`
-- `--n-surface-ink-disabled`
-- `--n-text-font-weight`
-- `--n-widget`
-- `--n-widget-active`
-- `--n-widget-disabled`
-- `--n-widget-hover`
-- `--n-widget-size`
+## Accessibility
+
+- **Role:** `radio`
+- **Form-associated:** participates in form submission, reset, and validation
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Selects this radio and fires native:select |
+| `Space` | Selects this radio and fires native:select |
+| `ArrowDown` | Moves focus to the next radio in the group (via ListNavigateController) |
+| `ArrowUp` | Moves focus to the previous radio in the group (via ListNavigateController) |
+
+## Behavior
+
+- **click** → Dispatches native:select with value and label
+- **Enter or Space keydown** → Dispatches native:select with value and label
+
+## Composition
+
+### Parents
+- `<n-radio-group>`
+- `<n-field>`
+- `<form>`
+
+## Compatible Traits
+
+`press`, `hover`, `focus-visible`, `tooltip`, `list-navigate`
+
+## Usage
+
+### Minimal
+
+```html
+<n-radio></n-radio>
+```
+
+### Examples
+
+```html
+<n-radio-group value="banana">
+        <n-radio value="apple">Apple</n-radio>
+```
+
+```html
+<n-radio value="banana">Banana</n-radio>
+```
+
+```html
+<n-radio value="cherry">Cherry</n-radio>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `radio-element.ts` | Element class (behavior, no CSS) |
+| `radio-group-element.ts` | Element class (behavior, no CSS) |
+| `radio.css` | Styles |
+| `radio.html` | Demo page |
+| `radio.ts` | Custom element registration (define()) |
+| `README.md` | Documentation (auto-generated) |
 
 ---
 
@@ -79,24 +149,147 @@ Public `--n-*` custom properties consumed by this component:
 
 **Class:** `NRadioGroup`
 
-### Attributes
+**ARIA role:** `radiogroup`
+**Form-associated:** yes (participates in `<form>` submission, reset, validation)
+**Internal controllers:** `PressController`, `ListNavigateController`
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `value` | `string` | Currently selected radio value |
-| `disabled` | `boolean` | Disables all radios in the group |
-| `name` | `string` | Form field name |
-| `required` | `boolean` | Marks as required for form validation |
-| `orientation` | `string` | Layout direction: "vertical" | "horizontal" |
+## Attributes
 
-### Events
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `value` | `string` |  | Currently selected radio value |
+| `disabled` | `boolean` |  | Disables all radios in the group |
+| `name` | `string` |  | Form field name |
+| `required` | `boolean` |  | Marks as required for form validation |
+| `orientation` | `string` |  | Layout direction: "vertical" | "horizontal" |
 
-| Event | Description |
-|-------|-------------|
-| `native:change` | Fired when selection changes with `{ value, label }` detail |
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `pressed` | boolean | _(boolean)_ | Present while a radio is being pressed |
+
+## Events
+
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:change` | _(none)_ | Fired when selection changes with `{ value, label }` detail |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-widget)` | Background color |
+| `--n-background-active` | `var(--n-widget-active)` | Background on press |
+| `--n-background-disabled` | `var(--n-widget-disabled)` | Background when disabled |
+| `--n-background-hover` | `var(--n-widget-hover)` | Background on hover |
+| `--n-border-active` |  | Border color when active |
+| `--n-border-color` | `var(--n-border-muted)` | Border color |
+| `--n-border-color-active` | `var(--n-border-active)` | Border on press |
+| `--n-border-color-disabled` | `transparent` | Border when disabled |
+| `--n-border-color-hover` | `var(--n-border-hover)` | Border on hover |
+| `--n-border-hover` |  | Border color on hover |
+| `--n-border-muted` |  | Muted border color |
+| `--n-circle-size` | `var(--n-widget-size)` | Component height |
+| `--n-color` | `var(--n-ink)` | Text/foreground color |
+| `--n-color-disabled` | `var(--n-ink-disabled)` | Text when disabled |
+| `--n-color-hover` | `var(--n-ink-hover)` | Text on hover |
+| `--n-control-line-height` |  | Line height |
+| `--n-dot-size` | `calc(var(--n-circle-size) * 0.4)` | Component height |
+| `--n-duration` |  | Transition duration |
+| `--n-easing` |  | Transition easing |
+| `--n-focus-ring` |  | Focus ring style |
+| `--n-font-size` |  | Font size |
+| `--n-font-weight` | `var(--n-text-font-weight)` | Font weight |
+| `--n-ink` |  | Ink (text) color |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-hover` |  | Ink on hover |
+| `--n-letter-spacing` |  | Letter spacing |
+| `--n-line-height` | `var(--n-control-line-height)` | Line height |
+| `--n-radius` | `50%` | Border radius |
+| `--n-space` |  | Block/gap spacing |
+| `--n-surface` |  | Surface background color |
+| `--n-surface-active` |  | Surface background on press |
+| `--n-surface-disabled` |  | Surface background when disabled |
+| `--n-surface-hover` |  | Surface background on hover |
+| `--n-surface-ink` |  | Ink (text) color |
+| `--n-surface-ink-disabled` |  | Ink when disabled |
+| `--n-text-font-weight` |  | Font weight |
+| `--n-widget` |  | Widget (radio circle) background |
+| `--n-widget-active` |  | Widget background on press |
+| `--n-widget-disabled` |  | Widget background when disabled |
+| `--n-widget-hover` |  | Widget background on hover |
+| `--n-widget-size` |  | Component height |
+
+## Accessibility
+
+- **Role:** `radiogroup`
+- **Form-associated:** participates in form submission, reset, and validation
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `ArrowDown` | Moves selection to the next radio |
+| `ArrowRight` | Moves selection to the next radio |
+| `ArrowUp` | Moves selection to the previous radio |
+| `ArrowLeft` | Moves selection to the previous radio |
+
+## Behavior
+
+- **click on radio** → Selects radio and fires native:change with value
+
+## Composition
+
+### Children
+- `<n-radio>`
+
+### Parents
+- `<n-field>`
 
 ## Usage
 
+### Minimal
+
 ```html
-<n-radio></n-radio>
+<n-radio-group></n-radio-group>
 ```
+
+### Examples
+
+```html
+<n-radio-group value="banana">
+        <n-radio value="apple">Apple</n-radio>
+        <n-radio value="banana">Banana</n-radio>
+        <n-radio value="cherry">Cherry</n-radio>
+        <n-radio value="date">Date</n-radio>
+      </n-radio-group>
+```
+
+```html
+<n-radio-group orientation="horizontal" value="monthly">
+        <n-radio value="daily">Daily</n-radio>
+        <n-radio value="weekly">Weekly</n-radio>
+        <n-radio value="monthly">Monthly</n-radio>
+        <n-radio value="yearly">Yearly</n-radio>
+      </n-radio-group>
+```
+
+```html
+<n-radio-group size="xs" value="a">
+          <n-radio value="a">Extra small A</n-radio>
+          <n-radio value="b">Extra small B</n-radio>
+        </n-radio-group>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `radio-element.ts` | Element class (behavior, no CSS) |
+| `radio-group-element.ts` | Element class (behavior, no CSS) |
+| `radio.css` | Styles |
+| `radio.html` | Demo page |
+| `radio.ts` | Custom element registration (define()) |
+| `README.md` | Documentation (auto-generated) |

@@ -4,6 +4,8 @@
 
 > Handles pointer-driven element resizing via a drag handle, dispatching `native:resize-start`, `native:resize-move`, `native:resize-end`, and `native:resize-cancel`.
 
+**Trait name:** `resize` (for use with `<n-controller traits="resize">` or self-trait `traits="resize"`)
+
 ## Constructor
 
 ```ts
@@ -48,10 +50,62 @@ new ResizeController(host: HTMLElement, options?: ResizeOptions)
 | `detach()` | `—` | `void` |
 | `destroy()` | `—` | `void` |
 
-## Usage
+## Accessibility
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Escape` | Cancels the resize operation and restores original dimensions |
+
+## Behavior
+
+- **Pointerdown on handle element (matched by handleSelector or handle option)** → Records start position and initial width/height, Sets pointer capture, Sets stateAttribute (default 'resizing') on host and handle, Dispatches native:resize-start with width, height, handle
+- **Pointermove during resize** → Calculates delta from pointer movement (respects axis and reverse options), Applies step snapping if configured, Clamps new dimensions within min/max constraints, Sets host width/height via inline style, Dispatches native:resize-move with width, height, handle, delta, dy
+- **Pointerup during resize** → Removes stateAttribute from host and handle, Dispatches native:resize-end with final width, height, handle
+- **Escape key during resize** → Restores original width/height, Dispatches native:resize-cancel with handle
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { ResizeController } from '@nonoun/native-ui';
 const ctrl = new ResizeController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="resize">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="resize">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-resize-*` attributes:
+
+```html
+<n-controller traits="resize" data-trait-resize-handleSelector="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `resizable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `resizable.html` | Demo page |
+| `resizable.test.ts` | Tests |
+| `resize-controller.md` | Controller documentation |
+| `resize-controller.ts` | Controller (reactive state + behavior) |
+| `resize-corner.test.ts` | Tests |

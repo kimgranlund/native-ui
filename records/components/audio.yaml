@@ -1,0 +1,12 @@
+component:
+tag: n-audio
+category: component
+css_only: true
+description: Audio container with token-aware border-radius wrapping a native audio element.
+source:
+  css: src/components/audio/audio.css
+  demo: src/components/audio/audio.html
+display: block
+css_tokens:
+  --n-radius:
+    description: Border radius

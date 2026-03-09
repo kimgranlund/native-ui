@@ -1,0 +1,116 @@
+component: NSlideshow
+tag: n-slideshow
+category: component
+description: Carousel slideshow with snap scrolling, autoplay, controls, and indicators.
+source:
+  element: src/components/slideshow/slideshow-element.ts
+  css: src/components/slideshow/slideshow.css
+  registration: src/components/slideshow/slideshow.ts
+  demo: src/components/slideshow/slideshow.html
+attributes:
+  direction:
+    type: string
+    description: 'Scroll direction: "horizontal" | "vertical"'
+  controls:
+    type: boolean
+    description: Shows prev/next navigation buttons
+  indicators:
+    type: boolean
+    description: Shows dot indicators
+  autoplay:
+    type: boolean
+    description: Enables automatic slide advancement
+  interval:
+    type: number
+    description: Autoplay interval in milliseconds (default 5000)
+  loop:
+    type: boolean
+    description: Enables infinite looping
+  peek:
+    type: boolean
+    description: Shows partial adjacent slides
+  per-view:
+    type: number
+    description: Number of slides visible at once
+  gap:
+    type: string
+    description: Gap between slides
+  disabled:
+    type: boolean
+    description: Disables keyboard navigation
+  index:
+    type: number
+    description: Active slide index (0-based)
+css_attributes:
+  part:
+    type: enum
+    values:
+      - controls
+      - indicators
+      - next
+      - prev
+      - track
+    description: Targets internal structural parts (track, controls, indicators)
+events:
+  native:slide-change:
+    description: Fired when the active slide changes with `{ index, slide }` detail
+css_tokens:
+  --n-border-hover:
+    description: Border color on hover
+  --n-border-muted:
+    description: Muted border color
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-hover:
+    description: Ink on hover
+  --n-panel:
+    description: Panel background color
+  --n-panel-hover:
+    description: Panel background on hover
+  --n-per-view:
+    description: Number of slides visible at once
+    default: "1"
+  --n-radius:
+    description: Border radius
+  --n-shadow-sm:
+    description: Small shadow for control buttons
+  --n-size:
+    description: Component height
+  --n-slideshow-gap:
+    description: Gap between items
+    default: calc(var(--n-space) * 4)
+  --n-slideshow-peek:
+    description: Amount of adjacent slide visible when peek is enabled
+    default: calc(var(--n-space-k) * var(--n-space) * 2)
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: region
+  keyboard:
+    - key: Home
+      action: Navigates to the first slide
+    - key: End
+      action: Navigates to the last slide
+    - key: ArrowLeft
+      action: Navigates to the previous slide
+    - key: ArrowRight
+      action: Navigates to the next slide
+behavior:
+  - trigger: scroll snap
+    actions: [Detects active slide and fires native:slide-change]
+  - trigger: autoplay
+    actions: [Advances slides at interval milliseconds]
+compose:
+  children: [n-slide]
+  parents: []

@@ -1,0 +1,131 @@
+component: NContainer
+tag: n-container
+category: container
+description: |-
+  Article surface container with optional click-to-navigate behavior.
+  Component version of <article> — supports traits, interactive, href.
+source:
+  element: src/containers/container/container-element.ts
+  css: src/containers/container/container.css
+  registration: src/containers/container/container.ts
+  demo: src/containers/container/container.html
+attributes:
+  interactive:
+    type: boolean
+    description: Makes the article focusable and clickable
+  href:
+    type: string
+    description: Navigation URL when interactive
+css_attributes:
+  inline:
+    type: boolean
+    description: Switches to inline-flex display for inline placement
+  dividers:
+    type: boolean
+    description: Adds divider borders between child sections
+  bordered:
+    type: boolean
+    description: Adds a visible border around the container
+  show-scrollbar:
+    type: boolean
+    description: Shows the scrollbar instead of hiding it
+  scrollable:
+    type: boolean
+    description: Enables overflow scrolling on the body region
+  fade:
+    type: boolean
+    description: Adds gradient fade-out masks at scroll edges
+slots:
+  leading:
+    description: Content placed at the start of the header row
+  media:
+    description: Full-bleed media content above the body
+  trailing:
+    description: Content placed at the end of the header row
+css_tokens:
+  --n-border-hover:
+    description: Border color on hover
+  --n-border-muted:
+    description: Muted border color
+  --n-card:
+    description: Card surface background
+  --n-card-hover:
+    description: Card surface on hover
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-fade-bottom:
+    description: Height of the bottom gradient fade mask
+    default: calc((var(--n-size) + var(--n-space) * var(--n-space-k)) * 1.25)
+  --n-fade-top:
+    description: Height of the top gradient fade mask
+    default: calc((var(--n-size) + var(--n-space) * var(--n-space-k)) * 1.25)
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-md:
+    description: Medium font size tier
+  --n-font-size:
+    description: Font size
+    default: var(--n-font-md)
+  --n-ground:
+    description: Elevation/surface context
+    default: var(--n-panel)
+  --n-ground-hover:
+    description: Elevation/surface context
+    default: var(--n-card-hover)
+  --n-icon-md:
+    description: Medium icon size tier
+  --n-icon-size:
+    description: Component height
+    default: var(--n-icon-md)
+  --n-letter-spacing:
+    description: Letter spacing
+    default: var(--n-tracking-md)
+  --n-line-height:
+    description: Line height
+  --n-padding-block:
+    description: Vertical padding inside content areas
+  --n-padding-inline:
+    description: Horizontal padding inside content areas
+  --n-panel:
+    description: Panel background color
+  --n-radius:
+    description: Border radius
+  --n-size:
+    description: Component height
+    default: var(--n-size-md)
+  --n-size-md:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+    default: var(--n-space-md)
+  --n-space-k:
+    description: Inline padding multiplier
+  --n-space-md:
+    description: Block/gap spacing
+  --n-tracking-md:
+    description: Medium letter-spacing tier
+  --n-widget-font:
+    description: ""
+    default: var(--n-widget-font-md)
+  --n-widget-font-md:
+    description: Medium widget font size tier
+  --n-widget-md:
+    description: Medium widget size tier
+  --n-widget-size:
+    description: Component height
+    default: var(--n-widget-md)
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  keyboard:
+    - key: Enter
+      action: Navigates to href when interactive
+behavior:
+  - trigger: click (interactive)
+    actions: [Navigates to href URL]
+compose:
+  children: [n-header, n-body, n-footer, n-divider]
+  parents: []

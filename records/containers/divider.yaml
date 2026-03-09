@@ -1,0 +1,28 @@
+component:
+tag: n-divider
+category: container
+css_only: true
+description: Horizontal or vertical divider line with optional text label.
+source:
+  css: src/containers/divider/divider.css
+  demo: src/containers/divider/divider.html
+display: flex
+css_attributes:
+  orientation:
+    type: enum
+    values:
+      - vertical
+    description: Renders a vertical divider instead of horizontal
+css_tokens:
+  --n-border-muted:
+    description: Muted border color
+  --n-font-size:
+    description: Font size
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier

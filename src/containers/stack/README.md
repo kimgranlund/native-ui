@@ -2,30 +2,70 @@
 
 # n-stack
 
-**CSS-only container** — no JavaScript class.
+> Flex container for stacking children vertically (default) or horizontally.
+
+**CSS-only element** — styled purely via CSS, no JavaScript class required.
 
 **Display:** `flex`
 
-## Attributes
+## CSS Attributes
 
-| Attribute | Values |
-|-----------|--------|
-| `direction` | `column-reverse`, `row`, `row-reverse` |
-| `wrap` | _(boolean)_ |
-| `sticky` | `bottom`, `top` |
-| `truncate` | _(boolean)_ |
-| `dividers` | _(boolean)_ |
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `direction` | enum | `column-reverse`, `row`, `row-reverse` | Flex direction (default column) |
+| `wrap` | boolean | _(boolean)_ | Enables flex wrap for flowing children |
+| `sticky` | enum | `bottom`, `top` | Makes the stack sticky to top or bottom of scroll container |
+| `truncate` | boolean | _(boolean)_ | Truncates overflowing text with ellipsis |
+| `dividers` | boolean | _(boolean)_ | Adds divider borders between children |
 
-## CSS Tokens
+## CSS Custom Properties
 
-- `--n-border-muted`
-- `--n-padding-block`
-- `--n-padding-inline`
-- `--n-space`
-- `--n-space-k`
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-border-muted` |  | Muted border color |
+| `--n-padding-block` | `0` |  |
+| `--n-padding-inline` | `0` |  |
+| `--n-space` |  | Block/gap spacing |
+| `--n-space-k` |  | Inline padding multiplier |
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-stack></n-stack>
 ```
+
+### Examples
+
+```html
+<n-stack>
+        <div class="demo-box">Item 1</div>
+        <div class="demo-box">Item 2</div>
+        <div class="demo-box">Item 3</div>
+      </n-stack>
+```
+
+```html
+<n-stack direction="row">
+        <div class="demo-box">Item 1</div>
+        <div class="demo-box">Item 2</div>
+        <div class="demo-box">Item 3</div>
+      </n-stack>
+```
+
+```html
+<n-stack direction="row" gap="0">
+        <div class="demo-box">A</div>
+        <div class="demo-box">B</div>
+        <div class="demo-box">C</div>
+      </n-stack>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `README.md` | Documentation (auto-generated) |
+| `stack.css` | Styles |
+| `stack.html` | Demo page |

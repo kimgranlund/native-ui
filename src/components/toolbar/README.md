@@ -13,42 +13,124 @@
 
 **Class:** `NToolbar`
 
+**ARIA role:** `toolbar`
+**Internal controllers:** `RovingFocusController`, `PopoverController`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `orientation` | `string` |  |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `orientation` | `string` |  | Layout direction: "horizontal" (default) | "vertical" |
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `fill` | boolean | _(boolean)_ | Stretches children to fill available space equally |
+| `padding` | enum | `none`, `regular`, `relaxed`, `tight` | Controls internal padding density |
+| `variant` | enum | `plain` | Zero-chrome variant with no background, border, or padding |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:toolbar-overflow` |  |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:toolbar-overflow` | _(none)_ | Fired when items overflow into the overflow menu |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-ground)` | Background color |
+| `--n-border-color` | `var(--n-border-muted)` | Border color |
+| `--n-border-muted` |  | Muted border color |
+| `--n-font-md` |  | Medium font size tier |
+| `--n-font-size` | `var(--n-font-md)` | Font size |
+| `--n-ground` | `var(--n-panel)` | Elevation/surface context |
+| `--n-icon-md` |  | Medium icon size tier |
+| `--n-icon-size` | `var(--n-icon-md)` | Component height |
+| `--n-letter-spacing` | `var(--n-tracking-md)` | Letter spacing |
+| `--n-line-height` |  | Line height |
+| `--n-panel` |  | Panel background color |
+| `--n-radius` |  | Border radius |
+| `--n-size` | `var(--n-size-md)` | Component height |
+| `--n-size-md` |  | Component height |
+| `--n-space` | `var(--n-space-md)` | Block/gap spacing |
+| `--n-space-md` |  | Block/gap spacing |
+| `--n-tracking-md` |  | Medium letter-spacing tier |
+| `--n-widget-font` | `var(--n-widget-font-md)` |  |
+| `--n-widget-font-md` |  | Medium widget font size tier |
+| `--n-widget-md` |  | Medium widget size tier |
+| `--n-widget-size` | `var(--n-widget-md)` | Component height |
 
-- `--n-background`
-- `--n-border-color`
-- `--n-border-muted`
-- `--n-font-md`
-- `--n-font-size`
-- `--n-ground`
-- `--n-icon-md`
-- `--n-icon-size`
-- `--n-line-height`
-- `--n-panel`
-- `--n-radius`
-- `--n-size-md`
-- `--n-space`
-- `--n-space-md`
-- `--n-tracking-md`
-- `--n-widget-font-md`
-- `--n-widget-md`
+## Accessibility
+
+- **Role:** `toolbar`
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `ArrowRight` | Moves focus to the next toolbar item |
+| `ArrowLeft` | Moves focus to the previous toolbar item |
+| `Home` | Moves focus to the first toolbar item |
+| `End` | Moves focus to the last toolbar item |
+
+## Behavior
+
+- **resize observer** → Moves overflowing items into a popover overflow menu
+
+## Composition
+
+### Children
+- `<n-button>`
+- `<n-segmented-control>`
+- `<n-icon>`
+
+### Parents
+- `<n-header>`
+- `<n-container>`
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-toolbar></n-toolbar>
 ```
+
+### Examples
+
+```html
+<n-toolbar aria-label="Small toolbar" size="sm">
+          <n-button variant="ghost"><n-icon name="magnifying-glass"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="funnel"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="sort-ascending"></n-icon></n-button>
+        </n-toolbar>
+```
+
+```html
+<n-toolbar aria-label="Default toolbar">
+          <n-button variant="ghost"><n-icon name="magnifying-glass"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="funnel"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="sort-ascending"></n-icon></n-button>
+        </n-toolbar>
+```
+
+```html
+<n-toolbar aria-label="Large toolbar" size="lg">
+          <n-button variant="ghost"><n-icon name="magnifying-glass"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="funnel"></n-icon></n-button>
+          <n-button variant="ghost"><n-icon name="sort-ascending"></n-icon></n-button>
+        </n-toolbar>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `README.md` | Documentation (auto-generated) |
+| `toolbar-element.ts` | Element class (behavior, no CSS) |
+| `toolbar.css` | Styles |
+| `toolbar.html` | Demo page |
+| `toolbar.ts` | Custom element registration (define()) |

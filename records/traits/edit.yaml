@@ -1,0 +1,71 @@
+trait: edit
+controller: EditController
+description: Enables inline text editing on the host element, dispatching `native:edit-start`, `native:edit-commit`, and
+  `native:edit-cancel`.
+source:
+  controller: src/traits/edit/edit-controller.ts
+  adapter: src/traits/edit/editable-adapter.ts
+  demo: src/traits/edit/editable.html
+  test: src/traits/edit/editable.test.ts
+options:
+  trigger:
+    type: "'click' | 'dblclick'"
+  disabled:
+    type: boolean
+injected_events:
+  native:edit-start:
+    detail:
+      value:
+        type: string
+  native:edit-commit:
+    detail:
+      value:
+        type: string
+      previousValue:
+        type: string
+  native:edit-cancel:
+    detail:
+      value:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+  startEdit:
+    returns: void
+  commitEdit:
+    returns: string
+  cancelEdit:
+    returns: void
+consumption:
+  imperative: new EditController(element, options)
+  provider: <n-controller traits="edit">
+  self_trait: <n-button traits="edit">
+behavior:
+  - trigger: "Click or double-click on host (configurable via trigger option)"
+    actions:
+      - "Stores current text as original value"
+      - "Sets contenteditable='plaintext-only' and editing attribute on host"
+      - "Focuses host and selects all text (cursor at end)"
+      - "Dispatches native:edit-start with current value"
+  - trigger: "Enter key while editing"
+    actions:
+      - "Commits edit: captures current text, removes contenteditable and editing attribute"
+      - "Dispatches native:edit-commit with value and previousValue"
+  - trigger: "Escape key while editing"
+    actions:
+      - "Restores original text content"
+      - "Removes contenteditable and editing attribute"
+      - "Dispatches native:edit-cancel with original value"
+  - trigger: "Blur while editing"
+    actions:
+      - "Auto-commits the edit (same as Enter)"
+a11y:
+  keyboard:
+    - key: "Enter"
+      action: "Commits the inline edit"
+    - key: "Escape"
+      action: "Cancels the inline edit and restores original text"

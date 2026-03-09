@@ -6,38 +6,86 @@
 
 **Class:** `NPagination`
 
+**ARIA role:** `navigation`
+
 ## Attributes
 
-| Attribute | Type | Description |
-|-----------|------|-------------|
-| `total` | `number` | Total number of pages |
-| `value` | `number` | Current page number (1-based) |
-| `siblings` | `number` | Number of sibling pages shown around current |
-| `boundaries` | `number` | Number of boundary pages shown at start/end |
-| `disabled` | `boolean` | Disables all pagination buttons |
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `total` | `number` |  | Total number of pages |
+| `value` | `number` |  | Current page number (1-based) |
+| `siblings` | `number` |  | Number of sibling pages shown around current |
+| `boundaries` | `number` |  | Number of boundary pages shown at start/end |
+| `disabled` | `boolean` |  | Disables all pagination buttons |
 
 ## Events
 
-| Event | Description |
-|-------|-------------|
-| `native:change` | Fired when page changes with `{ value }` detail |
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:change` | _(none)_ | Fired when page changes with `{ value }` detail |
 
-## CSS Tokens
+## CSS Custom Properties
 
-Public `--n-*` custom properties consumed by this component:
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-background` | `var(--n-surface)` | Background color |
+| `--n-background-active` | `var(--n-panel-active)` | Background on press |
+| `--n-background-hover` | `var(--n-panel-hover)` | Background on hover |
+| `--n-border-color` | `var(--n-surface)` | Border color |
+| `--n-color` | `var(--n-surface-ink)` | Text/foreground color |
+| `--n-font-size` |  | Font size |
+| `--n-ink-disabled` |  | Ink when disabled |
+| `--n-ink-muted` |  | Ink (text) color |
+| `--n-panel-active` |  | Panel background on press |
+| `--n-panel-hover` |  | Panel background on hover |
+| `--n-size` |  | Component height |
+| `--n-space` |  | Block/gap spacing |
+| `--n-surface` |  | Surface background color |
+| `--n-surface-ink` |  | Text color on the surface |
 
-- `--n-font-size`
-- `--n-ink-disabled`
-- `--n-ink-muted`
-- `--n-panel-active`
-- `--n-panel-hover`
-- `--n-size`
-- `--n-space`
-- `--n-surface`
-- `--n-surface-ink`
+## Accessibility
+
+- **Role:** `navigation`
+
+### Keyboard
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Activates the focused page button |
+
+## Behavior
+
+- **click on page button** → Updates value and fires native:change with the new page number
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-pagination></n-pagination>
 ```
+
+### Examples
+
+```html
+<n-pagination total="10" value="1"></n-pagination>
+```
+
+```html
+<n-pagination total="20" value="10"></n-pagination>
+```
+
+```html
+<n-pagination total="3" value="2"></n-pagination>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `index.ts` | Barrel exports |
+| `pagination-element.ts` | Element class (behavior, no CSS) |
+| `pagination.css` | Styles |
+| `pagination.html` | Demo page |
+| `pagination.ts` | Custom element registration (define()) |
+| `README.md` | Documentation (auto-generated) |

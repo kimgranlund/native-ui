@@ -2,16 +2,57 @@
 
 # n-audio
 
-**CSS-only container** — no JavaScript class.
+> Audio container with token-aware border-radius wrapping a native audio element.
+
+**CSS-only element** — styled purely via CSS, no JavaScript class required.
 
 **Display:** `block`
 
-## CSS Tokens
+## CSS Custom Properties
 
-- `--n-radius`
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-radius` |  | Border radius |
 
 ## Usage
+
+### Minimal
 
 ```html
 <n-audio></n-audio>
 ```
+
+### Examples
+
+```html
+<n-audio>
+          <audio controls>
+            <source src="#" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+        </n-audio>
+```
+
+```html
+<n-audio radius="sharp">
+            <audio controls>
+              <source src="#" type="audio/mpeg">
+            </audio>
+          </n-audio>
+```
+
+```html
+<n-audio radius="round">
+            <audio controls>
+              <source src="#" type="audio/mpeg">
+            </audio>
+          </n-audio>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `audio.css` | Styles |
+| `audio.html` | Demo page |
+| `README.md` | Documentation (auto-generated) |

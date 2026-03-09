@@ -4,6 +4,8 @@
 
 > Renders SVG noodle connections between DOM elements within a host container.
 
+**Trait name:** `noodle` (for use with `<n-controller traits="noodle">` or self-trait `traits="noodle"`)
+
 ## Constructor
 
 ```ts
@@ -48,10 +50,56 @@ new NoodleController(host: HTMLElement, options?: NoodleOptions)
 | `setConnections()` | `connections: NoodleConnection[]` | `void` |
 | `update()` | `—` | `void` |
 
-## Usage
+## Behavior
+
+- **attach() called** → Creates SVG overlay with path groups for connections, Creates port indicator dots on elements matching selector (when showPorts), Starts ResizeObserver and MutationObserver to auto-update paths on layout changes, Renders all initial connections as SVG paths (bezier/step/straight)
+- **connect() called** → Adds connection to internal map, Re-renders all SVG paths, Dispatches native:noodle-connect with id, from, to, fromPort, toPort
+- **disconnect() called or click on path hit area (editable mode)** → Removes connection from internal map, Re-renders all SVG paths, Dispatches native:noodle-disconnect with id, from, to, fromPort, toPort
+- **Pointerdown on port indicator dot (editable mode)** → Marks source port as dragging, other ports as droppable, Creates temporary dashed SVG path from source port to pointer, Dispatches native:noodle-drag with from, fromPort, x, y
+- **Pointermove during drag-to-connect** → Updates temporary path from source port to pointer position, Uses proximity detection (30px snap radius) to highlight nearest droppable port
+- **Pointerup during drag-to-connect** → Finds nearest droppable port within snap radius, Creates connection if valid target found, Cleans up drag state and interaction attributes
+- **Host children move (style/translate/class mutations)** → Re-renders all paths via queued rAF update, Repositions port indicators
+
+## Consumption Patterns
+
+### 1. Imperative (Controller)
 
 ```ts
 import { NoodleController } from '@nonoun/native-ui';
 const ctrl = new NoodleController(element, { /* options */ });
 // In teardown: ctrl.destroy();
 ```
+
+### 2. Declarative (Provider)
+
+```html
+<n-controller traits="noodle">
+  <div>Target element</div>
+</n-controller>
+```
+
+### 3. Self-trait
+
+```html
+<n-button traits="noodle">Self-applying</n-button>
+```
+
+### Trait Option Attributes
+
+When used as a provider or self-trait, options are passed via `data-trait-noodle-*` attributes:
+
+```html
+<n-controller traits="noodle" data-trait-noodle-selector="value">
+  <div>Target</div>
+</n-controller>
+```
+
+## File Inventory
+
+| File | Purpose |
+|------|---------|
+| `noodle-controller.md` | Controller documentation |
+| `noodle-controller.test.ts` | Tests |
+| `noodle-controller.ts` | Controller (reactive state + behavior) |
+| `noodleable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `noodleable.html` | Demo page |

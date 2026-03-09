@@ -1,0 +1,52 @@
+trait: toast
+controller: ToastController
+description: Creates and manages toast notifications within its own host element. Each controller owns its own container
+  and toast entries — no global singleton. Container uses [popover="manual"] for top-layer rendering while inheriting
+  CSS custom properties from the host's position in the component tree.
+source:
+  controller: src/traits/toast/toast-controller.ts
+  adapter: src/traits/toast/toastable-adapter.ts
+  demo: src/traits/toast/toastable.html
+  test: src/traits/toast/toastable.test.ts
+injected_events:
+  native:toast:
+    detail:
+      id:
+        type: string
+      message:
+        type: string
+      intent:
+        type: string
+methods:
+  toast:
+    returns: number
+    params: "options: ToastOptions"
+  dismissToast:
+    returns: void
+    params: "id: number"
+  dismissAllToasts:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new ToastController(element, options)
+  provider: <n-controller traits="toast">
+  self_trait: <n-button traits="toast">
+behavior:
+  - trigger: "toast(options) called"
+    actions:
+      - "Creates popover container on first use (role=status, aria-live=polite)"
+      - "Creates n-toast element with message, intent, and optional dismiss button"
+      - "Appends toast to container"
+      - "Schedules auto-dismiss after duration (default 4000ms)"
+      - "Dispatches native:toast with id, message, intent"
+  - trigger: "native:dismiss event from toast's close button"
+    actions:
+      - "Removes the toast element and clears its timer"
+      - "If last toast, hides and removes the container"
+  - trigger: "dismissAllToasts() called"
+    actions:
+      - "Removes all toast elements and clears all timers"
+      - "Hides and removes the container"
+a11y:
+  keyboard: []

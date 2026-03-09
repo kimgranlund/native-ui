@@ -1,0 +1,83 @@
+component: NSlide
+tag: n-slide
+category: component
+description: Individual slide content within a slideshow.
+source:
+  element: src/components/slideshow/slide-element.ts
+  css: src/components/slideshow/slideshow.css
+  registration: src/components/slideshow/slideshow.ts
+  demo: src/components/slideshow/slideshow.html
+css_attributes:
+  part:
+    type: enum
+    values:
+      - controls
+      - indicators
+      - next
+      - prev
+      - track
+    description: Targets internal structural parts of the slideshow
+  gap:
+    type: boolean
+    description: Inherited gap setting from parent slideshow
+  peek:
+    type: boolean
+    description: Inherited peek setting from parent slideshow
+  direction:
+    type: enum
+    values:
+      - vertical
+    description: Scroll direction inherited from parent slideshow
+  controls:
+    type: boolean
+    description: Inherited controls visibility from parent
+  indicators:
+    type: boolean
+    description: Inherited indicator visibility from parent
+css_tokens:
+  --n-border-hover:
+    description: Border color on hover
+  --n-border-muted:
+    description: Muted border color
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-hover:
+    description: Ink on hover
+  --n-panel:
+    description: Panel background color
+  --n-panel-hover:
+    description: Panel background on hover
+  --n-per-view:
+    description: Number of slides visible at once
+    default: "1"
+  --n-radius:
+    description: Border radius
+  --n-shadow-sm:
+    description: Small shadow for control buttons
+  --n-size:
+    description: Component height
+  --n-slideshow-gap:
+    description: Gap between items
+    default: calc(var(--n-space) * 4)
+  --n-slideshow-peek:
+    description: Amount of adjacent slide visible when peek is enabled
+    default: calc(var(--n-space-k) * var(--n-space) * 2)
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: tabpanel
+behavior: []
+compose:
+  children: []
+  parents: [n-slideshow]

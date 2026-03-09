@@ -1,0 +1,155 @@
+component: NRadioGroup
+tag: n-radio-group
+category: component
+description: Radio group managing mutual exclusion and keyboard navigation across radio children.
+source:
+  element: src/components/radio/radio-group-element.ts
+  css: src/components/radio/radio.css
+  registration: src/components/radio/radio.ts
+  demo: src/components/radio/radio.html
+attributes:
+  value:
+    type: string
+    description: Currently selected radio value
+  disabled:
+    type: boolean
+    description: Disables all radios in the group
+  name:
+    type: string
+    description: Form field name
+  required:
+    type: boolean
+    description: Marks as required for form validation
+  orientation:
+    type: string
+    description: 'Layout direction: "vertical" | "horizontal"'
+css_attributes:
+  pressed:
+    type: boolean
+    description: Present while a radio is being pressed
+events:
+  native:change:
+    description: Fired when selection changes with `{ value, label }` detail
+css_tokens:
+  --n-background:
+    description: Background color
+    default: var(--n-widget)
+  --n-background-active:
+    description: Background on press
+    default: var(--n-widget-active)
+  --n-background-disabled:
+    description: Background when disabled
+    default: var(--n-widget-disabled)
+  --n-background-hover:
+    description: Background on hover
+    default: var(--n-widget-hover)
+  --n-border-active:
+    description: Border color when active
+  --n-border-color:
+    description: Border color
+    default: var(--n-border-muted)
+  --n-border-color-active:
+    description: Border on press
+    default: var(--n-border-active)
+  --n-border-color-disabled:
+    description: Border when disabled
+    default: transparent
+  --n-border-color-hover:
+    description: Border on hover
+    default: var(--n-border-hover)
+  --n-border-hover:
+    description: Border color on hover
+  --n-border-muted:
+    description: Muted border color
+  --n-circle-size:
+    description: Component height
+    default: var(--n-widget-size)
+  --n-color:
+    description: Text/foreground color
+    default: var(--n-ink)
+  --n-color-disabled:
+    description: Text when disabled
+    default: var(--n-ink-disabled)
+  --n-color-hover:
+    description: Text on hover
+    default: var(--n-ink-hover)
+  --n-control-line-height:
+    description: Line height
+  --n-dot-size:
+    description: Component height
+    default: calc(var(--n-circle-size) * 0.4)
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-text-font-weight)
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-radius:
+    description: Border radius
+    default: 50%
+  --n-space:
+    description: Block/gap spacing
+  --n-surface:
+    description: Surface background color
+  --n-surface-active:
+    description: Surface background on press
+  --n-surface-disabled:
+    description: Surface background when disabled
+  --n-surface-hover:
+    description: Surface background on hover
+  --n-surface-ink:
+    description: Ink (text) color
+  --n-surface-ink-disabled:
+    description: Ink when disabled
+  --n-text-font-weight:
+    description: Font weight
+  --n-widget:
+    description: Widget (radio circle) background
+  --n-widget-active:
+    description: Widget background on press
+  --n-widget-disabled:
+    description: Widget background when disabled
+  --n-widget-hover:
+    description: Widget background on hover
+  --n-widget-size:
+    description: Component height
+controllers:
+  - PressController
+  - ListNavigateController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: radiogroup
+  form_associated: true
+  keyboard:
+    - key: ArrowDown
+      action: Moves selection to the next radio
+    - key: ArrowRight
+      action: Moves selection to the next radio
+    - key: ArrowUp
+      action: Moves selection to the previous radio
+    - key: ArrowLeft
+      action: Moves selection to the previous radio
+behavior:
+  - trigger: click on radio
+    actions: [Selects radio and fires native:change with value]
+compose:
+  children: [n-radio]
+  parents: [n-field]

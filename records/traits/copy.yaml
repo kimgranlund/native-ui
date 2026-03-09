@@ -1,0 +1,35 @@
+trait: copy
+controller: CopyController
+description: Copies a value to the clipboard and shows visual feedback, dispatching `native:copy`.
+source:
+  controller: src/traits/copy/copy-controller.ts
+  adapter: src/traits/copy/copyable-adapter.ts
+  demo: src/traits/copy/copyable.html
+  test: src/traits/copy/copyable.test.ts
+options:
+  value:
+    type: string | (() => string)
+  feedbackDuration:
+    type: number
+injected_events:
+  native:copy:
+    detail:
+      value:
+        type: string
+methods:
+  destroy:
+    returns: void
+consumption:
+  imperative: new CopyController(element, options)
+  provider: <n-controller traits="copy">
+  self_trait: <n-button traits="copy">
+behavior:
+  - trigger: "copy() called"
+    actions:
+      - "Resolves value (calls function if value is a function)"
+      - "Writes resolved value to system clipboard"
+      - "Sets copied attribute on host for visual feedback"
+      - "Removes copied attribute after feedbackDuration ms"
+      - "Dispatches native:copy with value"
+a11y:
+  keyboard: []

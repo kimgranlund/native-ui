@@ -1,0 +1,140 @@
+trait: noodle
+controller: NoodleController
+description: Renders SVG noodle connections between DOM elements within a host container.
+source:
+  controller: src/traits/noodle/noodle-controller.ts
+  adapter: src/traits/noodle/noodleable-adapter.ts
+  demo: src/traits/noodle/noodleable.html
+  test: src/traits/noodle/noodle-controller.test.ts
+options:
+  selector:
+    type: string
+    description: "CSS selector for elements that can be connection endpoints (default: '[data-noodle-port]')"
+  editable:
+    type: boolean
+    description: "Allow interactive creation/deletion of connections (default: false)"
+  color:
+    type: string
+    description: "Noodle stroke color (default: 'var(--n-color-accent-500)')"
+  strokeWidth:
+    type: number
+    description: "Noodle stroke width in px (default: 2)"
+  tension:
+    type: number
+    description: "Bezier curve tension — how far control points extend (default: 0.5)"
+  showPorts:
+    type: boolean
+    description: "Show port indicator dots on connectable elements (default: true when editable)"
+  portSize:
+    type: number
+    description: "Port indicator dot size in px (default: 10)"
+  connections:
+    type: NoodleConnection[]
+    description: "Initial connections (default: [])"
+  style:
+    type: "'bezier' | 'step' | 'straight'"
+    description: "Noodle curve style (default: 'bezier')"
+  animated:
+    type: boolean
+    description: "Animate noodles with a flowing dash pattern (default: false)"
+  disabled:
+    type: boolean
+    description: Disable the controller
+injected_events:
+  native:noodle-connect:
+    detail:
+      id:
+        type: string
+      from:
+        type: string
+      to:
+        type: string
+      fromPort:
+        type: string
+      toPort:
+        type: string
+  native:noodle-disconnect:
+    detail:
+      id:
+        type: string
+      from:
+        type: string
+      to:
+        type: string
+      fromPort:
+        type: string
+      toPort:
+        type: string
+  native:noodle-drag:
+    detail:
+      from:
+        type: string
+      fromPort:
+        type: string
+      x:
+        type: string
+      y:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+  connect:
+    returns: string
+    params: "from: string, to: string, fromPort: PortSide = 'right', toPort: PortSide = 'left'"
+  disconnect:
+    returns: boolean
+    params: "id: string"
+  clear:
+    returns: void
+  getConnections:
+    returns: NoodleConnection[]
+  setConnections:
+    returns: void
+    params: "connections: NoodleConnection[]"
+  update:
+    returns: void
+consumption:
+  imperative: new NoodleController(element, options)
+  provider: <n-controller traits="noodle">
+  self_trait: <n-button traits="noodle">
+behavior:
+  - trigger: "attach() called"
+    actions:
+      - "Creates SVG overlay with path groups for connections"
+      - "Creates port indicator dots on elements matching selector (when showPorts)"
+      - "Starts ResizeObserver and MutationObserver to auto-update paths on layout changes"
+      - "Renders all initial connections as SVG paths (bezier/step/straight)"
+  - trigger: "connect() called"
+    actions:
+      - "Adds connection to internal map"
+      - "Re-renders all SVG paths"
+      - "Dispatches native:noodle-connect with id, from, to, fromPort, toPort"
+  - trigger: "disconnect() called or click on path hit area (editable mode)"
+    actions:
+      - "Removes connection from internal map"
+      - "Re-renders all SVG paths"
+      - "Dispatches native:noodle-disconnect with id, from, to, fromPort, toPort"
+  - trigger: "Pointerdown on port indicator dot (editable mode)"
+    actions:
+      - "Marks source port as dragging, other ports as droppable"
+      - "Creates temporary dashed SVG path from source port to pointer"
+      - "Dispatches native:noodle-drag with from, fromPort, x, y"
+  - trigger: "Pointermove during drag-to-connect"
+    actions:
+      - "Updates temporary path from source port to pointer position"
+      - "Uses proximity detection (30px snap radius) to highlight nearest droppable port"
+  - trigger: "Pointerup during drag-to-connect"
+    actions:
+      - "Finds nearest droppable port within snap radius"
+      - "Creates connection if valid target found"
+      - "Cleans up drag state and interaction attributes"
+  - trigger: "Host children move (style/translate/class mutations)"
+    actions:
+      - "Re-renders all paths via queued rAF update"
+      - "Repositions port indicators"
+a11y:
+  keyboard: []

@@ -1,0 +1,56 @@
+trait: dialog
+controller: DialogController
+description: Creates and manages a native `<dialog>` element with modal, close, and dismiss behavior.
+source:
+  controller: src/traits/dialog/dialog-controller.ts
+  adapter: src/traits/dialog/dialogable-adapter.ts
+  demo: src/traits/dialog/dialogable.html
+  test: src/traits/dialog/dialog-controller.test.ts
+options:
+  contentTarget:
+    type: "(dialog: HTMLDialogElement) => HTMLElement"
+methods:
+  showModal:
+    returns: void
+  close:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new DialogController(element, options)
+  provider: <n-controller traits="dialog">
+  self_trait: <n-button traits="dialog">
+injected_events:
+  close:
+    detail:
+behavior:
+  - trigger: "Construction"
+    actions:
+      - "Creates a native <dialog> element"
+      - "Moves all host children into the dialog (or contentTarget wrapper)"
+      - "Appends dialog to host"
+      - "Listens for cancel, click, and native:dismiss events"
+  - trigger: "showModal() called"
+    actions:
+      - "Opens dialog as modal via native showModal()"
+      - "Sets open attribute on host"
+      - "Defers focus to [autofocus] or first focusable descendant"
+  - trigger: "Escape key pressed (native cancel event)"
+    actions:
+      - "Prevents default cancel behavior"
+      - "Closes dialog unless host has no-close-on-escape attribute"
+  - trigger: "Click on dialog backdrop"
+    actions:
+      - "Closes dialog unless host has no-close-on-backdrop attribute"
+  - trigger: "native:dismiss event on host"
+    actions:
+      - "Closes dialog unless host has no-close-on-escape attribute"
+  - trigger: "close() called"
+    actions:
+      - "Closes native dialog"
+      - "Removes open attribute from host"
+      - "Dispatches close event"
+a11y:
+  keyboard:
+    - key: "Escape"
+      action: "Closes the modal dialog (unless no-close-on-escape is set)"

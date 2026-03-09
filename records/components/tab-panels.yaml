@@ -1,0 +1,84 @@
+component: NTabPanels
+tag: n-tab-panels
+category: component
+description: Structural wrapper for tab panels within a tabs component.
+source:
+  element: src/components/tabs/tab-panels-element.ts
+  css: src/components/tabs/tabs.css
+  registration: src/components/tabs/tabs.ts
+  demo: src/components/tabs/tabs.html
+css_attributes:
+  orientation:
+    type: enum
+    values:
+      - vertical
+    description: Inherited vertical layout from parent tabs
+  pressed:
+    type: boolean
+    description: Inherited from parent tabs (unused on panels container)
+  inline:
+    type: boolean
+    description: Inherited inline mode from parent tabs
+css_tokens:
+  --n-border-muted:
+    description: Muted border color
+  --n-button-font-weight:
+    description: Font weight
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-button-font-weight)
+  --n-indicator-index:
+    description: Index position of the sliding indicator
+    default: "0"
+  --n-ink-active:
+    description: Ink (text) color
+  --n-ink-disabled:
+    description: Ink when disabled
+  --n-ink-hover:
+    description: Ink on hover
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-letter-spacing:
+    description: Letter spacing
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-size:
+    description: Component height
+  --n-space:
+    description: Block/gap spacing
+  --n-space-k:
+    description: Inline padding multiplier
+  --n-surface:
+    description: Surface background color
+  --n-surface-ink:
+    description: Ink (text) color
+  --n-surface-ink-hover:
+    description: Ink on hover
+  --n-tab-count:
+    description: Total number of tabs
+    default: "1"
+  --n-tabs-indicator:
+    description: Indicator accent color
+controllers:
+  - PressController
+  - ListNavigateController
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: presentation
+behavior: []
+compose:
+  children: [n-tab-panel]
+  parents: [n-tabs]

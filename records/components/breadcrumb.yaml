@@ -1,0 +1,58 @@
+component: NBreadcrumb
+tag: n-breadcrumb
+category: component
+description: Breadcrumb navigation container with landmark role.
+source:
+  element: src/components/breadcrumb/breadcrumb-element.ts
+  css: src/components/breadcrumb/breadcrumb.css
+  registration: src/components/breadcrumb/breadcrumb.ts
+  demo: src/components/breadcrumb/breadcrumb.html
+css_attributes:
+  current:
+    type: boolean
+    description: Marks the item as the current page with aria-current
+css_tokens:
+  --n-button-font-weight:
+    description: Font weight
+  --n-control-line-height:
+    description: Line height
+  --n-duration:
+    description: Transition duration
+  --n-easing:
+    description: Transition easing
+  --n-focus-ring:
+    description: Focus ring style
+  --n-font-size:
+    description: Font size
+  --n-font-weight:
+    description: Font weight
+    default: var(--n-button-font-weight)
+  --n-ink:
+    description: Ink (text) color
+  --n-ink-muted:
+    description: Ink (text) color
+  --n-ink-strong:
+    description: Ink (text) color
+  --n-line-height:
+    description: Line height
+    default: var(--n-control-line-height)
+  --n-radius:
+    description: Border radius
+  --n-space:
+    description: Block/gap spacing
+traits:
+  compatible: []
+  incompatible: []
+a11y:
+  role: navigation
+  keyboard:
+    - key: Enter
+      action: Navigates to the breadcrumb item href
+    - key: Space
+      action: Navigates to the breadcrumb item href
+behavior:
+  - trigger: click on breadcrumb-item
+    actions: [Navigates to the item href unless current]
+compose:
+  children: [n-breadcrumb-item]
+  parents: []

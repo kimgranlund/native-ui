@@ -1,0 +1,39 @@
+trait: sort
+controller: SortController
+description: Manages column sort state and dispatches `native:sort` events.
+source:
+  controller: src/traits/sort/sort-controller.ts
+  adapter: src/traits/sort/sortable-adapter.ts
+  demo: src/traits/sort/sortable.html
+  test: src/traits/sort/sortable.test.ts
+options:
+  selector:
+    type: string
+  disabled:
+    type: boolean
+injected_events:
+  native:sort:
+    detail:
+      column:
+        type: string
+      direction:
+        type: string
+methods:
+  attach:
+    returns: void
+  detach:
+    returns: void
+  destroy:
+    returns: void
+consumption:
+  imperative: new SortController(element, options)
+  provider: <n-controller traits="sort">
+  self_trait: <n-button traits="sort">
+behavior:
+  - trigger: "Click on a column header matching selector"
+    actions:
+      - "Cycles sort direction: asc -> desc -> none (same column) or resets to asc (new column)"
+      - "Syncs aria-sort attribute on all headers (ascending/descending/removed)"
+      - "Dispatches native:sort with column name and direction"
+a11y:
+  keyboard: []
