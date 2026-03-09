@@ -87,7 +87,7 @@
      │  <n-footer>                                              │
      │  Generic sub-container footer with grid layout.          │
      │  Mirrors n-header slot structure (leading / trailing).   │
-     │  Content aligns to the end by default.                   │
+     │  Children stretch by default (matches n-header).         │
      ╰──────────────────────────────────────────────────────────╯ */
 
   :where(n-footer) {
@@ -97,7 +97,6 @@
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
-    justify-items: end;
     gap: calc(var(--n-space) * 2);
     min-height: calc(var(--n-size) + var(--n-padding-block) * 2);
     padding-block: var(--n-padding-block);
@@ -132,6 +131,7 @@
 
   :where(n-footer) > :where([slot="trailing"]) {
     grid-column: -1;
+    justify-self: end;
     display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
