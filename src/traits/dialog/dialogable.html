@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dialogable — Trait Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    <style>
+      /* ── Dialog styling ── */
+
+      .dialog-host dialog {
+        border: none;
+        border-radius: var(--n-radius);
+        padding: 0;
+        background: var(--n-surface-neutral);
+        color: var(--n-ink-neutral);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+        min-width: 20rem;
+        max-width: 32rem;
+      }
+
+      .dialog-host dialog::backdrop {
+        background: rgba(0,0,0,0.5);
+      }
+
+      .dialog-body {
+        padding: 1.5rem;
+      }
+
+      .dialog-body h3 {
+        margin: 0 0 0.5rem;
+      }
+
+      .dialog-body p {
+        margin: 0 0 1rem;
+        color: var(--n-ink-muted-neutral);
+        font-size: 0.875rem;
+        line-height: 1.5;
+      }
+
+      .dialog-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--n-panel-neutral);
+        border-radius: 0.25rem;
+      }
+    </style>
+
+    <!-- Register traits BEFORE component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+    <script type="module">
+      import '../../nav/native-dashboard.ts';
+      import '../../components/button/button.ts';
+      import '../../components/controller/controller.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+    </script>
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <h1>Dialogable</h1>
+    <p class="demo-desc">
+      Wraps content in a native <code>&lt;dialog&gt;</code> with modal behavior. Handles Escape key,
+      backdrop click, and autofocus. Uses the browser's built-in top-layer and <code>::backdrop</code>.
+    </p>
+
+    <!-- ── Basic Modal Dialog ── -->
+
+    <h2>Basic Modal</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Click the button to open a modal dialog. Close with Escape, the backdrop, or the Close button.
+      </p>
+      <n-button id="open-basic">Open Dialog</n-button>
+      <div class="output" id="basic-log"></div>
+      <pre class="demo-code"><code>&lt;script&gt;
+  import { DialogController } from '@nonoun/native-ui';
+
+  const host = document.querySelector('.dialog-host');
+  const ctrl = new DialogController(host);
+  ctrl.showModal();
+  // ctrl.close();
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- Dialog host (content moves into <dialog>) -->
+    <div class="dialog-host" id="basic-dialog">
+      <div class="dialog-body">
+        <h3>Basic Dialog</h3>
+        <p>This is a modal dialog created by the DialogController trait. It uses the native <code>&lt;dialog&gt;</code> element for proper focus management and accessibility.</p>
+        <div class="dialog-actions">
+          <n-button variant="soft" id="basic-cancel">Cancel</n-button>
+          <n-button intent="accent" id="basic-confirm">Confirm</n-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── No Close on Escape ── -->
+
+    <h2>Persistent Dialog (no-close-on-escape)</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Pressing Escape will not close this dialog. Only the explicit close button works.
+        Uses the <code>no-close-on-escape</code> attribute.
+      </p>
+      <n-button id="open-persistent">Open Persistent Dialog</n-button>
+      <pre class="demo-code"><code>&lt;div class="dialog-host" no-close-on-escape&gt;
+  &lt;!-- Escape won't close this --&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <div class="dialog-host" id="persistent-dialog" no-close-on-escape>
+      <div class="dialog-body">
+        <h3>Persistent Dialog</h3>
+        <p>Escape key is disabled for this dialog. You must use the button to close it.</p>
+        <div class="dialog-actions">
+          <n-button intent="accent" id="persistent-close">Close</n-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── No Close on Backdrop ── -->
+
+    <h2>No Backdrop Dismiss</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Clicking the backdrop will not close this dialog. Escape key still works.
+        Uses the <code>no-close-on-backdrop</code> attribute.
+      </p>
+      <n-button id="open-no-backdrop">Open (no backdrop dismiss)</n-button>
+      <pre class="demo-code"><code>&lt;div class="dialog-host" no-close-on-backdrop&gt;
+  &lt;!-- Backdrop click won't close this --&gt;
+&lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <div class="dialog-host" id="no-backdrop-dialog" no-close-on-backdrop>
+      <div class="dialog-body">
+        <h3>No Backdrop Dismiss</h3>
+        <p>Click the backdrop all you want -- this dialog won't close. Press Escape or use the button.</p>
+        <div class="dialog-actions">
+          <n-button intent="accent" id="no-backdrop-close">Close</n-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── With contentTarget ── -->
+
+    <h2>Custom Content Target</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Uses the <code>contentTarget</code> option to wrap dialog content in a custom structure.
+        Useful for adding scrollable bodies or custom chrome.
+      </p>
+      <n-button id="open-custom">Open Custom Dialog</n-button>
+      <pre class="demo-code"><code>const ctrl = new DialogController(host, {
+  contentTarget: (dialog) =&gt; {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'dialog-body';
+    dialog.appendChild(wrapper);
+    return wrapper; // children go here
+  },
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <div class="dialog-host" id="custom-dialog">
+      <h3>Custom Wrapped</h3>
+      <p>Content was placed inside a custom wrapper via <code>contentTarget</code>.</p>
+      <div class="dialog-actions">
+        <n-button intent="accent" id="custom-close">Close</n-button>
+      </div>
+    </div>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Constructor Options</h3>
+      <table class="api-table">
+        <thead><tr><th>Option</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>contentTarget</code></td>
+            <td><code>(dialog: HTMLDialogElement) =&gt; HTMLElement</code></td>
+            <td>dialog itself</td>
+            <td>Returns the element where host children should be moved into. The returned element must be appended to the dialog by the callback.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Host Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>no-close-on-escape</code></td>
+            <td>boolean</td>
+            <td>Prevent closing the dialog with the Escape key.</td>
+          </tr>
+          <tr>
+            <td><code>no-close-on-backdrop</code></td>
+            <td>boolean</td>
+            <td>Prevent closing the dialog by clicking the backdrop.</td>
+          </tr>
+          <tr>
+            <td><code>open</code></td>
+            <td>boolean (read-only)</td>
+            <td>Set by the controller when the dialog is open.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Methods</h3>
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>showModal()</code></td>
+            <td><code>void</code></td>
+            <td>Open the dialog as a modal. Idempotent when already open.</td>
+          </tr>
+          <tr>
+            <td><code>close()</code></td>
+            <td><code>void</code></td>
+            <td>Close the dialog. Dispatches a <code>close</code> event on the host.</td>
+          </tr>
+          <tr>
+            <td><code>destroy()</code></td>
+            <td><code>void</code></td>
+            <td>Clean up event listeners and nullify the dialog reference.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Target</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>close</code></td>
+            <td>host</td>
+            <td>Dispatched when the dialog is closed (via close(), Escape, or backdrop).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>Escape</code></td>
+            <td>Close the dialog (unless <code>no-close-on-escape</code> is set).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></native-dashboard-spa>
+
+    <script type="module">
+      import { DialogController } from '../../index.ts';
+
+      // ── Copy buttons ──
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Helpers ──
+      const logEl = document.getElementById('basic-log');
+      function appendLog(msg) {
+        const line = document.createElement('div');
+        line.textContent = msg;
+        logEl.appendChild(line);
+        logEl.scrollTop = logEl.scrollHeight;
+      }
+
+      // ── Basic dialog ──
+      const basicHost = document.getElementById('basic-dialog');
+      const basicCtrl = new DialogController(basicHost);
+
+      document.getElementById('open-basic').addEventListener('click', () => {
+        basicCtrl.showModal();
+        appendLog('Dialog opened');
+      });
+
+      document.getElementById('basic-cancel').addEventListener('click', () => {
+        basicCtrl.close();
+        appendLog('Dialog cancelled');
+      });
+
+      document.getElementById('basic-confirm').addEventListener('click', () => {
+        basicCtrl.close();
+        appendLog('Dialog confirmed');
+      });
+
+      basicHost.addEventListener('close', () => {
+        appendLog('close event fired');
+      });
+
+      // ── Persistent dialog ──
+      const persistentHost = document.getElementById('persistent-dialog');
+      const persistentCtrl = new DialogController(persistentHost);
+
+      document.getElementById('open-persistent').addEventListener('click', () => {
+        persistentCtrl.showModal();
+      });
+
+      document.getElementById('persistent-close').addEventListener('click', () => {
+        persistentCtrl.close();
+      });
+
+      // ── No backdrop dialog ──
+      const noBackdropHost = document.getElementById('no-backdrop-dialog');
+      const noBackdropCtrl = new DialogController(noBackdropHost);
+
+      document.getElementById('open-no-backdrop').addEventListener('click', () => {
+        noBackdropCtrl.showModal();
+      });
+
+      document.getElementById('no-backdrop-close').addEventListener('click', () => {
+        noBackdropCtrl.close();
+      });
+
+      // ── Custom content target dialog ──
+      const customHost = document.getElementById('custom-dialog');
+      const customCtrl = new DialogController(customHost, {
+        contentTarget: (dialog) => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'dialog-body';
+          dialog.appendChild(wrapper);
+          return wrapper;
+        },
+      });
+
+      document.getElementById('open-custom').addEventListener('click', () => {
+        customCtrl.showModal();
+      });
+
+      document.getElementById('custom-close').addEventListener('click', () => {
+        customCtrl.close();
+      });
+    </script>
+  </body>
+</html>

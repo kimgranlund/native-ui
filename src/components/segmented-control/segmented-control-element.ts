@@ -1,7 +1,7 @@
 import { signal } from '../../reactivity/signal.ts';
 import { NativeElement } from '../../core/native-element.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
-import { ListNavigateController } from '../../traits/list-navigate-controller.ts';
+import { ListNavigateController } from '../../traits/list-navigate/list-navigate-controller.ts';
 import { FormAssociable } from '../../core/form-associable.ts';
 import type { NSegment } from './segment-element.ts';
 

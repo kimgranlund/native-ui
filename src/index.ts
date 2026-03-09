@@ -34,8 +34,8 @@ export { PressController, HoverController, CopyController, IntersectController, 
 export type { PressOptions, HoverOptions, CopyOptions, IntersectOptions, DropZoneOptions, SortOptions, ValidateOptions, CollapsibleOptions, RovingFocusOptions, ListNavigateOptions, DialogOptions, GatewayOptions, PresentOptions } from './traits/index.ts';
 
 // Store
-export { StoreController } from './controllers/store-controller.ts';
-export type { StoreControllerOptions } from './controllers/store-controller.ts';
+export { StoreController } from './controllers/store/store-controller.ts';
+export type { StoreControllerOptions } from './controllers/store/store-controller.ts';
 
 // Trait adapters (for selective registration via registerTrait())
 export { pressableAdapter, hoverableAdapter, copyableAdapter, intersectableAdapter, droppableAdapter, sortableAdapter, validatableAdapter, focusTrappableAdapter, collapsibleAdapter, rovingFocusableAdapter, dismissableAdapter, toastableAdapter, popoverableAdapter, listNavigableAdapter, dialogableAdapter, draggableAdapter, rangeSelectableAdapter, resizableAdapter, virtualizableAdapter, selectableAdapter, searchableAdapter, clippableAdapter, swipeableAdapter, editableAdapter, presentableAdapter, slashCommandableAdapter, shortcutableAdapter, tossableAdapter, flippableAdapter, parallaxableAdapter, cssInspectableAdapter, confettibleAdapter, magnetizableAdapter, noodleableAdapter } from './traits/index.ts';
@@ -73,16 +73,16 @@ export { NTableBody } from './components/table/table-body-element.ts';
 export { NTableRow } from './components/table/table-row-element.ts';
 export { NTableCell } from './components/table/table-cell-element.ts';
 export { NTableHeader } from './components/table/table-header-element.ts';
-export { TableStore, createTableStore } from './components/table/table-store.ts';
-export type { TableStoreOptions } from './components/table/table-store.ts';
-export { ColumnResizeController } from './components/table/column-resize-controller.ts';
-export type { ColumnResizeOptions } from './components/table/column-resize-controller.ts';
+export { TableStore, createTableStore } from './components/table/store/table-store.ts';
+export type { TableStoreOptions } from './components/table/store/table-store.ts';
+export { ColumnResizeController } from './components/table/column-resize/column-resize-controller.ts';
+export type { ColumnResizeOptions } from './components/table/column-resize/column-resize-controller.ts';
 export { NCalendar } from './components/calendar/calendar-element.ts';
-export { CalendarStore, createCalendarStore } from './components/calendar/calendar-store.ts';
-export type { CalendarView, CalendarStoreOptions, DayCell, MonthCell, YearCell } from './components/calendar/calendar-store.ts';
+export { CalendarStore, createCalendarStore } from './components/calendar/store/calendar-store.ts';
+export type { CalendarView, CalendarStoreOptions, DayCell, MonthCell, YearCell } from './components/calendar/store/calendar-store.ts';
 export { NSelect } from './components/select/select-element.ts';
 export type { SelectOption } from './components/select/select-element.ts';
-export { SelectController } from './components/select/select-controller.ts';
+export { SelectController } from './components/select/controller/select-controller.ts';
 export { NCombobox } from './components/combobox/combobox-element.ts';
 export type { ComboboxOption } from './components/combobox/combobox-element.ts';
 export { NField } from './components/field/field-element.ts';

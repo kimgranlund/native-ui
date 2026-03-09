@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dismissable — Trait Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--n-ink-strong-neutral);
+      }
+.dismiss-panel {
+        display: block;
+        padding: 1rem;
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
+        border-radius: 0.5rem;
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+      }
+
+      .dismiss-panel[hidden] {
+        display: none;
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--n-panel-neutral);
+        border-radius: 0.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <h1>Dismissable</h1>
+    <p class="demo-desc">
+      Composable trait that manages a global layer stack. When enabled, clicking outside the element or pressing Escape dispatches a <code>native:dismiss</code> event. Only the topmost layer in the stack receives dismiss events.
+    </p>
+
+    <!-- ── Click Outside to Dismiss ── -->
+
+    <h2>Click Outside to Dismiss</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Uses <code>DismissController</code> directly on a plain element. Call <code>enable()</code> to join the dismiss stack, <code>disable()</code> to leave.
+      </p>
+      <n-button id="open-btn">Open Panel</n-button>
+      <div class="dismiss-panel" id="panel" hidden>
+        This panel is dismissable. Click anywhere outside it or press <strong>Escape</strong> to close.
+        <br><br>
+        Clicking inside the panel will not dismiss it.
+      </div>
+      <div id="log" class="output"></div>
+      <pre class="demo-code"><code>import { DismissController } from '@nonoun/native-ui';
+
+const panel = document.getElementById('panel');
+const dismiss = new DismissController(panel);
+
+function showPanel() {
+  panel.removeAttribute('hidden');
+  dismiss.enable();
+}
+
+function hidePanel() {
+  dismiss.disable();
+  panel.setAttribute('hidden', '');
+}
+
+panel.addEventListener('native:dismiss', () =&gt; hidePanel());</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Nested Layers ── -->
+
+    <h2>Nested Layers (Stack)</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Open both panels. Only the topmost one receives dismiss events. After the top panel is dismissed, the bottom panel becomes the new top.
+      </p>
+      <div class="demo-actions">
+        <n-button id="open-a">Open Panel A</n-button>
+        <n-button id="open-b">Open Panel B</n-button>
+      </div>
+      <div class="dismiss-panel" id="panel-a" hidden>
+        <strong>Panel A</strong> — I'm the first layer.
+      </div>
+      <div class="dismiss-panel" id="panel-b" hidden style="background: var(--n-surface-info); color: var(--n-surface-ink-info);">
+        <strong>Panel B</strong> — I'm on top of Panel A.
+      </div>
+      <pre class="demo-code"><code>&lt;!-- Each panel has its own DismissController --&gt;
+const dismissA = new DismissController(panelA);
+const dismissB = new DismissController(panelB);
+
+// Open Panel A — joins dismiss stack
+panelA.removeAttribute('hidden');
+dismissA.enable();
+
+// Open Panel B — becomes top of stack
+panelB.removeAttribute('hidden');
+dismissB.enable();
+
+// Escape/click-outside dismisses B first, then A</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Built-in: n-dialog ── -->
+
+    <h2>Built-in: n-dialog</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        <code>n-dialog</code> uses Dismissable internally. Escape and backdrop click close the dialog automatically.
+      </p>
+      <n-button id="open-dialog">Open Dialog</n-button>
+      <n-dialog id="demo-dialog">
+        <n-container style="width: 20rem; padding: 1.5rem;">
+          <p style="margin-bottom: 1rem;">This dialog uses Dismissable internally. Press Escape or click the backdrop to close.</p>
+          <n-button id="close-dialog" intent="accent">Close</n-button>
+        </n-container>
+      </n-dialog>
+      <pre class="demo-code"><code>&lt;n-button id="open"&gt;Open Dialog&lt;/n-button&gt;
+&lt;n-dialog id="dialog"&gt;
+  &lt;n-container&gt;
+    &lt;p&gt;Dialog content&lt;/p&gt;
+    &lt;n-button id="close"&gt;Close&lt;/n-button&gt;
+  &lt;/n-container&gt;
+&lt;/n-dialog&gt;
+
+&lt;script&gt;
+  open.addEventListener('native:press', () =&gt; dialog.showModal());
+  close.addEventListener('native:press', () =&gt; dialog.close());
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Methods</h3>
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>enable()</code></td>
+            <td>Pushes the element onto the global dismiss stack. Click-outside and Escape will fire <code>native:dismiss</code> on this element.</td>
+          </tr>
+          <tr>
+            <td><code>disable()</code></td>
+            <td>Removes the element from the dismiss stack. No more dismiss events.</td>
+          </tr>
+          <tr>
+            <td><code>destroy()</code></td>
+            <td>Removes from stack and cleans up. Call in <code>teardown()</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>native:dismiss</code></td>
+            <td>—</td>
+            <td>Fired when click-outside or Escape occurs while this element is the topmost layer. Consumer handles hiding.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></native-dashboard-spa>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../../nav/native-dashboard.ts';
+      import '../../components/button/button.ts';
+      import '../../components/dialog/dialog.ts';
+      import '../../components/controller/controller.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+      import { DismissController } from '../../index.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Helpers ──
+
+      function appendLog(el, msg) {
+        const line = document.createElement('div');
+        line.textContent = msg;
+        el.appendChild(line);
+        el.scrollTop = el.scrollHeight;
+      }
+
+      // ── Click Outside Demo ──
+
+      const panel = document.getElementById('panel');
+      const dismiss = new DismissController(panel);
+      const logEl = document.getElementById('log');
+      let count = 0;
+
+      function showPanel() {
+        panel.removeAttribute('hidden');
+        dismiss.enable();
+        count++;
+        appendLog(logEl, `#${count} Panel opened`);
+      }
+
+      function hidePanel() {
+        dismiss.disable();
+        panel.setAttribute('hidden', '');
+      }
+
+      document.getElementById('open-btn').addEventListener('native:press', () => showPanel());
+      panel.addEventListener('native:dismiss', () => {
+        count++;
+        appendLog(logEl, `#${count} Panel dismissed`);
+        hidePanel();
+      });
+
+      // ── Nested Layers Demo ──
+
+      const panelA = document.getElementById('panel-a');
+      const panelB = document.getElementById('panel-b');
+      const dismissA = new DismissController(panelA);
+      const dismissB = new DismissController(panelB);
+
+      function showPanelEl(el, ctrl) {
+        el.removeAttribute('hidden');
+        ctrl.enable();
+      }
+
+      function hidePanelEl(el, ctrl) {
+        ctrl.disable();
+        el.setAttribute('hidden', '');
+      }
+
+      document.getElementById('open-a').addEventListener('native:press', () => showPanelEl(panelA, dismissA));
+      document.getElementById('open-b').addEventListener('native:press', () => showPanelEl(panelB, dismissB));
+      panelA.addEventListener('native:dismiss', () => hidePanelEl(panelA, dismissA));
+      panelB.addEventListener('native:dismiss', () => hidePanelEl(panelB, dismissB));
+
+      // ── Dialog Demo ──
+
+      const dialog = document.getElementById('demo-dialog');
+      document.getElementById('open-dialog').addEventListener('native:press', () => dialog.showModal());
+      document.getElementById('close-dialog').addEventListener('native:press', () => dialog.close());
+    </script>
+  </body>
+</html>

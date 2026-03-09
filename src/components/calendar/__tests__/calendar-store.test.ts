@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { CalendarStore } from '../calendar-store.ts';
+import { CalendarStore } from '../store/calendar-store.ts';
 
 describe('CalendarStore', () => {
   // ── Initial state ──

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { TableStore } from '../table-store.ts';
+import { TableStore } from '../store/table-store.ts';
 
 describe('TableStore', () => {
   // ── Initial state ──

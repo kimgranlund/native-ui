@@ -3,7 +3,7 @@ import { NativeElement } from '../../core/native-element.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
 import { prop, syncProp } from '../../core/reactive-prop.ts';
 import type { ReactiveProp } from '../../core/reactive-prop.ts';
-import { PressController } from '../../traits/press-controller.ts';
+import { PressController } from '../../traits/press/press-controller.ts';
 import { FormAssociable } from '../../core/form-associable.ts';
 
 /**

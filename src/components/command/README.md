@@ -39,13 +39,14 @@ Public `--n-*` custom properties consumed by this component:
 - `--n-border-color`
 - `--n-border-muted-neutral`
 - `--n-border-rest`
-- `--n-button-font-weight`
 - `--n-color`
 - `--n-control`
+- `--n-control-line-height`
 - `--n-duration`
 - `--n-easing`
 - `--n-font-size`
 - `--n-font-weight`
+- `--n-group-header-font`
 - `--n-ink`
 - `--n-ink-disabled`
 - `--n-ink-muted`

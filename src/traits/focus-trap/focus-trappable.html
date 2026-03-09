@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FocusTrappable — Trait Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--n-ink-strong-neutral);
+      }
+.trap-region {
+        display: block;
+        padding: 1.5rem;
+        background: var(--n-panel-neutral);
+        border: 2px solid var(--n-focus-ring);
+        border-radius: 0.5rem;
+        margin-top: 0.75rem;
+      }
+
+      .trap-region[hidden] {
+        display: none;
+      }
+
+      .trap-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .trap-form label {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+      }
+
+      .trap-form n-input {
+        font-size: 0.875rem;
+      }
+
+      .trap-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <h1>FocusTrappable</h1>
+    <p class="demo-desc">
+      Composable trait for trapping Tab focus within a container. When enabled, Tab and Shift+Tab cycle through focusable children without leaving the container. On enable, focus moves to <code>[autofocus]</code> or the first focusable element. On disable, focus returns to the previously focused element.
+    </p>
+
+    <!-- ── Focus Trap ── -->
+
+    <h2>Focus Trap</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Uses <code>FocusTrapController</code> directly on a plain element. Tab cycles between the inputs and buttons.
+      </p>
+      <n-button id="open-trap">Open Trapped Region</n-button>
+      <div class="trap-region" id="trap" hidden>
+        <p class="demo-text-sm">
+          Focus is trapped here. Tab cycles between the inputs and buttons. Click "Close" to release.
+        </p>
+        <div class="trap-form">
+          <label>
+            Name
+            <n-input placeholder="Your name" autofocus></n-input>
+          </label>
+          <label>
+            Email
+            <n-input placeholder="you@example.com"></n-input>
+          </label>
+        </div>
+        <div class="trap-actions">
+          <n-button id="save-btn" intent="accent">Save</n-button>
+          <n-button id="close-btn">Close</n-button>
+        </div>
+      </div>
+      <pre class="demo-code"><code>import { FocusTrapController } from '@nonoun/native-ui';
+
+const region = document.getElementById('trap');
+const trap = new FocusTrapController(region);
+
+function show() {
+  region.removeAttribute('hidden');
+  trap.enable(); // focuses [autofocus] or first focusable
+}
+
+function hide() {
+  trap.disable(); // restores focus to previous element
+  region.setAttribute('hidden', '');
+}</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Without Autofocus ── -->
+
+    <h2>Without Autofocus</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        When no <code>[autofocus]</code> element exists, focus goes to the first focusable child.
+      </p>
+      <n-button id="open-trap2">Open Trap (no autofocus)</n-button>
+      <div class="trap-region" id="trap2" hidden>
+        <div class="trap-actions">
+          <n-button>First</n-button>
+          <n-button>Second</n-button>
+          <n-button id="close-btn2">Close</n-button>
+        </div>
+      </div>
+    </n-container>
+
+    <!-- ── Built-in: n-dialog ── -->
+
+    <h2>Built-in: n-dialog</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        <code>n-dialog</code> uses FocusTrappable internally. When a modal dialog opens, focus is automatically trapped within it.
+      </p>
+      <n-button id="open-dialog">Open Dialog</n-button>
+      <n-dialog id="demo-dialog">
+        <n-container style="width: 20rem; padding: 1.5rem;">
+          <p style="margin-bottom: 1rem;">Focus is trapped inside this dialog. Tab only cycles between these buttons.</p>
+          <div class="trap-actions">
+            <n-button intent="accent">Action</n-button>
+            <n-button id="close-dialog">Close</n-button>
+          </div>
+        </n-container>
+      </n-dialog>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Methods</h3>
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>enable()</code></td>
+            <td>Starts trapping focus. Moves focus to <code>[autofocus]</code> or first focusable child. Saves the previously focused element for restoration.</td>
+          </tr>
+          <tr>
+            <td><code>disable()</code></td>
+            <td>Stops trapping focus. Returns focus to the previously focused element.</td>
+          </tr>
+          <tr>
+            <td><code>destroy()</code></td>
+            <td>Disables and cleans up. Call in <code>teardown()</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>Tab</code></td>
+            <td>Moves focus to next focusable child. Wraps to first when at last.</td>
+          </tr>
+          <tr>
+            <td><code>Shift+Tab</code></td>
+            <td>Moves focus to previous focusable child. Wraps to last when at first.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></native-dashboard-spa>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../../nav/native-dashboard.ts';
+      import '../../components/button/button.ts';
+      import '../../components/input/input.ts';
+      import '../../components/dialog/dialog.ts';
+      import '../../components/controller/controller.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+      import { FocusTrapController } from '../../index.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Focus Trap Demo ──
+
+      const trapEl = document.getElementById('trap');
+      const trap = new FocusTrapController(trapEl);
+
+      function showTrap() {
+        trapEl.removeAttribute('hidden');
+        trap.enable();
+      }
+
+      function hideTrap() {
+        trap.disable();
+        trapEl.setAttribute('hidden', '');
+      }
+
+      document.getElementById('open-trap').addEventListener('native:press', () => showTrap());
+      document.getElementById('close-btn').addEventListener('native:press', () => hideTrap());
+      document.getElementById('save-btn').addEventListener('native:press', () => hideTrap());
+
+      // ── No Autofocus Demo ──
+
+      const trap2El = document.getElementById('trap2');
+      const trap2 = new FocusTrapController(trap2El);
+
+      document.getElementById('open-trap2').addEventListener('native:press', () => {
+        trap2El.removeAttribute('hidden');
+        trap2.enable();
+      });
+      document.getElementById('close-btn2').addEventListener('native:press', () => {
+        trap2.disable();
+        trap2El.setAttribute('hidden', '');
+      });
+
+      // ── Dialog Demo ──
+
+      const dialog = document.getElementById('demo-dialog');
+      document.getElementById('open-dialog').addEventListener('native:press', () => dialog.showModal());
+      document.getElementById('close-dialog').addEventListener('native:press', () => dialog.close());
+    </script>
+  </body>
+</html>

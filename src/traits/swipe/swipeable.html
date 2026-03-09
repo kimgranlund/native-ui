@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Swipeable — Trait Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--n-ink-strong-neutral);
+      }
+      /* ── Swipe Cards ── */
+
+      .swipe-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 0.5rem;
+        min-height: 8rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
+        touch-action: none;
+        user-select: none;
+        cursor: grab;
+        transition: background 200ms ease, border-color 200ms ease;
+      }
+
+      .swipe-card[swiping] {
+        background: var(--n-surface-accent);
+        border-color: var(--n-border-accent);
+        cursor: grabbing;
+      }
+
+      .swipe-card[swipe-left],
+      .swipe-card[swipe-right],
+      .swipe-card[swipe-up],
+      .swipe-card[swipe-down] {
+        background: var(--n-surface-accent);
+        border-color: var(--n-border-accent);
+      }
+
+      .swipe-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--n-ink-strong-neutral);
+      }
+
+      .swipe-hint {
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+      }
+
+      .swipe-direction {
+        display: flex;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+      }
+
+      .swipe-direction span {
+        padding: 0.125rem 0.5rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.25rem;
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--n-panel-neutral);
+        border-radius: 0.25rem;
+      }
+      /* ── Pattern Badges ── */
+
+      .pattern-badge {
+        display: inline-block;
+        font-size: 0.625rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.125rem 0.5rem;
+        border-radius: 9999px;
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+
+      .pattern-badge.provider {
+        background: var(--n-surface-info);
+        color: var(--n-surface-ink-info);
+      }
+
+    </style>
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <h1>Swipeable</h1>
+    <p class="demo-desc">
+      Touch/pointer swipe gesture recognition with direction, velocity, and threshold. Supports horizontal, vertical, and both axes.
+    </p>
+
+    <!-- ── Horizontal Swipe (Provider) ── -->
+
+    <h2>Horizontal Swipe <span class="pattern-badge provider">Provider</span></h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Default axis. <code>&lt;n-controller&gt;</code> applies swipeable to the first child. Detects left and right swipes. Click and drag horizontally.
+      </p>
+      <n-controller traits="swipeable" data-trait-swipeable-axis="horizontal">
+        <div id="h-card" class="swipe-card">
+          <span class="swipe-label">Swipe Left or Right</span>
+          <span class="swipe-hint">Click and drag horizontally</span>
+        </div>
+      </n-controller>
+      <div id="h-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller traits="swipeable"
+  data-trait-swipeable-axis="horizontal"&gt;
+  &lt;div class="swipe-card"&gt;
+    &lt;span class="swipe-label"&gt;Swipe Left or Right&lt;/span&gt;
+    &lt;span class="swipe-hint"&gt;Click and drag horizontally&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/n-controller&gt;
+
+card.addEventListener('native:swipe', (e) =&gt; {
+  const { direction, distance, velocity } = e.detail;
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Vertical Swipe (Provider) ── -->
+
+    <h2>Vertical Swipe <span class="pattern-badge provider">Provider</span></h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Axis set to <code>'vertical'</code>. Detects up and down swipes.
+      </p>
+      <n-controller traits="swipeable" data-trait-swipeable-axis="vertical">
+        <div id="v-card" class="swipe-card">
+          <span class="swipe-label">Swipe Up or Down</span>
+          <span class="swipe-hint">Click and drag vertically</span>
+        </div>
+      </n-controller>
+      <div id="v-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller traits="swipeable"
+  data-trait-swipeable-axis="vertical"&gt;
+  &lt;div class="swipe-card"&gt;
+    &lt;span class="swipe-label"&gt;Swipe Up or Down&lt;/span&gt;
+    &lt;span class="swipe-hint"&gt;Click and drag vertically&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Both Axes (Provider) ── -->
+
+    <h2>Both Axes <span class="pattern-badge provider">Provider</span></h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Axis set to <code>'both'</code>. Detects the dominant direction from the gesture.
+      </p>
+      <n-controller traits="swipeable" data-trait-swipeable-axis="both">
+        <div id="b-card" class="swipe-card">
+          <span class="swipe-label">Swipe Any Direction</span>
+          <span class="swipe-hint">Click and drag in any direction</span>
+        </div>
+      </n-controller>
+      <div id="b-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller traits="swipeable"
+  data-trait-swipeable-axis="both"&gt;
+  &lt;div class="swipe-card"&gt;
+    &lt;span class="swipe-label"&gt;Swipe Any Direction&lt;/span&gt;
+    &lt;span class="swipe-hint"&gt;Click and drag in any direction&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Custom Threshold (Provider) ── -->
+
+    <h2>Custom Threshold <span class="pattern-badge provider">Provider</span></h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Higher threshold (<strong>100px</strong>) and velocity (<strong>0.5 px/ms</strong>). Requires a longer, faster swipe to trigger.
+      </p>
+      <n-controller traits="swipeable" data-trait-swipeable-axis="horizontal" data-trait-swipeable-threshold="100" data-trait-swipeable-velocity-threshold="0.5">
+        <div id="c-card" class="swipe-card">
+          <span class="swipe-label">Swipe Hard</span>
+          <span class="swipe-hint">Requires 100px distance and 0.5 px/ms velocity</span>
+        </div>
+      </n-controller>
+      <div id="c-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller traits="swipeable"
+  data-trait-swipeable-axis="horizontal"
+  data-trait-swipeable-threshold="100"
+  data-trait-swipeable-velocity-threshold="0.5"&gt;
+  &lt;div class="swipe-card"&gt;
+    &lt;span class="swipe-label"&gt;Swipe Hard&lt;/span&gt;
+    &lt;span class="swipe-hint"&gt;Requires 100px / 0.5 px/ms&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── SwipeController Direct ── -->
+
+    <h2>SwipeController — Attach to Any Element</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Use <code>SwipeController</code> directly on any element without the trait adapter or <code>&lt;n-controller&gt;</code>.
+      </p>
+      <div id="controller-card" class="swipe-card">
+        <span class="swipe-label">Swipe Here</span>
+        <span class="swipe-hint">SwipeController attached to a plain div</span>
+      </div>
+      <div id="ctrl-log" class="output"></div>
+      <pre class="demo-code"><code>import { SwipeController } from '../../index.ts';
+
+const card = document.querySelector('#my-card');
+const swipe = new SwipeController(card, {
+  threshold: 50,
+  velocityThreshold: 0.3,
+  axis: 'both',
+});
+
+card.addEventListener('native:swipe', (e) =&gt; {
+  const { direction, distance, velocity } = e.detail;
+  log(`${direction} — ${distance}px @ ${velocity.toFixed(2)}px/ms`);
+});
+
+// Later: swipe.disabled = true;
+// Later: swipe.destroy();</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Adapter Options (<code>data-trait-swipeable-*</code>)</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>data-trait-swipeable-threshold</code></td>
+            <td><code>number</code></td>
+            <td><code>50</code></td>
+            <td>Minimum distance in pixels for a swipe to be recognized.</td>
+          </tr>
+          <tr>
+            <td><code>data-trait-swipeable-velocity-threshold</code></td>
+            <td><code>number</code></td>
+            <td><code>0.3</code></td>
+            <td>Minimum velocity in px/ms for a swipe to be recognized.</td>
+          </tr>
+          <tr>
+            <td><code>data-trait-swipeable-axis</code></td>
+            <td><code>'horizontal' | 'vertical' | 'both'</code></td>
+            <td><code>'horizontal'</code></td>
+            <td>Which axis to detect swipes on. <code>'both'</code> picks the dominant axis.</td>
+          </tr>
+          <tr>
+            <td><code>data-trait-swipeable-disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables swipe detection when true.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Controller Properties</h3>
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>direction</code></td>
+            <td><code>'left' | 'right' | 'up' | 'down' | null</code></td>
+            <td>Direction of the last recognized swipe.</td>
+          </tr>
+          <tr>
+            <td><code>distance</code></td>
+            <td><code>number</code></td>
+            <td>Distance in pixels of the last recognized swipe.</td>
+          </tr>
+          <tr>
+            <td><code>velocity</code></td>
+            <td><code>number</code></td>
+            <td>Velocity in px/ms of the last recognized swipe.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>native:swipe</code></td>
+            <td><code>{ direction, distance, velocity }</code></td>
+            <td>Fired when a swipe gesture meets the threshold and velocity requirements.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS Attributes</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Set on</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>[swiping]</code></td>
+            <td>Host element</td>
+            <td>Present while the pointer is down (gesture in progress).</td>
+          </tr>
+          <tr>
+            <td><code>[swipe-left]</code></td>
+            <td>Host element</td>
+            <td>Set briefly (300ms) after a left swipe is recognized.</td>
+          </tr>
+          <tr>
+            <td><code>[swipe-right]</code></td>
+            <td>Host element</td>
+            <td>Set briefly (300ms) after a right swipe is recognized.</td>
+          </tr>
+          <tr>
+            <td><code>[swipe-up]</code></td>
+            <td>Host element</td>
+            <td>Set briefly (300ms) after an up swipe is recognized.</td>
+          </tr>
+          <tr>
+            <td><code>[swipe-down]</code></td>
+            <td>Host element</td>
+            <td>Set briefly (300ms) after a down swipe is recognized.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></native-dashboard-spa>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components and wire demos -->
+    <script type="module">
+      import '../../nav/native-dashboard.ts';
+      import '../../components/button/button.ts';
+      import '../../components/controller/controller.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+      import { SwipeController } from '../../index.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Helper: event logging ──
+
+      function appendLog(el, msg) {
+        if (!el) return;
+        const line = document.createElement('div');
+        line.textContent = msg;
+        el.appendChild(line);
+        el.scrollTop = el.scrollHeight;
+        while (el.children.length > 20) el.removeChild(el.firstChild);
+      }
+
+      // ── Horizontal Swipe (provider) ──
+
+      const hCard = document.getElementById('h-card');
+      const hLogEl = document.getElementById('h-log');
+      hCard.addEventListener('native:swipe', (e) => {
+        const { direction, distance, velocity } = e.detail;
+        appendLog(hLogEl, `${direction} — ${Math.round(distance)}px @ ${velocity.toFixed(2)}px/ms`);
+      });
+
+      // ── Vertical Swipe (provider) ──
+
+      const vCard = document.getElementById('v-card');
+      const vLogEl = document.getElementById('v-log');
+      vCard.addEventListener('native:swipe', (e) => {
+        const { direction, distance, velocity } = e.detail;
+        appendLog(vLogEl, `${direction} — ${Math.round(distance)}px @ ${velocity.toFixed(2)}px/ms`);
+      });
+
+      // ── Both Axes (provider) ──
+
+      const bCard = document.getElementById('b-card');
+      const bLogEl = document.getElementById('b-log');
+      bCard.addEventListener('native:swipe', (e) => {
+        const { direction, distance, velocity } = e.detail;
+        appendLog(bLogEl, `${direction} — ${Math.round(distance)}px @ ${velocity.toFixed(2)}px/ms`);
+      });
+
+      // ── Custom Threshold (provider) ──
+
+      const cCard = document.getElementById('c-card');
+      const cLogEl = document.getElementById('c-log');
+      cCard.addEventListener('native:swipe', (e) => {
+        const { direction, distance, velocity } = e.detail;
+        appendLog(cLogEl, `${direction} — ${Math.round(distance)}px @ ${velocity.toFixed(2)}px/ms`);
+      });
+
+      // ── SwipeController — attach to plain element ──
+
+      const ctrlCard = document.getElementById('controller-card');
+      const swipe = new SwipeController(ctrlCard, {
+        threshold: 50,
+        velocityThreshold: 0.3,
+        axis: 'both',
+      });
+
+      const ctrlLogEl = document.getElementById('ctrl-log');
+      ctrlCard.addEventListener('native:swipe', (e) => {
+        const { direction, distance, velocity } = e.detail;
+        appendLog(ctrlLogEl, `${direction} — ${Math.round(distance)}px @ ${velocity.toFixed(2)}px/ms`);
+      });
+    </script>
+  </body>
+</html>

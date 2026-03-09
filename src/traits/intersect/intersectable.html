@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intersectable — Trait Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--n-ink-strong-neutral);
+      }
+      /* ── Intersect Boxes ── */
+
+      .scroll-spacer {
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        text-align: center;
+        padding: 1rem 0;
+      }
+
+      .intersect-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 6rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
+        font-size: 0.875rem;
+        color: var(--n-ink-muted-neutral);
+        opacity: 0;
+        transform: translateY(1.5rem);
+        transition: opacity 600ms ease, transform 600ms ease, background 300ms ease, border-color 300ms ease, color 300ms ease;
+      }
+
+      .intersect-box[intersecting] {
+        opacity: 1;
+        transform: translateY(0);
+        background: var(--n-surface-accent);
+        border-color: var(--n-border-accent);
+        color: var(--n-surface-ink-accent);
+      }
+
+      /* Once mode: keep visible after first intersection */
+      .intersect-box.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .intersect-label {
+        font-weight: 600;
+      }
+
+      .intersect-status {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.125rem 0.5rem;
+        border-radius: 9999px;
+        background: var(--n-border-muted-neutral);
+        color: var(--n-ink-muted-neutral);
+        margin-left: 0.75rem;
+        transition: background 200ms ease, color 200ms ease;
+      }
+
+      [intersecting] .intersect-status {
+        background: var(--n-ink-accent);
+        color: var(--n-surface-accent);
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--n-panel-neutral);
+        border-radius: 0.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <h1>Intersectable</h1>
+    <p class="demo-desc">
+      IntersectionObserver wrapper for visibility-triggered behavior. Sets <code>[intersecting]</code> when the element enters the viewport and dispatches <code>native:intersect</code>.
+    </p>
+
+    <!-- ── Scroll Into View (Provider) ── -->
+
+    <h2>Scroll Into View (Provider)</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        <code>&lt;n-controller traits="intersectable"&gt;</code> wraps each box. Scroll down to see them appear with a CSS fade-in animation.
+      </p>
+      <div class="scroll-spacer">&#8595; Scroll down to reveal boxes &#8595;</div>
+      <n-controller traits="intersectable">
+        <div class="intersect-box">
+          <span class="intersect-label">Box 1</span>
+          <span class="intersect-status">hidden</span>
+        </div>
+      </n-controller>
+      <n-controller traits="intersectable">
+        <div class="intersect-box">
+          <span class="intersect-label">Box 2</span>
+          <span class="intersect-status">hidden</span>
+        </div>
+      </n-controller>
+      <n-controller traits="intersectable">
+        <div class="intersect-box">
+          <span class="intersect-label">Box 3</span>
+          <span class="intersect-status">hidden</span>
+        </div>
+      </n-controller>
+      <n-controller traits="intersectable">
+        <div class="intersect-box">
+          <span class="intersect-label">Box 4</span>
+          <span class="intersect-status">hidden</span>
+        </div>
+      </n-controller>
+      <div id="scroll-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller traits="intersectable"&gt;
+  &lt;div class="intersect-box"&gt;
+    Box 1
+  &lt;/div&gt;
+&lt;/n-controller&gt;
+
+&lt;!-- CSS --&gt;
+.intersect-box {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 600ms ease, transform 600ms ease;
+}
+.intersect-box[intersecting] {
+  opacity: 1;
+  transform: translateY(0);
+}</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Once Mode (Provider) ── -->
+
+    <h2>Once Mode (Provider)</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        <code>data-trait-intersectable-once="true"</code>. The element fades in and stays visible permanently. The observer disconnects after the first intersection.
+      </p>
+      <div class="scroll-spacer">&#8595; Scroll down — these only animate once &#8595;</div>
+      <n-controller traits="intersectable" data-trait-intersectable-once="true">
+        <div class="intersect-box" id="once-a">
+          <span class="intersect-label">Once A</span>
+          <span class="intersect-status">hidden</span>
+        </div>
+      </n-controller>
+      <n-controller traits="intersectable" data-trait-intersectable-once="true">
+        <div class="intersect-box" id="once-b">
+          <span class="intersect-label">Once B</span>
+          <span class="intersect-status">hidden</span>
+        </div>
+      </n-controller>
+      <n-controller traits="intersectable" data-trait-intersectable-once="true">
+        <div class="intersect-box" id="once-c">
+          <span class="intersect-label">Once C</span>
+          <span class="intersect-status">hidden</span>
+        </div>
+      </n-controller>
+      <div id="once-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller traits="intersectable" data-trait-intersectable-once="true"&gt;
+  &lt;div class="intersect-box"&gt;
+    Once A
+  &lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Threshold (Provider) ── -->
+
+    <h2>Threshold (50%)</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        <code>data-trait-intersectable-threshold="0.5"</code>. Only triggers when at least 50% of the element is visible.
+      </p>
+      <div class="scroll-spacer">&#8595; Scroll down — requires 50% visibility &#8595;</div>
+      <n-controller traits="intersectable" data-trait-intersectable-threshold="0.5">
+        <div class="intersect-box">
+          <span class="intersect-label">50% Threshold A</span>
+          <span class="intersect-status">hidden</span>
+        </div>
+      </n-controller>
+      <n-controller traits="intersectable" data-trait-intersectable-threshold="0.5">
+        <div class="intersect-box">
+          <span class="intersect-label">50% Threshold B</span>
+          <span class="intersect-status">hidden</span>
+        </div>
+      </n-controller>
+      <div id="threshold-log" class="output"></div>
+      <pre class="demo-code"><code>&lt;n-controller traits="intersectable" data-trait-intersectable-threshold="0.5"&gt;
+  &lt;div class="intersect-box"&gt;
+    50% Threshold
+  &lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Provider Usage</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>data-trait-intersectable-threshold</code></td>
+            <td><code>number</code></td>
+            <td><code>0</code></td>
+            <td>Visibility ratio (0 to 1) required to trigger. <code>0</code> = any pixel visible.</td>
+          </tr>
+          <tr>
+            <td><code>data-trait-intersectable-once</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>When <code>"true"</code>, the observer disconnects after the first intersection.</td>
+          </tr>
+          <tr>
+            <td><code>data-trait-intersectable-disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables the observer when <code>"true"</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>native:intersect</code></td>
+            <td><code>{ isIntersecting, ratio }</code></td>
+            <td>Fired when visibility changes.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>[intersecting]</code></td>
+            <td>Present on the element while it meets the intersection threshold.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></native-dashboard-spa>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../../nav/native-dashboard.ts';
+      import '../../components/button/button.ts';
+      import '../../components/controller/controller.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Helpers ──
+
+      function appendLog(el, msg) {
+        const line = document.createElement('div');
+        line.textContent = msg;
+        el.appendChild(line);
+        el.scrollTop = el.scrollHeight;
+      }
+
+      function bindStatus(el) {
+        const badge = el.querySelector('.intersect-status');
+        el.addEventListener('native:intersect', (e) => {
+          badge.textContent = e.detail.isIntersecting ? 'visible' : 'hidden';
+        });
+      }
+
+      // ── Bind status badges ──
+
+      for (const el of document.querySelectorAll('.intersect-box')) {
+        bindStatus(el);
+      }
+
+      // ── Once mode: add .revealed class on first intersection ──
+
+      for (const el of [document.getElementById('once-a'), document.getElementById('once-b'), document.getElementById('once-c')]) {
+        el.addEventListener('native:intersect', (e) => {
+          if (e.detail.isIntersecting) el.classList.add('revealed');
+        });
+      }
+
+      // ── Event logging: Scroll Into View ──
+
+      const scrollLogEl = document.getElementById('scroll-log');
+      const scrollBoxes = document.querySelectorAll('.demo-section:nth-of-type(1) .intersect-box');
+      for (const el of scrollBoxes) {
+        el.addEventListener('native:intersect', (e) => {
+          const label = el.querySelector('.intersect-label').textContent;
+          appendLog(scrollLogEl, `${label}: ${e.detail.isIntersecting ? 'enter' : 'leave'} (ratio: ${e.detail.ratio.toFixed(2)})`);
+        });
+      }
+
+      // ── Event logging: Once mode ──
+
+      const onceLogEl = document.getElementById('once-log');
+      for (const el of [document.getElementById('once-a'), document.getElementById('once-b'), document.getElementById('once-c')]) {
+        el.addEventListener('native:intersect', (e) => {
+          const label = el.querySelector('.intersect-label').textContent;
+          appendLog(onceLogEl, `${label}: ${e.detail.isIntersecting ? 'enter (observer disconnects)' : 'leave'}`);
+        });
+      }
+
+      // ── Event logging: Threshold ──
+
+      const thresholdLogEl = document.getElementById('threshold-log');
+      const thresholdBoxes = document.querySelectorAll('.demo-section:last-of-type .intersect-box');
+      for (const el of thresholdBoxes) {
+        el.addEventListener('native:intersect', (e) => {
+          const label = el.querySelector('.intersect-label').textContent;
+          appendLog(thresholdLogEl, `${label}: ${e.detail.isIntersecting ? 'enter' : 'leave'} (ratio: ${e.detail.ratio.toFixed(2)})`);
+        });
+      }
+    </script>
+  </body>
+</html>

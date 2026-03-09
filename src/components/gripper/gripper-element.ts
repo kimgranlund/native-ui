@@ -1,7 +1,7 @@
 import { NativeElement } from '../../core/native-element.ts';
 import { uid } from '../../core/uid.ts';
-import { ResizeController } from '../../traits/resize-controller.ts';
-import type { HandlePosition } from '../../traits/resize-controller.ts';
+import { ResizeController } from '../../traits/resize/resize-controller.ts';
+import type { HandlePosition } from '../../traits/resize/resize-controller.ts';
 
 export type GripperMode = 'resize-horizontal' | 'resize-vertical' | 'resize-corner';
 

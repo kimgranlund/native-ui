@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>List Navigable — Trait Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    <style>
+      /* ── List styling ── */
+
+      .nav-list {
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
+        overflow: hidden;
+        max-width: 20rem;
+      }
+
+      .nav-list [role="option"] {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8125rem;
+        cursor: pointer;
+        user-select: none;
+        border-bottom: 1px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-neutral);
+        background: var(--n-surface-neutral);
+        transition: background 100ms ease;
+      }
+
+      .nav-list [role="option"]:last-child {
+        border-bottom: none;
+      }
+
+      .nav-list [role="option"]:hover {
+        background: var(--n-panel-hover-neutral);
+      }
+
+      .nav-list [role="option"]:focus-visible {
+        outline: 2px solid var(--n-focus-ring);
+        outline-offset: -2px;
+        z-index: 1;
+        position: relative;
+      }
+
+      .nav-list [role="option"][aria-selected="true"] {
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
+      }
+
+      .nav-list [role="option"][aria-checked="true"] {
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--n-panel-neutral);
+        border-radius: 0.25rem;
+      }
+    </style>
+
+    <!-- Register traits BEFORE component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+    <script type="module">
+      import '../../nav/native-dashboard.ts';
+      import '../../components/button/button.ts';
+      import '../../components/controller/controller.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+    </script>
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <h1>List Navigable</h1>
+    <p class="demo-desc">
+      Coordinates roving focus, ARIA selection sync, and child select events for list-based
+      components. Combines <code>RovingFocusController</code> with value tracking and
+      automatic <code>aria-selected</code>/<code>aria-checked</code> synchronization.
+    </p>
+
+    <!-- ── Basic List ── -->
+
+    <h2>Basic List Navigation</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Use Arrow keys to navigate. Click or press Enter/Space to select.
+        The list tracks selection via <code>aria-selected</code> and dispatches <code>native:change</code>.
+      </p>
+      <div class="nav-list" id="basic-list" role="listbox" aria-label="Fruits">
+        <div role="option" value="apple">Apple</div>
+        <div role="option" value="banana">Banana</div>
+        <div role="option" value="cherry">Cherry</div>
+        <div role="option" value="date">Date</div>
+        <div role="option" value="elderberry">Elderberry</div>
+      </div>
+      <div class="output" id="basic-log"></div>
+      <pre class="demo-code"><code>&lt;div role="listbox"&gt;
+  &lt;div role="option" value="apple"&gt;Apple&lt;/div&gt;
+  &lt;div role="option" value="banana"&gt;Banana&lt;/div&gt;
+  &lt;!-- ... --&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  const ctrl = new ListNavigateController(host, {
+    itemSelector: ':scope > [role="option"]',
+    orientation: 'vertical',
+  });
+  host.addEventListener('native:change', (e) =&gt; {
+    console.log(e.detail.value, e.detail.label);
+  });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Radio Group (aria-checked) ── -->
+
+    <h2>Radio Group (aria-checked)</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Same controller with <code>ariaAttr: 'aria-checked'</code>. Used for radio-button style selection.
+      </p>
+      <div class="nav-list" id="radio-list" role="radiogroup" aria-label="Theme">
+        <div role="radio" value="light">Light</div>
+        <div role="radio" value="dark">Dark</div>
+        <div role="radio" value="auto">System</div>
+      </div>
+      <div class="output" id="radio-log"></div>
+      <pre class="demo-code"><code>const ctrl = new ListNavigateController(host, {
+  itemSelector: ':scope > [role="radio"]',
+  ariaAttr: 'aria-checked',
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Horizontal Navigation ── -->
+
+    <h2>Horizontal Orientation</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Use Left/Right arrow keys to navigate. Set with <code>orientation: 'horizontal'</code>.
+      </p>
+      <div class="nav-list" id="horizontal-list" role="listbox" aria-label="Tabs" style="display: flex; max-width: 100%;">
+        <div role="option" value="tab1" style="flex: 1; text-align: center; border-bottom: none; border-right: 1px solid var(--n-border-muted-neutral);">Tab 1</div>
+        <div role="option" value="tab2" style="flex: 1; text-align: center; border-bottom: none; border-right: 1px solid var(--n-border-muted-neutral);">Tab 2</div>
+        <div role="option" value="tab3" style="flex: 1; text-align: center; border-bottom: none;">Tab 3</div>
+      </div>
+      <div class="output" id="horizontal-log"></div>
+      <pre class="demo-code"><code>const ctrl = new ListNavigateController(host, {
+  itemSelector: ':scope > [role="option"]',
+  orientation: 'horizontal',
+  wrap: true,
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Constructor Options</h3>
+      <table class="api-table">
+        <thead><tr><th>Option</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>itemSelector</code></td>
+            <td><code>string</code></td>
+            <td><code>:scope &gt; [role]</code></td>
+            <td>CSS selector for navigable items within the host.</td>
+          </tr>
+          <tr>
+            <td><code>ariaAttr</code></td>
+            <td><code>'aria-selected' | 'aria-checked' | 'aria-current'</code></td>
+            <td><code>'aria-selected'</code></td>
+            <td>ARIA attribute to sync with the current selection.</td>
+          </tr>
+          <tr>
+            <td><code>autoSync</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Automatically sync ARIA attributes on children when selection changes.</td>
+          </tr>
+          <tr>
+            <td><code>orientation</code></td>
+            <td><code>'horizontal' | 'vertical' | 'both'</code></td>
+            <td><code>'vertical'</code></td>
+            <td>Keyboard navigation direction.</td>
+          </tr>
+          <tr>
+            <td><code>wrap</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Wrap focus from last to first (and vice versa).</td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disable keyboard navigation and selection.</td>
+          </tr>
+          <tr>
+            <td><code>onChildSelect</code></td>
+            <td><code>(detail) =&gt; void</code></td>
+            <td>set value + dispatch</td>
+            <td>Override the default selection handler. Receives <code>{ value, label }</code>.</td>
+          </tr>
+          <tr>
+            <td><code>addEffect</code></td>
+            <td><code>(fn) =&gt; void</code></td>
+            <td>-</td>
+            <td>Required for auto ARIA sync. Connects to host's reactive effect system.</td>
+          </tr>
+          <tr>
+            <td><code>deferChildren</code></td>
+            <td><code>(fn) =&gt; void</code></td>
+            <td>-</td>
+            <td>Required for auto ARIA sync. Defers until children are available.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Signals</h3>
+      <table class="api-table">
+        <thead><tr><th>Signal</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>listValue</code></td>
+            <td><code>Signal&lt;string | null&gt;</code></td>
+            <td>The currently selected value. Null when nothing is selected.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>native:change</code></td>
+            <td><code>{ value: string, label: string }</code></td>
+            <td>Dispatched when a child item is selected. Bubbles and is cancelable.</td>
+          </tr>
+          <tr>
+            <td><code>native:select</code></td>
+            <td><code>{ value: string, label: string }</code></td>
+            <td>Listened on host. Typically dispatched by child items when clicked or activated.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>ArrowDown</code> / <code>ArrowRight</code></td>
+            <td>Move focus to the next item (direction depends on orientation).</td>
+          </tr>
+          <tr>
+            <td><code>ArrowUp</code> / <code>ArrowLeft</code></td>
+            <td>Move focus to the previous item.</td>
+          </tr>
+          <tr>
+            <td><code>Home</code></td>
+            <td>Move focus to the first item.</td>
+          </tr>
+          <tr>
+            <td><code>End</code></td>
+            <td>Move focus to the last item.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>CSS</h3>
+      <table class="api-table">
+        <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>[aria-selected="true"]</code></td>
+            <td>The currently selected item (when using default ariaAttr).</td>
+          </tr>
+          <tr>
+            <td><code>[aria-checked="true"]</code></td>
+            <td>The currently checked item (when ariaAttr is 'aria-checked').</td>
+          </tr>
+          <tr>
+            <td><code>[tabindex="0"]</code></td>
+            <td>The focusable item in the roving focus group.</td>
+          </tr>
+          <tr>
+            <td><code>[tabindex="-1"]</code></td>
+            <td>Non-focusable items in the roving focus group.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></native-dashboard-spa>
+
+    <script type="module">
+      import { ListNavigateController } from '../../index.ts';
+      import { effect } from '../../reactivity/effect.ts';
+
+      // ── Copy buttons ──
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Helpers ──
+      function appendLog(el, msg) {
+        const line = document.createElement('div');
+        line.textContent = msg;
+        el.appendChild(line);
+        el.scrollTop = el.scrollHeight;
+      }
+
+      // Make items dispatch native:select on click
+      function wireClicks(host) {
+        for (const item of host.querySelectorAll('[role="option"], [role="radio"]')) {
+          item.addEventListener('click', () => {
+            const value = item.getAttribute('value') ?? '';
+            const label = item.textContent?.trim() ?? '';
+            item.dispatchEvent(new CustomEvent('native:select', {
+              bubbles: true,
+              composed: true,
+              detail: { value, label },
+            }));
+          });
+        }
+      }
+
+      // ── Basic list ──
+      const basicHost = document.getElementById('basic-list');
+      const basicLog = document.getElementById('basic-log');
+      wireClicks(basicHost);
+
+      const basicCtrl = new ListNavigateController(basicHost, {
+        itemSelector: ':scope > [role="option"]',
+        orientation: 'vertical',
+      });
+
+      // Manual ARIA sync (since we're not using NativeElement with addEffect/deferChildren)
+      basicHost.addEventListener('native:change', (e) => {
+        appendLog(basicLog, `native:change — value: "${e.detail.value}", label: "${e.detail.label}"`);
+        for (const item of basicHost.querySelectorAll('[role="option"]')) {
+          const val = item.getAttribute('value');
+          item.setAttribute('aria-selected', val === e.detail.value ? 'true' : 'false');
+        }
+      });
+
+      // ── Radio group ──
+      const radioHost = document.getElementById('radio-list');
+      const radioLog = document.getElementById('radio-log');
+      wireClicks(radioHost);
+
+      const radioCtrl = new ListNavigateController(radioHost, {
+        itemSelector: ':scope > [role="radio"]',
+        ariaAttr: 'aria-checked',
+        orientation: 'vertical',
+      });
+
+      radioHost.addEventListener('native:change', (e) => {
+        appendLog(radioLog, `native:change — value: "${e.detail.value}"`);
+        for (const item of radioHost.querySelectorAll('[role="radio"]')) {
+          const val = item.getAttribute('value');
+          item.setAttribute('aria-checked', val === e.detail.value ? 'true' : 'false');
+        }
+      });
+
+      // ── Horizontal list ──
+      const horizontalHost = document.getElementById('horizontal-list');
+      const horizontalLog = document.getElementById('horizontal-log');
+      wireClicks(horizontalHost);
+
+      const horizontalCtrl = new ListNavigateController(horizontalHost, {
+        itemSelector: ':scope > [role="option"]',
+        orientation: 'horizontal',
+        wrap: true,
+      });
+
+      horizontalHost.addEventListener('native:change', (e) => {
+        appendLog(horizontalLog, `native:change — value: "${e.detail.value}"`);
+        for (const item of horizontalHost.querySelectorAll('[role="option"]')) {
+          const val = item.getAttribute('value');
+          item.setAttribute('aria-selected', val === e.detail.value ? 'true' : 'false');
+        }
+      });
+    </script>
+  </body>
+</html>

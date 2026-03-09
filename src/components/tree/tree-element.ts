@@ -1,7 +1,7 @@
 import { signal } from '../../reactivity/signal.ts';
 import { NativeElement } from '../../core/native-element.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
-import { RovingFocusController } from '../../traits/roving-focus-controller.ts';
+import { RovingFocusController } from '../../traits/roving-focus/roving-focus-controller.ts';
 
 /**
  * Tree view with roving focus and keyboard navigation across nested items.

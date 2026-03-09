@@ -3,7 +3,7 @@ import { batch } from '../../reactivity/batch.ts';
 import { NativeElement } from '../../core/native-element.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
 import { FormAssociable } from '../../core/form-associable.ts';
-import { PopoverController } from '../../traits/popover-controller.ts';
+import { PopoverController } from '../../traits/popover/popover-controller.ts';
 import { DataListController } from '../../core/data-list.ts';
 import { parseDataOptions, fetchDataOptions } from '../../core/data-options.ts';
 import type { BaseOption } from '../../core/data-options.ts';

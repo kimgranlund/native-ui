@@ -4,7 +4,7 @@ import '../select.ts';
 import '../../button/button.ts';
 import '../../listbox/listbox.ts';
 import '../../listbox/option.ts';
-import { SelectController } from '../select-controller.ts';
+import { SelectController } from '../controller/select-controller.ts';
 
 // ── SelectController standalone tests ──
 

@@ -1,5 +1,5 @@
 import { NativeElement } from '../../core/native-element.ts';
-import { DialogController } from '../../traits/dialog-controller.ts';
+import { DialogController } from '../../traits/dialog/dialog-controller.ts';
 
 /**
  * Slide-in drawer panel using a native dialog element.

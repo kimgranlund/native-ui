@@ -2,7 +2,7 @@ import { signal } from '../../reactivity/signal.ts';
 import { batch } from '../../reactivity/batch.ts';
 import { NativeElement } from '../../core/native-element.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
-import { CalendarStore } from './calendar-store.ts';
+import { CalendarStore } from './store/calendar-store.ts';
 import { FormAssociable } from '../../core/form-associable.ts';
 
 /**

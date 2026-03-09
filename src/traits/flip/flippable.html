@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flippable — Trait Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--n-ink-strong-neutral);
+      }
+
+      /* ── Flip Cards ── */
+
+      .flip-card {
+        width: 200px;
+        height: 260px;
+        cursor: pointer;
+      }
+
+      .flip-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .flip-face {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        display: grid;
+        place-items: center;
+        border-radius: var(--n-radius);
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .flip-front {
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-neutral);
+      }
+
+      .flip-back {
+        background: var(--n-surface-accent);
+        border: 1px solid var(--n-border-accent);
+        color: var(--n-ink-accent);
+        transform: rotateY(180deg);
+      }
+
+      .flip-back.x-axis {
+        transform: rotateX(180deg);
+      }
+
+      .flip-label {
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+
+      /* ── Event log ── */
+
+      .event-log {
+        font-family: ui-monospace, monospace;
+        font-size: 0.7rem;
+        line-height: 1.6;
+        color: var(--n-ink-muted-neutral);
+        max-height: 10rem;
+        overflow-y: auto;
+      }
+      .event-log .entry {
+        padding: 0.125rem 0;
+      }
+      .event-log .flipped { color: var(--n-ink-accent); }
+      .event-log .unflipped { color: var(--n-ink-success); }
+      .event-log .axis { color: var(--n-ink-warning); }
+
+    </style>
+
+    <!-- Script 1: Register traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../../nav/native-dashboard.ts';
+      import '../../components/button/button.ts';
+      import '../../components/switch/switch.ts';
+      import '../../components/select/select.ts';
+      import '../../components/range/range.ts';
+      import '../../components/controller/controller.ts';
+      import { FlipController } from '../../index.ts';
+
+      // ── Provider demo event log ──
+      const providerLog = document.getElementById('provider-log');
+      document.getElementById('provider-section').addEventListener('native:flip', (e) => {
+        const d = e.detail;
+        const entry = document.createElement('div');
+        entry.className = 'entry';
+        const cls = d.flipped ? 'flipped' : 'unflipped';
+        entry.innerHTML = `flip -> <span class="${cls}">${d.flipped ? 'flipped' : 'unflipped'}</span> <span class="axis">axis:${d.axis}</span>`;
+        providerLog.prepend(entry);
+      });
+
+      // ── Programmatic demo ──
+      const progCard = document.getElementById('prog-card');
+      const progFlip = new FlipController(progCard, { trigger: 'manual' });
+
+      document.getElementById('btn-flip').addEventListener('native:press', () => {
+        progFlip.flip();
+      });
+      document.getElementById('btn-unflip').addEventListener('native:press', () => {
+        progFlip.unflip();
+      });
+      document.getElementById('btn-toggle').addEventListener('native:press', () => {
+        progFlip.toggle();
+      });
+
+      // ── Options playground ──
+      const optCard = document.getElementById('opt-card');
+      let optFlip = new FlipController(optCard, { trigger: 'click' });
+      const optLog = document.getElementById('opt-log');
+
+      optCard.addEventListener('native:flip', (e) => {
+        const d = e.detail;
+        const entry = document.createElement('div');
+        entry.className = 'entry';
+        const cls = d.flipped ? 'flipped' : 'unflipped';
+        entry.innerHTML = `flip -> <span class="${cls}">${d.flipped ? 'flipped' : 'unflipped'}</span> <span class="axis">axis:${d.axis}</span>`;
+        optLog.prepend(entry);
+      });
+
+      // Axis select
+      document.getElementById('opt-axis').addEventListener('native:change', (e) => {
+        const val = e.detail.value;
+        optFlip.destroy();
+        // Update back face rotation class
+        const backEl = optCard.querySelector('.flip-back');
+        if (backEl) {
+          backEl.classList.toggle('x-axis', val === 'x');
+          backEl.style.transform = val === 'x' ? 'rotateX(180deg)' : 'rotateY(180deg)';
+        }
+        optFlip = new FlipController(optCard, {
+          axis: val,
+          duration: optFlip.duration,
+          perspective: optFlip.perspective,
+          trigger: optFlip.trigger,
+        });
+      });
+
+      // Duration range
+      const durationVal = document.getElementById('duration-val');
+      document.getElementById('opt-duration').addEventListener('native:change', (e) => {
+        const v = Number(e.detail.value);
+        optFlip.duration = v;
+        optCard.style.transition = `transform ${v}ms ease-in-out`;
+        durationVal.textContent = `${v}ms`;
+      });
+
+      // Perspective range
+      const perspectiveVal = document.getElementById('perspective-val');
+      document.getElementById('opt-perspective').addEventListener('native:change', (e) => {
+        const v = Number(e.detail.value);
+        optFlip.perspective = v;
+        optCard.style.perspective = `${v}px`;
+        perspectiveVal.textContent = `${v}px`;
+      });
+
+      // Trigger select
+      document.getElementById('opt-trigger').addEventListener('native:change', (e) => {
+        const val = e.detail.value;
+        optFlip.detach();
+        optFlip.trigger = val;
+        optFlip.attach();
+      });
+
+      // Disabled switch
+      document.getElementById('opt-disabled').addEventListener('native:change', (e) => {
+        optFlip.disabled = e.detail.value;
+      });
+    </script>
+  </head>
+  <body>
+    <native-dashboard-spa>
+      <main>
+        <h2>Flippable</h2>
+        <span muted size="sm" style="margin-bottom: 1.5rem; display: block;">
+          3D card flip on click/press with front/back content. CSS transform with perspective and backface-visibility.
+        </span>
+
+        <!-- ── Basic Flip (Provider) ── -->
+
+        <div id="provider-section">
+          <h3>Basic Flip (click to flip)</h3>
+          <span muted size="sm" style="margin-bottom: 0.75rem; display: block;">
+            Wrap elements with <code>&lt;n-controller traits="flippable"&gt;</code>. Click to toggle.
+          </span>
+
+          <n-stack direction="row" gap="4" style="flex-wrap: wrap;">
+            <n-controller traits="flippable">
+              <div class="flip-card">
+                <div class="flip-inner">
+                  <div class="flip-face flip-front">
+                    <n-stack align="center" gap="2">
+                      <span class="flip-label">Front</span>
+                      <span muted size="sm">Click to flip</span>
+                    </n-stack>
+                  </div>
+                  <div class="flip-face flip-back" data-flip-back>
+                    <n-stack align="center" gap="2">
+                      <span class="flip-label">Back</span>
+                      <span muted size="sm">Click to unflip</span>
+                    </n-stack>
+                  </div>
+                </div>
+              </div>
+            </n-controller>
+
+            <!-- Hover Flip -->
+            <n-controller traits="flippable" data-trait-flippable-trigger="hover">
+              <div class="flip-card">
+                <div class="flip-inner">
+                  <div class="flip-face flip-front">
+                    <n-stack align="center" gap="2">
+                      <span class="flip-label">Hover</span>
+                      <span muted size="sm">Hover to flip</span>
+                    </n-stack>
+                  </div>
+                  <div class="flip-face flip-back" data-flip-back>
+                    <n-stack align="center" gap="2">
+                      <span class="flip-label">Back</span>
+                      <span muted size="sm">Move away to unflip</span>
+                    </n-stack>
+                  </div>
+                </div>
+              </div>
+            </n-controller>
+          </n-stack>
+
+          <!-- ── Axis Options ── -->
+
+          <h3>Axis Options</h3>
+          <span muted size="sm" style="margin-bottom: 0.75rem; display: block;">
+            Y-axis (default) vs X-axis flip side by side. Click each card.
+          </span>
+
+          <n-stack direction="row" gap="4" style="flex-wrap: wrap;">
+            <n-stack gap="1" align="center">
+              <n-controller traits="flippable" data-trait-flippable-axis="y">
+                <div class="flip-card">
+                  <div class="flip-inner">
+                    <div class="flip-face flip-front">
+                      <n-stack align="center" gap="2">
+                        <span class="flip-label">Y-Axis</span>
+                        <span muted size="sm">rotateY(180deg)</span>
+                      </n-stack>
+                    </div>
+                    <div class="flip-face flip-back" data-flip-back>
+                      <n-stack align="center" gap="2">
+                        <span class="flip-label">Back</span>
+                        <span muted size="sm">Y-Axis flip</span>
+                      </n-stack>
+                    </div>
+                  </div>
+                </div>
+              </n-controller>
+              <span muted size="sm">axis="y"</span>
+            </n-stack>
+
+            <n-stack gap="1" align="center">
+              <n-controller traits="flippable" data-trait-flippable-axis="x">
+                <div class="flip-card">
+                  <div class="flip-inner">
+                    <div class="flip-face flip-front">
+                      <n-stack align="center" gap="2">
+                        <span class="flip-label">X-Axis</span>
+                        <span muted size="sm">rotateX(180deg)</span>
+                      </n-stack>
+                    </div>
+                    <div class="flip-face flip-back x-axis" data-flip-back>
+                      <n-stack align="center" gap="2">
+                        <span class="flip-label">Back</span>
+                        <span muted size="sm">X-Axis flip</span>
+                      </n-stack>
+                    </div>
+                  </div>
+                </div>
+              </n-controller>
+              <span muted size="sm">axis="x"</span>
+            </n-stack>
+          </n-stack>
+
+          <h3>Provider Event Log</h3>
+          <n-container>
+            <n-body show-scrollbar style="max-height: 8rem;">
+              <div class="event-log" id="provider-log"></div>
+            </n-body>
+          </n-container>
+        </div>
+
+        <!-- ── Programmatic Demo ── -->
+
+        <h3>Programmatic (manual trigger)</h3>
+        <span muted size="sm" style="margin-bottom: 0.75rem; display: block;">
+          <code>new FlipController(el, { trigger: 'manual' })</code> — use buttons to call <code>flip()</code>, <code>unflip()</code>, <code>toggle()</code>.
+        </span>
+
+        <n-stack direction="row" gap="4" align="start" style="flex-wrap: wrap;">
+          <div class="flip-card" id="prog-card">
+            <div class="flip-inner">
+              <div class="flip-face flip-front">
+                <n-stack align="center" gap="2">
+                  <span class="flip-label">Manual</span>
+                  <span muted size="sm">Use buttons below</span>
+                </n-stack>
+              </div>
+              <div class="flip-face flip-back" data-flip-back>
+                <n-stack align="center" gap="2">
+                  <span class="flip-label">Back</span>
+                  <span muted size="sm">Flipped programmatically</span>
+                </n-stack>
+              </div>
+            </div>
+          </div>
+
+          <n-stack gap="2">
+            <n-button id="btn-flip" variant="secondary">flip()</n-button>
+            <n-button id="btn-unflip" variant="secondary">unflip()</n-button>
+            <n-button id="btn-toggle" intent="accent">toggle()</n-button>
+          </n-stack>
+        </n-stack>
+
+        <!-- ── Options Playground ── -->
+
+        <h3>Options Playground</h3>
+        <span muted size="sm" style="margin-bottom: 0.75rem; display: block;">
+          Adjust options live on the controller instance. Click the card to flip.
+        </span>
+
+        <n-stack direction="row" gap="4" align="start" style="flex-wrap: wrap;">
+          <div class="flip-card" id="opt-card">
+            <div class="flip-inner">
+              <div class="flip-face flip-front">
+                <n-stack align="center" gap="2">
+                  <span class="flip-label">Options</span>
+                  <span muted size="sm">Adjust controls</span>
+                </n-stack>
+              </div>
+              <div class="flip-face flip-back" data-flip-back>
+                <n-stack align="center" gap="2">
+                  <span class="flip-label">Back</span>
+                  <span muted size="sm">Customized flip</span>
+                </n-stack>
+              </div>
+            </div>
+          </div>
+
+          <n-container style="flex: 1; min-width: 16rem;">
+            <n-body>
+              <n-stack gap="3">
+                <n-stack direction="row" align="center" gap="3">
+                  <span size="sm" style="min-width: 7rem;">Axis:</span>
+                  <n-select id="opt-axis" options='[{"value":"y","label":"Y-axis"},{"value":"x","label":"X-axis"}]' placeholder="Y-axis" style="flex:1;"></n-select>
+                </n-stack>
+                <n-stack direction="row" align="center" gap="3">
+                  <span size="sm" style="min-width: 7rem;">Duration: <strong id="duration-val">600ms</strong></span>
+                  <n-range id="opt-duration" min="100" max="2000" step="50" value="600" style="flex:1;"></n-range>
+                </n-stack>
+                <n-stack direction="row" align="center" gap="3">
+                  <span size="sm" style="min-width: 7rem;">Perspective: <strong id="perspective-val">1000px</strong></span>
+                  <n-range id="opt-perspective" min="200" max="3000" step="50" value="1000" style="flex:1;"></n-range>
+                </n-stack>
+                <n-stack direction="row" align="center" gap="3">
+                  <span size="sm" style="min-width: 7rem;">Trigger:</span>
+                  <n-select id="opt-trigger" options='[{"value":"click","label":"Click"},{"value":"hover","label":"Hover"},{"value":"manual","label":"Manual"}]' placeholder="Click" style="flex:1;"></n-select>
+                </n-stack>
+                <n-stack direction="row" align="center" gap="3">
+                  <n-switch id="opt-disabled">Disabled</n-switch>
+                </n-stack>
+              </n-stack>
+            </n-body>
+          </n-container>
+        </n-stack>
+
+        <h3>Options Event Log</h3>
+        <n-container>
+          <n-body show-scrollbar style="max-height: 8rem;">
+            <div class="event-log" id="opt-log"></div>
+          </n-body>
+        </n-container>
+
+        <!-- ── API Reference ── -->
+
+        <h2>API</h2>
+
+        <div class="api-section">
+          <h3>Provider Usage</h3>
+          <table class="api-table">
+            <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>data-trait-flippable-axis</code></td>
+                <td><code>"x" | "y"</code></td>
+                <td><code>"y"</code></td>
+                <td>Flip axis. <code>y</code> = horizontal flip (rotateY), <code>x</code> = vertical flip (rotateX).</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-flippable-duration</code></td>
+                <td><code>number</code></td>
+                <td><code>600</code></td>
+                <td>Flip animation duration in ms.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-flippable-perspective</code></td>
+                <td><code>number</code></td>
+                <td><code>1000</code></td>
+                <td>CSS perspective in px.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-flippable-trigger</code></td>
+                <td><code>"click" | "hover" | "manual"</code></td>
+                <td><code>"click"</code></td>
+                <td>Trigger mode. <code>hover</code> flips on mouseenter, unflips on mouseleave. <code>manual</code> requires calling <code>flip()</code>/<code>toggle()</code>.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-flippable-disabled</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Disable the flip controller.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>Events</h3>
+          <table class="api-table">
+            <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>native:flip</code></td>
+                <td><code>{ flipped, axis }</code></td>
+                <td>Fired on flip/unflip. <code>flipped</code> is a boolean, <code>axis</code> is <code>"x"</code> or <code>"y"</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>CSS</h3>
+          <table class="api-table">
+            <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>[data-flip-back]</code></td>
+                <td>Mark the back-face element. Must have <code>backface-visibility: hidden</code> and the inverse rotation transform.</td>
+              </tr>
+              <tr>
+                <td><code>[flipped]</code></td>
+                <td>Present on the host element while in the flipped state.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+    </native-dashboard-spa>
+  </body>
+</html>

@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RovingFocusable — Trait Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--n-ink-strong-neutral);
+      }
+      /* ── Vertical toolbar ── */
+
+      .toolbar {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding: 0.25rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.375rem;
+        width: fit-content;
+      }
+
+      .tool-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        background: transparent;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: background 100ms ease;
+        outline: none;
+      }
+
+      .tool-btn:hover {
+        background: var(--n-panel-hover-neutral);
+      }
+
+      .tool-btn:focus-visible {
+        outline: 2px solid var(--n-focus-ring);
+        outline-offset: -2px;
+      }
+
+      .tool-btn[disabled] {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      /* ── Horizontal tab bar ── */
+
+      .tabbar {
+        display: flex;
+        gap: 0;
+        border-bottom: 1px solid var(--n-border-muted-neutral);
+      }
+
+      .tab-item {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        cursor: pointer;
+        outline: none;
+        border-bottom: 2px solid transparent;
+        transition: border-color 100ms ease, color 100ms ease;
+        color: var(--n-ink-muted-neutral);
+      }
+
+      .tab-item:hover {
+        color: var(--n-ink-hover-neutral);
+      }
+
+      .tab-item:focus-visible {
+        outline: 2px solid var(--n-focus-ring);
+        outline-offset: -2px;
+      }
+
+      .tab-item.active {
+        color: var(--n-surface-ink-accent);
+        border-bottom-color: var(--n-surface-accent);
+      }
+    </style>
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <h1>RovingFocusable</h1>
+    <p class="demo-desc">
+      Composable trait for keyboard navigation within a group. Only one item has <code>tabindex="0"</code> at a time — arrow keys move focus between items, Home/End jump to first/last. Skips disabled items.
+    </p>
+
+    <!-- ── Vertical Toolbar (Provider) ── -->
+
+    <h2>Vertical (Arrow Up/Down)</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        <code>&lt;n-controller&gt;</code> applies roving focus with vertical orientation. Tab into the toolbar, then use Up/Down arrows. The "Italic" item is disabled and skipped.
+      </p>
+      <n-controller traits="roving-focusable" data-trait-roving-focusable-selector=":scope > .toolbar > .tool-btn:not([disabled])" data-trait-roving-focusable-orientation="vertical">
+        <div>
+          <div class="toolbar">
+            <div class="tool-btn" role="button">Bold</div>
+            <div class="tool-btn" role="button" disabled>Italic (disabled)</div>
+            <div class="tool-btn" role="button">Underline</div>
+            <div class="tool-btn" role="button">Strikethrough</div>
+            <div class="tool-btn" role="button">Code</div>
+          </div>
+        </div>
+      </n-controller>
+      <pre class="demo-code"><code>&lt;n-controller traits="roving-focusable"
+  data-trait-roving-focusable-selector=".tool-btn:not([disabled])"
+  data-trait-roving-focusable-orientation="vertical"&gt;
+  &lt;div&gt;
+    &lt;div class="toolbar"&gt;
+      &lt;div class="tool-btn" role="button"&gt;Bold&lt;/div&gt;
+      &lt;div class="tool-btn" role="button" disabled&gt;Italic&lt;/div&gt;
+      &lt;div class="tool-btn" role="button"&gt;Underline&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Horizontal Tab Bar (Provider) ── -->
+
+    <h2>Horizontal (Arrow Left/Right)</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Horizontal orientation with wrap-around. Use Left/Right arrows to navigate. Focus wraps from last to first.
+      </p>
+      <n-controller traits="roving-focusable" data-trait-roving-focusable-selector=".tab-item" data-trait-roving-focusable-orientation="horizontal">
+        <div>
+          <div class="tabbar" id="tabbar">
+            <div class="tab-item active" role="tab">Overview</div>
+            <div class="tab-item" role="tab">Features</div>
+            <div class="tab-item" role="tab">API</div>
+            <div class="tab-item" role="tab">Examples</div>
+          </div>
+        </div>
+      </n-controller>
+      <pre class="demo-code"><code>&lt;n-controller traits="roving-focusable"
+  data-trait-roving-focusable-selector=".tab-item"
+  data-trait-roving-focusable-orientation="horizontal"&gt;
+  &lt;div&gt;
+    &lt;div class="tabbar"&gt;
+      &lt;div class="tab-item" role="tab"&gt;Overview&lt;/div&gt;
+      &lt;div class="tab-item" role="tab"&gt;Features&lt;/div&gt;
+      &lt;div class="tab-item" role="tab"&gt;API&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Built-in: n-listbox ── -->
+
+    <h2>Built-in: n-listbox</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        <code>n-listbox</code> uses RovingFocusable internally. Arrow keys navigate between options.
+      </p>
+      <n-listbox style="max-width: 16rem;">
+        <n-option value="react">React</n-option>
+        <n-option value="vue">Vue</n-option>
+        <n-option value="svelte">Svelte</n-option>
+        <n-option value="lit">Lit</n-option>
+      </n-listbox>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Provider Usage</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>data-trait-roving-focusable-selector</code></td>
+            <td><code>string</code></td>
+            <td>—</td>
+            <td>CSS selector for focusable items. Exclude disabled items with <code>:not([disabled])</code>.</td>
+          </tr>
+          <tr>
+            <td><code>data-trait-roving-focusable-orientation</code></td>
+            <td><code>'vertical' | 'horizontal' | 'both'</code></td>
+            <td><code>'both'</code></td>
+            <td>Which arrow keys to respond to. <code>'vertical'</code> = Up/Down, <code>'horizontal'</code> = Left/Right.</td>
+          </tr>
+          <tr>
+            <td><code>data-trait-roving-focusable-wrap</code></td>
+            <td><code>boolean</code></td>
+            <td><code>true</code></td>
+            <td>Whether focus wraps from last to first (and vice versa).</td>
+          </tr>
+          <tr>
+            <td><code>data-trait-roving-focusable-disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Disables roving focus when <code>"true"</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <table class="api-table">
+        <thead><tr><th>Key</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>Arrow Up/Down</code></td>
+            <td>Move focus in vertical mode.</td>
+          </tr>
+          <tr>
+            <td><code>Arrow Left/Right</code></td>
+            <td>Move focus in horizontal mode.</td>
+          </tr>
+          <tr>
+            <td><code>Home</code></td>
+            <td>Move focus to first item.</td>
+          </tr>
+          <tr>
+            <td><code>End</code></td>
+            <td>Move focus to last item.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></native-dashboard-spa>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../../nav/native-dashboard.ts';
+      import '../../components/button/button.ts';
+      import '../../components/listbox/listbox.ts';
+      import '../../components/controller/controller.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+// ── Copy buttons ──
+
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Tab bar: active class switching ──
+
+      const tabbar = document.getElementById('tabbar');
+      tabbar.addEventListener('focusin', (e) => {
+        for (const item of tabbar.querySelectorAll('.tab-item')) item.classList.remove('active');
+        if (e.target !== tabbar) e.target.classList.add('active');
+      });
+    </script>
+  </body>
+</html>

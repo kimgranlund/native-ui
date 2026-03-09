@@ -85,17 +85,19 @@
 
   /* ╭──────────────────────────────────────────────────────────╮
      │  <n-footer>                                              │
-     │  Generic sub-container footer with flex row layout.      │
-     │  Actions align to the end by default.                   │
+     │  Generic sub-container footer with grid layout.          │
+     │  Mirrors n-header slot structure (leading / trailing).   │
+     │  Content aligns to the end by default.                   │
      ╰──────────────────────────────────────────────────────────╯ */
 
   :where(n-footer) {
     --n-padding-block: var(--n-space);
     --n-padding-inline: calc(var(--n-space) * var(--n-space-k));
 
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr;
     align-items: center;
-    justify-content: flex-end;
+    justify-items: end;
     gap: calc(var(--n-space) * 2);
     min-height: calc(var(--n-size) + var(--n-padding-block) * 2);
     padding-block: var(--n-padding-block);
@@ -105,6 +107,44 @@
     font-size: var(--n-font-size);
     line-height: var(--n-line-height);
     box-sizing: border-box;
+  }
+
+  /* ── Slots ── */
+
+  :where(n-footer):has(> [slot="leading"]):has(> [slot="trailing"]) {
+    grid-template-columns: auto 1fr minmax(0, auto);
+  }
+
+  :where(n-footer):has(> [slot="leading"]):not(:has(> [slot="trailing"])) {
+    grid-template-columns: auto 1fr;
+  }
+
+  :where(n-footer):not(:has(> [slot="leading"])):has(> [slot="trailing"]) {
+    grid-template-columns: 1fr minmax(0, auto);
+  }
+
+  :where(n-footer) > :where([slot="leading"]) {
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+  }
+
+  :where(n-footer) > :where([slot="trailing"]) {
+    grid-column: -1;
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  :where(n-footer) > :where([slot="content"]) {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    min-width: 0;
   }
 
   /* ╭──────────────────────────────────────────────────────────╮

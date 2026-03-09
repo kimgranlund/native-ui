@@ -1,6 +1,6 @@
 import { NativeElement } from '../../core/native-element.ts';
 import { ContextRequestEvent } from '../../core/context.ts';
-import { StoreController } from '../../controllers/store-controller.ts';
+import { StoreController } from '../../controllers/store/store-controller.ts';
 import { getTrait, onTraitRegistered, getRegisteredTraitNames } from '../../registries/trait-registry.ts';
 import { collectTraitOptions, parseTraitAttribute } from '../../core/trait-options.ts';
 

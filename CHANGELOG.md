@@ -1,0 +1,101 @@
+# Changelog
+
+All notable changes to `@nonoun/native-ui` and sub-packages.
+
+## 0.7.69
+
+### Fixed
+- **Noodleable demo**: Flow node colors switched from raw semantic tokens (`--n-surface-accent`) to button-level resolved tokens via `intent` attributes — proper colors from the two-tier system
+- **Noodleable demo**: Cleaned up style drift — removed redundant `main`/`h3` overrides, `.hint` → `.demo-desc`, `<n-body>` → `<div class="body">`, `<n-container>` → `<article>`
+
+## 0.7.68
+
+### Added
+- **Demo pages**: `n-audio`, `n-picture`, `n-video`, `n-progress` container demos
+- **Demo pages**: `.body` container demo (`src/containers/body/body.html`)
+- **Sitemap**: Registered Audio, Picture, Video, Progress, Body in dev navigation
+
+### Fixed
+- **Block pages**: Added missing `spa-pages.css` stylesheet to all 19 block demo pages
+
+## 0.7.67
+
+### Added
+- **API Reference sections** on all 68 demo pages — attributes, slots, events, CSS selectors, keyboard, accessibility tables
+- **Shared CSS**: `.api-section`, `.api-table` rules in `spa-pages.css`
+- **Shared CSS**: `main` max-width: 64rem
+
+### Changed
+- **23 trait pages**: Stripped duplicated inline `.api-*` CSS (now in shared stylesheet)
+- **4 pages** (slideshow, badge, pressable, controller): Removed style drift overrides
+
+## 0.7.66
+
+### Changed
+- **Container consolidation**: `<article>` bare element selectors migrated to `<n-container>` custom element tag selectors
+- **Bare element migration**: `<hr>` → `<n-divider>`, layout `<aside>` → `<n-aside>`
+- All CSS selectors now target custom element tag names, not bare HTML elements
+
+## 0.7.65
+
+### Added
+- **NoodleController**: SVG noodle connection trait — bezier/step/straight curves, editable mode, port indicators, animated flow
+- **MagnetController**: Snap-to-edge and snap-to-sibling alignment guides
+
+### Changed
+- **Badge/Avatar/Kbd**: Migrated from CSS class selectors to undefined custom element tag selectors (`<n-badge>`, `<n-avatar>`, `<n-kbd>`)
+
+## 0.7.64
+
+### Changed
+- **Sub-container reversal**: `<n-header>` / `<n-body>` / `<n-footer>` across all packages — unified pattern
+
+## 0.7.63
+
+### Changed
+- **CSS specificity**: All attribute API selectors (`[variant]`, `[intent]`, `[size]`, `[density]`, `[radius]`) moved outside `@layer ui` — real (0,1,0) specificity beats unlayered consumer CSS
+
+## 0.7.62
+
+### Changed
+- **Container consolidation**: `n-card` → `n-container`, `n-section` removed
+- `NContainer` CE with `data-kind="panel"` for panel mode
+
+## 0.7.61
+
+### Changed
+- **CSS source reorganization**: Foundation files moved to `src/styles/css/`
+- **Granular dist bundles**: `foundation.css`, `components.css`, `components-lean.css`, `native-ui.css`, `native-ui-lean.css`
+- **Container-to-component moves**: Media containers (`n-audio`, `n-picture`, `n-video`, `n-progress`) moved to `src/components/`
+- **Base layer stylesheet**: Box-sizing reset, body defaults, reduced-motion `--n-duration: 0s`
+
+---
+
+## Sub-packages
+
+### @nonoun/native-ai 1.0.15
+
+- **SCHEMA pane**: Editable schema viewer in A2UI workbench
+- **ComponentRegistry**: Central registry for A2UI component definitions
+- **Card sub-container pattern**: All presets use Card > Header | Body | Footer root
+- **Preset IDs**: Standardized — no abbreviations, consistent naming
+- **Component map fixes**: Divider mapped to `n-divider` after bare-element migration
+
+### @nonoun/native-dashboard 0.4.8
+
+- **Sidebar section label**: `<n-sidebar-section-label>` CSS element (T0132)
+- **Semantic layout parity**: Padding/gap variables, `[show-scrollbar]` fix (T0135–T0138)
+- **Content typography**: Opt-in `main h1/h2/h3` using design tokens
+- **DOM architecture**: Canonical page templates, CSS contract
+
+### @nonoun/native-cdn 0.2.17
+
+- Rebuilt IIFE bundle from native-ui@0.7.68
+
+### @nonoun/native-code 1.0.7
+
+- Register.js build fix (T0131) — separate Vite build pass with `treeshake: false`
+
+### @nonoun/native-design 0.6.6
+
+- Tag renames: `<native-tokens-panel>` → `<native-design-panel>`, `<native-tokens>` → `<native-design>`

@@ -1,5 +1,5 @@
 import { NativeElement } from '../core/native-element.ts';
-import { ResizeController } from '../traits/resize-controller.ts';
+import { ResizeController } from '../traits/resize/resize-controller.ts';
 // WHY: Import source directly — the package entry resolves to dist/native-design.js
 // which pulls in dist/native-ui.js, creating dual-module conflicts in Vite dev.
 // ~pkg/* aliases resolve to packages/*/src/ (see vite.config.ts).
@@ -616,9 +616,23 @@ export class NApp extends NativeElement {
     const dialog = document.createElement('n-dialog') as HTMLElement & { showModal(): void; close(): void; open: boolean };
     dialog.className = 'nav-cmd-dialog';
 
-    const cmdHtml = sitemap.map(entry =>
-      `<n-command-item value="${entry.path}" keywords="${entry.group}">${entry.title}</n-command-item>`
-    ).join('\n');
+    // Group sitemap entries by group name for the command palette
+    const cmdGroups = new Map<string, SitemapEntry[]>();
+    for (const entry of sitemap) {
+      if (!cmdGroups.has(entry.group)) cmdGroups.set(entry.group, []);
+      cmdGroups.get(entry.group)!.push(entry);
+    }
+
+    const cmdGroupsHtml = [...cmdGroups.entries()].map(([groupName, entries]) => {
+      const items = entries.map(entry =>
+        `<n-command-item value="${entry.path}" keywords="${groupName}">${entry.title}</n-command-item>`
+      ).join('\n          ');
+      return `
+        <n-command-group>
+          <div slot="heading">${groupName}</div>
+          ${items}
+        </n-command-group>`;
+    }).join('\n');
 
     dialog.innerHTML = `
       <n-command>
@@ -627,7 +641,7 @@ export class NApp extends NativeElement {
           <input type="text" placeholder="Search pages..." />
         </n-command-input>
         <n-command-list>
-          ${cmdHtml}
+          ${cmdGroupsHtml}
         </n-command-list>
         <n-command-empty>No pages found.</n-command-empty>
       </n-command>

@@ -3,10 +3,10 @@ import { NativeElement } from '../../core/native-element.ts';
 import { uid } from '../../core/uid.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
 import { FormAssociable } from '../../core/form-associable.ts';
-import { PopoverController } from '../../traits/popover-controller.ts';
+import { PopoverController } from '../../traits/popover/popover-controller.ts';
 import { parseDataOptions, fetchDataOptions } from '../../core/data-options.ts';
 import type { BaseOption } from '../../core/data-options.ts';
-import { SelectController } from './select-controller.ts';
+import { SelectController } from './controller/select-controller.ts';
 import type { NListbox } from '../listbox/listbox-element.ts';
 
 export type SelectOption = BaseOption;

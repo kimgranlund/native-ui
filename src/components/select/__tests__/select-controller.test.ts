@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { SelectController } from '../select-controller.ts';
+import { SelectController } from '../controller/select-controller.ts';
 
 describe('SelectController', () => {
   it('starts with open=false, value=null, label=""', () => {

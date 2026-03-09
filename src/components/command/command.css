@@ -79,11 +79,22 @@
     flex-direction: column;
   }
 
+  :where(n-command-group) + :where(n-command-group) {
+    margin-block-start: calc(var(--n-space) * 2);
+  }
+
   :where(n-command-group) > :where([slot="heading"]) {
-    font-size: var(--n-font-size);
-    font-weight: var(--n-button-font-weight);
-    letter-spacing: var(--n-letter-spacing);
+    display: flex;
+    align-items: center;
+    min-height: var(--n-size);
+    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    font-size: var(--n-group-header-font);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: var(--n-control-line-height);
     color: var(--n-ink-muted);
+    cursor: default;
   }
 
   /* ── Command Empty ── */

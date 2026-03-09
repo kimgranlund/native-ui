@@ -1,7 +1,7 @@
 import { NativeElement } from '../../core/native-element.ts';
-import { TableStore } from './table-store.ts';
-import { ColumnResizeController } from './column-resize-controller.ts';
-import { TableDragController } from './table-drag-controller.ts';
+import { TableStore } from './store/table-store.ts';
+import { ColumnResizeController } from './column-resize/column-resize-controller.ts';
+import { TableDragController } from './drag-controller/table-drag-controller.ts';
 import type { NTableHeader } from './table-header-element.ts';
 import type { NTableRow } from './table-row-element.ts';
 

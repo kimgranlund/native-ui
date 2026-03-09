@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Inspectable — Trait Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    <style>
+
+      main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--n-ink-strong-neutral);
+      }
+
+      /* ── Inspect targets ── */
+
+      .inspect-target {
+        padding: 1.5rem;
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
+        background: var(--n-panel-neutral);
+      }
+
+      .inspect-target > * {
+        position: relative;
+      }
+
+      /* ── Hover preview: ready state (outline rendered by popover overlay) ── */
+
+      [inspect-ready] {
+        cursor: crosshair;
+      }
+
+      /* ── 3D inspection: outlines on exploded layers only ── */
+
+      [inspect-layer] {
+        outline: 0.75px solid oklch(0.7 0.15 250 / 0.5);
+        outline-offset: 0px;
+        transition: outline 300ms ease;
+      }
+
+      [inspect-layer][inspect-hover],
+      [inspect-layer][inspect-selected] {
+        outline: 3px solid oklch(0.7 0.15 250 / 1);
+        outline-offset: 0;
+      }
+
+      /* Suppress native outlines on internals of inspected elements */
+      [inspect-layer] *,
+      [inspect-layer] *:focus,
+      [inspect-layer] *:focus-visible {
+        outline: none !important;
+      }
+
+      /* ── Labels (3D inspection mode — pre-inspection labels rendered in popover overlay) ── */
+
+      [data-inspect-label] {
+        position: relative;
+      }
+
+      [data-inspect-label]::after {
+        content: attr(data-inspect-label);
+        position: absolute;
+        top: -1.25rem;
+        left: 0.25rem;
+        font: 600 0.625rem/1.4 ui-monospace, monospace;
+        color: oklch(0.85 0.15 250);
+        background: oklch(0.2 0.05 250 / 0.85);
+        padding: 0.1rem 0.35rem;
+        border-radius: 0.2rem;
+        white-space: nowrap;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 1;
+        transition: opacity 200ms ease;
+        /* Counter-rotate to stay upright despite host 3D tilt (0deg fallback when not inspecting) */
+        transform-origin: left bottom;
+        transform:
+          rotateY(calc(-1 * var(--inspect-tilt-y, 0deg)))
+          rotateX(calc(-1 * var(--inspect-tilt-x, 0deg)));
+      }
+
+      /* Dim labels on non-hovered/non-selected layers */
+      [inspecting]:has([inspect-hover]) [inspect-layer]:not([inspect-hover])::after {
+        opacity: 0.2;
+      }
+      [inspecting]:has([inspect-selected]) [inspect-layer]:not([inspect-selected])::after {
+        opacity: 0.2;
+      }
+
+
+      /* ── Nested example ── */
+
+      .nested-box {
+        padding: 1rem;
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.5rem;
+        background: var(--n-panel-neutral);
+        position: relative;
+      }
+
+      .nested-inner {
+        padding: 0.75rem;
+        border: 1px solid var(--n-border-accent);
+        border-radius: 0.375rem;
+        background: var(--n-surface-accent);
+        color: var(--n-ink-accent);
+        font-size: 0.75rem;
+        position: relative;
+      }
+
+      /* ── Component grid ── */
+
+      .component-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        align-items: flex-start;
+      }
+
+      .component-cell {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        min-width: 14rem;
+      }
+
+      .component-cell-label {
+        font-size: 0.6875rem;
+        font-weight: 600;
+        color: var(--n-ink-muted-neutral);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      /* ── Event log ── */
+
+      .event-log {
+        font-family: ui-monospace, monospace;
+        font-size: 0.7rem;
+        line-height: 1.6;
+        color: var(--n-ink-muted-neutral);
+        max-height: 8rem;
+        overflow-y: auto;
+      }
+      .event-log .entry { padding: 0.125rem 0; }
+      .event-log .on { color: var(--n-ink-success); }
+      .event-log .off { color: var(--n-ink-muted-neutral); }
+      .event-log .layers { color: var(--n-ink-accent); }
+
+    </style>
+
+    <!-- Script 1: Register traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+    <!-- Script 2: Import components (runs after traits are registered) -->
+    <script type="module">
+      import '../../nav/native-dashboard.ts';
+      import '../../components/button/button.ts';
+      import '../../components/switch/switch.ts';
+      import '../../components/range/range.ts';
+      import '../../components/input/input.ts';
+      import '../../components/controller/controller.ts';
+      import { CSSInspectController } from '../../index.ts';
+
+      // ── Provider event log ──
+      const providerLog = document.getElementById('provider-log');
+      document.querySelectorAll('.provider-target').forEach(el => {
+        el.addEventListener('native:inspect', (e) => {
+          const d = e.detail;
+          const entry = document.createElement('div');
+          entry.className = 'entry';
+          entry.innerHTML = `inspect → <span class="${d.active ? 'on' : 'off'}">${d.active ? 'ON' : 'OFF'}</span> <span class="layers">layers: ${d.layers}</span>`;
+          providerLog.prepend(entry);
+        });
+      });
+
+      // ── Controller demo ──
+      const controllerTarget = document.getElementById('controller-target');
+      const controllerLog = document.getElementById('controller-log');
+
+      const inspector = new CSSInspectController(controllerTarget, {
+        depth: 16,
+        scale: 0.85,
+        maxTilt: 60,
+        tiltRadius: 384,
+        perspective: 1200,
+        labels: true,
+      });
+
+      controllerTarget.addEventListener('native:inspect', (e) => {
+        const d = e.detail;
+        const entry = document.createElement('div');
+        entry.className = 'entry';
+        entry.innerHTML = `inspect → <span class="${d.active ? 'on' : 'off'}">${d.active ? 'ON' : 'OFF'}</span> <span class="layers">layers: ${d.layers}</span>`;
+        controllerLog.prepend(entry);
+      });
+
+      // ── Option controls ──
+      const depthRange = document.getElementById('opt-depth');
+      const depthVal = document.getElementById('depth-val');
+      depthRange.addEventListener('native:change', (e) => {
+        const v = Number(e.detail.value);
+        inspector.depth = v;
+        depthVal.textContent = v.toFixed(0);
+      });
+
+      const scaleRange = document.getElementById('opt-scale');
+      const scaleVal = document.getElementById('scale-val');
+      scaleRange.addEventListener('native:change', (e) => {
+        const v = Number(e.detail.value);
+        inspector.scale = v;
+        scaleVal.textContent = v.toFixed(2);
+      });
+
+      const perspRange = document.getElementById('opt-perspective');
+      const perspVal = document.getElementById('perspective-val');
+      perspRange.addEventListener('native:change', (e) => {
+        const v = Number(e.detail.value);
+        inspector.perspective = v;
+        perspVal.textContent = v.toFixed(0);
+      });
+
+      const maxTiltRange = document.getElementById('opt-max-tilt');
+      const maxTiltVal = document.getElementById('max-tilt-val');
+      maxTiltRange.addEventListener('native:change', (e) => {
+        const v = Number(e.detail.value);
+        inspector.maxTilt = v;
+        maxTiltVal.textContent = v.toFixed(0);
+      });
+
+      const tiltRadiusRange = document.getElementById('opt-tilt-radius');
+      const tiltRadiusVal = document.getElementById('tilt-radius-val');
+      tiltRadiusRange.addEventListener('native:change', (e) => {
+        const v = Number(e.detail.value);
+        inspector.tiltRadius = v;
+        tiltRadiusVal.textContent = v.toFixed(0);
+      });
+
+      const labelSwitch = document.getElementById('opt-labels');
+      labelSwitch.addEventListener('native:change', (e) => {
+        inspector.labels = e.detail.checked;
+      });
+
+      // ── Pick mode event log ──
+      const pickLog = document.getElementById('pick-log');
+      document.getElementById('pick-target').addEventListener('native:inspect', (e) => {
+        const d = e.detail;
+        const entry = document.createElement('div');
+        entry.className = 'entry';
+        entry.innerHTML = `inspect → <span class="${d.active ? 'on' : 'off'}">${d.active ? 'ON' : 'OFF'}</span> <span class="layers">layers: ${d.layers}</span>`;
+        pickLog.prepend(entry);
+      });
+    </script>
+  </head>
+  <body>
+    <native-dashboard-spa>
+      <main>
+        <h2>CSS Inspectable</h2>
+        <span muted size="sm" style="margin-bottom: 1.5rem; display: block;">
+          Hold <kbd>Option</kbd> and hover to preview element outlines, click to explode layers in 3D space with interactive tilt. Click outside or press Escape to close. Like Firefox's old 3D DOM inspector.
+        </span>
+
+        <!-- ── Provider Demo ── -->
+
+        <h3>Provider (n-controller)</h3>
+        <span muted size="sm" style="margin-bottom: 0.75rem; display: block;">
+          Wrap elements with <code>&lt;n-controller traits="css-inspectable"&gt;</code> to make them inspectable. Hover to preview, click to explode.
+        </span>
+
+        <div class="component-grid">
+          <!-- Card layout -->
+          <div class="component-cell">
+            <span class="component-cell-label">Card Layout</span>
+            <n-controller traits="css-inspectable">
+              <n-container bordered inline class="inspect-target provider-target" style="width: 20rem;">
+                <n-header dividers>Card Title</n-header>
+                <n-body style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral);">
+                  <span>First line of content</span>
+                  <span>Second line with more detail</span>
+                </n-body>
+                <n-footer dividers>
+                  <n-button variant="secondary" size="sm">Cancel</n-button>
+                  <n-button size="sm">Save</n-button>
+                </n-footer>
+              </n-container>
+            </n-controller>
+          </div>
+
+          <!-- Nested boxes -->
+          <div class="component-cell">
+            <span class="component-cell-label">Nested Structure</span>
+            <n-controller traits="css-inspectable" data-trait-css-inspectable-depth="80">
+              <div class="inspect-target provider-target" style="width: 16rem;">
+                <div class="nested-box">
+                  <span style="font-size: 0.75rem; display: block; margin-bottom: 0.5rem;">Outer layer</span>
+                  <div class="nested-inner">
+                    <span>Inner layer</span>
+                  </div>
+                </div>
+              </div>
+            </n-controller>
+          </div>
+
+          <!-- With form elements -->
+          <div class="component-cell">
+            <span class="component-cell-label">Form Elements</span>
+            <n-controller traits="css-inspectable" data-trait-css-inspectable-depth="50" data-trait-css-inspectable-scale="0.9">
+              <div class="inspect-target provider-target" style="width: 18rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                <n-input placeholder="Username"></n-input>
+                <n-input placeholder="Email" type="email"></n-input>
+                <n-button>Submit</n-button>
+              </div>
+            </n-controller>
+          </div>
+        </div>
+
+        <h3>Provider Event Log</h3>
+        <n-container>
+          <n-body show-scrollbar style="max-height: 8rem;">
+            <div class="event-log" id="provider-log"></div>
+          </n-body>
+        </n-container>
+
+        <!-- ── Controller Demo ── -->
+
+        <h3>Controller (programmatic)</h3>
+        <span muted size="sm" style="margin-bottom: 0.75rem; display: block;">
+          <code>new CSSInspectController(el, options)</code> — adjust options live with the controls below. Click the card to inspect, Escape to close.
+        </span>
+
+        <div style="display: flex; justify-content: center; padding: 3rem 0;">
+          <n-container bordered inline class="inspect-target" id="controller-target" style="width: 20rem;">
+            <n-header dividers>Inspectable Card</n-header>
+            <n-body style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral);">
+              <span>Hover me to explode layers</span>
+              <span>Move your mouse for 3D tilt</span>
+              <div class="nested-inner">Nested child element</div>
+            </n-body>
+            <n-footer dividers>
+              <n-button variant="secondary" size="sm">Action A</n-button>
+              <n-button size="sm">Action B</n-button>
+            </n-footer>
+          </n-container>
+        </div>
+
+        <!-- ── Options ── -->
+
+        <h3>Options</h3>
+        <n-container>
+          <n-body>
+            <n-stack gap="3">
+              <n-stack direction="row" align="center" gap="3">
+                <span size="sm" style="min-width: 8rem;">Depth: <strong id="depth-val">16</strong>px</span>
+                <n-range id="opt-depth" min="10" max="150" step="2" value="16" style="flex:1;"></n-range>
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
+                <span size="sm" style="min-width: 8rem;">Scale: <strong id="scale-val">0.85</strong></span>
+                <n-range id="opt-scale" min="0.5" max="1.2" step="0.05" value="0.85" style="flex:1;"></n-range>
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
+                <span size="sm" style="min-width: 8rem;">Perspective: <strong id="perspective-val">1200</strong>px</span>
+                <n-range id="opt-perspective" min="400" max="3000" step="100" value="1200" style="flex:1;"></n-range>
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
+                <span size="sm" style="min-width: 8rem;">Max Tilt: <strong id="max-tilt-val">60</strong>&deg;</span>
+                <n-range id="opt-max-tilt" min="1" max="90" step="1" value="60" style="flex:1;"></n-range>
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
+                <span size="sm" style="min-width: 8rem;">Tilt Radius: <strong id="tilt-radius-val">384</strong>px</span>
+                <n-range id="opt-tilt-radius" min="100" max="1000" step="16" value="384" style="flex:1;"></n-range>
+              </n-stack>
+              <n-stack direction="row" align="center" gap="3">
+                <n-switch id="opt-labels" checked>Show layer labels</n-switch>
+              </n-stack>
+            </n-stack>
+          </n-body>
+        </n-container>
+
+        <h3>Controller Event Log</h3>
+        <n-container>
+          <n-body show-scrollbar style="max-height: 8rem;">
+            <div class="event-log" id="controller-log"></div>
+          </n-body>
+        </n-container>
+
+        <!-- ── Pick Mode Demo ── -->
+
+        <h3>Pick Mode</h3>
+        <span muted size="sm" style="margin-bottom: 0.75rem; display: block;">
+          <code>pick: true</code> — Hold <kbd>Alt</kbd> and hover to highlight any descendant, then <kbd>Alt</kbd>+click to inspect it in 3D. Useful for large containers where you want to inspect individual children rather than the entire host.
+        </span>
+
+        <n-controller traits="css-inspectable" data-trait-css-inspectable-pick>
+          <div class="inspect-target" id="pick-target" style="display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start;">
+            <n-container bordered inline style="width: 20rem;">
+              <n-header dividers>Card One</n-header>
+              <n-body style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral);">
+                <span>First card content</span>
+                <span>With multiple children</span>
+              </n-body>
+              <n-footer dividers>
+                <n-button size="sm">Action</n-button>
+              </n-footer>
+            </n-container>
+            <n-container bordered inline style="width: 20rem;">
+              <n-header dividers>Card Two</n-header>
+              <n-body style="font-size: 0.8125rem; color: var(--n-ink-muted-neutral);">
+                <span>Second card content</span>
+                <div class="nested-inner">Nested element</div>
+              </n-body>
+            </n-container>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; min-width: 14rem;">
+              <n-input placeholder="Username"></n-input>
+              <n-input placeholder="Email" type="email"></n-input>
+              <n-button>Submit</n-button>
+            </div>
+          </div>
+        </n-controller>
+
+        <h3>Pick Mode Event Log</h3>
+        <n-container>
+          <n-body show-scrollbar style="max-height: 8rem;">
+            <div class="event-log" id="pick-log"></div>
+          </n-body>
+        </n-container>
+
+        <!-- ── API Reference ── -->
+
+        <h2>API</h2>
+
+        <div class="api-section">
+          <h3>Provider Usage</h3>
+          <table class="api-table">
+            <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>data-trait-css-inspectable-depth</code></td>
+                <td><code>number</code></td>
+                <td><code>16</code></td>
+                <td>Z-spacing between exploded layers in px.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-scale</code></td>
+                <td><code>number</code></td>
+                <td><code>0.85</code></td>
+                <td>Scale factor during inspection.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-perspective</code></td>
+                <td><code>number</code></td>
+                <td><code>1200</code></td>
+                <td>CSS perspective distance in px.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-max-tilt</code></td>
+                <td><code>number</code></td>
+                <td><code>60</code></td>
+                <td>Maximum mouse tilt angle in degrees.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-tilt-radius</code></td>
+                <td><code>number</code></td>
+                <td><code>384</code></td>
+                <td>Mouse distance from center for max tilt in px.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-labels</code></td>
+                <td><code>boolean</code></td>
+                <td><code>true</code></td>
+                <td>Show tag/id/class labels on layers via <code>data-inspect-label</code>.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-recursive</code></td>
+                <td><code>boolean</code></td>
+                <td><code>true</code></td>
+                <td>Walk all descendants recursively, not just direct children.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-pick</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Enable pick mode: Alt+hover highlights descendants, Alt+click picks the inspection target.</td>
+              </tr>
+              <tr>
+                <td><code>data-trait-css-inspectable-disabled</code></td>
+                <td><code>boolean</code></td>
+                <td><code>false</code></td>
+                <td>Disable the inspector.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>Events</h3>
+          <table class="api-table">
+            <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>native:inspect</code></td>
+                <td><code>{ active, layers }</code></td>
+                <td>Fired when inspection activates or deactivates. <code>active</code> is a boolean, <code>layers</code> is the number of exploded layers.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
+          <h3>CSS</h3>
+          <table class="api-table">
+            <thead><tr><th>Selector</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>[inspecting]</code></td>
+                <td>Present on the host while 3D inspection is active.</td>
+              </tr>
+              <tr>
+                <td><code>[inspect-ready]</code></td>
+                <td>Present when Alt is held and the element is ready for inspection (crosshair cursor).</td>
+              </tr>
+              <tr>
+                <td><code>[inspect-layer]</code></td>
+                <td>Set on each exploded child element during inspection.</td>
+              </tr>
+              <tr>
+                <td><code>[inspect-hover]</code></td>
+                <td>Set on the hovered layer during inspection.</td>
+              </tr>
+              <tr>
+                <td><code>[inspect-selected]</code></td>
+                <td>Set on the clicked/selected layer during inspection.</td>
+              </tr>
+              <tr>
+                <td><code>[data-inspect-label]</code></td>
+                <td>Set on layers when <code>labels: true</code>. Value is the tag/id/class string for CSS <code>::after</code> display.</td>
+              </tr>
+              <tr>
+                <td><code>--inspect-tilt-y</code></td>
+                <td>CSS custom property with current Y tilt angle (for label counter-rotation).</td>
+              </tr>
+              <tr>
+                <td><code>--inspect-tilt-x</code></td>
+                <td>CSS custom property with current X tilt angle (for label counter-rotation).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+    </native-dashboard-spa>
+  </body>
+</html>

@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gatewayable — Trait Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    <style>
+      .status-row {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin-top: 0.5rem;
+      }
+
+      .status-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 0.25rem 0.625rem;
+        border-radius: 9999px;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        color: var(--n-ink-muted-neutral);
+      }
+
+      .status-indicator[active] {
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
+        border-color: transparent;
+      }
+
+      .status-indicator[error] {
+        background: var(--n-surface-danger);
+        color: var(--n-surface-ink-danger);
+        border-color: transparent;
+      }
+
+      .content-area {
+        font-family: ui-monospace, monospace;
+        font-size: 0.8rem;
+        line-height: 1.6;
+        white-space: pre-wrap;
+        padding: 0.75rem;
+        min-height: 4rem;
+        background: var(--n-panel-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
+        color: var(--n-ink-neutral);
+      }
+
+      .output {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        max-height: 6rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--n-panel-neutral);
+        border-radius: 0.25rem;
+      }
+    </style>
+
+    <!-- Register traits BEFORE component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+    <script type="module">
+      import '../../nav/native-dashboard.ts';
+      import '../../components/button/button.ts';
+      import '../../components/controller/controller.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
+    </script>
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <h1>Gatewayable</h1>
+    <p class="demo-desc">
+      Manages HTTP load/save state with <code>loading</code>, <code>saving</code>, <code>error</code>, and <code>dirty</code> signals.
+      Handles fetch with abort support, custom parsers, and serializers.
+    </p>
+
+    <!-- ── Load Demo ── -->
+
+    <h2>Load Content</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Loads content from a URL. Try loading a valid endpoint or trigger an error with a bad URL.
+      </p>
+      <div class="status-row">
+        <span class="status-indicator" id="load-indicator">loading</span>
+        <span class="status-indicator" id="dirty-indicator">dirty</span>
+        <span class="status-indicator" id="error-indicator">error</span>
+      </div>
+      <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+        <n-button id="load-btn" size="sm">Load /native.svg</n-button>
+        <n-button id="load-fail-btn" size="sm" intent="danger" variant="soft">Load /not-found (404)</n-button>
+      </div>
+      <div class="content-area" id="content-display" style="margin-top: 0.75rem;">No content loaded</div>
+      <pre class="demo-code"><code>&lt;script&gt;
+  const gw = new GatewayController(host);
+  const content = await gw.load('/api/data');
+  console.log(gw.loading.value); // false
+  console.log(gw.error.value);   // null
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Save Demo ── -->
+
+    <h2>Save Content</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Demonstrates save with dirty tracking. Edit the textarea to mark dirty, then save to clear it.
+        (Save uses a mock endpoint that always succeeds.)
+      </p>
+      <div class="status-row">
+        <span class="status-indicator" id="save-indicator">saving</span>
+        <span class="status-indicator" id="save-dirty-indicator">dirty</span>
+        <span class="status-indicator" id="save-error-indicator">error</span>
+      </div>
+      <textarea id="save-textarea" rows="3" style="width: 100%; margin-top: 0.75rem; font-family: ui-monospace, monospace; font-size: 0.8rem; padding: 0.5rem; border-radius: var(--n-radius); border: 1px solid var(--n-border-muted-neutral); background: var(--n-panel-neutral); color: var(--n-ink-neutral);">Edit me to mark dirty</textarea>
+      <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+        <n-button id="save-btn" size="sm" intent="accent">Save</n-button>
+        <n-button id="mark-dirty-btn" size="sm" variant="soft">Mark Dirty</n-button>
+        <n-button id="mark-clean-btn" size="sm" variant="soft">Mark Clean</n-button>
+      </div>
+      <pre class="demo-code"><code>&lt;script&gt;
+  const gw = new GatewayController(host, {
+    contentType: 'application/json',
+    serialize: (c) =&gt; JSON.stringify({ content: c }),
+  });
+  gw.markDirty();
+  const ok = await gw.save('/api/data', textarea.value);
+  console.log(gw.dirty.value); // false after save
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Event Log ── -->
+
+    <h2>Signal Log</h2>
+    <article bordered>
+      <div class="body" padding="tight" show-scrollbar style="max-height: 8rem;">
+        <div class="output" id="event-log"></div>
+      </div>
+    </article>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Constructor Options</h3>
+      <table class="api-table">
+        <thead><tr><th>Option</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>parse</code></td>
+            <td><code>(res: Response) =&gt; Promise&lt;string&gt;</code></td>
+            <td><code>res.text()</code></td>
+            <td>Custom response parser for load requests.</td>
+          </tr>
+          <tr>
+            <td><code>serialize</code></td>
+            <td><code>(content: string) =&gt; BodyInit</code></td>
+            <td>identity</td>
+            <td>Custom serializer for save request bodies.</td>
+          </tr>
+          <tr>
+            <td><code>contentType</code></td>
+            <td><code>string</code></td>
+            <td><code>"text/plain"</code></td>
+            <td>Content-Type header for save requests.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Signals</h3>
+      <table class="api-table">
+        <thead><tr><th>Signal</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>loading</code></td>
+            <td><code>Signal&lt;boolean&gt;</code></td>
+            <td>True while a load request is in-flight.</td>
+          </tr>
+          <tr>
+            <td><code>saving</code></td>
+            <td><code>Signal&lt;boolean&gt;</code></td>
+            <td>True while a save request is in-flight.</td>
+          </tr>
+          <tr>
+            <td><code>error</code></td>
+            <td><code>Signal&lt;string | null&gt;</code></td>
+            <td>Last error message, or null.</td>
+          </tr>
+          <tr>
+            <td><code>dirty</code></td>
+            <td><code>Signal&lt;boolean&gt;</code></td>
+            <td>True when content has changed since the last load or save.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Methods</h3>
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>load(url)</code></td>
+            <td><code>Promise&lt;string | null&gt;</code></td>
+            <td>Fetch content from URL. Returns parsed content or null on error.</td>
+          </tr>
+          <tr>
+            <td><code>save(url, content)</code></td>
+            <td><code>Promise&lt;boolean&gt;</code></td>
+            <td>PUT content to URL. Returns true on success.</td>
+          </tr>
+          <tr>
+            <td><code>markDirty()</code></td>
+            <td><code>void</code></td>
+            <td>Set dirty signal to true.</td>
+          </tr>
+          <tr>
+            <td><code>markClean()</code></td>
+            <td><code>void</code></td>
+            <td>Set dirty signal to false.</td>
+          </tr>
+          <tr>
+            <td><code>abort()</code></td>
+            <td><code>void</code></td>
+            <td>Cancel any in-flight load or save requests.</td>
+          </tr>
+          <tr>
+            <td><code>destroy()</code></td>
+            <td><code>void</code></td>
+            <td>Abort and clean up.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="api-section">
+      <h3>Provider Usage</h3>
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>data-trait-gatewayable-content-type</code></td>
+            <td><code>string</code></td>
+            <td><code>"text/plain"</code></td>
+            <td>Content-Type header for save requests.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    </main></native-dashboard-spa>
+
+    <script type="module">
+      import { GatewayController } from '../../index.ts';
+
+      // ── Copy buttons ──
+      for (const btn of document.querySelectorAll('.copy-btn')) {
+        btn.addEventListener('click', async () => {
+          const code = btn.closest('.demo-code')?.querySelector('code');
+          if (!code) return;
+          await navigator.clipboard.writeText(code.textContent);
+          const icon = btn.querySelector('n-icon');
+          if (icon) {
+            icon.setAttribute('name', 'check');
+            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
+          }
+        });
+      }
+
+      // ── Helpers ──
+      const logEl = document.getElementById('event-log');
+      function appendLog(msg) {
+        const line = document.createElement('div');
+        line.textContent = msg;
+        logEl.appendChild(line);
+        logEl.scrollTop = logEl.scrollHeight;
+      }
+
+      // ── Load demo ──
+      const host1 = document.createElement('div');
+      document.body.appendChild(host1);
+      const gw1 = new GatewayController(host1);
+
+      const loadInd = document.getElementById('load-indicator');
+      const dirtyInd = document.getElementById('dirty-indicator');
+      const errorInd = document.getElementById('error-indicator');
+      const contentDisplay = document.getElementById('content-display');
+
+      function updateLoadStatus() {
+        loadInd.toggleAttribute('active', gw1.loading.value);
+        dirtyInd.toggleAttribute('active', gw1.dirty.value);
+        errorInd.toggleAttribute('error', gw1.error.value !== null);
+        errorInd.textContent = gw1.error.value ?? 'error';
+      }
+
+      document.getElementById('load-btn').addEventListener('click', async () => {
+        updateLoadStatus();
+        appendLog('Loading /native.svg...');
+        const content = await gw1.load('/native.svg');
+        updateLoadStatus();
+        if (content) {
+          contentDisplay.textContent = content.slice(0, 500) + (content.length > 500 ? '...' : '');
+          appendLog(`Loaded ${content.length} chars`);
+        } else {
+          contentDisplay.textContent = 'Load failed: ' + gw1.error.value;
+          appendLog('Load failed: ' + gw1.error.value);
+        }
+      });
+
+      document.getElementById('load-fail-btn').addEventListener('click', async () => {
+        appendLog('Loading /not-found...');
+        const content = await gw1.load('/not-found');
+        updateLoadStatus();
+        contentDisplay.textContent = 'Load failed: ' + gw1.error.value;
+        appendLog('Load failed: ' + gw1.error.value);
+      });
+
+      // ── Save demo ──
+      const host2 = document.createElement('div');
+      document.body.appendChild(host2);
+      const gw2 = new GatewayController(host2);
+
+      const saveInd = document.getElementById('save-indicator');
+      const saveDirtyInd = document.getElementById('save-dirty-indicator');
+      const saveErrorInd = document.getElementById('save-error-indicator');
+      const textarea = document.getElementById('save-textarea');
+
+      function updateSaveStatus() {
+        saveInd.toggleAttribute('active', gw2.saving.value);
+        saveDirtyInd.toggleAttribute('active', gw2.dirty.value);
+        saveErrorInd.toggleAttribute('error', gw2.error.value !== null);
+        saveErrorInd.textContent = gw2.error.value ?? 'error';
+      }
+
+      textarea.addEventListener('input', () => {
+        gw2.markDirty();
+        updateSaveStatus();
+        appendLog('Content changed — marked dirty');
+      });
+
+      document.getElementById('save-btn').addEventListener('click', async () => {
+        // Mock save — intercept with a fake success
+        appendLog('Saving...');
+        gw2.saving.value = true;
+        updateSaveStatus();
+        await new Promise(r => setTimeout(r, 500));
+        gw2.saving.value = false;
+        gw2.dirty.value = false;
+        updateSaveStatus();
+        appendLog('Saved successfully (mock)');
+      });
+
+      document.getElementById('mark-dirty-btn').addEventListener('click', () => {
+        gw2.markDirty();
+        updateSaveStatus();
+        appendLog('Marked dirty');
+      });
+
+      document.getElementById('mark-clean-btn').addEventListener('click', () => {
+        gw2.markClean();
+        updateSaveStatus();
+        appendLog('Marked clean');
+      });
+    </script>
+  </body>
+</html>
