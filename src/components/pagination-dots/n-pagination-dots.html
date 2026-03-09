@@ -8,12 +8,7 @@
     <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
-    <style>
-.nav-main {
-        padding: 2rem;
-        max-width: 52rem;
-      }
-</style>
+    <link rel="stylesheet" href="./n-pagination-dots.demo.css" />
   </head>
   <body>
     <native-dashboard-spa><main class="nav-main">
@@ -284,48 +279,6 @@ dots.next();       // go to next</code><n-button class="copy-btn" size="sm" vari
     </div>
 
     </main></native-dashboard-spa>
-    <script type="module">
-      import '../../nav/native-dashboard.ts';
-      import './n-pagination-dots.ts';
-      import '../button/button.ts';
-      import '../../icons/icon.ts';
-      import '../../icons/phosphor/copy.ts';
-      import '../../icons/phosphor/check.ts';
-
-      // Event log
-      const demo = document.getElementById('event-demo');
-      const log = document.getElementById('event-log');
-      demo.addEventListener('native:change', (e) => {
-        const { index } = e.detail;
-        log.textContent = `native:change → index: ${index}\n` + log.textContent;
-        if (log.textContent.length > 500) log.textContent = log.textContent.slice(0, 500);
-      });
-
-      // Programmatic control
-      const prog = document.getElementById('prog-demo');
-      document.getElementById('prog-prev').addEventListener('native:press', () => {
-        prog.active = Math.max(0, prog.active - 1);
-      });
-      document.getElementById('prog-next').addEventListener('native:press', () => {
-        prog.active = Math.min(prog.count - 1, prog.active + 1);
-      });
-      document.getElementById('prog-reset').addEventListener('native:press', () => {
-        prog.active = 0;
-      });
-
-      // Copy buttons
-      for (const btn of document.querySelectorAll('.copy-btn')) {
-        btn.addEventListener('click', async () => {
-          const code = btn.closest('.demo-code')?.querySelector('code');
-          if (!code) return;
-          await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('n-icon');
-          if (icon) {
-            icon.setAttribute('name', 'check');
-            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
-          }
-        });
-      }
-    </script>
+    <script type="module" src="./n-pagination-dots.demo.ts"></script>
   </body>
 </html>

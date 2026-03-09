@@ -1,0 +1,16 @@
+main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--n-ink-strong-neutral);
+      }
+.button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }

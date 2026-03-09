@@ -11,6 +11,7 @@
   "include": ["./src"],
   "exclude": [
     "src/**/*.test.ts",
+    "src/**/*.demo.ts",
     "src/**/__tests__",
     "src/nav",
     "src/test-setup.ts",

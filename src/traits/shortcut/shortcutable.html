@@ -7,36 +7,7 @@
   <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
   <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
   <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
-  <style>
-    .demo-section {
-      padding: calc(var(--n-space) * 4);
-      display: flex;
-      flex-direction: column;
-      gap: calc(var(--n-space) * 4);
-    }
-    .shortcut-log {
-      font-family: monospace;
-      font-size: 0.8125rem;
-      padding: calc(var(--n-space) * 2) calc(var(--n-space) * 3);
-      background: var(--n-control);
-      border-radius: var(--n-radius);
-      min-height: 4rem;
-      max-height: 12rem;
-      overflow-y: auto;
-      color: var(--n-ink-muted);
-    }
-    .shortcut-log .entry {
-      color: var(--n-ink-strong);
-    }
-    .shortcut-row {
-      display: flex;
-      gap: calc(var(--n-space) * 2);
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    h3 { margin: 0; font-size: 0.875rem; font-weight: 600; color: var(--n-ink-muted); }
-    p { margin: 0; font-size: 0.8125rem; color: var(--n-ink-muted); }
-  </style>
+  <link rel="stylesheet" href="./shortcutable.demo.css" />
 
   <!-- Traits must be registered before components -->
   <script type="module">
@@ -154,15 +125,7 @@
               <div id="log-declarative" class="shortcut-log">Press Ctrl+H to test the declarative adapter.</div>
             </div>
           </n-controller>
-          <script type="module">
-            const logEl = document.getElementById('log-declarative');
-            document.getElementById('demo-declarative').addEventListener('native:shortcut', (e) => {
-              const entry = document.createElement('div');
-              entry.className = 'entry';
-              entry.textContent = `${new Date().toLocaleTimeString()} — ${e.detail.id} (${e.detail.combo})`;
-              logEl.prepend(entry);
-            });
-          </script>
+          <script type="module" src="./shortcutable.demo.ts"></script>
         </div>
 
       </div>

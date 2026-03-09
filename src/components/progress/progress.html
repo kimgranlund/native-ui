@@ -225,50 +225,6 @@
     </div>
 
     </main></native-dashboard-spa>
-    <script type="module">
-      import '../../nav/native-dashboard.ts';
-      import '../button/button.ts';
-      import '../../icons/icon.ts';
-      import '../../icons/phosphor/copy.ts';
-      import '../../icons/phosphor/check.ts';
-      import '../../containers/container/container.ts';
-
-// ── JS-driven progress animation ──
-
-      const bar = document.getElementById('js-progress');
-      const btnReset = document.getElementById('btn-reset');
-      const btnAnimate = document.getElementById('btn-animate');
-
-      btnReset?.addEventListener('click', () => {
-        bar?.style.setProperty('--n-progress', '0');
-      });
-
-      btnAnimate?.addEventListener('click', () => {
-        bar?.style.setProperty('--n-progress', '0');
-        let val = 0;
-        const step = () => {
-          val += 0.02;
-          if (val > 1) val = 1;
-          bar?.style.setProperty('--n-progress', String(val));
-          if (val < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-      });
-
-// ── Copy buttons ──
-
-      for (const btn of document.querySelectorAll('.copy-btn')) {
-        btn.addEventListener('click', async () => {
-          const code = btn.closest('.demo-code')?.querySelector('code');
-          if (!code) return;
-          await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('n-icon');
-          if (icon) {
-            icon.setAttribute('name', 'check');
-            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
-          }
-        });
-      }
-    </script>
+    <script type="module" src="./progress.demo.ts"></script>
   </body>
 </html>

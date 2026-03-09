@@ -1,0 +1,9 @@
+.demo-row + .demo-row {
+        margin-top: 0.75rem;
+      }
+
+      .demo-label {
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        min-width: 2rem;
+      }

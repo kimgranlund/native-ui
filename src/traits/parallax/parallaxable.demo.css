@@ -1,0 +1,140 @@
+main {
+  padding: 2rem;
+  max-width: 64rem;
+}
+h3 {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  margin-top: 1.25rem;
+  color: var(--n-ink-strong-neutral);
+}
+
+/* ── Parallax Cards ── */
+
+.parallax-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 14rem;
+  height: 10rem;
+  border-radius: 0.75rem;
+  user-select: none;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.parallax-card .card-label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.parallax-card .card-sub {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.8);
+}
+
+/* Holographic gradient backgrounds */
+.holo-1 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+}
+.holo-1[parallax-active] {
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.5);
+}
+
+.holo-2 {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  box-shadow: 0 4px 16px rgba(245, 87, 108, 0.3);
+}
+.holo-2[parallax-active] {
+  box-shadow: 0 8px 32px rgba(245, 87, 108, 0.5);
+}
+
+.holo-3 {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  box-shadow: 0 4px 16px rgba(79, 172, 254, 0.3);
+}
+.holo-3[parallax-active] {
+  box-shadow: 0 8px 32px rgba(79, 172, 254, 0.5);
+}
+
+.holo-4 {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  box-shadow: 0 4px 16px rgba(67, 233, 123, 0.3);
+}
+.holo-4[parallax-active] {
+  box-shadow: 0 8px 32px rgba(67, 233, 123, 0.5);
+}
+
+.holo-5 {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  box-shadow: 0 4px 16px rgba(250, 112, 154, 0.3);
+}
+.holo-5[parallax-active] {
+  box-shadow: 0 8px 32px rgba(250, 112, 154, 0.5);
+}
+
+.holo-6 {
+  background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+  box-shadow: 0 4px 16px rgba(161, 140, 209, 0.3);
+}
+.holo-6[parallax-active] {
+  box-shadow: 0 8px 32px rgba(161, 140, 209, 0.5);
+}
+
+/* ── CSS Custom Property driven shadow ── */
+
+.shadow-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 14rem;
+  height: 10rem;
+  background: var(--n-container-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.75rem;
+  user-select: none;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+  /* Shadow driven by CSS custom properties from the parallax controller */
+  box-shadow:
+    calc(var(--parallax-percent-x, 0) * 10px) calc(var(--parallax-percent-y, 0) * 10px) 20px rgba(0,0,0,0.1),
+    calc(var(--parallax-percent-x, 0) * 3px) calc(var(--parallax-percent-y, 0) * 3px) 6px rgba(0,0,0,0.06);
+}
+
+.shadow-card .card-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--n-ink-strong-neutral);
+}
+
+.shadow-card .card-sub {
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-neutral);
+}
+
+/* ── Event log ── */
+
+.event-log {
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: var(--n-ink-muted-neutral);
+  max-height: 10rem;
+  overflow-y: auto;
+}
+.event-log .entry {
+  padding: 0.125rem 0;
+}
+.event-log .tilt { color: var(--n-ink-accent); }
+.event-log .pct { color: var(--n-ink-success); }

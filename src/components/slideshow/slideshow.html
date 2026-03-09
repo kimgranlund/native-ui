@@ -8,41 +8,7 @@
     <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
-    <style>
-/* Slide content for demos */
-      .slide-content {
-        min-height: 12rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        font-weight: 700;
-        border-radius: 0.5rem;
-      }
-
-      .slide-1 { background: var(--n-surface-accent); color: var(--n-surface-ink-accent); }
-      .slide-2 { background: var(--n-surface-info); color: var(--n-surface-ink-info); }
-      .slide-3 { background: var(--n-surface-success); color: var(--n-surface-ink-success); }
-      .slide-4 { background: var(--n-surface-warning); color: var(--n-surface-ink-warning); }
-      .slide-5 { background: var(--n-surface-danger); color: var(--n-surface-ink-danger); }
-
-      .slide-short {
-        min-height: 8rem;
-        font-size: 1.25rem;
-      }
-
-      /* Vertical demo needs explicit height */
-      .vertical-demo {
-        height: 16rem;
-      }
-
-      /* Image slides */
-      .slide-img {
-        min-height: 14rem;
-        background-size: cover;
-        background-position: center;
-      }
-</style>
+    <link rel="stylesheet" href="./slideshow.demo.css" />
   </head>
   <body>
     <native-dashboard-spa><main>
@@ -311,35 +277,6 @@
     </div>
 
     </main></native-dashboard-spa>
-    <script type="module">
-      import '../../nav/native-dashboard.ts';
-      import './slideshow.ts';
-      import '../button/button.ts';
-      import '../../icons/icon.ts';
-      import '../../icons/phosphor/copy.ts';
-      import '../../icons/phosphor/check.ts';
-
-      const demo = document.getElementById('event-demo');
-      const log = document.getElementById('event-log');
-      demo.addEventListener('native:slide-change', (e) => {
-        const { index } = e.detail;
-        log.textContent = `native:slide-change → index: ${index}\n` + log.textContent;
-        if (log.textContent.length > 500) log.textContent = log.textContent.slice(0, 500);
-      });
-// ── Copy buttons ──
-
-      for (const btn of document.querySelectorAll('.copy-btn')) {
-        btn.addEventListener('click', async () => {
-          const code = btn.closest('.demo-code')?.querySelector('code');
-          if (!code) return;
-          await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('n-icon');
-          if (icon) {
-            icon.setAttribute('name', 'check');
-            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
-          }
-        });
-      }
-    </script>
+    <script type="module" src="./slideshow.demo.ts"></script>
   </body>
 </html>

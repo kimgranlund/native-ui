@@ -8,37 +8,7 @@
     <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
-    <style>
-
-      main {
-        padding: 2rem;
-        max-width: 64rem;
-      }
-      h3 {
-        font-size: 0.8125rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        margin-top: 1.25rem;
-        color: var(--n-ink-strong-neutral);
-      }
-
-      /* ── Event log ── */
-
-      .event-log {
-        font-family: ui-monospace, monospace;
-        font-size: 0.7rem;
-        line-height: 1.6;
-        color: var(--n-ink-muted-neutral);
-        max-height: 10rem;
-        overflow-y: auto;
-      }
-      .event-log .entry {
-        padding: 0.125rem 0;
-      }
-      .event-log .count { color: var(--n-ink-accent); }
-      .event-log .origin { color: var(--n-ink-success); }
-
-    </style>
+    <link rel="stylesheet" href="./confettible.demo.css" />
 
     <!-- Script 1: Register traits BEFORE any component define() -->
     <script type="module">
@@ -46,104 +16,7 @@
       registerAllTraits();
     </script>
     <!-- Script 2: Import components (runs after traits are registered) -->
-    <script type="module">
-      import '../../nav/native-dashboard.ts';
-      import '../../components/button/button.ts';
-      import '../../components/switch/switch.ts';
-      import '../../components/range/range.ts';
-      import '../../components/input/input.ts';
-      import '../../components/field/field.ts';
-      import '../../components/controller/controller.ts';
-      import { ConfettiController } from '../../index.ts';
-
-      // ── Event log ──
-      const eventLog = document.getElementById('event-log');
-      document.addEventListener('native:confetti', (e) => {
-        const d = e.detail;
-        const entry = document.createElement('div');
-        entry.className = 'entry';
-        entry.innerHTML = `confetti — <span class="count">count:${d.count}</span> <span class="origin">origin:(${d.origin.x.toFixed(0)}, ${d.origin.y.toFixed(0)})</span>`;
-        eventLog.prepend(entry);
-      });
-
-      // ── Form success demo ──
-      const formBtn = document.getElementById('form-submit');
-      const formHost = document.getElementById('form-card');
-      const formConfetti = new ConfettiController(formHost, { trigger: 'manual', count: 50, spread: 120 });
-
-      formBtn.addEventListener('native:press', () => {
-        formBtn.toggleAttribute('disabled', true);
-        formBtn.textContent = 'Submitting...';
-        setTimeout(() => {
-          formBtn.textContent = 'Success!';
-          formConfetti.fire();
-          setTimeout(() => {
-            formBtn.removeAttribute('disabled');
-            formBtn.textContent = 'Submit';
-          }, 1500);
-        }, 800);
-      });
-
-      // ── Programmatic presets ──
-      const subtleHost = document.getElementById('btn-subtle');
-      const partyHost = document.getElementById('btn-party');
-      const explosionHost = document.getElementById('btn-explosion');
-
-      const subtleCtrl = new ConfettiController(subtleHost, { trigger: 'manual', count: 10, velocity: 6, spread: 45, duration: 1200 });
-      const partyCtrl = new ConfettiController(partyHost, { trigger: 'manual', count: 60, velocity: 15, spread: 120, duration: 2500 });
-      const explosionCtrl = new ConfettiController(explosionHost, { trigger: 'manual', count: 100, velocity: 25, spread: 180, gravity: 0.3, duration: 3000 });
-
-      subtleHost.addEventListener('native:press', () => subtleCtrl.fire());
-      partyHost.addEventListener('native:press', () => partyCtrl.fire());
-      explosionHost.addEventListener('native:press', () => explosionCtrl.fire());
-
-      // ── Options playground ──
-      const playgroundBtn = document.getElementById('playground-fire');
-      const playgroundHost = document.getElementById('playground-target');
-      let playCtrl = new ConfettiController(playgroundHost, { trigger: 'manual' });
-
-      playgroundBtn.addEventListener('native:press', () => playCtrl.fire());
-
-      const countRange = document.getElementById('opt-count');
-      const countVal = document.getElementById('count-val');
-      countRange.addEventListener('native:change', (e) => {
-        const v = Number(e.detail.value);
-        playCtrl.count = v;
-        countVal.textContent = String(v);
-      });
-
-      const spreadRange = document.getElementById('opt-spread');
-      const spreadVal = document.getElementById('spread-val');
-      spreadRange.addEventListener('native:change', (e) => {
-        const v = Number(e.detail.value);
-        playCtrl.spread = v;
-        spreadVal.textContent = String(v);
-      });
-
-      const velocityRange = document.getElementById('opt-velocity');
-      const velocityVal = document.getElementById('velocity-val');
-      velocityRange.addEventListener('native:change', (e) => {
-        const v = Number(e.detail.value);
-        playCtrl.velocity = v;
-        velocityVal.textContent = String(v);
-      });
-
-      const gravityRange = document.getElementById('opt-gravity');
-      const gravityVal = document.getElementById('gravity-val');
-      gravityRange.addEventListener('native:change', (e) => {
-        const v = Number(e.detail.value);
-        playCtrl.gravity = v;
-        gravityVal.textContent = v.toFixed(2);
-      });
-
-      const durationRange = document.getElementById('opt-duration');
-      const durationVal = document.getElementById('duration-val');
-      durationRange.addEventListener('native:change', (e) => {
-        const v = Number(e.detail.value);
-        playCtrl.duration = v;
-        durationVal.textContent = String(v);
-      });
-    </script>
+    <script type="module" src="./confettible.demo.ts"></script>
   </head>
   <body>
     <native-dashboard-spa>

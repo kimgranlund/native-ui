@@ -1,0 +1,17 @@
+.sidebar-demo {
+        display: flex;
+        gap: 1rem;
+        height: 16rem;
+      }
+
+      .sidebar-demo > n-container[data-kind="panel"] {
+        width: 14rem;
+        flex-shrink: 0;
+      }
+
+      .sidebar-demo > .content-area {
+        flex: 1;
+        padding: 1rem;
+        font-size: 0.875rem;
+        color: var(--n-ink-muted-neutral);
+      }

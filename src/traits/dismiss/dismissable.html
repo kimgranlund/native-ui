@@ -8,45 +8,7 @@
     <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
-    <style>
-
-      main {
-        padding: 2rem;
-        max-width: 64rem;
-      }
-      h3 {
-        font-size: 0.8125rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        margin-top: 1.25rem;
-        color: var(--n-ink-strong-neutral);
-      }
-.dismiss-panel {
-        display: block;
-        padding: 1rem;
-        background: var(--n-surface-accent);
-        color: var(--n-surface-ink-accent);
-        border-radius: 0.5rem;
-        margin-top: 0.75rem;
-        font-size: 0.875rem;
-      }
-
-      .dismiss-panel[hidden] {
-        display: none;
-      }
-
-      .output {
-        font-family: monospace;
-        font-size: 0.75rem;
-        color: var(--n-ink-muted-neutral);
-        max-height: 6rem;
-        overflow-y: auto;
-        margin-top: 0.75rem;
-        padding: 0.5rem;
-        background: var(--n-panel-neutral);
-        border-radius: 0.25rem;
-      }
-    </style>
+    <link rel="stylesheet" href="./dismissable.demo.css" />
   </head>
   <body>
     <native-dashboard-spa><main>
@@ -196,92 +158,6 @@ dismissB.enable();
     </script>
 
     <!-- Script 2: Import components (runs after traits are registered) -->
-    <script type="module">
-      import '../../nav/native-dashboard.ts';
-      import '../../components/button/button.ts';
-      import '../../components/dialog/dialog.ts';
-      import '../../components/controller/controller.ts';
-      import '../../icons/icon.ts';
-      import '../../icons/phosphor/copy.ts';
-      import '../../icons/phosphor/check.ts';
-      import { DismissController } from '../../index.ts';
-// ── Copy buttons ──
-
-      for (const btn of document.querySelectorAll('.copy-btn')) {
-        btn.addEventListener('click', async () => {
-          const code = btn.closest('.demo-code')?.querySelector('code');
-          if (!code) return;
-          await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('n-icon');
-          if (icon) {
-            icon.setAttribute('name', 'check');
-            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
-          }
-        });
-      }
-
-      // ── Helpers ──
-
-      function appendLog(el, msg) {
-        const line = document.createElement('div');
-        line.textContent = msg;
-        el.appendChild(line);
-        el.scrollTop = el.scrollHeight;
-      }
-
-      // ── Click Outside Demo ──
-
-      const panel = document.getElementById('panel');
-      const dismiss = new DismissController(panel);
-      const logEl = document.getElementById('log');
-      let count = 0;
-
-      function showPanel() {
-        panel.removeAttribute('hidden');
-        dismiss.enable();
-        count++;
-        appendLog(logEl, `#${count} Panel opened`);
-      }
-
-      function hidePanel() {
-        dismiss.disable();
-        panel.setAttribute('hidden', '');
-      }
-
-      document.getElementById('open-btn').addEventListener('native:press', () => showPanel());
-      panel.addEventListener('native:dismiss', () => {
-        count++;
-        appendLog(logEl, `#${count} Panel dismissed`);
-        hidePanel();
-      });
-
-      // ── Nested Layers Demo ──
-
-      const panelA = document.getElementById('panel-a');
-      const panelB = document.getElementById('panel-b');
-      const dismissA = new DismissController(panelA);
-      const dismissB = new DismissController(panelB);
-
-      function showPanelEl(el, ctrl) {
-        el.removeAttribute('hidden');
-        ctrl.enable();
-      }
-
-      function hidePanelEl(el, ctrl) {
-        ctrl.disable();
-        el.setAttribute('hidden', '');
-      }
-
-      document.getElementById('open-a').addEventListener('native:press', () => showPanelEl(panelA, dismissA));
-      document.getElementById('open-b').addEventListener('native:press', () => showPanelEl(panelB, dismissB));
-      panelA.addEventListener('native:dismiss', () => hidePanelEl(panelA, dismissA));
-      panelB.addEventListener('native:dismiss', () => hidePanelEl(panelB, dismissB));
-
-      // ── Dialog Demo ──
-
-      const dialog = document.getElementById('demo-dialog');
-      document.getElementById('open-dialog').addEventListener('native:press', () => dialog.showModal());
-      document.getElementById('close-dialog').addEventListener('native:press', () => dialog.close());
-    </script>
+    <script type="module" src="./dismissable.demo.ts"></script>
   </body>
 </html>

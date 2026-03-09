@@ -1,0 +1,58 @@
+/* ── List styling ── */
+
+.nav-list {
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: var(--n-radius);
+  overflow: hidden;
+  max-width: 20rem;
+}
+
+.nav-list [role="option"] {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid var(--n-border-muted-neutral);
+  color: var(--n-ink-neutral);
+  background: var(--n-surface-neutral);
+  transition: background 100ms ease;
+}
+
+.nav-list [role="option"]:last-child {
+  border-bottom: none;
+}
+
+.nav-list [role="option"]:hover {
+  background: var(--n-panel-hover-neutral);
+}
+
+.nav-list [role="option"]:focus-visible {
+  outline: 2px solid var(--n-focus-ring);
+  outline-offset: -2px;
+  z-index: 1;
+  position: relative;
+}
+
+.nav-list [role="option"][aria-selected="true"] {
+  background: var(--n-surface-accent);
+  color: var(--n-surface-ink-accent);
+}
+
+.nav-list [role="option"][aria-checked="true"] {
+  background: var(--n-surface-accent);
+  color: var(--n-surface-ink-accent);
+}
+
+.output {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-neutral);
+  max-height: 6rem;
+  overflow-y: auto;
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: var(--n-panel-neutral);
+  border-radius: 0.25rem;
+}

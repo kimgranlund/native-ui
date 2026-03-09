@@ -8,33 +8,7 @@
     <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
-    <style>
-      .demo-target {
-        background: var(--n-panel);
-        border: 1px solid var(--n-border-muted);
-        border-radius: var(--n-radius);
-        padding: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.875rem;
-        color: var(--n-ink-muted);
-        anchor-name: none; /* let the gripper set this */
-      }
-      .demo-overflow {
-        overflow: hidden;
-        border: 2px dashed var(--n-border-muted);
-        border-radius: var(--n-radius);
-        padding: 1rem;
-        position: relative;
-      }
-      .demo-readout {
-        font-size: 0.8125rem;
-        color: var(--n-ink-muted);
-        margin-block-start: 0.5rem;
-        font-variant-numeric: tabular-nums;
-      }
-    </style>
+    <link rel="stylesheet" href="./n-gripper.demo.css" />
   </head>
   <body>
     <native-dashboard-spa><main>
@@ -157,31 +131,6 @@
 
     </main></native-dashboard-spa>
 
-    <script type="module">
-      import '../../nav/native-dashboard.ts';
-      import './n-gripper.ts';
-
-      // Live readouts
-      function readout(targetId, readoutId) {
-        const target = document.getElementById(targetId);
-        const el = document.getElementById(readoutId);
-        if (!target || !el) return;
-
-        const update = () => {
-          const rect = target.getBoundingClientRect();
-          el.textContent = `${Math.round(rect.width)} × ${Math.round(rect.height)}`;
-        };
-
-        target.addEventListener('native:grip-move', update);
-        target.addEventListener('native:grip-end', update);
-        target.addEventListener('native:grip-cancel', update);
-      }
-
-      readout('panel-h', 'readout-h');
-      readout('panel-v', 'readout-v');
-      readout('panel-c', 'readout-c');
-      readout('panel-r', 'readout-r');
-      readout('panel-s', 'readout-s');
-    </script>
+    <script type="module" src="./n-gripper.demo.ts"></script>
   </body>
 </html>

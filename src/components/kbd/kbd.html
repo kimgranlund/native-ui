@@ -8,17 +8,7 @@
     <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
-    <style>
-.demo-row + .demo-row {
-        margin-top: 0.75rem;
-      }
-
-      .demo-label {
-        font-size: 0.75rem;
-        color: var(--n-ink-muted-neutral);
-        min-width: 2rem;
-      }
-    </style>
+    <link rel="stylesheet" href="./kbd.demo.css" />
   </head>
   <body>
     <native-dashboard-spa><main>
@@ -150,15 +140,6 @@
     </div>
 
     </main></native-dashboard-spa>
-    <script type="module">
-      import '../../nav/native-dashboard.ts';
-      import '../button/button.ts';
-      import '../../icons/icon.ts';
-      import '../../icons/phosphor/command.ts';
-      import '../../icons/phosphor/option.ts';
-      import '../../icons/phosphor/control.ts';
-      import '../../icons/phosphor/key-return.ts';
-      import '../../icons/phosphor/backspace.ts';
-    </script>
+    <script type="module" src="./kbd.demo.ts"></script>
   </body>
 </html>

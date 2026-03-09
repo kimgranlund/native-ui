@@ -1,0 +1,50 @@
+/* ── Dialog styling ── */
+
+.dialog-host dialog {
+  border: none;
+  border-radius: var(--n-radius);
+  padding: 0;
+  background: var(--n-surface-neutral);
+  color: var(--n-ink-neutral);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+  min-width: 20rem;
+  max-width: 32rem;
+}
+
+.dialog-host dialog::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+
+.dialog-body {
+  padding: 1.5rem;
+}
+
+.dialog-body h3 {
+  margin: 0 0 0.5rem;
+}
+
+.dialog-body p {
+  margin: 0 0 1rem;
+  color: var(--n-ink-muted-neutral);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.output {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-neutral);
+  max-height: 6rem;
+  overflow-y: auto;
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: var(--n-panel-neutral);
+  border-radius: 0.25rem;
+}

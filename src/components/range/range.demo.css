@@ -1,0 +1,5 @@
+.value-display {
+        font-size: 0.8125rem;
+        color: var(--n-ink-muted-neutral);
+        font-variant-numeric: tabular-nums;
+      }

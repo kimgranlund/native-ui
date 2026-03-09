@@ -1,0 +1,25 @@
+.demo-target {
+  background: var(--n-panel);
+  border: 1px solid var(--n-border-muted);
+  border-radius: var(--n-radius);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: var(--n-ink-muted);
+  anchor-name: none; /* let the gripper set this */
+}
+.demo-overflow {
+  overflow: hidden;
+  border: 2px dashed var(--n-border-muted);
+  border-radius: var(--n-radius);
+  padding: 1rem;
+  position: relative;
+}
+.demo-readout {
+  font-size: 0.8125rem;
+  color: var(--n-ink-muted);
+  margin-block-start: 0.5rem;
+  font-variant-numeric: tabular-nums;
+}

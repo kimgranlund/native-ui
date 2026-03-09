@@ -8,37 +8,7 @@
     <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
-    <style>
-.demo-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 1.5rem;
-        align-items: start;
-      }
-
-      .demo-col {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
-      .demo-col-label {
-        font-size: 0.625rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: var(--n-ink-muted-neutral);
-      }
-.value-display {
-        font-family: ui-monospace, monospace;
-        font-size: 0.75rem;
-        color: var(--n-ink-accent);
-        background: var(--n-panel-accent);
-        border-radius: 0.25rem;
-        padding: 0.25rem 0.5rem;
-        display: inline-block;
-      }
-</style>
+    <link rel="stylesheet" href="./listbox.demo.css" />
   </head>
   <body>
     <native-dashboard-spa><main>
@@ -502,67 +472,6 @@
     </div>
 
     </main></native-dashboard-spa>
-    <script type="module">
-      import '../../nav/native-dashboard.ts';
-      import './listbox.ts';
-      import '../button/button.ts';
-      import '../../icons/icon.ts';
-      import '../../icons/phosphor/house.ts';
-      import '../../icons/phosphor/rocket-launch.ts';
-      import '../../icons/phosphor/book-open.ts';
-      import '../../icons/phosphor/copy.ts';
-      import '../../icons/phosphor/check.ts';
-
-      // Basic listbox value tracking
-      const basicListbox = document.getElementById('basic-listbox');
-      const basicValue = document.getElementById('basic-value');
-
-      basicListbox.addEventListener('native:change', (e) => {
-        basicValue.textContent = e.detail.value;
-      });
-
-      // Pre-select "medium"
-      const preListbox = document.getElementById('preselected-listbox');
-      preListbox.addEventListener('native:change', () => {});
-      // Programmatic select after registration
-      requestAnimationFrame(() => {
-        preListbox.controller.select('medium');
-      });
-
-      // Event logging
-      const eventListbox = document.getElementById('event-listbox');
-      const eventLog = document.getElementById('event-log');
-      let eventCount = 0;
-
-      eventListbox.addEventListener('native:select', (e) => {
-        eventCount++;
-        const entry = document.createElement('div');
-        entry.className = 'log-entry';
-        entry.textContent = `#${eventCount} n-select — value: "${e.detail.value}", label: "${e.detail.label}"`;
-        eventLog.prepend(entry);
-      });
-
-      eventListbox.addEventListener('native:change', (e) => {
-        eventCount++;
-        const entry = document.createElement('div');
-        entry.className = 'log-entry';
-        entry.textContent = `#${eventCount} native:change — value: "${e.detail.value}", label: "${e.detail.label}"`;
-        eventLog.prepend(entry);
-      });
-// ── Copy buttons ──
-
-      for (const btn of document.querySelectorAll('.copy-btn')) {
-        btn.addEventListener('click', async () => {
-          const code = btn.closest('.demo-code')?.querySelector('code');
-          if (!code) return;
-          await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('n-icon');
-          if (icon) {
-            icon.setAttribute('name', 'check');
-            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
-          }
-        });
-      }
-    </script>
+    <script type="module" src="./listbox.demo.ts"></script>
   </body>
 </html>

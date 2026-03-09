@@ -1,0 +1,83 @@
+main {
+  padding: 2rem;
+  max-width: 64rem;
+}
+h3 {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  margin-top: 1.25rem;
+  color: var(--n-ink-strong-neutral);
+}
+/* ── Intersect Boxes ── */
+
+.scroll-spacer {
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-neutral);
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.intersect-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 6rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: var(--n-radius);
+  font-size: 0.875rem;
+  color: var(--n-ink-muted-neutral);
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 600ms ease, transform 600ms ease, background 300ms ease, border-color 300ms ease, color 300ms ease;
+}
+
+.intersect-box[intersecting] {
+  opacity: 1;
+  transform: translateY(0);
+  background: var(--n-surface-accent);
+  border-color: var(--n-border-accent);
+  color: var(--n-surface-ink-accent);
+}
+
+/* Once mode: keep visible after first intersection */
+.intersect-box.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.intersect-label {
+  font-weight: 600;
+}
+
+.intersect-status {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  background: var(--n-border-muted-neutral);
+  color: var(--n-ink-muted-neutral);
+  margin-left: 0.75rem;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+[intersecting] .intersect-status {
+  background: var(--n-ink-accent);
+  color: var(--n-surface-accent);
+}
+
+.output {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-neutral);
+  max-height: 6rem;
+  overflow-y: auto;
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: var(--n-panel-neutral);
+  border-radius: 0.25rem;
+}

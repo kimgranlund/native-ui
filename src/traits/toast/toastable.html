@@ -8,26 +8,7 @@
     <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
-    <style>
-
-      main {
-        padding: 2rem;
-        max-width: 64rem;
-      }
-      h3 {
-        font-size: 0.8125rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        margin-top: 1.25rem;
-        color: var(--n-ink-strong-neutral);
-      }
-.button-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-
-    </style>
+    <link rel="stylesheet" href="./toastable.demo.css" />
   </head>
   <body>
     <native-dashboard-spa><main>
@@ -158,73 +139,6 @@ toaster.dismissAllToasts();</code><n-button class="copy-btn" size="sm" variant="
     </script>
 
     <!-- Script 2: Import components (runs after traits are registered) -->
-    <script type="module">
-      import '../../nav/native-dashboard.ts';
-      import '../../components/button/button.ts';
-      import '../../components/controller/controller.ts';
-      import '../../icons/icon.ts';
-      import '../../icons/phosphor/copy.ts';
-      import '../../icons/phosphor/check.ts';
-      import { ToastController } from '../../index.ts';
-// ── Copy buttons ──
-
-      for (const btn of document.querySelectorAll('.copy-btn')) {
-        btn.addEventListener('click', async () => {
-          const code = btn.closest('.demo-code')?.querySelector('code');
-          if (!code) return;
-          await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('n-icon');
-          if (icon) {
-            icon.setAttribute('name', 'check');
-            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
-          }
-        });
-      }
-
-      // ── Toast Controller — attached to the main content area ──
-
-      const toaster = new ToastController(document.querySelector('main'));
-
-      // ── Intent demos ──
-
-      document.getElementById('info-btn').addEventListener('native:press', () => {
-        toaster.toast({ message: 'This is an info notification.', intent: 'info' });
-      });
-      document.getElementById('success-btn').addEventListener('native:press', () => {
-        toaster.toast({ message: 'Action completed successfully!', intent: 'success' });
-      });
-      document.getElementById('warning-btn').addEventListener('native:press', () => {
-        toaster.toast({ message: 'Careful — this action cannot be undone.', intent: 'warning' });
-      });
-      document.getElementById('danger-btn').addEventListener('native:press', () => {
-        toaster.toast({ message: 'Something went wrong. Please try again.', intent: 'danger' });
-      });
-
-      // ── Duration demos ──
-
-      document.getElementById('fast-btn').addEventListener('native:press', () => {
-        toaster.toast({ message: 'Gone in 1 second!', intent: 'info', duration: 1000 });
-      });
-      document.getElementById('slow-btn').addEventListener('native:press', () => {
-        toaster.toast({ message: 'I\'ll stick around for 10 seconds.', intent: 'info', duration: 10000 });
-      });
-      document.getElementById('sticky-btn').addEventListener('native:press', () => {
-        toaster.toast({ message: 'I won\'t go away until you dismiss me.', intent: 'warning', duration: 0 });
-      });
-
-      // ── Batch demos ──
-
-      document.getElementById('batch-btn').addEventListener('native:press', () => {
-        const intents = ['info', 'success', 'warning', 'danger', 'info'];
-        intents.forEach((intent, i) => {
-          setTimeout(() => {
-            toaster.toast({ message: `Toast #${i + 1} (${intent})`, intent, duration: 6000 });
-          }, i * 100);
-        });
-      });
-      document.getElementById('clear-btn').addEventListener('native:press', () => {
-        toaster.dismissAllToasts();
-      });
-    </script>
+    <script type="module" src="./toastable.demo.ts"></script>
   </body>
 </html>

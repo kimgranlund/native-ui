@@ -8,13 +8,7 @@
     <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
-    <style>
-.value-display {
-        font-size: 0.8125rem;
-        color: var(--n-ink-muted-neutral);
-        font-variant-numeric: tabular-nums;
-      }
-    </style>
+    <link rel="stylesheet" href="./range.demo.css" />
   </head>
   <body>
     <native-dashboard-spa><main>
@@ -299,35 +293,6 @@
     </div>
 
     </main></native-dashboard-spa>
-    <script type="module">
-      import '../../nav/native-dashboard.ts';
-      import './range.ts';
-      import '../field/field.ts';
-      import '../input/input.ts';
-      import '../button/button.ts';
-      import '../../icons/icon.ts';
-      import '../../icons/phosphor/copy.ts';
-      import '../../icons/phosphor/check.ts';
-
-      const range = document.getElementById('zoom-range');
-      const display = document.getElementById('zoom-value');
-      range?.addEventListener('native:input', (e) => {
-        display.textContent = `${e.detail.value}%`;
-      });
-// ── Copy buttons ──
-
-      for (const btn of document.querySelectorAll('.copy-btn')) {
-        btn.addEventListener('click', async () => {
-          const code = btn.closest('.demo-code')?.querySelector('code');
-          if (!code) return;
-          await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('n-icon');
-          if (icon) {
-            icon.setAttribute('name', 'check');
-            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
-          }
-        });
-      }
-    </script>
+    <script type="module" src="./range.demo.ts"></script>
   </body>
 </html>

@@ -1,0 +1,106 @@
+main {
+  padding: 2rem;
+  max-width: 64rem;
+}
+h3 {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  margin-top: 1.25rem;
+  color: var(--n-ink-strong-neutral);
+}
+/* ── Drop Zones ── */
+
+.drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 8rem;
+  padding: 1.5rem;
+  background: var(--n-panel-neutral);
+  border: 2px dashed var(--n-border-muted-neutral);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--n-ink-muted-neutral);
+  transition: border-color 200ms ease, background 200ms ease, color 200ms ease;
+  text-align: center;
+}
+
+.drop-zone[drop-active] {
+  border-color: var(--n-border-accent);
+  background: var(--n-surface-accent);
+  color: var(--n-surface-ink-accent);
+}
+
+#images-zone[drop-invalid] {
+  border-color: var(--n-border-danger, #e55);
+  background: var(--n-surface-danger, #fee);
+  color: var(--n-surface-ink-danger, #c33);
+}
+
+.drop-icon {
+  font-size: 1.5rem;
+  opacity: 0.5;
+}
+
+.drop-hint {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+}
+
+.file-name {
+  font-weight: 500;
+  color: var(--n-ink-strong-neutral);
+}
+
+.file-size {
+  color: var(--n-ink-muted-neutral);
+  font-size: 0.75rem;
+}
+
+.dropped-text {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--n-ink-neutral);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 6rem;
+  overflow-y: auto;
+}
+
+.output {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-neutral);
+  max-height: 6rem;
+  overflow-y: auto;
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: var(--n-panel-neutral);
+  border-radius: 0.25rem;
+}

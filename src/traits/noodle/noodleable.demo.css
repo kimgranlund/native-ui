@@ -1,0 +1,225 @@
+@import '~pkg/native-code/codemirror/css/codemirror.css';
+
+/* ── Noodle Arena ── */
+
+.noodle-arena {
+  position: relative;
+  min-height: 340px;
+  border: 2px dashed var(--n-border-muted-neutral);
+  border-radius: var(--n-radius);
+  overflow: visible;
+}
+
+.noodle-arena--tall {
+  min-height: 460px;
+}
+
+.noodle-arena--short {
+  min-height: 200px;
+}
+
+/* ── Flow Nodes ── */
+
+.flow-node {
+  position: absolute;
+  min-width: 7rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: var(--n-radius);
+  font-size: 0.75rem;
+  font-weight: 600;
+  user-select: none;
+  touch-action: none;
+  cursor: grab;
+  text-align: center;
+  background: var(--n-button);
+  border: 1px solid var(--n-border-muted);
+  color: var(--n-ink);
+  transition: box-shadow 200ms ease;
+}
+
+.flow-node:active {
+  cursor: grabbing;
+}
+
+.flow-node[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.flow-node[magnet-snapping] {
+  box-shadow: 0 0 0 2px var(--n-color-accent-500), 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* ── Add Node Button ── */
+
+.flow-add-btn {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--n-border-accent);
+  background: var(--n-button-accent);
+  color: var(--n-ink-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  padding: 0;
+  transition: transform 100ms ease;
+}
+
+.flow-add-btn:hover {
+  transform: scale(1.2);
+}
+
+/* ── Split Layout ── */
+
+.flow-split {
+  display: flex;
+  gap: 0;
+  min-height: 480px;
+  max-height: 75dvh;
+  background-color: var(--n-panel);
+  border: 2px dashed var(--n-border-muted-neutral);
+  border-radius: var(--n-radius);
+  overflow: hidden;
+}
+
+.flow-split-canvas {
+  position: relative;
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+}
+
+.flow-split-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 5px;
+  height: 100%;
+  cursor: ew-resize;
+  background: var(--n-border-muted-neutral);
+  opacity: 0.3;
+  transition: opacity 150ms ease;
+  z-index: 5;
+}
+
+.flow-split-handle:hover {
+  opacity: 0.8;
+  background: var(--n-border-accent);
+}
+
+.flow-canvas-controls {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flow-split-editor {
+  flex: 1;
+  min-width: 200px;
+  overflow: hidden;
+  border-left: 1px solid var(--n-border-muted-neutral);
+  display: flex;
+  flex-direction: column;
+}
+
+.flow-split-editor > div {
+  flex: 1;
+  min-height: 0;
+}
+
+.flow-split-editor .cm-editor {
+  height: 100%;
+}
+
+.flow-split-editor .cm-scroller {
+  overflow: auto;
+}
+
+/* ── Canvas Viewport (pan) ── */
+
+.canvas-viewport {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+}
+
+.canvas-viewport:active {
+  cursor: grabbing;
+}
+
+.canvas-transform {
+  transform-origin: 0 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Inside split, arena loses its own border */
+.flow-split .noodle-arena {
+  border: none;
+  min-height: 100%;
+}
+
+/* ── Present Mode ── */
+
+.flow-split[presented] {
+  max-height: none;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+}
+
+/* ── Port Interaction States ── */
+
+[data-noodle-port-indicator]:hover {
+  transform: translate(-50%, -50%) scale(1.4) !important;
+  box-shadow: 0 0 0 3px var(--n-color-accent-200), 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-noodle-port-indicator][data-noodle-dragging] {
+  transform: translate(-50%, -50%) scale(1.1) !important;
+  background: var(--n-color-accent-700) !important;
+  box-shadow: 0 0 0 2px var(--n-color-accent-300) !important;
+}
+
+[data-noodle-port-indicator][data-noodle-droppable] {
+  transform: translate(-50%, -50%) scale(1.3) !important;
+  animation: noodle-port-pulse 1s ease infinite !important;
+}
+
+[data-noodle-port-indicator][data-noodle-drop-ready] {
+  transform: translate(-50%, -50%) scale(1.6) !important;
+  box-shadow: 0 0 0 4px var(--n-color-accent-300), 0 0 12px var(--n-color-accent-400) !important;
+  animation: none !important;
+}
+
+@keyframes noodle-port-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px var(--n-color-accent-300), 0 1px 3px rgba(0, 0, 0, 0.2); }
+  50% { box-shadow: 0 0 0 4px var(--n-color-accent-200), 0 0 8px var(--n-color-accent-400); }
+}
+
+/* ── Event Log ── */
+
+.event-log {
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: var(--n-ink-muted-neutral);
+}
+
+.event-log .connect { color: var(--n-ink-success); }
+.event-log .disconnect { color: var(--n-ink-danger); }

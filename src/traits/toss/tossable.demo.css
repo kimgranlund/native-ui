@@ -1,0 +1,107 @@
+main {
+  padding: 2rem;
+  max-width: 64rem;
+}
+h3 {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  margin-top: 1.25rem;
+  color: var(--n-ink-strong-neutral);
+}
+
+/* ── Toss Cards ── */
+
+.toss-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 10rem;
+  height: 10rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: var(--n-radius);
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+  position: relative;
+  transition: box-shadow 200ms ease, border-color 200ms ease;
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-neutral);
+}
+
+.toss-card[tossing] {
+  cursor: grabbing;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  border-color: var(--n-border-accent);
+  z-index: 10;
+}
+
+.toss-card.accent {
+  background: var(--n-surface-accent);
+  border-color: var(--n-border-accent);
+  color: var(--n-ink-accent);
+}
+
+.toss-card.info {
+  background: var(--n-surface-info);
+  border-color: var(--n-border-info);
+  color: var(--n-ink-info);
+}
+
+.toss-card.success {
+  background: var(--n-surface-success);
+  border-color: var(--n-border-success);
+  color: var(--n-ink-success);
+}
+
+.toss-card.warning {
+  background: var(--n-surface-warning);
+  border-color: var(--n-border-warning);
+  color: var(--n-ink-warning);
+}
+
+.toss-card.danger {
+  background: var(--n-surface-danger);
+  border-color: var(--n-border-danger);
+  color: var(--n-ink-danger);
+}
+
+.toss-label {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* ── Arena ── */
+
+.arena {
+  position: relative;
+  min-height: 24rem;
+  border: 2px dashed var(--n-border-muted-neutral);
+  border-radius: var(--n-radius);
+  padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-content: flex-start;
+  overflow: hidden;
+}
+
+/* ── Event log ── */
+
+.event-log {
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: var(--n-ink-muted-neutral);
+  max-height: 10rem;
+  overflow-y: auto;
+}
+.event-log .entry {
+  padding: 0.125rem 0;
+}
+.event-log .vel { color: var(--n-ink-accent); }
+.event-log .pos { color: var(--n-ink-success); }
+.event-log .bounce { color: var(--n-ink-warning); }

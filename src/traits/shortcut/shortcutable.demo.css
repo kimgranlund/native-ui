@@ -1,0 +1,28 @@
+.demo-section {
+  padding: calc(var(--n-space) * 4);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--n-space) * 4);
+}
+.shortcut-log {
+  font-family: monospace;
+  font-size: 0.8125rem;
+  padding: calc(var(--n-space) * 2) calc(var(--n-space) * 3);
+  background: var(--n-control);
+  border-radius: var(--n-radius);
+  min-height: 4rem;
+  max-height: 12rem;
+  overflow-y: auto;
+  color: var(--n-ink-muted);
+}
+.shortcut-log .entry {
+  color: var(--n-ink-strong);
+}
+.shortcut-row {
+  display: flex;
+  gap: calc(var(--n-space) * 2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+h3 { margin: 0; font-size: 0.875rem; font-weight: 600; color: var(--n-ink-muted); }
+p { margin: 0; font-size: 0.8125rem; color: var(--n-ink-muted); }

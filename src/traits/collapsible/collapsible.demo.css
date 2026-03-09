@@ -1,0 +1,35 @@
+main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+.collapse-section {
+        display: block;
+        overflow: hidden;
+      }
+
+      .collapse-section[collapsed] {
+        height: 0;
+        overflow: clip;
+      }
+
+      .collapse-content {
+        padding: 1rem;
+        background: var(--n-surface-accent);
+        color: var(--n-surface-ink-accent);
+        border-radius: 0.5rem;
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+      }
+
+      #log {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: var(--n-ink-muted-neutral);
+        max-height: 8rem;
+        overflow-y: auto;
+        margin-top: 0.75rem;
+        padding: 0.5rem;
+        background: var(--n-panel-neutral);
+        border-radius: 0.25rem;
+      }

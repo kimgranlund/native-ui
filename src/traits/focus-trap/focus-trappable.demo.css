@@ -1,0 +1,47 @@
+main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+      h3 {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        margin-top: 1.25rem;
+        color: var(--n-ink-strong-neutral);
+      }
+.trap-region {
+        display: block;
+        padding: 1.5rem;
+        background: var(--n-panel-neutral);
+        border: 2px solid var(--n-focus-ring);
+        border-radius: 0.5rem;
+        margin-top: 0.75rem;
+      }
+
+      .trap-region[hidden] {
+        display: none;
+      }
+
+      .trap-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .trap-form label {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+      }
+
+      .trap-form n-input {
+        font-size: 0.875rem;
+      }
+
+      .trap-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }

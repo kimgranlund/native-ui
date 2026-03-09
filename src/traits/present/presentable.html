@@ -8,71 +8,7 @@
     <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
-    <style>
-      /* ── Presentable content cards ── */
-
-      .present-card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
-        background: var(--n-surface-neutral);
-        border: 1px solid var(--n-border-muted-neutral);
-        border-radius: var(--n-radius);
-        text-align: center;
-        cursor: pointer;
-        transition: box-shadow 200ms ease;
-        min-height: 8rem;
-      }
-
-      .present-card:hover {
-        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-      }
-
-      .present-card[presented] {
-        width: 100%;
-        height: 100%;
-        max-width: 100%;
-        max-height: 100%;
-        border-radius: var(--n-radius);
-        cursor: default;
-      }
-
-      .present-card h3 {
-        margin: 0 0 0.5rem;
-      }
-
-      .present-card p {
-        margin: 0;
-        font-size: 0.875rem;
-        color: var(--n-ink-muted-neutral);
-      }
-
-      .image-card {
-        overflow: hidden;
-        padding: 0;
-      }
-
-      .image-card img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      .output {
-        font-family: monospace;
-        font-size: 0.75rem;
-        color: var(--n-ink-muted-neutral);
-        max-height: 6rem;
-        overflow-y: auto;
-        margin-top: 0.75rem;
-        padding: 0.5rem;
-        background: var(--n-panel-neutral);
-        border-radius: 0.25rem;
-      }
-    </style>
+    <link rel="stylesheet" href="./presentable.demo.css" />
 
     <!-- Register traits BEFORE component define() -->
     <script type="module">
@@ -315,74 +251,6 @@
 
     </main></native-dashboard-spa>
 
-    <script type="module">
-      import { PresentController } from '../../index.ts';
-
-      // ── Copy buttons ──
-      for (const btn of document.querySelectorAll('.copy-btn')) {
-        btn.addEventListener('click', async () => {
-          const code = btn.closest('.demo-code')?.querySelector('code');
-          if (!code) return;
-          await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('n-icon');
-          if (icon) {
-            icon.setAttribute('name', 'check');
-            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
-          }
-        });
-      }
-
-      // ── Helpers ──
-      const logEl = document.getElementById('basic-log');
-      function appendLog(msg) {
-        const line = document.createElement('div');
-        line.textContent = msg;
-        logEl.appendChild(line);
-        logEl.scrollTop = logEl.scrollHeight;
-      }
-
-      // ── Basic present ──
-      const basicCard = document.getElementById('basic-card');
-      const basicCtrl = new PresentController(basicCard);
-
-      basicCard.addEventListener('click', () => {
-        if (!basicCtrl.open) {
-          basicCtrl.present();
-          appendLog('Presented');
-        }
-      });
-
-      basicCard.addEventListener('native:present', () => {
-        appendLog('native:present fired');
-      });
-
-      basicCard.addEventListener('native:dismiss', () => {
-        appendLog('native:dismiss fired');
-      });
-
-      // ── No close button ──
-      const noCloseCard = document.getElementById('no-close-card');
-      const noCloseCtrl = new PresentController(noCloseCard, { closeButton: false });
-
-      noCloseCard.addEventListener('click', () => {
-        if (!noCloseCtrl.open) noCloseCtrl.present();
-      });
-
-      // ── Custom inset ──
-      const insetCard = document.getElementById('inset-card');
-      const insetCtrl = new PresentController(insetCard, { inset: '4rem' });
-
-      insetCard.addEventListener('click', () => {
-        if (!insetCtrl.open) insetCtrl.present();
-      });
-
-      // ── Toggle button ──
-      const toggleCard = document.getElementById('toggle-card');
-      const toggleCtrl = new PresentController(toggleCard);
-
-      document.getElementById('toggle-btn').addEventListener('click', () => {
-        toggleCtrl.toggle();
-      });
-    </script>
+    <script type="module" src="./presentable.demo.ts"></script>
   </body>
 </html>

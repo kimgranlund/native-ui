@@ -8,86 +8,7 @@
     <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
-    <style>
-
-      /* ── Noodle arena ── */
-
-      .noodle-arena {
-        position: relative;
-        min-height: 340px;
-        border: 2px dashed var(--n-border-muted-neutral);
-        border-radius: var(--n-radius);
-        overflow: visible;
-      }
-
-      /* ── Flow nodes ── */
-
-      .flow-node {
-        position: absolute;
-        min-width: 7rem;
-        padding: 0.625rem 0.875rem;
-        border-radius: var(--n-radius);
-        font-size: 0.75rem;
-        font-weight: 600;
-        user-select: none;
-        touch-action: none;
-        cursor: grab;
-        transition: box-shadow 200ms ease;
-        text-align: center;
-        background: var(--n-button);
-        border: 1px solid var(--n-border-muted);
-        color: var(--n-ink);
-      }
-      .flow-node:active { cursor: grabbing; }
-
-      .flow-node[magnet-snapping] {
-        box-shadow: 0 0 0 2px var(--n-color-accent-500), 0 4px 16px rgba(0,0,0,0.12);
-      }
-
-      /* ── Port interaction states ── */
-
-      [data-noodle-port-indicator]:hover {
-        transform: translate(-50%, -50%) scale(1.4) !important;
-        box-shadow: 0 0 0 3px var(--n-color-accent-200), 0 2px 6px rgba(0,0,0,0.15) !important;
-      }
-
-      /* Source port being dragged from */
-      [data-noodle-port-indicator][data-noodle-dragging] {
-        transform: translate(-50%, -50%) scale(1.1) !important;
-        background: var(--n-color-accent-700) !important;
-        box-shadow: 0 0 0 2px var(--n-color-accent-300) !important;
-      }
-
-      /* All valid target ports pulse during a drag */
-      [data-noodle-port-indicator][data-noodle-droppable] {
-        transform: translate(-50%, -50%) scale(1.3) !important;
-        animation: noodle-port-pulse 1s ease infinite !important;
-      }
-
-      /* Hovered / snapped target port during drag */
-      [data-noodle-port-indicator][data-noodle-drop-ready] {
-        transform: translate(-50%, -50%) scale(1.6) !important;
-        box-shadow: 0 0 0 4px var(--n-color-accent-300), 0 0 12px var(--n-color-accent-400) !important;
-        animation: none !important;
-      }
-
-      @keyframes noodle-port-pulse {
-        0%, 100% { box-shadow: 0 0 0 2px var(--n-color-accent-300), 0 1px 3px rgba(0,0,0,0.2); }
-        50% { box-shadow: 0 0 0 4px var(--n-color-accent-200), 0 0 8px var(--n-color-accent-400); }
-      }
-
-      /* ── Event log ── */
-
-      .event-log {
-        font-family: ui-monospace, monospace;
-        font-size: 0.7rem;
-        line-height: 1.6;
-        color: var(--n-ink-muted-neutral);
-      }
-      .event-log .connect { color: var(--n-ink-success); }
-      .event-log .disconnect { color: var(--n-ink-danger); }
-
-    </style>
+    <link rel="stylesheet" href="./noodleable.demo.css" />
 
     <!-- Register traits BEFORE component define() -->
     <script type="module">
@@ -97,6 +18,13 @@
     <script type="module">
       import '../../nav/native-dashboard.ts';
       import '../../components/controller/controller.ts';
+      import '../../components/switch/switch.ts';
+      import '../../components/button/button.ts';
+      import '../../icons/icon.ts';
+      import '../../icons/phosphor/arrows-out.ts';
+      import '../../icons/phosphor/arrows-in.ts';
+      import '../../icons/phosphor/copy.ts';
+      import '../../icons/phosphor/check.ts';
     </script>
   </head>
   <body>
@@ -108,61 +36,94 @@
           In edit mode, drag between port dots to create connections; click a noodle to remove it.
         </p>
 
-        <!-- ── 1. Static Connections ── -->
+        <!-- ── 1. Interactive Flow Builder ── -->
 
-        <h3>Static Connections</h3>
-        <p class="demo-desc">Pre-wired connections. Read-only display with bezier curves.</p>
-        <div class="noodle-arena" id="static-arena">
-          <div class="flow-node" intent="accent" id="s-in1" data-noodle-port="right" style="left: 2rem; top: 2.5rem;">Input A</div>
-          <div class="flow-node" intent="accent" id="s-in2" data-noodle-port="right" style="left: 2rem; top: 8rem;">Input B</div>
-          <div class="flow-node" intent="info" id="s-proc" data-noodle-port="left right" style="left: 15rem; top: 5rem;">Merge</div>
-          <div class="flow-node" intent="success" id="s-out" data-noodle-port="left" style="left: 28rem; top: 5rem;">Output</div>
+        <h3>Interactive Flow Builder</h3>
+        <p class="demo-desc">
+          Drag from a port dot to another port to create a connection. Click a noodle to delete it.
+          Nodes are draggable via MagnetController. Hover a port and click <code>+</code> to add a node.
+          Drag empty space to pan the canvas. The JSON pane on the right is live and editable.
+        </p>
+        <div class="flow-split" id="flow-split">
+          <div class="flow-split-canvas" id="flow-canvas-pane">
+            <div class="canvas-viewport" id="flow-viewport">
+              <div class="canvas-transform" id="flow-transform">
+                <div class="noodle-arena noodle-arena--tall" id="flow-arena">
+                  <!-- Inputs -->
+                  <div class="flow-node" intent="accent" id="f-sensor" data-noodle-port="right" style="left: 1.5rem; top: 2rem;">Sensor</div>
+                  <div class="flow-node" intent="accent" id="f-api" data-noodle-port="right" style="left: 1.5rem; top: 10rem;">API</div>
+                  <div class="flow-node" intent="accent" id="f-timer" data-noodle-port="right" style="left: 1.5rem; top: 18rem;">Timer</div>
+                  <!-- Processing -->
+                  <div class="flow-node" intent="info" id="f-filter" data-noodle-port="left right" style="left: 14rem; top: 3.5rem;">Filter</div>
+                  <div class="flow-node" intent="info" id="f-transform" data-noodle-port="left right" style="left: 14rem; top: 11.5rem;">Transform</div>
+                  <div class="flow-node" intent="info" id="f-merge" data-noodle-port="left right" style="left: 26rem; top: 7.5rem;">Merge</div>
+                  <!-- Outputs -->
+                  <div class="flow-node" intent="success" id="f-display" data-noodle-port="left" style="left: 38rem; top: 3.5rem;">Display</div>
+                  <div class="flow-node" intent="success" id="f-database" data-noodle-port="left" style="left: 38rem; top: 11.5rem;">Database</div>
+                  <div class="flow-node" intent="success" id="f-alert" data-noodle-port="left" style="left: 38rem; top: 19rem;">Alert</div>
+                </div>
+              </div>
+            </div>
+            <div class="flow-canvas-controls">
+              <n-switch id="flow-guides-toggle" checked>Alignment Guides</n-switch>
+              <n-button id="flow-present-btn" size="sm" variant="ghost" aria-label="Present"><n-icon name="arrows-out"></n-icon></n-button>
+            </div>
+            <div class="flow-split-handle" id="flow-split-handle"></div>
+          </div>
+          <div class="flow-split-editor" id="flow-editor-pane">
+            <div id="flow-json-editor"></div>
+          </div>
         </div>
 
-        <!-- ── 2. Interactive Flow Builder ── -->
-
-        <h3>Flow Builder (Editable)</h3>
-        <p class="demo-desc">Drag between port dots to connect. Click a noodle to remove it. Drag nodes to reposition.</p>
-        <div class="noodle-arena" id="flow-arena" style="min-height: 460px;">
-          <!-- Inputs -->
-          <div class="flow-node" intent="accent" id="f-sensor" data-noodle-port="right" style="left: 1.5rem; top: 2rem;">Sensor</div>
-          <div class="flow-node" intent="accent" id="f-api" data-noodle-port="right" style="left: 1.5rem; top: 8rem;">API Feed</div>
-          <div class="flow-node" intent="accent" id="f-config" data-noodle-port="right" style="left: 1.5rem; top: 14rem;">Config</div>
-          <!-- Processing -->
-          <div class="flow-node" intent="info" id="f-filter" data-noodle-port="left right" style="left: 14rem; top: 3.5rem;">Filter</div>
-          <div class="flow-node" intent="warning" id="f-branch" data-noodle-port="left right" style="left: 14rem; top: 10rem;">Branch</div>
-          <div class="flow-node" intent="info" id="f-transform" data-noodle-port="left right" style="left: 26rem; top: 6.5rem;">Transform</div>
-          <!-- Outputs -->
-          <div class="flow-node" intent="success" id="f-display" data-noodle-port="left" style="left: 38rem; top: 3.5rem;">Display</div>
-          <div class="flow-node" intent="success" id="f-log" data-noodle-port="left" style="left: 38rem; top: 10rem;">Log</div>
-          <div class="flow-node" intent="success" id="f-alert" data-noodle-port="left" style="left: 38rem; top: 16rem;">Alert</div>
-        </div>
-
-        <!-- ── 3. Style Comparison ── -->
+        <!-- ── 2. Curve Styles ── -->
 
         <h3>Curve Styles</h3>
-        <div class="stack" direction="row" gap="4" style="display: flex; gap: 1rem;">
+        <div style="display: flex; gap: 1rem;">
           <div style="flex: 1;">
             <p class="demo-desc">Bezier</p>
-            <div class="noodle-arena" id="style-bezier" style="min-height: 160px;">
-              <div class="flow-node" intent="accent" id="bz-a" data-noodle-port="right" style="left: 1rem; top: 1.5rem;">A</div>
-              <div class="flow-node" intent="success" id="bz-b" data-noodle-port="left" style="left: 10rem; top: 4rem;">B</div>
+            <div class="noodle-arena noodle-arena--short" id="style-bezier">
+              <div class="flow-node" intent="accent" id="bz-a" data-noodle-port="right" style="left: 1rem; top: 2rem;">A</div>
+              <div class="flow-node" intent="info" id="bz-b" data-noodle-port="left right" style="left: 8rem; top: 6rem;">B</div>
+              <div class="flow-node" intent="success" id="bz-c" data-noodle-port="left" style="left: 15rem; top: 2rem;">C</div>
             </div>
           </div>
           <div style="flex: 1;">
             <p class="demo-desc">Step</p>
-            <div class="noodle-arena" id="style-step" style="min-height: 160px;">
-              <div class="flow-node" intent="accent" id="st-a" data-noodle-port="right" style="left: 1rem; top: 1.5rem;">A</div>
-              <div class="flow-node" intent="success" id="st-b" data-noodle-port="left" style="left: 10rem; top: 4rem;">B</div>
+            <div class="noodle-arena noodle-arena--short" id="style-step">
+              <div class="flow-node" intent="accent" id="st-a" data-noodle-port="right" style="left: 1rem; top: 2rem;">A</div>
+              <div class="flow-node" intent="info" id="st-b" data-noodle-port="left right" style="left: 8rem; top: 6rem;">B</div>
+              <div class="flow-node" intent="success" id="st-c" data-noodle-port="left" style="left: 15rem; top: 2rem;">C</div>
             </div>
           </div>
           <div style="flex: 1;">
             <p class="demo-desc">Straight</p>
-            <div class="noodle-arena" id="style-straight" style="min-height: 160px;">
-              <div class="flow-node" intent="accent" id="sl-a" data-noodle-port="right" style="left: 1rem; top: 1.5rem;">A</div>
-              <div class="flow-node" intent="success" id="sl-b" data-noodle-port="left" style="left: 10rem; top: 4rem;">B</div>
+            <div class="noodle-arena noodle-arena--short" id="style-straight">
+              <div class="flow-node" intent="accent" id="sl-a" data-noodle-port="right" style="left: 1rem; top: 2rem;">A</div>
+              <div class="flow-node" intent="info" id="sl-b" data-noodle-port="left right" style="left: 8rem; top: 6rem;">B</div>
+              <div class="flow-node" intent="success" id="sl-c" data-noodle-port="left" style="left: 15rem; top: 2rem;">C</div>
             </div>
           </div>
+        </div>
+
+        <!-- ── 3. Static Connections ── -->
+
+        <h3>Static Connections</h3>
+        <p class="demo-desc">Pre-wired bezier connections. Read-only display — demonstrates the simplest setup.</p>
+        <div class="noodle-arena" id="static-arena">
+          <div class="flow-node" intent="accent" id="s-in1" data-noodle-port="right" style="left: 2rem; top: 3rem;">Input A</div>
+          <div class="flow-node" intent="accent" id="s-in2" data-noodle-port="right" style="left: 2rem; top: 10rem;">Input B</div>
+          <div class="flow-node" intent="info" id="s-proc" data-noodle-port="left right" style="left: 16rem; top: 6.5rem;">Process</div>
+          <div class="flow-node" intent="success" id="s-out" data-noodle-port="left" style="left: 30rem; top: 6.5rem;">Output</div>
+        </div>
+
+        <!-- ── 4. Disabled ── -->
+
+        <h3>Disabled</h3>
+        <p class="demo-desc">Connections render normally but cannot be created, deleted, or dragged. Useful for read-only views.</p>
+        <div class="noodle-arena noodle-arena--short" id="disabled-arena">
+          <div class="flow-node" intent="accent" disabled id="d-input" data-noodle-port="right" style="left: 2rem; top: 3rem;">Input</div>
+          <div class="flow-node" intent="info" disabled id="d-process" data-noodle-port="left right" style="left: 14rem; top: 3rem;">Process</div>
+          <div class="flow-node" intent="success" disabled id="d-output" data-noodle-port="left" style="left: 26rem; top: 3rem;">Output</div>
         </div>
 
         <!-- ── Event Log ── -->
@@ -254,6 +215,43 @@
         </div>
 
         <div class="api-section">
+          <h3>Programmatic API</h3>
+          <table class="api-table">
+            <thead><tr><th>Method</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>connect(from, to, fromPort, toPort)</code></td>
+                <td>Create a connection between two elements by ID.</td>
+              </tr>
+              <tr>
+                <td><code>disconnect(id)</code></td>
+                <td>Remove a connection by its ID.</td>
+              </tr>
+              <tr>
+                <td><code>getConnections()</code></td>
+                <td>Returns the current array of connection objects.</td>
+              </tr>
+              <tr>
+                <td><code>setConnections(connections)</code></td>
+                <td>Replace all connections with a new array.</td>
+              </tr>
+              <tr>
+                <td><code>update()</code></td>
+                <td>Force re-render after external DOM changes (e.g. node repositioned).</td>
+              </tr>
+              <tr>
+                <td><code>clear()</code></td>
+                <td>Remove all connections.</td>
+              </tr>
+              <tr>
+                <td><code>destroy()</code></td>
+                <td>Teardown the controller and remove the SVG overlay.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="api-section">
           <h3>Events</h3>
           <table class="api-table">
             <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
@@ -288,7 +286,7 @@
               </tr>
               <tr>
                 <td><code>[data-noodle-port-indicator]</code></td>
-                <td>Port indicator dots created by the controller when <code>showPorts</code> is true. Style with CSS for hover feedback.</td>
+                <td>Port indicator dots created by the controller when <code>showPorts</code> is true.</td>
               </tr>
               <tr>
                 <td><code>[data-noodle-port-indicator][data-noodle-dragging]</code></td>
@@ -309,73 +307,6 @@
       </main>
     </native-dashboard-spa>
 
-    <script type="module">
-      import { NoodleController, MagnetController } from '../../index.ts';
-
-      // ── 1. Static connections ──
-      new NoodleController(document.getElementById('static-arena'), {
-        color: 'var(--n-color-accent-500)',
-        strokeWidth: 2,
-        connections: [
-          { id: 'c1', from: 's-in1', to: 's-proc', fromPort: 'right', toPort: 'left' },
-          { id: 'c2', from: 's-in2', to: 's-proc', fromPort: 'right', toPort: 'left' },
-          { id: 'c3', from: 's-proc', to: 's-out', fromPort: 'right', toPort: 'left' },
-        ],
-      });
-
-      // ── 2. Interactive flow builder ──
-      const flowArena = document.getElementById('flow-arena');
-
-      // Make nodes draggable
-      new MagnetController(flowArena, {
-        selector: '.flow-node',
-        snapToSiblings: false,
-        snapToEdges: true,
-        threshold: 15,
-        guides: true,
-      });
-
-      // Noodle connections (editable)
-      const flowNoodle = new NoodleController(flowArena, {
-        editable: true,
-        showPorts: true,
-        tension: 0.5,
-        animated: true,
-        strokeWidth: 2.5,
-      });
-
-      // Update noodles when nodes move
-      flowArena.addEventListener('native:magnet-snap', () => flowNoodle.update());
-      flowArena.addEventListener('native:magnet-drop', () => flowNoodle.update());
-
-      // ── 3. Style comparison ──
-      new NoodleController(document.getElementById('style-bezier'), {
-        style: 'bezier',
-        connections: [{ id: 'bz', from: 'bz-a', to: 'bz-b', fromPort: 'right', toPort: 'left' }],
-      });
-      new NoodleController(document.getElementById('style-step'), {
-        style: 'step',
-        connections: [{ id: 'st', from: 'st-a', to: 'st-b', fromPort: 'right', toPort: 'left' }],
-      });
-      new NoodleController(document.getElementById('style-straight'), {
-        style: 'straight',
-        connections: [{ id: 'sl', from: 'sl-a', to: 'sl-b', fromPort: 'right', toPort: 'left' }],
-      });
-
-      // ── Event log ──
-      const eventLog = document.getElementById('event-log');
-      function log(type, detail) {
-        const entry = document.createElement('div');
-        const cls = type.includes('connect') && !type.includes('disconnect') ? 'connect' : type.includes('disconnect') ? 'disconnect' : '';
-        const label = type.replace('native:noodle-', '');
-        const text = JSON.stringify(detail, null, 0);
-        entry.innerHTML = `<span class="${cls}">${label}</span> ${text.length > 80 ? text.slice(0, 80) + '...' : text}`;
-        eventLog.prepend(entry);
-        while (eventLog.children.length > 30) eventLog.lastChild.remove();
-      }
-
-      document.addEventListener('native:noodle-connect', (e) => log(e.type, e.detail));
-      document.addEventListener('native:noodle-disconnect', (e) => log(e.type, e.detail));
-    </script>
+    <script type="module" src="./noodleable.demo.ts"></script>
   </body>
 </html>

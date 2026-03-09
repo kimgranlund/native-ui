@@ -354,38 +354,6 @@
     </div>
 
     </main></native-dashboard-spa>
-    <script type="module">
-      import '../../nav/native-dashboard.ts';
-
-      import '../../components/button/button.ts';
-      import '../../components/drawer/drawer.ts';
-      import '../../components/input/input.ts';
-      import '../../components/textarea/textarea.ts';
-      import '../../icons/icon.ts';
-      import '../../icons/phosphor/dots-three.ts';
-      import '../../icons/phosphor/x.ts';
-      import '../../icons/phosphor/copy.ts';
-      import '../../icons/phosphor/check.ts';
-
-      // Drawer demo
-      const drawer = document.getElementById('drawer-demo');
-      document.getElementById('open-drawer').addEventListener('native:press', () => drawer.show());
-      document.getElementById('close-drawer').addEventListener('native:press', () => drawer.close());
-      document.getElementById('cancel-drawer').addEventListener('native:press', () => drawer.close());
-
-      // ── Copy buttons ──
-      for (const btn of document.querySelectorAll('.copy-btn')) {
-        btn.addEventListener('click', async () => {
-          const code = btn.closest('.demo-code')?.querySelector('code');
-          if (!code) return;
-          await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('n-icon');
-          if (icon) {
-            icon.setAttribute('name', 'check');
-            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
-          }
-        });
-      }
-    </script>
+    <script type="module" src="./body.demo.ts"></script>
   </body>
 </html>

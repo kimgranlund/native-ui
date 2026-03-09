@@ -1,0 +1,14 @@
+main {
+        padding: 2rem;
+        max-width: 64rem;
+      }
+.log {
+        font-family: monospace;
+        font-size: 0.75rem;
+        background: var(--n-panel-neutral);
+        border-radius: 0.375rem;
+        padding: 0.75rem;
+        max-height: 10rem;
+        overflow-y: auto;
+        margin-top: 0.5rem;
+      }

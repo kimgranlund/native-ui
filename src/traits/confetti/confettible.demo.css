@@ -1,0 +1,27 @@
+main {
+  padding: 2rem;
+  max-width: 64rem;
+}
+h3 {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  margin-top: 1.25rem;
+  color: var(--n-ink-strong-neutral);
+}
+
+/* ── Event log ── */
+
+.event-log {
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: var(--n-ink-muted-neutral);
+  max-height: 10rem;
+  overflow-y: auto;
+}
+.event-log .entry {
+  padding: 0.125rem 0;
+}
+.event-log .count { color: var(--n-ink-accent); }
+.event-log .origin { color: var(--n-ink-success); }

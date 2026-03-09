@@ -1,0 +1,418 @@
+/* ── Pattern Badges ── */
+
+.pattern-badge {
+  display: inline-block;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.pattern-badge.injection {
+  background: var(--n-surface-accent);
+  color: var(--n-surface-ink-accent);
+}
+
+.pattern-badge.provider {
+  background: var(--n-surface-info);
+  color: var(--n-surface-ink-info);
+}
+
+/* ── Hover/Press demo items ── */
+
+.demo-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 1rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  color: var(--n-ink-neutral);
+  transition: background 200ms ease, border-color 200ms ease, color 200ms ease, box-shadow 200ms ease, transform 100ms ease;
+  user-select: none;
+  cursor: default;
+}
+
+.demo-card[hovered] {
+  background: var(--n-surface-accent);
+  border-color: var(--n-border-accent);
+  color: var(--n-surface-ink-accent);
+  box-shadow: 0 0 0 3px var(--n-surface-accent);
+}
+
+.demo-card[pressed] {
+  background: var(--n-surface-accent);
+  border-color: var(--n-border-accent);
+  color: var(--n-surface-ink-accent);
+  transform: scale(0.97);
+}
+
+/* ── Drag items ── */
+
+.drag-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem;
+  cursor: grab;
+  user-select: none;
+  transition: opacity 150ms ease;
+}
+
+.drag-item[dragging] {
+  opacity: 0.3;
+}
+
+.drag-item .handle {
+  color: var(--n-ink-muted-neutral);
+  font-size: 0.875rem;
+}
+
+.drag-item .label {
+  flex: 1;
+}
+
+.drag-placeholder {
+  height: 3px;
+  background: var(--n-surface-accent);
+  border-radius: 2px;
+  margin: 0.125rem 0;
+}
+
+/* ── Drag horizontal cards ── */
+
+.drag-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  background: var(--n-surface-accent);
+  color: var(--n-surface-ink-accent);
+  border-radius: 0.5rem;
+  font-weight: 700;
+  cursor: grab;
+  user-select: none;
+  transition: opacity 150ms ease;
+}
+
+.drag-card[dragging] {
+  opacity: 0.3;
+}
+
+#drag-horiz-list > .drag-placeholder {
+  width: 3px;
+  height: 5rem;
+  margin: 0 0.125rem;
+}
+
+/* ── Resizable ── */
+
+.resize-box {
+  position: relative;
+  width: 240px;
+  min-height: 120px;
+  padding: 1rem;
+  padding-right: 1.5rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--n-ink-neutral);
+  overflow: hidden;
+}
+
+.resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 8px;
+  height: 100%;
+  cursor: col-resize;
+  background: transparent;
+  transition: background 150ms ease;
+}
+
+.resize-handle:hover,
+.resize-box[resizing] .resize-handle {
+  background: var(--n-surface-accent);
+}
+
+.resize-box-v {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  padding: 1rem;
+  padding-bottom: 1.5rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--n-ink-neutral);
+  overflow: hidden;
+}
+
+.resize-handle-v {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 8px;
+  width: 100%;
+  cursor: row-resize;
+  background: transparent;
+  transition: background 150ms ease;
+}
+
+.resize-handle-v:hover,
+.resize-box-v[resizing] .resize-handle-v {
+  background: var(--n-surface-accent);
+}
+
+/* ── Selectable ── */
+
+.select-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.select-item[aria-selected="true"] {
+  background: var(--n-surface-accent);
+  border-color: var(--n-border-accent);
+  color: var(--n-surface-ink-accent);
+}
+
+.select-item::before {
+  content: '';
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--n-border-neutral);
+  border-radius: 0.25rem;
+  flex-shrink: 0;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.select-item[aria-selected="true"]::before {
+  background: var(--n-ink-accent);
+  border-color: var(--n-ink-accent);
+}
+
+/* ── Editable ── */
+
+.edit-item {
+  padding: 0.5rem 0.75rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  cursor: text;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.edit-item[editing] {
+  border-color: var(--n-border-accent);
+  box-shadow: 0 0 0 3px var(--n-surface-accent);
+  outline: none;
+}
+
+/* ── Copyable ── */
+
+.copy-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  user-select: all;
+  transition: border-color 200ms ease;
+}
+
+.copy-item[copied] {
+  border-color: var(--n-border-success);
+}
+
+.copy-item .copy-label {
+  flex: 1;
+}
+
+.copy-item .copy-feedback {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--n-ink-success);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.copy-item[copied] .copy-feedback {
+  opacity: 1;
+}
+
+/* ── Sortable table ── */
+
+.sort-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.sort-table th {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 2px solid var(--n-border-muted-neutral);
+  color: var(--n-ink-strong-neutral);
+  cursor: pointer;
+  user-select: none;
+  transition: color 150ms ease;
+}
+
+.sort-table th:hover {
+  color: var(--n-ink-accent);
+}
+
+.sort-table th[aria-sort]::after {
+  margin-left: 0.25rem;
+  font-size: 0.625rem;
+}
+
+.sort-table th[aria-sort="ascending"]::after {
+  content: ' \u25B2';
+}
+
+.sort-table th[aria-sort="descending"]::after {
+  content: ' \u25BC';
+}
+
+.sort-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--n-border-muted-neutral);
+}
+
+/* ── Collapsible ── */
+
+.collapse-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem 0.375rem 0 0;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.collapse-trigger .arrow {
+  transition: transform 200ms ease;
+}
+
+.collapse-trigger[collapsed] .arrow {
+  transform: rotate(-90deg);
+}
+
+.collapse-content {
+  padding: 0.75rem;
+  background: var(--n-body-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-top: none;
+  border-radius: 0 0 0.375rem 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--n-ink-muted-neutral);
+  overflow: hidden;
+}
+
+/* ── Swipeable ── */
+
+.swipe-card {
+  position: relative;
+  padding: 1.5rem 1rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  text-align: center;
+  user-select: none;
+  touch-action: pan-y;
+  overflow: hidden;
+}
+
+.swipe-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-neutral);
+}
+
+.swipe-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--n-border-muted-neutral);
+  transition: background 200ms ease;
+}
+
+.swipe-dot.active {
+  background: var(--n-ink-accent);
+}
+
+/* ── Flex containers ── */
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.flex-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ── Output log ── */
+
+.output {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-neutral);
+  max-height: 6rem;
+  overflow-y: auto;
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: var(--n-panel-neutral);
+  border-radius: 0.25rem;
+}
+
+/* ── Dynamic children demo ── */
+
+#dynamic-list .demo-card {
+  padding: 0.625rem 0.75rem;
+}

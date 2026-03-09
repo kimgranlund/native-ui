@@ -1,0 +1,9 @@
+.editor-area {
+        margin-top: 0.75rem;
+        padding: 0.75rem;
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: 0.25rem;
+        min-height: 4rem;
+        font-size: 0.875rem;
+        color: var(--n-ink-muted-neutral);
+      }
