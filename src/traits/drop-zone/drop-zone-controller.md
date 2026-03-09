@@ -84,5 +84,7 @@ When used as a provider or self-trait, options are passed via `data-trait-drop-z
 | `drop-zone-controller.md` | Controller documentation |
 | `drop-zone-controller.ts` | Controller (reactive state + behavior) |
 | `droppable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `droppable.demo.css` | Styles |
+| `droppable.demo.ts` | Source module |
 | `droppable.html` | Demo page |
 | `droppable.test.ts` | Tests |

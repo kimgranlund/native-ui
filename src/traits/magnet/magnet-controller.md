@@ -88,5 +88,7 @@ When used as a provider or self-trait, options are passed via `data-trait-magnet
 | `magnet-controller.md` | Controller documentation |
 | `magnet-controller.ts` | Controller (reactive state + behavior) |
 | `magnetizable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `magnetizable.demo.css` | Styles |
+| `magnetizable.demo.ts` | Source module |
 | `magnetizable.html` | Demo page |
 | `magnetizable.test.ts` | Tests |

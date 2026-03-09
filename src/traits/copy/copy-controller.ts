@@ -1,6 +1,8 @@
 export interface CopyOptions {
   value?: string | (() => string);
   feedbackDuration?: number;
+  /** Trigger copy on host click. Default: false (for imperative use), true when used as trait. */
+  trigger?: 'click' | false;
 }
 
 /** Copies a value to the clipboard and shows visual feedback, dispatching `native:copy`. */
@@ -10,11 +12,18 @@ export class CopyController {
   feedbackDuration: number;
 
   #timer: ReturnType<typeof setTimeout> | undefined;
+  #trigger: 'click' | false;
+  #clickHandler: (() => void) | null = null;
 
   constructor(host: HTMLElement, options: CopyOptions = {}) {
     this.host = host;
     this.value = options.value ?? '';
     this.feedbackDuration = options.feedbackDuration ?? 2000;
+    this.#trigger = options.trigger ?? false;
+    if (this.#trigger === 'click') {
+      this.#clickHandler = () => { this.copy(); };
+      this.host.addEventListener('click', this.#clickHandler);
+    }
   }
 
   async copy(): Promise<void> {
@@ -32,5 +41,9 @@ export class CopyController {
 
   destroy(): void {
     clearTimeout(this.#timer);
+    if (this.#clickHandler) {
+      this.host.removeEventListener('click', this.#clickHandler);
+      this.#clickHandler = null;
+    }
   }
 }

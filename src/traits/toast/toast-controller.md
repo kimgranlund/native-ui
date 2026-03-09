@@ -64,5 +64,7 @@ const ctrl = new ToastController(element);
 | `toast-controller.md` | Controller documentation |
 | `toast-controller.ts` | Controller (reactive state + behavior) |
 | `toastable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `toastable.demo.css` | Styles |
+| `toastable.demo.ts` | Source module |
 | `toastable.html` | Demo page |
 | `toastable.test.ts` | Tests |

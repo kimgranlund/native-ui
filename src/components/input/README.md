@@ -151,6 +151,7 @@ surface handles editing.
 | `index.ts` | Barrel exports |
 | `input-element.ts` | Element class (behavior, no CSS) |
 | `input.css` | Styles |
+| `input.demo.ts` | Source module |
 | `input.html` | Demo page |
 | `input.stories.ts` | Storybook stories |
 | `input.ts` | Custom element registration (define()) |

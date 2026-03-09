@@ -115,6 +115,8 @@ logic to ResizeController.
 | `gripper-element.ts` | Element class (behavior, no CSS) |
 | `gripper.css` | Styles |
 | `index.ts` | Barrel exports |
+| `n-gripper.demo.css` | Styles |
+| `n-gripper.demo.ts` | Source module |
 | `n-gripper.html` | Demo page |
 | `n-gripper.ts` | Custom element registration (define()) |
 | `README.md` | Documentation (auto-generated) |

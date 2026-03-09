@@ -76,5 +76,7 @@ When used as a provider or self-trait, options are passed via `data-trait-copy-*
 | `copy-controller.md` | Controller documentation |
 | `copy-controller.ts` | Controller (reactive state + behavior) |
 | `copyable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `copyable.demo.css` | Styles |
+| `copyable.demo.ts` | Source module |
 | `copyable.html` | Demo page |
 | `copyable.test.ts` | Tests |

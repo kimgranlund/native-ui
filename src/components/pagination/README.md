@@ -86,6 +86,7 @@
 | `index.ts` | Barrel exports |
 | `pagination-element.ts` | Element class (behavior, no CSS) |
 | `pagination.css` | Styles |
+| `pagination.demo.ts` | Source module |
 | `pagination.html` | Demo page |
 | `pagination.ts` | Custom element registration (define()) |
 | `README.md` | Documentation (auto-generated) |

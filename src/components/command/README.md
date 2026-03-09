@@ -153,6 +153,8 @@
 | `command-list-element.ts` | Element class (behavior, no CSS) |
 | `command-list.ts` | Source module |
 | `command.css` | Styles |
+| `command.demo.css` | Styles |
+| `command.demo.ts` | Source module |
 | `command.html` | Demo page |
 | `command.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |
@@ -273,6 +275,8 @@
 | `command-list-element.ts` | Element class (behavior, no CSS) |
 | `command-list.ts` | Source module |
 | `command.css` | Styles |
+| `command.demo.css` | Styles |
+| `command.demo.ts` | Source module |
 | `command.html` | Demo page |
 | `command.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |
@@ -386,6 +390,8 @@
 | `command-list-element.ts` | Element class (behavior, no CSS) |
 | `command-list.ts` | Source module |
 | `command.css` | Styles |
+| `command.demo.css` | Styles |
+| `command.demo.ts` | Source module |
 | `command.html` | Demo page |
 | `command.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |
@@ -479,6 +485,8 @@
 | `command-list-element.ts` | Element class (behavior, no CSS) |
 | `command-list.ts` | Source module |
 | `command.css` | Styles |
+| `command.demo.css` | Styles |
+| `command.demo.ts` | Source module |
 | `command.html` | Demo page |
 | `command.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |
@@ -566,6 +574,8 @@
 | `command-list-element.ts` | Element class (behavior, no CSS) |
 | `command-list.ts` | Source module |
 | `command.css` | Styles |
+| `command.demo.css` | Styles |
+| `command.demo.ts` | Source module |
 | `command.html` | Demo page |
 | `command.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |
@@ -682,6 +692,8 @@
 | `command-list-element.ts` | Element class (behavior, no CSS) |
 | `command-list.ts` | Source module |
 | `command.css` | Styles |
+| `command.demo.css` | Styles |
+| `command.demo.ts` | Source module |
 | `command.html` | Demo page |
 | `command.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |

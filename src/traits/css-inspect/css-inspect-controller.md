@@ -102,5 +102,7 @@ When used as a provider or self-trait, options are passed via `data-trait-css-in
 | `css-inspect-controller.md` | Controller documentation |
 | `css-inspect-controller.ts` | Controller (reactive state + behavior) |
 | `css-inspectable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `css-inspectable.demo.css` | Styles |
+| `css-inspectable.demo.ts` | Source module |
 | `css-inspectable.html` | Demo page |
 | `css-inspectable.test.ts` | Tests |

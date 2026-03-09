@@ -68,4 +68,6 @@
 |------|---------|
 | `README.md` | Documentation (auto-generated) |
 | `stack.css` | Styles |
+| `stack.demo.css` | Styles |
+| `stack.demo.ts` | Source module |
 | `stack.html` | Demo page |

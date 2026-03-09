@@ -78,6 +78,8 @@ When used as a provider or self-trait, options are passed via `data-trait-valida
 | File | Purpose |
 |------|---------|
 | `validatable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `validatable.demo.css` | Styles |
+| `validatable.demo.ts` | Source module |
 | `validatable.html` | Demo page |
 | `validatable.test.ts` | Tests |
 | `validate-controller.md` | Controller documentation |

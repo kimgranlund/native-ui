@@ -87,4 +87,6 @@ When used as a provider or self-trait, options are passed via `data-trait-shortc
 | `shortcut-controller.ts` | Controller (reactive state + behavior) |
 | `shortcut.test.ts` | Tests |
 | `shortcutable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `shortcutable.demo.css` | Styles |
+| `shortcutable.demo.ts` | Source module |
 | `shortcutable.html` | Demo page |

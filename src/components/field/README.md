@@ -106,6 +106,7 @@
 |------|---------|
 | `field-element.ts` | Element class (behavior, no CSS) |
 | `field.css` | Styles |
+| `field.demo.ts` | Source module |
 | `field.html` | Demo page |
 | `field.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |

@@ -141,6 +141,7 @@
 |------|---------|
 | `button-element.ts` | Element class (behavior, no CSS) |
 | `button.css` | Styles |
+| `button.demo.ts` | Source module |
 | `button.html` | Demo page |
 | `button.stories.ts` | Storybook stories |
 | `button.ts` | Custom element registration (define()) |

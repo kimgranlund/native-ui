@@ -86,5 +86,7 @@ When used as a provider or self-trait, options are passed via `data-trait-toss-*
 | `toss-controller.md` | Controller documentation |
 | `toss-controller.ts` | Controller (reactive state + behavior) |
 | `tossable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `tossable.demo.css` | Styles |
+| `tossable.demo.ts` | Source module |
 | `tossable.html` | Demo page |
 | `tossable.test.ts` | Tests |

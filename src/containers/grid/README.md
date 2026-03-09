@@ -66,5 +66,7 @@
 | File | Purpose |
 |------|---------|
 | `grid.css` | Styles |
+| `grid.demo.css` | Styles |
+| `grid.demo.ts` | Source module |
 | `grid.html` | Demo page |
 | `README.md` | Documentation (auto-generated) |

@@ -161,6 +161,8 @@
 | `table-header-element.ts` | Element class (behavior, no CSS) |
 | `table-row-element.ts` | Element class (behavior, no CSS) |
 | `table.css` | Styles |
+| `table.demo.css` | Styles |
+| `table.demo.ts` | Source module |
 | `table.html` | Demo page |
 | `table.ts` | Custom element registration (define()) |
 
@@ -309,6 +311,8 @@
 | `table-header-element.ts` | Element class (behavior, no CSS) |
 | `table-row-element.ts` | Element class (behavior, no CSS) |
 | `table.css` | Styles |
+| `table.demo.css` | Styles |
+| `table.demo.ts` | Source module |
 | `table.html` | Demo page |
 | `table.ts` | Custom element registration (define()) |
 
@@ -443,6 +447,8 @@
 | `table-header-element.ts` | Element class (behavior, no CSS) |
 | `table-row-element.ts` | Element class (behavior, no CSS) |
 | `table.css` | Styles |
+| `table.demo.css` | Styles |
+| `table.demo.ts` | Source module |
 | `table.html` | Demo page |
 | `table.ts` | Custom element registration (define()) |
 
@@ -551,6 +557,8 @@
 | `table-header-element.ts` | Element class (behavior, no CSS) |
 | `table-row-element.ts` | Element class (behavior, no CSS) |
 | `table.css` | Styles |
+| `table.demo.css` | Styles |
+| `table.demo.ts` | Source module |
 | `table.html` | Demo page |
 | `table.ts` | Custom element registration (define()) |
 
@@ -680,6 +688,8 @@
 | `table-header-element.ts` | Element class (behavior, no CSS) |
 | `table-row-element.ts` | Element class (behavior, no CSS) |
 | `table.css` | Styles |
+| `table.demo.css` | Styles |
+| `table.demo.ts` | Source module |
 | `table.html` | Demo page |
 | `table.ts` | Custom element registration (define()) |
 
@@ -811,5 +821,7 @@
 | `table-header-element.ts` | Element class (behavior, no CSS) |
 | `table-row-element.ts` | Element class (behavior, no CSS) |
 | `table.css` | Styles |
+| `table.demo.css` | Styles |
+| `table.demo.ts` | Source module |
 | `table.html` | Demo page |
 | `table.ts` | Custom element registration (define()) |

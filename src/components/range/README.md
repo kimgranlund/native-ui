@@ -109,6 +109,8 @@
 | `index.ts` | Barrel exports |
 | `range-element.ts` | Element class (behavior, no CSS) |
 | `range.css` | Styles |
+| `range.demo.css` | Styles |
+| `range.demo.ts` | Source module |
 | `range.html` | Demo page |
 | `range.ts` | Custom element registration (define()) |
 | `README.md` | Documentation (auto-generated) |

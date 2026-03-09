@@ -52,5 +52,6 @@
 | File | Purpose |
 |------|---------|
 | `inset.css` | Styles |
+| `inset.demo.ts` | Source module |
 | `inset.html` | Demo page |
 | `README.md` | Documentation (auto-generated) |

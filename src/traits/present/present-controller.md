@@ -92,4 +92,6 @@ When used as a provider or self-trait, options are passed via `data-trait-presen
 | `present-controller.test.ts` | Tests |
 | `present-controller.ts` | Controller (reactive state + behavior) |
 | `presentable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `presentable.demo.css` | Styles |
+| `presentable.demo.ts` | Source module |
 | `presentable.html` | Demo page |

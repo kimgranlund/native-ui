@@ -82,5 +82,7 @@ When used as a provider or self-trait, options are passed via `data-trait-swipe-
 | `swipe-controller.md` | Controller documentation |
 | `swipe-controller.ts` | Controller (reactive state + behavior) |
 | `swipeable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `swipeable.demo.css` | Styles |
+| `swipeable.demo.ts` | Source module |
 | `swipeable.html` | Demo page |
 | `swipeable.test.ts` | Tests |

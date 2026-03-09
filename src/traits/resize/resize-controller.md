@@ -104,6 +104,8 @@ When used as a provider or self-trait, options are passed via `data-trait-resize
 | File | Purpose |
 |------|---------|
 | `resizable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `resizable.demo.css` | Styles |
+| `resizable.demo.ts` | Source module |
 | `resizable.html` | Demo page |
 | `resizable.test.ts` | Tests |
 | `resize-controller.md` | Controller documentation |

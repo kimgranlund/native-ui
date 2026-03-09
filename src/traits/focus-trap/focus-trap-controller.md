@@ -66,5 +66,7 @@ const ctrl = new FocusTrapController(element);
 | `focus-trap-controller.md` | Controller documentation |
 | `focus-trap-controller.ts` | Controller (reactive state + behavior) |
 | `focus-trappable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `focus-trappable.demo.css` | Styles |
+| `focus-trappable.demo.ts` | Source module |
 | `focus-trappable.html` | Demo page |
 | `focus-trappable.test.ts` | Tests |

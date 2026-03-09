@@ -88,5 +88,7 @@ When used as a provider or self-trait, options are passed via `data-trait-parall
 | `parallax-controller.md` | Controller documentation |
 | `parallax-controller.ts` | Controller (reactive state + behavior) |
 | `parallaxable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `parallaxable.demo.css` | Styles |
+| `parallaxable.demo.ts` | Source module |
 | `parallaxable.html` | Demo page |
 | `parallaxable.test.ts` | Tests |

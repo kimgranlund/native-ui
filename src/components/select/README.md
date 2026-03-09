@@ -136,6 +136,7 @@
 | `README.md` | Documentation (auto-generated) |
 | `select-element.ts` | Element class (behavior, no CSS) |
 | `select.css` | Styles |
+| `select.demo.ts` | Source module |
 | `select.html` | Demo page |
 | `select.stories.ts` | Storybook stories |
 | `select.ts` | Custom element registration (define()) |

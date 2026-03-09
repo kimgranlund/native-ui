@@ -78,4 +78,6 @@ When used as a provider or self-trait, options are passed via `data-trait-gatewa
 | `gateway-controller.test.ts` | Tests |
 | `gateway-controller.ts` | Controller (reactive state + behavior) |
 | `gatewayable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `gatewayable.demo.css` | Styles |
+| `gatewayable.demo.ts` | Source module |
 | `gatewayable.html` | Demo page |

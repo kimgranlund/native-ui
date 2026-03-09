@@ -52,5 +52,7 @@
 | File | Purpose |
 |------|---------|
 | `divider.css` | Styles |
+| `divider.demo.css` | Styles |
+| `divider.demo.ts` | Source module |
 | `divider.html` | Demo page |
 | `README.md` | Documentation (auto-generated) |

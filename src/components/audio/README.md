@@ -54,5 +54,6 @@
 | File | Purpose |
 |------|---------|
 | `audio.css` | Styles |
+| `audio.demo.ts` | Source module |
 | `audio.html` | Demo page |
 | `README.md` | Documentation (auto-generated) |

@@ -85,5 +85,7 @@ When used as a provider or self-trait, options are passed via `data-trait-range-
 | `range-select-controller.md` | Controller documentation |
 | `range-select-controller.ts` | Controller (reactive state + behavior) |
 | `range-selectable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `range-selectable.demo.css` | Styles |
+| `range-selectable.demo.ts` | Source module |
 | `range-selectable.html` | Demo page |
 | `range-selectable.test.ts` | Tests |

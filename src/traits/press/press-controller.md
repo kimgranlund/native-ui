@@ -90,5 +90,7 @@ When used as a provider or self-trait, options are passed via `data-trait-press-
 | `press-controller.md` | Controller documentation |
 | `press-controller.ts` | Controller (reactive state + behavior) |
 | `pressable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `pressable.demo.css` | Styles |
+| `pressable.demo.ts` | Source module |
 | `pressable.html` | Demo page |
 | `pressable.test.ts` | Tests |

@@ -80,5 +80,7 @@ When used as a provider or self-trait, options are passed via `data-trait-collap
 | `collapsible-adapter.ts` | Trait adapter (declarative provider bridge) |
 | `collapsible-controller.md` | Controller documentation |
 | `collapsible-controller.ts` | Controller (reactive state + behavior) |
+| `collapsible.demo.css` | Styles |
+| `collapsible.demo.ts` | Source module |
 | `collapsible.html` | Demo page |
 | `collapsible.test.ts` | Tests |

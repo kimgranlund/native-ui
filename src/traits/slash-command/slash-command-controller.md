@@ -94,6 +94,8 @@ When used as a provider or self-trait, options are passed via `data-trait-slash-
 |------|---------|
 | `slash-command-controller.md` | Controller documentation |
 | `slash-command-controller.ts` | Controller (reactive state + behavior) |
+| `slash-command.demo.css` | Styles |
+| `slash-command.demo.ts` | Source module |
 | `slash-command.html` | Demo page |
 | `slash-command.test.ts` | Tests |
 | `slash-commandable-adapter.ts` | Trait adapter (declarative provider bridge) |

@@ -86,5 +86,7 @@
 | `README.md` | Documentation (auto-generated) |
 | `tooltip-element.ts` | Element class (behavior, no CSS) |
 | `tooltip.css` | Styles |
+| `tooltip.demo.css` | Styles |
+| `tooltip.demo.ts` | Source module |
 | `tooltip.html` | Demo page |
 | `tooltip.ts` | Custom element registration (define()) |

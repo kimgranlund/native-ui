@@ -93,6 +93,8 @@ When used as a provider or self-trait, options are passed via `data-trait-select
 | File | Purpose |
 |------|---------|
 | `selectable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `selectable.demo.css` | Styles |
+| `selectable.demo.ts` | Source module |
 | `selectable.html` | Demo page |
 | `selectable.test.ts` | Tests |
 | `selection-controller.md` | Controller documentation |

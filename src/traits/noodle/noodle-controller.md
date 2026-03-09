@@ -102,4 +102,6 @@ When used as a provider or self-trait, options are passed via `data-trait-noodle
 | `noodle-controller.test.ts` | Tests |
 | `noodle-controller.ts` | Controller (reactive state + behavior) |
 | `noodleable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `noodleable.demo.css` | Styles |
+| `noodleable.demo.ts` | Source module |
 | `noodleable.html` | Demo page |

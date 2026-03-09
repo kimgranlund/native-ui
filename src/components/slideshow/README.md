@@ -125,6 +125,8 @@
 | `slide-element.ts` | Element class (behavior, no CSS) |
 | `slideshow-element.ts` | Element class (behavior, no CSS) |
 | `slideshow.css` | Styles |
+| `slideshow.demo.css` | Styles |
+| `slideshow.demo.ts` | Source module |
 | `slideshow.html` | Demo page |
 | `slideshow.ts` | Custom element registration (define()) |
 
@@ -212,5 +214,7 @@
 | `slide-element.ts` | Element class (behavior, no CSS) |
 | `slideshow-element.ts` | Element class (behavior, no CSS) |
 | `slideshow.css` | Styles |
+| `slideshow.demo.css` | Styles |
+| `slideshow.demo.ts` | Source module |
 | `slideshow.html` | Demo page |
 | `slideshow.ts` | Custom element registration (define()) |

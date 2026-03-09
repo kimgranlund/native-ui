@@ -133,6 +133,8 @@
 |------|---------|
 | `checkbox-element.ts` | Element class (behavior, no CSS) |
 | `checkbox.css` | Styles |
+| `checkbox.demo.css` | Styles |
+| `checkbox.demo.ts` | Source module |
 | `checkbox.html` | Demo page |
 | `checkbox.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |

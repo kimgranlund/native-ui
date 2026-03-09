@@ -123,6 +123,8 @@
 | `accordion-element.ts` | Element class (behavior, no CSS) |
 | `accordion-item-element.ts` | Element class (behavior, no CSS) |
 | `accordion.css` | Styles |
+| `accordion.demo.css` | Styles |
+| `accordion.demo.ts` | Source module |
 | `accordion.html` | Demo page |
 | `accordion.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |
@@ -237,6 +239,8 @@
 | `accordion-element.ts` | Element class (behavior, no CSS) |
 | `accordion-item-element.ts` | Element class (behavior, no CSS) |
 | `accordion.css` | Styles |
+| `accordion.demo.css` | Styles |
+| `accordion.demo.ts` | Source module |
 | `accordion.html` | Demo page |
 | `accordion.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |

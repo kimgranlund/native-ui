@@ -148,6 +148,8 @@
 | `index.ts` | Barrel exports |
 | `listbox-element.ts` | Element class (behavior, no CSS) |
 | `listbox.css` | Styles |
+| `listbox.demo.css` | Styles |
+| `listbox.demo.ts` | Source module |
 | `listbox.html` | Demo page |
 | `listbox.ts` | Custom element registration (define()) |
 | `option-element.ts` | Element class (behavior, no CSS) |
@@ -278,6 +280,8 @@
 | `index.ts` | Barrel exports |
 | `listbox-element.ts` | Element class (behavior, no CSS) |
 | `listbox.css` | Styles |
+| `listbox.demo.css` | Styles |
+| `listbox.demo.ts` | Source module |
 | `listbox.html` | Demo page |
 | `listbox.ts` | Custom element registration (define()) |
 | `option-element.ts` | Element class (behavior, no CSS) |
@@ -405,6 +409,8 @@
 | `index.ts` | Barrel exports |
 | `listbox-element.ts` | Element class (behavior, no CSS) |
 | `listbox.css` | Styles |
+| `listbox.demo.css` | Styles |
+| `listbox.demo.ts` | Source module |
 | `listbox.html` | Demo page |
 | `listbox.ts` | Custom element registration (define()) |
 | `option-element.ts` | Element class (behavior, no CSS) |
@@ -510,6 +516,8 @@
 | `index.ts` | Barrel exports |
 | `listbox-element.ts` | Element class (behavior, no CSS) |
 | `listbox.css` | Styles |
+| `listbox.demo.css` | Styles |
+| `listbox.demo.ts` | Source module |
 | `listbox.html` | Demo page |
 | `listbox.ts` | Custom element registration (define()) |
 | `option-element.ts` | Element class (behavior, no CSS) |

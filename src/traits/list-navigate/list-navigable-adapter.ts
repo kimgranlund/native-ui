@@ -14,4 +14,9 @@ export const listNavigableAdapter: TraitAdapter<ListNavigateController> = {
     });
   },
   destroy(instance) { instance.destroy(); },
+  update(instance, options) {
+    if ('item-selector' in options) instance.itemSelector = options['item-selector'] || ':scope > [role]';
+    if ('aria-attr' in options) instance.ariaAttr = (options['aria-attr'] as 'aria-selected' | 'aria-checked' | 'aria-current') || 'aria-selected';
+    if ('auto-sync' in options) instance.autoSync = options['auto-sync'] !== 'false';
+  },
 };

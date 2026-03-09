@@ -49,5 +49,6 @@
 |------|---------|
 | `avatar-group.css` | Styles |
 | `avatar.css` | Styles |
+| `avatar.demo.ts` | Source module |
 | `avatar.html` | Demo page |
 | `README.md` | Documentation (auto-generated) |

@@ -81,5 +81,7 @@ When used as a provider or self-trait, options are passed via `data-trait-inters
 | `intersect-controller.md` | Controller documentation |
 | `intersect-controller.ts` | Controller (reactive state + behavior) |
 | `intersectable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `intersectable.demo.css` | Styles |
+| `intersectable.demo.ts` | Source module |
 | `intersectable.html` | Demo page |
 | `intersectable.test.ts` | Tests |

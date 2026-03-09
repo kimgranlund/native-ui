@@ -44,5 +44,6 @@
 
 | File | Purpose |
 |------|---------|
+| `header.demo.ts` | Source module |
 | `header.html` | Demo page |
 | `README.md` | Documentation (auto-generated) |

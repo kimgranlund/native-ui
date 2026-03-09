@@ -127,8 +127,11 @@ Component version of <article> — supports traits, interactive, href.
 |------|---------|
 | `container-element.ts` | Element class (behavior, no CSS) |
 | `container.css` | Styles |
+| `container.demo.ts` | Source module |
 | `container.html` | Demo page |
 | `container.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |
+| `panel.demo.css` | Styles |
+| `panel.demo.ts` | Source module |
 | `panel.html` | Demo page |
 | `README.md` | Documentation (auto-generated) |

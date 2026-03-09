@@ -91,4 +91,6 @@ When used as a provider or self-trait, options are passed via `data-trait-dialog
 | `dialog-controller.test.ts` | Tests |
 | `dialog-controller.ts` | Controller (reactive state + behavior) |
 | `dialogable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `dialogable.demo.css` | Styles |
+| `dialogable.demo.ts` | Source module |
 | `dialogable.html` | Demo page |

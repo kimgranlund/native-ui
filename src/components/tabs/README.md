@@ -147,6 +147,8 @@
 | `tab-panels-element.ts` | Element class (behavior, no CSS) |
 | `tabs-element.ts` | Element class (behavior, no CSS) |
 | `tabs.css` | Styles |
+| `tabs.demo.css` | Styles |
+| `tabs.demo.ts` | Source module |
 | `tabs.html` | Demo page |
 | `tabs.ts` | Custom element registration (define()) |
 
@@ -261,6 +263,8 @@
 | `tab-panels-element.ts` | Element class (behavior, no CSS) |
 | `tabs-element.ts` | Element class (behavior, no CSS) |
 | `tabs.css` | Styles |
+| `tabs.demo.css` | Styles |
+| `tabs.demo.ts` | Source module |
 | `tabs.html` | Demo page |
 | `tabs.ts` | Custom element registration (define()) |
 
@@ -367,6 +371,8 @@
 | `tab-panels-element.ts` | Element class (behavior, no CSS) |
 | `tabs-element.ts` | Element class (behavior, no CSS) |
 | `tabs.css` | Styles |
+| `tabs.demo.css` | Styles |
+| `tabs.demo.ts` | Source module |
 | `tabs.html` | Demo page |
 | `tabs.ts` | Custom element registration (define()) |
 
@@ -480,5 +486,7 @@
 | `tab-panels-element.ts` | Element class (behavior, no CSS) |
 | `tabs-element.ts` | Element class (behavior, no CSS) |
 | `tabs.css` | Styles |
+| `tabs.demo.css` | Styles |
+| `tabs.demo.ts` | Source module |
 | `tabs.html` | Demo page |
 | `tabs.ts` | Custom element registration (define()) |

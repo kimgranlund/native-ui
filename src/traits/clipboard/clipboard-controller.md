@@ -95,5 +95,7 @@ When used as a provider or self-trait, options are passed via `data-trait-clipbo
 | `clipboard-controller.md` | Controller documentation |
 | `clipboard-controller.ts` | Controller (reactive state + behavior) |
 | `clippable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `clippable.demo.css` | Styles |
+| `clippable.demo.ts` | Source module |
 | `clippable.html` | Demo page |
 | `clippable.test.ts` | Tests |

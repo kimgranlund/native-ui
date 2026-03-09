@@ -120,6 +120,8 @@
 |------|---------|
 | `dialog-element.ts` | Element class (behavior, no CSS) |
 | `dialog.css` | Styles |
+| `dialog.demo.css` | Styles |
+| `dialog.demo.ts` | Source module |
 | `dialog.html` | Demo page |
 | `dialog.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |

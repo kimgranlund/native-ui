@@ -58,5 +58,7 @@
 | File | Purpose |
 |------|---------|
 | `badge.css` | Styles |
+| `badge.demo.css` | Styles |
+| `badge.demo.ts` | Source module |
 | `badge.html` | Demo page |
 | `README.md` | Documentation (auto-generated) |

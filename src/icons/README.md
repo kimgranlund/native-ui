@@ -64,6 +64,8 @@
 | `icon-element.d.ts.map` | Source module |
 | `icon-element.ts` | Element class (behavior, no CSS) |
 | `icon.css` | Styles |
+| `icon.demo.css` | Styles |
+| `icon.demo.ts` | Source module |
 | `icon.html` | Demo page |
 | `icon.ts` | Source module |
 | `icons.ts` | Custom element registration (define()) |

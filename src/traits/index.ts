@@ -39,6 +39,8 @@ export type { CollapsibleOptions } from './collapsible/collapsible-controller.ts
 export { RovingFocusController } from './roving-focus/roving-focus-controller.ts';
 export type { RovingFocusOptions } from './roving-focus/roving-focus-controller.ts';
 export { DismissController } from './dismiss/dismiss-controller.ts';
+export { ModalController } from './modal/modal-controller.ts';
+export type { ModalOptions } from './modal/modal-controller.ts';
 export { ToastController } from './toast/toast-controller.ts';
 export type { ToastOptions } from './toast/toast-controller.ts';
 export { PopoverController } from './popover/popover-controller.ts';
@@ -69,7 +71,7 @@ export type { MagnetOptions } from './magnet/magnet-controller.ts';
 export { NoodleController } from './noodle/noodle-controller.ts';
 export type { NoodleOptions, NoodleConnection, PortSide } from './noodle/noodle-controller.ts';
 export { isTypingContext } from './typing-context.ts';
-export { registerAllTraits } from './register-all.ts';
+export { registerAllTraits, registerCoreTraits, registerInteractionTraits, registerDevTraits } from './register-all.ts';
 
 // ── Runtime ──
 export { getTraitRuntime, DismissStack } from './runtime.ts';
@@ -113,3 +115,5 @@ export { confettibleAdapter } from './confetti/confettible-adapter.ts';
 export { magnetizableAdapter } from './magnet/magnetizable-adapter.ts';
 export { noodleableAdapter } from './noodle/noodleable-adapter.ts';
 export { gatewayableAdapter } from './gateway/gatewayable-adapter.ts';
+export { modalableAdapter } from './modal/modalable-adapter.ts';
+export { coreAdapters, interactionAdapters, devAdapters, allAdapters } from './adapters/index.ts';

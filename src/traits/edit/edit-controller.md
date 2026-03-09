@@ -95,5 +95,7 @@ When used as a provider or self-trait, options are passed via `data-trait-edit-*
 | `edit-controller.md` | Controller documentation |
 | `edit-controller.ts` | Controller (reactive state + behavior) |
 | `editable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `editable.demo.css` | Styles |
+| `editable.demo.ts` | Source module |
 | `editable.html` | Demo page |
 | `editable.test.ts` | Tests |

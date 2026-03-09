@@ -94,6 +94,7 @@
 | `breadcrumb-element.ts` | Element class (behavior, no CSS) |
 | `breadcrumb-item-element.ts` | Element class (behavior, no CSS) |
 | `breadcrumb.css` | Styles |
+| `breadcrumb.demo.ts` | Source module |
 | `breadcrumb.html` | Demo page |
 | `breadcrumb.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |
@@ -183,6 +184,7 @@
 | `breadcrumb-element.ts` | Element class (behavior, no CSS) |
 | `breadcrumb-item-element.ts` | Element class (behavior, no CSS) |
 | `breadcrumb.css` | Styles |
+| `breadcrumb.demo.ts` | Source module |
 | `breadcrumb.html` | Demo page |
 | `breadcrumb.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |

@@ -15,4 +15,14 @@ export const shortcutableAdapter: TraitAdapter<ShortcutController> = {
     });
   },
   destroy(instance) { instance.destroy(); },
+  update(instance, options) {
+    if ('shortcuts' in options) {
+      try {
+        const shortcuts: ShortcutBinding[] = JSON.parse(options['shortcuts']);
+        // WHY: No bulk-replace API — destroy and re-add
+        instance.destroy();
+        for (const binding of shortcuts) instance.add(binding);
+      } catch { /* ignore malformed JSON */ }
+    }
+  },
 };

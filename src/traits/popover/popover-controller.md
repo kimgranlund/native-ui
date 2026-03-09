@@ -65,5 +65,7 @@ const ctrl = new PopoverController(element);
 | `popover-controller.md` | Controller documentation |
 | `popover-controller.ts` | Controller (reactive state + behavior) |
 | `popoverable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `popoverable.demo.css` | Styles |
+| `popoverable.demo.ts` | Source module |
 | `popoverable.html` | Demo page |
 | `popoverable.test.ts` | Tests |

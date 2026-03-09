@@ -120,6 +120,7 @@
 |------|---------|
 | `drawer-element.ts` | Element class (behavior, no CSS) |
 | `drawer.css` | Styles |
+| `drawer.demo.ts` | Source module |
 | `drawer.html` | Demo page |
 | `drawer.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |

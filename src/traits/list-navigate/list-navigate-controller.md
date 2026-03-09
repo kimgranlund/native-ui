@@ -99,6 +99,8 @@ When used as a provider or self-trait, options are passed via `data-trait-list-n
 | File | Purpose |
 |------|---------|
 | `list-navigable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `list-navigable.demo.css` | Styles |
+| `list-navigable.demo.ts` | Source module |
 | `list-navigable.html` | Demo page |
 | `list-navigable.test.ts` | Tests |
 | `list-navigate-controller.md` | Controller documentation |

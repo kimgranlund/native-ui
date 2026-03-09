@@ -56,4 +56,5 @@
 |------|---------|
 | `README.md` | Documentation (auto-generated) |
 | `video.css` | Styles |
+| `video.demo.ts` | Source module |
 | `video.html` | Demo page |

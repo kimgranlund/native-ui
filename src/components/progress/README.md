@@ -55,5 +55,6 @@
 | File | Purpose |
 |------|---------|
 | `progress.css` | Styles |
+| `progress.demo.ts` | Source module |
 | `progress.html` | Demo page |
 | `README.md` | Documentation (auto-generated) |

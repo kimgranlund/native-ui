@@ -119,6 +119,8 @@
 | `tree-element.ts` | Element class (behavior, no CSS) |
 | `tree-item-element.ts` | Element class (behavior, no CSS) |
 | `tree.css` | Styles |
+| `tree.demo.css` | Styles |
+| `tree.demo.ts` | Source module |
 | `tree.html` | Demo page |
 | `tree.ts` | Custom element registration (define()) |
 
@@ -239,5 +241,7 @@
 | `tree-element.ts` | Element class (behavior, no CSS) |
 | `tree-item-element.ts` | Element class (behavior, no CSS) |
 | `tree.css` | Styles |
+| `tree.demo.css` | Styles |
+| `tree.demo.ts` | Source module |
 | `tree.html` | Demo page |
 | `tree.ts` | Custom element registration (define()) |

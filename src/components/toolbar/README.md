@@ -132,5 +132,7 @@
 | `README.md` | Documentation (auto-generated) |
 | `toolbar-element.ts` | Element class (behavior, no CSS) |
 | `toolbar.css` | Styles |
+| `toolbar.demo.css` | Styles |
+| `toolbar.demo.ts` | Source module |
 | `toolbar.html` | Demo page |
 | `toolbar.ts` | Custom element registration (define()) |

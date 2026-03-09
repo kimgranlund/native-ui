@@ -48,5 +48,7 @@
 | File | Purpose |
 |------|---------|
 | `kbd.css` | Styles |
+| `kbd.demo.css` | Styles |
+| `kbd.demo.ts` | Source module |
 | `kbd.html` | Demo page |
 | `README.md` | Documentation (auto-generated) |

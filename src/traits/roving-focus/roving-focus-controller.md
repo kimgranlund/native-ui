@@ -90,5 +90,7 @@ When used as a provider or self-trait, options are passed via `data-trait-roving
 | `roving-focus-controller.md` | Controller documentation |
 | `roving-focus-controller.ts` | Controller (reactive state + behavior) |
 | `roving-focusable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `roving-focusable.demo.css` | Styles |
+| `roving-focusable.demo.ts` | Source module |
 | `roving-focusable.html` | Demo page |
 | `roving-focusable.test.ts` | Tests |

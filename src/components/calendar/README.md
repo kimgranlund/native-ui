@@ -131,6 +131,8 @@
 |------|---------|
 | `calendar-element.ts` | Element class (behavior, no CSS) |
 | `calendar.css` | Styles |
+| `calendar.demo.css` | Styles |
+| `calendar.demo.ts` | Source module |
 | `calendar.html` | Demo page |
 | `calendar.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |

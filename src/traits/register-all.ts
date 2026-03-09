@@ -1,80 +1,42 @@
 import { registerTrait } from '../registries/trait-registry.ts';
 import {
-  pressableAdapter,
-  hoverableAdapter,
-  copyableAdapter,
-  intersectableAdapter,
-  droppableAdapter,
-  sortableAdapter,
-  validatableAdapter,
-  focusTrappableAdapter,
-  collapsibleAdapter,
-  rovingFocusableAdapter,
-  dismissableAdapter,
-  toastableAdapter,
-  popoverableAdapter,
-  listNavigableAdapter,
-  dialogableAdapter,
-  draggableAdapter,
-  rangeSelectableAdapter,
-  resizableAdapter,
-  virtualizableAdapter,
-  selectableAdapter,
-  searchableAdapter,
-  clippableAdapter,
-  swipeableAdapter,
-  editableAdapter,
-  presentableAdapter,
-  slashCommandableAdapter,
-  shortcutableAdapter,
-  tossableAdapter,
-  flippableAdapter,
-  parallaxableAdapter,
-  cssInspectableAdapter,
-  confettibleAdapter,
-  magnetizableAdapter,
-  noodleableAdapter,
-  gatewayableAdapter,
+  coreAdapters,
+  interactionAdapters,
+  devAdapters,
+  allAdapters,
 } from './adapters/index.ts';
+
+/**
+ * Register core trait adapters (standard UI behaviors).
+ * Excludes interaction traits (toss, flip, parallax, confetti, magnet)
+ * and dev traits (css-inspect).
+ */
+export function registerCoreTraits(): void {
+  for (const adapter of coreAdapters) registerTrait(adapter);
+}
+
+/**
+ * Register interaction trait adapters (visual/physics effects).
+ * Includes: toss, flip, parallax, confetti, magnet.
+ */
+export function registerInteractionTraits(): void {
+  for (const adapter of interactionAdapters) registerTrait(adapter);
+}
+
+/**
+ * Register dev trait adapters (development/inspection tools).
+ * Includes: css-inspect.
+ */
+export function registerDevTraits(): void {
+  for (const adapter of devAdapters) registerTrait(adapter);
+}
 
 /**
  * Register all built-in trait adapters with the global trait registry.
  * Call once at app startup to enable `traits="..."` attribute on NativeElement subclasses.
+ *
+ * Equivalent to calling registerCoreTraits() + registerInteractionTraits() + registerDevTraits().
  */
 export function registerAllTraits(): void {
-  registerTrait(pressableAdapter);
-  registerTrait(hoverableAdapter);
-  registerTrait(copyableAdapter);
-  registerTrait(intersectableAdapter);
-  registerTrait(droppableAdapter);
-  registerTrait(sortableAdapter);
-  registerTrait(validatableAdapter);
-  registerTrait(focusTrappableAdapter);
-  registerTrait(collapsibleAdapter);
-  registerTrait(rovingFocusableAdapter);
-  registerTrait(dismissableAdapter);
-  registerTrait(toastableAdapter);
-  registerTrait(popoverableAdapter);
-  registerTrait(listNavigableAdapter);
-  registerTrait(dialogableAdapter);
-  registerTrait(draggableAdapter);
-  registerTrait(rangeSelectableAdapter);
-  registerTrait(resizableAdapter);
-  registerTrait(virtualizableAdapter);
-  registerTrait(selectableAdapter);
-  registerTrait(searchableAdapter);
-  registerTrait(clippableAdapter);
-  registerTrait(swipeableAdapter);
-  registerTrait(editableAdapter);
-  registerTrait(presentableAdapter);
-  registerTrait(slashCommandableAdapter);
-  registerTrait(shortcutableAdapter);
-  registerTrait(tossableAdapter);
-  registerTrait(flippableAdapter);
-  registerTrait(parallaxableAdapter);
-  registerTrait(cssInspectableAdapter);
-  registerTrait(confettibleAdapter);
-  registerTrait(magnetizableAdapter);
-  registerTrait(noodleableAdapter);
-  registerTrait(gatewayableAdapter);
+  for (const adapter of allAdapters) registerTrait(adapter);
 }

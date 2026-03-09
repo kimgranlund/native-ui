@@ -65,5 +65,6 @@
 | File | Purpose |
 |------|---------|
 | `body.css` | Styles |
+| `body.demo.ts` | Source module |
 | `body.html` | Demo page |
 | `README.md` | Documentation (auto-generated) |

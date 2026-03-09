@@ -81,5 +81,7 @@ When used as a provider or self-trait, options are passed via `data-trait-hover-
 | `hover-controller.md` | Controller documentation |
 | `hover-controller.ts` | Controller (reactive state + behavior) |
 | `hoverable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `hoverable.demo.css` | Styles |
+| `hoverable.demo.ts` | Source module |
 | `hoverable.html` | Demo page |
 | `hoverable.test.ts` | Tests |

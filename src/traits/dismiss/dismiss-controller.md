@@ -72,5 +72,7 @@ const ctrl = new DismissController(element);
 | `dismiss-controller.md` | Controller documentation |
 | `dismiss-controller.ts` | Controller (reactive state + behavior) |
 | `dismissable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `dismissable.demo.css` | Styles |
+| `dismissable.demo.ts` | Source module |
 | `dismissable.html` | Demo page |
 | `dismissable.test.ts` | Tests |

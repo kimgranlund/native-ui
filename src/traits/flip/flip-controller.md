@@ -86,5 +86,7 @@ When used as a provider or self-trait, options are passed via `data-trait-flip-*
 | `flip-controller.md` | Controller documentation |
 | `flip-controller.ts` | Controller (reactive state + behavior) |
 | `flippable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `flippable.demo.css` | Styles |
+| `flippable.demo.ts` | Source module |
 | `flippable.html` | Demo page |
 | `flippable.test.ts` | Tests |

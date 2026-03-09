@@ -126,5 +126,7 @@
 | `README.md` | Documentation (auto-generated) |
 | `textarea-element.ts` | Element class (behavior, no CSS) |
 | `textarea.css` | Styles |
+| `textarea.demo.css` | Styles |
+| `textarea.demo.ts` | Source module |
 | `textarea.html` | Demo page |
 | `textarea.ts` | Custom element registration (define()) |

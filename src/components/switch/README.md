@@ -136,5 +136,7 @@
 | `README.md` | Documentation (auto-generated) |
 | `switch-element.ts` | Element class (behavior, no CSS) |
 | `switch.css` | Styles |
+| `switch.demo.css` | Styles |
+| `switch.demo.ts` | Source module |
 | `switch.html` | Demo page |
 | `switch.ts` | Custom element registration (define()) |

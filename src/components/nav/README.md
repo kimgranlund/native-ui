@@ -18,5 +18,7 @@
 
 | File | Purpose |
 |------|---------|
+| `nav.demo.css` | Styles |
+| `nav.demo.ts` | Source module |
 | `nav.html` | Demo page |
 | `README.md` | Documentation (auto-generated) |

@@ -55,5 +55,6 @@
 | File | Purpose |
 |------|---------|
 | `picture.css` | Styles |
+| `picture.demo.ts` | Source module |
 | `picture.html` | Demo page |
 | `README.md` | Documentation (auto-generated) |

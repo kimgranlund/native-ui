@@ -108,6 +108,7 @@
 | `index.ts` | Barrel exports |
 | `input-otp-element.ts` | Element class (behavior, no CSS) |
 | `input-otp.css` | Styles |
+| `input-otp.demo.ts` | Source module |
 | `input-otp.html` | Demo page |
 | `input-otp.ts` | Custom element registration (define()) |
 | `README.md` | Documentation (auto-generated) |

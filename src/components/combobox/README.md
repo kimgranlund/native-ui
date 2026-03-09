@@ -126,6 +126,7 @@
 |------|---------|
 | `combobox-element.ts` | Element class (behavior, no CSS) |
 | `combobox.css` | Styles |
+| `combobox.demo.ts` | Source module |
 | `combobox.html` | Demo page |
 | `combobox.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |

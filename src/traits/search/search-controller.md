@@ -82,5 +82,7 @@ When used as a provider or self-trait, options are passed via `data-trait-search
 | `search-controller.md` | Controller documentation |
 | `search-controller.ts` | Controller (reactive state + behavior) |
 | `searchable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `searchable.demo.css` | Styles |
+| `searchable.demo.ts` | Source module |
 | `searchable.html` | Demo page |
 | `searchable.test.ts` | Tests |

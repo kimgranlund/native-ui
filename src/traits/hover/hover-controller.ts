@@ -4,7 +4,13 @@ export interface HoverOptions {
   disabled?: boolean;
 }
 
-/** Tracks pointer enter/leave with configurable delays, dispatching `native:hover-start` and `native:hover-end`. */
+/**
+ * Tracks pointer enter/leave with configurable delays, dispatching
+ * `native:hover-start` and `native:hover-end`.
+ *
+ * For combined press+hover on a single element, use PressController
+ * with the `hover` option instead.
+ */
 export class HoverController {
   readonly host: HTMLElement;
   delay: number;

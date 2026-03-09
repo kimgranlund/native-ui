@@ -67,8 +67,12 @@ Three modes:
 |------|---------|
 | `controller-element.ts` | Element class (behavior, no CSS) |
 | `controller.css` | Styles |
+| `controller.demo.css` | Styles |
+| `controller.demo.ts` | Source module |
 | `controller.html` | Demo page |
 | `controller.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `store.demo.css` | Styles |
+| `store.demo.ts` | Source module |
 | `store.html` | Demo page |

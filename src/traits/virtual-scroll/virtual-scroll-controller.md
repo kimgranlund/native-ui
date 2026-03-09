@@ -81,5 +81,7 @@ When used as a provider or self-trait, options are passed via `data-trait-virtua
 | `virtual-scroll-controller.md` | Controller documentation |
 | `virtual-scroll-controller.ts` | Controller (reactive state + behavior) |
 | `virtualizable-adapter.ts` | Trait adapter (declarative provider bridge) |
+| `virtualizable.demo.css` | Styles |
+| `virtualizable.demo.ts` | Source module |
 | `virtualizable.html` | Demo page |
 | `virtualizable.test.ts` | Tests |

@@ -130,6 +130,7 @@
 | `segment-element.ts` | Element class (behavior, no CSS) |
 | `segmented-control-element.ts` | Element class (behavior, no CSS) |
 | `segmented-control.css` | Styles |
+| `segmented-control.demo.ts` | Source module |
 | `segmented-control.html` | Demo page |
 | `segmented-control.ts` | Custom element registration (define()) |
 
@@ -244,5 +245,6 @@
 | `segment-element.ts` | Element class (behavior, no CSS) |
 | `segmented-control-element.ts` | Element class (behavior, no CSS) |
 | `segmented-control.css` | Styles |
+| `segmented-control.demo.ts` | Source module |
 | `segmented-control.html` | Demo page |
 | `segmented-control.ts` | Custom element registration (define()) |

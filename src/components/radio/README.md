@@ -137,6 +137,7 @@
 | `radio-element.ts` | Element class (behavior, no CSS) |
 | `radio-group-element.ts` | Element class (behavior, no CSS) |
 | `radio.css` | Styles |
+| `radio.demo.ts` | Source module |
 | `radio.html` | Demo page |
 | `radio.ts` | Custom element registration (define()) |
 | `README.md` | Documentation (auto-generated) |
@@ -290,6 +291,7 @@
 | `radio-element.ts` | Element class (behavior, no CSS) |
 | `radio-group-element.ts` | Element class (behavior, no CSS) |
 | `radio.css` | Styles |
+| `radio.demo.ts` | Source module |
 | `radio.html` | Demo page |
 | `radio.ts` | Custom element registration (define()) |
 | `README.md` | Documentation (auto-generated) |
