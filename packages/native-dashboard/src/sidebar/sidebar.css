@@ -538,8 +538,7 @@
     --n-font-weight: var(--n-text-font-weight);
     --n-line-height: var(--n-control-line-height-dense);
 
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
     padding-inline: calc(var(--n-space-k) * var(--n-space));
@@ -564,39 +563,26 @@
 
   /* ── Nav Item Slots ── */
 
-  :where(n-sidebar-nav-item):has(> [slot="leading"]):has(> [slot="trailing"]) {
-    grid-template-columns: auto 1fr auto;
-  }
-
-  :where(n-sidebar-nav-item):has(> [slot="leading"]):not(:has(> [slot="trailing"])) {
-    grid-template-columns: auto 1fr;
-  }
-
-  :where(n-sidebar-nav-item):not(:has(> [slot="leading"])):has(> [slot="trailing"]) {
-    grid-template-columns: 1fr auto;
-  }
-
+  /* Leading icon — flex-shrink keeps icon fixed size */
   :where(n-sidebar-nav-item) > :where([slot="leading"]) {
-    grid-column: 1;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
   }
 
-  :where(n-sidebar-nav-item) > :where(:not([slot])) {
-    min-width: 0;
-  }
-
+  /* Trailing — push to end, stay fixed */
   :where(n-sidebar-nav-item) > :where([slot="trailing"]) {
-    grid-column: -1;
+    margin-inline-start: auto;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
-    min-width: 0;
   }
 
+  /* Content — full-width row below */
   :where(n-sidebar-nav-item) > :where([slot="content"]) {
-    grid-column: 1 / -1;
+    flex-basis: 100%;
   }
 
   /* ── Nav Item States ── */
@@ -627,10 +613,10 @@
     outline-offset: -2px;
   }
 
-  /* Badge in nav item — backwards compat for non-slotted badges */
-  :where(n-sidebar-nav-item) > :where(.badge):not([slot]) {
-    grid-column: -1;
-    justify-self: end;
+  /* Badge in nav item — push to trailing edge */
+  :where(n-sidebar-nav-item) > :where(.badge) {
+    margin-inline-start: auto;
+    flex-shrink: 0;
   }
 
   /* ── Nav Group ── */
