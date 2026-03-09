@@ -120,9 +120,12 @@ export class NoodleController {
     if (this.#attached) return;
     this.#attached = true;
 
-    // Ensure host is positioned
+    // Ensure host is positioned and establishes a stacking context
+    // WHY: isolation prevents the SVG overlay and port dots from bleeding
+    // through sibling elements outside the noodle host.
     const pos = getComputedStyle(this.host).position;
     if (pos === 'static') this.host.style.position = 'relative';
+    this.host.style.isolation = 'isolate';
 
     this.#createSVG();
     this.#injectKeyframes();
@@ -146,6 +149,7 @@ export class NoodleController {
     this.#removePortIndicators();
     this.#removeSVG();
     this.#removeKeyframes();
+    this.host.style.isolation = '';
 
     this.host.removeEventListener('native:magnet-snap', this.#onExternalMove);
     this.host.removeEventListener('native:magnet-drop', this.#onExternalMove);

@@ -408,6 +408,7 @@ export class NApp extends NativeElement {
     const body = document.createElement('n-container');
     body.dataset.kind = 'panel';
     body.setAttribute('scrollable', '');
+    body.setAttribute('padding', '0');
     // WHY: <slot> projects author's <main> from light DOM without moving it —
     // no disconnect→reconnect cycle on nested custom elements.
     const slot = document.createElement('slot');
