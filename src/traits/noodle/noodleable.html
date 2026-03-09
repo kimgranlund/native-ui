@@ -32,11 +32,11 @@
       <main>
 
         <header>
-          <h2>Noodleable</h2>
-          <p class="demo-desc">
+          <h1>Noodleable</h1>
+          <div class="demo-desc">
           Draw SVG noodle connections between DOM elements. Supports bezier, step, and straight curve styles.
           In edit mode, drag between port dots to create connections; click a noodle to remove it.
-        </p>
+        </div>
         </header>
 
         <section>
@@ -44,11 +44,11 @@
         <!-- ── 1. Interactive Flow Builder ── -->
 
         <h3>Interactive Flow Builder</h3>
-        <p class="demo-desc">
+        <div class="demo-desc">
           Drag from a port dot to another port to create a connection. Click a noodle to delete it.
           Nodes are draggable via MagnetController. Hover a port and click <code>+</code> to add a node.
           Drag empty space to pan the canvas. The JSON pane on the right is live and editable.
-        </p>
+        </div>
         <div class="flow-split" id="flow-split">
           <div class="flow-split-canvas" id="flow-canvas-pane">
             <div class="canvas-viewport" id="flow-viewport">
@@ -85,7 +85,7 @@
         <h3>Curve Styles</h3>
         <div style="display: flex; gap: 1rem;">
           <div style="flex: 1;">
-            <p class="demo-desc">Bezier</p>
+            <div class="demo-desc">Bezier</div>
             <div class="noodle-arena noodle-arena--short" id="style-bezier">
               <div class="flow-node" intent="accent" id="bz-a" data-noodle-port="right" style="left: 1rem; top: 2rem;">A</div>
               <div class="flow-node" intent="info" id="bz-b" data-noodle-port="left right" style="left: 8rem; top: 6rem;">B</div>
@@ -93,7 +93,7 @@
             </div>
           </div>
           <div style="flex: 1;">
-            <p class="demo-desc">Step</p>
+            <div class="demo-desc">Step</div>
             <div class="noodle-arena noodle-arena--short" id="style-step">
               <div class="flow-node" intent="accent" id="st-a" data-noodle-port="right" style="left: 1rem; top: 2rem;">A</div>
               <div class="flow-node" intent="info" id="st-b" data-noodle-port="left right" style="left: 8rem; top: 6rem;">B</div>
@@ -101,7 +101,7 @@
             </div>
           </div>
           <div style="flex: 1;">
-            <p class="demo-desc">Straight</p>
+            <div class="demo-desc">Straight</div>
             <div class="noodle-arena noodle-arena--short" id="style-straight">
               <div class="flow-node" intent="accent" id="sl-a" data-noodle-port="right" style="left: 1rem; top: 2rem;">A</div>
               <div class="flow-node" intent="info" id="sl-b" data-noodle-port="left right" style="left: 8rem; top: 6rem;">B</div>
@@ -113,7 +113,7 @@
         <!-- ── 3. Static Connections ── -->
 
         <h3>Static Connections</h3>
-        <p class="demo-desc">Pre-wired bezier connections. Read-only display — demonstrates the simplest setup.</p>
+        <div class="demo-desc">Pre-wired bezier connections. Read-only display — demonstrates the simplest setup.</div>
         <div class="noodle-arena" id="static-arena">
           <div class="flow-node" intent="accent" id="s-in1" data-noodle-port="right" style="left: 2rem; top: 3rem;">Input A</div>
           <div class="flow-node" intent="accent" id="s-in2" data-noodle-port="right" style="left: 2rem; top: 10rem;">Input B</div>
@@ -124,7 +124,7 @@
         <!-- ── 4. Disabled ── -->
 
         <h3>Disabled</h3>
-        <p class="demo-desc">Connections render normally but cannot be created, deleted, or dragged. Useful for read-only views.</p>
+        <div class="demo-desc">Connections render normally but cannot be created, deleted, or dragged. Useful for read-only views.</div>
         <div class="noodle-arena noodle-arena--short" id="disabled-arena">
           <div class="flow-node" intent="accent" disabled id="d-input" data-noodle-port="right" style="left: 2rem; top: 3rem;">Input</div>
           <div class="flow-node" intent="info" disabled id="d-process" data-noodle-port="left right" style="left: 14rem; top: 3rem;">Process</div>
@@ -139,13 +139,6 @@
             <div class="event-log" id="event-log"></div>
           </div>
         </article>
-
-
-        </section>
-
-
-        <footer>
-
         <!-- ── API Reference ── -->
 
         <h2>API</h2>
@@ -315,7 +308,9 @@
           </table>
         </div>
 
-      </footer>
+
+
+        </section>
 
   
 

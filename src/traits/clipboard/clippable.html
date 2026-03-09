@@ -15,9 +15,9 @@
 
     <header>
       <h1>Clippable</h1>
-      <p class="demo-desc">
+      <div class="demo-desc">
       Keyboard clipboard operations (<strong>Ctrl/Cmd+C/X/V</strong>) for structured data. Composes with <code>Selectable</code> to copy/cut selected items.
-    </p>
+    </div>
     </header>
 
     <section>
@@ -99,13 +99,6 @@ list.addEventListener('native:clip-paste', (e) =&gt; {
   log(`Paste: "${e.detail.data}"`);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
-
-
-    </section>
-
-
-    <footer>
-
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -224,7 +217,9 @@ list.addEventListener('native:clip-paste', (e) =&gt; {
       </table>
     </div>
 
-    </footer>
+
+
+    </section>
 
   
 

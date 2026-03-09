@@ -15,9 +15,9 @@
 
     <header>
       <h1>Toastable</h1>
-      <p class="demo-desc">
+      <div class="demo-desc">
       Composable trait for showing toast notifications. Each controller owns its own container within its host element — no global singleton. Supports auto-dismiss timers, intent-based styling, and optional dismiss buttons.
-    </p>
+    </div>
     </header>
 
     <section>
@@ -73,13 +73,6 @@ toaster.toast({ message: 'Sticky!', intent: 'warning', duration: 0 });</code><n-
       <pre class="demo-code"><code>// Dismiss all active toasts
 toaster.dismissAllToasts();</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
-
-
-    </section>
-
-
-    <footer>
-
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -140,7 +133,9 @@ toaster.dismissAllToasts();</code><n-button class="copy-btn" size="sm" variant="
       </table>
     </div>
 
-    </footer>
+
+
+    </section>
 
   
 

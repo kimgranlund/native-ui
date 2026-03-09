@@ -15,9 +15,9 @@
 
     <header>
       <h1>RangeSelectable</h1>
-      <p class="demo-desc">
+      <div class="demo-desc">
       Composable trait for selecting a range of items. Supports two modes: <strong>drag</strong> (click-drag-release) and <strong>click</strong> (click start, hover to preview, click to commit). Sets <code>[range-selected]</code>, <code>[range-start]</code>, and <code>[range-end]</code> attributes.
-    </p>
+    </div>
     </header>
 
     <section>
@@ -162,13 +162,6 @@ list.addEventListener('native:range-select', (e) =&gt; {
   log.textContent = `Selected ${items.length} items (${startIndex}–${endIndex})`;
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
-
-
-    </section>
-
-
-    <footer>
-
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -243,7 +236,9 @@ list.addEventListener('native:range-select', (e) =&gt; {
       </table>
     </div>
 
-    </footer>
+
+
+    </section>
 
   
 

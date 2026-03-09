@@ -15,9 +15,9 @@
 
     <header>
       <h1>&lt;n-toolbar&gt;</h1>
-      <p class="demo-desc">
+      <div class="demo-desc">
       Horizontal action bar for grouping related controls. Minimal custom element with role="toolbar" and roving keyboard focus.
-    </p>
+    </div>
     </header>
 
     <section>
@@ -150,9 +150,9 @@
     <!-- ── Vertical Orientation ── -->
 
     <h2>Vertical Orientation</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       <code>orientation="vertical"</code> stacks items vertically and switches keyboard navigation from ArrowLeft/ArrowRight to ArrowUp/ArrowDown.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <n-stack gap="4" direction="row">
         <n-toolbar orientation="vertical" aria-label="Vertical toolbar">
@@ -177,9 +177,9 @@
     <!-- ── Plain Variant ── -->
 
     <h2>Plain Variant</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       <code>variant="plain"</code> strips background, border, and radius so the toolbar can embed inside containers like <code>&lt;n-container&gt;</code> headers without doubling chrome.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <n-stack gap="4">
         <n-toolbar aria-label="Default toolbar">
@@ -203,9 +203,9 @@
     <!-- ── Fill Mode ── -->
 
     <h2>Fill Mode</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       <code>[fill]</code> distributes available space evenly across items. Default is compact (intrinsic width).
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <n-stack gap="4">
         <n-toolbar aria-label="Compact toolbar (default)">
@@ -229,9 +229,9 @@
     <!-- ── Responsive Overflow ── -->
 
     <h2>Responsive Overflow</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       Resize the container to see items collapse into a &bull;&bull;&bull; overflow menu.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <div style="resize: horizontal; overflow: hidden; border: 1px dashed var(--n-border-muted-neutral); padding: 0.5rem; min-width: 120px; max-width: 100%;">
         <n-toolbar aria-label="Overflow demo">
@@ -265,9 +265,9 @@
     <!-- ── Grouped Overflow ── -->
 
     <h2>Grouped Overflow</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       <code>&lt;n-toolbar-group&gt;</code> keeps related actions together &mdash; the entire group overflows as one unit instead of splitting.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <div style="resize: horizontal; overflow: hidden; border: 1px dashed var(--n-border-muted-neutral); padding: 0.5rem; min-width: 120px; max-width: 100%;">
         <n-toolbar aria-label="Grouped overflow demo">
@@ -313,9 +313,9 @@
     <!-- ── Overflow Priority ── -->
 
     <h2>Overflow Priority</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       <code>overflow-priority="high|normal|low"</code> controls which items hide first when space is limited. <code>overflow-pin</code> keeps an item always visible.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <div style="resize: horizontal; overflow: hidden; border: 1px dashed var(--n-border-muted-neutral); padding: 0.5rem; min-width: 120px; max-width: 100%;">
         <n-toolbar aria-label="Priority overflow demo">
@@ -338,9 +338,9 @@
     <!-- ── Overflow Diagnostics ── -->
 
     <h2>Overflow Diagnostics</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       <code>native:toolbar-overflow</code> fires whenever visibility changes. Resize the container to see the event payload.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <div style="resize: horizontal; overflow: hidden; border: 1px dashed var(--n-border-muted-neutral); padding: 0.5rem; min-width: 120px; max-width: 100%;">
         <n-toolbar id="diag-toolbar" aria-label="Diagnostics demo">
@@ -359,13 +359,6 @@
   console.log('Hidden:', overflowedLabels);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
-
-
-    </section>
-
-
-    <footer>
-
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -433,7 +426,9 @@
       </table>
     </div>
 
-    </footer>
+
+
+    </section>
 
   
 

@@ -24,37 +24,32 @@ main > header {
   border-bottom: 1px solid var(--n-border-muted);
 }
 
-main > footer {
-  border-top: 1px solid var(--n-border-muted);
-}
-
-main p {
-  margin: 0;
-}
-
-h1 {
-  font-size: 1.25rem;
+main > header > h1 {
+  font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 0;
+  letter-spacing: -0.025em;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
   color: var(--n-ink-strong-neutral);
 }
 
-h2 {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 0;
-  margin-top: 1rem;
+main h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
   color: var(--n-ink-strong-neutral);
 }
 
-h3 {
+main h3 {
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 0.5rem;
   margin-top: 1.5rem;
-  color: var(--n-ink-muted-neutral);
+  color: var(--n-ink-neutral);
 }
 
 h3:first-child {
@@ -62,13 +57,6 @@ h3:first-child {
 }
 
 /* ── Demo Sections ── */
-/* WHY: <n-container> containers use flex column with gap.
-   Zero out child block margins so gap provides uniform spacing. */
-
-:where(n-container) > :where(h3, .demo-row, .demo-desc, .demo-caption,
-  .demo-hint, .demo-state-label, .demo-code, .log, .demo-event-log) {
-  margin: 0;
-}
 
 .demo-row {
   display: flex;
@@ -89,11 +77,17 @@ h3:first-child {
 
 /* ── Text Utilities ── */
 
-.demo-desc {
+main > header .demo-desc {
+  color: var(--n-ink-neutral);
+  font-size: 1.000rem;
+}
+
+main > section .demo-desc {
   color: var(--n-ink-muted-neutral);
   font-size: 0.875rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1em;
 }
+
 
 .demo-caption {
   font-size: 0.75rem;

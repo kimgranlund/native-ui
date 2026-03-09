@@ -15,9 +15,9 @@
 
     <header>
       <h1>Dismissable</h1>
-      <p class="demo-desc">
+      <div class="demo-desc">
       Composable trait that manages a global layer stack. When enabled, clicking outside the element or pressing Escape dispatches a <code>native:dismiss</code> event. Only the topmost layer in the stack receives dismiss events.
-    </p>
+    </div>
     </header>
 
     <section>
@@ -113,13 +113,6 @@ dismissB.enable();
   close.addEventListener('native:press', () =&gt; dialog.close());
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
-
-
-    </section>
-
-
-    <footer>
-
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -159,7 +152,9 @@ dismissB.enable();
       </table>
     </div>
 
-    </footer>
+
+
+    </section>
 
   
 

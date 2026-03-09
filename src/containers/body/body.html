@@ -14,9 +14,9 @@
 
     <header>
       <h1>&lt;n-body&gt;</h1>
-      <p class="demo-desc">
+      <div class="demo-desc">
       Scrollable content region that fills remaining flex space. CSS-only container — no JavaScript. Used inside <code>&lt;n-container&gt;</code>, <code>&lt;n-drawer&gt;</code>, or any flex column parent.
-    </p>
+    </div>
     </header>
 
     <section>
@@ -42,9 +42,9 @@
     <!-- ── Scrollable ── -->
 
     <h2>Scrollable Content</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       When the parent container has a fixed height, <code>&lt;n-body&gt;</code> scrolls independently while siblings (<code>&lt;n-header&gt;</code>, <code>&lt;n-footer&gt;</code>) stay pinned. The scrollbar is hidden by default.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <n-container style="max-width: 24rem; height: 16rem;">
         <n-header><span>Scrollable Card</span></n-header>
@@ -73,9 +73,9 @@
     <!-- ── Show Scrollbar ── -->
 
     <h2>Visible Scrollbar</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       The <code>[show-scrollbar]</code> attribute reveals a thin scrollbar, making it clear the content is scrollable.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <n-stack direction="row" gap="4">
         <n-container style="max-width: 20rem; height: 14rem;">
@@ -107,9 +107,9 @@
     <!-- ── Padding ── -->
 
     <h2>Padding Scale</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       The <code>[padding]</code> attribute overrides the default spacing. Available values: <code>none</code>, <code>tight</code>, <code>regular</code>, <code>relaxed</code>.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <n-stack gap="4">
         <n-container style="max-width: 24rem;">
@@ -153,9 +153,9 @@
     <!-- ── With Header + Footer ── -->
 
     <h2>Header / Body / Footer Composition</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       The standard three-part layout. The parent container delegates overflow to <code>&lt;n-body&gt;</code> when <code>&lt;n-header&gt;</code> or <code>&lt;n-footer&gt;</code> is present, so the body scrolls while siblings stay fixed.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <n-container style="max-width: 28rem; height: 18rem;">
         <n-header>
@@ -197,9 +197,9 @@
     <!-- ── Standalone ── -->
 
     <h2>Standalone (No Header/Footer)</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       <code>&lt;n-body&gt;</code> works on its own as a flex-grow content region. Without a height-constrained parent, it simply fills available space without scrolling.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <n-container style="max-width: 24rem; height: 12rem; display: flex; flex-direction: column;">
         <n-body>
@@ -216,9 +216,9 @@
     <!-- ── Inside a Drawer ── -->
 
     <h2>Inside a Drawer</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       When <code>&lt;n-body&gt;</code> is present inside a drawer, the drawer delegates overflow to the body so header and footer stay fixed while the body scrolls.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <n-button id="open-drawer"><span>Open Drawer</span></n-button>
       <n-drawer id="drawer-demo">
@@ -260,9 +260,9 @@
     <!-- ── Fade Mask ── -->
 
     <h2>Fade Mask</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       When the parent <code>&lt;n-container data-kind="panel"&gt;</code> has the <code>[fade]</code> attribute, the body gets gradient masks at the top and/or bottom edges, hinting that more content is available.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <n-container data-kind="panel" fade style="max-width: 24rem; height: 16rem;">
         <n-header><span>Fade Edges</span></n-header>
@@ -289,9 +289,9 @@
     <!-- ── Rich Content ── -->
 
     <h2>Rich Content</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       <code>&lt;n-body&gt;</code> is a flex column with gap, so child elements space evenly. Use it for forms, lists, or mixed content.
-    </p>
+    </div>
     <n-container data-kind="panel" bordered>
       <n-container style="max-width: 28rem;">
         <n-header><span>User Profile</span></n-header>
@@ -318,13 +318,6 @@
   &lt;/n-footer&gt;
 &lt;/n-container&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
-
-
-    </section>
-
-
-    <footer>
-
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -364,7 +357,9 @@
       </table>
     </div>
 
-    </footer>
+
+
+    </section>
 
   
 

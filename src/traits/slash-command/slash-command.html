@@ -15,9 +15,9 @@
 
     <header>
       <h1>Slash Command</h1>
-      <p class="demo-desc">
+      <div class="demo-desc">
       Detects <code>/</code> anywhere in an input (preceded by whitespace or at text start), shows a caret-anchored command listbox popover, filters by query, and inserts a styled tag on selection. Use <kbd>Cmd+/</kbd> (<kbd>Ctrl+/</kbd>) to toggle. Works with <code>&lt;n-textarea&gt;</code> and <code>&lt;n-input&gt;</code>.
-    </p>
+    </div>
     </header>
 
     <section>
@@ -161,13 +161,6 @@ toggleBtn.addEventListener('native:press', () =&gt; {
   }
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
-
-
-    </section>
-
-
-    <footer>
-
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -358,7 +351,9 @@ toggleBtn.addEventListener('native:press', () =&gt; {
       </n-table>
     </div>
 
-    </footer>
+
+
+    </section>
 
   
 

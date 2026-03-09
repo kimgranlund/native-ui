@@ -15,9 +15,9 @@
 
     <header>
       <h1>Searchable</h1>
-      <p class="demo-desc">
+      <div class="demo-desc">
       Text filtering with match/hide attributes and highlight support. Non-matching items receive <code>[search-hidden]</code>, matching items get <code>[search-match]</code>. Since searching requires calling <code>filter()</code> imperatively from input events, all demos use direct <code>SearchController</code> instantiation. The <code>&lt;n-controller traits="searchable"&gt;</code> provider can create the controller declaratively, but <code>filter()</code> must still be called.
-    </p>
+    </div>
     </header>
 
     <section>
@@ -163,13 +163,6 @@ input.addEventListener('native:input', (e) =&gt; {
 // Later: search.clear();
 // Later: search.destroy();</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
-
-
-    </section>
-
-
-    <footer>
-
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -285,7 +278,9 @@ input.addEventListener('native:input', (e) =&gt; {
       </table>
     </div>
 
-    </footer>
+
+
+    </section>
 
   
 

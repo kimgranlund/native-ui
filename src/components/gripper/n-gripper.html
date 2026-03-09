@@ -15,10 +15,10 @@
 
     <header>
       <h1>Gripper</h1>
-      <p class="demo-desc">
+      <div class="demo-desc">
       Declarative gripper handle that escapes overflow via the Popover API and positions itself
       via CSS Anchor Positioning. Resize panels, sidebars, and canvas elements with a single element.
-    </p>
+    </div>
     </header>
 
     <section>
@@ -26,10 +26,10 @@
     <!-- ── Horizontal Resize ── -->
 
     <h2>Horizontal resize</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       Gripper on the right edge (<code>placement="end"</code>). Drag to resize width.
       The target is inside an <code>overflow: hidden</code> container — the gripper escapes via top layer.
-    </p>
+    </div>
 
     <div class="demo-overflow">
       <div id="panel-h" class="demo-target" style="width: 300px; height: 200px;">
@@ -48,9 +48,9 @@
     <!-- ── Vertical Resize ── -->
 
     <h2>Vertical resize</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       Gripper on the bottom edge (<code>placement="bottom"</code>). Drag to resize height.
-    </p>
+    </div>
 
     <div class="demo-overflow">
       <div id="panel-v" class="demo-target" style="width: 400px; height: 150px;">
@@ -69,10 +69,10 @@
     <!-- ── Corner Resize ── -->
 
     <h2>Corner resize (per-axis constraints)</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       Gripper on the bottom-right corner (<code>placement="bottom-end"</code>). Drag to resize both axes.
       Width constrained to 200–600 px, height to 100–400 px via <code>min-width</code>/<code>max-width</code>/<code>min-height</code>/<code>max-height</code>.
-    </p>
+    </div>
 
     <div class="demo-overflow">
       <div id="panel-c" class="demo-target" style="width: 300px; height: 200px;">
@@ -93,9 +93,9 @@
     <!-- ── Reverse (left-edge) ── -->
 
     <h2>Reverse (left-edge gripper)</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       Gripper on the left edge (<code>placement="start" reverse</code>). Leftward drag grows width.
-    </p>
+    </div>
 
     <div class="demo-overflow">
       <div id="panel-r" class="demo-target" style="width: 300px; height: 200px; margin-inline-start: auto;">
@@ -115,9 +115,9 @@
     <!-- ── Step Snapping ── -->
 
     <h2>Step snapping</h2>
-    <p class="demo-desc">
+    <div class="demo-desc">
       <code>step="20"</code> — resizes in 20px increments.
-    </p>
+    </div>
 
     <div class="demo-overflow">
       <div id="panel-s" class="demo-target" style="width: 300px; height: 200px;">
