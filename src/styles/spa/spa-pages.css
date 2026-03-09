@@ -11,12 +11,20 @@ body {
   color: var(--n-ink-neutral);
 }
 
-main {
+main > header,
+main > section {
   padding: 2rem;
-  max-width: 64rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+}
+
+main > header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-bottom: 1px solid var(--n-border-muted);
+}
+
+main > footer {
+  border-top: 1px solid var(--n-border-muted);
 }
 
 main p {

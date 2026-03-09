@@ -13,10 +13,14 @@
   <body>
     <native-dashboard-spa><main>
 
-    <h1>Editable</h1>
-    <p class="demo-desc">
+    <header>
+      <h1>Editable</h1>
+      <p class="demo-desc">
       Inline editing pattern. Activate with click or double-click, commit with <strong>Enter</strong>, cancel with <strong>Escape</strong>. Blur also commits.
     </p>
+    </header>
+
+    <section>
 
     <!-- ── Double-Click to Edit (Provider) ── -->
 
@@ -107,6 +111,12 @@ item.addEventListener('native:edit-cancel', (e) =&gt; {
 // Methods: editor.startEdit(), editor.commitEdit(), editor.cancelEdit()
 // Later: editor.destroy();</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
+
+
+    </section>
+
+
+    <footer>
 
     <!-- ── API Reference ── -->
 
@@ -228,6 +238,10 @@ item.addEventListener('native:edit-cancel', (e) =&gt; {
         </tbody>
       </table>
     </div>
+
+    </footer>
+
+  
 
     </main></native-dashboard-spa>
 

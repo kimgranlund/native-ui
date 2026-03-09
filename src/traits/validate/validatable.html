@@ -13,10 +13,14 @@
   <body>
     <native-dashboard-spa><main>
 
-    <h1>Validatable</h1>
-    <p class="demo-desc">
+    <header>
+      <h1>Validatable</h1>
+      <p class="demo-desc">
       Composable trait for declarative form validation. Attach rules to any element, call <code>validate()</code>, and react to <code>native:valid</code> / <code>native:invalid</code> events. Sets <code>[invalid]</code> and <code>aria-invalid</code> attributes automatically.
     </p>
+    </header>
+
+    <section>
 
     <!-- ── Required Field ── -->
 
@@ -89,6 +93,12 @@ emailInput.addEventListener('focusout', () =&gt; {
   validator.validate();
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
+
+
+    </section>
+
+
+    <footer>
 
     <!-- ── API Reference ── -->
 
@@ -165,6 +175,10 @@ emailInput.addEventListener('focusout', () =&gt; {
         </tbody>
       </table>
     </div>
+
+    </footer>
+
+  
 
     </main></native-dashboard-spa>
 

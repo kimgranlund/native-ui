@@ -13,10 +13,14 @@
   <body>
     <native-dashboard-spa><main>
 
-    <h1>Virtualizable</h1>
-    <p class="demo-desc">
+    <header>
+      <h1>Virtualizable</h1>
+      <p class="demo-desc">
       Composable trait for windowed rendering of large lists. Only renders visible items plus an overscan buffer. Dispatches <code>native:virtual-change</code> with the visible range so you can render only what's needed. All demos use <code>VirtualScrollController</code> directly since <code>enable(scrollEl, container, totalCount)</code> must be called to start virtualization. <code>n-controller</code> can create the controller declaratively, but <code>enable()</code> must still be called to begin.
     </p>
+    </header>
+
+    <section>
 
     <!-- ── 10,000 Items ── -->
 
@@ -117,6 +121,12 @@ host.addEventListener('native:virtual-change', (e) =&gt; {
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+
+    </section>
+
+
+    <footer>
+
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -203,6 +213,10 @@ host.addEventListener('native:virtual-change', (e) =&gt; {
         </tbody>
       </table>
     </div>
+
+    </footer>
+
+  
 
     </main></native-dashboard-spa>
 

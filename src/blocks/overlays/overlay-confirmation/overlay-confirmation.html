@@ -14,10 +14,6 @@
         color: var(--n-color-neutral-950);
       }
 
-      main {
-        padding: 2rem;
-      }
-
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
@@ -71,14 +67,18 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
-    <div>
-      <h1>Confirmation Dialogs</h1>
+    <header>
+      <div>
+            <h1>Confirmation Dialogs</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Modal confirmation patterns for different severity levels. Each dialog
         clearly communicates the action, its consequences, and provides cancel/confirm options.
       </p>
-    </div>
+      </div>
+    </header>
+
+    <section>
+    <n-stack gap="6">
 
     <!-- -- Trigger Buttons -- -->
 
@@ -177,8 +177,9 @@
       </n-container>
     </n-dialog>
     </n-stack>
+    </section>
 
-    </main></native-dashboard-spa>
+      </main></native-dashboard-spa>
     <script type="module">
       import '../../../nav/native-dashboard.ts';
       import '../../../components/button/button.ts';

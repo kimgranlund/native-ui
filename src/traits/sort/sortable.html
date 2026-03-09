@@ -13,10 +13,14 @@
   <body>
     <native-dashboard-spa><main>
 
-    <h1>Sortable</h1>
-    <p class="demo-desc">
+    <header>
+      <h1>Sortable</h1>
+      <p class="demo-desc">
       Column sort state cycling (asc &rarr; desc &rarr; none) with ARIA sync. Click a header to cycle sort direction. The consumer handles actual data reordering in the <code>native:sort</code> event.
     </p>
+    </header>
+
+    <section>
 
     <!-- ── Basic Table Sort ── -->
 
@@ -154,6 +158,12 @@
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+
+    </section>
+
+
+    <footer>
+
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -209,6 +219,10 @@
         </tbody>
       </table>
     </div>
+
+    </footer>
+
+  
 
     </main></native-dashboard-spa>
 

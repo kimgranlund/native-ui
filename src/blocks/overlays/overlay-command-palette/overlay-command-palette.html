@@ -14,10 +14,6 @@
         color: var(--n-color-neutral-950);
       }
 
-      main {
-        padding: 2rem;
-      }
-
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
@@ -82,14 +78,18 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
-    <div>
-      <h1>Command Palette</h1>
+    <header>
+      <div>
+            <h1>Command Palette</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Quick-access command palette in a dialog overlay. Searchable, keyboard navigable,
         and grouped by category. Opens via button click or <kbd>Ctrl+K</kbd> shortcut.
       </p>
-    </div>
+      </div>
+    </header>
+
+    <section>
+    <n-stack gap="6">
 
     <!-- -- Trigger Area -- -->
 
@@ -202,8 +202,9 @@
     </div>
     </n-stack>
     </n-stack>
+    </section>
 
-    </main></native-dashboard-spa>
+      </main></native-dashboard-spa>
     <script type="module">
       import '../../../nav/native-dashboard.ts';
       import '../../../components/button/button.ts';

@@ -14,25 +14,21 @@
         color: var(--n-color-neutral-950);
       }
 
-      main {
-        padding: 2rem;
-      }
-
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
         margin: 0;
       }
 
-      .page-header {
+      main > header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
-        gap: 1rem;
+        background: var(--n-doc-neutral);
       }
 
-      .page-header-text {
+      main > header > div {
         display: flex;
         flex-direction: column;
         gap: 0.25rem;
@@ -59,11 +55,8 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
-
-    <!-- ── Page Header ── -->
-    <div class="page-header">
-      <div class="page-header-text">
+    <header>
+      <div>
         <h1 style="margin-bottom: 0;">Users</h1>
         <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
           Manage your team members and their account permissions.
@@ -73,7 +66,10 @@
         <n-icon name="plus" slot="leading"></n-icon>
         <span slot="label">New User</span>
       </n-button>
-    </div>
+    </header>
+
+    <section>
+    <n-stack gap="6">
 
     <!-- ── Toolbar + Table ── -->
     <n-container>
@@ -237,8 +233,9 @@
       </n-footer>
     </n-container>
     </n-stack>
+    </section>
 
-    </main></native-dashboard-spa>
+      </main></native-dashboard-spa>
     <script type="module">
       import '../../../nav/native-dashboard.ts';
       import '../../../components/table/table.ts';

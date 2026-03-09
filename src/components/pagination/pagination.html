@@ -11,10 +11,15 @@
     </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>&lt;n-pagination&gt;</h1>
-    <p class="demo-desc">
+
+    <header>
+      <h1>&lt;n-pagination&gt;</h1>
+      <p class="demo-desc">
       Page navigation. Stamps prev/next + page numbers with ellipsis truncation.
     </p>
+    </header>
+
+    <section>
 
     <!-- ── Basic ── -->
 
@@ -106,6 +111,12 @@
         <pre class="demo-code"><code>&lt;n-pagination total="10" value="5" disabled&gt;&lt;/n-pagination&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+
+    </section>
+
+
+    <footer>
+
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -170,6 +181,10 @@
         </tbody>
       </table>
     </div>
+
+    </footer>
+
+  
 
     </main></native-dashboard-spa>
     <script type="module" src="./pagination.demo.ts"></script>

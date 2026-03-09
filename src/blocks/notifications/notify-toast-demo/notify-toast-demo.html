@@ -14,10 +14,6 @@
         color: var(--n-color-neutral-950);
       }
 
-      main {
-        padding: 2rem;
-      }
-
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
@@ -34,14 +30,18 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
-    <div>
-      <h1>Toast Notifications</h1>
+    <header>
+      <div>
+            <h1>Toast Notifications</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Trigger toast notifications with different intents, durations, and content lengths.
         Each button demonstrates a specific toast configuration via the Toastable trait.
       </p>
-    </div>
+      </div>
+    </header>
+
+    <section>
+    <n-stack gap="6">
 
     <!-- -- Intent Variants -- -->
 
@@ -137,8 +137,9 @@
     </n-stack>
     </n-stack>
     </n-stack>
+    </section>
 
-    </main></native-dashboard-spa>
+      </main></native-dashboard-spa>
     <script type="module">
       import '../../../nav/native-dashboard.ts';
       import '../../../components/button/button.ts';

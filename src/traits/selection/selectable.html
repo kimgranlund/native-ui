@@ -13,10 +13,14 @@
   <body>
     <native-dashboard-spa><main>
 
-    <h1>Selectable</h1>
-    <p class="demo-desc">
+    <header>
+      <h1>Selectable</h1>
+      <p class="demo-desc">
       Multi-selection state management with click, shift+click range, ctrl/cmd+click toggle, and ctrl/cmd+A select all.
     </p>
+    </header>
+
+    <section>
 
     <!-- ── Multiple Selection ── -->
 
@@ -92,6 +96,12 @@ list.addEventListener('native:selection-change', (e) =&gt; {
   log(`Selected: ${name}`);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
+
+
+    </section>
+
+
+    <footer>
 
     <!-- ── API Reference ── -->
 
@@ -193,6 +203,10 @@ list.addEventListener('native:selection-change', (e) =&gt; {
         </tbody>
       </table>
     </div>
+
+    </footer>
+
+  
 
     </main></native-dashboard-spa>
     <!-- WHY: registerAllTraits() must run BEFORE any define() call that

@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="../../../styles/spa/spa-pages.css" />
     <style>
       body { background: var(--n-doc-neutral); color: var(--n-color-neutral-950); }
-      main { padding: 2rem; }
       h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
       h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; margin-top: 2rem; color: var(--n-ink-strong-neutral); }
 
@@ -69,10 +68,15 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>Sign In</h1>
-    <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem; margin-bottom: 1.5rem;">
-      Login block with centered card and split layout variants.
-    </p>
+
+    <header>
+      <div>
+        <h1>Sign In</h1>
+        <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem; margin-bottom: 1.5rem;">Login block with centered card and split layout variants.</p>
+      </div>
+    </header>
+
+    <section>
 
     <!-- ── Variant 1: Centered Card ── -->
 
@@ -195,6 +199,10 @@
         </div>
       </div>
     </div>
+
+    </section>
+
+  
 
     </main></native-dashboard-spa>
     <script type="module">

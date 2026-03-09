@@ -13,10 +13,14 @@
   <body>
     <native-dashboard-spa><main>
 
-    <h1>Dismissable</h1>
-    <p class="demo-desc">
+    <header>
+      <h1>Dismissable</h1>
+      <p class="demo-desc">
       Composable trait that manages a global layer stack. When enabled, clicking outside the element or pressing Escape dispatches a <code>native:dismiss</code> event. Only the topmost layer in the stack receives dismiss events.
     </p>
+    </header>
+
+    <section>
 
     <!-- ── Click Outside to Dismiss ── -->
 
@@ -110,6 +114,12 @@ dismissB.enable();
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+
+    </section>
+
+
+    <footer>
+
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -148,6 +158,10 @@ dismissB.enable();
         </tbody>
       </table>
     </div>
+
+    </footer>
+
+  
 
     </main></native-dashboard-spa>
 

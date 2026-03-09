@@ -204,33 +204,17 @@
     box-sizing: border-box;
   }
 
-  :where(native-app) :where(section.content) > :where(main):has(> header, > footer) {
-    overflow: hidden;
-  }
-
-  :where(native-app) :where(section.content) > :where(main):has(> header, > footer) > :where(section) {
-    flex: 1 1 0%;
-    min-height: 0;
-    overflow-y: auto;
-    scrollbar-width: none;
-    display: flex;
-    flex-direction: column;
-    gap: var(--n-dashboard-panel-content-gap, 0);
-  }
-
-  :where(native-app) :where(section.content) > :where(main)[show-scrollbar] > :where(section) {
-    scrollbar-width: thin;
-  }
-
   :where(native-app) :where(section.content) > :where(main) > :where(header) {
-    flex: none;
+    position: sticky;
+    top: 0;
     border-bottom: 1px solid var(--n-border-muted);
     background: var(--n-ground);
     z-index: 1;
   }
 
   :where(native-app) :where(section.content) > :where(main) > :where(footer) {
-    flex: none;
+    position: sticky;
+    bottom: 0;
     border-top: 1px solid var(--n-border-muted);
     background: var(--n-ground);
   }

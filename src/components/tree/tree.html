@@ -12,10 +12,15 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>&lt;n-tree&gt;</h1>
-    <p class="demo-desc">
+
+    <header>
+      <h1>&lt;n-tree&gt;</h1>
+      <p class="demo-desc">
       Hierarchical expandable tree. Arrow keys expand/collapse, Enter/Space select.
     </p>
+    </header>
+
+    <section>
 
     <!-- ── Basic ── -->
 
@@ -203,6 +208,12 @@ tree.querySelectorAll('n-tree-item').forEach((item) =&gt; {
       </n-tree>
     </n-container>
 
+
+    </section>
+
+
+    <footer>
+
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -283,6 +294,10 @@ tree.querySelectorAll('n-tree-item').forEach((item) =&gt; {
         </tbody>
       </table>
     </div>
+
+    </footer>
+
+  
 
     </main></native-dashboard-spa>
     <script type="module" src="./tree.demo.ts"></script>

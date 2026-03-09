@@ -12,10 +12,15 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>Collapsible</h1>
-    <p class="demo-desc">
+
+    <header>
+      <h1>Collapsible</h1>
+      <p class="demo-desc">
       Composable trait for animated show/hide with smooth height transitions. Dispatches <code>native:expand</code> and <code>native:collapse</code> events.
     </p>
+    </header>
+
+    <section>
 
     <!-- ── Basic Toggle ── -->
 
@@ -100,6 +105,12 @@
 &lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+
+    </section>
+
+
+    <footer>
+
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -150,6 +161,10 @@
         </tbody>
       </table>
     </div>
+
+    </footer>
+
+  
 
     </main></native-dashboard-spa>
     <!-- WHY: registerAllTraits() must run BEFORE any define() call that

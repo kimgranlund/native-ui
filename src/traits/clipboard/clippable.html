@@ -13,10 +13,14 @@
   <body>
     <native-dashboard-spa><main>
 
-    <h1>Clippable</h1>
-    <p class="demo-desc">
+    <header>
+      <h1>Clippable</h1>
+      <p class="demo-desc">
       Keyboard clipboard operations (<strong>Ctrl/Cmd+C/X/V</strong>) for structured data. Composes with <code>Selectable</code> to copy/cut selected items.
     </p>
+    </header>
+
+    <section>
 
     <!-- ── Copy & Paste ── -->
 
@@ -95,6 +99,12 @@ list.addEventListener('native:clip-paste', (e) =&gt; {
   log(`Paste: "${e.detail.data}"`);
 });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
+
+
+    </section>
+
+
+    <footer>
 
     <!-- ── API Reference ── -->
 
@@ -213,6 +223,10 @@ list.addEventListener('native:clip-paste', (e) =&gt; {
         </tbody>
       </table>
     </div>
+
+    </footer>
+
+  
 
     </main></native-dashboard-spa>
 

@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="../../../styles/spa/spa-pages.css" />
     <style>
       body { background: var(--n-doc-neutral); color: var(--n-color-neutral-950); }
-      main { padding: 2rem; }
       h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
       h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; margin-top: 2rem; color: var(--n-ink-strong-neutral); }
 
@@ -116,10 +115,15 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>Account Settings</h1>
-    <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem; margin-bottom: 1.5rem;">
-      Full account settings page with profile, notification, security, and danger zone sections.
-    </p>
+
+    <header>
+      <div>
+        <h1>Account Settings</h1>
+        <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem; margin-bottom: 1.5rem;">Full account settings page with profile, notification, security, and danger zone sections.</p>
+      </div>
+    </header>
+
+    <section>
 
     <div class="settings-container">
 
@@ -279,6 +283,10 @@
 
       </n-stack>
     </div>
+
+    </section>
+
+  
 
     </main></native-dashboard-spa>
     <script type="module">

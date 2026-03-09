@@ -14,10 +14,6 @@
         color: var(--n-color-neutral-950);
       }
 
-      main {
-        padding: 2rem;
-      }
-
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
@@ -152,14 +148,17 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
 
-    <!-- ── Breadcrumb ── -->
-    <n-breadcrumb>
-      <n-breadcrumb-item href="/">Dashboard</n-breadcrumb-item>
-      <n-breadcrumb-item href="/users">Users</n-breadcrumb-item>
-      <n-breadcrumb-item current>Kim Granlund</n-breadcrumb-item>
-    </n-breadcrumb>
+    <header>
+      <n-breadcrumb>
+        <n-breadcrumb-item href="/">Dashboard</n-breadcrumb-item>
+        <n-breadcrumb-item href="/users">Users</n-breadcrumb-item>
+        <n-breadcrumb-item current>Kim Granlund</n-breadcrumb-item>
+      </n-breadcrumb>
+    </header>
+
+    <section>
+    <n-stack gap="6">
 
     <!-- ── Profile Header ── -->
     <n-container>
@@ -426,8 +425,9 @@
       </n-tab-panel>
     </n-tabs>
     </n-stack>
+    </section>
 
-    </main></native-dashboard-spa>
+      </main></native-dashboard-spa>
     <script type="module">
       import '../../../nav/native-dashboard.ts';
       import '../../../components/breadcrumb/breadcrumb.ts';

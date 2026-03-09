@@ -13,10 +13,14 @@
   <body>
     <native-dashboard-spa><main>
 
-    <h1>Copyable</h1>
-    <p class="demo-desc">
+    <header>
+      <h1>Copyable</h1>
+      <p class="demo-desc">
       One-click copy-to-clipboard with visual confirmation feedback. Sets the <code>[copied]</code> attribute during the feedback window and dispatches <code>native:copy</code>.
     </p>
+    </header>
+
+    <section>
 
     <!-- ── Basic Copy (Injection) ── -->
 
@@ -111,6 +115,12 @@ el.addEventListener('native:press', () =&gt; copy.copy());</code><n-button class
 &lt;/n-controller&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+
+    </section>
+
+
+    <footer>
+
     <!-- ── API Reference ── -->
 
     <h2>API</h2>
@@ -176,6 +186,10 @@ el.addEventListener('native:press', () =&gt; copy.copy());</code><n-button class
         </tbody>
       </table>
     </div>
+
+    </footer>
+
+  
 
     </main></native-dashboard-spa>
 

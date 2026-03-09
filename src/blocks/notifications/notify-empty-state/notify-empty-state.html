@@ -14,10 +14,6 @@
         color: var(--n-color-neutral-950);
       }
 
-      main {
-        padding: 2rem;
-      }
-
       h1 {
         font-size: 1.25rem;
         font-weight: 700;
@@ -64,14 +60,18 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-    <n-stack gap="6">
-    <div>
-      <h1>Empty States</h1>
+    <header>
+      <div>
+            <h1>Empty States</h1>
       <p style="color: var(--n-ink-muted-neutral); font-size: 0.875rem;">
         Placeholder patterns shown when content areas have no data.
         Each variant communicates context and offers a clear next action.
       </p>
-    </div>
+      </div>
+    </header>
+
+    <section>
+    <n-stack gap="6">
 
     <!-- -- No Data -- -->
 
@@ -127,8 +127,9 @@
     </div>
     </n-stack>
     </n-stack>
+    </section>
 
-    </main></native-dashboard-spa>
+      </main></native-dashboard-spa>
     <script type="module">
       import '../../../nav/native-dashboard.ts';
       import '../../../components/button/button.ts';
