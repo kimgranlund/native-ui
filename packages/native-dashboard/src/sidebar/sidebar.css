@@ -242,17 +242,14 @@
   }
 
   :where(native-app) :where(section.content) > :where(n-aside)[open] {
-    width: var(--n-aside-width, 360px);
-    min-width: var(--n-aside-min-width, 280px);
-    margin-inline-start: calc(var(--n-space-k) * var(--n-space));
+    width: var(--n-aside-width);
+    min-width: var(--n-aside-min-width);
     overflow-y: auto;
-    padding: calc(var(--n-space-k) * var(--n-space));
   }
 
-  /* WHY: When n-chat manages its own sub-container padding and scroll,
-     the layout container delegates — no own padding, no own scroll. */
+  /* WHY: When n-chat manages its own sub-container scroll,
+     the layout container delegates — no own scroll. */
   :where(native-app) :where(section.content) > :where(n-aside)[open]:has(> n-chat) {
-    padding: 0;
     overflow: visible;
   }
 

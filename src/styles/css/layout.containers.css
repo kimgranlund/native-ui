@@ -154,6 +154,9 @@
      ╰──────────────────────────────────────────────────────────╯ */
 
   :where(n-aside) {
+    --n-aside-width: 360px;
+    --n-aside-min-width: 280px;
+
     flex: none;
     position: relative;
     display: none;
@@ -165,15 +168,14 @@
     transition:
       display var(--n-duration) var(--n-easing) allow-discrete,
       width var(--n-duration) var(--n-easing),
-      min-width var(--n-duration) var(--n-easing),
-      padding var(--n-duration) var(--n-easing);
+      min-width var(--n-duration) var(--n-easing);
   }
 
   :where(n-aside[open]) {
     display: flex;
     flex-direction: column;
-    width: 360px;
-    min-width: 280px;
+    width: var(--n-aside-width);
+    min-width: var(--n-aside-min-width);
   }
 
   :where(n-aside[resizing]) {
