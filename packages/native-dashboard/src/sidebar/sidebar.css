@@ -175,7 +175,6 @@
     flex: 1;
     min-height: 0;
     gap: calc(var(--n-space-k) * var(--n-space));
-    padding: 0 calc(var(--n-space-k) * var(--n-space)) calc(var(--n-space-k) * var(--n-space));
   }
 
   /* Main content panel */
@@ -201,7 +200,6 @@
   :where(native-app) :where(section.content) > :where(main) > :where(header),
   :where(native-app) :where(section.content) > :where(main) > :where(section),
   :where(native-app) :where(section.content) > :where(main) > :where(footer) {
-    padding: var(--n-dashboard-panel-content-padding, 0);
     box-sizing: border-box;
   }
 
@@ -236,14 +234,6 @@
     background: var(--n-ground);
   }
 
-  /* Content max-width centering (same as dashboard-panel.css semantic selectors) */
-  :where(native-app) :where(section.content) > :where(main) > :where(header) > *,
-  :where(native-app) :where(section.content) > :where(main) > :where(section) > *,
-  :where(native-app) :where(section.content) > :where(main) > :where(footer) > * {
-    max-width: var(--n-dashboard-panel-content-max-width, none);
-    width: 100%;
-    margin-inline: auto;
-  }
 
   /* Aside panel — semantic equivalent of n-dashboard-panel[aside] */
   :where(native-app) :where(section.content) > :where(n-aside) {
@@ -301,10 +291,7 @@
     background: var(--n-border-muted);
   }
 
-  /* Collapsed padding — semantic selectors */
-  :where(native-app)[collapsed] :where(section.content) {
-    padding-inline-start: 0;
-  }
+  /* Collapsed — semantic selectors */
 
   :where(native-app)[collapsed] > :where(:not([slot])) > :where(nav) {
     padding-inline-start: 0;

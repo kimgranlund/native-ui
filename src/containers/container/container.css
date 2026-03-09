@@ -157,6 +157,10 @@
   scrollbar-width: thin;
 }
 
+[padding="0"]:where(n-container[data-kind="panel"]) {
+  padding: 0;
+}
+
 [scrollable]:where(n-container[data-kind="panel"]) {
   overflow-y: auto;
 }
