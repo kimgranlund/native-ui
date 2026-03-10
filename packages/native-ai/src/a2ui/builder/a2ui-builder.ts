@@ -76,7 +76,7 @@ If gaps are found during generation, add them to the schema's assumptions array 
 When the request is ambiguous or you need more detail:
 {
   "type": "question",
-  "reply": "Your clarifying question here",
+  "reply": "Your full message including all questions — do NOT put questions in a separate array. Write the complete text you want the user to see, including numbered questions, in this single string.",
   "concepts": ["ComponentType (likely candidates)", ...]
 }
 
@@ -253,6 +253,7 @@ interface MockResult {
     components: Record<string, unknown>[];
   };
   remaps?: { from: string; to: string; reason: string }[];
+  questions?: string[];
   prompt?: string;
   gaps?: { component: string; need: string; context: string; impact: string; suggestion: string }[];
   partial?: { canGenerate: string; cannotGenerate: string };
@@ -887,7 +888,12 @@ function applyResult(result: MockResult) {
   const isPrompt = result.type === 'prompt';
   const isGap = result.type === 'gap';
   const tag = isQuestion ? 'question' : isRemap ? 'remap' : isPrompt ? 'prompt' : isGap ? 'gap' : undefined;
-  addMessage('assistant', result.reply, tag);
+  // Safety net: if LLM splits questions into a separate array, merge them into reply
+  let reply = result.reply;
+  if (result.questions?.length) {
+    reply += '\n' + result.questions.map((q, i) => `${i + 1}. ${q}`).join('\n');
+  }
+  addMessage('assistant', reply, tag);
   renderConcepts(result.concepts);
 
   // Handle remaps
