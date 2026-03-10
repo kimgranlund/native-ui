@@ -407,10 +407,15 @@ cssEditor.addEventListener('input', () => {
   applyCSSToPreview(cssEditor.value);
 });
 
-// JS apply button
-document.querySelector('[data-role="apply-js"]')?.addEventListener('native:press', () => {
-  if (jsEditor.value.trim()) applyJSToPreview(jsEditor.value);
-});
+// JS apply button — listen on both native:press and click for resilience
+const applyJsBtn = document.querySelector('[data-role="apply-js"]');
+function handleApplyJS() {
+  if (jsEditor.value.trim()) {
+    waitForPreviewReady().then(() => applyJSToPreview(jsEditor.value));
+  }
+}
+applyJsBtn?.addEventListener('native:press', handleApplyJS);
+applyJsBtn?.addEventListener('click', handleApplyJS);
 
 // Wire model picker → rebuild adapter on change
 modelPicker.addEventListener('native:change', () => {
