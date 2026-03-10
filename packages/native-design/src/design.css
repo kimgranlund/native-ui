@@ -27,6 +27,25 @@
   line-height: var(--n-line-height);
 }
 
+/* ── Aside mode (collapsible side panel) ── */
+
+:where(native-design-panel)[aside] {
+  width: 0;
+  min-width: 0;
+  overflow: clip;
+  padding: 0;
+  transition:
+    width var(--n-duration) var(--n-easing),
+    min-width var(--n-duration) var(--n-easing),
+    padding var(--n-duration) var(--n-easing);
+}
+
+:where(native-design-panel)[aside][open] {
+  width: 360px;
+  min-width: 280px;
+  overflow: hidden;
+}
+
 /* ── Sub-container integration ── */
 
 :where(native-design-panel) > :where(n-header) {
