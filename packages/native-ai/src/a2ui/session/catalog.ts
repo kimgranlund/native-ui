@@ -99,8 +99,12 @@ function mappingToEntry(mapping: ComponentMapping): NCatalogEntry {
   return {
     a2uiType: mapping.a2uiType,
     tagName: mapping.nativeTag,
-    properties: mapping.propertyMap ? Object.keys(mapping.propertyMap) : [],
-    events: mapping.actionEvent ? [mapping.actionEvent] : [],
+    properties: mapping.properties
+      ? mapping.properties.map(p => p.attr)
+      : mapping.propertyMap ? Object.keys(mapping.propertyMap) : [],
+    events: mapping.events
+      ? mapping.events.map(e => e.event)
+      : mapping.actionEvent ? [mapping.actionEvent] : [],
   };
 }
 

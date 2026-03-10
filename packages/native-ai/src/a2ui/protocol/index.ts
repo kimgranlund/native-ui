@@ -6,7 +6,9 @@ export type { SurfaceState } from './a2ui-surface.ts';
 export { a2uiToUINode, uiNodeToA2UI, conversionToPlan } from './a2ui-converter.ts';
 export type { ConversionResult, DataBindingEntry, ToUINodeOptions, ToA2UIOptions } from './a2ui-converter.ts';
 export { ComponentRegistry, defaultRegistry, resolveNativeTag, resolveA2UIType, COMPONENT_MAP, getSupportedTypes, getComponentCategory, getCompatibleTypes, textVariantTag, textFieldInputType, dateTimeInputType } from './a2ui-component-map.ts';
-export type { ComponentMapping, ChildStrategy, RegistrySnapshot } from './a2ui-component-map.ts';
+export type { ComponentMapping, ChildStrategy, RegistrySnapshot, EventSpec, PropertySpec, MethodSpec } from './a2ui-component-map.ts';
+export { CompositionRegistry, defaultCompositionRegistry, COMPOSITION_MAP, resolveComponent } from './a2ui-composition-map.ts';
+export type { CompositionSpec, CompositionTemplate, TemplateNode, PropDelegation, StateProjection, EventBubble, CompositionGap } from './a2ui-composition-map.ts';
 export {
   isDataBinding,
   isCreateSurface,

@@ -16,6 +16,28 @@ import type { Signal } from '@nonoun/native-ui';
 
 export type ChildStrategy = 'children' | 'textContent' | 'slot-label' | 'none';
 
+// ── API Surface Specs ──
+
+export interface EventSpec {
+  readonly event: string;
+  readonly detail?: Readonly<Record<string, string>>;
+  readonly description: string;
+}
+
+export interface PropertySpec {
+  readonly attr: string;
+  readonly type: string;
+  readonly reactive?: boolean;
+  readonly note?: string;
+}
+
+export interface MethodSpec {
+  readonly name: string;
+  readonly params?: Readonly<Record<string, string>>;
+  readonly returns?: string;
+  readonly description: string;
+}
+
 // ── Component Mapping ──
 
 export interface ComponentMapping {
@@ -29,6 +51,12 @@ export interface ComponentMapping {
   readonly variantMap?: Readonly<Record<string, string>>;
   /** The native-ui event name that maps to A2UI action */
   readonly actionEvent?: string;
+  /** Full event surface — supersedes actionEvent when present. */
+  readonly events?: readonly EventSpec[];
+  /** Full property surface — supersedes propertyMap when present. */
+  readonly properties?: readonly PropertySpec[];
+  /** Imperative methods on the rendered element. */
+  readonly methods?: readonly MethodSpec[];
 }
 
 // ── Serialized Registry ──
@@ -198,6 +226,9 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     nativeTag: 'span',
     childStrategy: 'textContent',
     defaultAttributes: { class: 'text' },
+    events: [],
+    properties: [{ attr: 'variant', type: "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'heading' | 'caption' | 'body'", note: 'Resolved to HTML tag by textVariantTag()' }],
+    methods: [],
   },
   {
     a2uiType: 'Button',
@@ -213,6 +244,12 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
       outline: 'outline',
       danger: 'primary',
     },
+    events: [{ event: 'native:press', description: 'Fires on click or keyboard activation (Enter/Space).' }],
+    properties: [
+      { attr: 'disabled', type: 'boolean', reactive: true },
+      { attr: 'type', type: "'button' | 'submit' | 'reset'", reactive: true },
+    ],
+    methods: [],
   },
   {
     a2uiType: 'TextField',
@@ -224,6 +261,25 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
       value: 'value',
       placeholder: 'placeholder',
     },
+    events: [
+      { event: 'native:input', detail: { value: 'string' }, description: 'Fires on each keystroke.' },
+      { event: 'native:change', detail: { value: 'string' }, description: 'Fires on blur after value changed.' },
+      { event: 'native:format', detail: { type: 'string', value: 'string' }, description: 'Fires after text formatting is applied.' },
+    ],
+    properties: [
+      { attr: 'value', type: 'string', reactive: true },
+      { attr: 'placeholder', type: 'string', reactive: true },
+      { attr: 'disabled', type: 'boolean', reactive: true },
+      { attr: 'readonly', type: 'boolean', reactive: true },
+      { attr: 'required', type: 'boolean', reactive: true },
+      { attr: 'pattern', type: 'string' },
+      { attr: 'type', type: "'text' | 'password'", reactive: true },
+      { attr: 'formatting', type: 'string', note: 'Space-separated format list (code, bold, italic)' },
+    ],
+    methods: [
+      { name: 'select', returns: 'void', description: 'Select all text in the input.' },
+      { name: 'focus', params: { options: 'FocusOptions' }, returns: 'void', description: 'Focus the editing surface.' },
+    ],
   },
   {
     a2uiType: 'TextArea',
@@ -236,6 +292,26 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
       placeholder: 'placeholder',
       rows: 'rows',
     },
+    events: [
+      { event: 'native:input', detail: { value: 'string' }, description: 'Fires on each keystroke.' },
+      { event: 'native:change', detail: { value: 'string' }, description: 'Fires on blur after value changed.' },
+      { event: 'native:format', detail: { type: 'string', value: 'string' }, description: 'Fires after text formatting is applied.' },
+    ],
+    properties: [
+      { attr: 'value', type: 'string', reactive: true },
+      { attr: 'placeholder', type: 'string', reactive: true },
+      { attr: 'disabled', type: 'boolean', reactive: true },
+      { attr: 'readonly', type: 'boolean', reactive: true },
+      { attr: 'required', type: 'boolean', reactive: true },
+      { attr: 'rows', type: 'number', reactive: true },
+      { attr: 'maxlength', type: 'number' },
+      { attr: 'autogrow', type: 'boolean', reactive: true },
+      { attr: 'pattern', type: 'string' },
+      { attr: 'formatting', type: 'string', note: 'Space-separated format list (code, bold, italic)' },
+    ],
+    methods: [
+      { name: 'applyFormat', params: { type: 'string' }, returns: 'void', description: 'Apply or toggle a text format on the current selection.' },
+    ],
   },
   {
     a2uiType: 'CheckBox',
@@ -243,6 +319,16 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     childStrategy: 'textContent',
     actionEvent: 'native:change',
     defaultAttributes: { size: 'sm' },
+    events: [{ event: 'native:change', detail: { checked: 'boolean', value: 'string' }, description: 'Fires when checked state toggles.' }],
+    properties: [
+      { attr: 'checked', type: 'boolean', reactive: true },
+      { attr: 'indeterminate', type: 'boolean', reactive: true },
+      { attr: 'disabled', type: 'boolean', reactive: true },
+      { attr: 'name', type: 'string' },
+      { attr: 'value', type: 'string', note: "Defaults to 'on'" },
+      { attr: 'required', type: 'boolean', reactive: true },
+    ],
+    methods: [],
   },
   {
     a2uiType: 'Switch',
@@ -250,6 +336,15 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     childStrategy: 'textContent',
     actionEvent: 'native:change',
     defaultAttributes: { size: 'sm' },
+    events: [{ event: 'native:change', detail: { checked: 'boolean', value: 'string' }, description: 'Fires when toggled on/off.' }],
+    properties: [
+      { attr: 'checked', type: 'boolean', reactive: true },
+      { attr: 'disabled', type: 'boolean', reactive: true },
+      { attr: 'name', type: 'string' },
+      { attr: 'value', type: 'string', note: "Defaults to 'on'" },
+      { attr: 'required', type: 'boolean', reactive: true },
+    ],
+    methods: [],
   },
   {
     a2uiType: 'ChoicePicker',
@@ -260,6 +355,17 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     propertyMap: {
       placeholder: 'placeholder',
     },
+    events: [{ event: 'native:change', detail: { value: 'string', label: 'string', previousValue: 'string' }, description: 'Fires when selection changes.' }],
+    properties: [
+      { attr: 'value', type: 'string', reactive: true },
+      { attr: 'disabled', type: 'boolean', reactive: true },
+      { attr: 'name', type: 'string' },
+      { attr: 'options', type: 'string', note: 'JSON array: [{ value, label }]' },
+      { attr: 'src', type: 'string', note: 'URL for fetching options' },
+      { attr: 'placeholder', type: 'string', reactive: true },
+      { attr: 'required', type: 'boolean', reactive: true },
+    ],
+    methods: [],
   },
   {
     a2uiType: 'Slider',
@@ -272,6 +378,15 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
       max: 'max',
       value: 'value',
     },
+    events: [{ event: 'native:change', detail: { value: 'number' }, description: 'Fires when slider value changes.' }],
+    properties: [
+      { attr: 'value', type: 'number', reactive: true },
+      { attr: 'min', type: 'number' },
+      { attr: 'max', type: 'number' },
+      { attr: 'step', type: 'number' },
+      { attr: 'disabled', type: 'boolean', reactive: true },
+    ],
+    methods: [],
   },
   {
     a2uiType: 'DateTimeInput',
@@ -284,59 +399,118 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
       min: 'min',
       max: 'max',
     },
+    events: [{ event: 'native:change', detail: { value: 'string' }, description: 'Fires when date/time value changes.' }],
+    properties: [
+      { attr: 'value', type: 'string', reactive: true },
+      { attr: 'min', type: 'string' },
+      { attr: 'max', type: 'string' },
+      { attr: 'disabled', type: 'boolean', reactive: true },
+      { attr: 'required', type: 'boolean', reactive: true },
+    ],
+    methods: [],
   },
   {
     a2uiType: 'Row',
     nativeTag: 'n-stack',
     childStrategy: 'children',
     defaultAttributes: { direction: 'row' },
+    events: [],
+    properties: [{ attr: 'gap', type: 'string' }, { attr: 'align', type: 'string' }],
+    methods: [],
   },
   {
     a2uiType: 'Column',
     nativeTag: 'n-stack',
     childStrategy: 'children',
+    events: [],
+    properties: [{ attr: 'gap', type: 'string' }, { attr: 'align', type: 'string' }],
+    methods: [],
   },
   {
     a2uiType: 'Card',
     nativeTag: 'n-container',
     childStrategy: 'children',
+    events: [],
+    properties: [{ attr: 'bordered', type: 'boolean' }, { attr: 'data-kind', type: "'panel'" }],
+    methods: [],
   },
   {
     a2uiType: 'Header',
     nativeTag: 'n-header',
     childStrategy: 'children',
+    events: [],
+    properties: [],
+    methods: [],
   },
   {
     a2uiType: 'Body',
     nativeTag: 'n-body',
     childStrategy: 'children',
+    events: [],
+    properties: [],
+    methods: [],
   },
   {
     a2uiType: 'Footer',
     nativeTag: 'n-footer',
     childStrategy: 'children',
+    events: [],
+    properties: [],
+    methods: [],
   },
   {
     a2uiType: 'Modal',
     nativeTag: 'n-dialog',
     childStrategy: 'children',
     actionEvent: 'native:dismiss',
+    events: [{ event: 'close', description: 'Fires when the dialog is closed.' }],
+    properties: [
+      { attr: 'no-close-on-escape', type: 'boolean' },
+      { attr: 'no-close-on-backdrop', type: 'boolean' },
+    ],
+    methods: [
+      { name: 'showModal', returns: 'void', description: 'Open the dialog in modal mode.' },
+      { name: 'close', returns: 'void', description: 'Close the dialog.' },
+    ],
   },
   {
     a2uiType: 'Tabs',
     nativeTag: 'n-tabs',
     childStrategy: 'children',
+    events: [{ event: 'native:change', detail: { value: 'string', label: 'string' }, description: 'Fires when the active tab changes.' }],
+    properties: [
+      { attr: 'value', type: 'string', reactive: true },
+      { attr: 'disabled', type: 'boolean', reactive: true },
+      { attr: 'orientation', type: "'horizontal' | 'vertical'", reactive: true },
+    ],
+    methods: [],
   },
   {
     a2uiType: 'List',
     nativeTag: 'n-listbox',
     childStrategy: 'children',
     actionEvent: 'native:select',
+    events: [{ event: 'native:change', detail: { value: 'string', label: 'string' }, description: 'Fires when the selected option changes.' }],
+    properties: [
+      { attr: 'disabled', type: 'boolean', reactive: true },
+      { attr: 'multiple', type: 'boolean', reactive: true },
+      { attr: 'virtual-focus', type: 'boolean' },
+    ],
+    methods: [
+      { name: 'getActiveOption', returns: 'Element | null', description: 'Returns the currently keyboard-focused option.' },
+    ],
   },
   {
     a2uiType: 'ListItem',
     nativeTag: 'n-option',
     childStrategy: 'textContent',
+    events: [{ event: 'native:select', detail: { value: 'string', label: 'string' }, description: 'Fires when this option is clicked.' }],
+    properties: [
+      { attr: 'value', type: 'string' },
+      { attr: 'disabled', type: 'boolean' },
+      { attr: 'label', type: 'string', note: 'Falls back to textContent' },
+    ],
+    methods: [],
   },
   {
     a2uiType: 'Image',
@@ -346,6 +520,9 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
       url: 'src',
       alt: 'alt',
     },
+    events: [],
+    properties: [{ attr: 'src', type: 'string' }, { attr: 'alt', type: 'string' }],
+    methods: [],
   },
   {
     a2uiType: 'Icon',
@@ -355,16 +532,25 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     propertyMap: {
       name: 'name',
     },
+    events: [],
+    properties: [{ attr: 'name', type: 'string', reactive: true }],
+    methods: [],
   },
   {
     a2uiType: 'Divider',
     nativeTag: 'n-divider',
     childStrategy: 'none',
+    events: [],
+    properties: [{ attr: 'orientation', type: "'horizontal' | 'vertical'" }],
+    methods: [],
   },
   {
     a2uiType: 'Badge',
     nativeTag: 'n-badge',
     childStrategy: 'textContent',
+    events: [],
+    properties: [{ attr: 'intent', type: "'info' | 'success' | 'warning' | 'danger'" }, { attr: 'dot', type: 'boolean' }],
+    methods: [],
   },
   {
     a2uiType: 'Avatar',
@@ -374,6 +560,9 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
       src: 'src',
       alt: 'alt',
     },
+    events: [],
+    properties: [{ attr: 'src', type: 'string' }, { attr: 'alt', type: 'string' }],
+    methods: [],
   },
   {
     a2uiType: 'Select',
@@ -383,6 +572,17 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     propertyMap: {
       placeholder: 'placeholder',
     },
+    events: [{ event: 'native:change', detail: { value: 'string', label: 'string', previousValue: 'string' }, description: 'Fires when selection changes.' }],
+    properties: [
+      { attr: 'value', type: 'string', reactive: true },
+      { attr: 'disabled', type: 'boolean', reactive: true },
+      { attr: 'name', type: 'string' },
+      { attr: 'options', type: 'string', note: 'JSON array: [{ value, label }]' },
+      { attr: 'src', type: 'string', note: 'URL for fetching options' },
+      { attr: 'placeholder', type: 'string', reactive: true },
+      { attr: 'required', type: 'boolean', reactive: true },
+    ],
+    methods: [],
   },
   {
     a2uiType: 'Video',
@@ -392,6 +592,9 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
       url: 'src',
       poster: 'poster',
     },
+    events: [],
+    properties: [{ attr: 'src', type: 'string' }, { attr: 'poster', type: 'string' }],
+    methods: [],
   },
   {
     a2uiType: 'AudioPlayer',
@@ -400,11 +603,20 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     propertyMap: {
       url: 'src',
     },
+    events: [],
+    properties: [{ attr: 'src', type: 'string' }],
+    methods: [],
   },
   {
     a2uiType: 'Accordion',
     nativeTag: 'n-accordion',
     childStrategy: 'children',
+    events: [],
+    properties: [
+      { attr: 'multiple', type: 'boolean', reactive: true },
+      { attr: 'disabled', type: 'boolean', reactive: true },
+    ],
+    methods: [],
   },
   {
     a2uiType: 'AccordionItem',
@@ -413,11 +625,31 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     propertyMap: {
       label: 'label',
     },
+    events: [],
+    properties: [
+      { attr: 'open', type: 'boolean', reactive: true },
+      { attr: 'disabled', type: 'boolean', reactive: true },
+      { attr: 'label', type: 'string' },
+    ],
+    methods: [],
   },
   {
     a2uiType: 'Table',
     nativeTag: 'n-table',
     childStrategy: 'children',
+    events: [
+      { event: 'native:table-sort', detail: { column: 'string', direction: "'asc' | 'desc' | null" }, description: 'Fires when column sort changes.' },
+      { event: 'native:table-select', detail: { value: 'string', selected: 'boolean', allSelected: 'string[]' }, description: 'Fires when row selection changes.' },
+      { event: 'native:table-reorder', detail: { sourceIndex: 'number', targetIndex: 'number', inserted: 'string[]' }, description: 'Fires when rows are drag-reordered.' },
+    ],
+    properties: [
+      { attr: 'selectable', type: 'boolean', reactive: true },
+      { attr: 'resizable', type: 'boolean' },
+      { attr: 'reorderable', type: 'boolean' },
+      { attr: 'cols', type: 'string', reactive: true, note: 'Sets grid-template-columns CSS' },
+      { attr: 'sticky-header', type: 'boolean' },
+    ],
+    methods: [],
   },
   {
     a2uiType: 'Progress',
@@ -427,16 +659,29 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
       value: 'value',
       max: 'max',
     },
+    events: [],
+    properties: [{ attr: 'value', type: 'number', reactive: true }, { attr: 'max', type: 'number' }],
+    methods: [],
   },
   {
     a2uiType: 'Breadcrumb',
     nativeTag: 'n-breadcrumb',
     childStrategy: 'children',
+    events: [],
+    properties: [],
+    methods: [],
   },
   {
     a2uiType: 'Toast',
     nativeTag: 'n-toast',
     childStrategy: 'textContent',
+    events: [{ event: 'native:dismiss', description: 'Fires when the toast dismiss button is clicked.' }],
+    properties: [
+      { attr: 'message', type: 'string' },
+      { attr: 'dismissible', type: 'boolean' },
+      { attr: 'intent', type: "'info' | 'success' | 'warning' | 'danger'" },
+    ],
+    methods: [],
   },
 ];
 
