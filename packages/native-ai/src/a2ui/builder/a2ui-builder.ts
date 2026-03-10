@@ -48,6 +48,8 @@ const componentRef = Array.from(REGISTRY.values()).map(m => {
 
 const DEFAULT_SYSTEM_PROMPT = `You are an A2UI schema generator and design collaborator. You help users build UIs through conversation — creating, refining, and remapping component schemas iteratively.
 
+You are a schema compiler, not a gap filler. When the component API reference does not contain the information you need to produce correct output, you MUST surface a structured gap report. You MUST NOT fill the gap with plausible-sounding but unverified output.
+
 A2UI component reference (type → native tag [category]: properties):
 ${componentRef}
 
@@ -67,6 +69,7 @@ When the user describes a new UI or asks to modify the current one:
     ]
   }
 }
+If gaps are found during generation, add them to the schema's assumptions array prefixed with "GAP:" and include a "gaps" array in the response (see gap format below).
 
 ## 2. Ask a clarifying question
 When the request is ambiguous or you need more detail:
@@ -87,6 +90,56 @@ When the user wants to swap what native element an A2UI type renders as:
   "schema": { ... }
 }
 Include the updated schema with the remapped component types applied.
+
+## 4. Generate a Claude Code prompt
+When the user asks "what should I say to Claude Code?", "how do I implement this?", or wants implementation instructions for the current schema:
+{
+  "type": "prompt",
+  "reply": "Here's a prompt you can give Claude Code to implement this UI:",
+  "prompt": "The full implementation prompt (see requirements below)",
+  "concepts": ["ComponentType (used)", ...]
+}
+
+The prompt MUST include:
+1. **What to build** — describe the UI using native <n-*> tag names, layout (n-stack, n-grid), attributes (variant, intent, size), and slot patterns
+2. **Design decisions** — summarize key choices made during the conversation (e.g. "we chose tabs over accordion for navigation", "the form uses inline validation, not submit-time")
+3. **Changes and refinements** — list what was iterated on (e.g. "originally had a single column, changed to a 2-column split", "swapped Select for a visible List")
+4. **Remaps applied** — if any component types were remapped, explain what and why
+5. **API gaps found** — if any gaps were reported, include them so Claude Code knows what needs source verification before wiring
+6. **What works vs. what needs verification** — clearly separate the parts that are fully documented from parts marked UNVERIFIED
+
+You are tracking the full conversation history. Use it. The prompt should give Claude Code the complete context — not just the final schema, but the reasoning and decisions that shaped it. The user will paste this directly into Claude Code.
+
+## 5. Report API gaps
+When the user's request fundamentally depends on undocumented APIs (core interaction is blocked), use the gap response type:
+{
+  "type": "gap",
+  "reply": "I can generate the layout structure, but the core interaction depends on components whose APIs aren't documented yet.",
+  "concepts": ["ComponentType (affected)", ...],
+  "gaps": [
+    {
+      "component": "ComponentType",
+      "need": "Specific event, property, or method needed",
+      "context": "What part of the user's request depends on this",
+      "impact": "What cannot be generated without this",
+      "suggestion": "Your best guess, clearly marked as unverified"
+    }
+  ],
+  "partial": {
+    "canGenerate": "What you CAN produce despite the gaps",
+    "cannotGenerate": "What is blocked until the API is documented"
+  },
+  "schema": { ... }
+}
+Include a partial schema if possible — gaps block wiring, not structure.
+
+## Gap reporting rules
+- You MUST proceed when: the component's events/properties/methods arrays document what you need
+- You MUST gap-report when: you need an event name and the component has no events array, you need an event's detail payload and it's not specified, you need a property and reactive is not true, you need a method that isn't listed, the A2UI type has no mapping
+- You MUST NOT: infer event names from naming conventions, assume a property is reactive, invent method names, copy patterns from one component to another without documentation, emit JS wiring code referencing undocumented APIs without marking it UNVERIFIED
+- Gap reports are NOT apologies — they are actionable engineering signals
+- Always produce what you can and flag what you can't
+- When generating schemas with gaps, add "GAP: ..." entries to the schema's assumptions array
 
 ## Iterative refinement
 After generating a schema, the user may ask to modify it. Common patterns:
@@ -199,6 +252,9 @@ interface MockResult {
     components: Record<string, unknown>[];
   };
   remaps?: { from: string; to: string; reason: string }[];
+  prompt?: string;
+  gaps?: { component: string; need: string; context: string; impact: string; suggestion: string }[];
+  partial?: { canGenerate: string; cannotGenerate: string };
 }
 
 let currentSchema: MockResult['schema'] | null = null;
@@ -806,23 +862,58 @@ function renderPreview(schema: MockResult['schema']) {
   currentAdapter.receive({ updateComponents: schema }, previewMount);
 }
 
+function formatGapReport(gaps: MockResult['gaps'], partial?: MockResult['partial']): string {
+  if (!gaps?.length) return '';
+  const lines: string[] = ['## API Gaps Found\n'];
+  for (const g of gaps) {
+    lines.push(`**${g.component}**`);
+    lines.push(`- **Need:** ${g.need}`);
+    lines.push(`- **Context:** ${g.context}`);
+    lines.push(`- **Impact:** ${g.impact}`);
+    lines.push(`- **Suggestion:** ${g.suggestion} *(UNVERIFIED)*\n`);
+  }
+  if (partial) {
+    lines.push('---');
+    lines.push(`**Can generate:** ${partial.canGenerate}`);
+    lines.push(`**Cannot generate:** ${partial.cannotGenerate}`);
+  }
+  return lines.join('\n');
+}
+
 function applyResult(result: MockResult) {
   const isQuestion = result.type === 'question';
   const isRemap = result.type === 'remap';
-  addMessage('assistant', result.reply, isQuestion ? 'question' : isRemap ? 'remap' : undefined);
+  const isPrompt = result.type === 'prompt';
+  const isGap = result.type === 'gap';
+  const tag = isQuestion ? 'question' : isRemap ? 'remap' : isPrompt ? 'prompt' : isGap ? 'gap' : undefined;
+  addMessage('assistant', result.reply, tag);
   renderConcepts(result.concepts);
 
   // Handle remaps
   if (isRemap && result.remaps?.length) {
     for (const r of result.remaps) {
-      const entry = COMPONENT_MAP.find(c => c.type === r.from);
-      if (entry) {
-        const target = COMPONENT_MAP.find(c => c.type === r.to);
-        if (target) {
-          addMessage('assistant', `Remapped ${r.from} → ${r.to}${r.reason ? ': ' + r.reason : ''}`, 'remap');
-        }
+      if (REGISTRY.has(r.from) && REGISTRY.has(r.to)) {
+        addMessage('assistant', `Remapped ${r.from} → ${r.to}${r.reason ? ': ' + r.reason : ''}`, 'remap');
       }
     }
+  }
+
+  // Handle Claude Code prompt — download as .md file
+  if (isPrompt && result.prompt) {
+    const blob = new Blob([result.prompt], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'claude-code-prompt.md';
+    link.click();
+    URL.revokeObjectURL(url);
+    addMessage('assistant', 'Prompt downloaded as `claude-code-prompt.md`');
+  }
+
+  // Handle gap reports — render as structured markdown
+  if (result.gaps?.length) {
+    const report = formatGapReport(result.gaps, result.partial);
+    if (report) addMessage('assistant', report, 'gap');
   }
 
   if (result.schema) {
@@ -930,7 +1021,7 @@ async function sendMessage(value: string) {
       }
     }
 
-    if (!result.type) result.type = result.schema ? 'schema' : 'question';
+    if (!result.type) result.type = result.gaps?.length ? 'gap' : result.prompt ? 'prompt' : result.schema ? 'schema' : 'question';
     if (result.schema && !result.schema.surfaceId) {
       result.schema.surfaceId = 'preview';
     }

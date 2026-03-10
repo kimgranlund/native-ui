@@ -323,6 +323,12 @@ main {
 .map-note { color: var(--pg-text-muted); font-size: 0.625rem; font-style: italic; }
 .map-no-api { color: var(--pg-text-muted); font-size: 0.6875rem; font-style: italic; }
 
+/* ── Gap report messages ── */
+n-chat-message[data-type="gap"] n-chat-message-text {
+  border-left: 3px solid oklch(0.75 0.15 60);
+  padding-left: 0.75rem;
+}
+
 /* ── Resize handles ── */
 
 .resize-handle {
