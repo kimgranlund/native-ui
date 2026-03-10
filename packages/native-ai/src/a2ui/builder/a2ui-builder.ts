@@ -38,6 +38,7 @@ import type { EventSpec, PropertySpec, MethodSpec } from '../protocol/a2ui-compo
 import { ClaudeGatewayAdapter } from '../../chat/gateway/adapter-claude.ts';
 import { OpenAiGatewayAdapter } from '../../chat/gateway/adapter-chatgpt.ts';
 import type { GatewayAdapter } from '../../chat/gateway/adapter.ts';
+import { GatewayRequestError } from '../../chat/gateway/runtime.ts';
 import promptJson from './system-prompt.json';
 
 // ── System prompt ──
@@ -925,7 +926,11 @@ async function sendMessage(value: string) {
 
   } catch (err) {
     clearProgress();
-    addMessage('assistant', `Error: ${(err as Error).message}`);
+    if (err instanceof GatewayRequestError && err.kind === 'auth') {
+      addMessage('assistant', `API key error — check that your API key is valid and the proxy endpoint is configured. (${err.status}: ${err.message})`);
+    } else {
+      addMessage('assistant', `Error: ${(err as Error).message}`);
+    }
     console.error('[A2UI Builder]', err);
   } finally {
     chatComposer.busy = false;
