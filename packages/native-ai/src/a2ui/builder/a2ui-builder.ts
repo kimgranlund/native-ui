@@ -371,13 +371,30 @@ const modelPicker = document.getElementById('model-picker') as HTMLElement & { v
 
 let previewStyle: HTMLStyleElement | null = null;
 
+/** Scope CSS rules under #preview-mount so they don't leak into the builder UI. */
+function scopeCSS(css: string): string {
+  // If the user already scoped to #preview-mount, pass through
+  if (css.includes('#preview-mount')) return css;
+  // Wrap each rule: add #preview-mount prefix to every selector
+  return css.replace(
+    /([^{}@]+)\{/g,
+    (_match, selectors: string) => {
+      const scoped = selectors
+        .split(',')
+        .map((s: string) => `#preview-mount ${s.trim()}`)
+        .join(', ');
+      return `${scoped} {`;
+    },
+  );
+}
+
 function applyCSSToPreview(css: string): void {
   if (!previewStyle) {
     previewStyle = document.createElement('style');
     previewStyle.dataset.builder = 'custom';
     previewMount.prepend(previewStyle);
   }
-  previewStyle.textContent = css;
+  previewStyle.textContent = scopeCSS(css);
 }
 
 /** Wait for all custom elements inside the preview to be defined + one rAF. */
@@ -393,8 +410,14 @@ async function waitForPreviewReady(): Promise<void> {
 function applyJSToPreview(js: string): void {
   try {
     // Wrap in IIFE so LLM code can declare `const preview` without
-    // colliding with the Function parameter name.
-    const fn = new Function('__mount__', `(function(preview){${js}}(__mount__))`);
+    // colliding with the Function parameter. Provide both the mount element
+    // and a scoped $ helper for reliable DOM queries.
+    const wrapper = `(function(preview){
+  var $ = function(sel){ return preview.querySelector(sel); };
+  var $$ = function(sel){ return preview.querySelectorAll(sel); };
+${js}
+}(__mount__))`;
+    const fn = new Function('__mount__', wrapper);
     fn(previewMount);
   } catch (err) {
     console.error('[A2UI Builder] JS error:', err);
@@ -402,15 +425,36 @@ function applyJSToPreview(js: string): void {
   }
 }
 
-// Live CSS on input
-cssEditor.addEventListener('input', () => {
-  applyCSSToPreview(cssEditor.value);
+// CSS editor — debounced input + Cmd/Ctrl-S
+let cssDebounce: ReturnType<typeof setTimeout> | null = null;
+function debouncedCSSApply(): void {
+  if (cssDebounce) clearTimeout(cssDebounce);
+  cssDebounce = setTimeout(() => applyCSSToPreview(cssEditor.value), 300);
+}
+
+cssEditor.addEventListener('input', debouncedCSSApply);
+cssEditor.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+    e.preventDefault();
+    if (cssDebounce) clearTimeout(cssDebounce);
+    applyCSSToPreview(cssEditor.value);
+  }
 });
 
-// JS apply button — use pointerup (works whether or not n-button/traits are registered)
-document.addEventListener('pointerup', (e) => {
-  if ((e.target as HTMLElement).closest?.('[data-role="apply-js"]') && jsEditor.value.trim()) {
+// JS apply — Play button (pointerup delegation) + Cmd/Ctrl-S
+function runJS(): void {
+  if (jsEditor.value.trim()) {
     waitForPreviewReady().then(() => applyJSToPreview(jsEditor.value));
+  }
+}
+
+document.addEventListener('pointerup', (e) => {
+  if ((e.target as HTMLElement).closest?.('[data-role="apply-js"]')) runJS();
+});
+jsEditor.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+    e.preventDefault();
+    runJS();
   }
 });
 
