@@ -24,6 +24,9 @@
             <n-button variant="ghost" size="sm" data-chip="preview">Preview</n-button>
             <n-button variant="ghost" size="sm" data-chip="concepts">Concepts</n-button>
             <n-button variant="ghost" size="sm" data-chip="schema">Schema</n-button>
+            <n-button variant="ghost" size="sm" data-chip="html">HTML</n-button>
+            <n-button variant="ghost" size="sm" data-chip="css">CSS</n-button>
+            <n-button variant="ghost" size="sm" data-chip="js">JS</n-button>
             <n-button variant="ghost" size="sm" data-chip="map">Map</n-button>
             <n-button variant="ghost" size="sm" data-chip="prompt">Prompt</n-button>
             <span fill></span>
@@ -123,6 +126,48 @@
             </n-header>
             <div class="builder-pane-content">
               <pre id="schema-pre" class="pane-pre"><span class="empty-state">A2UI schema will appear here</span></pre>
+            </div>
+            <div class="resize-handle"></div>
+          </div>
+
+          <!-- Pane: HTML (read-only) -->
+          <div class="builder-pane" data-panel="html" hidden>
+            <n-header>
+              <nav><n-icon name="brackets-angle"></n-icon></nav>
+              <span>HTML</span>
+              <aside><n-button variant="ghost" size="sm" data-close-panel="html"><n-icon name="x"></n-icon></n-button></aside>
+            </n-header>
+            <div class="builder-pane-content">
+              <pre id="html-pre" class="pane-pre"><span class="empty-state">Rendered HTML will appear here</span></pre>
+            </div>
+            <div class="resize-handle"></div>
+          </div>
+
+          <!-- Pane: CSS (editable, live-applied) -->
+          <div class="builder-pane" data-panel="css" hidden>
+            <n-header>
+              <nav><n-icon name="paint-brush"></n-icon></nav>
+              <span>CSS</span>
+              <aside><n-button variant="ghost" size="sm" data-close-panel="css"><n-icon name="x"></n-icon></n-button></aside>
+            </n-header>
+            <div class="builder-pane-content">
+              <textarea id="css-editor" class="code-editor" spellcheck="false" placeholder="/* Custom styles for the preview */"></textarea>
+            </div>
+            <div class="resize-handle"></div>
+          </div>
+
+          <!-- Pane: JS (editable, apply-on-click) -->
+          <div class="builder-pane" data-panel="js" hidden>
+            <n-header>
+              <nav><n-icon name="lightning"></n-icon></nav>
+              <span>JS</span>
+              <aside>
+                <n-button variant="ghost" size="sm" data-role="apply-js" title="Run JS"><n-icon name="play"></n-icon></n-button>
+                <n-button variant="ghost" size="sm" data-close-panel="js"><n-icon name="x"></n-icon></n-button>
+              </aside>
+            </n-header>
+            <div class="builder-pane-content">
+              <textarea id="js-editor" class="code-editor" spellcheck="false" placeholder="// `preview` is the mount element.&#10;// preview.querySelector('#btn1').addEventListener('native:press', () => { ... })"></textarea>
             </div>
             <div class="resize-handle"></div>
           </div>
