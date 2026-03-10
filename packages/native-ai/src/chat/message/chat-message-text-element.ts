@@ -189,23 +189,36 @@ function renderMarkdown(src: string): string {
       continue;
     }
 
-    // Unordered list
+    // Unordered list — allow blank lines between items
     if (/^[-*+]\s/.test(line)) {
       const items: string[] = [];
-      while (i < lines.length && /^[-*+]\s/.test(lines[i])) {
-        items.push(lines[i].replace(/^[-*+]\s/, ''));
-        i += 1;
+      while (i < lines.length) {
+        if (/^[-*+]\s/.test(lines[i])) {
+          items.push(lines[i].replace(/^[-*+]\s/, ''));
+          i += 1;
+        } else if (!lines[i].trim() && i + 1 < lines.length && /^[-*+]\s/.test(lines[i + 1])) {
+          i += 1;
+        } else {
+          break;
+        }
       }
       html.push('<ul>' + items.map(item => `<li>${renderInline(item)}</li>`).join('') + '</ul>');
       continue;
     }
 
-    // Ordered list
+    // Ordered list — allow blank lines between items (LLMs often insert them)
     if (/^\d+\.\s/.test(line)) {
       const items: string[] = [];
-      while (i < lines.length && /^\d+\.\s/.test(lines[i])) {
-        items.push(lines[i].replace(/^\d+\.\s/, ''));
-        i += 1;
+      while (i < lines.length) {
+        if (/^\d+\.\s/.test(lines[i])) {
+          items.push(lines[i].replace(/^\d+\.\s/, ''));
+          i += 1;
+        } else if (!lines[i].trim() && i + 1 < lines.length && /^\d+\.\s/.test(lines[i + 1])) {
+          // Skip blank line between numbered items
+          i += 1;
+        } else {
+          break;
+        }
       }
       html.push('<ol>' + items.map(item => `<li>${renderInline(item)}</li>`).join('') + '</ol>');
       continue;
