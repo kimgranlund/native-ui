@@ -26,6 +26,8 @@
             <n-button variant="ghost" size="sm" data-chip="schema">Schema</n-button>
             <n-button variant="ghost" size="sm" data-chip="map">Map</n-button>
             <n-button variant="ghost" size="sm" data-chip="prompt">Prompt</n-button>
+            <span fill></span>
+            <n-button variant="ghost" size="sm" id="lightbox-toggle" title="Toggle light/dark preview"><n-icon name="moon"></n-icon></n-button>
           </n-toolbar>
         </n-header>
 
@@ -100,7 +102,7 @@
           <!-- Pane: Concepts -->
           <div class="builder-pane" data-panel="concepts">
             <n-header>
-              <nav><n-icon name="tag"></n-icon></nav>
+              <nav><n-icon name="lightbulb"></n-icon></nav>
               <span>Concepts</span>
               <aside><n-button variant="ghost" size="sm" data-close-panel="concepts"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
@@ -128,13 +130,13 @@
           <!-- Pane: Component Map -->
           <div class="builder-pane" data-panel="map" hidden>
             <n-header>
-              <nav><n-icon name="squares-four"></n-icon></nav>
+              <nav><n-icon name="tree-structure"></n-icon></nav>
               <span>Map</span>
               <aside><n-button variant="ghost" size="sm" data-close-panel="map"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
             <div class="builder-pane-content">
               <table id="map-table" class="map-table">
-                <thead><tr><th>A2UI Type</th><th>Native Tag</th><th>Category</th></tr></thead>
+                <thead><tr><th class="map-chevron"></th><th>A2UI Type</th><th>Native Tag</th><th>Category</th></tr></thead>
                 <tbody></tbody>
               </table>
             </div>
@@ -144,7 +146,7 @@
           <!-- Pane: System Prompt (editable) -->
           <div class="builder-pane" data-panel="prompt" hidden>
             <n-header>
-              <nav><n-icon name="file-code"></n-icon></nav>
+              <nav><n-icon name="terminal"></n-icon></nav>
               <span>Prompt</span>
               <aside><n-button variant="ghost" size="sm" data-close-panel="prompt"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>

@@ -4,10 +4,11 @@ import '../../chat/register.ts';
 
 // Icons used in builder UI
 import '../../../../../src/icons/phosphor/eye.ts';
-import '../../../../../src/icons/phosphor/tag.ts';
 import '../../../../../src/icons/phosphor/brackets-curly.ts';
-import '../../../../../src/icons/phosphor/squares-four.ts';
-import '../../../../../src/icons/phosphor/file-code.ts';
+import '../../../../../src/icons/phosphor/tree-structure.ts';
+import '../../../../../src/icons/phosphor/terminal.ts';
+import '../../../../../src/icons/phosphor/moon.ts';
+import '../../../../../src/icons/phosphor/sun.ts';
 import '../../../../../src/icons/phosphor/x.ts';
 import '../../../../../src/icons/phosphor/caret-up-down.ts';
 import '../../../../../src/icons/phosphor/brain.ts';
@@ -31,52 +32,19 @@ import '../../../../../src/icons/phosphor/copy.ts';
 import '../../../../../src/icons/phosphor/arrow-clockwise.ts';
 import { Kernel, resetKernel } from '../../../../../src/kernel/kernel.ts';
 import { createA2UIAdapter } from '../protocol/a2ui-adapter.ts';
+import { COMPONENT_MAP as REGISTRY, getComponentCategory } from '../protocol/a2ui-component-map.ts';
+import type { EventSpec, PropertySpec, MethodSpec } from '../protocol/a2ui-component-map.ts';
 import { ClaudeGatewayAdapter } from '../../chat/gateway/adapter-claude.ts';
 import { OpenAiGatewayAdapter } from '../../chat/gateway/adapter-chatgpt.ts';
 import type { GatewayAdapter } from '../../chat/gateway/adapter.ts';
 
-// ── Component map reference ──
-
-const COMPONENT_MAP = [
-  { type: 'Row',           tag: 'n-stack',          cat: 'layout',     props: 'gap, align' },
-  { type: 'Column',        tag: 'n-stack',          cat: 'layout',     props: 'gap, align' },
-  { type: 'Card',          tag: 'n-container',      cat: 'container',  props: 'children: Header, Body, Footer' },
-  { type: 'Header',        tag: 'n-header',         cat: 'container',  props: 'text content' },
-  { type: 'Body',          tag: 'n-body',           cat: 'container',  props: 'text content' },
-  { type: 'Footer',        tag: 'n-footer',         cat: 'container',  props: 'text content' },
-  { type: 'Modal',         tag: 'n-dialog',         cat: 'container',  props: 'title' },
-  { type: 'Accordion',     tag: 'n-accordion',      cat: 'container',  props: 'children: AccordionItem[]' },
-  { type: 'AccordionItem', tag: 'n-accordion-item', cat: 'container',  props: 'label' },
-  { type: 'Text',          tag: 'span',             cat: 'display',    props: 'text, variant: h1|h2|h3|caption|body' },
-  { type: 'Icon',          tag: 'n-icon',           cat: 'display',    props: 'name (phosphor icon)' },
-  { type: 'Image',         tag: 'n-picture',        cat: 'display',    props: 'url, alt' },
-  { type: 'Badge',         tag: 'n-badge',          cat: 'display',    props: 'text' },
-  { type: 'Avatar',        tag: 'n-avatar',         cat: 'display',    props: 'src, alt' },
-  { type: 'Divider',       tag: 'n-divider',        cat: 'display',    props: '' },
-  { type: 'Progress',      tag: 'n-progress',       cat: 'display',    props: 'value, max' },
-  { type: 'TextField',     tag: 'n-input',          cat: 'input',      props: 'label, placeholder, variant: obscured|number' },
-  { type: 'TextArea',      tag: 'n-textarea',       cat: 'input',      props: 'label, placeholder' },
-  { type: 'CheckBox',      tag: 'n-checkbox',       cat: 'input',      props: 'label' },
-  { type: 'Switch',        tag: 'n-switch',         cat: 'input',      props: 'label' },
-  { type: 'Select',        tag: 'n-select',         cat: 'input',      props: 'label, children: ListItem[]' },
-  { type: 'Slider',        tag: 'n-range',          cat: 'input',      props: 'min, max, value, label' },
-  { type: 'DateTimeInput', tag: 'n-input',          cat: 'input',      props: 'label, enableDate, enableTime' },
-  { type: 'Tabs',          tag: 'n-tabs',           cat: 'nav',        props: 'children with label + value' },
-  { type: 'List',          tag: 'n-listbox',        cat: 'nav',        props: 'children: ListItem[]' },
-  { type: 'ListItem',      tag: 'n-option',         cat: 'nav',        props: 'label, value' },
-  { type: 'Breadcrumb',    tag: 'n-breadcrumb',     cat: 'nav',        props: '' },
-  { type: 'Button',        tag: 'n-button',         cat: 'action',     props: 'text, variant: primary|secondary|ghost|outline' },
-  { type: 'Table',         tag: 'n-table',          cat: 'data',       props: 'columns, rows' },
-  { type: 'Video',         tag: 'n-video',          cat: 'media',      props: 'src' },
-  { type: 'AudioPlayer',   tag: 'n-audio',          cat: 'media',      props: 'src' },
-  { type: 'Toast',         tag: 'n-toast',          cat: 'feedback',   props: 'text' },
-];
-
 // ── System prompt ──
 
-const componentRef = COMPONENT_MAP.map(c =>
-  `  - ${c.type} → <${c.tag}> [${c.cat}]${c.props ? ': ' + c.props : ''}`
-).join('\n');
+const componentRef = Array.from(REGISTRY.values()).map(m => {
+  const cat = getComponentCategory(m.a2uiType);
+  const props = m.properties?.map(p => p.attr).join(', ') || '';
+  return `  - ${m.a2uiType} → <${m.nativeTag}> [${cat}]${props ? ': ' + props : ''}`;
+}).join('\n');
 
 const DEFAULT_SYSTEM_PROMPT = `You are an A2UI schema generator and design collaborator. You help users build UIs through conversation — creating, refining, and remapping component schemas iteratively.
 
@@ -181,7 +149,7 @@ function buildAdapter(model: string): GatewayAdapter | null {
       clientId: 'a2ui-builder',
       baseUrl: '/api/anthropic',
       model,
-      maxTokens: 2048,
+      maxTokens: 4096,
       system: systemPrompt,
       apiKey: anthropicKey,
       anthropicVersion: '2023-06-01',
@@ -194,7 +162,7 @@ function buildAdapter(model: string): GatewayAdapter | null {
     clientId: 'a2ui-builder',
     baseUrl: '/api/openai',
     model,
-    maxTokens: 2048,
+    maxTokens: 4096,
     system: systemPrompt,
     apiKey: openaiKey,
   });
@@ -505,6 +473,22 @@ function syncPanels() {
   for (const [id, chip] of chipEls) chip.toggleAttribute('data-active', activePanels.has(id));
 }
 
+// ── Lightbox toggle (light/dark preview) ──
+
+const lightboxBtn = document.getElementById('lightbox-toggle');
+const previewContent = document.querySelector('.builder-pane[data-panel="preview"] .builder-pane-content') as HTMLElement | null;
+let darkPreview = false;
+
+lightboxBtn?.addEventListener('native:press', () => {
+  darkPreview = !darkPreview;
+  if (previewContent) {
+    previewContent.style.colorScheme = darkPreview ? 'dark' : 'light';
+  }
+  const icon = lightboxBtn.querySelector('n-icon');
+  if (icon) icon.setAttribute('name', darkPreview ? 'sun' : 'moon');
+  lightboxBtn.toggleAttribute('data-active', darkPreview);
+});
+
 // ── Coordinated resize ──
 
 const splitEl = document.querySelector('.builder-split') as HTMLElement;
@@ -656,12 +640,74 @@ promptEditor.addEventListener('input', () => {
   llm = buildAdapter(currentModel);
 });
 
-// Component map table
+// Component map table — populated from protocol registry
 const tbody = mapTable.querySelector('tbody')!;
-for (const c of COMPONENT_MAP) {
+
+function renderPropsTable(props: readonly PropertySpec[]): string {
+  if (!props.length) return '';
+  const rows = props.map(p => {
+    const reactive = p.reactive ? '<span class="map-reactive">reactive</span>' : '';
+    const note = p.note ? ` <span class="map-note">${p.note}</span>` : '';
+    return `<tr><td><code>${p.attr}</code></td><td>${p.type}</td><td>${reactive}${note}</td></tr>`;
+  }).join('');
+  return `<div class="map-detail-section"><div class="map-detail-label">Properties</div><table><thead><tr><th>Attr</th><th>Type</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+function renderEventsTable(events: readonly EventSpec[]): string {
+  if (!events.length) return '';
+  const rows = events.map(e => {
+    const detail = e.detail ? Object.entries(e.detail).map(([k, v]) => `${k}: ${v}`).join(', ') : '—';
+    return `<tr><td><code>${e.event}</code></td><td>${detail}</td><td>${e.description}</td></tr>`;
+  }).join('');
+  return `<div class="map-detail-section"><div class="map-detail-label">Events</div><table><thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+function renderMethodsTable(methods: readonly MethodSpec[]): string {
+  if (!methods.length) return '';
+  const rows = methods.map(m => {
+    const params = m.params ? Object.entries(m.params).map(([k, v]) => `${k}: ${v}`).join(', ') : '';
+    const sig = `${m.name}(${params})`;
+    return `<tr><td><code>${sig}</code></td><td>${m.returns ?? 'void'}</td><td>${m.description}</td></tr>`;
+  }).join('');
+  return `<div class="map-detail-section"><div class="map-detail-label">Methods</div><table><thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+for (const mapping of REGISTRY.values()) {
+  const cat = getComponentCategory(mapping.a2uiType);
+  const hasApi = (mapping.events?.length ?? 0) > 0 || (mapping.properties?.length ?? 0) > 0 || (mapping.methods?.length ?? 0) > 0;
+
+  // Summary row
   const tr = document.createElement('tr');
-  tr.innerHTML = `<td class="map-type">${c.type}</td><td><code>&lt;${c.tag}&gt;</code></td><td class="map-category">${c.cat}</td>`;
+  tr.className = 'map-summary';
+  tr.innerHTML = `<td class="map-chevron">${hasApi ? '▸' : ''}</td><td class="map-type">${mapping.a2uiType}</td><td><code>&lt;${mapping.nativeTag}&gt;</code></td><td class="map-category">${cat}</td>`;
+
+  // Detail row
+  const detailTr = document.createElement('tr');
+  detailTr.className = 'map-detail';
+  detailTr.hidden = true;
+  const detailTd = document.createElement('td');
+  detailTd.colSpan = 4;
+
+  if (hasApi) {
+    let html = '';
+    if (mapping.properties?.length) html += renderPropsTable(mapping.properties);
+    if (mapping.events?.length) html += renderEventsTable(mapping.events);
+    if (mapping.methods?.length) html += renderMethodsTable(mapping.methods);
+    detailTd.innerHTML = html;
+  } else {
+    detailTd.innerHTML = '<span class="map-no-api">No API surface</span>';
+  }
+  detailTr.appendChild(detailTd);
+
+  // Toggle on click
+  tr.addEventListener('click', () => {
+    detailTr.hidden = !detailTr.hidden;
+    const chevron = tr.querySelector('.map-chevron');
+    if (chevron) chevron.textContent = detailTr.hidden ? '▸' : '▾';
+  });
+
   tbody.appendChild(tr);
+  tbody.appendChild(detailTr);
 }
 
 // ── Render helpers ──
