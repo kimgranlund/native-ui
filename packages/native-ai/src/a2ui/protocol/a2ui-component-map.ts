@@ -743,7 +743,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     propertyMap: { traits: 'traits' },
     events: [],
     properties: [
-      { attr: 'traits', type: 'string', note: 'Space-separated trait names: draggable, flippable, tossable, pressable, hoverable, swipeable, collapsible, dismissible, editable, resizable, sortable, selectable, searchable, copyable, presentable, parallax, confetti, magnetizable, noodleable' },
+      { attr: 'traits', type: 'string', note: 'Space-separated trait names. Core: pressable, hoverable, swipeable, draggable, droppable, resizable, collapsible, dismissable, editable, sortable, selectable, searchable, copyable, clippable, presentable, modalable, toastable, shortcutable, slash-commandable, validatable, intersectable, virtualizable, noodleable. Fun: flippable, tossable, parallaxable, confettible, magnetizable' },
     ],
     methods: [],
   },
