@@ -709,6 +709,33 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     ],
     methods: [],
   },
+  {
+    a2uiType: 'Chart',
+    nativeTag: 'n-chart',
+    childStrategy: 'none',
+    events: [
+      { event: 'native:chart-hover', detail: { point: 'ChartPoint', series: 'string', x: 'number', y: 'number' }, description: 'Fires when hovering over a data point.' },
+      { event: 'native:chart-select', detail: { point: 'ChartPoint', series: 'string' }, description: 'Fires when clicking a data point.' },
+      { event: 'native:chart-legend-toggle', detail: { series: 'string', visible: 'boolean' }, description: 'Fires when a legend item is toggled.' },
+    ],
+    properties: [
+      { attr: 'type', type: "'line' | 'bar' | 'scatter' | 'sparkline'", note: 'Chart type — sparkline is compact (no axes/legend)' },
+      { attr: 'palette', type: "'default' | 'vivid' | 'pastel' | 'earth' | 'ocean' | 'sunset' | 'forest' | 'neon' | 'mono' | 'accessible'", note: 'Color palette' },
+      { attr: 'stacked', type: 'boolean', note: 'Stack bars/areas on top of each other' },
+      { attr: 'smooth', type: 'boolean', note: 'Smooth line curves (Catmull-Rom)' },
+      { attr: 'area', type: 'boolean', note: 'Fill area under line' },
+      { attr: 'horizontal', type: 'boolean', note: 'Horizontal bar chart' },
+      { attr: 'legend', type: "'top' | 'bottom' | 'none'", note: 'Legend position' },
+      { attr: 'grid', type: "'horizontal' | 'vertical' | 'both' | 'none'", note: 'Grid line visibility' },
+      { attr: 'animate', type: 'boolean', note: 'Entry animations (line draw, bar grow)' },
+      { attr: 'aspect', type: 'string', note: 'Aspect ratio e.g. "16:9"' },
+      { attr: 'x-label', type: 'string', note: 'X-axis label' },
+      { attr: 'y-label', type: 'string', note: 'Y-axis label' },
+      { attr: 'average', type: 'boolean', note: 'Show dashed average line per series' },
+      { attr: 'disabled', type: 'boolean', note: 'Disable interactions and grey out' },
+    ],
+    methods: [],
+  },
 ];
 
 const DEFAULT_CATEGORIES: Record<string, string> = {
@@ -745,6 +772,7 @@ const DEFAULT_CATEGORIES: Record<string, string> = {
   AudioPlayer: 'media',
   Table: 'data',
   Toast: 'feedback',
+  Chart: 'data-viz',
 };
 
 // ── Default Singleton Registry ──
