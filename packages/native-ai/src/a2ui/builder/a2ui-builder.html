@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A2UI Builder</title>
+    <link rel="stylesheet" href="../../../../../src/styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../../../src/styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../../../../src/styles/spa/spa-pages.css" />
+    <link rel="stylesheet" href="../../chat/chat.css" />
+    <link rel="stylesheet" href="./a2ui-builder.css" />
+    <script type="module" src="./a2ui-builder.ts"></script>
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+      <div class="builder">
+
+        <!-- ── Header toolbar: panel toggle chips ── -->
+        <n-header>
+          <n-toolbar variant="ghost" size="sm">
+            <span style="font-weight: 600; color: var(--pg-text-strong); margin-inline-end: 0.5rem;">A2UI Builder</span>
+            <n-divider orientation="vertical"></n-divider>
+            <n-button variant="ghost" size="sm" data-chip="preview">Preview</n-button>
+            <n-button variant="ghost" size="sm" data-chip="concepts">Concepts</n-button>
+            <n-button variant="ghost" size="sm" data-chip="schema">Schema</n-button>
+            <n-button variant="ghost" size="sm" data-chip="map">Map</n-button>
+            <n-button variant="ghost" size="sm" data-chip="prompt">Prompt</n-button>
+          </n-toolbar>
+        </n-header>
+
+        <!-- ── Split: chat left, panes right ── -->
+        <div class="builder-split">
+
+          <!-- Chat (left) -->
+          <div class="builder-chat" data-region="chat">
+            <n-chat-feed id="chat-feed" auto-scroll></n-chat-feed>
+            <n-footer dividers>
+              <n-chat-input id="chat-composer" compact>
+                <n-textarea placeholder="Describe a UI..." autogrow rows="1"></n-textarea>
+                <n-chat-input-actions>
+                  <n-button variant="primary" intent="accent" radius="round" inline disabled><n-icon name="arrow-up"></n-icon></n-button>
+                </n-chat-input-actions>
+              </n-chat-input>
+            </n-footer>
+            <div class="resize-handle"></div>
+          </div>
+
+          <!-- Pane: Preview -->
+          <div class="builder-pane" data-panel="preview">
+            <n-header>
+              <nav><n-icon name="eye"></n-icon></nav>
+              <span>Preview</span>
+              <aside><n-button variant="ghost" size="sm" data-close-panel="preview"><n-icon name="x"></n-icon></n-button></aside>
+            </n-header>
+            <div class="builder-pane-content">
+              <div id="preview-mount">
+                <span class="empty-state">Live preview will appear here</span>
+              </div>
+            </div>
+            <div class="resize-handle"></div>
+          </div>
+
+          <!-- Pane: Concepts -->
+          <div class="builder-pane" data-panel="concepts">
+            <n-header>
+              <nav><n-icon name="tag"></n-icon></nav>
+              <span>Concepts</span>
+              <aside><n-button variant="ghost" size="sm" data-close-panel="concepts"><n-icon name="x"></n-icon></n-button></aside>
+            </n-header>
+            <div class="builder-pane-content">
+              <div id="concepts-wrap" class="concepts-wrap">
+                <span class="empty-state">Concepts will appear here</span>
+              </div>
+            </div>
+            <div class="resize-handle"></div>
+          </div>
+
+          <!-- Pane: Schema -->
+          <div class="builder-pane" data-panel="schema">
+            <n-header>
+              <nav><n-icon name="brackets-curly"></n-icon></nav>
+              <span>Schema</span>
+              <aside><n-button variant="ghost" size="sm" data-close-panel="schema"><n-icon name="x"></n-icon></n-button></aside>
+            </n-header>
+            <div class="builder-pane-content">
+              <pre id="schema-pre" class="pane-pre"><span class="empty-state">A2UI schema will appear here</span></pre>
+            </div>
+            <div class="resize-handle"></div>
+          </div>
+
+          <!-- Pane: Component Map -->
+          <div class="builder-pane" data-panel="map" hidden>
+            <n-header>
+              <nav><n-icon name="squares-four"></n-icon></nav>
+              <span>Map</span>
+              <aside><n-button variant="ghost" size="sm" data-close-panel="map"><n-icon name="x"></n-icon></n-button></aside>
+            </n-header>
+            <div class="builder-pane-content">
+              <table id="map-table" class="map-table">
+                <thead><tr><th>A2UI Type</th><th>Native Tag</th><th>Category</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="resize-handle"></div>
+          </div>
+
+          <!-- Pane: System Prompt (editable) -->
+          <div class="builder-pane" data-panel="prompt" hidden>
+            <n-header>
+              <nav><n-icon name="file-code"></n-icon></nav>
+              <span>Prompt</span>
+              <aside><n-button variant="ghost" size="sm" data-close-panel="prompt"><n-icon name="x"></n-icon></n-button></aside>
+            </n-header>
+            <div class="builder-pane-content">
+              <textarea id="prompt-editor" class="prompt-editor" spellcheck="false"></textarea>
+            </div>
+            <div class="resize-handle"></div>
+          </div>
+
+        </div>
+      </div>
+    </main></native-dashboard-spa>
+  </body>
+</html>

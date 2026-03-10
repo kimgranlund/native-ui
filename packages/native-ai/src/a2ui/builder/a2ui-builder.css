@@ -1,0 +1,289 @@
+/* ── Builder chrome — mirrors native-a2ui workbench ── */
+
+.builder {
+  --pg-chrome: var(--n-panel-neutral, #21252b);
+  --pg-editor-bg: var(--n-control-neutral, #282c34);
+  --pg-border-color: var(--n-border-muted-neutral, #3e4451);
+  --pg-border: 1px solid var(--pg-border-color);
+  --pg-text: var(--n-ink-neutral, #abb2bf);
+  --pg-text-muted: var(--n-ink-muted-neutral, #7d8799);
+  --pg-text-strong: var(--n-ink-strong-neutral, #e5e7eb);
+  --pg-accent: var(--n-ink-accent, #61afef);
+  --pg-preview-bg: var(--n-body-neutral, #ffffff);
+
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: calc(100vh - 4rem);
+  border: var(--pg-border);
+  border-radius: var(--n-radius-lg, 0.75rem);
+  overflow: hidden;
+  background: var(--pg-editor-bg);
+  color: var(--pg-text);
+}
+
+/* ── Header toolbar ── */
+
+.builder > n-header {
+  display: flex;
+  align-items: center;
+  flex: none;
+  background: var(--pg-chrome);
+  --n-ink: var(--pg-text-muted);
+  --n-ink-hover: var(--pg-text);
+  --n-ink-strong: var(--pg-text-strong);
+  --n-border-muted: transparent;
+}
+
+.builder > n-header n-button:hover,
+.builder > n-header n-button[force-hover] {
+  background: var(--pg-editor-bg);
+}
+
+.builder > n-header n-button[data-active] {
+  background: var(--pg-editor-bg);
+  color: var(--pg-text-strong);
+}
+
+/* ── Split: chat left, panes right ── */
+
+.builder-split {
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Chat region (left) ── */
+
+.builder-chat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 40%;
+  min-width: 280px;
+  min-height: 0;
+  overflow: hidden;
+
+  /* Force light context — the chat panel is always light regardless of OS color scheme */
+  color-scheme: light;
+  background: var(--n-body);
+  color: var(--n-ink);
+}
+
+.builder-chat > n-chat-feed {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Question messages: accent left border */
+.builder-chat n-chat-message[data-type="question"] n-chat-message-text {
+  border-inline-start: 3px solid var(--n-border-accent);
+  padding-inline-start: 0.5rem;
+}
+
+/* Remap messages: warning left border */
+.builder-chat n-chat-message[data-type="remap"] n-chat-message-text {
+  border-inline-start: 3px solid var(--n-ink-warning);
+  padding-inline-start: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.builder-chat > n-footer {
+  flex: none;
+}
+
+/* ── Panes (right side, togglable) ── */
+
+.builder-pane {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
+  min-width: 200px;
+  min-height: 0;
+  overflow: hidden;
+  border-left: var(--pg-border);
+}
+
+.builder-pane[hidden] {
+  display: none;
+}
+
+/* Pane header */
+.builder-pane > n-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.375rem;
+  flex: none;
+  background: var(--pg-chrome);
+  border-bottom: var(--pg-border);
+  min-height: unset;
+  padding-block: 0;
+  padding-inline: 0.5rem;
+  --n-ink: var(--pg-text-muted);
+  --n-ink-hover: var(--pg-text);
+  --n-size: 1.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.builder-pane > n-header > nav,
+.builder-pane > n-header > aside {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.builder-pane > n-header n-icon {
+  font-size: 0.875rem;
+}
+
+.builder-pane > n-header n-button:hover {
+  background: var(--pg-editor-bg);
+}
+
+/* Pane content */
+.builder-pane-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0.5rem;
+  font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+/* ── Preview pane: light bg ── */
+
+.builder-pane[data-panel="preview"] .builder-pane-content {
+  /* Force light context — rendered UI should always display in light mode */
+  color-scheme: light;
+  background: var(--n-body);
+  color: var(--n-ink);
+  padding: 1rem;
+  font-family: inherit;
+}
+
+/* ── Concepts pane ── */
+
+.concepts-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+/* ── Pre content (schema, map) ── */
+
+.pane-pre {
+  margin: 0;
+  font-size: 0.6875rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ── Prompt textarea (editable) ── */
+
+.prompt-editor {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: inherit;
+  font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ── Component map table ── */
+
+.map-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.map-table th {
+  text-align: left;
+  padding: 0.25rem 0.5rem;
+  color: var(--pg-text-muted);
+  font-weight: 600;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: var(--pg-border);
+  position: sticky;
+  top: 0;
+  background: var(--pg-chrome);
+}
+
+.map-table td {
+  padding: 0.1875rem 0.5rem;
+  border-bottom: 1px solid color-mix(in oklch, var(--pg-text-muted), transparent 85%);
+  white-space: nowrap;
+}
+
+.map-table code {
+  font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
+  font-size: 0.6875rem;
+  background: color-mix(in oklch, var(--pg-text-muted), transparent 88%);
+  padding: 0.0625rem 0.25rem;
+  border-radius: 0.1875rem;
+}
+
+.map-type { font-weight: 600; }
+.map-category {
+  color: var(--pg-text-muted);
+  font-size: 0.6875rem;
+}
+
+/* ── Resize handles ── */
+
+.resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: col-resize;
+  background: transparent;
+  transition: background 150ms;
+  z-index: 1;
+}
+
+.resize-handle:hover,
+[data-resizing] .resize-handle {
+  background: var(--pg-accent);
+}
+
+/* When resized (explicit width), don't flex-grow */
+.builder-chat[style*="width"],
+.builder-pane[style*="width"] {
+  flex: none;
+}
+
+/* Hide handle on last visible pane */
+.builder-pane:not([hidden]):not(:has(~ .builder-pane:not([hidden]))) > .resize-handle {
+  display: none;
+}
+
+/* ── Empty state ── */
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--pg-text-muted);
+  font-size: 0.8125rem;
+}
