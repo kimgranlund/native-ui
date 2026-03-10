@@ -15,5 +15,5 @@
     }
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["src/**/*.test.ts", "src/**/__tests__/**"]
+  "exclude": ["src/**/*.test.ts", "src/**/__tests__/**", "src/**/*.demo.ts", "src/a2ui/builder/a2ui-builder.ts"]
 }

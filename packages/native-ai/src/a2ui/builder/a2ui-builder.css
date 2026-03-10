@@ -325,8 +325,9 @@ main {
 
 /* ── Gap report messages ── */
 n-chat-message[data-type="gap"] n-chat-message-text {
-  border-left: 3px solid oklch(0.75 0.15 60);
-  padding-left: 0.75rem;
+  border: 2px solid oklch(0.75 0.15 60);
+  border-radius: var(--n-radius, 0.5rem);
+  padding: 0.75rem;
 }
 
 /* ── Resize handles ── */
