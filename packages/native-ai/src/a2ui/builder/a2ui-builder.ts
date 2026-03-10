@@ -403,22 +403,39 @@ async function waitForPreviewReady(): Promise<void> {
   for (const el of previewMount.querySelectorAll('*')) {
     if (el.localName.includes('-')) tags.add(el.localName);
   }
+  console.log('[A2UI Builder] waitForPreviewReady — tags:', [...tags]);
   await Promise.all([...tags].map(t => customElements.whenDefined(t).catch(() => {})));
-  return new Promise(r => requestAnimationFrame(r as FrameRequestCallback));
+  // Two rAFs — first for CE upgrade, second for child rendering
+  await new Promise(r => requestAnimationFrame(r as FrameRequestCallback));
+  await new Promise(r => requestAnimationFrame(r as FrameRequestCallback));
 }
 
 function applyJSToPreview(js: string): void {
+  // Log preview state for debugging
+  const children = previewMount.children;
+  const ids = [...previewMount.querySelectorAll('[id]')].map(el => `#${el.id} <${el.localName}>`);
+  console.log('[A2UI Builder] applyJSToPreview — preview children:', children.length, ', elements with ids:', ids);
+  if (!children.length) {
+    console.warn('[A2UI Builder] applyJSToPreview — preview mount is empty, skipping JS execution');
+    return;
+  }
+
   try {
     // Wrap in IIFE so LLM code can declare `const preview` without
     // colliding with the Function parameter. Provide both the mount element
-    // and a scoped $ helper for reliable DOM queries.
+    // and scoped $/$$ helpers for reliable DOM queries.
     const wrapper = `(function(preview){
-  var $ = function(sel){ return preview.querySelector(sel); };
+  var $ = function(sel){
+    var el = preview.querySelector(sel);
+    if (!el) console.warn('[A2UI Builder] $("' + sel + '") returned null — available ids:', Array.from(preview.querySelectorAll('[id]')).map(function(e){ return '#' + e.id; }));
+    return el;
+  };
   var $$ = function(sel){ return preview.querySelectorAll(sel); };
 ${js}
 }(__mount__))`;
     const fn = new Function('__mount__', wrapper);
     fn(previewMount);
+    console.log('[A2UI Builder] JS executed successfully');
   } catch (err) {
     console.error('[A2UI Builder] JS error:', err);
     addMessage('assistant', `JS Error: ${(err as Error).message}`);
@@ -442,17 +459,21 @@ cssEditor.addEventListener('keydown', (e) => {
 });
 
 // JS apply — Play button (pointerup delegation) + Cmd/Ctrl-S
-function runJS(): void {
-  if (jsEditor.value.trim()) {
-    waitForPreviewReady().then(() => applyJSToPreview(jsEditor.value));
+function runJS(source: string): void {
+  const js = jsEditor.value.trim();
+  if (!js) {
+    console.log('[A2UI Builder] runJS — editor is empty, skipping');
+    return;
   }
+  console.log('[A2UI Builder] runJS triggered via', source, '— code length:', js.length);
+  waitForPreviewReady().then(() => applyJSToPreview(js));
 }
 
 document.addEventListener('pointerup', (e) => {
   // Walk composedPath to cross shadow DOM boundaries
   for (const node of e.composedPath()) {
     if (node instanceof HTMLElement && node.matches('[data-role="apply-js"]')) {
-      runJS();
+      runJS('play-button');
       break;
     }
   }
@@ -460,7 +481,7 @@ document.addEventListener('pointerup', (e) => {
 jsEditor.addEventListener('keydown', (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === 's') {
     e.preventDefault();
-    runJS();
+    runJS('cmd-s');
   }
 });
 
@@ -971,6 +992,7 @@ function applyResult(result: MockResult) {
     jsEditor.value = result.js;
     if (!activePanels.has('js')) { activePanels.add('js'); syncPanels(); }
     // Defer JS execution — wait for all custom elements in preview to upgrade
+    console.log('[A2UI Builder] LLM returned JS — auto-applying after preview ready');
     waitForPreviewReady().then(() => applyJSToPreview(result.js!));
   }
 
