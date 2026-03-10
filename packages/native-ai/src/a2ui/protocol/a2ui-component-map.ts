@@ -218,6 +218,18 @@ export class ComponentRegistry {
   }
 }
 
+// ── Shared interactive properties ──
+// These CSS-driven attributes apply to all interactive <n-*> components.
+// Defined once here to avoid repetition across 20+ component entries.
+
+const SHARED_INTERACTIVE_PROPS: readonly PropertySpec[] = [
+  { attr: 'intent', type: "'neutral' | 'accent' | 'info' | 'success' | 'warning' | 'danger'", note: 'Color intent — drives background, border, and text color tokens' },
+  { attr: 'variant', type: "'default' | 'primary' | 'secondary' | 'ghost' | 'outline'", note: 'Visual weight — primary=filled, ghost=transparent, outline=bordered' },
+  { attr: 'size', type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'", note: 'Component scale — affects height, padding, font-size, icon-size' },
+  { attr: 'radius', type: "'none' | 'sm' | 'md' | 'lg' | 'full'", note: 'Border radius override' },
+  { attr: 'density', type: "'compact' | 'inline'", note: 'compact=reduced padding, inline=minimal height' },
+];
+
 // ── Default Seed Data ──
 
 const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
@@ -246,6 +258,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     },
     events: [{ event: 'native:press', description: 'Fires on click or keyboard activation (Enter/Space).' }],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'disabled', type: 'boolean', reactive: true },
       { attr: 'type', type: "'button' | 'submit' | 'reset'", reactive: true },
     ],
@@ -267,6 +280,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
       { event: 'native:format', detail: { type: 'string', value: 'string' }, description: 'Fires after text formatting is applied.' },
     ],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'value', type: 'string', reactive: true },
       { attr: 'placeholder', type: 'string', reactive: true },
       { attr: 'disabled', type: 'boolean', reactive: true },
@@ -298,6 +312,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
       { event: 'native:format', detail: { type: 'string', value: 'string' }, description: 'Fires after text formatting is applied.' },
     ],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'value', type: 'string', reactive: true },
       { attr: 'placeholder', type: 'string', reactive: true },
       { attr: 'disabled', type: 'boolean', reactive: true },
@@ -321,6 +336,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     defaultAttributes: { size: 'sm' },
     events: [{ event: 'native:change', detail: { checked: 'boolean', value: 'string' }, description: 'Fires when checked state toggles.' }],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'checked', type: 'boolean', reactive: true },
       { attr: 'indeterminate', type: 'boolean', reactive: true },
       { attr: 'disabled', type: 'boolean', reactive: true },
@@ -338,6 +354,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     defaultAttributes: { size: 'sm' },
     events: [{ event: 'native:change', detail: { checked: 'boolean', value: 'string' }, description: 'Fires when toggled on/off.' }],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'checked', type: 'boolean', reactive: true },
       { attr: 'disabled', type: 'boolean', reactive: true },
       { attr: 'name', type: 'string' },
@@ -357,6 +374,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     },
     events: [{ event: 'native:change', detail: { value: 'string', label: 'string', previousValue: 'string' }, description: 'Fires when selection changes.' }],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'value', type: 'string', reactive: true },
       { attr: 'disabled', type: 'boolean', reactive: true },
       { attr: 'name', type: 'string' },
@@ -380,6 +398,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     },
     events: [{ event: 'native:change', detail: { value: 'number' }, description: 'Fires when slider value changes.' }],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'value', type: 'number', reactive: true },
       { attr: 'min', type: 'number' },
       { attr: 'max', type: 'number' },
@@ -401,6 +420,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     },
     events: [{ event: 'native:change', detail: { value: 'string' }, description: 'Fires when date/time value changes.' }],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'value', type: 'string', reactive: true },
       { attr: 'min', type: 'string' },
       { attr: 'max', type: 'string' },
@@ -465,6 +485,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     actionEvent: 'native:dismiss',
     events: [{ event: 'close', description: 'Fires when the dialog is closed.' }],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'no-close-on-escape', type: 'boolean' },
       { attr: 'no-close-on-backdrop', type: 'boolean' },
     ],
@@ -479,6 +500,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     childStrategy: 'children',
     events: [{ event: 'native:change', detail: { value: 'string', label: 'string' }, description: 'Fires when the active tab changes.' }],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'value', type: 'string', reactive: true },
       { attr: 'disabled', type: 'boolean', reactive: true },
       { attr: 'orientation', type: "'horizontal' | 'vertical'", reactive: true },
@@ -492,6 +514,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     actionEvent: 'native:select',
     events: [{ event: 'native:change', detail: { value: 'string', label: 'string' }, description: 'Fires when the selected option changes.' }],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'disabled', type: 'boolean', reactive: true },
       { attr: 'multiple', type: 'boolean', reactive: true },
       { attr: 'virtual-focus', type: 'boolean' },
@@ -574,6 +597,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     },
     events: [{ event: 'native:change', detail: { value: 'string', label: 'string', previousValue: 'string' }, description: 'Fires when selection changes.' }],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'value', type: 'string', reactive: true },
       { attr: 'disabled', type: 'boolean', reactive: true },
       { attr: 'name', type: 'string' },
@@ -613,6 +637,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     childStrategy: 'children',
     events: [],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'multiple', type: 'boolean', reactive: true },
       { attr: 'disabled', type: 'boolean', reactive: true },
     ],
@@ -643,6 +668,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
       { event: 'native:table-reorder', detail: { sourceIndex: 'number', targetIndex: 'number', inserted: 'string[]' }, description: 'Fires when rows are drag-reordered.' },
     ],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'selectable', type: 'boolean', reactive: true },
       { attr: 'resizable', type: 'boolean' },
       { attr: 'reorderable', type: 'boolean' },
@@ -660,7 +686,7 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
       max: 'max',
     },
     events: [],
-    properties: [{ attr: 'value', type: 'number', reactive: true }, { attr: 'max', type: 'number' }],
+    properties: [...SHARED_INTERACTIVE_PROPS, { attr: 'value', type: 'number', reactive: true }, { attr: 'max', type: 'number' }],
     methods: [],
   },
   {
@@ -677,9 +703,9 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     childStrategy: 'textContent',
     events: [{ event: 'native:dismiss', description: 'Fires when the toast dismiss button is clicked.' }],
     properties: [
+      ...SHARED_INTERACTIVE_PROPS,
       { attr: 'message', type: 'string' },
       { attr: 'dismissible', type: 'boolean' },
-      { attr: 'intent', type: "'info' | 'success' | 'warning' | 'danger'" },
     ],
     methods: [],
   },
