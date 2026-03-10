@@ -993,7 +993,12 @@ function applyResult(result: MockResult) {
 
   // Show suggestion chips after questions
   if (result.suggestions?.length) {
-    addSeedChips(result.suggestions);
+    // LLM returns { label, prompt } — map to SeedOption { label, value }
+    const seeds: SeedOption[] = result.suggestions.map(s => ({
+      label: s.label,
+      value: (s as Record<string, string>).prompt ?? (s as Record<string, string>).value ?? s.label,
+    }));
+    addSeedChips(seeds);
   }
 }
 
