@@ -905,8 +905,9 @@ function applyResult(result: MockResult) {
   }
   if (result.js !== undefined) {
     jsEditor.value = result.js;
-    applyJSToPreview(result.js);
     if (!activePanels.has('js')) { activePanels.add('js'); syncPanels(); }
+    // Defer JS execution — adapter needs a frame to stamp DOM elements
+    requestAnimationFrame(() => applyJSToPreview(result.js!));
   }
 
   // Show suggestion chips after questions
