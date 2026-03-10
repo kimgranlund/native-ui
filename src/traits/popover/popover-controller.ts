@@ -31,7 +31,17 @@ export class PopoverController {
     } else {
       // WHY: hidePopover() throws InvalidStateError if already hidden (e.g. initial effect run)
       try { this.#popoverEl?.hidePopover(); } catch { /* already hidden */ }
-      this.#clearFlip();
+      // WHY: Defer clearFlip until after the exit transition completes.
+      // Clearing inline --n-popover-origin/--n-popover-from immediately would revert the
+      // exit animation to the CSS default (top center) — wrong direction for flipped popovers.
+      const popover = this.#popoverEl;
+      if (popover) {
+        let cleared = false;
+        const clear = () => { if (cleared) return; cleared = true; this.#clearFlip(); };
+        popover.addEventListener('transitionend', clear, { once: true });
+        // Safety: clear even if transitionend doesn't fire (e.g. reduced motion, no transition)
+        setTimeout(clear, 300);
+      }
       this.#dismiss.disable();
     }
   }

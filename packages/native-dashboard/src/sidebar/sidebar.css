@@ -291,6 +291,19 @@
     flex-direction: column;
   }
 
+  /* WHY: Menus in the sidebar header should always open below the trigger.
+     The header sits at the top of the viewport — inline-end flyout is wrong here.
+     Reset flyout-specific origin/transform so the dropdown animation plays. */
+  :where(n-sidebar-header) :where(n-listbox[popover]) {
+    --n-popover-origin: top center;
+    --n-popover-from: perspective(800px) scale(0.96) rotateX(-20deg);
+    position-area: block-end span-inline-end;
+    position-try-fallbacks: flip-inline;
+    margin-block: var(--n-popover-viewport-margin);
+    margin-inline: 0;
+    margin-block-start: var(--n-popover-gap);
+  }
+
   /* ── Sidebar Content ── */
   /* WHY: Full height of the aside, scrollable. Padding-block offsets keep
      content from starting behind header / ending behind footer.
@@ -351,6 +364,19 @@
     z-index: 2;
     display: flex;
     flex-direction: column;
+  }
+
+  /* WHY: Menus in the sidebar footer should always open above the trigger.
+     The footer sits at the bottom of the viewport — mirrors n-sidebar-header.
+     Reset flyout-specific origin/transform so the upward animation plays. */
+  :where(n-sidebar-footer) :where(n-listbox[popover]) {
+    --n-popover-origin: bottom center;
+    --n-popover-from: perspective(800px) scale(0.96) rotateX(20deg);
+    position-area: block-start span-inline-end;
+    position-try-fallbacks: flip-inline;
+    margin-block: var(--n-popover-viewport-margin);
+    margin-inline: 0;
+    margin-block-end: var(--n-popover-gap);
   }
 
   /* ── Sidebar Item ── */

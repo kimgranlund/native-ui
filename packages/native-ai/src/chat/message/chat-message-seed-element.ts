@@ -82,7 +82,6 @@ export class NChatMessageSeed extends NativeElement {
         btn.setAttribute('variant', 'outline');
         btn.setAttribute('size', 'sm');
         btn.setAttribute('inline', '');
-        btn.setAttribute('data-value', opt.value);
 
         if (opt.icon) {
           const icon = document.createElement('n-icon');
@@ -96,35 +95,19 @@ export class NChatMessageSeed extends NativeElement {
         label.textContent = opt.label;
         btn.appendChild(label);
 
+        btn.addEventListener('click', () => {
+          if (this.#disabled.value) return;
+          this.dispatchEvent(new CustomEvent('native:seed-select', {
+            bubbles: true,
+            composed: true,
+            detail: { value: opt.value, label: opt.label },
+          }));
+        });
+
         stack.appendChild(btn);
       }
 
       this.appendChild(stack);
     });
-
-    this.addEventListener('native:press', this.#onPress);
   }
-
-  teardown(): void {
-    this.removeEventListener('native:press', this.#onPress);
-    super.teardown();
-  }
-
-  // ── Events ──
-
-  #onPress = (e: Event): void => {
-    if (this.#disabled.value) return;
-    const target = (e as CustomEvent).target as HTMLElement;
-    const value = target?.getAttribute('data-value');
-    if (!value) return;
-
-    const opt = this.#options.value.find(o => o.value === value);
-    if (!opt) return;
-
-    this.dispatchEvent(new CustomEvent('native:seed-select', {
-      bubbles: true,
-      composed: true,
-      detail: { value: opt.value, label: opt.label },
-    }));
-  };
 }

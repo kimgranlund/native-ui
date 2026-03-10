@@ -34,8 +34,8 @@ behavior:
   - trigger: "syncPopover(false) called"
     actions:
       - "Hides popover via native hidePopover()"
-      - "Clears flip-related CSS properties"
       - "Disables dismiss layer"
+      - "Defers clearing flip-related CSS until exit transition completes (transitionend event or 300ms safety timeout, whichever fires first)"
 a11y:
   keyboard:
     - key: "Escape"

@@ -163,7 +163,7 @@
   }
 
   :where(n-tab)[aria-selected="true"] {
-    color: var(--n-surface-ink);
+    color: var(--n-ink-active);
   }
 
   :where(n-tab)[aria-selected="true"]:hover,

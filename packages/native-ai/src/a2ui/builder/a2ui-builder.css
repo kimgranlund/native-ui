@@ -72,10 +72,7 @@ main {
   min-height: 0;
   overflow: hidden;
 
-  /* Force light context — the chat panel is always light regardless of OS color scheme */
-  color-scheme: light;
   background: var(--n-body);
-  color: var(--n-ink);
 }
 
 .builder-chat > n-chat-feed {
@@ -214,17 +211,20 @@ main {
   font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
   font-size: 0.8125rem;
   line-height: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* ── Preview pane: light bg ── */
+/* ── Preview pane ── */
 
 .builder-pane[data-panel="preview"] .builder-pane-content {
-  /* Force light context — rendered UI should always display in light mode */
-  color-scheme: light;
   background: var(--n-body);
-  color: var(--n-ink);
-  padding: 1rem;
   font-family: inherit;
+}
+
+#preview-mount {
+  min-width: 18rem;
 }
 
 /* ── Concepts pane ── */
@@ -387,6 +387,30 @@ n-chat-message[data-type="gap"] n-chat-message-text {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  padding-inline: var(--n-chat-bubble-padding-inline);
+  font-size: var(--n-font-size-sm);
+  color: var(--n-ink-muted);
+}
+
+.builder-progress-step[data-active]::before {
+  content: '';
+  display: inline-block;
+  width: 0.75em;
+  height: 0.75em;
+  margin-inline-end: 0.4em;
+  border: 1.5px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  vertical-align: -0.1em;
+  animation: builder-spin 0.6s linear infinite;
+}
+
+@keyframes builder-spin {
+  to { transform: rotate(360deg); }
+}
+
+.builder-progress-summary {
+  padding-inline: var(--n-chat-bubble-padding-inline);
   font-size: var(--n-font-size-sm);
   color: var(--n-ink-muted);
 }

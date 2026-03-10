@@ -45,9 +45,8 @@
                 <n-chat-input-header>
                   <nav>
                     <n-select id="model-picker" value="claude-haiku-4-5" data-role="model-picker">
-                      <n-button variant="ghost" inline size="sm"><span slot="label">Claude Haiku 4.5</span> <n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+                      <n-button variant="ghost" inline size="sm" density="compact"><span slot="label">Claude Haiku 4.5</span> <n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
                       <n-listbox popover>
-                        <n-option value="human">Human</n-option>
                         <n-option value="claude-haiku-4-5" selected>Claude Haiku 4.5</n-option>
                         <n-option value="gpt-5-mini">GPT-5 mini</n-option>
                         <n-option value="gpt-5-nano">GPT-5 nano</n-option>
@@ -55,7 +54,7 @@
                         <n-option value="gpt-4.1-nano">GPT-4.1 nano</n-option>
                       </n-listbox>
                     </n-select>
-                    <n-button variant="ghost" inline size="sm"><n-icon name="brain"></n-icon> UI Builder</n-button>
+                    <n-button variant="ghost" inline size="sm" density="compact"><n-icon name="brain"></n-icon> UI Builder</n-button>
                   </nav>
                   <aside>
                     <n-button variant="ghost" inline size="sm" data-role="toggle-inspector"><n-icon name="sliders"></n-icon></n-button>

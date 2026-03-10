@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-ui",
-  "version": "0.7.112",
+  "version": "0.7.118",
   "description": "Zero-dependency web component library with an OKLCH CSS design system, signal-based reactivity, and composable trait controllers",
   "license": "MIT",
   "type": "module",
@@ -82,7 +82,8 @@
     "lint:class-handles": "node scripts/lint-class-handles.mjs",
     "storybook": "storybook dev -p 6006",
     "build:storybook": "storybook build",
-    "prepublishOnly": "npm run build && npm test"
+    "prepublishOnly": "npm run build && npm test",
+    "pub": "npm version patch --force && npm publish --access public"
   },
   "devDependencies": {
     "@codemirror/lang-json": "^6.0.2",

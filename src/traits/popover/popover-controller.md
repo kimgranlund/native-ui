@@ -32,7 +32,7 @@ new PopoverController(host: HTMLElement)
 
 - **wirePopover(anchor, popover) called** → Generates unique anchor name, Sets anchor-name CSS property on anchor element, Sets position-anchor CSS property on popover element
 - **syncPopover(true) called** → Detects if popover should flip above anchor (measures space above/below), Sets position-area and animation origin CSS for flipped placement if needed, Shows popover via native showPopover(), Enables dismiss layer (Escape and click-outside close)
-- **syncPopover(false) called** → Hides popover via native hidePopover(), Clears flip-related CSS properties, Disables dismiss layer
+- **syncPopover(false) called** → Hides popover via native hidePopover(), Disables dismiss layer, Defers clearing flip-related CSS until exit transition completes (transitionend event or 300ms safety timeout, whichever fires first)
 
 ## Consumption Patterns
 
