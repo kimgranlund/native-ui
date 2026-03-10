@@ -407,12 +407,11 @@ cssEditor.addEventListener('input', () => {
   applyCSSToPreview(cssEditor.value);
 });
 
-// JS apply button — delegated listener on document for resilience
-// (the pane may not exist in the DOM when this module first evaluates on the host)
-document.addEventListener('click', (e) => {
-  const btn = (e.target as HTMLElement).closest('[data-role="apply-js"]');
-  if (!btn || !jsEditor.value.trim()) return;
-  waitForPreviewReady().then(() => applyJSToPreview(jsEditor.value));
+// JS apply button — use pointerup (works whether or not n-button/traits are registered)
+document.addEventListener('pointerup', (e) => {
+  if ((e.target as HTMLElement).closest?.('[data-role="apply-js"]') && jsEditor.value.trim()) {
+    waitForPreviewReady().then(() => applyJSToPreview(jsEditor.value));
+  }
 });
 
 // Wire model picker → rebuild adapter on change
