@@ -380,6 +380,16 @@ function applyCSSToPreview(css: string): void {
   previewStyle.textContent = css;
 }
 
+/** Wait for all custom elements inside the preview to be defined + one rAF. */
+async function waitForPreviewReady(): Promise<void> {
+  const tags = new Set<string>();
+  for (const el of previewMount.querySelectorAll('*')) {
+    if (el.localName.includes('-')) tags.add(el.localName);
+  }
+  await Promise.all([...tags].map(t => customElements.whenDefined(t).catch(() => {})));
+  return new Promise(r => requestAnimationFrame(r as FrameRequestCallback));
+}
+
 function applyJSToPreview(js: string): void {
   try {
     // Wrap in IIFE so LLM code can declare `const preview` without
@@ -908,8 +918,8 @@ function applyResult(result: MockResult) {
   if (result.js !== undefined) {
     jsEditor.value = result.js;
     if (!activePanels.has('js')) { activePanels.add('js'); syncPanels(); }
-    // Defer JS execution — adapter needs a frame to stamp DOM elements
-    requestAnimationFrame(() => applyJSToPreview(result.js!));
+    // Defer JS execution — wait for all custom elements in preview to upgrade
+    waitForPreviewReady().then(() => applyJSToPreview(result.js!));
   }
 
   // Show suggestion chips after questions
@@ -1012,7 +1022,7 @@ async function sendMessage(value: string) {
   } catch (err) {
     clearProgress();
     if (err instanceof GatewayRequestError && err.kind === 'auth') {
-      addMessage('assistant', `API key error — check that your API key is valid and the proxy endpoint is configured. (${err.status}: ${err.message})`);
+      addMessage('assistant', `API key error — check that your API key is valid and the proxy endpoint is configured. The Anthropic API is not available in all regions — if you are outside the US, you may need to use a proxy or VPN. (${err.status}: ${err.message})`);
     } else {
       addMessage('assistant', `Error: ${(err as Error).message}`);
     }
