@@ -397,14 +397,25 @@ function applyCSSToPreview(css: string): void {
   previewStyle.textContent = scopeCSS(css);
 }
 
-/** Wait for all custom elements inside the preview to be defined + one rAF. */
+/** Wait for custom elements inside the preview to upgrade, then two rAFs. */
 async function waitForPreviewReady(): Promise<void> {
   const tags = new Set<string>();
   for (const el of previewMount.querySelectorAll('*')) {
     if (el.localName.includes('-')) tags.add(el.localName);
   }
-  console.log('[A2UI Builder] waitForPreviewReady — tags:', [...tags]);
-  await Promise.all([...tags].map(t => customElements.whenDefined(t).catch(() => {})));
+  // Only wait for tags that are actually registered (or will be soon).
+  // CSS-only undefined CEs (n-stack, n-body, n-header, etc.) never register
+  // so whenDefined() would hang forever. Use a short timeout as a race.
+  const TIMEOUT = 500;
+  const withTimeout = (p: Promise<unknown>) =>
+    Promise.race([p, new Promise(r => setTimeout(r, TIMEOUT))]);
+  const defined = [...tags].filter(t => customElements.get(t));
+  const pending = [...tags].filter(t => !customElements.get(t));
+  console.log('[A2UI Builder] waitForPreviewReady — defined:', defined, ', undefined (CSS-only):', pending);
+  await Promise.all([
+    ...defined.map(t => customElements.whenDefined(t)),
+    ...pending.map(t => withTimeout(customElements.whenDefined(t))),
+  ]);
   // Two rAFs — first for CE upgrade, second for child rendering
   await new Promise(r => requestAnimationFrame(r as FrameRequestCallback));
   await new Promise(r => requestAnimationFrame(r as FrameRequestCallback));
@@ -459,14 +470,23 @@ cssEditor.addEventListener('keydown', (e) => {
 });
 
 // JS apply — Play button (pointerup delegation) + Cmd/Ctrl-S
+let jsRunning = false;
 function runJS(source: string): void {
   const js = jsEditor.value.trim();
   if (!js) {
     console.log('[A2UI Builder] runJS — editor is empty, skipping');
     return;
   }
+  if (jsRunning) {
+    console.log('[A2UI Builder] runJS — already running, skipping');
+    return;
+  }
+  jsRunning = true;
   console.log('[A2UI Builder] runJS triggered via', source, '— code length:', js.length);
-  waitForPreviewReady().then(() => applyJSToPreview(js));
+  waitForPreviewReady().then(() => {
+    applyJSToPreview(js);
+    jsRunning = false;
+  });
 }
 
 document.addEventListener('pointerup', (e) => {
