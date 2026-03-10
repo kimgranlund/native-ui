@@ -10,6 +10,7 @@
 
   :where(n-picture) {
     display: block;
+    min-width: 0;
     max-width: 100%;
     overflow: hidden;
     border-radius: var(--n-radius);

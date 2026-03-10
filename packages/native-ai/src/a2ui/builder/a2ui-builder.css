@@ -1,5 +1,9 @@
 /* ── Builder chrome — mirrors native-a2ui workbench ── */
 
+main {
+  min-height: 100%;
+}
+
 .builder {
   --pg-chrome: var(--n-panel-neutral, #21252b);
   --pg-editor-bg: var(--n-control-neutral, #282c34);
@@ -13,7 +17,7 @@
 
   display: grid;
   grid-template-rows: auto 1fr;
-  height: calc(100vh - 4rem);
+  height: 100%;
   border: var(--pg-border);
   border-radius: var(--n-radius-lg, 0.75rem);
   overflow: hidden;
@@ -22,6 +26,11 @@
 }
 
 /* ── Header toolbar ── */
+
+.builder-title {
+  font-weight: 600;
+  color: var(--pg-text-strong);
+}
 
 .builder > n-header {
   display: flex;
@@ -72,12 +81,52 @@
 .builder-chat > n-chat-feed {
   flex: 1;
   min-height: 0;
+  padding-inline: calc(var(--n-space) * 2);
 }
 
-/* Question messages: accent left border */
-.builder-chat n-chat-message[data-type="question"] n-chat-message-text {
-  border-inline-start: 3px solid var(--n-border-accent);
-  padding-inline-start: 0.5rem;
+/* ── Welcome screen ── */
+
+.builder-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--n-space) * 3);
+  flex: 1;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 300ms var(--n-easing);
+}
+
+.builder-welcome-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.builder-welcome-heading {
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--n-ink);
+  margin: 0;
+}
+
+.builder-welcome-sub {
+  font-size: var(--n-font-size-sm);
+  color: var(--n-ink-muted);
+  margin: 0;
+}
+
+.builder-welcome-chips {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: calc(var(--n-space) * 1.5);
+}
+
+.builder-welcome-chips > n-button {
+  width: auto;
 }
 
 /* Remap messages: warning left border */
@@ -89,6 +138,18 @@
 
 .builder-chat > n-footer {
   flex: none;
+  padding-block: 0;
+  min-height: 0;
+}
+
+/* ── Chat composer: give the input area a visible container ── */
+.builder-chat > n-footer > :where(n-chat-input) {
+  --n-background: var(--n-control);
+  background: var(--n-background);
+  border: 1px solid var(--n-border-muted);
+  border-radius: var(--n-radius);
+  padding-inline: calc(var(--n-space) * 2);
+  padding-block: var(--n-space);
 }
 
 /* ── Panes (right side, togglable) ── */
@@ -101,7 +162,7 @@
   min-width: 200px;
   min-height: 0;
   overflow: hidden;
-  border-left: var(--pg-border);
+  border-inline-start: var(--pg-border);
 }
 
 .builder-pane[hidden] {
@@ -116,7 +177,7 @@
   gap: 0.375rem;
   flex: none;
   background: var(--pg-chrome);
-  border-bottom: var(--pg-border);
+  border-block-end: var(--pg-border);
   min-height: unset;
   padding-block: 0;
   padding-inline: 0.5rem;
@@ -221,7 +282,7 @@
   font-size: 0.6875rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  border-bottom: var(--pg-border);
+  border-block-end: var(--pg-border);
   position: sticky;
   top: 0;
   background: var(--pg-chrome);
@@ -275,6 +336,16 @@
 /* Hide handle on last visible pane */
 .builder-pane:not([hidden]):not(:has(~ .builder-pane:not([hidden]))) > .resize-handle {
   display: none;
+}
+
+/* ── Progress indicator (multi-step typing) ── */
+
+.builder-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: var(--n-font-size-sm);
+  color: var(--n-ink-muted);
 }
 
 /* ── Empty state ── */

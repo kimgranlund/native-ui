@@ -21,9 +21,10 @@
     display: flex;
     flex: 1 1 0%;
     min-width: 0;
+    min-height: var(--n-size);
     align-items: center;
     gap: calc(var(--n-space) * 2);
-    overflow: hidden;
+    overflow: clip;
     background: var(--n-background);
     border-radius: var(--n-radius);
     border: 1px solid var(--n-border-color);
@@ -148,3 +149,12 @@
   border-radius: 0;
   padding: 0;
 }
+
+/* Numeric padding — --n-space multiplier. Placed after variant rules
+   so padding="N" can override variant="plain"'s padding:0. */
+:where(n-toolbar)[padding="0"] { padding: 0; }
+:where(n-toolbar)[padding="1"] { padding: calc(var(--n-space) * 1); }
+:where(n-toolbar)[padding="2"] { padding: calc(var(--n-space) * 2); }
+:where(n-toolbar)[padding="3"] { padding: calc(var(--n-space) * 3); }
+:where(n-toolbar)[padding="4"] { padding: calc(var(--n-space) * 4); }
+:where(n-toolbar)[padding="6"] { padding: calc(var(--n-space) * 6); }

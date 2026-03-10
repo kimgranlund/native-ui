@@ -101,6 +101,7 @@
 
     display: flex;
     align-items: center;
+    min-width: 0;
     gap: calc(var(--n-space) * 2);
 
     min-height: var(--n-size);

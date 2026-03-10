@@ -13,8 +13,11 @@
     justify-content: center;
     width: var(--n-icon-size);
     height: var(--n-icon-size);
+    min-width: var(--n-icon-size);
+    min-height: var(--n-icon-size);
     color: var(--n-icon-color);
     flex-shrink: 0;
+    overflow: hidden;
     vertical-align: middle;
     line-height: 0;
   }

@@ -53,10 +53,12 @@
     --n-chat-message-gap: calc(var(--n-space) * 2);
 
     /* Bubbles */
-    --n-chat-bubble-user: var(--n-button);
-    --n-chat-bubble-user-color: white;
-    --n-chat-bubble-assistant: var(--n-card);
+    --n-chat-bubble-user: var(--n-surface-accent);
+    --n-chat-bubble-user-color: var(--n-surface-ink-accent);
+    --n-chat-bubble-user-border: transparent;
+    --n-chat-bubble-assistant: transparent;
     --n-chat-bubble-assistant-color: var(--n-ink);
+    --n-chat-bubble-assistant-border: var(--n-border-muted);
     --n-chat-bubble-radius: var(--n-radius);
     --n-chat-bubble-radius-avatar-side: var(--n-chat-bubble-radius);
     --n-chat-bubble-radius-far-side: var(--n-chat-bubble-radius);
@@ -144,7 +146,7 @@
 
   :where(native-chat-panel) > :where(n-header) {
     background: var(--n-chat-panel-header-background);
-    border-bottom: 1px solid var(--n-chat-panel-header-border);
+    border-block-end: 1px solid var(--n-chat-panel-header-border);
   }
 
   :where(native-chat-panel) > :where(n-header) :where([slot="label"]) {
@@ -164,7 +166,7 @@
 
   :where(native-chat-panel) > :where(n-footer) {
     background: var(--n-chat-panel-footer-background);
-    border-top: 1px solid var(--n-chat-panel-footer-border);
+    border-block-start: 1px solid var(--n-chat-panel-footer-border);
   }
 
   /* ── Model picker ── */
@@ -269,6 +271,8 @@
     align-self: end;
   }
 
+  /* Assistant avatar: use default avatar tokens (bubble is transparent) */
+
   /* Context area: col 2, row 1 — metadata above messages */
   :where(n-chat-messages) > :where(.n-chat-context) {
     grid-column: 2;
@@ -317,6 +321,8 @@
 
   [data-role="user"]:where(n-chat-messages) > :where(n-chat-avatar) {
     grid-column: 2;
+    background: var(--n-chat-bubble-user);
+    color: var(--n-chat-bubble-user-color);
   }
 
   [data-role="user"]:where(n-chat-messages) > :where(.n-chat-context),
@@ -375,6 +381,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--n-space);
+    min-width: 0;
     overflow: hidden;
 
     /* Asymmetric radius: assistant = avatar on left */
@@ -386,6 +393,7 @@
 
     background: var(--n-chat-bubble-assistant);
     color: var(--n-chat-bubble-assistant-color);
+    border: 1px solid var(--n-chat-bubble-assistant-border);
 
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -401,6 +409,7 @@
 
     background: var(--n-chat-bubble-user);
     color: var(--n-chat-bubble-user-color);
+    border-color: var(--n-chat-bubble-user-border);
   }
 
   /* Streaming status */
@@ -415,7 +424,7 @@
 
   /* Partial status — stream ended without explicit completion */
   [status="partial"]:where(n-chat-message) {
-    border-bottom: 2px dashed var(--n-border-muted);
+    border-block-end: 2px dashed var(--n-border-muted);
   }
 
   /* Typing status — waiting for first stream chunk */
@@ -511,6 +520,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--n-chat-prose-gap);
+    min-width: 0;
   }
 
   /* Universal block margin reset — flexbox gap handles spacing,
@@ -585,7 +595,7 @@
 
   :where(n-chat-message-text) :where(hr) {
     border: none;
-    border-top: 1px solid var(--n-border-muted);
+    border-block-start: 1px solid var(--n-border-muted);
   }
 
   :where(n-chat-message-text[hidden]) { display: none; }
@@ -598,6 +608,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--n-space);
+    min-width: 0;
     color: var(--n-chat-activity-color);
     font-size: var(--n-font-size-sm);
     padding-block: var(--n-space);
@@ -721,6 +732,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--n-space);
+    min-width: 0;
   }
 
   :where(n-chat-message-genui) :where(.n-chat-genui-error) {
@@ -747,6 +759,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--n-chat-structured-gap);
+    min-width: 0;
     padding-block: var(--n-chat-structured-padding);
     padding-inline: var(--n-chat-structured-padding);
     --n-background: var(--n-card);
@@ -788,12 +801,19 @@
     flex: 1 1 0%;
     flex-direction: column;
     min-width: 0;
+    min-height: var(--n-size);
   }
 
   /* Compact: single row */
   [compact]:where(n-chat-input) {
     flex-direction: row;
     align-items: center;
+  }
+
+  /* Textarea fills available space in both column and compact row */
+  :where(n-chat-input) > :where(n-textarea) {
+    flex: 1 1 auto;
+    min-height: 4.5em;
   }
 
   /* Textarea inside input — fully transparent, no padding */
@@ -812,12 +832,6 @@
     resize: none;
   }
 
-  :where(n-chat-input) > :where(n-textarea):not(:state(empty)),
-  :where(n-chat-input) > :where(n-textarea):not(:state(empty)):hover {
-    background: transparent;
-    border-color: transparent;
-  }
-
   :where(n-chat-input) > :where(n-textarea):focus {
     border-color: transparent;
     outline: none;
@@ -828,6 +842,7 @@
   :where(n-chat-input-attachments) {
     display: flex;
     flex-wrap: wrap;
+    flex-shrink: 0;
     gap: calc(var(--n-space) * 2);
   }
 
@@ -835,14 +850,144 @@
 
   :where(n-chat-input-actions) {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: flex-end;
     gap: calc(var(--n-space) * 2);
     min-width: 0;
   }
 
-  [compact]:where(n-chat-input) > :where(n-chat-input-actions) {
+
+  /* ── n-chat-input-header ──
+     Header bar above the textarea: model/agent indicators left,
+     settings/activity right. Used in advanced multi-row layout. */
+
+  :where(n-chat-input-header) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    flex-shrink: 0;
+    min-width: 0;
+  }
+
+  :where(n-chat-input-header) > :where(nav) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  :where(n-chat-input-header) > :where(aside) {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--n-space) * 2);
+  }
+
+  /* ── n-chat-input-chips ──
+     Suggestion chips below the actions row. Wraps on overflow. */
+
+  :where(n-chat-input-chips) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-shrink: 0;
+    gap: calc(var(--n-space) * 1.5);
+    padding-block-end: calc(var(--n-space) * 1.5);
+    min-width: 0;
+  }
+
+  /* Chip buttons: outlined pill style, intrinsic width */
+  :where(n-chat-input-chips) > :where(n-button) {
     flex: none;
+    width: auto;
+    border: 1px solid var(--n-border-rest);
+  }
+
+  /* ══════════════════════════════════════════════════
+     n-chat-input-advanced — multi-zone rich composer
+     ══════════════════════════════════════════════════
+
+     3 zones: header-bar (above), prompt-container (bordered), suggestion-chips (below).
+     The prompt container holds textarea + improve button + toolbar.
+
+     HTML shape:
+       <n-chat-input-advanced>
+         <n-chat-input-header> … </n-chat-input-header>
+         <n-chat-input-prompt>
+           <n-textarea …></n-textarea>
+           <n-button data-role="improve">✦</n-button>
+           <n-toolbar variant="plain"> … </n-toolbar>
+         </n-chat-input-prompt>
+         <n-chat-input-chips> … </n-chat-input-chips>
+       </n-chat-input-advanced>
+  */
+
+  :where(n-chat-input-advanced):not(:defined) { visibility: hidden; }
+
+  :where(n-chat-input-advanced) {
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
+    gap: calc(var(--n-space) * 2);
+    min-width: 0;
+    min-height: var(--n-size);
+  }
+
+  /* ── Prompt container ──
+     Bordered area containing textarea, improve button, and actions.
+     Provides the nested rounded rect visible in the reference design. */
+
+  :where(n-chat-input-prompt) {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    border: 1px solid var(--n-border-rest);
+    border-radius: var(--n-radius);
+    transition: border-color var(--n-duration) var(--n-easing);
+  }
+
+  /* Textarea inside prompt container — transparent, no chrome */
+  :where(n-chat-input-prompt) > :where(n-textarea) {
+    flex: 1 1 auto;
+    min-height: 4.5em;
+
+    --n-background: transparent;
+    --n-background-hover: transparent;
+    --n-border-color: transparent;
+    --n-border-color-hover: transparent;
+
+    padding-block: calc(var(--n-space) * 2);
+    padding-inline: calc(var(--n-space) * 3);
+    border: none;
+    border-radius: 0;
+    resize: none;
+  }
+
+  :where(n-chat-input-prompt) > :where(n-textarea):focus {
+    border-color: transparent;
+    outline: none;
+  }
+
+  /* Focus ring on prompt container when textarea is focused */
+  :where(n-chat-input-prompt):has(:where(n-textarea):focus) {
+    border-color: var(--n-focus-ring);
+  }
+
+  /* Prompt-improvement button: pinned top-right inside the bordered area */
+  :where(n-chat-input-prompt) > :where(n-button[data-role="improve"]) {
+    position: absolute;
+    inset-block-start: calc(var(--n-space) * 1.5);
+    inset-inline-end: calc(var(--n-space) * 1.5);
+  }
+
+  /* Toolbar inside prompt container — sits below textarea */
+  :where(n-chat-input-prompt) > :where(n-toolbar) {
+    padding-inline: calc(var(--n-space) * 2);
+    padding-block-end: calc(var(--n-space) * 1.5);
   }
 
 }

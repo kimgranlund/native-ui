@@ -19,8 +19,8 @@
         <!-- ── Header toolbar: panel toggle chips ── -->
         <n-header>
           <n-toolbar variant="ghost" size="sm">
-            <span style="font-weight: 600; color: var(--pg-text-strong); margin-inline-end: 0.5rem;">A2UI Builder</span>
-            <n-divider orientation="vertical"></n-divider>
+            <span class="builder-title">A2UI Builder</span>
+            <span fill></span>
             <n-button variant="ghost" size="sm" data-chip="preview">Preview</n-button>
             <n-button variant="ghost" size="sm" data-chip="concepts">Concepts</n-button>
             <n-button variant="ghost" size="sm" data-chip="schema">Schema</n-button>
@@ -35,13 +35,49 @@
           <!-- Chat (left) -->
           <div class="builder-chat" data-region="chat">
             <n-chat-feed id="chat-feed" auto-scroll></n-chat-feed>
-            <n-footer dividers>
-              <n-chat-input id="chat-composer" compact>
-                <n-textarea placeholder="Describe a UI..." autogrow rows="1"></n-textarea>
-                <n-chat-input-actions>
-                  <n-button variant="primary" intent="accent" radius="round" inline disabled><n-icon name="arrow-up"></n-icon></n-button>
-                </n-chat-input-actions>
-              </n-chat-input>
+            <n-footer>
+              <n-chat-input-advanced id="chat-composer">
+                <n-chat-input-header>
+                  <nav>
+                    <n-select id="model-picker" value="claude-haiku-4-5" data-role="model-picker">
+                      <n-button variant="ghost" inline size="sm"><span slot="label">Claude Haiku 4.5</span> <n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+                      <n-listbox popover>
+                        <n-option value="human">Human</n-option>
+                        <n-option value="claude-haiku-4-5" selected>Claude Haiku 4.5</n-option>
+                        <n-option value="gpt-5-mini">GPT-5 mini</n-option>
+                        <n-option value="gpt-5-nano">GPT-5 nano</n-option>
+                        <n-option value="gpt-4.1-mini">GPT-4.1 mini</n-option>
+                        <n-option value="gpt-4.1-nano">GPT-4.1 nano</n-option>
+                      </n-listbox>
+                    </n-select>
+                    <n-button variant="ghost" inline size="sm"><n-icon name="brain"></n-icon> UI Builder</n-button>
+                  </nav>
+                  <aside>
+                    <n-button variant="ghost" inline size="sm" data-role="toggle-inspector"><n-icon name="sliders"></n-icon></n-button>
+                    <n-button variant="ghost" inline size="sm"><n-icon name="clock"></n-icon></n-button>
+                  </aside>
+                </n-chat-input-header>
+                <n-chat-input-prompt>
+                  <n-textarea placeholder="Describe a UI..." autogrow rows="1"></n-textarea>
+                  <n-button variant="ghost" inline size="sm" data-role="improve"><n-icon name="sparkle"></n-icon></n-button>
+                  <n-toolbar variant="plain" padding="3">
+                    <n-button variant="ghost" radius="round" inline><n-icon name="plus"></n-icon></n-button>
+                    <n-button variant="ghost" radius="round" inline><n-icon name="magnifying-glass"></n-icon></n-button>
+                    <n-button variant="ghost" radius="round" inline><n-icon name="compass"></n-icon></n-button>
+                    <n-button variant="ghost" radius="round" inline><n-icon name="flask"></n-icon></n-button>
+                    <span fill></span>
+                    <n-button variant="ghost" radius="round" inline><n-icon name="record"></n-icon></n-button>
+                    <n-button variant="ghost" radius="round" inline><n-icon name="microphone"></n-icon></n-button>
+                    <n-button variant="primary" intent="accent" radius="round" inline disabled data-role="submit"><n-icon name="arrow-up"></n-icon></n-button>
+                  </n-toolbar>
+                </n-chat-input-prompt>
+                <n-chat-input-chips>
+                  <n-button variant="ghost" size="sm" radius="round"><n-icon name="lightbulb"></n-icon> Clarify problem</n-button>
+                  <n-button variant="ghost" size="sm" radius="round"><n-icon name="crosshair"></n-icon> Define context</n-button>
+                  <n-button variant="ghost" size="sm" radius="round"><n-icon name="list-checks"></n-icon> Select deliverable</n-button>
+                  <n-button variant="ghost" size="sm" radius="round"><n-icon name="pencil-simple"></n-icon> Refine requirements</n-button>
+                </n-chat-input-chips>
+              </n-chat-input-advanced>
             </n-footer>
             <div class="resize-handle"></div>
           </div>

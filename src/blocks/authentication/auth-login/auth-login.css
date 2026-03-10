@@ -1,0 +1,55 @@
+body { background: var(--n-doc-neutral); color: var(--n-color-neutral-950); }
+h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; margin-top: 2rem; color: var(--n-ink-strong-neutral); }
+
+/* ── Auth logo ── */
+.auth-logo-mark {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background: var(--n-surface-accent);
+  color: var(--n-surface-ink-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+/* ── Auth links ── */
+.auth-link {
+  color: var(--n-ink-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.auth-link:hover { text-decoration: underline; }
+
+/* ── Split layout variant ── */
+.auth-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 36rem;
+}
+
+@media (max-width: 48rem) {
+  .auth-split { grid-template-columns: 1fr; }
+  .auth-split-image { display: none; }
+}
+
+.auth-split-image {
+  background: linear-gradient(135deg, var(--n-surface-accent), var(--n-surface-info));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--n-surface-ink-accent);
+  font-size: 1.125rem;
+  font-weight: 600;
+  padding: 2rem;
+}
+
+.auth-split-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}

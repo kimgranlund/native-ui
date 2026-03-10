@@ -19,8 +19,9 @@
     --n-border-color-disabled: transparent;
 
     display: flex;
+    box-sizing: border-box;
     width: 100%;
-    min-width: var(--n-size);
+    min-width: 0;
     align-items: center;
     gap: calc(var(--n-space) * 2);
 

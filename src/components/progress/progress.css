@@ -36,7 +36,6 @@
     inset-block: 0;
     inset-inline-start: 0;
     width: calc(var(--n-progress) * 100%);
-    min-width: 0;
     background: var(--n-ink);
     border-radius: inherit;
     transition: width var(--n-duration) var(--n-easing);

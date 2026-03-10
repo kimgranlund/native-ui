@@ -1,0 +1,107 @@
+.log {
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem;
+  padding: 0.75rem;
+  max-height: 12rem;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}
+
+.log-entry.cmd {
+  color: var(--n-ink-accent);
+}
+
+.log-entry.undo {
+  color: var(--n-ink-warning);
+}
+
+.log-entry.error {
+  color: var(--n-ink-danger);
+}
+
+.log-entry.success {
+  color: var(--n-ink-success);
+}
+
+.status-bar {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 0.75rem;
+  font-family: ui-monospace, monospace;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.375rem;
+}
+
+.status-bar .label {
+  color: var(--n-ink-muted-neutral);
+}
+
+.status-bar .value {
+  color: var(--n-ink-accent);
+  font-weight: 600;
+}
+
+.plan-input {
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+  tab-size: 2;
+}
+
+.plan-output {
+  border: 2px dashed var(--n-border-muted-neutral);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  min-height: 4rem;
+  margin-top: 0.75rem;
+}
+
+.plan-output:empty::before {
+  content: 'Plan output will render here...';
+  color: var(--n-ink-muted-neutral);
+  font-size: 0.875rem;
+}
+
+.shortcut-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+  font-size: 0.8125rem;
+}
+
+.shortcut-list kbd {
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.375rem;
+}
+
+.overlay-demo-box {
+  position: fixed;
+  background: var(--n-card-neutral);
+  border: 1px solid var(--n-border-neutral);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px oklch(0% 0 0 / 0.15);
+  min-width: 14rem;
+}
+
+.overlay-demo-box h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.overlay-demo-box p {
+  margin: 0 0 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--n-ink-muted-neutral);
+}

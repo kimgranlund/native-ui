@@ -1,0 +1,15 @@
+.surface-mount {
+  min-height: 14rem;
+}
+
+.surface-mount[data-empty] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.surface-mount[data-empty]::before {
+  content: 'Click "Start Review" to begin';
+  color: var(--n-ink-muted-neutral);
+  font-size: 0.8rem;
+}

@@ -2,7 +2,7 @@
 
   :where(n-divider) {
     display: flex;
-    flex: 1 1 0%;
+    flex: none;
     min-width: 0;
     align-items: center;
     gap: calc(var(--n-space) * var(--n-space-k));
@@ -18,14 +18,14 @@
   }
 
   :where(n-divider):not([orientation="vertical"]):empty {
-    border-top: 1px solid var(--n-border-muted);
+    border-block-start: 1px solid var(--n-border-muted);
   }
 
   :where(n-divider):not([orientation="vertical"]):not(:empty)::before,
   :where(n-divider):not([orientation="vertical"]):not(:empty)::after {
     content: '';
     flex: 1;
-    border-top: 1px solid var(--n-border-muted);
+    border-block-start: 1px solid var(--n-border-muted);
   }
 
   /* ── Attribute API ── */
@@ -40,15 +40,15 @@
   :where(n-divider)[orientation="vertical"]:empty::after {
     content: '';
     align-self: center;
-    height: 100%;
-    border-left: 1px solid var(--n-border-muted);
+    block-size: 100%;
+    border-inline-start: 1px solid var(--n-border-muted);
   }
 
   :where(n-divider)[orientation="vertical"]:not(:empty)::before,
   :where(n-divider)[orientation="vertical"]:not(:empty)::after {
     content: '';
     flex: 1;
-    border-left: 1px solid var(--n-border-muted);
+    border-inline-start: 1px solid var(--n-border-muted);
   }
 
 }

@@ -8,73 +8,7 @@
     <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../../styles/spa/spa-pages.css" />
-    <style>
-      body {
-        background: var(--n-doc-neutral);
-        color: var(--n-color-neutral-950);
-      }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin: 0;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin: 0;
-        color: var(--n-ink-strong-neutral);
-      }
-
-      .dialog-panel {
-        background: var(--n-body-neutral);
-        border: 1px solid var(--n-border-muted-neutral);
-        border-radius: 0.75rem;
-        box-shadow:
-          0 8px 30px oklch(0% 0 0 / 0.12),
-          0 2px 8px oklch(0% 0 0 / 0.06);
-        width: min(32rem, calc(100vw - 2rem));
-        overflow: hidden;
-      }
-
-      .shortcut {
-        font-family: ui-monospace, monospace;
-        font-size: 0.625rem;
-        background: var(--n-panel-neutral);
-        border: 1px solid var(--n-border-muted-neutral);
-        border-radius: 0.25rem;
-        padding: 0.125rem 0.375rem;
-        margin-left: auto;
-        color: var(--n-ink-muted-neutral);
-      }
-
-      .trigger-area {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.75rem;
-        padding: 3rem 2rem;
-        background: var(--n-body-neutral);
-        border: 1px solid var(--n-border-muted-neutral);
-        border-radius: 0.75rem;
-        text-align: center;
-      }
-
-      .trigger-hint {
-        font-size: 0.8125rem;
-        color: var(--n-ink-muted-neutral);
-      }
-
-      .trigger-hint kbd {
-        font-family: ui-monospace, monospace;
-        font-size: 0.75rem;
-        background: var(--n-panel-neutral);
-        border: 1px solid var(--n-border-muted-neutral);
-        border-radius: 0.25rem;
-        padding: 0.125rem 0.375rem;
-      }
-    </style>
+    <link rel="stylesheet" href="./overlay-command-palette.css" />
   </head>
   <body>
     <native-dashboard-spa><main>
@@ -219,41 +153,7 @@
       import '../../../icons/phosphor/user-plus.ts';
       import '../../../icons/phosphor/arrow-right.ts';
       import '../../../icons/phosphor/folder.ts';
-
-      const dialog = document.getElementById('palette-dialog');
-      const command = document.getElementById('palette-command');
-
-      // Open via button
-      document.getElementById('open-palette').addEventListener('native:press', () => {
-        dialog.showModal();
-        // Focus the input after dialog opens
-        requestAnimationFrame(() => {
-          const input = command.querySelector('input');
-          if (input) input.focus();
-        });
-      });
-
-      // Open via Ctrl+K global shortcut
-      document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-          e.preventDefault();
-          dialog.showModal();
-          requestAnimationFrame(() => {
-            const input = command.querySelector('input');
-            if (input) input.focus();
-          });
-        }
-      });
-
-      // Close dialog on command selection
-      command.addEventListener('native:change', (e) => {
-        dialog.close();
-      });
-
-      // Close dialog on Escape (native:dismiss from command)
-      command.addEventListener('native:dismiss', () => {
-        dialog.close();
-      });
     </script>
+    <script type="module" src="./overlay-command-palette.ts"></script>
   </body>
 </html>

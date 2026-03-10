@@ -1,0 +1,17 @@
+.nav-main {
+  padding: 2rem;
+  max-width: 960px;
+}
+
+.demo-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--n-ink-muted-neutral);
+  margin-bottom: 0.5rem;
+}
+
+n-chat-content > [data-a2ui] {
+  margin-bottom: 1.5rem;
+}

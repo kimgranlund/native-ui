@@ -194,6 +194,7 @@ export class NTextarea extends FormAssociable(NativeElement) {
     this.addEventListener('blur', this.#onBlur);
     this.addEventListener('keydown', this.#onFormattingKeydown);
     this.addEventListener('focus', this.#onFocus);
+    this.addEventListener('mouseup', this.#onMouseUp);
   }
 
   teardown(): void {
@@ -202,6 +203,7 @@ export class NTextarea extends FormAssociable(NativeElement) {
     this.removeEventListener('blur', this.#onBlur);
     this.removeEventListener('keydown', this.#onFormattingKeydown);
     this.removeEventListener('focus', this.#onFocus);
+    this.removeEventListener('mouseup', this.#onMouseUp);
     super.teardown();
   }
 
@@ -255,7 +257,9 @@ export class NTextarea extends FormAssociable(NativeElement) {
 
   // WHY: When an empty field gains focus, the browser may place the caret
   // after the ::before placeholder pseudo-element. Force caret to position 0.
-  #onFocus = (): void => {
+  // The mouseup handler catches click-to-focus (browser repositions caret after
+  // focus but before mouseup), while the focus handler catches programmatic focus.
+  #resetCaretIfEmpty(): void {
     if ((this.textContent ?? '').trim() !== '') return;
     const sel = window.getSelection();
     if (!sel) return;
@@ -264,6 +268,14 @@ export class NTextarea extends FormAssociable(NativeElement) {
     range.collapse(true);
     sel.removeAllRanges();
     sel.addRange(range);
+  }
+
+  #onFocus = (): void => {
+    this.#resetCaretIfEmpty();
+  };
+
+  #onMouseUp = (): void => {
+    this.#resetCaretIfEmpty();
   };
 
   #onInput = (): void => {

@@ -148,14 +148,18 @@ export class NChatInput extends NativeElement {
   // ── Child discovery ──
 
   #discoverChildren(): void {
-    this.#textarea = this.querySelector<NTextarea>(':scope > n-textarea');
+    this.#textarea =
+      this.querySelector<NTextarea>(':scope > n-textarea') ??
+      this.querySelector<NTextarea>(':scope > n-chat-input-prompt > n-textarea');
     this.#submitBtn =
       this.querySelector<HTMLElement>('[data-submit]') ??
       this.#findLastPrimaryButton();
   }
 
   #findLastPrimaryButton(): HTMLElement | null {
-    const actions = this.querySelector(':scope > n-chat-input-actions');
+    const actions =
+      this.querySelector(':scope > n-chat-input-actions, :scope > n-toolbar') ??
+      this.querySelector(':scope > n-chat-input-prompt > n-chat-input-actions, :scope > n-chat-input-prompt > n-toolbar');
     if (!actions) return null;
     const primaries = actions.querySelectorAll<HTMLElement>(
       'n-button[variant="primary"]',
@@ -211,7 +215,7 @@ export class NChatInput extends NativeElement {
     const target = ke.target as HTMLElement;
     if (!this.#textarea?.contains(target) && target !== this.#textarea) return;
 
-    if (ke.key === 'Enter' && !ke.shiftKey && !ke.ctrlKey && !ke.metaKey) {
+    if (ke.key === 'Enter' && (ke.metaKey || ke.ctrlKey) && !ke.shiftKey) {
       ke.preventDefault();
       if (this.value.trim()) this.#send();
     }
@@ -249,3 +253,6 @@ export class NChatInput extends NativeElement {
     }
   }
 }
+
+/** Advanced multi-zone variant — same behavior, distinct tag for CSS targeting. */
+export class NChatInputAdvanced extends NChatInput {}

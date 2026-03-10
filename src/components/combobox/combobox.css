@@ -7,12 +7,6 @@
   :where(n-combobox) {
     white-space: nowrap;
     display: contents;
-    transition:
-      background var(--n-duration) var(--n-easing),
-      color var(--n-duration) var(--n-easing),
-      border-color var(--n-duration) var(--n-easing),
-      opacity var(--n-duration) var(--n-easing),
-      transform var(--n-duration) var(--n-easing);
   }
 
   /* WHY: The input acts as a dropdown trigger — default cursor at rest,

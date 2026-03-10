@@ -54,6 +54,8 @@
 
   :where(n-slideshow) > :where([part="track"]) {
     display: flex;
+    min-width: 0;
+    min-height: 0;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;

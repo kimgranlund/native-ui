@@ -220,6 +220,7 @@ export class NInput extends FormAssociable(NativeElement) {
     this.#surface.addEventListener('input', this.#onInput);
     this.#surface.addEventListener('blur', this.#onBlur);
     this.#surface.addEventListener('focus', this.#onSurfaceFocus);
+    this.#surface.addEventListener('mouseup', this.#onSurfaceMouseUp);
     // WHY: Clicking the host (padding, border area) should focus the surface.
     this.addEventListener('mousedown', this.#onHostMousedown);
   }
@@ -230,6 +231,7 @@ export class NInput extends FormAssociable(NativeElement) {
     this.#surface?.removeEventListener('input', this.#onInput);
     this.#surface?.removeEventListener('blur', this.#onBlur);
     this.#surface?.removeEventListener('focus', this.#onSurfaceFocus);
+    this.#surface?.removeEventListener('mouseup', this.#onSurfaceMouseUp);
     this.removeEventListener('mousedown', this.#onHostMousedown);
     this.#surface?.remove();
     this.#surface = null;
@@ -312,7 +314,9 @@ export class NInput extends FormAssociable(NativeElement) {
 
   // WHY: When an empty field gains focus, the browser may place the caret
   // after the ::before placeholder pseudo-element. Force caret to position 0.
-  #onSurfaceFocus = (): void => {
+  // The mouseup handler catches click-to-focus (browser repositions caret after
+  // focus but before mouseup), while the focus handler catches programmatic focus.
+  #resetCaretIfEmpty(): void {
     if ((this.#surface?.textContent ?? '').trim() !== '') return;
     const sel = window.getSelection();
     if (!sel || !this.#surface) return;
@@ -321,6 +325,14 @@ export class NInput extends FormAssociable(NativeElement) {
     range.collapse(true);
     sel.removeAllRanges();
     sel.addRange(range);
+  }
+
+  #onSurfaceFocus = (): void => {
+    this.#resetCaretIfEmpty();
+  };
+
+  #onSurfaceMouseUp = (): void => {
+    this.#resetCaretIfEmpty();
   };
 
   #onKeyDown = (e: KeyboardEvent): void => {

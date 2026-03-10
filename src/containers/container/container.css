@@ -28,7 +28,8 @@
     min-width: 0;
     flex-direction: column;
     gap: calc(var(--n-space) * var(--n-space-k));
-    padding: calc(var(--n-space) * var(--n-space-k));
+    padding-block: calc(var(--n-space) * var(--n-space-k));
+    padding-inline: calc(var(--n-space) * var(--n-space-k));
     background: var(--n-ground);
     border-radius: var(--n-radius);
 
@@ -68,16 +69,14 @@
   :where(n-container):has(> n-header, > n-footer) {
     overflow: hidden;
     padding: 0;
+    min-height: 0;
   }
 
   :where(n-container):has(> n-header, > n-footer) > :where(n-body) {
     flex: 1 1 0%;
+    min-height: 0;
     overflow-y: auto;
     scrollbar-width: none;
-    padding-block: var(--n-padding-block);
-    padding-inline: var(--n-padding-inline);
-    display: flex;
-    flex-direction: column;
   }
 
   /* ── Container n-header grid columns — nav (leading) + aside (trailing) ──
@@ -129,7 +128,7 @@
 }
 
 :where(n-container)[dividers] > :where(:not(:first-child)) {
-  border-top: 1px solid var(--n-border-muted);
+  border-block-start: 1px solid var(--n-border-muted);
 }
 
 :where(n-container)[interactive] {
@@ -156,7 +155,8 @@
   scrollbar-width: thin;
 }
 
-[padding="0"]:where(n-container) {
+[padding="0"]:where(n-container),
+[padding="none"]:where(n-container) {
   padding: 0;
 }
 

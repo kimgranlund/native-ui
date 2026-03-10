@@ -1,0 +1,81 @@
+body {
+  background: var(--n-doc-neutral);
+  color: var(--n-color-neutral-950);
+}
+
+h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--n-ink-strong-neutral);
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: var(--n-body-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: var(--n-radius);
+  min-height: 3rem;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-brand n-icon {
+  color: var(--n-ink-strong-accent);
+}
+
+.nav-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-inline-start: 0.25rem;
+  cursor: default;
+}
+
+.nav-user-name {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.icon-badge-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.search-input-wrapper {
+  max-width: 20rem;
+  width: 100%;
+}

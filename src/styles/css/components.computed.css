@@ -38,3 +38,21 @@
 [density="12"] {
   --n-space-k: 12;
 }
+
+/* ─── Inline density ─── */
+/* Constrains --n-size to very compact heights while preserving
+   font-size, icon-size, and spacing from the [size] attribute.
+   xs/sm/md all collapse to 24px; lg → 28px; xl → 32px. */
+
+[density="inline"] {
+  --n-space-k: 1;
+  --n-size: var(--n-size-xs);  /* 1.5rem (24px) */
+}
+
+[density="inline"][size="lg"] {
+  --n-size: var(--n-size-sm);  /* 1.75rem (28px) */
+}
+
+[density="inline"][size="xl"] {
+  --n-size: 2rem;  /* 32px */
+}

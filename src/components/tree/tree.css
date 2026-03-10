@@ -28,13 +28,7 @@
   :where(n-tree-item) {
     display: flex;
     flex-direction: column;
-
-    transition:
-      background var(--n-duration) var(--n-easing),
-      color var(--n-duration) var(--n-easing),
-      border-color var(--n-duration) var(--n-easing),
-      opacity var(--n-duration) var(--n-easing),
-      transform var(--n-duration) var(--n-easing);
+    min-width: 0;
   }
 
   /* ── Item row (label area) ── */
@@ -105,6 +99,7 @@
   :where(n-tree-item[expanded]) > :where(.n-tree-children) {
     display: flex;
     flex-direction: column;
+    min-width: 0;
   }
 
   /* ── Disabled ── */

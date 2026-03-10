@@ -8,70 +8,7 @@
     <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../../styles/spa/spa-pages.css" />
-    <style>
-      body {
-        background: var(--n-doc-neutral);
-        color: var(--n-color-neutral-950);
-      }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin: 0;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin: 0;
-        color: var(--n-ink-strong-neutral);
-      }
-
-      .wizard-wrapper {
-        max-width: 36rem;
-      }
-
-      .step-panel {
-        display: none;
-      }
-
-      .step-panel[active] {
-        display: block;
-      }
-
-      .step-actions {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 1.5rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--n-border-muted-neutral);
-      }
-
-      .step-actions .right {
-        display: flex;
-        gap: 0.5rem;
-      }
-
-      .review-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 0.5rem 0;
-        border-bottom: 1px solid var(--n-border-muted-neutral);
-        font-size: 0.875rem;
-      }
-
-      .review-row:last-child {
-        border-bottom: none;
-      }
-
-      .review-label {
-        color: var(--n-ink-muted-neutral);
-      }
-
-      .review-value {
-        font-weight: 500;
-      }
-    </style>
+    <link rel="stylesheet" href="./form-multi-step.css" />
   </head>
   <body>
     <native-dashboard-spa><main>
@@ -269,56 +206,7 @@
       import '../../../icons/phosphor/arrow-left.ts';
       import '../../../icons/phosphor/check.ts';
       import '../../../icons/phosphor/caret-up-down.ts';
-
-      const steps = ['personal', 'address', 'review'];
-      const indicator = document.getElementById('step-indicator');
-      let currentStep = 0;
-
-      function goToStep(index) {
-        currentStep = index;
-        const stepName = steps[index];
-
-        // Update panels
-        document.querySelectorAll('.step-panel').forEach((p) => p.removeAttribute('active'));
-        document.getElementById(`step-${stepName}`)?.setAttribute('active', '');
-
-        // Update segmented control
-        indicator.value = stepName;
-
-        // Populate review if going to step 3
-        if (stepName === 'review') {
-          document.getElementById('review-name').textContent =
-            document.getElementById('input-name')?.value || '--';
-          document.getElementById('review-email').textContent =
-            document.getElementById('input-email')?.value || '--';
-          document.getElementById('review-phone').textContent =
-            document.getElementById('input-phone')?.value || '--';
-          document.getElementById('review-address').textContent =
-            document.getElementById('input-address')?.value || '--';
-          document.getElementById('review-city').textContent =
-            document.getElementById('input-city')?.value || '--';
-          const stateSelect = document.getElementById('input-state');
-          document.getElementById('review-state').textContent =
-            stateSelect?.value || '--';
-          document.getElementById('review-zip').textContent =
-            document.getElementById('input-zip')?.value || '--';
-        }
-      }
-
-      // Segmented control click navigation
-      indicator.addEventListener('native:change', (e) => {
-        const idx = steps.indexOf(e.detail.value);
-        if (idx >= 0) goToStep(idx);
-      });
-
-      // Button navigation
-      document.getElementById('btn-next-1')?.addEventListener('native:press', () => goToStep(1));
-      document.getElementById('btn-prev-2')?.addEventListener('native:press', () => goToStep(0));
-      document.getElementById('btn-next-2')?.addEventListener('native:press', () => goToStep(2));
-      document.getElementById('btn-prev-3')?.addEventListener('native:press', () => goToStep(1));
-      document.getElementById('btn-submit')?.addEventListener('native:press', () => {
-        alert('Account created successfully!');
-      });
     </script>
+    <script type="module" src="./form-multi-step.ts"></script>
   </body>
 </html>

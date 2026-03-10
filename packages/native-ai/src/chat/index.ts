@@ -1,5 +1,5 @@
 // ── Existing ──
-export { NChatInput } from './chat-input-element.ts';
+export { NChatInput, NChatInputAdvanced } from './chat-input-element.ts';
 export { NChatPanel } from './chat-panel-element.ts';
 export type { AutoFocusPolicy, ChatPanelOpenOptions, FocusComposerOptions, ModelOption } from './chat-panel-element.ts';
 

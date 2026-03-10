@@ -73,8 +73,7 @@ export class NChatMessageSeed extends NativeElement {
       const opts = this.#options.value;
       this.textContent = '';
 
-      const stack = document.createElement('div');
-      stack.className = 'stack';
+      const stack = document.createElement('n-stack');
       stack.setAttribute('direction', 'row');
       stack.setAttribute('wrap', '');
 

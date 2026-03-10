@@ -619,8 +619,8 @@
 
 [variant="ghost"] {
   --n-background: transparent;
-  --n-background-hover: transparent;
-  --n-background-active: transparent;
+  --n-background-hover: var(--n-control-hover-neutral);
+  --n-background-active: var(--n-control-active-neutral);
   --n-background-disabled: transparent;
   --n-color: var(--n-ink);
   --n-color-hover: var(--n-ink-hover);

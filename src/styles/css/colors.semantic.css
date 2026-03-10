@@ -58,26 +58,26 @@
     --n-ink-placeholder-neutral: var(--n-color-neutral-400);
     --n-ink-hover-neutral: var(--n-color-neutral-950);
     --n-ink-active-neutral: var(--n-color-neutral-500);
-    --n-ink-disabled-neutral: var(--n-color-neutral-scrim-tint-weaker);
+    --n-ink-disabled-neutral: var(--n-color-neutral-400);
 
     /* Border */
     --n-border-neutral: var(--n-color-neutral-200-scrim);
     --n-border-muted-neutral: var(--n-color-neutral-100-scrim);
     --n-border-hover-neutral: var(--n-color-neutral-300-scrim);
     --n-border-active-neutral: var(--n-color-neutral-400-scrim);
-    --n-border-disabled-neutral: var(--n-color-neutral-scrim-tint-weaker);
+    --n-border-disabled-neutral: var(--n-color-neutral-200-scrim);
 
     /* Surface */
     --n-surface-neutral: var(--n-color-neutral-500);
     --n-surface-hover-neutral: var(--n-color-neutral-400);
     --n-surface-active-neutral: var(--n-color-neutral-600);
-    --n-surface-disabled-neutral: var(--n-color-neutral-scrim-tint-weaker);
+    --n-surface-disabled-neutral: var(--n-color-neutral-200);
 
     /* Surface Ink */
     --n-surface-ink-neutral: white;
     --n-surface-ink-hover-neutral: white;
     --n-surface-ink-active-neutral: var(--n-color-neutral-950);
-    --n-surface-ink-disabled-neutral: var(--n-color-neutral-scrim-tint-weaker);
+    --n-surface-ink-disabled-neutral: oklch(1 0 0 / 0.5);
 
     /* ── Accent ── */
 
@@ -125,26 +125,26 @@
     --n-ink-placeholder-accent: var(--n-color-accent-400);
     --n-ink-hover-accent: var(--n-color-accent-950);
     --n-ink-active-accent: var(--n-color-accent-500);
-    --n-ink-disabled-accent: var(--n-color-accent-scrim-tint-weaker);
+    --n-ink-disabled-accent: var(--n-color-accent-400);
 
     /* Border */
     --n-border-accent: var(--n-color-accent-200-scrim);
     --n-border-muted-accent: var(--n-color-accent-100-scrim);
     --n-border-hover-accent: var(--n-color-accent-300-scrim);
     --n-border-active-accent: var(--n-color-accent-400-scrim);
-    --n-border-disabled-accent: var(--n-color-accent-scrim-tint-weaker);
+    --n-border-disabled-accent: var(--n-color-accent-200-scrim);
 
     /* Surface */
     --n-surface-accent: var(--n-color-accent-500);
     --n-surface-hover-accent: var(--n-color-accent-400);
     --n-surface-active-accent: var(--n-color-accent-600);
-    --n-surface-disabled-accent: var(--n-color-accent-scrim-tint-weaker);
+    --n-surface-disabled-accent: var(--n-color-accent-200);
 
     /* Surface Ink */
     --n-surface-ink-accent: white;
     --n-surface-ink-hover-accent: white;
     --n-surface-ink-active-accent: var(--n-color-accent-950);
-    --n-surface-ink-disabled-accent: var(--n-color-accent-scrim-tint-weaker);
+    --n-surface-ink-disabled-accent: oklch(1 0 0 / 0.5);
 
     /* ── Info ── */
 
@@ -192,26 +192,26 @@
     --n-ink-placeholder-info: var(--n-color-info-400);
     --n-ink-hover-info: var(--n-color-info-950);
     --n-ink-active-info: var(--n-color-info-500);
-    --n-ink-disabled-info: var(--n-color-info-scrim-tint-weaker);
+    --n-ink-disabled-info: var(--n-color-info-400);
 
     /* Border */
     --n-border-info: var(--n-color-info-200-scrim);
     --n-border-muted-info: var(--n-color-info-100-scrim);
     --n-border-hover-info: var(--n-color-info-300-scrim);
     --n-border-active-info: var(--n-color-info-400-scrim);
-    --n-border-disabled-info: var(--n-color-info-scrim-tint-weaker);
+    --n-border-disabled-info: var(--n-color-info-200-scrim);
 
     /* Surface */
     --n-surface-info: var(--n-color-info-500);
     --n-surface-hover-info: var(--n-color-info-400);
     --n-surface-active-info: var(--n-color-info-600);
-    --n-surface-disabled-info: var(--n-color-info-scrim-tint-weaker);
+    --n-surface-disabled-info: var(--n-color-info-200);
 
     /* Surface Ink */
     --n-surface-ink-info: white;
     --n-surface-ink-hover-info: white;
     --n-surface-ink-active-info: var(--n-color-info-950);
-    --n-surface-ink-disabled-info: var(--n-color-info-scrim-tint-weaker);
+    --n-surface-ink-disabled-info: oklch(1 0 0 / 0.5);
 
     /* ── Success ── */
 
@@ -259,26 +259,26 @@
     --n-ink-placeholder-success: var(--n-color-success-400);
     --n-ink-hover-success: var(--n-color-success-950);
     --n-ink-active-success: var(--n-color-success-500);
-    --n-ink-disabled-success: var(--n-color-success-scrim-tint-weaker);
+    --n-ink-disabled-success: var(--n-color-success-400);
 
     /* Border */
     --n-border-success: var(--n-color-success-200-scrim);
     --n-border-muted-success: var(--n-color-success-100-scrim);
     --n-border-hover-success: var(--n-color-success-300-scrim);
     --n-border-active-success: var(--n-color-success-400-scrim);
-    --n-border-disabled-success: var(--n-color-success-scrim-tint-weaker);
+    --n-border-disabled-success: var(--n-color-success-200-scrim);
 
     /* Surface */
     --n-surface-success: var(--n-color-success-500);
     --n-surface-hover-success: var(--n-color-success-400);
     --n-surface-active-success: var(--n-color-success-600);
-    --n-surface-disabled-success: var(--n-color-success-scrim-tint-weaker);
+    --n-surface-disabled-success: var(--n-color-success-200);
 
     /* Surface Ink */
     --n-surface-ink-success: white;
     --n-surface-ink-hover-success: white;
     --n-surface-ink-active-success: var(--n-color-success-950);
-    --n-surface-ink-disabled-success: var(--n-color-success-scrim-tint-weaker);
+    --n-surface-ink-disabled-success: oklch(1 0 0 / 0.5);
 
     /* ── Warning ── */
 
@@ -326,26 +326,26 @@
     --n-ink-placeholder-warning: var(--n-color-warning-400);
     --n-ink-hover-warning: var(--n-color-warning-950);
     --n-ink-active-warning: var(--n-color-warning-500);
-    --n-ink-disabled-warning: var(--n-color-warning-scrim-tint-weaker);
+    --n-ink-disabled-warning: var(--n-color-warning-400);
 
     /* Border */
     --n-border-warning: var(--n-color-warning-200-scrim);
     --n-border-muted-warning: var(--n-color-warning-100-scrim);
     --n-border-hover-warning: var(--n-color-warning-300-scrim);
     --n-border-active-warning: var(--n-color-warning-400-scrim);
-    --n-border-disabled-warning: var(--n-color-warning-scrim-tint-weaker);
+    --n-border-disabled-warning: var(--n-color-warning-200-scrim);
 
     /* Surface */
     --n-surface-warning: var(--n-color-warning-500);
     --n-surface-hover-warning: var(--n-color-warning-400);
     --n-surface-active-warning: var(--n-color-warning-600);
-    --n-surface-disabled-warning: var(--n-color-warning-scrim-tint-weaker);
+    --n-surface-disabled-warning: var(--n-color-warning-200);
 
     /* Surface Ink */
     --n-surface-ink-warning: white;
     --n-surface-ink-hover-warning: white;
     --n-surface-ink-active-warning: var(--n-color-warning-950);
-    --n-surface-ink-disabled-warning: var(--n-color-warning-scrim-tint-weaker);
+    --n-surface-ink-disabled-warning: oklch(1 0 0 / 0.5);
 
     /* ── Danger ── */
 
@@ -393,25 +393,25 @@
     --n-ink-placeholder-danger: var(--n-color-danger-400);
     --n-ink-hover-danger: var(--n-color-danger-950);
     --n-ink-active-danger: var(--n-color-danger-500);
-    --n-ink-disabled-danger: var(--n-color-danger-scrim-tint-weaker);
+    --n-ink-disabled-danger: var(--n-color-danger-400);
 
     /* Border */
     --n-border-danger: var(--n-color-danger-200-scrim);
     --n-border-muted-danger: var(--n-color-danger-100-scrim);
     --n-border-hover-danger: var(--n-color-danger-300-scrim);
     --n-border-active-danger: var(--n-color-danger-400-scrim);
-    --n-border-disabled-danger: var(--n-color-danger-scrim-tint-weaker);
+    --n-border-disabled-danger: var(--n-color-danger-200-scrim);
 
     /* Surface */
     --n-surface-danger: var(--n-color-danger-500);
     --n-surface-hover-danger: var(--n-color-danger-400);
     --n-surface-active-danger: var(--n-color-danger-600);
-    --n-surface-disabled-danger: var(--n-color-danger-scrim-tint-weaker);
+    --n-surface-disabled-danger: var(--n-color-danger-200);
 
     /* Surface Ink */
     --n-surface-ink-danger: white;
     --n-surface-ink-hover-danger: white;
     --n-surface-ink-active-danger: var(--n-color-danger-950);
-    --n-surface-ink-disabled-danger: var(--n-color-danger-scrim-tint-weaker);
+    --n-surface-ink-disabled-danger: oklch(1 0 0 / 0.5);
   }
 }

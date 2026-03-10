@@ -1,0 +1,135 @@
+body {
+  background: var(--n-doc-neutral);
+  color: var(--n-color-neutral-950);
+}
+
+h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--n-ink-strong-neutral);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.profile-info {
+  flex: 1;
+  min-width: 12rem;
+}
+
+.profile-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.profile-meta {
+  font-size: 0.875rem;
+  color: var(--n-ink-muted-neutral);
+  margin-top: 0.25rem;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 40rem) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--n-ink-muted-neutral);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.detail-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.activity-item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--n-border-muted-neutral);
+  font-size: 0.875rem;
+}
+
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--n-color-accent-500);
+  margin-top: 0.375rem;
+  flex-shrink: 0;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-time {
+  color: var(--n-ink-muted-neutral);
+  font-size: 0.75rem;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--n-border-muted-neutral);
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+}
+
+.settings-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.settings-description {
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-neutral);
+}
+
+n-tab-panel {
+  padding: 0;
+}

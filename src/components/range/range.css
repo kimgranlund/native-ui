@@ -70,7 +70,7 @@
   :where(n-range) > :where(.n-range-thumb) {
     position: absolute;
     inset-inline-start: calc((100% - var(--n-widget-size)) * var(--n-progress));
-    top: 50%;
+    inset-block-start: 50%;
     transform: translateY(-50%);
     z-index: 1;
     width: var(--n-widget-size);

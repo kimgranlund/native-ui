@@ -1,0 +1,15 @@
+.surface-mount {
+  min-height: 10rem;
+}
+
+.surface-mount[data-empty] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.surface-mount[data-empty]::before {
+  content: 'Agent not connected';
+  color: var(--n-ink-muted-neutral);
+  font-size: 0.8rem;
+}

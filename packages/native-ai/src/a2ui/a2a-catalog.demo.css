@@ -1,0 +1,21 @@
+.surface-mount {
+  min-height: 12rem;
+}
+
+.surface-mount[data-empty] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.surface-mount[data-empty]::before {
+  content: 'Click an action below to see the agent render';
+  color: var(--n-ink-muted-neutral);
+  font-size: 0.8rem;
+}
+
+.catalog-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}

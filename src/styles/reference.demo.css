@@ -1,0 +1,209 @@
+body {
+  background: var(--n-doc-neutral);
+  color: var(--n-color-neutral-950);
+}
+
+main {
+  padding: calc(var(--n-space) * 8);
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: var(--n-space);
+  color: var(--n-ink-strong-neutral);
+}
+
+h1 + p {
+  font-size: 0.8125rem;
+  color: var(--n-ink-muted-neutral);
+  margin-bottom: calc(var(--n-space) * 8);
+}
+
+h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: calc(var(--n-space) * 10);
+  margin-bottom: calc(var(--n-space) * 4);
+  color: var(--n-ink-strong-neutral);
+}
+
+/* --- Matrix tables --- */
+.matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  table-layout: auto;
+}
+
+.matrix th,
+.matrix td {
+  padding: var(--n-space) calc(var(--n-space) * 2);
+  text-align: center;
+  border-bottom: 1px solid var(--n-border-muted-neutral);
+}
+
+.matrix th {
+  font-weight: 600;
+  color: var(--n-ink-muted-neutral);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.625rem;
+  position: sticky;
+  top: 0;
+  background: var(--n-doc-neutral);
+  z-index: 1;
+}
+
+.matrix th:first-child,
+.matrix td:first-child {
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+  position: sticky;
+  left: 0;
+  background: var(--n-doc-neutral);
+  z-index: 2;
+  padding-right: calc(var(--n-space) * 4);
+}
+
+/* header corner cell */
+.matrix thead th:first-child {
+  z-index: 3;
+}
+
+.matrix tbody tr:hover td {
+  background: var(--n-panel-neutral);
+}
+
+.matrix tbody tr:hover td:first-child {
+  background: var(--n-panel-neutral);
+}
+
+/* Check / dash marks */
+.y {
+  color: var(--n-ink-success);
+  font-weight: 700;
+}
+
+.n {
+  color: var(--n-border-muted-neutral);
+}
+
+.a {
+  color: color-mix(in oklch, var(--n-ink-success) 50%, var(--n-ink-placeholder-neutral));
+}
+
+.p {
+  color: var(--n-ink-accent);
+  font-weight: 600;
+  font-size: 0.625rem;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: calc(var(--n-space) * 6);
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-neutral);
+  margin-bottom: calc(var(--n-space) * 6);
+}
+
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: var(--n-space);
+}
+
+/* Inline code inside tables */
+n-table code {
+  font-size: 0.6875rem;
+  padding: calc(var(--n-space) / 2) var(--n-space);
+  background: var(--n-color-neutral-highest);
+  border-radius: var(--n-space);
+  white-space: nowrap;
+}
+
+/* Category headers inside table */
+.matrix .cat-header td {
+  font-weight: 700;
+  font-size: 0.6875rem;
+  color: var(--n-ink-muted-neutral);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-top: calc(var(--n-space) * 4);
+  border-bottom: 2px solid var(--n-border-neutral);
+  background: var(--n-doc-neutral) !important;
+}
+
+/* Sub-element notes */
+.sub {
+  font-weight: 400;
+  color: var(--n-ink-muted-neutral);
+  font-size: 0.625rem;
+}
+
+/* Tags */
+.tag {
+  display: inline-block;
+  font-size: 0.5625rem;
+  padding: calc(var(--n-space) / 3) calc(var(--n-space) * 1.5);
+  border-radius: var(--n-space);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+  margin-left: var(--n-space);
+}
+
+.tag-coord {
+  background: var(--n-surface-accent);
+  color: var(--n-surface-ink-accent);
+}
+
+.tag-display {
+  background: var(--n-panel-neutral);
+  color: var(--n-ink-muted-neutral);
+}
+
+.tag-container {
+  background: var(--n-surface-info);
+  color: var(--n-surface-ink-info);
+}
+
+.tag-form {
+  background: var(--n-surface-success);
+  color: var(--n-surface-ink-success);
+}
+
+/* ── Code Blocks ── */
+
+.demo-code {
+  display: none;
+  position: relative;
+  background: var(--n-panel-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: var(--n-radius);
+  padding: calc(var(--n-space) * 3);
+  margin: 0;
+  margin-top: calc(var(--n-space) * 3);
+  font-family: ui-monospace, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre;
+  color: var(--n-ink-neutral);
+}
+
+.demo-code[visible] {
+  display: block;
+}
+
+.demo-code > n-button {
+  position: absolute;
+  top: var(--n-space);
+  right: var(--n-space);
+}

@@ -77,17 +77,19 @@
   /* ── Filled state (elevated bg, no border, stronger text) ── */
   /* WHY: When the textarea has content, bump elevation (control → panel),
      text contrast (ink → ink-strong), and drop border so filled fields
-     look solid and elevated vs the outlined empty state. */
+     look solid and elevated vs the outlined empty state.
+     Updates --n-background / --n-background-hover so consumers (e.g. chat)
+     that override these tokens still win in the filled state. */
 
-  :where(n-textarea):not(:state(empty)) {
-    background: var(--n-panel);
+  :where(n-textarea:not(:state(empty))) {
+    --n-background: var(--n-panel);
+    --n-background-hover: var(--n-panel-hover);
     color: var(--n-ink-strong);
     border-color: transparent;
   }
 
-  :where(n-textarea):not(:state(empty)):hover,
-  :where(n-textarea):not(:state(empty))[force-hover] {
-    background: var(--n-panel-hover);
+  :where(n-textarea:not(:state(empty)):hover),
+  :where(n-textarea:not(:state(empty))[force-hover]) {
     border-color: transparent;
   }
 
@@ -120,7 +122,6 @@
 :where(n-textarea)[rows="10"] { --n-rows: 10; }
 
 :where(n-textarea)[autogrow] {
-  flex: none;
   resize: none;
   overflow-y: hidden;
   height: var(--n-autogrow-height, auto);

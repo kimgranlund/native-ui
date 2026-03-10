@@ -140,4 +140,5 @@
 :where(n-button)[inline] {
   display: inline-grid;
   width: auto;
+  vertical-align: middle;
 }

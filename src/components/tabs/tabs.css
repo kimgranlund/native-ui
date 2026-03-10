@@ -50,8 +50,7 @@
     content: '';
     position: absolute;
     top: var(--n-size);
-    left: 0;
-    right: 0;
+    inset-inline: 0;
     height: 1px;
     background: var(--n-border-muted);
     transform: translateY(-100%);
@@ -199,6 +198,7 @@
 
   :where(n-tab-panels) {
     display: block;
+    min-height: 0;
   }
 
   /* ── Tab Panel ── */

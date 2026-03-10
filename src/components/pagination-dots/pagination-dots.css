@@ -52,7 +52,7 @@
     display: block;
     position: absolute;
     top: 50%;
-    left: 0;
+    inset-inline-start: 0;
     transform:
       translateY(-50%)
       translateX(calc(var(--n-dot-index, 0) * (var(--n-dot-size) + var(--n-dot-gap))));
@@ -203,7 +203,7 @@
 
 [orientation="vertical"]:where(n-pagination-dots):state(ready) > :where([part="dots"]) > :where(.n-dot-indicator) {
   top: 0;
-  left: 50%;
+  inset-inline-start: 50%;
   width: var(--n-dot-size);
   height: var(--n-dot-indicator-length);
   transform:

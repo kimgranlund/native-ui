@@ -1,9 +1,39 @@
 import '../../../../../src/nav/native-dashboard.ts';
 import '../../../../../src/register-all.ts';
 import '../../chat/register.ts';
+
+// Icons used in builder UI
+import '../../../../../src/icons/phosphor/eye.ts';
+import '../../../../../src/icons/phosphor/tag.ts';
+import '../../../../../src/icons/phosphor/brackets-curly.ts';
+import '../../../../../src/icons/phosphor/squares-four.ts';
+import '../../../../../src/icons/phosphor/file-code.ts';
+import '../../../../../src/icons/phosphor/x.ts';
+import '../../../../../src/icons/phosphor/caret-up-down.ts';
+import '../../../../../src/icons/phosphor/brain.ts';
+import '../../../../../src/icons/phosphor/sliders.ts';
+import '../../../../../src/icons/phosphor/clock.ts';
+import '../../../../../src/icons/phosphor/sparkle.ts';
+import '../../../../../src/icons/phosphor/plus.ts';
+import '../../../../../src/icons/phosphor/magnifying-glass.ts';
+import '../../../../../src/icons/phosphor/compass.ts';
+import '../../../../../src/icons/phosphor/flask.ts';
+import '../../../../../src/icons/phosphor/record.ts';
+import '../../../../../src/icons/phosphor/microphone.ts';
+import '../../../../../src/icons/phosphor/arrow-up.ts';
+import '../../../../../src/icons/phosphor/lightbulb.ts';
+import '../../../../../src/icons/phosphor/crosshair.ts';
+import '../../../../../src/icons/phosphor/list-checks.ts';
+import '../../../../../src/icons/phosphor/pencil-simple.ts';
+import '../../../../../src/icons/phosphor/chat-dots.ts';
+import '../../../../../src/icons/phosphor/user.ts';
+import '../../../../../src/icons/phosphor/copy.ts';
+import '../../../../../src/icons/phosphor/arrow-clockwise.ts';
 import { Kernel, resetKernel } from '../../../../../src/kernel/kernel.ts';
 import { createA2UIAdapter } from '../protocol/a2ui-adapter.ts';
 import { ClaudeGatewayAdapter } from '../../chat/gateway/adapter-claude.ts';
+import { OpenAiGatewayAdapter } from '../../chat/gateway/adapter-chatgpt.ts';
+import type { GatewayAdapter } from '../../chat/gateway/adapter.ts';
 
 // ── Component map reference ──
 
@@ -129,25 +159,52 @@ const activePanels = new Set(['preview', 'concepts']);
 
 // ── LLM adapter ──
 
-const apiKey = (import.meta as Record<string, Record<string, string>>).env?.VITE_ANTHROPIC_API_KEY
+const anthropicKey = (import.meta as Record<string, Record<string, string>>).env?.VITE_ANTHROPIC_API_KEY
   || (import.meta as Record<string, Record<string, string>>).env?.VITE_CLAUDE_API_KEY
+  || null;
+
+const openaiKey = (import.meta as Record<string, Record<string, string>>).env?.VITE_OPENAI_API_KEY
   || null;
 
 let systemPrompt = DEFAULT_SYSTEM_PROMPT;
 
-let llm: ClaudeGatewayAdapter | null = null;
-if (apiKey) {
-  llm = new ClaudeGatewayAdapter({
+function isClaudeModel(model: string): boolean {
+  return model.startsWith('claude-') || ['opus-4.6', 'sonnet-4.6', 'haiku-4.5'].includes(model);
+}
+
+function buildAdapter(model: string): GatewayAdapter | null {
+  if (model === 'human') return null;
+
+  if (isClaudeModel(model)) {
+    if (!anthropicKey) return null;
+    return new ClaudeGatewayAdapter({
+      clientId: 'a2ui-builder',
+      baseUrl: '/api/anthropic',
+      model,
+      maxTokens: 2048,
+      system: systemPrompt,
+      apiKey: anthropicKey,
+      anthropicVersion: '2023-06-01',
+    });
+  }
+
+  // OpenAI models (gpt-*)
+  if (!openaiKey) return null;
+  return new OpenAiGatewayAdapter({
     clientId: 'a2ui-builder',
-    baseUrl: '/api/anthropic',
-    model: 'claude-haiku-4-5',
+    baseUrl: '/api/openai',
+    model,
     maxTokens: 2048,
     system: systemPrompt,
-    apiKey,
-    anthropicVersion: '2023-06-01',
+    apiKey: openaiKey,
   });
-} else {
-  console.warn('[A2UI Builder] No API key found. Set VITE_ANTHROPIC_API_KEY in .env. Using mock responses.');
+}
+
+let currentModel = 'claude-haiku-4-5';
+let llm: GatewayAdapter | null = buildAdapter(currentModel);
+
+if (!llm && currentModel !== 'human') {
+  console.warn('[A2UI Builder] No API key found. Set VITE_OPENAI_API_KEY or VITE_ANTHROPIC_API_KEY in .env. Using mock responses.');
 }
 
 interface Message {
@@ -377,6 +434,7 @@ const paneEls = new Map<string, HTMLElement>();
 const chatFeed = document.getElementById('chat-feed') as HTMLElement;
 const chatComposer = document.getElementById('chat-composer') as HTMLElement & { busy: boolean };
 let msgCounter = 0;
+const messageTextMap = new Map<string, string>();
 
 // Pane content containers
 const previewMount = document.getElementById('preview-mount')!;
@@ -384,6 +442,13 @@ const conceptsWrap = document.getElementById('concepts-wrap')!;
 const schemaPre = document.getElementById('schema-pre')!;
 const mapTable = document.getElementById('map-table')!;
 const promptEditor = document.getElementById('prompt-editor') as HTMLTextAreaElement;
+const modelPicker = document.getElementById('model-picker') as HTMLElement & { value: string };
+
+// Wire model picker → rebuild adapter on change
+modelPicker.addEventListener('native:change', () => {
+  currentModel = modelPicker.value;
+  llm = buildAdapter(currentModel);
+});
 
 // ── Init pane refs + chips ──
 
@@ -418,6 +483,17 @@ for (const btn of document.querySelectorAll('[data-close-panel]')) {
     syncPanels();
   });
 }
+
+// Sliders button → toggle Concepts + Schema together
+const inspectorBtn = document.querySelector('[data-role="toggle-inspector"]');
+inspectorBtn?.addEventListener('native:press', () => {
+  const inspectorPanels = ['concepts', 'schema'];
+  const allOpen = inspectorPanels.every(id => activePanels.has(id));
+  for (const id of inspectorPanels) {
+    if (allOpen) activePanels.delete(id); else activePanels.add(id);
+  }
+  syncPanels();
+});
 
 function syncPanels() {
   // Clear explicit widths so flex redistributes
@@ -577,18 +653,7 @@ function onResizeUp() {
 promptEditor.value = DEFAULT_SYSTEM_PROMPT;
 promptEditor.addEventListener('input', () => {
   systemPrompt = promptEditor.value;
-  // Rebuild LLM adapter with updated prompt
-  if (llm) {
-    llm = new ClaudeGatewayAdapter({
-      clientId: 'a2ui-builder',
-      baseUrl: '/api/anthropic',
-      model: 'claude-haiku-4-5',
-      maxTokens: 2048,
-      system: systemPrompt,
-      apiKey: apiKey!,
-      anthropicVersion: '2023-06-01',
-    });
-  }
+  llm = buildAdapter(currentModel);
 });
 
 // Component map table
@@ -601,42 +666,57 @@ for (const c of COMPONENT_MAP) {
 
 // ── Render helpers ──
 
+let lastMessageGroup: HTMLElement | null = null;
+let lastMessageRole: string | null = null;
+
 function addMessage(role: string, text: string, type?: string) {
   const msgId = `msg-${++msgCounter}`;
 
-  // Create message group: n-chat-messages > n-chat-avatar + n-chat-message > n-chat-message-text
-  const group = document.createElement('n-chat-messages');
-  group.setAttribute('role', role);
-  group.setAttribute('sender', role === 'user' ? 'You' : 'Builder');
+  // Reuse the last group if same role and it's not separated by seeds
+  let group = lastMessageGroup;
+  if (!group || lastMessageRole !== role) {
+    group = document.createElement('n-chat-messages');
+    group.setAttribute('data-role', role);
+    group.setAttribute('sender', role === 'user' ? 'You' : 'Builder');
 
-  const avatar = document.createElement('n-chat-avatar');
-  if (role === 'assistant') {
-    avatar.setAttribute('icon', 'chat-dots');
-  } else {
-    avatar.setAttribute('name', 'You');
+    const avatar = document.createElement('n-chat-avatar');
+    if (role === 'assistant') {
+      avatar.setAttribute('icon', 'chat-dots');
+    } else {
+      avatar.setAttribute('icon', 'user');
+    }
+    group.appendChild(avatar);
+    chatFeed.appendChild(group);
+    lastMessageGroup = group;
+    lastMessageRole = role;
   }
-  group.appendChild(avatar);
 
   const message = document.createElement('n-chat-message');
-  message.setAttribute('role', role);
+  message.setAttribute('data-role', role);
   message.setAttribute('message-id', msgId);
+  message.setAttribute('actions', role === 'assistant' ? 'copy,retry' : 'copy');
   if (type) message.setAttribute('data-type', type);
 
   const messageText = document.createElement('n-chat-message-text') as HTMLElement & { content: string };
-  messageText.setAttribute('format', 'plain');
+  messageText.setAttribute('format', role === 'user' ? 'plain' : 'markdown');
   messageText.content = text;
 
   message.appendChild(messageText);
   group.appendChild(message);
-  chatFeed.appendChild(group);
 
-  // Scroll to bottom
+  // Store text for copy/retry
+  messageTextMap.set(msgId, text);
+
   chatFeed.scrollTop = chatFeed.scrollHeight;
 }
 
 function addSeedChips(options: SeedOption[]) {
+  // Seeds break message grouping — next message must start a new group
+  lastMessageGroup = null;
+  lastMessageRole = null;
+
   const group = document.createElement('n-chat-messages');
-  group.setAttribute('role', 'assistant');
+  group.setAttribute('data-role', 'assistant');
   group.setAttribute('sender', 'Builder');
   group.setAttribute('data-seeds', '');
 
@@ -649,6 +729,9 @@ function addSeedChips(options: SeedOption[]) {
 
 function clearSeeds() {
   for (const el of chatFeed.querySelectorAll('[data-seeds]')) el.remove();
+  // Seed removal invalidates grouping — force new group for next message
+  lastMessageGroup = null;
+  lastMessageRole = null;
 }
 
 function renderConcepts(concepts?: string[]) {
@@ -729,22 +812,54 @@ async function sendMessage(value: string) {
 
   chatComposer.busy = true;
 
-  // Show typing indicator using chat activity component
-  const typingGroup = document.createElement('n-chat-messages');
-  typingGroup.setAttribute('role', 'assistant');
-  typingGroup.setAttribute('sender', 'Builder');
-  const typingAvatar = document.createElement('n-chat-avatar');
-  typingAvatar.setAttribute('icon', 'chat-dots');
-  typingGroup.appendChild(typingAvatar);
-  const typingMsg = document.createElement('n-chat-message');
-  typingMsg.setAttribute('role', 'assistant');
-  const typingActivity = document.createElement('n-chat-message-activity');
-  typingActivity.setAttribute('type', 'typing');
-  typingActivity.setAttribute('active', '');
-  typingMsg.appendChild(typingActivity);
-  typingGroup.appendChild(typingMsg);
-  chatFeed.appendChild(typingGroup);
+  // Typing indicator breaks grouping
+  lastMessageGroup = null;
+  lastMessageRole = null;
+
+  // Show multi-step progress indicator
+  const progressEl = document.createElement('div');
+  progressEl.className = 'builder-progress';
+  chatFeed.appendChild(progressEl);
   chatFeed.scrollTop = chatFeed.scrollHeight;
+
+  const steps = ['Thinking', 'Concept Mapping', 'Creating UI'];
+  let stepIndex = 0;
+  let elapsed = 0;
+
+  // Create a line element for each step
+  const lines: HTMLDivElement[] = [];
+  function addStep(index: number) {
+    const line = document.createElement('div');
+    line.className = 'builder-progress-step';
+    line.textContent = steps[index];
+    progressEl.appendChild(line);
+    lines.push(line);
+    chatFeed.scrollTop = chatFeed.scrollHeight;
+  }
+
+  function updateThinkingTime() {
+    if (lines[0]) lines[0].textContent = `${steps[0]} ${elapsed}s`;
+  }
+
+  addStep(0);
+  updateThinkingTime();
+
+  const tickTimer = setInterval(() => {
+    elapsed++;
+    updateThinkingTime();
+  }, 1000);
+
+  // Advance to next step after delays — previous steps stay visible
+  const stepTimers = [
+    setTimeout(() => { stepIndex = 1; addStep(1); }, 2000),
+    setTimeout(() => { stepIndex = 2; addStep(2); }, 4000),
+  ];
+
+  function clearProgress() {
+    clearInterval(tickTimer);
+    for (const t of stepTimers) clearTimeout(t);
+    progressEl.remove();
+  }
 
   try {
     const response = await llm.sendMessage({
@@ -753,7 +868,7 @@ async function sendMessage(value: string) {
       query: value,
     });
 
-    typingGroup.remove();
+    clearProgress();
 
     const raw = (response as Record<string, unknown>).message as string | undefined;
     const trimmed = raw?.trim();
@@ -778,7 +893,7 @@ async function sendMessage(value: string) {
     applyResult(result);
 
   } catch (err) {
-    typingGroup.remove();
+    clearProgress();
     addMessage('assistant', `Error: ${(err as Error).message}`);
     console.error('[A2UI Builder]', err);
   } finally {
@@ -798,13 +913,81 @@ chatFeed.addEventListener('native:seed-select', (e: Event) => {
   if (value) sendMessage(value);
 });
 
-// ── Initial state ──
+// Message actions (copy, retry)
+chatFeed.addEventListener('native:message-action', (e: Event) => {
+  const { action, messageId } = (e as CustomEvent).detail ?? {};
+  const text = messageTextMap.get(messageId);
 
-const mode = llm ? 'Connected to Claude Haiku.' : 'No API key — using mock responses.';
-addMessage('assistant', `${mode} Describe a UI you'd like to build, or pick a starter below.`);
-addSeedChips([
+  if (action === 'copy' && text) {
+    navigator.clipboard.writeText(text);
+  }
+
+  if (action === 'retry' && messageId) {
+    // Find the user message that preceded this assistant message
+    // Walk back through messages array to find the last user message
+    let lastUserMsg: string | null = null;
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].role === 'user') {
+        lastUserMsg = messages[i].message;
+        break;
+      }
+    }
+    if (lastUserMsg) {
+      // Strip [CURRENT SCHEMA] wrapper if present
+      const clean = lastUserMsg.replace(/\[CURRENT SCHEMA\][\s\S]*?\[\/CURRENT SCHEMA\]\s*/g, '').trim();
+      if (clean) sendMessage(clean);
+    }
+  }
+});
+
+// ── Welcome screen (centered, fades on first interaction) ──
+
+const welcomeEl = document.createElement('div');
+welcomeEl.className = 'builder-welcome';
+welcomeEl.innerHTML = `
+  <h1 class="builder-welcome-heading">Got UI?</h1>
+  <div class="builder-welcome-chips"></div>
+`;
+
+const welcomeChips = welcomeEl.querySelector('.builder-welcome-chips')!;
+const starters = [
   { value: 'A login form with email and password', label: 'Login form' },
   { value: 'A settings page with toggles and dropdowns', label: 'Settings page' },
   { value: 'A dashboard with stat cards and badges', label: 'Dashboard' },
   { value: 'A contact form', label: 'Contact form' },
-]);
+];
+for (const s of starters) {
+  const btn = document.createElement('n-button');
+  btn.setAttribute('variant', 'outlined');
+  btn.setAttribute('radius', 'pill');
+  btn.setAttribute('size', 'sm');
+
+  btn.textContent = s.label;
+  btn.addEventListener('click', () => {
+    dismissWelcome();
+    sendMessage(s.value);
+  });
+  welcomeChips.appendChild(btn);
+}
+
+chatFeed.appendChild(welcomeEl);
+
+function dismissWelcome() {
+  if (!welcomeEl.parentNode) return;
+  welcomeEl.classList.add('builder-welcome-out');
+  welcomeEl.addEventListener('transitionend', () => welcomeEl.remove(), { once: true });
+  // Fallback removal if transition doesn't fire
+  setTimeout(() => welcomeEl.remove(), 400);
+}
+
+// Dismiss on first user input (textarea focus or keydown)
+const textarea = document.querySelector<HTMLElement>('.builder-chat n-textarea');
+if (textarea) {
+  const onFirstInput = () => {
+    dismissWelcome();
+    textarea.removeEventListener('focus', onFirstInput);
+    textarea.removeEventListener('keydown', onFirstInput);
+  };
+  textarea.addEventListener('focus', onFirstInput, { once: true });
+  textarea.addEventListener('keydown', onFirstInput, { once: true });
+}

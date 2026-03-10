@@ -914,8 +914,7 @@ export class NA2UI extends NativeElement {
         playBtn.addEventListener('native:press', this.#onPlayAll);
 
         // Divider
-        const sep = document.createElement('div');
-        sep.className = 'divider';
+        const sep = document.createElement('n-divider');
         sep.setAttribute('orientation', 'vertical');
 
         // Lifecycle insert buttons
@@ -945,8 +944,7 @@ export class NA2UI extends NativeElement {
         const formatBtn = this.#createToolbarButton('Format JSON', 'text-align-left');
         formatBtn.addEventListener('native:press', () => this.#formatSchema());
 
-        const sep = document.createElement('div');
-        sep.className = 'divider';
+        const sep = document.createElement('n-divider');
         sep.setAttribute('orientation', 'vertical');
 
         const resetBtn = this.#createToolbarButton('Reset to defaults', 'arrow-counter-clockwise');

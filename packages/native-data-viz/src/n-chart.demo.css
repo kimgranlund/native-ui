@@ -1,0 +1,15 @@
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+.kpi-card { display: flex; flex-direction: column; gap: 0.25rem; padding: 0.75rem; background: var(--n-panel-neutral); border: 1px solid var(--n-border-muted-neutral); border-radius: var(--n-radius); }
+.kpi-label { font-size: 0.625rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--n-ink-muted-neutral); }
+.kpi-row { display: flex; align-items: center; gap: 0.5rem; }
+.kpi-value { font-size: 1.25rem; font-weight: 700; color: var(--n-ink-strong-neutral); }
+.kpi-change { font-size: 0.6875rem; font-weight: 600; }
+.kpi-change.up { color: var(--n-color-success-500); }
+.kpi-change.down { color: var(--n-color-danger-500); }
+.chart-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.chart-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.chart-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+.sparkline-table { width: 100%; border-collapse: collapse; }
+.sparkline-table td, .sparkline-table th { padding: 0.5rem 1rem; text-align: left; border-bottom: 1px solid var(--n-border-muted); }
+.sparkline-table th { font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--n-ink-muted-neutral); }
+.sparkline-table .val { font-weight: 600; font-variant-numeric: tabular-nums; }

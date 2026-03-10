@@ -29,12 +29,7 @@
     text-decoration: none;
     cursor: pointer;
 
-    transition:
-      background var(--n-duration) var(--n-easing),
-      color var(--n-duration) var(--n-easing),
-      border-color var(--n-duration) var(--n-easing),
-      opacity var(--n-duration) var(--n-easing),
-      transform var(--n-duration) var(--n-easing);
+    transition: color var(--n-duration) var(--n-easing);
   }
 
   :where(n-breadcrumb-item):hover,

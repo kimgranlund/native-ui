@@ -38,6 +38,7 @@
     grid-template-columns: subgrid;
     grid-column: 1 / -1;
     align-items: center;
+    min-height: 0;
 
     transition:
       background var(--n-duration) var(--n-easing),
@@ -48,7 +49,7 @@
 
   :where(n-table-head) > :where(n-table-row) {
     background: var(--n-panel);
-    border-bottom: 1px solid var(--n-border-color);
+    border-block-end: 1px solid var(--n-border-color);
   }
 
   /* ── Body Rows ── */
@@ -63,7 +64,7 @@
   }
 
   :where(n-table-body) > :where(n-table-row) + :where(n-table-row) {
-    border-top: 1px solid var(--n-border-color);
+    border-block-start: 1px solid var(--n-border-color);
   }
 
   /* ── Selected Row ── */
@@ -124,7 +125,7 @@
 
   :where(n-table[variant="plain"]) :where(n-table-head) > :where(n-table-row) {
     background: transparent;
-    border-bottom: 2px solid var(--n-border-color);
+    border-block-end: 2px solid var(--n-border-color);
   }
 
   :where(n-table[variant="plain"]) :where(n-table-body) > :where(n-table-row):hover,
@@ -161,14 +162,14 @@
 
   :where(n-table[sticky-column]) :where(n-table-header:first-child) {
     position: sticky;
-    left: 0;
+    inset-inline-start: 0;
     z-index: 2;
     background: var(--n-panel);
   }
 
   :where(n-table[sticky-column]) :where(n-table-cell:first-child) {
     position: sticky;
-    left: 0;
+    inset-inline-start: 0;
     z-index: 1;
     background: var(--n-panel);
   }
@@ -200,10 +201,10 @@
 
   :where(n-table) :where(.table-resize-handle) {
     position: absolute;
-    top: 0;
-    right: -2px;
+    inset-block-start: 0;
+    inset-inline-end: -2px;
     width: 4px;
-    height: 100%;
+    block-size: 100%;
     cursor: col-resize;
     z-index: 5;
     background: transparent;

@@ -14,7 +14,7 @@
     position: relative;
     display: grid;
     width: 100%;
-    min-width: var(--n-size);
+    min-width: 0;
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
     align-items: center;
@@ -60,7 +60,7 @@
     left: var(--n-space);
     width: calc((100% - var(--n-space) * 2) / var(--n-segment-count));
     border-radius: calc(var(--n-radius) - var(--n-space));
-    background: var(--n-indicator-background, white);
+    background: var(--n-indicator-background, var(--n-surface));
     /* WHY: transform is set directly on the element by JS — no @property needed
        for CSS transitions to animate transform on real DOM elements. */
 

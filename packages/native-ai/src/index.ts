@@ -5,6 +5,7 @@ export * from './a2ui/index.ts';
 // Re-export everything except TransportState (name collision with a2ui)
 export {
   NChatInput,
+  NChatInputAdvanced,
   NChatPanel,
   NChatFeed,
   NChatAvatar,

@@ -8,62 +8,7 @@
     <link rel="stylesheet" href="../../../styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../../styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../../styles/spa/spa-pages.css" />
-    <style>
-      body {
-        background: var(--n-doc-neutral);
-        color: var(--n-color-neutral-950);
-      }
-
-      h1 {
-        font-size: 1.25rem;
-        font-weight: 700;
-        margin: 0;
-      }
-
-      h2 {
-        font-size: 1rem;
-        font-weight: 700;
-        margin: 0;
-        color: var(--n-ink-strong-neutral);
-      }
-
-      n-dialog > article {
-        width: min(26rem, calc(100vw - 2rem));
-        box-shadow:
-          0 8px 30px oklch(0% 0 0 / 0.12),
-          0 2px 8px oklch(0% 0 0 / 0.06);
-      }
-
-      .dialog-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 50%;
-      }
-
-      .dialog-icon-info {
-        background: var(--n-surface-info);
-        color: var(--n-surface-ink-info);
-      }
-
-      .dialog-icon-warning {
-        background: var(--n-surface-warning);
-        color: var(--n-surface-ink-warning);
-      }
-
-      .dialog-icon-danger {
-        background: var(--n-surface-danger);
-        color: var(--n-surface-ink-danger);
-      }
-
-      .trigger-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-      }
-    </style>
+    <link rel="stylesheet" href="./overlay-confirmation.css" />
   </head>
   <body>
     <native-dashboard-spa><main>
@@ -188,18 +133,7 @@
       import '../../../icons/phosphor/info.ts';
       import '../../../icons/phosphor/warning.ts';
       import '../../../icons/phosphor/trash.ts';
-
-      function wire(openId, dialogId, closeIds) {
-        const dialog = document.getElementById(dialogId);
-        document.getElementById(openId).addEventListener('native:press', () => dialog.showModal());
-        for (const id of closeIds) {
-          document.getElementById(id).addEventListener('native:press', () => dialog.close());
-        }
-      }
-
-      wire('open-info', 'info-dialog', ['info-cancel', 'info-confirm']);
-      wire('open-warning', 'warning-dialog', ['warning-discard', 'warning-save']);
-      wire('open-danger', 'danger-dialog', ['danger-cancel', 'danger-confirm']);
     </script>
+    <script type="module" src="./overlay-confirmation.ts"></script>
   </body>
 </html>

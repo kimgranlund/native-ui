@@ -1,0 +1,47 @@
+.surface-mount {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+#grid-boards > article { aspect-ratio: 1; min-height: 420px; transition: outline-color 0.2s, outline-width 0.2s; }
+
+#card-x.active { outline: 3px solid var(--n-ink-accent); outline-offset: 3px; animation: pulse-x 2s ease-in-out infinite; }
+#card-o.active { outline: 3px solid var(--n-ink-danger); outline-offset: 3px; animation: pulse-o 2s ease-in-out infinite; }
+
+@keyframes pulse-x {
+  0%, 100% { outline-color: var(--n-ink-accent); }
+  50% { outline-color: color-mix(in oklch, var(--n-ink-accent) 30%, transparent); }
+}
+
+@keyframes pulse-o {
+  0%, 100% { outline-color: var(--n-ink-danger); }
+  50% { outline-color: color-mix(in oklch, var(--n-ink-danger) 30%, transparent); }
+}
+
+#card-x.winner { outline: 6px solid var(--n-ink-accent); outline-offset: 3px; }
+#card-o.winner { outline: 6px solid var(--n-ink-danger); outline-offset: 3px; }
+
+#model-x.active > n-button { outline: 3px solid var(--n-ink-accent); outline-offset: 3px; }
+#model-o.active > n-button { outline: 3px solid var(--n-ink-danger); outline-offset: 3px; }
+
+.surface-mount .stack[data-empty]:hover {
+  background: var(--n-panel-hover) !important;
+  cursor: pointer;
+}
+
+.surface-mount .stack:not([data-empty]) {
+  cursor: default;
+}
+
+.surface-mount n-icon {
+  animation: icon-in 0.2s var(--n-easing) both;
+}
+
+@keyframes icon-in {
+  from { opacity: 0; scale: 0.5; }
+  to { opacity: 1; scale: 1; }
+}
+
+.score-num { font-size: 2.25rem; line-height: 1; font-weight: 700; font-variant-numeric: tabular-nums; }
+.score-dash { font-size: 1.5rem; color: var(--n-ink-muted); }

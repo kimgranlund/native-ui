@@ -9,45 +9,27 @@
     <link rel="stylesheet" href="../../../../src/styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="./chat.css" />
     <link rel="stylesheet" href="../../../../src/styles/spa/spa-pages.css" />
-    <style>
-.demo-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
-        gap: 1.5rem;
-        align-items: start;
-      }
-
-      .demo-col {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
-      .demo-col-label {
-        font-size: 0.625rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: var(--n-ink-muted-neutral);
-      }
-</style>
+    <link rel="stylesheet" href="./chat.demo.css" />
   </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>&lt;native-chat&gt;</h1>
-    <p class="demo-desc">
-      Chat component system — message feed, avatars, markdown text, activity indicators, suggestion chips, GenUI cards, structured inputs, and composer.
-    </p>
+    <header>
+      <h1>&lt;native-chat&gt;</h1>
+      <p class="demo-desc">
+        Chat component system — message feed, avatars, markdown text, activity indicators, suggestion chips, GenUI cards, structured inputs, and composer.
+      </p>
+    </header>
+    <section>
 
     <!-- ── Full Chat Shell ── -->
 
     <h2>Full Chat Shell</h2>
     <n-container data-kind="panel" bordered>
-      <div class="demo-grid">
+      <div class="demo-wrap">
 
         <!-- Idle state -->
-        <div class="demo-col">
-          <span class="demo-col-label">Idle (empty input)</span>
+        <div>
+          <span class="demo-state-label">Idle (empty input)</span>
           <n-chat>
             <n-container data-kind="panel" padding="none">
               <n-header dividers>
@@ -96,8 +78,8 @@
         </div>
 
         <!-- Typing state -->
-        <div class="demo-col">
-          <span class="demo-col-label">Typing (with send button)</span>
+        <div>
+          <span class="demo-state-label">Typing (with send button)</span>
           <n-chat>
             <n-container data-kind="panel" padding="none">
               <n-header dividers>
@@ -168,6 +150,86 @@
 &lt;/n-chat&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+    <!-- ── Advanced Chat Shell ── -->
+
+    <h2>Advanced Chat Shell</h2>
+    <p class="demo-desc">
+      <code>&lt;n-chat-input-advanced&gt;</code> — multi-zone rich composer with
+      header bar, bordered prompt container (<code>n-chat-input-prompt</code>),
+      split actions, and suggestion chips. Same JS behavior as <code>n-chat-input</code>.
+    </p>
+    <n-container data-kind="panel" bordered>
+      <div class="demo-wrap">
+        <div style="grid-column: 1 / -1;">
+          <n-chat>
+            <n-container data-kind="panel" padding="none">
+              <n-header dividers>
+                <nav><n-icon name="chat-dots"></n-icon></nav>
+                <span>UX Research</span>
+                <aside><n-button variant="ghost"><n-icon name="dots-three"></n-icon></n-button></aside>
+              </n-header>
+              <n-body>
+                <n-chat-content>
+                  <p style="color: var(--n-ink-muted-neutral); font-size: 0.8125rem;">Describe what you'd like to explore.</p>
+                </n-chat-content>
+              </n-body>
+              <n-footer dividers>
+                <n-chat-input-advanced>
+                  <n-chat-input-header>
+                    <nav>
+                      <n-select value="gpt-5.2" data-role="model-picker">
+                        <n-button variant="ghost" inline size="sm"><n-icon name="dots-three-outline-fill"></n-icon> GPT-5.2</n-button>
+                        <n-listbox popover>
+                          <n-option-group>
+                            <n-option-group-header>Claude</n-option-group-header>
+                            <n-option value="opus-4.6">Opus 4.6</n-option>
+                            <n-option value="sonnet-4.6">Sonnet 4.6</n-option>
+                            <n-option value="haiku-4.5">Haiku 4.5</n-option>
+                          </n-option-group>
+                          <n-option-group>
+                            <n-option-group-header>ChatGPT</n-option-group-header>
+                            <n-option value="gpt-5.2">GPT-5.2</n-option>
+                            <n-option value="gpt-5.3-codex">GPT-5.3 Codex</n-option>
+                          </n-option-group>
+                        </n-listbox>
+                      </n-select>
+                      <n-button variant="ghost" inline size="sm"><n-icon name="brain"></n-icon> UX Design Assistant</n-button>
+                    </nav>
+                    <aside>
+                      <n-button variant="ghost" inline size="sm"><n-icon name="sliders"></n-icon></n-button>
+                      <n-button variant="ghost" inline size="sm"><n-icon name="clock"></n-icon></n-button>
+                    </aside>
+                  </n-chat-input-header>
+
+                  <n-chat-input-prompt>
+                    <n-textarea placeholder="Help me understand why users are dropping off during onboarding" autogrow rows="2"></n-textarea>
+                    <n-button variant="ghost" inline size="sm" data-role="improve"><n-icon name="sparkle"></n-icon></n-button>
+                    <n-toolbar variant="plain">
+                      <n-button variant="ghost" inline><n-icon name="plus"></n-icon></n-button>
+                      <n-button variant="ghost" inline><n-icon name="magnifying-glass"></n-icon></n-button>
+                      <n-button variant="ghost" inline><n-icon name="compass"></n-icon></n-button>
+                      <n-button variant="ghost" inline><n-icon name="flask"></n-icon></n-button>
+                      <span fill></span>
+                      <n-button variant="ghost" inline><n-icon name="record"></n-icon></n-button>
+                      <n-button variant="ghost" inline><n-icon name="microphone"></n-icon></n-button>
+                      <n-button variant="primary" intent="accent" radius="round" inline disabled data-role="submit"><n-icon name="arrow-up"></n-icon></n-button>
+                    </n-toolbar>
+                  </n-chat-input-prompt>
+
+                  <n-chat-input-chips>
+                    <n-button variant="ghost" size="sm" radius="round"><n-icon name="lightbulb"></n-icon> Clarify user problem</n-button>
+                    <n-button variant="ghost" size="sm" radius="round"><n-icon name="crosshair"></n-icon> Define user context</n-button>
+                    <n-button variant="ghost" size="sm" radius="round"><n-icon name="list-checks"></n-icon> Select deliverable</n-button>
+                    <n-button variant="ghost" size="sm" radius="round"><n-icon name="pencil-simple"></n-icon> Refine requirements</n-button>
+                  </n-chat-input-chips>
+                </n-chat-input-advanced>
+              </n-footer>
+            </n-container>
+          </n-chat>
+        </div>
+      </div>
+    </n-container>
+
     <!-- ── Stamped Chat Panel (Gateway Mode) ── -->
 
     <h2>Stamped Chat Panel (Gateway)</h2>
@@ -177,14 +239,14 @@
       Use <code>gateway="mock"</code> for simulated responses, or <code>gateway="claude"</code> for real Anthropic models.
     </p>
     <n-container data-kind="panel" bordered>
-      <div class="demo-grid">
-        <div class="demo-col">
-          <span class="demo-col-label">Mock gateway (type and send)</span>
+      <div class="demo-wrap">
+        <div>
+          <span class="demo-state-label">Mock gateway (type and send)</span>
           <native-chat-panel gateway="mock" gateway-url="mock" open show-restart style="height: 28rem;"></native-chat-panel>
         </div>
 
-        <div class="demo-col">
-          <span class="demo-col-label">Claude Haiku 4.5 (requires API key)</span>
+        <div>
+          <span class="demo-state-label">Claude Haiku 4.5 (requires API key)</span>
           <native-chat-panel id="demo-panel-models" gateway="claude" gateway-url="/api/anthropic" model="claude-haiku-4-5" open style="height: 28rem;"></native-chat-panel>
         </div>
       </div>
@@ -227,9 +289,9 @@
       <code>n-chat-message</code> renders individual bubbles with action toolbars.
     </p>
     <n-container data-kind="panel" bordered>
-      <div class="demo-grid">
-        <div class="demo-col">
-          <span class="demo-col-label">Conversation thread</span>
+      <div class="demo-wrap">
+        <div>
+          <span class="demo-state-label">Conversation thread</span>
           <n-chat-feed auto-scroll>
             <n-chat-messages role="assistant" sender="Assistant">
               <n-chat-avatar icon="chat-dots"></n-chat-avatar>
@@ -254,8 +316,8 @@
           </n-chat-feed>
         </div>
 
-        <div class="demo-col">
-          <span class="demo-col-label">Multi-message group</span>
+        <div>
+          <span class="demo-state-label">Multi-message group</span>
           <n-chat-feed auto-scroll>
             <n-chat-messages role="user" sender="Kim">
               <n-chat-avatar name="Kim Granlund"></n-chat-avatar>
@@ -304,21 +366,21 @@
       Fallback chain: <code>src</code> → <code>icon</code> → <code>name</code> initials → default user icon.
     </p>
     <n-container data-kind="panel" bordered>
-      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
-        <div class="demo-col" style="align-items: center;">
-          <span class="demo-col-label">Icon</span>
+      <div class="demo-wrap" style="align-items: center;">
+        <div style="align-items: center;">
+          <span class="demo-state-label">Icon</span>
           <n-chat-avatar icon="chat-dots"></n-chat-avatar>
         </div>
-        <div class="demo-col" style="align-items: center;">
-          <span class="demo-col-label">Initials (1 word)</span>
+        <div style="align-items: center;">
+          <span class="demo-state-label">Initials (1 word)</span>
           <n-chat-avatar name="Kim"></n-chat-avatar>
         </div>
-        <div class="demo-col" style="align-items: center;">
-          <span class="demo-col-label">Initials (2 words)</span>
+        <div style="align-items: center;">
+          <span class="demo-state-label">Initials (2 words)</span>
           <n-chat-avatar name="Kim Granlund"></n-chat-avatar>
         </div>
-        <div class="demo-col" style="align-items: center;">
-          <span class="demo-col-label">Default (no attrs)</span>
+        <div style="align-items: center;">
+          <span class="demo-state-label">Default (no attrs)</span>
           <n-chat-avatar></n-chat-avatar>
         </div>
       </div>
@@ -335,13 +397,13 @@
       <code>n-chat-message-text</code> renders markdown to sanitized HTML. Supports headings, lists, code fences, inline formatting, links, and blockquotes.
     </p>
     <n-container data-kind="panel" bordered>
-      <div class="demo-grid">
-        <div class="demo-col">
-          <span class="demo-col-label">Markdown (default)</span>
+      <div class="demo-wrap">
+        <div>
+          <span class="demo-state-label">Markdown (default)</span>
           <n-chat-message-text id="demo-md-full"></n-chat-message-text>
         </div>
-        <div class="demo-col">
-          <span class="demo-col-label">Plain text</span>
+        <div>
+          <span class="demo-state-label">Plain text</span>
           <n-chat-message-text format="plain" id="demo-md-plain"></n-chat-message-text>
         </div>
       </div>
@@ -362,20 +424,20 @@
     </p>
     <n-container data-kind="panel" bordered>
       <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div class="demo-col">
-          <span class="demo-col-label">Typing (active)</span>
+        <div>
+          <span class="demo-state-label">Typing (active)</span>
           <n-chat-message-activity type="typing" active></n-chat-message-activity>
         </div>
-        <div class="demo-col">
-          <span class="demo-col-label">Thinking (active)</span>
+        <div>
+          <span class="demo-state-label">Thinking (active)</span>
           <n-chat-message-activity type="thinking" active></n-chat-message-activity>
         </div>
-        <div class="demo-col">
-          <span class="demo-col-label">Tool use (active)</span>
+        <div>
+          <span class="demo-state-label">Tool use (active)</span>
           <n-chat-message-activity type="tool-use" active></n-chat-message-activity>
         </div>
-        <div class="demo-col">
-          <span class="demo-col-label">Expandable reasoning trace (click to toggle)</span>
+        <div>
+          <span class="demo-state-label">Expandable reasoning trace (click to toggle)</span>
           <n-chat-message-activity type="thinking" active expandable>
             <pre style="font-size: 0.75rem; margin: 0; white-space: pre-wrap;">Step 1: Analyzing the query...
 Step 2: Searching knowledge base...
@@ -383,8 +445,8 @@ Step 3: Formulating response...
 Step 4: Applying formatting rules...</pre>
           </n-chat-message-activity>
         </div>
-        <div class="demo-col">
-          <span class="demo-col-label">Inactive (completed)</span>
+        <div>
+          <span class="demo-state-label">Inactive (completed)</span>
           <n-chat-message-activity type="thinking" label="Thought for 12s"></n-chat-message-activity>
         </div>
       </div>
@@ -407,12 +469,12 @@ Step 4: Applying formatting rules...</pre>
     </p>
     <n-container data-kind="panel" bordered>
       <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div class="demo-col">
-          <span class="demo-col-label">Starter prompts</span>
+        <div>
+          <span class="demo-state-label">Starter prompts</span>
           <n-chat-message-seed id="demo-seeds"></n-chat-message-seed>
         </div>
-        <div class="demo-col">
-          <span class="demo-col-label">Disabled</span>
+        <div>
+          <span class="demo-state-label">Disabled</span>
           <n-chat-message-seed id="demo-seeds-disabled" disabled></n-chat-message-seed>
         </div>
       </div>
@@ -434,17 +496,17 @@ Step 4: Applying formatting rules...</pre>
       Fires <code>native:structured-submit</code> with <code>{ question, selections }</code>.
     </p>
     <n-container data-kind="panel" bordered>
-      <div class="demo-grid">
-        <div class="demo-col">
-          <span class="demo-col-label">Single select</span>
+      <div class="demo-wrap">
+        <div>
+          <span class="demo-state-label">Single select</span>
           <n-chat-input-structured
             question="What language do you prefer?"
             type="single"
             id="demo-structured-single"
           ></n-chat-input-structured>
         </div>
-        <div class="demo-col">
-          <span class="demo-col-label">Multi select</span>
+        <div>
+          <span class="demo-state-label">Multi select</span>
           <n-chat-input-structured
             question="Which features interest you?"
             type="multi"
@@ -473,9 +535,9 @@ Step 4: Applying formatting rules...</pre>
       when composed as a starter surface. Add <code>compact</code> for tighter spacing.
     </p>
     <n-container data-kind="panel" bordered>
-      <div class="demo-grid">
-        <div class="demo-col">
-          <span class="demo-col-label">Default</span>
+      <div class="demo-wrap">
+        <div>
+          <span class="demo-state-label">Default</span>
           <n-container class="n-chat-starter">
             <n-body>
               <n-chat-message-seed id="starter-seeds"></n-chat-message-seed>
@@ -487,8 +549,8 @@ Step 4: Applying formatting rules...</pre>
             </n-body>
           </n-container>
         </div>
-        <div class="demo-col">
-          <span class="demo-col-label">Compact</span>
+        <div>
+          <span class="demo-state-label">Compact</span>
           <n-container class="n-chat-starter" density="2">
             <n-body>
               <n-chat-message-seed id="starter-seeds-compact"></n-chat-message-seed>
@@ -525,13 +587,13 @@ Step 4: Applying formatting rules...</pre>
       Supports <code>inline</code> and <code>lightbox</code> modes.
     </p>
     <n-container data-kind="panel" bordered>
-      <div class="demo-grid">
-        <div class="demo-col">
-          <span class="demo-col-label">Inline mode</span>
+      <div class="demo-wrap">
+        <div>
+          <span class="demo-state-label">Inline mode</span>
           <n-chat-message-genui id="demo-genui-inline" mode="inline"></n-chat-message-genui>
         </div>
-        <div class="demo-col">
-          <span class="demo-col-label">Lightbox mode</span>
+        <div>
+          <span class="demo-state-label">Lightbox mode</span>
           <n-chat-message-genui id="demo-genui-lightbox" mode="lightbox"></n-chat-message-genui>
         </div>
       </div>
@@ -552,9 +614,9 @@ Step 4: Applying formatting rules...</pre>
 
     <h2>Input Surface Only</h2>
     <n-container data-kind="panel" bordered>
-      <div class="demo-grid">
-        <div class="demo-col">
-          <span class="demo-col-label">Inside footer container</span>
+      <div class="demo-wrap">
+        <div>
+          <span class="demo-state-label">Inside footer container</span>
           <n-footer dividers>
             <n-chat-input>
               <n-textarea placeholder="Ask anything" autogrow rows="2"></n-textarea>
@@ -588,8 +650,8 @@ Step 4: Applying formatting rules...</pre>
           </n-footer>
         </div>
 
-        <div class="demo-col">
-          <span class="demo-col-label">Compact (single row)</span>
+        <div>
+          <span class="demo-state-label">Compact (single row)</span>
           <n-footer dividers>
             <n-chat-input compact>
               <n-textarea placeholder="Type a message..." autogrow rows="1"></n-textarea>
@@ -621,6 +683,102 @@ Step 4: Applying formatting rules...</pre>
 &lt;/footer&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+    <!-- ── Advanced Input (Multi-Row) ── -->
+
+    <h2>Advanced Input (Multi-Row)</h2>
+    <p class="demo-desc">
+      <code>&lt;n-chat-input-advanced&gt;</code> uses <code>n-chat-input-prompt</code> to wrap the
+      textarea in a bordered container with an optional prompt-improvement button.
+      Same JS behavior as <code>n-chat-input</code> (Enter-to-send, submit sync, disabled/busy cascade).
+    </p>
+    <n-container data-kind="panel" bordered>
+      <div class="demo-wrap">
+        <div style="grid-column: 1 / -1;">
+          <span class="demo-state-label">Full advanced layout</span>
+          <n-footer dividers>
+            <n-chat-input-advanced>
+              <n-chat-input-header>
+                <nav>
+                  <n-select value="gpt-5.2" data-role="model-picker">
+                    <n-button variant="ghost" inline size="sm"><n-icon name="dots-three-outline-fill"></n-icon> GPT-5.2</n-button>
+                    <n-listbox popover>
+                      <n-option-group>
+                        <n-option-group-header>Claude</n-option-group-header>
+                        <n-option value="opus-4.6">Opus 4.6</n-option>
+                        <n-option value="sonnet-4.6">Sonnet 4.6</n-option>
+                        <n-option value="haiku-4.5">Haiku 4.5</n-option>
+                      </n-option-group>
+                      <n-option-group>
+                        <n-option-group-header>ChatGPT</n-option-group-header>
+                        <n-option value="gpt-5.2">GPT-5.2</n-option>
+                        <n-option value="gpt-5.3-codex">GPT-5.3 Codex</n-option>
+                      </n-option-group>
+                    </n-listbox>
+                  </n-select>
+                  <n-button variant="ghost" inline size="sm"><n-icon name="brain"></n-icon> UX Design Assistant</n-button>
+                </nav>
+                <aside>
+                  <n-button variant="ghost" inline size="sm"><n-icon name="sliders"></n-icon></n-button>
+                  <n-button variant="ghost" inline size="sm"><n-icon name="clock"></n-icon></n-button>
+                </aside>
+              </n-chat-input-header>
+
+              <n-chat-input-prompt>
+                <n-textarea placeholder="Help me understand why users are dropping off during onboarding" autogrow rows="2"></n-textarea>
+                <n-button variant="ghost" inline size="sm" data-role="improve"><n-icon name="sparkle"></n-icon></n-button>
+                <n-toolbar variant="plain">
+                  <n-button variant="ghost" inline><n-icon name="plus"></n-icon></n-button>
+                  <n-button variant="ghost" inline><n-icon name="magnifying-glass"></n-icon></n-button>
+                  <n-button variant="ghost" inline><n-icon name="compass"></n-icon></n-button>
+                  <n-button variant="ghost" inline><n-icon name="flask"></n-icon></n-button>
+                  <span fill></span>
+                  <n-button variant="ghost" inline><n-icon name="record"></n-icon></n-button>
+                  <n-button variant="ghost" inline><n-icon name="microphone"></n-icon></n-button>
+                  <n-button variant="primary" intent="accent" radius="round" inline disabled data-role="submit"><n-icon name="arrow-up"></n-icon></n-button>
+                </n-toolbar>
+              </n-chat-input-prompt>
+
+              <n-chat-input-chips>
+                <n-button variant="ghost" size="sm" radius="round"><n-icon name="lightbulb"></n-icon> Clarify user problem</n-button>
+                <n-button variant="ghost" size="sm" radius="round"><n-icon name="crosshair"></n-icon> Define user context</n-button>
+                <n-button variant="ghost" size="sm" radius="round"><n-icon name="list-checks"></n-icon> Select deliverable</n-button>
+                <n-button variant="ghost" size="sm" radius="round"><n-icon name="pencil-simple"></n-icon> Refine requirements</n-button>
+              </n-chat-input-chips>
+            </n-chat-input-advanced>
+          </n-footer>
+        </div>
+      </div>
+      <pre class="demo-code"><code>&lt;n-chat-input-advanced&gt;
+  &lt;n-chat-input-header&gt;
+    &lt;nav&gt;
+      &lt;n-select data-role="model-picker"&gt;...&lt;/n-select&gt;
+      &lt;n-button variant="ghost" inline&gt;Agent Name&lt;/n-button&gt;
+    &lt;/nav&gt;
+    &lt;aside&gt;
+      &lt;n-button variant="ghost" inline&gt;Settings&lt;/n-button&gt;
+      &lt;n-button variant="ghost" inline&gt;Activity&lt;/n-button&gt;
+    &lt;/aside&gt;
+  &lt;/n-chat-input-header&gt;
+
+  &lt;n-chat-input-prompt&gt;
+    &lt;n-textarea placeholder="..." autogrow rows="2"&gt;&lt;/n-textarea&gt;
+    &lt;n-button variant="ghost" inline size="sm" data-role="improve"&gt;
+      &lt;n-icon name="sparkle"&gt;&lt;/n-icon&gt;
+    &lt;/n-button&gt;
+    &lt;n-toolbar variant="plain"&gt;
+      &lt;n-button variant="ghost" inline&gt;...&lt;/n-button&gt;
+      &lt;span fill&gt;&lt;/span&gt;
+      &lt;n-button variant="primary" intent="accent" radius="round" inline data-role="submit"&gt;...&lt;/n-button&gt;
+    &lt;/n-toolbar&gt;
+  &lt;/n-chat-input-prompt&gt;
+
+  &lt;n-chat-input-chips&gt;
+    &lt;n-button variant="ghost" size="sm" radius="round"&gt;Suggestion&lt;/n-button&gt;
+  &lt;/n-chat-input-chips&gt;
+&lt;/n-chat-input-advanced&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    </section>
     </main></native-dashboard-spa>
     <script type="module">
       import '../../../../src/nav/native-dashboard.ts';
@@ -642,290 +800,18 @@ Step 4: Applying formatting rules...</pre>
       import '../../../../src/icons/phosphor/copy.ts';
       import '../../../../src/icons/phosphor/check.ts';
       import '../../../../src/icons/phosphor/user.ts';
-// ── Demo: Stamped Panel ──
-
-      const panelModels = document.getElementById('demo-panel-models');
-      if (panelModels) {
-        const claudeApiKey = import.meta.env?.VITE_ANTHROPIC_API_KEY
-          || import.meta.env?.VITE_CLAUDE_API_KEY
-          || null;
-        const openAiApiKey = import.meta.env?.VITE_OPENAI_API_KEY || null;
-
-        panelModels.models = [
-          { value: 'claude-haiku-4-5', label: 'Claude Haiku 4.5' },
-          { value: 'claude-sonnet-4-6', label: 'Claude Sonnet 4.6' },
-          { value: 'gpt-5.2', label: 'GPT-5.2' },
-          { value: 'gpt-5.3-codex', label: 'GPT-5.3 Codex' },
-          { value: 'gpt-5.2-codex', label: 'GPT-5.2 Codex' },
-        ];
-
-        const applyGatewayForModel = (model) => {
-          const isOpenAiModel = model.startsWith('gpt-') || model.startsWith('chatgpt-');
-          if (isOpenAiModel) {
-            if (!openAiApiKey) {
-              panelModels.gateway = 'mock';
-              panelModels.gatewayUrl = 'mock';
-              console.warn('[native-chat demo] Missing OpenAI API key. Set VITE_OPENAI_API_KEY in .env and restart Vite.');
-              return;
-            }
-            panelModels.gateway = 'openai';
-            panelModels.gatewayUrl = '/api/openai';
-            panelModels.gatewayConfig = {
-              apiKey: openAiApiKey,
-              model,
-              maxTokens: 1024,
-            };
-            return;
-          }
-
-          if (!claudeApiKey) {
-            panelModels.gateway = 'mock';
-            panelModels.gatewayUrl = 'mock';
-            console.warn('[native-chat demo] Missing Claude API key. Set VITE_ANTHROPIC_API_KEY or VITE_CLAUDE_API_KEY in .env and restart Vite.');
-            return;
-          }
-          panelModels.gateway = 'claude';
-          panelModels.gatewayUrl = '/api/anthropic';
-          panelModels.gatewayConfig = {
-            apiKey: claudeApiKey,
-            model,
-            maxTokens: 1024,
-          };
-        };
-
-        const initialModel = claudeApiKey ? 'claude-haiku-4-5' : (openAiApiKey ? 'gpt-5.2' : 'claude-haiku-4-5');
-        panelModels.model = initialModel;
-        applyGatewayForModel(initialModel);
-
-        panelModels.addEventListener('native:model-change', (e) => {
-          const selected = e.detail?.value;
-          if (typeof selected !== 'string' || selected.length === 0) return;
-          applyGatewayForModel(selected);
-        });
-      }
-
-      // ── Demo: Feed Messages ──
-
-      const feedMsg1 = document.getElementById('demo-feed-msg1');
-      if (feedMsg1) feedMsg1.content = "Hello! I'm your AI assistant. How can I help you today?";
-
-      const feedMsg2 = document.getElementById('demo-feed-msg2');
-      if (feedMsg2) feedMsg2.content = 'Can you explain how web components work?';
-
-      const feedMsg3 = document.getElementById('demo-feed-msg3');
-      if (feedMsg3) feedMsg3.content = `Web components are a set of **browser APIs** that let you create reusable custom elements. The main specs are:
-
-1. **Custom Elements** — define new HTML tags with \`customElements.define()\`
-2. **Shadow DOM** — encapsulated DOM and styling
-3. **HTML Templates** — reusable markup fragments
-
-Here's a simple example:
-
-\`\`\`js
-class MyButton extends HTMLElement {
-  connectedCallback() {
-    this.textContent = 'Click me';
-  }
-}
-customElements.define('my-button', MyButton);
-\`\`\`
-
-They work in **all modern browsers** without a framework.`;
-
-      const feedMsgA1 = document.getElementById('demo-feed-msg-a1');
-      if (feedMsgA1) feedMsgA1.content = 'Hey, quick question';
-
-      const feedMsgA2 = document.getElementById('demo-feed-msg-a2');
-      if (feedMsgA2) feedMsgA2.content = "What's the difference between shadow DOM and light DOM?";
-
-      const feedMsgA3 = document.getElementById('demo-feed-msg-a3');
-      if (feedMsgA3) feedMsgA3.content = `**Light DOM** is the regular DOM tree — children you write in HTML. **Shadow DOM** is an encapsulated tree attached via \`attachShadow()\`.
-
-Key differences:
-
-- Shadow DOM styles don't leak out
-- External styles don't reach in (unless using CSS custom properties or \`::part()\`)
-- Shadow DOM creates a _flat tree_ for rendering`;
-
-      const feedMsgA4 = document.getElementById('demo-feed-msg-a4');
-      if (feedMsgA4) feedMsgA4.content = 'This library (`native-ui`) deliberately avoids Shadow DOM — all components use **light DOM** so CSS custom properties cascade naturally.';
-
-      // ── Demo: Message Text ──
-
-      const mdFull = document.getElementById('demo-md-full');
-      if (mdFull) {
-        mdFull.content = `## Web Components
-
-Here's what you need to know about **web components**:
-
-- **Custom Elements** — define new HTML tags
-- **Shadow DOM** — encapsulated styling
-- **HTML Templates** — declarative structure
-
-Inline \`code\` works too. And here's a fenced block:
-
-\`\`\`js
-class MyEl extends HTMLElement {
-  connectedCallback() {
-    this.textContent = 'Hello';
-  }
-}
-\`\`\`
-
-> Web components work in all modern browsers without a framework.
-
-Visit [MDN](https://developer.mozilla.org) for more.`;
-      }
-
-      const mdPlain = document.getElementById('demo-md-plain');
-      if (mdPlain) {
-        mdPlain.content = 'This is plain text. No **bold** or *italic* formatting is applied. Links like https://example.com stay as text.';
-      }
-
-      // ── Demo: Seed Chips ──
-
-      const seeds = document.getElementById('demo-seeds');
-      if (seeds) {
-        seeds.options = [
-          { value: 'explain', label: 'Explain this code' },
-          { value: 'refactor', label: 'Suggest refactoring' },
-          { value: 'test', label: 'Write tests' },
-          { value: 'docs', label: 'Generate docs' },
-        ];
-      }
-
-      const seedsDisabled = document.getElementById('demo-seeds-disabled');
-      if (seedsDisabled) {
-        seedsDisabled.options = [
-          { value: 'explain', label: 'Explain this code' },
-          { value: 'refactor', label: 'Suggest refactoring' },
-        ];
-      }
-
-      // ── Demo: Structured Input ──
-
-      const structSingle = document.getElementById('demo-structured-single');
-      if (structSingle) {
-        structSingle.options = [
-          { value: 'ts', label: 'TypeScript' },
-          { value: 'js', label: 'JavaScript' },
-          { value: 'py', label: 'Python' },
-          { value: 'rs', label: 'Rust' },
-        ];
-      }
-
-      const structMulti = document.getElementById('demo-structured-multi');
-      if (structMulti) {
-        structMulti.options = [
-          { value: 'signals', label: 'Reactive signals' },
-          { value: 'traits', label: 'Composable traits' },
-          { value: 'tokens', label: 'CSS token system' },
-          { value: 'a11y', label: 'Accessibility' },
-        ];
-      }
-
-      // ── Demo: Starter Surface ──
-
-      const starterSeeds = document.getElementById('starter-seeds');
-      if (starterSeeds) {
-        starterSeeds.options = [
-          { value: 'summarize', label: 'Summarize this page' },
-          { value: 'draft', label: 'Draft a reply' },
-          { value: 'explain', label: 'Explain like I\'m 5' },
-        ];
-      }
-
-      const starterStructured = document.getElementById('starter-structured');
-      if (starterStructured) {
-        starterStructured.options = [
-          { value: 'code', label: 'Code review' },
-          { value: 'writing', label: 'Writing help' },
-          { value: 'research', label: 'Research' },
-        ];
-      }
-
-      const starterSeedsCompact = document.getElementById('starter-seeds-compact');
-      if (starterSeedsCompact) {
-        starterSeedsCompact.options = [
-          { value: 'summarize', label: 'Summarize' },
-          { value: 'draft', label: 'Draft reply' },
-        ];
-      }
-
-      const starterStructuredCompact = document.getElementById('starter-structured-compact');
-      if (starterStructuredCompact) {
-        starterStructuredCompact.options = [
-          { value: 'code', label: 'Code review' },
-          { value: 'writing', label: 'Writing' },
-        ];
-      }
-
-      // ── Demo: GenUI ──
-
-      const genuiInline = document.getElementById('demo-genui-inline');
-      if (genuiInline) {
-        genuiInline.schema = {
-          tag: 'article',
-          children: [
-            { tag: 'header', children: [
-              { tag: 'span', text: 'Generated Card' },
-            ]},
-            { tag: 'section', children: [
-              { tag: 'p', text: 'This UI was rendered from a schema object.' },
-            ]},
-            { tag: 'footer', children: [
-              { tag: 'n-button', text: 'Confirm', attributes: { variant: 'primary', intent: 'accent' } },
-              { tag: 'n-button', text: 'Cancel', attributes: { variant: 'ghost' } },
-            ]},
-          ],
-        };
-      }
-
-      const genuiLightbox = document.getElementById('demo-genui-lightbox');
-      if (genuiLightbox) {
-        genuiLightbox.schema = {
-          tag: 'article',
-          children: [
-            { tag: 'header', children: [
-              { tag: 'span', text: 'Interactive Form' },
-            ]},
-            { tag: 'section', children: [
-              { tag: 'p', text: 'Click "Open" to view in a dialog overlay.' },
-              { tag: 'n-button', text: 'Submit', attributes: { variant: 'primary', intent: 'accent' } },
-            ]},
-          ],
-        };
-      }
-
-      // ── Event logging ──
-
-      document.addEventListener('native:seed-select', (e) => {
-        console.log('seed-select:', e.detail);
-      });
-      document.addEventListener('native:structured-submit', (e) => {
-        console.log('structured-submit:', e.detail);
-      });
-      document.addEventListener('native:message-action', (e) => {
-        console.log('message-action:', e.detail);
-      });
-      document.addEventListener('native:activity-toggle', (e) => {
-        console.log('activity-toggle:', e.detail);
-      });
-
-      // ── Copy buttons ──
-
-      for (const btn of document.querySelectorAll('.copy-btn')) {
-        btn.addEventListener('click', async () => {
-          const code = btn.closest('.demo-code')?.querySelector('code');
-          if (!code) return;
-          await navigator.clipboard.writeText(code.textContent);
-          const icon = btn.querySelector('n-icon');
-          if (icon) {
-            icon.setAttribute('name', 'check');
-            setTimeout(() => { icon.setAttribute('name', 'copy'); }, 1500);
-          }
-        });
-      }
+      import '../../../../src/icons/phosphor/brain.ts';
+      import '../../../../src/icons/phosphor/sliders.ts';
+      import '../../../../src/icons/phosphor/clock.ts';
+      import '../../../../src/icons/phosphor/magnifying-glass.ts';
+      import '../../../../src/icons/phosphor/compass.ts';
+      import '../../../../src/icons/phosphor/flask.ts';
+      import '../../../../src/icons/phosphor/camera.ts';
+      import '../../../../src/icons/phosphor/lightbulb.ts';
+      import '../../../../src/icons/phosphor/crosshair.ts';
+      import '../../../../src/icons/phosphor/list-checks.ts';
+      import '../../../../src/icons/phosphor/pencil-simple.ts';
     </script>
+    <script type="module" src="./chat.demo.ts"></script>
   </body>
 </html>

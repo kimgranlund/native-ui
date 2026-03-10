@@ -1,0 +1,102 @@
+body { background: var(--n-doc-neutral); color: var(--n-color-neutral-950); }
+h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+h2 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; margin-top: 2rem; color: var(--n-ink-strong-neutral); }
+
+.settings-container {
+  max-width: 40rem;
+}
+
+.settings-section-heading {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.settings-section-description {
+  font-size: 0.8125rem;
+  color: var(--n-ink-muted-neutral);
+  margin: calc(var(--n-space) * 1) 0 0;
+}
+
+.avatar-row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--n-space) * 4);
+}
+
+.avatar-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.avatar-name {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.avatar-hint {
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-neutral);
+}
+
+.notification-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: calc(var(--n-space) * 3);
+}
+
+.notification-row + .notification-row {
+  border-top: 1px solid var(--n-border-muted-neutral);
+}
+
+.notification-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.notification-description {
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-neutral);
+  margin-top: 0.125rem;
+}
+
+.section-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: calc(var(--n-space) * 2);
+}
+
+.danger-zone {
+  background: var(--n-panel-danger);
+  border: 1px solid var(--n-border-muted-danger);
+  border-radius: var(--n-radius);
+  padding: calc(var(--n-space-k) * var(--n-space));
+}
+
+.danger-zone-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: calc(var(--n-space) * 4);
+  flex-wrap: wrap;
+}
+
+.danger-zone-text {
+  flex: 1;
+  min-width: 12rem;
+}
+
+.danger-zone-heading {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--n-ink-strong-danger);
+  margin: 0;
+}
+
+.danger-zone-description {
+  font-size: 0.75rem;
+  color: var(--n-ink-muted-danger);
+  margin: calc(var(--n-space) * 1) 0 0;
+}

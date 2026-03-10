@@ -7,8 +7,9 @@
     --n-padding-inline: 0;
 
     display: flex;
-    flex: 1 1 100%;
+    flex: 1 1 0%;
     min-width: 0;
+    min-height: 0;
     flex-direction: column;
     gap: calc(var(--n-space) * var(--n-space-k));
     padding-block: var(--n-padding-block);
@@ -45,6 +46,7 @@
     display: flex;
     align-items: center;
     gap: calc(var(--n-space) * 2);
+    min-width: 0;
   }
 
   /* Aside (trailing) — flex row, pushed to end */
@@ -93,5 +95,5 @@
 
 /* Dividers */
 :where(n-stack)[dividers] > :where(:not(:first-child)) {
-  border-top: 1px solid var(--n-border-muted);
+  border-block-start: 1px solid var(--n-border-muted);
 }
