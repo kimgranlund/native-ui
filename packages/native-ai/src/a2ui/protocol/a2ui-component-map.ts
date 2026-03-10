@@ -736,6 +736,17 @@ const DEFAULT_MAPPINGS: readonly ComponentMapping[] = [
     ],
     methods: [],
   },
+  {
+    a2uiType: 'Controller',
+    nativeTag: 'n-controller',
+    childStrategy: 'children',
+    propertyMap: { traits: 'traits' },
+    events: [],
+    properties: [
+      { attr: 'traits', type: 'string', note: 'Space-separated trait names: draggable, flippable, tossable, pressable, hoverable, swipeable, collapsible, dismissible, editable, resizable, sortable, selectable, searchable, copyable, presentable, parallax, confetti, magnetizable, noodleable' },
+    ],
+    methods: [],
+  },
 ];
 
 const DEFAULT_CATEGORIES: Record<string, string> = {
@@ -773,6 +784,7 @@ const DEFAULT_CATEGORIES: Record<string, string> = {
   Table: 'data',
   Toast: 'feedback',
   Chart: 'data-viz',
+  Controller: 'behavior',
 };
 
 // ── Default Singleton Registry ──
