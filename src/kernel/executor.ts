@@ -93,6 +93,7 @@ export class PlanExecutor {
   ): HTMLElement {
     const el = document.createElement(node.tag);
     elements.set(node.id, el);
+    el.id = node.id;
 
     // Set attributes
     if (node.attributes) {
