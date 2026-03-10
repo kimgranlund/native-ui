@@ -382,7 +382,9 @@ function applyCSSToPreview(css: string): void {
 
 function applyJSToPreview(js: string): void {
   try {
-    const fn = new Function('preview', js);
+    // Wrap in IIFE so LLM code can declare `const preview` without
+    // colliding with the Function parameter name.
+    const fn = new Function('__mount__', `(function(preview){${js}}(__mount__))`);
     fn(previewMount);
   } catch (err) {
     console.error('[A2UI Builder] JS error:', err);
