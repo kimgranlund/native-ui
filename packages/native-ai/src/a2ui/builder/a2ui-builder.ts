@@ -449,7 +449,13 @@ function runJS(): void {
 }
 
 document.addEventListener('pointerup', (e) => {
-  if ((e.target as HTMLElement).closest?.('[data-role="apply-js"]')) runJS();
+  // Walk composedPath to cross shadow DOM boundaries
+  for (const node of e.composedPath()) {
+    if (node instanceof HTMLElement && node.matches('[data-role="apply-js"]')) {
+      runJS();
+      break;
+    }
+  }
 });
 jsEditor.addEventListener('keydown', (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === 's') {
