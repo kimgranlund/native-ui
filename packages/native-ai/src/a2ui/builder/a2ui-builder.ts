@@ -30,6 +30,7 @@ import '../../../../../src/icons/phosphor/chat-dots.ts';
 import '../../../../../src/icons/phosphor/user.ts';
 import '../../../../../src/icons/phosphor/copy.ts';
 import '../../../../../src/icons/phosphor/arrow-clockwise.ts';
+import { ConfettiController } from '../../../../../src/traits/confetti/confetti-controller.ts';
 import { Kernel, resetKernel } from '../../../../../src/kernel/kernel.ts';
 import { createA2UIAdapter } from '../protocol/a2ui-adapter.ts';
 import { COMPONENT_MAP as REGISTRY, getComponentCategory } from '../protocol/a2ui-component-map.ts';
@@ -910,10 +911,13 @@ function applyResult(result: MockResult) {
     addMessage('assistant', 'Prompt downloaded as `claude-code-prompt.md`');
   }
 
-  // Handle gap reports — render as structured markdown
+  // Handle gap reports — render as structured markdown + celebrate the signal
   if (result.gaps?.length) {
     const report = formatGapReport(result.gaps, result.partial);
     if (report) addMessage('assistant', report, 'gap');
+    const confetti = new ConfettiController(chatFeed, { trigger: 'manual', count: 40, spread: 120, colors: ['#f59e0b', '#f97316', '#ef4444', '#eab308', '#fbbf24'] });
+    confetti.fire();
+    setTimeout(() => confetti.destroy(), 3000);
   }
 
   if (result.schema) {
