@@ -122,7 +122,11 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `slide-element.d.ts` | Source module |
+| `slide-element.d.ts.map` | Source module |
 | `slide-element.ts` | Element class (behavior, no CSS) |
+| `slideshow-element.d.ts` | Source module |
+| `slideshow-element.d.ts.map` | Source module |
 | `slideshow-element.ts` | Element class (behavior, no CSS) |
 | `slideshow.css` | Styles |
 | `slideshow.demo.css` | Styles |
@@ -211,7 +215,11 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `slide-element.d.ts` | Source module |
+| `slide-element.d.ts.map` | Source module |
 | `slide-element.ts` | Element class (behavior, no CSS) |
+| `slideshow-element.d.ts` | Source module |
+| `slideshow-element.d.ts.map` | Source module |
 | `slideshow-element.ts` | Element class (behavior, no CSS) |
 | `slideshow.css` | Styles |
 | `slideshow.demo.css` | Styles |

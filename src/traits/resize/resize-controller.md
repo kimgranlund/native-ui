@@ -108,6 +108,8 @@ When used as a provider or self-trait, options are passed via `data-trait-resize
 | `resizable.demo.ts` | Source module |
 | `resizable.html` | Demo page |
 | `resizable.test.ts` | Tests |
+| `resize-controller.d.ts` | Source module |
+| `resize-controller.d.ts.map` | Source module |
 | `resize-controller.md` | Controller documentation |
 | `resize-controller.ts` | Controller (reactive state + behavior) |
 | `resize-corner.test.ts` | Tests |

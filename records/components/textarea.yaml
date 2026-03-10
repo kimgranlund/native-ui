@@ -34,6 +34,7 @@ attributes:
     description: Automatically grows height to fit content
   pattern:
     type: string
+    description: Regular expression pattern for input validation
   formatting:
     type: string
     description: Space-separated list of enabled formats (e.g. "code bold italic")

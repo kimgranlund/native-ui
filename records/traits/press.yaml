@@ -14,6 +14,12 @@ injected_events:
     detail:
       pointerType:
         type: string
+  native:hover-start:
+    detail: {}
+    description: Fired when the pointer enters the host element
+  native:hover-end:
+    detail: {}
+    description: Fired when the pointer leaves the host element
 methods:
   attach:
     returns: void

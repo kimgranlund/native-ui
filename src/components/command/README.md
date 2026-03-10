@@ -141,22 +141,48 @@
 
 | File | Purpose |
 |------|---------|
+| `command-element.d.ts` | Source module |
+| `command-element.d.ts.map` | Source module |
 | `command-element.ts` | Element class (behavior, no CSS) |
+| `command-empty-element.d.ts` | Source module |
+| `command-empty-element.d.ts.map` | Source module |
 | `command-empty-element.ts` | Element class (behavior, no CSS) |
+| `command-empty.d.ts` | Source module |
+| `command-empty.d.ts.map` | Source module |
 | `command-empty.ts` | Source module |
+| `command-group-element.d.ts` | Source module |
+| `command-group-element.d.ts.map` | Source module |
 | `command-group-element.ts` | Element class (behavior, no CSS) |
+| `command-group.d.ts` | Source module |
+| `command-group.d.ts.map` | Source module |
 | `command-group.ts` | Source module |
+| `command-input-element.d.ts` | Source module |
+| `command-input-element.d.ts.map` | Source module |
 | `command-input-element.ts` | Element class (behavior, no CSS) |
+| `command-input.d.ts` | Source module |
+| `command-input.d.ts.map` | Source module |
 | `command-input.ts` | Source module |
+| `command-item-element.d.ts` | Source module |
+| `command-item-element.d.ts.map` | Source module |
 | `command-item-element.ts` | Element class (behavior, no CSS) |
+| `command-item.d.ts` | Source module |
+| `command-item.d.ts.map` | Source module |
 | `command-item.ts` | Source module |
+| `command-list-element.d.ts` | Source module |
+| `command-list-element.d.ts.map` | Source module |
 | `command-list-element.ts` | Element class (behavior, no CSS) |
+| `command-list.d.ts` | Source module |
+| `command-list.d.ts.map` | Source module |
 | `command-list.ts` | Source module |
 | `command.css` | Styles |
+| `command.d.ts` | Source module |
+| `command.d.ts.map` | Source module |
 | `command.demo.css` | Styles |
 | `command.demo.ts` | Source module |
 | `command.html` | Demo page |
 | `command.ts` | Custom element registration (define()) |
+| `index.d.ts` | Source module |
+| `index.d.ts.map` | Source module |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
 
@@ -263,22 +289,48 @@
 
 | File | Purpose |
 |------|---------|
+| `command-element.d.ts` | Source module |
+| `command-element.d.ts.map` | Source module |
 | `command-element.ts` | Element class (behavior, no CSS) |
+| `command-empty-element.d.ts` | Source module |
+| `command-empty-element.d.ts.map` | Source module |
 | `command-empty-element.ts` | Element class (behavior, no CSS) |
+| `command-empty.d.ts` | Source module |
+| `command-empty.d.ts.map` | Source module |
 | `command-empty.ts` | Source module |
+| `command-group-element.d.ts` | Source module |
+| `command-group-element.d.ts.map` | Source module |
 | `command-group-element.ts` | Element class (behavior, no CSS) |
+| `command-group.d.ts` | Source module |
+| `command-group.d.ts.map` | Source module |
 | `command-group.ts` | Source module |
+| `command-input-element.d.ts` | Source module |
+| `command-input-element.d.ts.map` | Source module |
 | `command-input-element.ts` | Element class (behavior, no CSS) |
+| `command-input.d.ts` | Source module |
+| `command-input.d.ts.map` | Source module |
 | `command-input.ts` | Source module |
+| `command-item-element.d.ts` | Source module |
+| `command-item-element.d.ts.map` | Source module |
 | `command-item-element.ts` | Element class (behavior, no CSS) |
+| `command-item.d.ts` | Source module |
+| `command-item.d.ts.map` | Source module |
 | `command-item.ts` | Source module |
+| `command-list-element.d.ts` | Source module |
+| `command-list-element.d.ts.map` | Source module |
 | `command-list-element.ts` | Element class (behavior, no CSS) |
+| `command-list.d.ts` | Source module |
+| `command-list.d.ts.map` | Source module |
 | `command-list.ts` | Source module |
 | `command.css` | Styles |
+| `command.d.ts` | Source module |
+| `command.d.ts.map` | Source module |
 | `command.demo.css` | Styles |
 | `command.demo.ts` | Source module |
 | `command.html` | Demo page |
 | `command.ts` | Custom element registration (define()) |
+| `index.d.ts` | Source module |
+| `index.d.ts.map` | Source module |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
 
@@ -378,22 +430,48 @@
 
 | File | Purpose |
 |------|---------|
+| `command-element.d.ts` | Source module |
+| `command-element.d.ts.map` | Source module |
 | `command-element.ts` | Element class (behavior, no CSS) |
+| `command-empty-element.d.ts` | Source module |
+| `command-empty-element.d.ts.map` | Source module |
 | `command-empty-element.ts` | Element class (behavior, no CSS) |
+| `command-empty.d.ts` | Source module |
+| `command-empty.d.ts.map` | Source module |
 | `command-empty.ts` | Source module |
+| `command-group-element.d.ts` | Source module |
+| `command-group-element.d.ts.map` | Source module |
 | `command-group-element.ts` | Element class (behavior, no CSS) |
+| `command-group.d.ts` | Source module |
+| `command-group.d.ts.map` | Source module |
 | `command-group.ts` | Source module |
+| `command-input-element.d.ts` | Source module |
+| `command-input-element.d.ts.map` | Source module |
 | `command-input-element.ts` | Element class (behavior, no CSS) |
+| `command-input.d.ts` | Source module |
+| `command-input.d.ts.map` | Source module |
 | `command-input.ts` | Source module |
+| `command-item-element.d.ts` | Source module |
+| `command-item-element.d.ts.map` | Source module |
 | `command-item-element.ts` | Element class (behavior, no CSS) |
+| `command-item.d.ts` | Source module |
+| `command-item.d.ts.map` | Source module |
 | `command-item.ts` | Source module |
+| `command-list-element.d.ts` | Source module |
+| `command-list-element.d.ts.map` | Source module |
 | `command-list-element.ts` | Element class (behavior, no CSS) |
+| `command-list.d.ts` | Source module |
+| `command-list.d.ts.map` | Source module |
 | `command-list.ts` | Source module |
 | `command.css` | Styles |
+| `command.d.ts` | Source module |
+| `command.d.ts.map` | Source module |
 | `command.demo.css` | Styles |
 | `command.demo.ts` | Source module |
 | `command.html` | Demo page |
 | `command.ts` | Custom element registration (define()) |
+| `index.d.ts` | Source module |
+| `index.d.ts.map` | Source module |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
 
@@ -473,22 +551,48 @@
 
 | File | Purpose |
 |------|---------|
+| `command-element.d.ts` | Source module |
+| `command-element.d.ts.map` | Source module |
 | `command-element.ts` | Element class (behavior, no CSS) |
+| `command-empty-element.d.ts` | Source module |
+| `command-empty-element.d.ts.map` | Source module |
 | `command-empty-element.ts` | Element class (behavior, no CSS) |
+| `command-empty.d.ts` | Source module |
+| `command-empty.d.ts.map` | Source module |
 | `command-empty.ts` | Source module |
+| `command-group-element.d.ts` | Source module |
+| `command-group-element.d.ts.map` | Source module |
 | `command-group-element.ts` | Element class (behavior, no CSS) |
+| `command-group.d.ts` | Source module |
+| `command-group.d.ts.map` | Source module |
 | `command-group.ts` | Source module |
+| `command-input-element.d.ts` | Source module |
+| `command-input-element.d.ts.map` | Source module |
 | `command-input-element.ts` | Element class (behavior, no CSS) |
+| `command-input.d.ts` | Source module |
+| `command-input.d.ts.map` | Source module |
 | `command-input.ts` | Source module |
+| `command-item-element.d.ts` | Source module |
+| `command-item-element.d.ts.map` | Source module |
 | `command-item-element.ts` | Element class (behavior, no CSS) |
+| `command-item.d.ts` | Source module |
+| `command-item.d.ts.map` | Source module |
 | `command-item.ts` | Source module |
+| `command-list-element.d.ts` | Source module |
+| `command-list-element.d.ts.map` | Source module |
 | `command-list-element.ts` | Element class (behavior, no CSS) |
+| `command-list.d.ts` | Source module |
+| `command-list.d.ts.map` | Source module |
 | `command-list.ts` | Source module |
 | `command.css` | Styles |
+| `command.d.ts` | Source module |
+| `command.d.ts.map` | Source module |
 | `command.demo.css` | Styles |
 | `command.demo.ts` | Source module |
 | `command.html` | Demo page |
 | `command.ts` | Custom element registration (define()) |
+| `index.d.ts` | Source module |
+| `index.d.ts.map` | Source module |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
 
@@ -562,22 +666,48 @@
 
 | File | Purpose |
 |------|---------|
+| `command-element.d.ts` | Source module |
+| `command-element.d.ts.map` | Source module |
 | `command-element.ts` | Element class (behavior, no CSS) |
+| `command-empty-element.d.ts` | Source module |
+| `command-empty-element.d.ts.map` | Source module |
 | `command-empty-element.ts` | Element class (behavior, no CSS) |
+| `command-empty.d.ts` | Source module |
+| `command-empty.d.ts.map` | Source module |
 | `command-empty.ts` | Source module |
+| `command-group-element.d.ts` | Source module |
+| `command-group-element.d.ts.map` | Source module |
 | `command-group-element.ts` | Element class (behavior, no CSS) |
+| `command-group.d.ts` | Source module |
+| `command-group.d.ts.map` | Source module |
 | `command-group.ts` | Source module |
+| `command-input-element.d.ts` | Source module |
+| `command-input-element.d.ts.map` | Source module |
 | `command-input-element.ts` | Element class (behavior, no CSS) |
+| `command-input.d.ts` | Source module |
+| `command-input.d.ts.map` | Source module |
 | `command-input.ts` | Source module |
+| `command-item-element.d.ts` | Source module |
+| `command-item-element.d.ts.map` | Source module |
 | `command-item-element.ts` | Element class (behavior, no CSS) |
+| `command-item.d.ts` | Source module |
+| `command-item.d.ts.map` | Source module |
 | `command-item.ts` | Source module |
+| `command-list-element.d.ts` | Source module |
+| `command-list-element.d.ts.map` | Source module |
 | `command-list-element.ts` | Element class (behavior, no CSS) |
+| `command-list.d.ts` | Source module |
+| `command-list.d.ts.map` | Source module |
 | `command-list.ts` | Source module |
 | `command.css` | Styles |
+| `command.d.ts` | Source module |
+| `command.d.ts.map` | Source module |
 | `command.demo.css` | Styles |
 | `command.demo.ts` | Source module |
 | `command.html` | Demo page |
 | `command.ts` | Custom element registration (define()) |
+| `index.d.ts` | Source module |
+| `index.d.ts.map` | Source module |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
 
@@ -680,21 +810,47 @@
 
 | File | Purpose |
 |------|---------|
+| `command-element.d.ts` | Source module |
+| `command-element.d.ts.map` | Source module |
 | `command-element.ts` | Element class (behavior, no CSS) |
+| `command-empty-element.d.ts` | Source module |
+| `command-empty-element.d.ts.map` | Source module |
 | `command-empty-element.ts` | Element class (behavior, no CSS) |
+| `command-empty.d.ts` | Source module |
+| `command-empty.d.ts.map` | Source module |
 | `command-empty.ts` | Source module |
+| `command-group-element.d.ts` | Source module |
+| `command-group-element.d.ts.map` | Source module |
 | `command-group-element.ts` | Element class (behavior, no CSS) |
+| `command-group.d.ts` | Source module |
+| `command-group.d.ts.map` | Source module |
 | `command-group.ts` | Source module |
+| `command-input-element.d.ts` | Source module |
+| `command-input-element.d.ts.map` | Source module |
 | `command-input-element.ts` | Element class (behavior, no CSS) |
+| `command-input.d.ts` | Source module |
+| `command-input.d.ts.map` | Source module |
 | `command-input.ts` | Source module |
+| `command-item-element.d.ts` | Source module |
+| `command-item-element.d.ts.map` | Source module |
 | `command-item-element.ts` | Element class (behavior, no CSS) |
+| `command-item.d.ts` | Source module |
+| `command-item.d.ts.map` | Source module |
 | `command-item.ts` | Source module |
+| `command-list-element.d.ts` | Source module |
+| `command-list-element.d.ts.map` | Source module |
 | `command-list-element.ts` | Element class (behavior, no CSS) |
+| `command-list.d.ts` | Source module |
+| `command-list.d.ts.map` | Source module |
 | `command-list.ts` | Source module |
 | `command.css` | Styles |
+| `command.d.ts` | Source module |
+| `command.d.ts.map` | Source module |
 | `command.demo.css` | Styles |
 | `command.demo.ts` | Source module |
 | `command.html` | Demo page |
 | `command.ts` | Custom element registration (define()) |
+| `index.d.ts` | Source module |
+| `index.d.ts.map` | Source module |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |

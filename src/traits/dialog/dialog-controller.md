@@ -87,6 +87,8 @@ When used as a provider or self-trait, options are passed via `data-trait-dialog
 
 | File | Purpose |
 |------|---------|
+| `dialog-controller.d.ts` | Source module |
+| `dialog-controller.d.ts.map` | Source module |
 | `dialog-controller.md` | Controller documentation |
 | `dialog-controller.test.ts` | Tests |
 | `dialog-controller.ts` | Controller (reactive state + behavior) |

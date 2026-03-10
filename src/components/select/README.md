@@ -20,7 +20,7 @@
 | `options` | `string` |  | JSON array of `{ value, label }` objects for data-driven mode |
 | `src` | `string` |  | URL to fetch options from for data-driven mode |
 | `placeholder` | `string` |  | Placeholder text when no value is selected |
-| `required` | `string` |  |  |
+| `required` | `string` |  | Marks the field as required for form validation |
 
 ## Events
 
@@ -131,9 +131,11 @@
 
 | File | Purpose |
 |------|---------|
-| `controller/` | Sub-directory (1 files) |
+| `controller/` | Sub-directory (3 files) |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `select-element.d.ts` | Source module |
+| `select-element.d.ts.map` | Source module |
 | `select-element.ts` | Element class (behavior, no CSS) |
 | `select.css` | Styles |
 | `select.demo.ts` | Source module |

@@ -112,6 +112,8 @@ logic to ResizeController.
 
 | File | Purpose |
 |------|---------|
+| `gripper-element.d.ts` | Source module |
+| `gripper-element.d.ts.map` | Source module |
 | `gripper-element.ts` | Element class (behavior, no CSS) |
 | `gripper.css` | Styles |
 | `index.ts` | Barrel exports |

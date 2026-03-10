@@ -134,6 +134,8 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `switch-element.d.ts` | Source module |
+| `switch-element.d.ts.map` | Source module |
 | `switch-element.ts` | Element class (behavior, no CSS) |
 | `switch.css` | Styles |
 | `switch.demo.css` | Styles |

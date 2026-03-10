@@ -28,6 +28,7 @@ attributes:
     description: Mask character for display
   required:
     type: string
+    description: Marks the field as required for form validation
 events:
   native:input:
     description: Fired on each cell change with `{ value }` detail

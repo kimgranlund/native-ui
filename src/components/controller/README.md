@@ -65,6 +65,8 @@ Three modes:
 
 | File | Purpose |
 |------|---------|
+| `controller-element.d.ts` | Source module |
+| `controller-element.d.ts.map` | Source module |
 | `controller-element.ts` | Element class (behavior, no CSS) |
 | `controller.css` | Styles |
 | `controller.demo.css` | Styles |

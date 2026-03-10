@@ -17,7 +17,7 @@
 | `value` | `string` |  | Currently selected segment value |
 | `disabled` | `boolean` |  | Disables all segments |
 | `name` | `string` |  | Form field name |
-| `required` | `string` |  |  |
+| `required` | `string` |  | Marks the field as required for form validation |
 
 ## CSS Attributes
 
@@ -127,7 +127,11 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `segment-element.d.ts` | Source module |
+| `segment-element.d.ts.map` | Source module |
 | `segment-element.ts` | Element class (behavior, no CSS) |
+| `segmented-control-element.d.ts` | Source module |
+| `segmented-control-element.d.ts.map` | Source module |
 | `segmented-control-element.ts` | Element class (behavior, no CSS) |
 | `segmented-control.css` | Styles |
 | `segmented-control.demo.ts` | Source module |
@@ -242,7 +246,11 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `segment-element.d.ts` | Source module |
+| `segment-element.d.ts.map` | Source module |
 | `segment-element.ts` | Element class (behavior, no CSS) |
+| `segmented-control-element.d.ts` | Source module |
+| `segmented-control-element.d.ts.map` | Source module |
 | `segmented-control-element.ts` | Element class (behavior, no CSS) |
 | `segmented-control.css` | Styles |
 | `segmented-control.demo.ts` | Source module |

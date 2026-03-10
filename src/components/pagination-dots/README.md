@@ -105,6 +105,8 @@
 | `n-pagination-dots.demo.ts` | Source module |
 | `n-pagination-dots.html` | Demo page |
 | `n-pagination-dots.ts` | Custom element registration (define()) |
+| `pagination-dots-element.d.ts` | Source module |
+| `pagination-dots-element.d.ts.map` | Source module |
 | `pagination-dots-element.ts` | Element class (behavior, no CSS) |
 | `pagination-dots.css` | Styles |
 | `README.md` | Documentation (auto-generated) |

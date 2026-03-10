@@ -118,8 +118,12 @@
 
 | File | Purpose |
 |------|---------|
+| `dialog-element.d.ts` | Source module |
+| `dialog-element.d.ts.map` | Source module |
 | `dialog-element.ts` | Element class (behavior, no CSS) |
 | `dialog.css` | Styles |
+| `dialog.d.ts` | Source module |
+| `dialog.d.ts.map` | Source module |
 | `dialog.demo.css` | Styles |
 | `dialog.demo.ts` | Source module |
 | `dialog.html` | Demo page |

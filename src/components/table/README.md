@@ -149,16 +149,28 @@
 
 | File | Purpose |
 |------|---------|
-| `column-resize/` | Sub-directory (1 files) |
-| `drag-controller/` | Sub-directory (1 files) |
+| `column-resize/` | Sub-directory (3 files) |
+| `drag-controller/` | Sub-directory (3 files) |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
-| `store/` | Sub-directory (1 files) |
+| `store/` | Sub-directory (3 files) |
+| `table-body-element.d.ts` | Source module |
+| `table-body-element.d.ts.map` | Source module |
 | `table-body-element.ts` | Element class (behavior, no CSS) |
+| `table-cell-element.d.ts` | Source module |
+| `table-cell-element.d.ts.map` | Source module |
 | `table-cell-element.ts` | Element class (behavior, no CSS) |
+| `table-element.d.ts` | Source module |
+| `table-element.d.ts.map` | Source module |
 | `table-element.ts` | Element class (behavior, no CSS) |
+| `table-head-element.d.ts` | Source module |
+| `table-head-element.d.ts.map` | Source module |
 | `table-head-element.ts` | Element class (behavior, no CSS) |
+| `table-header-element.d.ts` | Source module |
+| `table-header-element.d.ts.map` | Source module |
 | `table-header-element.ts` | Element class (behavior, no CSS) |
+| `table-row-element.d.ts` | Source module |
+| `table-row-element.d.ts.map` | Source module |
 | `table-row-element.ts` | Element class (behavior, no CSS) |
 | `table.css` | Styles |
 | `table.demo.css` | Styles |
@@ -299,16 +311,28 @@
 
 | File | Purpose |
 |------|---------|
-| `column-resize/` | Sub-directory (1 files) |
-| `drag-controller/` | Sub-directory (1 files) |
+| `column-resize/` | Sub-directory (3 files) |
+| `drag-controller/` | Sub-directory (3 files) |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
-| `store/` | Sub-directory (1 files) |
+| `store/` | Sub-directory (3 files) |
+| `table-body-element.d.ts` | Source module |
+| `table-body-element.d.ts.map` | Source module |
 | `table-body-element.ts` | Element class (behavior, no CSS) |
+| `table-cell-element.d.ts` | Source module |
+| `table-cell-element.d.ts.map` | Source module |
 | `table-cell-element.ts` | Element class (behavior, no CSS) |
+| `table-element.d.ts` | Source module |
+| `table-element.d.ts.map` | Source module |
 | `table-element.ts` | Element class (behavior, no CSS) |
+| `table-head-element.d.ts` | Source module |
+| `table-head-element.d.ts.map` | Source module |
 | `table-head-element.ts` | Element class (behavior, no CSS) |
+| `table-header-element.d.ts` | Source module |
+| `table-header-element.d.ts.map` | Source module |
 | `table-header-element.ts` | Element class (behavior, no CSS) |
+| `table-row-element.d.ts` | Source module |
+| `table-row-element.d.ts.map` | Source module |
 | `table-row-element.ts` | Element class (behavior, no CSS) |
 | `table.css` | Styles |
 | `table.demo.css` | Styles |
@@ -435,16 +459,28 @@
 
 | File | Purpose |
 |------|---------|
-| `column-resize/` | Sub-directory (1 files) |
-| `drag-controller/` | Sub-directory (1 files) |
+| `column-resize/` | Sub-directory (3 files) |
+| `drag-controller/` | Sub-directory (3 files) |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
-| `store/` | Sub-directory (1 files) |
+| `store/` | Sub-directory (3 files) |
+| `table-body-element.d.ts` | Source module |
+| `table-body-element.d.ts.map` | Source module |
 | `table-body-element.ts` | Element class (behavior, no CSS) |
+| `table-cell-element.d.ts` | Source module |
+| `table-cell-element.d.ts.map` | Source module |
 | `table-cell-element.ts` | Element class (behavior, no CSS) |
+| `table-element.d.ts` | Source module |
+| `table-element.d.ts.map` | Source module |
 | `table-element.ts` | Element class (behavior, no CSS) |
+| `table-head-element.d.ts` | Source module |
+| `table-head-element.d.ts.map` | Source module |
 | `table-head-element.ts` | Element class (behavior, no CSS) |
+| `table-header-element.d.ts` | Source module |
+| `table-header-element.d.ts.map` | Source module |
 | `table-header-element.ts` | Element class (behavior, no CSS) |
+| `table-row-element.d.ts` | Source module |
+| `table-row-element.d.ts.map` | Source module |
 | `table-row-element.ts` | Element class (behavior, no CSS) |
 | `table.css` | Styles |
 | `table.demo.css` | Styles |
@@ -545,16 +581,28 @@
 
 | File | Purpose |
 |------|---------|
-| `column-resize/` | Sub-directory (1 files) |
-| `drag-controller/` | Sub-directory (1 files) |
+| `column-resize/` | Sub-directory (3 files) |
+| `drag-controller/` | Sub-directory (3 files) |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
-| `store/` | Sub-directory (1 files) |
+| `store/` | Sub-directory (3 files) |
+| `table-body-element.d.ts` | Source module |
+| `table-body-element.d.ts.map` | Source module |
 | `table-body-element.ts` | Element class (behavior, no CSS) |
+| `table-cell-element.d.ts` | Source module |
+| `table-cell-element.d.ts.map` | Source module |
 | `table-cell-element.ts` | Element class (behavior, no CSS) |
+| `table-element.d.ts` | Source module |
+| `table-element.d.ts.map` | Source module |
 | `table-element.ts` | Element class (behavior, no CSS) |
+| `table-head-element.d.ts` | Source module |
+| `table-head-element.d.ts.map` | Source module |
 | `table-head-element.ts` | Element class (behavior, no CSS) |
+| `table-header-element.d.ts` | Source module |
+| `table-header-element.d.ts.map` | Source module |
 | `table-header-element.ts` | Element class (behavior, no CSS) |
+| `table-row-element.d.ts` | Source module |
+| `table-row-element.d.ts.map` | Source module |
 | `table-row-element.ts` | Element class (behavior, no CSS) |
 | `table.css` | Styles |
 | `table.demo.css` | Styles |
@@ -676,16 +724,28 @@
 
 | File | Purpose |
 |------|---------|
-| `column-resize/` | Sub-directory (1 files) |
-| `drag-controller/` | Sub-directory (1 files) |
+| `column-resize/` | Sub-directory (3 files) |
+| `drag-controller/` | Sub-directory (3 files) |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
-| `store/` | Sub-directory (1 files) |
+| `store/` | Sub-directory (3 files) |
+| `table-body-element.d.ts` | Source module |
+| `table-body-element.d.ts.map` | Source module |
 | `table-body-element.ts` | Element class (behavior, no CSS) |
+| `table-cell-element.d.ts` | Source module |
+| `table-cell-element.d.ts.map` | Source module |
 | `table-cell-element.ts` | Element class (behavior, no CSS) |
+| `table-element.d.ts` | Source module |
+| `table-element.d.ts.map` | Source module |
 | `table-element.ts` | Element class (behavior, no CSS) |
+| `table-head-element.d.ts` | Source module |
+| `table-head-element.d.ts.map` | Source module |
 | `table-head-element.ts` | Element class (behavior, no CSS) |
+| `table-header-element.d.ts` | Source module |
+| `table-header-element.d.ts.map` | Source module |
 | `table-header-element.ts` | Element class (behavior, no CSS) |
+| `table-row-element.d.ts` | Source module |
+| `table-row-element.d.ts.map` | Source module |
 | `table-row-element.ts` | Element class (behavior, no CSS) |
 | `table.css` | Styles |
 | `table.demo.css` | Styles |
@@ -809,16 +869,28 @@
 
 | File | Purpose |
 |------|---------|
-| `column-resize/` | Sub-directory (1 files) |
-| `drag-controller/` | Sub-directory (1 files) |
+| `column-resize/` | Sub-directory (3 files) |
+| `drag-controller/` | Sub-directory (3 files) |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
-| `store/` | Sub-directory (1 files) |
+| `store/` | Sub-directory (3 files) |
+| `table-body-element.d.ts` | Source module |
+| `table-body-element.d.ts.map` | Source module |
 | `table-body-element.ts` | Element class (behavior, no CSS) |
+| `table-cell-element.d.ts` | Source module |
+| `table-cell-element.d.ts.map` | Source module |
 | `table-cell-element.ts` | Element class (behavior, no CSS) |
+| `table-element.d.ts` | Source module |
+| `table-element.d.ts.map` | Source module |
 | `table-element.ts` | Element class (behavior, no CSS) |
+| `table-head-element.d.ts` | Source module |
+| `table-head-element.d.ts.map` | Source module |
 | `table-head-element.ts` | Element class (behavior, no CSS) |
+| `table-header-element.d.ts` | Source module |
+| `table-header-element.d.ts.map` | Source module |
 | `table-header-element.ts` | Element class (behavior, no CSS) |
+| `table-row-element.d.ts` | Source module |
+| `table-row-element.d.ts.map` | Source module |
 | `table-row-element.ts` | Element class (behavior, no CSS) |
 | `table.css` | Styles |
 | `table.demo.css` | Styles |

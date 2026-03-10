@@ -21,6 +21,7 @@ Component version of <article> — supports traits, interactive, href.
 | `inline` | boolean | _(boolean)_ | Switches to inline-flex display for inline placement |
 | `dividers` | boolean | _(boolean)_ | Adds divider borders between child sections |
 | `bordered` | boolean | _(boolean)_ | Adds a visible border around the container |
+| `padding` | boolean | _(boolean)_ | Adds standard block and inline padding to the container body |
 | `show-scrollbar` | boolean | _(boolean)_ | Shows the scrollbar instead of hiding it |
 | `scrollable` | boolean | _(boolean)_ | Enables overflow scrolling on the body region |
 | `fade` | boolean | _(boolean)_ | Adds gradient fade-out masks at scroll edges |
@@ -125,6 +126,8 @@ Component version of <article> — supports traits, interactive, href.
 
 | File | Purpose |
 |------|---------|
+| `container-element.d.ts` | Source module |
+| `container-element.d.ts.map` | Source module |
 | `container-element.ts` | Element class (behavior, no CSS) |
 | `container.css` | Styles |
 | `container.demo.ts` | Source module |

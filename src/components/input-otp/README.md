@@ -19,7 +19,7 @@
 | `name` | `string` |  | Form field name |
 | `pattern` | `string` |  | Regex pattern for allowed characters (default "[0-9]") |
 | `mask` | `string` |  | Mask character for display |
-| `required` | `string` |  |  |
+| `required` | `string` |  | Marks the field as required for form validation |
 
 ## Events
 
@@ -106,6 +106,8 @@
 | File | Purpose |
 |------|---------|
 | `index.ts` | Barrel exports |
+| `input-otp-element.d.ts` | Source module |
+| `input-otp-element.d.ts.map` | Source module |
 | `input-otp-element.ts` | Element class (behavior, no CSS) |
 | `input-otp.css` | Styles |
 | `input-otp.demo.ts` | Source module |

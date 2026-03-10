@@ -131,6 +131,8 @@
 
 | File | Purpose |
 |------|---------|
+| `checkbox-element.d.ts` | Source module |
+| `checkbox-element.d.ts.map` | Source module |
 | `checkbox-element.ts` | Element class (behavior, no CSS) |
 | `checkbox.css` | Styles |
 | `checkbox.demo.css` | Styles |

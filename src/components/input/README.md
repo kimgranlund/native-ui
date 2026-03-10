@@ -149,6 +149,8 @@ surface handles editing.
 | File | Purpose |
 |------|---------|
 | `index.ts` | Barrel exports |
+| `input-element.d.ts` | Source module |
+| `input-element.d.ts.map` | Source module |
 | `input-element.ts` | Element class (behavior, no CSS) |
 | `input.css` | Styles |
 | `input.demo.ts` | Source module |

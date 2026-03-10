@@ -99,6 +99,8 @@ When used as a provider or self-trait, options are passed via `data-trait-drag-*
 
 | File | Purpose |
 |------|---------|
+| `drag-controller.d.ts` | Source module |
+| `drag-controller.d.ts.map` | Source module |
 | `drag-controller.md` | Controller documentation |
 | `drag-controller.ts` | Controller (reactive state + behavior) |
 | `draggable-adapter.ts` | Trait adapter (declarative provider bridge) |

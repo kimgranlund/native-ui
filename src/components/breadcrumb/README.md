@@ -91,9 +91,15 @@
 
 | File | Purpose |
 |------|---------|
+| `breadcrumb-element.d.ts` | Source module |
+| `breadcrumb-element.d.ts.map` | Source module |
 | `breadcrumb-element.ts` | Element class (behavior, no CSS) |
+| `breadcrumb-item-element.d.ts` | Source module |
+| `breadcrumb-item-element.d.ts.map` | Source module |
 | `breadcrumb-item-element.ts` | Element class (behavior, no CSS) |
 | `breadcrumb.css` | Styles |
+| `breadcrumb.d.ts` | Source module |
+| `breadcrumb.d.ts.map` | Source module |
 | `breadcrumb.demo.ts` | Source module |
 | `breadcrumb.html` | Demo page |
 | `breadcrumb.ts` | Custom element registration (define()) |
@@ -181,9 +187,15 @@
 
 | File | Purpose |
 |------|---------|
+| `breadcrumb-element.d.ts` | Source module |
+| `breadcrumb-element.d.ts.map` | Source module |
 | `breadcrumb-element.ts` | Element class (behavior, no CSS) |
+| `breadcrumb-item-element.d.ts` | Source module |
+| `breadcrumb-item-element.d.ts.map` | Source module |
 | `breadcrumb-item-element.ts` | Element class (behavior, no CSS) |
 | `breadcrumb.css` | Styles |
+| `breadcrumb.d.ts` | Source module |
+| `breadcrumb.d.ts.map` | Source module |
 | `breadcrumb.demo.ts` | Source module |
 | `breadcrumb.html` | Demo page |
 | `breadcrumb.ts` | Custom element registration (define()) |

@@ -120,7 +120,11 @@
 
 | File | Purpose |
 |------|---------|
+| `accordion-element.d.ts` | Source module |
+| `accordion-element.d.ts.map` | Source module |
 | `accordion-element.ts` | Element class (behavior, no CSS) |
+| `accordion-item-element.d.ts` | Source module |
+| `accordion-item-element.d.ts.map` | Source module |
 | `accordion-item-element.ts` | Element class (behavior, no CSS) |
 | `accordion.css` | Styles |
 | `accordion.demo.css` | Styles |
@@ -236,7 +240,11 @@
 
 | File | Purpose |
 |------|---------|
+| `accordion-element.d.ts` | Source module |
+| `accordion-element.d.ts.map` | Source module |
 | `accordion-element.ts` | Element class (behavior, no CSS) |
+| `accordion-item-element.d.ts` | Source module |
+| `accordion-item-element.d.ts.map` | Source module |
 | `accordion-item-element.ts` | Element class (behavior, no CSS) |
 | `accordion.css` | Styles |
 | `accordion.demo.css` | Styles |

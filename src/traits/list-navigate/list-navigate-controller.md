@@ -103,5 +103,7 @@ When used as a provider or self-trait, options are passed via `data-trait-list-n
 | `list-navigable.demo.ts` | Source module |
 | `list-navigable.html` | Demo page |
 | `list-navigable.test.ts` | Tests |
+| `list-navigate-controller.d.ts` | Source module |
+| `list-navigate-controller.d.ts.map` | Source module |
 | `list-navigate-controller.md` | Controller documentation |
 | `list-navigate-controller.ts` | Controller (reactive state + behavior) |

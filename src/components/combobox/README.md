@@ -20,7 +20,7 @@
 | `options` | `string` |  | JSON array of `{ value, label }` objects for data-driven mode |
 | `src` | `string` |  | URL to fetch options from for data-driven mode |
 | `placeholder` | `string` |  | Placeholder text for the input |
-| `required` | `string` |  |  |
+| `required` | `string` |  | Marks the field as required for form validation |
 
 ## Events
 
@@ -124,6 +124,8 @@
 
 | File | Purpose |
 |------|---------|
+| `combobox-element.d.ts` | Source module |
+| `combobox-element.d.ts.map` | Source module |
 | `combobox-element.ts` | Element class (behavior, no CSS) |
 | `combobox.css` | Styles |
 | `combobox.demo.ts` | Source module |

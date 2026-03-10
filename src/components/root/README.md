@@ -31,5 +31,7 @@
 | `index.ts` | Barrel exports |
 | `n-root.ts` | Custom element registration (define()) |
 | `README.md` | Documentation (auto-generated) |
+| `root-element.d.ts` | Source module |
+| `root-element.d.ts.map` | Source module |
 | `root-element.ts` | Element class (behavior, no CSS) |
 | `root.css` | Styles |

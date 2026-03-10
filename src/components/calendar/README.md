@@ -19,7 +19,7 @@
 | `disabled` | `boolean` |  | Disables interaction |
 | `name` | `string` |  | Form field name |
 | `range` | `boolean` |  | Enables range selection mode |
-| `required` | `string` |  |  |
+| `required` | `string` |  | Marks the field as required for form validation |
 
 ## CSS Attributes
 
@@ -129,6 +129,8 @@
 
 | File | Purpose |
 |------|---------|
+| `calendar-element.d.ts` | Source module |
+| `calendar-element.d.ts.map` | Source module |
 | `calendar-element.ts` | Element class (behavior, no CSS) |
 | `calendar.css` | Styles |
 | `calendar.demo.css` | Styles |
@@ -137,4 +139,4 @@
 | `calendar.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
-| `store/` | Sub-directory (1 files) |
+| `store/` | Sub-directory (3 files) |

@@ -19,6 +19,7 @@ attributes:
     description: Form field name
   required:
     type: string
+    description: Marks the field as required for form validation
 css_attributes:
   pressed:
     type: boolean

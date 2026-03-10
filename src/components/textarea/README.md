@@ -21,7 +21,7 @@
 | `rows` | `number` |  | Minimum visible rows (sets min-height) |
 | `maxlength` | `number` |  | Maximum character count |
 | `autogrow` | `boolean` |  | Automatically grows height to fit content |
-| `pattern` | `string` |  |  |
+| `pattern` | `string` |  | Regular expression pattern for input validation |
 | `formatting` | `string` |  | Space-separated list of enabled formats (e.g. "code bold italic") |
 | `name` | `string` |  | Form field name |
 
@@ -124,6 +124,8 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `textarea-element.d.ts` | Source module |
+| `textarea-element.d.ts.map` | Source module |
 | `textarea-element.ts` | Element class (behavior, no CSS) |
 | `textarea.css` | Styles |
 | `textarea.demo.css` | Styles |

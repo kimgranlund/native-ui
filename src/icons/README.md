@@ -17,6 +17,12 @@
 | `size` | `string` |  | Icon size override |
 | `aria-label` | `string` |  | Accessible label (sets role="img" when present) |
 
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `intent` | enum | `neutral`, `primary`, `success`, `warning`, `danger`, `info` | Applies an intent color to the icon |
+
 ## Accessibility
 
 - **Role:** `img (when aria-label is set)`
@@ -64,13 +70,15 @@
 | `icon-element.d.ts.map` | Source module |
 | `icon-element.ts` | Element class (behavior, no CSS) |
 | `icon.css` | Styles |
+| `icon.d.ts` | Source module |
+| `icon.d.ts.map` | Source module |
 | `icon.demo.css` | Styles |
 | `icon.demo.ts` | Source module |
 | `icon.html` | Demo page |
 | `icon.ts` | Source module |
 | `icons.ts` | Custom element registration (define()) |
 | `index.ts` | Barrel exports |
-| `phosphor/` | Sub-directory (3025 files) |
+| `phosphor/` | Sub-directory (3119 files) |
 | `README.md` | Documentation (auto-generated) |
 | `registry.d.ts` | Source module |
 | `registry.d.ts.map` | Source module |

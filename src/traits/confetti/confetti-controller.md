@@ -85,6 +85,8 @@ When used as a provider or self-trait, options are passed via `data-trait-confet
 
 | File | Purpose |
 |------|---------|
+| `confetti-controller.d.ts` | Source module |
+| `confetti-controller.d.ts.map` | Source module |
 | `confetti-controller.md` | Controller documentation |
 | `confetti-controller.ts` | Controller (reactive state + behavior) |
 | `confettible-adapter.ts` | Trait adapter (declarative provider bridge) |

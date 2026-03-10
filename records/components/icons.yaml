@@ -20,6 +20,17 @@ attributes:
   aria-label:
     type: string
     description: Accessible label (sets role="img" when present)
+css_attributes:
+  intent:
+    type: enum
+    values:
+      - neutral
+      - primary
+      - success
+      - warning
+      - danger
+      - info
+    description: Applies an intent color to the icon
 traits:
   compatible: []
   incompatible: []

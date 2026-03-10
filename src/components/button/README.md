@@ -139,8 +139,12 @@
 
 | File | Purpose |
 |------|---------|
+| `button-element.d.ts` | Source module |
+| `button-element.d.ts.map` | Source module |
 | `button-element.ts` | Element class (behavior, no CSS) |
 | `button.css` | Styles |
+| `button.d.ts` | Source module |
+| `button.d.ts.map` | Source module |
 | `button.demo.ts` | Source module |
 | `button.html` | Demo page |
 | `button.stories.ts` | Storybook stories |

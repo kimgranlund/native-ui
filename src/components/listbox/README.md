@@ -146,15 +146,27 @@
 | File | Purpose |
 |------|---------|
 | `index.ts` | Barrel exports |
+| `listbox-element.d.ts` | Source module |
+| `listbox-element.d.ts.map` | Source module |
 | `listbox-element.ts` | Element class (behavior, no CSS) |
 | `listbox.css` | Styles |
+| `listbox.d.ts` | Source module |
+| `listbox.d.ts.map` | Source module |
 | `listbox.demo.css` | Styles |
 | `listbox.demo.ts` | Source module |
 | `listbox.html` | Demo page |
 | `listbox.ts` | Custom element registration (define()) |
+| `option-element.d.ts` | Source module |
+| `option-element.d.ts.map` | Source module |
 | `option-element.ts` | Element class (behavior, no CSS) |
+| `option-group-element.d.ts` | Source module |
+| `option-group-element.d.ts.map` | Source module |
 | `option-group-element.ts` | Element class (behavior, no CSS) |
+| `option-group-header-element.d.ts` | Source module |
+| `option-group-header-element.d.ts.map` | Source module |
 | `option-group-header-element.ts` | Element class (behavior, no CSS) |
+| `option-group-header.d.ts` | Source module |
+| `option-group-header.d.ts.map` | Source module |
 | `option-group-header.ts` | Source module |
 | `option-group.ts` | Source module |
 | `option.ts` | Source module |
@@ -278,15 +290,27 @@
 | File | Purpose |
 |------|---------|
 | `index.ts` | Barrel exports |
+| `listbox-element.d.ts` | Source module |
+| `listbox-element.d.ts.map` | Source module |
 | `listbox-element.ts` | Element class (behavior, no CSS) |
 | `listbox.css` | Styles |
+| `listbox.d.ts` | Source module |
+| `listbox.d.ts.map` | Source module |
 | `listbox.demo.css` | Styles |
 | `listbox.demo.ts` | Source module |
 | `listbox.html` | Demo page |
 | `listbox.ts` | Custom element registration (define()) |
+| `option-element.d.ts` | Source module |
+| `option-element.d.ts.map` | Source module |
 | `option-element.ts` | Element class (behavior, no CSS) |
+| `option-group-element.d.ts` | Source module |
+| `option-group-element.d.ts.map` | Source module |
 | `option-group-element.ts` | Element class (behavior, no CSS) |
+| `option-group-header-element.d.ts` | Source module |
+| `option-group-header-element.d.ts.map` | Source module |
 | `option-group-header-element.ts` | Element class (behavior, no CSS) |
+| `option-group-header.d.ts` | Source module |
+| `option-group-header.d.ts.map` | Source module |
 | `option-group-header.ts` | Source module |
 | `option-group.ts` | Source module |
 | `option.ts` | Source module |
@@ -407,15 +431,27 @@
 | File | Purpose |
 |------|---------|
 | `index.ts` | Barrel exports |
+| `listbox-element.d.ts` | Source module |
+| `listbox-element.d.ts.map` | Source module |
 | `listbox-element.ts` | Element class (behavior, no CSS) |
 | `listbox.css` | Styles |
+| `listbox.d.ts` | Source module |
+| `listbox.d.ts.map` | Source module |
 | `listbox.demo.css` | Styles |
 | `listbox.demo.ts` | Source module |
 | `listbox.html` | Demo page |
 | `listbox.ts` | Custom element registration (define()) |
+| `option-element.d.ts` | Source module |
+| `option-element.d.ts.map` | Source module |
 | `option-element.ts` | Element class (behavior, no CSS) |
+| `option-group-element.d.ts` | Source module |
+| `option-group-element.d.ts.map` | Source module |
 | `option-group-element.ts` | Element class (behavior, no CSS) |
+| `option-group-header-element.d.ts` | Source module |
+| `option-group-header-element.d.ts.map` | Source module |
 | `option-group-header-element.ts` | Element class (behavior, no CSS) |
+| `option-group-header.d.ts` | Source module |
+| `option-group-header.d.ts.map` | Source module |
 | `option-group-header.ts` | Source module |
 | `option-group.ts` | Source module |
 | `option.ts` | Source module |
@@ -514,15 +550,27 @@
 | File | Purpose |
 |------|---------|
 | `index.ts` | Barrel exports |
+| `listbox-element.d.ts` | Source module |
+| `listbox-element.d.ts.map` | Source module |
 | `listbox-element.ts` | Element class (behavior, no CSS) |
 | `listbox.css` | Styles |
+| `listbox.d.ts` | Source module |
+| `listbox.d.ts.map` | Source module |
 | `listbox.demo.css` | Styles |
 | `listbox.demo.ts` | Source module |
 | `listbox.html` | Demo page |
 | `listbox.ts` | Custom element registration (define()) |
+| `option-element.d.ts` | Source module |
+| `option-element.d.ts.map` | Source module |
 | `option-element.ts` | Element class (behavior, no CSS) |
+| `option-group-element.d.ts` | Source module |
+| `option-group-element.d.ts.map` | Source module |
 | `option-group-element.ts` | Element class (behavior, no CSS) |
+| `option-group-header-element.d.ts` | Source module |
+| `option-group-header-element.d.ts.map` | Source module |
 | `option-group-header-element.ts` | Element class (behavior, no CSS) |
+| `option-group-header.d.ts` | Source module |
+| `option-group-header.d.ts.map` | Source module |
 | `option-group-header.ts` | Source module |
 | `option-group.ts` | Source module |
 | `option.ts` | Source module |

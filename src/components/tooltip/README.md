@@ -84,6 +84,8 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `tooltip-element.d.ts` | Source module |
+| `tooltip-element.d.ts.map` | Source module |
 | `tooltip-element.ts` | Element class (behavior, no CSS) |
 | `tooltip.css` | Styles |
 | `tooltip.demo.css` | Styles |

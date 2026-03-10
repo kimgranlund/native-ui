@@ -69,6 +69,8 @@ const ctrl = new DismissController(element);
 
 | File | Purpose |
 |------|---------|
+| `dismiss-controller.d.ts` | Source module |
+| `dismiss-controller.d.ts.map` | Source module |
 | `dismiss-controller.md` | Controller documentation |
 | `dismiss-controller.ts` | Controller (reactive state + behavior) |
 | `dismissable-adapter.ts` | Trait adapter (declarative provider bridge) |

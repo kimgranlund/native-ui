@@ -75,6 +75,8 @@ When used as a provider or self-trait, options are passed via `data-trait-sort-*
 
 | File | Purpose |
 |------|---------|
+| `sort-controller.d.ts` | Source module |
+| `sort-controller.d.ts.map` | Source module |
 | `sort-controller.md` | Controller documentation |
 | `sort-controller.ts` | Controller (reactive state + behavior) |
 | `sortable-adapter.ts` | Trait adapter (declarative provider bridge) |

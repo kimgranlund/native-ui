@@ -84,6 +84,8 @@
 | File | Purpose |
 |------|---------|
 | `index.ts` | Barrel exports |
+| `pagination-element.d.ts` | Source module |
+| `pagination-element.d.ts.map` | Source module |
 | `pagination-element.ts` | Element class (behavior, no CSS) |
 | `pagination.css` | Styles |
 | `pagination.demo.ts` | Source module |

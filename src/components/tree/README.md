@@ -116,7 +116,11 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `tree-element.d.ts` | Source module |
+| `tree-element.d.ts.map` | Source module |
 | `tree-element.ts` | Element class (behavior, no CSS) |
+| `tree-item-element.d.ts` | Source module |
+| `tree-item-element.d.ts.map` | Source module |
 | `tree-item-element.ts` | Element class (behavior, no CSS) |
 | `tree.css` | Styles |
 | `tree.demo.css` | Styles |
@@ -238,7 +242,11 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `tree-element.d.ts` | Source module |
+| `tree-element.d.ts.map` | Source module |
 | `tree-element.ts` | Element class (behavior, no CSS) |
+| `tree-item-element.d.ts` | Source module |
+| `tree-item-element.d.ts.map` | Source module |
 | `tree-item-element.ts` | Element class (behavior, no CSS) |
 | `tree.css` | Styles |
 | `tree.demo.css` | Styles |

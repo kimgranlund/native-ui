@@ -118,6 +118,8 @@
 
 | File | Purpose |
 |------|---------|
+| `drawer-element.d.ts` | Source module |
+| `drawer-element.d.ts.map` | Source module |
 | `drawer-element.ts` | Element class (behavior, no CSS) |
 | `drawer.css` | Styles |
 | `drawer.demo.ts` | Source module |

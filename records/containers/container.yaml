@@ -26,6 +26,9 @@ css_attributes:
   bordered:
     type: boolean
     description: Adds a visible border around the container
+  padding:
+    type: boolean
+    description: Adds standard block and inline padding to the container body
   show-scrollbar:
     type: boolean
     description: Shows the scrollbar instead of hiding it

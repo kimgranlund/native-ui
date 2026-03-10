@@ -104,6 +104,8 @@
 
 | File | Purpose |
 |------|---------|
+| `field-element.d.ts` | Source module |
+| `field-element.d.ts.map` | Source module |
 | `field-element.ts` | Element class (behavior, no CSS) |
 | `field.css` | Styles |
 | `field.demo.ts` | Source module |

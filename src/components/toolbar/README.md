@@ -130,6 +130,8 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `toolbar-element.d.ts` | Source module |
+| `toolbar-element.d.ts.map` | Source module |
 | `toolbar-element.ts` | Element class (behavior, no CSS) |
 | `toolbar.css` | Styles |
 | `toolbar.demo.css` | Styles |

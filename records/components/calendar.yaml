@@ -28,6 +28,7 @@ attributes:
     description: Enables range selection mode
   required:
     type: string
+    description: Marks the field as required for form validation
 css_attributes:
   view:
     type: enum

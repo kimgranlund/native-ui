@@ -142,9 +142,17 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `tab-element.d.ts` | Source module |
+| `tab-element.d.ts.map` | Source module |
 | `tab-element.ts` | Element class (behavior, no CSS) |
+| `tab-panel-element.d.ts` | Source module |
+| `tab-panel-element.d.ts.map` | Source module |
 | `tab-panel-element.ts` | Element class (behavior, no CSS) |
+| `tab-panels-element.d.ts` | Source module |
+| `tab-panels-element.d.ts.map` | Source module |
 | `tab-panels-element.ts` | Element class (behavior, no CSS) |
+| `tabs-element.d.ts` | Source module |
+| `tabs-element.d.ts.map` | Source module |
 | `tabs-element.ts` | Element class (behavior, no CSS) |
 | `tabs.css` | Styles |
 | `tabs.demo.css` | Styles |
@@ -258,9 +266,17 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `tab-element.d.ts` | Source module |
+| `tab-element.d.ts.map` | Source module |
 | `tab-element.ts` | Element class (behavior, no CSS) |
+| `tab-panel-element.d.ts` | Source module |
+| `tab-panel-element.d.ts.map` | Source module |
 | `tab-panel-element.ts` | Element class (behavior, no CSS) |
+| `tab-panels-element.d.ts` | Source module |
+| `tab-panels-element.d.ts.map` | Source module |
 | `tab-panels-element.ts` | Element class (behavior, no CSS) |
+| `tabs-element.d.ts` | Source module |
+| `tabs-element.d.ts.map` | Source module |
 | `tabs-element.ts` | Element class (behavior, no CSS) |
 | `tabs.css` | Styles |
 | `tabs.demo.css` | Styles |
@@ -366,9 +382,17 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `tab-element.d.ts` | Source module |
+| `tab-element.d.ts.map` | Source module |
 | `tab-element.ts` | Element class (behavior, no CSS) |
+| `tab-panel-element.d.ts` | Source module |
+| `tab-panel-element.d.ts.map` | Source module |
 | `tab-panel-element.ts` | Element class (behavior, no CSS) |
+| `tab-panels-element.d.ts` | Source module |
+| `tab-panels-element.d.ts.map` | Source module |
 | `tab-panels-element.ts` | Element class (behavior, no CSS) |
+| `tabs-element.d.ts` | Source module |
+| `tabs-element.d.ts.map` | Source module |
 | `tabs-element.ts` | Element class (behavior, no CSS) |
 | `tabs.css` | Styles |
 | `tabs.demo.css` | Styles |
@@ -481,9 +505,17 @@
 |------|---------|
 | `index.ts` | Barrel exports |
 | `README.md` | Documentation (auto-generated) |
+| `tab-element.d.ts` | Source module |
+| `tab-element.d.ts.map` | Source module |
 | `tab-element.ts` | Element class (behavior, no CSS) |
+| `tab-panel-element.d.ts` | Source module |
+| `tab-panel-element.d.ts.map` | Source module |
 | `tab-panel-element.ts` | Element class (behavior, no CSS) |
+| `tab-panels-element.d.ts` | Source module |
+| `tab-panels-element.d.ts.map` | Source module |
 | `tab-panels-element.ts` | Element class (behavior, no CSS) |
+| `tabs-element.d.ts` | Source module |
+| `tabs-element.d.ts.map` | Source module |
 | `tabs-element.ts` | Element class (behavior, no CSS) |
 | `tabs.css` | Styles |
 | `tabs.demo.css` | Styles |

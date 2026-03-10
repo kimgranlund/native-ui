@@ -134,7 +134,11 @@
 | File | Purpose |
 |------|---------|
 | `index.ts` | Barrel exports |
+| `radio-element.d.ts` | Source module |
+| `radio-element.d.ts.map` | Source module |
 | `radio-element.ts` | Element class (behavior, no CSS) |
+| `radio-group-element.d.ts` | Source module |
+| `radio-group-element.d.ts.map` | Source module |
 | `radio-group-element.ts` | Element class (behavior, no CSS) |
 | `radio.css` | Styles |
 | `radio.demo.ts` | Source module |
@@ -288,7 +292,11 @@
 | File | Purpose |
 |------|---------|
 | `index.ts` | Barrel exports |
+| `radio-element.d.ts` | Source module |
+| `radio-element.d.ts.map` | Source module |
 | `radio-element.ts` | Element class (behavior, no CSS) |
+| `radio-group-element.d.ts` | Source module |
+| `radio-group-element.d.ts.map` | Source module |
 | `radio-group-element.ts` | Element class (behavior, no CSS) |
 | `radio.css` | Styles |
 | `radio.demo.ts` | Source module |

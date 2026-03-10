@@ -23,6 +23,8 @@ new PressController(host: HTMLElement, options?: PressOptions)
 | Event | Detail |
 |-------|--------|
 | `native:press` | `{ pointerType }` |
+| `native:hover-start` | `{  }` |
+| `native:hover-end` | `{  }` |
 
 ## Methods
 
@@ -87,6 +89,8 @@ When used as a provider or self-trait, options are passed via `data-trait-press-
 
 | File | Purpose |
 |------|---------|
+| `press-controller.d.ts` | Source module |
+| `press-controller.d.ts.map` | Source module |
 | `press-controller.md` | Controller documentation |
 | `press-controller.ts` | Controller (reactive state + behavior) |
 | `pressable-adapter.ts` | Trait adapter (declarative provider bridge) |

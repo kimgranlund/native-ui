@@ -107,6 +107,8 @@
 | File | Purpose |
 |------|---------|
 | `index.ts` | Barrel exports |
+| `range-element.d.ts` | Source module |
+| `range-element.d.ts.map` | Source module |
 | `range-element.ts` | Element class (behavior, no CSS) |
 | `range.css` | Styles |
 | `range.demo.css` | Styles |
