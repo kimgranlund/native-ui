@@ -1,7 +1,9 @@
-import { NoodleController, MagnetController, PresentController } from '../../index.ts';
+import { NoodleController, MagnetController } from '../../index.ts';
 import { createEditorView, EditorView } from '@nonoun/native-code';
 import { EditorSelection } from '@codemirror/state';
 import { json } from '@codemirror/lang-json';
+import { FLOW_DATASETS } from './noodleable.datasets.ts';
+import type { FlowDataset } from './noodleable.datasets.ts';
 
 // ── 1. Interactive Flow Builder ──
 
@@ -54,26 +56,584 @@ if (flowArena && flowViewport && flowTransform) {
     if (magnet) magnet.guides = guidesToggle.checked;
   });
 
-  // ── Present Mode ──
+  // ── Lightbox Mode ──
 
   const flowSplit = document.getElementById('flow-split') as HTMLElement;
-  const presentBtn = document.getElementById('flow-present-btn');
-  const presentCtrl = flowSplit ? new PresentController(flowSplit) : null;
+  const lightboxBtn = document.getElementById('flow-lightbox-btn');
+  let lightboxMode = false;
 
-  presentBtn?.addEventListener('native:press', () => {
-    presentCtrl?.present();
-  });
-
-  flowSplit?.addEventListener('native:present', () => {
-    const icon = presentBtn?.querySelector('n-icon');
-    if (icon) icon.setAttribute('name', 'arrows-in');
+  lightboxBtn?.addEventListener('native:press', () => {
+    lightboxMode = !lightboxMode;
+    if (lightboxMode) {
+      flowSplit.setAttribute('popover', 'manual');
+      flowSplit.showPopover();
+    } else {
+      flowSplit.hidePopover();
+      flowSplit.removeAttribute('popover');
+    }
+    flowSplit.toggleAttribute('data-lightbox', lightboxMode);
+    const icon = lightboxBtn.querySelector('n-icon');
+    if (icon) icon.setAttribute('name', lightboxMode ? 'arrows-in-simple' : 'arrows-out-simple');
     noodle?.update();
   });
-  flowSplit?.addEventListener('native:dismiss', () => {
-    const icon = presentBtn?.querySelector('n-icon');
-    if (icon) icon.setAttribute('name', 'arrows-out');
-    noodle?.update();
-  });
+
+  // ── Dataset Select ──
+
+  const docSelect = document.getElementById('flow-doc-select') as HTMLElement & {
+    options: Array<{ value: string; label: string }>;
+  };
+
+  if (docSelect) {
+    docSelect.options = FLOW_DATASETS.map(d => ({ value: d.id, label: d.name }));
+    docSelect.addEventListener('native:change', (e: Event) => {
+      const value = (e as CustomEvent).detail.value;
+      const dataset = FLOW_DATASETS.find(d => d.id === value);
+      if (dataset) loadDataset(dataset);
+    });
+  }
+
+  function loadDataset(dataset: FlowDataset): void {
+    // Remove existing nodes
+    for (const el of Array.from(flowArena.querySelectorAll('.flow-node'))) el.remove();
+
+    // Create new node elements
+    for (const n of dataset.nodes) {
+      const el = document.createElement('div');
+      el.className = 'flow-node';
+      el.id = n.id;
+      el.setAttribute('intent', n.intent);
+      el.setAttribute('data-noodle-port', n.ports);
+      el.style.left = n.x + 'px';
+      el.style.top = n.y + 'px';
+      el.textContent = n.label;
+      flowArena.appendChild(el);
+    }
+
+    // Re-attach controllers
+    if (magnet) { magnet.detach(); magnet.attach(); }
+    noodle?.setConnections(dataset.connections);
+
+    // Reset canvas state
+    panX = 0;
+    panY = 0;
+    zoomLevel = 1;
+    updateTransform();
+    selectedNodeId = null;
+    clearMultiSelection();
+    nodeCounter = dataset.nodes.length;
+
+    // Defer noodle update until after layout — otherwise port positions are wrong
+    requestAnimationFrame(() => {
+      noodle?.update();
+      syncCanvasToEditor();
+    });
+  }
+
+  // ── Auto-Arrange Layouts ──
+
+  type NodePos = { id: string; x: number; y: number };
+  const LAYOUT_COL_GAP = 200;
+  const LAYOUT_ROW_GAP = 70;
+  const LAYOUT_PAD = 32;
+  const LAYOUT_NODE_H = 38;
+
+  function applyLayout(positions: NodePos[]): void {
+    for (const pos of positions) {
+      const el = document.getElementById(pos.id) as HTMLElement | null;
+      if (!el) continue;
+      el.style.transition = 'left 400ms cubic-bezier(0.4, 0, 0.2, 1), top 400ms cubic-bezier(0.4, 0, 0.2, 1)';
+      el.style.translate = '';
+      el.style.left = Math.round(pos.x) + 'px';
+      el.style.top = Math.round(pos.y) + 'px';
+    }
+    setTimeout(() => {
+      for (const pos of positions) {
+        const el = document.getElementById(pos.id) as HTMLElement | null;
+        if (el) el.style.transition = '';
+      }
+      if (magnet) { magnet.detach(); magnet.attach(); }
+      noodle?.update();
+      syncCanvasToEditor();
+    }, 420);
+  }
+
+  function getNodeIds(): Array<{ id: string; intent: string }> {
+    return Array.from(flowArena.querySelectorAll('.flow-node')).map(el => ({
+      id: (el as HTMLElement).id,
+      intent: (el as HTMLElement).getAttribute('intent') || 'neutral',
+    }));
+  }
+
+  // Flow: topological sort → layered columns
+  function computeFlowLayout(): NodePos[] {
+    const nodes = getNodeIds();
+    const connections = noodle?.getConnections() || [];
+
+    const incoming = new Map<string, number>();
+    const outgoing = new Map<string, string[]>();
+    for (const n of nodes) { incoming.set(n.id, 0); outgoing.set(n.id, []); }
+    for (const c of connections) {
+      incoming.set(c.to, (incoming.get(c.to) || 0) + 1);
+      outgoing.get(c.from)?.push(c.to);
+    }
+
+    // Kahn's algorithm + layer assignment
+    const layer = new Map<string, number>();
+    const queue: string[] = [];
+    const remaining = new Map(incoming);
+    for (const n of nodes) {
+      if ((incoming.get(n.id) || 0) === 0) { queue.push(n.id); layer.set(n.id, 0); }
+    }
+    let head = 0;
+    while (head < queue.length) {
+      const curr = queue[head++];
+      const currLayer = layer.get(curr) || 0;
+      for (const next of (outgoing.get(curr) || [])) {
+        remaining.set(next, (remaining.get(next) || 1) - 1);
+        const proposed = currLayer + 1;
+        if (proposed > (layer.get(next) || 0)) layer.set(next, proposed);
+        if ((remaining.get(next) || 0) === 0) queue.push(next);
+      }
+    }
+    // Cycle participants: max layer + 1
+    const maxLayer = Math.max(0, ...layer.values());
+    for (const n of nodes) { if (!layer.has(n.id)) layer.set(n.id, maxLayer + 1); }
+
+    // Group by layer
+    const layers = new Map<number, string[]>();
+    for (const [id, l] of layer) {
+      if (!layers.has(l)) layers.set(l, []);
+      layers.get(l)!.push(id);
+    }
+
+    const positions: NodePos[] = [];
+    for (const [l, ids] of layers) {
+      const x = LAYOUT_PAD + l * LAYOUT_COL_GAP;
+      const totalH = (ids.length - 1) * LAYOUT_ROW_GAP + LAYOUT_NODE_H;
+      const startY = Math.max(LAYOUT_PAD, 200 - totalH / 2);
+      ids.forEach((id, i) => { positions.push({ id, x, y: startY + i * LAYOUT_ROW_GAP }); });
+    }
+    return positions;
+  }
+
+  // Grid: uniform grid, row-major
+  function computeGridLayout(): NodePos[] {
+    const nodes = getNodeIds();
+    const cols = Math.ceil(Math.sqrt(nodes.length));
+    return nodes.map((n, i) => ({
+      id: n.id,
+      x: LAYOUT_PAD + (i % cols) * LAYOUT_COL_GAP,
+      y: LAYOUT_PAD + Math.floor(i / cols) * LAYOUT_ROW_GAP,
+    }));
+  }
+
+  // Cluster: group by intent, radial arrangement
+  function computeClusterLayout(): NodePos[] {
+    const nodes = getNodeIds();
+    const groups = new Map<string, string[]>();
+    for (const n of nodes) {
+      if (!groups.has(n.intent)) groups.set(n.intent, []);
+      groups.get(n.intent)!.push(n.id);
+    }
+    const groupList = [...groups.entries()];
+    const centerX = 500;
+    const centerY = 240;
+    const radius = Math.max(160, 55 * groupList.length);
+
+    const positions: NodePos[] = [];
+    groupList.forEach(([_intent, ids], gi) => {
+      const angle = (gi / groupList.length) * 2 * Math.PI - Math.PI / 2;
+      const cx = centerX + Math.cos(angle) * radius;
+      const cy = centerY + Math.sin(angle) * radius;
+      ids.forEach((id, i) => {
+        const offsetY = (i - (ids.length - 1) / 2) * (LAYOUT_NODE_H + 12);
+        positions.push({
+          id,
+          x: Math.max(LAYOUT_PAD, Math.round(cx - 56)),
+          y: Math.max(LAYOUT_PAD, Math.round(cy + offsetY)),
+        });
+      });
+    });
+    return positions;
+  }
+
+  // Tree: single-root BFS tree, parent centered on children
+  function computeTreeLayout(): NodePos[] {
+    const nodes = getNodeIds();
+    const connections = noodle?.getConnections() || [];
+
+    const inCount = new Map<string, number>();
+    const children = new Map<string, string[]>();
+    for (const n of nodes) { inCount.set(n.id, 0); children.set(n.id, []); }
+    for (const c of connections) {
+      inCount.set(c.to, (inCount.get(c.to) || 0) + 1);
+      children.get(c.from)?.push(c.to);
+    }
+
+    const roots = nodes.filter(n => (inCount.get(n.id) || 0) === 0).map(n => n.id);
+    if (roots.length !== 1) return computeFlowLayout();
+
+    const positions: NodePos[] = [];
+    const visited = new Set<string>();
+
+    function layoutSubtree(id: string, depth: number, startRow: number): number {
+      if (visited.has(id)) return startRow;
+      visited.add(id);
+      const ch = (children.get(id) || []).filter(c => !visited.has(c));
+      if (ch.length === 0) {
+        positions.push({ id, x: LAYOUT_PAD + depth * LAYOUT_COL_GAP, y: LAYOUT_PAD + startRow * LAYOUT_ROW_GAP });
+        return startRow + 1;
+      }
+      let row = startRow;
+      const firstRow = row;
+      for (const child of ch) { row = layoutSubtree(child, depth + 1, row); }
+      const centerRow = (firstRow + row - 1) / 2;
+      positions.push({ id, x: LAYOUT_PAD + depth * LAYOUT_COL_GAP, y: LAYOUT_PAD + centerRow * LAYOUT_ROW_GAP });
+      return row;
+    }
+
+    layoutSubtree(roots[0], 0, 0);
+
+    // Disconnected nodes at bottom
+    let extraRow = positions.length;
+    for (const n of nodes) {
+      if (!visited.has(n.id)) {
+        positions.push({ id: n.id, x: LAYOUT_PAD, y: LAYOUT_PAD + extraRow * LAYOUT_ROW_GAP });
+        extraRow++;
+      }
+    }
+    return positions;
+  }
+
+  // Force-directed: spring-electrical model (Fruchterman–Reingold variant)
+  function computeForceLayout(): NodePos[] {
+    const nodes = getNodeIds();
+    const connections = noodle?.getConnections() || [];
+    const n = nodes.length;
+    if (n === 0) return [];
+
+    // Initialize positions from current DOM positions or random
+    const pos = new Map<string, { x: number; y: number }>();
+    for (const node of nodes) {
+      const el = document.getElementById(node.id);
+      if (el) {
+        const p = getNodePosition(el);
+        pos.set(node.id, { x: p.x, y: p.y });
+      } else {
+        pos.set(node.id, { x: Math.random() * 600 + LAYOUT_PAD, y: Math.random() * 400 + LAYOUT_PAD });
+      }
+    }
+
+    const area = 800 * 500;
+    const k = Math.sqrt(area / n); // ideal spring length
+    const iterations = 80;
+
+    for (let iter = 0; iter < iterations; iter++) {
+      const temp = 200 * (1 - iter / iterations); // cooling
+      const disp = new Map<string, { dx: number; dy: number }>();
+      for (const node of nodes) disp.set(node.id, { dx: 0, dy: 0 });
+
+      // Repulsive forces between all pairs
+      for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+          const a = pos.get(nodes[i].id)!;
+          const b = pos.get(nodes[j].id)!;
+          let dx = a.x - b.x;
+          let dy = a.y - b.y;
+          const dist = Math.max(1, Math.hypot(dx, dy));
+          const force = (k * k) / dist;
+          dx = (dx / dist) * force;
+          dy = (dy / dist) * force;
+          disp.get(nodes[i].id)!.dx += dx;
+          disp.get(nodes[i].id)!.dy += dy;
+          disp.get(nodes[j].id)!.dx -= dx;
+          disp.get(nodes[j].id)!.dy -= dy;
+        }
+      }
+
+      // Attractive forces along edges
+      for (const conn of connections) {
+        const a = pos.get(conn.from);
+        const b = pos.get(conn.to);
+        if (!a || !b) continue;
+        let dx = a.x - b.x;
+        let dy = a.y - b.y;
+        const dist = Math.max(1, Math.hypot(dx, dy));
+        const force = (dist * dist) / k;
+        dx = (dx / dist) * force;
+        dy = (dy / dist) * force;
+        disp.get(conn.from)!.dx -= dx;
+        disp.get(conn.from)!.dy -= dy;
+        disp.get(conn.to)!.dx += dx;
+        disp.get(conn.to)!.dy += dy;
+      }
+
+      // Apply displacements with temperature clamping
+      for (const node of nodes) {
+        const d = disp.get(node.id)!;
+        const dist = Math.max(1, Math.hypot(d.dx, d.dy));
+        const clamped = Math.min(dist, temp);
+        const p = pos.get(node.id)!;
+        p.x += (d.dx / dist) * clamped;
+        p.y += (d.dy / dist) * clamped;
+      }
+    }
+
+    // Normalize to start at LAYOUT_PAD
+    let minX = Infinity, minY = Infinity;
+    for (const p of pos.values()) { minX = Math.min(minX, p.x); minY = Math.min(minY, p.y); }
+    return nodes.map(n => ({
+      id: n.id,
+      x: Math.max(LAYOUT_PAD, Math.round(pos.get(n.id)!.x - minX + LAYOUT_PAD)),
+      y: Math.max(LAYOUT_PAD, Math.round(pos.get(n.id)!.y - minY + LAYOUT_PAD)),
+    }));
+  }
+
+  // Radial: BFS layers from roots, arranged on concentric circles
+  function computeRadialLayout(): NodePos[] {
+    const nodes = getNodeIds();
+    const connections = noodle?.getConnections() || [];
+    if (nodes.length === 0) return [];
+
+    const inCount = new Map<string, number>();
+    const children = new Map<string, string[]>();
+    for (const n of nodes) { inCount.set(n.id, 0); children.set(n.id, []); }
+    for (const c of connections) {
+      inCount.set(c.to, (inCount.get(c.to) || 0) + 1);
+      children.get(c.from)?.push(c.to);
+    }
+
+    const roots = nodes.filter(n => (inCount.get(n.id) || 0) === 0).map(n => n.id);
+    if (roots.length === 0) roots.push(nodes[0].id);
+
+    // BFS to assign layers
+    const layer = new Map<string, number>();
+    const queue: string[] = [];
+    for (const r of roots) { layer.set(r, 0); queue.push(r); }
+    let head = 0;
+    while (head < queue.length) {
+      const curr = queue[head++];
+      const currLayer = layer.get(curr)!;
+      for (const child of (children.get(curr) || [])) {
+        if (!layer.has(child)) {
+          layer.set(child, currLayer + 1);
+          queue.push(child);
+        }
+      }
+    }
+    // Unvisited nodes
+    for (const n of nodes) {
+      if (!layer.has(n.id)) { layer.set(n.id, (Math.max(0, ...layer.values()) + 1)); }
+    }
+
+    // Group by layer
+    const layers = new Map<number, string[]>();
+    for (const [id, l] of layer) {
+      if (!layers.has(l)) layers.set(l, []);
+      layers.get(l)!.push(id);
+    }
+
+    const centerX = 500;
+    const centerY = 300;
+    const ringGap = 120;
+    const positions: NodePos[] = [];
+
+    for (const [l, ids] of layers) {
+      if (l === 0) {
+        // Root(s) at center
+        ids.forEach((id, i) => {
+          const offset = (i - (ids.length - 1) / 2) * 60;
+          positions.push({ id, x: Math.round(centerX + offset), y: Math.round(centerY) });
+        });
+      } else {
+        const radius = l * ringGap;
+        ids.forEach((id, i) => {
+          const angle = (i / ids.length) * 2 * Math.PI - Math.PI / 2;
+          positions.push({
+            id,
+            x: Math.max(LAYOUT_PAD, Math.round(centerX + Math.cos(angle) * radius)),
+            y: Math.max(LAYOUT_PAD, Math.round(centerY + Math.sin(angle) * radius)),
+          });
+        });
+      }
+    }
+    return positions;
+  }
+
+  // Swimlane: group by intent into horizontal lanes, topological order within lanes
+  function computeSwimlaneLayout(): NodePos[] {
+    const nodes = getNodeIds();
+    const connections = noodle?.getConnections() || [];
+    if (nodes.length === 0) return [];
+
+    // Compute topological order for within-lane sorting
+    const incoming = new Map<string, number>();
+    const outgoing = new Map<string, string[]>();
+    for (const n of nodes) { incoming.set(n.id, 0); outgoing.set(n.id, []); }
+    for (const c of connections) {
+      incoming.set(c.to, (incoming.get(c.to) || 0) + 1);
+      outgoing.get(c.from)?.push(c.to);
+    }
+
+    const topoOrder = new Map<string, number>();
+    const queue: string[] = [];
+    const remaining = new Map(incoming);
+    for (const n of nodes) {
+      if ((incoming.get(n.id) || 0) === 0) queue.push(n.id);
+    }
+    let head = 0;
+    let order = 0;
+    while (head < queue.length) {
+      const curr = queue[head++];
+      topoOrder.set(curr, order++);
+      for (const next of (outgoing.get(curr) || [])) {
+        remaining.set(next, (remaining.get(next) || 1) - 1);
+        if ((remaining.get(next) || 0) === 0) queue.push(next);
+      }
+    }
+    // Unvisited (cycles) get highest order
+    for (const n of nodes) {
+      if (!topoOrder.has(n.id)) topoOrder.set(n.id, order++);
+    }
+
+    // Group by intent
+    const lanes = new Map<string, typeof nodes>();
+    for (const n of nodes) {
+      if (!lanes.has(n.intent)) lanes.set(n.intent, []);
+      lanes.get(n.intent)!.push(n);
+    }
+
+    // Sort within each lane by topological order
+    for (const [, laneNodes] of lanes) {
+      laneNodes.sort((a, b) => (topoOrder.get(a.id) || 0) - (topoOrder.get(b.id) || 0));
+    }
+
+    const laneHeight = 80;
+    const laneGap = 20;
+    const headerHeight = 24;
+    const positions: NodePos[] = [];
+    let laneY = LAYOUT_PAD;
+
+    for (const [, laneNodes] of lanes) {
+      laneY += headerHeight;
+      laneNodes.forEach((n, i) => {
+        positions.push({
+          id: n.id,
+          x: LAYOUT_PAD + i * LAYOUT_COL_GAP,
+          y: laneY + (laneHeight - LAYOUT_NODE_H) / 2,
+        });
+      });
+      laneY += laneHeight + laneGap;
+    }
+
+    return positions;
+  }
+
+  // DAG: Sugiyama-style with barycenter edge-crossing minimization
+  function computeDagLayout(): NodePos[] {
+    const nodes = getNodeIds();
+    const connections = noodle?.getConnections() || [];
+    if (nodes.length === 0) return [];
+
+    // Layer assignment via longest path
+    const incoming = new Map<string, string[]>();
+    const outgoing = new Map<string, string[]>();
+    for (const n of nodes) { incoming.set(n.id, []); outgoing.set(n.id, []); }
+    for (const c of connections) {
+      incoming.get(c.to)?.push(c.from);
+      outgoing.get(c.from)?.push(c.to);
+    }
+
+    // Topological sort for layer assignment (longest path from source)
+    const layer = new Map<string, number>();
+    const inCount = new Map<string, number>();
+    for (const n of nodes) inCount.set(n.id, incoming.get(n.id)!.length);
+
+    const queue: string[] = [];
+    for (const n of nodes) {
+      if (inCount.get(n.id) === 0) { queue.push(n.id); layer.set(n.id, 0); }
+    }
+    let head = 0;
+    while (head < queue.length) {
+      const curr = queue[head++];
+      const currLayer = layer.get(curr) || 0;
+      for (const next of (outgoing.get(curr) || [])) {
+        const proposed = currLayer + 1;
+        if (proposed > (layer.get(next) || 0)) layer.set(next, proposed);
+        inCount.set(next, (inCount.get(next) || 1) - 1);
+        if ((inCount.get(next) || 0) === 0) queue.push(next);
+      }
+    }
+    const maxLayer = Math.max(0, ...layer.values());
+    for (const n of nodes) { if (!layer.has(n.id)) layer.set(n.id, maxLayer + 1); }
+
+    // Group by layer
+    const layers = new Map<number, string[]>();
+    for (const [id, l] of layer) {
+      if (!layers.has(l)) layers.set(l, []);
+      layers.get(l)!.push(id);
+    }
+
+    // Barycenter heuristic: minimize edge crossings by sorting each layer
+    // based on the average position of connected nodes in the previous layer
+    const layerKeys = [...layers.keys()].sort((a, b) => a - b);
+
+    // Assign initial positions within layers
+    const posInLayer = new Map<string, number>();
+    for (const [, ids] of layers) {
+      ids.forEach((id, i) => posInLayer.set(id, i));
+    }
+
+    // Run barycenter passes (forward then backward)
+    for (let pass = 0; pass < 4; pass++) {
+      const keys = pass % 2 === 0 ? layerKeys : [...layerKeys].reverse();
+      for (let ki = 1; ki < keys.length; ki++) {
+        const prevLayer = keys[ki - 1];
+        const currLayerKey = keys[ki];
+        const ids = layers.get(currLayerKey)!;
+
+        // Compute barycenter for each node based on neighbors in prev layer
+        const bary = new Map<string, number>();
+        for (const id of ids) {
+          const neighbors = pass % 2 === 0
+            ? (incoming.get(id) || []).filter(n => layer.get(n) === prevLayer)
+            : (outgoing.get(id) || []).filter(n => layer.get(n) === prevLayer);
+          if (neighbors.length > 0) {
+            const avg = neighbors.reduce((sum, n) => sum + (posInLayer.get(n) || 0), 0) / neighbors.length;
+            bary.set(id, avg);
+          } else {
+            bary.set(id, posInLayer.get(id) || 0);
+          }
+        }
+
+        ids.sort((a, b) => (bary.get(a) || 0) - (bary.get(b) || 0));
+        ids.forEach((id, i) => posInLayer.set(id, i));
+      }
+    }
+
+    // Generate positions
+    const positions: NodePos[] = [];
+    for (const [l, ids] of layers) {
+      const x = LAYOUT_PAD + l * LAYOUT_COL_GAP;
+      const totalH = (ids.length - 1) * LAYOUT_ROW_GAP + LAYOUT_NODE_H;
+      const startY = Math.max(LAYOUT_PAD, 250 - totalH / 2);
+      ids.forEach((id, i) => {
+        positions.push({ id, x, y: startY + i * LAYOUT_ROW_GAP });
+      });
+    }
+    return positions;
+  }
+
+  // ── Layout Buttons ──
+
+  document.getElementById('layout-flow')?.addEventListener('native:press', () => applyLayout(computeFlowLayout()));
+  document.getElementById('layout-grid')?.addEventListener('native:press', () => applyLayout(computeGridLayout()));
+  document.getElementById('layout-cluster')?.addEventListener('native:press', () => applyLayout(computeClusterLayout()));
+  document.getElementById('layout-tree')?.addEventListener('native:press', () => applyLayout(computeTreeLayout()));
+  document.getElementById('layout-force')?.addEventListener('native:press', () => applyLayout(computeForceLayout()));
+  document.getElementById('layout-radial')?.addEventListener('native:press', () => applyLayout(computeRadialLayout()));
+  document.getElementById('layout-swimlane')?.addEventListener('native:press', () => applyLayout(computeSwimlaneLayout()));
+  document.getElementById('layout-dag')?.addEventListener('native:press', () => applyLayout(computeDagLayout()));
 
   // ── Node Selection ──
 
@@ -136,11 +696,88 @@ if (flowArena && flowViewport && flowTransform) {
     suppressEditorSync = false;
   }
 
+  // ── Multi-Selection ──
+
+  const multiSelected = new Set<string>();
+
+  function clearMultiSelection() {
+    for (const id of multiSelected) {
+      document.getElementById(id)?.removeAttribute('data-multi-selected');
+    }
+    multiSelected.clear();
+  }
+
+  function toggleMultiSelect(nodeId: string) {
+    if (multiSelected.has(nodeId)) {
+      multiSelected.delete(nodeId);
+      document.getElementById(nodeId)?.removeAttribute('data-multi-selected');
+    } else {
+      multiSelected.add(nodeId);
+      document.getElementById(nodeId)?.setAttribute('data-multi-selected', '');
+    }
+  }
+
   flowArena.addEventListener('pointerdown', (e) => {
     const target = (e.target as HTMLElement).closest('.flow-node') as HTMLElement | null;
-    if (target) {
-      selectNode(target.id);
+    if (!target) return;
+
+    if (e.shiftKey) {
+      // Shift+click: toggle multi-selection
+      toggleMultiSelect(target.id);
+      e.preventDefault();
+      return;
     }
+
+    // Regular click: single select (clear multi if clicking outside multi-selection)
+    if (!multiSelected.has(target.id)) {
+      clearMultiSelection();
+    }
+    selectNode(target.id);
+  });
+
+  // ── Group Drag (multi-selected nodes move together) ──
+
+  let groupDrag: { startX: number; startY: number; origins: Map<string, { x: number; y: number }> } | null = null;
+
+  flowArena.addEventListener('native:magnet-snap', (e: Event) => {
+    const detail = (e as CustomEvent).detail;
+    if (!detail?.element) return;
+    const draggedEl = detail.element as HTMLElement;
+    const draggedId = draggedEl.id;
+
+    // Only do group drag if the dragged node is part of multi-selection
+    if (multiSelected.size < 2 || !multiSelected.has(draggedId)) return;
+
+    const pos = getNodePosition(draggedEl);
+
+    if (!groupDrag) {
+      // First snap event — record all origins
+      groupDrag = {
+        startX: pos.x,
+        startY: pos.y,
+        origins: new Map(),
+      };
+      for (const id of multiSelected) {
+        if (id === draggedId) continue;
+        const el = document.getElementById(id);
+        if (el) groupDrag.origins.set(id, getNodePosition(el));
+      }
+    }
+
+    // Apply delta to all other selected nodes
+    const dx = pos.x - groupDrag.startX;
+    const dy = pos.y - groupDrag.startY;
+    for (const [id, origin] of groupDrag.origins) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      el.style.left = Math.round(origin.x + dx) + 'px';
+      el.style.top = Math.round(origin.y + dy) + 'px';
+      el.style.translate = '';
+    }
+  });
+
+  flowArena.addEventListener('native:magnet-drop', () => {
+    groupDrag = null;
   });
 
   // ── Inline Label Editing ──
@@ -225,6 +862,48 @@ if (flowArena && flowViewport && flowTransform) {
   let panY = 0;
   let panBaseX = 0;
   let panBaseY = 0;
+  let zoomLevel = 1;
+  const ZOOM_MIN = 0.25;
+  const ZOOM_MAX = 3;
+  const ZOOM_STEP = 0.1;
+  const zoomLabel = document.getElementById('zoom-label');
+
+  function updateTransform() {
+    flowTransform.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomLevel})`;
+    if (zoomLabel) zoomLabel.textContent = `${Math.round(zoomLevel * 100)}%`;
+    noodle?.update();
+  }
+
+  function setZoom(newZoom: number, centerX?: number, centerY?: number) {
+    const clamped = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, newZoom));
+    if (clamped === zoomLevel) return;
+
+    // Zoom toward the center point (viewport-relative)
+    if (centerX !== undefined && centerY !== undefined) {
+      // Point in canvas space before zoom
+      const canvasX = (centerX - panX) / zoomLevel;
+      const canvasY = (centerY - panY) / zoomLevel;
+      // Adjust pan so the same canvas point stays under the pointer
+      panX = centerX - canvasX * clamped;
+      panY = centerY - canvasY * clamped;
+    }
+    zoomLevel = clamped;
+    updateTransform();
+  }
+
+  // Zoom buttons
+  document.getElementById('zoom-in')?.addEventListener('native:press', () => setZoom(zoomLevel + ZOOM_STEP));
+  document.getElementById('zoom-out')?.addEventListener('native:press', () => setZoom(zoomLevel - ZOOM_STEP));
+
+  // Scroll wheel zoom
+  flowViewport.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const rect = flowViewport.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    const delta = -e.deltaY * 0.001;
+    setZoom(zoomLevel + delta * zoomLevel, cx, cy);
+  }, { passive: false });
 
   flowViewport.addEventListener('pointerdown', (e) => {
     const target = e.target as HTMLElement;
@@ -245,8 +924,7 @@ if (flowArena && flowViewport && flowTransform) {
     if (!isPanning) return;
     panX = panBaseX + (e.clientX - panStartX);
     panY = panBaseY + (e.clientY - panStartY);
-    flowTransform.style.transform = `translate(${panX}px, ${panY}px)`;
-    noodle?.update();
+    updateTransform();
   });
 
   flowViewport.addEventListener('pointerup', () => {
@@ -385,7 +1063,7 @@ if (flowArena && flowViewport && flowTransform) {
     node.className = 'flow-node';
     node.setAttribute('intent', intent);
     node.id = id;
-    node.setAttribute('data-noodle-port', 'left right');
+    node.setAttribute('data-noodle-port', 'left right top bottom');
     node.style.cssText = `left: ${Math.max(0, x)}px; top: ${Math.max(0, y)}px;`;
     node.textContent = label;
     flowArena.appendChild(node);
@@ -543,10 +1221,10 @@ if (flowArena && flowViewport && flowTransform) {
     }
 
     // Pan to center the node
-    panX = viewportCenterX - nodeX;
-    panY = viewportCenterY - nodeY;
+    panX = viewportCenterX - nodeX * zoomLevel;
+    panY = viewportCenterY - nodeY * zoomLevel;
     flowTransform.style.transition = 'transform 300ms ease';
-    flowTransform.style.transform = `translate(${panX}px, ${panY}px)`;
+    updateTransform();
     setTimeout(() => { flowTransform.style.transition = ''; noodle?.update(); }, 310);
 
     selectNode(nodeId);

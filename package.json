@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-ui",
-  "version": "0.7.120",
+  "version": "0.7.127",
   "description": "Zero-dependency web component library with an OKLCH CSS design system, signal-based reactivity, and composable trait controllers",
   "license": "MIT",
   "type": "module",

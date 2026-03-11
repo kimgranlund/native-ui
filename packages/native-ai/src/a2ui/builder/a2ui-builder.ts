@@ -34,7 +34,9 @@ import '../../../../../src/icons/phosphor/brackets-angle.ts';
 import '../../../../../src/icons/phosphor/paint-brush.ts';
 import '../../../../../src/icons/phosphor/lightning.ts';
 import '../../../../../src/icons/phosphor/play.ts';
+import '../../../../../src/icons/phosphor/stack-simple.ts';
 import { ConfettiController } from '../../../../../src/traits/confetti/confetti-controller.ts';
+import { CSSInspectController } from '../../../../../src/traits/css-inspect/css-inspect-controller.ts';
 import { Kernel, resetKernel } from '../../../../../src/kernel/kernel.ts';
 import { createA2UIAdapter } from '../protocol/a2ui-adapter.ts';
 import { COMPONENT_MAP as REGISTRY, getComponentCategory } from '../protocol/a2ui-component-map.ts';
@@ -569,15 +571,15 @@ function syncPanels() {
 
 // ── Lightbox toggle (light/dark preview) ──
 
+const previewBody = document.querySelector('n-pane[data-panel="preview"] > n-body') as HTMLElement | null;
 const colorSchemeBtn = document.getElementById('lightbox-toggle');
-const previewContent = document.querySelector('n-pane[data-panel="preview"] > n-body') as HTMLElement | null;
 let userOverride: boolean | null = null; // null = inherit from context
 
 function resolvePreviewDark(): boolean {
   if (userOverride !== null) return userOverride;
   // Check computed color-scheme on the preview or its ancestors
-  if (previewContent) {
-    const computed = getComputedStyle(previewContent).colorScheme;
+  if (previewBody) {
+    const computed = getComputedStyle(previewBody).colorScheme;
     if (computed === 'dark') return true;
     if (computed === 'light') return false;
   }
@@ -596,11 +598,80 @@ syncColorSchemeIcon();
 colorSchemeBtn?.addEventListener('native:press', () => {
   const wasDark = resolvePreviewDark();
   userOverride = !wasDark;
-  if (previewContent) {
-    previewContent.style.colorScheme = userOverride ? 'dark' : 'light';
+  if (previewBody) {
+    previewBody.style.colorScheme = userOverride ? 'dark' : 'light';
   }
   syncColorSchemeIcon();
 });
+
+// ── CSS Inspector toggle ──
+
+const inspectToggleBtn = document.getElementById('inspect-toggle');
+let cssInspector: CSSInspectController | null = null;
+
+inspectToggleBtn?.addEventListener('native:press', () => {
+  if (cssInspector) {
+    cssInspector.dismiss();
+    cssInspector.destroy();
+    cssInspector = null;
+    inspectToggleBtn.removeAttribute('data-active');
+  } else {
+    cssInspector = new CSSInspectController(previewMount, { pick: true, labels: true });
+    inspectToggleBtn.setAttribute('data-active', '');
+  }
+});
+
+// Clean up inspector when preview content changes
+previewMount.addEventListener('native:inspect', (e: Event) => {
+  const detail = (e as CustomEvent).detail;
+  if (!detail.active && cssInspector) {
+    // Inspector dismissed itself (e.g. Escape) — sync button state
+    inspectToggleBtn?.removeAttribute('data-active');
+  }
+});
+
+// ── Preview canvas panning ──
+
+if (previewBody) {
+  let panStartX = 0;
+  let panStartY = 0;
+  let scrollStartX = 0;
+  let scrollStartY = 0;
+
+  previewBody.addEventListener('pointerdown', (e: PointerEvent) => {
+    // Only pan when clicking on the canvas background, not on the artifact
+    const target = e.target as HTMLElement;
+    if (target.closest('#preview-mount')) return;
+    if (e.button !== 0) return;
+
+    panStartX = e.clientX;
+    panStartY = e.clientY;
+    scrollStartX = previewBody.scrollLeft;
+    scrollStartY = previewBody.scrollTop;
+    previewBody.setAttribute('data-panning', '');
+    previewBody.setPointerCapture(e.pointerId);
+  });
+
+  previewBody.addEventListener('pointermove', (e: PointerEvent) => {
+    if (!previewBody.hasAttribute('data-panning')) return;
+    previewBody.scrollLeft = scrollStartX - (e.clientX - panStartX);
+    previewBody.scrollTop = scrollStartY - (e.clientY - panStartY);
+  });
+
+  previewBody.addEventListener('pointerup', () => {
+    previewBody.removeAttribute('data-panning');
+  });
+
+  previewBody.addEventListener('lostpointercapture', () => {
+    previewBody.removeAttribute('data-panning');
+  });
+
+  // Center scroll position on initial load
+  requestAnimationFrame(() => {
+    previewBody.scrollLeft = (previewBody.scrollWidth - previewBody.clientWidth) / 2;
+    previewBody.scrollTop = (previewBody.scrollHeight - previewBody.clientHeight) / 2;
+  });
+}
 
 // ── Lightbox mode (fullscreen overlay) ──
 
@@ -1094,6 +1165,13 @@ function renderPreview(schema: MockResult['schema']) {
   if (currentAdapter) {
     currentAdapter.destroy();
     currentAdapter = null;
+  }
+  // Dismiss CSS inspector if active
+  if (cssInspector) {
+    cssInspector.dismiss();
+    cssInspector.destroy();
+    cssInspector = null;
+    inspectToggleBtn?.removeAttribute('data-active');
   }
   previewMount.innerHTML = '';
   previewStyle = null; // Reset — will be recreated if CSS is applied

@@ -1,10 +1,10 @@
 @layer ui {
 
-  :where(n-button):not(:defined) { visibility: hidden; }
+  :where(n-button, n-select):not(:defined) { visibility: hidden; }
 
   /* ── Base ── */
 
-  :where(n-button) {
+  :where(n-button, n-select) {
     white-space: nowrap;
     --n-font-weight: var(--n-button-font-weight);
     --n-line-height: var(--n-control-line-height);
@@ -65,28 +65,28 @@
 
   /* ── States ── */
 
-  :where(n-button):hover,
-  :where(n-button)[force-hover] {
+  :where(n-button, n-select):hover,
+  :where(n-button, n-select)[force-hover] {
     background: var(--n-background-hover);
     color: var(--n-color-hover);
     border-color: var(--n-border-color-hover);
   }
 
-  :where(n-button):active,
-  :where(n-button)[pressed],
-  :where(n-button)[force-active] {
+  :where(n-button, n-select):active,
+  :where(n-button, n-select)[pressed],
+  :where(n-button, n-select)[force-active] {
     background: var(--n-background-active);
     color: var(--n-color-active);
     border-color: var(--n-border-color-active);
   }
 
-  :where(n-button):focus-visible,
-  :where(n-button)[force-focus-visible] {
+  :where(n-button, n-select):focus-visible,
+  :where(n-button, n-select)[force-focus-visible] {
     outline: 2px solid var(--n-focus-ring);
     outline-offset: 2px;
   }
 
-  :where(n-button)[aria-disabled="true"] {
+  :where(n-button, n-select)[aria-disabled="true"] {
     background: var(--n-background-disabled);
     color: var(--n-color-disabled);
     border-color: var(--n-border-color-disabled);
@@ -97,19 +97,19 @@
   /* ── Slots ── */
 
   /* WHY: Upgrade to 3-column grid only when slot structure is present */
-  :where(n-button):where(:has(> [slot])) {
+  :where(n-button, n-select):where(:has(> [slot])) {
     grid-template-columns: auto 1fr auto;
   }
 
-  :where(n-button) > :where([slot="leading"]) {
+  :where(n-button, n-select) > :where([slot="leading"]) {
     grid-column: 1;
   }
 
-  :where(n-button) > :where([slot="label"]) {
+  :where(n-button, n-select) > :where([slot="label"]) {
     grid-column: 2;
   }
 
-  :where(n-button) > :where([slot="trailing"]) {
+  :where(n-button, n-select) > :where([slot="trailing"]) {
     grid-column: 3;
   }
 
@@ -117,7 +117,7 @@
 
   /* WHY: Spread mode (dropdown triggers) — label fills available space,
      truncates with ellipsis when width-constrained. */
-  :where(n-button):where([justify="spread"]) > :where([slot="label"]) {
+  :where(n-button, n-select):where([justify="spread"]) > :where([slot="label"]) {
     justify-self: stretch;
     text-align: start;
     min-width: 0;
@@ -137,7 +137,7 @@
 
 /* ── Attribute API (unlayered) ── */
 
-:where(n-button)[inline] {
+:where(n-button, n-select)[inline] {
   display: inline-grid;
   width: auto;
   vertical-align: middle;

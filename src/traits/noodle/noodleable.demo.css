@@ -20,6 +20,20 @@
 
 /* ── Flow Nodes ── */
 
+.flow-toolbar-title {
+  font-weight: 600;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.flow-zoom-label {
+  font-size: 0.625rem;
+  font-variant-numeric: tabular-nums;
+  min-width: 2.5rem;
+  text-align: center;
+  color: var(--n-ink-muted);
+}
+
 .flow-node {
   position: absolute;
   min-width: 7rem;
@@ -29,7 +43,7 @@
   font-weight: 600;
   user-select: none;
   touch-action: none;
-  cursor: grab;
+  cursor: default;
   text-align: center;
   background: var(--n-button);
   border: 1px solid var(--n-border-muted);
@@ -44,6 +58,11 @@
 
 .flow-node:active {
   cursor: grabbing;
+}
+
+.flow-node[data-multi-selected] {
+  box-shadow: 0 0 0 2px var(--n-color-accent-400), 0 2px 12px rgba(0, 0, 0, 0.1);
+  z-index: 2;
 }
 
 .flow-node[data-selected] {
@@ -99,8 +118,9 @@
 /* ── Split Layout ── */
 
 .flow-split {
-  display: flex;
-  gap: 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr 1fr;
   min-height: 480px;
   max-height: 75dvh;
   background-color: var(--n-panel);
@@ -111,7 +131,6 @@
 
 .flow-split-canvas {
   position: relative;
-  flex: 1;
   min-width: 300px;
   display: flex;
 }
@@ -134,35 +153,47 @@
   background: var(--n-border-accent);
 }
 
-.flow-canvas-controls {
-  position: absolute;
-  left: 1.5rem;
-  bottom: 1.5rem;
-  z-index: 10;
+.flow-split > n-header {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  flex: none;
+  grid-column: 1 / -1;
+  background-color: var(--n-panel);
+  border-bottom: 1px solid var(--n-border-muted-neutral);
 }
 
-.flow-split-editor {
-  flex: 1;
+.flow-split > n-header n-toolbar {
+  width: 100%;
+}
+
+#flow-doc-select {
+  flex: 0 0 14rem;
+}
+
+.flow-split > n-pane {
   min-width: 200px;
-  overflow: hidden;
-  border-left: 1px solid var(--n-border-muted-neutral);
-  display: flex;
-  flex-direction: column;
+  border-inline-start: 1px solid var(--n-border-muted-neutral);
 }
 
-.flow-split-editor > div {
+.flow-split > n-pane > n-header {
+  background: var(--n-panel);
+  border-block-end: 1px solid var(--n-border-muted-neutral);
+}
+
+.flow-split > n-pane > n-body {
+  padding: 0;
+}
+
+.flow-split > n-pane > n-body > div {
   flex: 1;
   min-height: 0;
 }
 
-.flow-split-editor .cm-editor {
+.flow-split > n-pane .cm-editor {
   height: 100%;
 }
 
-.flow-split-editor .cm-scroller {
+.flow-split > n-pane .cm-scroller {
   overflow: auto;
 }
 
@@ -192,12 +223,16 @@
   min-height: 100%;
 }
 
-/* ── Present Mode ── */
+/* ── Lightbox Mode ── */
 
-.flow-split[presented] {
-  max-height: none;
+.flow-split[data-lightbox] {
+  inset: 0;
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 100%;
+  margin: 0;
   border: none;
   border-radius: 0;
 }
@@ -245,6 +280,6 @@
 
 /* ── Editor selection highlight ── */
 
-.flow-split-editor .cm-selectionBackground {
+.flow-split > n-pane .cm-selectionBackground {
   background: oklch(0.65 0.12 250 / 0.2) !important;
 }

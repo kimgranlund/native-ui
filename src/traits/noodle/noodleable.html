@@ -20,11 +20,28 @@
       import '../../components/controller/controller.ts';
       import '../../components/switch/switch.ts';
       import '../../components/button/button.ts';
+      import '../../components/toolbar/toolbar.ts';
+      import '../../components/select/select.ts';
+      import '../../components/listbox/listbox.ts';
+      import '../../components/listbox/option.ts';
+      import '../../containers/pane/pane.ts';
       import '../../icons/icon.ts';
-      import '../../icons/phosphor/arrows-out.ts';
-      import '../../icons/phosphor/arrows-in.ts';
+      import '../../icons/phosphor/arrows-out-simple.ts';
+      import '../../icons/phosphor/arrows-in-simple.ts';
+      import '../../icons/phosphor/flow-arrow.ts';
+      import '../../icons/phosphor/grid-four.ts';
+      import '../../icons/phosphor/graph.ts';
+      import '../../icons/phosphor/tree-structure.ts';
+      import '../../icons/phosphor/caret-up-down.ts';
+      import '../../icons/phosphor/brackets-curly.ts';
       import '../../icons/phosphor/copy.ts';
       import '../../icons/phosphor/check.ts';
+      import '../../icons/phosphor/plus.ts';
+      import '../../icons/phosphor/minus.ts';
+      import '../../icons/phosphor/atom.ts';
+      import '../../icons/phosphor/target.ts';
+      import '../../icons/phosphor/rows.ts';
+      import '../../icons/phosphor/git-branch.ts';
     </script>
   </head>
   <body>
@@ -35,7 +52,7 @@
           <h1>Noodleable</h1>
           <div class="demo-desc">
           Draw SVG noodle connections between DOM elements. Supports bezier, step, and straight curve styles.
-          In edit mode, drag between port dots to create connections; click a noodle to remove it.
+          In edit mode, drag between port dots to create connections. Grab a noodle near its endpoint to reconnect or disconnect it.
         </div>
         </header>
 
@@ -45,40 +62,64 @@
 
         <h3>Interactive Flow Builder</h3>
         <div class="demo-desc">
-          Drag from a port dot to another port to create a connection. Click a noodle to delete it.
+          Drag from a port dot to another port to create a connection. Grab a noodle near its endpoint to reconnect or drop outside to disconnect.
           Nodes are draggable via MagnetController. Hover a port and click <code>+</code> to add a node.
           Drag empty space to pan the canvas. The JSON pane on the right is live and editable.
         </div>
         <div class="flow-split" id="flow-split">
+          <n-header>
+            <n-toolbar variant="ghost" size="sm">
+              <span class="flow-toolbar-title">Flow Builder</span>
+              <n-select id="flow-doc-select" placeholder="Load dataset…" size="sm"></n-select>
+              <span fill></span>
+              <n-button id="layout-flow" size="sm" variant="ghost" aria-label="Flow layout"><n-icon name="flow-arrow"></n-icon></n-button>
+              <n-button id="layout-dag" size="sm" variant="ghost" aria-label="DAG layout"><n-icon name="git-branch"></n-icon></n-button>
+              <n-button id="layout-grid" size="sm" variant="ghost" aria-label="Grid layout"><n-icon name="grid-four"></n-icon></n-button>
+              <n-button id="layout-cluster" size="sm" variant="ghost" aria-label="Cluster layout"><n-icon name="graph"></n-icon></n-button>
+              <n-button id="layout-tree" size="sm" variant="ghost" aria-label="Tree layout"><n-icon name="tree-structure"></n-icon></n-button>
+              <n-button id="layout-radial" size="sm" variant="ghost" aria-label="Radial layout"><n-icon name="target"></n-icon></n-button>
+              <n-button id="layout-force" size="sm" variant="ghost" aria-label="Force layout"><n-icon name="atom"></n-icon></n-button>
+              <n-button id="layout-swimlane" size="sm" variant="ghost" aria-label="Swimlane layout"><n-icon name="rows"></n-icon></n-button>
+              <n-divider orientation="vertical" style="height: 1.25rem;"></n-divider>
+              <n-button id="zoom-out" size="sm" variant="ghost" aria-label="Zoom out"><n-icon name="minus"></n-icon></n-button>
+              <span id="zoom-label" class="flow-zoom-label">100%</span>
+              <n-button id="zoom-in" size="sm" variant="ghost" aria-label="Zoom in"><n-icon name="plus"></n-icon></n-button>
+              <n-divider orientation="vertical" style="height: 1.25rem;"></n-divider>
+              <n-switch id="flow-snap-toggle" size="sm">Snap</n-switch>
+              <n-switch id="flow-guides-toggle" size="sm">Guides</n-switch>
+              <n-button id="flow-lightbox-btn" size="sm" variant="ghost" aria-label="Expand"><n-icon name="arrows-out-simple"></n-icon></n-button>
+            </n-toolbar>
+          </n-header>
           <div class="flow-split-canvas" id="flow-canvas-pane">
             <div class="canvas-viewport" id="flow-viewport">
               <div class="canvas-transform" id="flow-transform">
                 <div class="noodle-arena noodle-arena--tall" id="flow-arena">
                   <!-- Inputs -->
-                  <div class="flow-node" intent="accent" id="f-sensor" data-noodle-port="right" style="left: 1.5rem; top: 2rem;">Sensor</div>
-                  <div class="flow-node" intent="accent" id="f-api" data-noodle-port="right" style="left: 1.5rem; top: 10rem;">API</div>
-                  <div class="flow-node" intent="accent" id="f-timer" data-noodle-port="right" style="left: 1.5rem; top: 18rem;">Timer</div>
+                  <div class="flow-node" intent="accent" id="f-sensor" data-noodle-port="right bottom" style="left: 1.5rem; top: 2rem;">Sensor</div>
+                  <div class="flow-node" intent="accent" id="f-api" data-noodle-port="right top bottom" style="left: 1.5rem; top: 10rem;">API</div>
+                  <div class="flow-node" intent="accent" id="f-timer" data-noodle-port="right top" style="left: 1.5rem; top: 18rem;">Timer</div>
                   <!-- Processing -->
-                  <div class="flow-node" intent="info" id="f-filter" data-noodle-port="left right" style="left: 14rem; top: 3.5rem;">Filter</div>
-                  <div class="flow-node" intent="info" id="f-transform" data-noodle-port="left right" style="left: 14rem; top: 11.5rem;">Transform</div>
-                  <div class="flow-node" intent="info" id="f-merge" data-noodle-port="left right" style="left: 26rem; top: 7.5rem;">Merge</div>
+                  <div class="flow-node" intent="info" id="f-filter" data-noodle-port="left right top bottom" style="left: 14rem; top: 3.5rem;">Filter</div>
+                  <div class="flow-node" intent="info" id="f-transform" data-noodle-port="left right top bottom" style="left: 14rem; top: 11.5rem;">Transform</div>
+                  <div class="flow-node" intent="info" id="f-merge" data-noodle-port="left right top bottom" style="left: 26rem; top: 7.5rem;">Merge</div>
                   <!-- Outputs -->
-                  <div class="flow-node" intent="success" id="f-display" data-noodle-port="left" style="left: 38rem; top: 3.5rem;">Display</div>
-                  <div class="flow-node" intent="success" id="f-database" data-noodle-port="left" style="left: 38rem; top: 11.5rem;">Database</div>
-                  <div class="flow-node" intent="success" id="f-alert" data-noodle-port="left" style="left: 38rem; top: 19rem;">Alert</div>
+                  <div class="flow-node" intent="success" id="f-display" data-noodle-port="left top bottom" style="left: 38rem; top: 3.5rem;">Display</div>
+                  <div class="flow-node" intent="success" id="f-database" data-noodle-port="left top bottom" style="left: 38rem; top: 11.5rem;">Database</div>
+                  <div class="flow-node" intent="success" id="f-alert" data-noodle-port="left top" style="left: 38rem; top: 19rem;">Alert</div>
                 </div>
               </div>
             </div>
-            <div class="flow-canvas-controls">
-              <n-switch id="flow-snap-toggle">Snap</n-switch>
-              <n-switch id="flow-guides-toggle">Guides</n-switch>
-              <n-button id="flow-present-btn" size="sm" variant="ghost" aria-label="Present"><n-icon name="arrows-out"></n-icon></n-button>
-            </div>
             <div class="flow-split-handle" id="flow-split-handle"></div>
           </div>
-          <div class="flow-split-editor" id="flow-editor-pane">
-            <div id="flow-json-editor"></div>
-          </div>
+          <n-pane id="flow-editor-pane">
+            <n-header>
+              <nav><n-icon inline name="brackets-curly"></n-icon></nav>
+              <span>JSON</span>
+            </n-header>
+            <n-body>
+              <div id="flow-json-editor"></div>
+            </n-body>
+          </n-pane>
         </div>
 
         <!-- ── 2. Curve Styles ── -->

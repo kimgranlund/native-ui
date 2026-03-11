@@ -15,7 +15,7 @@
     <header>
       <h1>&lt;n-select&gt;</h1>
       <div class="demo-desc">
-      Coordinator element that wires a button trigger + popover listbox into a dropdown select.
+      Dropdown select — the element IS the trigger button. Stamps label + caret chrome automatically.
     </div>
     </header>
 
@@ -26,11 +26,7 @@
     <h2>Basic Usage</h2>
     <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <n-select>
-          <n-button justify="spread">
-            <span slot="label">Choose a fruit</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+        <n-select placeholder="Choose a fruit">
           <n-listbox popover>
             <n-option value="apple">Apple</n-option>
             <n-option value="banana">Banana</n-option>
@@ -40,11 +36,7 @@
           </n-listbox>
         </n-select>
       </div>
-      <pre class="demo-code"><code>&lt;n-select&gt;
-  &lt;n-button justify="spread"&gt;
-    &lt;span slot="label"&gt;Choose a fruit&lt;/span&gt;
-    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
-  &lt;/n-button&gt;
+      <pre class="demo-code"><code>&lt;n-select placeholder="Choose a fruit"&gt;
   &lt;n-listbox popover&gt;
     &lt;n-option value="apple"&gt;Apple&lt;/n-option&gt;
     &lt;n-option value="banana"&gt;Banana&lt;/n-option&gt;
@@ -58,11 +50,7 @@
     <h2>Pre-selected Value</h2>
     <n-container data-kind="panel" bordered>
       <div class="demo-row">
-        <n-select value="banana">
-          <n-button justify="spread">
-            <span slot="label">Choose a fruit</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+        <n-select value="banana" placeholder="Choose a fruit">
           <n-listbox popover>
             <n-option value="apple">Apple</n-option>
             <n-option value="banana">Banana</n-option>
@@ -70,11 +58,7 @@
           </n-listbox>
         </n-select>
       </div>
-      <pre class="demo-code"><code>&lt;n-select value="banana"&gt;
-  &lt;n-button justify="spread"&gt;
-    &lt;span slot="label"&gt;Choose a fruit&lt;/span&gt;
-    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
-  &lt;/n-button&gt;
+      <pre class="demo-code"><code>&lt;n-select value="banana" placeholder="Choose a fruit"&gt;
   &lt;n-listbox popover&gt;
     &lt;n-option value="apple"&gt;Apple&lt;/n-option&gt;
     &lt;n-option value="banana"&gt;Banana&lt;/n-option&gt;
@@ -88,11 +72,7 @@
     <n-container data-kind="panel" bordered>
       <div class="demo-row">
         <span class="demo-label">xs</span>
-        <n-select size="xs">
-          <n-button justify="spread">
-            <span slot="label">Extra small</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+        <n-select size="xs" placeholder="Extra small">
           <n-listbox popover>
             <n-option value="a">Option A</n-option>
             <n-option value="b">Option B</n-option>
@@ -101,11 +81,7 @@
       </div>
       <div class="demo-row">
         <span class="demo-label">sm</span>
-        <n-select size="sm">
-          <n-button justify="spread">
-            <span slot="label">Small</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+        <n-select size="sm" placeholder="Small">
           <n-listbox popover>
             <n-option value="a">Option A</n-option>
             <n-option value="b">Option B</n-option>
@@ -114,11 +90,7 @@
       </div>
       <div class="demo-row">
         <span class="demo-label">md</span>
-        <n-select size="md">
-          <n-button justify="spread">
-            <span slot="label">Medium</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+        <n-select size="md" placeholder="Medium">
           <n-listbox popover>
             <n-option value="a">Option A</n-option>
             <n-option value="b">Option B</n-option>
@@ -127,22 +99,14 @@
       </div>
       <div class="demo-row">
         <span class="demo-label">lg</span>
-        <n-select size="lg">
-          <n-button justify="spread">
-            <span slot="label">Large</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+        <n-select size="lg" placeholder="Large">
           <n-listbox popover>
             <n-option value="a">Option A</n-option>
             <n-option value="b">Option B</n-option>
           </n-listbox>
         </n-select>
       </div>
-      <pre class="demo-code"><code>&lt;n-select size="sm"&gt;
-  &lt;n-button justify="spread"&gt;
-    &lt;span slot="label"&gt;Small&lt;/span&gt;
-    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
-  &lt;/n-button&gt;
+      <pre class="demo-code"><code>&lt;n-select size="sm" placeholder="Small"&gt;
   &lt;n-listbox popover&gt;
     &lt;n-option value="a"&gt;Option A&lt;/n-option&gt;
   &lt;/n-listbox&gt;
@@ -156,22 +120,19 @@
       <h3>xs</h3>
       <div class="demo-row" size="xs" density="compact">
         <span class="demo-label">compact</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Compact</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Compact">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
       <div class="demo-row" size="xs" density="default">
         <span class="demo-label">default</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Default</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Default">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
       <div class="demo-row" size="xs" density="loose">
         <span class="demo-label">loose</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Loose</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Loose">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
@@ -179,22 +140,19 @@
       <h3>sm</h3>
       <div class="demo-row" size="sm" density="compact">
         <span class="demo-label">compact</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Compact</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Compact">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
       <div class="demo-row" size="sm" density="default">
         <span class="demo-label">default</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Default</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Default">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
       <div class="demo-row" size="sm" density="loose">
         <span class="demo-label">loose</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Loose</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Loose">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
@@ -202,22 +160,19 @@
       <h3>md</h3>
       <div class="demo-row" size="md" density="compact">
         <span class="demo-label">compact</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Compact</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Compact">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
       <div class="demo-row" size="md" density="default">
         <span class="demo-label">default</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Default</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Default">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
       <div class="demo-row" size="md" density="loose">
         <span class="demo-label">loose</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Loose</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Loose">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
@@ -225,22 +180,19 @@
       <h3>lg</h3>
       <div class="demo-row" size="lg" density="compact">
         <span class="demo-label">compact</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Compact</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Compact">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
       <div class="demo-row" size="lg" density="default">
         <span class="demo-label">default</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Default</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Default">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
       <div class="demo-row" size="lg" density="loose">
         <span class="demo-label">loose</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Loose</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Loose">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
@@ -248,85 +200,62 @@
       <h3>xl</h3>
       <div class="demo-row" size="xl" density="compact">
         <span class="demo-label">compact</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Compact</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Compact">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
       <div class="demo-row" size="xl" density="default">
         <span class="demo-label">default</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Default</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Default">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
       <div class="demo-row" size="xl" density="loose">
         <span class="demo-label">loose</span>
-        <n-select>
-          <n-button justify="spread"><span slot="label">Loose</span><n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+        <n-select placeholder="Loose">
           <n-listbox popover><n-option value="a">Alpha</n-option><n-option value="b">Bravo</n-option></n-listbox>
         </n-select>
       </div>
       <pre class="demo-code"><code>&lt;div density="compact"&gt;
-  &lt;n-select&gt;...&lt;/n-select&gt;
+  &lt;n-select placeholder="Compact"&gt;...&lt;/n-select&gt;
 &lt;/div&gt;
 
 &lt;div density="loose"&gt;
-  &lt;n-select&gt;...&lt;/n-select&gt;
+  &lt;n-select placeholder="Loose"&gt;...&lt;/n-select&gt;
 &lt;/div&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
     <!-- ── Variants ── -->
 
-    <h2>Button Variants</h2>
+    <h2>Variants</h2>
     <n-container data-kind="panel" bordered size="sm">
       <div class="demo-row">
-        <n-select>
-          <n-button justify="spread">
-            <span slot="label">Outline</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+        <n-select placeholder="Outline">
           <n-listbox popover>
             <n-option value="a">Alpha</n-option>
             <n-option value="b">Bravo</n-option>
           </n-listbox>
         </n-select>
-        <n-select>
-          <n-button variant="secondary" justify="spread">
-            <span slot="label">Secondary</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+        <n-select variant="secondary" placeholder="Secondary">
           <n-listbox popover>
             <n-option value="a">Alpha</n-option>
             <n-option value="b">Bravo</n-option>
           </n-listbox>
         </n-select>
-        <n-select>
-          <n-button variant="default" justify="spread">
-            <span slot="label">Default</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+        <n-select variant="default" placeholder="Default">
           <n-listbox popover>
             <n-option value="a">Alpha</n-option>
             <n-option value="b">Bravo</n-option>
           </n-listbox>
         </n-select>
-        <n-select>
-          <n-button variant="ghost" justify="spread">
-            <span slot="label">Ghost</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+        <n-select variant="ghost" placeholder="Ghost">
           <n-listbox popover>
             <n-option value="a">Alpha</n-option>
             <n-option value="b">Bravo</n-option>
           </n-listbox>
         </n-select>
       </div>
-      <pre class="demo-code"><code>&lt;n-select&gt;
-  &lt;n-button variant="secondary" justify="spread"&gt;
-    &lt;span slot="label"&gt;Secondary&lt;/span&gt;
-    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
-  &lt;/n-button&gt;
+      <pre class="demo-code"><code>&lt;n-select variant="secondary" placeholder="Secondary"&gt;
   &lt;n-listbox popover&gt;
     &lt;n-option value="a"&gt;Alpha&lt;/n-option&gt;
   &lt;/n-listbox&gt;
@@ -338,21 +267,13 @@
     <h2>Disabled</h2>
     <n-container data-kind="panel" bordered size="sm">
       <div class="demo-row">
-        <n-select disabled>
-          <n-button disabled justify="spread">
-            <span slot="label">Disabled</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+        <n-select disabled placeholder="Disabled">
           <n-listbox popover>
             <n-option value="a">Alpha</n-option>
           </n-listbox>
         </n-select>
       </div>
-      <pre class="demo-code"><code>&lt;n-select disabled&gt;
-  &lt;n-button disabled justify="spread"&gt;
-    &lt;span slot="label"&gt;Disabled&lt;/span&gt;
-    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
-  &lt;/n-button&gt;
+      <pre class="demo-code"><code>&lt;n-select disabled placeholder="Disabled"&gt;
   &lt;n-listbox popover&gt;
     &lt;n-option value="a"&gt;Alpha&lt;/n-option&gt;
   &lt;/n-listbox&gt;
@@ -364,11 +285,7 @@
     <h2>Disabled Options</h2>
     <n-container data-kind="panel" bordered size="sm">
       <div class="demo-row">
-        <n-select>
-          <n-button justify="spread">
-            <span slot="label">Choose role</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+        <n-select placeholder="Choose role">
           <n-listbox popover>
             <n-option value="viewer">Viewer</n-option>
             <n-option value="editor">Editor</n-option>
@@ -377,11 +294,7 @@
           </n-listbox>
         </n-select>
       </div>
-      <pre class="demo-code"><code>&lt;n-select&gt;
-  &lt;n-button justify="spread"&gt;
-    &lt;span slot="label"&gt;Choose role&lt;/span&gt;
-    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
-  &lt;/n-button&gt;
+      <pre class="demo-code"><code>&lt;n-select placeholder="Choose role"&gt;
   &lt;n-listbox popover&gt;
     &lt;n-option value="viewer"&gt;Viewer&lt;/n-option&gt;
     &lt;n-option value="admin" disabled&gt;Admin&lt;/n-option&gt;
@@ -393,11 +306,7 @@
 
     <h2>Events</h2>
     <n-container data-kind="panel" bordered size="sm">
-      <n-select id="event-select">
-        <n-button justify="spread">
-          <span slot="label">Choose color</span>
-          <n-icon name="caret-up-down" slot="trailing"></n-icon>
-        </n-button>
+      <n-select id="event-select" placeholder="Choose color">
         <n-listbox popover>
           <n-option value="red" label="Red">Red</n-option>
           <n-option value="green" label="Green">Green</n-option>
@@ -405,11 +314,7 @@
         </n-listbox>
       </n-select>
       <div class="log" id="event-log"></div>
-    <pre class="demo-code"><code>&lt;n-select id="color-select"&gt;
-  &lt;n-button justify="spread"&gt;
-    &lt;span slot="label"&gt;Choose color&lt;/span&gt;
-    &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
-  &lt;/n-button&gt;
+    <pre class="demo-code"><code>&lt;n-select id="color-select" placeholder="Choose color"&gt;
   &lt;n-listbox popover&gt;
     &lt;n-option value="red"&gt;Red&lt;/n-option&gt;
     &lt;n-option value="blue"&gt;Blue&lt;/n-option&gt;
@@ -430,22 +335,14 @@
     <n-container data-kind="panel" bordered size="sm">
       <form id="demo-form">
         <div class="demo-col-sm" style="margin-bottom: 0.75rem;">
-          <n-select name="color">
-            <n-button justify="spread">
-              <span slot="label">Favorite color</span>
-              <n-icon name="caret-up-down" slot="trailing"></n-icon>
-            </n-button>
+          <n-select name="color" placeholder="Favorite color">
             <n-listbox popover>
               <n-option value="red">Red</n-option>
               <n-option value="green">Green</n-option>
               <n-option value="blue">Blue</n-option>
             </n-listbox>
           </n-select>
-          <n-select name="size">
-            <n-button justify="spread">
-              <span slot="label">T-Shirt size</span>
-              <n-icon name="caret-up-down" slot="trailing"></n-icon>
-            </n-button>
+          <n-select name="size" placeholder="T-Shirt size">
             <n-listbox popover>
               <n-option value="xs">Extra Small</n-option>
               <n-option value="sm">Small</n-option>
@@ -462,11 +359,7 @@
       </form>
       <div class="log" id="form-log"></div>
     <pre class="demo-code"><code>&lt;form&gt;
-  &lt;n-select name="color"&gt;
-    &lt;n-button justify="spread"&gt;
-      &lt;span slot="label"&gt;Favorite color&lt;/span&gt;
-      &lt;n-icon name="caret-up-down" slot="trailing"&gt;&lt;/n-icon&gt;
-    &lt;/n-button&gt;
+  &lt;n-select name="color" placeholder="Favorite color"&gt;
     &lt;n-listbox popover&gt;
       &lt;n-option value="red"&gt;Red&lt;/n-option&gt;
       &lt;n-option value="blue"&gt;Blue&lt;/n-option&gt;
@@ -558,16 +451,17 @@
         <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
         <tbody>
           <tr><td><code>value</code></td><td><code>string</code></td><td>—</td><td>Currently selected value. Reflects to attribute.</td></tr>
-          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables interaction. Cascades to trigger button and closes popover.</td></tr>
+          <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables interaction.</td></tr>
           <tr><td><code>required</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Marks as required for form validation.</td></tr>
           <tr><td><code>name</code></td><td><code>string</code></td><td>—</td><td>Form field name.</td></tr>
+          <tr><td><code>placeholder</code></td><td><code>string</code></td><td>—</td><td>Placeholder text when no value is selected.</td></tr>
           <tr><td><code>options</code></td><td><code>string (JSON)</code></td><td>—</td><td>JSON array of <code>{ value, label }</code> objects. Activates data-driven mode.</td></tr>
           <tr><td><code>src</code></td><td><code>string (URL)</code></td><td>—</td><td>URL to fetch options from. Activates data-driven mode.</td></tr>
-          <tr><td><code>placeholder</code></td><td><code>string</code></td><td>—</td><td>Placeholder text when no value is selected (data-driven mode only).</td></tr>
-          <tr><td><code>intent</code></td><td><code>"neutral" | "accent" | "info" | "success" | "warning" | "danger"</code></td><td>inherited</td><td>Color intent. CSS-only, cascades from parent.</td></tr>
-          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale. CSS-only, cascades from parent.</td></tr>
-          <tr><td><code>density</code></td><td><code>"compact" | "default" | "loose"</code></td><td>inherited</td><td>Inline padding density. CSS-only, cascades from parent.</td></tr>
-          <tr><td><code>radius</code></td><td><code>"sharp" | "default" | "round"</code></td><td>inherited</td><td>Border radius. CSS-only, cascades from parent.</td></tr>
+          <tr><td><code>variant</code></td><td><code>"primary" | "secondary" | "default" | "ghost"</code></td><td>inherited</td><td>Button variant (applied directly to the select).</td></tr>
+          <tr><td><code>intent</code></td><td><code>"neutral" | "accent" | "info" | "success" | "warning" | "danger"</code></td><td>inherited</td><td>Color intent.</td></tr>
+          <tr><td><code>size</code></td><td><code>"xs" | "sm" | "md" | "lg" | "xl"</code></td><td>inherited</td><td>Size scale.</td></tr>
+          <tr><td><code>density</code></td><td><code>"compact" | "default" | "loose"</code></td><td>inherited</td><td>Inline padding density.</td></tr>
+          <tr><td><code>radius</code></td><td><code>"sharp" | "default" | "round"</code></td><td>inherited</td><td>Border radius.</td></tr>
         </tbody>
       </table>
     </div>
@@ -602,10 +496,10 @@
       <table class="api-table">
         <thead><tr><th>Property</th><th>Value</th></tr></thead>
         <tbody>
-          <tr><td>Pattern</td><td>Coordinator — <code>display: contents</code>, no visual presence. Wires ARIA + events between trigger button and popover listbox.</td></tr>
-          <tr><td>Trigger ARIA</td><td><code>aria-haspopup="listbox"</code>, <code>aria-controls</code>, <code>aria-expanded</code></td></tr>
+          <tr><td>Pattern</td><td>The select element IS the trigger button. Receives button visual styling via CSS.</td></tr>
+          <tr><td>ARIA</td><td><code>aria-haspopup="listbox"</code>, <code>aria-controls</code>, <code>aria-expanded</code> on the select itself.</td></tr>
           <tr><td>Form associated</td><td>Yes — participates in form submission, validation, reset, and restore.</td></tr>
-          <tr><td>Focus</td><td>Focus lives on the trigger <code>&lt;n-button&gt;</code> child.</td></tr>
+          <tr><td>Focus</td><td>Focus lives on the <code>&lt;n-select&gt;</code> element directly (tabindex="0").</td></tr>
         </tbody>
       </table>
     </div>
@@ -614,7 +508,7 @@
 
     </section>
 
-  
+
 
     </main></native-dashboard-spa>
     <script type="module" src="./select.demo.ts"></script>

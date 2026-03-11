@@ -53,6 +53,8 @@ interface DragState {
   fromId: string;
   pointerId: number;
   sourceDot: HTMLElement;
+  /** Set when reconnecting an existing connection (detached at drag start) */
+  reconnectId?: string;
 }
 
 const NS = 'http://www.w3.org/2000/svg';
@@ -86,6 +88,7 @@ export class NoodleController {
   #mutationObserver: MutationObserver | null = null;
   #rafId = 0;
   #updateQueued = false;
+  #suppressObserver = false;
   #styleEl: HTMLStyleElement | null = null;
 
   constructor(host: HTMLElement, options: NoodleOptions = {}) {
@@ -231,10 +234,11 @@ export class NoodleController {
     this.#renderAllPaths();
   }
 
-  /** Force re-render all paths. Call after programmatic element moves. */
+  /** Force re-render all paths and rebuild port indicators.
+   *  Call after programmatic element moves or when the set of port elements changes. */
   update(): void {
     this.#renderAllPaths();
-    if (this.showPorts) this.#positionPortIndicators();
+    if (this.showPorts) this.#createPortIndicators();
   }
 
   // ── SVG overlay ──
@@ -274,21 +278,52 @@ export class NoodleController {
     this.#styleEl = null;
   }
 
+  // ── Coordinate helpers ──
+
+  /** Convert client (screen) coordinates to the host's layout coordinate space,
+   *  accounting for CSS transforms (zoom/pan) on the host or its ancestors. */
+  #clientToLocal(clientX: number, clientY: number): { x: number; y: number } {
+    const hostRect = this.host.getBoundingClientRect();
+    // Detect transform scale by comparing visual size to layout size
+    const scaleX = hostRect.width / (this.host.clientWidth || 1);
+    const scaleY = hostRect.height / (this.host.clientHeight || 1);
+    return {
+      x: (clientX - hostRect.left) / scaleX,
+      y: (clientY - hostRect.top) / scaleY,
+    };
+  }
+
   // ── Path computation ──
 
   #getPortPosition(elementId: string, port: PortSide): { x: number; y: number } | null {
-    const el = this.host.querySelector(`#${CSS.escape(elementId)}`);
+    const el = this.host.querySelector(`#${CSS.escape(elementId)}`) as HTMLElement | null;
     if (!el) return null;
-    const hostRect = this.host.getBoundingClientRect();
-    const elRect = el.getBoundingClientRect();
-    const relLeft = elRect.left - hostRect.left;
-    const relTop = elRect.top - hostRect.top;
+
+    // Use offset-based positioning instead of getBoundingClientRect —
+    // ports and SVG paths are positioned in the host's layout coordinate space,
+    // which must ignore CSS transforms on ancestor elements (e.g. zoom/pan).
+    let x = 0, y = 0;
+    let current: HTMLElement | null = el;
+    while (current && current !== this.host) {
+      x += current.offsetLeft;
+      y += current.offsetTop;
+      // Account for inline translate (e.g. MagnetController drag)
+      const translate = current.style.translate;
+      if (translate) {
+        const parts = translate.match(/-?[\d.]+/g);
+        if (parts) { x += parseFloat(parts[0]) || 0; y += parseFloat(parts[1]) || 0; }
+      }
+      current = current.offsetParent as HTMLElement | null;
+    }
+
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
 
     switch (port) {
-      case 'top':    return { x: relLeft + elRect.width / 2, y: relTop };
-      case 'right':  return { x: relLeft + elRect.width, y: relTop + elRect.height / 2 };
-      case 'bottom': return { x: relLeft + elRect.width / 2, y: relTop + elRect.height };
-      case 'left':   return { x: relLeft, y: relTop + elRect.height / 2 };
+      case 'top':    return { x: x + w / 2, y };
+      case 'right':  return { x: x + w, y: y + h / 2 };
+      case 'bottom': return { x: x + w / 2, y: y + h };
+      case 'left':   return { x, y: y + h / 2 };
     }
   }
 
@@ -329,6 +364,8 @@ export class NoodleController {
   #renderAllPaths(): void {
     if (!this.#pathGroup || !this.#hitGroup) return;
 
+    this.#suppressObserver = true;
+
     // Clear existing
     this.#pathGroup.textContent = '';
     this.#hitGroup.textContent = '';
@@ -350,23 +387,34 @@ export class NoodleController {
         hit.style.pointerEvents = 'stroke';
         hit.style.cursor = 'pointer';
         hit.dataset.noodleId = conn.id;
-        hit.addEventListener('click', this.#onPathClick);
+        hit.addEventListener('pointerdown', this.#onHitPointerDown);
         this.#hitGroup.appendChild(hit);
       }
 
       // Visible path
       const path = document.createElementNS(NS, 'path');
       path.setAttribute('d', d);
-      path.setAttribute('stroke', conn.color ?? this.color);
-      path.setAttribute('stroke-width', String(this.strokeWidth));
       path.setAttribute('fill', 'none');
       path.setAttribute('stroke-linecap', 'round');
-      if (this.animated) {
-        path.setAttribute('stroke-dasharray', '8 4');
-        path.style.animation = 'noodle-flow 0.6s linear infinite';
+
+      if (this.disabled) {
+        // Disabled: use muted ink for better contrast, dashed to convey inactive state
+        path.setAttribute('stroke', 'var(--n-ink-muted)');
+        path.setAttribute('stroke-width', String(this.strokeWidth));
+        path.setAttribute('stroke-dasharray', '6 4');
+        path.style.opacity = '0.6';
+      } else {
+        path.setAttribute('stroke', conn.color ?? this.color);
+        path.setAttribute('stroke-width', String(this.strokeWidth));
+        if (this.animated) {
+          path.setAttribute('stroke-dasharray', '8 4');
+          path.style.animation = 'noodle-flow 0.6s linear infinite';
+        }
       }
       this.#pathGroup.appendChild(path);
     }
+
+    this.#suppressObserver = false;
   }
 
   #queueUpdate(): void {
@@ -379,9 +427,21 @@ export class NoodleController {
     });
   }
 
+  /** Full update: recreate port indicators (for child list changes). */
+  #queueFullUpdate(): void {
+    if (this.#updateQueued) return;
+    this.#updateQueued = true;
+    this.#rafId = requestAnimationFrame(() => {
+      this.#updateQueued = false;
+      this.#renderAllPaths();
+      if (this.showPorts) this.#createPortIndicators();
+    });
+  }
+
   // ── Port indicators (edit mode) ──
 
   #createPortIndicators(): void {
+    this.#suppressObserver = true;
     this.#removePortIndicators();
     const portElements = this.host.querySelectorAll(this.selector);
     for (const el of portElements) {
@@ -401,6 +461,7 @@ export class NoodleController {
       }
     }
     this.#positionPortIndicators();
+    this.#suppressObserver = false;
   }
 
   #positionPortIndicators(): void {
@@ -460,14 +521,14 @@ export class NoodleController {
       portDot.setAttribute('data-noodle-droppable', '');
     }
 
-    // Create temporary dashed path
+    // Create temporary drag path — starts muted until near a valid port
     this.#dragPath = document.createElementNS(NS, 'path');
-    this.#dragPath.setAttribute('stroke', this.color);
+    this.#dragPath.setAttribute('stroke', 'var(--n-border-muted)');
     this.#dragPath.setAttribute('stroke-width', String(this.strokeWidth));
     this.#dragPath.setAttribute('fill', 'none');
     this.#dragPath.setAttribute('stroke-dasharray', '6 4');
     this.#dragPath.setAttribute('stroke-linecap', 'round');
-    this.#dragPath.style.opacity = '0.6';
+    this.#dragPath.style.opacity = '0.5';
     this.#pathGroup?.appendChild(this.#dragPath);
 
     this.host.dispatchEvent(new CustomEvent('native:noodle-drag', {
@@ -487,10 +548,8 @@ export class NoodleController {
     const p1 = this.#getPortPosition(state.fromId, state.fromPort);
     if (!p1) return;
 
-    // Pointer position relative to host
-    const hostRect = this.host.getBoundingClientRect();
-    const mx = e.clientX - hostRect.left;
-    const my = e.clientY - hostRect.top;
+    // Pointer position in host's layout coordinate space
+    const { x: mx, y: my } = this.#clientToLocal(e.clientX, e.clientY);
 
     // Compute bezier from port to pointer
     const dist = Math.max(Math.abs(mx - p1.x), Math.abs(my - p1.y));
@@ -564,7 +623,7 @@ export class NoodleController {
     return nearest;
   }
 
-  /** Toggle data-noodle-drop-ready on the nearest droppable port during drag. */
+  /** Toggle data-noodle-drop-ready on the nearest droppable port and update drag path color. */
   #updateDropReady(clientX: number, clientY: number): void {
     const nearest = this.#findNearestPort(clientX, clientY);
 
@@ -575,15 +634,125 @@ export class NoodleController {
         dot.removeAttribute('data-noodle-drop-ready');
       }
     }
+
+    // Color feedback on the drag path
+    if (nearest && this.#dragPath && this.#dragState) {
+      // Within snap zone → alive: solid accent, snap path to target port
+      this.#dragPath.setAttribute('stroke', this.color);
+      this.#dragPath.style.opacity = '1';
+      this.#dragPath.removeAttribute('stroke-dasharray');
+
+      const targetId = nearest.getAttribute('data-noodle-target')!;
+      const targetPort = nearest.getAttribute('data-noodle-side')! as PortSide;
+      const p2 = this.#getPortPosition(targetId, targetPort);
+      const p1 = this.#getPortPosition(this.#dragState.fromId, this.#dragState.fromPort);
+      if (p1 && p2) {
+        const dist = Math.max(Math.abs(p2.x - p1.x), Math.abs(p2.y - p1.y));
+        const offset = Math.max(50, dist * this.tension);
+        const [cx1, cy1] = this.#controlPoint(p1.x, p1.y, this.#dragState.fromPort, offset);
+        const [cx2, cy2] = this.#controlPoint(p2.x, p2.y, targetPort, offset);
+        this.#dragPath.setAttribute('d', `M ${p1.x} ${p1.y} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${p2.x} ${p2.y}`);
+      }
+    } else if (this.#dragPath) {
+      // Outside snap zone → muted dashed
+      this.#dragPath.setAttribute('stroke', 'var(--n-border-muted)');
+      this.#dragPath.style.opacity = '0.5';
+      this.#dragPath.setAttribute('stroke-dasharray', '6 4');
+    }
   }
 
-  // ── Click-to-delete ──
+  // ── Reconnect drag (grab existing noodle near endpoint) ──
 
-  #onPathClick = (e: MouseEvent): void => {
-    if (this.disabled || !this.editable) return;
+  #onHitPointerDown = (e: PointerEvent): void => {
+    if (this.disabled || !this.editable || e.button !== 0) return;
     const target = e.target as SVGPathElement;
-    const id = target.dataset.noodleId;
-    if (id) this.disconnect(id);
+    const connId = target.dataset.noodleId;
+    if (!connId) return;
+    const conn = this.#connections.get(connId);
+    if (!conn) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Determine which endpoint is closer to the pointer
+    const p1 = this.#getPortPosition(conn.from, conn.fromPort);
+    const p2 = this.#getPortPosition(conn.to, conn.toPort);
+    if (!p1 || !p2) return;
+
+    const { x: pointerX, y: pointerY } = this.#clientToLocal(e.clientX, e.clientY);
+
+    const distFrom = Math.hypot(pointerX - p1.x, pointerY - p1.y);
+    const distTo = Math.hypot(pointerX - p2.x, pointerY - p2.y);
+
+    // Anchor at the farther endpoint, detach the closer one
+    const anchorId = distFrom < distTo ? conn.to : conn.from;
+    const anchorPort = distFrom < distTo ? conn.toPort : conn.fromPort;
+
+    // Remove the connection (fires native:noodle-disconnect)
+    this.disconnect(connId);
+
+    // Find the anchor port's indicator dot
+    const anchorDot = this.#portElements.find(
+      d => d.getAttribute('data-noodle-target') === anchorId &&
+           d.getAttribute('data-noodle-side') === anchorPort
+    );
+    if (!anchorDot) return;
+
+    const el = this.host.querySelector(`#${CSS.escape(anchorId)}`);
+    if (!el) return;
+
+    anchorDot.setPointerCapture(e.pointerId);
+
+    this.#dragState = {
+      fromElement: el as HTMLElement,
+      fromPort: anchorPort,
+      fromId: anchorId,
+      pointerId: e.pointerId,
+      sourceDot: anchorDot,
+      reconnectId: connId,
+    };
+
+    // Mark source port as dragging
+    anchorDot.setAttribute('data-noodle-dragging', '');
+
+    // Mark all other ports as valid drop targets
+    for (const portDot of this.#portElements) {
+      if (portDot === anchorDot) continue;
+      const portTargetId = portDot.getAttribute('data-noodle-target')!;
+      const portSide = portDot.getAttribute('data-noodle-side')!;
+      if (portTargetId === anchorId && portSide === anchorPort) continue;
+      portDot.setAttribute('data-noodle-droppable', '');
+    }
+
+    // Create temporary drag path — starts muted
+    this.#dragPath = document.createElementNS(NS, 'path');
+    this.#dragPath.setAttribute('stroke', 'var(--n-border-muted)');
+    this.#dragPath.setAttribute('stroke-width', String(this.strokeWidth));
+    this.#dragPath.setAttribute('fill', 'none');
+    this.#dragPath.setAttribute('stroke-dasharray', '6 4');
+    this.#dragPath.setAttribute('stroke-linecap', 'round');
+    this.#dragPath.style.opacity = '0.5';
+
+    // Compute initial path from anchor to pointer so the drag is immediately visible
+    const anchorPos = this.#getPortPosition(anchorId, anchorPort);
+    const { x: mx, y: my } = this.#clientToLocal(e.clientX, e.clientY);
+    if (anchorPos) {
+      const dist = Math.max(Math.abs(mx - anchorPos.x), Math.abs(my - anchorPos.y));
+      const offset = Math.max(50, dist * this.tension);
+      const [cx1, cy1] = this.#controlPoint(anchorPos.x, anchorPos.y, anchorPort, offset);
+      this.#dragPath.setAttribute('d', `M ${anchorPos.x} ${anchorPos.y} C ${cx1} ${cy1}, ${mx} ${my}, ${mx} ${my}`);
+    }
+
+    this.#pathGroup?.appendChild(this.#dragPath);
+
+    this.host.dispatchEvent(new CustomEvent('native:noodle-drag', {
+      bubbles: true, composed: true,
+      detail: { from: anchorId, fromPort: anchorPort, x: e.clientX, y: e.clientY, reconnect: true },
+    }));
+
+    document.addEventListener('pointermove', this.#onPortPointerMove);
+    document.addEventListener('pointerup', this.#onPortPointerUp);
+    document.addEventListener('pointercancel', this.#onPortPointerCancel);
   };
 
   // ── Movement tracking ──
@@ -597,12 +766,21 @@ export class NoodleController {
     this.#resizeObserver = new ResizeObserver(() => this.#queueUpdate());
     this.#resizeObserver.observe(this.host);
 
-    // MutationObserver for style changes on children (drag-based movement)
-    this.#mutationObserver = new MutationObserver(() => this.#queueUpdate());
+    // MutationObserver for style changes (drag-based movement) + child list changes (dataset load)
+    this.#mutationObserver = new MutationObserver((mutations) => {
+      if (this.#suppressObserver) return;
+      const hasChildListChange = mutations.some(m => m.type === 'childList');
+      if (hasChildListChange) {
+        this.#queueFullUpdate(); // Recreate port indicators for new/removed elements
+      } else {
+        this.#queueUpdate(); // Just reposition existing indicators
+      }
+    });
     this.#mutationObserver.observe(this.host, {
+      childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['style', 'class', 'translate'],
+      attributeFilter: ['style', 'class', 'translate', 'data-noodle-port'],
     });
   }
 

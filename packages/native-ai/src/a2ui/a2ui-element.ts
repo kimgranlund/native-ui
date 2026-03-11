@@ -754,15 +754,12 @@ export class NA2UI extends NativeElement {
     header.setAttribute('variant', 'ghost');
 
     // Preset select (leading slot) — manual mode with grouped options
+    // WHY: n-select IS the trigger — no child n-button needed.
+    // Placeholder text becomes the label; caret icon is auto-stamped.
     const presetSelect = document.createElement('n-select');
     presetSelect.setAttribute('size', 'sm');
     presetSelect.setAttribute('inline', '');
-    /* slot removed — semantic header uses flow layout */
-
-    const trigger = document.createElement('n-button');
-    trigger.setAttribute('justify', 'spread');
-    trigger.innerHTML = '<span slot="label">Presets</span><n-icon name="caret-up-down" slot="trailing"></n-icon>';
-    presetSelect.appendChild(trigger);
+    presetSelect.setAttribute('placeholder', 'Presets');
 
     const listbox = document.createElement('n-listbox');
     listbox.setAttribute('popover', '');

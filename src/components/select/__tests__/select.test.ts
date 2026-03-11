@@ -1,9 +1,9 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import '../select.ts';
-import '../../button/button.ts';
 import '../../listbox/listbox.ts';
 import '../../listbox/option.ts';
+
 import { SelectController } from '../controller/select-controller.ts';
 
 // ── SelectController standalone tests ──
@@ -53,20 +53,14 @@ describe('SelectController', () => {
 
 // ── Element tests ──
 
+/** Create a manual-mode select: n-select with a child n-listbox. */
 function createManual(opts: { value?: string; disabled?: boolean } = {}): HTMLElement {
   const el = document.createElement('n-select');
   if (opts.disabled) el.setAttribute('disabled', '');
   if (opts.value) el.setAttribute('value', opts.value);
 
-  // Manual mode: author writes children
-  const button = document.createElement('n-button');
-  button.setAttribute('justify', 'spread');
-  const labelSpan = document.createElement('span');
-  labelSpan.setAttribute('slot', 'label');
-  labelSpan.textContent = 'Pick';
-  button.appendChild(labelSpan);
-  el.appendChild(button);
-
+  // WHY: Manual mode — author provides a listbox with options.
+  // n-select stamps its own label/icon chrome automatically.
   const listbox = document.createElement('n-listbox');
   listbox.setAttribute('popover', 'manual');
 
@@ -106,13 +100,24 @@ describe('n-select', () => {
     expect((el as any).value).toBeNull();
   });
 
-  it('trigger has aria-haspopup="listbox" and aria-expanded="false" initially', () => {
+  it('select itself has aria-haspopup="listbox" and aria-expanded="false"', () => {
     const el = createManual();
-    const trigger = el.querySelector('n-button')!;
-    // ARIA: trigger button announces listbox popup
-    expect(trigger.getAttribute('aria-haspopup')).toBe('listbox');
-    // ARIA: starts closed
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    expect(el.getAttribute('aria-haspopup')).toBe('listbox');
+    expect(el.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('sets justify="spread" by default', () => {
+    const el = createManual();
+    expect(el.getAttribute('justify')).toBe('spread');
+  });
+
+  it('stamps label and caret chrome into itself', () => {
+    const el = createManual();
+    const label = el.querySelector(':scope > [slot="label"]');
+    const trailing = el.querySelector(':scope > [slot="trailing"]');
+    expect(label).not.toBeNull();
+    expect(trailing).not.toBeNull();
+    expect(trailing?.tagName.toLowerCase()).toBe('n-icon');
   });
 
   it('sets value from attribute on setup', () => {
@@ -124,11 +129,7 @@ describe('n-select', () => {
     const el = createManual();
     (el as any).disabled = true;
     expect(el.hasAttribute('disabled')).toBe(true);
-    // ARIA: disabled select sets aria-disabled
     expect(el.getAttribute('aria-disabled')).toBe('true');
-    // ARIA: disabled cascades to trigger button
-    const trigger = el.querySelector('n-button')!;
-    expect(trigger.hasAttribute('disabled')).toBe(true);
     (el as any).disabled = false;
     expect(el.hasAttribute('disabled')).toBe(false);
     expect(el.hasAttribute('aria-disabled')).toBe(false);
@@ -157,7 +158,6 @@ describe('n-select', () => {
     const handler = vi.fn();
     el.addEventListener('native:change', handler);
 
-    // Simulate option click dispatching native:select
     const opt = el.querySelector('n-option[value="us"]')!;
     opt.dispatchEvent(new CustomEvent('native:select', {
       bubbles: true,
@@ -179,7 +179,6 @@ describe('n-select', () => {
     }));
 
     expect((el as any).value).toBe('gb');
-    // ARIA: selected option has aria-selected="true", others "false"
     expect(opt.getAttribute('aria-selected')).toBe('true');
     const otherOpt = el.querySelector('n-option[value="us"]')!;
     expect(otherOpt.getAttribute('aria-selected')).toBe('false');
@@ -188,10 +187,8 @@ describe('n-select', () => {
   it('stops internal native:change from listbox', () => {
     const el = createManual();
     const externalHandler = vi.fn();
-    // Add external listener AFTER setup (which adds the stop listener)
     el.addEventListener('native:change', externalHandler);
 
-    // Simulate a native:change from the listbox (target !== el)
     const listbox = el.querySelector('n-listbox')!;
     const internalEvent = new CustomEvent('native:change', {
       bubbles: true,
@@ -200,7 +197,6 @@ describe('n-select', () => {
     });
     listbox.dispatchEvent(internalEvent);
 
-    // Should be stopped by stopImmediatePropagation
     expect(externalHandler).not.toHaveBeenCalled();
   });
 
@@ -252,12 +248,24 @@ function createDataDriven(opts: { placeholder?: string; options?: string } = {})
 }
 
 describe('n-select data-driven mode', () => {
-  it('stamps trigger button and listbox', () => {
+  it('stamps listbox as child', () => {
+    const el = createDataDriven();
+    const listbox = el.querySelector('n-listbox');
+    expect(listbox).not.toBeNull();
+  });
+
+  it('does not stamp a child n-button', () => {
     const el = createDataDriven();
     const button = el.querySelector('n-button');
-    const listbox = el.querySelector('n-listbox');
-    expect(button).not.toBeNull();
-    expect(listbox).not.toBeNull();
+    expect(button).toBeNull();
+  });
+
+  it('stamps label and caret chrome', () => {
+    const el = createDataDriven();
+    const label = el.querySelector(':scope > [slot="label"]');
+    const trailing = el.querySelector(':scope > [slot="trailing"]');
+    expect(label).not.toBeNull();
+    expect(trailing).not.toBeNull();
   });
 
   it('stamps options from JSON attribute', () => {
@@ -268,16 +276,15 @@ describe('n-select data-driven mode', () => {
     expect(options[0].textContent).toBe('United States');
   });
 
-  it('sets placeholder on trigger label', () => {
+  it('sets placeholder on label', () => {
     const el = createDataDriven({ placeholder: 'Choose...' });
     const labelEl = el.querySelector('[slot="label"]');
     expect(labelEl?.textContent).toBe('Choose...');
   });
 
-  it('adds justify="spread" on trigger button', () => {
+  it('sets justify="spread" on self', () => {
     const el = createDataDriven();
-    const button = el.querySelector('n-button');
-    expect(button?.getAttribute('justify')).toBe('spread');
+    expect(el.getAttribute('justify')).toBe('spread');
   });
 
   it('options property setter updates attribute and re-renders', () => {

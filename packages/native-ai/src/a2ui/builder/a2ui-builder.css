@@ -222,12 +222,30 @@ main {
 .builder n-pane[data-panel="preview"] > n-body {
   background: var(--n-body);
   font-family: inherit;
+  overflow: auto;
+  scrollbar-width: none;
+  cursor: grab;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.builder n-pane[data-panel="preview"] > n-body[data-panning] {
+  cursor: grabbing;
+  user-select: none;
+}
+
+#preview-canvas {
+  display: flex;
   align-items: center;
   justify-content: center;
+  min-width: max(100%, 60rem);
+  min-height: max(100%, 60rem);
+  padding: 4rem;
 }
 
 #preview-mount {
   min-width: 18rem;
+  cursor: default;
 }
 
 /* ── Insights pane ── */

@@ -1,18 +1,18 @@
 @layer ui {
 
-  :where(n-select):not(:defined) { visibility: hidden; }
-
-  /* ── Coordinator — no visual presence ── */
+  /* ── Select Defaults ──
+     WHY: n-select IS the trigger button (inherits button base from button.css).
+     Default to spread justify and overflow visible for popover children. */
 
   :where(n-select) {
-    white-space: nowrap;
-    display: contents;
+    position: relative;
+    overflow: visible;
   }
 
-  /* ── Popover Listbox Positioning ──
-     WHY: Must come after n-listbox.css base rule (which sets min-width: 0
-     for flex-child shrinking) so min-width: anchor-size(inline) wins by
-     source order — both are zero-specificity via :where(). */
+  /* ── Popover Listbox — hidden in grid, positioned when open ──
+     WHY: n-listbox[popover] is a direct child but has display:none when closed
+     (UA popover style). When open it moves to the top layer and is positioned
+     via CSS anchor relative to the select trigger. */
 
   :where(n-select) > :where(n-listbox[popover]) {
     position: fixed;

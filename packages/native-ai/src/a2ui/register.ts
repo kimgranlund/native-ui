@@ -8,7 +8,7 @@
  *   import '@nonoun/native-ai/register';
  */
 
-import { define, NButton, NIcon, NToolbar, NSelect, NListbox, NOption, NOptionGroup, NOptionGroupHeader, NSegmentedControl, NSegment, registerIcon } from '@nonoun/native-ui';
+import { define, NButton, NIcon, NToolbar, NSelect, NListbox, NOption, NOptionGroup, NOptionGroupHeader, NSegmentedControl, NSegment, NPane, registerIcon } from '@nonoun/native-ui';
 import { NA2UI } from './a2ui-element.ts';
 
 // ── A2UI workbench ──
@@ -27,6 +27,7 @@ define('n-option-group', NOptionGroup);
 define('n-option-group-header', NOptionGroupHeader);
 define('n-segmented-control', NSegmentedControl);
 define('n-segment', NSegment);
+define('n-pane', NPane);
 
 // ── Icons used by the workbench toolbar ──
 registerIcon('caret-left', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"/></svg>');

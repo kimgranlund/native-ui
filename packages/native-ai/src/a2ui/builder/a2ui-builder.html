@@ -43,8 +43,7 @@
               <n-chat-input-advanced id="chat-composer">
                 <n-chat-input-header>
                   <nav>
-                    <n-select id="model-picker" value="claude-haiku-4-5" data-role="model-picker">
-                      <n-button variant="ghost" inline size="sm" density="compact"><span slot="label">Claude Haiku 4.5</span> <n-icon name="caret-up-down" slot="trailing"></n-icon></n-button>
+                    <n-select id="model-picker" value="claude-haiku-4-5" data-role="model-picker" variant="ghost" inline size="sm" density="compact">
                       <n-listbox popover>
                         <n-option value="claude-haiku-4-5" selected>Claude Haiku 4.5</n-option>
                         <n-option value="gpt-5-mini">GPT-5 mini</n-option>
@@ -91,13 +90,16 @@
               <nav><n-icon inline name="eye"></n-icon></nav>
               <span>Preview</span>
               <aside>
+                <n-button variant="ghost" inline size="sm" id="inspect-toggle" title="CSS Inspector"><n-icon name="stack-simple"></n-icon></n-button>
                 <n-button variant="ghost" inline size="sm" id="lightbox-toggle" title="Toggle light/dark preview"><n-icon name="moon"></n-icon></n-button>
                 <n-button variant="ghost" inline size="sm" data-close-panel="preview"><n-icon name="x"></n-icon></n-button>
               </aside>
             </n-header>
             <n-body>
-              <div id="preview-mount">
-                <span class="empty-state">Live preview will appear here</span>
+              <div id="preview-canvas">
+                <div id="preview-mount">
+                  <span class="empty-state">Live preview will appear here</span>
+                </div>
               </div>
             </n-body>
             <div class="resize-handle"></div>

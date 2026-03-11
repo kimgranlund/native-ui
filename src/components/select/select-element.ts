@@ -3,6 +3,7 @@ import { NativeElement } from '../../core/native-element.ts';
 import { uid } from '../../core/uid.ts';
 import { createDisabledEffect } from '../../core/effects.ts';
 import { FormAssociable } from '../../core/form-associable.ts';
+import { PressController } from '../../traits/press/press-controller.ts';
 import { PopoverController } from '../../traits/popover/popover-controller.ts';
 import { parseDataOptions, fetchDataOptions } from '../../core/data-options.ts';
 import type { BaseOption } from '../../core/data-options.ts';
@@ -12,7 +13,8 @@ import type { NListbox } from '../listbox/listbox-element.ts';
 export type SelectOption = BaseOption;
 
 /**
- * Select dropdown coordinator wiring a trigger button to a popover listbox.
+ * Select dropdown — the element IS the trigger button.
+ * Stamps its own label + caret chrome. Children are options or a popover listbox.
  * @attr {string} value - Currently selected value
  * @attr {boolean} disabled - Disables interaction
  * @attr {string} name - Form field name
@@ -29,15 +31,15 @@ export class NSelect extends FormAssociable(NativeElement) {
   #disabled = signal(false);
   #required = signal(false);
   #popover!: PopoverController;
+  #press!: PressController;
 
   // ── Data-driven state ──
   #options = signal<SelectOption[]>([]);
   #src = signal<string | null>(null);
   #placeholder = signal<string>('');
-  #dataMode = false;
   #fetchController: AbortController | null = null;
   #listbox: (HTMLElement & NListbox) | null = null;
-  #trigger: HTMLElement | null = null;
+  #labelEl: HTMLElement | null = null;
   #initialValue: string | null = null;
   #initialLabel = '';
 
@@ -61,8 +63,7 @@ export class NSelect extends FormAssociable(NativeElement) {
       this.#controller.reset();
       return;
     }
-    // WHY: Find the label from the matching option
-    const opt = this.querySelector(`n-option[value="${CSS.escape(val)}"]`);
+    const opt = this.#listbox?.querySelector(`n-option[value="${CSS.escape(val)}"]`);
     const label = opt?.getAttribute('label') ?? opt?.textContent?.trim() ?? val;
     this.#controller.select(val, label);
   }
@@ -84,8 +85,6 @@ export class NSelect extends FormAssociable(NativeElement) {
     this.toggleAttribute('disabled', val);
   }
 
-  // ── Required ──
-
   get required(): boolean { return this.#required.value; }
   set required(val: boolean) {
     this.#required.value = val;
@@ -99,9 +98,6 @@ export class NSelect extends FormAssociable(NativeElement) {
   set options(val: SelectOption[]) {
     this.#options.value = val;
     this.setAttribute('options', JSON.stringify(val));
-    // WHY: If data mode wasn't active at setup() time, activate it now.
-    // This enables setting options via JS property on a manually-authored element.
-    if (!this.#dataMode && this.isConnected) this.#activateDataMode();
   }
 
   get src(): string | null {
@@ -124,29 +120,7 @@ export class NSelect extends FormAssociable(NativeElement) {
     else this.removeAttribute('placeholder');
   }
 
-  // ── Data-driven helpers ──
-
-  #activateDataMode(): void {
-    if (this.#dataMode) return;
-    this.#dataMode = true;
-    this.#stampDOM();
-    this.#listbox = this.querySelector<HTMLElement & NListbox>(':scope > n-listbox[popover]');
-    this.#trigger = this.querySelector<HTMLElement>(':scope > n-button');
-
-    if (this.#trigger && this.#listbox) {
-      this.#popover.wirePopover(this.#trigger, this.#listbox);
-      this.#trigger.setAttribute('aria-haspopup', 'listbox');
-      if (!this.#listbox.id) this.#listbox.id = uid('lb');
-      this.#trigger.setAttribute('aria-controls', this.#listbox.id);
-      this.#trigger.addEventListener('native:press', this.#onTriggerPress);
-      this.#trigger.addEventListener('keydown', this.#onTriggerKeydown);
-    }
-
-    this.addEffect(() => {
-      const opts = this.#options.value;
-      this.#renderOptions(opts);
-    });
-  }
+  // ── Internal helpers ──
 
   #parseOptions(json: string): SelectOption[] {
     return parseDataOptions<SelectOption>(json, 'n-select');
@@ -158,24 +132,25 @@ export class NSelect extends FormAssociable(NativeElement) {
     );
   }
 
-  // WHY: Stamps the trigger button + listbox shell that data-driven mode needs
-  #stampDOM(): void {
-    const button = document.createElement('n-button');
-    button.setAttribute('justify', 'spread');
+  /** Stamps the label span + caret icon chrome directly into the select. */
+  #stampChrome(): void {
     const labelSpan = document.createElement('span');
     labelSpan.setAttribute('slot', 'label');
     labelSpan.textContent = this.#placeholder.value || '\u00A0';
-    button.appendChild(labelSpan);
+    this.#labelEl = labelSpan;
 
     const icon = document.createElement('n-icon');
     icon.setAttribute('name', 'caret-up-down');
     icon.setAttribute('slot', 'trailing');
-    button.appendChild(icon);
 
+    // WHY: Prepend chrome so it appears before listbox child in DOM order
+    this.prepend(labelSpan, icon);
+  }
+
+  /** Stamps the listbox + options for data-driven mode. */
+  #stampListbox(): void {
     const listbox = document.createElement('n-listbox');
     listbox.setAttribute('popover', 'manual');
-
-    this.appendChild(button);
     this.appendChild(listbox);
   }
 
@@ -183,7 +158,6 @@ export class NSelect extends FormAssociable(NativeElement) {
     const listbox = this.#listbox;
     if (!listbox) return;
 
-    // WHY: Clear existing options but keep the listbox shell
     while (listbox.firstChild) listbox.removeChild(listbox.firstChild);
 
     for (const opt of opts) {
@@ -203,7 +177,7 @@ export class NSelect extends FormAssociable(NativeElement) {
     switch (name) {
       case 'value':
         if (val !== null) {
-          const opt = this.querySelector(`n-option[value="${CSS.escape(val)}"]`);
+          const opt = this.#listbox?.querySelector(`n-option[value="${CSS.escape(val)}"]`);
           const label = opt?.getAttribute('label') ?? opt?.textContent?.trim() ?? val;
           this.#controller.select(val, label);
         } else {
@@ -236,84 +210,83 @@ export class NSelect extends FormAssociable(NativeElement) {
     super.setup();
     this.#popover = new PopoverController(this);
 
-    // WHY: Detect data-driven mode — if options or src is present, stamp our own children.
-    // Also activate when there are zero children (zero-config: bare <n-select></n-select> must render).
-    this.#dataMode = this.hasAttribute('options') || this.hasAttribute('src') || this.children.length === 0;
+    // WHY: Select IS the trigger button — set justify and tabindex on self
+    if (!this.hasAttribute('justify')) this.setAttribute('justify', 'spread');
+    if (!this.hasAttribute('tabindex')) this.setAttribute('tabindex', '0');
 
-    if (this.#dataMode) {
-      // Seed signals from attributes before stamping
-      const optionsAttr = this.getAttribute('options');
-      if (optionsAttr) this.#options.value = this.#parseOptions(optionsAttr);
-      this.#src.value = this.getAttribute('src');
-      this.#placeholder.value = this.getAttribute('placeholder') ?? '';
+    // Seed signals from attributes before stamping
+    const optionsAttr = this.getAttribute('options');
+    if (optionsAttr) this.#options.value = this.#parseOptions(optionsAttr);
+    this.#src.value = this.getAttribute('src');
+    this.#placeholder.value = this.getAttribute('placeholder') ?? '';
 
-      // WHY: Synchronous DOM stamp so querySelector below finds trigger + listbox
-      this.#stampDOM();
+    // WHY: Detect data mode — stamp listbox when options/src is present or no listbox child exists
+    const hasDataAttr = this.hasAttribute('options') || this.hasAttribute('src');
+    const existingListbox = this.querySelector<HTMLElement & NListbox>(':scope > n-listbox[popover]');
+
+    if (hasDataAttr && !existingListbox) {
+      this.#stampListbox();
     }
 
-    const trigger = this.querySelector<HTMLElement>(':scope > n-button');
-    this.#trigger = trigger;
-    const listbox = this.querySelector<HTMLElement & NListbox>(':scope > n-listbox[popover]');
-    this.#listbox = listbox;
-
-    if (__DEV__ && !this.#dataMode) {
-      if (!trigger) console.warn('[n-select] Manual mode requires a <n-button> child as the trigger. None found.');
-      if (!listbox) console.warn('[n-select] Manual mode requires a <n-listbox popover> child. None found.');
+    // WHY: Stamp label + caret chrome if no authored slot content exists.
+    // Authors can provide custom trigger content via [slot] attributes
+    // (e.g., icon-only triggers, custom label + icon combos).
+    const existingChrome = this.querySelector(':scope > [slot]:not(n-listbox)');
+    if (!existingChrome) {
+      this.#stampChrome();
+    } else {
+      this.#labelEl = this.querySelector(':scope > [slot="label"]') as HTMLElement;
     }
+
+    this.#listbox = this.querySelector<HTMLElement & NListbox>(':scope > n-listbox[popover]');
 
     // WHY: popover="manual" prevents native light-dismiss from conflicting with Dismissable trait
-    listbox?.setAttribute('popover', 'manual');
+    this.#listbox?.setAttribute('popover', 'manual');
 
-    // Wire anchor positioning
-    if (trigger && listbox) {
-      this.#popover.wirePopover(trigger, listbox);
+    // Wire anchor positioning — the select itself IS the anchor
+    if (this.#listbox) {
+      this.#popover.wirePopover(this, this.#listbox);
     }
 
-    // ARIA
-    trigger?.setAttribute('aria-haspopup', 'listbox');
-    if (trigger && listbox) {
-      if (!listbox.id) listbox.id = uid('lb');
-      trigger.setAttribute('aria-controls', listbox.id);
+    // ARIA on self
+    this.setAttribute('aria-haspopup', 'listbox');
+    if (this.#listbox) {
+      if (!this.#listbox.id) this.#listbox.id = uid('lb');
+      this.setAttribute('aria-controls', this.#listbox.id);
     }
 
-    // ── Data-mode-only effects (outside deferChildren — no child DOM dependency) ──
-    // WHY: These effects only read signals and operate on references captured above (#listbox,
-    // trigger). They must be registered outside deferChildren so they fire immediately when
-    // signals change, without waiting for the microtask that deferChildren introduces.
+    // PressController on self for click/keyboard activation
+    this.#press = new PressController(this, {
+      disabled: () => this.disabled,
+    });
 
-    if (this.#dataMode) {
-      // Effect: #options signal → re-render option list
-      // WHY: #renderOptions clears and re-stamps into #listbox — no child query needed
+    // ── Data-mode effects ──
+    if (hasDataAttr) {
       this.addEffect(() => {
         const opts = this.#options.value;
         this.#renderOptions(opts);
       });
 
-      // Effect: #src signal → fetch remote options
       this.addEffect(() => {
         const url = this.#src.value;
         if (url) this.#fetchOptions(url);
       });
 
-      // Effect: placeholder signal → trigger label when no value selected
-      // WHY: placeholder is only relevant in data-driven mode — in manual mode the trigger
-      // button's own slotted content is the author's responsibility and is not driven by
-      // the placeholder attribute. So this effect is intentionally data-mode-only.
+      // Effect: placeholder → label text when no value selected
       this.addEffect(() => {
         const placeholder = this.#placeholder.value;
         const label = this.#controller.label.value;
-        const labelEl = trigger?.querySelector('[slot="label"]');
-        if (labelEl && !label) {
-          labelEl.textContent = placeholder || '\u00A0';
+        if (this.#labelEl && !label) {
+          this.#labelEl.textContent = placeholder || '\u00A0';
         }
       });
     }
 
-    // Seed: read value attribute before effects (rule 5.9)
+    // Seed value and child-dependent effects
     this.deferChildren(() => {
       const initialValue = this.getAttribute('value');
       if (initialValue) {
-        const opt = this.querySelector(`n-option[value="${CSS.escape(initialValue)}"]`);
+        const opt = this.#listbox?.querySelector(`n-option[value="${CSS.escape(initialValue)}"]`);
         const label = opt?.getAttribute('label') ?? opt?.textContent?.trim() ?? initialValue;
         this.#controller.value.value = initialValue;
         this.#controller.label.value = label;
@@ -321,19 +294,18 @@ export class NSelect extends FormAssociable(NativeElement) {
         this.#initialLabel = label;
       }
 
-      // Effect: label → trigger text (show placeholder in data mode when empty)
+      // Effect: label → trigger text
       this.addEffect(() => {
         const label = this.#controller.label.value;
-        const labelEl = trigger?.querySelector('[slot="label"]');
-        if (labelEl) {
-          labelEl.textContent = label || (this.#dataMode ? this.#placeholder.value || '\u00A0' : labelEl.textContent ?? '');
+        if (this.#labelEl) {
+          this.#labelEl.textContent = label || this.#placeholder.value || '\u00A0';
         }
       });
 
       // Effect: sync selected state on options
       this.addEffect(() => {
         const val = this.#controller.value.value;
-        const options = listbox?.querySelectorAll<HTMLElement>('n-option') ?? [];
+        const options = this.#listbox?.querySelectorAll<HTMLElement>('n-option') ?? [];
         for (const opt of options) {
           const isSelected = opt.getAttribute('value') === val;
           opt.setAttribute('aria-selected', String(isSelected));
@@ -341,13 +313,10 @@ export class NSelect extends FormAssociable(NativeElement) {
       });
     });
 
-    // Effect: disabled → aria-disabled + attribute + cascade to trigger
-    this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals));
+    // Effect: disabled → aria-disabled + attribute
+    this.addEffect(createDisabledEffect(this, this.#disabled, this.#internals, { manageTabindex: true }));
     this.addEffect(() => {
       const val = this.#disabled.value;
-      if (trigger) trigger.toggleAttribute('disabled', val);
-      // WHY: Close popover when disabled to prevent stale open state
-      // WHY: peek() avoids tracking open signal — this effect should only re-run on disabled change
       if (val && this.#controller.open.peek()) this.#controller.hide();
     });
 
@@ -362,11 +331,11 @@ export class NSelect extends FormAssociable(NativeElement) {
       }
     });
 
-    // Effect: open → popover + dismissable + aria-expanded
+    // Effect: open → popover + aria-expanded on self
     this.addEffect(() => {
       const open = this.#controller.open.value;
       this.#popover.syncPopover(open);
-      trigger?.setAttribute('aria-expanded', String(open));
+      this.setAttribute('aria-expanded', String(open));
     });
 
     // Effect: value → form value + attribute reflection
@@ -377,12 +346,10 @@ export class NSelect extends FormAssociable(NativeElement) {
       else this.removeAttribute('value');
     });
 
-    // Event: trigger press → toggle
-    trigger?.addEventListener('native:press', this.#onTriggerPress);
+    // Event: press → toggle (PressController fires native:press on click/Enter/Space)
+    this.addEventListener('native:press', this.#onPress);
 
-    // WHY: Stop child native:change events (from n-listbox) from leaking out —
-    // the select fires its own canonical native:change on option selection.
-    // stopImmediatePropagation prevents same-element listeners from seeing child events too.
+    // WHY: Stop child native:change events (from n-listbox) from leaking out
     this.addEventListener('native:change', this.#onChildChange);
 
     // Event: option selected → commit
@@ -391,13 +358,13 @@ export class NSelect extends FormAssociable(NativeElement) {
     // Event: dismiss → close
     this.addEventListener('native:dismiss', this.#onDismiss);
 
-    // Keyboard on trigger: ArrowDown/Up opens and navigates
-    trigger?.addEventListener('keydown', this.#onTriggerKeydown);
+    // Keyboard: ArrowDown/Up opens and navigates
+    this.addEventListener('keydown', this.#onKeydown);
   }
 
-  // ── Event handlers (arrow properties for stable references) ──
+  // ── Event handlers ──
 
-  #onTriggerPress = (): void => {
+  #onPress = (): void => {
     if (this.#disabled.value) return;
     this.#controller.toggle();
   };
@@ -421,7 +388,7 @@ export class NSelect extends FormAssociable(NativeElement) {
     this.#controller.hide();
   };
 
-  #onTriggerKeydown = (e: KeyboardEvent): void => {
+  #onKeydown = (e: KeyboardEvent): void => {
     if (this.#disabled.value) return;
     const listbox = this.#listbox;
 
@@ -434,7 +401,6 @@ export class NSelect extends FormAssociable(NativeElement) {
           this.#controller.show();
         }
         if (ctrl) {
-          // WHY: Descendant selector (not >) so options inside n-option-group are included
           const items = listbox?.querySelectorAll<HTMLElement>(':scope n-option:not([disabled])');
           const count = items?.length ?? 0;
           ctrl.moveActive(e.key === 'ArrowDown' ? 1 : -1, count);
@@ -479,16 +445,16 @@ export class NSelect extends FormAssociable(NativeElement) {
   };
 
   teardown(): void {
-    // WHY: Remove listeners from child elements to prevent stacking on re-setup
-    this.#trigger?.removeEventListener('native:press', this.#onTriggerPress);
-    this.#trigger?.removeEventListener('keydown', this.#onTriggerKeydown);
+    this.removeEventListener('native:press', this.#onPress);
+    this.removeEventListener('keydown', this.#onKeydown);
     this.removeEventListener('native:change', this.#onChildChange);
     this.removeEventListener('native:select', this.#onOptionSelect);
     this.removeEventListener('native:dismiss', this.#onDismiss);
-    this.#trigger = null;
     this.#fetchController?.abort();
     this.#fetchController = null;
     this.#listbox = null;
+    this.#labelEl = null;
+    this.#press?.destroy();
     this.#popover?.destroy();
     super.teardown();
   }

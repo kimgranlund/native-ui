@@ -88,11 +88,19 @@
 ### Examples
 
 ```html
-<n-select value="banana">
-          <n-button justify="spread">
-            <span slot="label">Choose a fruit</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+<n-select placeholder="Choose a fruit">
+          <n-listbox popover>
+            <n-option value="apple">Apple</n-option>
+            <n-option value="banana">Banana</n-option>
+            <n-option value="cherry">Cherry</n-option>
+            <n-option value="grape">Grape</n-option>
+            <n-option value="orange">Orange</n-option>
+          </n-listbox>
+        </n-select>
+```
+
+```html
+<n-select value="banana" placeholder="Choose a fruit">
           <n-listbox popover>
             <n-option value="apple">Apple</n-option>
             <n-option value="banana">Banana</n-option>
@@ -102,24 +110,7 @@
 ```
 
 ```html
-<n-select size="xs">
-          <n-button justify="spread">
-            <span slot="label">Extra small</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
-          <n-listbox popover>
-            <n-option value="a">Option A</n-option>
-            <n-option value="b">Option B</n-option>
-          </n-listbox>
-        </n-select>
-```
-
-```html
-<n-select size="sm">
-          <n-button justify="spread">
-            <span slot="label">Small</span>
-            <n-icon name="caret-up-down" slot="trailing"></n-icon>
-          </n-button>
+<n-select size="xs" placeholder="Extra small">
           <n-listbox popover>
             <n-option value="a">Option A</n-option>
             <n-option value="b">Option B</n-option>

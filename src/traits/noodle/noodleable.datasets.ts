@@ -1,0 +1,560 @@
+import type { NoodleConnection } from './noodle-controller.ts';
+
+export interface FlowNodeData {
+  id: string;
+  label: string;
+  intent: 'accent' | 'info' | 'success' | 'warning' | 'danger';
+  ports: string;
+  x: number;
+  y: number;
+}
+
+export interface FlowDataset {
+  id: string;
+  name: string;
+  nodes: FlowNodeData[];
+  connections: NoodleConnection[];
+}
+
+// ── 1. Clinical Trial Pipeline ──
+
+const clinicalTrial: FlowDataset = {
+  id: 'clinical-trial',
+  name: 'Clinical Trial Pipeline',
+  nodes: [
+    { id: 'ct-protocol',     label: 'Protocol',              intent: 'accent',  ports: 'right top bottom',           x: 24,   y: 186 },
+    { id: 'ct-cohort',       label: 'Cohort Screening',      intent: 'info',    ports: 'left right top bottom',      x: 224,  y: 116 },
+    { id: 'ct-randomize',    label: 'Randomization Engine',  intent: 'info',    ports: 'left right top bottom',      x: 224,  y: 256 },
+    { id: 'ct-control',      label: 'Control Arm',           intent: 'warning', ports: 'left right top bottom',      x: 424,  y: 46 },
+    { id: 'ct-treat-a',      label: 'Treatment Arm A',       intent: 'warning', ports: 'left right top bottom',      x: 424,  y: 186 },
+    { id: 'ct-treat-b',      label: 'Treatment Arm B',       intent: 'warning', ports: 'left right top bottom',      x: 424,  y: 326 },
+    { id: 'ct-adverse',      label: 'Adverse Event Monitor', intent: 'danger',  ports: 'left right top bottom',      x: 624,  y: 46 },
+    { id: 'ct-primary',      label: 'Primary Endpoint',      intent: 'danger',  ports: 'left right top bottom',      x: 624,  y: 186 },
+    { id: 'ct-secondary',    label: 'Secondary Endpoint',    intent: 'danger',  ports: 'left right top bottom',      x: 624,  y: 326 },
+    { id: 'ct-interim',      label: 'Interim Analysis',      intent: 'success', ports: 'left right top bottom',      x: 824,  y: 116 },
+    { id: 'ct-dsmb',         label: 'DSMB Review',           intent: 'success', ports: 'left right top bottom',      x: 824,  y: 256 },
+    { id: 'ct-regulatory',   label: 'Regulatory Filing',     intent: 'accent',  ports: 'left right top bottom',      x: 1024, y: 116 },
+    { id: 'ct-publication',  label: 'Publication',           intent: 'accent',  ports: 'left top',                   x: 1024, y: 256 },
+  ],
+  connections: [
+    { id: 'ct-c1',  from: 'ct-protocol',  to: 'ct-cohort',     fromPort: 'right', toPort: 'left' },
+    { id: 'ct-c2',  from: 'ct-protocol',  to: 'ct-randomize',  fromPort: 'right', toPort: 'left' },
+    { id: 'ct-c3',  from: 'ct-cohort',    to: 'ct-randomize',  fromPort: 'right', toPort: 'left' },
+    { id: 'ct-c4',  from: 'ct-randomize', to: 'ct-control',    fromPort: 'right', toPort: 'left' },
+    { id: 'ct-c5',  from: 'ct-randomize', to: 'ct-treat-a',    fromPort: 'right', toPort: 'left' },
+    { id: 'ct-c6',  from: 'ct-randomize', to: 'ct-treat-b',    fromPort: 'right', toPort: 'left' },
+    { id: 'ct-c7',  from: 'ct-control',   to: 'ct-primary',    fromPort: 'right', toPort: 'left' },
+    { id: 'ct-c8',  from: 'ct-treat-a',   to: 'ct-primary',    fromPort: 'right', toPort: 'left' },
+    { id: 'ct-c9',  from: 'ct-treat-a',   to: 'ct-adverse',    fromPort: 'right', toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'ct-c10', from: 'ct-treat-b',   to: 'ct-adverse',    fromPort: 'right', toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'ct-c11', from: 'ct-treat-b',   to: 'ct-secondary',  fromPort: 'right', toPort: 'left' },
+    { id: 'ct-c12', from: 'ct-primary',   to: 'ct-interim',    fromPort: 'right', toPort: 'left' },
+    { id: 'ct-c13', from: 'ct-secondary', to: 'ct-interim',    fromPort: 'right', toPort: 'left' },
+    { id: 'ct-c14', from: 'ct-adverse',   to: 'ct-dsmb',       fromPort: 'right', toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'ct-c15', from: 'ct-interim',   to: 'ct-dsmb',       fromPort: 'right', toPort: 'left' },
+    { id: 'ct-c16', from: 'ct-dsmb',      to: 'ct-regulatory', fromPort: 'right', toPort: 'left' },
+    { id: 'ct-c17', from: 'ct-regulatory',to: 'ct-publication', fromPort: 'right', toPort: 'left' },
+  ],
+};
+
+// ── 2. Financial Risk Cascade ──
+
+const financialRisk: FlowDataset = {
+  id: 'financial-risk',
+  name: 'Financial Risk Cascade',
+  nodes: [
+    { id: 'fr-market',      label: 'Market Data Feed',      intent: 'accent',  ports: 'right bottom',               x: 24,  y: 116 },
+    { id: 'fr-fx',           label: 'FX Rate Engine',        intent: 'accent',  ports: 'right top',                  x: 24,  y: 256 },
+    { id: 'fr-interest',     label: 'Interest Rate Model',   intent: 'info',    ports: 'left right top bottom',      x: 240, y: 46 },
+    { id: 'fr-credit',       label: 'Credit Risk Model',     intent: 'info',    ports: 'left right top bottom',      x: 240, y: 186 },
+    { id: 'fr-var',          label: 'VaR Calculator',        intent: 'warning', ports: 'left right top bottom',      x: 456, y: 46 },
+    { id: 'fr-stress',       label: 'Stress Test Engine',    intent: 'warning', ports: 'left right top bottom',      x: 456, y: 186 },
+    { id: 'fr-liquidity',    label: 'Liquidity Monitor',     intent: 'warning', ports: 'left right top bottom',      x: 456, y: 326 },
+    { id: 'fr-compliance',   label: 'Compliance Gateway',    intent: 'danger',  ports: 'left right top bottom',      x: 672, y: 116 },
+    { id: 'fr-pnl',          label: 'P&L Attribution',       intent: 'danger',  ports: 'left right top bottom',      x: 672, y: 256 },
+    { id: 'fr-regulatory',   label: 'Regulatory Report',     intent: 'success', ports: 'left top bottom',            x: 888, y: 46 },
+    { id: 'fr-counterparty', label: 'Counterparty Exposure', intent: 'success', ports: 'left right top bottom',      x: 888, y: 186 },
+    { id: 'fr-margin',       label: 'Margin Call Engine',    intent: 'success', ports: 'left right top',             x: 888, y: 326 },
+  ],
+  connections: [
+    { id: 'fr-c1',  from: 'fr-market',      to: 'fr-interest',     fromPort: 'right', toPort: 'left' },
+    { id: 'fr-c2',  from: 'fr-market',      to: 'fr-credit',       fromPort: 'right', toPort: 'left' },
+    { id: 'fr-c3',  from: 'fr-fx',          to: 'fr-credit',       fromPort: 'right', toPort: 'left' },
+    { id: 'fr-c4',  from: 'fr-fx',          to: 'fr-var',          fromPort: 'right', toPort: 'left' },
+    { id: 'fr-c5',  from: 'fr-interest',    to: 'fr-var',          fromPort: 'right', toPort: 'left' },
+    { id: 'fr-c6',  from: 'fr-credit',      to: 'fr-stress',       fromPort: 'right', toPort: 'left' },
+    { id: 'fr-c7',  from: 'fr-var',         to: 'fr-compliance',   fromPort: 'right', toPort: 'left' },
+    { id: 'fr-c8',  from: 'fr-var',         to: 'fr-pnl',          fromPort: 'right', toPort: 'left' },
+    { id: 'fr-c9',  from: 'fr-stress',      to: 'fr-compliance',   fromPort: 'right', toPort: 'left' },
+    { id: 'fr-c10', from: 'fr-liquidity',   to: 'fr-compliance',   fromPort: 'right', toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'fr-c11', from: 'fr-compliance',  to: 'fr-regulatory',   fromPort: 'right', toPort: 'left' },
+    { id: 'fr-c12', from: 'fr-pnl',         to: 'fr-counterparty', fromPort: 'right', toPort: 'left' },
+    { id: 'fr-c13', from: 'fr-counterparty',to: 'fr-margin',       fromPort: 'right', toPort: 'left' },
+    { id: 'fr-c14', from: 'fr-margin',      to: 'fr-regulatory',   fromPort: 'right', toPort: 'left' },
+  ],
+};
+
+// ── 3. Supply Chain Network ──
+
+const supplyChain: FlowDataset = {
+  id: 'supply-chain',
+  name: 'Supply Chain Network',
+  nodes: [
+    { id: 'sc-raw',          label: 'Raw Material Supplier',  intent: 'accent',  ports: 'right bottom',               x: 24,  y: 46 },
+    { id: 'sc-comp-a',       label: 'Component Supplier A',   intent: 'accent',  ports: 'right top bottom',           x: 24,  y: 186 },
+    { id: 'sc-comp-b',       label: 'Component Supplier B',   intent: 'accent',  ports: 'right top',                  x: 24,  y: 326 },
+    { id: 'sc-assembly',     label: 'Assembly Line',          intent: 'info',    ports: 'left right top bottom',      x: 240, y: 186 },
+    { id: 'sc-qc',           label: 'Quality Control',        intent: 'warning', ports: 'left right top bottom',      x: 456, y: 116 },
+    { id: 'sc-inventory',    label: 'Inventory Buffer',       intent: 'warning', ports: 'left right top bottom',      x: 456, y: 256 },
+    { id: 'sc-hub-east',     label: 'Distribution Hub East',  intent: 'success', ports: 'left right top bottom',      x: 672, y: 116 },
+    { id: 'sc-hub-west',     label: 'Distribution Hub West',  intent: 'success', ports: 'left right top bottom',      x: 672, y: 256 },
+    { id: 'sc-retail',       label: 'Retail Fulfillment',     intent: 'danger',  ports: 'left right top bottom',      x: 888, y: 46 },
+    { id: 'sc-returns',      label: 'Returns Processing',     intent: 'danger',  ports: 'left right top bottom',      x: 888, y: 186 },
+    { id: 'sc-demand',       label: 'Demand Forecast',        intent: 'info',    ports: 'left right top bottom',      x: 888, y: 326 },
+    { id: 'sc-procurement',  label: 'Procurement Engine',     intent: 'info',    ports: 'left right top bottom',      x: 240, y: 396 },
+  ],
+  connections: [
+    { id: 'sc-c1',  from: 'sc-raw',         to: 'sc-assembly',    fromPort: 'right', toPort: 'left' },
+    { id: 'sc-c2',  from: 'sc-comp-a',      to: 'sc-assembly',    fromPort: 'right', toPort: 'left' },
+    { id: 'sc-c3',  from: 'sc-comp-b',      to: 'sc-assembly',    fromPort: 'right', toPort: 'left' },
+    { id: 'sc-c4',  from: 'sc-assembly',    to: 'sc-qc',          fromPort: 'right', toPort: 'left' },
+    { id: 'sc-c5',  from: 'sc-qc',          to: 'sc-inventory',   fromPort: 'right', toPort: 'left' },
+    { id: 'sc-c6',  from: 'sc-inventory',   to: 'sc-hub-east',    fromPort: 'right', toPort: 'left' },
+    { id: 'sc-c7',  from: 'sc-inventory',   to: 'sc-hub-west',    fromPort: 'right', toPort: 'left' },
+    { id: 'sc-c8',  from: 'sc-hub-east',    to: 'sc-retail',      fromPort: 'right', toPort: 'left' },
+    { id: 'sc-c9',  from: 'sc-hub-west',    to: 'sc-retail',      fromPort: 'right', toPort: 'left' },
+    { id: 'sc-c10', from: 'sc-retail',      to: 'sc-returns',     fromPort: 'right', toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'sc-c11', from: 'sc-returns',     to: 'sc-demand',      fromPort: 'right', toPort: 'left' },
+    { id: 'sc-c12', from: 'sc-demand',      to: 'sc-procurement', fromPort: 'left',  toPort: 'right', color: 'var(--n-color-warning-500)' },
+    { id: 'sc-c13', from: 'sc-procurement', to: 'sc-assembly',    fromPort: 'left',  toPort: 'left', color: 'var(--n-color-warning-500)' },
+  ],
+};
+
+// ── 4. Cyber Threat Intelligence ──
+
+const cyberThreat: FlowDataset = {
+  id: 'cyber-threat',
+  name: 'Cyber Threat Intelligence',
+  nodes: [
+    { id: 'cy-sensor',    label: 'Network Sensor',      intent: 'accent',  ports: 'right bottom',               x: 24,   y: 46 },
+    { id: 'cy-endpoint',  label: 'Endpoint Agent',      intent: 'accent',  ports: 'right top bottom',           x: 24,   y: 186 },
+    { id: 'cy-intel',     label: 'Threat Intel Feed',   intent: 'accent',  ports: 'right top',                  x: 24,   y: 326 },
+    { id: 'cy-siem',      label: 'SIEM Aggregator',     intent: 'info',    ports: 'left right top bottom',      x: 240,  y: 186 },
+    { id: 'cy-classify',  label: 'Threat Classifier',   intent: 'warning', ports: 'left right top bottom',      x: 456,  y: 116 },
+    { id: 'cy-ioc',       label: 'IOC Enrichment',      intent: 'warning', ports: 'left right top bottom',      x: 456,  y: 256 },
+    { id: 'cy-triage',    label: 'Triage Engine',       intent: 'danger',  ports: 'left right top bottom',      x: 672,  y: 186 },
+    { id: 'cy-incident',  label: 'Incident Response',   intent: 'danger',  ports: 'left right top bottom',      x: 888,  y: 116 },
+    { id: 'cy-contain',   label: 'Containment Action',  intent: 'danger',  ports: 'left right top bottom',      x: 888,  y: 256 },
+    { id: 'cy-forensic',  label: 'Forensic Analysis',   intent: 'success', ports: 'left top bottom',            x: 1104, y: 46 },
+    { id: 'cy-recovery',  label: 'Recovery',            intent: 'success', ports: 'left top bottom',            x: 1104, y: 186 },
+    { id: 'cy-postmortem',label: 'Post-Mortem',         intent: 'info',    ports: 'left top',                   x: 1104, y: 326 },
+  ],
+  connections: [
+    { id: 'cy-c1',  from: 'cy-sensor',   to: 'cy-siem',      fromPort: 'right', toPort: 'left' },
+    { id: 'cy-c2',  from: 'cy-endpoint', to: 'cy-siem',      fromPort: 'right', toPort: 'left' },
+    { id: 'cy-c3',  from: 'cy-intel',    to: 'cy-siem',      fromPort: 'right', toPort: 'left' },
+    { id: 'cy-c4',  from: 'cy-siem',     to: 'cy-classify',  fromPort: 'right', toPort: 'left' },
+    { id: 'cy-c5',  from: 'cy-siem',     to: 'cy-ioc',       fromPort: 'right', toPort: 'left' },
+    { id: 'cy-c6',  from: 'cy-classify', to: 'cy-triage',    fromPort: 'right', toPort: 'left' },
+    { id: 'cy-c7',  from: 'cy-ioc',      to: 'cy-triage',    fromPort: 'right', toPort: 'left' },
+    { id: 'cy-c8',  from: 'cy-triage',   to: 'cy-incident',  fromPort: 'right', toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'cy-c9',  from: 'cy-triage',   to: 'cy-contain',   fromPort: 'right', toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'cy-c10', from: 'cy-incident', to: 'cy-forensic',  fromPort: 'right', toPort: 'left' },
+    { id: 'cy-c11', from: 'cy-incident', to: 'cy-recovery',  fromPort: 'right', toPort: 'left' },
+    { id: 'cy-c12', from: 'cy-contain',  to: 'cy-recovery',  fromPort: 'right', toPort: 'left' },
+    { id: 'cy-c13', from: 'cy-forensic', to: 'cy-postmortem',fromPort: 'left',  toPort: 'left' },
+    { id: 'cy-c14', from: 'cy-recovery', to: 'cy-postmortem',fromPort: 'left',  toPort: 'left' },
+  ],
+};
+
+// ── 5. ML Training Pipeline ──
+
+const mlPipeline: FlowDataset = {
+  id: 'ml-pipeline',
+  name: 'ML Training Pipeline',
+  nodes: [
+    { id: 'ml-lake',       label: 'Data Lake',            intent: 'accent',  ports: 'right bottom',               x: 24,   y: 116 },
+    { id: 'ml-schema',     label: 'Schema Validator',     intent: 'accent',  ports: 'left right top',             x: 24,   y: 256 },
+    { id: 'ml-features',   label: 'Feature Store',        intent: 'info',    ports: 'left right top bottom',      x: 240,  y: 186 },
+    { id: 'ml-train',      label: 'Training Cluster GPU', intent: 'warning', ports: 'left right top bottom',      x: 456,  y: 116 },
+    { id: 'ml-hyper',      label: 'Hyperparameter Tuner', intent: 'warning', ports: 'left right top bottom',      x: 456,  y: 256 },
+    { id: 'ml-validate',   label: 'Validation Split',     intent: 'success', ports: 'left right top bottom',      x: 672,  y: 116 },
+    { id: 'ml-registry',   label: 'Model Registry',       intent: 'success', ports: 'left right top bottom',      x: 672,  y: 256 },
+    { id: 'ml-abtest',     label: 'A/B Test Gate',        intent: 'info',    ports: 'left right top bottom',      x: 888,  y: 116 },
+    { id: 'ml-canary',     label: 'Canary Deploy',        intent: 'info',    ports: 'left right top bottom',      x: 888,  y: 256 },
+    { id: 'ml-prod',       label: 'Production Endpoint',  intent: 'success', ports: 'left right top bottom',      x: 1104, y: 116 },
+    { id: 'ml-drift',      label: 'Drift Monitor',        intent: 'danger',  ports: 'left right top bottom',      x: 1104, y: 256 },
+    { id: 'ml-retrain',    label: 'Retraining Trigger',   intent: 'danger',  ports: 'left top bottom',            x: 1104, y: 396 },
+  ],
+  connections: [
+    { id: 'ml-c1',  from: 'ml-lake',     to: 'ml-features',  fromPort: 'right',  toPort: 'left' },
+    { id: 'ml-c2',  from: 'ml-schema',   to: 'ml-features',  fromPort: 'right',  toPort: 'left' },
+    { id: 'ml-c3',  from: 'ml-features', to: 'ml-train',     fromPort: 'right',  toPort: 'left' },
+    { id: 'ml-c4',  from: 'ml-features', to: 'ml-hyper',     fromPort: 'right',  toPort: 'left' },
+    { id: 'ml-c5',  from: 'ml-train',    to: 'ml-validate',  fromPort: 'right',  toPort: 'left' },
+    { id: 'ml-c6',  from: 'ml-hyper',    to: 'ml-train',     fromPort: 'right',  toPort: 'left' },
+    { id: 'ml-c7',  from: 'ml-validate', to: 'ml-registry',  fromPort: 'right',  toPort: 'left' },
+    { id: 'ml-c8',  from: 'ml-registry', to: 'ml-abtest',    fromPort: 'right',  toPort: 'left' },
+    { id: 'ml-c9',  from: 'ml-registry', to: 'ml-canary',    fromPort: 'right',  toPort: 'left' },
+    { id: 'ml-c10', from: 'ml-abtest',   to: 'ml-prod',      fromPort: 'right',  toPort: 'left' },
+    { id: 'ml-c11', from: 'ml-canary',   to: 'ml-prod',      fromPort: 'right',  toPort: 'left' },
+    { id: 'ml-c12', from: 'ml-prod',     to: 'ml-drift',     fromPort: 'right',  toPort: 'left' },
+    { id: 'ml-c13', from: 'ml-drift',    to: 'ml-retrain',   fromPort: 'right',  toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'ml-c14', from: 'ml-retrain',  to: 'ml-features',  fromPort: 'bottom', toPort: 'bottom', color: 'var(--n-color-warning-500)' },
+  ],
+};
+
+// ── 6. Clinical Differential Diagnosis (DDx) ──
+
+const ddxWorkflow: FlowDataset = {
+  id: 'ddx-workflow',
+  name: 'Clinical DDx Workflow',
+  nodes: [
+    { id: 'dx-intake',     label: 'Patient Intake',           intent: 'accent',  ports: 'right bottom',               x: 24,   y: 186 },
+    { id: 'dx-symptoms',   label: 'Symptom Collection',       intent: 'accent',  ports: 'left right top bottom',      x: 224,  y: 116 },
+    { id: 'dx-history',    label: 'Medical History Review',   intent: 'accent',  ports: 'left right top bottom',      x: 224,  y: 256 },
+    { id: 'dx-hypothesis', label: 'Hypothesis Generator',     intent: 'info',    ports: 'left right top bottom',      x: 424,  y: 186 },
+    { id: 'dx-bayesian',   label: 'Bayesian Evidence Update', intent: 'warning', ports: 'left right top bottom',      x: 624,  y: 116 },
+    { id: 'dx-gap',        label: 'Diagnostic Gap Analysis',  intent: 'warning', ports: 'left right top bottom',      x: 624,  y: 256 },
+    { id: 'dx-test',       label: 'Targeted Testing',         intent: 'info',    ports: 'left right top bottom',      x: 824,  y: 116 },
+    { id: 'dx-prune',      label: 'Hypothesis Pruning',       intent: 'danger',  ports: 'left right top bottom',      x: 824,  y: 256 },
+    { id: 'dx-confirm',    label: 'Diagnostic Confirmation',  intent: 'success', ports: 'left right top bottom',      x: 1024, y: 116 },
+    { id: 'dx-treatment',  label: 'Treatment Pathway',        intent: 'success', ports: 'left right top bottom',      x: 1024, y: 256 },
+    { id: 'dx-monitor',    label: 'Continuous Monitoring',    intent: 'danger',  ports: 'left top bottom',            x: 1224, y: 186 },
+    { id: 'dx-lab',        label: 'Lab Results Engine',       intent: 'info',    ports: 'left right top bottom',      x: 424,  y: 396 },
+    { id: 'dx-imaging',    label: 'Imaging Analysis',         intent: 'info',    ports: 'left right top bottom',      x: 624,  y: 396 },
+    { id: 'dx-specialist', label: 'Specialist Consult',       intent: 'warning', ports: 'left right top bottom',      x: 824,  y: 396 },
+    { id: 'dx-pharmacy',   label: 'Pharmacy Reconciliation',  intent: 'success', ports: 'left top',                   x: 1224, y: 396 },
+  ],
+  connections: [
+    { id: 'dx-c1',  from: 'dx-intake',     to: 'dx-symptoms',   fromPort: 'right',  toPort: 'left' },
+    { id: 'dx-c2',  from: 'dx-intake',     to: 'dx-history',    fromPort: 'right',  toPort: 'left' },
+    { id: 'dx-c3',  from: 'dx-symptoms',   to: 'dx-hypothesis', fromPort: 'right',  toPort: 'left' },
+    { id: 'dx-c4',  from: 'dx-history',    to: 'dx-hypothesis', fromPort: 'right',  toPort: 'left' },
+    { id: 'dx-c5',  from: 'dx-hypothesis', to: 'dx-bayesian',   fromPort: 'right',  toPort: 'left' },
+    { id: 'dx-c6',  from: 'dx-hypothesis', to: 'dx-gap',        fromPort: 'right',  toPort: 'left' },
+    { id: 'dx-c7',  from: 'dx-bayesian',   to: 'dx-test',       fromPort: 'right',  toPort: 'left' },
+    { id: 'dx-c8',  from: 'dx-gap',        to: 'dx-test',       fromPort: 'right',  toPort: 'left' },
+    { id: 'dx-c9',  from: 'dx-test',       to: 'dx-prune',      fromPort: 'right',  toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'dx-c10', from: 'dx-prune',      to: 'dx-confirm',    fromPort: 'right',  toPort: 'left' },
+    { id: 'dx-c11', from: 'dx-prune',      to: 'dx-bayesian',   fromPort: 'top',    toPort: 'bottom', color: 'var(--n-color-warning-500)' },
+    { id: 'dx-c12', from: 'dx-confirm',    to: 'dx-treatment',  fromPort: 'bottom', toPort: 'top' },
+    { id: 'dx-c13', from: 'dx-treatment',  to: 'dx-monitor',    fromPort: 'right',  toPort: 'left' },
+    { id: 'dx-c14', from: 'dx-monitor',    to: 'dx-hypothesis', fromPort: 'bottom', toPort: 'bottom', color: 'var(--n-color-danger-500)' },
+    { id: 'dx-c15', from: 'dx-hypothesis', to: 'dx-lab',        fromPort: 'bottom', toPort: 'left' },
+    { id: 'dx-c16', from: 'dx-lab',        to: 'dx-imaging',    fromPort: 'right',  toPort: 'left' },
+    { id: 'dx-c17', from: 'dx-imaging',    to: 'dx-specialist', fromPort: 'right',  toPort: 'left' },
+    { id: 'dx-c18', from: 'dx-specialist', to: 'dx-prune',      fromPort: 'top',    toPort: 'bottom' },
+    { id: 'dx-c19', from: 'dx-treatment',  to: 'dx-pharmacy',   fromPort: 'bottom', toPort: 'left' },
+  ],
+};
+
+// ── 7. Oncology Care Pathway ──
+
+const oncologyPathway: FlowDataset = {
+  id: 'oncology-pathway',
+  name: 'Oncology Care Pathway',
+  nodes: [
+    { id: 'on-screening',  label: 'Cancer Screening',         intent: 'accent',  ports: 'right bottom',               x: 24,   y: 186 },
+    { id: 'on-biopsy',     label: 'Biopsy & Pathology',       intent: 'accent',  ports: 'left right top bottom',      x: 224,  y: 116 },
+    { id: 'on-genomics',   label: 'Genomic Profiling',        intent: 'accent',  ports: 'left right top bottom',      x: 224,  y: 256 },
+    { id: 'on-staging',    label: 'TNM Staging',              intent: 'info',    ports: 'left right top bottom',      x: 424,  y: 46 },
+    { id: 'on-mdt',        label: 'Tumor Board (MDT)',        intent: 'info',    ports: 'left right top bottom',      x: 424,  y: 186 },
+    { id: 'on-biomarker',  label: 'Biomarker Analysis',       intent: 'info',    ports: 'left right top bottom',      x: 424,  y: 326 },
+    { id: 'on-surgery',    label: 'Surgical Intervention',    intent: 'warning', ports: 'left right top bottom',      x: 624,  y: 46 },
+    { id: 'on-chemo',      label: 'Chemotherapy Protocol',    intent: 'warning', ports: 'left right top bottom',      x: 624,  y: 186 },
+    { id: 'on-radiation',  label: 'Radiation Therapy',        intent: 'warning', ports: 'left right top bottom',      x: 624,  y: 326 },
+    { id: 'on-immuno',     label: 'Immunotherapy',            intent: 'warning', ports: 'left right top bottom',      x: 624,  y: 466 },
+    { id: 'on-response',   label: 'Treatment Response',       intent: 'danger',  ports: 'left right top bottom',      x: 824,  y: 116 },
+    { id: 'on-toxicity',   label: 'Toxicity Monitor',         intent: 'danger',  ports: 'left right top bottom',      x: 824,  y: 256 },
+    { id: 'on-recurrence', label: 'Recurrence Detection',     intent: 'danger',  ports: 'left right top bottom',      x: 824,  y: 396 },
+    { id: 'on-remission',  label: 'Remission',                intent: 'success', ports: 'left right top bottom',      x: 1024, y: 116 },
+    { id: 'on-palliative', label: 'Palliative Care',          intent: 'success', ports: 'left right top bottom',      x: 1024, y: 256 },
+    { id: 'on-survivor',   label: 'Survivorship Program',     intent: 'success', ports: 'left top',                   x: 1024, y: 396 },
+    { id: 'on-insurance',  label: 'Insurance Authorization',  intent: 'info',    ports: 'left right top bottom',      x: 424,  y: 466 },
+  ],
+  connections: [
+    { id: 'on-c1',  from: 'on-screening',  to: 'on-biopsy',     fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c2',  from: 'on-screening',  to: 'on-genomics',   fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c3',  from: 'on-biopsy',     to: 'on-staging',    fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c4',  from: 'on-biopsy',     to: 'on-mdt',        fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c5',  from: 'on-genomics',   to: 'on-biomarker',  fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c6',  from: 'on-genomics',   to: 'on-mdt',        fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c7',  from: 'on-mdt',        to: 'on-surgery',    fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c8',  from: 'on-mdt',        to: 'on-chemo',      fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c9',  from: 'on-mdt',        to: 'on-radiation',  fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c10', from: 'on-biomarker',  to: 'on-immuno',     fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c11', from: 'on-insurance',  to: 'on-immuno',     fromPort: 'right',  toPort: 'left', color: 'var(--n-color-warning-500)' },
+    { id: 'on-c12', from: 'on-surgery',    to: 'on-response',   fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c13', from: 'on-chemo',      to: 'on-response',   fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c14', from: 'on-chemo',      to: 'on-toxicity',   fromPort: 'right',  toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'on-c15', from: 'on-radiation',  to: 'on-toxicity',   fromPort: 'right',  toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'on-c16', from: 'on-immuno',     to: 'on-recurrence', fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c17', from: 'on-response',   to: 'on-remission',  fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c18', from: 'on-toxicity',   to: 'on-palliative', fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c19', from: 'on-recurrence', to: 'on-mdt',        fromPort: 'left',   toPort: 'bottom', color: 'var(--n-color-danger-500)' },
+    { id: 'on-c20', from: 'on-recurrence', to: 'on-survivor',   fromPort: 'right',  toPort: 'left' },
+    { id: 'on-c21', from: 'on-remission',  to: 'on-survivor',   fromPort: 'bottom', toPort: 'top' },
+  ],
+};
+
+// ── 8. Generative AI Pipeline (ComfyUI-style) ──
+
+const genAiPipeline: FlowDataset = {
+  id: 'gen-ai-pipeline',
+  name: 'Generative AI Pipeline',
+  nodes: [
+    { id: 'ai-prompt',     label: 'Prompt Encoder',           intent: 'accent',  ports: 'right bottom',               x: 24,   y: 46 },
+    { id: 'ai-neg-prompt', label: 'Negative Prompt',          intent: 'accent',  ports: 'right top bottom',           x: 24,   y: 186 },
+    { id: 'ai-ref-image',  label: 'Reference Image',          intent: 'accent',  ports: 'right top bottom',           x: 24,   y: 326 },
+    { id: 'ai-style',      label: 'Style Transfer LoRA',      intent: 'accent',  ports: 'right top',                  x: 24,   y: 466 },
+    { id: 'ai-clip',       label: 'CLIP Text Encoder',        intent: 'info',    ports: 'left right top bottom',      x: 260,  y: 116 },
+    { id: 'ai-vae-enc',    label: 'VAE Encoder',              intent: 'info',    ports: 'left right top bottom',      x: 260,  y: 256 },
+    { id: 'ai-ipadapter',  label: 'IP-Adapter',               intent: 'info',    ports: 'left right top bottom',      x: 260,  y: 396 },
+    { id: 'ai-scheduler',  label: 'KSampler Scheduler',       intent: 'warning', ports: 'left right top bottom',      x: 500,  y: 46 },
+    { id: 'ai-unet',       label: 'UNet Backbone',            intent: 'warning', ports: 'left right top bottom',      x: 500,  y: 186 },
+    { id: 'ai-controlnet', label: 'ControlNet (Canny)',       intent: 'warning', ports: 'left right top bottom',      x: 500,  y: 326 },
+    { id: 'ai-sampler',    label: 'KSampler',                 intent: 'danger',  ports: 'left right top bottom',      x: 740,  y: 116 },
+    { id: 'ai-refiner',    label: 'SDXL Refiner',             intent: 'danger',  ports: 'left right top bottom',      x: 740,  y: 256 },
+    { id: 'ai-vae-dec',    label: 'VAE Decoder',              intent: 'success', ports: 'left right top bottom',      x: 980,  y: 116 },
+    { id: 'ai-upscale',    label: 'Upscale (4x ESRGAN)',     intent: 'success', ports: 'left right top bottom',      x: 980,  y: 256 },
+    { id: 'ai-face',       label: 'Face Restore (GFPGAN)',   intent: 'success', ports: 'left right top bottom',      x: 980,  y: 396 },
+    { id: 'ai-output',     label: 'Save Image',               intent: 'success', ports: 'left top bottom',            x: 1220, y: 186 },
+    { id: 'ai-preview',    label: 'Preview Node',             intent: 'info',    ports: 'left top',                   x: 1220, y: 396 },
+    { id: 'ai-lora-stack', label: 'LoRA Stack Merge',         intent: 'warning', ports: 'left right top bottom',      x: 500,  y: 466 },
+  ],
+  connections: [
+    { id: 'ai-c1',  from: 'ai-prompt',     to: 'ai-clip',       fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c2',  from: 'ai-neg-prompt', to: 'ai-clip',       fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c3',  from: 'ai-ref-image',  to: 'ai-vae-enc',    fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c4',  from: 'ai-ref-image',  to: 'ai-ipadapter',  fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c5',  from: 'ai-style',      to: 'ai-lora-stack', fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c6',  from: 'ai-clip',       to: 'ai-scheduler',  fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c7',  from: 'ai-clip',       to: 'ai-unet',       fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c8',  from: 'ai-vae-enc',    to: 'ai-controlnet', fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c9',  from: 'ai-ipadapter',  to: 'ai-unet',       fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c10', from: 'ai-lora-stack', to: 'ai-unet',       fromPort: 'top',    toPort: 'bottom' },
+    { id: 'ai-c11', from: 'ai-scheduler',  to: 'ai-sampler',    fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c12', from: 'ai-unet',       to: 'ai-sampler',    fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c13', from: 'ai-controlnet', to: 'ai-sampler',    fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c14', from: 'ai-sampler',    to: 'ai-refiner',    fromPort: 'bottom', toPort: 'top' },
+    { id: 'ai-c15', from: 'ai-sampler',    to: 'ai-vae-dec',    fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c16', from: 'ai-refiner',    to: 'ai-vae-dec',    fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c17', from: 'ai-vae-dec',    to: 'ai-upscale',    fromPort: 'bottom', toPort: 'top' },
+    { id: 'ai-c18', from: 'ai-vae-dec',    to: 'ai-output',     fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c19', from: 'ai-upscale',    to: 'ai-face',       fromPort: 'bottom', toPort: 'top' },
+    { id: 'ai-c20', from: 'ai-upscale',    to: 'ai-output',     fromPort: 'right',  toPort: 'left' },
+    { id: 'ai-c21', from: 'ai-face',       to: 'ai-preview',    fromPort: 'right',  toPort: 'left' },
+  ],
+};
+
+// ── 9. Enterprise SaaS Onboarding ──
+
+const saasOnboarding: FlowDataset = {
+  id: 'saas-onboarding',
+  name: 'Enterprise SaaS Onboarding',
+  nodes: [
+    { id: 'sb-signup',     label: 'Account Signup',           intent: 'accent',  ports: 'right bottom',               x: 24,   y: 186 },
+    { id: 'sb-verify',     label: 'Email Verification',       intent: 'accent',  ports: 'left right top bottom',      x: 224,  y: 116 },
+    { id: 'sb-sso',        label: 'SSO Configuration',        intent: 'accent',  ports: 'left right top bottom',      x: 224,  y: 256 },
+    { id: 'sb-org',        label: 'Organization Setup',       intent: 'info',    ports: 'left right top bottom',      x: 424,  y: 46 },
+    { id: 'sb-roles',      label: 'Role & Permission Matrix', intent: 'info',    ports: 'left right top bottom',      x: 424,  y: 186 },
+    { id: 'sb-api',        label: 'API Key Provisioning',     intent: 'info',    ports: 'left right top bottom',      x: 424,  y: 326 },
+    { id: 'sb-import',     label: 'Data Import Wizard',       intent: 'warning', ports: 'left right top bottom',      x: 624,  y: 46 },
+    { id: 'sb-integrate',  label: 'Integration Hub',          intent: 'warning', ports: 'left right top bottom',      x: 624,  y: 186 },
+    { id: 'sb-webhook',    label: 'Webhook Configuration',    intent: 'warning', ports: 'left right top bottom',      x: 624,  y: 326 },
+    { id: 'sb-sandbox',    label: 'Sandbox Environment',      intent: 'info',    ports: 'left right top bottom',      x: 624,  y: 466 },
+    { id: 'sb-training',   label: 'Interactive Training',     intent: 'success', ports: 'left right top bottom',      x: 824,  y: 116 },
+    { id: 'sb-health',     label: 'Health Check Dashboard',   intent: 'success', ports: 'left right top bottom',      x: 824,  y: 256 },
+    { id: 'sb-compliance', label: 'Compliance Audit',         intent: 'danger',  ports: 'left right top bottom',      x: 824,  y: 396 },
+    { id: 'sb-launch',     label: 'Go-Live Checklist',        intent: 'success', ports: 'left right top bottom',      x: 1024, y: 186 },
+    { id: 'sb-csm',        label: 'CSM Handoff',              intent: 'success', ports: 'left top bottom',            x: 1224, y: 116 },
+    { id: 'sb-billing',    label: 'Billing Activation',       intent: 'danger',  ports: 'left right top bottom',      x: 1024, y: 326 },
+    { id: 'sb-support',    label: 'Support Escalation',       intent: 'danger',  ports: 'left top',                   x: 1224, y: 326 },
+  ],
+  connections: [
+    { id: 'sb-c1',  from: 'sb-signup',     to: 'sb-verify',     fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c2',  from: 'sb-signup',     to: 'sb-sso',        fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c3',  from: 'sb-verify',     to: 'sb-org',        fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c4',  from: 'sb-sso',        to: 'sb-roles',      fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c5',  from: 'sb-org',        to: 'sb-import',     fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c6',  from: 'sb-roles',      to: 'sb-integrate',  fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c7',  from: 'sb-roles',      to: 'sb-api',        fromPort: 'bottom', toPort: 'top' },
+    { id: 'sb-c8',  from: 'sb-api',        to: 'sb-webhook',    fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c9',  from: 'sb-api',        to: 'sb-sandbox',    fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c10', from: 'sb-import',     to: 'sb-training',   fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c11', from: 'sb-integrate',  to: 'sb-health',     fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c12', from: 'sb-webhook',    to: 'sb-health',     fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c13', from: 'sb-sandbox',    to: 'sb-compliance', fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c14', from: 'sb-training',   to: 'sb-launch',     fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c15', from: 'sb-health',     to: 'sb-launch',     fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c16', from: 'sb-compliance', to: 'sb-billing',    fromPort: 'right',  toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'sb-c17', from: 'sb-launch',     to: 'sb-csm',        fromPort: 'right',  toPort: 'left' },
+    { id: 'sb-c18', from: 'sb-billing',    to: 'sb-support',    fromPort: 'right',  toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'sb-c19', from: 'sb-launch',     to: 'sb-billing',    fromPort: 'bottom', toPort: 'top' },
+  ],
+};
+
+// ── 10. Data Engineering DAG (Airflow-style) ──
+
+const dataEngDag: FlowDataset = {
+  id: 'data-eng-dag',
+  name: 'Data Engineering DAG',
+  nodes: [
+    { id: 'de-s3-raw',     label: 'S3 Raw Bucket',            intent: 'accent',  ports: 'right bottom',               x: 24,   y: 46 },
+    { id: 'de-kafka',      label: 'Kafka Stream',             intent: 'accent',  ports: 'right top bottom',           x: 24,   y: 186 },
+    { id: 'de-postgres',   label: 'PostgreSQL CDC',           intent: 'accent',  ports: 'right top bottom',           x: 24,   y: 326 },
+    { id: 'de-api-ingest', label: 'REST API Ingest',          intent: 'accent',  ports: 'right top',                  x: 24,   y: 466 },
+    { id: 'de-schema-val', label: 'Schema Validator',         intent: 'info',    ports: 'left right top bottom',      x: 260,  y: 116 },
+    { id: 'de-dedup',      label: 'Deduplication',            intent: 'info',    ports: 'left right top bottom',      x: 260,  y: 256 },
+    { id: 'de-pii',        label: 'PII Scrubber',             intent: 'danger',  ports: 'left right top bottom',      x: 260,  y: 396 },
+    { id: 'de-bronze',     label: 'Bronze Layer (Iceberg)',   intent: 'warning', ports: 'left right top bottom',      x: 500,  y: 186 },
+    { id: 'de-spark-clean',label: 'Spark Cleaning Job',       intent: 'warning', ports: 'left right top bottom',      x: 740,  y: 116 },
+    { id: 'de-dbt-models', label: 'dbt Transform Models',     intent: 'warning', ports: 'left right top bottom',      x: 740,  y: 256 },
+    { id: 'de-quality',    label: 'Great Expectations QA',    intent: 'danger',  ports: 'left right top bottom',      x: 740,  y: 396 },
+    { id: 'de-silver',     label: 'Silver Layer',             intent: 'success', ports: 'left right top bottom',      x: 980,  y: 186 },
+    { id: 'de-agg',        label: 'Aggregation Engine',       intent: 'success', ports: 'left right top bottom',      x: 980,  y: 326 },
+    { id: 'de-gold',       label: 'Gold Layer (Analytics)',   intent: 'success', ports: 'left right top bottom',      x: 1220, y: 116 },
+    { id: 'de-warehouse',  label: 'Data Warehouse Sync',      intent: 'success', ports: 'left right top bottom',      x: 1220, y: 256 },
+    { id: 'de-dashboard',  label: 'BI Dashboard Refresh',     intent: 'info',    ports: 'left top bottom',            x: 1220, y: 396 },
+    { id: 'de-alert',      label: 'Pipeline Alert',           intent: 'danger',  ports: 'left top',                   x: 980,  y: 466 },
+  ],
+  connections: [
+    { id: 'de-c1',  from: 'de-s3-raw',     to: 'de-schema-val',  fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c2',  from: 'de-kafka',      to: 'de-schema-val',  fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c3',  from: 'de-kafka',      to: 'de-dedup',       fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c4',  from: 'de-postgres',   to: 'de-dedup',       fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c5',  from: 'de-postgres',   to: 'de-pii',         fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c6',  from: 'de-api-ingest', to: 'de-pii',         fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c7',  from: 'de-schema-val', to: 'de-bronze',      fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c8',  from: 'de-dedup',      to: 'de-bronze',      fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c9',  from: 'de-pii',        to: 'de-bronze',      fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c10', from: 'de-bronze',     to: 'de-spark-clean', fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c11', from: 'de-bronze',     to: 'de-dbt-models',  fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c12', from: 'de-bronze',     to: 'de-quality',     fromPort: 'right',  toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'de-c13', from: 'de-spark-clean',to: 'de-silver',      fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c14', from: 'de-dbt-models', to: 'de-silver',      fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c15', from: 'de-quality',    to: 'de-alert',       fromPort: 'bottom', toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'de-c16', from: 'de-quality',    to: 'de-silver',      fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c17', from: 'de-silver',     to: 'de-agg',         fromPort: 'bottom', toPort: 'top' },
+    { id: 'de-c18', from: 'de-silver',     to: 'de-gold',        fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c19', from: 'de-agg',        to: 'de-warehouse',   fromPort: 'right',  toPort: 'left' },
+    { id: 'de-c20', from: 'de-gold',       to: 'de-warehouse',   fromPort: 'bottom', toPort: 'top' },
+    { id: 'de-c21', from: 'de-warehouse',  to: 'de-dashboard',   fromPort: 'bottom', toPort: 'top' },
+  ],
+};
+
+// ── 11. Marketing Automation ──
+
+const marketingAutomation: FlowDataset = {
+  id: 'marketing-automation',
+  name: 'Marketing Automation Engine',
+  nodes: [
+    { id: 'ma-lead-form',  label: 'Lead Capture Form',        intent: 'accent',  ports: 'right bottom',               x: 24,   y: 46 },
+    { id: 'ma-social',     label: 'Social Ad Import',         intent: 'accent',  ports: 'right top bottom',           x: 24,   y: 186 },
+    { id: 'ma-webinar',    label: 'Webinar Registration',     intent: 'accent',  ports: 'right top',                  x: 24,   y: 326 },
+    { id: 'ma-crm-enrich', label: 'CRM Enrichment',           intent: 'info',    ports: 'left right top bottom',      x: 260,  y: 116 },
+    { id: 'ma-score',      label: 'Lead Scoring Engine',      intent: 'info',    ports: 'left right top bottom',      x: 260,  y: 256 },
+    { id: 'ma-segment',    label: 'Audience Segmentation',    intent: 'warning', ports: 'left right top bottom',      x: 500,  y: 46 },
+    { id: 'ma-nurture',    label: 'Nurture Sequence',         intent: 'warning', ports: 'left right top bottom',      x: 500,  y: 186 },
+    { id: 'ma-abtest',     label: 'A/B Test Split',           intent: 'warning', ports: 'left right top bottom',      x: 500,  y: 326 },
+    { id: 'ma-email-a',    label: 'Email Variant A',          intent: 'info',    ports: 'left right top bottom',      x: 740,  y: 256 },
+    { id: 'ma-email-b',    label: 'Email Variant B',          intent: 'info',    ports: 'left right top bottom',      x: 740,  y: 396 },
+    { id: 'ma-engage',     label: 'Engagement Tracker',       intent: 'success', ports: 'left right top bottom',      x: 740,  y: 116 },
+    { id: 'ma-mql',        label: 'MQL Qualification',        intent: 'success', ports: 'left right top bottom',      x: 980,  y: 116 },
+    { id: 'ma-sales',      label: 'Sales Handoff',            intent: 'success', ports: 'left right top bottom',      x: 980,  y: 256 },
+    { id: 'ma-retarget',   label: 'Retargeting Pixel',        intent: 'danger',  ports: 'left right top bottom',      x: 980,  y: 396 },
+    { id: 'ma-report',     label: 'Campaign Analytics',       intent: 'info',    ports: 'left top bottom',            x: 1220, y: 186 },
+    { id: 'ma-unsubscribe',label: 'Unsubscribe Handler',      intent: 'danger',  ports: 'left top',                   x: 1220, y: 396 },
+  ],
+  connections: [
+    { id: 'ma-c1',  from: 'ma-lead-form',  to: 'ma-crm-enrich', fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c2',  from: 'ma-social',     to: 'ma-crm-enrich', fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c3',  from: 'ma-social',     to: 'ma-score',      fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c4',  from: 'ma-webinar',    to: 'ma-score',      fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c5',  from: 'ma-crm-enrich', to: 'ma-segment',    fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c6',  from: 'ma-score',      to: 'ma-nurture',    fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c7',  from: 'ma-score',      to: 'ma-abtest',     fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c8',  from: 'ma-segment',    to: 'ma-engage',     fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c9',  from: 'ma-nurture',    to: 'ma-engage',     fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c10', from: 'ma-abtest',     to: 'ma-email-a',    fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c11', from: 'ma-abtest',     to: 'ma-email-b',    fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c12', from: 'ma-engage',     to: 'ma-mql',        fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c13', from: 'ma-email-a',    to: 'ma-mql',        fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c14', from: 'ma-email-b',    to: 'ma-retarget',   fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c15', from: 'ma-mql',        to: 'ma-sales',      fromPort: 'bottom', toPort: 'top' },
+    { id: 'ma-c16', from: 'ma-sales',      to: 'ma-report',     fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c17', from: 'ma-retarget',   to: 'ma-report',     fromPort: 'right',  toPort: 'left' },
+    { id: 'ma-c18', from: 'ma-retarget',   to: 'ma-unsubscribe',fromPort: 'bottom', toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'ma-c19', from: 'ma-retarget',   to: 'ma-nurture',    fromPort: 'left',   toPort: 'bottom', color: 'var(--n-color-warning-500)' },
+  ],
+};
+
+// ── 12. BPM Cross-Functional Process ──
+
+const bpmProcess: FlowDataset = {
+  id: 'bpm-process',
+  name: 'Cross-Functional BPM',
+  nodes: [
+    // Customer lane
+    { id: 'bp-request',    label: 'Customer Request',         intent: 'accent',  ports: 'right bottom',               x: 24,   y: 46 },
+    { id: 'bp-portal',     label: 'Self-Service Portal',      intent: 'accent',  ports: 'left right top bottom',      x: 260,  y: 46 },
+    { id: 'bp-feedback',   label: 'Customer Feedback',        intent: 'accent',  ports: 'left right top bottom',      x: 980,  y: 46 },
+    // Sales lane
+    { id: 'bp-qualify',    label: 'Lead Qualification',       intent: 'info',    ports: 'left right top bottom',      x: 260,  y: 166 },
+    { id: 'bp-quote',      label: 'Quote Generation',         intent: 'info',    ports: 'left right top bottom',      x: 500,  y: 166 },
+    { id: 'bp-negotiate',  label: 'Contract Negotiation',     intent: 'info',    ports: 'left right top bottom',      x: 740,  y: 166 },
+    // Legal lane
+    { id: 'bp-review',     label: 'Legal Review',             intent: 'warning', ports: 'left right top bottom',      x: 500,  y: 286 },
+    { id: 'bp-compliance', label: 'Compliance Check',         intent: 'warning', ports: 'left right top bottom',      x: 740,  y: 286 },
+    { id: 'bp-sign',       label: 'Digital Signature',        intent: 'warning', ports: 'left right top bottom',      x: 980,  y: 286 },
+    // Finance lane
+    { id: 'bp-credit',     label: 'Credit Assessment',        intent: 'danger',  ports: 'left right top bottom',      x: 500,  y: 406 },
+    { id: 'bp-invoice',    label: 'Invoice Generation',       intent: 'danger',  ports: 'left right top bottom',      x: 740,  y: 406 },
+    { id: 'bp-payment',    label: 'Payment Processing',       intent: 'danger',  ports: 'left right top bottom',      x: 980,  y: 406 },
+    // Operations lane
+    { id: 'bp-provision',  label: 'Service Provisioning',     intent: 'success', ports: 'left right top bottom',      x: 740,  y: 526 },
+    { id: 'bp-activate',   label: 'Account Activation',       intent: 'success', ports: 'left right top bottom',      x: 980,  y: 526 },
+    { id: 'bp-onboard',    label: 'Onboarding Workflow',      intent: 'success', ports: 'left right top bottom',      x: 1220, y: 286 },
+    { id: 'bp-escalation', label: 'Escalation Manager',       intent: 'danger',  ports: 'left top bottom',            x: 1220, y: 526 },
+  ],
+  connections: [
+    { id: 'bp-c1',  from: 'bp-request',    to: 'bp-portal',     fromPort: 'right',  toPort: 'left' },
+    { id: 'bp-c2',  from: 'bp-request',    to: 'bp-qualify',    fromPort: 'bottom', toPort: 'left' },
+    { id: 'bp-c3',  from: 'bp-portal',     to: 'bp-qualify',    fromPort: 'bottom', toPort: 'top' },
+    { id: 'bp-c4',  from: 'bp-qualify',     to: 'bp-quote',      fromPort: 'right',  toPort: 'left' },
+    { id: 'bp-c5',  from: 'bp-quote',       to: 'bp-review',     fromPort: 'bottom', toPort: 'top' },
+    { id: 'bp-c6',  from: 'bp-quote',       to: 'bp-credit',     fromPort: 'bottom', toPort: 'top' },
+    { id: 'bp-c7',  from: 'bp-quote',       to: 'bp-negotiate',  fromPort: 'right',  toPort: 'left' },
+    { id: 'bp-c8',  from: 'bp-review',      to: 'bp-compliance', fromPort: 'right',  toPort: 'left' },
+    { id: 'bp-c9',  from: 'bp-compliance',  to: 'bp-sign',       fromPort: 'right',  toPort: 'left' },
+    { id: 'bp-c10', from: 'bp-negotiate',   to: 'bp-sign',       fromPort: 'bottom', toPort: 'top' },
+    { id: 'bp-c11', from: 'bp-credit',      to: 'bp-invoice',    fromPort: 'right',  toPort: 'left' },
+    { id: 'bp-c12', from: 'bp-invoice',     to: 'bp-payment',    fromPort: 'right',  toPort: 'left' },
+    { id: 'bp-c13', from: 'bp-invoice',     to: 'bp-provision',  fromPort: 'bottom', toPort: 'top' },
+    { id: 'bp-c14', from: 'bp-sign',        to: 'bp-onboard',    fromPort: 'right',  toPort: 'left' },
+    { id: 'bp-c15', from: 'bp-payment',     to: 'bp-activate',   fromPort: 'bottom', toPort: 'top' },
+    { id: 'bp-c16', from: 'bp-provision',   to: 'bp-activate',   fromPort: 'right',  toPort: 'left' },
+    { id: 'bp-c17', from: 'bp-activate',    to: 'bp-onboard',    fromPort: 'top',    toPort: 'bottom' },
+    { id: 'bp-c18', from: 'bp-onboard',     to: 'bp-feedback',   fromPort: 'top',    toPort: 'right' },
+    { id: 'bp-c19', from: 'bp-activate',    to: 'bp-escalation', fromPort: 'right',  toPort: 'left', color: 'var(--n-color-danger-500)' },
+    { id: 'bp-c20', from: 'bp-escalation',  to: 'bp-negotiate',  fromPort: 'top',    toPort: 'bottom', color: 'var(--n-color-danger-500)' },
+  ],
+};
+
+// ── Export ──
+
+export const FLOW_DATASETS: FlowDataset[] = [
+  clinicalTrial,
+  financialRisk,
+  supplyChain,
+  cyberThreat,
+  mlPipeline,
+  ddxWorkflow,
+  oncologyPathway,
+  genAiPipeline,
+  saasOnboarding,
+  dataEngDag,
+  marketingAutomation,
+  bpmProcess,
+];
