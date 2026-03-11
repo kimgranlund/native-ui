@@ -154,7 +154,7 @@
 
     <h2>Advanced Chat Shell</h2>
     <p class="demo-desc">
-      <code>&lt;n-chat-input-advanced&gt;</code> — multi-zone rich composer with
+      <code>&lt;n-agent-input&gt;</code> — multi-zone rich composer with
       header bar, bordered prompt container (<code>n-chat-input-prompt</code>),
       split actions, and suggestion chips. Same JS behavior as <code>n-chat-input</code>.
     </p>
@@ -174,7 +174,7 @@
                 </n-chat-content>
               </n-body>
               <n-footer dividers>
-                <n-chat-input-advanced>
+                <n-agent-input>
                   <n-chat-input-header>
                     <nav>
                       <n-select value="gpt-5.2" data-role="model-picker" variant="ghost" inline size="sm">
@@ -223,7 +223,7 @@
                     <n-button variant="ghost" size="sm" radius="round"><n-icon name="list-checks"></n-icon> Select deliverable</n-button>
                     <n-button variant="ghost" size="sm" radius="round"><n-icon name="pencil-simple"></n-icon> Refine requirements</n-button>
                   </n-chat-input-chips>
-                </n-chat-input-advanced>
+                </n-agent-input>
               </n-footer>
             </n-container>
           </n-chat>
@@ -286,76 +286,76 @@
     <h2>Message Feed</h2>
     <p class="demo-desc">
       <code>n-chat-feed</code> coordinates a scrollable thread.
-      <code>n-chat-messages</code> groups messages from the same sender.
-      <code>n-chat-message</code> renders individual bubbles with action toolbars.
+      <code>n-agent-dialogue</code> groups messages from the same sender.
+      <code>n-agent-dialogue-item</code> renders individual bubbles with action toolbars.
     </p>
     <n-container data-kind="panel" bordered>
       <div class="demo-wrap">
         <div>
           <span class="demo-state-label">Conversation thread</span>
           <n-chat-feed auto-scroll>
-            <n-chat-messages role="assistant" sender="Assistant">
+            <n-agent-dialogue role="assistant" sender="Assistant">
               <n-chat-avatar icon="chat-dots"></n-chat-avatar>
-              <n-chat-message role="assistant" message-id="msg-1" timestamp="1709395200000">
+              <n-agent-dialogue-item role="assistant" message-id="msg-1" timestamp="1709395200000">
                 <n-chat-message-text id="demo-feed-msg1"></n-chat-message-text>
-              </n-chat-message>
-            </n-chat-messages>
+              </n-agent-dialogue-item>
+            </n-agent-dialogue>
 
-            <n-chat-messages role="user" sender="Kim">
+            <n-agent-dialogue role="user" sender="Kim">
               <n-chat-avatar name="Kim Granlund"></n-chat-avatar>
-              <n-chat-message role="user" message-id="msg-2" timestamp="1709395260000">
+              <n-agent-dialogue-item role="user" message-id="msg-2" timestamp="1709395260000">
                 <n-chat-message-text format="plain" id="demo-feed-msg2"></n-chat-message-text>
-              </n-chat-message>
-            </n-chat-messages>
+              </n-agent-dialogue-item>
+            </n-agent-dialogue>
 
-            <n-chat-messages role="assistant" sender="Assistant">
+            <n-agent-dialogue role="assistant" sender="Assistant">
               <n-chat-avatar icon="chat-dots"></n-chat-avatar>
-              <n-chat-message role="assistant" message-id="msg-3" timestamp="1709395320000">
+              <n-agent-dialogue-item role="assistant" message-id="msg-3" timestamp="1709395320000">
                 <n-chat-message-text id="demo-feed-msg3"></n-chat-message-text>
-              </n-chat-message>
-            </n-chat-messages>
+              </n-agent-dialogue-item>
+            </n-agent-dialogue>
           </n-chat-feed>
         </div>
 
         <div>
           <span class="demo-state-label">Multi-message group</span>
           <n-chat-feed auto-scroll>
-            <n-chat-messages role="user" sender="Kim">
+            <n-agent-dialogue role="user" sender="Kim">
               <n-chat-avatar name="Kim Granlund"></n-chat-avatar>
-              <n-chat-message role="user" message-id="msg-a1" timestamp="1709395200000">
+              <n-agent-dialogue-item role="user" message-id="msg-a1" timestamp="1709395200000">
                 <n-chat-message-text format="plain" id="demo-feed-msg-a1"></n-chat-message-text>
-              </n-chat-message>
-              <n-chat-message role="user" message-id="msg-a2" timestamp="1709395205000">
+              </n-agent-dialogue-item>
+              <n-agent-dialogue-item role="user" message-id="msg-a2" timestamp="1709395205000">
                 <n-chat-message-text format="plain" id="demo-feed-msg-a2"></n-chat-message-text>
-              </n-chat-message>
-            </n-chat-messages>
+              </n-agent-dialogue-item>
+            </n-agent-dialogue>
 
-            <n-chat-messages role="assistant" sender="Assistant">
+            <n-agent-dialogue role="assistant" sender="Assistant">
               <n-chat-avatar icon="chat-dots"></n-chat-avatar>
-              <n-chat-message role="assistant" message-id="msg-a3" timestamp="1709395260000">
+              <n-agent-dialogue-item role="assistant" message-id="msg-a3" timestamp="1709395260000">
                 <n-chat-message-text id="demo-feed-msg-a3"></n-chat-message-text>
-              </n-chat-message>
-              <n-chat-message role="assistant" message-id="msg-a4" timestamp="1709395265000">
+              </n-agent-dialogue-item>
+              <n-agent-dialogue-item role="assistant" message-id="msg-a4" timestamp="1709395265000">
                 <n-chat-message-text id="demo-feed-msg-a4"></n-chat-message-text>
-              </n-chat-message>
-            </n-chat-messages>
+              </n-agent-dialogue-item>
+            </n-agent-dialogue>
           </n-chat-feed>
         </div>
       </div>
       <pre class="demo-code"><code>&lt;n-chat-feed auto-scroll&gt;
-  &lt;n-chat-messages role="assistant" sender="Assistant"&gt;
+  &lt;n-agent-dialogue role="assistant" sender="Assistant"&gt;
     &lt;n-chat-avatar icon="chat-dots"&gt;&lt;/n-chat-avatar&gt;
-    &lt;n-chat-message role="assistant" message-id="msg-1"&gt;
+    &lt;n-agent-dialogue-item role="assistant" message-id="msg-1"&gt;
       &lt;n-chat-message-text&gt;Hello!&lt;/n-chat-message-text&gt;
-    &lt;/n-chat-message&gt;
-  &lt;/n-chat-messages&gt;
+    &lt;/n-agent-dialogue-item&gt;
+  &lt;/n-agent-dialogue&gt;
 
-  &lt;n-chat-messages role="user" sender="Kim"&gt;
+  &lt;n-agent-dialogue role="user" sender="Kim"&gt;
     &lt;n-chat-avatar name="Kim Granlund"&gt;&lt;/n-chat-avatar&gt;
-    &lt;n-chat-message role="user" message-id="msg-2"&gt;
+    &lt;n-agent-dialogue-item role="user" message-id="msg-2"&gt;
       &lt;n-chat-message-text format="plain"&gt;How does this work?&lt;/n-chat-message-text&gt;
-    &lt;/n-chat-message&gt;
-  &lt;/n-chat-messages&gt;
+    &lt;/n-agent-dialogue-item&gt;
+  &lt;/n-agent-dialogue&gt;
 &lt;/n-chat-feed&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
@@ -688,7 +688,7 @@ Step 4: Applying formatting rules...</pre>
 
     <h2>Advanced Input (Multi-Row)</h2>
     <p class="demo-desc">
-      <code>&lt;n-chat-input-advanced&gt;</code> uses <code>n-chat-input-prompt</code> to wrap the
+      <code>&lt;n-agent-input&gt;</code> uses <code>n-chat-input-prompt</code> to wrap the
       textarea in a bordered container with an optional prompt-improvement button.
       Same JS behavior as <code>n-chat-input</code> (Enter-to-send, submit sync, disabled/busy cascade).
     </p>
@@ -697,7 +697,7 @@ Step 4: Applying formatting rules...</pre>
         <div style="grid-column: 1 / -1;">
           <span class="demo-state-label">Full advanced layout</span>
           <n-footer dividers>
-            <n-chat-input-advanced>
+            <n-agent-input>
               <n-chat-input-header>
                 <nav>
                   <n-select value="gpt-5.2" data-role="model-picker" variant="ghost" inline size="sm">
@@ -746,11 +746,11 @@ Step 4: Applying formatting rules...</pre>
                 <n-button variant="ghost" size="sm" radius="round"><n-icon name="list-checks"></n-icon> Select deliverable</n-button>
                 <n-button variant="ghost" size="sm" radius="round"><n-icon name="pencil-simple"></n-icon> Refine requirements</n-button>
               </n-chat-input-chips>
-            </n-chat-input-advanced>
+            </n-agent-input>
           </n-footer>
         </div>
       </div>
-      <pre class="demo-code"><code>&lt;n-chat-input-advanced&gt;
+      <pre class="demo-code"><code>&lt;n-agent-input&gt;
   &lt;n-chat-input-header&gt;
     &lt;nav&gt;
       &lt;n-select data-role="model-picker"&gt;...&lt;/n-select&gt;
@@ -777,7 +777,7 @@ Step 4: Applying formatting rules...</pre>
   &lt;n-chat-input-chips&gt;
     &lt;n-button variant="ghost" size="sm" radius="round"&gt;Suggestion&lt;/n-button&gt;
   &lt;/n-chat-input-chips&gt;
-&lt;/n-chat-input-advanced&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+&lt;/n-agent-input&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
     </section>

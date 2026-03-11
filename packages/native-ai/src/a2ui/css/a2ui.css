@@ -2,7 +2,7 @@
  * native-a2ui — A2UI Protocol Workbench
  *
  * Layout: chip-toggled multi-panel — preview left, N resizable panes right.
- * Chrome & token patterns mirror <native-playground> for a unified devtool look.
+ * Chrome & token patterns mirror <n-playground> for a unified devtool look.
  * Loaded by consumers via: @import '@nonoun/native-ai/css'
  */
 
@@ -11,7 +11,7 @@
 /* ── Host ── */
 
 :where(native-a2ui) {
-  /* Devtool chrome tokens — mirrors native-playground */
+  /* Devtool chrome tokens — mirrors n-playground */
   --n-pg-chrome: var(--n-panel-neutral, #21252b);
   --n-pg-editor-bg: var(--n-control-neutral, #282c34);
   --n-pg-border-color: var(--n-border-muted-neutral, #3e4451);
@@ -380,7 +380,7 @@
   background: var(--n-pg-chrome);
 }
 
-:where(native-a2ui) :where(.a2ui-map-editor-section) :where(native-codemirror) {
+:where(native-a2ui) :where(.a2ui-map-editor-section) :where(n-editor) {
   flex: 1;
   min-height: 0;
   border-radius: 0;
@@ -464,7 +464,7 @@
 
 /* ── CodeMirror (mirrors playground overrides) ── */
 
-:where(native-a2ui) :where(native-codemirror) {
+:where(native-a2ui) :where(n-editor) {
   flex: 1;
   min-height: 0;
   border-radius: 0;

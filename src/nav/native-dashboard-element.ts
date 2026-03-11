@@ -1,5 +1,5 @@
-import { NativeElement } from '../core/native-element.ts';
-import { ResizeController } from '../traits/resize/resize-controller.ts';
+import { NativeElement } from '@nonoun/native-core';
+import { ResizeController } from '@nonoun/native-traits';
 // WHY: Import source directly — the package entry resolves to dist/native-design.js
 // which pulls in dist/native-ui.js, creating dual-module conflicts in Vite dev.
 // ~pkg/* aliases resolve to packages/*/src/ (see vite.config.ts).

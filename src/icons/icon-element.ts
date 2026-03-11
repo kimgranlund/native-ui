@@ -1,4 +1,4 @@
-import { NativeElement } from '../core/native-element.ts';
+import { NativeElement } from '@nonoun/native-core';
 import { getIcon, onIconRegistered } from './registry.ts';
 
 /**

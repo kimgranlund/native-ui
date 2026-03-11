@@ -1,6 +1,6 @@
-import { signal } from '../../../reactivity/signal.ts';
-import { batch } from '../../../reactivity/batch.ts';
-import type { Signal } from '../../../reactivity/types.ts';
+import { signal } from '@nonoun/native-core';
+import { batch } from '@nonoun/native-core';
+import type { Signal } from '@nonoun/native-core';
 
 export class SelectController {
   readonly open: Signal<boolean> = signal(false);

@@ -1,4 +1,4 @@
-import { NativeElement } from '../../core/native-element.ts';
+import { NativeElement } from '@nonoun/native-core';
 
 /**
  * Table row that supports selection when the parent table is selectable.

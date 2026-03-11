@@ -1,0 +1,833 @@
+/* ════════════════════════════════════════════════════════════════
+   Computed Design Tokens (resolved to final values)
+   Generated: 2026-03-11T19:19:27.537Z
+   Color scheme: light-dark (combined)
+   Theme: default
+   Tokens: 732
+   ════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ────────────────────────────────────────────────────
+     Color Primitives (colors.computed.css)
+     The foundational OKLCH color ramp for each family (neutral, accent, info, success, warning, danger).
+     Three sub-scales: 11-step raw (1–11), 11-step semantic (050–950, light-dark aware),
+     elevation (lowest→highest), brightness (dimmest→brightest), and scrim (alpha) variants.
+     Used everywhere — semantic tokens, components, and consumer code all reference these.
+     Defined in: src/styles/css/colors.computed.css  •  Layer: @layer colors
+     ──────────────────────────────────────────────────── */
+  --n-color-neutral-1:                     oklch(0.916667 0.00125 230);
+  --n-color-neutral-2:                     oklch(0.833333 0.006 230);
+  --n-color-neutral-3:                     oklch(0.75 0.01075 230);
+  --n-color-neutral-4:                     oklch(0.666667 0.0155 230);
+  --n-color-neutral-5:                     oklch(0.583333 0.02025 230);
+  --n-color-neutral-6:                     oklch(0.5 0.025 230);
+  --n-color-neutral-7:                     oklch(0.441667 0.02025 230);
+  --n-color-neutral-8:                     oklch(0.383333 0.0155 230);
+  --n-color-neutral-9:                     oklch(0.325 0.01075 230);
+  --n-color-neutral-10:                    oklch(0.266667 0.006 230);
+  --n-color-neutral-11:                    oklch(0.208333 0.00125 230);
+  --n-color-accent-1:                      oklch(0.933333 0.01 230);
+  --n-color-accent-2:                      oklch(0.866667 0.048 230);
+  --n-color-accent-3:                      oklch(0.8 0.086 230);
+  --n-color-accent-4:                      oklch(0.733333 0.124 230);
+  --n-color-accent-5:                      oklch(0.666667 0.162 230);
+  --n-color-accent-6:                      oklch(0.6 0.2 230);
+  --n-color-accent-7:                      oklch(0.525 0.162 230);
+  --n-color-accent-8:                      oklch(0.45 0.124 230);
+  --n-color-accent-9:                      oklch(0.375 0.086 230);
+  --n-color-accent-10:                     oklch(0.3 0.048 230);
+  --n-color-accent-11:                     oklch(0.225 0.01 230);
+  --n-color-info-1:                        oklch(0.933333 0.006 250);
+  --n-color-info-2:                        oklch(0.866667 0.0288 250);
+  --n-color-info-3:                        oklch(0.8 0.0516 250);
+  --n-color-info-4:                        oklch(0.733333 0.0744 250);
+  --n-color-info-5:                        oklch(0.666667 0.0972 250);
+  --n-color-info-6:                        oklch(0.6 0.12 250);
+  --n-color-info-7:                        oklch(0.525 0.0972 250);
+  --n-color-info-8:                        oklch(0.45 0.0744 250);
+  --n-color-info-9:                        oklch(0.375 0.0516 250);
+  --n-color-info-10:                       oklch(0.3 0.0288 250);
+  --n-color-info-11:                       oklch(0.225 0.006 250);
+  --n-color-success-1:                     oklch(0.925 0.0075 150);
+  --n-color-success-2:                     oklch(0.85 0.036 150);
+  --n-color-success-3:                     oklch(0.775 0.0645 150);
+  --n-color-success-4:                     oklch(0.7 0.093 150);
+  --n-color-success-5:                     oklch(0.625 0.1215 150);
+  --n-color-success-6:                     oklch(0.55 0.15 150);
+  --n-color-success-7:                     oklch(0.483333 0.1215 150);
+  --n-color-success-8:                     oklch(0.416667 0.093 150);
+  --n-color-success-9:                     oklch(0.35 0.0645 150);
+  --n-color-success-10:                    oklch(0.283333 0.036 150);
+  --n-color-success-11:                    oklch(0.216667 0.0075 150);
+  --n-color-warning-1:                     oklch(0.958333 0.0095 80);
+  --n-color-warning-2:                     oklch(0.916667 0.0456 80);
+  --n-color-warning-3:                     oklch(0.875 0.0817 80);
+  --n-color-warning-4:                     oklch(0.833333 0.1178 80);
+  --n-color-warning-5:                     oklch(0.791667 0.1539 80);
+  --n-color-warning-6:                     oklch(0.75 0.19 80);
+  --n-color-warning-7:                     oklch(0.65 0.1539 80);
+  --n-color-warning-8:                     oklch(0.55 0.1178 80);
+  --n-color-warning-9:                     oklch(0.45 0.0817 80);
+  --n-color-warning-10:                    oklch(0.35 0.0456 80);
+  --n-color-warning-11:                    oklch(0.25 0.0095 80);
+  --n-color-danger-1:                      oklch(0.916667 0.0085 20);
+  --n-color-danger-2:                      oklch(0.833333 0.0408 20);
+  --n-color-danger-3:                      oklch(0.75 0.0731 20);
+  --n-color-danger-4:                      oklch(0.666667 0.1054 20);
+  --n-color-danger-5:                      oklch(0.583333 0.1377 20);
+  --n-color-danger-6:                      oklch(0.5 0.17 20);
+  --n-color-danger-7:                      oklch(0.441667 0.1377 20);
+  --n-color-danger-8:                      oklch(0.383333 0.1054 20);
+  --n-color-danger-9:                      oklch(0.325 0.0731 20);
+  --n-color-danger-10:                     oklch(0.266667 0.0408 20);
+  --n-color-danger-11:                     oklch(0.208333 0.0085 20);
+  --n-color-neutral-050:                   light-dark(oklch(0.916667 0.00125 230), oklch(0.208333 0.00125 230));
+  --n-color-neutral-100:                   light-dark(oklch(0.833333 0.006 230), oklch(0.266667 0.006 230));
+  --n-color-neutral-200:                   light-dark(oklch(0.75 0.01075 230), oklch(0.325 0.01075 230));
+  --n-color-neutral-300:                   light-dark(oklch(0.666667 0.0155 230), oklch(0.383333 0.0155 230));
+  --n-color-neutral-400:                   light-dark(oklch(0.583333 0.02025 230), oklch(0.441667 0.02025 230));
+  --n-color-neutral-500:                   oklch(0.5 0.025 230);
+  --n-color-neutral-600:                   light-dark(oklch(0.441667 0.02025 230), oklch(0.583333 0.02025 230));
+  --n-color-neutral-700:                   light-dark(oklch(0.383333 0.0155 230), oklch(0.666667 0.0155 230));
+  --n-color-neutral-800:                   light-dark(oklch(0.325 0.01075 230), oklch(0.75 0.01075 230));
+  --n-color-neutral-900:                   light-dark(oklch(0.266667 0.006 230), oklch(0.833333 0.006 230));
+  --n-color-neutral-950:                   light-dark(oklch(0.208333 0.00125 230), oklch(0.916667 0.00125 230));
+  --n-color-accent-050:                    light-dark(oklch(0.933333 0.01 230), oklch(0.225 0.01 230));
+  --n-color-accent-100:                    light-dark(oklch(0.866667 0.048 230), oklch(0.3 0.048 230));
+  --n-color-accent-200:                    light-dark(oklch(0.8 0.086 230), oklch(0.375 0.086 230));
+  --n-color-accent-300:                    light-dark(oklch(0.733333 0.124 230), oklch(0.45 0.124 230));
+  --n-color-accent-400:                    light-dark(oklch(0.666667 0.162 230), oklch(0.525 0.162 230));
+  --n-color-accent-500:                    oklch(0.6 0.2 230);
+  --n-color-accent-600:                    light-dark(oklch(0.525 0.162 230), oklch(0.666667 0.162 230));
+  --n-color-accent-700:                    light-dark(oklch(0.45 0.124 230), oklch(0.733333 0.124 230));
+  --n-color-accent-800:                    light-dark(oklch(0.375 0.086 230), oklch(0.8 0.086 230));
+  --n-color-accent-900:                    light-dark(oklch(0.3 0.048 230), oklch(0.866667 0.048 230));
+  --n-color-accent-950:                    light-dark(oklch(0.225 0.01 230), oklch(0.933333 0.01 230));
+  --n-color-info-050:                      light-dark(oklch(0.933333 0.006 250), oklch(0.225 0.006 250));
+  --n-color-info-100:                      light-dark(oklch(0.866667 0.0288 250), oklch(0.3 0.0288 250));
+  --n-color-info-200:                      light-dark(oklch(0.8 0.0516 250), oklch(0.375 0.0516 250));
+  --n-color-info-300:                      light-dark(oklch(0.733333 0.0744 250), oklch(0.45 0.0744 250));
+  --n-color-info-400:                      light-dark(oklch(0.666667 0.0972 250), oklch(0.525 0.0972 250));
+  --n-color-info-500:                      oklch(0.6 0.12 250);
+  --n-color-info-600:                      light-dark(oklch(0.525 0.0972 250), oklch(0.666667 0.0972 250));
+  --n-color-info-700:                      light-dark(oklch(0.45 0.0744 250), oklch(0.733333 0.0744 250));
+  --n-color-info-800:                      light-dark(oklch(0.375 0.0516 250), oklch(0.8 0.0516 250));
+  --n-color-info-900:                      light-dark(oklch(0.3 0.0288 250), oklch(0.866667 0.0288 250));
+  --n-color-info-950:                      light-dark(oklch(0.225 0.006 250), oklch(0.933333 0.006 250));
+  --n-color-success-050:                   light-dark(oklch(0.925 0.0075 150), oklch(0.216667 0.0075 150));
+  --n-color-success-100:                   light-dark(oklch(0.85 0.036 150), oklch(0.283333 0.036 150));
+  --n-color-success-200:                   light-dark(oklch(0.775 0.0645 150), oklch(0.35 0.0645 150));
+  --n-color-success-300:                   light-dark(oklch(0.7 0.093 150), oklch(0.416667 0.093 150));
+  --n-color-success-400:                   light-dark(oklch(0.625 0.1215 150), oklch(0.483333 0.1215 150));
+  --n-color-success-500:                   oklch(0.55 0.15 150);
+  --n-color-success-600:                   light-dark(oklch(0.483333 0.1215 150), oklch(0.625 0.1215 150));
+  --n-color-success-700:                   light-dark(oklch(0.416667 0.093 150), oklch(0.7 0.093 150));
+  --n-color-success-800:                   light-dark(oklch(0.35 0.0645 150), oklch(0.775 0.0645 150));
+  --n-color-success-900:                   light-dark(oklch(0.283333 0.036 150), oklch(0.85 0.036 150));
+  --n-color-success-950:                   light-dark(oklch(0.216667 0.0075 150), oklch(0.925 0.0075 150));
+  --n-color-warning-050:                   light-dark(oklch(0.958333 0.0095 80), oklch(0.25 0.0095 80));
+  --n-color-warning-100:                   light-dark(oklch(0.916667 0.0456 80), oklch(0.35 0.0456 80));
+  --n-color-warning-200:                   light-dark(oklch(0.875 0.0817 80), oklch(0.45 0.0817 80));
+  --n-color-warning-300:                   light-dark(oklch(0.833333 0.1178 80), oklch(0.55 0.1178 80));
+  --n-color-warning-400:                   light-dark(oklch(0.791667 0.1539 80), oklch(0.65 0.1539 80));
+  --n-color-warning-500:                   oklch(0.75 0.19 80);
+  --n-color-warning-600:                   light-dark(oklch(0.65 0.1539 80), oklch(0.791667 0.1539 80));
+  --n-color-warning-700:                   light-dark(oklch(0.55 0.1178 80), oklch(0.833333 0.1178 80));
+  --n-color-warning-800:                   light-dark(oklch(0.45 0.0817 80), oklch(0.875 0.0817 80));
+  --n-color-warning-900:                   light-dark(oklch(0.35 0.0456 80), oklch(0.916667 0.0456 80));
+  --n-color-warning-950:                   light-dark(oklch(0.25 0.0095 80), oklch(0.958333 0.0095 80));
+  --n-color-danger-050:                    light-dark(oklch(0.916667 0.0085 20), oklch(0.208333 0.0085 20));
+  --n-color-danger-100:                    light-dark(oklch(0.833333 0.0408 20), oklch(0.266667 0.0408 20));
+  --n-color-danger-200:                    light-dark(oklch(0.75 0.0731 20), oklch(0.325 0.0731 20));
+  --n-color-danger-300:                    light-dark(oklch(0.666667 0.1054 20), oklch(0.383333 0.1054 20));
+  --n-color-danger-400:                    light-dark(oklch(0.583333 0.1377 20), oklch(0.441667 0.1377 20));
+  --n-color-danger-500:                    oklch(0.5 0.17 20);
+  --n-color-danger-600:                    light-dark(oklch(0.441667 0.1377 20), oklch(0.583333 0.1377 20));
+  --n-color-danger-700:                    light-dark(oklch(0.383333 0.1054 20), oklch(0.666667 0.1054 20));
+  --n-color-danger-800:                    light-dark(oklch(0.325 0.0731 20), oklch(0.75 0.0731 20));
+  --n-color-danger-900:                    light-dark(oklch(0.266667 0.0408 20), oklch(0.833333 0.0408 20));
+  --n-color-danger-950:                    light-dark(oklch(0.208333 0.0085 20), oklch(0.916667 0.0085 20));
+  --n-color-neutral:                       oklch(0.5 0.025 230);
+  --n-color-accent:                        oklch(0.6 0.2 230);
+  --n-color-info:                          oklch(0.6 0.12 250);
+  --n-color-success:                       oklch(0.55 0.15 150);
+  --n-color-warning:                       oklch(0.75 0.19 80);
+  --n-color-danger:                        oklch(0.5 0.17 20);
+  --n-color-neutral-1-scrim:               oklch(0.916667 0.00125 230 / 0.85);
+  --n-color-neutral-2-scrim:               oklch(0.833333 0.006 230 / 0.85);
+  --n-color-neutral-3-scrim:               oklch(0.75 0.01075 230 / 0.85);
+  --n-color-neutral-4-scrim:               oklch(0.666667 0.0155 230 / 0.85);
+  --n-color-neutral-5-scrim:               oklch(0.583333 0.02025 230 / 0.85);
+  --n-color-neutral-6-scrim:               oklch(0.5 0.025 230 / 0.85);
+  --n-color-neutral-7-scrim:               oklch(0.441667 0.02025 230 / 0.85);
+  --n-color-neutral-8-scrim:               oklch(0.383333 0.0155 230 / 0.85);
+  --n-color-neutral-9-scrim:               oklch(0.325 0.01075 230 / 0.85);
+  --n-color-neutral-10-scrim:              oklch(0.266667 0.006 230 / 0.85);
+  --n-color-neutral-11-scrim:              oklch(0.208333 0.00125 230 / 0.85);
+  --n-color-accent-1-scrim:                oklch(0.933333 0.01 230 / 0.85);
+  --n-color-accent-2-scrim:                oklch(0.866667 0.048 230 / 0.85);
+  --n-color-accent-3-scrim:                oklch(0.8 0.086 230 / 0.85);
+  --n-color-accent-4-scrim:                oklch(0.733333 0.124 230 / 0.85);
+  --n-color-accent-5-scrim:                oklch(0.666667 0.162 230 / 0.85);
+  --n-color-accent-6-scrim:                oklch(0.6 0.2 230 / 0.85);
+  --n-color-accent-7-scrim:                oklch(0.525 0.162 230 / 0.85);
+  --n-color-accent-8-scrim:                oklch(0.45 0.124 230 / 0.85);
+  --n-color-accent-9-scrim:                oklch(0.375 0.086 230 / 0.85);
+  --n-color-accent-10-scrim:               oklch(0.3 0.048 230 / 0.85);
+  --n-color-accent-11-scrim:               oklch(0.225 0.01 230 / 0.85);
+  --n-color-info-1-scrim:                  oklch(0.933333 0.006 250 / 0.85);
+  --n-color-info-2-scrim:                  oklch(0.866667 0.0288 250 / 0.85);
+  --n-color-info-3-scrim:                  oklch(0.8 0.0516 250 / 0.85);
+  --n-color-info-4-scrim:                  oklch(0.733333 0.0744 250 / 0.85);
+  --n-color-info-5-scrim:                  oklch(0.666667 0.0972 250 / 0.85);
+  --n-color-info-6-scrim:                  oklch(0.6 0.12 250 / 0.85);
+  --n-color-info-7-scrim:                  oklch(0.525 0.0972 250 / 0.85);
+  --n-color-info-8-scrim:                  oklch(0.45 0.0744 250 / 0.85);
+  --n-color-info-9-scrim:                  oklch(0.375 0.0516 250 / 0.85);
+  --n-color-info-10-scrim:                 oklch(0.3 0.0288 250 / 0.85);
+  --n-color-info-11-scrim:                 oklch(0.225 0.006 250 / 0.85);
+  --n-color-success-1-scrim:               oklch(0.925 0.0075 150 / 0.85);
+  --n-color-success-2-scrim:               oklch(0.85 0.036 150 / 0.85);
+  --n-color-success-3-scrim:               oklch(0.775 0.0645 150 / 0.85);
+  --n-color-success-4-scrim:               oklch(0.7 0.093 150 / 0.85);
+  --n-color-success-5-scrim:               oklch(0.625 0.1215 150 / 0.85);
+  --n-color-success-6-scrim:               oklch(0.55 0.15 150 / 0.85);
+  --n-color-success-7-scrim:               oklch(0.483333 0.1215 150 / 0.85);
+  --n-color-success-8-scrim:               oklch(0.416667 0.093 150 / 0.85);
+  --n-color-success-9-scrim:               oklch(0.35 0.0645 150 / 0.85);
+  --n-color-success-10-scrim:              oklch(0.283333 0.036 150 / 0.85);
+  --n-color-success-11-scrim:              oklch(0.216667 0.0075 150 / 0.85);
+  --n-color-warning-1-scrim:               oklch(0.958333 0.0095 80 / 0.85);
+  --n-color-warning-2-scrim:               oklch(0.916667 0.0456 80 / 0.85);
+  --n-color-warning-3-scrim:               oklch(0.875 0.0817 80 / 0.85);
+  --n-color-warning-4-scrim:               oklch(0.833333 0.1178 80 / 0.85);
+  --n-color-warning-5-scrim:               oklch(0.791667 0.1539 80 / 0.85);
+  --n-color-warning-6-scrim:               oklch(0.75 0.19 80 / 0.85);
+  --n-color-warning-7-scrim:               oklch(0.65 0.1539 80 / 0.85);
+  --n-color-warning-8-scrim:               oklch(0.55 0.1178 80 / 0.85);
+  --n-color-warning-9-scrim:               oklch(0.45 0.0817 80 / 0.85);
+  --n-color-warning-10-scrim:              oklch(0.35 0.0456 80 / 0.85);
+  --n-color-warning-11-scrim:              oklch(0.25 0.0095 80 / 0.85);
+  --n-color-danger-1-scrim:                oklch(0.916667 0.0085 20 / 0.85);
+  --n-color-danger-2-scrim:                oklch(0.833333 0.0408 20 / 0.85);
+  --n-color-danger-3-scrim:                oklch(0.75 0.0731 20 / 0.85);
+  --n-color-danger-4-scrim:                oklch(0.666667 0.1054 20 / 0.85);
+  --n-color-danger-5-scrim:                oklch(0.583333 0.1377 20 / 0.85);
+  --n-color-danger-6-scrim:                oklch(0.5 0.17 20 / 0.85);
+  --n-color-danger-7-scrim:                oklch(0.441667 0.1377 20 / 0.85);
+  --n-color-danger-8-scrim:                oklch(0.383333 0.1054 20 / 0.85);
+  --n-color-danger-9-scrim:                oklch(0.325 0.0731 20 / 0.85);
+  --n-color-danger-10-scrim:               oklch(0.266667 0.0408 20 / 0.85);
+  --n-color-danger-11-scrim:               oklch(0.208333 0.0085 20 / 0.85);
+  --n-color-neutral-050-scrim:             light-dark(oklch(0.916667 0.00125 230 / 0.85), oklch(0.208333 0.00125 230 / 0.85));
+  --n-color-neutral-100-scrim:             light-dark(oklch(0.833333 0.006 230 / 0.85), oklch(0.266667 0.006 230 / 0.85));
+  --n-color-neutral-200-scrim:             light-dark(oklch(0.75 0.01075 230 / 0.85), oklch(0.325 0.01075 230 / 0.85));
+  --n-color-neutral-300-scrim:             light-dark(oklch(0.666667 0.0155 230 / 0.85), oklch(0.383333 0.0155 230 / 0.85));
+  --n-color-neutral-400-scrim:             light-dark(oklch(0.583333 0.02025 230 / 0.85), oklch(0.441667 0.02025 230 / 0.85));
+  --n-color-neutral-500-scrim:             oklch(0.5 0.025 230 / 0.85);
+  --n-color-neutral-600-scrim:             light-dark(oklch(0.441667 0.02025 230 / 0.85), oklch(0.583333 0.02025 230 / 0.85));
+  --n-color-neutral-700-scrim:             light-dark(oklch(0.383333 0.0155 230 / 0.85), oklch(0.666667 0.0155 230 / 0.85));
+  --n-color-neutral-800-scrim:             light-dark(oklch(0.325 0.01075 230 / 0.85), oklch(0.75 0.01075 230 / 0.85));
+  --n-color-neutral-900-scrim:             light-dark(oklch(0.266667 0.006 230 / 0.85), oklch(0.833333 0.006 230 / 0.85));
+  --n-color-neutral-950-scrim:             light-dark(oklch(0.208333 0.00125 230 / 0.85), oklch(0.916667 0.00125 230 / 0.85));
+  --n-color-accent-050-scrim:              light-dark(oklch(0.933333 0.01 230 / 0.85), oklch(0.225 0.01 230 / 0.85));
+  --n-color-accent-100-scrim:              light-dark(oklch(0.866667 0.048 230 / 0.85), oklch(0.3 0.048 230 / 0.85));
+  --n-color-accent-200-scrim:              light-dark(oklch(0.8 0.086 230 / 0.85), oklch(0.375 0.086 230 / 0.85));
+  --n-color-accent-300-scrim:              light-dark(oklch(0.733333 0.124 230 / 0.85), oklch(0.45 0.124 230 / 0.85));
+  --n-color-accent-400-scrim:              light-dark(oklch(0.666667 0.162 230 / 0.85), oklch(0.525 0.162 230 / 0.85));
+  --n-color-accent-500-scrim:              oklch(0.6 0.2 230 / 0.85);
+  --n-color-accent-600-scrim:              light-dark(oklch(0.525 0.162 230 / 0.85), oklch(0.666667 0.162 230 / 0.85));
+  --n-color-accent-700-scrim:              light-dark(oklch(0.45 0.124 230 / 0.85), oklch(0.733333 0.124 230 / 0.85));
+  --n-color-accent-800-scrim:              light-dark(oklch(0.375 0.086 230 / 0.85), oklch(0.8 0.086 230 / 0.85));
+  --n-color-accent-900-scrim:              light-dark(oklch(0.3 0.048 230 / 0.85), oklch(0.866667 0.048 230 / 0.85));
+  --n-color-accent-950-scrim:              light-dark(oklch(0.225 0.01 230 / 0.85), oklch(0.933333 0.01 230 / 0.85));
+  --n-color-info-050-scrim:                light-dark(oklch(0.933333 0.006 250 / 0.85), oklch(0.225 0.006 250 / 0.85));
+  --n-color-info-100-scrim:                light-dark(oklch(0.866667 0.0288 250 / 0.85), oklch(0.3 0.0288 250 / 0.85));
+  --n-color-info-200-scrim:                light-dark(oklch(0.8 0.0516 250 / 0.85), oklch(0.375 0.0516 250 / 0.85));
+  --n-color-info-300-scrim:                light-dark(oklch(0.733333 0.0744 250 / 0.85), oklch(0.45 0.0744 250 / 0.85));
+  --n-color-info-400-scrim:                light-dark(oklch(0.666667 0.0972 250 / 0.85), oklch(0.525 0.0972 250 / 0.85));
+  --n-color-info-500-scrim:                oklch(0.6 0.12 250 / 0.85);
+  --n-color-info-600-scrim:                light-dark(oklch(0.525 0.0972 250 / 0.85), oklch(0.666667 0.0972 250 / 0.85));
+  --n-color-info-700-scrim:                light-dark(oklch(0.45 0.0744 250 / 0.85), oklch(0.733333 0.0744 250 / 0.85));
+  --n-color-info-800-scrim:                light-dark(oklch(0.375 0.0516 250 / 0.85), oklch(0.8 0.0516 250 / 0.85));
+  --n-color-info-900-scrim:                light-dark(oklch(0.3 0.0288 250 / 0.85), oklch(0.866667 0.0288 250 / 0.85));
+  --n-color-info-950-scrim:                light-dark(oklch(0.225 0.006 250 / 0.85), oklch(0.933333 0.006 250 / 0.85));
+  --n-color-success-050-scrim:             light-dark(oklch(0.925 0.0075 150 / 0.85), oklch(0.216667 0.0075 150 / 0.85));
+  --n-color-success-100-scrim:             light-dark(oklch(0.85 0.036 150 / 0.85), oklch(0.283333 0.036 150 / 0.85));
+  --n-color-success-200-scrim:             light-dark(oklch(0.775 0.0645 150 / 0.85), oklch(0.35 0.0645 150 / 0.85));
+  --n-color-success-300-scrim:             light-dark(oklch(0.7 0.093 150 / 0.85), oklch(0.416667 0.093 150 / 0.85));
+  --n-color-success-400-scrim:             light-dark(oklch(0.625 0.1215 150 / 0.85), oklch(0.483333 0.1215 150 / 0.85));
+  --n-color-success-500-scrim:             oklch(0.55 0.15 150 / 0.85);
+  --n-color-success-600-scrim:             light-dark(oklch(0.483333 0.1215 150 / 0.85), oklch(0.625 0.1215 150 / 0.85));
+  --n-color-success-700-scrim:             light-dark(oklch(0.416667 0.093 150 / 0.85), oklch(0.7 0.093 150 / 0.85));
+  --n-color-success-800-scrim:             light-dark(oklch(0.35 0.0645 150 / 0.85), oklch(0.775 0.0645 150 / 0.85));
+  --n-color-success-900-scrim:             light-dark(oklch(0.283333 0.036 150 / 0.85), oklch(0.85 0.036 150 / 0.85));
+  --n-color-success-950-scrim:             light-dark(oklch(0.216667 0.0075 150 / 0.85), oklch(0.925 0.0075 150 / 0.85));
+  --n-color-warning-050-scrim:             light-dark(oklch(0.958333 0.0095 80 / 0.85), oklch(0.25 0.0095 80 / 0.85));
+  --n-color-warning-100-scrim:             light-dark(oklch(0.916667 0.0456 80 / 0.85), oklch(0.35 0.0456 80 / 0.85));
+  --n-color-warning-200-scrim:             light-dark(oklch(0.875 0.0817 80 / 0.85), oklch(0.45 0.0817 80 / 0.85));
+  --n-color-warning-300-scrim:             light-dark(oklch(0.833333 0.1178 80 / 0.85), oklch(0.55 0.1178 80 / 0.85));
+  --n-color-warning-400-scrim:             light-dark(oklch(0.791667 0.1539 80 / 0.85), oklch(0.65 0.1539 80 / 0.85));
+  --n-color-warning-500-scrim:             oklch(0.75 0.19 80 / 0.85);
+  --n-color-warning-600-scrim:             light-dark(oklch(0.65 0.1539 80 / 0.85), oklch(0.791667 0.1539 80 / 0.85));
+  --n-color-warning-700-scrim:             light-dark(oklch(0.55 0.1178 80 / 0.85), oklch(0.833333 0.1178 80 / 0.85));
+  --n-color-warning-800-scrim:             light-dark(oklch(0.45 0.0817 80 / 0.85), oklch(0.875 0.0817 80 / 0.85));
+  --n-color-warning-900-scrim:             light-dark(oklch(0.35 0.0456 80 / 0.85), oklch(0.916667 0.0456 80 / 0.85));
+  --n-color-warning-950-scrim:             light-dark(oklch(0.25 0.0095 80 / 0.85), oklch(0.958333 0.0095 80 / 0.85));
+  --n-color-danger-050-scrim:              light-dark(oklch(0.916667 0.0085 20 / 0.85), oklch(0.208333 0.0085 20 / 0.85));
+  --n-color-danger-100-scrim:              light-dark(oklch(0.833333 0.0408 20 / 0.85), oklch(0.266667 0.0408 20 / 0.85));
+  --n-color-danger-200-scrim:              light-dark(oklch(0.75 0.0731 20 / 0.85), oklch(0.325 0.0731 20 / 0.85));
+  --n-color-danger-300-scrim:              light-dark(oklch(0.666667 0.1054 20 / 0.85), oklch(0.383333 0.1054 20 / 0.85));
+  --n-color-danger-400-scrim:              light-dark(oklch(0.583333 0.1377 20 / 0.85), oklch(0.441667 0.1377 20 / 0.85));
+  --n-color-danger-500-scrim:              oklch(0.5 0.17 20 / 0.85);
+  --n-color-danger-600-scrim:              light-dark(oklch(0.441667 0.1377 20 / 0.85), oklch(0.583333 0.1377 20 / 0.85));
+  --n-color-danger-700-scrim:              light-dark(oklch(0.383333 0.1054 20 / 0.85), oklch(0.666667 0.1054 20 / 0.85));
+  --n-color-danger-800-scrim:              light-dark(oklch(0.325 0.0731 20 / 0.85), oklch(0.75 0.0731 20 / 0.85));
+  --n-color-danger-900-scrim:              light-dark(oklch(0.266667 0.0408 20 / 0.85), oklch(0.833333 0.0408 20 / 0.85));
+  --n-color-danger-950-scrim:              light-dark(oklch(0.208333 0.0085 20 / 0.85), oklch(0.916667 0.0085 20 / 0.85));
+  --n-color-neutral-scrim-tint-strongest:  oklch(0.5 0.025 230 / 0.85);
+  --n-color-neutral-scrim-tint-stronger:   oklch(0.583333 0.025 230 / 0.728571);
+  --n-color-neutral-scrim-tint-strong:     oklch(0.666667 0.025 230 / 0.607143);
+  --n-color-neutral-scrim-tint-base:       oklch(0.75 0.025 230 / 0.485714);
+  --n-color-neutral-scrim-tint-weak:       oklch(0.833333 0.025 230 / 0.364286);
+  --n-color-neutral-scrim-tint-weaker:     oklch(0.916667 0.025 230 / 0.242857);
+  --n-color-neutral-scrim-tint-weakest:    oklch(1 0.025 230 / 0.121429);
+  --n-color-neutral-scrim-shade-strongest: oklch(0.5 0.025 230 / 0.85);
+  --n-color-neutral-scrim-shade-stronger:  oklch(0.441667 0.025 230 / 0.728571);
+  --n-color-neutral-scrim-shade-strong:    oklch(0.383333 0.025 230 / 0.607143);
+  --n-color-neutral-scrim-shade-base:      oklch(0.325 0.025 230 / 0.485714);
+  --n-color-neutral-scrim-shade-weak:      oklch(0.266667 0.025 230 / 0.364286);
+  --n-color-neutral-scrim-shade-weaker:    oklch(0.208333 0.025 230 / 0.242857);
+  --n-color-neutral-scrim-shade-weakest:   oklch(0.15 0.025 230 / 0.121429);
+  --n-color-accent-scrim-tint-strongest:   oklch(0.6 0.2 230 / 0.85);
+  --n-color-accent-scrim-tint-stronger:    oklch(0.666667 0.2 230 / 0.728571);
+  --n-color-accent-scrim-tint-strong:      oklch(0.733333 0.2 230 / 0.607143);
+  --n-color-accent-scrim-tint-base:        oklch(0.8 0.2 230 / 0.485714);
+  --n-color-accent-scrim-tint-weak:        oklch(0.866667 0.2 230 / 0.364286);
+  --n-color-accent-scrim-tint-weaker:      oklch(0.933333 0.2 230 / 0.242857);
+  --n-color-accent-scrim-tint-weakest:     oklch(1 0.2 230 / 0.121429);
+  --n-color-accent-scrim-shade-strongest:  oklch(0.6 0.2 230 / 0.85);
+  --n-color-accent-scrim-shade-stronger:   oklch(0.525 0.2 230 / 0.728571);
+  --n-color-accent-scrim-shade-strong:     oklch(0.45 0.2 230 / 0.607143);
+  --n-color-accent-scrim-shade-base:       oklch(0.375 0.2 230 / 0.485714);
+  --n-color-accent-scrim-shade-weak:       oklch(0.3 0.2 230 / 0.364286);
+  --n-color-accent-scrim-shade-weaker:     oklch(0.225 0.2 230 / 0.242857);
+  --n-color-accent-scrim-shade-weakest:    oklch(0.15 0.2 230 / 0.121429);
+  --n-color-info-scrim-tint-strongest:     oklch(0.6 0.12 250 / 0.85);
+  --n-color-info-scrim-tint-stronger:      oklch(0.666667 0.12 250 / 0.728571);
+  --n-color-info-scrim-tint-strong:        oklch(0.733333 0.12 250 / 0.607143);
+  --n-color-info-scrim-tint-base:          oklch(0.8 0.12 250 / 0.485714);
+  --n-color-info-scrim-tint-weak:          oklch(0.866667 0.12 250 / 0.364286);
+  --n-color-info-scrim-tint-weaker:        oklch(0.933333 0.12 250 / 0.242857);
+  --n-color-info-scrim-tint-weakest:       oklch(1 0.12 250 / 0.121429);
+  --n-color-info-scrim-shade-strongest:    oklch(0.6 0.12 250 / 0.85);
+  --n-color-info-scrim-shade-stronger:     oklch(0.525 0.12 250 / 0.728571);
+  --n-color-info-scrim-shade-strong:       oklch(0.45 0.12 250 / 0.607143);
+  --n-color-info-scrim-shade-base:         oklch(0.375 0.12 250 / 0.485714);
+  --n-color-info-scrim-shade-weak:         oklch(0.3 0.12 250 / 0.364286);
+  --n-color-info-scrim-shade-weaker:       oklch(0.225 0.12 250 / 0.242857);
+  --n-color-info-scrim-shade-weakest:      oklch(0.15 0.12 250 / 0.121429);
+  --n-color-success-scrim-tint-strongest:  oklch(0.55 0.15 150 / 0.85);
+  --n-color-success-scrim-tint-stronger:   oklch(0.625 0.15 150 / 0.728571);
+  --n-color-success-scrim-tint-strong:     oklch(0.7 0.15 150 / 0.607143);
+  --n-color-success-scrim-tint-base:       oklch(0.775 0.15 150 / 0.485714);
+  --n-color-success-scrim-tint-weak:       oklch(0.85 0.15 150 / 0.364286);
+  --n-color-success-scrim-tint-weaker:     oklch(0.925 0.15 150 / 0.242857);
+  --n-color-success-scrim-tint-weakest:    oklch(1 0.15 150 / 0.121429);
+  --n-color-success-scrim-shade-strongest: oklch(0.55 0.15 150 / 0.85);
+  --n-color-success-scrim-shade-stronger:  oklch(0.483333 0.15 150 / 0.728571);
+  --n-color-success-scrim-shade-strong:    oklch(0.416667 0.15 150 / 0.607143);
+  --n-color-success-scrim-shade-base:      oklch(0.35 0.15 150 / 0.485714);
+  --n-color-success-scrim-shade-weak:      oklch(0.283333 0.15 150 / 0.364286);
+  --n-color-success-scrim-shade-weaker:    oklch(0.216667 0.15 150 / 0.242857);
+  --n-color-success-scrim-shade-weakest:   oklch(0.15 0.15 150 / 0.121429);
+  --n-color-warning-scrim-tint-strongest:  oklch(0.75 0.19 80 / 0.85);
+  --n-color-warning-scrim-tint-stronger:   oklch(0.791667 0.19 80 / 0.728571);
+  --n-color-warning-scrim-tint-strong:     oklch(0.833333 0.19 80 / 0.607143);
+  --n-color-warning-scrim-tint-base:       oklch(0.875 0.19 80 / 0.485714);
+  --n-color-warning-scrim-tint-weak:       oklch(0.916667 0.19 80 / 0.364286);
+  --n-color-warning-scrim-tint-weaker:     oklch(0.958333 0.19 80 / 0.242857);
+  --n-color-warning-scrim-tint-weakest:    oklch(1 0.19 80 / 0.121429);
+  --n-color-warning-scrim-shade-strongest: oklch(0.75 0.19 80 / 0.85);
+  --n-color-warning-scrim-shade-stronger:  oklch(0.65 0.19 80 / 0.728571);
+  --n-color-warning-scrim-shade-strong:    oklch(0.55 0.19 80 / 0.607143);
+  --n-color-warning-scrim-shade-base:      oklch(0.45 0.19 80 / 0.485714);
+  --n-color-warning-scrim-shade-weak:      oklch(0.35 0.19 80 / 0.364286);
+  --n-color-warning-scrim-shade-weaker:    oklch(0.25 0.19 80 / 0.242857);
+  --n-color-warning-scrim-shade-weakest:   oklch(0.15 0.19 80 / 0.121429);
+  --n-color-danger-scrim-tint-strongest:   oklch(0.5 0.17 20 / 0.85);
+  --n-color-danger-scrim-tint-stronger:    oklch(0.583333 0.17 20 / 0.728571);
+  --n-color-danger-scrim-tint-strong:      oklch(0.666667 0.17 20 / 0.607143);
+  --n-color-danger-scrim-tint-base:        oklch(0.75 0.17 20 / 0.485714);
+  --n-color-danger-scrim-tint-weak:        oklch(0.833333 0.17 20 / 0.364286);
+  --n-color-danger-scrim-tint-weaker:      oklch(0.916667 0.17 20 / 0.242857);
+  --n-color-danger-scrim-tint-weakest:     oklch(1 0.17 20 / 0.121429);
+  --n-color-danger-scrim-shade-strongest:  oklch(0.5 0.17 20 / 0.85);
+  --n-color-danger-scrim-shade-stronger:   oklch(0.441667 0.17 20 / 0.728571);
+  --n-color-danger-scrim-shade-strong:     oklch(0.383333 0.17 20 / 0.607143);
+  --n-color-danger-scrim-shade-base:       oklch(0.325 0.17 20 / 0.485714);
+  --n-color-danger-scrim-shade-weak:       oklch(0.266667 0.17 20 / 0.364286);
+  --n-color-danger-scrim-shade-weaker:     oklch(0.208333 0.17 20 / 0.242857);
+  --n-color-danger-scrim-shade-weakest:    oklch(0.15 0.17 20 / 0.121429);
+  --n-color-neutral-scrim:                 oklch(0.5 0.025 230 / 0.85);
+  --n-color-accent-scrim:                  oklch(0.6 0.2 230 / 0.85);
+  --n-color-info-scrim:                    oklch(0.6 0.12 250 / 0.85);
+  --n-color-success-scrim:                 oklch(0.55 0.15 150 / 0.85);
+  --n-color-warning-scrim:                 oklch(0.75 0.19 80 / 0.85);
+  --n-color-danger-scrim:                  oklch(0.5 0.17 20 / 0.85);
+  --n-color-neutral-lowest:                light-dark(oklch(1 0.003125 230), oklch(0.15 0.003125 230));
+  --n-color-neutral-lower:                 light-dark(oklch(0.985 0.003125 230), oklch(0.165 0.003125 230));
+  --n-color-neutral-low:                   light-dark(oklch(0.97 0.003125 230), oklch(0.18 0.003125 230));
+  --n-color-neutral-base:                  light-dark(oklch(0.955 0.003125 230), oklch(0.195 0.003125 230));
+  --n-color-neutral-high:                  light-dark(oklch(0.94 0.003125 230), oklch(0.21 0.003125 230));
+  --n-color-neutral-higher:                light-dark(oklch(0.925 0.003125 230), oklch(0.225 0.003125 230));
+  --n-color-neutral-highest:               light-dark(oklch(0.91 0.003125 230), oklch(0.24 0.003125 230));
+  --n-color-accent-lowest:                 light-dark(oklch(1 0.025 230), oklch(0.15 0.025 230));
+  --n-color-accent-lower:                  light-dark(oklch(0.985 0.025 230), oklch(0.165 0.025 230));
+  --n-color-accent-low:                    light-dark(oklch(0.97 0.025 230), oklch(0.18 0.025 230));
+  --n-color-accent-base:                   light-dark(oklch(0.955 0.025 230), oklch(0.195 0.025 230));
+  --n-color-accent-high:                   light-dark(oklch(0.94 0.025 230), oklch(0.21 0.025 230));
+  --n-color-accent-higher:                 light-dark(oklch(0.925 0.025 230), oklch(0.225 0.025 230));
+  --n-color-accent-highest:                light-dark(oklch(0.91 0.025 230), oklch(0.24 0.025 230));
+  --n-color-info-lowest:                   light-dark(oklch(1 0.015 250), oklch(0.15 0.015 250));
+  --n-color-info-lower:                    light-dark(oklch(0.985 0.015 250), oklch(0.165 0.015 250));
+  --n-color-info-low:                      light-dark(oklch(0.97 0.015 250), oklch(0.18 0.015 250));
+  --n-color-info-base:                     light-dark(oklch(0.955 0.015 250), oklch(0.195 0.015 250));
+  --n-color-info-high:                     light-dark(oklch(0.94 0.015 250), oklch(0.21 0.015 250));
+  --n-color-info-higher:                   light-dark(oklch(0.925 0.015 250), oklch(0.225 0.015 250));
+  --n-color-info-highest:                  light-dark(oklch(0.91 0.015 250), oklch(0.24 0.015 250));
+  --n-color-success-lowest:                light-dark(oklch(1 0.01875 150), oklch(0.15 0.01875 150));
+  --n-color-success-lower:                 light-dark(oklch(0.985 0.01875 150), oklch(0.165 0.01875 150));
+  --n-color-success-low:                   light-dark(oklch(0.97 0.01875 150), oklch(0.18 0.01875 150));
+  --n-color-success-base:                  light-dark(oklch(0.955 0.01875 150), oklch(0.195 0.01875 150));
+  --n-color-success-high:                  light-dark(oklch(0.94 0.01875 150), oklch(0.21 0.01875 150));
+  --n-color-success-higher:                light-dark(oklch(0.925 0.01875 150), oklch(0.225 0.01875 150));
+  --n-color-success-highest:               light-dark(oklch(0.91 0.01875 150), oklch(0.24 0.01875 150));
+  --n-color-warning-lowest:                light-dark(oklch(1 0.02375 80), oklch(0.15 0.02375 80));
+  --n-color-warning-lower:                 light-dark(oklch(0.985 0.02375 80), oklch(0.165 0.02375 80));
+  --n-color-warning-low:                   light-dark(oklch(0.97 0.02375 80), oklch(0.18 0.02375 80));
+  --n-color-warning-base:                  light-dark(oklch(0.955 0.02375 80), oklch(0.195 0.02375 80));
+  --n-color-warning-high:                  light-dark(oklch(0.94 0.02375 80), oklch(0.21 0.02375 80));
+  --n-color-warning-higher:                light-dark(oklch(0.925 0.02375 80), oklch(0.225 0.02375 80));
+  --n-color-warning-highest:               light-dark(oklch(0.91 0.02375 80), oklch(0.24 0.02375 80));
+  --n-color-danger-lowest:                 light-dark(oklch(1 0.02125 20), oklch(0.15 0.02125 20));
+  --n-color-danger-lower:                  light-dark(oklch(0.985 0.02125 20), oklch(0.165 0.02125 20));
+  --n-color-danger-low:                    light-dark(oklch(0.97 0.02125 20), oklch(0.18 0.02125 20));
+  --n-color-danger-base:                   light-dark(oklch(0.955 0.02125 20), oklch(0.195 0.02125 20));
+  --n-color-danger-high:                   light-dark(oklch(0.94 0.02125 20), oklch(0.21 0.02125 20));
+  --n-color-danger-higher:                 light-dark(oklch(0.925 0.02125 20), oklch(0.225 0.02125 20));
+  --n-color-danger-highest:                light-dark(oklch(0.91 0.02125 20), oklch(0.24 0.02125 20));
+  --n-color-neutral-brightest:             light-dark(oklch(1 0.003125 230), oklch(0.24 0.003125 230));
+  --n-color-neutral-brighter:              light-dark(oklch(0.985 0.003125 230), oklch(0.225 0.003125 230));
+  --n-color-neutral-bright:                light-dark(oklch(0.97 0.003125 230), oklch(0.21 0.003125 230));
+  --n-color-neutral-dim:                   light-dark(oklch(0.94 0.003125 230), oklch(0.18 0.003125 230));
+  --n-color-neutral-dimmer:                light-dark(oklch(0.925 0.003125 230), oklch(0.165 0.003125 230));
+  --n-color-neutral-dimmest:               light-dark(oklch(0.91 0.003125 230), oklch(0.15 0.003125 230));
+  --n-color-accent-brightest:              light-dark(oklch(1 0.025 230), oklch(0.24 0.025 230));
+  --n-color-accent-brighter:               light-dark(oklch(0.985 0.025 230), oklch(0.225 0.025 230));
+  --n-color-accent-bright:                 light-dark(oklch(0.97 0.025 230), oklch(0.21 0.025 230));
+  --n-color-accent-dim:                    light-dark(oklch(0.94 0.025 230), oklch(0.18 0.025 230));
+  --n-color-accent-dimmer:                 light-dark(oklch(0.925 0.025 230), oklch(0.165 0.025 230));
+  --n-color-accent-dimmest:                light-dark(oklch(0.91 0.025 230), oklch(0.15 0.025 230));
+  --n-color-info-brightest:                light-dark(oklch(1 0.015 250), oklch(0.24 0.015 250));
+  --n-color-info-brighter:                 light-dark(oklch(0.985 0.015 250), oklch(0.225 0.015 250));
+  --n-color-info-bright:                   light-dark(oklch(0.97 0.015 250), oklch(0.21 0.015 250));
+  --n-color-info-dim:                      light-dark(oklch(0.94 0.015 250), oklch(0.18 0.015 250));
+  --n-color-info-dimmer:                   light-dark(oklch(0.925 0.015 250), oklch(0.165 0.015 250));
+  --n-color-info-dimmest:                  light-dark(oklch(0.91 0.015 250), oklch(0.15 0.015 250));
+  --n-color-success-brightest:             light-dark(oklch(1 0.01875 150), oklch(0.24 0.01875 150));
+  --n-color-success-brighter:              light-dark(oklch(0.985 0.01875 150), oklch(0.225 0.01875 150));
+  --n-color-success-bright:                light-dark(oklch(0.97 0.01875 150), oklch(0.21 0.01875 150));
+  --n-color-success-dim:                   light-dark(oklch(0.94 0.01875 150), oklch(0.18 0.01875 150));
+  --n-color-success-dimmer:                light-dark(oklch(0.925 0.01875 150), oklch(0.165 0.01875 150));
+  --n-color-success-dimmest:               light-dark(oklch(0.91 0.01875 150), oklch(0.15 0.01875 150));
+  --n-color-warning-brightest:             light-dark(oklch(1 0.02375 80), oklch(0.24 0.02375 80));
+  --n-color-warning-brighter:              light-dark(oklch(0.985 0.02375 80), oklch(0.225 0.02375 80));
+  --n-color-warning-bright:                light-dark(oklch(0.97 0.02375 80), oklch(0.21 0.02375 80));
+  --n-color-warning-dim:                   light-dark(oklch(0.94 0.02375 80), oklch(0.18 0.02375 80));
+  --n-color-warning-dimmer:                light-dark(oklch(0.925 0.02375 80), oklch(0.165 0.02375 80));
+  --n-color-warning-dimmest:               light-dark(oklch(0.91 0.02375 80), oklch(0.15 0.02375 80));
+  --n-color-danger-brightest:              light-dark(oklch(1 0.02125 20), oklch(0.24 0.02125 20));
+  --n-color-danger-brighter:               light-dark(oklch(0.985 0.02125 20), oklch(0.225 0.02125 20));
+  --n-color-danger-bright:                 light-dark(oklch(0.97 0.02125 20), oklch(0.21 0.02125 20));
+  --n-color-danger-dim:                    light-dark(oklch(0.94 0.02125 20), oklch(0.18 0.02125 20));
+  --n-color-danger-dimmer:                 light-dark(oklch(0.925 0.02125 20), oklch(0.165 0.02125 20));
+  --n-color-danger-dimmest:                light-dark(oklch(0.91 0.02125 20), oklch(0.15 0.02125 20));
+
+  /* ────────────────────────────────────────────────────
+     Document Ground (colors.semantic.css)
+     Lowest-elevation background — the page/app canvas behind everything.
+     Applied to <html> or <body> as the root background color.
+     State variants: hover, active, disabled.
+     Defined in: src/styles/css/colors.semantic.css  •  Layer: @layer tokens
+     ──────────────────────────────────────────────────── */
+  --n-doc-neutral:          light-dark(oklch(0.925 0.003125 230), oklch(0.165 0.003125 230));
+  --n-doc-hover-neutral:    light-dark(oklch(0.985 0.003125 230), oklch(0.165 0.003125 230));
+  --n-doc-active-neutral:   light-dark(oklch(0.97 0.003125 230), oklch(0.18 0.003125 230));
+  --n-doc-disabled-neutral: light-dark(oklch(0.955 0.003125 230), oklch(0.195 0.003125 230));
+  --n-doc-accent:           light-dark(oklch(1 0.025 230), oklch(0.15 0.025 230));
+  --n-doc-hover-accent:     light-dark(oklch(0.985 0.025 230), oklch(0.165 0.025 230));
+  --n-doc-active-accent:    light-dark(oklch(0.97 0.025 230), oklch(0.18 0.025 230));
+  --n-doc-disabled-accent:  light-dark(oklch(0.955 0.025 230), oklch(0.195 0.025 230));
+  --n-doc-info:             light-dark(oklch(1 0.015 250), oklch(0.15 0.015 250));
+  --n-doc-hover-info:       light-dark(oklch(0.985 0.015 250), oklch(0.165 0.015 250));
+  --n-doc-active-info:      light-dark(oklch(0.97 0.015 250), oklch(0.18 0.015 250));
+  --n-doc-disabled-info:    light-dark(oklch(0.955 0.015 250), oklch(0.195 0.015 250));
+  --n-doc-success:          light-dark(oklch(1 0.01875 150), oklch(0.15 0.01875 150));
+  --n-doc-hover-success:    light-dark(oklch(0.985 0.01875 150), oklch(0.165 0.01875 150));
+  --n-doc-active-success:   light-dark(oklch(0.97 0.01875 150), oklch(0.18 0.01875 150));
+  --n-doc-disabled-success: light-dark(oklch(0.955 0.01875 150), oklch(0.195 0.01875 150));
+  --n-doc-warning:          light-dark(oklch(1 0.02375 80), oklch(0.15 0.02375 80));
+  --n-doc-hover-warning:    light-dark(oklch(0.985 0.02375 80), oklch(0.165 0.02375 80));
+  --n-doc-active-warning:   light-dark(oklch(0.97 0.02375 80), oklch(0.18 0.02375 80));
+  --n-doc-disabled-warning: light-dark(oklch(0.955 0.02375 80), oklch(0.195 0.02375 80));
+  --n-doc-danger:           light-dark(oklch(1 0.02125 20), oklch(0.15 0.02125 20));
+  --n-doc-hover-danger:     light-dark(oklch(0.985 0.02125 20), oklch(0.165 0.02125 20));
+  --n-doc-active-danger:    light-dark(oklch(0.97 0.02125 20), oklch(0.18 0.02125 20));
+  --n-doc-disabled-danger:  light-dark(oklch(0.955 0.02125 20), oklch(0.195 0.02125 20));
+
+  /* ────────────────────────────────────────────────────
+     Body Ground (colors.semantic.css)
+     Content-area background — sits on top of the document ground.
+     Used by <n-body>, scrollable content regions, and main content areas.
+     State variants: hover, active, disabled.
+     Defined in: src/styles/css/colors.semantic.css  •  Layer: @layer tokens
+     ──────────────────────────────────────────────────── */
+  --n-body-neutral:          light-dark(oklch(0.97 0.003125 230), oklch(0.18 0.003125 230));
+  --n-body-hover-neutral:    light-dark(oklch(0.97 0.003125 230), oklch(0.21 0.003125 230));
+  --n-body-active-neutral:   light-dark(oklch(0.985 0.003125 230), oklch(0.225 0.003125 230));
+  --n-body-disabled-neutral: light-dark(oklch(0.955 0.003125 230), oklch(0.195 0.003125 230));
+  --n-body-accent:           light-dark(oklch(0.97 0.025 230), oklch(0.18 0.025 230));
+  --n-body-hover-accent:     light-dark(oklch(0.97 0.025 230), oklch(0.21 0.025 230));
+  --n-body-active-accent:    light-dark(oklch(0.985 0.025 230), oklch(0.225 0.025 230));
+  --n-body-disabled-accent:  light-dark(oklch(0.955 0.025 230), oklch(0.195 0.025 230));
+  --n-body-info:             light-dark(oklch(0.97 0.015 250), oklch(0.18 0.015 250));
+  --n-body-hover-info:       light-dark(oklch(0.97 0.015 250), oklch(0.21 0.015 250));
+  --n-body-active-info:      light-dark(oklch(0.985 0.015 250), oklch(0.225 0.015 250));
+  --n-body-disabled-info:    light-dark(oklch(0.955 0.015 250), oklch(0.195 0.015 250));
+  --n-body-success:          light-dark(oklch(0.97 0.01875 150), oklch(0.18 0.01875 150));
+  --n-body-hover-success:    light-dark(oklch(0.97 0.01875 150), oklch(0.21 0.01875 150));
+  --n-body-active-success:   light-dark(oklch(0.985 0.01875 150), oklch(0.225 0.01875 150));
+  --n-body-disabled-success: light-dark(oklch(0.955 0.01875 150), oklch(0.195 0.01875 150));
+  --n-body-warning:          light-dark(oklch(0.97 0.02375 80), oklch(0.18 0.02375 80));
+  --n-body-hover-warning:    light-dark(oklch(0.97 0.02375 80), oklch(0.21 0.02375 80));
+  --n-body-active-warning:   light-dark(oklch(0.985 0.02375 80), oklch(0.225 0.02375 80));
+  --n-body-disabled-warning: light-dark(oklch(0.955 0.02375 80), oklch(0.195 0.02375 80));
+  --n-body-danger:           light-dark(oklch(0.97 0.02125 20), oklch(0.18 0.02125 20));
+  --n-body-hover-danger:     light-dark(oklch(0.97 0.02125 20), oklch(0.21 0.02125 20));
+  --n-body-active-danger:    light-dark(oklch(0.985 0.02125 20), oklch(0.225 0.02125 20));
+  --n-body-disabled-danger:  light-dark(oklch(0.955 0.02125 20), oklch(0.195 0.02125 20));
+
+  /* ────────────────────────────────────────────────────
+     Panel Ground (colors.semantic.css)
+     Mid-elevation surface — sidebar panels, toolbars, secondary containers.
+     Used by <n-pane>, <n-container data-kind="panel">, and similar structural surfaces.
+     State variants: hover, active, disabled.
+     Defined in: src/styles/css/colors.semantic.css  •  Layer: @layer tokens
+     ──────────────────────────────────────────────────── */
+  --n-panel-neutral:          light-dark(oklch(0.955 0.003125 230), oklch(0.195 0.003125 230));
+  --n-panel-hover-neutral:    light-dark(oklch(0.985 0.003125 230), oklch(0.225 0.003125 230));
+  --n-panel-active-neutral:   light-dark(oklch(0.97 0.003125 230), oklch(0.21 0.003125 230));
+  --n-panel-disabled-neutral: light-dark(oklch(0.97 0.003125 230), oklch(0.18 0.003125 230));
+  --n-panel-accent:           light-dark(oklch(0.97 0.025 230), oklch(0.21 0.025 230));
+  --n-panel-hover-accent:     light-dark(oklch(0.985 0.025 230), oklch(0.225 0.025 230));
+  --n-panel-active-accent:    light-dark(oklch(1 0.025 230), oklch(0.24 0.025 230));
+  --n-panel-disabled-accent:  light-dark(oklch(0.955 0.025 230), oklch(0.195 0.025 230));
+  --n-panel-info:             light-dark(oklch(0.97 0.015 250), oklch(0.21 0.015 250));
+  --n-panel-hover-info:       light-dark(oklch(0.985 0.015 250), oklch(0.225 0.015 250));
+  --n-panel-active-info:      light-dark(oklch(1 0.015 250), oklch(0.24 0.015 250));
+  --n-panel-disabled-info:    light-dark(oklch(0.955 0.015 250), oklch(0.195 0.015 250));
+  --n-panel-success:          light-dark(oklch(0.97 0.01875 150), oklch(0.21 0.01875 150));
+  --n-panel-hover-success:    light-dark(oklch(0.985 0.01875 150), oklch(0.225 0.01875 150));
+  --n-panel-active-success:   light-dark(oklch(1 0.01875 150), oklch(0.24 0.01875 150));
+  --n-panel-disabled-success: light-dark(oklch(0.955 0.01875 150), oklch(0.195 0.01875 150));
+  --n-panel-warning:          light-dark(oklch(0.97 0.02375 80), oklch(0.21 0.02375 80));
+  --n-panel-hover-warning:    light-dark(oklch(0.985 0.02375 80), oklch(0.225 0.02375 80));
+  --n-panel-active-warning:   light-dark(oklch(1 0.02375 80), oklch(0.24 0.02375 80));
+  --n-panel-disabled-warning: light-dark(oklch(0.955 0.02375 80), oklch(0.195 0.02375 80));
+  --n-panel-danger:           light-dark(oklch(0.97 0.02125 20), oklch(0.21 0.02125 20));
+  --n-panel-hover-danger:     light-dark(oklch(0.985 0.02125 20), oklch(0.225 0.02125 20));
+  --n-panel-active-danger:    light-dark(oklch(1 0.02125 20), oklch(0.24 0.02125 20));
+  --n-panel-disabled-danger:  light-dark(oklch(0.955 0.02125 20), oklch(0.195 0.02125 20));
+
+  /* ────────────────────────────────────────────────────
+     Control Ground (colors.semantic.css)
+     Form control background — inputs, selects, textareas, and other interactive fields.
+     Used by <n-input>, <n-select>, <n-textarea>, and form-associated components.
+     State variants: hover, active, disabled.
+     Defined in: src/styles/css/colors.semantic.css  •  Layer: @layer tokens
+     ──────────────────────────────────────────────────── */
+  --n-control-neutral:          light-dark(oklch(0.955 0.003125 230), oklch(0.195 0.003125 230));
+  --n-control-hover-neutral:    light-dark(oklch(0.97 0.003125 230), oklch(0.21 0.003125 230));
+  --n-control-active-neutral:   light-dark(oklch(0.985 0.003125 230), oklch(0.225 0.003125 230));
+  --n-control-disabled-neutral: light-dark(oklch(0.955 0.003125 230), oklch(0.195 0.003125 230));
+  --n-control-accent:           light-dark(oklch(0.955 0.025 230), oklch(0.195 0.025 230));
+  --n-control-hover-accent:     light-dark(oklch(0.97 0.025 230), oklch(0.21 0.025 230));
+  --n-control-active-accent:    light-dark(oklch(0.985 0.025 230), oklch(0.225 0.025 230));
+  --n-control-disabled-accent:  light-dark(oklch(0.955 0.025 230), oklch(0.195 0.025 230));
+  --n-control-info:             light-dark(oklch(0.955 0.015 250), oklch(0.195 0.015 250));
+  --n-control-hover-info:       light-dark(oklch(0.97 0.015 250), oklch(0.21 0.015 250));
+  --n-control-active-info:      light-dark(oklch(0.985 0.015 250), oklch(0.225 0.015 250));
+  --n-control-disabled-info:    light-dark(oklch(0.955 0.015 250), oklch(0.195 0.015 250));
+  --n-control-success:          light-dark(oklch(0.955 0.01875 150), oklch(0.195 0.01875 150));
+  --n-control-hover-success:    light-dark(oklch(0.97 0.01875 150), oklch(0.21 0.01875 150));
+  --n-control-active-success:   light-dark(oklch(0.985 0.01875 150), oklch(0.225 0.01875 150));
+  --n-control-disabled-success: light-dark(oklch(0.955 0.01875 150), oklch(0.195 0.01875 150));
+  --n-control-warning:          light-dark(oklch(0.955 0.02375 80), oklch(0.195 0.02375 80));
+  --n-control-hover-warning:    light-dark(oklch(0.97 0.02375 80), oklch(0.21 0.02375 80));
+  --n-control-active-warning:   light-dark(oklch(0.985 0.02375 80), oklch(0.225 0.02375 80));
+  --n-control-disabled-warning: light-dark(oklch(0.955 0.02375 80), oklch(0.195 0.02375 80));
+  --n-control-danger:           light-dark(oklch(0.955 0.02125 20), oklch(0.195 0.02125 20));
+  --n-control-hover-danger:     light-dark(oklch(0.97 0.02125 20), oklch(0.21 0.02125 20));
+  --n-control-active-danger:    light-dark(oklch(0.985 0.02125 20), oklch(0.225 0.02125 20));
+  --n-control-disabled-danger:  light-dark(oklch(0.955 0.02125 20), oklch(0.195 0.02125 20));
+
+  /* ────────────────────────────────────────────────────
+     Button Ground (colors.semantic.css)
+     Button fill for the "default" variant — neutral chrome with intent-colored text.
+     Used by <n-button variant="default"> and similar button-like controls.
+     State variants: hover, active, disabled.
+     Defined in: src/styles/css/colors.semantic.css  •  Layer: @layer tokens
+     ──────────────────────────────────────────────────── */
+  --n-button-neutral:          light-dark(oklch(0.955 0.003125 230), oklch(0.195 0.003125 230));
+  --n-button-hover-neutral:    light-dark(oklch(0.925 0.003125 230), oklch(0.225 0.003125 230));
+  --n-button-active-neutral:   light-dark(oklch(0.94 0.003125 230), oklch(0.21 0.003125 230));
+  --n-button-disabled-neutral: light-dark(oklch(0.955 0.003125 230), oklch(0.195 0.003125 230));
+  --n-button-accent:           light-dark(oklch(0.925 0.025 230), oklch(0.225 0.025 230));
+  --n-button-hover-accent:     light-dark(oklch(0.91 0.025 230), oklch(0.24 0.025 230));
+  --n-button-active-accent:    light-dark(oklch(0.91 0.025 230), oklch(0.24 0.025 230));
+  --n-button-disabled-accent:  light-dark(oklch(0.955 0.025 230), oklch(0.195 0.025 230));
+  --n-button-info:             light-dark(oklch(0.925 0.015 250), oklch(0.225 0.015 250));
+  --n-button-hover-info:       light-dark(oklch(0.91 0.015 250), oklch(0.24 0.015 250));
+  --n-button-active-info:      light-dark(oklch(0.91 0.015 250), oklch(0.24 0.015 250));
+  --n-button-disabled-info:    light-dark(oklch(0.955 0.015 250), oklch(0.195 0.015 250));
+  --n-button-success:          light-dark(oklch(0.925 0.01875 150), oklch(0.225 0.01875 150));
+  --n-button-hover-success:    light-dark(oklch(0.91 0.01875 150), oklch(0.24 0.01875 150));
+  --n-button-active-success:   light-dark(oklch(0.91 0.01875 150), oklch(0.24 0.01875 150));
+  --n-button-disabled-success: light-dark(oklch(0.955 0.01875 150), oklch(0.195 0.01875 150));
+  --n-button-warning:          light-dark(oklch(0.925 0.02375 80), oklch(0.225 0.02375 80));
+  --n-button-hover-warning:    light-dark(oklch(0.91 0.02375 80), oklch(0.24 0.02375 80));
+  --n-button-active-warning:   light-dark(oklch(0.91 0.02375 80), oklch(0.24 0.02375 80));
+  --n-button-disabled-warning: light-dark(oklch(0.955 0.02375 80), oklch(0.195 0.02375 80));
+  --n-button-danger:           light-dark(oklch(0.925 0.02125 20), oklch(0.225 0.02125 20));
+  --n-button-hover-danger:     light-dark(oklch(0.91 0.02125 20), oklch(0.24 0.02125 20));
+  --n-button-active-danger:    light-dark(oklch(0.91 0.02125 20), oklch(0.24 0.02125 20));
+  --n-button-disabled-danger:  light-dark(oklch(0.955 0.02125 20), oklch(0.195 0.02125 20));
+
+  /* ────────────────────────────────────────────────────
+     Card Ground (colors.semantic.css)
+     Highest-elevation opaque surface — floating cards, dialogs, popovers.
+     Used by <n-container data-kind="card">, <n-dialog>, popover surfaces.
+     State variants: hover, active, disabled.
+     Defined in: src/styles/css/colors.semantic.css  •  Layer: @layer tokens
+     ──────────────────────────────────────────────────── */
+  --n-card-neutral:          light-dark(oklch(0.925 0.003125 230), oklch(0.225 0.003125 230));
+  --n-card-hover-neutral:    light-dark(oklch(1 0.003125 230), oklch(0.24 0.003125 230));
+  --n-card-active-neutral:   light-dark(oklch(0.985 0.003125 230), oklch(0.225 0.003125 230));
+  --n-card-disabled-neutral: light-dark(oklch(0.955 0.003125 230), oklch(0.195 0.003125 230));
+  --n-card-accent:           light-dark(oklch(0.985 0.025 230), oklch(0.225 0.025 230));
+  --n-card-hover-accent:     light-dark(oklch(1 0.025 230), oklch(0.24 0.025 230));
+  --n-card-active-accent:    light-dark(oklch(1 0.025 230), oklch(0.24 0.025 230));
+  --n-card-disabled-accent:  light-dark(oklch(0.955 0.025 230), oklch(0.195 0.025 230));
+  --n-card-info:             light-dark(oklch(0.985 0.015 250), oklch(0.225 0.015 250));
+  --n-card-hover-info:       light-dark(oklch(1 0.015 250), oklch(0.24 0.015 250));
+  --n-card-active-info:      light-dark(oklch(1 0.015 250), oklch(0.24 0.015 250));
+  --n-card-disabled-info:    light-dark(oklch(0.955 0.015 250), oklch(0.195 0.015 250));
+  --n-card-success:          light-dark(oklch(0.985 0.01875 150), oklch(0.225 0.01875 150));
+  --n-card-hover-success:    light-dark(oklch(1 0.01875 150), oklch(0.24 0.01875 150));
+  --n-card-active-success:   light-dark(oklch(1 0.01875 150), oklch(0.24 0.01875 150));
+  --n-card-disabled-success: light-dark(oklch(0.955 0.01875 150), oklch(0.195 0.01875 150));
+  --n-card-warning:          light-dark(oklch(0.985 0.02375 80), oklch(0.225 0.02375 80));
+  --n-card-hover-warning:    light-dark(oklch(1 0.02375 80), oklch(0.24 0.02375 80));
+  --n-card-active-warning:   light-dark(oklch(1 0.02375 80), oklch(0.24 0.02375 80));
+  --n-card-disabled-warning: light-dark(oklch(0.955 0.02375 80), oklch(0.195 0.02375 80));
+  --n-card-danger:           light-dark(oklch(0.985 0.02125 20), oklch(0.225 0.02125 20));
+  --n-card-hover-danger:     light-dark(oklch(1 0.02125 20), oklch(0.24 0.02125 20));
+  --n-card-active-danger:    light-dark(oklch(1 0.02125 20), oklch(0.24 0.02125 20));
+  --n-card-disabled-danger:  light-dark(oklch(0.955 0.02125 20), oklch(0.195 0.02125 20));
+
+  /* ────────────────────────────────────────────────────
+     Modal Ground (colors.semantic.css)
+     Top-layer surface — modal dialogs and blocking overlays.
+     Used by <n-dialog modal>, command palettes, and full-screen overlays.
+     State variants: hover, active, disabled.
+     Defined in: src/styles/css/colors.semantic.css  •  Layer: @layer tokens
+     ──────────────────────────────────────────────────── */
+  --n-modal-neutral:          light-dark(oklch(1 0.003125 230), oklch(0.24 0.003125 230));
+  --n-modal-hover-neutral:    light-dark(oklch(1 0.003125 230), oklch(0.24 0.003125 230));
+  --n-modal-active-neutral:   light-dark(oklch(1 0.003125 230), oklch(0.24 0.003125 230));
+  --n-modal-disabled-neutral: light-dark(oklch(0.955 0.003125 230), oklch(0.195 0.003125 230));
+  --n-modal-accent:           light-dark(oklch(1 0.025 230), oklch(0.24 0.025 230));
+  --n-modal-hover-accent:     light-dark(oklch(1 0.025 230), oklch(0.24 0.025 230));
+  --n-modal-active-accent:    light-dark(oklch(1 0.025 230), oklch(0.24 0.025 230));
+  --n-modal-disabled-accent:  light-dark(oklch(0.955 0.025 230), oklch(0.195 0.025 230));
+  --n-modal-info:             light-dark(oklch(1 0.015 250), oklch(0.24 0.015 250));
+  --n-modal-hover-info:       light-dark(oklch(1 0.015 250), oklch(0.24 0.015 250));
+  --n-modal-active-info:      light-dark(oklch(1 0.015 250), oklch(0.24 0.015 250));
+  --n-modal-disabled-info:    light-dark(oklch(0.955 0.015 250), oklch(0.195 0.015 250));
+  --n-modal-success:          light-dark(oklch(1 0.01875 150), oklch(0.24 0.01875 150));
+  --n-modal-hover-success:    light-dark(oklch(1 0.01875 150), oklch(0.24 0.01875 150));
+  --n-modal-active-success:   light-dark(oklch(1 0.01875 150), oklch(0.24 0.01875 150));
+  --n-modal-disabled-success: light-dark(oklch(0.955 0.01875 150), oklch(0.195 0.01875 150));
+  --n-modal-warning:          light-dark(oklch(1 0.02375 80), oklch(0.24 0.02375 80));
+  --n-modal-hover-warning:    light-dark(oklch(1 0.02375 80), oklch(0.24 0.02375 80));
+  --n-modal-active-warning:   light-dark(oklch(1 0.02375 80), oklch(0.24 0.02375 80));
+  --n-modal-disabled-warning: light-dark(oklch(0.955 0.02375 80), oklch(0.195 0.02375 80));
+  --n-modal-danger:           light-dark(oklch(1 0.02125 20), oklch(0.24 0.02125 20));
+  --n-modal-hover-danger:     light-dark(oklch(1 0.02125 20), oklch(0.24 0.02125 20));
+  --n-modal-active-danger:    light-dark(oklch(1 0.02125 20), oklch(0.24 0.02125 20));
+  --n-modal-disabled-danger:  light-dark(oklch(0.955 0.02125 20), oklch(0.195 0.02125 20));
+
+  /* ────────────────────────────────────────────────────
+     Ink (colors.semantic.css)
+     Text and icon colors on ground surfaces — the primary readable content color.
+     Modifiers: strong (headings, emphasis), muted (secondary text), inverse (on dark fills),
+     placeholder (input placeholders). State variants: hover, active, disabled.
+     Used by all text-bearing components; --n-ink-{family} resolves via intent inheritance.
+     Defined in: src/styles/css/colors.semantic.css  •  Layer: @layer tokens
+     ──────────────────────────────────────────────────── */
+  --n-ink-neutral:             light-dark(oklch(0.383333 0.0155 230), oklch(0.666667 0.0155 230));
+  --n-ink-strong-neutral:      light-dark(oklch(0.208333 0.00125 230), oklch(0.916667 0.00125 230));
+  --n-ink-inverse-neutral:     oklch(0.208333 0.00125 230);
+  --n-ink-muted-neutral:       light-dark(oklch(0.441667 0.02025 230), oklch(0.583333 0.02025 230));
+  --n-ink-placeholder-neutral: light-dark(oklch(0.583333 0.02025 230), oklch(0.441667 0.02025 230));
+  --n-ink-hover-neutral:       light-dark(oklch(0.208333 0.00125 230), oklch(0.916667 0.00125 230));
+  --n-ink-active-neutral:      oklch(0.5 0.025 230);
+  --n-ink-disabled-neutral:    light-dark(oklch(0.583333 0.02025 230), oklch(0.441667 0.02025 230));
+  --n-ink-accent:              light-dark(oklch(0.45 0.124 230), oklch(0.733333 0.124 230));
+  --n-ink-strong-accent:       light-dark(oklch(0.225 0.01 230), oklch(0.933333 0.01 230));
+  --n-ink-inverse-accent:      oklch(0.225 0.01 230);
+  --n-ink-muted-accent:        light-dark(oklch(0.525 0.162 230), oklch(0.666667 0.162 230));
+  --n-ink-placeholder-accent:  light-dark(oklch(0.666667 0.162 230), oklch(0.525 0.162 230));
+  --n-ink-hover-accent:        light-dark(oklch(0.225 0.01 230), oklch(0.933333 0.01 230));
+  --n-ink-active-accent:       oklch(0.6 0.2 230);
+  --n-ink-disabled-accent:     light-dark(oklch(0.666667 0.162 230), oklch(0.525 0.162 230));
+  --n-ink-info:                light-dark(oklch(0.45 0.0744 250), oklch(0.733333 0.0744 250));
+  --n-ink-strong-info:         light-dark(oklch(0.225 0.006 250), oklch(0.933333 0.006 250));
+  --n-ink-inverse-info:        oklch(0.225 0.006 250);
+  --n-ink-muted-info:          light-dark(oklch(0.525 0.0972 250), oklch(0.666667 0.0972 250));
+  --n-ink-placeholder-info:    light-dark(oklch(0.666667 0.0972 250), oklch(0.525 0.0972 250));
+  --n-ink-hover-info:          light-dark(oklch(0.225 0.006 250), oklch(0.933333 0.006 250));
+  --n-ink-active-info:         oklch(0.6 0.12 250);
+  --n-ink-disabled-info:       light-dark(oklch(0.666667 0.0972 250), oklch(0.525 0.0972 250));
+  --n-ink-success:             light-dark(oklch(0.416667 0.093 150), oklch(0.7 0.093 150));
+  --n-ink-strong-success:      light-dark(oklch(0.216667 0.0075 150), oklch(0.925 0.0075 150));
+  --n-ink-inverse-success:     oklch(0.216667 0.0075 150);
+  --n-ink-muted-success:       light-dark(oklch(0.483333 0.1215 150), oklch(0.625 0.1215 150));
+  --n-ink-placeholder-success: light-dark(oklch(0.625 0.1215 150), oklch(0.483333 0.1215 150));
+  --n-ink-hover-success:       light-dark(oklch(0.216667 0.0075 150), oklch(0.925 0.0075 150));
+  --n-ink-active-success:      oklch(0.55 0.15 150);
+  --n-ink-disabled-success:    light-dark(oklch(0.625 0.1215 150), oklch(0.483333 0.1215 150));
+  --n-ink-warning:             light-dark(oklch(0.55 0.1178 80), oklch(0.833333 0.1178 80));
+  --n-ink-strong-warning:      light-dark(oklch(0.25 0.0095 80), oklch(0.958333 0.0095 80));
+  --n-ink-inverse-warning:     oklch(0.25 0.0095 80);
+  --n-ink-muted-warning:       light-dark(oklch(0.65 0.1539 80), oklch(0.791667 0.1539 80));
+  --n-ink-placeholder-warning: light-dark(oklch(0.791667 0.1539 80), oklch(0.65 0.1539 80));
+  --n-ink-hover-warning:       light-dark(oklch(0.25 0.0095 80), oklch(0.958333 0.0095 80));
+  --n-ink-active-warning:      oklch(0.75 0.19 80);
+  --n-ink-disabled-warning:    light-dark(oklch(0.791667 0.1539 80), oklch(0.65 0.1539 80));
+  --n-ink-danger:              light-dark(oklch(0.383333 0.1054 20), oklch(0.666667 0.1054 20));
+  --n-ink-strong-danger:       light-dark(oklch(0.208333 0.0085 20), oklch(0.916667 0.0085 20));
+  --n-ink-inverse-danger:      oklch(0.208333 0.0085 20);
+  --n-ink-muted-danger:        light-dark(oklch(0.441667 0.1377 20), oklch(0.583333 0.1377 20));
+  --n-ink-placeholder-danger:  light-dark(oklch(0.583333 0.1377 20), oklch(0.441667 0.1377 20));
+  --n-ink-hover-danger:        light-dark(oklch(0.208333 0.0085 20), oklch(0.916667 0.0085 20));
+  --n-ink-active-danger:       oklch(0.5 0.17 20);
+  --n-ink-disabled-danger:     light-dark(oklch(0.583333 0.1377 20), oklch(0.441667 0.1377 20));
+
+  /* ────────────────────────────────────────────────────
+     Border / Stroke (colors.semantic.css)
+     Borders and dividers on ground surfaces — typically low-alpha scrims.
+     Modifiers: muted (subtle dividers, container borders).
+     State variants: hover, active, disabled.
+     Used by component borders, <hr>, container outlines, and form field borders.
+     Defined in: src/styles/css/colors.semantic.css  •  Layer: @layer tokens
+     ──────────────────────────────────────────────────── */
+  --n-border-neutral:          light-dark(oklch(0.75 0.01075 230 / 0.85), oklch(0.325 0.01075 230 / 0.85));
+  --n-border-muted-neutral:    light-dark(oklch(0.833333 0.006 230 / 0.85), oklch(0.266667 0.006 230 / 0.85));
+  --n-border-hover-neutral:    light-dark(oklch(0.666667 0.0155 230 / 0.85), oklch(0.383333 0.0155 230 / 0.85));
+  --n-border-active-neutral:   light-dark(oklch(0.583333 0.02025 230 / 0.85), oklch(0.441667 0.02025 230 / 0.85));
+  --n-border-disabled-neutral: light-dark(oklch(0.75 0.01075 230 / 0.85), oklch(0.325 0.01075 230 / 0.85));
+  --n-border-accent:           light-dark(oklch(0.8 0.086 230 / 0.85), oklch(0.375 0.086 230 / 0.85));
+  --n-border-muted-accent:     light-dark(oklch(0.866667 0.048 230 / 0.85), oklch(0.3 0.048 230 / 0.85));
+  --n-border-hover-accent:     light-dark(oklch(0.733333 0.124 230 / 0.85), oklch(0.45 0.124 230 / 0.85));
+  --n-border-active-accent:    light-dark(oklch(0.666667 0.162 230 / 0.85), oklch(0.525 0.162 230 / 0.85));
+  --n-border-disabled-accent:  light-dark(oklch(0.8 0.086 230 / 0.85), oklch(0.375 0.086 230 / 0.85));
+  --n-border-info:             light-dark(oklch(0.8 0.0516 250 / 0.85), oklch(0.375 0.0516 250 / 0.85));
+  --n-border-muted-info:       light-dark(oklch(0.866667 0.0288 250 / 0.85), oklch(0.3 0.0288 250 / 0.85));
+  --n-border-hover-info:       light-dark(oklch(0.733333 0.0744 250 / 0.85), oklch(0.45 0.0744 250 / 0.85));
+  --n-border-active-info:      light-dark(oklch(0.666667 0.0972 250 / 0.85), oklch(0.525 0.0972 250 / 0.85));
+  --n-border-disabled-info:    light-dark(oklch(0.8 0.0516 250 / 0.85), oklch(0.375 0.0516 250 / 0.85));
+  --n-border-success:          light-dark(oklch(0.775 0.0645 150 / 0.85), oklch(0.35 0.0645 150 / 0.85));
+  --n-border-muted-success:    light-dark(oklch(0.85 0.036 150 / 0.85), oklch(0.283333 0.036 150 / 0.85));
+  --n-border-hover-success:    light-dark(oklch(0.7 0.093 150 / 0.85), oklch(0.416667 0.093 150 / 0.85));
+  --n-border-active-success:   light-dark(oklch(0.625 0.1215 150 / 0.85), oklch(0.483333 0.1215 150 / 0.85));
+  --n-border-disabled-success: light-dark(oklch(0.775 0.0645 150 / 0.85), oklch(0.35 0.0645 150 / 0.85));
+  --n-border-warning:          light-dark(oklch(0.875 0.0817 80 / 0.85), oklch(0.45 0.0817 80 / 0.85));
+  --n-border-muted-warning:    light-dark(oklch(0.916667 0.0456 80 / 0.85), oklch(0.35 0.0456 80 / 0.85));
+  --n-border-hover-warning:    light-dark(oklch(0.833333 0.1178 80 / 0.85), oklch(0.55 0.1178 80 / 0.85));
+  --n-border-active-warning:   light-dark(oklch(0.791667 0.1539 80 / 0.85), oklch(0.65 0.1539 80 / 0.85));
+  --n-border-disabled-warning: light-dark(oklch(0.875 0.0817 80 / 0.85), oklch(0.45 0.0817 80 / 0.85));
+  --n-border-danger:           light-dark(oklch(0.75 0.0731 20 / 0.85), oklch(0.325 0.0731 20 / 0.85));
+  --n-border-muted-danger:     light-dark(oklch(0.833333 0.0408 20 / 0.85), oklch(0.266667 0.0408 20 / 0.85));
+  --n-border-hover-danger:     light-dark(oklch(0.666667 0.1054 20 / 0.85), oklch(0.383333 0.1054 20 / 0.85));
+  --n-border-active-danger:    light-dark(oklch(0.583333 0.1377 20 / 0.85), oklch(0.441667 0.1377 20 / 0.85));
+  --n-border-disabled-danger:  light-dark(oklch(0.75 0.0731 20 / 0.85), oklch(0.325 0.0731 20 / 0.85));
+
+  /* ────────────────────────────────────────────────────
+     Surface (colors.semantic.css)
+     Interactive element fills — buttons (primary/secondary variants), badges, chips, toggles.
+     These sit on top of grounds and need contrast against both ground and their own ink.
+     State variants: hover, active, disabled.
+     Used by <n-button variant="primary|secondary">, <n-badge>, <n-switch> thumb, etc.
+     Defined in: src/styles/css/colors.semantic.css  •  Layer: @layer tokens
+     ──────────────────────────────────────────────────── */
+  --n-surface-neutral:              oklch(0.5 0.025 230);
+  --n-surface-hover-neutral:        light-dark(oklch(0.583333 0.02025 230), oklch(0.441667 0.02025 230));
+  --n-surface-active-neutral:       light-dark(oklch(0.441667 0.02025 230), oklch(0.583333 0.02025 230));
+  --n-surface-disabled-neutral:     light-dark(oklch(0.75 0.01075 230), oklch(0.325 0.01075 230));
+  --n-surface-ink-neutral: rgb(255, 255, 255);
+  --n-surface-ink-hover-neutral: rgb(255, 255, 255);
+  --n-surface-ink-active-neutral:   light-dark(oklch(0.208333 0.00125 230), oklch(0.916667 0.00125 230));
+  --n-surface-ink-disabled-neutral: oklch(1 0 0 / 0.5);
+  --n-surface-accent:               oklch(0.6 0.2 230);
+  --n-surface-hover-accent:         light-dark(oklch(0.666667 0.162 230), oklch(0.525 0.162 230));
+  --n-surface-active-accent:        light-dark(oklch(0.525 0.162 230), oklch(0.666667 0.162 230));
+  --n-surface-disabled-accent:      light-dark(oklch(0.8 0.086 230), oklch(0.375 0.086 230));
+  --n-surface-ink-accent: rgb(255, 255, 255);
+  --n-surface-ink-hover-accent: rgb(255, 255, 255);
+  --n-surface-ink-active-accent:    light-dark(oklch(0.225 0.01 230), oklch(0.933333 0.01 230));
+  --n-surface-ink-disabled-accent:  oklch(1 0 0 / 0.5);
+  --n-surface-info:                 oklch(0.6 0.12 250);
+  --n-surface-hover-info:           light-dark(oklch(0.666667 0.0972 250), oklch(0.525 0.0972 250));
+  --n-surface-active-info:          light-dark(oklch(0.525 0.0972 250), oklch(0.666667 0.0972 250));
+  --n-surface-disabled-info:        light-dark(oklch(0.8 0.0516 250), oklch(0.375 0.0516 250));
+  --n-surface-ink-info: rgb(255, 255, 255);
+  --n-surface-ink-hover-info: rgb(255, 255, 255);
+  --n-surface-ink-active-info:      light-dark(oklch(0.225 0.006 250), oklch(0.933333 0.006 250));
+  --n-surface-ink-disabled-info:    oklch(1 0 0 / 0.5);
+  --n-surface-success:              oklch(0.55 0.15 150);
+  --n-surface-hover-success:        light-dark(oklch(0.625 0.1215 150), oklch(0.483333 0.1215 150));
+  --n-surface-active-success:       light-dark(oklch(0.483333 0.1215 150), oklch(0.625 0.1215 150));
+  --n-surface-disabled-success:     light-dark(oklch(0.775 0.0645 150), oklch(0.35 0.0645 150));
+  --n-surface-ink-success: rgb(255, 255, 255);
+  --n-surface-ink-hover-success: rgb(255, 255, 255);
+  --n-surface-ink-active-success:   light-dark(oklch(0.216667 0.0075 150), oklch(0.925 0.0075 150));
+  --n-surface-ink-disabled-success: oklch(1 0 0 / 0.5);
+  --n-surface-warning:              oklch(0.75 0.19 80);
+  --n-surface-hover-warning:        light-dark(oklch(0.791667 0.1539 80), oklch(0.65 0.1539 80));
+  --n-surface-active-warning:       light-dark(oklch(0.65 0.1539 80), oklch(0.791667 0.1539 80));
+  --n-surface-disabled-warning:     light-dark(oklch(0.875 0.0817 80), oklch(0.45 0.0817 80));
+  --n-surface-ink-warning: rgb(255, 255, 255);
+  --n-surface-ink-hover-warning: rgb(255, 255, 255);
+  --n-surface-ink-active-warning:   light-dark(oklch(0.25 0.0095 80), oklch(0.958333 0.0095 80));
+  --n-surface-ink-disabled-warning: oklch(1 0 0 / 0.5);
+  --n-surface-danger:               oklch(0.5 0.17 20);
+  --n-surface-hover-danger:         light-dark(oklch(0.583333 0.1377 20), oklch(0.441667 0.1377 20));
+  --n-surface-active-danger:        light-dark(oklch(0.441667 0.1377 20), oklch(0.583333 0.1377 20));
+  --n-surface-disabled-danger:      light-dark(oklch(0.75 0.0731 20), oklch(0.325 0.0731 20));
+  --n-surface-ink-danger: rgb(255, 255, 255);
+  --n-surface-ink-hover-danger: rgb(255, 255, 255);
+  --n-surface-ink-active-danger:    light-dark(oklch(0.208333 0.0085 20), oklch(0.916667 0.0085 20));
+  --n-surface-ink-disabled-danger:  oklch(1 0 0 / 0.5);
+}

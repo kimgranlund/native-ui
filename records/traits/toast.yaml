@@ -4,10 +4,10 @@ description: Creates and manages toast notifications within its own host element
   and toast entries — no global singleton. Container uses [popover="manual"] for top-layer rendering while inheriting
   CSS custom properties from the host's position in the component tree.
 source:
-  controller: src/traits/toast/toast-controller.ts
-  adapter: src/traits/toast/toastable-adapter.ts
-  demo: src/traits/toast/toastable.html
-  test: src/traits/toast/toastable.test.ts
+  controller: packages/native-traits/src/traits/toast/toast-controller.ts
+  adapter: packages/native-traits/src/traits/toast/toastable-adapter.ts
+  demo: packages/native-traits/src/traits/toast/toastable.html
+  test: packages/native-traits/src/traits/toast/toastable.test.ts
 injected_events:
   native:toast:
     detail:

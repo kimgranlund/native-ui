@@ -4,17 +4,17 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>native-playground — Component Demo</title>
+    <title>n-playground — Component Demo</title>
     <link rel="stylesheet" href="../../../../src/styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../../../src/styles/css/components.native-ui.css" />
     <link rel="stylesheet" href="../../../../src/styles/spa/spa-pages.css" />
-    <link rel="stylesheet" href="../codemirror/css/codemirror.css" />
+    <link rel="stylesheet" href="../codemirror/css/editor.css" />
     <link rel="stylesheet" href="./css/playground.css" />
     </head>
   <body>
     <native-dashboard-spa><main>
     <header>
-      <h1>&lt;native-playground&gt;</h1>
+      <h1>&lt;n-playground&gt;</h1>
       <p class="demo-desc">
         Embeddable live code sandbox with tabbed CodeMirror editors, sandboxed iframe preview, and console capture.
       </p>
@@ -24,7 +24,7 @@
     <!-- ── Basic ── -->
 
     <h2>Basic</h2>
-    <native-playground
+    <n-playground
       auto-run
       css-url="/packages/native-code/src/playground/dev-preview.css"
       register-url="/src/register-all.ts"
@@ -54,12 +54,12 @@ document.querySelector('n-button')
     console.log('Pressed!', e.detail.pointerType);
   });
       </script>
-    </native-playground>
+    </n-playground>
 
     <!-- ── Vertical Orientation ── -->
 
     <h2>Vertical Orientation</h2>
-    <native-playground
+    <n-playground
       orientation="vertical"
       auto-run
       css-url="/packages/native-code/src/playground/dev-preview.css"
@@ -81,13 +81,13 @@ body {
   min-height: 200px;
 }
       </script>
-    </native-playground>
+    </n-playground>
 
     <!-- ── Console Demo ── -->
 
     <h2>Console Capture</h2>
     <p class="demo-hint">Click "Console" in the toolbar, then press the button to see captured logs.</p>
-    <native-playground
+    <n-playground
       auto-run
       console-open
       css-url="/packages/native-code/src/playground/dev-preview.css"
@@ -110,13 +110,13 @@ document.getElementById('log-btn')
     if (count % 5 === 0) console.error('Every 5th press triggers an error');
   });
       </script>
-    </native-playground>
+    </n-playground>
 
     <!-- ── Read-only ── -->
 
     <h2>Read-only</h2>
     <p class="demo-hint">Editors are non-editable. Useful for documentation showcases.</p>
-    <native-playground
+    <n-playground
       readonly
       auto-run
       css-url="/packages/native-code/src/playground/dev-preview.css"
@@ -137,13 +137,13 @@ body {
 }
 n-input { max-width: 20rem; }
       </script>
-    </native-playground>
+    </n-playground>
 
     <!-- ── Active Tab ── -->
 
     <h2>Active Tab: CSS</h2>
     <p class="demo-hint">Opens with the CSS tab pre-selected.</p>
-    <native-playground
+    <n-playground
       active-tab="css"
       auto-run
       css-url="/packages/native-code/src/playground/dev-preview.css"
@@ -183,7 +183,7 @@ body {
   color: var(--n-ink-muted-neutral);
 }
       </script>
-    </native-playground>
+    </n-playground>
 
     </section>
     </main></native-dashboard-spa>
@@ -196,6 +196,7 @@ body {
       import '../../../../src/components/listbox/option.ts';
       import '../../../../src/icons/icon.ts';
       import '../../../../src/icons/custom/dots-three-bold.ts';
+      import '../../../../src/containers/pane/pane.ts';
       import './register.ts';
     </script>
   </body>

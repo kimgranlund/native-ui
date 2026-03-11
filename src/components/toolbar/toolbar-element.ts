@@ -1,6 +1,6 @@
-import { NativeElement } from '../../core/native-element.ts';
-import { RovingFocusController } from '../../traits/roving-focus/roving-focus-controller.ts';
-import { PopoverController } from '../../traits/popover/popover-controller.ts';
+import { NativeElement } from '@nonoun/native-core';
+import { RovingFocusController } from '@nonoun/native-traits';
+import { PopoverController } from '@nonoun/native-traits';
 
 // Inline SVG for overflow trigger — avoids tree-shaking risk from
 // side-effect icon registration import.

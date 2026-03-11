@@ -65,29 +65,23 @@ main {
   color: var(--pg-text-strong);
 }
 
-/* ── Split: chat left, panes right ── */
+/* ── Split: chat left, panes right (n-panes handles resize) ── */
 
-.builder-split {
-  display: flex;
+.builder > n-panes {
+  --n-pane-handle-accent: var(--pg-accent);
+  --n-pane-border-color: var(--pg-border-color);
   min-height: 0;
-  overflow: hidden;
 }
 
 /* ── Chat region (left) ── */
 
-.builder-chat {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 40%;
-  min-width: 280px;
-  min-height: 0;
-  overflow: hidden;
-
+.builder [data-panel="agent-chat"] {
+  flex: 1 1 0%;
+  min-width: 28rem;
   background: var(--n-body);
 }
 
-.builder-chat > n-chat-feed {
+.builder [data-panel="agent-chat"] > n-chat-feed {
   flex: 1;
   min-height: 0;
   padding-inline: calc(var(--n-space) * 2);
@@ -139,20 +133,15 @@ main {
 }
 
 /* Remap messages: warning left border */
-.builder-chat n-chat-message[data-type="remap"] n-chat-message-text {
+.builder [data-panel="agent-chat"] n-agent-dialogue-item[data-type="remap"] n-chat-message-text {
   border-inline-start: 3px solid var(--n-ink-warning);
   padding-inline-start: 0.5rem;
   font-size: 0.75rem;
 }
 
-.builder-chat > n-footer {
-  flex: none;
-  padding-block: 0;
-  min-height: 0;
-}
-
 /* ── Chat composer: give the input area a visible container ── */
-.builder-chat > n-footer > :where(n-chat-input) {
+.builder [data-panel="agent-chat"] > :where(n-agent-input) {
+  flex: none;
   --n-background: var(--n-control);
   background: var(--n-background);
   border: 1px solid var(--n-border-muted);
@@ -164,10 +153,8 @@ main {
 /* ── Panes (right side, togglable) ── */
 
 .builder n-pane {
-  position: relative;
-  min-width: 200px;
-  border-inline-start: 1px solid transparent;
-  transition: border-color 150ms;
+  min-width: 0;
+  flex: 1 1 16rem;
 }
 
 /* Pane header */
@@ -247,7 +234,7 @@ main {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  min-width: 12rem;
+  min-width: 20rem;
   cursor: default;
   pointer-events: auto;
   will-change: transform;
@@ -420,60 +407,10 @@ main {
 .map-no-api { color: var(--pg-text-muted); font-size: 0.6875rem; font-style: italic; }
 
 /* ── Gap report messages ── */
-n-chat-message[data-type="gap"] n-chat-message-text {
+n-agent-dialogue-item[data-type="gap"] n-chat-message-text {
   border: 2px solid oklch(0.75 0.15 60);
   border-radius: var(--n-radius, 0.5rem);
   padding: 0.75rem;
-}
-
-/* ── Resize handles ── */
-
-.resize-handle {
-  position: absolute;
-  top: 0;
-  right: -8px;
-  bottom: 0;
-  width: 16px;
-  cursor: col-resize;
-  z-index: 2;
-}
-
-.resize-handle::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 3px;
-  transform: translateX(-50%);
-  background: var(--pg-accent);
-  opacity: 0;
-  transition: opacity 150ms;
-  border-radius: 2px;
-}
-
-.resize-handle:hover::after,
-[data-resizing] > .resize-handle::after {
-  opacity: 1;
-}
-
-/* Show border on next pane when handle is hovered or during drag */
-.builder-chat:has(> .resize-handle:hover) + n-pane,
-.builder n-pane:has(> .resize-handle:hover) + n-pane,
-.builder-chat[data-resizing] + n-pane,
-.builder n-pane[data-resizing] + n-pane {
-  border-inline-start-color: var(--pg-border-color, var(--n-border-muted));
-}
-
-/* When resized (explicit width), don't flex-grow */
-.builder-chat[style*="width"],
-.builder n-pane[style*="width"] {
-  flex: none;
-}
-
-/* Hide handle on last visible pane */
-.builder n-pane:not([hidden]):not(:has(~ n-pane:not([hidden]))) > .resize-handle {
-  display: none;
 }
 
 /* ── Progress indicator (multi-step typing) ── */
@@ -522,7 +459,7 @@ n-chat-message[data-type="gap"] n-chat-message-text {
 
 /* ── User message fade-in ── */
 
-n-chat-message[data-role="user"] {
+n-agent-dialogue-item[data-role="user"] {
   animation: builder-fade-in 300ms ease-out;
 }
 

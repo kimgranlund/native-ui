@@ -2,10 +2,10 @@ trait: dialog
 controller: DialogController
 description: Creates and manages a native `<dialog>` element with modal, close, and dismiss behavior.
 source:
-  controller: src/traits/dialog/dialog-controller.ts
-  adapter: src/traits/dialog/dialogable-adapter.ts
-  demo: src/traits/dialog/dialogable.html
-  test: src/traits/dialog/dialog-controller.test.ts
+  controller: packages/native-traits/src/traits/dialog/dialog-controller.ts
+  adapter: packages/native-traits/src/traits/dialog/dialogable-adapter.ts
+  demo: packages/native-traits/src/traits/dialog/dialogable.html
+  test: packages/native-traits/src/traits/dialog/dialog-controller.test.ts
 options:
   contentTarget:
     type: "(dialog: HTMLDialogElement) => HTMLElement"

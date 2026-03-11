@@ -18,7 +18,7 @@ User prompt → sendMessage()
   └─ Mock mode:  mockResponse() → pattern-matched MockResult → applyResult()
 
 applyResult()
-  ├─ addMessage()      → n-chat-message in chat feed
+  ├─ addMessage()      → n-agent-dialogue-item in chat feed
   ├─ renderConcepts()  → n-badge list in Concepts pane
   ├─ renderSchema()    → JSON pretty-print in Schema pane
   ├─ renderPreview()   → Kernel + A2UIAdapter → live DOM in Preview pane
@@ -110,7 +110,7 @@ Fades out (opacity transition) on:
 The builder uses a dark/light split:
 
 - `.builder` — Dark chrome tokens (`--pg-chrome`, `--pg-editor-bg`, `--pg-text-*`)
-- `.builder-chat` — Forces `color-scheme: light` for the chat region
+- `[data-panel="agent-chat"]` — Forces `color-scheme: light` for the chat region
 - `.builder-pane[data-panel="preview"]` — Forces `color-scheme: light` for rendered preview
 
 Chat bubble tokens (from `chat.css`):

@@ -2,7 +2,7 @@
 export * from './codemirror/index.ts';
 
 // Editor — markdown editor with live preview
-export * from './editor/index.ts';
+export * from './markdown-editor/index.ts';
 
 // Playground — embeddable live code sandbox
 export * from './playground/index.ts';

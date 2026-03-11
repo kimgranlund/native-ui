@@ -1,4 +1,4 @@
-import { NativeElement } from '../../core/native-element.ts';
+import { NativeElement } from '@nonoun/native-core';
 
 /**
  * Content panel associated with a tab, shown when its tab is selected.

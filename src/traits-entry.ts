@@ -6,23 +6,23 @@
 //   import { registerTrait, pressableAdapter } from '@nonoun/native-ui/traits';
 
 // Reactivity (needed by controller consumers)
-export { signal, computed, effect, batch, untrack } from './reactivity/index.ts';
-export { isSignal, isComputed, debugReactive } from './reactivity/index.ts';
-export type { Signal, ReadonlySignal, Dispose, ReactiveDebugInfo } from './reactivity/index.ts';
+export { signal, computed, effect, batch, untrack } from '@nonoun/native-core';
+export { isSignal, isComputed, debugReactive } from '@nonoun/native-core';
+export type { Signal, ReadonlySignal, Dispose, ReactiveDebugInfo } from '@nonoun/native-core';
 
 // Core utilities used by trait consumers
-export { NativeElement } from './core/native-element.ts';
-export type { Lifecycle, Constructor } from './core/types.ts';
-export { define } from './core/define.ts';
-export { uid } from './core/uid.ts';
-export { registerTrait, getTrait, getRegisteredTraitNames } from './registries/trait-registry.ts';
-export type { TraitAdapter } from './registries/trait-registry.ts';
-export { parseTraitAttribute, collectTraitOptions } from './core/trait-options.ts';
-export { getTraitRuntime, DismissStack } from './traits/runtime.ts';
-export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from './traits/runtime.ts';
+export { NativeElement } from '@nonoun/native-core';
+export type { Lifecycle, Constructor } from '@nonoun/native-core';
+export { define } from '@nonoun/native-core';
+export { uid } from '@nonoun/native-core';
+export { registerTrait, getTrait, getRegisteredTraitNames } from '@nonoun/native-core';
+export type { TraitAdapter } from '@nonoun/native-core';
+export { parseTraitAttribute, collectTraitOptions } from '@nonoun/native-core';
+export { getTraitRuntime, DismissStack } from '@nonoun/native-traits';
+export type { TraitRuntime, ToastOptions as RuntimeToastOptions } from '@nonoun/native-traits';
 
 // Event detail types
 export type { NPressDetail, NSelectDetail, NTextChangeDetail, NRangeValueDetail, NPickerChangeDetail, NToggleChangeDetail, NInputDetail, NDisabledDetail, NDragStartDetail, NDragMoveDetail, NDragOverDetail, NDropDetail, NDragCancelDetail, NInvalidDetail, NValidDetail, NRangeChangeDetail, NRangeSelectDetail, NFileDropDetail, NTextDropDetail, NSearchDetail, NClipDetail, NIntersectDetail, NCopyDetail, NVirtualChangeDetail, NSelectionChangeDetail, NHoverDetail, NSortDetail, NSwipeDetail, NResizeDetail, NEditStartDetail, NEditCommitDetail, NEditCancelDetail, NSlideChangeDetail, NSendDetail, NToastDetail, NTableSortDetail, NTableSelectDetail, NTableReorderDetail, NTableResizeDetail, NTableResizeEndDetail, NCalendarRangeDetail } from './events.ts';
 
 // All controllers, types, adapters, and registerAllTraits
-export * from './traits/index.ts';
+export * from '@nonoun/native-traits';

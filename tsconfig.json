@@ -20,7 +20,13 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    /* Workspace package resolution */
+    "paths": {
+      "@nonoun/native-core": ["./packages/native-core/src/index.ts"],
+      "@nonoun/native-traits": ["./packages/native-traits/src/index.ts"]
+    }
   },
-  "include": ["src"]
+  "include": ["src", "packages/native-core/src", "packages/native-traits/src"]
 }

@@ -1,4 +1,4 @@
-import { NativeElement } from '../../core/native-element.ts';
+import { NativeElement } from '@nonoun/native-core';
 
 /**
  * Toast notification element with intent-based styling and optional dismiss button.

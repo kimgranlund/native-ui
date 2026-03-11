@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NPaginationDots } from './pagination-dots-element.ts';
 import '../button/button.ts';
 import '../../icons/icon.ts';

@@ -11,7 +11,7 @@
 export { NA2UI } from './a2ui/register.ts';
 export {
   NChatInput, NChatPanel, NChatFeed, NChatAvatar,
-  NChatMessage, NChatMessages, NChatMessageText,
+  NAgentDialogueItem, NAgentDialogue, NChatMessageText,
   NChatMessageActivity, NChatMessageSeed, NChatMessageGenUI,
   NChatInputStructured,
 } from './chat/register.ts';

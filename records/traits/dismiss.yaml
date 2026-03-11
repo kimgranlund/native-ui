@@ -2,10 +2,10 @@ trait: dismiss
 controller: DismissController
 description: Manages a dismiss layer that dispatches `native:dismiss` on outside click or Escape.
 source:
-  controller: src/traits/dismiss/dismiss-controller.ts
-  adapter: src/traits/dismiss/dismissable-adapter.ts
-  demo: src/traits/dismiss/dismissable.html
-  test: src/traits/dismiss/dismissable.test.ts
+  controller: packages/native-traits/src/traits/dismiss/dismiss-controller.ts
+  adapter: packages/native-traits/src/traits/dismiss/dismissable-adapter.ts
+  demo: packages/native-traits/src/traits/dismiss/dismissable.html
+  test: packages/native-traits/src/traits/dismiss/dismissable.test.ts
 methods:
   enable:
     returns: void

@@ -49,7 +49,7 @@ Packages with `./register`: the default export gives classes only; import `./reg
 | `@nonoun/native-dashboard` | `<native-dashboard>`, `<n-sidebar-nav>`, `<n-sidebar-nav-item>`, `<n-sidebar-group>`, `<n-sidebar-group-header>`, `<n-sidebar-item>` |
 | `@nonoun/native-design` | `<native-design>`, `<native-design-panel>`, `<native-design-variable>`, `<native-design-colors>`, `<native-design-color-swatch>`, `<native-design-themes>` |
 | `@nonoun/native-ai` | `<native-a2ui>`, `<n-chat-input>`, `<native-chat-panel>`, `<n-chat-feed>`, `<n-chat-messages>`, `<n-chat-message>`, `<n-chat-avatar>`, `<n-chat-message-text>`, `<n-chat-message-activity>`, `<n-chat-message-seed>`, `<n-chat-message-genui>`, `<n-chat-input-structured>` |
-| `@nonoun/native-code` | `<native-codemirror>`, `<native-editor>`, `<native-playground>` |
+| `@nonoun/native-code` | `<native-codemirror>`, `<native-editor>`, `<n-playground>` |
 | `@nonoun/native-cdn` | All `n-*` elements (re-exports core + auto-registers) |
 
 Extension packages also register dogfooded core elements they create internally (e.g., `n-button`, `n-listbox`). `define()` is idempotent -- duplicate calls are no-ops.

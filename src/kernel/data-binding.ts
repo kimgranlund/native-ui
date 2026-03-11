@@ -1,9 +1,9 @@
-import { signal } from '../reactivity/signal.ts';
-import { computed } from '../reactivity/computed.ts';
-import { effect } from '../reactivity/effect.ts';
-import { uid } from '../core/uid.ts';
+import { signal } from '@nonoun/native-core';
+import { computed } from '@nonoun/native-core';
+import { effect } from '@nonoun/native-core';
+import { uid } from '@nonoun/native-core';
 import { createBinding } from './data-runtime.ts';
-import type { ReadonlySignal } from '../reactivity/types.ts';
+import type { ReadonlySignal } from '@nonoun/native-core';
 import type { DataStore, DataBinding } from './data-runtime.ts';
 import type { CommandBus } from './command-bus.ts';
 

@@ -1,24 +1,28 @@
-import { NativeElement } from '../../core/native-element.ts';
+import { NativeElement } from '@nonoun/native-core';
 import type { NPane } from './pane-element.ts';
 
 /**
- * Coordinated pane group with resize handles between children.
- * Stamps resize handles between visible `<n-pane>` children and manages
- * pointer-based coordinated resizing (one pane grows, adjacent shrinks).
+ * Coordinated pane group with resize between children.
+ * Hit-tests pointer position against pane boundaries — no handle elements.
+ * Accent bar renders via ::after on the hovered pane (data-edge-near / data-edge-active).
  *
  * @attr {'horizontal'|'vertical'} orientation - Layout direction (default: horizontal)
  */
 export class NPaneGroup extends NativeElement {
   static observedAttributes = ['orientation'];
 
-  #handles: HTMLElement[] = [];
   #observer: MutationObserver | null = null;
+
+  // Hover state
+  #hoverPane: HTMLElement | null = null;
 
   // Resize state
   #activeIndex = -1;
-  #startSizes: number[] = [];
-  #startPointer = 0;
-  #panes: NPane[] = [];
+  #startRatios: number[] = [];
+  #startPixels: number[] = [];
+  #panes: HTMLElement[] = [];
+  #startX = 0;
+  #startY = 0;
 
   get orientation(): 'horizontal' | 'vertical' {
     return (this.getAttribute('orientation') as 'horizontal' | 'vertical') ?? 'horizontal';
@@ -26,11 +30,14 @@ export class NPaneGroup extends NativeElement {
 
   setup(): void {
     super.setup();
+    this.addEventListener('pointermove', this.#onHover);
+    this.addEventListener('pointerleave', this.#onLeave);
+    this.addEventListener('pointerdown', this.#onPointerDown);
+
     this.deferChildren(() => {
-      this.#stampHandles();
+      this.#distributeSpace();
     });
 
-    // Watch for child additions/removals and hidden/minimized changes
     this.#observer = new MutationObserver(this.#onChildChange);
     this.#observer.observe(this, {
       childList: true,
@@ -41,202 +48,254 @@ export class NPaneGroup extends NativeElement {
   }
 
   teardown(): void {
-    this.#removeHandles();
+    this.removeEventListener('pointermove', this.#onHover);
+    this.removeEventListener('pointerleave', this.#onLeave);
+    this.removeEventListener('pointerdown', this.#onPointerDown);
+    this.#clearHover();
+    this.#cleanupDrag();
     this.#observer?.disconnect();
     this.#observer = null;
-    this.#cleanupResize();
     super.teardown();
   }
 
   attributeChangedCallback(name: string, _old: string | null, _val: string | null): void {
     if (name === 'orientation' && this.isConnected) {
-      this.#stampHandles();
+      this.#distributeSpace();
     }
   }
 
-  /** Get visible, non-handle n-pane children. */
-  #getVisiblePanes(): NPane[] {
-    return Array.from(this.querySelectorAll<NPane>(':scope > n-pane:not([hidden])'));
+  /** Get visible direct children (panes). */
+  #getVisibleChildren(): HTMLElement[] {
+    return Array.from(this.children).filter(
+      c => c instanceof HTMLElement && !c.hidden
+    ) as HTMLElement[];
   }
 
-  #removeHandles(): void {
-    for (const h of this.#handles) h.remove();
-    this.#handles = [];
+  #getMinSize(el: HTMLElement): number {
+    if ('minSize' in el) return (el as NPane).minSize;
+    const v = el.getAttribute('data-size-min');
+    return v ? Number(v) : 0;
   }
 
-  #stampHandles(): void {
-    this.#removeHandles();
-    this.#distributeSpace();
-
-    const panes = this.#getVisiblePanes();
-    if (panes.length < 2) return;
-
-    // Insert a handle between each adjacent pair
-    for (let i = 0; i < panes.length - 1; i++) {
-      const handle = document.createElement('div');
-      handle.className = 'pane-handle';
-      handle.dataset.index = String(i);
-      handle.addEventListener('pointerdown', this.#onPointerDown);
-      // Insert handle after panes[i]
-      panes[i].after(handle);
-      this.#handles.push(handle);
-    }
+  #getMaxSize(el: HTMLElement): number {
+    if ('maxSize' in el) return (el as NPane).maxSize;
+    const v = el.getAttribute('data-size-max');
+    return v ? Number(v) : Infinity;
   }
 
   #distributeSpace(): void {
-    const panes = this.#getVisiblePanes();
+    const panes = this.#getVisibleChildren();
     for (const pane of panes) {
-      if (!pane.hasAttribute('minimized')) {
+      if (pane.hasAttribute('minimized')) continue;
+      const size = pane.getAttribute('size');
+      if (size && size !== 'auto') {
+        pane.style.flex = `0 1 ${size}`;
+      } else {
         pane.style.removeProperty('flex');
-        pane.style.removeProperty('flex-basis');
-        pane.style.removeProperty('width');
-        pane.style.removeProperty('height');
       }
+      pane.style.removeProperty('flex-basis');
+      pane.style.removeProperty('width');
+      pane.style.removeProperty('height');
     }
   }
 
-  // ── Resize logic ──
+  // ── Boundary hit-testing ──
+
+  /** Returns index of the boundary between pane[i] and pane[i+1] nearest to pointer, or -1. */
+  #hitBoundary(clientX: number, clientY: number): number {
+    const panes = this.#getVisibleChildren();
+    if (panes.length < 2) return -1;
+    const isVertical = this.orientation === 'vertical';
+    const threshold = 8;
+
+    for (let i = 0; i < panes.length - 1; i++) {
+      const rect = panes[i].getBoundingClientRect();
+      const edge = isVertical ? rect.bottom : rect.right;
+      const pos = isVertical ? clientY : clientX;
+      if (Math.abs(pos - edge) <= threshold) return i;
+    }
+    return -1;
+  }
+
+  // ── Hover ──
+
+  #onHover = (e: PointerEvent): void => {
+    if (this.#activeIndex >= 0) return;
+    const index = this.#hitBoundary(e.clientX, e.clientY);
+    const panes = this.#getVisibleChildren();
+
+    if (index >= 0) {
+      const pane = panes[index];
+      if (this.#hoverPane !== pane) {
+        this.#clearHover();
+        const edge = this.orientation === 'vertical' ? 'bottom' : 'right';
+        pane.setAttribute('data-edge-near', edge);
+        this.#hoverPane = pane;
+      }
+      this.style.cursor = this.orientation === 'vertical' ? 'row-resize' : 'col-resize';
+    } else {
+      this.#clearHover();
+      this.style.removeProperty('cursor');
+    }
+  };
+
+  #onLeave = (): void => {
+    if (this.#activeIndex >= 0) return;
+    this.#clearHover();
+    this.style.removeProperty('cursor');
+  };
+
+  #clearHover(): void {
+    if (this.#hoverPane) {
+      this.#hoverPane.removeAttribute('data-edge-near');
+      this.#hoverPane = null;
+    }
+  }
+
+  // ── Drag resize ──
 
   #onPointerDown = (e: PointerEvent): void => {
-    const handle = e.currentTarget as HTMLElement;
-    const index = Number(handle.dataset.index);
-    if (isNaN(index)) return;
+    if (e.button !== 0) return;
+    const index = this.#hitBoundary(e.clientX, e.clientY);
+    if (index < 0) return;
 
     e.preventDefault();
-    handle.setPointerCapture(e.pointerId);
+    this.#clearHover();
 
     this.#activeIndex = index;
-    this.#panes = this.#getVisiblePanes();
+    this.#panes = this.#getVisibleChildren();
+    this.#startX = e.clientX;
+    this.#startY = e.clientY;
+
     const isVertical = this.orientation === 'vertical';
 
-    // Record start sizes
-    this.#startSizes = this.#panes.map(p => {
+    // Record start pixel sizes
+    const pixels = this.#panes.map(p => {
       const rect = p.getBoundingClientRect();
       return isVertical ? rect.height : rect.width;
     });
-    this.#startPointer = isVertical ? e.clientY : e.clientX;
+    const totalPixels = pixels.reduce((sum, v) => sum + v, 0);
+    const count = this.#panes.length;
+    const ratios = pixels.map(px => (totalPixels > 0 ? (px / totalPixels) * count : 1));
+
+    // Freeze all panes to current flex-grow ratio
+    for (let i = 0; i < this.#panes.length; i++) {
+      this.#panes[i].style.flex = `${ratios[i]} 1 0%`;
+    }
+
+    this.#startRatios = ratios;
+    this.#startPixels = pixels;
 
     this.setAttribute('data-resizing', '');
-    handle.setAttribute('data-active', '');
+    const edge = isVertical ? 'bottom' : 'right';
+    this.#panes[index].setAttribute('data-edge-active', edge);
+    this.style.cursor = isVertical ? 'row-resize' : 'col-resize';
 
-    handle.addEventListener('pointermove', this.#onPointerMove);
-    handle.addEventListener('pointerup', this.#onPointerUp);
-    handle.addEventListener('pointercancel', this.#onPointerCancel);
-    handle.addEventListener('lostpointercapture', this.#onPointerUp);
+    this.setPointerCapture(e.pointerId);
+    document.addEventListener('pointermove', this.#onDragMove);
+    document.addEventListener('pointerup', this.#onDragEnd);
+    document.addEventListener('pointercancel', this.#onDragCancel);
     document.addEventListener('keydown', this.#onKeyDown);
   };
 
-  #onPointerMove = (e: PointerEvent): void => {
+  #onDragMove = (e: PointerEvent): void => {
     if (this.#activeIndex < 0) return;
 
     const isVertical = this.orientation === 'vertical';
-    const pointer = isVertical ? e.clientY : e.clientX;
-    const delta = pointer - this.#startPointer;
+    const delta = isVertical
+      ? e.clientY - this.#startY
+      : e.clientX - this.#startX;
 
     const i = this.#activeIndex;
     const paneA = this.#panes[i];
     const paneB = this.#panes[i + 1];
     if (!paneA || !paneB) return;
 
-    const startA = this.#startSizes[i];
-    const startB = this.#startSizes[i + 1];
+    const startA = this.#startPixels[i];
+    const startB = this.#startPixels[i + 1];
+    const pairTotal = startA + startB;
 
-    // Clamp to min/max
-    const minA = (paneA as NPane).minSize || 0;
-    const maxA = (paneA as NPane).maxSize || Infinity;
-    const minB = (paneB as NPane).minSize || 0;
-    const maxB = (paneB as NPane).maxSize || Infinity;
+    const minA = this.#getMinSize(paneA);
+    const maxA = this.#getMaxSize(paneA);
+    const minB = this.#getMinSize(paneB);
+    const maxB = this.#getMaxSize(paneB);
 
     let newA = startA + delta;
     let newB = startB - delta;
 
-    // Enforce constraints
-    if (newA < minA) { newA = minA; newB = startA + startB - minA; }
-    if (newA > maxA) { newA = maxA; newB = startA + startB - maxA; }
-    if (newB < minB) { newB = minB; newA = startA + startB - minB; }
-    if (newB > maxB) { newB = maxB; newA = startA + startB - maxB; }
+    if (newA < minA) { newA = minA; newB = pairTotal - minA; }
+    if (newA > maxA) { newA = maxA; newB = pairTotal - maxA; }
+    if (newB < minB) { newB = minB; newA = pairTotal - minB; }
+    if (newB > maxB) { newB = maxB; newA = pairTotal - maxB; }
 
-    // Apply sizes
-    const prop = isVertical ? 'height' : 'width';
-    paneA.style.flex = 'none';
-    paneA.style[prop] = `${newA}px`;
-    paneB.style.flex = 'none';
-    paneB.style[prop] = `${newB}px`;
+    const pairRatio = this.#startRatios[i] + this.#startRatios[i + 1];
+    const pairPixels = newA + newB;
+    paneA.style.flex = `${(newA / pairPixels) * pairRatio} 1 0%`;
+    paneB.style.flex = `${(newB / pairPixels) * pairRatio} 1 0%`;
   };
 
-  #onPointerUp = (_e: PointerEvent | Event): void => {
+  #onDragEnd = (): void => {
     if (this.#activeIndex < 0) return;
 
-    // Dispatch resize event with final sizes
     const isVertical = this.orientation === 'vertical';
     const sizes = this.#panes.map(p => {
       const rect = p.getBoundingClientRect();
       return isVertical ? rect.height : rect.width;
     });
 
+    const ratios = this.#panes.map(p => {
+      const flex = p.style.flex;
+      const match = flex.match(/^([\d.]+)/);
+      return match ? Number(match[1]) : 1;
+    });
+
     this.dispatchEvent(new CustomEvent('native:pane-resize', {
       bubbles: true,
       composed: true,
-      detail: { sizes, index: this.#activeIndex },
+      detail: { sizes, ratios, index: this.#activeIndex },
     }));
 
-    this.#cleanupResize();
+    this.#cleanupDrag();
   };
 
-  #onPointerCancel = (): void => {
-    this.#revertSizes();
-    this.#cleanupResize();
+  #onDragCancel = (): void => {
+    if (this.#activeIndex < 0) return;
+    for (let i = 0; i < this.#panes.length; i++) {
+      this.#panes[i].style.flex = `${this.#startRatios[i]} 1 0%`;
+    }
+    this.#cleanupDrag();
   };
 
   #onKeyDown = (e: KeyboardEvent): void => {
     if (e.key === 'Escape' && this.#activeIndex >= 0) {
       e.preventDefault();
-      this.#revertSizes();
-      // Release pointer capture to end the drag
-      const handle = this.#handles[this.#activeIndex];
-      if (handle) {
-        try { handle.releasePointerCapture(0); } catch { /* may not have capture */ }
-      }
-      this.#cleanupResize();
+      this.#onDragCancel();
     }
   };
 
-  #revertSizes(): void {
-    const isVertical = this.orientation === 'vertical';
-    const prop = isVertical ? 'height' : 'width';
-    for (let i = 0; i < this.#panes.length; i++) {
-      const pane = this.#panes[i];
-      if (this.#startSizes[i] !== undefined) {
-        pane.style.flex = 'none';
-        pane.style[prop] = `${this.#startSizes[i]}px`;
-      }
+  #cleanupDrag(): void {
+    if (this.#activeIndex >= 0) {
+      this.#panes[this.#activeIndex]?.removeAttribute('data-edge-active');
     }
-  }
-
-  #cleanupResize(): void {
-    const handle = this.#activeIndex >= 0 ? this.#handles[this.#activeIndex] : null;
-    if (handle) {
-      handle.removeAttribute('data-active');
-      handle.removeEventListener('pointermove', this.#onPointerMove);
-      handle.removeEventListener('pointerup', this.#onPointerUp);
-      handle.removeEventListener('pointercancel', this.#onPointerCancel);
-      handle.removeEventListener('lostpointercapture', this.#onPointerUp);
-    }
-    document.removeEventListener('keydown', this.#onKeyDown);
-    this.removeAttribute('data-resizing');
     this.#activeIndex = -1;
-    this.#startSizes = [];
+    this.#startRatios = [];
+    this.#startPixels = [];
     this.#panes = [];
+    this.removeAttribute('data-resizing');
+    this.style.removeProperty('cursor');
+    document.removeEventListener('pointermove', this.#onDragMove);
+    document.removeEventListener('pointerup', this.#onDragEnd);
+    document.removeEventListener('pointercancel', this.#onDragCancel);
+    document.removeEventListener('keydown', this.#onKeyDown);
   }
 
-  #pendingStamp = 0;
+  #pendingDistribute = 0;
 
   #onChildChange = (): void => {
-    // Debounce to handle batch DOM operations
-    if (this.#pendingStamp) return;
-    this.#pendingStamp = requestAnimationFrame(() => {
-      this.#pendingStamp = 0;
-      this.#stampHandles();
+    if (this.#pendingDistribute) return;
+    this.#pendingDistribute = requestAnimationFrame(() => {
+      this.#pendingDistribute = 0;
+      this.#distributeSpace();
     });
   };
 }

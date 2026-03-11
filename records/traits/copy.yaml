@@ -2,10 +2,10 @@ trait: copy
 controller: CopyController
 description: Copies a value to the clipboard and shows visual feedback, dispatching `native:copy`.
 source:
-  controller: src/traits/copy/copy-controller.ts
-  adapter: src/traits/copy/copyable-adapter.ts
-  demo: src/traits/copy/copyable.html
-  test: src/traits/copy/copyable.test.ts
+  controller: packages/native-traits/src/traits/copy/copy-controller.ts
+  adapter: packages/native-traits/src/traits/copy/copyable-adapter.ts
+  demo: packages/native-traits/src/traits/copy/copyable.html
+  test: packages/native-traits/src/traits/copy/copyable.test.ts
 options:
   value:
     type: string | (() => string)

@@ -2,7 +2,7 @@
 
   /* ══════════════════════════════════════════════════════════════════
      <n-panes> — Coordinated pane group container
-     Flex layout with resize handles between children.
+     Flex layout with pointer-proximity resize between children.
      Default orientation: horizontal (side-by-side).
      ══════════════════════════════════════════════════════════════════ */
 
@@ -32,6 +32,44 @@
     position: relative;
   }
 
+  /* ── Slot placement (order-based pinning) ── */
+
+  /* Leading / header pins to top */
+  :where(n-pane) > :where(n-header),
+  :where(n-pane) > :where([slot="leading"]) {
+    order: -1;
+    flex: none;
+  }
+
+  /* Content / body stretches to fill */
+  :where(n-pane) > :where(n-body),
+  :where(n-pane) > :where([slot="content"]) {
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+
+  /* Trailing / footer pins to bottom */
+  :where(n-pane) > :where(n-footer),
+  :where(n-pane) > :where([slot="trailing"]) {
+    order: 999;
+    flex: none;
+  }
+
+  /* Canvas: covers entire pane, behind content */
+  :where(n-pane) > :where([slot="canvas"]) {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  :where(n-pane) > :where(:not([slot="canvas"])) {
+    z-index: 1;
+    position: relative;
+  }
+
   /* ── Compact header inside pane ── */
 
   :where(n-pane) > :where(n-header) {
@@ -41,16 +79,6 @@
     font-size: var(--n-pane-header-font-size, 0.6875rem);
     font-weight: var(--n-button-font-weight);
     gap: calc(var(--n-space) * 1);
-    flex: none;
-  }
-
-  /* ── Pane body (scrollable content) ── */
-
-  :where(n-pane) > :where(n-body) {
-    flex: 1 1 0%;
-    min-height: 0;
-    overflow-y: auto;
-    scrollbar-width: thin;
   }
 
   /* ── Minimized state ── */
@@ -59,33 +87,91 @@
     flex: none;
   }
 
-  :where(n-pane[minimized]) > :where(n-body),
-  :where(n-pane[minimized]) > :where(n-footer),
-  :where(n-pane[minimized]) > :where(:not(n-header)) {
+  :where(n-pane[minimized]) > :where(:not(n-header):not([slot="leading"])) {
     display: none;
   }
 
-  /* ── Resize handles (stamped by n-panes between children) ── */
+  /* ── Edge resize handles (stamped by n-pane per resize attr) ── */
 
-  :where(n-panes) > :where(.pane-handle) {
-    flex: none;
-    width: var(--n-pane-handle-size, 4px);
-    cursor: col-resize;
-    background: transparent;
-    position: relative;
-    z-index: 1;
-    transition: background var(--n-duration) var(--n-easing);
+  :where(n-pane) > :where(.pane-edge) {
+    position: absolute;
+    z-index: 3;
     touch-action: none;
   }
 
-  :where(n-panes) > :where(.pane-handle):hover,
-  :where(n-panes[data-resizing]) > :where(.pane-handle[data-active]) {
-    background: var(--n-pane-handle-color, var(--n-border-muted));
+  :where(n-pane) > :where(.pane-edge[data-edge="right"]) {
+    top: 0; bottom: 0; right: -8px; width: 16px;
+    cursor: col-resize;
+  }
+
+  :where(n-pane) > :where(.pane-edge[data-edge="left"]) {
+    top: 0; bottom: 0; left: -8px; width: 16px;
+    cursor: col-resize;
+  }
+
+  :where(n-pane) > :where(.pane-edge[data-edge="top"]) {
+    left: 0; right: 0; top: -8px; height: 16px;
+    cursor: row-resize;
+  }
+
+  :where(n-pane) > :where(.pane-edge[data-edge="bottom"]) {
+    left: 0; right: 0; bottom: -8px; height: 16px;
+    cursor: row-resize;
+  }
+
+  :where(n-pane) > :where(.pane-edge)::after {
+    content: '';
+    position: absolute;
+    background: var(--n-pane-handle-accent, var(--n-ink-accent));
+    opacity: 0;
+    transition: opacity var(--n-duration, 150ms) var(--n-easing, ease);
+    border-radius: 2px;
+  }
+
+  /* Inline edges: vertical accent bar */
+  :where(n-pane) > :where(.pane-edge[data-edge="left"])::after,
+  :where(n-pane) > :where(.pane-edge[data-edge="right"])::after {
+    top: 0; bottom: 0; left: 50%; width: 3px;
+    transform: translateX(-50%);
+  }
+
+  /* Block edges: horizontal accent bar */
+  :where(n-pane) > :where(.pane-edge[data-edge="top"])::after,
+  :where(n-pane) > :where(.pane-edge[data-edge="bottom"])::after {
+    left: 0; right: 0; top: 50%; height: 3px;
+    transform: translateY(-50%);
+  }
+
+  :where(n-pane) > :where(.pane-edge):hover::after,
+  :where(n-pane[data-resizing]) > :where(.pane-edge)::after {
+    opacity: 1;
+  }
+
+  /* ── Between-pane accent bar (::after on pane, driven by n-panes hit-testing) ── */
+
+  :where(n-pane[data-edge-near])::after,
+  :where(n-pane[data-edge-active])::after {
+    content: '';
+    position: absolute;
+    z-index: 4;
+    background: var(--n-pane-handle-accent, var(--n-ink-accent));
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  :where(n-pane[data-edge-near="right"])::after,
+  :where(n-pane[data-edge-active="right"])::after {
+    top: 0; bottom: 0; right: 0; width: 3px;
+  }
+
+  :where(n-pane[data-edge-near="bottom"])::after,
+  :where(n-pane[data-edge-active="bottom"])::after {
+    left: 0; right: 0; bottom: 0; height: 3px;
   }
 
   /* ── Border between adjacent panes ── */
 
-  :where(n-panes) > :where(n-pane) + :where(.pane-handle) {
+  :where(n-panes) > :where(n-pane) + :where(n-pane) {
     border-inline-start: 1px solid var(--n-pane-border-color, var(--n-border-muted));
   }
 
@@ -102,13 +188,7 @@
   flex-direction: column;
 }
 
-:where(n-panes)[orientation="vertical"] > :where(.pane-handle) {
-  width: auto;
-  height: var(--n-pane-handle-size, 4px);
-  cursor: row-resize;
-}
-
-:where(n-panes)[orientation="vertical"] > :where(n-pane) + :where(.pane-handle) {
+:where(n-panes)[orientation="vertical"] > :where(n-pane) + :where(n-pane) {
   border-inline-start: none;
   border-block-start: 1px solid var(--n-pane-border-color, var(--n-border-muted));
 }
@@ -117,4 +197,38 @@
 
 :where(n-pane)[bordered] {
   border: 1px solid var(--n-pane-border-color, var(--n-border-muted));
+}
+
+/* ── Scrollable pane ── */
+
+:where(n-pane)[scrollable] {
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+:where(n-pane)[scrollable="x"] {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+
+:where(n-pane)[scrollable="y"] {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+:where(n-pane)[scrollable="both"] {
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+/* ── Hover-reveal mode: hide pane border — accent bar replaces it ── */
+
+:where(n-panes)[handle="hover"] > :where(n-pane) + :where(n-pane) {
+  border-inline-start: none;
+}
+
+:where(n-panes)[handle="hover"][orientation="vertical"] > :where(n-pane) + :where(n-pane) {
+  border-block-start: none;
 }

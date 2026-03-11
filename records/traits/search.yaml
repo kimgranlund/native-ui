@@ -2,10 +2,10 @@ trait: search
 controller: SearchController
 description: Filters child items by a text query, toggling visibility and dispatching `native:search`.
 source:
-  controller: src/traits/search/search-controller.ts
-  adapter: src/traits/search/searchable-adapter.ts
-  demo: src/traits/search/searchable.html
-  test: src/traits/search/searchable.test.ts
+  controller: packages/native-traits/src/traits/search/search-controller.ts
+  adapter: packages/native-traits/src/traits/search/searchable-adapter.ts
+  demo: packages/native-traits/src/traits/search/searchable.html
+  test: packages/native-traits/src/traits/search/searchable.test.ts
 options:
   selector:
     type: string

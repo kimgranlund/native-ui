@@ -6,10 +6,10 @@ description: "Explode child layers in 3D space with interactive mouse-driven til
   the inspection target. On activation, the target is deep-cloned into a popover (top layer) so the 3D explosion escapes
   ancestor overflow clipping. The original is hidden with visibility:hidden to preserve layout."
 source:
-  controller: src/traits/css-inspect/css-inspect-controller.ts
-  adapter: src/traits/css-inspect/css-inspectable-adapter.ts
-  demo: src/traits/css-inspect/css-inspectable.html
-  test: src/traits/css-inspect/css-inspectable.test.ts
+  controller: packages/native-traits/src/traits/css-inspect/css-inspect-controller.ts
+  adapter: packages/native-traits/src/traits/css-inspect/css-inspectable-adapter.ts
+  demo: packages/native-traits/src/traits/css-inspect/css-inspectable.html
+  test: packages/native-traits/src/traits/css-inspect/css-inspectable.test.ts
 options:
   depth:
     type: number

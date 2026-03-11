@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NDrawer } from './drawer-element.ts';
 
 define('n-drawer', NDrawer);

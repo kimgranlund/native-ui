@@ -14,7 +14,7 @@
     <h1>Color Boiler Plate</h1>
     <header>
       <div class="header">
-        <div></div>
+        <n-button id="export-tokens" size="sm" variant="outline">Export Computed Tokens</n-button>
         <div class="toggle-wrap">
           <select class="theme-select" id="theme-select">
             <option value="">Default</option>
@@ -68,7 +68,12 @@
       import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
+      import '../icons/phosphor/download-simple.ts';
     </script>
     <script type="module" src="./colors.demo.ts"></script>
+    <script type="module">
+      import { exportComputedTokens } from './colors.export.ts';
+      document.getElementById('export-tokens').addEventListener('click', exportComputedTokens);
+    </script>
   </body>
 </html>

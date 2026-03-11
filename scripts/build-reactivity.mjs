@@ -22,7 +22,7 @@ await build({
   build: {
     emptyOutDir: false,
     lib: {
-      entry: resolve(root, 'src/reactivity/index.ts'),
+      entry: resolve(root, 'packages/native-core/src/reactivity/index.ts'),
       formats: ['es'],
       fileName: () => 'reactivity.js',
     },

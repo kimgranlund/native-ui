@@ -1,5 +1,5 @@
-import { signal } from '../../reactivity/signal.ts';
-import type { Signal } from '../../reactivity/types.ts';
+import { signal } from '@nonoun/native-core';
+import type { Signal } from '@nonoun/native-core';
 
 export interface StoreControllerOptions {
   /** Parse fetch response. Default: `res.json()` */

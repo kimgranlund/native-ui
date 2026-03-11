@@ -2,10 +2,10 @@ trait: noodle
 controller: NoodleController
 description: Renders SVG noodle connections between DOM elements within a host container.
 source:
-  controller: src/traits/noodle/noodle-controller.ts
-  adapter: src/traits/noodle/noodleable-adapter.ts
-  demo: src/traits/noodle/noodleable.html
-  test: src/traits/noodle/noodle-controller.test.ts
+  controller: packages/native-traits/src/traits/noodle/noodle-controller.ts
+  adapter: packages/native-traits/src/traits/noodle/noodleable-adapter.ts
+  demo: packages/native-traits/src/traits/noodle/noodleable.html
+  test: packages/native-traits/src/traits/noodle/noodle-controller.test.ts
 options:
   selector:
     type: string

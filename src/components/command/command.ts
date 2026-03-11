@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NCommand } from './command-element.ts';
 import { NCommandInput } from './command-input-element.ts';
 import { NCommandList } from './command-list-element.ts';

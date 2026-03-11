@@ -1,7 +1,7 @@
-import { signal } from '../../../reactivity/signal.ts';
-import { batch } from '../../../reactivity/batch.ts';
-import type { Signal } from '../../../reactivity/types.ts';
-import type { SortDirection } from '../../../traits/sort/sort-controller.ts';
+import { signal } from '@nonoun/native-core';
+import { batch } from '@nonoun/native-core';
+import type { Signal } from '@nonoun/native-core';
+import type { SortDirection } from '@nonoun/native-traits';
 
 export interface TableStoreOptions {
   sortColumn?: string;

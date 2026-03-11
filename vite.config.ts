@@ -13,6 +13,8 @@ export default defineConfig(({ command }) => ({
       // Without aliases Vite resolves to dist/ (built), creating a dual-module
       // problem where the same classes load from both source and dist.
       // Aliasing to source entries keeps everything in one module graph.
+      '@nonoun/native-core': resolve(__dirname, 'packages/native-core/src/index.ts'),
+      '@nonoun/native-traits': resolve(__dirname, 'packages/native-traits/src/index.ts'),
       '@nonoun/native-ui/kernel': resolve(__dirname, 'src/kernel.ts'),
       '@nonoun/native-ui': resolve(__dirname, 'src/index.ts'),
       '@nonoun/native-code/register': resolve(__dirname, 'packages/native-code/src/register.ts'),
@@ -30,9 +32,14 @@ export default defineConfig(({ command }) => ({
       '~pkg/native-dashboard': resolve(__dirname, 'packages/native-dashboard/src'),
       '~pkg/native-data-viz': resolve(__dirname, 'packages/native-data-viz/src'),
       '~pkg/native-cdn': resolve(__dirname, 'packages/native-cdn/src'),
-    } : {},
+    } : {
+      // WHY: In build, native-ui bundles native-core + native-traits into its dist.
+      // Resolve to source so Vite includes them in the bundle.
+      '@nonoun/native-core': resolve(__dirname, 'packages/native-core/src/index.ts'),
+      '@nonoun/native-traits': resolve(__dirname, 'packages/native-traits/src/index.ts'),
+    },
   },
-  // WHY: srcdoc iframes (native-playground) have origin "null". ES module <script src>
+  // WHY: srcdoc iframes (n-playground) have origin "null". ES module <script src>
   // loads from null→localhost are blocked without CORS headers. Dev-only setting.
   server: {
     cors: { origin: '*' },
@@ -74,7 +81,8 @@ export default defineConfig(({ command }) => ({
         manualChunks(id) {
           // Kernel is a separate entry — let it stay isolated
           if (id.includes('/kernel/')) return undefined;
-          // Traits + core + registries + reactivity → core.js (shared foundation)
+          // native-core + native-traits → core.js (shared foundation)
+          if (id.includes('/native-core/') || id.includes('/native-traits/')) return 'core';
           if (id.includes('/traits/') || id.includes('/core/') || id.includes('/registries/') || id.includes('/reactivity/')) return 'core';
           // All component + container classes → components.js
           if (id.includes('/components/') || id.includes('/containers/')) return 'components';

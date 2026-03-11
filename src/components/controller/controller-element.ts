@@ -1,8 +1,8 @@
-import { NativeElement } from '../../core/native-element.ts';
-import { ContextRequestEvent } from '../../core/context.ts';
+import { NativeElement } from '@nonoun/native-core';
+import { ContextRequestEvent } from '@nonoun/native-core';
 import { StoreController } from '../../controllers/store/store-controller.ts';
-import { getTrait, onTraitRegistered, getRegisteredTraitNames } from '../../registries/trait-registry.ts';
-import { collectTraitOptions, parseTraitAttribute } from '../../core/trait-options.ts';
+import { getTrait, onTraitRegistered, getRegisteredTraitNames } from '@nonoun/native-core';
+import { collectTraitOptions, parseTraitAttribute } from '@nonoun/native-core';
 
 /**
  * Managed controller instances keyed by trait name, per target element.

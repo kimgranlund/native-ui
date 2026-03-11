@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-markdown-editor — Package Demo</title>
+    <link rel="stylesheet" href="../../../../src/styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../../src/styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../../../src/styles/spa/spa-pages.css" />
+    <link rel="stylesheet" href="../codemirror/css/editor.css" />
+    <link rel="stylesheet" href="./css/markdown-editor.css" />
+    <link rel="stylesheet" href="./markdown-editor.demo.css" />
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+    <header>
+      <h1>&lt;n-markdown-editor&gt;</h1>
+      <p class="demo-desc">
+        Markdown content editor with live preview and source modes.
+        Built on CodeMirror 6, renders a toolbar with formatting commands and an Obsidian-style live preview.
+      </p>
+    </header>
+    <section>
+
+    <!-- ── Default (Live Preview) ── -->
+
+    <h2>Default — Live Preview Mode</h2>
+    <n-markdown-editor id="demo-default">
+      <script type="text/markdown">
+# Hello World
+
+This is a **bold** and *italic* text with `inline code`.
+
+## Features
+
+- Toolbar with formatting commands
+- Live preview with decorations
+- Source mode toggle
+
+> Blockquotes are styled with a blue left border.
+
+### Links & Images
+
+Check out [NativeUI](https://github.com/nonoun/native-ui) for more info.
+
+---
+
+```js
+console.log('Code blocks are highlighted');
+```
+
+1. Ordered lists
+2. Work too
+3. With proper numbering
+      </script>
+    </n-markdown-editor>
+    <pre class="demo-code"><code>&lt;n-markdown-editor&gt;
+  &lt;script type="text/markdown"&gt;
+# Hello World
+
+This is a **bold** and *italic* text.
+  &lt;/script&gt;
+&lt;/n-markdown-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+
+    <!-- ── Source Mode ── -->
+
+    <h2>Source Mode</h2>
+    <n-markdown-editor id="demo-source" mode="source">
+      <script type="text/markdown">
+# Source Mode
+
+In source mode, you see the **raw markdown** without live preview decorations.
+Syntax highlighting is provided by `@codemirror/lang-markdown`.
+
+- No inline styling
+- Just syntax colors
+- Full editing power
+      </script>
+    </n-markdown-editor>
+    <pre class="demo-code"><code>&lt;n-markdown-editor mode="source"&gt;
+  &lt;script type="text/markdown"&gt;
+# Source Mode
+Raw markdown without decorations.
+  &lt;/script&gt;
+&lt;/n-markdown-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+
+    <!-- ── Placeholder ── -->
+
+    <h2>Placeholder</h2>
+    <n-markdown-editor id="demo-placeholder" placeholder="Start typing your markdown here..."></n-markdown-editor>
+    <pre class="demo-code"><code>&lt;n-markdown-editor placeholder="Start typing your markdown here..."&gt;&lt;/n-markdown-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+
+    <!-- ── Read-only ── -->
+
+    <h2>Read-only</h2>
+    <n-markdown-editor id="demo-readonly" readonly>
+      <script type="text/markdown">
+# Read-only Document
+
+This editor is in **read-only** mode. You can select text but cannot edit.
+
+- Toolbar buttons are disabled
+- Content is not editable
+- Useful for preview/display
+      </script>
+    </n-markdown-editor>
+    <pre class="demo-code"><code>&lt;n-markdown-editor readonly&gt;
+  &lt;script type="text/markdown"&gt;
+# Read-only Document
+Content is not editable.
+  &lt;/script&gt;
+&lt;/n-markdown-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+
+    <!-- ── Disabled ── -->
+
+    <h2>Disabled</h2>
+    <n-markdown-editor id="demo-disabled" disabled>
+      <script type="text/markdown">
+# Disabled Editor
+
+This editor is completely disabled.
+      </script>
+    </n-markdown-editor>
+    <pre class="demo-code"><code>&lt;n-markdown-editor disabled&gt;...&lt;/n-markdown-editor&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+
+    <!-- ── Form Integration ── -->
+
+    <h2>Form Integration</h2>
+    <form id="demo-form" style="display: flex; flex-direction: column; gap: 1rem;">
+      <n-markdown-editor id="demo-form-editor" name="content" style="height: 250px;">
+        <script type="text/markdown">
+# Form Field
+
+This editor participates in form submission via `FormData`.
+        </script>
+      </n-markdown-editor>
+      <div class="demo-actions">
+        <n-button type="submit" variant="primary">Submit</n-button>
+        <n-button type="reset" variant="secondary">Reset</n-button>
+      </div>
+    </form>
+    <div class="log" id="form-output"></div>
+    <pre class="demo-code"><code>&lt;form&gt;
+  &lt;n-markdown-editor name="content"&gt;...&lt;/n-markdown-editor&gt;
+  &lt;n-button type="submit" variant="primary"&gt;Submit&lt;/n-button&gt;
+  &lt;n-button type="reset" variant="secondary"&gt;Reset&lt;/n-button&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+  form.addEventListener('submit', (e) =&gt; {
+    e.preventDefault();
+    const data = new FormData(form);
+    console.log(data.get('content'));
+  });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+
+    <!-- ── Change Events ── -->
+
+    <h2>Change Events</h2>
+    <n-markdown-editor id="demo-events" style="height: 200px;">
+      <script type="text/markdown">
+# Try editing
+
+Type something to see change events in the log below.
+      </script>
+    </n-markdown-editor>
+    <div class="log" id="event-log" style="max-height: 100px;"></div>
+    <pre class="demo-code"><code>&lt;n-markdown-editor id="editor"&gt;...&lt;/n-markdown-editor&gt;
+
+&lt;script&gt;
+  editor.addEventListener('change', (e) =&gt; {
+    console.log(e.detail.value.length, 'chars');
+  });
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+
+    <!-- ── Data Gateway (src) ── -->
+
+    <h2>Data Gateway — Load from URL</h2>
+    <n-markdown-editor id="demo-gateway" style="height: 300px;"></n-markdown-editor>
+    <div class="demo-actions" style="margin-top: 0.75rem; align-items: center;">
+      <n-button id="gateway-save" variant="primary" disabled>Save</n-button>
+      <n-button id="gateway-reload" variant="secondary">Reload</n-button>
+      <span class="demo-text-sm" id="gateway-status"></span>
+    </div>
+    <pre class="demo-code"><code>&lt;n-markdown-editor id="editor" src="/api/content"&gt;&lt;/n-markdown-editor&gt;
+
+&lt;script&gt;
+  editor.addEventListener('dirty-change', (e) =&gt; {
+    saveBtn.disabled = !e.detail.dirty;
+  });
+  saveBtn.addEventListener('native:press', () =&gt; editor.save());
+  reloadBtn.addEventListener('native:press', () =&gt; editor.reload());
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+
+    </section>
+    </main></native-dashboard-spa>
+
+    <script type="module">
+      import '../../../../src/nav/native-dashboard.ts';
+      import '../../../../src/components/button/button.ts';
+      import '../../../../src/components/segmented-control/segmented-control.ts';
+      import '../../../../src/components/toolbar/toolbar.ts';
+      import '../../../../src/components/listbox/listbox.ts';
+      import '../../../../src/components/listbox/option.ts';
+      import '../../../../src/icons/icon.ts';
+      import '../../../../src/icons/custom/dots-three-bold.ts';
+      import '../../../../src/icons/phosphor/copy.ts';
+      import '../../../../src/icons/phosphor/check.ts';
+      // Toolbar icons
+      import '../../../../src/icons/phosphor/text-b.ts';
+      import '../../../../src/icons/phosphor/text-italic.ts';
+      import '../../../../src/icons/phosphor/code.ts';
+      import '../../../../src/icons/phosphor/text-h-one.ts';
+      import '../../../../src/icons/phosphor/text-h-two.ts';
+      import '../../../../src/icons/phosphor/text-h-three.ts';
+      import '../../../../src/icons/phosphor/list-bullets.ts';
+      import '../../../../src/icons/phosphor/list-numbers.ts';
+      import '../../../../src/icons/phosphor/quotes.ts';
+      import '../../../../src/icons/phosphor/link.ts';
+      import '../../../../src/icons/phosphor/image.ts';
+      import '../../../../src/icons/phosphor/arrows-out.ts';
+      import './register.ts';
+    </script>
+    <script type="module" src="./markdown-editor.demo.ts"></script>
+  </body>
+</html>

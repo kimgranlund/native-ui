@@ -1,5 +1,5 @@
-import { NativeElement, CopyController, ResizeController, PresentController } from '@nonoun/native-ui';
-import type { NCodemirror } from '../codemirror/index.ts';
+import { NativeElement, CopyController, PresentController } from '@nonoun/native-ui';
+import type { NCodeEditor } from '../codemirror/index.ts';
 import '../codemirror/register.ts';
 import { createPlaygroundStore } from './playground-store.ts';
 import type { PlaygroundStore, ConsoleEntry } from './playground-store.ts';
@@ -45,12 +45,13 @@ export class NPlayground extends NativeElement {
   ];
 
   #store!: PlaygroundStore;
-  #editors = new Map<TabName, HTMLElement & NCodemirror>();
+  #editors = new Map<TabName, HTMLElement & NCodeEditor>();
   #iframe: HTMLIFrameElement | null = null;
   #debounceTimer: ReturnType<typeof setTimeout> | undefined;
   #copyController!: CopyController;
-  #resizeController: ResizeController | null = null;
   #presentController: PresentController | null = null;
+  #panesEl: HTMLElement | null = null;
+  #resizeObserver: ResizeObserver | null = null;
 
   // Resolved framework CSS (cached after first resolution)
   #cssCache = '';
@@ -60,7 +61,6 @@ export class NPlayground extends NativeElement {
   #tabsEl: HTMLElement | null = null;
   #panels: HTMLDivElement[] = [];
   #consolePanelEl: HTMLDivElement | null = null;
-  #editorRegion: HTMLDivElement | null = null;
 
   // WHY: Cache initial <script> content so it survives disconnect/reconnect cycles.
   // #extractContent() removes script children on first setup. If the same instance
@@ -164,30 +164,28 @@ export class NPlayground extends NativeElement {
     // Present controller — expand playground to full-viewport dialog
     this.#presentController = new PresentController(this as unknown as HTMLElement);
 
-    // Resize controller — lets users drag the handle between editor and preview
-    if (this.#editorRegion) {
-      const isVertical = this.#store.orientation.value === 'vertical';
-      this.#resizeController = new ResizeController(this.#editorRegion, {
-        handleSelector: '.pg-resize-handle',
-        axis: isVertical ? 'vertical' : 'horizontal',
-        min: isVertical ? 100 : 200,
-      });
-    }
-
-    // Effect: orientation changes → update resize axis
+    // Effect: orientation → update n-panes attribute
     this.addEffect(() => {
       const orientation = this.#store.orientation.value;
-      if (this.#resizeController) {
-        const isVertical = orientation === 'vertical';
-        this.#resizeController.axis = isVertical ? 'vertical' : 'horizontal';
-        this.#resizeController.min = isVertical ? 100 : 200;
-        // Clear explicit size when orientation changes
-        if (this.#editorRegion) {
-          this.#editorRegion.style.width = '';
-          this.#editorRegion.style.height = '';
-        }
+      if (!this.#panesEl) return;
+      if (orientation === 'auto') {
+        // Auto: let ResizeObserver toggle orientation based on width
+        // Don't set attribute here — ResizeObserver handles it
+      } else {
+        this.#panesEl.setAttribute('orientation', orientation);
       }
     });
+
+    // Auto-orientation: observe playground width
+    this.#resizeObserver = new ResizeObserver((entries) => {
+      if (this.#store.orientation.value !== 'auto' || !this.#panesEl) return;
+      const width = entries[0]?.contentRect.width ?? 0;
+      const target = width < 600 ? 'vertical' : 'horizontal';
+      if (this.#panesEl.getAttribute('orientation') !== target) {
+        this.#panesEl.setAttribute('orientation', target);
+      }
+    });
+    this.#resizeObserver.observe(this);
 
     // Effects that do NOT depend on children
 
@@ -245,10 +243,10 @@ export class NPlayground extends NativeElement {
     this.#editors.clear();
 
     this.#copyController.destroy();
-    this.#resizeController?.destroy();
-    this.#resizeController = null;
     this.#presentController?.destroy();
     this.#presentController = null;
+    this.#resizeObserver?.disconnect();
+    this.#resizeObserver = null;
 
     // WHY: Remove DOM nodes created by #buildDOM() so a subsequent setup()
     // starts with a clean element. Without this, reconnecting the same
@@ -258,7 +256,7 @@ export class NPlayground extends NativeElement {
 
     this.#iframe = null;
     this.#consolePanelEl = null;
-    this.#editorRegion = null;
+    this.#panesEl = null;
     this.#tabsEl = null;
     this.#panels = [];
 
@@ -293,13 +291,14 @@ export class NPlayground extends NativeElement {
     toolbar.append(runBtn, resetBtn, copyBtn, consoleBtn, expandBtn);
     toolbarHeader.appendChild(toolbar);
 
-    // Split container
-    const split = document.createElement('div');
-    split.className = 'pg-split';
+    // Pane group container
+    const panes = document.createElement('n-panes');
+    panes.setAttribute('handle', 'hover');
 
-    // Editor region
-    const editorRegion = document.createElement('div');
-    editorRegion.className = 'pg-editor';
+    // Editor pane
+    const editorPane = document.createElement('n-pane');
+    editorPane.setAttribute('data-panel', 'editor');
+    editorPane.setAttribute('size-min', '200');
 
     // Tab bar wrapped in semantic header for dark chrome context
     const tabHeader = document.createElement('n-header');
@@ -319,20 +318,20 @@ export class NPlayground extends NativeElement {
     this.#tabsEl = tabBar;
 
     tabHeader.appendChild(tabBar);
-    editorRegion.appendChild(tabHeader);
+    editorPane.appendChild(tabHeader);
 
-    // Code panels (one per tab, each containing a <native-codemirror>)
+    // Code panels (one per tab, each containing a <n-editor>)
     for (let i = 0; i < TAB_NAMES.length; i++) {
       const panel = document.createElement('div');
       panel.className = 'pg-code-panel';
       panel.setAttribute('role', 'tabpanel');
       panel.hidden = TAB_NAMES[i] !== this.#store.activeTab.value;
 
-      const editor = document.createElement('native-codemirror') as HTMLElement & NCodemirror;
+      const editor = document.createElement('n-editor') as HTMLElement & NCodeEditor;
       panel.appendChild(editor);
       this.#editors.set(TAB_NAMES[i], editor);
 
-      editorRegion.appendChild(panel);
+      editorPane.appendChild(panel);
       this.#panels.push(panel);
     }
 
@@ -340,32 +339,28 @@ export class NPlayground extends NativeElement {
     const consolePanel = document.createElement('div');
     consolePanel.className = 'pg-console';
     consolePanel.hidden = !this.#store.consoleOpen.value;
-    editorRegion.appendChild(consolePanel);
+    editorPane.appendChild(consolePanel);
     this.#consolePanelEl = consolePanel;
 
-    // Resize handle (inside editor, positioned at right/bottom edge)
-    const resizeHandle = document.createElement('div');
-    resizeHandle.className = 'pg-resize-handle';
-    editorRegion.appendChild(resizeHandle);
+    panes.appendChild(editorPane);
 
-    split.appendChild(editorRegion);
-    this.#editorRegion = editorRegion;
-
-    // Preview region
-    const previewRegion = document.createElement('div');
-    previewRegion.className = 'pg-preview';
+    // Preview pane
+    const previewPane = document.createElement('n-pane');
+    previewPane.setAttribute('data-panel', 'preview');
+    previewPane.setAttribute('size-min', '200');
 
     const iframe = document.createElement('iframe');
     iframe.setAttribute('sandbox', 'allow-scripts');
     iframe.setAttribute('title', 'Preview');
-    previewRegion.appendChild(iframe);
+    previewPane.appendChild(iframe);
     this.#iframe = iframe;
 
-    split.appendChild(previewRegion);
+    panes.appendChild(previewPane);
+    this.#panesEl = panes;
 
     // Append to host and track for teardown cleanup
-    this.append(toolbarHeader, split);
-    this.#buildDOMNodes = [toolbarHeader, split];
+    this.append(toolbarHeader, panes);
+    this.#buildDOMNodes = [toolbarHeader, panes];
   }
 
   #createToolbarButton(className: string, title: string, label: string): HTMLElement {

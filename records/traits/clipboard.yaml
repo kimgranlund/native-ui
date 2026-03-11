@@ -3,10 +3,10 @@ controller: ClipboardController
 description: Handles keyboard-driven cut/copy/paste operations on selected items, dispatching `native:clip-copy`,
   `native:clip-cut`, and `native:clip-paste`.
 source:
-  controller: src/traits/clipboard/clipboard-controller.ts
-  adapter: src/traits/clipboard/clippable-adapter.ts
-  demo: src/traits/clipboard/clippable.html
-  test: src/traits/clipboard/clippable.test.ts
+  controller: packages/native-traits/src/traits/clipboard/clipboard-controller.ts
+  adapter: packages/native-traits/src/traits/clipboard/clippable-adapter.ts
+  demo: packages/native-traits/src/traits/clipboard/clippable.html
+  test: packages/native-traits/src/traits/clipboard/clippable.test.ts
 options:
   selector:
     type: string

@@ -1,4 +1,4 @@
-import { NativeElement } from '../../core/native-element.ts';
+import { NativeElement } from '@nonoun/native-core';
 
 // WHY: ?inline imports resolve @import chains at build time → full flattened CSS.
 // Parsed once at module level, shared by all instances via adoptedStyleSheets.

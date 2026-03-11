@@ -1,13 +1,13 @@
-import { signal } from '../../reactivity/signal.ts';
-import { batch } from '../../reactivity/batch.ts';
-import { NativeElement } from '../../core/native-element.ts';
-import { createDisabledEffect } from '../../core/effects.ts';
-import { FormAssociable } from '../../core/form-associable.ts';
-import { PopoverController } from '../../traits/popover/popover-controller.ts';
-import { DataListController } from '../../core/data-list.ts';
-import { parseDataOptions, fetchDataOptions } from '../../core/data-options.ts';
-import type { BaseOption } from '../../core/data-options.ts';
-import { uid } from '../../core/uid.ts';
+import { signal } from '@nonoun/native-core';
+import { batch } from '@nonoun/native-core';
+import { NativeElement } from '@nonoun/native-core';
+import { createDisabledEffect } from '@nonoun/native-core';
+import { FormAssociable } from '@nonoun/native-core';
+import { PopoverController } from '@nonoun/native-traits';
+import { DataListController } from '@nonoun/native-core';
+import { parseDataOptions, fetchDataOptions } from '@nonoun/native-core';
+import type { BaseOption } from '@nonoun/native-core';
+import { uid } from '@nonoun/native-core';
 
 export type ComboboxOption = BaseOption;
 

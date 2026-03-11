@@ -8,7 +8,7 @@
  *   import '@nonoun/native-ui/register';
  */
 
-import { define } from './core/define.ts';
+import { define } from '@nonoun/native-core';
 
 // Components
 import { NButton } from './components/button/button-element.ts';

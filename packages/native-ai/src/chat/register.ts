@@ -1,10 +1,10 @@
 import { define, NTextarea, NButton, NIcon, NToolbar, NDialog, NContainer, NListbox, NOption, NOptionGroup, NOptionGroupHeader, NSelect, registerIcon } from '@nonoun/native-ui';
-import { NChatInput, NChatInputAdvanced } from './chat-input-element.ts';
+import { NChatInput, NAgentInput } from './chat-input-element.ts';
 import { NChatPanel } from './chat-panel-element.ts';
 import { NChatFeed } from './feed/chat-feed-element.ts';
 import { NChatAvatar } from './avatar/chat-avatar-element.ts';
-import { NChatMessage } from './message/chat-message-element.ts';
-import { NChatMessages } from './message/chat-messages-element.ts';
+import { NAgentDialogueItem } from './message/chat-message-element.ts';
+import { NAgentDialogue } from './message/chat-messages-element.ts';
 import { NChatMessageText } from './message/chat-message-text-element.ts';
 import { NChatMessageActivity } from './message/chat-message-activity-element.ts';
 import { NChatMessageSeed } from './message/chat-message-seed-element.ts';
@@ -13,12 +13,12 @@ import { NChatInputStructured } from './message/chat-input-structured-element.ts
 
 // ── Chat components ──
 define('n-chat-input', NChatInput);
-define('n-chat-input-advanced', NChatInputAdvanced);
+define('n-agent-input', NAgentInput);
 define('native-chat-panel', NChatPanel);
 define('n-chat-feed', NChatFeed);
 define('n-chat-avatar', NChatAvatar);
-define('n-chat-message', NChatMessage);
-define('n-chat-messages', NChatMessages);
+define('n-agent-dialogue-item', NAgentDialogueItem);
+define('n-agent-dialogue', NAgentDialogue);
 define('n-chat-message-text', NChatMessageText);
 define('n-chat-message-activity', NChatMessageActivity);
 define('n-chat-message-seed', NChatMessageSeed);
@@ -61,7 +61,7 @@ registerIcon('thumbs-up', '<svg viewBox="0 0 256 256" fill="currentColor"><path 
 registerIcon('thumbs-down', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M239.82,157l-12-96A24,24,0,0,0,204,40H32A16,16,0,0,0,16,56v88a16,16,0,0,0,16,16H75.06l37.78,75.58A8,8,0,0,0,120,240a40,40,0,0,0,40-40V184h56a24,24,0,0,0,23.82-27ZM72,144H32V56H72Zm150,21.29a7.88,7.88,0,0,1-6,2.71H152a8,8,0,0,0-8,8v24a24,24,0,0,1-19.29,23.54L88,150.11V56H204a8,8,0,0,1,7.94,7l12,96A7.87,7.87,0,0,1,222,165.29Z"/></svg>');
 registerIcon('arrow-right', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>');
 
-// ── Icons used in advanced composer (n-chat-input-advanced) ──
+// ── Icons used in advanced composer (n-agent-input) ──
 registerIcon('brain', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M248,124a56.11,56.11,0,0,0-32-50.61V72a48,48,0,0,0-88-26.49A48,48,0,0,0,40,72v1.39a56,56,0,0,0,0,101.2V176a48,48,0,0,0,88,26.49A48,48,0,0,0,216,176v-1.41A56.09,56.09,0,0,0,248,124ZM88,208a32,32,0,0,1-31.81-28.56A55.87,55.87,0,0,0,64,180h8a8,8,0,0,0,0-16H64A40,40,0,0,1,50.67,86.27,8,8,0,0,0,56,78.73V72a32,32,0,0,1,64,0v68.26A47.8,47.8,0,0,0,88,128a8,8,0,0,0,0,16,32,32,0,0,1,0,64Zm104-44h-8a8,8,0,0,0,0,16h8a55.87,55.87,0,0,0,7.81-.56A32,32,0,1,1,168,144a8,8,0,0,0,0-16,47.8,47.8,0,0,0-32,12.26V72a32,32,0,0,1,64,0v6.73a8,8,0,0,0,5.33,7.54A40,40,0,0,1,192,164Zm16-52a8,8,0,0,1-8,8h-4a36,36,0,0,1-36-36V80a8,8,0,0,1,16,0v4a20,20,0,0,0,20,20h4A8,8,0,0,1,208,112ZM60,120H56a8,8,0,0,1,0-16h4A20,20,0,0,0,80,84V80a8,8,0,0,1,16,0v4A36,36,0,0,1,60,120Z"/></svg>');
 registerIcon('sliders', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M64,105V40a8,8,0,0,0-16,0v65a32,32,0,0,0,0,62v49a8,8,0,0,0,16,0V167a32,32,0,0,0,0-62Zm-8,47a16,16,0,1,1,16-16A16,16,0,0,1,56,152Zm80-95V40a8,8,0,0,0-16,0V57a32,32,0,0,0,0,62v97a8,8,0,0,0,16,0V119a32,32,0,0,0,0-62Zm-8,47a16,16,0,1,1,16-16A16,16,0,0,1,128,104Zm104,64a32.06,32.06,0,0,0-24-31V40a8,8,0,0,0-16,0v97a32,32,0,0,0,0,62v17a8,8,0,0,0,16,0V199A32.06,32.06,0,0,0,232,168Zm-32,16a16,16,0,1,1,16-16A16,16,0,0,1,200,184Z"/></svg>');
 registerIcon('clock', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></svg>');
@@ -76,12 +76,12 @@ registerIcon('record', '<svg viewBox="0 0 256 256" fill="currentColor"><path d="
 
 export {
   NChatInput,
-  NChatInputAdvanced,
+  NAgentInput,
   NChatPanel,
   NChatFeed,
   NChatAvatar,
-  NChatMessage,
-  NChatMessages,
+  NAgentDialogueItem,
+  NAgentDialogue,
   NChatMessageText,
   NChatMessageActivity,
   NChatMessageSeed,

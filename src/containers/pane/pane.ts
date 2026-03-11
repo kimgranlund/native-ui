@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NPane } from './pane-element.ts';
 import { NPaneGroup } from './pane-group-element.ts';
 

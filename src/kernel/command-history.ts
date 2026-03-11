@@ -1,7 +1,7 @@
-import { signal } from '../reactivity/signal.ts';
-import { computed } from '../reactivity/computed.ts';
-import { batch } from '../reactivity/batch.ts';
-import type { Signal, ReadonlySignal } from '../reactivity/types.ts';
+import { signal } from '@nonoun/native-core';
+import { computed } from '@nonoun/native-core';
+import { batch } from '@nonoun/native-core';
+import type { Signal, ReadonlySignal } from '@nonoun/native-core';
 import type { Command } from './types.ts';
 import type { CommandBus } from './command-bus.ts';
 

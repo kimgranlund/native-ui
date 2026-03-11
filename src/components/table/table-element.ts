@@ -1,4 +1,4 @@
-import { NativeElement } from '../../core/native-element.ts';
+import { NativeElement } from '@nonoun/native-core';
 import { TableStore } from './store/table-store.ts';
 import { ColumnResizeController } from './column-resize/column-resize-controller.ts';
 import { TableDragController } from './drag-controller/table-drag-controller.ts';

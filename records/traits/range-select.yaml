@@ -2,10 +2,10 @@ trait: range-select
 controller: RangeSelectController
 description: Enables contiguous range selection via drag or click, dispatching `native:range-change` and `native:range-select`.
 source:
-  controller: src/traits/range-select/range-select-controller.ts
-  adapter: src/traits/range-select/range-selectable-adapter.ts
-  demo: src/traits/range-select/range-selectable.html
-  test: src/traits/range-select/range-selectable.test.ts
+  controller: packages/native-traits/src/traits/range-select/range-select-controller.ts
+  adapter: packages/native-traits/src/traits/range-select/range-selectable-adapter.ts
+  demo: packages/native-traits/src/traits/range-select/range-selectable.html
+  test: packages/native-traits/src/traits/range-select/range-selectable.test.ts
 options:
   selector:
     type: string

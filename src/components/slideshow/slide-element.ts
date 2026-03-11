@@ -1,4 +1,4 @@
-import { NativeElement } from '../../core/native-element.ts';
+import { NativeElement } from '@nonoun/native-core';
 
 /** Individual slide content within a slideshow. */
 export class NSlide extends NativeElement {

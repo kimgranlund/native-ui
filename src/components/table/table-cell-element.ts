@@ -1,4 +1,4 @@
-import { NativeElement } from '../../core/native-element.ts';
+import { NativeElement } from '@nonoun/native-core';
 
 /** Structural table cell within a table row. */
 export class NTableCell extends NativeElement {

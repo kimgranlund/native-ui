@@ -315,4 +315,4 @@ this.#present.destroy();
 }
 ```
 
-**Used by**: `<native-a2ui>`, `<native-playground>`, `<native-editor>` — all devtool components with an expand icon button in the header toolbar.
+**Used by**: `<native-a2ui>`, `<n-playground>`, `<native-editor>` — all devtool components with an expand icon button in the header toolbar.

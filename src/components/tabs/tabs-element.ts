@@ -1,8 +1,8 @@
-import { signal } from '../../reactivity/signal.ts';
-import { NativeElement } from '../../core/native-element.ts';
-import { uid } from '../../core/uid.ts';
-import { createDisabledEffect } from '../../core/effects.ts';
-import { ListNavigateController } from '../../traits/list-navigate/list-navigate-controller.ts';
+import { signal } from '@nonoun/native-core';
+import { NativeElement } from '@nonoun/native-core';
+import { uid } from '@nonoun/native-core';
+import { createDisabledEffect } from '@nonoun/native-core';
+import { ListNavigateController } from '@nonoun/native-traits';
 import type { NTab } from './tab-element.ts';
 import type { NTabPanel } from './tab-panel-element.ts';
 

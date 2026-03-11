@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NRadio } from './radio-element.ts';
 import { NRadioGroup } from './radio-group-element.ts';
 

@@ -1,12 +1,12 @@
-import { signal } from '../../reactivity/signal.ts';
-import { NativeElement } from '../../core/native-element.ts';
-import { createDisabledEffect } from '../../core/effects.ts';
-import { prop, syncProp } from '../../core/reactive-prop.ts';
-import type { ReactiveProp } from '../../core/reactive-prop.ts';
-import { uid } from '../../core/uid.ts';
-import { ListNavigateController } from '../../traits/list-navigate/list-navigate-controller.ts';
-import { DataListController } from '../../core/data-list.ts';
-import type { DataItem } from '../../core/data-list.ts';
+import { signal } from '@nonoun/native-core';
+import { NativeElement } from '@nonoun/native-core';
+import { createDisabledEffect } from '@nonoun/native-core';
+import { prop, syncProp } from '@nonoun/native-core';
+import type { ReactiveProp } from '@nonoun/native-core';
+import { uid } from '@nonoun/native-core';
+import { ListNavigateController } from '@nonoun/native-traits';
+import { DataListController } from '@nonoun/native-core';
+import type { DataItem } from '@nonoun/native-core';
 import type { NOption } from './option-element.ts';
 
 /**

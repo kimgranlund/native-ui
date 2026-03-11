@@ -1,9 +1,9 @@
-import { signal } from '../../reactivity/signal.ts';
-import { NativeElement } from '../../core/native-element.ts';
-import { createDisabledEffect } from '../../core/effects.ts';
-import { prop, syncProp } from '../../core/reactive-prop.ts';
-import type { ReactiveProp } from '../../core/reactive-prop.ts';
-import { FormAssociable } from '../../core/form-associable.ts';
+import { signal } from '@nonoun/native-core';
+import { NativeElement } from '@nonoun/native-core';
+import { createDisabledEffect } from '@nonoun/native-core';
+import { prop, syncProp } from '@nonoun/native-core';
+import type { ReactiveProp } from '@nonoun/native-core';
+import { FormAssociable } from '@nonoun/native-core';
 
 /**
  * One-time password input with individual character cells and paste support.

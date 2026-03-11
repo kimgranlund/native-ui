@@ -2,10 +2,10 @@ trait: roving-focus
 controller: RovingFocusController
 description: Manages arrow-key roving tabindex focus across a set of child items.
 source:
-  controller: src/traits/roving-focus/roving-focus-controller.ts
-  adapter: src/traits/roving-focus/roving-focusable-adapter.ts
-  demo: src/traits/roving-focus/roving-focusable.html
-  test: src/traits/roving-focus/roving-focusable.test.ts
+  controller: packages/native-traits/src/traits/roving-focus/roving-focus-controller.ts
+  adapter: packages/native-traits/src/traits/roving-focus/roving-focusable-adapter.ts
+  demo: packages/native-traits/src/traits/roving-focus/roving-focusable.html
+  test: packages/native-traits/src/traits/roving-focus/roving-focusable.test.ts
 options:
   selector:
     type: string

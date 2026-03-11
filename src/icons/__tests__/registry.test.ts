@@ -1,3 +1,4 @@
+// @vitest-environment happy-dom
 import { describe, it, expect, vi } from 'vitest';
 import { registerIcon, getIcon, onIconRegistered } from '../registry.ts';
 

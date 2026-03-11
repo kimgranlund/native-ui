@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NDialog } from './dialog-element.ts';
 
 define('n-dialog', NDialog);

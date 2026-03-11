@@ -1,5 +1,5 @@
-import { NativeElement } from '../../core/native-element.ts';
-import { uid } from '../../core/uid.ts';
+import { NativeElement } from '@nonoun/native-core';
+import { uid } from '@nonoun/native-core';
 
 /**
  * Form field wrapper that wires label, description, and error slots to a child control via ARIA.

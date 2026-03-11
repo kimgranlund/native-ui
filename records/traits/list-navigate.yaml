@@ -2,10 +2,10 @@ trait: list-navigate
 controller: ListNavigateController
 description: Coordinates roving focus, ARIA selection sync, and child select events for list-based components.
 source:
-  controller: src/traits/list-navigate/list-navigate-controller.ts
-  adapter: src/traits/list-navigate/list-navigable-adapter.ts
-  demo: src/traits/list-navigate/list-navigable.html
-  test: src/traits/list-navigate/list-navigable.test.ts
+  controller: packages/native-traits/src/traits/list-navigate/list-navigate-controller.ts
+  adapter: packages/native-traits/src/traits/list-navigate/list-navigable-adapter.ts
+  demo: packages/native-traits/src/traits/list-navigate/list-navigable.html
+  test: packages/native-traits/src/traits/list-navigate/list-navigable.test.ts
 options:
   itemSelector:
     type: string

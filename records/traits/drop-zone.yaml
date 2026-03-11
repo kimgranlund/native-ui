@@ -3,10 +3,10 @@ controller: DropZoneController
 description: Handles native drag-and-drop file/data reception, dispatching `native:drop-enter`, `native:drop-leave`, and
   `native:drop` events.
 source:
-  controller: src/traits/drop-zone/drop-zone-controller.ts
-  adapter: src/traits/drop-zone/droppable-adapter.ts
-  demo: src/traits/drop-zone/droppable.html
-  test: src/traits/drop-zone/droppable.test.ts
+  controller: packages/native-traits/src/traits/drop-zone/drop-zone-controller.ts
+  adapter: packages/native-traits/src/traits/drop-zone/droppable-adapter.ts
+  demo: packages/native-traits/src/traits/drop-zone/droppable.html
+  test: packages/native-traits/src/traits/drop-zone/droppable.test.ts
 options:
   accept:
     type: string

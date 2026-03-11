@@ -255,4 +255,4 @@ export class NChatInput extends NativeElement {
 }
 
 /** Advanced multi-zone variant — same behavior, distinct tag for CSS targeting. */
-export class NChatInputAdvanced extends NChatInput {}
+export class NAgentInput extends NChatInput {}

@@ -2,10 +2,10 @@ trait: intersect
 controller: IntersectController
 description: Observes intersection visibility changes on the host, dispatching `native:intersect`.
 source:
-  controller: src/traits/intersect/intersect-controller.ts
-  adapter: src/traits/intersect/intersectable-adapter.ts
-  demo: src/traits/intersect/intersectable.html
-  test: src/traits/intersect/intersectable.test.ts
+  controller: packages/native-traits/src/traits/intersect/intersect-controller.ts
+  adapter: packages/native-traits/src/traits/intersect/intersectable-adapter.ts
+  demo: packages/native-traits/src/traits/intersect/intersectable.html
+  test: packages/native-traits/src/traits/intersect/intersectable.test.ts
 options:
   threshold:
     type: number

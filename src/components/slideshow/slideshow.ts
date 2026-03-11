@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NSlide } from './slide-element.ts';
 import { NSlideshow } from './slideshow-element.ts';
 // WHY: slideshow stamps <n-pagination-dots> children — ensure it's defined

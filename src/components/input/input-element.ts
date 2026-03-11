@@ -1,8 +1,8 @@
-import { signal } from '../../reactivity/signal.ts';
-import { NativeElement } from '../../core/native-element.ts';
-import { createDisabledEffect } from '../../core/effects.ts';
-import { FormAssociable } from '../../core/form-associable.ts';
-import { FORMAT_MARKERS, FORMAT_SHORTCUTS, isFormatEnabled, getSelectionOffsets, toggleMarker, restoreSelection } from '../../core/formatting.ts';
+import { signal } from '@nonoun/native-core';
+import { NativeElement } from '@nonoun/native-core';
+import { createDisabledEffect } from '@nonoun/native-core';
+import { FormAssociable } from '@nonoun/native-core';
+import { FORMAT_MARKERS, FORMAT_SHORTCUTS, isFormatEnabled, getSelectionOffsets, toggleMarker, restoreSelection } from '@nonoun/native-core';
 
 /**
  * Single-line text input using an inner contenteditable surface with form association.

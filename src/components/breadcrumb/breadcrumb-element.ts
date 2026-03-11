@@ -1,4 +1,4 @@
-import { NativeElement } from '../../core/native-element.ts';
+import { NativeElement } from '@nonoun/native-core';
 
 /** Breadcrumb navigation container with landmark role. */
 export class NBreadcrumb extends NativeElement {

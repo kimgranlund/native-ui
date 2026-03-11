@@ -5,13 +5,13 @@ const SCROLL_THRESHOLD = 40;
 /**
  * Chat feed coordinator — scrollable thread of message groups.
  *
- * Wraps `n-chat-messages` groups and manages auto-scroll behavior.
+ * Wraps `n-agent-dialogue` groups and manages auto-scroll behavior.
  * When pinned to bottom, new content automatically scrolls into view.
  *
  * ```html
  * <n-chat-feed auto-scroll>
- *   <n-chat-messages role="assistant">...</n-chat-messages>
- *   <n-chat-messages role="user">...</n-chat-messages>
+ *   <n-agent-dialogue role="assistant">...</n-agent-dialogue>
+ *   <n-agent-dialogue role="user">...</n-agent-dialogue>
  * </n-chat-feed>
  * ```
  *

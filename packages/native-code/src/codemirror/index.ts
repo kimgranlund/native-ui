@@ -16,7 +16,7 @@ export { NTheme, NHighlightStyle, NSyntaxHighlighting } from './theme.ts';
 export { NBaseExtensions } from './base-extensions.ts';
 export { createEditorView } from './factory.ts';
 export type { CreateEditorOptions } from './factory.ts';
-export { NCodemirror } from './codemirror-element.ts';
+export { NCodeEditor } from './editor-element.ts';
 
 // ---------------------------------------------------------------------------
 // Re-exports: @codemirror/view

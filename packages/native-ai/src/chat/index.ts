@@ -1,5 +1,5 @@
 // ── Existing ──
-export { NChatInput, NChatInputAdvanced } from './chat-input-element.ts';
+export { NChatInput, NAgentInput } from './chat-input-element.ts';
 export { NChatPanel } from './chat-panel-element.ts';
 export type { AutoFocusPolicy, ChatPanelOpenOptions, FocusComposerOptions, ModelOption } from './chat-panel-element.ts';
 
@@ -11,8 +11,8 @@ export { NChatAvatar } from './avatar/index.ts';
 
 // ── Message ──
 export {
-  NChatMessage,
-  NChatMessages,
+  NAgentDialogueItem,
+  NAgentDialogue,
   NChatMessageText,
   NChatMessageActivity,
   NChatMessageSeed,
@@ -56,6 +56,9 @@ export {
   classifyHttpError,
   backoffDelay,
 } from './stream/index.ts';
+
+// ── Parsing ──
+export { parseJsonFromResponse, stripFences } from './parsing/index.ts';
 
 // ── Telemetry ──
 export type {

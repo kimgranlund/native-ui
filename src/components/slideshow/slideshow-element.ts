@@ -1,7 +1,7 @@
-import { signal } from '../../reactivity/signal.ts';
-import { NativeElement } from '../../core/native-element.ts';
-import { createDisabledEffect } from '../../core/effects.ts';
-import { uid } from '../../core/uid.ts';
+import { signal } from '@nonoun/native-core';
+import { NativeElement } from '@nonoun/native-core';
+import { createDisabledEffect } from '@nonoun/native-core';
+import { uid } from '@nonoun/native-core';
 
 /**
  * Carousel slideshow with snap scrolling, autoplay, controls, and indicators.

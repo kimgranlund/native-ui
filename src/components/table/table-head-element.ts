@@ -1,4 +1,4 @@
-import { NativeElement } from '../../core/native-element.ts';
+import { NativeElement } from '@nonoun/native-core';
 
 /** Structural row group for table header rows. */
 export class NTableHead extends NativeElement {

@@ -2,10 +2,10 @@ trait: toss
 controller: TossController
 description: Pick up an element, fling it with momentum — physics-based deceleration, gravity, spin, and optional edge bounce.
 source:
-  controller: src/traits/toss/toss-controller.ts
-  adapter: src/traits/toss/tossable-adapter.ts
-  demo: src/traits/toss/tossable.html
-  test: src/traits/toss/tossable.test.ts
+  controller: packages/native-traits/src/traits/toss/toss-controller.ts
+  adapter: packages/native-traits/src/traits/toss/tossable-adapter.ts
+  demo: packages/native-traits/src/traits/toss/tossable.html
+  test: packages/native-traits/src/traits/toss/tossable.test.ts
 options:
   friction:
     type: number

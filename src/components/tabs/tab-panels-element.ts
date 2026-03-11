@@ -1,4 +1,4 @@
-import { NativeElement } from '../../core/native-element.ts';
+import { NativeElement } from '@nonoun/native-core';
 
 /** Structural wrapper for tab panels within a tabs component. */
 export class NTabPanels extends NativeElement {

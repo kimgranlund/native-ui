@@ -6,10 +6,10 @@ description: "Shows content in a full-viewport dialog overlay with an optional c
   its original position. Events: - `native:present` — dispatched after dialog opens - `native:dismiss` — dispatched
   after dialog closes and host is restored"
 source:
-  controller: src/traits/present/present-controller.ts
-  adapter: src/traits/present/presentable-adapter.ts
-  demo: src/traits/present/presentable.html
-  test: src/traits/present/present-controller.test.ts
+  controller: packages/native-traits/src/traits/present/present-controller.ts
+  adapter: packages/native-traits/src/traits/present/presentable-adapter.ts
+  demo: packages/native-traits/src/traits/present/presentable.html
+  test: packages/native-traits/src/traits/present/present-controller.test.ts
 options:
   inset:
     type: string

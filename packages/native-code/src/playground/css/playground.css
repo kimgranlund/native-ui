@@ -1,6 +1,6 @@
 @layer ui {
   /* --- Host element --- */
-  :where(native-playground) {
+  :where(n-playground) {
     /* Layout tokens */
     --n-pg-min-height: 400px;
     --n-pg-radius: var(--n-radius-lg, 0.75rem);
@@ -27,6 +27,10 @@
     --n-pg-warn: var(--n-ink-warning, #e5c07b);
     --n-pg-error: var(--n-ink-danger, #e06c75);
 
+    /* Pane tokens */
+    --n-pane-handle-accent: var(--n-pg-accent);
+    --n-pane-border-color: var(--n-pg-border-color);
+
     display: grid;
     grid-template-rows: auto 1fr;
     min-height: var(--n-pg-min-height);
@@ -34,11 +38,10 @@
     border: var(--n-pg-border);
     overflow: hidden;
     contain: layout;
-    container-type: inline-size;
   }
 
   /* Full-viewport presented state (PresentController sets [presented]) */
-  :where(native-playground)[presented] {
+  :where(n-playground)[presented] {
     width: 100%;
     height: 100%;
     justify-self: stretch;
@@ -48,113 +51,29 @@
   }
 
   /* Toolbar button hover background (ghost variant forces transparent) */
-  :where(native-playground) > :where(n-header) :where(n-button):hover,
-  :where(native-playground) > :where(n-header) :where(n-button)[force-hover] {
+  :where(n-playground) > :where(n-header) :where(n-button):hover,
+  :where(n-playground) > :where(n-header) :where(n-button)[force-hover] {
     background: var(--n-pg-editor-bg);
   }
 
   /* Run button — green accent override */
-  :where(native-playground) :where(.pg-btn-run) {
+  :where(n-playground) :where(.pg-btn-run) {
     --n-color: var(--n-pg-run);
     --n-color-hover: var(--n-pg-run-hover);
   }
 
-  :where(native-playground) :where(.pg-btn-run):hover,
-  :where(native-playground) :where(.pg-btn-run)[force-hover] {
+  :where(n-playground) :where(.pg-btn-run):hover,
+  :where(n-playground) :where(.pg-btn-run)[force-hover] {
     background: var(--n-pg-run-hover-bg);
   }
 
-  /* --- Split layout (editor + handle + preview) --- */
-  :where(native-playground) > :where(.pg-split) {
-    display: flex;
-    min-height: 0;
-    overflow: hidden;
-  }
-
-  /* Vertical orientation */
-  :where(native-playground[orientation="vertical"]) > :where(.pg-split) {
-    flex-direction: column;
-  }
-
-  /* Auto orientation via container query */
-  @container (max-width: 600px) {
-    :where(native-playground[orientation="auto"]) > :where(.pg-split),
-    :where(native-playground:not([orientation])) > :where(.pg-split) {
-      flex-direction: column;
-    }
-  }
-
-  /* --- Resize handle (inside editor, positioned at edge) --- */
-  :where(native-playground) :where(.pg-resize-handle) {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 6px;
-    cursor: col-resize;
-    background: transparent;
-    transition: background 150ms;
-    z-index: 1;
-  }
-
-  :where(native-playground) :where(.pg-resize-handle):hover,
-  :where(native-playground) :where(.pg-editor[resizing]) :where(.pg-resize-handle) {
-    background: var(--n-pg-accent);
-  }
-
-  /* Vertical handle */
-  :where(native-playground[orientation="vertical"]) :where(.pg-resize-handle) {
-    top: auto;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: auto;
-    height: 6px;
-    cursor: row-resize;
-  }
-
-  @container (max-width: 600px) {
-    :where(native-playground[orientation="auto"]) :where(.pg-resize-handle),
-    :where(native-playground:not([orientation])) :where(.pg-resize-handle) {
-      top: auto;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      width: auto;
-      height: 6px;
-      cursor: row-resize;
-    }
-  }
-
-  /* --- Editor region --- */
-  :where(native-playground) :where(.pg-editor) {
-    position: relative;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    flex: 1 1 50%;
-    min-width: 200px;
-    min-height: 0;
-    overflow: hidden;
+  /* --- Editor pane --- */
+  :where(n-playground) :where(n-pane[data-panel="editor"]) {
     background: var(--n-pg-editor-bg);
   }
 
-  /* When resized, respect the explicit width */
-  :where(native-playground) :where(.pg-editor[style*="width"]) {
-    flex: none;
-  }
-
-  /* Vertical: respect explicit height instead */
-  :where(native-playground[orientation="vertical"]) :where(.pg-editor) {
-    min-width: 0;
-    min-height: 100px;
-  }
-
-  :where(native-playground[orientation="vertical"]) :where(.pg-editor[style*="height"]) {
-    flex: none;
-  }
-
   /* Card-header — dark chrome context for toolbar & tab bar */
-  :where(native-playground) :where(n-header) {
+  :where(n-playground) :where(n-header) {
     background: var(--n-pg-chrome);
     border-bottom: var(--n-pg-border);
     padding: 0;
@@ -166,40 +85,41 @@
     --n-surface-ink: var(--n-pg-text-strong);
   }
 
-  /* Code panels */
-  :where(native-playground) :where(.pg-code-panel) {
+  /* Code panels — flex-fill active panel within n-pane column */
+  :where(n-playground) :where(.pg-code-panel) {
+    flex: 1 1 0%;
     min-height: 0;
     overflow: auto;
   }
 
-  :where(native-playground) :where(.pg-code-panel[hidden]) {
+  :where(n-playground) :where(.pg-code-panel[hidden]) {
     display: none;
   }
 
   /* Native-codemirror — fill panel, strip border-radius */
-  :where(native-playground) :where(native-codemirror) {
+  :where(n-playground) :where(n-editor) {
     height: 100%;
     border-radius: 0;
   }
 
   /* CodeMirror overrides */
-  :where(native-playground) :where(.cm-editor) {
+  :where(n-playground) :where(.cm-editor) {
     font-size: 0.8125rem;
     /* Force dark color-scheme so contenteditable text inherits light-on-dark
        colors even when the parent page uses color-scheme: light dark */
     color-scheme: dark;
   }
 
-  :where(native-playground) :where(.cm-scroller) {
+  :where(n-playground) :where(.cm-scroller) {
     overflow: auto;
   }
 
-  :where(native-playground) :where(.cm-gutters) {
+  :where(n-playground) :where(.cm-gutters) {
     border-right: none;
   }
 
   /* --- Console --- */
-  :where(native-playground) :where(.pg-console) {
+  :where(n-playground) :where(.pg-console) {
     max-height: var(--n-pg-console-max-height);
     overflow-y: auto;
     border-top: var(--n-pg-border);
@@ -210,50 +130,30 @@
     color: var(--n-pg-text);
   }
 
-  :where(native-playground) :where(.pg-console[hidden]) {
+  :where(n-playground) :where(.pg-console[hidden]) {
     display: none;
   }
 
-  :where(native-playground) :where(.pg-console-line) {
+  :where(n-playground) :where(.pg-console-line) {
     padding: 0.125rem 0;
     white-space: pre-wrap;
     word-break: break-all;
   }
 
-  :where(native-playground) :where(.pg-console-warn) {
+  :where(n-playground) :where(.pg-console-warn) {
     color: var(--n-pg-warn);
   }
 
-  :where(native-playground) :where(.pg-console-error) {
+  :where(n-playground) :where(.pg-console-error) {
     color: var(--n-pg-error);
   }
 
-  /* --- Preview --- */
-  :where(native-playground) :where(.pg-preview) {
-    flex: 1 1 50%;
-    min-width: 200px;
-    min-height: 0;
-    overflow: hidden;
+  /* --- Preview pane --- */
+  :where(n-playground) :where(n-pane[data-panel="preview"]) {
     background: var(--n-pg-preview-bg);
-    border-left: var(--n-pg-border);
   }
 
-  :where(native-playground[orientation="vertical"]) :where(.pg-preview) {
-    min-width: 0;
-    min-height: 100px;
-    border-left: none;
-    border-top: var(--n-pg-border);
-  }
-
-  @container (max-width: 600px) {
-    :where(native-playground[orientation="auto"]) :where(.pg-preview),
-    :where(native-playground:not([orientation])) :where(.pg-preview) {
-      border-left: none;
-      border-top: var(--n-pg-border);
-    }
-  }
-
-  :where(native-playground) :where(.pg-preview) > :where(iframe) {
+  :where(n-playground) :where(n-pane[data-panel="preview"]) > :where(iframe) {
     display: block;
     width: 100%;
     height: 100%;

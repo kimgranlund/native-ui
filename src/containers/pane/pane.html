@@ -78,7 +78,7 @@
     <h2>Nested Panes (IDE Layout)</h2>
     <n-container data-kind="panel" bordered class="demo-panes" style="height: 400px;">
       <n-panes>
-        <n-pane label="Sidebar" icon="sidebar" min-size="120" max-size="300">
+        <n-pane label="Sidebar" icon="sidebar" size="200px" size-min="120" size-max="300">
           <n-body><p>Sidebar content</p></n-body>
         </n-pane>
         <n-pane>
@@ -90,6 +90,39 @@
               <n-body><p>Terminal output</p></n-body>
             </n-pane>
           </n-panes>
+        </n-pane>
+      </n-panes>
+    </n-container>
+
+    <!-- ── Initial Size ── -->
+
+    <h2>Initial Size</h2>
+    <n-container data-kind="panel" bordered class="demo-panes">
+      <n-panes>
+        <n-pane label="Sidebar" icon="sidebar" size="200px">
+          <n-body><p>Fixed 200px sidebar (won't grow)</p></n-body>
+        </n-pane>
+        <n-pane label="Editor" icon="code">
+          <n-body><p>Fills remaining space (auto)</p></n-body>
+        </n-pane>
+        <n-pane label="Inspector" icon="sliders" size="25%">
+          <n-body><p>25% inspector (won't grow)</p></n-body>
+        </n-pane>
+      </n-panes>
+    </n-container>
+
+    <!-- ── Scrollable ── -->
+
+    <h2>Scrollable Panes</h2>
+    <n-container data-kind="panel" bordered class="demo-panes" style="height: 200px;">
+      <n-panes>
+        <n-pane label="Scrollable Y" scrollable>
+          <p>Line 1</p><p>Line 2</p><p>Line 3</p><p>Line 4</p>
+          <p>Line 5</p><p>Line 6</p><p>Line 7</p><p>Line 8</p>
+          <p>Line 9</p><p>Line 10</p><p>Line 11</p><p>Line 12</p>
+        </n-pane>
+        <n-pane label="Not scrollable">
+          <n-body><p>Content in n-body (body scrolls independently)</p></n-body>
         </n-pane>
       </n-panes>
     </n-container>
@@ -114,8 +147,10 @@
         <tr><td><code>closeable</code></td><td>boolean</td><td>false</td><td>Shows close button</td></tr>
         <tr><td><code>minimizable</code></td><td>boolean</td><td>false</td><td>Shows minimize/restore button</td></tr>
         <tr><td><code>minimized</code></td><td>boolean</td><td>false</td><td>Collapsed to header-only</td></tr>
-        <tr><td><code>min-size</code></td><td>number</td><td>0</td><td>Minimum size in px</td></tr>
-        <tr><td><code>max-size</code></td><td>number</td><td>∞</td><td>Maximum size in px</td></tr>
+        <tr><td><code>size</code></td><td>string</td><td>auto</td><td>Initial main-axis size (e.g. "300px", "33%", "20rem")</td></tr>
+        <tr><td><code>size-min</code></td><td>number</td><td>0</td><td>Minimum size in px</td></tr>
+        <tr><td><code>size-max</code></td><td>number</td><td>∞</td><td>Maximum size in px</td></tr>
+        <tr><td><code>scrollable</code></td><td>boolean | "x" | "y" | "both"</td><td>—</td><td>Overflow scrolling on the pane</td></tr>
         <tr><td><code>bordered</code></td><td>boolean</td><td>false</td><td>Adds border around pane</td></tr>
       </tbody>
     </table>
@@ -125,6 +160,7 @@
       <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
       <tbody>
         <tr><td><code>orientation</code></td><td>'horizontal' | 'vertical'</td><td>'horizontal'</td><td>Layout direction</td></tr>
+        <tr><td><code>handle</code></td><td>'hover'</td><td>—</td><td>Hover-reveal resize handles with accent bar</td></tr>
       </tbody>
     </table>
 

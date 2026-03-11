@@ -4,7 +4,7 @@
   min-height: 0;
 }
 
-#grid-boards > article { aspect-ratio: 1; min-height: 420px; transition: outline-color 0.2s, outline-width 0.2s; }
+#grid-boards > n-container { aspect-ratio: 1; max-height: 24rem; justify-self: anchor-center; transition: outline-color 0.2s, outline-width 0.2s; }
 
 #card-x.active { outline: 3px solid var(--n-ink-accent); outline-offset: 3px; animation: pulse-x 2s ease-in-out infinite; }
 #card-o.active { outline: 3px solid var(--n-ink-danger); outline-offset: 3px; animation: pulse-o 2s ease-in-out infinite; }

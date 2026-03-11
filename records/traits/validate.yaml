@@ -2,10 +2,10 @@ trait: validate
 controller: ValidateController
 description: Runs validation rules against a value and dispatches `native:valid` or `native:invalid` events.
 source:
-  controller: src/traits/validate/validate-controller.ts
-  adapter: src/traits/validate/validatable-adapter.ts
-  demo: src/traits/validate/validatable.html
-  test: src/traits/validate/validatable.test.ts
+  controller: packages/native-traits/src/traits/validate/validate-controller.ts
+  adapter: packages/native-traits/src/traits/validate/validatable-adapter.ts
+  demo: packages/native-traits/src/traits/validate/validatable.html
+  test: packages/native-traits/src/traits/validate/validatable.test.ts
 options:
   rules:
     type: ValidationRule[]

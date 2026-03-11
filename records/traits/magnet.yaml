@@ -2,10 +2,10 @@ trait: magnet
 controller: MagnetController
 description: Snap elements toward each other or to a grid when dragged within a threshold distance.
 source:
-  controller: src/traits/magnet/magnet-controller.ts
-  adapter: src/traits/magnet/magnetizable-adapter.ts
-  demo: src/traits/magnet/magnetizable.html
-  test: src/traits/magnet/magnetizable.test.ts
+  controller: packages/native-traits/src/traits/magnet/magnet-controller.ts
+  adapter: packages/native-traits/src/traits/magnet/magnetizable-adapter.ts
+  demo: packages/native-traits/src/traits/magnet/magnetizable.html
+  test: packages/native-traits/src/traits/magnet/magnetizable.test.ts
 options:
   selector:
     type: string

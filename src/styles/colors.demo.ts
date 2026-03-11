@@ -196,8 +196,8 @@ families.forEach((fam) => {
   elevations.forEach((e) => {
     const s = document.createElement("div");
     s.className = "swatch";
-    s.style.background = `var(--${fam}-${e})`;
-    s.style.color = `var(--${fam}-950)`;
+    s.style.background = `var(--n-color-${fam}-${e})`;
+    s.style.color = `var(--n-color-${fam}-950)`;
     s.textContent = e;
     elevGrid.appendChild(s);
   });
@@ -217,8 +217,8 @@ families.forEach((fam) => {
   brightnesses.forEach((b) => {
     const s = document.createElement("div");
     s.className = "swatch";
-    s.style.background = `var(--${fam}-${b})`;
-    s.style.color = `var(--${fam}-950)`;
+    s.style.background = `var(--n-color-${fam}-${b})`;
+    s.style.color = `var(--n-color-${fam}-950)`;
     s.textContent = b;
     brightGrid.appendChild(s);
   });
@@ -245,8 +245,8 @@ families.forEach((fam) => {
   allSteps.forEach((n) => {
     const s = document.createElement("div");
     s.className = "swatch";
-    s.style.background = `var(--${fam}-${n})`;
-    s.style.color = lightSteps.includes(n) ? `var(--${fam}-11)` : `var(--${fam}-1)`;
+    s.style.background = `var(--n-color-${fam}-${n})`;
+    s.style.color = lightSteps.includes(n) ? `var(--n-color-${fam}-11)` : `var(--n-color-${fam}-1)`;
     s.textContent = n;
     if (n === "6") s.style.fontWeight = "700";
     solidGrid.appendChild(s);
@@ -266,8 +266,8 @@ families.forEach((fam) => {
   allSteps.forEach((n) => {
     const s = document.createElement("div");
     s.className = "swatch swatch-scrim";
-    s.style.setProperty("--scrim-color", `linear-gradient(var(--${fam}-${n}-scrim), var(--${fam}-${n}-scrim))`);
-    s.style.color = lightSteps.includes(n) ? `var(--${fam}-11)` : `var(--${fam}-1)`;
+    s.style.setProperty("--scrim-color", `linear-gradient(var(--n-color-${fam}-${n}-scrim), var(--n-color-${fam}-${n}-scrim))`);
+    s.style.color = lightSteps.includes(n) ? `var(--n-color-${fam}-11)` : `var(--n-color-${fam}-1)`;
     s.textContent = n;
     scrimGrid.appendChild(s);
   });
@@ -295,8 +295,8 @@ families.forEach((fam) => {
   semSteps.forEach((n) => {
     const s = document.createElement("div");
     s.className = "swatch";
-    s.style.background = `var(--${fam}-${n})`;
-    s.style.color = semLightSteps.includes(n) ? `var(--${fam}-950)` : `var(--${fam}-050)`;
+    s.style.background = `var(--n-color-${fam}-${n})`;
+    s.style.color = semLightSteps.includes(n) ? `var(--n-color-${fam}-950)` : `var(--n-color-${fam}-050)`;
     s.textContent = n;
     if (n === "500") s.style.fontWeight = "700";
     semSolidGrid.appendChild(s);
@@ -316,8 +316,8 @@ families.forEach((fam) => {
   semSteps.forEach((n) => {
     const s = document.createElement("div");
     s.className = "swatch swatch-scrim";
-    s.style.setProperty("--scrim-color", `linear-gradient(var(--${fam}-${n}-scrim), var(--${fam}-${n}-scrim))`);
-    s.style.color = semLightSteps.includes(n) ? `var(--${fam}-950)` : `var(--${fam}-050)`;
+    s.style.setProperty("--scrim-color", `linear-gradient(var(--n-color-${fam}-${n}-scrim), var(--n-color-${fam}-${n}-scrim))`);
+    s.style.color = semLightSteps.includes(n) ? `var(--n-color-${fam}-950)` : `var(--n-color-${fam}-050)`;
     s.textContent = n;
     semScrimGrid.appendChild(s);
   });
@@ -344,8 +344,8 @@ families.forEach((fam) => {
   scrimPaletteSteps.forEach((step) => {
     const s = document.createElement("div");
     s.className = "swatch swatch-scrim";
-    s.style.setProperty("--scrim-color", `linear-gradient(var(--${fam}-scrim-tint-${step}), var(--${fam}-scrim-tint-${step}))`);
-    s.style.color = `var(--${fam}-11)`;
+    s.style.setProperty("--scrim-color", `linear-gradient(var(--n-color-${fam}-scrim-tint-${step}), var(--n-color-${fam}-scrim-tint-${step}))`);
+    s.style.color = `var(--n-color-${fam}-11)`;
     s.textContent = step;
     tintGrid.appendChild(s);
   });
@@ -364,8 +364,8 @@ families.forEach((fam) => {
   scrimPaletteSteps.forEach((step) => {
     const s = document.createElement("div");
     s.className = "swatch swatch-scrim";
-    s.style.setProperty("--scrim-color", `linear-gradient(var(--${fam}-scrim-shade-${step}), var(--${fam}-scrim-shade-${step}))`);
-    s.style.color = `var(--${fam}-1)`;
+    s.style.setProperty("--scrim-color", `linear-gradient(var(--n-color-${fam}-scrim-shade-${step}), var(--n-color-${fam}-scrim-shade-${step}))`);
+    s.style.color = `var(--n-color-${fam}-1)`;
     s.textContent = step;
     shadeGrid.appendChild(s);
   });
@@ -419,30 +419,30 @@ families.forEach((fam) => {
 
   /* Profile card */
   const card = document.createElement("div");
-  card.style.cssText = `background: var(--${fam}-card); border: 1px solid var(--${fam}-border-muted); border-radius: 0.5rem; padding: 1rem; max-width: 280px;`;
+  card.style.cssText = `background: var(--n-card-${fam}); border: 1px solid var(--n-border-muted-${fam}); border-radius: 0.5rem; padding: 1rem; max-width: 280px;`;
 
   const cardHeader = document.createElement("div");
   cardHeader.style.cssText = "display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;";
 
   const avatar = document.createElement("div");
-  avatar.style.cssText = `width: 40px; height: 40px; border-radius: 50%; background: var(--${fam}-surface); color: var(--${fam}-surface-ink); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem; flex-shrink: 0;`;
+  avatar.style.cssText = `width: 40px; height: 40px; border-radius: 50%; background: var(--n-surface-${fam}); color: var(--n-surface-ink-${fam}); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem; flex-shrink: 0;`;
   avatar.textContent = "JD";
 
   const nameWrap = document.createElement("div");
 
   const name = document.createElement("div");
-  name.style.cssText = `font-weight: 700; font-size: 0.875rem; color: var(--${fam}-ink-strong);`;
+  name.style.cssText = `font-weight: 700; font-size: 0.875rem; color: var(--n-ink-strong-${fam});`;
   name.textContent = "Jane Doe";
 
   const role = document.createElement("div");
-  role.style.cssText = `font-size: 0.75rem; color: var(--${fam}-ink-muted);`;
+  role.style.cssText = `font-size: 0.75rem; color: var(--n-ink-muted-${fam});`;
   role.textContent = "Product Designer";
 
   nameWrap.append(name, role);
   cardHeader.append(avatar, nameWrap);
 
   const bio = document.createElement("div");
-  bio.style.cssText = `font-size: 0.75rem; color: var(--${fam}-ink); margin-bottom: 0.75rem; line-height: 1.4;`;
+  bio.style.cssText = `font-size: 0.75rem; color: var(--n-ink-${fam}); margin-bottom: 0.75rem; line-height: 1.4;`;
   bio.textContent = "Crafting interfaces that balance form and function. Passionate about design systems and color theory.";
 
   const statsRow = document.createElement("div");
@@ -459,11 +459,11 @@ families.forEach((fam) => {
     stat.style.cssText = "text-align: center;";
 
     const n = document.createElement("div");
-    n.style.cssText = `font-weight: 700; font-size: 0.875rem; color: var(--${fam}-ink-strong);`;
+    n.style.cssText = `font-weight: 700; font-size: 0.875rem; color: var(--n-ink-strong-${fam});`;
     n.textContent = num;
 
     const l = document.createElement("div");
-    l.style.cssText = `font-size: 0.625rem; color: var(--${fam}-ink-muted);`;
+    l.style.cssText = `font-size: 0.625rem; color: var(--n-ink-muted-${fam});`;
     l.textContent = label;
 
     stat.append(n, l);

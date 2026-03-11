@@ -57,3 +57,12 @@ export {
 export {
   createMockGatewayAdapter,
 } from './adapter-mock';
+
+export {
+  isClaudeModel,
+  isOpenAiModel,
+  detectProvider,
+  createAdapter,
+} from './model-registry';
+
+export type { CreateAdapterOptions } from './model-registry';

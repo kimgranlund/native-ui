@@ -10,26 +10,26 @@ import { NativeElement } from '@nonoun/native-ui';
  *
  * On setup, non-avatar children are sorted into two wrapper divs:
  *   - `.n-chat-context` — non-message children (row 1)
- *   - `.n-chat-bubbles` — `n-chat-message` children (row 2)
+ *   - `.n-chat-bubbles` — `n-agent-dialogue-item` children (row 2)
  *
  * A MutationObserver routes dynamically added children into the
  * correct wrapper automatically.
  *
  * ```html
- * <n-chat-messages role="assistant" sender="AI">
+ * <n-agent-dialogue role="assistant" sender="AI">
  *   <n-chat-avatar>AI</n-chat-avatar>
  *   <span class="reasoning">Thinking...</span>
- *   <n-chat-message role="assistant">
+ *   <n-agent-dialogue-item role="assistant">
  *     <n-chat-message-text>Hello!</n-chat-message-text>
- *   </n-chat-message>
- * </n-chat-messages>
+ *   </n-agent-dialogue-item>
+ * </n-agent-dialogue>
  * ```
  *
  * @attr {string} role - `user` | `assistant` | `system`
  * @attr {string} sender - Display name of the sender
  * @attr {string} avatar-align - `"top"` | `"center"` | `"bottom"` (default) — avatar vertical alignment
  */
-export class NChatMessages extends NativeElement {
+export class NAgentDialogue extends NativeElement {
   static observedAttributes = ['data-role', 'sender', 'avatar-align'];
 
   #internals: ElementInternals;
@@ -66,7 +66,7 @@ export class NChatMessages extends NativeElement {
           if (node.localName === 'n-chat-avatar') continue;
           if (node === this.#contextEl || node === this.#bubblesEl) continue;
           // Route to correct wrapper
-          if (node.localName === 'n-chat-message') {
+          if (node.localName === 'n-agent-dialogue-item') {
             this.#bubblesEl?.appendChild(node);
           } else {
             this.#contextEl?.appendChild(node);
@@ -109,7 +109,7 @@ export class NChatMessages extends NativeElement {
     const children = Array.from(this.childNodes);
     for (const child of children) {
       if (child instanceof Element && child.localName === 'n-chat-avatar') continue;
-      if (child instanceof Element && child.localName === 'n-chat-message') {
+      if (child instanceof Element && child.localName === 'n-agent-dialogue-item') {
         bubbles.appendChild(child);
       } else {
         context.appendChild(child);

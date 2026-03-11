@@ -37,7 +37,7 @@ export const ROLE_DEFAULTS: Record<string, string[]> = {
  * @fires native:message-action - Fired when an action button is clicked
  * @fires native:continue-request - Fired when continue is requested for a partial message
  */
-export class NChatMessage extends NativeElement {
+export class NAgentDialogueItem extends NativeElement {
   static observedAttributes = ['data-role', 'message-id', 'timestamp', 'status', 'actions', 'actions-style', 'actions-position'];
 
   #internals: ElementInternals;

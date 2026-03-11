@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { BindingManager, createBindingManager } from '../data-binding.ts';
-import { signal } from '../../reactivity/signal.ts';
+import { signal } from '@nonoun/native-core';
 import type { NodeBinding } from '../data-binding.ts';
 import type { DataStore, DataBinding } from '../data-runtime.ts';
 

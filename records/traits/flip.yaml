@@ -2,10 +2,10 @@ trait: flip
 controller: FlipController
 description: "3D card flip on click/press with front/back content. CSS transform: rotateY(180deg) with perspective."
 source:
-  controller: src/traits/flip/flip-controller.ts
-  adapter: src/traits/flip/flippable-adapter.ts
-  demo: src/traits/flip/flippable.html
-  test: src/traits/flip/flippable.test.ts
+  controller: packages/native-traits/src/traits/flip/flip-controller.ts
+  adapter: packages/native-traits/src/traits/flip/flippable-adapter.ts
+  demo: packages/native-traits/src/traits/flip/flippable.html
+  test: packages/native-traits/src/traits/flip/flippable.test.ts
 options:
   axis:
     type: "'x' | 'y'"

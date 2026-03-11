@@ -1,9 +1,9 @@
-import { signal } from '../../reactivity/signal.ts';
-import { NativeElement } from '../../core/native-element.ts';
-import { uid } from '../../core/uid.ts';
-import { createDisabledEffect } from '../../core/effects.ts';
-import { DataListController } from '../../core/data-list.ts';
-import type { DataItem } from '../../core/data-list.ts';
+import { signal } from '@nonoun/native-core';
+import { NativeElement } from '@nonoun/native-core';
+import { uid } from '@nonoun/native-core';
+import { createDisabledEffect } from '@nonoun/native-core';
+import { DataListController } from '@nonoun/native-core';
+import type { DataItem } from '@nonoun/native-core';
 import type { NCommandItem } from './command-item-element.ts';
 
 /**

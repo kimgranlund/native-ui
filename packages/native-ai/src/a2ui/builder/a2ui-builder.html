@@ -34,13 +34,12 @@
         </n-header>
 
         <!-- ── Split: chat left, panes right ── -->
-        <div class="builder-split">
+        <n-panes handle="hover">
 
           <!-- Chat (left) -->
-          <div class="builder-chat" data-region="chat">
+          <n-pane data-panel="agent-chat" data-region="chat" size-min="280">
             <n-chat-feed id="chat-feed" auto-scroll></n-chat-feed>
-            <n-footer>
-              <n-chat-input-advanced id="chat-composer">
+            <n-agent-input id="chat-composer">
                 <n-chat-input-header>
                   <nav>
                     <n-select id="model-picker" value="claude-haiku-4-5" data-role="model-picker" variant="ghost" inline size="sm" density="compact">
@@ -79,13 +78,11 @@
                   <n-button variant="ghost" size="sm" radius="round"><n-icon name="list-checks"></n-icon> Select deliverable</n-button>
                   <n-button variant="ghost" size="sm" radius="round"><n-icon name="pencil-simple"></n-icon> Refine requirements</n-button>
                 </n-chat-input-chips>
-              </n-chat-input-advanced>
-            </n-footer>
-            <div class="resize-handle"></div>
-          </div>
+            </n-agent-input>
+          </n-pane>
 
           <!-- Pane: Preview -->
-          <n-pane data-panel="preview">
+          <n-pane data-panel="preview" size-min="150">
             <n-header>
               <nav><n-icon inline name="eye"></n-icon></nav>
               <span>Preview</span>
@@ -102,11 +99,10 @@
                 </div>
               </div>
             </n-body>
-            <div class="resize-handle"></div>
           </n-pane>
 
           <!-- Pane: Concepts -->
-          <n-pane data-panel="concepts">
+          <n-pane data-panel="concepts" size-min="150">
             <n-header>
               <nav><n-icon inline name="lightbulb"></n-icon></nav>
               <span>Insights</span>
@@ -115,11 +111,10 @@
             <n-body>
               <div id="concepts-wrap" class="concepts-wrap"></div>
             </n-body>
-            <div class="resize-handle"></div>
           </n-pane>
 
           <!-- Pane: Schema -->
-          <n-pane data-panel="schema">
+          <n-pane data-panel="schema" size-min="150">
             <n-header>
               <nav><n-icon inline name="brackets-curly"></n-icon></nav>
               <span>Schema</span>
@@ -128,11 +123,10 @@
             <n-body>
               <pre id="schema-pre" class="pane-pre"></pre>
             </n-body>
-            <div class="resize-handle"></div>
           </n-pane>
 
           <!-- Pane: HTML (read-only) -->
-          <n-pane data-panel="html" hidden>
+          <n-pane data-panel="html" size-min="150" hidden>
             <n-header>
               <nav><n-icon inline name="brackets-angle"></n-icon></nav>
               <span>HTML</span>
@@ -141,11 +135,10 @@
             <n-body>
               <pre id="html-pre" class="pane-pre"></pre>
             </n-body>
-            <div class="resize-handle"></div>
           </n-pane>
 
           <!-- Pane: CSS (editable, live-applied) -->
-          <n-pane data-panel="css" hidden>
+          <n-pane data-panel="css" size-min="150" hidden>
             <n-header>
               <nav><n-icon inline name="paint-brush"></n-icon></nav>
               <span>CSS</span>
@@ -154,11 +147,10 @@
             <n-body>
               <textarea id="css-editor" class="code-editor" spellcheck="false" placeholder="/* Custom styles for the preview */"></textarea>
             </n-body>
-            <div class="resize-handle"></div>
           </n-pane>
 
           <!-- Pane: JS (editable, apply-on-click) -->
-          <n-pane data-panel="js" hidden>
+          <n-pane data-panel="js" size-min="150" hidden>
             <n-header>
               <nav><n-icon inline name="lightning"></n-icon></nav>
               <span>JS</span>
@@ -170,11 +162,10 @@
             <n-body>
               <textarea id="js-editor" class="code-editor" spellcheck="false" placeholder="// `preview` is the mount element.&#10;// preview.querySelector('#btn1').addEventListener('native:press', () => { ... })"></textarea>
             </n-body>
-            <div class="resize-handle"></div>
           </n-pane>
 
           <!-- Pane: Component Map -->
-          <n-pane data-panel="map" hidden>
+          <n-pane data-panel="map" size-min="150" hidden>
             <n-header>
               <nav><n-icon inline name="tree-structure"></n-icon></nav>
               <span>Map</span>
@@ -186,11 +177,10 @@
                 <tbody></tbody>
               </table>
             </n-body>
-            <div class="resize-handle"></div>
           </n-pane>
 
           <!-- Pane: System Prompt (editable) -->
-          <n-pane data-panel="prompt" hidden>
+          <n-pane data-panel="prompt" size-min="150" hidden>
             <n-header>
               <nav><n-icon inline name="terminal"></n-icon></nav>
               <span>Prompt</span>
@@ -199,10 +189,9 @@
             <n-body>
               <textarea id="prompt-editor" class="prompt-editor" spellcheck="false"></textarea>
             </n-body>
-            <div class="resize-handle"></div>
           </n-pane>
 
-        </div>
+        </n-panes>
       </n-container>
     </main></native-dashboard-spa>
   </body>

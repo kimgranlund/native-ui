@@ -2,10 +2,10 @@ trait: sort
 controller: SortController
 description: Manages column sort state and dispatches `native:sort` events.
 source:
-  controller: src/traits/sort/sort-controller.ts
-  adapter: src/traits/sort/sortable-adapter.ts
-  demo: src/traits/sort/sortable.html
-  test: src/traits/sort/sortable.test.ts
+  controller: packages/native-traits/src/traits/sort/sort-controller.ts
+  adapter: packages/native-traits/src/traits/sort/sortable-adapter.ts
+  demo: packages/native-traits/src/traits/sort/sortable.html
+  test: packages/native-traits/src/traits/sort/sortable.test.ts
 options:
   selector:
     type: string

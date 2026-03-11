@@ -2,6 +2,27 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.132
+
+### Added
+- **`<n-feed>`** component — generic scrollable feed container extracted from `n-chat-feed`. Supports `align`, `scroll`, `auto-scroll`, virtual scroll. (`src/components/feed/`)
+
+## @nonoun/native-ai 1.0.72
+
+### Changed
+- **Chat → Agent renames**: `n-chat-input-advanced` → `n-agent-input`, `n-chat-messages` → `n-agent-dialogue`, `n-chat-message` → `n-agent-dialogue-item`
+- **A2UI Builder**: `.builder-chat` class → `[data-panel="agent-chat"]` attribute
+
+## @nonoun/native-code 1.0.10
+
+### Changed
+- **Tag renames**: `native-codemirror` → `n-editor` (`NCodeEditor`), `native-editor` → `n-markdown-editor` (`NMarkdownEditor`), `native-playground` → `n-playground`
+- **File/folder reorganization**: `src/codemirror/` files renamed to match `n-editor`, `src/editor/` → `src/markdown-editor/`
+- **Playground**: `.pg-split`/`.pg-editor`/`.pg-preview` → `n-panes`/`n-pane[data-panel="editor|preview"]`
+- **Markdown editor**: `.native-editor-surface` → `n-pane[data-panel="surface"]`, `.native-editor-resize-handle` → `[data-role="resize-handle"]`
+
+---
+
 ## 0.7.69
 
 ### Fixed

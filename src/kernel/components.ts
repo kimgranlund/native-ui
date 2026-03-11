@@ -9,7 +9,7 @@
  */
 
 import type { Kernel } from './kernel.ts';
-import type { Dispose } from '../reactivity/types.ts';
+import type { Dispose } from '@nonoun/native-core';
 
 // ── Component Descriptor ──
 

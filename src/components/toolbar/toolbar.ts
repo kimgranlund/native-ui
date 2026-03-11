@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NToolbar } from './toolbar-element.ts';
 
 define('n-toolbar', NToolbar);

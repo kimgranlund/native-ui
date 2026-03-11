@@ -2,10 +2,10 @@ trait: selection
 controller: SelectionController
 description: Manages single or multi-select item state with Ctrl/Shift modifiers, dispatching `native:selection-change`.
 source:
-  controller: src/traits/selection/selection-controller.ts
-  adapter: src/traits/selection/selectable-adapter.ts
-  demo: src/traits/selection/selectable.html
-  test: src/traits/selection/selectable.test.ts
+  controller: packages/native-traits/src/traits/selection/selection-controller.ts
+  adapter: packages/native-traits/src/traits/selection/selectable-adapter.ts
+  demo: packages/native-traits/src/traits/selection/selectable.html
+  test: packages/native-traits/src/traits/selection/selectable.test.ts
 options:
   selector:
     type: string

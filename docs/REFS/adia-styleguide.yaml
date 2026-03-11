@@ -1,0 +1,459 @@
+# ════════════════════════════════════════════════════════════════
+# Adia Health — Brand & Style Guide
+# Machine-readable design token & brand reference
+# ════════════════════════════════════════════════════════════════
+
+meta:
+  name: adia-brand
+  description: >
+    Adia Health brand system: colors, typography, voice, component patterns,
+    data viz rules. Apply whenever producing anything that represents Adia.
+  keywords:
+    - Adia Health
+    - adia.ai
+    - healthcare AI
+    - clinical intelligence
+    - OKLCH
+    - design tokens
+  url: https://www.adia.ai
+
+# ── Guiding Pillars ──────────────────────────────────────────
+
+pillars:
+  - name: Clinical Accuracy & Trust
+    statement: Safe, explainable intelligence that clinicians and systems can trust.
+    values: [accuracy, knowledge, trust]
+
+  - name: Personal & Proactive Health
+    statement: Care that adapts to each person while strengthening communities.
+    values: [personalization, population intelligence, equity]
+
+  - name: Intelligence & Infrastructure
+    statement: The connected, intelligent platform that powers healthcare at scale.
+    values: [interoperability, automation, future intelligence]
+
+# ── 1. Colors ────────────────────────────────────────────────
+
+colors:
+  system: OKLCH
+  mode: light-dark()  # all tokens adapt automatically via CSS light-dark()
+
+  families:
+    accent:
+      hue: 230
+      use: Primary actions, navigation, brand identity
+      500: oklch(0.6 0.2 230)
+      ramp:
+        "050": oklch(0.933 0.01 230)
+        "100": oklch(0.867 0.048 230)
+        "200": oklch(0.8 0.086 230)
+        "300": oklch(0.733 0.124 230)
+        "400": oklch(0.667 0.162 230)
+        "500": oklch(0.6 0.2 230)
+        "600": oklch(0.525 0.162 230)
+        "700": oklch(0.45 0.124 230)
+        "800": oklch(0.375 0.086 230)
+        "900": oklch(0.3 0.048 230)
+        "950": oklch(0.225 0.01 230)
+
+    neutral:
+      hue: 230
+      chroma: low
+      use: Structural chrome, borders, secondary text
+      500: oklch(0.5 0.025 230)
+      ramp:
+        "050": oklch(0.917 0.001 230)
+        "100": oklch(0.833 0.006 230)
+        "200": oklch(0.75 0.011 230)
+        "300": oklch(0.667 0.016 230)
+        "400": oklch(0.583 0.02 230)
+        "500": oklch(0.5 0.025 230)
+        "600": oklch(0.442 0.02 230)
+        "700": oklch(0.383 0.016 230)
+        "800": oklch(0.325 0.011 230)
+        "900": oklch(0.267 0.006 230)
+        "950": oklch(0.208 0.001 230)
+
+    success:
+      hue: 150
+      use: Clinical confirmations, positive outcomes, vitals normal
+      500: oklch(0.55 0.15 150)
+
+    info:
+      hue: 250
+      use: Informational notices, knowledge base, references
+      500: oklch(0.6 0.12 250)
+
+    warning:
+      hue: 80
+      use: Clinical alerts, pending actions, care gaps
+      500: oklch(0.75 0.19 80)
+
+    danger:
+      hue: 20
+      use: Critical alerts, contraindications, urgent flags
+      500: oklch(0.5 0.17 20)
+
+  grounds:
+    - token: --n-doc-neutral
+      role: Document ground
+      use: Page canvas, app background
+    - token: --n-body-neutral
+      role: Body ground
+      use: Content area, scrollable regions
+    - token: --n-panel-neutral
+      role: Panel ground
+      use: Sidebars, toolbars, navigation
+    - token: --n-card-neutral
+      role: Card ground
+      use: Floating cards, dialogs, popovers
+    - token: --n-modal-neutral
+      role: Modal ground
+      use: Modal dialogs, blocking overlays
+    - token: --n-control-neutral
+      role: Control ground
+      use: Inputs, selects, form fields
+    - token: --n-button-neutral
+      role: Button ground
+      use: Default button variant fill
+
+  ink:
+    - token: --n-ink-strong-neutral
+      use: Headings, emphasis, primary text
+    - token: --n-ink-neutral
+      use: Body copy, standard text
+    - token: --n-ink-muted-neutral
+      use: Captions, metadata, secondary text
+    - token: --n-ink-placeholder-neutral
+      use: Placeholder text, disabled states
+    - token: --n-ink-accent
+      use: Links, interactive text, brand accents
+
+  borders:
+    - token: --n-border-neutral
+      use: General borders, dividers
+    - token: --n-border-muted-neutral
+      use: Subtle container borders
+    - token: --n-border-accent
+      use: Focused fields, active borders
+
+  dark_mode:
+    method: "color-scheme: dark on :root"
+    principles:
+      - Surfaces invert (light grounds become dark, preserving elevation hierarchy)
+      - Accent hues remain constant -- only lightness inverts
+      - Ink lightness flips to maintain contrast
+      - Alpha-channel borders maintain consistency across modes
+
+# ── 2. Typography ────────────────────────────────────────────
+
+typography:
+  typefaces:
+    sans:
+      font: Suisse Int'l
+      fallback: system-ui, sans-serif
+      variable: --font-sans
+      use: UI, body copy, all running text
+
+    mono:
+      font: Suisse Int'l Mono
+      fallback: ui-monospace, monospace
+      variable: --font-mono
+      use: Clinical codes, lab values, timestamps
+
+  note: >
+    Suisse Int'l is the sole typeface. No serif face --
+    clinical interfaces favor clarity over editorial expression.
+
+  scale:
+    - style: Display / H1
+      size: 2.5rem
+      size_px: 40
+      weight: 600
+      tracking: -0.02em
+      line_height: 1.1
+
+    - style: H2
+      size: 1.75rem
+      size_px: 28
+      weight: 600
+      tracking: -0.01em
+      line_height: 1.2
+
+    - style: H3
+      size: 1.25rem
+      size_px: 20
+      weight: 600
+      tracking: "0"
+      line_height: 1.3
+
+    - style: H4 / Section Title
+      size: 1rem
+      size_px: 16
+      weight: 600
+      tracking: "0"
+      line_height: 1.4
+
+    - style: Body Large
+      size: 1.125rem
+      size_px: 18
+      weight: 400
+      tracking: "0"
+      line_height: 1.6
+
+    - style: Body
+      size: 1rem
+      size_px: 16
+      weight: 400
+      tracking: "0"
+      line_height: 1.5
+
+    - style: Small / Caption
+      size: 0.875rem
+      size_px: 14
+      weight: 400
+      tracking: "0"
+      line_height: 1.4
+
+    - style: Label
+      size: 0.75rem
+      size_px: 12
+      weight: 500
+      tracking: 0.04em
+      line_height: 1
+      text_transform: uppercase
+
+    - style: Mono / Code
+      size: 0.8125rem
+      size_px: 13
+      weight: 400
+      tracking: "0"
+      line_height: 1.5
+      font: mono
+
+# ── 3. Voice & Copy ──────────────────────────────────────────
+
+voice:
+  personality:
+    - trait: Clear
+      description: Clinical language demands precision. Say what you mean. No ambiguity.
+    - trait: Calm
+      description: Healthcare is stressful enough. The interface should reduce anxiety, not add to it.
+    - trait: Confident
+      description: We know clinical AI. State facts directly. Back claims with evidence.
+    - trait: Human
+      description: Behind every data point is a patient. Write for people, not systems.
+
+  do:
+    - "See how the differential diagnosis evolved with each new result."
+    - "Adia tracks clinical decisions so your team can learn from outcomes."
+    - "3 care gaps identified. Here's the recommended action for each."
+    - "Lab results updated the working diagnosis from 30% to 85% confidence."
+
+  dont:
+    - "Our revolutionary AI-powered platform leverages cutting-edge..."
+    - "Comprehensive, robust solution that seamlessly integrates..."
+    - "We are excited to announce our groundbreaking new feature..."
+    - "Utilizing next-generation machine learning algorithms..."
+
+  formatting:
+    dash: en dash (--) for ranges and pauses
+    case: Sentence case for headlines
+    comma: Oxford comma always
+    capitalized_names:
+      - Adia Health
+      - Clinical Context Graph
+      - Decision Trace
+    cta_style: Short imperatives -- "See the demo" / "Start a pilot" / "Talk to us"
+    never: "Click here to learn more about our platform"
+
+  banned_words:
+    - synergize
+    - robust
+    - comprehensive
+    - seamless
+    - leverage (as a verb)
+    - supercharge
+    - groundbreaking
+    - revolutionary
+    - disrupt
+    - game-changing
+
+  terminology:
+    - term: Decision trace
+      not: audit log
+      meaning: Our term for captured clinical reasoning
+    - term: Clinical Context Graph
+      meaning: Our structured knowledge representation
+    - term: Care gap
+      not: compliance gap
+      meaning: Patient-centered framing
+    - abbreviations: [DDx, ICD, CPT, FHIR, HL7]
+    - note: Spell out on first use in consumer-facing copy; abbreviate freely in clinical interfaces
+
+# ── 4. Components ────────────────────────────────────────────
+
+components:
+  card:
+    background: var(--n-card-neutral)
+    border: 1px solid var(--n-border-muted-neutral)
+    border_radius: var(--n-radius, 0.5rem)
+    padding: 1.5rem
+    color: var(--n-ink-neutral)
+
+  buttons:
+    variants:
+      - name: Primary
+        background: var(--n-surface-accent)
+        color: var(--n-surface-ink-accent)
+        hover: var(--n-surface-hover-accent)
+      - name: Secondary
+        background: var(--n-button-neutral)
+        color: var(--n-ink-accent)
+      - name: Outline
+        background: transparent
+        border: 1px solid var(--n-border-accent)
+        color: var(--n-ink-accent)
+      - name: Ghost
+        background: transparent
+        color: var(--n-ink-accent)
+    shared:
+      border_radius: var(--n-radius, 0.5rem)
+      padding: 0.75rem 1.5rem
+      font_family: "Suisse Int'l, Suisse Intl, system-ui, sans-serif"
+      font_weight: 600
+
+  badge:
+    padding: 0.25rem 0.625rem
+    border_radius: var(--n-radius, 0.375rem)
+    font_size: 0.75rem
+    font_weight: 500
+    letter_spacing: 0.04em
+    text_transform: uppercase
+    intents:
+      success:
+        background: var(--n-panel-success)
+        color: var(--n-ink-success)
+        border: 1px solid var(--n-border-muted-success)
+      warning:
+        background: var(--n-panel-warning)
+        color: var(--n-ink-warning)
+        border: 1px solid var(--n-border-muted-warning)
+      danger:
+        background: var(--n-panel-danger)
+        color: var(--n-ink-danger)
+        border: 1px solid var(--n-border-muted-danger)
+
+  clinical_alerts:
+    - intent: success
+      use: Normal results, resolved conditions
+      example: "HbA1c within target range"
+    - intent: info
+      use: Informational, reference data
+      example: "New lab results available"
+    - intent: warning
+      use: Requires attention, care gaps
+      example: "Overdue for colonoscopy screening"
+    - intent: danger
+      use: Critical, contraindications
+      example: "Drug interaction: warfarin + aspirin"
+
+# ── 5. Data Visualization ────────────────────────────────────
+
+data_viz:
+  rules:
+    - Use intent colors -- success for positive trends, danger for negative, accent for neutral series
+    - Suisse Int'l only -- no serif in charts. Mono for axis labels and values.
+    - Token-based fills -- all chart colors reference --n-color-{family}-{step} tokens
+    - Respect color-scheme -- charts must work in both light and dark mode
+    - No gradients in bars or area fills -- flat OKLCH colors only
+    - Rounded corners on chart containers match --n-radius
+    - Subtle grid lines use --n-border-muted-neutral
+
+  chart_ramp:
+    - token: --n-color-accent-050
+      value: oklch(0.933 0.01 230)
+      use: lightest tint (backgrounds)
+    - token: --n-color-accent-200
+      value: oklch(0.8 0.086 230)
+      use: light series fill
+    - token: --n-color-accent-400
+      value: oklch(0.667 0.162 230)
+      use: secondary series
+    - token: --n-color-accent-500
+      value: oklch(0.6 0.2 230)
+      use: primary series / highlight
+    - token: --n-color-accent-700
+      value: oklch(0.45 0.124 230)
+      use: dark series
+    - token: --n-color-accent-950
+      value: oklch(0.225 0.01 230)
+      use: near-black (labels)
+
+# ── 6. Logo ──────────────────────────────────────────────────
+
+logo:
+  wordmark:
+    type: Wordmark with negative-space triangle in the "A"
+    file: adia-logo.svg
+    viewBox: "0 0 1280 660"
+    contexts:
+      - surface: light
+        fill: dark (near-black)
+      - surface: dark
+        fill: white
+      - surface: accent
+        fill: white
+      - surface: adaptive
+        fill: var(--n-ink-strong) (follows color-scheme)
+
+  icon:
+    type: Square mark -- black fill with white wordmark at icon scale
+    file: adia-icon.svg
+    viewBox: "0 0 96 96"
+    note: >
+      The "A" negative-space triangle is preserved at icon scale.
+      Corner radius 8px (matches app icon conventions).
+    variants:
+      - name: Default
+        background: black
+        wordmark: white
+      - name: Brand dark
+        background: oklch(0.15 0.003 230)
+        wordmark: white
+      - name: Accent
+        background: oklch(0.6 0.2 230)
+        wordmark: white
+      - name: Inverted (light)
+        background: white
+        wordmark: black
+        border: oklch(0.833 0.006 230 / 0.85)
+
+  rules:
+    - Minimum clear space equal to cap height of the "A" on all sides
+    - The "A" contains a negative-space triangle -- never fill, crop, or obscure it
+    - Minimum wordmark display width 120px (below this, letterforms lose legibility)
+    - Icon minimum size 32px (below this, use simplified mark)
+  never:
+    - Stretch or distort
+    - Rotate
+    - Recolor to off-brand colors
+    - Add drop shadows, glows, or effects
+    - Place on busy or low-contrast backgrounds
+    - Use below minimum size
+
+# ── 7. Spacing ───────────────────────────────────────────────
+
+spacing:
+  base_unit: 4px
+  scale:
+    1:  { rem: 0.25,  px: 4   }
+    2:  { rem: 0.5,   px: 8   }
+    3:  { rem: 0.75,  px: 12  }
+    4:  { rem: 1,     px: 16  }
+    6:  { rem: 1.5,   px: 24  }
+    8:  { rem: 2,     px: 32  }
+    12: { rem: 3,     px: 48  }
+    16: { rem: 4,     px: 64  }
+    24: { rem: 6,     px: 96  }
+    32: { rem: 8,     px: 128 }

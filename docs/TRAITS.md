@@ -116,7 +116,7 @@ this.addEventListener('native:dismiss', () => store.open.value = false);
 
 ## PresentController
 
-Shows any element in a full-viewport modal dialog overlay. Used by `<native-a2ui>`, `<native-playground>`, and `<native-editor>` for expand buttons.
+Shows any element in a full-viewport modal dialog overlay. Used by `<native-a2ui>`, `<n-playground>`, and `<native-editor>` for expand buttons.
 
 ```ts
 const ctrl = new PresentController(host);

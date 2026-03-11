@@ -2,10 +2,10 @@ trait: gateway
 controller: GatewayController
 description: Manages load/save fetch lifecycle with reactive signals for loading, saving, error, and dirty state.
 source:
-  controller: src/traits/gateway/gateway-controller.ts
-  adapter: src/traits/gateway/gatewayable-adapter.ts
-  demo: src/traits/gateway/gatewayable.html
-  test: src/traits/gateway/gateway-controller.test.ts
+  controller: packages/native-traits/src/traits/gateway/gateway-controller.ts
+  adapter: packages/native-traits/src/traits/gateway/gatewayable-adapter.ts
+  demo: packages/native-traits/src/traits/gateway/gatewayable.html
+  test: packages/native-traits/src/traits/gateway/gateway-controller.test.ts
 options:
   parse:
     type: "(res: Response) => Promise<string>"

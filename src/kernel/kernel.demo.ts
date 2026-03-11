@@ -1,7 +1,7 @@
 import { Kernel, resetKernel } from './kernel.ts';
 import { WorkflowEngine } from './workflow.ts';
 import { validateAccessibility, auditDOM } from './accessibility.ts';
-import { effect } from '../reactivity/effect.ts';
+import { effect } from '@nonoun/native-core';
 import { COMPONENT_MANIFEST, getDescriptorsByCategory, installEventBridge } from './components.ts';
 import { formWizard, crudLifecycle, authFlow, toggleFlow } from './workflow-templates.ts';
 import { SCHEMA_CATALOG, getSchema } from './schema-catalog.ts';

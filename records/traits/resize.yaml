@@ -3,10 +3,10 @@ controller: ResizeController
 description: Handles pointer-driven element resizing via a drag handle, dispatching `native:resize-start`,
   `native:resize-move`, `native:resize-end`, and `native:resize-cancel`.
 source:
-  controller: src/traits/resize/resize-controller.ts
-  adapter: src/traits/resize/resizable-adapter.ts
-  demo: src/traits/resize/resizable.html
-  test: src/traits/resize/resizable.test.ts
+  controller: packages/native-traits/src/traits/resize/resize-controller.ts
+  adapter: packages/native-traits/src/traits/resize/resizable-adapter.ts
+  demo: packages/native-traits/src/traits/resize/resizable.html
+  test: packages/native-traits/src/traits/resize/resizable.test.ts
 options:
   handleSelector:
     type: string

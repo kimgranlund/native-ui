@@ -1,4 +1,4 @@
-import type { Dispose } from '../reactivity/types.ts';
+import type { Dispose } from '@nonoun/native-core';
 
 // ── Command System ──
 

@@ -111,8 +111,8 @@ export type {
 } from './planner.ts';
 
 // Plugin system
-export { PluginRegistry } from '../registries/plugin-registry.ts';
-export type { PluginFactory } from '../registries/plugin-registry.ts';
+export { PluginRegistry } from '@nonoun/native-core';
+export type { PluginFactory } from '@nonoun/native-core';
 
 // Types
 export type {

@@ -893,11 +893,11 @@ export class NChatPanel extends NativeElement {
     const feed = this.#chatFeed;
     if (!feed) return;
 
-    const group = document.createElement('n-chat-messages');
+    const group = document.createElement('n-agent-dialogue');
     group.setAttribute('data-role', msg.role);
     group.setAttribute('sender', msg.role === 'user' ? 'You' : 'Assistant');
 
-    const message = document.createElement('n-chat-message');
+    const message = document.createElement('n-agent-dialogue-item');
     message.setAttribute('data-role', msg.role);
     message.setAttribute('message-id', `msg-${createRequestId()}`);
     message.setAttribute('status', 'sent');
@@ -914,11 +914,11 @@ export class NChatPanel extends NativeElement {
     const feed = this.#chatFeed;
     if (!feed) return null;
 
-    const group = document.createElement('n-chat-messages');
+    const group = document.createElement('n-agent-dialogue');
     group.setAttribute('data-role', 'assistant');
     group.setAttribute('sender', 'Assistant');
 
-    const message = document.createElement('n-chat-message');
+    const message = document.createElement('n-agent-dialogue-item');
     message.setAttribute('data-role', 'assistant');
     message.setAttribute('message-id', id);
     message.setAttribute('status', 'streaming');

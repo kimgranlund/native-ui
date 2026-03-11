@@ -34,8 +34,8 @@
   :where(n-chat-input):not(:defined),
   :where(n-chat-feed):not(:defined),
   :where(n-chat-avatar):not(:defined),
-  :where(n-chat-message):not(:defined),
-  :where(n-chat-messages):not(:defined),
+  :where(n-agent-dialogue-item):not(:defined),
+  :where(n-agent-dialogue):not(:defined),
   :where(n-chat-message-text):not(:defined),
   :where(n-chat-message-activity):not(:defined),
   :where(n-chat-message-seed):not(:defined),
@@ -247,14 +247,14 @@
   :where(n-chat-feed[hidden]) { display: none; }
 
   /* ══════════════════════════════════════════════════
-     n-chat-messages — message group (bubble cluster)
+     n-agent-dialogue — message group (bubble cluster)
      ══════════════════════════════════════════════════ */
 
   /* 2×2 grid: avatar | context + bubbles.
      Col 1: avatar (spans both rows, bottom-aligned)
      Col 2 row 1: .n-chat-context — metadata, reasoning, timestamps
      Col 2 row 2: .n-chat-bubbles — message bubbles (flex column) */
-  :where(n-chat-messages) {
+  :where(n-agent-dialogue) {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: auto 1fr;
@@ -265,7 +265,7 @@
   }
 
   /* Avatar: col 1, spans both rows, bottom-align */
-  :where(n-chat-messages) > :where(n-chat-avatar) {
+  :where(n-agent-dialogue) > :where(n-chat-avatar) {
     grid-column: 1;
     grid-row: 1 / -1;
     align-self: end;
@@ -274,7 +274,7 @@
   /* Assistant avatar: use default avatar tokens (bubble is transparent) */
 
   /* Context area: col 2, row 1 — metadata above messages */
-  :where(n-chat-messages) > :where(.n-chat-context) {
+  :where(n-agent-dialogue) > :where(.n-chat-context) {
     grid-column: 2;
     grid-row: 1;
     display: flex;
@@ -284,12 +284,12 @@
   }
 
   /* Empty context collapses */
-  :where(n-chat-messages) > :where(.n-chat-context:empty) {
+  :where(n-agent-dialogue) > :where(.n-chat-context:empty) {
     display: none;
   }
 
   /* Bubbles area: col 2, row 2 — flex column of messages */
-  :where(n-chat-messages) > :where(.n-chat-bubbles) {
+  :where(n-agent-dialogue) > :where(.n-chat-bubbles) {
     grid-column: 2;
     grid-row: 2;
     display: flex;
@@ -299,43 +299,43 @@
   }
 
   /* Messages shrink-wrap to content width */
-  :where(.n-chat-bubbles) > :where(n-chat-message) {
+  :where(.n-chat-bubbles) > :where(n-agent-dialogue-item) {
     width: fit-content;
     max-width: 100%;
   }
 
   /* Avatar alignment overrides */
-  [avatar-align="top"]:where(n-chat-messages) > :where(n-chat-avatar) {
+  [avatar-align="top"]:where(n-agent-dialogue) > :where(n-chat-avatar) {
     align-self: start;
   }
 
-  [avatar-align="center"]:where(n-chat-messages) > :where(n-chat-avatar) {
+  [avatar-align="center"]:where(n-agent-dialogue) > :where(n-chat-avatar) {
     align-self: center;
   }
 
   /* User messages: right-aligned, avatar on right */
-  [data-role="user"]:where(n-chat-messages) {
+  [data-role="user"]:where(n-agent-dialogue) {
     grid-template-columns: 1fr auto;
     align-self: flex-end;
   }
 
-  [data-role="user"]:where(n-chat-messages) > :where(n-chat-avatar) {
+  [data-role="user"]:where(n-agent-dialogue) > :where(n-chat-avatar) {
     grid-column: 2;
     background: var(--n-chat-bubble-user);
     color: var(--n-chat-bubble-user-color);
   }
 
-  [data-role="user"]:where(n-chat-messages) > :where(.n-chat-context),
-  [data-role="user"]:where(n-chat-messages) > :where(.n-chat-bubbles) {
+  [data-role="user"]:where(n-agent-dialogue) > :where(.n-chat-context),
+  [data-role="user"]:where(n-agent-dialogue) > :where(.n-chat-bubbles) {
     grid-column: 1;
   }
 
   /* User bubbles align to the right edge */
-  [data-role="user"]:where(n-chat-messages) :where(.n-chat-bubbles) > :where(n-chat-message) {
+  [data-role="user"]:where(n-agent-dialogue) :where(.n-chat-bubbles) > :where(n-agent-dialogue-item) {
     align-self: flex-end;
   }
 
-  :where(n-chat-messages[hidden]) { display: none; }
+  :where(n-agent-dialogue[hidden]) { display: none; }
 
   /* ══════════════════════════════════════════════════
      n-chat-avatar — sender avatar
@@ -374,10 +374,10 @@
   :where(n-chat-avatar[hidden]) { display: none; }
 
   /* ══════════════════════════════════════════════════
-     n-chat-message — individual message bubble
+     n-agent-dialogue-item — individual message bubble
      ══════════════════════════════════════════════════ */
 
-  :where(n-chat-message) {
+  :where(n-agent-dialogue-item) {
     display: flex;
     flex-direction: column;
     gap: var(--n-space);
@@ -400,7 +400,7 @@
   }
 
   /* User bubble: avatar on right — flip avatar-side / far-side corners */
-  [data-role="user"]:where(n-chat-message) {
+  [data-role="user"]:where(n-agent-dialogue-item) {
     border-radius:
       var(--n-chat-bubble-radius-far-side)
       var(--n-chat-bubble-radius-avatar-side)
@@ -413,22 +413,22 @@
   }
 
   /* Streaming status */
-  [status="streaming"]:where(n-chat-message) {
+  [status="streaming"]:where(n-agent-dialogue-item) {
     opacity: var(--n-chat-streaming-opacity);
   }
 
   /* Error status */
-  [status="error"]:where(n-chat-message) {
+  [status="error"]:where(n-agent-dialogue-item) {
     border: 1px solid var(--n-border-danger);
   }
 
   /* Partial status — stream ended without explicit completion */
-  [status="partial"]:where(n-chat-message) {
+  [status="partial"]:where(n-agent-dialogue-item) {
     border-block-end: 2px dashed var(--n-border-muted);
   }
 
   /* Typing status — waiting for first stream chunk */
-  [status="typing"]:where(n-chat-message) :where(n-chat-message-text) :where(.n-chat-prose):empty::before {
+  [status="typing"]:where(n-agent-dialogue-item) :where(n-chat-message-text) :where(.n-chat-prose):empty::before {
     content: '\25CF\25CF\25CF';
     letter-spacing: 0.25em;
     color: var(--n-ink-muted);
@@ -442,30 +442,30 @@
 
   /* ── Message actions toolbar ── */
 
-  :where(n-chat-message) > :where(n-toolbar[data-role="actions"]) {
+  :where(n-agent-dialogue-item) > :where(n-toolbar[data-role="actions"]) {
     opacity: 0;
     transition: opacity var(--n-duration) var(--n-easing);
     padding-inline: var(--n-chat-bubble-padding-inline);
   }
 
-  :where(n-chat-message):hover > :where(n-toolbar[data-role="actions"]),
-  :where(n-chat-message):focus-within > :where(n-toolbar[data-role="actions"]),
-  :where(n-chat-message[force-hover]) > :where(n-toolbar[data-role="actions"]) {
+  :where(n-agent-dialogue-item):hover > :where(n-toolbar[data-role="actions"]),
+  :where(n-agent-dialogue-item):focus-within > :where(n-toolbar[data-role="actions"]),
+  :where(n-agent-dialogue-item[force-hover]) > :where(n-toolbar[data-role="actions"]) {
     opacity: 1;
   }
 
   /* Partial status — always show actions (contains continue button) */
-  [status="partial"]:where(n-chat-message) > :where(n-toolbar[data-role="actions"]) {
+  [status="partial"]:where(n-agent-dialogue-item) > :where(n-toolbar[data-role="actions"]) {
     opacity: 1;
   }
 
   /* ── Below-bubble popover toolbar ── */
 
   /* Popover toolbar: anchored below the message via CSS anchor positioning.
-     Toolbar is a child of n-chat-message with popover="manual", rendered in the
+     Toolbar is a child of n-agent-dialogue-item with popover="manual", rendered in the
      top layer. JS shows/hides via pointerenter/pointerleave + showPopover().
      Entry/exit transition mirrors n-listbox[popover] (perspective + scale). */
-  :where(n-chat-message) > :where(n-toolbar[data-role="actions"][popover]) {
+  :where(n-agent-dialogue-item) > :where(n-toolbar[data-role="actions"][popover]) {
     position: fixed;
     inset: auto;
     top: anchor(bottom);
@@ -485,13 +485,13 @@
       overlay var(--n-duration) var(--n-easing) allow-discrete;
   }
 
-  :where(n-chat-message) > :where(n-toolbar[data-role="actions"][popover]):popover-open {
+  :where(n-agent-dialogue-item) > :where(n-toolbar[data-role="actions"][popover]):popover-open {
     opacity: 1;
     transform: none;
   }
 
   @starting-style {
-    :where(n-chat-message) > :where(n-toolbar[data-role="actions"][popover]):popover-open {
+    :where(n-agent-dialogue-item) > :where(n-toolbar[data-role="actions"][popover]):popover-open {
       opacity: 0;
       transform: perspective(800px) scale(0.96) rotateX(-20deg);
     }
@@ -502,7 +502,7 @@
     display: none;
   }
 
-  :where(n-chat-message[hidden]) { display: none; }
+  :where(n-agent-dialogue-item[hidden]) { display: none; }
 
   /* ══════════════════════════════════════════════════
      n-chat-message-text — rich text / markdown
@@ -906,14 +906,14 @@
   }
 
   /* ══════════════════════════════════════════════════
-     n-chat-input-advanced — multi-zone rich composer
+     n-agent-input — multi-zone rich composer
      ══════════════════════════════════════════════════
 
      3 zones: header-bar (above), prompt-container (bordered), suggestion-chips (below).
      The prompt container holds textarea + improve button + toolbar.
 
      HTML shape:
-       <n-chat-input-advanced>
+       <n-agent-input>
          <n-chat-input-header> … </n-chat-input-header>
          <n-chat-input-prompt>
            <n-textarea …></n-textarea>
@@ -921,12 +921,12 @@
            <n-toolbar variant="plain"> … </n-toolbar>
          </n-chat-input-prompt>
          <n-chat-input-chips> … </n-chat-input-chips>
-       </n-chat-input-advanced>
+       </n-agent-input>
   */
 
-  :where(n-chat-input-advanced):not(:defined) { visibility: hidden; }
+  :where(n-agent-input):not(:defined) { visibility: hidden; }
 
-  :where(n-chat-input-advanced) {
+  :where(n-agent-input) {
     display: flex;
     flex: 1 1 0%;
     flex-direction: column;

@@ -1,5 +1,5 @@
-import { NativeElement } from '../../core/native-element.ts';
-import { uid } from '../../core/uid.ts';
+import { NativeElement } from '@nonoun/native-core';
+import { uid } from '@nonoun/native-core';
 
 /** Non-interactive heading label for an option group. */
 export class NOptionGroupHeader extends NativeElement {

@@ -10,7 +10,7 @@ import YAML from 'yaml';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const CEM_PATH = join(ROOT, 'dist/custom-elements.json');
-const TRAITS_DIR = join(ROOT, 'src/traits');
+const TRAITS_DIR = join(ROOT, 'packages/native-traits/src/traits');
 const COMPONENTS_DIR = join(ROOT, 'src/components');
 const CONTAINERS_DIR = join(ROOT, 'src/containers');
 const CONTROLLERS_DIR = join(ROOT, 'src/controllers');
@@ -476,7 +476,7 @@ function buildCSSOnlyRecord(tagName, cssPath, dir) {
 
 function buildTraitRecord(info, traitDir) {
   const traitName = basename(traitDir);
-  const srcBase = `src/traits/${traitName}`;
+  const srcBase = `packages/native-traits/src/traits/${traitName}`;
 
   const record = {
     trait: traitName,

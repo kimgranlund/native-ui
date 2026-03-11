@@ -2,10 +2,10 @@ trait: hover
 controller: HoverController
 description: Tracks pointer enter/leave with configurable delays, dispatching `native:hover-start` and `native:hover-end`.
 source:
-  controller: src/traits/hover/hover-controller.ts
-  adapter: src/traits/hover/hoverable-adapter.ts
-  demo: src/traits/hover/hoverable.html
-  test: src/traits/hover/hoverable.test.ts
+  controller: packages/native-traits/src/traits/hover/hover-controller.ts
+  adapter: packages/native-traits/src/traits/hover/hoverable-adapter.ts
+  demo: packages/native-traits/src/traits/hover/hoverable.html
+  test: packages/native-traits/src/traits/hover/hoverable.test.ts
 options:
   delay:
     type: number

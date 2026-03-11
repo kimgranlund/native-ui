@@ -2,10 +2,10 @@ trait: virtual-scroll
 controller: VirtualScrollController
 description: Virtualizes a scrollable list by rendering only visible items, dispatching `native:virtual-change`.
 source:
-  controller: src/traits/virtual-scroll/virtual-scroll-controller.ts
-  adapter: src/traits/virtual-scroll/virtualizable-adapter.ts
-  demo: src/traits/virtual-scroll/virtualizable.html
-  test: src/traits/virtual-scroll/virtualizable.test.ts
+  controller: packages/native-traits/src/traits/virtual-scroll/virtual-scroll-controller.ts
+  adapter: packages/native-traits/src/traits/virtual-scroll/virtualizable-adapter.ts
+  demo: packages/native-traits/src/traits/virtual-scroll/virtualizable.html
+  test: packages/native-traits/src/traits/virtual-scroll/virtualizable.test.ts
 options:
   itemHeight:
     type: number

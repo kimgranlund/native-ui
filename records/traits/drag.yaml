@@ -2,10 +2,10 @@ trait: drag
 controller: DragController
 description: Enables pointer-driven drag-and-drop with drop, slot, or preview reordering.
 source:
-  controller: src/traits/drag/drag-controller.ts
-  adapter: src/traits/drag/draggable-adapter.ts
-  demo: src/traits/drag/draggable.html
-  test: src/traits/drag/draggable.test.ts
+  controller: packages/native-traits/src/traits/drag/drag-controller.ts
+  adapter: packages/native-traits/src/traits/drag/draggable-adapter.ts
+  demo: packages/native-traits/src/traits/drag/draggable.html
+  test: packages/native-traits/src/traits/drag/draggable.test.ts
 options:
   selector:
     type: string

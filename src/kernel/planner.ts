@@ -7,7 +7,7 @@
  * Intent → UINode tree → UIPlan → schema validation → accessibility audit → PlanResult
  */
 
-import { uid } from '../core/uid.ts';
+import { uid } from '@nonoun/native-core';
 import type {
   UINode,
   UIPlan,

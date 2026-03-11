@@ -2,10 +2,10 @@ trait: focus-trap
 controller: FocusTrapController
 description: Traps Tab key focus within the host element, cycling between first and last focusable children.
 source:
-  controller: src/traits/focus-trap/focus-trap-controller.ts
-  adapter: src/traits/focus-trap/focus-trappable-adapter.ts
-  demo: src/traits/focus-trap/focus-trappable.html
-  test: src/traits/focus-trap/focus-trappable.test.ts
+  controller: packages/native-traits/src/traits/focus-trap/focus-trap-controller.ts
+  adapter: packages/native-traits/src/traits/focus-trap/focus-trappable-adapter.ts
+  demo: packages/native-traits/src/traits/focus-trap/focus-trappable.html
+  test: packages/native-traits/src/traits/focus-trap/focus-trappable.test.ts
 methods:
   enable:
     returns: void

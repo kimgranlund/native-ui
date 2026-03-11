@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NTab } from './tab-element.ts';
 import { NTabPanel } from './tab-panel-element.ts';
 import { NTabPanels } from './tab-panels-element.ts';

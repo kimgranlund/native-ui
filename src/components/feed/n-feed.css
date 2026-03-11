@@ -1,0 +1,53 @@
+@layer ui {
+
+  /* ══════════════════════════════════════════════════════════════════
+     <n-feed> — Generic scrollable feed container
+     Flex column with auto-scroll, bottom-anchoring, and optional
+     virtual scroll. Use `align="end"` for chat-style bottom-anchored
+     layouts where new content pushes from the bottom.
+     ══════════════════════════════════════════════════════════════════ */
+
+  :where(n-feed):not(:defined) { visibility: hidden; }
+
+  :where(n-feed) {
+    --n-feed-gap: calc(var(--n-space) * 2);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--n-feed-gap);
+    flex: 1 1 0%;
+    min-height: 0;
+    min-width: 0;
+  }
+
+  /* Virtual scroll container */
+  :where(n-feed) > :where(.n-feed-virtual-container) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--n-feed-gap);
+  }
+
+  :where(n-feed) :where(.n-virtual-spacer-top),
+  :where(n-feed) :where(.n-virtual-spacer-bottom) {
+    flex-shrink: 0;
+  }
+
+  :where(n-feed[hidden]) { display: none; }
+
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Attribute API (unlayered)
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Bottom-anchored: content pushed to end (chat / activity feeds) */
+:where(n-feed)[align="end"] {
+  justify-content: flex-end;
+}
+
+/* Opt-in scroll container */
+:where(n-feed)[scroll] {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+}

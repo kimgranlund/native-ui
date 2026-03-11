@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NCommandGroup } from './command-group-element.ts';
 
 define('n-command-group', NCommandGroup);

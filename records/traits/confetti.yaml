@@ -2,10 +2,10 @@ trait: confetti
 controller: ConfettiController
 description: Burst of confetti particles from an element. DOM-based particles with randomized trajectories + gravity.
 source:
-  controller: src/traits/confetti/confetti-controller.ts
-  adapter: src/traits/confetti/confettible-adapter.ts
-  demo: src/traits/confetti/confettible.html
-  test: src/traits/confetti/confettible.test.ts
+  controller: packages/native-traits/src/traits/confetti/confetti-controller.ts
+  adapter: packages/native-traits/src/traits/confetti/confettible-adapter.ts
+  demo: packages/native-traits/src/traits/confetti/confettible.html
+  test: packages/native-traits/src/traits/confetti/confettible.test.ts
 options:
   count:
     type: number

@@ -41,10 +41,10 @@ import { Kernel, resetKernel } from '../../../../../src/kernel/kernel.ts';
 import { createA2UIAdapter } from '../protocol/a2ui-adapter.ts';
 import { COMPONENT_MAP as REGISTRY, getComponentCategory } from '../protocol/a2ui-component-map.ts';
 import type { EventSpec, PropertySpec, MethodSpec } from '../protocol/a2ui-component-map.ts';
-import { ClaudeGatewayAdapter } from '../../chat/gateway/adapter-claude.ts';
-import { OpenAiGatewayAdapter } from '../../chat/gateway/adapter-chatgpt.ts';
 import type { GatewayAdapter } from '../../chat/gateway/adapter.ts';
 import { GatewayRequestError } from '../../chat/gateway/runtime.ts';
+import { isClaudeModel, createAdapter } from '../../chat/gateway/model-registry.ts';
+import { parseJsonFromResponse, stripFences } from '../../chat/parsing/json-extractor.ts';
 import promptJson from './system-prompt.json';
 import { PIPELINE_STEPS, runPipeline, shouldSkipEarlySteps } from './pipeline.ts';
 import type { PipelineStep, PipelineCallbacks } from './pipeline.ts';
@@ -73,7 +73,7 @@ const PANELS = [
   { id: 'prompt',   label: 'Prompt',   icon: 'file-code' },
 ];
 
-const activePanels = new Set(['preview', 'concepts']);
+const activePanels = new Set(['preview']);
 
 // ── LLM adapter ──
 
@@ -86,57 +86,33 @@ const openaiKey = (import.meta as Record<string, Record<string, string>>).env?.V
 
 let systemPrompt = DEFAULT_SYSTEM_PROMPT;
 
-function isClaudeModel(model: string): boolean {
-  return model.startsWith('claude-') || ['opus-4.6', 'sonnet-4.6', 'haiku-4.5'].includes(model);
+function getApiKey(model: string): string | null {
+  return isClaudeModel(model) ? anthropicKey : openaiKey;
+}
+
+function getBaseUrl(model: string): string {
+  return isClaudeModel(model) ? '/api/anthropic' : '/api/openai';
 }
 
 function buildAdapter(model: string): GatewayAdapter | null {
-  if (isClaudeModel(model)) {
-    if (!anthropicKey) return null;
-    return new ClaudeGatewayAdapter({
-      clientId: 'a2ui-builder',
-      baseUrl: '/api/anthropic',
-      model,
-      maxTokens: 4096,
-      system: systemPrompt,
-      apiKey: anthropicKey,
-      anthropicVersion: '2023-06-01',
-    });
-  }
-
-  // OpenAI models (gpt-*)
-  if (!openaiKey) return null;
-  return new OpenAiGatewayAdapter({
+  return createAdapter({
     clientId: 'a2ui-builder',
-    baseUrl: '/api/openai',
+    baseUrl: getBaseUrl(model),
     model,
     maxTokens: 4096,
     system: systemPrompt,
-    apiKey: openaiKey,
+    apiKey: getApiKey(model),
   });
 }
 
 function buildStepAdapter(stepSystemPrompt: string, maxTokens: number): GatewayAdapter | null {
-  if (isClaudeModel(currentModel)) {
-    if (!anthropicKey) return null;
-    return new ClaudeGatewayAdapter({
-      clientId: 'a2ui-builder-step',
-      baseUrl: '/api/anthropic',
-      model: currentModel,
-      maxTokens,
-      system: stepSystemPrompt,
-      apiKey: anthropicKey,
-      anthropicVersion: '2023-06-01',
-    });
-  }
-  if (!openaiKey) return null;
-  return new OpenAiGatewayAdapter({
+  return createAdapter({
     clientId: 'a2ui-builder-step',
-    baseUrl: '/api/openai',
+    baseUrl: getBaseUrl(currentModel),
     model: currentModel,
     maxTokens,
     system: stepSystemPrompt,
-    apiKey: openaiKey,
+    apiKey: getApiKey(currentModel),
   });
 }
 
@@ -560,10 +536,9 @@ inspectorBtn?.addEventListener('native:press', () => {
 });
 
 function syncPanels() {
-  // Clear explicit widths so flex redistributes
+  // Clear inline flex so CSS defaults redistribute
   for (const [_, el] of paneEls) {
-    el.style.removeProperty('width');
-    el.style.removeProperty('flex-grow');
+    el.style.removeProperty('flex');
   }
   for (const [id, el] of paneEls) el.hidden = !activePanels.has(id);
   for (const [id, chip] of chipEls) chip.toggleAttribute('data-active', activePanels.has(id));
@@ -709,147 +684,7 @@ pipelineBtn?.addEventListener('native:press', () => {
   }
 });
 
-// ── Coordinated resize ──
-
-const splitEl = document.querySelector('.builder-split') as HTMLElement;
-const chatEl = document.querySelector('.builder-chat') as HTMLElement;
-const PANEL_ORDER = PANELS.map(p => p.id);
-
-interface ResizeDrag {
-  type: 'chat' | 'pane';
-  startX: number;
-  chatStartW?: number;
-  sourceId?: string;
-  sourceStartW?: number;
-  targetId: string;
-  targetStartW: number;
-}
-
-let resizeDrag: ResizeDrag | null = null;
-
-function getVisiblePanes() {
-  return PANEL_ORDER.filter(id => activePanels.has(id));
-}
-
-splitEl.addEventListener('pointerdown', (e: PointerEvent) => {
-  if (e.button !== 0) return;
-  const handle = (e.target as HTMLElement).closest?.('.resize-handle');
-  if (!handle) return;
-
-  const parent = handle.parentElement!;
-  e.preventDefault();
-
-  const CHAT_MIN = 280;
-  const PANE_MIN = 150;
-
-  if (parent === chatEl) {
-    const visible = getVisiblePanes();
-    if (!visible.length) return;
-
-    const firstPaneEl = paneEls.get(visible[0]);
-    if (!firstPaneEl) return;
-
-    resizeDrag = {
-      type: 'chat',
-      startX: e.clientX,
-      chatStartW: chatEl.offsetWidth,
-      targetId: visible[0],
-      targetStartW: firstPaneEl.offsetWidth,
-    };
-  } else if (parent.matches('n-pane')) {
-    const panelId = (parent as HTMLElement).dataset.panel!;
-    const visible = getVisiblePanes();
-    const idx = visible.indexOf(panelId);
-    if (idx === -1 || idx >= visible.length - 1) return;
-
-    const nextId = visible[idx + 1];
-    const nextEl = paneEls.get(nextId);
-    if (!nextEl) return;
-
-    resizeDrag = {
-      type: 'pane',
-      startX: e.clientX,
-      sourceId: panelId,
-      sourceStartW: parent.offsetWidth,
-      targetId: nextId,
-      targetStartW: nextEl.offsetWidth,
-    };
-  } else {
-    return;
-  }
-
-  // Freeze all widths
-  chatEl.style.width = `${chatEl.offsetWidth}px`;
-  for (const id of getVisiblePanes()) {
-    const el = paneEls.get(id);
-    if (el) {
-      el.style.width = `${el.offsetWidth}px`;
-      el.style.removeProperty('flex-grow');
-    }
-  }
-
-  parent.setAttribute('data-resizing', '');
-  document.body.style.cursor = 'col-resize';
-  document.body.style.userSelect = 'none';
-
-  document.addEventListener('pointermove', onResizeMove);
-  document.addEventListener('pointerup', onResizeUp);
-});
-
-function onResizeMove(e: PointerEvent) {
-  if (!resizeDrag) return;
-  const CHAT_MIN = 280;
-  const PANE_MIN = 150;
-  const dx = e.clientX - resizeDrag.startX;
-
-  if (resizeDrag.type === 'chat') {
-    const newChatW = Math.max(CHAT_MIN, resizeDrag.chatStartW! + dx);
-    const newPaneW = Math.max(PANE_MIN, resizeDrag.targetStartW - (newChatW - resizeDrag.chatStartW!));
-    chatEl.style.width = `${newChatW}px`;
-    const paneEl = paneEls.get(resizeDrag.targetId);
-    if (paneEl) paneEl.style.width = `${newPaneW}px`;
-  } else {
-    const sourceEl = paneEls.get(resizeDrag.sourceId!);
-    const targetEl = paneEls.get(resizeDrag.targetId);
-    if (!sourceEl || !targetEl) return;
-    const newSourceW = Math.max(PANE_MIN, resizeDrag.sourceStartW! + dx);
-    const newTargetW = Math.max(PANE_MIN, resizeDrag.targetStartW - (newSourceW - resizeDrag.sourceStartW!));
-    sourceEl.style.width = `${newSourceW}px`;
-    targetEl.style.width = `${newTargetW}px`;
-  }
-}
-
-function onResizeUp() {
-  if (!resizeDrag) return;
-
-  // Convert pixel widths → flex-grow ratios
-  const visible = getVisiblePanes();
-  const widths = visible.map(id => paneEls.get(id)?.offsetWidth ?? 0);
-  const total = widths.reduce((s, w) => s + w, 0);
-  if (total > 0) {
-    for (let i = 0; i < visible.length; i++) {
-      const el = paneEls.get(visible[i]);
-      if (el) {
-        el.style.flexGrow = String((widths[i] / total) * visible.length);
-        el.style.removeProperty('width');
-      }
-    }
-  }
-
-  // Convert chat to percentage
-  if (splitEl.offsetWidth > 0) {
-    const ratio = chatEl.offsetWidth / splitEl.offsetWidth;
-    chatEl.style.width = `${(ratio * 100).toFixed(2)}%`;
-  }
-
-  // Clean up
-  document.querySelectorAll('[data-resizing]').forEach(el => el.removeAttribute('data-resizing'));
-  document.body.style.removeProperty('cursor');
-  document.body.style.removeProperty('user-select');
-  document.removeEventListener('pointermove', onResizeMove);
-  document.removeEventListener('pointerup', onResizeUp);
-  resizeDrag = null;
-}
+// ── Pane layout (resize handled by n-panes component) ──
 
 // ── Populate static panels ──
 
@@ -935,34 +770,8 @@ for (const mapping of REGISTRY.values()) {
 let lastMessageGroup: HTMLElement | null = null;
 let lastMessageRole: string | null = null;
 
-/**
- * Extract a JSON object from an LLM response that may contain surrounding
- * text, markdown fences, or other non-JSON content.
- */
-function parseJSON(raw: string | undefined): MockResult {
-  const text = raw?.trim();
-  if (!text) throw new Error('Empty response from LLM');
-
-  // 1. Direct parse — response is pure JSON
-  try { return JSON.parse(text); } catch { /* fall through */ }
-
-  // 2. Markdown code fences: ```json ... ``` or ``` ... ```
-  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
-  if (fenced) {
-    try { return JSON.parse(fenced[1].trim()); } catch { /* fall through */ }
-  }
-
-  // 3. Extract first { ... } span (greedy — outermost braces)
-  const braceStart = text.indexOf('{');
-  const braceEnd = text.lastIndexOf('}');
-  if (braceStart !== -1 && braceEnd > braceStart) {
-    try { return JSON.parse(text.slice(braceStart, braceEnd + 1)); } catch { /* fall through */ }
-  }
-
-  // 4. Nothing worked — show truncated response for debugging
-  const preview = text.length > 200 ? text.slice(0, 200) + '…' : text;
-  throw new Error(`Could not parse JSON from response:\n${preview}`);
-}
+/** Parse JSON from LLM response, typed as MockResult. */
+const parseJSON = (raw: string | undefined): MockResult => parseJsonFromResponse<MockResult>(raw);
 
 function addMessage(role: string, text: string, type?: string) {
   const msgId = `msg-${++msgCounter}`;
@@ -970,7 +779,7 @@ function addMessage(role: string, text: string, type?: string) {
   // Reuse the last group if same role and it's not separated by seeds
   let group = lastMessageGroup;
   if (!group || lastMessageRole !== role) {
-    group = document.createElement('n-chat-messages');
+    group = document.createElement('n-agent-dialogue');
     group.setAttribute('data-role', role);
     group.setAttribute('sender', role === 'user' ? 'You' : 'Builder');
 
@@ -986,7 +795,7 @@ function addMessage(role: string, text: string, type?: string) {
     lastMessageRole = role;
   }
 
-  const message = document.createElement('n-chat-message');
+  const message = document.createElement('n-agent-dialogue-item');
   message.setAttribute('data-role', role);
   message.setAttribute('message-id', msgId);
   message.setAttribute('actions', role === 'assistant' ? 'copy,retry' : 'copy');
@@ -1010,7 +819,7 @@ function addSeedChips(options: SeedOption[]) {
   lastMessageGroup = null;
   lastMessageRole = null;
 
-  const group = document.createElement('n-chat-messages');
+  const group = document.createElement('n-agent-dialogue');
   group.setAttribute('data-role', 'assistant');
   group.setAttribute('sender', 'Builder');
   group.setAttribute('data-seeds', '');
@@ -1032,16 +841,7 @@ function clearSeeds() {
 
 // ── Insights pane (accumulating reasoning log) ──
 
-/** Strip markdown fences (```json ... ```) that LLMs sometimes add despite instructions. */
-function stripFences(raw: string): string {
-  const trimmed = raw.trim();
-  const fenceStart = /^```(?:json)?\s*\n?/;
-  const fenceEnd = /\n?```\s*$/;
-  if (fenceStart.test(trimmed) && fenceEnd.test(trimmed)) {
-    return trimmed.replace(fenceStart, '').replace(fenceEnd, '').trim();
-  }
-  return trimmed;
-}
+// stripFences imported from '../../chat/parsing/json-extractor.ts'
 
 let insightCounter = 0;
 
@@ -1588,7 +1388,7 @@ function dismissWelcome() {
 }
 
 // Dismiss on first user input (textarea focus or keydown)
-const textarea = document.querySelector<HTMLElement>('.builder-chat n-textarea');
+const textarea = document.querySelector<HTMLElement>('[data-panel="agent-chat"] n-textarea');
 if (textarea) {
   const onFirstInput = () => {
     dismissWelcome();

@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: light dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adia Health -- Style Guide</title>
+  <style>
+    /* ── Tokens (subset for standalone preview) ── */
+    :root {
+      --font-sans: "Suisse Int'l, Suisse Intl", system-ui, sans-serif;
+      --font-mono: "Suisse Int'l Mono, Suisse Intl Mono", ui-monospace, monospace;
+      --radius: 0.5rem;
+      --radius-sm: 0.375rem;
+
+      /* Accent (hue 230) */
+      --accent-050: oklch(0.933 0.01 230);
+      --accent-100: oklch(0.867 0.048 230);
+      --accent-200: oklch(0.8 0.086 230);
+      --accent-300: oklch(0.733 0.124 230);
+      --accent-400: oklch(0.667 0.162 230);
+      --accent-500: oklch(0.6 0.2 230);
+      --accent-600: oklch(0.525 0.162 230);
+      --accent-700: oklch(0.45 0.124 230);
+      --accent-800: oklch(0.375 0.086 230);
+      --accent-900: oklch(0.3 0.048 230);
+      --accent-950: oklch(0.225 0.01 230);
+
+      /* Neutral (hue 230, low chroma) */
+      --neutral-050: oklch(0.917 0.001 230);
+      --neutral-100: oklch(0.833 0.006 230);
+      --neutral-200: oklch(0.75 0.011 230);
+      --neutral-300: oklch(0.667 0.016 230);
+      --neutral-400: oklch(0.583 0.02 230);
+      --neutral-500: oklch(0.5 0.025 230);
+      --neutral-600: oklch(0.442 0.02 230);
+      --neutral-700: oklch(0.383 0.016 230);
+      --neutral-800: oklch(0.325 0.011 230);
+      --neutral-900: oklch(0.267 0.006 230);
+      --neutral-950: oklch(0.208 0.001 230);
+
+      /* Success (hue 150) */
+      --success-050: oklch(0.925 0.008 150);
+      --success-300: oklch(0.7 0.093 150);
+      --success-500: oklch(0.55 0.15 150);
+      --success-700: oklch(0.417 0.093 150);
+
+      /* Warning (hue 80) */
+      --warning-050: oklch(0.958 0.01 80);
+      --warning-300: oklch(0.833 0.118 80);
+      --warning-500: oklch(0.75 0.19 80);
+      --warning-700: oklch(0.55 0.118 80);
+
+      /* Danger (hue 20) */
+      --danger-050: oklch(0.917 0.009 20);
+      --danger-300: oklch(0.667 0.105 20);
+      --danger-500: oklch(0.5 0.17 20);
+      --danger-700: oklch(0.383 0.105 20);
+
+      /* Semantic (light mode) */
+      --bg: oklch(0.97 0.003 230);
+      --bg-panel: oklch(0.955 0.003 230);
+      --bg-card: oklch(0.985 0.003 230);
+      --ink: oklch(0.383 0.016 230);
+      --ink-strong: oklch(0.208 0.001 230);
+      --ink-muted: oklch(0.442 0.02 230);
+      --border: oklch(0.75 0.011 230 / 0.85);
+      --border-muted: oklch(0.833 0.006 230 / 0.85);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-scheme="light"]) {
+        --bg: oklch(0.18 0.003 230);
+        --bg-panel: oklch(0.195 0.003 230);
+        --bg-card: oklch(0.225 0.003 230);
+        --ink: oklch(0.667 0.016 230);
+        --ink-strong: oklch(0.917 0.001 230);
+        --ink-muted: oklch(0.583 0.02 230);
+        --border: oklch(0.325 0.011 230 / 0.85);
+        --border-muted: oklch(0.267 0.006 230 / 0.85);
+      }
+    }
+    [data-scheme="dark"] {
+      --bg: oklch(0.18 0.003 230);
+      --bg-panel: oklch(0.195 0.003 230);
+      --bg-card: oklch(0.225 0.003 230);
+      --ink: oklch(0.667 0.016 230);
+      --ink-strong: oklch(0.917 0.001 230);
+      --ink-muted: oklch(0.583 0.02 230);
+      --border: oklch(0.325 0.011 230 / 0.85);
+      --border-muted: oklch(0.267 0.006 230 / 0.85);
+    }
+
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      padding: 0;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* ── Layout ── */
+    .page { max-width: 960px; margin: 0 auto; padding: 2rem; }
+    .page > section { margin-bottom: 3rem; }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--ink-strong);
+      margin-bottom: 0.25rem;
+    }
+    .subtitle {
+      font-size: 1.125rem;
+      color: var(--ink-muted);
+      margin-bottom: 2rem;
+    }
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--ink-strong);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-muted);
+    }
+    h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--ink-strong);
+      margin-bottom: 0.75rem;
+      margin-top: 1.5rem;
+    }
+    p { margin-bottom: 1rem; }
+
+    /* ── Scheme Toggle ── */
+    .toggle-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 2rem;
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border-muted);
+      backdrop-filter: blur(8px);
+    }
+    .toggle-bar .brand {
+      font-weight: 600;
+      font-size: 0.875rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-strong);
+    }
+    .scheme-toggle {
+      display: flex;
+      gap: 0.25rem;
+      background: var(--bg);
+      border: 1px solid var(--border-muted);
+      border-radius: var(--radius);
+      padding: 0.125rem;
+    }
+    .scheme-toggle button {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.375rem 0.75rem;
+      border: none;
+      border-radius: calc(var(--radius) - 2px);
+      background: transparent;
+      color: var(--ink-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .scheme-toggle button.active {
+      background: var(--accent-500);
+      color: white;
+    }
+
+    /* ── Swatch Grid ── */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .swatch {
+      aspect-ratio: 1;
+      border-radius: var(--radius-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0.375rem;
+      font-size: 0.625rem;
+      font-family: var(--font-mono);
+      border: 1px solid var(--border-muted);
+    }
+    .swatch span {
+      opacity: 0.8;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* ── Type Specimens ── */
+    .type-specimen {
+      margin-bottom: 1.5rem;
+    }
+    .type-specimen .sample {
+      color: var(--ink-strong);
+      margin-bottom: 0.25rem;
+    }
+    .type-specimen .meta {
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ── Component Demos ── */
+    .demo-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary { background: var(--accent-500); color: white; }
+    .btn-primary:hover { background: var(--accent-400); }
+    .btn-secondary { background: var(--bg-panel); color: var(--accent-700); border: 1px solid var(--border-muted); }
+    .btn-outline { background: transparent; color: var(--accent-500); border: 1px solid var(--accent-200); }
+    .btn-ghost { background: transparent; color: var(--accent-500); border: 1px solid transparent; }
+    .btn-ghost:hover { background: var(--accent-050); }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.625rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .badge-accent { background: var(--accent-050); color: var(--accent-700); border: 1px solid var(--accent-200); }
+    .badge-success { background: var(--success-050); color: var(--success-700); border: 1px solid var(--success-300); }
+    .badge-warning { background: var(--warning-050); color: var(--warning-700); border: 1px solid var(--warning-300); }
+    .badge-danger { background: var(--danger-050); color: var(--danger-700); border: 1px solid var(--danger-300); }
+
+    .card-demo {
+      background: var(--bg-card);
+      border: 1px solid var(--border-muted);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .card-demo h4 {
+      font-weight: 600;
+      color: var(--ink-strong);
+      margin-bottom: 0.5rem;
+    }
+    .card-demo p {
+      font-size: 0.875rem;
+      color: var(--ink-muted);
+      margin: 0;
+    }
+
+    /* ── Voice ── */
+    .do-dont {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 640px) { .do-dont { grid-template-columns: 1fr; } }
+    .do-col, .dont-col {
+      padding: 1rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    .do-col { background: var(--success-050); border-left: 3px solid var(--success-500); }
+    .dont-col { background: var(--danger-050); border-left: 3px solid var(--danger-500); }
+    .do-col strong { color: var(--success-700); }
+    .dont-col strong { color: var(--danger-700); }
+
+    /* ── Intent Table ── */
+    .intent-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+    }
+    .intent-table th, .intent-table td {
+      text-align: left;
+      padding: 0.625rem 0.75rem;
+      border-bottom: 1px solid var(--border-muted);
+    }
+    .intent-table th {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-muted);
+    }
+    .intent-dot {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 0.5rem;
+    }
+
+    /* ── Spacing ── */
+    .spacing-demo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: flex-end;
+      margin-bottom: 1.5rem;
+    }
+    .spacing-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.375rem;
+    }
+    .spacing-block .bar {
+      background: var(--accent-200);
+      border-radius: 2px;
+      width: 2rem;
+    }
+    .spacing-block .lbl {
+      font-size: 0.625rem;
+      font-family: var(--font-mono);
+      color: var(--ink-muted);
+    }
+
+    /* ── Code Block ── */
+    .code-block {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-muted);
+      border-radius: var(--radius);
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      white-space: pre;
+      margin-bottom: 1rem;
+    }
+
+    /* ── Pillar Cards ── */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 720px) { .pillars { grid-template-columns: 1fr; } }
+    .pillar {
+      background: var(--bg-card);
+      border: 1px solid var(--border-muted);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      border-top: 3px solid var(--accent-500);
+    }
+    .pillar h4 { font-weight: 600; color: var(--ink-strong); margin-bottom: 0.5rem; font-size: 0.875rem; }
+    .pillar p { font-size: 0.8125rem; color: var(--ink-muted); margin: 0; line-height: 1.5; }
+
+    /* ── Logo ── */
+    .logo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 640px) { .logo-grid { grid-template-columns: 1fr; } }
+    .logo-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 2rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-muted);
+    }
+    .logo-box svg { width: 180px; height: auto; }
+    .logo-box-light { background: oklch(0.98 0 0); }
+    .logo-box-light svg { fill: oklch(0.15 0 0); }
+    .logo-box-dark { background: oklch(0.15 0.003 230); }
+    .logo-box-dark svg { fill: oklch(0.98 0 0); }
+    .logo-box-accent { background: var(--accent-500); }
+    .logo-box-accent svg { fill: white; }
+    .logo-box-adaptive { background: var(--bg-card); }
+    .logo-box-adaptive svg { fill: var(--ink-strong); }
+    .logo-label {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+    .logo-rules {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    .logo-rules li { margin-bottom: 0.375rem; }
+
+    /* ── App Icon ── */
+    .icon-grid {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .icon-box {
+      width: 96px;
+      height: 96px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-muted);
+    }
+    .icon-box svg { width: 96px; height: 96px; border-radius: var(--radius); }
+  </style>
+</head>
+<body>
+  <div class="toggle-bar">
+    <svg viewBox="0 0 1280 660" xmlns="http://www.w3.org/2000/svg" style="width: 64px; height: auto; fill: var(--ink-strong)">
+      <path d="M771.601 208.351C778.785 215.235 787.166 218.678 796.745 218.678C806.623 218.678 815.005 215.235 821.889 208.351C829.073 201.167 832.665 192.785 832.665 183.206C832.665 173.627 829.073 165.246 821.889 158.062C815.005 150.878 806.623 147.286 796.745 147.286C787.166 147.286 778.785 150.878 771.601 158.062C764.716 165.246 761.273 173.627 761.273 183.206C761.273 192.785 764.716 201.167 771.601 208.351Z"/>
+      <path d="M768.009 245.618V470.122H825.93V245.618H768.009Z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M1103.01 245.593H1045.09V272.084C1027.73 250.232 1003.33 239.307 971.899 239.307C941.966 239.307 916.223 250.831 894.67 273.88C873.417 296.63 862.791 324.618 862.791 357.844C862.791 391.071 873.417 419.208 894.67 442.257C916.223 465.007 941.966 476.382 971.899 476.382C1003.33 476.382 1027.73 465.456 1045.09 443.605V470.096H1103.01V245.593ZM982.676 421.154C964.715 421.154 949.898 415.317 938.224 403.643C926.55 391.669 920.713 376.403 920.713 357.844C920.713 339.285 926.55 324.169 938.224 312.495C949.898 300.521 964.715 294.534 982.676 294.534C1000.64 294.534 1015.45 300.521 1027.13 312.495C1039.1 324.169 1045.09 339.285 1045.09 357.844C1045.09 376.403 1039.1 391.669 1027.13 403.643C1015.45 415.317 1000.64 421.154 982.676 421.154Z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M661.618 155.838H719.54V470.142H661.618V443.651C644.555 465.503 620.309 476.429 588.879 476.429C558.645 476.429 532.753 465.054 511.2 442.304C489.947 419.255 479.321 391.117 479.321 357.891C479.321 324.664 489.947 296.676 511.2 273.926C532.753 250.877 558.645 239.353 588.879 239.353C620.309 239.353 644.555 250.279 661.618 272.13V155.838ZM554.754 403.689C566.728 415.364 581.694 421.201 599.655 421.201C617.615 421.201 632.432 415.364 644.106 403.689C655.781 391.716 661.618 376.45 661.618 357.891C661.618 339.332 655.781 324.215 644.106 312.541C632.432 300.568 617.615 294.581 599.655 294.581C581.694 294.581 566.728 300.568 554.754 312.541C543.08 324.215 537.243 339.332 537.243 357.891C537.243 376.45 543.08 391.716 554.754 403.689Z"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M388.023 413.567L406.881 470.142H474.232L363.777 155.838H286.997L176.99 470.142H243.892L262.75 413.567H388.023ZM325.611 227.23L368.716 355.646H282.507L325.611 227.23Z"/>
+    </svg>
+    <div class="scheme-toggle">
+      <button onclick="setScheme('light')" id="btn-light">Light</button>
+      <button onclick="setScheme('auto')" id="btn-auto" class="active">Auto</button>
+      <button onclick="setScheme('dark')" id="btn-dark">Dark</button>
+    </div>
+  </div>
+
+  <div class="page">
+
+    <!-- Header -->
+    <header style="margin-bottom: 3rem">
+      <!-- --
+      <div style="margin-bottom: 1.5rem">
+        <svg viewBox="0 0 1280 660" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 200px; height: auto; fill: var(--ink-strong)">
+          <path d="M771.601 208.351C778.785 215.235 787.166 218.678 796.745 218.678C806.623 218.678 815.005 215.235 821.889 208.351C829.073 201.167 832.665 192.785 832.665 183.206C832.665 173.627 829.073 165.246 821.889 158.062C815.005 150.878 806.623 147.286 796.745 147.286C787.166 147.286 778.785 150.878 771.601 158.062C764.716 165.246 761.273 173.627 761.273 183.206C761.273 192.785 764.716 201.167 771.601 208.351Z"/>
+          <path d="M768.009 245.618V470.122H825.93V245.618H768.009Z"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M1103.01 245.593H1045.09V272.084C1027.73 250.232 1003.33 239.307 971.899 239.307C941.966 239.307 916.223 250.831 894.67 273.88C873.417 296.63 862.791 324.618 862.791 357.844C862.791 391.071 873.417 419.208 894.67 442.257C916.223 465.007 941.966 476.382 971.899 476.382C1003.33 476.382 1027.73 465.456 1045.09 443.605V470.096H1103.01V245.593ZM982.676 421.154C964.715 421.154 949.898 415.317 938.224 403.643C926.55 391.669 920.713 376.403 920.713 357.844C920.713 339.285 926.55 324.169 938.224 312.495C949.898 300.521 964.715 294.534 982.676 294.534C1000.64 294.534 1015.45 300.521 1027.13 312.495C1039.1 324.169 1045.09 339.285 1045.09 357.844C1045.09 376.403 1039.1 391.669 1027.13 403.643C1015.45 415.317 1000.64 421.154 982.676 421.154Z"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M661.618 155.838H719.54V470.142H661.618V443.651C644.555 465.503 620.309 476.429 588.879 476.429C558.645 476.429 532.753 465.054 511.2 442.304C489.947 419.255 479.321 391.117 479.321 357.891C479.321 324.664 489.947 296.676 511.2 273.926C532.753 250.877 558.645 239.353 588.879 239.353C620.309 239.353 644.555 250.279 661.618 272.13V155.838ZM554.754 403.689C566.728 415.364 581.694 421.201 599.655 421.201C617.615 421.201 632.432 415.364 644.106 403.689C655.781 391.716 661.618 376.45 661.618 357.891C661.618 339.332 655.781 324.215 644.106 312.541C632.432 300.568 617.615 294.581 599.655 294.581C581.694 294.581 566.728 300.568 554.754 312.541C543.08 324.215 537.243 339.332 537.243 357.891C537.243 376.45 543.08 391.716 554.754 403.689Z"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M388.023 413.567L406.881 470.142H474.232L363.777 155.838H286.997L176.99 470.142H243.892L262.75 413.567H388.023ZM325.611 227.23L368.716 355.646H282.507L325.611 227.23Z"/>
+        </svg>
+      </div>
+      -->
+      <h1>Adia Health</h1>
+      <p class="subtitle">Brand & Style Guide -- OKLCH Design Tokens, Suisse Intl Typography, Clinical Voice</p>
+      <div class="pillars">
+        <div class="pillar">
+          <h4>Clinical Accuracy & Trust</h4>
+          <p>Safe, explainable intelligence that clinicians and systems can trust.</p>
+        </div>
+        <div class="pillar">
+          <h4>Personal & Proactive Health</h4>
+          <p>Care that adapts to each person while strengthening communities.</p>
+        </div>
+        <div class="pillar">
+          <h4>Intelligence & Infrastructure</h4>
+          <p>The connected, intelligent platform that powers healthcare at scale.</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- 1. Colors -->
+    <section>
+      <h2>1. Colors</h2>
+      <p>Built on OKLCH color science. Six intent families, each with an 11-step ramp. Accent hue 230 (calm clinical blue).</p>
+
+      <h3>Accent (hue 230)</h3>
+      <div class="swatch-grid" id="accent-swatches"></div>
+
+      <h3>Neutral (hue 230, low chroma)</h3>
+      <div class="swatch-grid" id="neutral-swatches"></div>
+
+      <h3>Clinical Intents</h3>
+      <table class="intent-table">
+        <thead>
+          <tr><th>Intent</th><th>Hue</th><th>Use</th><th>Sample</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="intent-dot" style="background: var(--accent-500)"></span>Accent</td>
+            <td>230</td><td>Primary actions, navigation, brand</td>
+            <td><span class="badge badge-accent">Active</span></td>
+          </tr>
+          <tr>
+            <td><span class="intent-dot" style="background: var(--success-500)"></span>Success</td>
+            <td>150</td><td>Normal results, confirmations</td>
+            <td><span class="badge badge-success">Normal</span></td>
+          </tr>
+          <tr>
+            <td><span class="intent-dot" style="background: var(--warning-500)"></span>Warning</td>
+            <td>80</td><td>Clinical alerts, care gaps</td>
+            <td><span class="badge badge-warning">Overdue</span></td>
+          </tr>
+          <tr>
+            <td><span class="intent-dot" style="background: var(--danger-500)"></span>Danger</td>
+            <td>20</td><td>Critical alerts, contraindications</td>
+            <td><span class="badge badge-danger">Critical</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 2. Typography -->
+    <section>
+      <h2>2. Typography</h2>
+      <p>SuisseIntl is the sole typeface. Clinical interfaces favor clarity over editorial expression.</p>
+
+      <div class="type-specimen">
+        <div class="sample" style="font-size: 2.5rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1">Display / H1</div>
+        <div class="meta">SuisseIntl 600 -- 2.5rem -- -0.02em tracking</div>
+      </div>
+      <div class="type-specimen">
+        <div class="sample" style="font-size: 1.75rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2">Heading 2</div>
+        <div class="meta">SuisseIntl 600 -- 1.75rem -- -0.01em tracking</div>
+      </div>
+      <div class="type-specimen">
+        <div class="sample" style="font-size: 1.25rem; font-weight: 600; line-height: 1.3">Heading 3</div>
+        <div class="meta">SuisseIntl 600 -- 1.25rem</div>
+      </div>
+      <div class="type-specimen">
+        <div class="sample" style="font-size: 1rem; line-height: 1.5">Body text -- the quick brown fox jumps over the lazy dog. Clinical precision meets readable prose.</div>
+        <div class="meta">SuisseIntl 400 -- 1rem -- 1.5 line-height</div>
+      </div>
+      <div class="type-specimen">
+        <div class="sample" style="font-size: 0.875rem; color: var(--ink-muted); line-height: 1.4">Small / Caption -- secondary information, metadata, timestamps</div>
+        <div class="meta">SuisseIntl 400 -- 0.875rem</div>
+      </div>
+      <div class="type-specimen">
+        <div class="sample" style="font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-muted)">Label / Clinical Code</div>
+        <div class="meta">SuisseIntl 500 -- 0.75rem -- uppercase -- 0.04em tracking</div>
+      </div>
+      <div class="type-specimen">
+        <div class="sample" style="font-family: var(--font-mono); font-size: 0.8125rem">ICD-10: K90.0 -- HbA1c: 6.2% -- 2026-03-11T14:30:00Z</div>
+        <div class="meta">SuisseIntl Mono 400 -- 0.8125rem -- clinical codes, lab values, timestamps</div>
+      </div>
+    </section>
+
+    <!-- 3. Voice & Copy -->
+    <section>
+      <h2>3. Voice & Copy</h2>
+      <p style="margin-bottom: 1.5rem"><strong>Clear. Calm. Confident. Human.</strong> -- Clinical language demands precision without anxiety.</p>
+
+      <h3>Do / Don't</h3>
+      <div class="do-dont">
+        <div class="do-col">
+          <strong>Do</strong><br><br>
+          "See how the differential diagnosis evolved with each new result."<br><br>
+          "3 care gaps identified. Here's the recommended action for each."<br><br>
+          "Lab results updated the working diagnosis from 30% to 85% confidence."
+        </div>
+        <div class="dont-col">
+          <strong>Don't</strong><br><br>
+          "Our revolutionary AI-powered platform leverages cutting-edge..."<br><br>
+          "Comprehensive, robust solution that seamlessly integrates..."<br><br>
+          "Utilizing next-generation machine learning algorithms..."
+        </div>
+      </div>
+
+      <h3>Terminology</h3>
+      <div class="card-demo">
+        <p><strong>Decision trace</strong> (not "audit log") -- our term for captured clinical reasoning</p>
+        <p style="margin-top: 0.5rem"><strong>Clinical Context Graph</strong> -- our structured knowledge representation</p>
+        <p style="margin-top: 0.5rem"><strong>Care gap</strong> (not "compliance gap") -- patient-centered framing</p>
+      </div>
+    </section>
+
+    <!-- 4. Components -->
+    <section>
+      <h2>4. Components</h2>
+
+      <h3>Buttons</h3>
+      <div class="demo-row">
+        <button class="btn btn-primary">Primary</button>
+        <button class="btn btn-secondary">Secondary</button>
+        <button class="btn btn-outline">Outline</button>
+        <button class="btn btn-ghost">Ghost</button>
+      </div>
+
+      <h3>Badges</h3>
+      <div class="demo-row">
+        <span class="badge badge-accent">Active</span>
+        <span class="badge badge-success">Normal</span>
+        <span class="badge badge-warning">Overdue</span>
+        <span class="badge badge-danger">Critical</span>
+      </div>
+
+      <h3>Card</h3>
+      <div class="card-demo">
+        <h4>Patient Summary</h4>
+        <p>Lab results updated the working diagnosis. Differential diagnosis confidence shifted from 30% to 85% based on positive tTG-IgA results.</p>
+      </div>
+
+      <h3>Clinical Alert (Danger)</h3>
+      <div style="background: var(--danger-050); border: 1px solid var(--danger-300); border-left: 3px solid var(--danger-500); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem">
+        <div style="font-weight: 600; color: var(--danger-700); margin-bottom: 0.25rem">Drug Interaction Detected</div>
+        <div style="font-size: 0.875rem; color: var(--danger-700)">Warfarin + Aspirin -- increased bleeding risk. Review with prescribing physician.</div>
+      </div>
+
+      <h3>Clinical Alert (Warning)</h3>
+      <div style="background: var(--warning-050); border: 1px solid var(--warning-300); border-left: 3px solid var(--warning-500); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem">
+        <div style="font-weight: 600; color: var(--warning-700); margin-bottom: 0.25rem">Screening Overdue</div>
+        <div style="font-size: 0.875rem; color: var(--warning-700)">Colonoscopy screening overdue by 8 months. Last completed: 2025-07-14.</div>
+      </div>
+
+      <h3>Code Example</h3>
+      <div class="code-block">/* Using Adia design tokens */
+.patient-card {
+  background: var(--n-card-neutral);
+  color: var(--n-ink-neutral);
+  border: 1px solid var(--n-border-muted-neutral);
+  border-radius: var(--n-radius);
+  padding: var(--n-space-6);
+}
+
+.alert-critical {
+  background: var(--n-panel-danger);
+  color: var(--n-ink-danger);
+  border-left: 3px solid var(--n-surface-danger);
+}</div>
+    </section>
+
+    <!-- 5. Spacing -->
+    <section>
+      <h2>5. Spacing</h2>
+      <p>Base unit: 4px. Consistent spatial rhythm across all surfaces.</p>
+      <div class="spacing-demo" id="spacing-demo"></div>
+    </section>
+
+    <!-- 6. Data Viz -->
+    <section>
+      <h2>6. Data Visualization</h2>
+      <p>Token-based colors. SuisseIntl throughout. Intent families encode clinical meaning.</p>
+
+      <h3>Chart Color Ramp (Accent)</h3>
+      <div style="display: flex; gap: 2px; margin-bottom: 1.5rem; border-radius: var(--radius); overflow: hidden; height: 3rem">
+        <div style="flex:1; background: var(--accent-050)"></div>
+        <div style="flex:1; background: var(--accent-100)"></div>
+        <div style="flex:1; background: var(--accent-200)"></div>
+        <div style="flex:1; background: var(--accent-300)"></div>
+        <div style="flex:1; background: var(--accent-400)"></div>
+        <div style="flex:1; background: var(--accent-500)"></div>
+        <div style="flex:1; background: var(--accent-600)"></div>
+        <div style="flex:1; background: var(--accent-700)"></div>
+        <div style="flex:1; background: var(--accent-800)"></div>
+        <div style="flex:1; background: var(--accent-900)"></div>
+        <div style="flex:1; background: var(--accent-950)"></div>
+      </div>
+
+      <h3>Rules</h3>
+      <div class="card-demo">
+        <p>1. Use intent colors -- success for positive trends, danger for negative, accent for neutral series</p>
+        <p>2. SuisseIntl Mono for axis labels, values, and annotations</p>
+        <p>3. Token-based fills only -- no hardcoded hex values</p>
+        <p>4. Must work in both light and dark mode</p>
+        <p>5. No gradients -- flat OKLCH fills only</p>
+      </div>
+    </section>
+
+    <!-- 7. Logo -->
+    <section>
+      <h2>7. Logo</h2>
+      <p>The Adia wordmark uses negative space in the "A" letterform. Always maintain clear space and contrast.</p>
+
+      <div class="logo-grid">
+        <div>
+          <div class="logo-box logo-box-light">
+            <svg viewBox="0 0 1280 660" xmlns="http://www.w3.org/2000/svg">
+              <path d="M771.601 208.351C778.785 215.235 787.166 218.678 796.745 218.678C806.623 218.678 815.005 215.235 821.889 208.351C829.073 201.167 832.665 192.785 832.665 183.206C832.665 173.627 829.073 165.246 821.889 158.062C815.005 150.878 806.623 147.286 796.745 147.286C787.166 147.286 778.785 150.878 771.601 158.062C764.716 165.246 761.273 173.627 761.273 183.206C761.273 192.785 764.716 201.167 771.601 208.351Z"/>
+              <path d="M768.009 245.618V470.122H825.93V245.618H768.009Z"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M1103.01 245.593H1045.09V272.084C1027.73 250.232 1003.33 239.307 971.899 239.307C941.966 239.307 916.223 250.831 894.67 273.88C873.417 296.63 862.791 324.618 862.791 357.844C862.791 391.071 873.417 419.208 894.67 442.257C916.223 465.007 941.966 476.382 971.899 476.382C1003.33 476.382 1027.73 465.456 1045.09 443.605V470.096H1103.01V245.593ZM982.676 421.154C964.715 421.154 949.898 415.317 938.224 403.643C926.55 391.669 920.713 376.403 920.713 357.844C920.713 339.285 926.55 324.169 938.224 312.495C949.898 300.521 964.715 294.534 982.676 294.534C1000.64 294.534 1015.45 300.521 1027.13 312.495C1039.1 324.169 1045.09 339.285 1045.09 357.844C1045.09 376.403 1039.1 391.669 1027.13 403.643C1015.45 415.317 1000.64 421.154 982.676 421.154Z"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M661.618 155.838H719.54V470.142H661.618V443.651C644.555 465.503 620.309 476.429 588.879 476.429C558.645 476.429 532.753 465.054 511.2 442.304C489.947 419.255 479.321 391.117 479.321 357.891C479.321 324.664 489.947 296.676 511.2 273.926C532.753 250.877 558.645 239.353 588.879 239.353C620.309 239.353 644.555 250.279 661.618 272.13V155.838ZM554.754 403.689C566.728 415.364 581.694 421.201 599.655 421.201C617.615 421.201 632.432 415.364 644.106 403.689C655.781 391.716 661.618 376.45 661.618 357.891C661.618 339.332 655.781 324.215 644.106 312.541C632.432 300.568 617.615 294.581 599.655 294.581C581.694 294.581 566.728 300.568 554.754 312.541C543.08 324.215 537.243 339.332 537.243 357.891C537.243 376.45 543.08 391.716 554.754 403.689Z"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M388.023 413.567L406.881 470.142H474.232L363.777 155.838H286.997L176.99 470.142H243.892L262.75 413.567H388.023ZM325.611 227.23L368.716 355.646H282.507L325.611 227.23Z"/>
+            </svg>
+          </div>
+          <div class="logo-label">On light</div>
+        </div>
+        <div>
+          <div class="logo-box logo-box-dark">
+            <svg viewBox="0 0 1280 660" xmlns="http://www.w3.org/2000/svg">
+              <path d="M771.601 208.351C778.785 215.235 787.166 218.678 796.745 218.678C806.623 218.678 815.005 215.235 821.889 208.351C829.073 201.167 832.665 192.785 832.665 183.206C832.665 173.627 829.073 165.246 821.889 158.062C815.005 150.878 806.623 147.286 796.745 147.286C787.166 147.286 778.785 150.878 771.601 158.062C764.716 165.246 761.273 173.627 761.273 183.206C761.273 192.785 764.716 201.167 771.601 208.351Z"/>
+              <path d="M768.009 245.618V470.122H825.93V245.618H768.009Z"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M1103.01 245.593H1045.09V272.084C1027.73 250.232 1003.33 239.307 971.899 239.307C941.966 239.307 916.223 250.831 894.67 273.88C873.417 296.63 862.791 324.618 862.791 357.844C862.791 391.071 873.417 419.208 894.67 442.257C916.223 465.007 941.966 476.382 971.899 476.382C1003.33 476.382 1027.73 465.456 1045.09 443.605V470.096H1103.01V245.593ZM982.676 421.154C964.715 421.154 949.898 415.317 938.224 403.643C926.55 391.669 920.713 376.403 920.713 357.844C920.713 339.285 926.55 324.169 938.224 312.495C949.898 300.521 964.715 294.534 982.676 294.534C1000.64 294.534 1015.45 300.521 1027.13 312.495C1039.1 324.169 1045.09 339.285 1045.09 357.844C1045.09 376.403 1039.1 391.669 1027.13 403.643C1015.45 415.317 1000.64 421.154 982.676 421.154Z"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M661.618 155.838H719.54V470.142H661.618V443.651C644.555 465.503 620.309 476.429 588.879 476.429C558.645 476.429 532.753 465.054 511.2 442.304C489.947 419.255 479.321 391.117 479.321 357.891C479.321 324.664 489.947 296.676 511.2 273.926C532.753 250.877 558.645 239.353 588.879 239.353C620.309 239.353 644.555 250.279 661.618 272.13V155.838ZM554.754 403.689C566.728 415.364 581.694 421.201 599.655 421.201C617.615 421.201 632.432 415.364 644.106 403.689C655.781 391.716 661.618 376.45 661.618 357.891C661.618 339.332 655.781 324.215 644.106 312.541C632.432 300.568 617.615 294.581 599.655 294.581C581.694 294.581 566.728 300.568 554.754 312.541C543.08 324.215 537.243 339.332 537.243 357.891C537.243 376.45 543.08 391.716 554.754 403.689Z"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M388.023 413.567L406.881 470.142H474.232L363.777 155.838H286.997L176.99 470.142H243.892L262.75 413.567H388.023ZM325.611 227.23L368.716 355.646H282.507L325.611 227.23Z"/>
+            </svg>
+          </div>
+          <div class="logo-label">On dark</div>
+        </div>
+        <div>
+          <div class="logo-box logo-box-accent">
+            <svg viewBox="0 0 1280 660" xmlns="http://www.w3.org/2000/svg">
+              <path d="M771.601 208.351C778.785 215.235 787.166 218.678 796.745 218.678C806.623 218.678 815.005 215.235 821.889 208.351C829.073 201.167 832.665 192.785 832.665 183.206C832.665 173.627 829.073 165.246 821.889 158.062C815.005 150.878 806.623 147.286 796.745 147.286C787.166 147.286 778.785 150.878 771.601 158.062C764.716 165.246 761.273 173.627 761.273 183.206C761.273 192.785 764.716 201.167 771.601 208.351Z"/>
+              <path d="M768.009 245.618V470.122H825.93V245.618H768.009Z"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M1103.01 245.593H1045.09V272.084C1027.73 250.232 1003.33 239.307 971.899 239.307C941.966 239.307 916.223 250.831 894.67 273.88C873.417 296.63 862.791 324.618 862.791 357.844C862.791 391.071 873.417 419.208 894.67 442.257C916.223 465.007 941.966 476.382 971.899 476.382C1003.33 476.382 1027.73 465.456 1045.09 443.605V470.096H1103.01V245.593ZM982.676 421.154C964.715 421.154 949.898 415.317 938.224 403.643C926.55 391.669 920.713 376.403 920.713 357.844C920.713 339.285 926.55 324.169 938.224 312.495C949.898 300.521 964.715 294.534 982.676 294.534C1000.64 294.534 1015.45 300.521 1027.13 312.495C1039.1 324.169 1045.09 339.285 1045.09 357.844C1045.09 376.403 1039.1 391.669 1027.13 403.643C1015.45 415.317 1000.64 421.154 982.676 421.154Z"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M661.618 155.838H719.54V470.142H661.618V443.651C644.555 465.503 620.309 476.429 588.879 476.429C558.645 476.429 532.753 465.054 511.2 442.304C489.947 419.255 479.321 391.117 479.321 357.891C479.321 324.664 489.947 296.676 511.2 273.926C532.753 250.877 558.645 239.353 588.879 239.353C620.309 239.353 644.555 250.279 661.618 272.13V155.838ZM554.754 403.689C566.728 415.364 581.694 421.201 599.655 421.201C617.615 421.201 632.432 415.364 644.106 403.689C655.781 391.716 661.618 376.45 661.618 357.891C661.618 339.332 655.781 324.215 644.106 312.541C632.432 300.568 617.615 294.581 599.655 294.581C581.694 294.581 566.728 300.568 554.754 312.541C543.08 324.215 537.243 339.332 537.243 357.891C537.243 376.45 543.08 391.716 554.754 403.689Z"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M388.023 413.567L406.881 470.142H474.232L363.777 155.838H286.997L176.99 470.142H243.892L262.75 413.567H388.023ZM325.611 227.23L368.716 355.646H282.507L325.611 227.23Z"/>
+            </svg>
+          </div>
+          <div class="logo-label">On accent</div>
+        </div>
+        <div>
+          <div class="logo-box logo-box-adaptive">
+            <svg viewBox="0 0 1280 660" xmlns="http://www.w3.org/2000/svg">
+              <path d="M771.601 208.351C778.785 215.235 787.166 218.678 796.745 218.678C806.623 218.678 815.005 215.235 821.889 208.351C829.073 201.167 832.665 192.785 832.665 183.206C832.665 173.627 829.073 165.246 821.889 158.062C815.005 150.878 806.623 147.286 796.745 147.286C787.166 147.286 778.785 150.878 771.601 158.062C764.716 165.246 761.273 173.627 761.273 183.206C761.273 192.785 764.716 201.167 771.601 208.351Z"/>
+              <path d="M768.009 245.618V470.122H825.93V245.618H768.009Z"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M1103.01 245.593H1045.09V272.084C1027.73 250.232 1003.33 239.307 971.899 239.307C941.966 239.307 916.223 250.831 894.67 273.88C873.417 296.63 862.791 324.618 862.791 357.844C862.791 391.071 873.417 419.208 894.67 442.257C916.223 465.007 941.966 476.382 971.899 476.382C1003.33 476.382 1027.73 465.456 1045.09 443.605V470.096H1103.01V245.593ZM982.676 421.154C964.715 421.154 949.898 415.317 938.224 403.643C926.55 391.669 920.713 376.403 920.713 357.844C920.713 339.285 926.55 324.169 938.224 312.495C949.898 300.521 964.715 294.534 982.676 294.534C1000.64 294.534 1015.45 300.521 1027.13 312.495C1039.1 324.169 1045.09 339.285 1045.09 357.844C1045.09 376.403 1039.1 391.669 1027.13 403.643C1015.45 415.317 1000.64 421.154 982.676 421.154Z"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M661.618 155.838H719.54V470.142H661.618V443.651C644.555 465.503 620.309 476.429 588.879 476.429C558.645 476.429 532.753 465.054 511.2 442.304C489.947 419.255 479.321 391.117 479.321 357.891C479.321 324.664 489.947 296.676 511.2 273.926C532.753 250.877 558.645 239.353 588.879 239.353C620.309 239.353 644.555 250.279 661.618 272.13V155.838ZM554.754 403.689C566.728 415.364 581.694 421.201 599.655 421.201C617.615 421.201 632.432 415.364 644.106 403.689C655.781 391.716 661.618 376.45 661.618 357.891C661.618 339.332 655.781 324.215 644.106 312.541C632.432 300.568 617.615 294.581 599.655 294.581C581.694 294.581 566.728 300.568 554.754 312.541C543.08 324.215 537.243 339.332 537.243 357.891C537.243 376.45 543.08 391.716 554.754 403.689Z"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M388.023 413.567L406.881 470.142H474.232L363.777 155.838H286.997L176.99 470.142H243.892L262.75 413.567H388.023ZM325.611 227.23L368.716 355.646H282.507L325.611 227.23Z"/>
+            </svg>
+          </div>
+          <div class="logo-label">Adaptive (follows color-scheme)</div>
+        </div>
+      </div>
+
+      <h3>App Icon</h3>
+      <p style="margin-bottom: 1rem; font-size: 0.875rem; color: var(--ink-muted)">Square mark with black fill and white wordmark. The "A" negative-space triangle is preserved at icon scale.</p>
+      <div class="icon-grid">
+        <div>
+          <div class="icon-box" style="background: none; border: none">
+            <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+              <rect width="96" height="96" fill="black" rx="8"/>
+              <path d="M57.2323 38.7479C57.7908 39.2832 58.4425 39.5509 59.1873 39.5509C59.9553 39.5509 60.607 39.2832 61.1423 38.7479C61.7009 38.1893 61.9802 37.5377 61.9802 36.7929C61.9802 36.0481 61.7009 35.3965 61.1423 34.8379C60.607 34.2793 59.9553 34 59.1873 34C58.4425 34 57.7908 34.2793 57.2323 34.8379C56.6969 35.3965 56.4293 36.0481 56.4293 36.7929C56.4293 37.5377 56.6969 38.1893 57.2323 38.7479Z" fill="white"/>
+              <path d="M56.953 41.6456V59.1012H61.4565V41.6456H56.953Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M83 41.6436H78.4965V43.7033C77.1466 42.0043 75.2497 41.1548 72.8059 41.1548C70.4785 41.1548 68.4769 42.0509 66.8012 43.843C65.1487 45.6118 64.3225 47.7879 64.3225 50.3714C64.3225 52.9548 65.1487 55.1426 66.8012 56.9347C68.4769 58.7035 70.4785 59.5879 72.8059 59.5879C75.2497 59.5879 77.1466 58.7384 78.4965 57.0394V59.0992H83V41.6436ZM73.6438 55.2939C72.2473 55.2939 71.0953 54.84 70.1876 53.9323C69.2799 53.0014 68.826 51.8144 68.826 50.3714C68.826 48.9284 69.2799 47.753 70.1876 46.8453C71.0953 45.9144 72.2473 45.4489 73.6438 45.4489C75.0402 45.4489 76.1923 45.9144 77.1 46.8453C78.031 47.753 78.4965 48.9284 78.4965 50.3714C78.4965 51.8144 78.031 53.0014 77.1 53.9323C76.1923 54.84 75.0402 55.2939 73.6438 55.2939Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M48.6808 34.6649H53.1844V59.1028H48.6808V57.043C47.3542 58.7421 45.469 59.5916 43.0252 59.5916C40.6745 59.5916 38.6613 58.7071 36.9856 56.9383C35.3331 55.1462 34.5069 52.9584 34.5069 50.375C34.5069 47.7916 35.3331 45.6154 36.9856 43.8466C38.6613 42.0545 40.6745 41.1584 43.0252 41.1584C45.469 41.1584 47.3542 42.0079 48.6808 43.7069V34.6649ZM40.372 53.9359C41.3029 54.8436 42.4666 55.2975 43.8631 55.2975C45.2595 55.2975 46.4116 54.8436 47.3193 53.9359C48.227 53.005 48.6808 51.818 48.6808 50.375C48.6808 48.932 48.227 47.7567 47.3193 46.849C46.4116 45.918 45.2595 45.4525 43.8631 45.4525C42.4666 45.4525 41.3029 45.918 40.372 46.849C39.4643 47.7567 39.0104 48.932 39.0104 50.375C39.0104 51.818 39.4643 53.005 40.372 53.9359Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4083 54.704L28.8746 59.1028H34.1112L25.5231 34.6649H19.5533L11 59.1028H16.2018L17.668 54.704H27.4083ZM22.5556 40.2158L25.9071 50.2004H19.2041L22.5556 40.2158Z" fill="white"/>
+            </svg>
+          </div>
+          <div class="logo-label">Default</div>
+        </div>
+        <div>
+          <div class="icon-box" style="background: none; border: none">
+            <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+              <rect width="96" height="96" fill="oklch(0.15 0.003 230)" rx="8"/>
+              <path d="M57.2323 38.7479C57.7908 39.2832 58.4425 39.5509 59.1873 39.5509C59.9553 39.5509 60.607 39.2832 61.1423 38.7479C61.7009 38.1893 61.9802 37.5377 61.9802 36.7929C61.9802 36.0481 61.7009 35.3965 61.1423 34.8379C60.607 34.2793 59.9553 34 59.1873 34C58.4425 34 57.7908 34.2793 57.2323 34.8379C56.6969 35.3965 56.4293 36.0481 56.4293 36.7929C56.4293 37.5377 56.6969 38.1893 57.2323 38.7479Z" fill="white"/>
+              <path d="M56.953 41.6456V59.1012H61.4565V41.6456H56.953Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M83 41.6436H78.4965V43.7033C77.1466 42.0043 75.2497 41.1548 72.8059 41.1548C70.4785 41.1548 68.4769 42.0509 66.8012 43.843C65.1487 45.6118 64.3225 47.7879 64.3225 50.3714C64.3225 52.9548 65.1487 55.1426 66.8012 56.9347C68.4769 58.7035 70.4785 59.5879 72.8059 59.5879C75.2497 59.5879 77.1466 58.7384 78.4965 57.0394V59.0992H83V41.6436ZM73.6438 55.2939C72.2473 55.2939 71.0953 54.84 70.1876 53.9323C69.2799 53.0014 68.826 51.8144 68.826 50.3714C68.826 48.9284 69.2799 47.753 70.1876 46.8453C71.0953 45.9144 72.2473 45.4489 73.6438 45.4489C75.0402 45.4489 76.1923 45.9144 77.1 46.8453C78.031 47.753 78.4965 48.9284 78.4965 50.3714C78.4965 51.8144 78.031 53.0014 77.1 53.9323C76.1923 54.84 75.0402 55.2939 73.6438 55.2939Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M48.6808 34.6649H53.1844V59.1028H48.6808V57.043C47.3542 58.7421 45.469 59.5916 43.0252 59.5916C40.6745 59.5916 38.6613 58.7071 36.9856 56.9383C35.3331 55.1462 34.5069 52.9584 34.5069 50.375C34.5069 47.7916 35.3331 45.6154 36.9856 43.8466C38.6613 42.0545 40.6745 41.1584 43.0252 41.1584C45.469 41.1584 47.3542 42.0079 48.6808 43.7069V34.6649ZM40.372 53.9359C41.3029 54.8436 42.4666 55.2975 43.8631 55.2975C45.2595 55.2975 46.4116 54.8436 47.3193 53.9359C48.227 53.005 48.6808 51.818 48.6808 50.375C48.6808 48.932 48.227 47.7567 47.3193 46.849C46.4116 45.918 45.2595 45.4525 43.8631 45.4525C42.4666 45.4525 41.3029 45.918 40.372 46.849C39.4643 47.7567 39.0104 48.932 39.0104 50.375C39.0104 51.818 39.4643 53.005 40.372 53.9359Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4083 54.704L28.8746 59.1028H34.1112L25.5231 34.6649H19.5533L11 59.1028H16.2018L17.668 54.704H27.4083ZM22.5556 40.2158L25.9071 50.2004H19.2041L22.5556 40.2158Z" fill="white"/>
+            </svg>
+          </div>
+          <div class="logo-label">Brand dark</div>
+        </div>
+        <div>
+          <div class="icon-box" style="background: none; border: none">
+            <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+              <rect width="96" height="96" rx="8" fill="oklch(0.6 0.2 230)"/>
+              <path d="M57.2323 38.7479C57.7908 39.2832 58.4425 39.5509 59.1873 39.5509C59.9553 39.5509 60.607 39.2832 61.1423 38.7479C61.7009 38.1893 61.9802 37.5377 61.9802 36.7929C61.9802 36.0481 61.7009 35.3965 61.1423 34.8379C60.607 34.2793 59.9553 34 59.1873 34C58.4425 34 57.7908 34.2793 57.2323 34.8379C56.6969 35.3965 56.4293 36.0481 56.4293 36.7929C56.4293 37.5377 56.6969 38.1893 57.2323 38.7479Z" fill="white"/>
+              <path d="M56.953 41.6456V59.1012H61.4565V41.6456H56.953Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M83 41.6436H78.4965V43.7033C77.1466 42.0043 75.2497 41.1548 72.8059 41.1548C70.4785 41.1548 68.4769 42.0509 66.8012 43.843C65.1487 45.6118 64.3225 47.7879 64.3225 50.3714C64.3225 52.9548 65.1487 55.1426 66.8012 56.9347C68.4769 58.7035 70.4785 59.5879 72.8059 59.5879C75.2497 59.5879 77.1466 58.7384 78.4965 57.0394V59.0992H83V41.6436ZM73.6438 55.2939C72.2473 55.2939 71.0953 54.84 70.1876 53.9323C69.2799 53.0014 68.826 51.8144 68.826 50.3714C68.826 48.9284 69.2799 47.753 70.1876 46.8453C71.0953 45.9144 72.2473 45.4489 73.6438 45.4489C75.0402 45.4489 76.1923 45.9144 77.1 46.8453C78.031 47.753 78.4965 48.9284 78.4965 50.3714C78.4965 51.8144 78.031 53.0014 77.1 53.9323C76.1923 54.84 75.0402 55.2939 73.6438 55.2939Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M48.6808 34.6649H53.1844V59.1028H48.6808V57.043C47.3542 58.7421 45.469 59.5916 43.0252 59.5916C40.6745 59.5916 38.6613 58.7071 36.9856 56.9383C35.3331 55.1462 34.5069 52.9584 34.5069 50.375C34.5069 47.7916 35.3331 45.6154 36.9856 43.8466C38.6613 42.0545 40.6745 41.1584 43.0252 41.1584C45.469 41.1584 47.3542 42.0079 48.6808 43.7069V34.6649ZM40.372 53.9359C41.3029 54.8436 42.4666 55.2975 43.8631 55.2975C45.2595 55.2975 46.4116 54.8436 47.3193 53.9359C48.227 53.005 48.6808 51.818 48.6808 50.375C48.6808 48.932 48.227 47.7567 47.3193 46.849C46.4116 45.918 45.2595 45.4525 43.8631 45.4525C42.4666 45.4525 41.3029 45.918 40.372 46.849C39.4643 47.7567 39.0104 48.932 39.0104 50.375C39.0104 51.818 39.4643 53.005 40.372 53.9359Z" fill="white"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4083 54.704L28.8746 59.1028H34.1112L25.5231 34.6649H19.5533L11 59.1028H16.2018L17.668 54.704H27.4083ZM22.5556 40.2158L25.9071 50.2004H19.2041L22.5556 40.2158Z" fill="white"/>
+            </svg>
+          </div>
+          <div class="logo-label">Accent</div>
+        </div>
+        <div>
+          <div class="icon-box" style="background: none; border: none">
+            <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+              <rect width="96" height="96" rx="8" fill="white" stroke="oklch(0.833 0.006 230 / 0.85)" stroke-width="1"/>
+              <path d="M57.2323 38.7479C57.7908 39.2832 58.4425 39.5509 59.1873 39.5509C59.9553 39.5509 60.607 39.2832 61.1423 38.7479C61.7009 38.1893 61.9802 37.5377 61.9802 36.7929C61.9802 36.0481 61.7009 35.3965 61.1423 34.8379C60.607 34.2793 59.9553 34 59.1873 34C58.4425 34 57.7908 34.2793 57.2323 34.8379C56.6969 35.3965 56.4293 36.0481 56.4293 36.7929C56.4293 37.5377 56.6969 38.1893 57.2323 38.7479Z" fill="black"/>
+              <path d="M56.953 41.6456V59.1012H61.4565V41.6456H56.953Z" fill="black"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M83 41.6436H78.4965V43.7033C77.1466 42.0043 75.2497 41.1548 72.8059 41.1548C70.4785 41.1548 68.4769 42.0509 66.8012 43.843C65.1487 45.6118 64.3225 47.7879 64.3225 50.3714C64.3225 52.9548 65.1487 55.1426 66.8012 56.9347C68.4769 58.7035 70.4785 59.5879 72.8059 59.5879C75.2497 59.5879 77.1466 58.7384 78.4965 57.0394V59.0992H83V41.6436ZM73.6438 55.2939C72.2473 55.2939 71.0953 54.84 70.1876 53.9323C69.2799 53.0014 68.826 51.8144 68.826 50.3714C68.826 48.9284 69.2799 47.753 70.1876 46.8453C71.0953 45.9144 72.2473 45.4489 73.6438 45.4489C75.0402 45.4489 76.1923 45.9144 77.1 46.8453C78.031 47.753 78.4965 48.9284 78.4965 50.3714C78.4965 51.8144 78.031 53.0014 77.1 53.9323C76.1923 54.84 75.0402 55.2939 73.6438 55.2939Z" fill="black"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M48.6808 34.6649H53.1844V59.1028H48.6808V57.043C47.3542 58.7421 45.469 59.5916 43.0252 59.5916C40.6745 59.5916 38.6613 58.7071 36.9856 56.9383C35.3331 55.1462 34.5069 52.9584 34.5069 50.375C34.5069 47.7916 35.3331 45.6154 36.9856 43.8466C38.6613 42.0545 40.6745 41.1584 43.0252 41.1584C45.469 41.1584 47.3542 42.0079 48.6808 43.7069V34.6649ZM40.372 53.9359C41.3029 54.8436 42.4666 55.2975 43.8631 55.2975C45.2595 55.2975 46.4116 54.8436 47.3193 53.9359C48.227 53.005 48.6808 51.818 48.6808 50.375C48.6808 48.932 48.227 47.7567 47.3193 46.849C46.4116 45.918 45.2595 45.4525 43.8631 45.4525C42.4666 45.4525 41.3029 45.918 40.372 46.849C39.4643 47.7567 39.0104 48.932 39.0104 50.375C39.0104 51.818 39.4643 53.005 40.372 53.9359Z" fill="black"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M27.4083 54.704L28.8746 59.1028H34.1112L25.5231 34.6649H19.5533L11 59.1028H16.2018L17.668 54.704H27.4083ZM22.5556 40.2158L25.9071 50.2004H19.2041L22.5556 40.2158Z" fill="black"/>
+            </svg>
+          </div>
+          <div class="logo-label">Inverted (light)</div>
+        </div>
+      </div>
+
+      <h3>Rules</h3>
+      <ul class="logo-rules">
+        <li>Minimum clear space: equal to the cap height of the "A" on all sides</li>
+        <li>The "A" contains a negative-space triangle -- never fill, crop, or obscure it</li>
+        <li>On light surfaces: dark fill. On dark surfaces: white fill. On accent: white fill.</li>
+        <li>Never stretch, rotate, recolor to off-brand colors, add effects, or place on busy backgrounds</li>
+        <li>Minimum display width: 120px (below this, letterforms lose legibility)</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <script>
+    // ── Scheme Toggle ──
+    function setScheme(scheme) {
+      document.querySelectorAll('.scheme-toggle button').forEach(b => b.classList.remove('active'));
+      if (scheme === 'light') {
+        document.documentElement.setAttribute('data-scheme', 'light');
+        document.documentElement.style.colorScheme = 'light';
+        document.getElementById('btn-light').classList.add('active');
+      } else if (scheme === 'dark') {
+        document.documentElement.setAttribute('data-scheme', 'dark');
+        document.documentElement.style.colorScheme = 'dark';
+        document.getElementById('btn-dark').classList.add('active');
+      } else {
+        document.documentElement.removeAttribute('data-scheme');
+        document.documentElement.style.colorScheme = 'light dark';
+        document.getElementById('btn-auto').classList.add('active');
+      }
+    }
+
+    // ── Generate Swatches ──
+    function makeSwatches(containerId, prefix, steps) {
+      const el = document.getElementById(containerId);
+      steps.forEach(step => {
+        const s = document.createElement('div');
+        s.className = 'swatch';
+        s.style.background = `var(--${prefix}-${step})`;
+        // Determine text color based on step number
+        const dark = parseInt(step) >= 500;
+        s.style.color = dark ? 'oklch(0.95 0 0)' : 'oklch(0.25 0 0)';
+        s.innerHTML = `<span>${step}</span>`;
+        el.appendChild(s);
+      });
+    }
+    const steps = ['050','100','200','300','400','500','600','700','800','900','950'];
+    makeSwatches('accent-swatches', 'accent', steps);
+    makeSwatches('neutral-swatches', 'neutral', steps);
+
+    // ── Spacing Demo ──
+    const spacingEl = document.getElementById('spacing-demo');
+    const spaces = [
+      ['1', '4px', 4], ['2', '8px', 8], ['3', '12px', 12], ['4', '16px', 16],
+      ['6', '24px', 24], ['8', '32px', 32], ['12', '48px', 48], ['16', '64px', 64],
+    ];
+    spaces.forEach(([name, label, px]) => {
+      const d = document.createElement('div');
+      d.className = 'spacing-block';
+      d.innerHTML = `<div class="bar" style="height:${px}px"></div><div class="lbl">${label}</div>`;
+      spacingEl.appendChild(d);
+    });
+  </script>
+</body>
+</html>

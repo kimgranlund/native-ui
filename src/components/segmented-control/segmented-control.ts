@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NSegment } from './segment-element.ts';
 import { NSegmentedControl } from './segmented-control-element.ts';
 

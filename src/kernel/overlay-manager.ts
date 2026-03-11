@@ -1,7 +1,7 @@
-import { signal } from '../reactivity/signal.ts';
-import { computed } from '../reactivity/computed.ts';
-import { uid } from '../core/uid.ts';
-import type { Signal, ReadonlySignal } from '../reactivity/types.ts';
+import { signal } from '@nonoun/native-core';
+import { computed } from '@nonoun/native-core';
+import { uid } from '@nonoun/native-core';
+import type { Signal, ReadonlySignal } from '@nonoun/native-core';
 import type { OverlayType, OverlayEntry } from './types.ts';
 
 let Z_INDEX = 1000;

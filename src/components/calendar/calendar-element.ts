@@ -1,9 +1,9 @@
-import { signal } from '../../reactivity/signal.ts';
-import { batch } from '../../reactivity/batch.ts';
-import { NativeElement } from '../../core/native-element.ts';
-import { createDisabledEffect } from '../../core/effects.ts';
+import { signal } from '@nonoun/native-core';
+import { batch } from '@nonoun/native-core';
+import { NativeElement } from '@nonoun/native-core';
+import { createDisabledEffect } from '@nonoun/native-core';
 import { CalendarStore } from './store/calendar-store.ts';
-import { FormAssociable } from '../../core/form-associable.ts';
+import { FormAssociable } from '@nonoun/native-core';
 
 /**
  * Calendar date picker with day/month/year views and optional range selection.

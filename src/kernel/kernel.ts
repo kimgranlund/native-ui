@@ -1,7 +1,7 @@
-import { signal } from '../reactivity/signal.ts';
-import { computed } from '../reactivity/computed.ts';
-import { define } from '../core/define.ts';
-import type { Signal, ReadonlySignal } from '../reactivity/types.ts';
+import { signal } from '@nonoun/native-core';
+import { computed } from '@nonoun/native-core';
+import { define } from '@nonoun/native-core';
+import type { Signal, ReadonlySignal } from '@nonoun/native-core';
 import type {
   Command,
   ComponentRegistration,
@@ -19,8 +19,8 @@ import { DataStore } from './data-runtime.ts';
 import { validateAccessibility } from './accessibility.ts';
 import { applyPatch } from './patch.ts';
 import { PolicyEngine } from './policy.ts';
-import { PluginRegistry } from '../registries/plugin-registry.ts';
-import type { PluginFactory } from '../registries/plugin-registry.ts';
+import { PluginRegistry } from '@nonoun/native-core';
+import type { PluginFactory } from '@nonoun/native-core';
 import type { UIPatch, PatchResult } from './patch.ts';
 import type { A11yResult } from './accessibility.ts';
 

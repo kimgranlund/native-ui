@@ -3,7 +3,7 @@
  *
  * Layout: chip-toggled multi-panel — preview left, N resizable panes right.
  * Chips: JSON-IN, JSON-OUT, HTML, CSS, JS, COMPONENTS (multiple active at once).
- * Chrome & layout patterns mirror <native-playground> for a unified devtool look.
+ * Chrome & layout patterns mirror <n-playground> for a unified devtool look.
  *
  * Renders A2UI components directly (no iframe) using a local Kernel + A2UIAdapter.
  * Native-ui components must be registered on the page for rendering to work.
@@ -22,7 +22,7 @@ import {
   StateField,
   StateEffect,
 } from '@nonoun/native-code';
-import type { NCodemirror } from '@nonoun/native-code';
+import type { NCodeEditor } from '@nonoun/native-code';
 import type { DecorationSet } from '@nonoun/native-code';
 import { json } from '@codemirror/lang-json';
 import { linter } from '@codemirror/lint';
@@ -130,13 +130,13 @@ export class NA2UI extends NativeElement {
   #jsLogCursor = 0;
 
   // DOM references
-  #editorEl: (HTMLElement & NCodemirror) | null = null;
-  #jsEditorEl: (HTMLElement & NCodemirror) | null = null;
-  #htmlEditorEl: (HTMLElement & NCodemirror) | null = null;
-  #cssEditorEl: (HTMLElement & NCodemirror) | null = null;
-  #componentEditorEl: (HTMLElement & NCodemirror) | null = null;
+  #editorEl: (HTMLElement & NCodeEditor) | null = null;
+  #jsEditorEl: (HTMLElement & NCodeEditor) | null = null;
+  #htmlEditorEl: (HTMLElement & NCodeEditor) | null = null;
+  #cssEditorEl: (HTMLElement & NCodeEditor) | null = null;
+  #componentEditorEl: (HTMLElement & NCodeEditor) | null = null;
   #componentMapEl: HTMLElement | null = null;
-  #schemaEditorEl: (HTMLElement & NCodemirror) | null = null;
+  #schemaEditorEl: (HTMLElement & NCodeEditor) | null = null;
   #previewEl: HTMLDivElement | null = null;
   #previewRegionEl: HTMLDivElement | null = null;
   #splitEl: HTMLDivElement | null = null;
@@ -957,7 +957,7 @@ export class NA2UI extends NativeElement {
 
       // CodeMirror editors for all code panes; component map table for components
       if (id === 'json-in' || id === 'js' || id === 'html' || id === 'css') {
-        const editorEl = document.createElement('native-codemirror') as HTMLElement & NCodemirror;
+        const editorEl = document.createElement('n-editor') as HTMLElement & NCodeEditor;
         editorEl.setAttribute('line-numbers', 'false');
         content.appendChild(editorEl);
         if (id === 'json-in') this.#editorEl = editorEl;
@@ -967,7 +967,7 @@ export class NA2UI extends NativeElement {
       } else if (id === 'components') {
         this.#componentMapEl = content;
       } else if (id === 'schema') {
-        const schemaEditor = document.createElement('native-codemirror') as HTMLElement & NCodemirror;
+        const schemaEditor = document.createElement('n-editor') as HTMLElement & NCodeEditor;
         schemaEditor.setAttribute('line-numbers', 'false');
         content.appendChild(schemaEditor);
         this.#schemaEditorEl = schemaEditor;
@@ -1475,7 +1475,7 @@ export class NA2UI extends NativeElement {
 
       editorSection.appendChild(editorToolbar);
 
-      const editorEl = document.createElement('native-codemirror') as HTMLElement & NCodemirror;
+      const editorEl = document.createElement('n-editor') as HTMLElement & NCodeEditor;
       editorEl.setAttribute('line-numbers', 'false');
       editorSection.appendChild(editorEl);
       this.#componentEditorEl = editorEl;

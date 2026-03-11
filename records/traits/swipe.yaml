@@ -2,10 +2,10 @@ trait: swipe
 controller: SwipeController
 description: Detects touch/pointer swipe gestures and dispatches `native:swipe` with direction and velocity.
 source:
-  controller: src/traits/swipe/swipe-controller.ts
-  adapter: src/traits/swipe/swipeable-adapter.ts
-  demo: src/traits/swipe/swipeable.html
-  test: src/traits/swipe/swipeable.test.ts
+  controller: packages/native-traits/src/traits/swipe/swipe-controller.ts
+  adapter: packages/native-traits/src/traits/swipe/swipeable-adapter.ts
+  demo: packages/native-traits/src/traits/swipe/swipeable.html
+  test: packages/native-traits/src/traits/swipe/swipeable.test.ts
 options:
   threshold:
     type: number

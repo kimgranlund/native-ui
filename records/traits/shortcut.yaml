@@ -5,10 +5,10 @@ description: "Keyboard shortcut controller. Registers keyboard shortcuts on a ho
   { shortcuts: [ { id: 'search', combo: 'mod+k', handler: () => openSearch() }, { id: 'help', combo: 'shift+?', handler:
   () => showHelp() }, ], global: true, }); ```"
 source:
-  controller: src/traits/shortcut/shortcut-controller.ts
-  adapter: src/traits/shortcut/shortcutable-adapter.ts
-  demo: src/traits/shortcut/shortcutable.html
-  test: src/traits/shortcut/shortcut.test.ts
+  controller: packages/native-traits/src/traits/shortcut/shortcut-controller.ts
+  adapter: packages/native-traits/src/traits/shortcut/shortcutable-adapter.ts
+  demo: packages/native-traits/src/traits/shortcut/shortcutable.html
+  test: packages/native-traits/src/traits/shortcut/shortcut.test.ts
 options:
   shortcuts:
     type: ShortcutBinding[]

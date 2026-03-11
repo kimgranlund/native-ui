@@ -1,0 +1,31 @@
+{
+  "name": "@nonoun/native-core",
+  "version": "0.1.0",
+  "description": "Core foundation for @nonoun/native-ui — NativeElement base class, signal-based reactivity, and registry system",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/native-core.js",
+  "module": "./dist/native-core.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/native-core.js"
+    },
+    "./reactivity": {
+      "types": "./dist/reactivity/index.d.ts",
+      "default": "./dist/native-core.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "npm run build:js && npm run build:types",
+    "build:js": "vite build",
+    "build:types": "tsc -p tsconfig.build.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

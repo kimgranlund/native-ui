@@ -1,5 +1,5 @@
-import { NativeElement } from '../../core/native-element.ts';
-import { DialogController } from '../../traits/dialog/dialog-controller.ts';
+import { NativeElement } from '@nonoun/native-core';
+import { DialogController } from '@nonoun/native-traits';
 
 /**
  * Modal dialog wrapper using a native dialog element promoted to the top layer.

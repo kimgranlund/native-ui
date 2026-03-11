@@ -1,5 +1,5 @@
-import { signal, computed, batch } from '../../../reactivity/index.ts';
-import type { Signal, ReadonlySignal } from '../../../reactivity/types.ts';
+import { signal, computed, batch } from '@nonoun/native-core';
+import type { Signal, ReadonlySignal } from '@nonoun/native-core';
 
 export type CalendarView = 'day' | 'month' | 'year';
 

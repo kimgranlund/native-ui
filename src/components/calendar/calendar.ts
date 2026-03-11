@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NCalendar } from './calendar-element.ts';
 
 // WHY: Calendar stamps n-button + n-icon internally — ensure they're registered.

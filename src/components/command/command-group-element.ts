@@ -1,5 +1,5 @@
-import { NativeElement } from '../../core/native-element.ts';
-import { uid } from '../../core/uid.ts';
+import { NativeElement } from '@nonoun/native-core';
+import { uid } from '@nonoun/native-core';
 
 /** Structural group wrapper for related items within a command palette. */
 export class NCommandGroup extends NativeElement {

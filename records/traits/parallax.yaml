@@ -3,10 +3,10 @@ controller: ParallaxController
 description: Mouse-position tilt effect — subtle rotateX/rotateY transform relative to element center. Optional glare
   overlay and gyroscope support.
 source:
-  controller: src/traits/parallax/parallax-controller.ts
-  adapter: src/traits/parallax/parallaxable-adapter.ts
-  demo: src/traits/parallax/parallaxable.html
-  test: src/traits/parallax/parallaxable.test.ts
+  controller: packages/native-traits/src/traits/parallax/parallax-controller.ts
+  adapter: packages/native-traits/src/traits/parallax/parallaxable-adapter.ts
+  demo: packages/native-traits/src/traits/parallax/parallaxable.html
+  test: packages/native-traits/src/traits/parallax/parallaxable.test.ts
 options:
   maxTilt:
     type: number

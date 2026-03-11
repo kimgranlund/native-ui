@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NAccordionItem } from './accordion-item-element.ts';
 import { NAccordion } from './accordion-element.ts';
 

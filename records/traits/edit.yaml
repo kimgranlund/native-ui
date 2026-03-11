@@ -3,10 +3,10 @@ controller: EditController
 description: Enables inline text editing on the host element, dispatching `native:edit-start`, `native:edit-commit`, and
   `native:edit-cancel`.
 source:
-  controller: src/traits/edit/edit-controller.ts
-  adapter: src/traits/edit/editable-adapter.ts
-  demo: src/traits/edit/editable.html
-  test: src/traits/edit/editable.test.ts
+  controller: packages/native-traits/src/traits/edit/edit-controller.ts
+  adapter: packages/native-traits/src/traits/edit/editable-adapter.ts
+  demo: packages/native-traits/src/traits/edit/editable.html
+  test: packages/native-traits/src/traits/edit/editable.test.ts
 options:
   trigger:
     type: "'click' | 'dblclick'"

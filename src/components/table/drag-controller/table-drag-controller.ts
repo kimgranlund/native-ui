@@ -1,4 +1,4 @@
-import { DragController } from '../../../traits/drag/drag-controller.ts';
+import { DragController } from '@nonoun/native-traits';
 
 /**
  * Table-specific drag controller that wraps DragController with:

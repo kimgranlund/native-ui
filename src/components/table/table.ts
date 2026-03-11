@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NTableCell } from './table-cell-element.ts';
 import { NTableHeader } from './table-header-element.ts';
 import { NTableRow } from './table-row-element.ts';

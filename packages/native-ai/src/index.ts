@@ -5,12 +5,12 @@ export * from './a2ui/index.ts';
 // Re-export everything except TransportState (name collision with a2ui)
 export {
   NChatInput,
-  NChatInputAdvanced,
+  NAgentInput,
   NChatPanel,
   NChatFeed,
   NChatAvatar,
-  NChatMessage,
-  NChatMessages,
+  NAgentDialogueItem,
+  NAgentDialogue,
   NChatMessageText,
   NChatMessageActivity,
   NChatMessageSeed,
@@ -19,6 +19,7 @@ export {
   ACTION_REGISTRY, ROLE_DEFAULTS,
   renderMarkdown, renderInline, sanitizeHtml,
   parseSSE, parseNDJSON, parseJSON, detectFormat,
+  parseJsonFromResponse, stripFences,
   createChatStream, createChatTransport,
   classifyStreamEnd, classifyHttpError, backoffDelay,
   CHAT_EVENTS, SAFE_FIELDS, SENSITIVE_FIELDS,
@@ -40,3 +41,7 @@ export type {
 
 // Disambiguated re-exports for colliding names
 export type { TransportState as ChatTransportState } from './chat/index.ts';
+
+// Orchestration — generic multi-step LLM pipeline runner
+export { runPipeline } from './orchestration/index.ts';
+export type { PipelineStep, PipelineCallbacks, PipelineStepExec } from './orchestration/index.ts';

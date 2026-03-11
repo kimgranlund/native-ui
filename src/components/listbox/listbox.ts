@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NListbox } from './listbox-element.ts';
 import { NOption } from './option-element.ts';
 import { NOptionGroup } from './option-group-element.ts';

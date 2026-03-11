@@ -2,10 +2,10 @@ trait: press
 controller: PressController
 description: Handles pointer and keyboard press interactions, dispatching `native:press` events.
 source:
-  controller: src/traits/press/press-controller.ts
-  adapter: src/traits/press/pressable-adapter.ts
-  demo: src/traits/press/pressable.html
-  test: src/traits/press/pressable.test.ts
+  controller: packages/native-traits/src/traits/press/press-controller.ts
+  adapter: packages/native-traits/src/traits/press/pressable-adapter.ts
+  demo: packages/native-traits/src/traits/press/pressable.html
+  test: packages/native-traits/src/traits/press/pressable.test.ts
 options:
   disabled:
     type: boolean | (() => boolean)

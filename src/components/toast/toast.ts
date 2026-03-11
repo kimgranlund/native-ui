@@ -1,4 +1,4 @@
-import { define } from '../../core/define.ts';
+import { define } from '@nonoun/native-core';
 import { NToast } from './toast-element.ts';
 
 define('n-toast', NToast);

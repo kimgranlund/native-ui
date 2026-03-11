@@ -2,10 +2,10 @@ trait: collapsible
 controller: CollapsibleController
 description: Animates expand/collapse transitions on the host, dispatching `native:expand` and `native:collapse`.
 source:
-  controller: src/traits/collapsible/collapsible-controller.ts
-  adapter: src/traits/collapsible/collapsible-adapter.ts
-  demo: src/traits/collapsible/collapsible.html
-  test: src/traits/collapsible/collapsible.test.ts
+  controller: packages/native-traits/src/traits/collapsible/collapsible-controller.ts
+  adapter: packages/native-traits/src/traits/collapsible/collapsible-adapter.ts
+  demo: packages/native-traits/src/traits/collapsible/collapsible.html
+  test: packages/native-traits/src/traits/collapsible/collapsible.test.ts
 options:
   duration:
     type: number

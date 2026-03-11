@@ -1,7 +1,7 @@
-import { signal } from '../../reactivity/signal.ts';
-import { untrack } from '../../reactivity/untrack.ts';
-import { NativeElement } from '../../core/native-element.ts';
-import { createDisabledEffect } from '../../core/effects.ts';
+import { signal } from '@nonoun/native-core';
+import { untrack } from '@nonoun/native-core';
+import { NativeElement } from '@nonoun/native-core';
+import { createDisabledEffect } from '@nonoun/native-core';
 
 /**
  * Pagination control rendering page buttons with ellipsis and prev/next navigation.

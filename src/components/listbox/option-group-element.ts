@@ -1,4 +1,4 @@
-import { NativeElement } from '../../core/native-element.ts';
+import { NativeElement } from '@nonoun/native-core';
 
 /** Structural group wrapper for related options within a listbox. */
 export class NOptionGroup extends NativeElement {

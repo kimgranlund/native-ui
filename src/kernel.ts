@@ -19,8 +19,8 @@ export { SCHEMA_CATALOG, getSchema, getSchemasForCategory, getSchemaAttribute } 
 export { Planner, createPlanner } from './kernel/index.ts';
 
 // Plugin system
-export { PluginRegistry } from './registries/plugin-registry.ts';
-export type { PluginFactory } from './registries/plugin-registry.ts';
+export { PluginRegistry } from '@nonoun/native-core';
+export type { PluginFactory } from '@nonoun/native-core';
 
 export type {
   Command, CommandSource, CommandMeta, CommandHandler, CommandMiddleware, CommandFilter,

@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, afterEach, beforeAll } from 'vitest';
-import { registerTrait, getTrait } from '../../../registries/trait-registry.ts';
-import type { TraitAdapter } from '../../../registries/trait-registry.ts';
+import { registerTrait, getTrait } from '@nonoun/native-core';
+import type { TraitAdapter } from '@nonoun/native-core';
 import '../controller.ts';
 
 // ── Test helpers ──

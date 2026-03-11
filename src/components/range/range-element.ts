@@ -1,7 +1,7 @@
-import { signal } from '../../reactivity/signal.ts';
-import { NativeElement } from '../../core/native-element.ts';
-import { createDisabledEffect } from '../../core/effects.ts';
-import { FormAssociable } from '../../core/form-associable.ts';
+import { signal } from '@nonoun/native-core';
+import { NativeElement } from '@nonoun/native-core';
+import { createDisabledEffect } from '@nonoun/native-core';
+import { FormAssociable } from '@nonoun/native-core';
 
 /**
  * Range slider input with keyboard and pointer interaction.

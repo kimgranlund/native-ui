@@ -1,6 +1,6 @@
-import { signal } from '../reactivity/signal.ts';
-import { computed } from '../reactivity/computed.ts';
-import type { Signal, ReadonlySignal, Dispose } from '../reactivity/types.ts';
+import { signal } from '@nonoun/native-core';
+import { computed } from '@nonoun/native-core';
+import type { Signal, ReadonlySignal, Dispose } from '@nonoun/native-core';
 import type { Shortcut } from './types.ts';
 
 interface ShortcutEntry {

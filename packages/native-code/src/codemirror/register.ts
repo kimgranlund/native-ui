@@ -1,6 +1,6 @@
 import { define } from '@nonoun/native-ui';
-import { NCodemirror } from './codemirror-element.ts';
+import { NCodeEditor } from './editor-element.ts';
 
-define('native-codemirror', NCodemirror);
+define('n-editor', NCodeEditor);
 
-export { NCodemirror };
+export { NCodeEditor };
