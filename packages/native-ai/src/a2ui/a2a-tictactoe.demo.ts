@@ -1,4 +1,4 @@
-import { Kernel, resetKernel } from '../../../../src/kernel/kernel.ts';
+import { Kernel, resetKernel } from '@nonoun/native-kernel';
 import { NSessionManager } from './session/session-manager.ts';
 import { buildCatalogFromRegistry } from './session/catalog.ts';
 import { a2uiToUINode, conversionToPlan } from './protocol/a2ui-converter.ts';

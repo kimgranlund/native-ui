@@ -2,6 +2,16 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.138
+
+### Fixed
+- **A2UI Builder 500 error** — 7 demo/source files had stale relative imports to `src/kernel/kernel.ts` (moved to `@nonoun/native-kernel` in 0.7.135). Fixed: `a2ui-builder.ts`, all A2A demo files, `a2ui-components.demo.ts`, `a2ui-protocol.demo.ts`.
+
+## @nonoun/native-ai 1.0.77
+
+### Fixed
+- Stale `src/kernel/` relative imports → `@nonoun/native-kernel` in 7 demo/source files
+
 ## 0.7.137
 
 ### Added

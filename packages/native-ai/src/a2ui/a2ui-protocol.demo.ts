@@ -1,5 +1,4 @@
-      import { Kernel, resetKernel } from '../../../../src/kernel/kernel.ts';
-      import { Planner } from '../../../../src/kernel/planner.ts';
+      import { Kernel, resetKernel, Planner } from '@nonoun/native-kernel';
       import { createA2UIAdapter } from './protocol/a2ui-adapter.ts';
 
       // ── Setup ──

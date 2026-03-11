@@ -36,7 +36,7 @@ import '../../../../../src/icons/phosphor/lightning.ts';
 import '../../../../../src/icons/phosphor/play.ts';
 import '../../../../../src/icons/phosphor/stack-simple.ts';
 import { ConfettiController, CSSInspectController } from '@nonoun/native-traits';
-import { Kernel, resetKernel } from '../../../../../src/kernel/kernel.ts';
+import { Kernel, resetKernel } from '@nonoun/native-kernel';
 import { createA2UIAdapter } from '../protocol/a2ui-adapter.ts';
 import { COMPONENT_MAP as REGISTRY, getComponentCategory } from '../protocol/a2ui-component-map.ts';
 import type { EventSpec, PropertySpec, MethodSpec } from '../protocol/a2ui-component-map.ts';

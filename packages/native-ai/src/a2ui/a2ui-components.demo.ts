@@ -1,4 +1,4 @@
-import { Kernel, resetKernel } from '../../../../src/kernel/kernel.ts';
+import { Kernel, resetKernel } from '@nonoun/native-kernel';
 import { createA2UIAdapter } from './protocol/a2ui-adapter.ts';
 
 // ── Boot ──
