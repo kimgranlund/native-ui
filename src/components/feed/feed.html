@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-feed — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    <link rel="stylesheet" href="./feed.demo.css" />
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <header>
+      <h1>&lt;n-feed&gt;</h1>
+      <div class="demo-desc">
+      Generic scrollable feed container with auto-scroll, pin detection, and virtual scroll windowing.
+    </div>
+    </header>
+
+    <section>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic Feed</h2>
+    <n-container data-kind="panel" bordered>
+      <div class="feed-demo">
+        <n-feed scroll>
+          <div class="feed-item">Message 1</div>
+          <div class="feed-item">Message 2</div>
+          <div class="feed-item">Message 3</div>
+          <div class="feed-item">Message 4</div>
+          <div class="feed-item">Message 5</div>
+          <div class="feed-item">Message 6</div>
+          <div class="feed-item">Message 7</div>
+          <div class="feed-item">Message 8</div>
+          <div class="feed-item">Message 9</div>
+          <div class="feed-item">Message 10</div>
+        </n-feed>
+      </div>
+    <pre class="demo-code"><code>&lt;n-feed scroll&gt;
+  &lt;div&gt;Message 1&lt;/div&gt;
+  &lt;div&gt;Message 2&lt;/div&gt;
+  ...
+&lt;/n-feed&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Bottom-Anchored ── -->
+
+    <h2>Bottom-Anchored (Chat Style)</h2>
+    <n-container data-kind="panel" bordered>
+      <div class="feed-demo">
+        <n-feed scroll align="end">
+          <div class="feed-item">Older message...</div>
+          <div class="feed-item">Another message...</div>
+          <div class="feed-item">Recent message</div>
+          <div class="feed-item">Latest message</div>
+        </n-feed>
+      </div>
+    <pre class="demo-code"><code>&lt;n-feed scroll align="end"&gt;
+  &lt;!-- content pushed to bottom --&gt;
+&lt;/n-feed&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Auto-Scroll + Pin Detection ── -->
+
+    <h2>Auto-Scroll + Pin Detection</h2>
+    <n-container data-kind="panel" bordered>
+      <div class="feed-controls">
+        <n-button id="add-item" size="sm">Add Item</n-button>
+        <n-button id="scroll-bottom" size="sm" variant="outline"><n-icon name="arrow-down"></n-icon> Scroll to Bottom</n-button>
+        <span id="pin-status">Pinned to bottom</span>
+      </div>
+      <div class="feed-demo">
+        <n-feed id="auto-feed" scroll align="end" auto-scroll>
+          <div class="feed-item">Item 1</div>
+          <div class="feed-item">Item 2</div>
+          <div class="feed-item">Item 3</div>
+          <div class="feed-item">Item 4</div>
+          <div class="feed-item">Item 5</div>
+          <div class="feed-item">Item 6</div>
+          <div class="feed-item">Item 7</div>
+          <div class="feed-item">Item 8</div>
+          <div class="feed-item">Item 9</div>
+          <div class="feed-item">Item 10</div>
+        </n-feed>
+      </div>
+    <pre class="demo-code"><code>&lt;n-feed scroll align="end" auto-scroll&gt;
+  &lt;!-- new items auto-scroll when pinned --&gt;
+&lt;/n-feed&gt;
+
+&lt;script&gt;
+feed.addEventListener('native:feed-scroll', (e) =&gt; {
+  console.log(e.detail.isPinned); // true/false
+});
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Virtual Scroll ── -->
+
+    <h2>Virtual Scroll (10,000 items)</h2>
+    <n-container data-kind="panel" bordered>
+      <span id="range-log" class="text" muted size="sm">Loading...</span>
+      <div class="feed-demo">
+        <n-feed id="virtual-feed" scroll virtual virtual-item-height="44" virtual-overscan="10">
+        </n-feed>
+      </div>
+    <pre class="demo-code"><code>&lt;n-feed scroll virtual virtual-item-height="44" virtual-overscan="10"&gt;
+&lt;/n-feed&gt;
+
+&lt;script&gt;
+feed.items = arrayOf10000;
+feed.itemRenderer = (item, i) =&gt; {
+  const el = document.createElement('div');
+  el.textContent = item.text;
+  return el;
+};
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API Reference</h2>
+
+    <h3>Attributes</h3>
+    <div class="api-section">
+      <table class="api-table">
+        <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>align</code></td><td><code>'start' | 'end'</code></td><td><code>start</code></td><td>Content alignment. <code>end</code> pushes content to bottom (chat-style).</td></tr>
+          <tr><td><code>scroll</code></td><td><code>boolean</code></td><td>—</td><td>Enable scroll container (<code>overflow-y: auto</code>). CSS-only.</td></tr>
+          <tr><td><code>auto-scroll</code></td><td><code>boolean</code></td><td>—</td><td>Auto-scroll to bottom when new content is added (while pinned).</td></tr>
+          <tr><td><code>virtual</code></td><td><code>boolean</code></td><td>—</td><td>Enable virtual scroll windowing for large lists.</td></tr>
+          <tr><td><code>virtual-item-height</code></td><td><code>number</code></td><td><code>80</code></td><td>Estimated item height in px for virtual scroll calculations.</td></tr>
+          <tr><td><code>virtual-overscan</code></td><td><code>number</code></td><td><code>5</code></td><td>Extra items to render outside the visible viewport.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Properties</h3>
+    <div class="api-section">
+      <table class="api-table">
+        <thead><tr><th>Property</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>isPinned</code></td><td><code>boolean</code></td><td>Whether the feed is scrolled to the bottom (read-only).</td></tr>
+          <tr><td><code>items</code></td><td><code>unknown[]</code></td><td>Data items for virtual rendering.</td></tr>
+          <tr><td><code>itemRenderer</code></td><td><code>(item, index) => HTMLElement</code></td><td>Callback that creates an element from a data item.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Methods</h3>
+    <div class="api-section">
+      <table class="api-table">
+        <thead><tr><th>Method</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>scrollToBottom(smooth?)</code></td><td>Scroll to the bottom of the feed. Pass <code>false</code> for instant scroll.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Events</h3>
+    <div class="api-section">
+      <table class="api-table">
+        <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>native:feed-scroll</code></td><td><code>{ isPinned, scrollTop }</code></td><td>Fired when pin state changes (scrolled to/from bottom).</td></tr>
+          <tr><td><code>native:range-change</code></td><td><code>{ start, end, total }</code></td><td>Fired when virtual scroll visible range changes.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>CSS Tokens</h3>
+    <div class="api-section">
+      <table class="api-table">
+        <thead><tr><th>Token</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>--n-feed-gap</code></td><td><code>calc(var(--n-space) * 2)</code></td><td>Gap between feed items.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    </section>
+
+    </main></native-dashboard-spa>
+    <script type="module" src="./feed.demo.ts"></script>
+  </body>
+</html>

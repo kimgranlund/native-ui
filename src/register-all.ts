@@ -61,6 +61,7 @@ import { NSlideshow } from './components/slideshow/slideshow-element.ts';
 import { NSlide } from './components/slideshow/slide-element.ts';
 import { NController } from './components/controller/controller-element.ts';
 import { NGripper } from './components/gripper/gripper-element.ts';
+import { NFeed } from './components/feed/feed-element.ts';
 
 // Containers (with JS behavior)
 import { NContainer } from './containers/container/container-element.ts';
@@ -122,6 +123,7 @@ define('n-slideshow', NSlideshow);
 define('n-slide', NSlide);
 define('n-controller', NController);
 define('n-gripper', NGripper);
+define('n-feed', NFeed);
 define('n-container', NContainer);
 define('n-pane', NPane);
 define('n-panes', NPaneGroup);

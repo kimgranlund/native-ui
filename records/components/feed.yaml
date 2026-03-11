@@ -1,0 +1,46 @@
+component: NFeed
+tag: n-feed
+category: component
+description: Generic scrollable feed container with auto-scroll, pin detection, and virtual scroll windowing.
+source:
+  element: src/components/feed/feed-element.ts
+  css: src/components/feed/n-feed.css
+  registration: src/components/feed/n-feed.ts
+  demo: src/components/feed/feed.html
+attributes:
+  auto-scroll:
+    type: boolean
+    description: Auto-scroll to bottom when new content is added (while pinned)
+  virtual:
+    type: boolean
+    description: Enable virtual scroll windowing for large lists
+  virtual-item-height:
+    type: number
+    description: Estimated item height in px for virtual scroll (default 80)
+  virtual-overscan:
+    type: number
+    description: Extra items to render outside viewport (default 5)
+css_attributes:
+  align:
+    type: enum
+    values:
+      - start
+      - end
+    description: Content alignment. "end" pushes content to bottom (chat-style).
+  scroll:
+    type: boolean
+    description: Enable scroll container (overflow-y auto)
+events:
+  native:feed-scroll:
+    detail: '{ isPinned: boolean, scrollTop: number }'
+    description: Fired when pin state changes (scrolled to/from bottom)
+  native:range-change:
+    detail: '{ start: number, end: number, total: number }'
+    description: Fired when virtual scroll visible range changes
+css_tokens:
+  --n-feed-gap:
+    default: calc(var(--n-space) * 2)
+    description: Gap between feed items
+a11y:
+  role: feed
+  notes: Uses native scroll for accessibility. Virtual scroll maintains DOM order.

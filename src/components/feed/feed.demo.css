@@ -1,0 +1,29 @@
+.feed-demo {
+  height: 300px;
+  border: 1px solid var(--n-border);
+  border-radius: var(--n-radius);
+  display: flex;
+  flex-direction: column;
+}
+
+.feed-item {
+  padding: 0.75rem 1rem;
+  background: var(--n-surface);
+  border-radius: var(--n-radius);
+  font-size: var(--n-font-size);
+}
+
+.feed-item:nth-child(odd) {
+  background: var(--n-surface-raised);
+}
+
+.feed-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+#pin-status {
+  font-size: var(--n-font-size-sm);
+  color: var(--n-text-muted);
+}

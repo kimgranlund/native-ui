@@ -2,6 +2,14 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.137
+
+### Added
+- **n-feed demo page** — four interactive demos: basic feed, bottom-anchored (chat-style), auto-scroll with pin detection, virtual scroll (10k items)
+- **n-feed registered** in `register-all.ts` (was exported but not registered)
+- **n-feed YAML record** (`records/components/feed.yaml`)
+- n-feed added to sitemap navigation
+
 ## 0.7.136
 
 ### Changed
