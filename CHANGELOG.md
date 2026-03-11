@@ -2,6 +2,28 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.133
+
+### Added
+- **Package split**: `@nonoun/native-core@0.1.0` (reactivity, NativeElement, define, registries) and `@nonoun/native-traits@0.1.0` (34 trait controllers, adapters, gesture-router) extracted as standalone packages
+- Backwards compatible — `@nonoun/native-ui` re-exports everything from both packages
+
+### Changed
+- All internal imports updated from relative paths to `@nonoun/native-core` / `@nonoun/native-traits`
+- Build scripts and YAML records updated for new package locations
+
+## @nonoun/native-ai 1.0.74
+
+### Added
+- **LLM utilities extracted from A2UI builder**: `parseJsonFromResponse`, `stripFences` (JSON parsing), `createAdapter`, `detectProvider` (model registry), `runPipeline` (multi-step orchestration)
+
+## @nonoun/native-code 1.0.11
+
+### Changed
+- Version bump (no functional changes beyond renames from 1.0.10)
+
+---
+
 ## 0.7.132
 
 ### Added
