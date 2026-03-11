@@ -2,19 +2,78 @@
 
 # n-feed
 
-**CSS-only element** — styled via shared CSS files (layout.css, containers.css, or content.css).
+> Generic scrollable feed container with auto-scroll, pin detection, and virtual scroll windowing.
+
+**Class:** `NFeed`
+
+**ARIA role:** `feed`
+
+## Attributes
+
+| Attribute | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `auto-scroll` | `boolean` |  | Auto-scroll to bottom when new content is added (while pinned) |
+| `virtual` | `boolean` |  | Enable virtual scroll windowing for large lists |
+| `virtual-item-height` | `number` |  | Estimated item height in px for virtual scroll (default 80) |
+| `virtual-overscan` | `number` |  | Extra items to render outside viewport (default 5) |
+
+## CSS Attributes
+
+| Attribute | Type | Values | Description |
+|-----------|------|--------|-------------|
+| `align` | enum | `start`, `end` | Content alignment. "end" pushes content to bottom (chat-style). |
+| `scroll` | boolean | _(boolean)_ | Enable scroll container (overflow-y auto) |
+
+## Events
+
+| Event | Detail | Description |
+|-------|--------|-------------|
+| `native:feed-scroll` | `{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39 }` | Fired when pin state changes (scrolled to/from bottom) |
+| `native:range-change` | `{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44 }` | Fired when virtual scroll visible range changes |
+
+## CSS Custom Properties
+
+| Token | Default | Purpose |
+|-------|---------|---------|
+| `--n-feed-gap` | `calc(var(--n-space) * 2)` | Gap between feed items |
+
+## Accessibility
+
+- **Role:** `feed`
+
+## Usage
+
+### Minimal
+
+```html
+<n-feed></n-feed>
+```
+
+### Examples
+
+```html
+<n-feed scroll align="end">
+          <div class="feed-item">Older message...</div>
+          <div class="feed-item">Another message...</div>
+          <div class="feed-item">Recent message</div>
+          <div class="feed-item">Latest message</div>
+        </n-feed>
+```
+
+```html
+<n-feed id="virtual-feed" scroll virtual virtual-item-height="44" virtual-overscan="10">
+        </n-feed>
+```
 
 ## File Inventory
 
 | File | Purpose |
 |------|---------|
 | `feed-element.ts` | Element class (behavior, no CSS) |
+| `feed.demo.css` | Styles |
+| `feed.demo.ts` | Source module |
+| `feed.html` | Demo page |
 | `index.ts` | Barrel exports |
 | `n-feed.css` | Styles |
 | `n-feed.ts` | Custom element registration (define()) |
-
-## Usage
-
-```html
-<n-feed></n-feed>
-```
+| `README.md` | Documentation (auto-generated) |

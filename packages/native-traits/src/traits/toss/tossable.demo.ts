@@ -1,8 +1,8 @@
-import '../../nav/native-dashboard.ts';
-import '../../components/button/button.ts';
-import '../../components/switch/switch.ts';
-import '../../components/range/range.ts';
-import '../../components/controller/controller.ts';
+import '../../../../../src/nav/native-dashboard.ts';
+import '../../../../../src/components/button/button.ts';
+import '../../../../../src/components/switch/switch.ts';
+import '../../../../../src/components/range/range.ts';
+import '../../../../../src/components/controller/controller.ts';
 import { TossController } from '../index.ts';
 
 // ── Provider demo event log ──

@@ -1,10 +1,10 @@
-import '../../nav/native-dashboard.ts';
-import '../../components/button/button.ts';
-import '../../components/switch/switch.ts';
-import '../../components/range/range.ts';
-import '../../components/input/input.ts';
-import '../../components/field/field.ts';
-import '../../components/controller/controller.ts';
+import '../../../../../src/nav/native-dashboard.ts';
+import '../../../../../src/components/button/button.ts';
+import '../../../../../src/components/switch/switch.ts';
+import '../../../../../src/components/range/range.ts';
+import '../../../../../src/components/input/input.ts';
+import '../../../../../src/components/field/field.ts';
+import '../../../../../src/components/controller/controller.ts';
 import { ConfettiController } from '../index.ts';
 
 // ── Event log ──

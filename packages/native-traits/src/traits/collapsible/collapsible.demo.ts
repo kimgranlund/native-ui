@@ -1,8 +1,8 @@
-import '../../nav/native-dashboard.ts';
-import '../../components/button/button.ts';
-import '../../icons/icon.ts';
-import '../../icons/phosphor/copy.ts';
-import '../../icons/phosphor/check.ts';
+import '../../../../../src/nav/native-dashboard.ts';
+import '../../../../../src/components/button/button.ts';
+import '../../../../../src/icons/icon.ts';
+import '../../../../../src/icons/phosphor/copy.ts';
+import '../../../../../src/icons/phosphor/check.ts';
 import { NativeElement, define } from '@nonoun/native-core';
 
 // ── Minimal NativeElement shell for injection demos ──

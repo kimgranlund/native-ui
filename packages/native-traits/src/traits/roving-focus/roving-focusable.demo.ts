@@ -1,10 +1,10 @@
-import '../../nav/native-dashboard.ts';
-import '../../components/button/button.ts';
-import '../../components/listbox/listbox.ts';
-import '../../components/controller/controller.ts';
-import '../../icons/icon.ts';
-import '../../icons/phosphor/copy.ts';
-import '../../icons/phosphor/check.ts';
+import '../../../../../src/nav/native-dashboard.ts';
+import '../../../../../src/components/button/button.ts';
+import '../../../../../src/components/listbox/listbox.ts';
+import '../../../../../src/components/controller/controller.ts';
+import '../../../../../src/icons/icon.ts';
+import '../../../../../src/icons/phosphor/copy.ts';
+import '../../../../../src/icons/phosphor/check.ts';
 
 // ── Tab bar: active class switching ──
 

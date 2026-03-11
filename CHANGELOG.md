@@ -2,6 +2,14 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.139
+
+### Fixed
+- **All 35 trait demo pages broken** — HTML/TS files had stale `../../` relative imports after move from `src/traits/` to `packages/native-traits/src/traits/`. Fixed to `../../../../../src/`.
+- **Kernel demo page broken** — HTML/inline scripts had stale `../styles/` and `../nav/` after move to `packages/native-kernel/src/kernel/`.
+- **Context API demo page broken** — same stale relative path issue after move to `packages/native-core/src/core/`.
+- **Sitemap paths updated** — all 35 trait paths, kernel path, and context API path now point to `packages/*/` locations.
+
 ## 0.7.138
 
 ### Fixed

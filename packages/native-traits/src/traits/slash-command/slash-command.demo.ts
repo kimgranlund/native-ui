@@ -1,14 +1,14 @@
-import '../../nav/native-dashboard.ts';
-import '../../components/textarea/textarea.ts';
-import '../../components/input/input.ts';
-import '../../components/button/button.ts';
-import '../../components/listbox/listbox.ts';
-import '../../components/listbox/option.ts';
-import '../../components/controller/controller.ts';
-import '../../components/table/table.ts';
-import '../../icons/icon.ts';
-import '../../icons/phosphor/copy.ts';
-import '../../icons/phosphor/check.ts';
+import '../../../../../src/nav/native-dashboard.ts';
+import '../../../../../src/components/textarea/textarea.ts';
+import '../../../../../src/components/input/input.ts';
+import '../../../../../src/components/button/button.ts';
+import '../../../../../src/components/listbox/listbox.ts';
+import '../../../../../src/components/listbox/option.ts';
+import '../../../../../src/components/controller/controller.ts';
+import '../../../../../src/components/table/table.ts';
+import '../../../../../src/icons/icon.ts';
+import '../../../../../src/icons/phosphor/copy.ts';
+import '../../../../../src/icons/phosphor/check.ts';
 import { SlashCommandController } from './slash-command-controller.ts';
 
 // ── Helper: event logging ──
