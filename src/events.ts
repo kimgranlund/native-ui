@@ -339,3 +339,21 @@ export interface NGripCancelDetail {
   mode: string;
   placement: string;
 }
+
+// ── Pane ──
+export interface NPaneCloseDetail {
+  pane: HTMLElement;
+}
+
+export interface NPaneMinimizeDetail {
+  pane: HTMLElement;
+}
+
+export interface NPaneRestoreDetail {
+  pane: HTMLElement;
+}
+
+export interface NPaneResizeDetail {
+  sizes: number[];
+  index: number;
+}

@@ -1,0 +1,120 @@
+@layer ui {
+
+  /* ══════════════════════════════════════════════════════════════════
+     <n-panes> — Coordinated pane group container
+     Flex layout with resize handles between children.
+     Default orientation: horizontal (side-by-side).
+     ══════════════════════════════════════════════════════════════════ */
+
+  :where(n-panes):not(:defined) { visibility: hidden; }
+  :where(n-pane):not(:defined) { visibility: hidden; }
+
+  :where(n-panes) {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 0%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     <n-pane> — Individual pane with optional header, close, minimize
+     ══════════════════════════════════════════════════════════════════ */
+
+  :where(n-pane) {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── Compact header inside pane ── */
+
+  :where(n-pane) > :where(n-header) {
+    --n-padding-block: 0.125rem;
+    --n-padding-inline: 0.375rem;
+    min-height: var(--n-pane-header-height, 1.75rem);
+    font-size: var(--n-pane-header-font-size, 0.6875rem);
+    font-weight: var(--n-button-font-weight);
+    gap: calc(var(--n-space) * 1);
+    flex: none;
+  }
+
+  /* ── Pane body (scrollable content) ── */
+
+  :where(n-pane) > :where(n-body) {
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+
+  /* ── Minimized state ── */
+
+  :where(n-pane[minimized]) {
+    flex: none;
+  }
+
+  :where(n-pane[minimized]) > :where(n-body),
+  :where(n-pane[minimized]) > :where(n-footer),
+  :where(n-pane[minimized]) > :where(:not(n-header)) {
+    display: none;
+  }
+
+  /* ── Resize handles (stamped by n-panes between children) ── */
+
+  :where(n-panes) > :where(.pane-handle) {
+    flex: none;
+    width: var(--n-pane-handle-size, 4px);
+    cursor: col-resize;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+    transition: background var(--n-duration) var(--n-easing);
+    touch-action: none;
+  }
+
+  :where(n-panes) > :where(.pane-handle):hover,
+  :where(n-panes[data-resizing]) > :where(.pane-handle[data-active]) {
+    background: var(--n-pane-handle-color, var(--n-border-muted));
+  }
+
+  /* ── Border between adjacent panes ── */
+
+  :where(n-panes) > :where(n-pane) + :where(.pane-handle) {
+    border-inline-start: 1px solid var(--n-pane-border-color, var(--n-border-muted));
+  }
+
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Attribute API (unlayered)
+   Selectors at (0,1,0) — beat layered component defaults.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── Vertical orientation ── */
+
+:where(n-panes)[orientation="vertical"] {
+  flex-direction: column;
+}
+
+:where(n-panes)[orientation="vertical"] > :where(.pane-handle) {
+  width: auto;
+  height: var(--n-pane-handle-size, 4px);
+  cursor: row-resize;
+}
+
+:where(n-panes)[orientation="vertical"] > :where(n-pane) + :where(.pane-handle) {
+  border-inline-start: none;
+  border-block-start: 1px solid var(--n-pane-border-color, var(--n-border-muted));
+}
+
+/* ── Bordered pane ── */
+
+:where(n-pane)[bordered] {
+  border: 1px solid var(--n-pane-border-color, var(--n-border-muted));
+}

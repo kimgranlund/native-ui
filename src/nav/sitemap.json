@@ -58,6 +58,7 @@
   { "title": "Inset", "path": "/src/containers/inset/inset.html", "group": "Containers" },
   { "title": "Picture", "path": "/src/components/picture/picture.html", "group": "Containers" },
   { "title": "Progress", "path": "/src/components/progress/progress.html", "group": "Containers" },
+  { "title": "Pane", "path": "/src/containers/pane/pane.html", "group": "Containers", "badge": "new" },
   { "title": "Stack", "path": "/src/containers/stack/stack.html", "group": "Containers" },
   { "title": "Video", "path": "/src/components/video/video.html", "group": "Containers" },
   { "title": "Toolbar", "path": "/src/components/toolbar/toolbar.html", "group": "Components", "badge": "updated" },

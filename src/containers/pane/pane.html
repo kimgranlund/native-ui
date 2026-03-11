@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-pane / n-panes — Pane Group Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    <style>
+      .demo-panes { height: 280px; }
+      .demo-panes n-body { padding: 0.5rem; }
+    </style>
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <header>
+      <h1>&lt;n-pane&gt; / &lt;n-panes&gt;</h1>
+      <div class="demo-desc">
+        Resizable, closeable, minimizable pane groups with coordinated resize handles.
+      </div>
+    </header>
+
+    <section>
+
+    <!-- ── Horizontal ── -->
+
+    <h2>Horizontal Panes</h2>
+    <n-container data-kind="panel" bordered class="demo-panes">
+      <n-panes>
+        <n-pane label="Explorer" icon="folder">
+          <n-body><p>File tree content</p></n-body>
+        </n-pane>
+        <n-pane label="Editor" icon="code">
+          <n-body><p>Code editor content</p></n-body>
+        </n-pane>
+        <n-pane label="Preview" icon="eye">
+          <n-body><p>Preview content</p></n-body>
+        </n-pane>
+      </n-panes>
+    </n-container>
+
+    <!-- ── Vertical ── -->
+
+    <h2>Vertical Panes</h2>
+    <n-container data-kind="panel" bordered class="demo-panes" style="height: 360px;">
+      <n-panes orientation="vertical">
+        <n-pane label="Source">
+          <n-body><p>Source panel content</p></n-body>
+        </n-pane>
+        <n-pane label="Console">
+          <n-body><p>Console output</p></n-body>
+        </n-pane>
+      </n-panes>
+    </n-container>
+
+    <!-- ── Closeable & Minimizable ── -->
+
+    <h2>Closeable &amp; Minimizable</h2>
+    <n-container data-kind="panel" bordered class="demo-panes">
+      <n-panes id="closeable-demo">
+        <n-pane label="Panel A" closeable minimizable>
+          <n-body><p>This pane can be closed or minimized.</p></n-body>
+        </n-pane>
+        <n-pane label="Panel B" closeable minimizable>
+          <n-body><p>This one too.</p></n-body>
+        </n-pane>
+        <n-pane label="Panel C">
+          <n-body><p>This one stays.</p></n-body>
+        </n-pane>
+      </n-panes>
+    </n-container>
+
+    <!-- ── Nested ── -->
+
+    <h2>Nested Panes (IDE Layout)</h2>
+    <n-container data-kind="panel" bordered class="demo-panes" style="height: 400px;">
+      <n-panes>
+        <n-pane label="Sidebar" icon="sidebar" min-size="120" max-size="300">
+          <n-body><p>Sidebar content</p></n-body>
+        </n-pane>
+        <n-pane>
+          <n-panes orientation="vertical">
+            <n-pane label="Editor" icon="code">
+              <n-body><p>Editor content</p></n-body>
+            </n-pane>
+            <n-pane label="Terminal" icon="terminal">
+              <n-body><p>Terminal output</p></n-body>
+            </n-pane>
+          </n-panes>
+        </n-pane>
+      </n-panes>
+    </n-container>
+
+    <!-- ── Events ── -->
+
+    <h2>Events</h2>
+    <article bordered>
+      <div class="body demo-event-log" id="event-log"></div>
+    </article>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API Reference</h2>
+
+    <h3>&lt;n-pane&gt;</h3>
+    <table class="api-table">
+      <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>label</code></td><td>string</td><td>—</td><td>Header label text</td></tr>
+        <tr><td><code>icon</code></td><td>string</td><td>—</td><td>Phosphor icon name</td></tr>
+        <tr><td><code>closeable</code></td><td>boolean</td><td>false</td><td>Shows close button</td></tr>
+        <tr><td><code>minimizable</code></td><td>boolean</td><td>false</td><td>Shows minimize/restore button</td></tr>
+        <tr><td><code>minimized</code></td><td>boolean</td><td>false</td><td>Collapsed to header-only</td></tr>
+        <tr><td><code>min-size</code></td><td>number</td><td>0</td><td>Minimum size in px</td></tr>
+        <tr><td><code>max-size</code></td><td>number</td><td>∞</td><td>Maximum size in px</td></tr>
+        <tr><td><code>bordered</code></td><td>boolean</td><td>false</td><td>Adds border around pane</td></tr>
+      </tbody>
+    </table>
+
+    <h3>&lt;n-panes&gt;</h3>
+    <table class="api-table">
+      <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>orientation</code></td><td>'horizontal' | 'vertical'</td><td>'horizontal'</td><td>Layout direction</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Events</h3>
+    <table class="api-table">
+      <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>native:pane-close</code></td><td><code>{ pane }</code></td><td>Close button clicked (cancelable)</td></tr>
+        <tr><td><code>native:pane-minimize</code></td><td><code>{ pane }</code></td><td>Pane minimized</td></tr>
+        <tr><td><code>native:pane-restore</code></td><td><code>{ pane }</code></td><td>Pane restored from minimized</td></tr>
+        <tr><td><code>native:pane-resize</code></td><td><code>{ sizes[], index }</code></td><td>Resize handle drag completed</td></tr>
+      </tbody>
+    </table>
+
+    <h3>CSS Tokens</h3>
+    <table class="api-table">
+      <thead><tr><th>Token</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>--n-pane-header-height</code></td><td>1.75rem</td><td>Compact header height</td></tr>
+        <tr><td><code>--n-pane-header-font-size</code></td><td>0.6875rem</td><td>Header text size</td></tr>
+        <tr><td><code>--n-pane-handle-size</code></td><td>4px</td><td>Resize handle hit area</td></tr>
+        <tr><td><code>--n-pane-handle-color</code></td><td>var(--n-border-muted)</td><td>Handle hover color</td></tr>
+        <tr><td><code>--n-pane-border-color</code></td><td>var(--n-border-muted)</td><td>Border between panes</td></tr>
+      </tbody>
+    </table>
+
+    </section>
+    </main></native-dashboard-spa>
+
+    <script type="module" src="./pane.demo.ts"></script>
+  </body>
+</html>

@@ -135,13 +135,13 @@ export class NA2UI extends NativeElement {
   #htmlEditorEl: (HTMLElement & NCodemirror) | null = null;
   #cssEditorEl: (HTMLElement & NCodemirror) | null = null;
   #componentEditorEl: (HTMLElement & NCodemirror) | null = null;
-  #componentMapEl: HTMLDivElement | null = null;
+  #componentMapEl: HTMLElement | null = null;
   #schemaEditorEl: (HTMLElement & NCodemirror) | null = null;
   #previewEl: HTMLDivElement | null = null;
   #previewRegionEl: HTMLDivElement | null = null;
   #splitEl: HTMLDivElement | null = null;
-  #paneEls: Map<PanelId, HTMLDivElement> = new Map();
-  #paneContentEls: Map<PanelId, HTMLDivElement> = new Map();
+  #paneEls: Map<PanelId, HTMLElement> = new Map();
+  #paneContentEls: Map<PanelId, HTMLElement> = new Map();
   #chipEls: Map<PanelId, HTMLElement> = new Map();
 
   // Registry
@@ -575,7 +575,7 @@ export class NA2UI extends NativeElement {
 
     // Find owning pane (must be a pane, not the preview)
     const pane = handle.parentElement;
-    if (!pane?.classList.contains('a2ui-pane')) return;
+    if (!pane?.matches('n-pane')) return;
     const handlePaneId = pane.dataset.panel as PanelId | undefined;
     if (!handlePaneId) return;
 
@@ -734,7 +734,7 @@ export class NA2UI extends NativeElement {
     const handle = (e.target as HTMLElement).closest?.('.a2ui-resize-handle') as HTMLElement | null;
     if (!handle) return;
     const pane = handle.parentElement;
-    if (!pane?.classList.contains('a2ui-pane')) return;
+    if (!pane?.matches('n-pane')) return;
     // Clear all explicit sizing — returns everything to default flex distribution
     if (this.#previewRegionEl) this.#previewRegionEl.style.removeProperty('width');
     for (const [_, el] of this.#paneEls) {
@@ -850,8 +850,7 @@ export class NA2UI extends NativeElement {
     // ── Panes ──
 
     for (const id of PANEL_ORDER) {
-      const pane = document.createElement('div');
-      pane.className = 'a2ui-pane';
+      const pane = document.createElement('n-pane');
       pane.dataset.panel = id;
       if (!this.#activePanels.value.has(id)) {
         pane.hidden = true;
@@ -955,8 +954,7 @@ export class NA2UI extends NativeElement {
       }
 
       // Content area
-      const content = document.createElement('div');
-      content.className = 'a2ui-pane-content';
+      const content = document.createElement('n-body');
       pane.appendChild(content);
       this.#paneContentEls.set(id, content);
 
@@ -1201,7 +1199,7 @@ export class NA2UI extends NativeElement {
     this.#jsLog.value = [...this.#jsLog.value, { type, data, timestamp: Date.now() }];
   }
 
-  #renderLog(entries: LogEntry[], el: HTMLDivElement | null): void {
+  #renderLog(entries: LogEntry[], el: HTMLElement | null): void {
     if (!el) return;
 
     el.textContent = '';
@@ -1242,7 +1240,7 @@ export class NA2UI extends NativeElement {
   #selectedType: string | null = null;
   #detailTab: 'info' | 'json' = 'info';
 
-  #renderComponentMap(el: HTMLDivElement, activeTypes: Set<string>): void {
+  #renderComponentMap(el: HTMLElement, activeTypes: Set<string>): void {
     el.textContent = '';
 
     // Detail panel (shown when a type is selected)
@@ -1306,7 +1304,7 @@ export class NA2UI extends NativeElement {
     el.append(summary, table);
   }
 
-  #renderComponentDetail(el: HTMLDivElement, type: string, activeTypes: Set<string>): void {
+  #renderComponentDetail(el: HTMLElement, type: string, activeTypes: Set<string>): void {
     const mapping = this.#registry.get(type);
     if (!mapping) return;
 

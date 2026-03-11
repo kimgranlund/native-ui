@@ -8,6 +8,7 @@
 @import '../../containers/container/container.css';
 @import '../../containers/body/body.css';
 @import '../../containers/divider/divider.css';
+@import '../../containers/pane/pane.css';
 
 @layer ui {
 

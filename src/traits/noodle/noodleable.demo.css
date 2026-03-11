@@ -37,8 +37,26 @@
   transition: box-shadow 200ms ease;
 }
 
+.flow-node:hover {
+  box-shadow: 0 0 0 2px var(--n-border-accent), 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 2;
+}
+
 .flow-node:active {
   cursor: grabbing;
+}
+
+.flow-node[data-selected] {
+  box-shadow: 0 0 0 2px var(--n-color-accent-500), 0 2px 12px rgba(0, 0, 0, 0.12);
+  z-index: 3;
+}
+
+.flow-node[data-editing] {
+  cursor: text;
+  user-select: text;
+  touch-action: auto;
+  outline: 1px solid var(--n-color-accent-400);
+  outline-offset: 1px;
 }
 
 .flow-node[disabled] {
@@ -224,3 +242,9 @@
 
 .event-log .connect { color: var(--n-ink-success); }
 .event-log .disconnect { color: var(--n-ink-danger); }
+
+/* ── Editor selection highlight ── */
+
+.flow-split-editor .cm-selectionBackground {
+  background: oklch(0.65 0.12 250 / 0.2) !important;
+}

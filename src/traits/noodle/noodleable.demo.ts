@@ -1,5 +1,6 @@
 import { NoodleController, MagnetController, PresentController } from '../../index.ts';
 import { createEditorView, EditorView } from '@nonoun/native-code';
+import { EditorSelection } from '@codemirror/state';
 import { json } from '@codemirror/lang-json';
 
 // ── 1. Interactive Flow Builder ──
@@ -74,22 +75,142 @@ if (flowArena && flowViewport && flowTransform) {
     noodle?.update();
   });
 
+  // ── Node Selection ──
+
+  let selectedNodeId: string | null = null;
+
+  function selectNode(nodeId: string | null) {
+    // Clear previous selection
+    if (selectedNodeId) {
+      document.getElementById(selectedNodeId)?.removeAttribute('data-selected');
+    }
+    selectedNodeId = nodeId;
+    if (!nodeId) return;
+
+    const el = document.getElementById(nodeId);
+    if (!el) return;
+    el.setAttribute('data-selected', '');
+
+    // Sync position to editor and highlight the JSON block
+    syncCanvasToEditor();
+    highlightNodeInEditor(nodeId);
+  }
+
+  function highlightNodeInEditor(nodeId: string) {
+    if (!editorView) return;
+    const doc = editorView.state.doc.toString();
+
+    // Find the node's JSON block by matching its "id" field
+    const idPattern = `"id": "${nodeId}"`;
+    const idIndex = doc.indexOf(idPattern);
+    if (idIndex === -1) return;
+
+    // Walk backwards to find the opening `{` of this node object
+    let braceDepth = 0;
+    let blockStart = idIndex;
+    for (let i = idIndex; i >= 0; i--) {
+      if (doc[i] === '}') braceDepth++;
+      if (doc[i] === '{') {
+        if (braceDepth === 0) { blockStart = i; break; }
+        braceDepth--;
+      }
+    }
+
+    // Walk forwards to find the closing `}`
+    braceDepth = 0;
+    let blockEnd = idIndex;
+    for (let i = idIndex; i < doc.length; i++) {
+      if (doc[i] === '{') braceDepth++;
+      if (doc[i] === '}') {
+        braceDepth--;
+        if (braceDepth === 0) { blockEnd = i + 1; break; }
+      }
+    }
+
+    // Select and scroll to the block
+    suppressEditorSync = true;
+    editorView.dispatch({
+      selection: EditorSelection.range(blockStart, blockEnd),
+      scrollIntoView: true,
+    });
+    suppressEditorSync = false;
+  }
+
+  flowArena.addEventListener('pointerdown', (e) => {
+    const target = (e.target as HTMLElement).closest('.flow-node') as HTMLElement | null;
+    if (target) {
+      selectNode(target.id);
+    }
+  });
+
+  // ── Inline Label Editing ──
+
+  let editingNode: HTMLElement | null = null;
+
+  flowArena.addEventListener('dblclick', (e) => {
+    const target = (e.target as HTMLElement).closest('.flow-node') as HTMLElement | null;
+    if (!target || target.hasAttribute('disabled')) return;
+    startEditing(target);
+  });
+
+  function startEditing(node: HTMLElement) {
+    if (editingNode) stopEditing(editingNode);
+    editingNode = node;
+    node.setAttribute('contenteditable', 'true');
+    node.setAttribute('data-editing', '');
+    node.focus();
+
+    // Select all text
+    const range = document.createRange();
+    range.selectNodeContents(node);
+    const sel = window.getSelection();
+    sel?.removeAllRanges();
+    sel?.addRange(range);
+  }
+
+  function stopEditing(node: HTMLElement) {
+    node.removeAttribute('contenteditable');
+    node.removeAttribute('data-editing');
+    editingNode = null;
+    syncCanvasToEditor();
+  }
+
+  flowArena.addEventListener('keydown', (e) => {
+    if (!editingNode) return;
+    if (e.key === 'Enter' || e.key === 'Escape') {
+      e.preventDefault();
+      stopEditing(editingNode);
+    }
+  });
+
+  flowArena.addEventListener('focusout', (e) => {
+    const target = e.target as HTMLElement;
+    if (target === editingNode) {
+      stopEditing(target);
+    }
+  });
+
   // ── Noodle + Magnet sync ──
 
   flowArena.addEventListener('native:magnet-snap', () => {
     noodle?.update();
     syncCanvasToEditor();
+    // Update highlight if a node is selected (position changed)
+    if (selectedNodeId) highlightNodeInEditor(selectedNodeId);
   });
   flowArena.addEventListener('native:magnet-drop', () => {
     noodle?.update();
     syncCanvasToEditor();
+    if (selectedNodeId) highlightNodeInEditor(selectedNodeId);
   });
 
-  // Keep add button attached to node during drag
+  // Keep add button + JSON in sync during drag
   flowArena.addEventListener('pointermove', () => {
     if (flowArena.hasAttribute('magnetized')) {
       noodle?.update();
       updateAddButtonPosition();
+      syncCanvasToEditor();
+      if (selectedNodeId) highlightNodeInEditor(selectedNodeId);
     }
   });
   flowArena.addEventListener('native:noodle-connect', () => syncCanvasToEditor());
@@ -287,13 +408,14 @@ if (flowArena && flowViewport && flowTransform) {
     const nodes: Array<{ id: string; label: string; intent: string; ports: string; x: number; y: number }> = [];
     flowArena.querySelectorAll('.flow-node').forEach((el) => {
       const htmlEl = el as HTMLElement;
+      const pos = getNodePosition(htmlEl);
       nodes.push({
         id: htmlEl.id,
         label: htmlEl.textContent?.trim() || '',
         intent: htmlEl.getAttribute('intent') || 'neutral',
         ports: htmlEl.getAttribute('data-noodle-port') || '',
-        x: Math.round(htmlEl.offsetLeft),
-        y: Math.round(htmlEl.offsetTop),
+        x: Math.round(pos.x),
+        y: Math.round(pos.y),
       });
     });
     const connections = noodle?.getConnections() || [];
@@ -357,6 +479,80 @@ if (flowArena && flowViewport && flowTransform) {
     }
   }
 
+  // ── Editor click → find node → center canvas ──
+
+  function findNodeIdAtCursor(): string | null {
+    if (!editorView) return null;
+    const doc = editorView.state.doc.toString();
+    const cursor = editorView.state.selection.main.head;
+
+    // Walk backwards from cursor to find enclosing `{`
+    let braceDepth = 0;
+    let blockStart = -1;
+    for (let i = cursor; i >= 0; i--) {
+      if (doc[i] === '}') braceDepth++;
+      if (doc[i] === '{') {
+        if (braceDepth === 0) { blockStart = i; break; }
+        braceDepth--;
+      }
+    }
+    if (blockStart === -1) return null;
+
+    // Walk forwards from blockStart to find closing `}`
+    braceDepth = 0;
+    let blockEnd = -1;
+    for (let i = blockStart; i < doc.length; i++) {
+      if (doc[i] === '{') braceDepth++;
+      if (doc[i] === '}') {
+        braceDepth--;
+        if (braceDepth === 0) { blockEnd = i + 1; break; }
+      }
+    }
+    if (blockEnd === -1) return null;
+
+    const block = doc.slice(blockStart, blockEnd);
+    const idMatch = block.match(/"id":\s*"([^"]+)"/);
+    return idMatch ? idMatch[1] : null;
+  }
+
+  function panCanvasToNode(nodeId: string) {
+    const el = document.getElementById(nodeId);
+    if (!el || !flowViewport) return;
+
+    const viewportRect = flowViewport.getBoundingClientRect();
+    const viewportCenterX = viewportRect.width / 2;
+    const viewportCenterY = viewportRect.height / 2;
+
+    // Node center in canvas space
+    const nodeX = el.offsetLeft + el.offsetWidth / 2;
+    const nodeY = el.offsetTop + el.offsetHeight / 2;
+
+    // Where the node currently appears in viewport space
+    const appearsX = nodeX + panX;
+    const appearsY = nodeY + panY;
+
+    // Distance from viewport center (as fraction of viewport size)
+    const distFracX = Math.abs(appearsX - viewportCenterX) / viewportRect.width;
+    const distFracY = Math.abs(appearsY - viewportCenterY) / viewportRect.height;
+
+    // Only pan if node is > 25% away from center
+    if (distFracX < 0.25 && distFracY < 0.25) {
+      // Just select/highlight the node
+      selectNode(nodeId);
+      return;
+    }
+
+    // Pan to center the node
+    panX = viewportCenterX - nodeX;
+    panY = viewportCenterY - nodeY;
+    flowTransform.style.transition = 'transform 300ms ease';
+    flowTransform.style.transform = `translate(${panX}px, ${panY}px)`;
+    setTimeout(() => { flowTransform.style.transition = ''; noodle?.update(); }, 310);
+
+    selectNode(nodeId);
+    noodle?.update();
+  }
+
   if (editorContainer) {
     const initial = JSON.stringify(serializeGraph(), null, 2);
     editorView = createEditorView(editorContainer, {
@@ -364,9 +560,17 @@ if (flowArena && flowViewport && flowTransform) {
       extensions: [
         json(),
         EditorView.updateListener.of((update) => {
-          if (!update.docChanged || suppressEditorSync) return;
-          if (editorSyncTimer) clearTimeout(editorSyncTimer);
-          editorSyncTimer = window.setTimeout(syncEditorToCanvas, 300);
+          if (update.docChanged && !suppressEditorSync) {
+            if (editorSyncTimer) clearTimeout(editorSyncTimer);
+            editorSyncTimer = window.setTimeout(syncEditorToCanvas, 300);
+          }
+          // Selection change (click in editor) → find node → center canvas
+          if (update.selectionSet && !suppressEditorSync) {
+            const nodeId = findNodeIdAtCursor();
+            if (nodeId && nodeId !== selectedNodeId) {
+              panCanvasToNode(nodeId);
+            }
+          }
         }),
       ],
     });

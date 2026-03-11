@@ -64,6 +64,8 @@ import { NGripper } from './components/gripper/gripper-element.ts';
 
 // Containers (with JS behavior)
 import { NContainer } from './containers/container/container-element.ts';
+import { NPane } from './containers/pane/pane-element.ts';
+import { NPaneGroup } from './containers/pane/pane-group-element.ts';
 import { NToolbar } from './components/toolbar/toolbar-element.ts';
 import { NRoot } from './components/root/root-element.ts';
 // Icons
@@ -121,6 +123,8 @@ define('n-slide', NSlide);
 define('n-controller', NController);
 define('n-gripper', NGripper);
 define('n-container', NContainer);
+define('n-pane', NPane);
+define('n-panes', NPaneGroup);
 define('n-toolbar', NToolbar);
 define('n-icon', NIcon);
 define('native-root', NRoot);

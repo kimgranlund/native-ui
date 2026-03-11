@@ -44,6 +44,8 @@ import { OpenAiGatewayAdapter } from '../../chat/gateway/adapter-chatgpt.ts';
 import type { GatewayAdapter } from '../../chat/gateway/adapter.ts';
 import { GatewayRequestError } from '../../chat/gateway/runtime.ts';
 import promptJson from './system-prompt.json';
+import { PIPELINE_STEPS, runPipeline, shouldSkipEarlySteps } from './pipeline.ts';
+import type { PipelineStep, PipelineCallbacks } from './pipeline.ts';
 
 // ── System prompt ──
 
@@ -60,7 +62,7 @@ const DEFAULT_SYSTEM_PROMPT = (promptJson as { prompt: string }).prompt
 
 const PANELS = [
   { id: 'preview',  label: 'Preview',  icon: 'eye' },
-  { id: 'concepts', label: 'Concepts', icon: 'tag' },
+  { id: 'concepts', label: 'Insights', icon: 'lightbulb' },
   { id: 'schema',   label: 'Schema',   icon: 'brackets-curly' },
   { id: 'html',     label: 'HTML',     icon: 'brackets-angle' },
   { id: 'css',      label: 'CSS',      icon: 'paint-brush' },
@@ -112,6 +114,30 @@ function buildAdapter(model: string): GatewayAdapter | null {
   });
 }
 
+function buildStepAdapter(stepSystemPrompt: string, maxTokens: number): GatewayAdapter | null {
+  if (isClaudeModel(currentModel)) {
+    if (!anthropicKey) return null;
+    return new ClaudeGatewayAdapter({
+      clientId: 'a2ui-builder-step',
+      baseUrl: '/api/anthropic',
+      model: currentModel,
+      maxTokens,
+      system: stepSystemPrompt,
+      apiKey: anthropicKey,
+      anthropicVersion: '2023-06-01',
+    });
+  }
+  if (!openaiKey) return null;
+  return new OpenAiGatewayAdapter({
+    clientId: 'a2ui-builder-step',
+    baseUrl: '/api/openai',
+    model: currentModel,
+    maxTokens,
+    system: stepSystemPrompt,
+    apiKey: openaiKey,
+  });
+}
+
 let currentModel = 'claude-haiku-4-5';
 let llm: GatewayAdapter | null = buildAdapter(currentModel);
 
@@ -125,6 +151,7 @@ interface Message {
 }
 
 const messages: Message[] = [];
+let pipelineMode = false;
 
 // ── Mock fallback ──
 
@@ -488,7 +515,7 @@ modelPicker.addEventListener('native:change', () => {
 // ── Init pane refs + chips ──
 
 for (const panel of PANELS) {
-  const paneEl = document.querySelector(`.builder-pane[data-panel="${panel.id}"]`) as HTMLElement | null;
+  const paneEl = document.querySelector(`n-pane[data-panel="${panel.id}"]`) as HTMLElement | null;
   if (paneEl) {
     paneEls.set(panel.id, paneEl);
     paneEl.hidden = !activePanels.has(panel.id);
@@ -542,18 +569,72 @@ function syncPanels() {
 
 // ── Lightbox toggle (light/dark preview) ──
 
-const lightboxBtn = document.getElementById('lightbox-toggle');
-const previewContent = document.querySelector('.builder-pane[data-panel="preview"] .builder-pane-content') as HTMLElement | null;
-let darkPreview = false;
+const colorSchemeBtn = document.getElementById('lightbox-toggle');
+const previewContent = document.querySelector('n-pane[data-panel="preview"] > n-body') as HTMLElement | null;
+let userOverride: boolean | null = null; // null = inherit from context
 
-lightboxBtn?.addEventListener('native:press', () => {
-  darkPreview = !darkPreview;
+function resolvePreviewDark(): boolean {
+  if (userOverride !== null) return userOverride;
+  // Check computed color-scheme on the preview or its ancestors
   if (previewContent) {
-    previewContent.style.colorScheme = darkPreview ? 'dark' : 'light';
+    const computed = getComputedStyle(previewContent).colorScheme;
+    if (computed === 'dark') return true;
+    if (computed === 'light') return false;
   }
-  const icon = lightboxBtn.querySelector('n-icon');
-  if (icon) icon.setAttribute('name', darkPreview ? 'sun' : 'moon');
-  lightboxBtn.toggleAttribute('data-active', darkPreview);
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function syncColorSchemeIcon(): void {
+  const dark = resolvePreviewDark();
+  const icon = colorSchemeBtn?.querySelector('n-icon');
+  if (icon) icon.setAttribute('name', dark ? 'sun' : 'moon');
+}
+
+// Sync icon to initial context
+syncColorSchemeIcon();
+
+colorSchemeBtn?.addEventListener('native:press', () => {
+  const wasDark = resolvePreviewDark();
+  userOverride = !wasDark;
+  if (previewContent) {
+    previewContent.style.colorScheme = userOverride ? 'dark' : 'light';
+  }
+  syncColorSchemeIcon();
+});
+
+// ── Lightbox mode (fullscreen overlay) ──
+
+const lightboxModeBtn = document.getElementById('lightbox-btn');
+const builderEl = document.querySelector('.builder') as HTMLElement | null;
+let lightboxMode = false;
+
+lightboxModeBtn?.addEventListener('native:press', () => {
+  if (!builderEl) return;
+  lightboxMode = !lightboxMode;
+  if (lightboxMode) {
+    builderEl.setAttribute('popover', 'manual');
+    builderEl.showPopover();
+  } else {
+    builderEl.hidePopover();
+    builderEl.removeAttribute('popover');
+  }
+  builderEl.toggleAttribute('data-lightbox', lightboxMode);
+  lightboxModeBtn.toggleAttribute('data-active', lightboxMode);
+  const icon = lightboxModeBtn.querySelector('n-icon');
+  if (icon) icon.setAttribute('name', lightboxMode ? 'arrows-in-simple' : 'arrows-out-simple');
+});
+
+// ── Pipeline mode toggle (Flask button) ──
+
+const pipelineBtn = document.querySelector('[data-role="toggle-pipeline"]') as HTMLElement | null;
+pipelineBtn?.addEventListener('native:press', () => {
+  pipelineMode = !pipelineMode;
+  pipelineBtn.toggleAttribute('data-active', pipelineMode);
+  if (pipelineMode) {
+    pipelineBtn.setAttribute('intent', 'accent');
+  } else {
+    pipelineBtn.removeAttribute('intent');
+  }
 });
 
 // ── Coordinated resize ──
@@ -603,7 +684,7 @@ splitEl.addEventListener('pointerdown', (e: PointerEvent) => {
       targetId: visible[0],
       targetStartW: firstPaneEl.offsetWidth,
     };
-  } else if (parent.classList.contains('builder-pane')) {
+  } else if (parent.matches('n-pane')) {
     const panelId = (parent as HTMLElement).dataset.panel!;
     const visible = getVisiblePanes();
     const idx = visible.indexOf(panelId);
@@ -876,13 +957,132 @@ function clearSeeds() {
   lastMessageRole = null;
 }
 
-function renderConcepts(concepts?: string[]) {
-  conceptsWrap.innerHTML = '';
-  if (!concepts?.length) return;
-  for (const c of concepts) {
+
+// ── Insights pane (accumulating reasoning log) ──
+
+/** Strip markdown fences (```json ... ```) that LLMs sometimes add despite instructions. */
+function stripFences(raw: string): string {
+  const trimmed = raw.trim();
+  const fenceStart = /^```(?:json)?\s*\n?/;
+  const fenceEnd = /\n?```\s*$/;
+  if (fenceStart.test(trimmed) && fenceEnd.test(trimmed)) {
+    return trimmed.replace(fenceStart, '').replace(fenceEnd, '').trim();
+  }
+  return trimmed;
+}
+
+let insightCounter = 0;
+
+function appendInsightEntry(label: string): HTMLElement {
+  insightCounter++;
+  const entry = document.createElement('div');
+  entry.className = 'insight-entry';
+
+  const header = document.createElement('div');
+  header.className = 'insight-header';
+  const num = document.createElement('span');
+  num.className = 'insight-num';
+  num.textContent = `#${insightCounter}`;
+  header.appendChild(num);
+  const title = document.createElement('span');
+  title.className = 'insight-label';
+  title.textContent = label;
+  header.appendChild(title);
+  entry.appendChild(header);
+
+  conceptsWrap.appendChild(entry);
+  conceptsWrap.scrollTop = conceptsWrap.scrollHeight;
+  return entry;
+}
+
+function appendInsightText(parent: HTMLElement, text: string, muted = false): void {
+  const el = document.createElement('span');
+  el.className = 'text';
+  el.setAttribute('size', 'sm');
+  if (muted) el.setAttribute('muted', '');
+  el.textContent = text;
+  parent.appendChild(el);
+}
+
+function appendInsightBadges(parent: HTMLElement, items: string[], intent?: string): void {
+  const wrap = document.createElement('div');
+  wrap.className = 'insight-badges';
+  for (const item of items) {
     const badge = document.createElement('n-badge');
-    badge.textContent = c;
-    conceptsWrap.appendChild(badge);
+    if (intent) badge.setAttribute('intent', intent);
+    badge.textContent = item;
+    wrap.appendChild(badge);
+  }
+  parent.appendChild(wrap);
+}
+
+function appendInterpretation(output: string): void {
+  try {
+    const data = JSON.parse(stripFences(output));
+    const entry = appendInsightEntry('Interpretation');
+
+    if (data.intent) appendInsightText(entry, data.intent);
+    const meta: string[] = [];
+    if (data.uiKind) meta.push(data.uiKind);
+    if (meta.length) appendInsightBadges(entry, meta);
+    if (data.assumptions?.length) {
+      for (const a of data.assumptions) appendInsightText(entry, `→ ${a}`, true);
+    }
+  } catch {
+    const entry = appendInsightEntry('Interpretation');
+    appendInsightText(entry, output.slice(0, 300), true);
+  }
+}
+
+function appendConcepts(output: string): void {
+  try {
+    const data = JSON.parse(stripFences(output));
+    const entry = appendInsightEntry('Concepts');
+
+    // Design patterns as highlighted items
+    for (const c of data.concepts ?? []) {
+      const item = document.createElement('div');
+      item.className = 'insight-concept';
+      const name = document.createElement('span');
+      name.className = 'insight-concept-name';
+      name.textContent = c.pattern;
+      item.appendChild(name);
+      if (c.rationale) appendInsightText(item, c.rationale, true);
+      entry.appendChild(item);
+    }
+
+    // Interactions as accent badges
+    if (data.interactions?.length) {
+      appendInsightBadges(entry, data.interactions, 'accent');
+    }
+
+    // Data flow + state model as text
+    if (data.dataFlow) appendInsightText(entry, data.dataFlow);
+    if (data.stateModel) appendInsightText(entry, data.stateModel, true);
+  } catch {
+    const entry = appendInsightEntry('Concepts');
+    appendInsightText(entry, output.slice(0, 300), true);
+  }
+}
+
+function appendPlan(output: string): void {
+  try {
+    const data = JSON.parse(stripFences(output));
+    const entry = appendInsightEntry('Plan');
+
+    if (data.layout) appendInsightText(entry, data.layout);
+    if (data.hierarchy) appendInsightText(entry, data.hierarchy, true);
+
+    const traits = data.traits ?? [];
+    if (traits.length) appendInsightBadges(entry, traits);
+
+    const notes: string[] = [];
+    if (data.cssNeeded && data.cssNotes) notes.push(`CSS: ${data.cssNotes}`);
+    if (data.jsNeeded && data.jsNotes) notes.push(`JS: ${data.jsNotes}`);
+    for (const n of notes) appendInsightText(entry, n, true);
+  } catch {
+    const entry = appendInsightEntry('Plan');
+    appendInsightText(entry, output.slice(0, 300), true);
   }
 }
 
@@ -938,7 +1138,6 @@ function applyResult(result: MockResult) {
     reply += '\n' + result.questions.map((q, i) => `${i + 1}. ${q}`).join('\n');
   }
   addMessage('assistant', reply, tag);
-  renderConcepts(result.concepts);
 
   // Handle remaps
   if (isRemap && result.remaps?.length) {
@@ -1000,80 +1199,39 @@ function applyResult(result: MockResult) {
   }
 }
 
-// ── Progress step classification ──
+// ── Progress step classification (single-shot mode) ──
 
 function classifySteps(query: string, isIterating: boolean): [string, string, string] {
   const q = query.toLowerCase();
-
-  // Style / CSS requests
-  if (/\b(style|color|theme|dark|light|background|font|spacing|padding|margin|border|shadow|round|gradient)\b/.test(q)) {
+  if (/\b(style|color|theme|dark|light|background|font|spacing|padding|margin|border|shadow|round|gradient)\b/.test(q))
     return ['Thinking', 'Analyzing Styles', 'Styling UI'];
-  }
-  // Interactivity / JS requests
-  if (/\b(click|event|handler|interact|button press|toggle|animate|show|hide|submit|validate)\b/.test(q)) {
+  if (/\b(click|event|handler|interact|button press|toggle|animate|show|hide|submit|validate)\b/.test(q))
     return ['Thinking', 'Planning Logic', 'Wiring Events'];
-  }
-  // Layout / structure changes
-  if (/\b(layout|grid|stack|column|row|sidebar|header|footer|responsive|mobile|split|arrange|reorder|move)\b/.test(q)) {
+  if (/\b(layout|grid|stack|column|row|sidebar|header|footer|responsive|mobile|split|arrange|reorder|move)\b/.test(q))
     return ['Thinking', 'Planning Layout', 'Restructuring UI'];
-  }
-  // Questions / explanations
-  if (/^(what|how|why|can you|is it|explain|tell me|describe)\b/.test(q)) {
+  if (/^(what|how|why|can you|is it|explain|tell me|describe)\b/.test(q))
     return ['Thinking', 'Analyzing', 'Composing Response'];
-  }
-  // Removal / simplification
-  if (/\b(remove|delete|simplify|strip|clean|fewer|less|minimal)\b/.test(q)) {
+  if (/\b(remove|delete|simplify|strip|clean|fewer|less|minimal)\b/.test(q))
     return ['Thinking', 'Reviewing Structure', 'Simplifying UI'];
-  }
-  // Iteration (has existing schema)
-  if (isIterating) {
-    return ['Thinking', 'Reviewing Changes', 'Updating UI'];
-  }
-  // Default: first generation
+  if (isIterating) return ['Thinking', 'Reviewing Changes', 'Updating UI'];
   return ['Thinking', 'Concept Mapping', 'Creating UI'];
 }
 
-// ── Send handler ──
+// ── Single-shot send (one LLM call, timer-based progress) ──
 
-async function sendMessage(value: string) {
-  // Clear any existing seed chips
-  clearSeeds();
-
-  addMessage('user', value);
-
-  // Inject current schema context so the LLM can refine it
-  const userMessage = currentSchema
-    ? `[CURRENT SCHEMA]\n${JSON.stringify(currentSchema, null, 2)}\n[/CURRENT SCHEMA]\n\n${value}`
-    : value;
-  messages.push({ role: 'user', message: userMessage });
-
-  if (!llm) {
-    setTimeout(() => applyResult(mockResponse(value)), 300);
-    return;
-  }
-
-  chatComposer.busy = true;
-
-  // Typing indicator breaks grouping
-  lastMessageGroup = null;
-  lastMessageRole = null;
-
-  // Show multi-step progress indicator
+async function sendSingleShot(value: string) {
   const progressEl = document.createElement('div');
   progressEl.className = 'builder-progress';
   chatFeed.appendChild(progressEl);
   chatFeed.scrollTop = chatFeed.scrollHeight;
 
-  // Pick reasoning steps based on user intent
   const steps = classifySteps(value, !!currentSchema);
   let elapsed = 0;
 
-  // Create a line element for each step
   const lines: HTMLDivElement[] = [];
   function addStep(index: number) {
     const prev = lines[lines.length - 1];
     if (prev) prev.removeAttribute('data-active');
-
     const line = document.createElement('div');
     line.className = 'builder-progress-step';
     line.setAttribute('data-active', '');
@@ -1083,19 +1241,11 @@ async function sendMessage(value: string) {
     chatFeed.scrollTop = chatFeed.scrollHeight;
   }
 
-  function updateThinkingTime() {
-    if (lines[0]) lines[0].textContent = `Thinking ${elapsed}s`;
-  }
-
   addStep(0);
-  updateThinkingTime();
-
   const tickTimer = setInterval(() => {
     elapsed++;
-    updateThinkingTime();
+    if (lines[0]) lines[0].textContent = `Thinking ${elapsed}s`;
   }, 1000);
-
-  // Advance to next step after delays
   const stepTimers = [
     setTimeout(() => addStep(1), 2000),
     setTimeout(() => addStep(2), 4000),
@@ -1104,7 +1254,6 @@ async function sendMessage(value: string) {
   function clearProgress(summaryVerb?: string) {
     clearInterval(tickTimer);
     for (const t of stepTimers) clearTimeout(t);
-    // Replace progress steps with a compact summary
     const label = summaryVerb ?? steps[steps.length - 1];
     progressEl.textContent = '';
     progressEl.className = 'builder-progress-summary';
@@ -1112,7 +1261,7 @@ async function sendMessage(value: string) {
   }
 
   try {
-    const response = await llm.sendMessage({
+    const response = await llm!.sendMessage({
       id: crypto.randomUUID(),
       messages,
       query: value,
@@ -1123,11 +1272,8 @@ async function sendMessage(value: string) {
     const result = parseJSON(trimmed);
 
     if (!result.type) result.type = result.gaps?.length ? 'gap' : result.prompt ? 'prompt' : result.schema ? 'schema' : 'question';
-    if (result.schema && !result.schema.surfaceId) {
-      result.schema.surfaceId = 'preview';
-    }
+    if (result.schema && !result.schema.surfaceId) result.schema.surfaceId = 'preview';
 
-    // Summary verb based on actual response type
     const summaryVerbs: Record<string, string> = {
       schema: currentSchema ? 'Updated UI' : 'Created UI',
       question: 'Responded',
@@ -1139,15 +1285,147 @@ async function sendMessage(value: string) {
 
     messages.push({ role: 'assistant', message: trimmed! });
     applyResult(result);
-
   } catch (err) {
     clearProgress('Error');
     if (err instanceof GatewayRequestError && err.kind === 'auth') {
-      addMessage('assistant', `API key error — check that your API key is valid and the proxy endpoint is configured. The Anthropic API is not available in all regions — if you are outside the US, you may need to use a proxy or VPN. (${err.status}: ${err.message})`);
+      addMessage('assistant', `API key error — check that your API key is valid and the proxy endpoint is configured. The Anthropic API is not available in all regions — if you are outside the US, you may need to use a proxy or VPN. (${(err as GatewayRequestError).status}: ${(err as Error).message})`);
     } else {
       addMessage('assistant', `Error: ${(err as Error).message}`);
     }
     console.error('[A2UI Builder]', err);
+  }
+}
+
+// ── Pipeline send (multi-step LLM calls, real progress) ──
+
+async function sendPipeline(value: string) {
+  const progressEl = document.createElement('div');
+  progressEl.className = 'builder-progress';
+  chatFeed.appendChild(progressEl);
+  chatFeed.scrollTop = chatFeed.scrollHeight;
+
+  const skip = shouldSkipEarlySteps(value, !!currentSchema);
+  const visibleSteps = skip ? PIPELINE_STEPS.slice(2) : PIPELINE_STEPS;
+
+  const stepLines = new Map<string, HTMLDivElement>();
+  for (const step of visibleSteps) {
+    const line = document.createElement('div');
+    line.className = 'builder-progress-step';
+    line.setAttribute('data-pending', '');
+    line.textContent = step.label;
+    progressEl.appendChild(line);
+    stepLines.set(step.id, line);
+  }
+
+  let elapsed = 0;
+  const tickTimer = setInterval(() => { elapsed++; }, 1000);
+
+  const callbacks: PipelineCallbacks = {
+    onStepStart(step: PipelineStep, _index: number) {
+      const line = stepLines.get(step.id);
+      if (!line) return;
+      line.removeAttribute('data-pending');
+      line.setAttribute('data-active', '');
+      line.textContent = step.activeLabel;
+      chatFeed.scrollTop = chatFeed.scrollHeight;
+    },
+    onStepComplete(step: PipelineStep, _index: number, output: string) {
+      const line = stepLines.get(step.id);
+      if (line) {
+        line.removeAttribute('data-active');
+        line.setAttribute('data-done', '');
+        line.textContent = step.doneLabel;
+      }
+      if (step.id === 'interpret') appendInterpretation(output);
+      if (step.id === 'concepts') appendConcepts(output);
+      if (step.id === 'plan') appendPlan(output);
+      if (step.id === 'construct') schemaPre.textContent = output;
+    },
+    onStreamChunk(_delta: string, fullMessage: string) {
+      schemaPre.textContent = fullMessage;
+    },
+    onError(step: PipelineStep, _index: number, _error: Error) {
+      const line = stepLines.get(step.id);
+      if (line) {
+        line.removeAttribute('data-active');
+        line.style.color = 'var(--n-ink-danger)';
+        line.textContent = `${step.label} — Error`;
+      }
+    },
+  };
+
+  try {
+    const pipelineResult = await runPipeline(
+      { query: value, currentSchema, componentRef, conversationHistory: messages },
+      callbacks,
+      buildStepAdapter,
+      systemPrompt,
+    );
+
+    clearInterval(tickTimer);
+
+    const trimmed = pipelineResult.raw?.trim();
+    const result = parseJSON(trimmed);
+
+    if (!result.type) result.type = result.gaps?.length ? 'gap' : result.prompt ? 'prompt' : result.schema ? 'schema' : 'question';
+    if (result.schema && !result.schema.surfaceId) result.schema.surfaceId = 'preview';
+
+    const summaryVerbs: Record<string, string> = {
+      schema: currentSchema ? 'Updated UI' : 'Created UI',
+      question: 'Responded',
+      gap: 'Found Gaps',
+      remap: 'Remapped Components',
+      prompt: 'Generated Prompt',
+    };
+    const label = summaryVerbs[result.type ?? ''] ?? 'Done';
+    progressEl.textContent = '';
+    progressEl.className = 'builder-progress-summary';
+    progressEl.textContent = `Thought for ${elapsed}s · ${label}`;
+
+    messages.push({ role: 'assistant', message: trimmed! });
+    applyResult(result);
+  } catch (err) {
+    clearInterval(tickTimer);
+    progressEl.textContent = '';
+    progressEl.className = 'builder-progress-summary';
+    progressEl.textContent = `Thought for ${elapsed}s · Error`;
+
+    if (err instanceof GatewayRequestError && err.kind === 'auth') {
+      addMessage('assistant', `API key error — check that your API key is valid and the proxy endpoint is configured. The Anthropic API is not available in all regions — if you are outside the US, you may need to use a proxy or VPN. (${(err as GatewayRequestError).status}: ${(err as Error).message})`);
+    } else {
+      addMessage('assistant', `Error: ${(err as Error).message}`);
+    }
+    console.error('[A2UI Builder]', err);
+  }
+}
+
+// ── Send handler ──
+
+async function sendMessage(value: string) {
+  clearSeeds();
+  addMessage('user', value);
+  dismissWelcome();
+
+  const userMessage = currentSchema
+    ? `[CURRENT SCHEMA]\n${JSON.stringify(currentSchema, null, 2)}\n[/CURRENT SCHEMA]\n\n${value}`
+    : value;
+  messages.push({ role: 'user', message: userMessage });
+
+  if (!llm) {
+    setTimeout(() => applyResult(mockResponse(value)), 300);
+    return;
+  }
+
+  chatComposer.busy = true;
+  lastMessageGroup = null;
+  lastMessageRole = null;
+
+  try {
+    if (pipelineMode) {
+      await sendPipeline(value);
+    } else {
+      await sendSingleShot(value);
+    }
   } finally {
     chatComposer.busy = false;
   }

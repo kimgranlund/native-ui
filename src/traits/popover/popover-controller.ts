@@ -8,7 +8,6 @@ export class PopoverController {
 
   #anchorEl: HTMLElement | null = null;
   #popoverEl: HTMLElement | null = null;
-
   constructor(host: HTMLElement) {
     this.host = host;
     this.#dismiss = new DismissController(host);
@@ -24,9 +23,11 @@ export class PopoverController {
 
   syncPopover(open: boolean): void {
     if (open) {
-      this.#detectFlip();
+      this.#clearFlip();
       // WHY: showPopover() throws InvalidStateError if already open (e.g. effect re-run)
       try { this.#popoverEl?.showPopover(); } catch { /* already open */ }
+      // Detect flip AFTER showPopover — popover is now in the top layer with final position
+      this.#detectFlip();
       this.#dismiss.enable();
     } else {
       // WHY: hidePopover() throws InvalidStateError if already hidden (e.g. initial effect run)
@@ -46,42 +47,55 @@ export class PopoverController {
     }
   }
 
-  /** Detect if flip-block will place the popover above the anchor.
-   *  Sets --n-popover-origin / --n-popover-from inline BEFORE showPopover()
-   *  so @starting-style reads the correct animation direction. */
+  /** Detect popover placement relative to anchor and set transform origin accordingly.
+   *  Called AFTER showPopover() — reads actual rendered position in top layer.
+   *
+   *  Rule: origin points toward the anchor (trigger).
+   *    below anchor → top center      (default, no override needed)
+   *    above anchor → bottom center
+   *    left of anchor → center right
+   *    right of anchor → center left
+   */
   #detectFlip(): void {
     const anchor = this.#anchorEl;
     const popover = this.#popoverEl;
     if (!anchor || !popover) return;
 
-    // Briefly make popover measurable (still hidden — no paint between set/remove)
-    popover.style.display = 'block';
-    popover.style.visibility = 'hidden';
-    const height = popover.offsetHeight;
-    popover.style.removeProperty('display');
-    popover.style.removeProperty('visibility');
+    const a = anchor.getBoundingClientRect();
+    const p = popover.getBoundingClientRect();
+    const threshold = 4;
 
-    const anchorRect = anchor.getBoundingClientRect();
-    const spaceBelow = window.innerHeight - anchorRect.bottom;
-    const spaceAbove = anchorRect.top;
+    // Determine primary placement direction
+    const isAbove = p.bottom <= a.top + threshold;
+    const isLeft = p.right <= a.left + threshold;
+    const isRight = p.left >= a.right - threshold;
+    // Default (below) needs no override — CSS default is top center
 
-    // Mirror the flip-block algorithm: flip when content overflows below and above has more room
-    if (height > spaceBelow && spaceAbove > spaceBelow) {
-      // Force above placement as a JS fallback when CSS position-try isn't applied.
-      popover.style.setProperty('position-area', 'block-start span-inline-end');
-      popover.style.setProperty('margin-block-start', '0');
-      popover.style.setProperty('margin-block-end', 'var(--n-popover-gap)');
-      popover.style.setProperty('--n-popover-origin', 'bottom center');
-      popover.style.setProperty('--n-popover-from', 'perspective(800px) scale(0.96) rotateX(20deg)');
-    } else {
-      this.#clearFlip();
+    let origin: string | null = null;
+    let from: string | null = null;
+
+    if (isAbove) {
+      origin = 'bottom center';
+      from = 'perspective(800px) scale(0.96) rotateX(20deg)';
+    } else if (isLeft) {
+      origin = 'center right';
+      from = 'perspective(800px) scale(0.96) rotateY(-20deg)';
+    } else if (isRight) {
+      origin = 'center left';
+      from = 'perspective(800px) scale(0.96) rotateY(20deg)';
+    }
+
+    if (origin && from) {
+      popover.style.setProperty('--n-popover-origin', origin);
+      popover.style.setProperty('--n-popover-from', from);
+      // Restart entry animation with corrected origin
+      popover.style.transition = 'none';
+      popover.offsetHeight; // force reflow
+      popover.style.removeProperty('transition');
     }
   }
 
   #clearFlip(): void {
-    this.#popoverEl?.style.removeProperty('position-area');
-    this.#popoverEl?.style.removeProperty('margin-block-start');
-    this.#popoverEl?.style.removeProperty('margin-block-end');
     this.#popoverEl?.style.removeProperty('--n-popover-origin');
     this.#popoverEl?.style.removeProperty('--n-popover-from');
   }

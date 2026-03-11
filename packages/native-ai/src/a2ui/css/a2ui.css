@@ -41,7 +41,7 @@
 
 /* Allow text selection in content areas */
 :where(native-a2ui) :where(.a2ui-preview-content),
-:where(native-a2ui) :where(.a2ui-pane-content),
+:where(native-a2ui) :where(n-body),
 :where(native-a2ui) :where(.cm-editor) {
   user-select: text;
 }
@@ -147,13 +147,13 @@
 
 /* Hide handle on the last visible pane — nothing to resize against.
    Hidden panes have display:none so :last-child among visible = no subsequent visible sibling. */
-:where(native-a2ui) :where(.a2ui-pane):not([hidden]):not(:has(~ .a2ui-pane:not([hidden]))) > :where(.a2ui-resize-handle) {
+:where(native-a2ui) :where(n-pane):not([hidden]):not(:has(~ n-pane:not([hidden]))) > :where(.a2ui-resize-handle) {
   display: none;
 }
 
 /* ── Pane (each toggled panel in the split) ── */
 
-:where(native-a2ui) :where(.a2ui-pane) {
+:where(native-a2ui) :where(n-pane) {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -165,17 +165,17 @@
 }
 
 /* When resized (has explicit width from ResizeController), don't flex-grow */
-:where(native-a2ui) :where(.a2ui-pane[style*="width"]) {
+:where(native-a2ui) :where(n-pane[style*="width"]) {
   flex: none;
 }
 
-:where(native-a2ui) :where(.a2ui-pane[hidden]) {
+:where(native-a2ui) :where(n-pane[hidden]) {
   display: none;
 }
 
 /* ── Pane Header (icon + label + close button) ── */
 
-:where(native-a2ui) :where(.a2ui-pane) > :where(n-header) {
+:where(native-a2ui) :where(n-pane) > :where(n-header) {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -195,25 +195,25 @@
   letter-spacing: 0.04em;
 }
 
-:where(native-a2ui) :where(.a2ui-pane) > :where(n-header) > :where(nav),
-:where(native-a2ui) :where(.a2ui-pane) > :where(n-header) > :where(aside) {
+:where(native-a2ui) :where(n-pane) > :where(n-header) > :where(nav),
+:where(native-a2ui) :where(n-pane) > :where(n-header) > :where(aside) {
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
 
-:where(native-a2ui) :where(.a2ui-pane) > :where(n-header) :where(n-icon) {
+:where(native-a2ui) :where(n-pane) > :where(n-header) :where(n-icon) {
   font-size: 0.875rem;
 }
 
-:where(native-a2ui) :where(.a2ui-pane) > :where(n-header) :where(n-button):hover,
-:where(native-a2ui) :where(.a2ui-pane) > :where(n-header) :where(n-button)[force-hover] {
+:where(native-a2ui) :where(n-pane) > :where(n-header) :where(n-button):hover,
+:where(native-a2ui) :where(n-pane) > :where(n-header) :where(n-button)[force-hover] {
   background: var(--n-pg-editor-bg);
 }
 
 /* ── Pane Content (inner scrollable area) ── */
 
-:where(native-a2ui) :where(.a2ui-pane-content) {
+:where(native-a2ui) :where(n-body) {
   flex: 1;
   min-height: 0;
   overflow: auto;
@@ -224,11 +224,11 @@
 }
 
 /* CodeMirror panes: editor fills space, no padding */
-:where(native-a2ui) :where([data-panel="json-in"]) :where(.a2ui-pane-content),
-:where(native-a2ui) :where([data-panel="js"]) :where(.a2ui-pane-content),
-:where(native-a2ui) :where([data-panel="html"]) :where(.a2ui-pane-content),
-:where(native-a2ui) :where([data-panel="css"]) :where(.a2ui-pane-content),
-:where(native-a2ui) :where([data-panel="schema"]) :where(.a2ui-pane-content) {
+:where(native-a2ui) :where([data-panel="json-in"]) :where(n-body),
+:where(native-a2ui) :where([data-panel="js"]) :where(n-body),
+:where(native-a2ui) :where([data-panel="html"]) :where(n-body),
+:where(native-a2ui) :where([data-panel="css"]) :where(n-body),
+:where(native-a2ui) :where([data-panel="schema"]) :where(n-body) {
   padding: 0;
   overflow: hidden;
 }

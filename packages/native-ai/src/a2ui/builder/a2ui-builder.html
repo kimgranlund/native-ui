@@ -14,7 +14,7 @@
   </head>
   <body>
     <native-dashboard-spa><main>
-      <div class="builder">
+      <n-container class="builder" padding="0" gap="0">
 
         <!-- ── Header toolbar: panel toggle chips ── -->
         <n-header>
@@ -22,15 +22,14 @@
             <span class="builder-title">A2UI Builder</span>
             <span fill></span>
             <n-button variant="ghost" size="sm" data-chip="preview">Preview</n-button>
-            <n-button variant="ghost" size="sm" data-chip="concepts">Concepts</n-button>
+            <n-button variant="ghost" size="sm" data-chip="concepts">Insights</n-button>
             <n-button variant="ghost" size="sm" data-chip="schema">Schema</n-button>
             <n-button variant="ghost" size="sm" data-chip="html">HTML</n-button>
             <n-button variant="ghost" size="sm" data-chip="css">CSS</n-button>
             <n-button variant="ghost" size="sm" data-chip="js">JS</n-button>
             <n-button variant="ghost" size="sm" data-chip="map">Map</n-button>
             <n-button variant="ghost" size="sm" data-chip="prompt">Prompt</n-button>
-            <span fill></span>
-            <n-button variant="ghost" size="sm" id="lightbox-toggle" title="Toggle light/dark preview"><n-icon name="moon"></n-icon></n-button>
+            <n-button variant="ghost" size="sm" id="lightbox-btn" title="Lightbox mode"><n-icon name="arrows-out-simple"></n-icon></n-button>
           </n-toolbar>
         </n-header>
 
@@ -68,7 +67,7 @@
                     <n-button variant="ghost" radius="round" inline><n-icon name="plus"></n-icon></n-button>
                     <n-button variant="ghost" radius="round" inline><n-icon name="magnifying-glass"></n-icon></n-button>
                     <n-button variant="ghost" radius="round" inline><n-icon name="compass"></n-icon></n-button>
-                    <n-button variant="ghost" radius="round" inline><n-icon name="flask"></n-icon></n-button>
+                    <n-button variant="ghost" radius="round" inline data-role="toggle-pipeline" title="Multi-step pipeline"><n-icon name="flask"></n-icon></n-button>
                     <span fill></span>
                     <n-button variant="ghost" radius="round" inline><n-icon name="record"></n-icon></n-button>
                     <n-button variant="ghost" radius="round" inline><n-icon name="microphone"></n-icon></n-button>
@@ -87,121 +86,122 @@
           </div>
 
           <!-- Pane: Preview -->
-          <div class="builder-pane" data-panel="preview">
+          <n-pane data-panel="preview">
             <n-header>
-              <nav><n-icon name="eye"></n-icon></nav>
+              <nav><n-icon inline name="eye"></n-icon></nav>
               <span>Preview</span>
-              <aside><n-button variant="ghost" size="sm" data-close-panel="preview"><n-icon name="x"></n-icon></n-button></aside>
+              <aside>
+                <n-button variant="ghost" inline size="sm" id="lightbox-toggle" title="Toggle light/dark preview"><n-icon name="moon"></n-icon></n-button>
+                <n-button variant="ghost" inline size="sm" data-close-panel="preview"><n-icon name="x"></n-icon></n-button>
+              </aside>
             </n-header>
-            <div class="builder-pane-content">
+            <n-body>
               <div id="preview-mount">
                 <span class="empty-state">Live preview will appear here</span>
               </div>
-            </div>
+            </n-body>
             <div class="resize-handle"></div>
-          </div>
+          </n-pane>
 
           <!-- Pane: Concepts -->
-          <div class="builder-pane" data-panel="concepts">
+          <n-pane data-panel="concepts">
             <n-header>
-              <nav><n-icon name="lightbulb"></n-icon></nav>
-              <span>Concepts</span>
-              <aside><n-button variant="ghost" size="sm" data-close-panel="concepts"><n-icon name="x"></n-icon></n-button></aside>
+              <nav><n-icon inline name="lightbulb"></n-icon></nav>
+              <span>Insights</span>
+              <aside><n-button variant="ghost" inline size="sm" data-close-panel="concepts"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <div class="builder-pane-content">
-              <div id="concepts-wrap" class="concepts-wrap">
-                <span class="empty-state">Concepts will appear here</span>
-              </div>
-            </div>
+            <n-body>
+              <div id="concepts-wrap" class="concepts-wrap"></div>
+            </n-body>
             <div class="resize-handle"></div>
-          </div>
+          </n-pane>
 
           <!-- Pane: Schema -->
-          <div class="builder-pane" data-panel="schema">
+          <n-pane data-panel="schema">
             <n-header>
-              <nav><n-icon name="brackets-curly"></n-icon></nav>
+              <nav><n-icon inline name="brackets-curly"></n-icon></nav>
               <span>Schema</span>
-              <aside><n-button variant="ghost" size="sm" data-close-panel="schema"><n-icon name="x"></n-icon></n-button></aside>
+              <aside><n-button variant="ghost" inline size="sm" data-close-panel="schema"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <div class="builder-pane-content">
-              <pre id="schema-pre" class="pane-pre"><span class="empty-state">A2UI schema will appear here</span></pre>
-            </div>
+            <n-body>
+              <pre id="schema-pre" class="pane-pre"></pre>
+            </n-body>
             <div class="resize-handle"></div>
-          </div>
+          </n-pane>
 
           <!-- Pane: HTML (read-only) -->
-          <div class="builder-pane" data-panel="html" hidden>
+          <n-pane data-panel="html" hidden>
             <n-header>
-              <nav><n-icon name="brackets-angle"></n-icon></nav>
+              <nav><n-icon inline name="brackets-angle"></n-icon></nav>
               <span>HTML</span>
-              <aside><n-button variant="ghost" size="sm" data-close-panel="html"><n-icon name="x"></n-icon></n-button></aside>
+              <aside><n-button variant="ghost" inline size="sm" data-close-panel="html"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <div class="builder-pane-content">
-              <pre id="html-pre" class="pane-pre"><span class="empty-state">Rendered HTML will appear here</span></pre>
-            </div>
+            <n-body>
+              <pre id="html-pre" class="pane-pre"></pre>
+            </n-body>
             <div class="resize-handle"></div>
-          </div>
+          </n-pane>
 
           <!-- Pane: CSS (editable, live-applied) -->
-          <div class="builder-pane" data-panel="css" hidden>
+          <n-pane data-panel="css" hidden>
             <n-header>
-              <nav><n-icon name="paint-brush"></n-icon></nav>
+              <nav><n-icon inline name="paint-brush"></n-icon></nav>
               <span>CSS</span>
-              <aside><n-button variant="ghost" size="sm" data-close-panel="css"><n-icon name="x"></n-icon></n-button></aside>
+              <aside><n-button variant="ghost" inline size="sm" data-close-panel="css"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <div class="builder-pane-content">
+            <n-body>
               <textarea id="css-editor" class="code-editor" spellcheck="false" placeholder="/* Custom styles for the preview */"></textarea>
-            </div>
+            </n-body>
             <div class="resize-handle"></div>
-          </div>
+          </n-pane>
 
           <!-- Pane: JS (editable, apply-on-click) -->
-          <div class="builder-pane" data-panel="js" hidden>
+          <n-pane data-panel="js" hidden>
             <n-header>
-              <nav><n-icon name="lightning"></n-icon></nav>
+              <nav><n-icon inline name="lightning"></n-icon></nav>
               <span>JS</span>
               <aside>
-                <n-button variant="ghost" size="sm" data-role="apply-js" title="Run JS"><n-icon name="play"></n-icon></n-button>
-                <n-button variant="ghost" size="sm" data-close-panel="js"><n-icon name="x"></n-icon></n-button>
+                <n-button variant="ghost" inline size="sm" data-role="apply-js" title="Run JS"><n-icon name="play"></n-icon></n-button>
+                <n-button variant="ghost" inline size="sm" data-close-panel="js"><n-icon name="x"></n-icon></n-button>
               </aside>
             </n-header>
-            <div class="builder-pane-content">
+            <n-body>
               <textarea id="js-editor" class="code-editor" spellcheck="false" placeholder="// `preview` is the mount element.&#10;// preview.querySelector('#btn1').addEventListener('native:press', () => { ... })"></textarea>
-            </div>
+            </n-body>
             <div class="resize-handle"></div>
-          </div>
+          </n-pane>
 
           <!-- Pane: Component Map -->
-          <div class="builder-pane" data-panel="map" hidden>
+          <n-pane data-panel="map" hidden>
             <n-header>
-              <nav><n-icon name="tree-structure"></n-icon></nav>
+              <nav><n-icon inline name="tree-structure"></n-icon></nav>
               <span>Map</span>
-              <aside><n-button variant="ghost" size="sm" data-close-panel="map"><n-icon name="x"></n-icon></n-button></aside>
+              <aside><n-button variant="ghost" inline size="sm" data-close-panel="map"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <div class="builder-pane-content">
+            <n-body>
               <table id="map-table" class="map-table">
                 <thead><tr><th class="map-chevron"></th><th>A2UI Type</th><th>Native Tag</th><th>Category</th></tr></thead>
                 <tbody></tbody>
               </table>
-            </div>
+            </n-body>
             <div class="resize-handle"></div>
-          </div>
+          </n-pane>
 
           <!-- Pane: System Prompt (editable) -->
-          <div class="builder-pane" data-panel="prompt" hidden>
+          <n-pane data-panel="prompt" hidden>
             <n-header>
-              <nav><n-icon name="terminal"></n-icon></nav>
+              <nav><n-icon inline name="terminal"></n-icon></nav>
               <span>Prompt</span>
-              <aside><n-button variant="ghost" size="sm" data-close-panel="prompt"><n-icon name="x"></n-icon></n-button></aside>
+              <aside><n-button variant="ghost" inline size="sm" data-close-panel="prompt"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <div class="builder-pane-content">
+            <n-body>
               <textarea id="prompt-editor" class="prompt-editor" spellcheck="false"></textarea>
-            </div>
+            </n-body>
             <div class="resize-handle"></div>
-          </div>
+          </n-pane>
 
         </div>
-      </div>
+      </n-container>
     </main></native-dashboard-spa>
   </body>
 </html>
