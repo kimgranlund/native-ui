@@ -630,13 +630,19 @@ previewMount.addEventListener('native:inspect', (e: Event) => {
   }
 });
 
-// ── Preview canvas panning ──
+// ── Preview canvas panning (infinite, translate-based) ──
 
-if (previewBody) {
+if (previewBody && previewMount) {
+  let panX = 0;
+  let panY = 0;
   let panStartX = 0;
   let panStartY = 0;
-  let scrollStartX = 0;
-  let scrollStartY = 0;
+  let panOriginX = 0;
+  let panOriginY = 0;
+
+  function applyTransform() {
+    previewMount.style.transform = `translate(calc(-50% + ${panX}px), calc(-50% + ${panY}px))`;
+  }
 
   previewBody.addEventListener('pointerdown', (e: PointerEvent) => {
     // Only pan when clicking on the canvas background, not on the artifact
@@ -646,16 +652,17 @@ if (previewBody) {
 
     panStartX = e.clientX;
     panStartY = e.clientY;
-    scrollStartX = previewBody.scrollLeft;
-    scrollStartY = previewBody.scrollTop;
+    panOriginX = panX;
+    panOriginY = panY;
     previewBody.setAttribute('data-panning', '');
     previewBody.setPointerCapture(e.pointerId);
   });
 
   previewBody.addEventListener('pointermove', (e: PointerEvent) => {
     if (!previewBody.hasAttribute('data-panning')) return;
-    previewBody.scrollLeft = scrollStartX - (e.clientX - panStartX);
-    previewBody.scrollTop = scrollStartY - (e.clientY - panStartY);
+    panX = panOriginX + (e.clientX - panStartX);
+    panY = panOriginY + (e.clientY - panStartY);
+    applyTransform();
   });
 
   previewBody.addEventListener('pointerup', () => {
@@ -664,12 +671,6 @@ if (previewBody) {
 
   previewBody.addEventListener('lostpointercapture', () => {
     previewBody.removeAttribute('data-panning');
-  });
-
-  // Center scroll position on initial load
-  requestAnimationFrame(() => {
-    previewBody.scrollLeft = (previewBody.scrollWidth - previewBody.clientWidth) / 2;
-    previewBody.scrollTop = (previewBody.scrollHeight - previewBody.clientHeight) / 2;
   });
 }
 
@@ -1253,15 +1254,13 @@ function applyResult(result: MockResult) {
     renderPreview(result.schema);
   }
 
-  // Apply CSS/JS from LLM response and auto-open panes
+  // Apply CSS/JS from LLM response (don't auto-toggle panes)
   if (result.css !== undefined) {
     cssEditor.value = result.css;
     applyCSSToPreview(result.css);
-    if (!activePanels.has('css')) { activePanels.add('css'); syncPanels(); }
   }
   if (result.js !== undefined) {
     jsEditor.value = result.js;
-    if (!activePanels.has('js')) { activePanels.add('js'); syncPanels(); }
     // Defer JS execution — wait for all custom elements in preview to upgrade
     waitForPreviewReady().then(() => applyJSToPreview(result.js!));
   }

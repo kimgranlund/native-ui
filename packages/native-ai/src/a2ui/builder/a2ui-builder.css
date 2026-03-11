@@ -166,7 +166,8 @@ main {
 .builder n-pane {
   position: relative;
   min-width: 200px;
-  border-inline-start: var(--pg-border);
+  border-inline-start: 1px solid transparent;
+  transition: border-color 150ms;
 }
 
 /* Pane header */
@@ -222,11 +223,11 @@ main {
 .builder n-pane[data-panel="preview"] > n-body {
   background: var(--n-body);
   font-family: inherit;
-  overflow: auto;
-  scrollbar-width: none;
+  overflow: hidden;
+  overflow-y: hidden;
   cursor: grab;
-  align-items: stretch;
-  justify-content: stretch;
+  position: relative;
+  padding: 0;
 }
 
 .builder n-pane[data-panel="preview"] > n-body[data-panning] {
@@ -235,17 +236,21 @@ main {
 }
 
 #preview-canvas {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: max(100%, 60rem);
-  min-height: max(100%, 60rem);
-  padding: 4rem;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 #preview-mount {
-  min-width: 18rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 12rem;
   cursor: default;
+  pointer-events: auto;
+  will-change: transform;
 }
 
 /* ── Insights pane ── */
@@ -426,21 +431,38 @@ n-chat-message[data-type="gap"] n-chat-message-text {
 .resize-handle {
   position: absolute;
   top: 0;
-  right: 0;
+  right: -8px;
   bottom: 0;
-  width: 6px;
+  width: 16px;
   cursor: col-resize;
-  background: transparent;
-  transition: background 150ms;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 150ms;
+  z-index: 2;
 }
 
-.resize-handle:hover,
-[data-resizing] .resize-handle {
-  opacity: 1;
+.resize-handle::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  transform: translateX(-50%);
   background: var(--pg-accent);
+  opacity: 0;
+  transition: opacity 150ms;
+  border-radius: 2px;
+}
+
+.resize-handle:hover::after,
+[data-resizing] > .resize-handle::after {
+  opacity: 1;
+}
+
+/* Show border on next pane when handle is hovered or during drag */
+.builder-chat:has(> .resize-handle:hover) + n-pane,
+.builder n-pane:has(> .resize-handle:hover) + n-pane,
+.builder-chat[data-resizing] + n-pane,
+.builder n-pane[data-resizing] + n-pane {
+  border-inline-start-color: var(--pg-border-color, var(--n-border-muted));
 }
 
 /* When resized (explicit width), don't flex-grow */
@@ -521,6 +543,9 @@ n-chat-message[data-role="user"] {
   align-items: center;
   justify-content: center;
   height: 100%;
+  padding: 1.5rem;
   color: var(--pg-text-muted);
   font-size: 0.8125rem;
+  border: 1px dashed var(--pg-border-color);
+  border-radius: var(--n-radius, 0.5rem);
 }
