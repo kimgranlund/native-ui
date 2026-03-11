@@ -427,16 +427,15 @@ export class NChatPanel extends NativeElement {
         const select = document.createElement('n-select');
         select.setAttribute('aria-label', 'Select model');
         select.setAttribute('data-role', 'model-picker');
+        select.setAttribute('variant', 'ghost');
+        select.setAttribute('inline', '');
         select.addEventListener('native:change', this.#onModelSelect);
-        const trigger = document.createElement('n-button');
-        trigger.setAttribute('variant', 'ghost');
-        trigger.setAttribute('inline', '');
         const triggerIcon = document.createElement('n-icon');
         triggerIcon.setAttribute('name', 'dots-three-outline-fill');
-        trigger.appendChild(triggerIcon);
+        triggerIcon.setAttribute('slot', 'label');
         const listbox = document.createElement('n-listbox');
         listbox.setAttribute('popover', 'manual');
-        select.append(trigger, listbox);
+        select.append(triggerIcon, listbox);
         this.#modelSelect = select;
         this.#modelListbox = listbox;
         // Keep model chooser in the composer action strip.

@@ -151,6 +151,14 @@ export class NApp extends NativeElement {
         '</n-option-group>' +
       '</n-listbox>';
 
+    // System menu — handle option selection
+    systemTrigger.addEventListener('native:change', ((e: CustomEvent) => {
+      const value = e.detail?.value;
+      if (value === 'add-team') {
+        console.log('[native-dashboard] Add team (stub)');
+      }
+    }) as EventListener);
+
     // Search hint — wrapped in sidebar-item for consistent inline padding
     const searchItem = document.createElement('n-sidebar-item');
     const searchIconWell = document.createElement('span');
@@ -285,6 +293,28 @@ export class NApp extends NativeElement {
           '<n-option value="sign-out"><n-icon name="sign-out"></n-icon> Log out</n-option>' +
         '</n-option-group>' +
       '</n-listbox>';
+
+    // User menu — handle option selection
+    userTrigger.addEventListener('native:change', ((e: CustomEvent) => {
+      const value = e.detail?.value;
+      switch (value) {
+        case 'upgrade':
+          console.log('[native-dashboard] Upgrade to Pro (stub)');
+          break;
+        case 'account':
+          console.log('[native-dashboard] Account settings (stub)');
+          break;
+        case 'billing':
+          console.log('[native-dashboard] Billing (stub)');
+          break;
+        case 'notifications':
+          console.log('[native-dashboard] Notifications (stub)');
+          break;
+        case 'sign-out':
+          console.log('[native-dashboard] Sign out (stub)');
+          break;
+      }
+    }) as EventListener);
 
     footer.append(userTrigger);
 

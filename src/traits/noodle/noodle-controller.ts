@@ -45,7 +45,7 @@ export interface NoodleOptions {
 }
 
 /** Proximity threshold (px) for snap-to-port drop detection */
-const DROP_SNAP_RADIUS = 30;
+const DROP_SNAP_RADIUS = 50;
 
 interface DragState {
   fromElement: HTMLElement;
@@ -238,7 +238,9 @@ export class NoodleController {
    *  Call after programmatic element moves or when the set of port elements changes. */
   update(): void {
     this.#renderAllPaths();
-    if (this.showPorts) this.#createPortIndicators();
+    // WHY: Skip port recreation during active drag — it would destroy
+    // data-noodle-droppable attrs and the source dot's pointer capture.
+    if (this.showPorts && !this.#dragState) this.#createPortIndicators();
   }
 
   // ── SVG overlay ──
@@ -414,7 +416,9 @@ export class NoodleController {
       this.#pathGroup.appendChild(path);
     }
 
-    this.#suppressObserver = false;
+    // WHY: Delay restore via microtask — same reason as #createPortIndicators.
+    // The observer microtask must fire while suppression is still active.
+    if (!this.#dragState) queueMicrotask(() => { this.#suppressObserver = false; });
   }
 
   #queueUpdate(): void {
@@ -434,7 +438,9 @@ export class NoodleController {
     this.#rafId = requestAnimationFrame(() => {
       this.#updateQueued = false;
       this.#renderAllPaths();
-      if (this.showPorts) this.#createPortIndicators();
+      // WHY: Skip port recreation during active drag — it would destroy
+      // data-noodle-droppable attrs and break proximity detection.
+      if (this.showPorts && !this.#dragState) this.#createPortIndicators();
     });
   }
 
@@ -454,14 +460,18 @@ export class NoodleController {
         dot.setAttribute('data-noodle-port-indicator', '');
         dot.setAttribute('data-noodle-side', side);
         dot.setAttribute('data-noodle-target', elId);
-        dot.style.cssText = `position:absolute;width:${this.portSize}px;height:${this.portSize}px;border-radius:50%;background:${this.color};border:2px solid white;pointer-events:auto;cursor:crosshair;z-index:1;transform:translate(-50%,-50%);transition:transform 150ms ease,box-shadow 150ms ease;box-shadow:0 1px 3px rgba(0,0,0,0.2);`;
+        dot.style.cssText = `position:absolute;width:${this.portSize}px;height:${this.portSize}px;border-radius:50%;background:${this.color};border:2px solid white;pointer-events:auto;cursor:crosshair;z-index:5;touch-action:none;transform:translate(-50%,-50%);transition:transform 150ms ease,box-shadow 150ms ease;box-shadow:0 1px 3px rgba(0,0,0,0.2);`;
         dot.addEventListener('pointerdown', this.#onPortPointerDown);
         this.host.appendChild(dot);
         this.#portElements.push(dot);
       }
     }
     this.#positionPortIndicators();
-    this.#suppressObserver = false;
+    // WHY: Delay restore via microtask so the MutationObserver callback (also a
+    // microtask) fires while suppression is still active. Without this, the observer
+    // sees childList changes from dot creation and queues #queueFullUpdate, creating
+    // an infinite recreation loop that wipes data-noodle-droppable every frame.
+    if (!this.#dragState) queueMicrotask(() => { this.#suppressObserver = false; });
   }
 
   #positionPortIndicators(): void {
@@ -493,7 +503,10 @@ export class NoodleController {
 
     e.preventDefault();
     e.stopPropagation();
-    dot.setPointerCapture(e.pointerId);
+
+    // WHY: Do NOT call setPointerCapture — it redirects all pointer events to
+    // the source dot, preventing :hover from activating on target port dots.
+    // Document-level listeners handle move/up correctly without capture.
 
     const targetId = dot.getAttribute('data-noodle-target')!;
     const side = dot.getAttribute('data-noodle-side')! as PortSide;
@@ -508,6 +521,8 @@ export class NoodleController {
       sourceDot: dot,
     };
 
+    console.log('[noodle] drag started from', targetId, side, 'portElements:', this.#portElements.length);
+
     // Mark source port as dragging
     dot.setAttribute('data-noodle-dragging', '');
 
@@ -521,14 +536,20 @@ export class NoodleController {
       portDot.setAttribute('data-noodle-droppable', '');
     }
 
-    // Create temporary drag path — starts muted until near a valid port
+    // WHY: Suppress MutationObserver for the entire drag operation.
+    // Appending the drag path triggers a childList mutation → #queueFullUpdate
+    // which destroys all port indicators (and their data-noodle-droppable attrs),
+    // breaking proximity detection and preventing connections from forming.
+    this.#suppressObserver = true;
+
+    // Create temporary drag path — visible but muted until near a valid port
     this.#dragPath = document.createElementNS(NS, 'path');
-    this.#dragPath.setAttribute('stroke', 'var(--n-border-muted)');
+    this.#dragPath.setAttribute('stroke', 'var(--n-ink-muted)');
     this.#dragPath.setAttribute('stroke-width', String(this.strokeWidth));
     this.#dragPath.setAttribute('fill', 'none');
     this.#dragPath.setAttribute('stroke-dasharray', '6 4');
     this.#dragPath.setAttribute('stroke-linecap', 'round');
-    this.#dragPath.style.opacity = '0.5';
+    this.#dragPath.style.opacity = '0.7';
     this.#pathGroup?.appendChild(this.#dragPath);
 
     this.host.dispatchEvent(new CustomEvent('native:noodle-drag', {
@@ -564,17 +585,35 @@ export class NoodleController {
 
   #onPortPointerUp = (e: PointerEvent): void => {
     const state = this.#dragState;
-    if (!state) return;
+    if (!state) { console.warn('[noodle] pointerup: no drag state'); return; }
+
+    console.log('[noodle] pointerup at', e.clientX, e.clientY, 'from', state.fromId, state.fromPort);
+    console.log('[noodle] portElements:', this.#portElements.length, 'droppable:', this.#portElements.filter(d => d.hasAttribute('data-noodle-droppable')).length);
 
     // Proximity-based snap: find nearest port within threshold
     const nearest = this.#findNearestPort(e.clientX, e.clientY);
+    console.log('[noodle] nearest port:', nearest?.getAttribute('data-noodle-target'), nearest?.getAttribute('data-noodle-side'), nearest);
     if (nearest) {
       const toId = nearest.getAttribute('data-noodle-target')!;
       const toPort = nearest.getAttribute('data-noodle-side')! as PortSide;
 
       // Don't connect to same port on same element
       if (toId !== state.fromId || toPort !== state.fromPort) {
+        console.log('[noodle] CONNECTING', state.fromId, state.fromPort, '->', toId, toPort);
         this.connect(state.fromId, toId, state.fromPort, toPort);
+      } else {
+        console.log('[noodle] same port, skipping');
+      }
+    } else {
+      console.log('[noodle] no port found within radius', DROP_SNAP_RADIUS);
+      // Log distances to all droppable ports for debugging
+      for (const dot of this.#portElements) {
+        if (!dot.hasAttribute('data-noodle-droppable')) continue;
+        const rect = dot.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+        console.log(`  port ${dot.getAttribute('data-noodle-target')}:${dot.getAttribute('data-noodle-side')} dist=${Math.round(dist)} rect=(${Math.round(rect.left)},${Math.round(rect.top)}) size=${Math.round(rect.width)}x${Math.round(rect.height)}`);
       }
     }
 
@@ -599,6 +638,9 @@ export class NoodleController {
     document.removeEventListener('pointermove', this.#onPortPointerMove);
     document.removeEventListener('pointerup', this.#onPortPointerUp);
     document.removeEventListener('pointercancel', this.#onPortPointerCancel);
+
+    // Restore observer after drag — pick up any mutations that were suppressed
+    this.#suppressObserver = false;
   }
 
   // ── Proximity helpers ──
@@ -655,8 +697,8 @@ export class NoodleController {
       }
     } else if (this.#dragPath) {
       // Outside snap zone → muted dashed
-      this.#dragPath.setAttribute('stroke', 'var(--n-border-muted)');
-      this.#dragPath.style.opacity = '0.5';
+      this.#dragPath.setAttribute('stroke', 'var(--n-ink-muted)');
+      this.#dragPath.style.opacity = '0.7';
       this.#dragPath.setAttribute('stroke-dasharray', '6 4');
     }
   }
@@ -674,10 +716,15 @@ export class NoodleController {
     e.preventDefault();
     e.stopPropagation();
 
+    // WHY: Suppress BEFORE disconnect() — disconnect calls #renderAllPaths which
+    // modifies SVG DOM. Without early suppression, the MutationObserver would
+    // queue #queueFullUpdate that destroys port dots before we mark them droppable.
+    this.#suppressObserver = true;
+
     // Determine which endpoint is closer to the pointer
     const p1 = this.#getPortPosition(conn.from, conn.fromPort);
     const p2 = this.#getPortPosition(conn.to, conn.toPort);
-    if (!p1 || !p2) return;
+    if (!p1 || !p2) { this.#suppressObserver = false; return; }
 
     const { x: pointerX, y: pointerY } = this.#clientToLocal(e.clientX, e.clientY);
 
@@ -696,12 +743,12 @@ export class NoodleController {
       d => d.getAttribute('data-noodle-target') === anchorId &&
            d.getAttribute('data-noodle-side') === anchorPort
     );
-    if (!anchorDot) return;
+    if (!anchorDot) { this.#suppressObserver = false; return; }
 
     const el = this.host.querySelector(`#${CSS.escape(anchorId)}`);
-    if (!el) return;
+    if (!el) { this.#suppressObserver = false; return; }
 
-    anchorDot.setPointerCapture(e.pointerId);
+    // WHY: No setPointerCapture — same reason as #onPortPointerDown.
 
     this.#dragState = {
       fromElement: el as HTMLElement,
@@ -726,12 +773,12 @@ export class NoodleController {
 
     // Create temporary drag path — starts muted
     this.#dragPath = document.createElementNS(NS, 'path');
-    this.#dragPath.setAttribute('stroke', 'var(--n-border-muted)');
+    this.#dragPath.setAttribute('stroke', 'var(--n-ink-muted)');
     this.#dragPath.setAttribute('stroke-width', String(this.strokeWidth));
     this.#dragPath.setAttribute('fill', 'none');
     this.#dragPath.setAttribute('stroke-dasharray', '6 4');
     this.#dragPath.setAttribute('stroke-linecap', 'round');
-    this.#dragPath.style.opacity = '0.5';
+    this.#dragPath.style.opacity = '0.7';
 
     // Compute initial path from anchor to pointer so the drag is immediately visible
     const anchorPos = this.#getPortPosition(anchorId, anchorPort);

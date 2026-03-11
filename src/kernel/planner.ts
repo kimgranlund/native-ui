@@ -316,8 +316,8 @@ export class Planner {
   /**
    * Transforms an ElementIntent to match native-ui component DOM requirements.
    * For example, `n-select` with `n-option` children gets converted to
-   * data-driven mode (options attribute) since manual mode requires a complex
-   * `n-button` + `n-listbox[popover]` structure.
+   * data-driven mode (options attribute) since manual mode requires a
+   * `n-listbox[popover]` child structure.
    */
   #transformIntent(element: ElementIntent): ElementIntent {
     const tag = element.component.toLowerCase();

@@ -42,6 +42,7 @@ export class NSelect extends FormAssociable(NativeElement) {
   #labelEl: HTMLElement | null = null;
   #initialValue: string | null = null;
   #initialLabel = '';
+  #dataModeActive = false;
 
   constructor() {
     super();
@@ -154,6 +155,44 @@ export class NSelect extends FormAssociable(NativeElement) {
     this.appendChild(listbox);
   }
 
+  /** Activates data-driven mode when options/src is set after initial setup. */
+  #activateDataMode(): void {
+    if (this.#dataModeActive || !this.#popover) return;
+    this.#dataModeActive = true;
+
+    // Stamp listbox if missing
+    if (!this.#listbox) {
+      this.#stampListbox();
+      this.#listbox = this.querySelector<HTMLElement & NListbox>(':scope > n-listbox[popover]');
+      this.#listbox?.setAttribute('popover', 'manual');
+      if (this.#listbox) {
+        if (!this.#listbox.id) this.#listbox.id = uid('lb');
+        this.setAttribute('aria-controls', this.#listbox.id);
+        this.#popover.wirePopover(this, this.#listbox);
+        this.#listbox.addEventListener('pointerdown', this.#onListboxPointerDown);
+      }
+    }
+
+    // Create data-mode effects
+    this.addEffect(() => {
+      const opts = this.#options.value;
+      this.#renderOptions(opts);
+    });
+
+    this.addEffect(() => {
+      const url = this.#src.value;
+      if (url) this.#fetchOptions(url);
+    });
+
+    this.addEffect(() => {
+      const placeholder = this.#placeholder.value;
+      const label = this.#controller.label.value;
+      if (this.#labelEl && !label) {
+        this.#labelEl.textContent = placeholder || '\u00A0';
+      }
+    });
+  }
+
   #renderOptions(opts: SelectOption[]): void {
     const listbox = this.#listbox;
     if (!listbox) return;
@@ -191,11 +230,16 @@ export class NSelect extends FormAssociable(NativeElement) {
         this.#required.value = val !== null;
         break;
       case 'options':
-        if (val) this.#options.value = this.#parseOptions(val);
-        else this.#options.value = [];
+        if (val) {
+          this.#options.value = this.#parseOptions(val);
+          this.#activateDataMode();
+        } else {
+          this.#options.value = [];
+        }
         break;
       case 'src':
         this.#src.value = val;
+        if (val) this.#activateDataMode();
         break;
       case 'placeholder':
         this.#placeholder.value = val ?? '';
@@ -246,6 +290,12 @@ export class NSelect extends FormAssociable(NativeElement) {
     // Wire anchor positioning — the select itself IS the anchor
     if (this.#listbox) {
       this.#popover.wirePopover(this, this.#listbox);
+
+      // WHY: Prevent pointerdown inside the popover listbox from bubbling to
+      // n-select's PressController. Without this, PressController calls
+      // setPointerCapture on n-select, stealing pointerup/click from n-option
+      // so the option's click handler never fires native:select.
+      this.#listbox.addEventListener('pointerdown', this.#onListboxPointerDown);
     }
 
     // ARIA on self
@@ -262,6 +312,7 @@ export class NSelect extends FormAssociable(NativeElement) {
 
     // ── Data-mode effects ──
     if (hasDataAttr) {
+      this.#dataModeActive = true;
       this.addEffect(() => {
         const opts = this.#options.value;
         this.#renderOptions(opts);
@@ -364,6 +415,10 @@ export class NSelect extends FormAssociable(NativeElement) {
 
   // ── Event handlers ──
 
+  #onListboxPointerDown = (e: Event): void => {
+    e.stopPropagation();
+  };
+
   #onPress = (): void => {
     if (this.#disabled.value) return;
     this.#controller.toggle();
@@ -450,6 +505,7 @@ export class NSelect extends FormAssociable(NativeElement) {
     this.removeEventListener('native:change', this.#onChildChange);
     this.removeEventListener('native:select', this.#onOptionSelect);
     this.removeEventListener('native:dismiss', this.#onDismiss);
+    this.#listbox?.removeEventListener('pointerdown', this.#onListboxPointerDown);
     this.#fetchController?.abort();
     this.#fetchController = null;
     this.#listbox = null;

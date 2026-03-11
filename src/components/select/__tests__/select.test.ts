@@ -319,4 +319,26 @@ describe('n-select data-driven mode', () => {
     const options = el.querySelectorAll('n-option');
     expect(options).toHaveLength(1);
   });
+
+  it('late data-mode: property set after connect stamps listbox and renders', () => {
+    const el = document.createElement('n-select');
+    el.setAttribute('placeholder', 'Load dataset…');
+    document.body.appendChild(el);
+
+    // No listbox yet — element connected without options attr
+    expect(el.querySelector('n-listbox')).toBeNull();
+
+    // Set options via property (triggers setAttribute internally)
+    (el as any).options = [
+      { value: 'a', label: 'Alpha' },
+      { value: 'b', label: 'Beta' },
+    ];
+
+    // Listbox should now be stamped with options
+    const listbox = el.querySelector('n-listbox');
+    expect(listbox).not.toBeNull();
+    const opts = el.querySelectorAll('n-option');
+    expect(opts).toHaveLength(2);
+    expect(opts[0].getAttribute('value')).toBe('a');
+  });
 });
