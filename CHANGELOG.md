@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.136
+
+### Changed
+- Updated T0208 ticket with full package split details (kernel extraction, import migrations, dependency graph)
+
 ## 0.7.135
 
 ### Added

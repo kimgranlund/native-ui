@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-kernel",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "GenUI kernel for @nonoun/native-ui — command bus, plan executor, planner, data binding, schema catalog",
   "license": "MIT",
   "type": "module",
