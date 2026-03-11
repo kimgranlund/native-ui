@@ -2,6 +2,29 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.135
+
+### Added
+- **`@nonoun/native-kernel@0.1.0`** — kernel extracted to standalone package (command bus, plan executor, planner, data binding, schema catalog). `@nonoun/native-ui/kernel` continues to work via re-export.
+
+### Changed
+- **native-code** imports migrated from `@nonoun/native-ui` to `@nonoun/native-core` + `@nonoun/native-traits` (8 files)
+- **native-ai** imports migrated from `@nonoun/native-ui` to `@nonoun/native-core` + `@nonoun/native-traits` (25 files)
+
+## @nonoun/native-ai 1.0.76
+
+### Changed
+- Imports migrated to `@nonoun/native-core`, `@nonoun/native-traits`, `@nonoun/native-kernel`
+- Only component class imports remain on `@nonoun/native-ui`
+
+## @nonoun/native-code 1.0.12
+
+### Changed
+- Imports migrated to `@nonoun/native-core` + `@nonoun/native-traits`
+- Only `NSegmentedControl`/`NSegment` remain on `@nonoun/native-ui`
+
+---
+
 ## 0.7.133
 
 ### Added

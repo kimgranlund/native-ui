@@ -1,22 +1,24 @@
-// Kernel
-export { Kernel, getKernel, resetKernel } from './kernel/index.ts';
-export { CommandBus, createCommandBus } from './kernel/index.ts';
-export { CommandHistory, createCommandHistory } from './kernel/index.ts';
-export { OverlayManager, createOverlayManager } from './kernel/index.ts';
-export { FocusRouter, createFocusRouter } from './kernel/index.ts';
-export { validatePlan, validateNode } from './kernel/index.ts';
-export { PlanExecutor, createPlanExecutor } from './kernel/index.ts';
-export { applyPatch } from './kernel/index.ts';
-export { validateAccessibility, auditDOM } from './kernel/index.ts';
-export { EventLog, createEventLog, PerfMetrics, createPerfMetrics } from './kernel/index.ts';
-export { DataStore, createDataStore, HttpError, createBinding } from './kernel/index.ts';
-export { WorkflowEngine, createWorkflowEngine } from './kernel/index.ts';
-export { PolicyEngine, createPolicyEngine } from './kernel/index.ts';
-export { COMPONENT_MANIFEST, getDescriptor, getDescriptorsByCategory, registerAll, installEventBridge } from './kernel/index.ts';
-export { BindingManager, createBindingManager } from './kernel/index.ts';
-export { formWizard, confirmFlow, crudLifecycle, authFlow, toggleFlow } from './kernel/index.ts';
-export { SCHEMA_CATALOG, getSchema, getSchemasForCategory, getSchemaAttribute } from './kernel/index.ts';
-export { Planner, createPlanner } from './kernel/index.ts';
+// Re-export from @nonoun/native-kernel
+export {
+  Kernel, getKernel, resetKernel,
+  CommandBus, createCommandBus,
+  CommandHistory, createCommandHistory,
+  OverlayManager, createOverlayManager,
+  FocusRouter, createFocusRouter,
+  validatePlan, validateNode,
+  PlanExecutor, createPlanExecutor,
+  applyPatch,
+  validateAccessibility, auditDOM,
+  EventLog, createEventLog, PerfMetrics, createPerfMetrics,
+  DataStore, createDataStore, HttpError, createBinding,
+  WorkflowEngine, createWorkflowEngine,
+  PolicyEngine, createPolicyEngine,
+  COMPONENT_MANIFEST, getDescriptor, getDescriptorsByCategory, registerAll, installEventBridge,
+  BindingManager, createBindingManager,
+  formWizard, confirmFlow, crudLifecycle, authFlow, toggleFlow,
+  SCHEMA_CATALOG, getSchema, getSchemasForCategory, getSchemaAttribute,
+  Planner, createPlanner,
+} from '@nonoun/native-kernel';
 
 // Plugin system
 export { PluginRegistry } from '@nonoun/native-core';
@@ -41,4 +43,4 @@ export type {
   ComponentSchema, AttributeSchema, PropertySchema, SlotSchema, EventSchema, AriaRequirements,
   UIIntent, ElementIntent, PlanResult, FormFieldIntent, ButtonIntent,
   CardIntent, DialogIntent, SettingIntent, TabIntent, NavItemIntent,
-} from './kernel/index.ts';
+} from '@nonoun/native-kernel';

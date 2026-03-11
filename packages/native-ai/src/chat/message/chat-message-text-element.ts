@@ -1,4 +1,4 @@
-import { NativeElement, signal } from '@nonoun/native-ui';
+import { NativeElement, signal } from '@nonoun/native-core';
 
 /**
  * Rich text message renderer with lightweight markdown support.

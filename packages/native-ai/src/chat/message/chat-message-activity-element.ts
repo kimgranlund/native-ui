@@ -1,4 +1,4 @@
-import { NativeElement, signal } from '@nonoun/native-ui';
+import { NativeElement, signal } from '@nonoun/native-core';
 
 /**
  * Streaming activity indicator — typing, thinking, or tool-use status.

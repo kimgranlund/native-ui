@@ -1,4 +1,5 @@
-import { NativeElement, signal, VirtualScrollController } from '@nonoun/native-ui';
+import { NativeElement, signal } from '@nonoun/native-core';
+import { VirtualScrollController } from '@nonoun/native-traits';
 
 const SCROLL_THRESHOLD = 40;
 

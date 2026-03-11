@@ -1,4 +1,5 @@
-import { NativeElement, CopyController, PresentController } from '@nonoun/native-ui';
+import { NativeElement } from '@nonoun/native-core';
+import { CopyController, PresentController } from '@nonoun/native-traits';
 import type { NCodeEditor } from '../codemirror/index.ts';
 import '../codemirror/register.ts';
 import { createPlaygroundStore } from './playground-store.ts';

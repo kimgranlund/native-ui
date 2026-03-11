@@ -7,7 +7,7 @@
  * Only the subset of Kernel/types/patch that A2UI actually accesses is duplicated here.
  */
 
-import type { Dispose } from '@nonoun/native-ui';
+import type { Dispose } from '@nonoun/native-core';
 
 // ── UINode (from kernel/types.ts) ──
 

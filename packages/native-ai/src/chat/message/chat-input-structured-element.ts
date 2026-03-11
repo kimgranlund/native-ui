@@ -1,4 +1,4 @@
-import { NativeElement, signal, createDisabledEffect } from '@nonoun/native-ui';
+import { NativeElement, signal, createDisabledEffect } from '@nonoun/native-core';
 
 export interface StructuredOption {
   value: string;

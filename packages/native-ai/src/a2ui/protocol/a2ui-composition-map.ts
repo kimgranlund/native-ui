@@ -13,8 +13,8 @@
  * (`defaultCompositionRegistry`) preserves backward compatibility.
  */
 
-import { signal } from '@nonoun/native-ui';
-import type { Signal } from '@nonoun/native-ui';
+import { signal } from '@nonoun/native-core';
+import type { Signal } from '@nonoun/native-core';
 import type { ComponentMapping, ComponentRegistry } from './a2ui-component-map.ts';
 
 // ── Composition Spec ──

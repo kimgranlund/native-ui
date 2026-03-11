@@ -7,7 +7,8 @@
  *   import '@nonoun/native-code/register';
  */
 
-import { define, NSegmentedControl, NSegment } from '@nonoun/native-ui';
+import { define } from '@nonoun/native-core';
+import { NSegmentedControl, NSegment } from '@nonoun/native-ui';
 import { NMarkdownEditor } from './markdown-editor-element.ts';
 
 // WHY: Editor stamps n-segmented-control + n-segment for the mode toggle — ensure they're registered.

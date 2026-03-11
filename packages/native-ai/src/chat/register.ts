@@ -1,4 +1,5 @@
-import { define, NTextarea, NButton, NIcon, NToolbar, NDialog, NContainer, NListbox, NOption, NOptionGroup, NOptionGroupHeader, NSelect, registerIcon } from '@nonoun/native-ui';
+import { define, registerIcon } from '@nonoun/native-core';
+import { NTextarea, NButton, NIcon, NToolbar, NDialog, NContainer, NListbox, NOption, NOptionGroup, NOptionGroupHeader, NSelect } from '@nonoun/native-ui';
 import { NChatInput, NAgentInput } from './chat-input-element.ts';
 import { NChatPanel } from './chat-panel-element.ts';
 import { NChatFeed } from './feed/chat-feed-element.ts';

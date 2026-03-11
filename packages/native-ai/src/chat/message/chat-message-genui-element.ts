@@ -1,4 +1,4 @@
-import { NativeElement, signal } from '@nonoun/native-ui';
+import { NativeElement, signal } from '@nonoun/native-core';
 
 /** Minimal UINode shape for schema-driven rendering. */
 export interface GenUINode {

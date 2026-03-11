@@ -1,4 +1,4 @@
-import { define } from '@nonoun/native-ui';
+import { define } from '@nonoun/native-core';
 import { NAgentDialogueItem } from './chat-message-element.ts';
 import { NAgentDialogue } from './chat-messages-element.ts';
 import { NChatMessageText } from './chat-message-text-element.ts';

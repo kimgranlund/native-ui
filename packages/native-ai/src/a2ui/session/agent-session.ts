@@ -6,7 +6,7 @@
  * before delegating to the existing protocol layer.
  */
 
-import { uid } from '@nonoun/native-ui';
+import { uid } from '@nonoun/native-core';
 import type {
   A2UIServerMessage,
   A2UIClientMessage,

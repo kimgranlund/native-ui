@@ -1,4 +1,4 @@
-import { NativeElement, signal } from '@nonoun/native-ui';
+import { NativeElement, signal } from '@nonoun/native-core';
 
 /**
  * Chat avatar — renders an image, icon, or initials for a chat participant.

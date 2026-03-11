@@ -1,0 +1,28 @@
+{
+  "name": "@nonoun/native-kernel",
+  "version": "0.1.0",
+  "description": "GenUI kernel for @nonoun/native-ui — command bus, plan executor, planner, data binding, schema catalog",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/native-kernel.js",
+  "module": "./dist/native-kernel.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/native-kernel.js"
+    }
+  },
+  "files": ["dist"],
+  "peerDependencies": {
+    "@nonoun/native-core": ">=0.1.0"
+  },
+  "scripts": {
+    "build": "npm run build:js && npm run build:types",
+    "build:js": "vite build",
+    "build:types": "tsc -p tsconfig.build.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -7,7 +7,7 @@
  *   import '@nonoun/native-code/register';
  */
 
-import { define } from '@nonoun/native-ui';
+import { define } from '@nonoun/native-core';
 import { NPlayground } from './playground-element.ts';
 
 define('n-playground', NPlayground);

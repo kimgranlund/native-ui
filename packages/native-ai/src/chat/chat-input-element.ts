@@ -1,4 +1,4 @@
-import { NativeElement, signal, createDisabledEffect } from '@nonoun/native-ui';
+import { NativeElement, signal, createDisabledEffect } from '@nonoun/native-core';
 import type { NTextarea } from '@nonoun/native-ui';
 
 /**

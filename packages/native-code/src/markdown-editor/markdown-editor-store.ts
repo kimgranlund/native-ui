@@ -1,5 +1,5 @@
-import { signal, computed, batch } from '@nonoun/native-ui';
-import type { Signal, ReadonlySignal } from '@nonoun/native-ui';
+import { signal, computed, batch } from '@nonoun/native-core';
+import type { Signal, ReadonlySignal } from '@nonoun/native-core';
 
 // ---------------------------------------------------------------------------
 // Types

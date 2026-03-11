@@ -1,5 +1,5 @@
-import { signal } from '@nonoun/native-ui';
-import type { Signal } from '@nonoun/native-ui';
+import { signal } from '@nonoun/native-core';
+import type { Signal } from '@nonoun/native-core';
 
 export interface ConsoleEntry {
   level: 'log' | 'warn' | 'error' | 'clear';

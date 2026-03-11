@@ -5,8 +5,8 @@
  * Each surface maps to one UIPlan in the kernel.
  */
 
-import { signal, computed, effect, uid } from '@nonoun/native-ui';
-import type { Signal, ReadonlySignal, Dispose } from '@nonoun/native-ui';
+import { signal, computed, effect, uid } from '@nonoun/native-core';
+import type { Signal, ReadonlySignal, Dispose } from '@nonoun/native-core';
 import type {
   A2UIServerMessage,
   A2UIActionMessage,

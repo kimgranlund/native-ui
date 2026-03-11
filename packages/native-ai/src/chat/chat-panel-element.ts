@@ -1,4 +1,4 @@
-import { NativeElement, signal } from '@nonoun/native-ui';
+import { NativeElement, signal } from '@nonoun/native-core';
 import type { GatewayAdapter, GatewayConfig, GatewayAdapterFactoryContext } from './gateway/adapter';
 import type { ChatMessage, SendMessageStreamChunk } from './gateway/types';
 import { createOpenAiGatewayAdapter } from './gateway/adapter-chatgpt';

@@ -25,8 +25,9 @@
     /* Workspace package resolution */
     "paths": {
       "@nonoun/native-core": ["./packages/native-core/src/index.ts"],
-      "@nonoun/native-traits": ["./packages/native-traits/src/index.ts"]
+      "@nonoun/native-traits": ["./packages/native-traits/src/index.ts"],
+      "@nonoun/native-kernel": ["./packages/native-kernel/src/index.ts"]
     }
   },
-  "include": ["src", "packages/native-core/src", "packages/native-traits/src"]
+  "include": ["src", "packages/native-core/src", "packages/native-traits/src", "packages/native-kernel/src"]
 }

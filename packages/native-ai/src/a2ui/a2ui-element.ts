@@ -13,8 +13,9 @@
  * @fires native:a2ui-state  - When surface state updates after processing envelopes
  */
 
-import { NativeElement, signal, ResizeController, PresentController } from '@nonoun/native-ui';
-import type { Signal, Dispose } from '@nonoun/native-ui';
+import { NativeElement, signal } from '@nonoun/native-core';
+import type { Signal, Dispose } from '@nonoun/native-core';
+import { ResizeController, PresentController } from '@nonoun/native-traits';
 import {
   EditorView,
   keymap,
@@ -30,7 +31,7 @@ import '@nonoun/native-code/register';
 
 import { a2uiLinter } from './a2ui-diagnostics.ts';
 
-import { Kernel, resetKernel } from '@nonoun/native-ui/kernel';
+import { Kernel, resetKernel } from '@nonoun/native-kernel';
 
 import { createA2UIAdapter } from './protocol/a2ui-adapter.ts';
 import type { A2UIAdapter } from './protocol/a2ui-adapter.ts';

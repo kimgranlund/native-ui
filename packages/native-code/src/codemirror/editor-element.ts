@@ -18,7 +18,7 @@
 
 import type { Extension } from '@codemirror/state';
 import type { ViewUpdate } from '@codemirror/view';
-import { NativeElement, signal, createDisabledEffect } from '@nonoun/native-ui';
+import { NativeElement, signal, createDisabledEffect } from '@nonoun/native-core';
 import { EditorState, Compartment } from '@codemirror/state';
 import {
   EditorView,

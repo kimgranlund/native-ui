@@ -5,7 +5,7 @@
  * and native-ui nested UINode trees.
  */
 
-import { uid } from '@nonoun/native-ui';
+import { uid } from '@nonoun/native-core';
 import type { UINode, UIPlan, CommandSource } from './kernel-bridge.ts';
 import type { A2UIComponent, A2UIDataBinding, A2UIProtocolVersion } from './a2ui-types.ts';
 import { isDataBinding } from './a2ui-types.ts';

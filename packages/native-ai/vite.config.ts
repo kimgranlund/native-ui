@@ -7,6 +7,9 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@nonoun/native-core': resolve(__dirname, '../native-core/src/index.ts'),
+      '@nonoun/native-traits': resolve(__dirname, '../native-traits/src/index.ts'),
+      '@nonoun/native-kernel': resolve(__dirname, '../native-kernel/src/index.ts'),
       '@nonoun/native-ui/kernel': resolve(__dirname, '../../src/kernel.ts'),
       '@nonoun/native-ui/register': resolve(__dirname, '../../src/register-all.ts'),
       '@nonoun/native-ui': resolve(__dirname, '../../src/index.ts'),

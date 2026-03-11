@@ -9,8 +9,8 @@
  * preserves backward compatibility with existing free-function imports.
  */
 
-import { signal } from '@nonoun/native-ui';
-import type { Signal } from '@nonoun/native-ui';
+import { signal } from '@nonoun/native-core';
+import type { Signal } from '@nonoun/native-core';
 
 // ── Child Strategy ──
 

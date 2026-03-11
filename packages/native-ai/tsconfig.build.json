@@ -10,6 +10,7 @@
     "rewriteRelativeImportExtensions": true,
     "paths": {
       "@nonoun/native-ui": ["../../dist/index.d.ts"],
+      "@nonoun/native-kernel": ["../native-kernel/dist/index.d.ts"],
       "@nonoun/native-code": ["../native-code/dist/index.d.ts"],
       "@nonoun/native-code/register": ["../native-code/dist/register.d.ts"]
     }

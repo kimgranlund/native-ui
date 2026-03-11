@@ -15,6 +15,7 @@ export default defineConfig(({ command }) => ({
       // Aliasing to source entries keeps everything in one module graph.
       '@nonoun/native-core': resolve(__dirname, 'packages/native-core/src/index.ts'),
       '@nonoun/native-traits': resolve(__dirname, 'packages/native-traits/src/index.ts'),
+      '@nonoun/native-kernel': resolve(__dirname, 'packages/native-kernel/src/index.ts'),
       '@nonoun/native-ui/kernel': resolve(__dirname, 'src/kernel.ts'),
       '@nonoun/native-ui': resolve(__dirname, 'src/index.ts'),
       '@nonoun/native-code/register': resolve(__dirname, 'packages/native-code/src/register.ts'),
@@ -37,6 +38,7 @@ export default defineConfig(({ command }) => ({
       // Resolve to source so Vite includes them in the bundle.
       '@nonoun/native-core': resolve(__dirname, 'packages/native-core/src/index.ts'),
       '@nonoun/native-traits': resolve(__dirname, 'packages/native-traits/src/index.ts'),
+      '@nonoun/native-kernel': resolve(__dirname, 'packages/native-kernel/src/index.ts'),
     },
   },
   // WHY: srcdoc iframes (n-playground) have origin "null". ES module <script src>
@@ -79,8 +81,8 @@ export default defineConfig(({ command }) => ({
         // meaninglessly named chunks (register-all2.js, app-panel-element.js).
         // This groups shared modules into predictably named chunks.
         manualChunks(id) {
-          // Kernel is a separate entry — let it stay isolated
-          if (id.includes('/kernel/')) return undefined;
+          // Kernel is a separate entry (now in packages/native-kernel/) — let it stay isolated
+          if (id.includes('/native-kernel/')) return undefined;
           // native-core + native-traits → core.js (shared foundation)
           if (id.includes('/native-core/') || id.includes('/native-traits/')) return 'core';
           if (id.includes('/traits/') || id.includes('/core/') || id.includes('/registries/') || id.includes('/reactivity/')) return 'core';

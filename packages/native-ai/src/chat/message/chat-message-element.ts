@@ -1,4 +1,4 @@
-import { NativeElement, signal, uid } from '@nonoun/native-ui';
+import { NativeElement, signal, uid } from '@nonoun/native-core';
 
 // ── Action registry ──
 

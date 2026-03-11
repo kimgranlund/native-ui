@@ -1,4 +1,4 @@
-import { NativeElement } from '@nonoun/native-ui';
+import { NativeElement } from '@nonoun/native-core';
 
 /**
  * Message group — cluster of messages from the same sender.

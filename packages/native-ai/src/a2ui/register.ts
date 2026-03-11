@@ -8,7 +8,8 @@
  *   import '@nonoun/native-ai/register';
  */
 
-import { define, NButton, NIcon, NToolbar, NSelect, NListbox, NOption, NOptionGroup, NOptionGroupHeader, NSegmentedControl, NSegment, NPane, registerIcon } from '@nonoun/native-ui';
+import { define, registerIcon } from '@nonoun/native-core';
+import { NButton, NIcon, NToolbar, NSelect, NListbox, NOption, NOptionGroup, NOptionGroupHeader, NSegmentedControl, NSegment, NPane } from '@nonoun/native-ui';
 import { NA2UI } from './a2ui-element.ts';
 
 // ── A2UI workbench ──
