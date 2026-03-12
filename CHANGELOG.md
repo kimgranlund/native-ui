@@ -2,6 +2,13 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.219
+
+### Fixed (native-ai@1.0.126)
+- **Option+hover/click in CSS Inspector mode** — Option+hover and Option+click now work on the 3D inspector clone, not just the canvas. Holding Option highlights the nearest `[id]` ancestor with an accent outline; Option+click selects it and bridges to the Schema/HTML editor. Inspector's own layer selection also enhanced — MutationObserver bridge now walks up via `closest('[id]')` so deep child elements without IDs still bridge to the editor.
+- **Highlight cleanup scope** — `clearHighlights()` and `clearOptionHover()` now use `document.querySelectorAll` instead of `canvas.querySelectorAll`, correctly clearing attributes on both canvas elements and popover clone elements.
+- **`[data-option-hover]` / `[data-highlight]` CSS unscoped** — Removed `.tl-canvas` prefix so outlines render on the inspector popover clone.
+
 ## 0.7.218
 
 ### Fixed (native-ai@1.0.125)

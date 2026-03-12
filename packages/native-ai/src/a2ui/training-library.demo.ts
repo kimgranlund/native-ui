@@ -686,20 +686,64 @@ function dismissInspector(): void {
   inspectToggleBtn.setAttribute('variant', 'ghost');
 }
 
+/** Option+hover on the inspector clone — mirrors onOptionHover but operates on
+ *  the popover clone (which lives outside the canvas). */
+function onInspectorOptionHover(e: PointerEvent): void {
+  if (!e.altKey) { clearOptionHover(); return; }
+  const target = (e.target as HTMLElement).closest('[id]') as HTMLElement | null;
+  const current = document.querySelector('[data-option-hover]');
+  if (target === current) return;
+  clearOptionHover();
+  if (target) {
+    target.setAttribute('data-option-hover', '');
+  }
+}
+
+/** Option+click on the inspector clone — mirrors onPreviewClick but operates
+ *  on the popover clone. Falls through to the inspector's own #select for
+ *  the 3D highlight; this adds the editor bridge on top. */
+function onInspectorOptionClick(e: Event): void {
+  if (!(e as MouseEvent).altKey) return;
+  const target = e.target as HTMLElement;
+  clearHighlights();
+  clearOptionHover();
+
+  const el = target.closest('[id]') as HTMLElement | null;
+  if (!el) return;
+  const clickedId = el.id;
+
+  el.setAttribute('data-highlight', '');
+
+  const tab = activeEditorPanel();
+  if (tab === 'schema' && highlightInSchema(clickedId)) return;
+  if (tab === 'html' && highlightInOutput(clickedId)) return;
+  if (highlightInSchema(clickedId)) { showPanel('schema'); return; }
+  if (highlightInOutput(clickedId)) { showPanel('html'); return; }
+}
+
 /** Bridge inspector selection → editor highlighting.
  *  When the user clicks a layer in the 3D inspector, find its `id`
- *  and scroll the corresponding Schema / HTML / CSS editor to that section. */
+ *  and scroll the corresponding Schema / HTML / CSS editor to that section.
+ *  Also wires Option+hover/click on the clone for the same interaction
+ *  pattern as the non-inspector canvas. */
 function bridgeInspectorSelection(): void {
   inspectorObserver?.disconnect();
   if (!cssInspector?.active) return;
 
   const root = cssInspector.inspectRoot;
+
+  // Wire Option+hover/click on the clone
+  root.addEventListener('pointermove', onInspectorOptionHover);
+  root.addEventListener('click', onInspectorOptionClick);
+
   inspectorObserver = new MutationObserver((mutations) => {
     for (const m of mutations) {
       if (m.attributeName !== 'inspect-selected') continue;
       const el = m.target as HTMLElement;
       if (!el.hasAttribute('inspect-selected')) continue;
-      const id = el.id;
+      // Walk up to nearest [id] — the selected layer may be a deep child without one
+      const idEl = el.closest('[id]') as HTMLElement | null;
+      const id = idEl?.id;
       if (!id) continue;
 
       // Highlight in whichever editor panes are open
@@ -772,13 +816,14 @@ function onSchemaInput(): void {
 // ── DOM ↔ Schema bidirectional highlighting ──
 
 function clearHighlights(): void {
-  canvas.querySelectorAll('[data-highlight]').forEach((el) => {
+  // Global query — highlights can live on canvas OR inspector popover clone
+  document.querySelectorAll('[data-highlight]').forEach((el) => {
     el.removeAttribute('data-highlight');
   });
 }
 
 function clearOptionHover(): void {
-  canvas.querySelectorAll('[data-option-hover]').forEach((el) => {
+  document.querySelectorAll('[data-option-hover]').forEach((el) => {
     el.removeAttribute('data-option-hover');
   });
 }

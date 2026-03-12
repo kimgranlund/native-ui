@@ -276,15 +276,15 @@
   outline-offset: -2px;
 }
 
-/* Option+hover highlight */
-.tl-canvas [data-option-hover] {
+/* Option+hover highlight — unscoped so it works on inspector popover clone too */
+[data-option-hover] {
   outline: 2px solid var(--n-border-accent);
   outline-offset: 2px;
   cursor: default;
 }
 
 /* Option+click selection */
-.tl-canvas [data-highlight] {
+[data-highlight] {
   outline: 2px solid var(--n-ink-accent);
   outline-offset: 2px;
 }
