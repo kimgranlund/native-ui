@@ -510,9 +510,16 @@
      ══════════════════════════════════════════════════ */
 
   :where(n-chat-message-text) {
+    --n-chat-bubble-border: none;
+    --n-chat-bubble-border-radius: 0;
+    --n-chat-bubble-font-size: inherit;
+
     display: block;
     padding-block: var(--n-chat-bubble-padding-block);
     padding-inline: var(--n-chat-bubble-padding-inline);
+    border: var(--n-chat-bubble-border);
+    border-radius: var(--n-chat-bubble-border-radius);
+    font-size: var(--n-chat-bubble-font-size);
   }
 
   /* ── Prose reset — typography inside rendered markdown ── */

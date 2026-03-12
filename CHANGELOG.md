@@ -2,6 +2,26 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.150 / native-ai 1.0.78
+
+### Added
+- **n-body** — New `--n-font-family` token (default: `inherit`). Enables monospace body content via token instead of direct `font-family` override.
+- **n-body** — New `scrollbar` attribute: `scrollbar="none"` hides scrollbars, `scrollbar="thin"` shows thin scrollbars (alias for existing `show-scrollbar`).
+- **n-body** — New `overflow` attribute: `overflow="hidden"`, `overflow="auto"`, `overflow="scroll"`.
+- **n-body** — New `[relative]` boolean attribute for `position: relative`.
+- **n-body** — Fixed `--n-background` fallback chain (`var(--n-background, transparent)` → explicit definition).
+- **n-chat-message-text** — New tokens: `--n-chat-bubble-border`, `--n-chat-bubble-border-radius`, `--n-chat-bubble-font-size`.
+
+### Fixed
+- **A2UI Builder CSS** (T0221) — Eliminated 14+ component boundary violations:
+  - n-header typography: direct `font-*`/`text-transform`/`letter-spacing` → `--n-font-*`/`--n-text-transform`/`--n-letter-spacing` tokens
+  - n-body: direct `scrollbar-width`/`font-family`/`font-size`/`line-height`/`overflow`/`position` → tokens + attrs
+  - n-icon: deep `.builder n-header n-icon { font-size }` → `--n-icon-size` on header
+  - Button hover/active: deep `.builder n-header n-button:hover` → `--n-background-hover`/`--n-color` tokens
+  - Nav/aside layout: deep `.builder n-header > nav/aside` → `slot="leading"`/`slot="trailing"` attrs
+  - Chat messages: deep `n-agent-dialogue-item n-chat-message-text { border, font-size }` → parent-level tokens
+  - Removed `!important` from `.map-detail > td`
+
 ## 0.7.149
 
 ### Added

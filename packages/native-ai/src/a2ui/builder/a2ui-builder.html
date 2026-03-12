@@ -84,15 +84,15 @@
           <!-- Pane: Preview -->
           <n-pane data-panel="preview" size-min="150">
             <n-header>
-              <nav><n-icon inline name="eye"></n-icon></nav>
+              <nav slot="leading"><n-icon inline name="eye"></n-icon></nav>
               <span>Preview</span>
-              <aside>
+              <aside slot="trailing">
                 <n-button variant="ghost" inline size="sm" id="inspect-toggle" title="CSS Inspector"><n-icon name="stack-simple"></n-icon></n-button>
                 <n-button variant="ghost" inline size="sm" id="lightbox-toggle" title="Toggle light/dark preview"><n-icon name="moon"></n-icon></n-button>
                 <n-button variant="ghost" inline size="sm" data-close-panel="preview"><n-icon name="x"></n-icon></n-button>
               </aside>
             </n-header>
-            <n-body>
+            <n-body overflow="hidden" relative>
               <div id="preview-canvas">
                 <div id="preview-mount">
                   <span class="empty-state">Live preview will appear here</span>
@@ -104,11 +104,11 @@
           <!-- Pane: Concepts -->
           <n-pane data-panel="concepts" size-min="150">
             <n-header>
-              <nav><n-icon inline name="lightbulb"></n-icon></nav>
+              <nav slot="leading"><n-icon inline name="lightbulb"></n-icon></nav>
               <span>Insights</span>
-              <aside><n-button variant="ghost" inline size="sm" data-close-panel="concepts"><n-icon name="x"></n-icon></n-button></aside>
+              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel="concepts"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <n-body>
+            <n-body scrollbar="none">
               <div id="concepts-wrap" class="concepts-wrap"></div>
             </n-body>
           </n-pane>
@@ -116,11 +116,11 @@
           <!-- Pane: Schema -->
           <n-pane data-panel="schema" size-min="150">
             <n-header>
-              <nav><n-icon inline name="brackets-curly"></n-icon></nav>
+              <nav slot="leading"><n-icon inline name="brackets-curly"></n-icon></nav>
               <span>Schema</span>
-              <aside><n-button variant="ghost" inline size="sm" data-close-panel="schema"><n-icon name="x"></n-icon></n-button></aside>
+              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel="schema"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <n-body>
+            <n-body scrollbar="none">
               <pre id="schema-pre" class="pane-pre"></pre>
             </n-body>
           </n-pane>
@@ -128,11 +128,11 @@
           <!-- Pane: HTML (read-only) -->
           <n-pane data-panel="html" size-min="150" hidden>
             <n-header>
-              <nav><n-icon inline name="brackets-angle"></n-icon></nav>
+              <nav slot="leading"><n-icon inline name="brackets-angle"></n-icon></nav>
               <span>HTML</span>
-              <aside><n-button variant="ghost" inline size="sm" data-close-panel="html"><n-icon name="x"></n-icon></n-button></aside>
+              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel="html"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <n-body>
+            <n-body scrollbar="none">
               <pre id="html-pre" class="pane-pre"></pre>
             </n-body>
           </n-pane>
@@ -140,11 +140,11 @@
           <!-- Pane: CSS (editable, live-applied) -->
           <n-pane data-panel="css" size-min="150" hidden>
             <n-header>
-              <nav><n-icon inline name="paint-brush"></n-icon></nav>
+              <nav slot="leading"><n-icon inline name="paint-brush"></n-icon></nav>
               <span>CSS</span>
-              <aside><n-button variant="ghost" inline size="sm" data-close-panel="css"><n-icon name="x"></n-icon></n-button></aside>
+              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel="css"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <n-body>
+            <n-body scrollbar="none">
               <textarea id="css-editor" class="code-editor" spellcheck="false" placeholder="/* Custom styles for the preview */"></textarea>
             </n-body>
           </n-pane>
@@ -152,14 +152,14 @@
           <!-- Pane: JS (editable, apply-on-click) -->
           <n-pane data-panel="js" size-min="150" hidden>
             <n-header>
-              <nav><n-icon inline name="lightning"></n-icon></nav>
+              <nav slot="leading"><n-icon inline name="lightning"></n-icon></nav>
               <span>JS</span>
-              <aside>
+              <aside slot="trailing">
                 <n-button variant="ghost" inline size="sm" data-role="apply-js" title="Run JS"><n-icon name="play"></n-icon></n-button>
                 <n-button variant="ghost" inline size="sm" data-close-panel="js"><n-icon name="x"></n-icon></n-button>
               </aside>
             </n-header>
-            <n-body>
+            <n-body scrollbar="none">
               <textarea id="js-editor" class="code-editor" spellcheck="false" placeholder="// `preview` is the mount element.&#10;// preview.querySelector('#btn1').addEventListener('native:press', () => { ... })"></textarea>
             </n-body>
           </n-pane>
@@ -167,11 +167,11 @@
           <!-- Pane: Component Map -->
           <n-pane data-panel="map" size-min="150" hidden>
             <n-header>
-              <nav><n-icon inline name="tree-structure"></n-icon></nav>
+              <nav slot="leading"><n-icon inline name="tree-structure"></n-icon></nav>
               <span>Map</span>
-              <aside><n-button variant="ghost" inline size="sm" data-close-panel="map"><n-icon name="x"></n-icon></n-button></aside>
+              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel="map"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <n-body>
+            <n-body scrollbar="none">
               <table id="map-table" class="map-table">
                 <thead><tr><th class="map-chevron"></th><th>A2UI Type</th><th>Native Tag</th><th>Category</th></tr></thead>
                 <tbody></tbody>
@@ -182,11 +182,11 @@
           <!-- Pane: System Prompt (editable) -->
           <n-pane data-panel="prompt" size-min="150" hidden>
             <n-header>
-              <nav><n-icon inline name="terminal"></n-icon></nav>
+              <nav slot="leading"><n-icon inline name="terminal"></n-icon></nav>
               <span>Prompt</span>
-              <aside><n-button variant="ghost" inline size="sm" data-close-panel="prompt"><n-icon name="x"></n-icon></n-button></aside>
+              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel="prompt"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <n-body>
+            <n-body scrollbar="none">
               <textarea id="prompt-editor" class="prompt-editor" spellcheck="false"></textarea>
             </n-body>
           </n-pane>

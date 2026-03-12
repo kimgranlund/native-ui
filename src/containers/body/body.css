@@ -8,6 +8,8 @@
   :where(n-body) {
     --n-padding-block: calc(var(--n-space) * var(--n-space-k));
     --n-padding-inline: calc(var(--n-space) * var(--n-space-k));
+    --n-background: transparent;
+    --n-font-family: inherit;
 
     display: flex;
     flex: 1 1 0%;
@@ -17,8 +19,9 @@
     gap: calc(var(--n-space) * var(--n-space-k));
     padding-block: var(--n-padding-block);
     padding-inline: var(--n-padding-inline);
-    background: var(--n-background, transparent);
+    background: var(--n-background);
 
+    font-family: var(--n-font-family);
     font-size: var(--n-font-size);
     line-height: var(--n-line-height);
     box-sizing: border-box;
@@ -28,6 +31,27 @@
 
 /* ── Attribute API (unlayered) ── */
 
-:where(n-body)[show-scrollbar] {
+:where(n-body)[show-scrollbar],
+:where(n-body)[scrollbar="thin"] {
   scrollbar-width: thin;
+}
+
+:where(n-body)[scrollbar="none"] {
+  scrollbar-width: none;
+}
+
+:where(n-body)[overflow="hidden"] {
+  overflow: hidden;
+}
+
+:where(n-body)[overflow="auto"] {
+  overflow: auto;
+}
+
+:where(n-body)[overflow="scroll"] {
+  overflow: scroll;
+}
+
+:where(n-body)[relative] {
+  position: relative;
 }

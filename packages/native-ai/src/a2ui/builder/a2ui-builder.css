@@ -46,6 +46,7 @@ main {
 .builder > n-header {
   flex: none;
   --n-background: var(--pg-chrome);
+  --n-background-hover: var(--pg-editor-bg);
   border-block-end: 1px solid var(--n-border);
   --n-ink: var(--pg-text-muted);
   --n-ink-hover: var(--pg-text);
@@ -53,14 +54,9 @@ main {
   --n-border-muted: transparent;
 }
 
-.builder > n-header n-button:hover,
-.builder > n-header n-button[force-hover] {
-  background: var(--pg-editor-bg);
-}
-
 .builder > n-header n-button[data-active] {
-  background: var(--pg-editor-bg);
-  color: var(--pg-text-strong);
+  --n-background: var(--pg-editor-bg);
+  --n-color: var(--pg-text-strong);
 }
 
 /* ── Split: chat left, panes right (n-panes handles resize) ── */
@@ -130,11 +126,14 @@ main {
   width: auto;
 }
 
-/* Remap messages: warning left border */
-.builder [data-panel="agent-chat"] n-agent-dialogue-item[data-type="remap"] n-chat-message-text {
+/* Remap messages: warning accent via bubble tokens on parent (cascades to n-chat-message-text) */
+n-agent-dialogue-item[data-type="remap"] {
   --n-chat-bubble-padding-inline: 0.5rem;
+  --n-chat-bubble-border: none;
+  --n-chat-bubble-font-size: 0.75rem;
+}
+n-agent-dialogue-item[data-type="remap"] n-chat-message-text {
   border-inline-start: 3px solid var(--n-ink-warning);
-  font-size: 0.75rem;
 }
 
 /* ── Chat composer: give the input area a visible container ── */
@@ -158,43 +157,27 @@ main {
 .builder n-pane > n-header {
   flex: none;
   --n-background: var(--pg-chrome);
+  --n-background-hover: var(--pg-editor-bg);
   border-block-end: var(--pg-border);
   --n-padding-block: 0;
   --n-padding-inline: 0.5rem;
   --n-ink: var(--pg-text-muted);
   --n-ink-hover: var(--pg-text);
   --n-size: 1.75rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.builder n-pane > n-header > nav,
-.builder n-pane > n-header > aside {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.builder n-pane > n-header n-icon {
-  font-size: 0.875rem;
-}
-
-.builder n-pane > n-header n-button:hover {
-  background: var(--pg-editor-bg);
+  --n-font-size: 0.75rem;
+  --n-font-weight: 600;
+  --n-text-transform: uppercase;
+  --n-letter-spacing: 0.04em;
+  --n-icon-size: 0.875rem; /* slightly larger than 0.75rem text */
 }
 
 /* Pane content */
 .builder n-pane > n-body {
-  scrollbar-width: none;
   --n-padding-block: 0.5rem;
   --n-padding-inline: 0.5rem;
-  font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  align-items: flex-start;
-  justify-content: flex-start;
+  --n-font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
+  --n-font-size: 0.8125rem;
+  --n-line-height: 1.5;
 }
 
 /* ── Preview pane ── */
@@ -203,10 +186,8 @@ main {
   --n-background: var(--n-body);
   --n-padding-block: 0;
   --n-padding-inline: 0;
-  font-family: inherit;
-  overflow: hidden;
-  cursor: grab;
-  position: relative;
+  --n-font-family: inherit;
+  cursor: grab; /* pannable canvas — no generic token warranted */
 }
 
 .builder n-pane[data-panel="preview"] > n-body[data-panning] {
@@ -387,7 +368,7 @@ main {
 .map-summary { cursor: pointer; }
 .map-summary:hover { background: color-mix(in oklch, var(--pg-text-muted), transparent 92%); }
 .map-chevron { width: 1rem; text-align: center; color: var(--pg-text-muted); font-size: 0.625rem; user-select: none; }
-.map-detail > td { padding: 0.25rem 0.5rem 0.5rem !important; border-bottom: none !important; }
+.map-table .map-detail > td { padding: 0.25rem 0.5rem 0.5rem; border-bottom: none; }
 .map-detail-section { margin-block-end: 0.375rem; }
 .map-detail-section:last-child { margin-block-end: 0; }
 .map-detail-label { font-weight: 600; font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--pg-text-muted); margin-block-end: 0.125rem; }
@@ -398,12 +379,12 @@ main {
 .map-note { color: var(--pg-text-muted); font-size: 0.625rem; font-style: italic; }
 .map-no-api { color: var(--pg-text-muted); font-size: 0.6875rem; font-style: italic; }
 
-/* ── Gap report messages ── */
-n-agent-dialogue-item[data-type="gap"] n-chat-message-text {
+/* ── Gap report messages — tokens cascade to n-chat-message-text ── */
+n-agent-dialogue-item[data-type="gap"] {
   --n-chat-bubble-padding-block: 0.75rem;
   --n-chat-bubble-padding-inline: 0.75rem;
-  border: 2px solid oklch(0.75 0.15 60);
-  border-radius: var(--n-radius, 0.5rem);
+  --n-chat-bubble-border: 2px solid oklch(0.75 0.15 60);
+  --n-chat-bubble-border-radius: var(--n-radius);
 }
 
 /* ── Progress indicator (multi-step typing) ── */
