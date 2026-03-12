@@ -5,6 +5,7 @@
   "concepts": ["comments", "discussion", "replies", "feedback"],
   "description": "Comments section with user avatars, timestamps, reply/like actions, and a compose area.",
   "category": "communication",
+  "temperature": 0.6,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["title", "count-badge"] },

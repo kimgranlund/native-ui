@@ -5,6 +5,7 @@
   "concepts": ["article", "blog", "post", "editorial"],
   "description": "Blog post card with hero image, title, author byline, body text, and tags.",
   "category": "content",
+  "temperature": 0.7,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body"] },
     { "id": "header", "component": "Header", "children": ["hero"] },

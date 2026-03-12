@@ -5,6 +5,7 @@
   "concepts": ["profile", "user", "account", "bio"],
   "description": "Profile card with avatar, name, role badge, bio, contact details, and action buttons.",
   "category": "admin",
+  "temperature": 0.5,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["avatar-row"] },

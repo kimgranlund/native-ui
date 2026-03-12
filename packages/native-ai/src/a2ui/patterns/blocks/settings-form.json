@@ -5,6 +5,7 @@
   "concepts": ["preferences", "settings", "configuration", "profile"],
   "description": "Settings card with profile fields, notification toggles, and save/cancel actions.",
   "category": "form",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["settings-title"] },

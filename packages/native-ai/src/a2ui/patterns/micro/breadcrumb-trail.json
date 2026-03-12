@@ -5,6 +5,7 @@
   "concepts": ["navigation", "hierarchy", "path"],
   "description": "3-level breadcrumb showing navigational hierarchy from root to current page.",
   "category": "navigation",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Breadcrumb", "children": ["home", "products", "detail"] },
     { "id": "home", "component": "Text", "text": "Home" },

@@ -5,6 +5,7 @@
   "concepts": ["login", "sign-in", "credentials", "authentication"],
   "description": "Login card with logo, title, email/password fields, submit button, and secondary links.",
   "category": "auth",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["logo", "title"] },

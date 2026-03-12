@@ -5,6 +5,7 @@
   "concepts": ["checkout", "payment", "billing", "order"],
   "description": "Payment form with shipping and billing sections, field groups, and order total.",
   "category": "commerce",
+  "temperature": 0.6,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["title"] },

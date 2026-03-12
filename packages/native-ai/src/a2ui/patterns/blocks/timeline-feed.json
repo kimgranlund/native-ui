@@ -5,6 +5,7 @@
   "concepts": ["timeline", "activity", "feed", "history"],
   "description": "Activity timeline with event icons, descriptions, timestamps, and a load-more action.",
   "category": "communication",
+  "temperature": 0.6,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["title"] },

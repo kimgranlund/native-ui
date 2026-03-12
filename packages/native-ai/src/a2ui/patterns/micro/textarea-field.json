@@ -5,6 +5,7 @@
   "concepts": ["multiline", "label", "description"],
   "description": "Label + textarea + helper text for multiline input fields.",
   "category": "form",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Column", "children": ["label", "textarea", "helper"], "properties": { "gap": "xs" } },
     { "id": "label", "component": "Text", "text": "Description" },

@@ -5,6 +5,7 @@
   "concepts": ["chat", "messaging", "conversation", "dialogue"],
   "description": "Chat UI with user presence header, a scrollable message list with alternating sent/received messages, and a compose footer.",
   "category": "communication",
+  "temperature": 0.6,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["header-row"] },

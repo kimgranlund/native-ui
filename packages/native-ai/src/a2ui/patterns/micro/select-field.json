@@ -5,6 +5,7 @@
   "concepts": ["dropdown", "choice", "picker"],
   "description": "Label + select dropdown + helper text for single-choice selection.",
   "category": "form",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Column", "children": ["label", "picker", "helper"], "properties": { "gap": "xs" } },
     { "id": "label", "component": "Text", "text": "Category" },

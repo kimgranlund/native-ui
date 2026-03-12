@@ -5,6 +5,7 @@
   "concepts": ["wizard", "stepper", "multi-step", "onboarding"],
   "description": "Multi-step wizard with numbered step indicators in the header, form fields in the body, and back/continue navigation in the footer.",
   "category": "form",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["steps-row"] },

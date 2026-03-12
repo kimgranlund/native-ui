@@ -297,6 +297,16 @@ async function openLightbox(id: string): Promise<void> {
     <span class="tl-card-badge" data-category>${pattern.category}</span>
   `;
 
+  // Apply recommended temperature from pattern (if present)
+  if (pattern.temperature != null) {
+    temperature = pattern.temperature;
+    tempRange.value = String(temperature);
+    tempVal.textContent = temperature.toFixed(2);
+    tempVal.setAttribute('data-recommended', '');
+  } else {
+    tempVal.removeAttribute('data-recommended');
+  }
+
   // Schema editor
   schemaEditor.value = JSON.stringify(pattern, null, 2);
 
@@ -935,6 +945,7 @@ modelPicker?.addEventListener('native:change', () => {
 tempRange?.addEventListener('native:input', () => {
   temperature = parseFloat(((tempRange as unknown as { value: number }).value).toFixed(2));
   tempVal.textContent = temperature.toFixed(2);
+  tempVal.removeAttribute('data-recommended');
 });
 
 tokensRange?.addEventListener('native:input', () => {

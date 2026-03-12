@@ -5,6 +5,7 @@
   "concepts": ["table", "records", "CRUD", "data-grid"],
   "description": "Data table card with search, add-new button, sortable table, and pagination controls.",
   "category": "data",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["table-title", "controls-row"] },

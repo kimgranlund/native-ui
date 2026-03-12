@@ -5,6 +5,7 @@
   "concepts": ["video", "player", "media", "streaming"],
   "description": "Video player card with title, description, view count, and action buttons.",
   "category": "media",
+  "temperature": 0.6,
   "components": [
     { "id": "root", "component": "Card", "children": ["body"] },
     { "id": "body", "component": "Body", "child": "content-col" },

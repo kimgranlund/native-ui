@@ -5,6 +5,7 @@
   "concepts": ["KPI", "analytics", "stats", "metrics"],
   "description": "Four metric cards arranged in a 2x2 grid, each showing a large number, label, and trend indicator.",
   "category": "dashboard",
+  "temperature": 0.6,
   "components": [
     { "id": "root", "component": "Column", "children": ["top-row", "bottom-row"], "properties": { "gap": "md" } },
     { "id": "top-row", "component": "Row", "children": ["metric-1", "metric-2"], "properties": { "gap": "md" } },

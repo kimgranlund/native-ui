@@ -5,6 +5,7 @@
   "concepts": ["confirm", "delete", "destructive", "modal"],
   "description": "Destructive confirmation dialog with warning icon, title, explanation text, and cancel/delete button pair.",
   "category": "overlay",
+  "temperature": 0.5,
   "components": [
     { "id": "root", "component": "Modal", "children": ["content-col"] },
     { "id": "content-col", "component": "Column", "children": ["icon", "heading", "description", "actions-row"], "properties": { "gap": "md", "align": "center" } },

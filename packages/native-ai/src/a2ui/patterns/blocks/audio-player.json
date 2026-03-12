@@ -5,6 +5,7 @@
   "concepts": ["audio", "music", "player", "podcast"],
   "description": "Audio player card with album art, track info, playback controls, and a progress slider.",
   "category": "media",
+  "temperature": 0.6,
   "components": [
     { "id": "root", "component": "Card", "children": ["body"] },
     { "id": "body", "component": "Body", "child": "layout-row" },

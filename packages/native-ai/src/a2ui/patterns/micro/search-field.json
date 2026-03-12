@@ -5,6 +5,7 @@
   "concepts": ["search", "filter", "query"],
   "description": "Search icon + text input for search and filter interactions.",
   "category": "form",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Row", "children": ["icon", "input"], "properties": { "gap": "sm", "align": "center" } },
     { "id": "icon", "component": "Icon", "properties": { "name": "magnifying-glass" } },

@@ -5,6 +5,7 @@
   "concepts": ["loading", "completion", "status"],
   "description": "Label + percentage + progress bar for completion tracking.",
   "category": "feedback",
+  "temperature": 0.5,
   "components": [
     { "id": "root", "component": "Column", "children": ["info", "bar"], "properties": { "gap": "xs" } },
     { "id": "info", "component": "Row", "children": ["label", "percent"], "properties": { "justify": "space-between" } },

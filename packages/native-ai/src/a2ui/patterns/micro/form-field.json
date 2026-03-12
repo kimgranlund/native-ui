@@ -5,6 +5,7 @@
   "concepts": ["input", "label", "validation"],
   "description": "Label + text input + helper text for standard form fields.",
   "category": "form",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Column", "children": ["label", "input", "helper"], "properties": { "gap": "xs" } },
     { "id": "label", "component": "Text", "text": "Label" },

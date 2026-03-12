@@ -5,6 +5,7 @@
   "concepts": ["title", "actions", "section-header"],
   "description": "Title on the left with an action button on the right for card or section headers.",
   "category": "primitive",
+  "temperature": 0.3,
   "components": [
     { "id": "root", "component": "Header", "children": ["title", "action"] },
     { "id": "title", "component": "Text", "text": "Section Title" },

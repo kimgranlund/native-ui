@@ -5,6 +5,7 @@
   "concepts": ["rating", "stars", "review"],
   "description": "Five filled star icons with a numeric score for displaying ratings.",
   "category": "data",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Row", "children": ["star1", "star2", "star3", "star4", "star5", "score"], "properties": { "gap": "xs" } },
     { "id": "star1", "component": "Icon", "properties": { "name": "star-fill" } },

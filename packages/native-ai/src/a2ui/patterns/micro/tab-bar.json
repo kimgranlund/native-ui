@@ -5,6 +5,7 @@
   "concepts": ["tabs", "sections", "views"],
   "description": "Horizontal tab row for switching between content sections.",
   "category": "navigation",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Tabs", "children": ["tab1", "tab2", "tab3"] },
     { "id": "tab1", "component": "Button", "text": "Overview", "variant": "ghost" },

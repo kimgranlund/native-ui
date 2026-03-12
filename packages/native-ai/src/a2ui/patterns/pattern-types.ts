@@ -53,6 +53,8 @@ export interface Pattern {
   category: PatternCategory;
   /** The A2UI component tree (flat adjacency list, same format as presets). */
   components: PatternComponent[];
+  /** Recommended LLM temperature for regeneration (0.0–1.0). */
+  temperature?: number;
   /** Optional scoped CSS (uses :scope for the root element). */
   css?: string;
   /** Optional JS behavior hints (event handler patterns). */

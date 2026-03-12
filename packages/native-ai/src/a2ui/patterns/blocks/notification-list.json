@@ -5,6 +5,7 @@
   "concepts": ["notifications", "alerts", "inbox", "activity"],
   "description": "Notification panel with badge count, dismissible notification items, and mark-all-read action.",
   "category": "communication",
+  "temperature": 0.6,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["header-row"] },

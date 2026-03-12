@@ -5,6 +5,7 @@
   "concepts": ["alert", "warning", "info"],
   "description": "Icon paired with message text for inline feedback and notifications.",
   "category": "feedback",
+  "temperature": 0.5,
   "components": [
     { "id": "root", "component": "Card", "children": ["content"], "properties": { "intent": "info" } },
     { "id": "content", "component": "Row", "children": ["icon", "message"], "properties": { "gap": "sm" } },

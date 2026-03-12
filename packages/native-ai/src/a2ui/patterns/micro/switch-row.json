@@ -5,6 +5,7 @@
   "concepts": ["setting", "toggle", "preference"],
   "description": "Label + description on left, switch on right for toggling settings.",
   "category": "form",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Row", "children": ["text-group", "toggle"], "properties": { "gap": "md", "align": "center", "justify": "space-between" } },
     { "id": "text-group", "component": "Column", "children": ["label", "description"], "properties": { "gap": "xs" } },

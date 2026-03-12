@@ -5,6 +5,7 @@
   "concepts": ["notification", "toast", "transient"],
   "description": "Toast notification with icon, message text, and dismiss button.",
   "category": "feedback",
+  "temperature": 0.5,
   "components": [
     { "id": "root", "component": "Toast", "children": ["content"] },
     { "id": "content", "component": "Row", "children": ["icon", "message", "dismiss"], "properties": { "gap": "sm" } },

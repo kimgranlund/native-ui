@@ -5,6 +5,7 @@
   "concepts": ["menu-item", "list-item", "nav"],
   "description": "Icon + text label + optional trailing badge for navigation items.",
   "category": "navigation",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Row", "children": ["icon", "label", "badge"], "properties": { "gap": "sm", "align": "center" } },
     { "id": "icon", "component": "Icon", "properties": { "name": "house" } },

@@ -5,6 +5,7 @@
   "concepts": ["media", "image", "caption"],
   "description": "Image thumbnail with title and muted description text beneath.",
   "category": "media",
+  "temperature": 0.6,
   "components": [
     { "id": "root", "component": "Column", "children": ["image", "title", "caption"], "properties": { "gap": "xs" } },
     { "id": "image", "component": "Image", "properties": { "src": "", "alt": "Thumbnail" } },

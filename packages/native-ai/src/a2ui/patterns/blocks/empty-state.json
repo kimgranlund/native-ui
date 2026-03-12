@@ -5,6 +5,7 @@
   "concepts": ["empty", "placeholder", "zero-data", "onboarding"],
   "description": "Empty state placeholder with centered icon, heading, description text, and a primary call-to-action button.",
   "category": "feedback",
+  "temperature": 0.5,
   "components": [
     { "id": "root", "component": "Card", "children": ["body"] },
     { "id": "body", "component": "Body", "child": "content-col" },

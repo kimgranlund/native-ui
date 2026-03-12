@@ -5,6 +5,7 @@
   "concepts": ["detail", "property", "attribute"],
   "description": "Muted label on the left, value on the right for property display.",
   "category": "data",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Row", "children": ["key", "value"], "properties": { "justify": "space-between", "align": "center" } },
     { "id": "key", "component": "Text", "text": "Status", "properties": { "muted": true, "size": "sm" } },

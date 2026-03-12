@@ -5,6 +5,7 @@
   "concepts": ["search", "results", "filter", "browse"],
   "description": "Search page with query field, sort picker, and a list of result cards with metadata.",
   "category": "data",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Column", "children": ["search-bar", "results-list"], "properties": { "gap": "md" } },
     { "id": "search-bar", "component": "Row", "children": ["search-field", "sort-picker"], "properties": { "gap": "sm", "align": "center" } },

@@ -5,6 +5,7 @@
   "concepts": ["sign-up", "register", "create-account", "onboarding"],
   "description": "Sign-up form with name fields, email, password confirmation, terms checkbox, and submit button.",
   "category": "auth",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["title"] },

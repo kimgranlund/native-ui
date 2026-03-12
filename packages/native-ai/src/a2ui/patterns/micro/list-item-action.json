@@ -5,6 +5,7 @@
   "concepts": ["list", "selectable", "interactive"],
   "description": "List row with leading icon, text label, and trailing action button.",
   "category": "data",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Row", "children": ["icon", "label", "action"], "properties": { "gap": "sm" } },
     { "id": "icon", "component": "Icon", "properties": { "name": "file" } },

@@ -5,6 +5,7 @@
   "concepts": ["photos", "gallery", "images", "portfolio"],
   "description": "Image grid with pagination controls for browsing a photo gallery.",
   "category": "media",
+  "temperature": 0.6,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["title"] },

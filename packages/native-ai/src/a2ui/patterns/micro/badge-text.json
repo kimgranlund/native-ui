@@ -5,6 +5,7 @@
   "concepts": ["status", "tag", "indicator"],
   "description": "Text label paired with a status badge for displaying labeled states.",
   "category": "data",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Row", "children": ["label", "badge"], "properties": { "gap": "sm" } },
     { "id": "label", "component": "Text", "text": "Status" },

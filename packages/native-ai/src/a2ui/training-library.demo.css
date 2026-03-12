@@ -286,6 +286,14 @@
   font-variant-numeric: tabular-nums;
 }
 
+.tl-settings-val[data-recommended]::after {
+  content: '(recommended)';
+  font-size: 0.75rem;
+  color: var(--pg-text-muted);
+  margin-inline-start: 0.25rem;
+  font-weight: 400;
+}
+
 /* Action footer */
 .tl-actions {
   --n-background: var(--pg-chrome);

@@ -5,6 +5,7 @@
   "concepts": ["cart", "checkout", "order", "basket"],
   "description": "Shopping cart panel with item list, per-item remove actions, total, and checkout button.",
   "category": "commerce",
+  "temperature": 0.6,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "divider", "footer"] },
     { "id": "header", "component": "Header", "children": ["cart-title", "item-count"] },

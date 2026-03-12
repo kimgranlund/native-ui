@@ -5,6 +5,7 @@
   "concepts": ["filter", "sort", "toolbar", "search"],
   "description": "Horizontal filter and sort bar with search field, category picker, date range inputs, sort selector, and action buttons.",
   "category": "data",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Row", "children": ["search-field", "category-picker", "from-date", "to-date", "sort-picker", "apply-btn", "clear-btn"], "properties": { "gap": "sm", "align": "end" } },
     { "id": "search-field", "component": "TextField", "properties": { "placeholder": "Search...", "type": "search" } },

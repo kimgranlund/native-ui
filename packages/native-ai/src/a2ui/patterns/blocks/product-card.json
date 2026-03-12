@@ -5,6 +5,7 @@
   "concepts": ["product", "e-commerce", "item", "merchandise"],
   "description": "E-commerce product card with image, title, sale badge, price, description, and add-to-cart controls.",
   "category": "commerce",
+  "temperature": 0.6,
   "components": [
     { "id": "root", "component": "Card", "children": ["product-image", "body"] },
     { "id": "product-image", "component": "Image", "properties": { "src": "https://placehold.co/400x300", "alt": "Product image", "aspect-ratio": "4/3" } },

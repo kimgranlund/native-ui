@@ -5,6 +5,7 @@
   "concepts": ["game", "grid", "tic-tac-toe", "board"],
   "description": "Tic-tac-toe style game board with a 3x3 button grid, turn indicator badge, score display, and new game action.",
   "category": "interactive",
+  "temperature": 0.7,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["header-row"] },

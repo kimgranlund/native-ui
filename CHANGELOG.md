@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.199
+
+### Added (native-ai@1.0.111)
+- **Pattern recommended temperature** — All 50 pattern JSON files now include a `temperature` field with category-appropriate LLM generation values (0.3–0.7). Training Library lightbox auto-sets the temperature slider when opening a pattern and shows a "(recommended)" indicator. Manual slider adjustment clears the indicator.
+
 ## 0.7.198
 
 ### Fixed (native-ai@1.0.110)

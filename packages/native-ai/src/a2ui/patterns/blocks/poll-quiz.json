@@ -5,6 +5,7 @@
   "concepts": ["poll", "quiz", "vote", "survey"],
   "description": "Poll card with question, answer options, vote button, and result progress bars.",
   "category": "interactive",
+  "temperature": 0.7,
   "components": [
     { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
     { "id": "header", "component": "Header", "children": ["question", "poll-badge"] },

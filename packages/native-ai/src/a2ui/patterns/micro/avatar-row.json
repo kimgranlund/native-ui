@@ -5,6 +5,7 @@
   "concepts": ["profile", "user", "identity"],
   "description": "Avatar + name + secondary text for user identity display.",
   "category": "primitive",
+  "temperature": 0.3,
   "components": [
     { "id": "root", "component": "Row", "children": ["avatar", "info"], "properties": { "gap": "sm", "align": "center" } },
     { "id": "avatar", "component": "Avatar", "properties": { "name": "Jane Doe" } },

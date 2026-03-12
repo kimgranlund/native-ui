@@ -5,6 +5,7 @@
   "concepts": ["range", "adjustment", "value"],
   "description": "Label + current value + slider for range-based input.",
   "category": "form",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Column", "children": ["info", "slider"], "properties": { "gap": "xs" } },
     { "id": "info", "component": "Row", "children": ["label", "value"], "properties": { "justify": "space-between" } },

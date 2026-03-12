@@ -5,6 +5,7 @@
   "concepts": ["modal", "confirm", "destructive"],
   "description": "Dialog footer with cancel and destructive confirm buttons for dangerous actions.",
   "category": "overlay",
+  "temperature": 0.5,
   "components": [
     { "id": "root", "component": "Footer", "children": ["actions"] },
     { "id": "actions", "component": "Row", "children": ["cancel", "delete"], "properties": { "gap": "sm" } },

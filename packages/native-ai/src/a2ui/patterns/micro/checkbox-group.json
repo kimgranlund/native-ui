@@ -5,6 +5,7 @@
   "concepts": ["selection", "multiple", "options"],
   "description": "Group label + 3 vertically stacked checkboxes for multi-selection.",
   "category": "form",
+  "temperature": 0.4,
   "components": [
     { "id": "root", "component": "Column", "children": ["label", "option1", "option2", "option3"], "properties": { "gap": "sm" } },
     { "id": "label", "component": "Text", "text": "Select options" },

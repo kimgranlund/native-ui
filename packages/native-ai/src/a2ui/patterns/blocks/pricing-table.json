@@ -5,6 +5,7 @@
   "concepts": ["pricing", "plans", "subscription", "tiers"],
   "description": "Side-by-side pricing plan cards with tier name, price, features, and CTA.",
   "category": "commerce",
+  "temperature": 0.6,
   "components": [
     { "id": "root", "component": "Row", "children": ["plan-basic", "plan-pro", "plan-enterprise"], "properties": { "gap": "md", "align": "stretch" } },
     { "id": "plan-basic", "component": "Card", "children": ["header-basic", "body-basic", "footer-basic"] },

@@ -5,6 +5,7 @@
   "concepts": ["actions", "confirm", "cancel"],
   "description": "Primary and secondary buttons side by side for confirm/cancel flows.",
   "category": "primitive",
+  "temperature": 0.3,
   "components": [
     { "id": "root", "component": "Row", "children": ["cancel", "confirm"], "properties": { "gap": "sm" } },
     { "id": "cancel", "component": "Button", "text": "Cancel", "variant": "outline" },
