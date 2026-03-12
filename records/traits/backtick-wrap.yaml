@@ -1,0 +1,53 @@
+trait: backtick-wrap
+controller: BacktickWrapController
+description: "Watches for paired backtick delimiters in a contenteditable input. When the user types a closing
+  backtick that matches an opening backtick, the text between them is wrapped in a styled <code> element. Also
+  wraps selected text when backtick is typed with an active selection. Single-line only (does not cross newlines).
+  Events: - `native:backtick-wrap` — dispatched on host when text is wrapped. Detail: `{ text, element }`"
+source:
+  controller: packages/native-traits/src/traits/backtick-wrap/backtick-wrap-controller.ts
+  adapter: packages/native-traits/src/traits/backtick-wrap/backtick-wrappable-adapter.ts
+  demo: packages/native-traits/src/traits/backtick-wrap/backtick-wrap.html
+  test: packages/native-traits/src/traits/backtick-wrap/backtick-wrap.test.ts
+options:
+  input:
+    type: HTMLElement
+    required: true
+  disabled:
+    type: boolean
+    default: false
+injected_events:
+  native:backtick-wrap:
+    detail:
+      text:
+        type: string
+      element:
+        type: HTMLElement
+methods:
+  destroy:
+    returns: void
+consumption:
+  imperative: new BacktickWrapController(element, options)
+  provider: <n-controller traits="backtick-wrappable">
+  self_trait: <n-textarea traits="backtick-wrappable">
+behavior:
+  - trigger: "Closing backtick typed after an opening backtick"
+    actions:
+      - "Walks backward from caret to find matching opening backtick"
+      - "Extracts text between the backtick pair"
+      - "Replaces the backtick-delimited range with a <code> element"
+      - "Dispatches native:backtick-wrap with text and element"
+  - trigger: "Backtick typed with active text selection"
+    actions:
+      - "Wraps the selected text in a <code> element"
+      - "Dispatches native:backtick-wrap with text and element"
+  - trigger: "Empty backtick pair (``)"
+    actions:
+      - "No-op — types normally"
+  - trigger: "Modifier key + backtick (Cmd/Ctrl/Alt)"
+    actions:
+      - "Ignored — modifier combinations pass through"
+a11y:
+  keyboard:
+    - key: "`"
+      action: "Wraps text between paired backticks or selected text in <code>"

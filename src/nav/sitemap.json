@@ -76,6 +76,7 @@
   { "title": "Searchable", "path": "/packages/native-traits/src/traits/search/searchable.html", "group": "Traits" },
   { "title": "Selectable", "path": "/packages/native-traits/src/traits/selection/selectable.html", "group": "Traits" },
   { "title": "Shortcutable", "path": "/packages/native-traits/src/traits/shortcut/shortcutable.html", "group": "Traits", "badge": "new" },
+  { "title": "Backtick Wrap", "path": "/packages/native-traits/src/traits/backtick-wrap/backtick-wrap.html", "group": "Traits", "badge": "new" },
   { "title": "Mention", "path": "/packages/native-traits/src/traits/mention/mention.html", "group": "Traits", "badge": "new" },
   { "title": "Slash Command", "path": "/packages/native-traits/src/traits/slash-command/slash-command.html", "group": "Traits" },
   { "title": "Sortable", "path": "/packages/native-traits/src/traits/sort/sortable.html", "group": "Traits" },

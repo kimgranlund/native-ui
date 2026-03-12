@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Backtick Wrap — Trait Demo</title>
+    <link rel="stylesheet" href="../../../../../src/styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../../../src/styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../../../../src/styles/spa/spa-pages.css" />
+    <link rel="stylesheet" href="./backtick-wrap.demo.css" />
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <header>
+      <h1>Backtick Wrap</h1>
+      <div class="demo-desc">
+      Watches for paired backtick delimiters in a contenteditable input. When the user types a closing <code>`</code> that matches an opening <code>`</code>, the text between them is wrapped in a styled <code>&lt;code&gt;</code> element. Also wraps selected text when <code>`</code> is typed with an active selection.
+    </div>
+    </header>
+
+    <section>
+
+    <!-- ── Basic Backtick Wrap ── -->
+
+    <h2>Basic Backtick Wrap</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Type <code>`hello`</code> — when you type the closing backtick, "hello" becomes an inline <code>&lt;code&gt;</code> element. You can also select text and press <code>`</code> to wrap the selection.
+      </p>
+      <div id="basic-wrapper" class="wrap-wrapper">
+        <n-textarea id="basic-textarea" placeholder="Type `code` to see inline code wrapping..." rows="2"></n-textarea>
+      </div>
+      <div id="basic-log" class="output"></div>
+      <pre class="demo-code"><code>import { BacktickWrapController } from '@nonoun/native-traits';
+
+const wrapper = document.querySelector('#wrapper');
+const textarea = wrapper.querySelector('n-textarea');
+
+const backtick = new BacktickWrapController(wrapper, {
+  input: textarea,
+});
+
+wrapper.addEventListener('native:backtick-wrap', (e) =&gt; {
+  console.log('Wrapped:', e.detail.text);
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Combined: All Text Commands ── -->
+
+    <h2>Combined: Slash + Mention + Backtick</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        All three text command controllers on one input. Type <code>/</code> for slash commands, <code>@</code> for mentions, and <code>`code`</code> for inline code. All work independently without conflict.
+      </p>
+      <div id="combo-wrapper" class="wrap-wrapper">
+        <n-textarea id="combo-textarea" placeholder="Type / for commands, @ for mentions, `code` for inline code..." rows="3"></n-textarea>
+      </div>
+      <div id="combo-log" class="output"></div>
+      <pre class="demo-code"><code>// All three controllers on the same input
+const slash = new SlashCommandController(wrapper, { input, commands });
+const mention = new MentionController(wrapper, { input, items });
+const backtick = new BacktickWrapController(wrapper, { input });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Constructor Options (<code>BacktickWrapOptions</code>)</h3>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto auto auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Property</n-table-header>
+            <n-table-header>Type</n-table-header>
+            <n-table-header>Default</n-table-header>
+            <n-table-header>Description</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><code>input</code></n-table-cell>
+            <n-table-cell><code>HTMLElement</code></n-table-cell>
+            <n-table-cell>---</n-table-cell>
+            <n-table-cell>The input element to monitor.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>disabled</code></n-table-cell>
+            <n-table-cell><code>boolean</code></n-table-cell>
+            <n-table-cell><code>false</code></n-table-cell>
+            <n-table-cell>Disable the controller without destroying it.</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Event</n-table-header>
+            <n-table-header>Detail</n-table-header>
+            <n-table-header>Description</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><code>native:backtick-wrap</code></n-table-cell>
+            <n-table-cell><code>{ text, element }</code></n-table-cell>
+            <n-table-cell>Fired when text is wrapped in a <code>&lt;code&gt;</code> element. <code>text</code> is the wrapped string, <code>element</code> is the created <code>&lt;code&gt;</code> node.</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    </div>
+
+    <div class="api-section">
+      <h3>Behavior</h3>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Trigger</n-table-header>
+            <n-table-header>Action</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell>Closing <code>`</code> after opening <code>`</code></n-table-cell>
+            <n-table-cell>Wraps text between the backtick pair in a <code>&lt;code&gt;</code> element. Single-line only (does not cross newlines).</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>`</code> with text selected</n-table-cell>
+            <n-table-cell>Wraps the selected text in a <code>&lt;code&gt;</code> element.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Empty backtick pair <code>``</code></n-table-cell>
+            <n-table-cell>No-op — types normally.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><kbd>Cmd</kbd>/<kbd>Ctrl</kbd>/<kbd>Alt</kbd>+<code>`</code></n-table-cell>
+            <n-table-cell>Ignored — modifier combinations pass through.</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    </div>
+
+    </section>
+
+    </main></native-dashboard-spa>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components and wire demos -->
+    <script type="module" src="./backtick-wrap.demo.ts"></script>
+  </body>
+</html>

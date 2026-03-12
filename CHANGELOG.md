@@ -2,6 +2,12 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.143
+
+### Added
+- **BacktickWrapController** — Watches for paired backtick delimiters in contenteditable inputs. Closing backtick auto-wraps text in a styled `<code>` element. Also wraps selected text when backtick is typed with an active selection. Single-line only. Event: `native:backtick-wrap`.
+- **`backtick-wrappable` trait adapter** — Declarative backtick wrap support via `<n-controller traits="backtick-wrappable">`.
+
 ## 0.7.142
 
 ### Added

@@ -58,6 +58,8 @@ export { SlashCommandController } from './slash-command/slash-command-controller
 export type { SlashCommand, SlashCommandOptions } from './slash-command/slash-command-controller.ts';
 export { MentionController } from './mention/mention-controller.ts';
 export type { MentionItem, MentionOptions } from './mention/mention-controller.ts';
+export { BacktickWrapController } from './backtick-wrap/backtick-wrap-controller.ts';
+export type { BacktickWrapOptions } from './backtick-wrap/backtick-wrap-controller.ts';
 export { ShortcutController } from './shortcut/shortcut-controller.ts';
 export type { ShortcutBinding, ShortcutOptions } from './shortcut/shortcut-controller.ts';
 export { TossController } from './toss/toss-controller.ts';
@@ -111,6 +113,7 @@ export { editableAdapter } from './edit/editable-adapter.ts';
 export { presentableAdapter } from './present/presentable-adapter.ts';
 export { slashCommandableAdapter } from './slash-command/slash-commandable-adapter.ts';
 export { mentionableAdapter } from './mention/mentionable-adapter.ts';
+export { backtickWrappableAdapter } from './backtick-wrap/backtick-wrappable-adapter.ts';
 export { shortcutableAdapter } from './shortcut/shortcutable-adapter.ts';
 export { tossableAdapter } from './toss/tossable-adapter.ts';
 export { flippableAdapter } from './flip/flippable-adapter.ts';
