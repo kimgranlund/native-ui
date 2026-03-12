@@ -477,32 +477,34 @@
   cursor: crosshair;
 }
 
-/* 3D inspection: outlines on exploded layers */
-.tl-canvas [inspect-layer] {
+/* 3D inspection: outlines on exploded layers.
+   Unscoped — the inspector clones into a popover on document.body,
+   outside .tl-canvas, so these must match globally. */
+[inspect-layer] {
   outline: 0.75px solid oklch(0.7 0.15 250 / 0.5);
   outline-offset: 0;
   transition: outline 300ms ease;
 }
 
-.tl-canvas [inspect-layer][inspect-hover],
-.tl-canvas [inspect-layer][inspect-selected] {
+[inspect-layer][inspect-hover],
+[inspect-layer][inspect-selected] {
   outline: 3px solid oklch(0.7 0.15 250 / 1);
   outline-offset: 0;
 }
 
 /* Suppress native outlines on internals */
-.tl-canvas [inspect-layer] *,
-.tl-canvas [inspect-layer] *:focus,
-.tl-canvas [inspect-layer] *:focus-visible {
+[inspect-layer] *,
+[inspect-layer] *:focus,
+[inspect-layer] *:focus-visible {
   outline: none !important;
 }
 
 /* Labels on inspected elements */
-.tl-canvas [data-inspect-label] {
+[data-inspect-label] {
   position: relative;
 }
 
-.tl-canvas [data-inspect-label]::after {
+[data-inspect-label]::after {
   content: attr(data-inspect-label);
   position: absolute;
   top: -1.25rem;
@@ -524,9 +526,9 @@
 }
 
 /* Dim labels on non-hovered/non-selected layers */
-.tl-canvas [inspecting]:has([inspect-hover]) [inspect-layer]:not([inspect-hover])::after {
+[inspecting]:has([inspect-hover]) [inspect-layer]:not([inspect-hover])::after {
   opacity: 0.2;
 }
-.tl-canvas [inspecting]:has([inspect-selected]) [inspect-layer]:not([inspect-selected])::after {
+[inspecting]:has([inspect-selected]) [inspect-layer]:not([inspect-selected])::after {
   opacity: 0.2;
 }

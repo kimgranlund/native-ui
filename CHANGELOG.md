@@ -2,6 +2,12 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.218
+
+### Fixed (native-ai@1.0.125)
+- **CSS Inspector labels/outlines in Training Library** — Inspector rules were scoped to `.tl-canvas` but the 3D clone lives in a popover on `document.body`. Unscoped the attribute selectors (`[inspect-layer]`, `[data-inspect-label]`, `[inspect-hover]`, `[inspect-selected]`) so labels, outlines, hover/select styling, and label dimming all render correctly on the popover clone. Click-to-select in the 3D view now bridges to editor highlighting via the existing MutationObserver.
+- **Editor pane line wrapping** — Removed `line-wrapping` attribute from all four TL editor panes (Schema, HTML, CSS, JS). Code now scrolls horizontally instead of wrapping lines.
+
 ## 0.7.217
 
 ### Added (native-traits@0.1.14)
