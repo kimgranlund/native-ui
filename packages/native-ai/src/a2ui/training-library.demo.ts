@@ -121,6 +121,21 @@ resetKernel();
 const kernel = new Kernel({ allowUnregistered: true });
 
 // ══════════════════════════════════════════════════════════════════
+// Helpers
+// ══════════════════════════════════════════════════════════════════
+
+/** Flatten pattern JSON `properties` sub-objects to top-level A2UI component shape. */
+function flattenComponents(comps: Record<string, unknown>[]): Record<string, unknown>[] {
+  return comps.map((c) => {
+    if (c.properties && typeof c.properties === 'object' && !Array.isArray(c.properties)) {
+      const { properties, ...rest } = c;
+      return { ...rest, ...(properties as Record<string, unknown>) };
+    }
+    return c;
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════
 // Grid Rendering
 // ══════════════════════════════════════════════════════════════════
 
@@ -205,7 +220,7 @@ async function renderCardPreview(id: string): Promise<void> {
 
     const adapter = createA2UIAdapter(kernel, {});
     adapter.receive(
-      { updateComponents: { surfaceId: `card-${id}`, components: pattern.components as Record<string, unknown>[] }, version: '0.9' },
+      { updateComponents: { surfaceId: `card-${id}`, components: flattenComponents(pattern.components as Record<string, unknown>[]) } },
       mount,
     );
     // Keep adapter alive — kernel owns the surface
@@ -277,9 +292,10 @@ function renderLightboxPreview(components: Record<string, unknown>[]): void {
   lightboxAdapter?.destroy();
   lightboxPreview.innerHTML = '';
 
+  const flat = flattenComponents(components);
   lightboxAdapter = createA2UIAdapter(kernel, {});
   lightboxAdapter.receive(
-    { updateComponents: { surfaceId: 'lightbox', components }, version: '0.9' },
+    { updateComponents: { surfaceId: 'lightbox', components: flat } },
     lightboxPreview,
   );
 

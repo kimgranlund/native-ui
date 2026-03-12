@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.171
+
+### Fixed (native-ai@1.0.87)
+- **Training Library empty previews** — Pattern JSON files use `{ properties: { src, alt, ... } }` nesting, but the A2UI protocol expects flat component objects. Added `flattenComponents()` to spread nested `properties` to the top level before passing to the adapter. Previews now render in both grid cards and lightbox.
+
 ## 0.7.170
 
 ### Fixed (native-ai@1.0.86)
