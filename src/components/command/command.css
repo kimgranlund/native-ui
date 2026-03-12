@@ -5,7 +5,7 @@
   /* ── Command Container ── */
 
   :where(n-command) {
-    --n-background: var(--n-control);
+    --n-background: var(--n-popover);
     --n-color: var(--n-ink);
     --n-border-color: var(--n-border-rest);
 
@@ -23,6 +23,8 @@
       background var(--n-duration) var(--n-easing),
       color var(--n-duration) var(--n-easing),
       border-color var(--n-duration) var(--n-easing),
+      border-radius var(--n-duration) var(--n-easing),
+      outline var(--n-duration) var(--n-easing),
       opacity var(--n-duration) var(--n-easing),
       transform var(--n-duration) var(--n-easing);
   }

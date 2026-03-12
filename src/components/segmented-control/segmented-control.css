@@ -8,13 +8,17 @@
     --n-font-weight: var(--n-button-font-weight);
     --n-line-height: var(--n-control-line-height);
     --n-background: var(--n-control);
+    --n-background-hover: var(--n-control-hover);
+    --n-background-active: var(--n-control-active);
+    --n-background-disabled: var(--n-control-disabled);
     --n-border-color: var(--n-border-rest);
     --n-segment-count: 1;
-    --n-indicator-background: var(--n-surface);
+    --n-indicator-background: white;
+    --n-indicator-border-color: transparent;
 
     position: relative;
-    display: grid;
-    width: 100%;
+    display: inline-grid;
+    width: auto;
     min-width: 0;
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
@@ -33,6 +37,8 @@
       background var(--n-duration) var(--n-easing),
       color var(--n-duration) var(--n-easing),
       border-color var(--n-duration) var(--n-easing),
+      border-radius var(--n-duration) var(--n-easing),
+      outline var(--n-duration) var(--n-easing),
       opacity var(--n-duration) var(--n-easing),
       transform var(--n-duration) var(--n-easing);
   }
@@ -62,12 +68,14 @@
     width: calc((100% - var(--n-space) * 2) / var(--n-segment-count));
     border-radius: calc(var(--n-radius) - var(--n-space));
     background: var(--n-indicator-background);
+    border: 1px solid var(--n-indicator-border-color);
     /* WHY: transform is set directly on the element by JS — no @property needed
        for CSS transitions to animate transform on real DOM elements. */
 
     transition:
       transform var(--n-duration) var(--n-easing),
-      background var(--n-duration) var(--n-easing);
+      background var(--n-duration) var(--n-easing),
+      border-color var(--n-duration) var(--n-easing);
   }
 
   /* ── Segment (individual tab) ── */
@@ -101,6 +109,8 @@
       background var(--n-duration) var(--n-easing),
       color var(--n-duration) var(--n-easing),
       border-color var(--n-duration) var(--n-easing),
+      border-radius var(--n-duration) var(--n-easing),
+      outline var(--n-duration) var(--n-easing),
       opacity var(--n-duration) var(--n-easing),
       transform var(--n-duration) var(--n-easing);
   }
@@ -151,7 +161,8 @@
   }
 
   :where(n-segmented-control)[aria-disabled="true"] > :where(.n-segmented-indicator) {
-    background: var(--n-panel-disabled);
+    background: var(--n-background-disabled);
+    border-color: transparent;
   }
 
   :where(n-segmented-control[hidden]) { display: none; }
@@ -160,7 +171,9 @@
 
 /* ── Attribute API (unlayered) ── */
 
-:where(n-segmented-control)[inline] {
-  display: inline-grid;
-  width: auto;
+/* [inline] — now the default, kept as no-op for backwards compat */
+
+:where(n-segmented-control)[block] {
+  display: grid;
+  width: 100%;
 }

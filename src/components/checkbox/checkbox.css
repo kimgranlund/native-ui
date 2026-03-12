@@ -42,7 +42,8 @@
     cursor: pointer;
 
     transition:
-      color var(--n-duration) var(--n-easing);
+      color var(--n-duration) var(--n-easing),
+      outline var(--n-duration) var(--n-easing);
   }
 
   /* ── Checkbox Box (the visual square) ── */

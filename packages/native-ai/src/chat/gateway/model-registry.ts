@@ -37,6 +37,8 @@ export interface CreateAdapterOptions {
   model: string;
   maxTokens: number;
   system?: string;
+  /** Sampling temperature (0.0–1.0 for Claude, 0.0–2.0 for OpenAI). */
+  temperature?: number;
   apiKey?: string | null;
   /** Anthropic API version header (required for Claude). Defaults to '2023-06-01'. */
   anthropicVersion?: string;
@@ -69,6 +71,7 @@ export function createAdapter(opts: CreateAdapterOptions): GatewayAdapter | null
       model: opts.model,
       maxTokens: opts.maxTokens,
       system: opts.system,
+      temperature: opts.temperature,
       apiKey: opts.apiKey,
       anthropicVersion: opts.anthropicVersion ?? '2023-06-01',
     });
@@ -80,6 +83,7 @@ export function createAdapter(opts: CreateAdapterOptions): GatewayAdapter | null
     model: opts.model,
     maxTokens: opts.maxTokens,
     system: opts.system,
+    temperature: opts.temperature,
     apiKey: opts.apiKey,
   });
 }

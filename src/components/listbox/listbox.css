@@ -5,7 +5,7 @@
   /* ── Listbox Base ── */
 
   :where(n-listbox, [role="listbox"]) {
-    --n-background: var(--n-control);
+    --n-background: var(--n-popover);
     --n-color: var(--n-ink);
     --n-border-color: var(--n-border-rest);
 
@@ -29,6 +29,8 @@
       background var(--n-duration) var(--n-easing),
       color var(--n-duration) var(--n-easing),
       border-color var(--n-duration) var(--n-easing),
+      border-radius var(--n-duration) var(--n-easing),
+      outline var(--n-duration) var(--n-easing),
       opacity var(--n-duration) var(--n-easing),
       transform var(--n-duration) var(--n-easing);
   }
@@ -89,10 +91,12 @@
     --n-font-weight: var(--n-text-font-weight);
     --n-line-height: var(--n-control-line-height);
 
-    /* Defaults: ghost-like — transparent at rest, panel on hover */
+    /* Defaults: ghost at rest, button-level scrim on hover/active.
+       WHY: Options live inside a solid popover surface — scrim overlays
+       provide subtle contrast without competing with the container. */
     --n-background: transparent;
-    --n-background-hover: var(--n-panel-hover);
-    --n-background-active: var(--n-panel-active);
+    --n-background-hover: var(--n-button-hover);
+    --n-background-active: var(--n-button-active);
     --n-background-disabled: transparent;
     --n-color: var(--n-ink);
     --n-color-hover: var(--n-ink-hover);
@@ -123,6 +127,8 @@
       background var(--n-duration) var(--n-easing),
       color var(--n-duration) var(--n-easing),
       border-color var(--n-duration) var(--n-easing),
+      border-radius var(--n-duration) var(--n-easing),
+      outline var(--n-duration) var(--n-easing),
       opacity var(--n-duration) var(--n-easing),
       transform var(--n-duration) var(--n-easing);
   }

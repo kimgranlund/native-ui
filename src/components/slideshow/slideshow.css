@@ -38,6 +38,8 @@
       background var(--n-duration) var(--n-easing),
       color var(--n-duration) var(--n-easing),
       border-color var(--n-duration) var(--n-easing),
+      border-radius var(--n-duration) var(--n-easing),
+      outline var(--n-duration) var(--n-easing),
       opacity var(--n-duration) var(--n-easing),
       transform var(--n-duration) var(--n-easing);
   }
@@ -151,6 +153,8 @@
       background var(--n-duration) var(--n-easing),
       color var(--n-duration) var(--n-easing),
       border-color var(--n-duration) var(--n-easing),
+      border-radius var(--n-duration) var(--n-easing),
+      outline var(--n-duration) var(--n-easing),
       opacity var(--n-duration) var(--n-easing),
       transform var(--n-duration) var(--n-easing);
   }

@@ -177,6 +177,11 @@
     --n-button-active: var(--n-button-active-neutral);
     --n-button-disabled: var(--n-button-disabled-neutral);
 
+    --n-popover: var(--n-popover-neutral);
+    --n-popover-hover: var(--n-popover-hover-neutral);
+    --n-popover-active: var(--n-popover-active-neutral);
+    --n-popover-disabled: var(--n-popover-disabled-neutral);
+
     --n-control: var(--n-control-neutral);
     --n-control-hover: var(--n-control-hover-neutral);
     --n-control-active: var(--n-control-active-neutral);
@@ -314,6 +319,10 @@
   --n-button-hover: var(--n-button-hover-neutral);
   --n-button-active: var(--n-button-active-neutral);
   --n-button-disabled: var(--n-button-disabled-neutral);
+  --n-popover: var(--n-popover-neutral);
+  --n-popover-hover: var(--n-popover-hover-neutral);
+  --n-popover-active: var(--n-popover-active-neutral);
+  --n-popover-disabled: var(--n-popover-disabled-neutral);
   --n-control: var(--n-control-neutral);
   --n-control-hover: var(--n-control-hover-neutral);
   --n-control-active: var(--n-control-active-neutral);
@@ -356,6 +365,10 @@
   --n-button-hover: var(--n-button-hover-accent);
   --n-button-active: var(--n-button-active-accent);
   --n-button-disabled: var(--n-button-disabled-accent);
+  --n-popover: var(--n-popover-accent);
+  --n-popover-hover: var(--n-popover-hover-accent);
+  --n-popover-active: var(--n-popover-active-accent);
+  --n-popover-disabled: var(--n-popover-disabled-accent);
   --n-control: var(--n-control-accent);
   --n-control-hover: var(--n-control-hover-accent);
   --n-control-active: var(--n-control-active-accent);
@@ -398,6 +411,10 @@
   --n-button-hover: var(--n-button-hover-info);
   --n-button-active: var(--n-button-active-info);
   --n-button-disabled: var(--n-button-disabled-info);
+  --n-popover: var(--n-popover-info);
+  --n-popover-hover: var(--n-popover-hover-info);
+  --n-popover-active: var(--n-popover-active-info);
+  --n-popover-disabled: var(--n-popover-disabled-info);
   --n-control: var(--n-control-info);
   --n-control-hover: var(--n-control-hover-info);
   --n-control-active: var(--n-control-active-info);
@@ -440,6 +457,10 @@
   --n-button-hover: var(--n-button-hover-success);
   --n-button-active: var(--n-button-active-success);
   --n-button-disabled: var(--n-button-disabled-success);
+  --n-popover: var(--n-popover-success);
+  --n-popover-hover: var(--n-popover-hover-success);
+  --n-popover-active: var(--n-popover-active-success);
+  --n-popover-disabled: var(--n-popover-disabled-success);
   --n-control: var(--n-control-success);
   --n-control-hover: var(--n-control-hover-success);
   --n-control-active: var(--n-control-active-success);
@@ -482,6 +503,10 @@
   --n-button-hover: var(--n-button-hover-warning);
   --n-button-active: var(--n-button-active-warning);
   --n-button-disabled: var(--n-button-disabled-warning);
+  --n-popover: var(--n-popover-warning);
+  --n-popover-hover: var(--n-popover-hover-warning);
+  --n-popover-active: var(--n-popover-active-warning);
+  --n-popover-disabled: var(--n-popover-disabled-warning);
   --n-control: var(--n-control-warning);
   --n-control-hover: var(--n-control-hover-warning);
   --n-control-active: var(--n-control-active-warning);
@@ -524,6 +549,10 @@
   --n-button-hover: var(--n-button-hover-danger);
   --n-button-active: var(--n-button-active-danger);
   --n-button-disabled: var(--n-button-disabled-danger);
+  --n-popover: var(--n-popover-danger);
+  --n-popover-hover: var(--n-popover-hover-danger);
+  --n-popover-active: var(--n-popover-active-danger);
+  --n-popover-disabled: var(--n-popover-disabled-danger);
   --n-control: var(--n-control-danger);
   --n-control-hover: var(--n-control-hover-danger);
   --n-control-active: var(--n-control-active-danger);
@@ -562,6 +591,7 @@
 [aria-disabled="true"] {
   --n-panel-disabled: var(--n-panel-disabled-neutral);
   --n-button-disabled: var(--n-button-disabled-neutral);
+  --n-popover-disabled: var(--n-popover-disabled-neutral);
   --n-control-disabled: var(--n-control-disabled-neutral);
   --n-widget-disabled: var(--n-control-disabled-neutral);
   --n-surface-disabled: var(--n-surface-disabled-neutral);
@@ -592,7 +622,7 @@
   --n-background-hover: var(--n-button-hover);
   --n-background-active: var(--n-button-active);
   --n-background-disabled: var(--n-button-disabled);
-  --n-color: var(--n-ink);
+  --n-color: var(--n-ink-strong);
   --n-color-hover: var(--n-ink-hover);
   --n-color-active: var(--n-ink-active);
   --n-color-disabled: var(--n-ink-disabled);
@@ -600,6 +630,14 @@
   --n-border-color-hover: var(--n-border-hover);
   --n-border-color-active: var(--n-border-active);
   --n-border-color-disabled: transparent;
+}
+
+/* Controls use weaker scrim (one step below buttons) */
+:is(n-input, n-textarea, n-segmented-control)[variant="secondary"] {
+  --n-background: var(--n-control);
+  --n-background-hover: var(--n-control-hover);
+  --n-background-active: var(--n-control-active);
+  --n-background-disabled: var(--n-control-disabled);
 }
 
 [variant="default"] {
@@ -615,6 +653,14 @@
   --n-border-color-hover: var(--n-border-hover-neutral);
   --n-border-color-active: var(--n-border-active-neutral);
   --n-border-color-disabled: transparent;
+}
+
+/* Controls use weaker scrim (one step below buttons) */
+:is(n-input, n-textarea, n-segmented-control)[variant="default"] {
+  --n-background: var(--n-control-neutral);
+  --n-background-hover: var(--n-control-hover-neutral);
+  --n-background-active: var(--n-control-active-neutral);
+  --n-background-disabled: var(--n-control-disabled-neutral);
 }
 
 [variant="ghost"] {

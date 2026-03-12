@@ -30,15 +30,20 @@
     --n-panel-active-neutral: var(--n-color-neutral-bright);
     --n-panel-disabled-neutral: var(--n-color-neutral-low);
 
-    --n-control-neutral: var(--n-color-neutral-base);
-    --n-control-hover-neutral: var(--n-color-neutral-bright);
-    --n-control-active-neutral: var(--n-color-neutral-brighter);
-    --n-control-disabled-neutral: var(--n-color-neutral-base);
+    --n-control-neutral: var(--n-color-neutral-scrim-weakest);
+    --n-control-hover-neutral: var(--n-color-neutral-scrim-weaker);
+    --n-control-active-neutral: var(--n-color-neutral-scrim-weak);
+    --n-control-disabled-neutral: var(--n-color-neutral-scrim-weakest);
 
-    --n-button-neutral: var(--n-color-neutral-base);
-    --n-button-hover-neutral: var(--n-color-neutral-higher);
-    --n-button-active-neutral: var(--n-color-neutral-high);
-    --n-button-disabled-neutral: var(--n-color-neutral-base);
+    --n-button-neutral: var(--n-color-neutral-scrim-weakest);
+    --n-button-hover-neutral: var(--n-color-neutral-scrim-weaker);
+    --n-button-active-neutral: var(--n-color-neutral-scrim-weak);
+    --n-button-disabled-neutral: var(--n-color-neutral-scrim-weakest);
+
+    --n-popover-neutral: var(--n-color-neutral-brightest);
+    --n-popover-hover-neutral: var(--n-color-neutral-brightest);
+    --n-popover-active-neutral: var(--n-color-neutral-brightest);
+    --n-popover-disabled-neutral: var(--n-color-neutral-base);
 
     --n-card-neutral: var(--n-color-neutral-higher);
     --n-card-hover-neutral: var(--n-color-neutral-brightest);
@@ -51,7 +56,7 @@
     --n-modal-disabled-neutral: var(--n-color-neutral-base);
 
     /* Ink */
-    --n-ink-neutral: var(--n-color-neutral-700);
+    --n-ink-neutral: var(--n-color-neutral-800);
     --n-ink-strong-neutral: var(--n-color-neutral-950);
     --n-ink-inverse-neutral: var(--n-color-neutral-11);
     --n-ink-muted-neutral: var(--n-color-neutral-600);
@@ -97,15 +102,20 @@
     --n-panel-active-accent: var(--n-color-accent-brightest);
     --n-panel-disabled-accent: var(--n-color-accent-base);
 
-    --n-control-accent: var(--n-color-accent-base);
-    --n-control-hover-accent: var(--n-color-accent-bright);
-    --n-control-active-accent: var(--n-color-accent-brighter);
-    --n-control-disabled-accent: var(--n-color-accent-base);
+    --n-control-accent: var(--n-color-accent-scrim-weakest);
+    --n-control-hover-accent: var(--n-color-accent-scrim-weaker);
+    --n-control-active-accent: var(--n-color-accent-scrim-weak);
+    --n-control-disabled-accent: var(--n-color-accent-scrim-weakest);
 
-    --n-button-accent: var(--n-color-accent-higher);
-    --n-button-hover-accent: var(--n-color-accent-highest);
-    --n-button-active-accent: var(--n-color-accent-highest);
-    --n-button-disabled-accent: var(--n-color-accent-base);
+    --n-button-accent: var(--n-color-accent-scrim-weakest);
+    --n-button-hover-accent: var(--n-color-accent-scrim-weaker);
+    --n-button-active-accent: var(--n-color-accent-scrim-weak);
+    --n-button-disabled-accent: var(--n-color-accent-scrim-weakest);
+
+    --n-popover-accent: var(--n-color-accent-brightest);
+    --n-popover-hover-accent: var(--n-color-accent-brightest);
+    --n-popover-active-accent: var(--n-color-accent-brightest);
+    --n-popover-disabled-accent: var(--n-color-accent-base);
 
     --n-card-accent: var(--n-color-accent-brighter);
     --n-card-hover-accent: var(--n-color-accent-brightest);
@@ -118,7 +128,7 @@
     --n-modal-disabled-accent: var(--n-color-accent-base);
 
     /* Ink */
-    --n-ink-accent: var(--n-color-accent-700);
+    --n-ink-accent: var(--n-color-accent-800);
     --n-ink-strong-accent: var(--n-color-accent-950);
     --n-ink-inverse-accent: var(--n-color-accent-11);
     --n-ink-muted-accent: var(--n-color-accent-600);
@@ -164,15 +174,20 @@
     --n-panel-active-info: var(--n-color-info-brightest);
     --n-panel-disabled-info: var(--n-color-info-base);
 
-    --n-control-info: var(--n-color-info-base);
-    --n-control-hover-info: var(--n-color-info-bright);
-    --n-control-active-info: var(--n-color-info-brighter);
-    --n-control-disabled-info: var(--n-color-info-base);
+    --n-control-info: var(--n-color-info-scrim-weakest);
+    --n-control-hover-info: var(--n-color-info-scrim-weaker);
+    --n-control-active-info: var(--n-color-info-scrim-weak);
+    --n-control-disabled-info: var(--n-color-info-scrim-weakest);
 
-    --n-button-info: var(--n-color-info-higher);
-    --n-button-hover-info: var(--n-color-info-highest);
-    --n-button-active-info: var(--n-color-info-highest);
-    --n-button-disabled-info: var(--n-color-info-base);
+    --n-button-info: var(--n-color-info-scrim-weakest);
+    --n-button-hover-info: var(--n-color-info-scrim-weaker);
+    --n-button-active-info: var(--n-color-info-scrim-weak);
+    --n-button-disabled-info: var(--n-color-info-scrim-weakest);
+
+    --n-popover-info: var(--n-color-info-brightest);
+    --n-popover-hover-info: var(--n-color-info-brightest);
+    --n-popover-active-info: var(--n-color-info-brightest);
+    --n-popover-disabled-info: var(--n-color-info-base);
 
     --n-card-info: var(--n-color-info-brighter);
     --n-card-hover-info: var(--n-color-info-brightest);
@@ -185,7 +200,7 @@
     --n-modal-disabled-info: var(--n-color-info-base);
 
     /* Ink */
-    --n-ink-info: var(--n-color-info-700);
+    --n-ink-info: var(--n-color-info-800);
     --n-ink-strong-info: var(--n-color-info-950);
     --n-ink-inverse-info: var(--n-color-info-11);
     --n-ink-muted-info: var(--n-color-info-600);
@@ -231,15 +246,20 @@
     --n-panel-active-success: var(--n-color-success-brightest);
     --n-panel-disabled-success: var(--n-color-success-base);
 
-    --n-control-success: var(--n-color-success-base);
-    --n-control-hover-success: var(--n-color-success-bright);
-    --n-control-active-success: var(--n-color-success-brighter);
-    --n-control-disabled-success: var(--n-color-success-base);
+    --n-control-success: var(--n-color-success-scrim-weakest);
+    --n-control-hover-success: var(--n-color-success-scrim-weaker);
+    --n-control-active-success: var(--n-color-success-scrim-weak);
+    --n-control-disabled-success: var(--n-color-success-scrim-weakest);
 
-    --n-button-success: var(--n-color-success-higher);
-    --n-button-hover-success: var(--n-color-success-highest);
-    --n-button-active-success: var(--n-color-success-highest);
-    --n-button-disabled-success: var(--n-color-success-base);
+    --n-button-success: var(--n-color-success-scrim-weakest);
+    --n-button-hover-success: var(--n-color-success-scrim-weaker);
+    --n-button-active-success: var(--n-color-success-scrim-weak);
+    --n-button-disabled-success: var(--n-color-success-scrim-weakest);
+
+    --n-popover-success: var(--n-color-success-brightest);
+    --n-popover-hover-success: var(--n-color-success-brightest);
+    --n-popover-active-success: var(--n-color-success-brightest);
+    --n-popover-disabled-success: var(--n-color-success-base);
 
     --n-card-success: var(--n-color-success-brighter);
     --n-card-hover-success: var(--n-color-success-brightest);
@@ -252,7 +272,7 @@
     --n-modal-disabled-success: var(--n-color-success-base);
 
     /* Ink */
-    --n-ink-success: var(--n-color-success-700);
+    --n-ink-success: var(--n-color-success-800);
     --n-ink-strong-success: var(--n-color-success-950);
     --n-ink-inverse-success: var(--n-color-success-11);
     --n-ink-muted-success: var(--n-color-success-600);
@@ -298,15 +318,20 @@
     --n-panel-active-warning: var(--n-color-warning-brightest);
     --n-panel-disabled-warning: var(--n-color-warning-base);
 
-    --n-control-warning: var(--n-color-warning-base);
-    --n-control-hover-warning: var(--n-color-warning-bright);
-    --n-control-active-warning: var(--n-color-warning-brighter);
-    --n-control-disabled-warning: var(--n-color-warning-base);
+    --n-control-warning: var(--n-color-warning-scrim-weakest);
+    --n-control-hover-warning: var(--n-color-warning-scrim-weaker);
+    --n-control-active-warning: var(--n-color-warning-scrim-weak);
+    --n-control-disabled-warning: var(--n-color-warning-scrim-weakest);
 
-    --n-button-warning: var(--n-color-warning-higher);
-    --n-button-hover-warning: var(--n-color-warning-highest);
-    --n-button-active-warning: var(--n-color-warning-highest);
-    --n-button-disabled-warning: var(--n-color-warning-base);
+    --n-button-warning: var(--n-color-warning-scrim-weakest);
+    --n-button-hover-warning: var(--n-color-warning-scrim-weaker);
+    --n-button-active-warning: var(--n-color-warning-scrim-weak);
+    --n-button-disabled-warning: var(--n-color-warning-scrim-weakest);
+
+    --n-popover-warning: var(--n-color-warning-brightest);
+    --n-popover-hover-warning: var(--n-color-warning-brightest);
+    --n-popover-active-warning: var(--n-color-warning-brightest);
+    --n-popover-disabled-warning: var(--n-color-warning-base);
 
     --n-card-warning: var(--n-color-warning-brighter);
     --n-card-hover-warning: var(--n-color-warning-brightest);
@@ -319,7 +344,7 @@
     --n-modal-disabled-warning: var(--n-color-warning-base);
 
     /* Ink */
-    --n-ink-warning: var(--n-color-warning-700);
+    --n-ink-warning: var(--n-color-warning-800);
     --n-ink-strong-warning: var(--n-color-warning-950);
     --n-ink-inverse-warning: var(--n-color-warning-11);
     --n-ink-muted-warning: var(--n-color-warning-600);
@@ -365,15 +390,20 @@
     --n-panel-active-danger: var(--n-color-danger-brightest);
     --n-panel-disabled-danger: var(--n-color-danger-base);
 
-    --n-control-danger: var(--n-color-danger-base);
-    --n-control-hover-danger: var(--n-color-danger-bright);
-    --n-control-active-danger: var(--n-color-danger-brighter);
-    --n-control-disabled-danger: var(--n-color-danger-base);
+    --n-control-danger: var(--n-color-danger-scrim-weakest);
+    --n-control-hover-danger: var(--n-color-danger-scrim-weaker);
+    --n-control-active-danger: var(--n-color-danger-scrim-weak);
+    --n-control-disabled-danger: var(--n-color-danger-scrim-weakest);
 
-    --n-button-danger: var(--n-color-danger-higher);
-    --n-button-hover-danger: var(--n-color-danger-highest);
-    --n-button-active-danger: var(--n-color-danger-highest);
-    --n-button-disabled-danger: var(--n-color-danger-base);
+    --n-button-danger: var(--n-color-danger-scrim-weakest);
+    --n-button-hover-danger: var(--n-color-danger-scrim-weaker);
+    --n-button-active-danger: var(--n-color-danger-scrim-weak);
+    --n-button-disabled-danger: var(--n-color-danger-scrim-weakest);
+
+    --n-popover-danger: var(--n-color-danger-brightest);
+    --n-popover-hover-danger: var(--n-color-danger-brightest);
+    --n-popover-active-danger: var(--n-color-danger-brightest);
+    --n-popover-disabled-danger: var(--n-color-danger-base);
 
     --n-card-danger: var(--n-color-danger-brighter);
     --n-card-hover-danger: var(--n-color-danger-brightest);
@@ -386,7 +416,7 @@
     --n-modal-disabled-danger: var(--n-color-danger-base);
 
     /* Ink */
-    --n-ink-danger: var(--n-color-danger-700);
+    --n-ink-danger: var(--n-color-danger-800);
     --n-ink-strong-danger: var(--n-color-danger-950);
     --n-ink-inverse-danger: var(--n-color-danger-11);
     --n-ink-muted-danger: var(--n-color-danger-600);

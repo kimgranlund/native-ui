@@ -15,7 +15,11 @@
   :root {
     color-scheme: light dark;
 
-    /* ── Environment parameters (9 knobs) ── */
+    /* ── Environment parameters (9 knobs) ──
+       Global tuning for the OKLCH color engine. These control the lightness
+       range of the 11-step ramp, the chroma ceiling and its muted/vivid/edge
+       multipliers, and the base alpha + delta used for scrim overlays.
+       Changing these reshapes every derived color in the system. */
 
     --n-env-lightness-min:    0.1500;
     --n-env-lightness-max:    1.0000;
@@ -27,9 +31,13 @@
     --n-env-chroma-k-edge:    0.0500;
 
     --n-env-alpha:            0.8500;
-    --n-env-alpha-delta:      0.0200;
+    --n-env-alpha-delta:      0.0025;
 
-    /* ── Family definitions ── */
+    /* ── Family definitions ──
+       Each color family (neutral, accent, info, success, warning, danger)
+       is defined by three values: hue (OKLCH angle), chroma multiplier
+       (0–1 scaling env-chroma), and lightness anchor (where step 500 sits).
+       The 11-step ramp + scrims are computed per-family from these. */
 
     --n-env-hue-neutral:        230;
     --n-env-chroma-neutral:     0.125;
@@ -682,6 +690,60 @@
     --n-color-success-scrim: var(--n-color-success-500-scrim);
     --n-color-warning-scrim: var(--n-color-warning-500-scrim);
     --n-color-danger-scrim:  var(--n-color-danger-500-scrim);
+
+    /* ── Adaptive scrims (light-dark) ──
+       light-dark(shade, tint) — shade darkens in light mode, tint lightens in dark mode.
+       Use these for controls, buttons, and any surface that needs to "deepen" relative
+       to its parent ground regardless of color scheme.
+    */
+
+    --n-color-neutral-scrim-strongest: light-dark(var(--n-color-neutral-scrim-shade-strongest), var(--n-color-neutral-scrim-tint-strongest));
+    --n-color-neutral-scrim-stronger:  light-dark(var(--n-color-neutral-scrim-shade-stronger),  var(--n-color-neutral-scrim-tint-stronger));
+    --n-color-neutral-scrim-strong:    light-dark(var(--n-color-neutral-scrim-shade-strong),    var(--n-color-neutral-scrim-tint-strong));
+    --n-color-neutral-scrim-base:      light-dark(var(--n-color-neutral-scrim-shade-base),      var(--n-color-neutral-scrim-tint-base));
+    --n-color-neutral-scrim-weak:      light-dark(var(--n-color-neutral-scrim-shade-weak),      var(--n-color-neutral-scrim-tint-weak));
+    --n-color-neutral-scrim-weaker:    light-dark(var(--n-color-neutral-scrim-shade-weaker),    var(--n-color-neutral-scrim-tint-weaker));
+    --n-color-neutral-scrim-weakest:   light-dark(var(--n-color-neutral-scrim-shade-weakest),   var(--n-color-neutral-scrim-tint-weakest));
+
+    --n-color-accent-scrim-strongest: light-dark(var(--n-color-accent-scrim-shade-strongest), var(--n-color-accent-scrim-tint-strongest));
+    --n-color-accent-scrim-stronger:  light-dark(var(--n-color-accent-scrim-shade-stronger),  var(--n-color-accent-scrim-tint-stronger));
+    --n-color-accent-scrim-strong:    light-dark(var(--n-color-accent-scrim-shade-strong),    var(--n-color-accent-scrim-tint-strong));
+    --n-color-accent-scrim-base:      light-dark(var(--n-color-accent-scrim-shade-base),      var(--n-color-accent-scrim-tint-base));
+    --n-color-accent-scrim-weak:      light-dark(var(--n-color-accent-scrim-shade-weak),      var(--n-color-accent-scrim-tint-weak));
+    --n-color-accent-scrim-weaker:    light-dark(var(--n-color-accent-scrim-shade-weaker),    var(--n-color-accent-scrim-tint-weaker));
+    --n-color-accent-scrim-weakest:   light-dark(var(--n-color-accent-scrim-shade-weakest),   var(--n-color-accent-scrim-tint-weakest));
+
+    --n-color-info-scrim-strongest: light-dark(var(--n-color-info-scrim-shade-strongest), var(--n-color-info-scrim-tint-strongest));
+    --n-color-info-scrim-stronger:  light-dark(var(--n-color-info-scrim-shade-stronger),  var(--n-color-info-scrim-tint-stronger));
+    --n-color-info-scrim-strong:    light-dark(var(--n-color-info-scrim-shade-strong),    var(--n-color-info-scrim-tint-strong));
+    --n-color-info-scrim-base:      light-dark(var(--n-color-info-scrim-shade-base),      var(--n-color-info-scrim-tint-base));
+    --n-color-info-scrim-weak:      light-dark(var(--n-color-info-scrim-shade-weak),      var(--n-color-info-scrim-tint-weak));
+    --n-color-info-scrim-weaker:    light-dark(var(--n-color-info-scrim-shade-weaker),    var(--n-color-info-scrim-tint-weaker));
+    --n-color-info-scrim-weakest:   light-dark(var(--n-color-info-scrim-shade-weakest),   var(--n-color-info-scrim-tint-weakest));
+
+    --n-color-success-scrim-strongest: light-dark(var(--n-color-success-scrim-shade-strongest), var(--n-color-success-scrim-tint-strongest));
+    --n-color-success-scrim-stronger:  light-dark(var(--n-color-success-scrim-shade-stronger),  var(--n-color-success-scrim-tint-stronger));
+    --n-color-success-scrim-strong:    light-dark(var(--n-color-success-scrim-shade-strong),    var(--n-color-success-scrim-tint-strong));
+    --n-color-success-scrim-base:      light-dark(var(--n-color-success-scrim-shade-base),      var(--n-color-success-scrim-tint-base));
+    --n-color-success-scrim-weak:      light-dark(var(--n-color-success-scrim-shade-weak),      var(--n-color-success-scrim-tint-weak));
+    --n-color-success-scrim-weaker:    light-dark(var(--n-color-success-scrim-shade-weaker),    var(--n-color-success-scrim-tint-weaker));
+    --n-color-success-scrim-weakest:   light-dark(var(--n-color-success-scrim-shade-weakest),   var(--n-color-success-scrim-tint-weakest));
+
+    --n-color-warning-scrim-strongest: light-dark(var(--n-color-warning-scrim-shade-strongest), var(--n-color-warning-scrim-tint-strongest));
+    --n-color-warning-scrim-stronger:  light-dark(var(--n-color-warning-scrim-shade-stronger),  var(--n-color-warning-scrim-tint-stronger));
+    --n-color-warning-scrim-strong:    light-dark(var(--n-color-warning-scrim-shade-strong),    var(--n-color-warning-scrim-tint-strong));
+    --n-color-warning-scrim-base:      light-dark(var(--n-color-warning-scrim-shade-base),      var(--n-color-warning-scrim-tint-base));
+    --n-color-warning-scrim-weak:      light-dark(var(--n-color-warning-scrim-shade-weak),      var(--n-color-warning-scrim-tint-weak));
+    --n-color-warning-scrim-weaker:    light-dark(var(--n-color-warning-scrim-shade-weaker),    var(--n-color-warning-scrim-tint-weaker));
+    --n-color-warning-scrim-weakest:   light-dark(var(--n-color-warning-scrim-shade-weakest),   var(--n-color-warning-scrim-tint-weakest));
+
+    --n-color-danger-scrim-strongest: light-dark(var(--n-color-danger-scrim-shade-strongest), var(--n-color-danger-scrim-tint-strongest));
+    --n-color-danger-scrim-stronger:  light-dark(var(--n-color-danger-scrim-shade-stronger),  var(--n-color-danger-scrim-tint-stronger));
+    --n-color-danger-scrim-strong:    light-dark(var(--n-color-danger-scrim-shade-strong),    var(--n-color-danger-scrim-tint-strong));
+    --n-color-danger-scrim-base:      light-dark(var(--n-color-danger-scrim-shade-base),      var(--n-color-danger-scrim-tint-base));
+    --n-color-danger-scrim-weak:      light-dark(var(--n-color-danger-scrim-shade-weak),      var(--n-color-danger-scrim-tint-weak));
+    --n-color-danger-scrim-weaker:    light-dark(var(--n-color-danger-scrim-shade-weaker),    var(--n-color-danger-scrim-tint-weaker));
+    --n-color-danger-scrim-weakest:   light-dark(var(--n-color-danger-scrim-shade-weakest),   var(--n-color-danger-scrim-tint-weakest));
 
     /* ── Background — Elevation aliases ──
        Same step in both modes → visual layer stays consistent.

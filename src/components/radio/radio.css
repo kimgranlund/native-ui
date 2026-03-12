@@ -60,7 +60,8 @@
     outline: none;
 
     transition:
-      color var(--n-duration) var(--n-easing);
+      color var(--n-duration) var(--n-easing),
+      outline var(--n-duration) var(--n-easing);
   }
 
   /* ── Circle (outer ring) ── */

@@ -6,7 +6,6 @@ import '../../../../src/register-all.ts';
 
 // Icons
 import '../../../../src/icons/phosphor/x.ts';
-import '../../../../src/icons/phosphor/arrow-clockwise.ts';
 import '../../../../src/icons/phosphor/copy.ts';
 import '../../../../src/icons/phosphor/pencil-simple.ts';
 import '../../../../src/icons/phosphor/caret-up-down.ts';
@@ -32,12 +31,16 @@ import '../../../../src/icons/phosphor/package.ts';
 import '../../../../src/icons/phosphor/trend-up.ts';
 import '../../../../src/icons/phosphor/trend-down.ts';
 import '../../../../src/icons/phosphor/caret-right.ts';
+import '../../../../src/icons/phosphor/caret-left.ts';
 import '../../../../src/icons/phosphor/stack-simple.ts';
 import '../../../../src/icons/phosphor/arrows-out-simple.ts';
-import '../../../../src/icons/phosphor/arrows-left-right.ts';
-import '../../../../src/icons/phosphor/arrow-counter-clockwise.ts';
 import '../../../../src/icons/phosphor/floppy-disk.ts';
 import '../../../../src/icons/phosphor/chat-dots.ts';
+import '../../../../src/icons/phosphor/brackets-curly.ts';
+import '../../../../src/icons/phosphor/brackets-angle.ts';
+import '../../../../src/icons/phosphor/paint-brush.ts';
+import '../../../../src/icons/phosphor/lightning.ts';
+import '../../../../src/icons/phosphor/lightbulb.ts';
 
 // LLM Chat
 import '../chat/llm-chat/n-llm-chat-pane.ts';
@@ -51,6 +54,8 @@ import { CSSInspectController } from '../../../../packages/native-traits/src/tra
 import '../../../../packages/native-code/src/codemirror/register.ts';
 import { json } from '@codemirror/lang-json';
 import { html as htmlLang } from '@codemirror/lang-html';
+import { css as cssLang } from '@codemirror/lang-css';
+import { javascript } from '@codemirror/lang-javascript';
 import type { EditorView } from '@codemirror/view';
 
 // Kernel + A2UI
@@ -93,6 +98,22 @@ let showingOriginal = false;
 let cssInspector: CSSInspectController | null = null;
 let chatController: LLMChatController | null = null;
 
+// ── Panel system (builder-style toggle-able panes) ──
+
+const PANELS = [
+  { id: 'preview' },
+  { id: 'schema' },
+  { id: 'html' },
+  { id: 'css' },
+  { id: 'js' },
+  { id: 'insights' },
+  { id: 'chat' },
+];
+
+const activePanels = new Set(['preview', 'schema']);
+const paneEls = new Map<string, HTMLElement>();
+const chipEls = new Map<string, HTMLElement>();
+
 // Rendered card tracking
 const renderedCards = new Set<string>();
 
@@ -113,37 +134,31 @@ const componentRef = Array.from(REGISTRY.values())
 const grid = document.getElementById('pattern-grid')!;
 const countEl = document.getElementById('pattern-count')!;
 const dialog = document.getElementById('editor-lightbox') as HTMLDialogElement;
-const lightboxTitle = document.getElementById('lightbox-title')!;
-const lightboxBadges = document.getElementById('lightbox-badges')!;
 const lightboxPreview = document.getElementById('lightbox-preview')!;
 type NEditor = HTMLElement & { value: string; extensions: unknown[]; editorView: EditorView | null };
 const schemaEditor = document.getElementById('schema-editor') as NEditor;
 const outputPre = document.getElementById('output-pre') as NEditor;
+const cssEditor = document.getElementById('css-editor') as NEditor;
+const jsEditor = document.getElementById('js-editor') as NEditor;
 const categoryFilter = document.getElementById('category-filter') as HTMLElement & { value: string };
-const modelPicker = document.getElementById('tl-model') as HTMLElement & { value: string };
-const tempRange = document.getElementById('tl-temperature') as HTMLInputElement;
-const tokensRange = document.getElementById('tl-max-tokens') as HTMLInputElement;
-const pipelineToggle = document.getElementById('tl-pipeline-toggle') as HTMLInputElement;
-const tempVal = document.getElementById('temp-val')!;
-const tokensVal = document.getElementById('tokens-val')!;
 const insightsWrap = document.getElementById('insights-wrap')!;
 const inspectToggleBtn = document.getElementById('inspect-toggle')!;
 const fullscreenToggleBtn = document.getElementById('fullscreen-toggle')!;
-const btnRegenerate = document.getElementById('btn-regenerate')!;
-const btnExport = document.getElementById('btn-export')!;
-const btnReset = document.getElementById('btn-reset')!;
-const btnDownload = document.getElementById('btn-download')!;
 const btnSave = document.getElementById('btn-save')!;
-const compareToggle = document.getElementById('compare-toggle')!;
+const viewSelect = document.getElementById('tl-view-select') as HTMLElement & { value: string };
+const actionsMenu = document.getElementById('tl-actions-menu') as HTMLElement & { value: string };
+const compareToggle = document.getElementById('compare-toggle') as HTMLElement & { value: string };
 const chatToggle = document.getElementById('chat-toggle')!;
 const chatPane = document.getElementById('llm-chat-pane') as HTMLElement & NLLMChatPane;
-const chatPaneContainer = document.querySelector('[data-panel-id="chat"]') as HTMLElement;
-const btnClose = document.getElementById('lightbox-close')!;
+const btnPrev = document.getElementById('btn-prev')!;
+const btnNext = document.getElementById('btn-next')!;
 
-// Set JSON language mode on editors after CE upgrade
+// Set language modes on editors after CE upgrade
 customElements.whenDefined('n-editor').then(() => {
   schemaEditor.extensions = [json()];
   outputPre.extensions = [htmlLang()];
+  cssEditor.extensions = [cssLang()];
+  jsEditor.extensions = [javascript()];
 });
 
 // ══════════════════════════════════════════════════════════════════
@@ -267,11 +282,9 @@ async function renderCardPreview(id: string): Promise<void> {
 // Filters
 // ══════════════════════════════════════════════════════════════════
 
-/** Update dirty state + enable/disable Reset button. */
+/** Update dirty state. */
 function setDirty(dirty: boolean): void {
   isDirty = dirty;
-  if (dirty) btnReset.removeAttribute('disabled');
-  else btnReset.setAttribute('disabled', '');
 }
 
 /** Toggle a button between ghost (off) and primary+accent (on). */
@@ -305,6 +318,18 @@ function populateCategoryFilter(): void {
   }
 }
 
+/** Populate the view select with all pattern entries. */
+function populateViewSelect(): void {
+  const listbox = viewSelect.querySelector('n-listbox');
+  if (!listbox) return;
+  for (const entry of catalog.patterns) {
+    const option = document.createElement('n-option');
+    option.setAttribute('value', entry.id);
+    option.textContent = entry.label;
+    listbox.appendChild(option);
+  }
+}
+
 // ══════════════════════════════════════════════════════════════════
 // Lightbox
 // ══════════════════════════════════════════════════════════════════
@@ -325,22 +350,11 @@ async function openLightbox(id: string): Promise<void> {
   currentPattern = pattern;
   originalSchema = structuredClone(pattern.components);
 
-  // Title + badges
-  lightboxTitle.textContent = pattern.label;
-  lightboxBadges.innerHTML = `
-    <span class="tl-card-badge" data-tier="${pattern.tier}">${pattern.tier}</span>
-    <span class="tl-card-badge" data-category>${pattern.category}</span>
-  `;
+  // Sync view select to current pattern
+  viewSelect.value = id;
 
-  // Apply recommended temperature from pattern (if present)
-  if (pattern.temperature != null) {
-    temperature = pattern.temperature;
-    tempRange.value = String(temperature);
-    tempVal.textContent = temperature.toFixed(2);
-    tempVal.setAttribute('data-recommended', '');
-  } else {
-    tempVal.removeAttribute('data-recommended');
-  }
+  // Apply recommended temperature from pattern (default 0.7 if unspecified)
+  temperature = pattern.temperature ?? 0.7;
 
   // Schema editor
   schemaEditor.value = JSON.stringify(pattern, null, 2);
@@ -351,7 +365,7 @@ async function openLightbox(id: string): Promise<void> {
   // Reset state
   setDirty(false);
   showingOriginal = false;
-  setChipActive(compareToggle, false);
+  compareToggle.value = 'edited';
   lightboxPreview.removeAttribute('data-compare');
 
   // Create LLM chat controller bound to this pattern
@@ -377,8 +391,10 @@ async function openLightbox(id: string): Promise<void> {
   // Bind to chat pane
   if (chatPane) chatPane.controller = chatController;
 
-  // Show schema tab
-  showTab('schema');
+  // Ensure default panels are open
+  activePanels.add('preview');
+  activePanels.add('schema');
+  syncPanels();
 
   dialog.showModal();
 }
@@ -423,37 +439,24 @@ function dismissInspector(): void {
     cssInspector.dismiss();
     cssInspector.destroy();
     cssInspector = null;
-    setChipActive(inspectToggleBtn, false);
   }
 }
 
-function closeLightbox(): void {
-  dismissInspector();
-  chatController?.destroy();
-  chatController = null;
-  chatPaneContainer.hidden = true;
-  setChipActive(chatToggle, false);
-  dialog.close();
-  dialog.removeAttribute('data-fullscreen');
-  setChipActive(fullscreenToggleBtn, false);
-  lightboxAdapter?.destroy();
-  lightboxAdapter = null;
-  currentPattern = null;
-  originalSchema = null;
-  lightboxPreview.innerHTML = '';
+// ── Panel toggle (builder-style) ──
+
+function syncPanels(): void {
+  // Clear inline flex so CSS defaults redistribute
+  for (const [_, el] of paneEls) el.style.removeProperty('flex');
+  for (const [id, el] of paneEls) el.hidden = !activePanels.has(id);
+  for (const [id, chip] of chipEls) chip.toggleAttribute('force-active', activePanels.has(id));
 }
 
-// ── Tab switching ──
-
-function showTab(tab: string): void {
-  // Toggle panels
-  document.querySelectorAll('.tl-tab-panel').forEach((panel) => {
-    (panel as HTMLElement).hidden = panel.getAttribute('data-tab') !== tab;
-  });
-  // Toggle chip active states in toolbar
-  dialog.querySelectorAll('[data-chip]').forEach((btn) => {
-    setChipActive(btn, btn.getAttribute('data-chip') === tab);
-  });
+/** Ensure a panel is visible (open it if hidden). */
+function showPanel(id: string): void {
+  if (!activePanels.has(id)) {
+    activePanels.add(id);
+    syncPanels();
+  }
 }
 
 // ── Schema editor live update ──
@@ -475,7 +478,7 @@ function onSchemaInput(): void {
         // Exit compare mode on edit
         if (showingOriginal) {
           showingOriginal = false;
-          setChipActive(compareToggle, false);
+          compareToggle.value = 'edited';
           lightboxPreview.removeAttribute('data-compare');
         }
       }
@@ -548,10 +551,13 @@ function findHtmlTag(text: string, id: string): { from: number; to: number } | n
   return { from, to };
 }
 
-/** Which editor tab is currently visible? */
-function activeTab(): string {
-  const visible = document.querySelector('.tl-tab-panel:not([hidden])');
-  return visible?.getAttribute('data-tab') ?? 'schema';
+/** Which editor pane is currently visible? */
+function activeEditorPanel(): string {
+  if (activePanels.has('schema')) return 'schema';
+  if (activePanels.has('html')) return 'html';
+  if (activePanels.has('css')) return 'css';
+  if (activePanels.has('js')) return 'js';
+  return 'schema';
 }
 
 /** Try to select the clicked id in the schema editor. Returns true on match. */
@@ -586,15 +592,15 @@ function onPreviewClick(e: Event): void {
 
   el.setAttribute('data-highlight', '');
 
-  const tab = activeTab();
+  const tab = activeEditorPanel();
 
   // If already on a highlightable tab, try that first
   if (tab === 'schema' && highlightInSchema(clickedId)) return;
-  if (tab === 'output' && highlightInOutput(clickedId)) return;
+  if (tab === 'html' && highlightInOutput(clickedId)) return;
 
   // Fall back to whichever editor has a match
-  if (highlightInSchema(clickedId)) { showTab('schema'); return; }
-  if (highlightInOutput(clickedId)) { showTab('output'); return; }
+  if (highlightInSchema(clickedId)) { showPanel('schema'); return; }
+  if (highlightInOutput(clickedId)) { showPanel('html'); return; }
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -757,6 +763,7 @@ function buildLLMAdapter(system: string, tokens: number): GatewayAdapter | null 
     baseUrl: getBaseUrl(currentModel),
     model: currentModel,
     maxTokens: tokens,
+    temperature,
     system,
     apiKey: getApiKey(currentModel),
   });
@@ -765,7 +772,6 @@ function buildLLMAdapter(system: string, tokens: number): GatewayAdapter | null 
 async function handleRegenerate(): Promise<void> {
   if (!currentPattern || regenerating) return;
   regenerating = true;
-  btnRegenerate.setAttribute('disabled', '');
 
   const query = `Regenerate this UI pattern with improved structure and styling.
 
@@ -787,7 +793,6 @@ ${JSON.stringify({ surfaceId: 'lightbox', components: currentPattern.components 
     console.error('Regeneration failed:', err);
   } finally {
     regenerating = false;
-    btnRegenerate.removeAttribute('disabled');
   }
 }
 
@@ -819,7 +824,7 @@ async function regenerateDirect(query: string): Promise<void> {
 async function regeneratePipeline(query: string): Promise<void> {
   // Clear and switch to insights tab
   clearInsights();
-  showTab('insights');
+  showPanel('insights');
 
   const ctx = {
     query,
@@ -882,7 +887,7 @@ function applyRegenResult(components: Record<string, unknown>[]): void {
   schemaEditor.value = JSON.stringify(currentPattern, null, 2);
   renderLightboxPreview(components);
   setDirty(true);
-  showTab('schema');
+  showPanel('schema');
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -898,12 +903,12 @@ function handleReset(): void {
   // Exit compare mode
   if (showingOriginal) {
     showingOriginal = false;
-    setChipActive(compareToggle, false);
+    compareToggle.value = 'edited';
     lightboxPreview.removeAttribute('data-compare');
   }
 }
 
-function handleDownload(): void {
+function handleExportJson(): void {
   if (!currentPattern) return;
   const blob = new Blob([JSON.stringify(currentPattern, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -914,8 +919,18 @@ function handleDownload(): void {
   URL.revokeObjectURL(url);
 }
 
-function handleSave(): void {
+function handleDuplicate(): void {
   if (!currentPattern) return;
+  const dup = structuredClone(currentPattern);
+  dup.id = `${dup.id}-copy`;
+  dup.label = `${dup.label} (Copy)`;
+  schemaEditor.value = JSON.stringify(dup, null, 2);
+  currentPattern = dup;
+  setDirty(true);
+}
+
+function handleSave(): void {
+  if (!currentPattern || !isDirty) return;
   localStorage.setItem(`tl-pattern-${currentPattern.id}`, JSON.stringify(currentPattern));
   setDirty(false);
   // Flash confirmation on save button
@@ -927,10 +942,10 @@ function handleSave(): void {
 // Before / After Compare
 // ══════════════════════════════════════════════════════════════════
 
-function toggleCompare(): void {
+function setCompareMode(mode: 'edited' | 'original'): void {
   if (!currentPattern || !originalSchema) return;
-  showingOriginal = !showingOriginal;
-  setChipActive(compareToggle, showingOriginal);
+  showingOriginal = mode === 'original';
+  compareToggle.value = mode;
 
   if (showingOriginal) {
     lightboxPreview.setAttribute('data-compare', 'original');
@@ -941,57 +956,6 @@ function toggleCompare(): void {
   }
 }
 
-// ══════════════════════════════════════════════════════════════════
-// Export Improvement
-// ══════════════════════════════════════════════════════════════════
-
-function handleExport(): void {
-  if (!currentPattern) return;
-
-  const folder = currentPattern.tier === 'micro' ? 'micro' : 'blocks';
-  const md = `# Pattern Improvement: ${currentPattern.label}
-
-## Pattern
-- **ID:** ${currentPattern.id}
-- **Tier:** ${currentPattern.tier}
-- **Category:** ${currentPattern.category}
-- **Description:** ${currentPattern.description}
-- **Concepts:** ${currentPattern.concepts.join(', ')}
-
-## LLM Settings Used
-- **Model:** ${currentModel}
-- **Temperature:** ${temperature}
-- **Max Tokens:** ${maxTokens}
-- **Pipeline:** ${pipelineMode ? 'multi-step (4 stages)' : 'direct (single-shot)'}
-
-## Original Schema
-\`\`\`json
-${JSON.stringify(originalSchema, null, 2)}
-\`\`\`
-
-## Updated Schema
-\`\`\`json
-${JSON.stringify(currentPattern.components, null, 2)}
-\`\`\`
-
-## Instruction for Claude Code
-Update the pattern file at \`packages/native-ai/src/a2ui/patterns/${folder}/${currentPattern.id}.json\`
-with the full updated pattern JSON below. Verify it renders correctly in the A2UI Training Library.
-
-\`\`\`json
-${JSON.stringify(currentPattern, null, 2)}
-\`\`\`
-`;
-
-  // Download
-  const blob = new Blob([md], { type: 'text/markdown' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `pattern-improvement-${currentPattern.id}.md`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
 
 // ══════════════════════════════════════════════════════════════════
 // Event Wiring
@@ -1015,16 +979,17 @@ grid.addEventListener('pointerup', (e) => {
   if (card?.dataset.patternId) openLightbox(card.dataset.patternId);
 });
 
-// Lightbox close
-btnClose.addEventListener('pointerup', closeLightbox);
+// Lightbox close (Escape key / backdrop)
 dialog.addEventListener('close', () => {
   dismissInspector();
   chatController?.destroy();
   chatController = null;
-  chatPaneContainer.hidden = true;
-  setChipActive(chatToggle, false);
+  // Reset panels to default state
+  activePanels.clear();
+  activePanels.add('preview');
+  activePanels.add('schema');
+  syncPanels();
   dialog.removeAttribute('data-fullscreen');
-  setChipActive(fullscreenToggleBtn, false);
   lightboxAdapter?.destroy();
   lightboxAdapter = null;
   currentPattern = null;
@@ -1032,13 +997,66 @@ dialog.addEventListener('close', () => {
   lightboxPreview.innerHTML = '';
 });
 
+// Main toolbar — Save
+btnSave.addEventListener('pointerup', handleSave);
+
+// Main toolbar — View select (pattern picker)
+viewSelect.addEventListener('native:change', () => {
+  const id = viewSelect.value;
+  if (id && id !== 'examples') openLightbox(id);
+});
+
+// Main toolbar — Actions dropdown
+actionsMenu.addEventListener('native:change', () => {
+  const action = actionsMenu.value;
+  // Reset select so it can be re-triggered
+  requestAnimationFrame(() => { actionsMenu.value = ''; });
+  if (action === 'reset') handleReset();
+  else if (action === 'export-json') handleExportJson();
+  else if (action === 'duplicate') handleDuplicate();
+  else if (action === 'regenerate') handleRegenerate();
+});
+
+// ── Init pane refs + chips (builder-style) ──
+
+for (const panel of PANELS) {
+  const paneEl = dialog.querySelector(`n-pane[data-panel-id="${panel.id}"]`) as HTMLElement | null;
+  if (paneEl) {
+    paneEls.set(panel.id, paneEl);
+    paneEl.hidden = !activePanels.has(panel.id);
+  }
+
+  const chipEl = dialog.querySelector(`n-button[data-chip="${panel.id}"]`) as HTMLElement | null;
+  if (chipEl) {
+    chipEls.set(panel.id, chipEl);
+    chipEl.toggleAttribute('force-active', activePanels.has(panel.id));
+
+    chipEl.addEventListener('native:press', () => {
+      if (activePanels.has(panel.id)) {
+        activePanels.delete(panel.id);
+      } else {
+        activePanels.add(panel.id);
+      }
+      syncPanels();
+    });
+  }
+}
+
+// Pane close buttons
+for (const btn of dialog.querySelectorAll('[data-close-panel-id]')) {
+  btn.addEventListener('native:press', () => {
+    const id = (btn as HTMLElement).getAttribute('data-close-panel-id');
+    if (id) activePanels.delete(id);
+    syncPanels();
+  });
+}
+
 // CSS Inspector toggle
 inspectToggleBtn.addEventListener('pointerup', () => {
   if (cssInspector) {
     dismissInspector();
   } else {
     cssInspector = new CSSInspectController(lightboxPreview, { pick: true, labels: true });
-    setChipActive(inspectToggleBtn, true);
   }
 });
 
@@ -1047,27 +1065,27 @@ lightboxPreview.addEventListener('native:inspect', (e: Event) => {
   const detail = (e as CustomEvent).detail;
   if (!detail?.active && cssInspector) {
     cssInspector = null;
-    setChipActive(inspectToggleBtn, false);
   }
-});
-
-// Tab chip buttons
-dialog.addEventListener('pointerup', (e) => {
-  const chip = (e.target as HTMLElement).closest<HTMLElement>('[data-chip]');
-  if (chip) showTab(chip.getAttribute('data-chip')!);
 });
 
 // Chat toggle — show/hide the docked chat pane
 chatToggle.addEventListener('pointerup', () => {
-  const wasHidden = chatPaneContainer.hidden;
-  chatPaneContainer.hidden = !wasHidden;
-  setChipActive(chatToggle, wasHidden); // active when now visible
+  if (activePanels.has('chat')) {
+    activePanels.delete('chat');
+  } else {
+    activePanels.add('chat');
+  }
+  syncPanels();
 });
 
 // Fullscreen toggle
 fullscreenToggleBtn.addEventListener('pointerup', () => {
-  const isFS = dialog.toggleAttribute('data-fullscreen');
-  setChipActive(fullscreenToggleBtn, isFS);
+  dialog.toggleAttribute('data-fullscreen');
+});
+
+// Compare control
+compareToggle.addEventListener('native:change', (e) => {
+  setCompareMode((e as CustomEvent).detail?.value ?? 'edited');
 });
 
 // Schema editor — live update
@@ -1076,32 +1094,12 @@ schemaEditor.addEventListener('native:input', onSchemaInput);
 // Preview click inspection
 lightboxPreview.addEventListener('click', onPreviewClick);
 
-// Regenerate + Export + CRUD + Compare
-btnRegenerate.addEventListener('pointerup', handleRegenerate);
-btnExport.addEventListener('pointerup', handleExport);
-btnReset.addEventListener('pointerup', handleReset);
-btnDownload.addEventListener('pointerup', handleDownload);
-btnSave.addEventListener('pointerup', handleSave);
-compareToggle.addEventListener('pointerup', toggleCompare);
-
-// Settings controls
-modelPicker?.addEventListener('native:change', () => {
-  currentModel = modelPicker.value;
+// Surface steppers (prev/next)
+btnPrev.addEventListener('pointerup', () => {
+  // TODO: step through surfaces when multi-surface patterns exist
 });
-
-tempRange?.addEventListener('native:input', () => {
-  temperature = parseFloat(((tempRange as unknown as { value: number }).value).toFixed(2));
-  tempVal.textContent = temperature.toFixed(2);
-  tempVal.removeAttribute('data-recommended');
-});
-
-tokensRange?.addEventListener('native:input', () => {
-  maxTokens = Math.round((tokensRange as unknown as { value: number }).value);
-  tokensVal.textContent = String(maxTokens);
-});
-
-pipelineToggle?.addEventListener('native:change', (e) => {
-  pipelineMode = (e as CustomEvent).detail?.checked ?? false;
+btnNext.addEventListener('pointerup', () => {
+  // TODO: step through surfaces when multi-surface patterns exist
 });
 
 // ══════════════════════════════════════════════════════════════════
@@ -1109,4 +1107,5 @@ pipelineToggle?.addEventListener('native:change', (e) => {
 // ══════════════════════════════════════════════════════════════════
 
 populateCategoryFilter();
+populateViewSelect();
 renderGrid();

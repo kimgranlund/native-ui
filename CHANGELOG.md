@@ -2,6 +2,29 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.204
+
+### Added
+- **Popover background tokens** — New `--n-popover-{family}` semantic token family (6 families × 4 states = 24 tokens) for floating surface backgrounds. Resolves to `brightest` — solid, fully opaque surfaces. Wired into all `[intent]` selectors and `[aria-disabled]` override. `n-listbox` and `n-command` now use `--n-popover` instead of `--n-control`.
+
+### Changed
+- **Option hover/active tokens** — `n-option` and `n-command-item` hover/active backgrounds changed from `--n-panel-hover` / `--n-panel-active` (opaque surface) to `--n-button-hover` / `--n-button-active` (scrim overlays). Options always live inside a solid popover container, so button-level scrims provide the correct subtle contrast.
+- **Button scrim tokens shifted to weakest** — `--n-button-{family}` semantic tokens now use `scrim-weakest` (rest), `scrim-weaker` (hover), `scrim-weak` (active). Previously one step stronger. Controls remain one step below buttons. This gives default/secondary buttons a subtler, more recessed appearance.
+- **Ink tokens shifted to 800-level** — `--n-ink-{family}` semantic tokens (all 6 families) now resolve to `--n-color-{family}-800` instead of `700`. Stronger contrast for intent-colored text throughout the system.
+- **Secondary button text color** — `[variant="secondary"]` rest color changed from `--n-ink` to `--n-ink-strong` for better readability against the lighter scrim backgrounds.
+- **Common transition pattern** — All interactive components now use a standardized 7-property transition: `background`, `color`, `border-color`, `border-radius`, `outline`, `opacity`, `transform`. Added `outline` and `border-radius` to 16 component CSS files (button, input, textarea, segmented-control, select, listbox, accordion, calendar, command, tabs, range, slideshow, input-otp, tree, checkbox, radio, switch).
+
+### Fixed
+- **Color system: adaptive scrim tokens** — New `--n-color-{family}-scrim-{intensity}` tokens using `light-dark(shade, tint)` in `colors.computed.css`. Shade darkens in light mode, tint lightens in dark mode. 7-step scale (weakest → strongest) × 6 families = 42 adaptive tokens. Control and button semantic grounds now use these adaptive scrims, making them surface-independent in both color schemes.
+- **Color system: environment parameter comments** — Added explanatory comments to the OKLCH engine knobs (lightness range, chroma scaling, alpha) and family definitions (hue, chroma multiplier, lightness anchor) in `colors.computed.css`.
+- **Control vs button background separation** — `[variant="default"]` and `[variant="secondary"]` now correctly use `--n-control-*` tokens for control elements (`n-input`, `n-textarea`, `n-segmented-control`) instead of the stronger `--n-button-*` tokens. Controls sit one scrim step below buttons across all states.
+- **n-input / n-textarea / n-segmented-control** — Added missing `--n-background-active` and `--n-background-disabled` token declarations to base rules, completing the full rest→hover→active→disabled state chain.
+- **n-segmented-control indicator** — Indicator background changed from `--n-color-neutral-scrim-tint-stronger` (73% alpha tint) to solid `white`, matching `[variant="selected"]` button appearance. Selected segment text uses `--n-ink-inverse` for proper contrast on white indicator.
+
+### Fixed (native-ai@1.0.114)
+- **LLM adapter factory: temperature passthrough** — `createAdapter()` in `model-registry.ts` now passes `temperature` to both `ClaudeGatewayAdapter` and `OpenAiGatewayAdapter` constructors. Previously the field was missing from `CreateAdapterOptions`, silently dropping pattern-level temperature settings during regeneration.
+- **Training Library: temperature leak between patterns** — Opening a pattern without a `temperature` field now resets to 0.7 instead of inheriting the previous pattern's temperature.
+
 ## 0.7.201
 
 ### Added (native-ai@1.0.113)

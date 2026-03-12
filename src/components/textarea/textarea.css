@@ -11,6 +11,7 @@
 
     --n-background: var(--n-control);
     --n-background-hover: var(--n-control-hover);
+    --n-background-active: var(--n-control-active);
     --n-background-disabled: var(--n-control-disabled);
     --n-color: var(--n-ink);
     --n-color-hover: var(--n-ink-hover);
@@ -53,6 +54,8 @@
       background var(--n-duration) var(--n-easing),
       color var(--n-duration) var(--n-easing),
       border-color var(--n-duration) var(--n-easing),
+      border-radius var(--n-duration) var(--n-easing),
+      outline var(--n-duration) var(--n-easing),
       opacity var(--n-duration) var(--n-easing),
       transform var(--n-duration) var(--n-easing);
   }

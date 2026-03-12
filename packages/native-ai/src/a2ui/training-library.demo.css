@@ -192,20 +192,19 @@
 /* ── Split body (resizable n-panes) ── */
 
 .tl-lightbox > n-panes {
+  --n-pane-handle-accent: var(--pg-accent);
   --n-pane-border-color: var(--pg-border-color);
   flex: 1;
   min-height: 0;
 }
 
-/* Keep a visible border between panes even in hover-handle mode */
-.tl-lightbox > n-panes > n-pane + n-pane {
-  border-inline-start: 1px solid var(--pg-border-color);
-}
-
 .tl-preview-mount {
   flex: 1;
   overflow: auto;
-  background: var(--n-body, #ffffff);
+  background:
+    repeating-linear-gradient(to right,  oklch(0.5 0 0 / 0.045) 0 1px, transparent 1px 1rem),
+    repeating-linear-gradient(to bottom, oklch(0.5 0 0 / 0.045) 0 1px, transparent 1px 1rem),
+    var(--n-body, #ffffff);
   padding: 1.5rem;
   color: var(--n-ink);
   display: flex;
@@ -219,27 +218,45 @@
   max-width: 640px;
 }
 
+/* ── Preview pane layout ── */
+
+.tl-lightbox n-pane[data-panel-id="preview"] {
+  position: relative;
+}
+
+/* Floating toolbar wrapper — top center (placement only) */
+.tl-floating-top {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  pointer-events: auto;
+}
+
+/* Floating toolbar wrapper — bottom center (placement only) */
+.tl-floating-bottom {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  pointer-events: auto;
+}
+
+/* Vertical dividers inside preview toolbars */
+.tl-preview-toolbar > hr[aria-orientation="vertical"] {
+  width: 1px;
+  height: 1rem;
+  border: none;
+  background: var(--pg-border-color);
+  margin: 0;
+}
+
 /* Compare mode — viewing original */
 .tl-preview-mount[data-compare="original"] {
   outline: 2px dashed var(--pg-text-muted);
   outline-offset: -2px;
-  position: relative;
-}
-
-.tl-preview-mount[data-compare="original"]::after {
-  content: 'ORIGINAL';
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  font: 600 0.625rem/1.4 ui-monospace, monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--pg-text-muted);
-  background: var(--pg-chrome);
-  padding: 0.2rem 0.5rem;
-  border-radius: 0.2rem;
-  pointer-events: none;
-  z-index: 1;
 }
 
 /* Clickable elements in preview */
@@ -258,95 +275,60 @@
   outline-offset: 2px;
 }
 
-/* ── Chat pane (docked right, hidden by default) ── */
+/* ── Toggle-able panes (right side) ── */
 
-.tl-lightbox n-pane[data-panel-id="chat"] {
-  display: flex;
-  flex-direction: column;
-  background: var(--pg-chrome);
-  border-inline-start: 1px solid var(--pg-border-color);
+.tl-lightbox n-pane {
+  min-width: 0;
+  flex: 1 1 16rem;
+  scrollbar-width: none;
 }
 
-.tl-lightbox n-pane[data-panel-id="chat"][hidden] {
-  display: none;
+/* Pane header (compact, builder-style) */
+.tl-lightbox n-pane > n-header {
+  flex: none;
+  --n-background: var(--pg-chrome);
+  --n-background-hover: var(--pg-editor-bg);
+  --n-padding-block: 0;
+  --n-padding-inline: 0.5rem;
+  --n-size: 1.75rem;
+  --n-font-size: 0.75rem;
+  --n-font-weight: 600;
+  --n-text-transform: uppercase;
+  --n-letter-spacing: 0.04em;
+  --n-icon-size: 0.875rem;
 }
 
+/* Pane content */
+.tl-lightbox n-pane > n-body {
+  --n-padding-block: 0;
+  --n-padding-inline: 0;
+  --n-font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
+  --n-font-size: 0.8125rem;
+  --n-line-height: 1.5;
+}
+
+/* n-editor (CodeMirror) fills pane body */
+.tl-lightbox n-pane n-editor {
+  border-radius: 0;
+}
+
+/* Chat pane */
 .tl-lightbox n-pane[data-panel-id="chat"] n-llm-chat-pane {
   flex: 1;
   min-height: 0;
 }
 
-/* ── Editor pane (right) ── */
-
-.tl-lightbox n-pane[data-panel-id="editor"] {
-  display: flex;
-  flex-direction: column;
-  background: var(--pg-editor-bg);
+/* Preview pane — exempt from flex-basis override */
+.tl-lightbox n-pane[data-panel-id="preview"] {
+  flex: 1 1 0%;
 }
 
-/* Tab panels */
-.tl-tab-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-}
+/* ── Actions dropdown divider ── */
 
-.tl-tab-panel[hidden] {
-  display: none;
-}
-
-/* n-editor (CodeMirror) sizing inside tab panels */
-.tl-tab-panel n-editor {
-  flex: 1;
-  min-height: 0;
-  border-radius: 0;
-}
-
-/* Settings form */
-.tl-settings-form {
-  padding: 1.25rem;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 1rem 1.25rem;
-  align-items: center;
-  font-size: 0.875rem;
-  line-height: 1.5;
-}
-
-.tl-settings-form label {
-  font-weight: 500;
-  color: var(--pg-text-strong);
-}
-
-.tl-settings-val {
-  font-weight: 400;
-  color: var(--pg-accent);
-  margin-inline-start: 0.375rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.tl-settings-val[data-recommended]::after {
-  content: '(recommended)';
-  font-size: 0.75rem;
-  color: var(--pg-text-muted);
-  margin-inline-start: 0.25rem;
-  font-weight: 400;
-}
-
-/* Action footer */
-.tl-actions {
-  --n-background: var(--pg-chrome);
+.tl-lightbox n-toolbar n-select[id="tl-actions-menu"] n-listbox > hr {
+  border: none;
   border-block-start: 1px solid var(--pg-border-color);
-  padding: 0.625rem 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.tl-actions [fill] {
-  flex: 1;
+  margin-block: 0.25rem;
 }
 
 /* ── Insights pane ── */
