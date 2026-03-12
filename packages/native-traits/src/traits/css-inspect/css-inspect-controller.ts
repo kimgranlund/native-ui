@@ -500,6 +500,16 @@ export class CSSInspectController {
 
     // Deep-clone target into a popover wrapper → top layer escapes ancestor clipping
     const clone = target.cloneNode(true) as HTMLElement;
+
+    // WHY: Cloned custom elements already contain stamped internal DOM from the original.
+    // Without this marker, their connectedCallback→setup() fires on DOM insertion and
+    // duplicates content (e.g. n-input stamps a second editing surface, n-button doubles labels).
+    // NativeElement checks this attribute and skips setup() entirely for inspector clones.
+    clone.setAttribute('data-inspect-clone', '');
+    clone.querySelectorAll('*').forEach(el => {
+      if (el.tagName.includes('-')) el.setAttribute('data-inspect-clone', '');
+    });
+
     const popover = document.createElement('div');
     popover.setAttribute('popover', 'manual');
     popover.style.cssText = [

@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.167
+
+### Fixed
+- **CSS Inspector clone duplication** — `CSSInspectController` deep-clones elements for 3D inspection, but cloned custom elements (n-input, n-button, etc.) already contain stamped internal DOM. When the clone is inserted into the document, `connectedCallback` → `setup()` fires and duplicates content (double surfaces, double labels). Fix: CSSInspectController now marks all custom elements in the clone with `data-inspect-clone` before DOM insertion; NativeElement skips `setup()` when this attribute is present.
+
 ## 0.7.166
 
 ### Added (native-ai@1.0.83)

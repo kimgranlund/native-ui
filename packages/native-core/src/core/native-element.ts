@@ -39,6 +39,10 @@ export class NativeElement extends HTMLElement {
     // causes two native:press events per click, immediately opening then closing popovers).
     if (this.#alive) return;
     this.#alive = true;
+    // WHY: CSSInspectController deep-clones elements for 3D inspection. Cloned custom
+    // elements already contain stamped internal DOM. Without this guard, setup() runs
+    // again on the clone and duplicates content (e.g. n-input stamps a second surface).
+    if (this.hasAttribute('data-inspect-clone')) return;
     // WHY: Renew the ready promise on each connect so consumers can `await el.ready`
     // after View Transition reconnect. The old promise (from previous connection) stays
     // resolved — correct for anyone who stored a reference during that lifecycle.
