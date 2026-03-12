@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.198
+
+### Fixed (native-ai@1.0.110)
+- **Training Library: click-to-highlight stays on current tab** — Clicking a preview element now highlights in the current editor tab (schema or output) if it has a match, only switching tabs as a fallback. Previously always jumped to schema first.
+
 ## 0.7.197
 
 ### Changed (native-ai@1.0.109)

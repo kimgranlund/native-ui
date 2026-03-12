@@ -463,7 +463,34 @@ function findHtmlTag(text: string, id: string): { from: number; to: number } | n
   return { from, to };
 }
 
-/** Preview → Schema + Output: click element highlights it in both editors. */
+/** Which editor tab is currently visible? */
+function activeTab(): string {
+  const visible = document.querySelector('.tl-tab-panel:not([hidden])');
+  return visible?.getAttribute('data-tab') ?? 'schema';
+}
+
+/** Try to select the clicked id in the schema editor. Returns true on match. */
+function highlightInSchema(clickedId: string): boolean {
+  const text = schemaEditor.value;
+  const pattern = new RegExp(`"id"\\s*:\\s*"${clickedId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`);
+  const match = pattern.exec(text);
+  if (!match) return false;
+  const obj = findEnclosingObject(text, match.index);
+  if (!obj) return false;
+  selectRange(schemaEditor, obj.from, obj.to);
+  return true;
+}
+
+/** Try to select the clicked id in the output HTML editor. Returns true on match. */
+function highlightInOutput(clickedId: string): boolean {
+  const text = outputPre.value;
+  const tag = findHtmlTag(text, clickedId);
+  if (!tag) return false;
+  selectRange(outputPre, tag.from, tag.to);
+  return true;
+}
+
+/** Preview → editor: click element highlights it in the current tab's editor (or falls back). */
 function onPreviewClick(e: Event): void {
   const target = e.target as HTMLElement;
   clearHighlights();
@@ -474,30 +501,15 @@ function onPreviewClick(e: Event): void {
 
   el.setAttribute('data-highlight', '');
 
-  // Highlight in schema JSON
-  const schemaText = schemaEditor.value;
-  const idPattern = new RegExp(`"id"\\s*:\\s*"${clickedId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`);
-  const idMatch = idPattern.exec(schemaText);
-  if (idMatch) {
-    const obj = findEnclosingObject(schemaText, idMatch.index);
-    if (obj) {
-      selectRange(schemaEditor, obj.from, obj.to);
-      showTab('schema');
-      return;
-    }
-  }
+  const tab = activeTab();
 
-  // Highlight in output HTML
-  const outputText = outputPre.value;
-  const tag = findHtmlTag(outputText, clickedId);
-  if (tag) {
-    selectRange(outputPre, tag.from, tag.to);
-    showTab('output');
-    return;
-  }
+  // If already on a highlightable tab, try that first
+  if (tab === 'schema' && highlightInSchema(clickedId)) return;
+  if (tab === 'output' && highlightInOutput(clickedId)) return;
 
-  // Fallback: just show schema tab
-  showTab('schema');
+  // Fall back to whichever editor has a match
+  if (highlightInSchema(clickedId)) { showTab('schema'); return; }
+  if (highlightInOutput(clickedId)) { showTab('output'); return; }
 }
 
 // ══════════════════════════════════════════════════════════════════
