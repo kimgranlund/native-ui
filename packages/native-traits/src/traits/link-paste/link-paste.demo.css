@@ -1,0 +1,12 @@
+.paste-wrapper {
+  position: relative;
+}
+
+.output {
+  max-height: 120px;
+  overflow-y: auto;
+  font-size: var(--n-font-size-sm);
+  color: var(--n-color-neutral-600);
+  font-family: var(--n-font-family-mono);
+  line-height: 1.6;
+}

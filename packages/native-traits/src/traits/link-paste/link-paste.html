@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Link Paste — Trait Demo</title>
+    <link rel="stylesheet" href="../../../../../src/styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../../../src/styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../../../../src/styles/spa/spa-pages.css" />
+    <link rel="stylesheet" href="./link-paste.demo.css" />
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <header>
+      <h1>Link Paste</h1>
+      <div class="demo-desc">
+      Select text in a contenteditable input, then paste a URL from your clipboard. The selected text is converted into a styled <code>&lt;a&gt;</code> hyperlink pointing to the pasted URL. If no text is selected, the paste proceeds normally.
+    </div>
+    </header>
+
+    <section>
+
+    <!-- ── Basic Link Paste ── -->
+
+    <h2>Basic Link Paste</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Type some text, select a word, then paste a URL (e.g. <code>https://example.com</code>). The selected word becomes a hyperlink. If nothing is selected, paste behaves normally.
+      </p>
+      <div id="basic-wrapper" class="paste-wrapper">
+        <n-textarea id="basic-textarea" placeholder="Type text, select a word, paste a URL..." rows="2"></n-textarea>
+      </div>
+      <div id="basic-log" class="output"></div>
+      <pre class="demo-code"><code>import { LinkPasteController } from '@nonoun/native-traits';
+
+const wrapper = document.querySelector('#wrapper');
+const textarea = wrapper.querySelector('n-textarea');
+
+const linkPaste = new LinkPasteController(wrapper, {
+  input: textarea,
+});
+
+wrapper.addEventListener('native:link-paste', (e) =&gt; {
+  console.log('Linked:', e.detail.text, '→', e.detail.url);
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Combined: All Text Commands ── -->
+
+    <h2>Combined: All Text Commands</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        All four text command controllers on one input. Type <code>/</code> for slash commands, <code>@</code> for mentions, <code>`code`</code> for inline code, and select text + paste URL for links. All work independently without conflict.
+      </p>
+      <div id="combo-wrapper" class="paste-wrapper">
+        <n-textarea id="combo-textarea" placeholder="Type / for commands, @ for mentions, `code` for inline code, or select + paste URL for links..." rows="3"></n-textarea>
+      </div>
+      <div id="combo-log" class="output"></div>
+      <pre class="demo-code"><code>// All four controllers on the same input
+const slash = new SlashCommandController(wrapper, { input, commands });
+const mention = new MentionController(wrapper, { input, items });
+const backtick = new BacktickWrapController(wrapper, { input });
+const linkPaste = new LinkPasteController(wrapper, { input });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Constructor Options (<code>LinkPasteOptions</code>)</h3>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto auto auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Property</n-table-header>
+            <n-table-header>Type</n-table-header>
+            <n-table-header>Default</n-table-header>
+            <n-table-header>Description</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><code>input</code></n-table-cell>
+            <n-table-cell><code>HTMLElement</code></n-table-cell>
+            <n-table-cell>---</n-table-cell>
+            <n-table-cell>The input element to monitor.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>disabled</code></n-table-cell>
+            <n-table-cell><code>boolean</code></n-table-cell>
+            <n-table-cell><code>false</code></n-table-cell>
+            <n-table-cell>Disable the controller without destroying it.</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Event</n-table-header>
+            <n-table-header>Detail</n-table-header>
+            <n-table-header>Description</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><code>native:link-paste</code></n-table-cell>
+            <n-table-cell><code>{ url, text, element }</code></n-table-cell>
+            <n-table-cell>Fired when selected text is converted to a hyperlink. <code>url</code> is the pasted URL, <code>text</code> is the original selected text, <code>element</code> is the created <code>&lt;a&gt;</code> node.</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    </div>
+
+    <div class="api-section">
+      <h3>Behavior</h3>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Trigger</n-table-header>
+            <n-table-header>Action</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell>Paste URL with text selected</n-table-cell>
+            <n-table-cell>Wraps selected text in <code>&lt;a href="..."&gt;</code> pointing to the pasted URL. Opens in new tab (<code>target="_blank"</code>).</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Paste URL with no selection</n-table-cell>
+            <n-table-cell>No-op — paste proceeds normally.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Paste non-URL with selection</n-table-cell>
+            <n-table-cell>No-op — paste proceeds normally.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>Accepted URL formats</n-table-cell>
+            <n-table-cell><code>https://</code>, <code>http://</code>, <code>ftp://</code>, <code>//</code> (protocol-relative)</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    </div>
+
+    </section>
+
+    </main></native-dashboard-spa>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components and wire demos -->
+    <script type="module" src="./link-paste.demo.ts"></script>
+  </body>
+</html>

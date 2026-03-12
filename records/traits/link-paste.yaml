@@ -1,0 +1,49 @@
+trait: link-paste
+controller: LinkPasteController
+description: "Converts selected text into a hyperlink when a URL is pasted. If the user has text selected in a
+  contenteditable input and pastes clipboard content that looks like a URL, the selected text is wrapped in an
+  <a> element pointing to the pasted URL. If no text is selected, the paste proceeds normally.
+  Events: - `native:link-paste` — dispatched on host when a link is created. Detail: `{ url, text, element }`"
+source:
+  controller: packages/native-traits/src/traits/link-paste/link-paste-controller.ts
+  adapter: packages/native-traits/src/traits/link-paste/link-pasteable-adapter.ts
+  demo: packages/native-traits/src/traits/link-paste/link-paste.html
+  test: packages/native-traits/src/traits/link-paste/link-paste.test.ts
+options:
+  input:
+    type: HTMLElement
+    required: true
+  disabled:
+    type: boolean
+    default: false
+injected_events:
+  native:link-paste:
+    detail:
+      url:
+        type: string
+      text:
+        type: string
+      element:
+        type: HTMLAnchorElement
+methods:
+  destroy:
+    returns: void
+consumption:
+  imperative: new LinkPasteController(element, options)
+  provider: <n-controller traits="link-pasteable">
+  self_trait: <n-textarea traits="link-pasteable">
+behavior:
+  - trigger: "Paste event with text selected and URL in clipboard"
+    actions:
+      - "Validates clipboard content as URL (https://, http://, ftp://, //)"
+      - "Replaces selected text with an <a> element"
+      - "Sets href to pasted URL, target=_blank, rel=noopener noreferrer"
+      - "Dispatches native:link-paste with url, text, and element"
+  - trigger: "Paste event with no text selected"
+    actions:
+      - "No-op — paste proceeds normally"
+  - trigger: "Paste event with non-URL content and text selected"
+    actions:
+      - "No-op — paste proceeds normally"
+a11y:
+  keyboard: []

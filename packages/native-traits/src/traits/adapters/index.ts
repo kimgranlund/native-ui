@@ -28,6 +28,7 @@ import { presentableAdapter } from '../present/presentable-adapter.ts';
 import { slashCommandableAdapter } from '../slash-command/slash-commandable-adapter.ts';
 import { mentionableAdapter } from '../mention/mentionable-adapter.ts';
 import { backtickWrappableAdapter } from '../backtick-wrap/backtick-wrappable-adapter.ts';
+import { linkPasteableAdapter } from '../link-paste/link-pasteable-adapter.ts';
 import { shortcutableAdapter } from '../shortcut/shortcutable-adapter.ts';
 import { gatewayableAdapter } from '../gateway/gatewayable-adapter.ts';
 import { noodleableAdapter } from '../noodle/noodleable-adapter.ts';
@@ -70,6 +71,7 @@ export {
   slashCommandableAdapter,
   mentionableAdapter,
   backtickWrappableAdapter,
+  linkPasteableAdapter,
   shortcutableAdapter,
   gatewayableAdapter,
   noodleableAdapter,
@@ -114,6 +116,7 @@ export const coreAdapters: readonly TraitAdapter[] = [
   slashCommandableAdapter,
   mentionableAdapter,
   backtickWrappableAdapter,
+  linkPasteableAdapter,
   shortcutableAdapter,
   gatewayableAdapter,
   noodleableAdapter,

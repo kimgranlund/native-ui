@@ -2,6 +2,12 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.144
+
+### Added
+- **LinkPasteController** — Select text + paste URL → auto-hyperlink. Creates a styled `<a>` element with `target="_blank"` and `rel="noopener noreferrer"`. Accepts `https://`, `http://`, `ftp://`, and protocol-relative URLs. Event: `native:link-paste`.
+- **`link-pasteable` trait adapter** — Declarative link paste support via `<n-controller traits="link-pasteable">`.
+
 ## 0.7.143
 
 ### Added
