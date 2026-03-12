@@ -22,7 +22,7 @@
             <span class="builder-title">A2UI Builder</span>
             <span fill></span>
             <n-button variant="ghost" size="sm" data-chip="preview">Preview</n-button>
-            <n-button variant="ghost" size="sm" data-chip="concepts">Insights</n-button>
+            <n-button variant="ghost" size="sm" data-chip="concepts">Reasoning</n-button>
             <n-button variant="ghost" size="sm" data-chip="schema">Schema</n-button>
             <n-button variant="ghost" size="sm" data-chip="html">HTML</n-button>
             <n-button variant="ghost" size="sm" data-chip="css">CSS</n-button>
@@ -37,9 +37,9 @@
         <n-panes handle="hover">
 
           <!-- Chat (left) -->
-          <n-pane data-panel="agent-chat" data-region="chat" size-min="280">
-            <n-chat-feed id="chat-feed" auto-scroll></n-chat-feed>
-            <n-agent-input id="chat-composer">
+          <n-pane data-panel-id="agent-chat" data-region="chat" size-min="280">
+            <n-chat-feed id="chat-feed" auto-scroll density="compact"></n-chat-feed>
+            <n-agent-input id="chat-composer" density="compact">
                 <n-chat-input-header>
                   <nav>
                     <n-select id="model-picker" value="claude-haiku-4-5" data-role="model-picker" variant="ghost" inline size="sm" density="compact">
@@ -82,14 +82,14 @@
           </n-pane>
 
           <!-- Pane: Preview -->
-          <n-pane data-panel="preview" size-min="150">
-            <n-header>
+          <n-pane data-panel-id="preview" border="block" size-min="150">
+            <n-header dividers>
               <nav slot="leading"><n-icon inline name="eye"></n-icon></nav>
               <span>Preview</span>
               <aside slot="trailing">
                 <n-button variant="ghost" inline size="sm" id="inspect-toggle" title="CSS Inspector"><n-icon name="stack-simple"></n-icon></n-button>
                 <n-button variant="ghost" inline size="sm" id="lightbox-toggle" title="Toggle light/dark preview"><n-icon name="moon"></n-icon></n-button>
-                <n-button variant="ghost" inline size="sm" data-close-panel="preview"><n-icon name="x"></n-icon></n-button>
+                <n-button variant="ghost" inline size="sm" data-close-panel-id="preview"><n-icon name="x"></n-icon></n-button>
               </aside>
             </n-header>
             <n-body overflow="hidden" relative>
@@ -102,11 +102,11 @@
           </n-pane>
 
           <!-- Pane: Concepts -->
-          <n-pane data-panel="concepts" size-min="150">
-            <n-header>
+          <n-pane data-panel-id="concepts" border="block" size-min="150">
+            <n-header dividers>
               <nav slot="leading"><n-icon inline name="lightbulb"></n-icon></nav>
-              <span>Insights</span>
-              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel="concepts"><n-icon name="x"></n-icon></n-button></aside>
+              <span>Reasoning</span>
+              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="concepts"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
             <n-body scrollbar="none">
               <div id="concepts-wrap" class="concepts-wrap"></div>
@@ -114,11 +114,11 @@
           </n-pane>
 
           <!-- Pane: Schema -->
-          <n-pane data-panel="schema" size-min="150">
-            <n-header>
+          <n-pane data-panel-id="schema" border="block" size-min="150">
+            <n-header dividers>
               <nav slot="leading"><n-icon inline name="brackets-curly"></n-icon></nav>
               <span>Schema</span>
-              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel="schema"><n-icon name="x"></n-icon></n-button></aside>
+              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="schema"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
             <n-body scrollbar="none">
               <pre id="schema-pre" class="pane-pre"></pre>
@@ -126,11 +126,11 @@
           </n-pane>
 
           <!-- Pane: HTML (read-only) -->
-          <n-pane data-panel="html" size-min="150" hidden>
-            <n-header>
+          <n-pane data-panel-id="html" border="block" size-min="150" hidden>
+            <n-header dividers>
               <nav slot="leading"><n-icon inline name="brackets-angle"></n-icon></nav>
               <span>HTML</span>
-              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel="html"><n-icon name="x"></n-icon></n-button></aside>
+              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="html"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
             <n-body scrollbar="none">
               <pre id="html-pre" class="pane-pre"></pre>
@@ -138,11 +138,11 @@
           </n-pane>
 
           <!-- Pane: CSS (editable, live-applied) -->
-          <n-pane data-panel="css" size-min="150" hidden>
-            <n-header>
+          <n-pane data-panel-id="css" border="block" size-min="150" hidden>
+            <n-header dividers>
               <nav slot="leading"><n-icon inline name="paint-brush"></n-icon></nav>
               <span>CSS</span>
-              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel="css"><n-icon name="x"></n-icon></n-button></aside>
+              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="css"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
             <n-body scrollbar="none">
               <textarea id="css-editor" class="code-editor" spellcheck="false" placeholder="/* Custom styles for the preview */"></textarea>
@@ -150,13 +150,13 @@
           </n-pane>
 
           <!-- Pane: JS (editable, apply-on-click) -->
-          <n-pane data-panel="js" size-min="150" hidden>
-            <n-header>
+          <n-pane data-panel-id="js" border="block" size-min="150" hidden>
+            <n-header dividers>
               <nav slot="leading"><n-icon inline name="lightning"></n-icon></nav>
               <span>JS</span>
               <aside slot="trailing">
                 <n-button variant="ghost" inline size="sm" data-role="apply-js" title="Run JS"><n-icon name="play"></n-icon></n-button>
-                <n-button variant="ghost" inline size="sm" data-close-panel="js"><n-icon name="x"></n-icon></n-button>
+                <n-button variant="ghost" inline size="sm" data-close-panel-id="js"><n-icon name="x"></n-icon></n-button>
               </aside>
             </n-header>
             <n-body scrollbar="none">
@@ -165,11 +165,11 @@
           </n-pane>
 
           <!-- Pane: Component Map -->
-          <n-pane data-panel="map" size-min="150" hidden>
-            <n-header>
+          <n-pane data-panel-id="map" border="block" size-min="150" hidden>
+            <n-header dividers>
               <nav slot="leading"><n-icon inline name="tree-structure"></n-icon></nav>
               <span>Map</span>
-              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel="map"><n-icon name="x"></n-icon></n-button></aside>
+              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="map"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
             <n-body scrollbar="none">
               <table id="map-table" class="map-table">
@@ -180,11 +180,11 @@
           </n-pane>
 
           <!-- Pane: System Prompt (editable) -->
-          <n-pane data-panel="prompt" size-min="150" hidden>
-            <n-header>
+          <n-pane data-panel-id="prompt" border="block" size-min="150" hidden>
+            <n-header dividers>
               <nav slot="leading"><n-icon inline name="terminal"></n-icon></nav>
               <span>Prompt</span>
-              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel="prompt"><n-icon name="x"></n-icon></n-button></aside>
+              <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="prompt"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
             <n-body scrollbar="none">
               <textarea id="prompt-editor" class="prompt-editor" spellcheck="false"></textarea>

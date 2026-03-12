@@ -900,12 +900,12 @@ modelPicker?.addEventListener('native:change', () => {
 });
 
 tempRange?.addEventListener('native:input', () => {
-  temperature = (tempRange as unknown as { value: number }).value;
+  temperature = Math.round((tempRange as unknown as { value: number }).value * 100) / 100;
   tempVal.textContent = String(temperature);
 });
 
 tokensRange?.addEventListener('native:input', () => {
-  maxTokens = (tokensRange as unknown as { value: number }).value;
+  maxTokens = Math.round((tokensRange as unknown as { value: number }).value);
   tokensVal.textContent = String(maxTokens);
 });
 

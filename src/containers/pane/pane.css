@@ -196,10 +196,18 @@
   border-block-start: 1px solid var(--n-pane-border-color);
 }
 
-/* ── Bordered pane ── */
+/* ── Border ── */
 
-:where(n-pane)[bordered] {
+:where(n-pane)[border] {
   border: 1px solid var(--n-pane-border-color);
+}
+
+:where(n-pane)[border="block"] {
+  border-block: 1px solid var(--n-pane-border-color);
+}
+
+:where(n-pane)[border="inline"] {
+  border-inline: 1px solid var(--n-pane-border-color);
 }
 
 /* ── Scrollable pane ── */

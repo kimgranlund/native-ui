@@ -48,10 +48,8 @@
 
   :where(n-chat-feed),
   :where(native-chat-panel) {
-    /* Feed */
-    --n-chat-gap: calc(var(--n-space) * 4);
-    --n-chat-feed-padding-block: calc(var(--n-space) * 4);
-    --n-chat-feed-padding-inline: 0;
+    /* Feed — gap scales with density via --n-space-k */
+    --n-chat-gap: calc(var(--n-space) * var(--n-space-k));
     --n-chat-message-gap: calc(var(--n-space) * 2);
 
     /* Bubbles */
@@ -204,14 +202,17 @@
      ══════════════════════════════════════════════════ */
 
   :where(n-chat-feed) {
+    --n-padding-block: calc(var(--n-space) * var(--n-space-k));
+    --n-padding-inline: calc(var(--n-space) * var(--n-space-k));
+
     display: flex;
     flex-direction: column;
     gap: var(--n-chat-gap);
     flex: 1 1 0%;
     min-height: 0;
     min-width: 0;
-    padding-block: var(--n-chat-feed-padding-block);
-    padding-inline: var(--n-chat-feed-padding-inline);
+    padding-block: var(--n-padding-block);
+    padding-inline: var(--n-padding-inline);
   }
 
   /* WHY: Opt-in scroll container — prevents layout conflicts when scroll
@@ -943,8 +944,11 @@
     gap: calc(var(--n-space) * 2);
     min-width: 0;
     min-height: var(--n-size);
-    padding-block: var(--n-chat-input-padding-block, 0);
-    padding-inline: var(--n-chat-input-padding-inline, 0);
+    --n-padding-block: calc(var(--n-space) * var(--n-space-k));
+    --n-padding-inline: calc(var(--n-space) * var(--n-space-k));
+
+    padding-block: var(--n-padding-block);
+    padding-inline: var(--n-padding-inline);
     background: var(--n-background, transparent);
     border: var(--n-chat-input-border, none);
     border-radius: var(--n-chat-input-border-radius, 0);

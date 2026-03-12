@@ -449,6 +449,11 @@
     display: none;
   }
 
+  /* WHY: n-button is inline-grid — stretch it to fill the sidebar item. */
+  :where(n-sidebar-item) > :where(n-button) {
+    width: 100%;
+  }
+
   /* WHY: Title text truncates when sidebar narrows during resize. */
   :where(n-sidebar-item) > :where([slot="label"]) {
     flex: 1;

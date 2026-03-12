@@ -9,7 +9,7 @@
     display: flex;
     flex: 1 1 0%;
     min-width: 0;
-    min-height: 0;
+    min-height: inherit;
     flex-direction: column;
     gap: calc(var(--n-space) * var(--n-space-k));
     padding-block: var(--n-padding-block);

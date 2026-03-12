@@ -57,7 +57,10 @@ export class ClaudeGatewayAdapter implements GatewayAdapter {
     this.anthropicVersion = config.anthropicVersion;
     this.defaultSessionId = config.defaultSessionId;
     this.onEvent = config.onEvent;
-    if (config.apiKey && typeof window !== 'undefined') {
+    // Only warn when apiKey looks like a real Anthropic key (sk-ant-*),
+    // not a proxy placeholder like 'proxy' or 'placeholder'.
+    const looksLikeKey = typeof config.apiKey === 'string' && /^sk-ant-/i.test(config.apiKey);
+    if (looksLikeKey && typeof window !== 'undefined') {
       console.warn(
         '[native-chat] ClaudeGatewayAdapter: API key is exposed in the browser. ' +
         'This is for development only. In production, proxy requests through a backend gateway.',

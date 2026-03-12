@@ -34,9 +34,9 @@ main > header > h1 {
 }
 
 main h2 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.0125em;
   margin-bottom: 0.5rem;
   margin-top: 1.5rem;
   color: var(--n-ink-strong-neutral);

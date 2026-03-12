@@ -44,6 +44,8 @@ import type { GatewayAdapter } from '../../chat/gateway/adapter.ts';
 import { GatewayRequestError } from '../../chat/gateway/runtime.ts';
 import { isClaudeModel, createAdapter } from '../../chat/gateway/model-registry.ts';
 import { parseJsonFromResponse, stripFences } from '../../chat/parsing/json-extractor.ts';
+import { matchPatterns } from '../patterns/pattern-loader.ts';
+import type { CatalogEntry } from '../patterns/pattern-types.ts';
 import promptJson from './system-prompt.json';
 import { PIPELINE_STEPS, runPipeline, shouldSkipEarlySteps } from './pipeline.ts';
 import type { PipelineStep, PipelineCallbacks } from './pipeline.ts';
@@ -63,7 +65,7 @@ const DEFAULT_SYSTEM_PROMPT = (promptJson as { prompt: string }).prompt
 
 const PANELS = [
   { id: 'preview',  label: 'Preview',  icon: 'eye' },
-  { id: 'concepts', label: 'Insights', icon: 'lightbulb' },
+  { id: 'concepts', label: 'Reasoning', icon: 'lightbulb' },
   { id: 'schema',   label: 'Schema',   icon: 'brackets-curly' },
   { id: 'html',     label: 'HTML',     icon: 'brackets-angle' },
   { id: 'css',      label: 'CSS',      icon: 'paint-brush' },
@@ -421,10 +423,22 @@ function applyJSToPreview(js: string): void {
   if (!previewMount.children.length) return;
 
   try {
+    // Wrap generated code in try/catch so async callbacks (event listeners)
+    // don't throw uncaught errors from LLM-generated code.
     const wrapper = `(function(preview){
   var $ = function(sel){ return preview.querySelector(sel); };
   var $$ = function(sel){ return preview.querySelectorAll(sel); };
+  var _origAEL = EventTarget.prototype.addEventListener;
+  EventTarget.prototype.addEventListener = function(type, fn, opts) {
+    var safeFn = typeof fn === 'function' ? function() {
+      try { return fn.apply(this, arguments); }
+      catch(e) { console.warn('[A2UI Preview] JS callback error:', e); }
+    } : fn;
+    return _origAEL.call(this, type, safeFn, opts);
+  };
+  try {
 ${js}
+  } finally { EventTarget.prototype.addEventListener = _origAEL; }
 }(__mount__))`;
     const fn = new Function('__mount__', wrapper);
     fn(previewMount);
@@ -487,7 +501,7 @@ modelPicker.addEventListener('native:change', () => {
 // ── Init pane refs + chips ──
 
 for (const panel of PANELS) {
-  const paneEl = document.querySelector(`n-pane[data-panel="${panel.id}"]`) as HTMLElement | null;
+  const paneEl = document.querySelector(`n-pane[data-panel-id="${panel.id}"]`) as HTMLElement | null;
   if (paneEl) {
     paneEls.set(panel.id, paneEl);
     paneEl.hidden = !activePanels.has(panel.id);
@@ -510,9 +524,9 @@ for (const panel of PANELS) {
 }
 
 // Pane close buttons
-for (const btn of document.querySelectorAll('[data-close-panel]')) {
+for (const btn of document.querySelectorAll('[data-close-panel-id]')) {
   btn.addEventListener('native:press', () => {
-    const id = (btn as HTMLElement).getAttribute('data-close-panel');
+    const id = (btn as HTMLElement).getAttribute('data-close-panel-id');
     if (id) activePanels.delete(id);
     syncPanels();
   });
@@ -540,7 +554,7 @@ function syncPanels() {
 
 // ── Lightbox toggle (light/dark preview) ──
 
-const previewBody = document.querySelector('n-pane[data-panel="preview"] > n-body') as HTMLElement | null;
+const previewBody = document.querySelector('n-pane[data-panel-id="preview"] > n-body') as HTMLElement | null;
 const colorSchemeBtn = document.getElementById('lightbox-toggle');
 let userOverride: boolean | null = null; // null = inherit from context
 
@@ -614,9 +628,10 @@ if (previewBody && previewMount) {
   }
 
   previewBody.addEventListener('pointerdown', (e: PointerEvent) => {
-    // Only pan when clicking on the canvas background, not on the artifact
+    // Only pan when clicking on the canvas background, not on the artifact or pane grippers
     const target = e.target as HTMLElement;
     if (target.closest('#preview-mount')) return;
+    if (target.closest('n-gripper')) return;
     if (e.button !== 0) return;
 
     panStartX = e.clientX;
@@ -641,6 +656,13 @@ if (previewBody && previewMount) {
   previewBody.addEventListener('lostpointercapture', () => {
     previewBody.removeAttribute('data-panning');
   });
+
+  // Re-center preview when pane resizes (reset pan offset)
+  new ResizeObserver(() => {
+    panX = 0;
+    panY = 0;
+    applyTransform();
+  }).observe(previewBody);
 }
 
 // ── Lightbox mode (fullscreen overlay) ──
@@ -833,13 +855,30 @@ function clearSeeds() {
 }
 
 
-// ── Insights pane (accumulating reasoning log) ──
+// ── Reasoning pane (accumulating reasoning log) ──
 
 // stripFences imported from '../../chat/parsing/json-extractor.ts'
 
 let insightCounter = 0;
 
-function appendInsightEntry(label: string): HTMLElement {
+/** Map step id → its DOM entry (so we can replace placeholder with content). */
+const insightEntries = new Map<string, HTMLElement>();
+
+const stepLabels: Record<string, string> = {
+  interpret: 'Interpretation',
+  concepts: 'Concepts',
+  plan: 'Plan',
+  construct: 'Construction',
+};
+
+function separateInsights(): void {
+  if (conceptsWrap.children.length > 0) {
+    conceptsWrap.appendChild(document.createElement('hr'));
+  }
+  insightEntries.clear();
+}
+
+function appendInsightEntry(label: string, stepId?: string): HTMLElement {
   insightCounter++;
   const entry = document.createElement('div');
   entry.className = 'insight-entry';
@@ -857,15 +896,23 @@ function appendInsightEntry(label: string): HTMLElement {
   entry.appendChild(header);
 
   conceptsWrap.appendChild(entry);
-  conceptsWrap.scrollTop = conceptsWrap.scrollHeight;
+  scrollReasoningToBottom();
+
+  if (stepId) insightEntries.set(stepId, entry);
   return entry;
+}
+
+function appendInsightPlaceholder(parent: HTMLElement, text: string): void {
+  const el = document.createElement('span');
+  el.className = 'insight-placeholder';
+  el.textContent = text;
+  parent.appendChild(el);
 }
 
 function appendInsightText(parent: HTMLElement, text: string, muted = false): void {
   const el = document.createElement('span');
-  el.className = 'text';
-  el.setAttribute('size', 'sm');
-  if (muted) el.setAttribute('muted', '');
+  el.className = 'insight-text';
+  if (muted) el.setAttribute('data-muted', '');
   el.textContent = text;
   parent.appendChild(el);
 }
@@ -882,11 +929,26 @@ function appendInsightBadges(parent: HTMLElement, items: string[], intent?: stri
   parent.appendChild(wrap);
 }
 
-function appendInterpretation(output: string): void {
+function fillTemplates(parent: HTMLElement, entries: CatalogEntry[]): void {
+  for (const e of entries) {
+    const row = document.createElement('div');
+    row.className = 'insight-template';
+    const name = document.createElement('span');
+    name.className = 'insight-template-name';
+    name.textContent = e.label;
+    row.appendChild(name);
+    const meta = document.createElement('span');
+    meta.className = 'insight-template-meta';
+    meta.textContent = `${e.tier} · ${e.category} · ${e.componentCount} components`;
+    row.appendChild(meta);
+    parent.appendChild(row);
+  }
+}
+
+function fillInterpretation(entry: HTMLElement, output: string): void {
+  entry.querySelector('.insight-placeholder')?.remove();
   try {
     const data = JSON.parse(stripFences(output));
-    const entry = appendInsightEntry('Interpretation');
-
     if (data.intent) appendInsightText(entry, data.intent);
     const meta: string[] = [];
     if (data.uiKind) meta.push(data.uiKind);
@@ -895,15 +957,14 @@ function appendInterpretation(output: string): void {
       for (const a of data.assumptions) appendInsightText(entry, `→ ${a}`, true);
     }
   } catch {
-    const entry = appendInsightEntry('Interpretation');
     appendInsightText(entry, output.slice(0, 300), true);
   }
 }
 
-function appendConcepts(output: string): void {
+function fillConcepts(entry: HTMLElement, output: string): void {
+  entry.querySelector('.insight-placeholder')?.remove();
   try {
     const data = JSON.parse(stripFences(output));
-    const entry = appendInsightEntry('Concepts');
 
     // Design patterns as highlighted items
     for (const c of data.concepts ?? []) {
@@ -926,16 +987,14 @@ function appendConcepts(output: string): void {
     if (data.dataFlow) appendInsightText(entry, data.dataFlow);
     if (data.stateModel) appendInsightText(entry, data.stateModel, true);
   } catch {
-    const entry = appendInsightEntry('Concepts');
     appendInsightText(entry, output.slice(0, 300), true);
   }
 }
 
-function appendPlan(output: string): void {
+function fillPlan(entry: HTMLElement, output: string): void {
+  entry.querySelector('.insight-placeholder')?.remove();
   try {
     const data = JSON.parse(stripFences(output));
-    const entry = appendInsightEntry('Plan');
-
     if (data.layout) appendInsightText(entry, data.layout);
     if (data.hierarchy) appendInsightText(entry, data.hierarchy, true);
 
@@ -947,9 +1006,177 @@ function appendPlan(output: string): void {
     if (data.jsNeeded && data.jsNotes) notes.push(`JS: ${data.jsNotes}`);
     for (const n of notes) appendInsightText(entry, n, true);
   } catch {
-    const entry = appendInsightEntry('Plan');
     appendInsightText(entry, output.slice(0, 300), true);
   }
+}
+
+function fillConstruct(entry: HTMLElement, output: string): void {
+  entry.querySelector('.insight-placeholder')?.remove();
+  try {
+    const data = JSON.parse(stripFences(output));
+
+    // Detect response type — the construct step may produce questions instead of a schema
+    const type: string = data.type ?? (data.schema ? 'schema' : data.components ? 'schema' : data.questions ? 'question' : '');
+
+    if (type === 'question' || (!data.components && !data.schema && data.reply)) {
+      appendInsightText(entry, 'Asked clarifying questions');
+      // Update header label from "Construction" to "Outcome"
+      const label = entry.querySelector('.insight-label');
+      if (label) label.textContent = 'Outcome';
+      return;
+    }
+
+    const components = data.components ?? data.schema?.components ?? [];
+    const count = Array.isArray(components) ? components.length : 0;
+    if (count > 0) {
+      appendInsightText(entry, `Built ${count} component${count !== 1 ? 's' : ''}`);
+    } else {
+      appendInsightText(entry, 'Responded (no schema)', true);
+      const label = entry.querySelector('.insight-label');
+      if (label) label.textContent = 'Outcome';
+    }
+    const surfaceId = data.surfaceId ?? data.schema?.surfaceId;
+    if (surfaceId) appendInsightBadges(entry, [surfaceId]);
+  } catch {
+    // Raw text output — likely a question or error, not a schema
+    if (output.includes('?') || output.length < 200) {
+      appendInsightText(entry, 'Responded', true);
+      const label = entry.querySelector('.insight-label');
+      if (label) label.textContent = 'Outcome';
+    } else {
+      appendInsightText(entry, 'Schema constructed', true);
+    }
+  }
+}
+
+/** Scroll the Reasoning pane's n-body to bottom. */
+function scrollReasoningToBottom(): void {
+  const scrollParent = conceptsWrap.closest('n-body') as HTMLElement | null ?? conceptsWrap;
+  scrollParent.scrollTop = scrollParent.scrollHeight;
+}
+
+/** Populate reasoning from a single-shot (non-pipeline) response,
+ *  revealing each step progressively with placeholder → fill transitions. */
+function populateInsightsFromResult(result: MockResult): void {
+  separateInsights();
+
+  const effectiveType = result.type ?? (result.schema ? 'schema' : 'question');
+  const isSchema = effectiveType === 'schema' && !!result.schema;
+
+  type InsightStep = { label: string; placeholder: string; fill: (entry: HTMLElement) => void };
+  const steps: InsightStep[] = [];
+
+  // Always show the response summary
+  if (result.reply) {
+    steps.push({
+      label: isSchema ? 'Response' : 'Clarification',
+      placeholder: isSchema ? 'Composing response…' : 'Thinking…',
+      fill(entry) { appendInsightText(entry, result.reply); },
+    });
+  }
+
+  // Concepts + templates — only for schema results
+  if (isSchema && result.concepts?.length) {
+    steps.push({
+      label: 'Concepts',
+      placeholder: 'Mapping concepts…',
+      fill(entry) {
+        for (const c of result.concepts) {
+          const item = document.createElement('div');
+          item.className = 'insight-concept';
+          const name = document.createElement('span');
+          name.className = 'insight-concept-name';
+          name.textContent = c;
+          item.appendChild(name);
+          entry.appendChild(item);
+        }
+      },
+    });
+
+    // Match concepts against pattern catalog
+    const matched = matchPatterns(result.concepts, { limit: 3 });
+    if (matched.length) {
+      steps.push({
+        label: 'Templates',
+        placeholder: 'Matching templates…',
+        fill(entry) { fillTemplates(entry, matched); },
+      });
+    }
+  }
+
+  // Construction — only when a schema was actually built
+  if (isSchema && result.schema) {
+    steps.push({
+      label: 'Construction',
+      placeholder: 'Building schema…',
+      fill(entry) {
+        const count = result.schema!.components?.length ?? 0;
+        appendInsightText(entry, `Built ${count} component${count !== 1 ? 's' : ''}`);
+        if (result.schema!.surfaceId) appendInsightBadges(entry, [result.schema!.surfaceId]);
+      },
+    });
+  }
+
+  // Non-schema type badges (question, gap, remap, prompt)
+  if (!isSchema && effectiveType !== 'question') {
+    const typeLabels: Record<string, string> = {
+      gap: 'Gap Analysis',
+      remap: 'Component Remap',
+      prompt: 'Prompt Generated',
+    };
+    steps.push({
+      label: typeLabels[effectiveType] ?? 'Outcome',
+      placeholder: 'Processing…',
+      fill(entry) { appendInsightBadges(entry, [effectiveType]); },
+    });
+  }
+
+  const extras: string[] = [];
+  if (result.css !== undefined) extras.push('Custom CSS');
+  if (result.js !== undefined) extras.push('Custom JS');
+  if (extras.length) {
+    steps.push({
+      label: 'Extras',
+      placeholder: 'Applying extras…',
+      fill(entry) { appendInsightBadges(entry, extras, 'accent'); },
+    });
+  }
+
+  if (result.gaps?.length) {
+    steps.push({
+      label: 'Gaps',
+      placeholder: 'Analyzing gaps…',
+      fill(entry) {
+        for (const g of result.gaps!) {
+          const item = document.createElement('div');
+          item.className = 'insight-concept';
+          const name = document.createElement('span');
+          name.className = 'insight-concept-name';
+          name.textContent = g.component;
+          item.appendChild(name);
+          appendInsightText(item, g.need, true);
+          entry.appendChild(item);
+        }
+      },
+    });
+  }
+
+  // Progressive reveal: placeholder first, then fill after a short delay
+  const STEP_DELAY = 400;
+  const FILL_DELAY = 300;
+
+  steps.forEach((step, i) => {
+    setTimeout(() => {
+      const entry = appendInsightEntry(step.label);
+      appendInsightPlaceholder(entry, step.placeholder);
+
+      setTimeout(() => {
+        entry.querySelector('.insight-placeholder')?.remove();
+        step.fill(entry);
+        scrollReasoningToBottom();
+      }, FILL_DELAY);
+    }, i * STEP_DELAY);
+  });
 }
 
 function renderSchema(schema: MockResult['schema']) {
@@ -1166,6 +1393,7 @@ async function sendSingleShot(value: string) {
     clearProgress(summaryVerbs[result.type ?? '']);
 
     messages.push({ role: 'assistant', message: trimmed! });
+    populateInsightsFromResult(result);
     applyResult(result);
   } catch (err) {
     clearProgress('Error');
@@ -1202,6 +1430,8 @@ async function sendPipeline(value: string) {
   let elapsed = 0;
   const tickTimer = setInterval(() => { elapsed++; }, 1000);
 
+  separateInsights();
+
   const callbacks: PipelineCallbacks = {
     onStepStart(step: PipelineStep, _index: number) {
       const line = stepLines.get(step.id);
@@ -1210,6 +1440,10 @@ async function sendPipeline(value: string) {
       line.setAttribute('data-active', '');
       line.textContent = step.activeLabel;
       chatFeed.scrollTop = chatFeed.scrollHeight;
+
+      // Create placeholder insight entry
+      const entry = appendInsightEntry(stepLabels[step.id] ?? step.label, step.id);
+      appendInsightPlaceholder(entry, step.activeLabel);
     },
     onStepComplete(step: PipelineStep, _index: number, output: string) {
       const line = stepLines.get(step.id);
@@ -1218,20 +1452,45 @@ async function sendPipeline(value: string) {
         line.setAttribute('data-done', '');
         line.textContent = step.doneLabel;
       }
-      if (step.id === 'interpret') appendInterpretation(output);
-      if (step.id === 'concepts') appendConcepts(output);
-      if (step.id === 'plan') appendPlan(output);
-      if (step.id === 'construct') schemaPre.textContent = output;
+
+      const entry = insightEntries.get(step.id);
+      if (!entry) return;
+
+      if (step.id === 'interpret') fillInterpretation(entry, output);
+      else if (step.id === 'concepts') {
+        fillConcepts(entry, output);
+        // Extract concept names and match against pattern catalog
+        try {
+          const data = JSON.parse(stripFences(output));
+          const names = (data.concepts ?? []).map((c: { pattern: string }) => c.pattern);
+          const matched = matchPatterns(names, { limit: 3 });
+          if (matched.length) {
+            const tplEntry = appendInsightEntry('Templates');
+            fillTemplates(tplEntry, matched);
+          }
+        } catch { /* concepts parse failed — skip template matching */ }
+      }
+      else if (step.id === 'plan') fillPlan(entry, output);
+      else if (step.id === 'construct') {
+        fillConstruct(entry, output);
+        schemaPre.textContent = output;
+      }
+      scrollReasoningToBottom();
     },
     onStreamChunk(_delta: string, fullMessage: string) {
       schemaPre.textContent = fullMessage;
     },
-    onError(step: PipelineStep, _index: number, _error: Error) {
+    onError(step: PipelineStep, _index: number, error: Error) {
       const line = stepLines.get(step.id);
       if (line) {
         line.removeAttribute('data-active');
         line.style.color = 'var(--n-ink-danger)';
         line.textContent = `${step.label} — Error`;
+      }
+      const entry = insightEntries.get(step.id);
+      if (entry) {
+        entry.querySelector('.insight-placeholder')?.remove();
+        appendInsightText(entry, `Error: ${error.message}`, true);
       }
     },
   };
@@ -1264,6 +1523,12 @@ async function sendPipeline(value: string) {
     progressEl.className = 'builder-progress-summary';
     progressEl.textContent = `Thought for ${elapsed}s · ${label}`;
 
+    // If result isn't a schema, fix the construct step label in progress + reasoning
+    if (result.type !== 'schema') {
+      const constructLine = stepLines.get('construct');
+      if (constructLine) constructLine.textContent = summaryVerbs[result.type ?? ''] ?? 'Responded';
+    }
+
     messages.push({ role: 'assistant', message: trimmed! });
     applyResult(result);
   } catch (err) {
@@ -1294,7 +1559,11 @@ async function sendMessage(value: string) {
   messages.push({ role: 'user', message: userMessage });
 
   if (!llm) {
-    setTimeout(() => applyResult(mockResponse(value)), 300);
+    setTimeout(() => {
+      const result = mockResponse(value);
+      populateInsightsFromResult(result);
+      applyResult(result);
+    }, 300);
     return;
   }
 
@@ -1420,7 +1689,7 @@ function dismissWelcome() {
 }
 
 // Dismiss on first user input (textarea focus or keydown)
-const textarea = document.querySelector<HTMLElement>('[data-panel="agent-chat"] n-textarea');
+const textarea = document.querySelector<HTMLElement>('[data-panel-id="agent-chat"] n-textarea');
 if (textarea) {
   const onFirstInput = () => {
     dismissWelcome();

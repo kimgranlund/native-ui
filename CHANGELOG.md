@@ -2,6 +2,85 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.194
+
+### Changed (native-ai@1.0.106)
+- **n-chat-feed + n-agent-input: adopt standard `--n-padding-block`/`--n-padding-inline` tokens** — Replaced chat-specific `--n-chat-feed-padding-*` and `--n-chat-input-padding-*` tokens with the universal `--n-padding-block`/`--n-padding-inline` system. Both elements now automatically support `padding="none|tight|regular|relaxed"` and `density="compact|default|loose"` via the existing global attribute selectors — no component-specific overrides needed. Defaults scale with density via `calc(var(--n-space) * var(--n-space-k))`. Builder chat uses `density="compact"` on feed and input instead of CSS token overrides.
+
+## 0.7.193
+
+### Fixed (native-ai@1.0.104)
+- **A2UI Builder: Pane gripper no longer triggers canvas pan** — Clicking and dragging the resize gripper bars between panes could accidentally initiate preview canvas panning. The pointerdown handler now checks `target.closest('n-gripper')` and bails out.
+
+## 0.7.192
+
+### Fixed (native-ai@1.0.103)
+- **A2UI Builder: Reasoning pane syncs with response type** — The Reasoning pane was showing "Interpretation → Concepts → Plan → Construction" even when the LLM asked clarifying questions instead of building UI. Now type-aware:
+  - **Single-shot**: `populateInsightsFromResult()` checks `result.type` — question responses show "Clarification" (not "Response" + "Concepts" + "Construction"), schema results show the full reasoning chain. Concepts/Templates/Construction entries only appear when a schema was actually built.
+  - **Pipeline**: `fillConstruct()` detects non-schema output (questions, text responses) and relabels the entry to "Outcome" with appropriate text. After final parse, the progress step label updates to match the actual result verb ("Responded" instead of "Built schema").
+  - **Fallback heuristic**: When JSON parse fails in construct step, short text or text with `?` shows "Responded" instead of "Schema constructed".
+
+## 0.7.191
+
+### Fixed (native-ai@1.0.102)
+- **A2UI Builder: Preview content re-centers on pane resize** — `ResizeObserver` on the preview body resets the pan offset to (0,0) when the pane dimensions change. Added `max-width: calc(100% - 2rem)` to `#preview-mount` so generated UI constrains to the available width.
+
+## 0.7.190
+
+### Enhanced (native-ai@1.0.101)
+- **A2UI Builder: Reasoning pane shows matched learning templates** — After concepts are identified, `matchPatterns()` runs against the 50-pattern catalog and the top 3 matches appear as a new "Templates" reasoning step. Each shows label, tier, category, and component count. Works in both single-shot (progressive reveal) and pipeline (`onStepComplete`) modes.
+
+## 0.7.189
+
+### Changed (native-ai@1.0.100)
+- **A2UI Builder: Insights → Reasoning** — Renamed the "Insights" pane to "Reasoning" throughout (header, chip, TS label). The pane now auto-scrolls to the latest content as each reasoning step is appended — both in single-shot progressive reveal and pipeline `onStepComplete` paths.
+
+## 0.7.188
+
+### Enhanced (native-ai@1.0.99)
+- **A2UI Builder insights — progressive reveal** — Insight entries now appear one at a time with a staggered animation instead of all at once. Each step shows a pulsing placeholder first, then fills with content after a short delay (400ms step interval, 300ms fill delay). Applies to both single-shot and mock response paths. Pipeline mode already had step-by-step reveal via `onStepStart`/`onStepComplete` callbacks.
+
+## 0.7.187
+
+### Fixed (native-ai@1.0.98)
+- **A2UI Builder insights panel not hydrated in single-shot mode** — The Insights panel was only populated during multi-step pipeline mode. Single-shot (default) and mock responses now also populate insights with: Response summary, Concepts (from `concepts[]`), Construction summary (component count + surface), CSS/JS indicators, and Gap reports. Both paths call `populateInsightsFromResult()` after the LLM response is parsed.
+
+## 0.7.186
+
+### Fixed (native-dashboard@0.4.23)
+- **Sidebar search button full width** — `n-button` inside `n-sidebar-item` no longer shrinks to content width. Added `width: 100%` rule so inline-level buttons stretch to fill the sidebar item.
+
+## 0.7.185
+
+### Fixed
+- **n-stack flex centering passthrough** (T0236) — `min-height: 0` on the base rule prevented n-stack from inheriting its parent's height, so `justify="center"` had no effect when the stack was a flex child in a full-viewport container. Changed to `min-height: inherit` — the stack now inherits the parent's `min-height` (e.g., `100dvh`), giving it height to distribute children vertically.
+
+## 0.7.184
+
+### Fixed
+- **Changelog page structure** — Wrapped content in `<header>` + `<section>` to match the standard demo page structure (`main > header / section`). Previously `<h1>` and all version entries were directly inside `<main>`, missing the shared `spa-pages.css` sticky header and section padding.
+
+## 0.7.183
+
+### Fixed (native-ai@1.0.97)
+- **Training Library settings — floating point jitter** — Temperature slider displayed `0.7000000000000001` due to IEEE 754 float arithmetic. Values now rounded to 2 decimal places before display. Max Tokens also rounded to integer.
+
+## 0.7.182
+
+### Fixed (native-ai@1.0.96)
+- **A2UI Builder preview JS sandbox** — LLM-generated JS that sets up event listeners could throw uncaught errors when callbacks reference undefined properties (e.g., `NInput.value.replace()`). The sandbox now wraps all `addEventListener` callbacks registered during code execution in try/catch, logging errors as warnings instead of crashing. The prototype patch is restored via `finally` block after execution.
+
+## 0.7.181
+
+### Changed (native-ai@1.0.95)
+- **A2UI Builder insights pane — multi-step content** — Insights now show placeholder entries with pulsing animation as each pipeline step starts, then fill with parsed content on completion. Added `Construct` step entry (component count + surface badge). Insights clear between pipeline runs.
+- **A2UI Builder pane legibility** — Bumped font sizes across all panes: pre/code/prompt editors from `0.6875rem` → `0.8125rem`, map table from `0.75rem` → `0.8125rem`. Added `line-height: 1.7`, `letter-spacing: 0.01em`, and `padding: 0.75rem 1rem` to all content areas. Insight entries use themed `--pg-*` tokens for consistent dark-chrome contrast.
+
+## 0.7.180
+
+### Changed (native-ai@1.0.94)
+- **Chat feed/input default padding** — `--n-chat-feed-padding-inline` now defaults to `calc(var(--n-space) * 2)` instead of `0`. `n-agent-input` padding fallbacks changed from `0` to `var(--n-space)` (block) and `calc(var(--n-space) * 2)` (inline). Consumers get sensible padding out of the box; override with tokens to customize.
+
 ## 0.7.179
 
 ### Changed (native-ai@1.0.93)
