@@ -204,8 +204,10 @@
   /* ── Tab Panel ── */
 
   :where(n-tab-panel) {
+    --n-padding: calc(var(--n-space) * 4);
+
     display: block;
-    padding: calc(var(--n-space) * 4);
+    padding: var(--n-padding);
     outline: none;
   }
 

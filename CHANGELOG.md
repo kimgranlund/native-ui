@@ -2,6 +2,18 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.145
+
+### Changed
+- **Component styling boundary audit** — Removed all external CSS overrides that reached into component internals (padding, margin, gap, display). Added token-based APIs instead:
+  - `n-header`: `--n-background` token (default: `transparent`)
+  - `n-body`: `--n-background` token (default: `transparent`)
+  - `n-tab-panel`: `--n-padding` token (default: `calc(var(--n-space) * 4)`)
+  - `n-chat-feed`: `--n-chat-feed-padding-block`, `--n-chat-feed-padding-inline` tokens
+  - `n-agent-input`: `--n-chat-input-padding-block`, `--n-chat-input-padding-inline`, `--n-chat-input-border`, `--n-chat-input-border-radius`, `--n-background` tokens
+- **a2ui-builder.css** — All internal overrides on `n-header`, `n-body`, `n-chat-feed`, `n-agent-input`, `n-chat-message-text` replaced with token-based configuration
+- **data-detail-page.css** — `n-tab-panel { padding: 0 }` → `--n-padding: 0`
+
 ## 0.7.144
 
 ### Added

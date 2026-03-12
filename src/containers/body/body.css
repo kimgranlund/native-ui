@@ -17,6 +17,7 @@
     gap: calc(var(--n-space) * var(--n-space-k));
     padding-block: var(--n-padding-block);
     padding-inline: var(--n-padding-inline);
+    background: var(--n-background, transparent);
 
     font-size: var(--n-font-size);
     line-height: var(--n-line-height);

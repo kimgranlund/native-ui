@@ -12,6 +12,6 @@
   margin-bottom: 0.5rem;
 }
 
-n-chat-content > [data-a2ui] {
-  margin-bottom: 1.5rem;
+n-chat-content {
+  gap: 1.5rem;
 }

@@ -76,6 +76,7 @@ When used as a provider or self-trait, options are passed via `data-trait-link-p
 | File | Purpose |
 |------|---------|
 | `index.ts` | Barrel exports |
+| `link-paste-controller.md` | Controller documentation |
 | `link-paste-controller.ts` | Controller (reactive state + behavior) |
 | `link-paste.demo.css` | Styles |
 | `link-paste.demo.ts` | Source module |

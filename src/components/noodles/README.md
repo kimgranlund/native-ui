@@ -59,3 +59,4 @@
 | `noodles.demo.css` | Styles |
 | `noodles.demo.ts` | Source module |
 | `noodles.html` | Demo page |
+| `README.md` | Documentation (auto-generated) |
