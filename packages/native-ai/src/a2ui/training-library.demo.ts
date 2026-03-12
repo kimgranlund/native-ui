@@ -158,7 +158,7 @@ function renderGrid(): void {
     card.dataset.patternId = entry.id;
 
     card.innerHTML = `
-      <div class="tl-card-preview"><div id="card-preview-${entry.id}"></div></div>
+      <div class="tl-card-preview"><div id="card-preview-${entry.id}" inert></div></div>
       <div class="tl-card-meta">
         <span class="tl-card-label">${entry.label}</span>
         <span class="tl-card-badge" data-tier="${entry.tier}">${entry.tier}</span>

@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.173
+
+### Changed (native-ai@1.0.89)
+- **Training Library card previews** — Preview container now centers content (`align-items: center; justify-content: center`) with `transform-origin: center center` for scale-down. Inner mount marked `inert` to prevent tabbing/click into scaled previews.
+
 ## 0.7.172
 
 ### Fixed (native-ai@1.0.88)

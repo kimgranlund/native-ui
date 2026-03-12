@@ -48,20 +48,22 @@
   border-color: var(--n-border-accent);
 }
 
-/* Card preview (scaled-down render) */
+/* Card preview (scaled-down render, centered) */
 .tl-card-preview {
   height: 200px;
   overflow: hidden;
   background: var(--n-body);
-  pointer-events: none;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tl-card-preview > div {
   transform: scale(0.45);
-  transform-origin: top left;
+  transform-origin: center center;
   width: 222%;
-  padding: 0.5rem;
+  padding: 1rem;
 }
 
 /* Card meta */
