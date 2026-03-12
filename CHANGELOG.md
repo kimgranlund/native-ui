@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.164
+
+### Added (native-ai@1.0.81)
+- **A2UI Training Library page** — Dev tool for browsing, inspecting, and regenerating all 50 UI composition patterns. Grid with lazy-rendered Kernel previews, tier/category filters, editor lightbox with live schema editing, DOM inspection (click element → highlight in schema), LLM regeneration (direct + multi-step pipeline), and Export Improvement for generating Claude Code instructions from before/after schema diffs.
+
 ## 0.7.163
 
 ### Added (native-ai@1.0.80)

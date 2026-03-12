@@ -114,6 +114,7 @@
   { "title": "A2UI Protocol", "path": "/packages/native-ai/src/a2ui/a2ui-protocol.html", "group": "Packages" },
   { "title": "A2UI Components", "path": "/packages/native-ai/src/a2ui/a2ui-components.html", "group": "Packages" },
   { "title": "A2UI Builder", "path": "/packages/native-ai/src/a2ui/builder/a2ui-builder.html", "group": "Packages", "badge": "new" },
+  { "title": "A2UI Training Library", "path": "/packages/native-ai/src/a2ui/training-library.html", "group": "Packages", "badge": "new" },
   { "title": "A2A Sessions", "path": "/packages/native-ai/src/a2ui/a2a-sessions.html", "group": "Packages", "badge": "new" },
   { "title": "A2A Ownership", "path": "/packages/native-ai/src/a2ui/a2a-ownership.html", "group": "Packages", "badge": "new" },
   { "title": "A2A Catalog", "path": "/packages/native-ai/src/a2ui/a2a-catalog.html", "group": "Packages", "badge": "new" },
