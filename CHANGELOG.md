@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.152
+
+### Changed
+- **sitemap** — Removed "Updates" group (3 duplicate entries already in their proper groups). Removed "Toast" duplicate from Components (already listed as "Toastable" in Traits). Cleared stale "new"/"updated" badges on established entries — kept only on Feed, Pane, Backtick Wrap, Link Paste, Mention, A2UI Builder, and A2A demos. Alphabetized entries within each group.
+
 ## 0.7.151
 
 ### Fixed
