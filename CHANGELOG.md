@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.176
+
+### Changed (native-ai@1.0.92)
+- **Training Library full-width toolbar** — Tab toggles (Schema/Insights/Output/Settings) moved into the top toolbar as chip buttons, replacing the `<n-tabs>` component. Added fullscreen toggle icon button. Toolbar spans the full dialog width matching the A2UI Builder pattern.
+
 ## 0.7.175
 
 ### Added (native-ai@1.0.91)

@@ -33,6 +33,7 @@ import '../../../../src/icons/phosphor/trend-up.ts';
 import '../../../../src/icons/phosphor/trend-down.ts';
 import '../../../../src/icons/phosphor/caret-right.ts';
 import '../../../../src/icons/phosphor/stack-simple.ts';
+import '../../../../src/icons/phosphor/arrows-out-simple.ts';
 
 // Traits
 import { CSSInspectController } from '../../../../packages/native-traits/src/traits/css-inspect/css-inspect-controller.ts';
@@ -99,7 +100,6 @@ const lightboxBadges = document.getElementById('lightbox-badges')!;
 const lightboxPreview = document.getElementById('lightbox-preview')!;
 const schemaEditor = document.getElementById('schema-editor') as HTMLTextAreaElement;
 const outputPre = document.getElementById('output-pre')!;
-const editorTabs = document.getElementById('editor-tabs')!;
 const categoryFilter = document.getElementById('category-filter') as HTMLElement & { value: string };
 const modelPicker = document.getElementById('tl-model') as HTMLElement & { value: string };
 const tempRange = document.getElementById('tl-temperature') as HTMLInputElement;
@@ -109,6 +109,7 @@ const tempVal = document.getElementById('temp-val')!;
 const tokensVal = document.getElementById('tokens-val')!;
 const insightsWrap = document.getElementById('insights-wrap')!;
 const inspectToggleBtn = document.getElementById('inspect-toggle')!;
+const fullscreenToggleBtn = document.getElementById('fullscreen-toggle')!;
 const btnRegenerate = document.getElementById('btn-regenerate')!;
 const btnExport = document.getElementById('btn-export')!;
 const btnClose = document.getElementById('lightbox-close')!;
@@ -329,8 +330,13 @@ function closeLightbox(): void {
 // ── Tab switching ──
 
 function showTab(tab: string): void {
+  // Toggle panels
   document.querySelectorAll('.tl-tab-panel').forEach((panel) => {
     (panel as HTMLElement).hidden = panel.getAttribute('data-tab') !== tab;
+  });
+  // Toggle chip active states in toolbar
+  dialog.querySelectorAll('[data-chip]').forEach((btn) => {
+    btn.toggleAttribute('data-active', btn.getAttribute('data-chip') === tab);
   });
 }
 
@@ -859,10 +865,16 @@ lightboxPreview.addEventListener('native:inspect', (e: Event) => {
   }
 });
 
-// Tabs
-editorTabs.addEventListener('native:change', (e) => {
-  const tab = (e as CustomEvent).detail?.value ?? (e.target as HTMLElement & { value: string }).value;
-  if (tab) showTab(tab);
+// Tab chip buttons
+dialog.addEventListener('pointerup', (e) => {
+  const chip = (e.target as HTMLElement).closest<HTMLElement>('[data-chip]');
+  if (chip) showTab(chip.getAttribute('data-chip')!);
+});
+
+// Fullscreen toggle
+fullscreenToggleBtn.addEventListener('pointerup', () => {
+  const isFS = dialog.toggleAttribute('data-fullscreen');
+  fullscreenToggleBtn.toggleAttribute('data-active', isFS);
 });
 
 // Schema editor — live update + cursor-driven highlight
