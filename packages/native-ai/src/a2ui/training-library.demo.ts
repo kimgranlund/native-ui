@@ -165,7 +165,7 @@ function renderGrid(): void {
         <span class="tl-card-badge" data-tier="${entry.tier}">${entry.tier}</span>
         <span class="tl-card-badge" data-category>${entry.category}</span>
       </div>
-      <div class="tl-card-overlay"><n-button variant="primary" intent="accent" size="sm"><n-icon name="pencil-simple" slot="leading"></n-icon>Edit</n-button></div>
+      <div class="tl-card-overlay"><n-button variant="primary" intent="accent" size="sm" ><n-icon name="pencil-simple" slot="leading"></n-icon>Edit</n-button></div>
     `;
 
     grid.appendChild(card);

@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.179
+
+### Changed (native-ai@1.0.93)
+- **Training Library card overlay** — Removed `density="compact"` from the Edit overlay button.
+
 ## 0.7.178
 
 ### Fixed (native-ai@1.0.93)
