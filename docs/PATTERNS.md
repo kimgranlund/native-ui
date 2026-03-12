@@ -120,7 +120,7 @@ The mixin delegates browser callbacks (`formDisabledCallback`, `formResetCallbac
 
 ## 4. Disabled Pipeline
 
-`createDisabledEffect` from `src/core/effects.ts`:
+`createDisabledEffect` from `packages/native-core/src/core/effects.ts`:
 
 ```ts
 #disabled = signal(false);

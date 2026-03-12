@@ -4,7 +4,7 @@ Base class, reactivity, build system, and testing for `@nonoun/native-ui`.
 
 ## NativeElement Base Class
 
-`src/core/native-element.ts` -- extends `HTMLElement`. All components inherit from this.
+`packages/native-core/src/core/native-element.ts` -- extends `HTMLElement`. All components inherit from this.
 
 **Lifecycle:** `setup()` runs on first `connectedCallback` (guarded against double-fire from DOM moves). `teardown()` runs on `disconnectedCallback` after all effects are disposed.
 
@@ -27,7 +27,7 @@ this.deferChildren(() => {
 
 ## Signal System
 
-`src/reactivity/` -- minimal push-pull reactive graph with five public functions.
+`packages/native-core/src/reactivity/` -- minimal push-pull reactive graph with five public functions.
 
 | Function | Signature | Purpose |
 |----------|-----------|---------|
@@ -48,15 +48,15 @@ interface ReadonlySignal<T> { readonly value: T; peek(): T; }
 
 ## Core Utilities
 
-**`define(tag, class)`** (`src/core/define.ts`) -- idempotent `customElements.define()` wrapper. No side effects beyond registration.
+**`define(tag, class)`** (`packages/native-core/src/core/define.ts`) -- idempotent `customElements.define()` wrapper. No side effects beyond registration.
 
-**`createDisabledEffect(el, disabled, internals?, options?)`** (`src/core/effects.ts`) -- returns an effect function that toggles `[disabled]`, sets `aria-disabled` via `setAttribute()`, optionally manages `tabindex`, dispatches `native:disabled`.
+**`createDisabledEffect(el, disabled, internals?, options?)`** (`packages/native-core/src/core/effects.ts`) -- returns an effect function that toggles `[disabled]`, sets `aria-disabled` via `setAttribute()`, optionally manages `tabindex`, dispatches `native:disabled`.
 
-**`FormAssociable(Base)`** (`src/core/form-associable.ts`) -- class mixin providing `onFormDisabled()`, `onFormReset()`, `onFormStateRestore()`. Must be a mixin (not controller) because the spec requires `static formAssociated = true`.
+**`FormAssociable(Base)`** (`packages/native-core/src/core/form-associable.ts`) -- class mixin providing `onFormDisabled()`, `onFormReset()`, `onFormStateRestore()`. Must be a mixin (not controller) because the spec requires `static formAssociated = true`.
 
-**`uid(prefix)`** (`src/core/uid.ts`) -- `crypto.randomUUID()`-based IDs (e.g., `uid('anchor')` -> `"anchor-a1b2c3d4"`). Used for anchor positioning and ARIA wiring.
+**`uid(prefix)`** (`packages/native-core/src/core/uid.ts`) -- `crypto.randomUUID()`-based IDs (e.g., `uid('anchor')` -> `"anchor-a1b2c3d4"`). Used for anchor positioning and ARIA wiring.
 
-**Formatting utilities** (`src/core/formatting.ts`) -- shared text formatting for contenteditable inputs. Exports: `FORMAT_MARKERS` (format name -> marker string), `FORMAT_SHORTCUTS` (key -> format name), `isFormatEnabled(el, type)`, `getSelectionOffsets(root, range)`, `toggleMarker(text, selected, start, end, marker, len)`, `restoreSelection(root, start, end)`. Used by both `n-input` and `n-textarea`.
+**Formatting utilities** (`packages/native-core/src/core/formatting.ts`) -- shared text formatting for contenteditable inputs. Exports: `FORMAT_MARKERS` (format name -> marker string), `FORMAT_SHORTCUTS` (key -> format name), `isFormatEnabled(el, type)`, `getSelectionOffsets(root, range)`, `toggleMarker(text, selected, start, end, marker, len)`, `restoreSelection(root, start, end)`. Used by both `n-input` and `n-textarea`.
 
 ## Top-Layer Architecture
 
@@ -177,7 +177,7 @@ Vitest + happy-dom. Each file needs `// @vitest-environment happy-dom`.
 
 ```bash
 npm test                                              # all
-npx vitest run src/traits/__tests__/draggable.test.ts # single file
+npx vitest run packages/native-traits/src/traits/__tests__/draggable.test.ts # single file
 ```
 
 ## Icon Codegen
@@ -204,13 +204,13 @@ Components follow three rendering patterns based on how they produce DOM:
 
 | Path | Purpose |
 |------|---------|
-| `src/core/` | NativeElement, define, uid, context, effects, form-associable |
-| `src/reactivity/` | signal, computed, effect, batch, untrack, debug |
-| `src/registries/` | trait-registry, icon-registry, plugin-registry |
-| `src/traits/` | 34 controllers + adapters |
+| `packages/native-core/src/core/` | NativeElement, define, uid, context, effects, form-associable |
+| `packages/native-core/src/reactivity/` | signal, computed, effect, batch, untrack, debug |
+| `packages/native-core/src/registries/` | trait-registry, icon-registry, plugin-registry |
+| `packages/native-traits/src/traits/` | 34 controllers + adapters |
 | `src/components/` | Interactive components |
 | `src/containers/` | Structural containers |
 | `src/styles/` | Foundation CSS |
 | `src/icons/` | Icon system + generated Phosphor modules |
-| `src/kernel/` | Kernel + protocol (separate entry) |
+| `packages/native-kernel/src/kernel/` | Kernel + protocol (separate entry) |
 | `scripts/` | build-css.mjs, generate-icons |

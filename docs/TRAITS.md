@@ -155,11 +155,11 @@ ctrl.destroy();   // dismiss + cleanup (call in teardown)
 ## File Layout
 
 ```
-src/traits/
+packages/native-traits/src/traits/
   {name}-controller.ts         -- controller class
   adapters/{name}-adapter.ts   -- TraitAdapter for n-controller
   register-all.ts              -- registerAllTraits() (28 adapters)
   runtime.ts                   -- DismissStack, ToastOptions, TraitRuntime
 ```
 
-**ToastController** owns its own container and creates `<n-toast>` custom elements (not raw divs). Each controller manages its own container within its host element — no global singleton. The container uses `[popover="manual"]` for top-layer rendering. `position: fixed` places it at a fixed viewport position regardless of DOM location. `destroy()` dismisses all toasts and removes the container. Component files: `src/components/toast/` (element + CSS).
+**ToastController** owns its own container and creates `<n-toast>` custom elements (not raw divs). Each controller manages its own container within its host element — no global singleton. The container uses `[popover="manual"]` for top-layer rendering. `position: fixed` places it at a fixed viewport position regardless of DOM location. `destroy()` dismisses all toasts and removes the container. Component files: `src/components/toast/` (element + CSS). Toast controller source: `packages/native-traits/src/traits/toast/`.

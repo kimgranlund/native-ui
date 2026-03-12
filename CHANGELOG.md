@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.140
+
+### Changed
+- Updated docs (INTERNALS, PATTERNS, TRAITS) with correct `packages/*/` paths after package split
+
 ## 0.7.139
 
 ### Fixed
