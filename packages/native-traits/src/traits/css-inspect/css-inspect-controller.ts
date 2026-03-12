@@ -17,6 +17,9 @@ export interface CSSInspectOptions {
   pick?: boolean;
   /** Always-ready mode: hover/click activates without holding Alt (default false) */
   alwaysReady?: boolean;
+  /** When false, clicking outside the popover does NOT dismiss the inspection (default true).
+   *  Useful for toggle-button UIs where the consumer controls dismiss explicitly. */
+  dismissOnClickOutside?: boolean;
   /** Disable the controller */
   disabled?: boolean;
 }
@@ -45,6 +48,7 @@ export class CSSInspectController {
   recursive: boolean;
   pick: boolean;
   alwaysReady: boolean;
+  dismissOnClickOutside: boolean;
   disabled: boolean;
 
   #attached = false;
@@ -79,6 +83,7 @@ export class CSSInspectController {
     this.recursive = options.recursive ?? true;
     this.pick = options.pick ?? false;
     this.alwaysReady = options.alwaysReady ?? false;
+    this.dismissOnClickOutside = options.dismissOnClickOutside ?? true;
     this.disabled = options.disabled ?? false;
     this.attach();
   }
@@ -601,7 +606,9 @@ export class CSSInspectController {
     popover.addEventListener('wheel', this.#onWheel, { passive: false });
 
     // Document listeners for dismiss, tilt tracking, scroll/selection interception
-    document.addEventListener('click', this.#onDocClick, true);
+    if (this.dismissOnClickOutside) {
+      document.addEventListener('click', this.#onDocClick, true);
+    }
     document.addEventListener('keydown', this.#onDocKeydown);
     document.addEventListener('pointermove', this.#onDocTilt);
     document.addEventListener('wheel', this.#onWheel, { passive: false });

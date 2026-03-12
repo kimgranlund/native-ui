@@ -14,6 +14,7 @@ export const cssInspectableAdapter: TraitAdapter<CSSInspectController> = {
       recursive: options['recursive'] !== undefined ? options['recursive'] !== 'false' : undefined,
       pick: options['pick'] !== undefined ? options['pick'] !== 'false' : undefined,
       alwaysReady: options['always-ready'] !== undefined ? options['always-ready'] !== 'false' : undefined,
+      dismissOnClickOutside: options['dismiss-on-click-outside'] !== undefined ? options['dismiss-on-click-outside'] !== 'false' : undefined,
       disabled: options['disabled'] === 'true',
     });
   },
@@ -43,6 +44,7 @@ export const cssInspectableAdapter: TraitAdapter<CSSInspectController> = {
     if ('recursive' in options) instance.recursive = options['recursive'] !== 'false';
     if ('pick' in options) instance.pick = options['pick'] !== 'false';
     if ('always-ready' in options) instance.alwaysReady = options['always-ready'] !== 'false';
+    if ('dismiss-on-click-outside' in options) instance.dismissOnClickOutside = options['dismiss-on-click-outside'] !== 'false';
     if ('disabled' in options) instance.disabled = options['disabled'] === 'true';
   },
 };

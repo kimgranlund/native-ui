@@ -675,10 +675,13 @@ let inspectorObserver: MutationObserver | null = null;
 function dismissInspector(): void {
   inspectorObserver?.disconnect();
   inspectorObserver = null;
-  if (cssInspector) {
-    cssInspector.dismiss();
-    cssInspector.destroy();
-    cssInspector = null;
+  // Null the reference BEFORE dismiss — dismiss synchronously dispatches native:inspect
+  // which the canvas event handler checks. If cssInspector is still set, it double-cleans.
+  const inspector = cssInspector;
+  cssInspector = null;
+  if (inspector) {
+    inspector.dismiss();
+    inspector.destroy();
   }
   inspectToggleBtn.setAttribute('variant', 'ghost');
 }
@@ -1502,7 +1505,7 @@ inspectToggleBtn.addEventListener('pointerup', () => {
   } else {
     const artifact = canvas.firstElementChild as HTMLElement | null;
     if (!artifact) return;
-    cssInspector = new CSSInspectController(artifact, { labels: true });
+    cssInspector = new CSSInspectController(artifact, { labels: true, dismissOnClickOutside: false });
     cssInspector.inspect();
     inspectToggleBtn.setAttribute('variant', 'selected');
   }
@@ -1516,9 +1519,12 @@ canvas.addEventListener('native:inspect', (e: Event) => {
   } else if (!detail?.active) {
     inspectorObserver?.disconnect();
     inspectorObserver = null;
-    // Only clear if user dismissed via toggle (dismissInspector sets cssInspector = null first)
+    // dismissInspector nulls cssInspector BEFORE dismiss(), so if it's still set
+    // the deactivation was external (Escape key) — clean up the reference + button.
     if (cssInspector) {
+      const inspector = cssInspector;
       cssInspector = null;
+      inspector.destroy();
       inspectToggleBtn.setAttribute('variant', 'ghost');
     }
   }

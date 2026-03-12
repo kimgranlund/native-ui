@@ -2,6 +2,17 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.217
+
+### Added (native-traits@0.1.14)
+- **`dismissOnClickOutside` option on CSSInspectController** — When `false`, clicking outside the 3D popover does NOT dismiss the inspection. Enables toggle-button UIs where the consumer controls dismiss explicitly. Default `true` (backward compatible). Available as `data-trait-css-inspectable-dismiss-on-click-outside` attribute.
+
+### Fixed (native-ai@1.0.124)
+- **CSS Inspector toggle in Training Library** — Two bugs prevented the inspect toggle button from working:
+  1. Inspector self-dismissed immediately after activation — `inspect()` registered a document-level click handler that caught the same click event from the toggle button's `pointerup`.
+  2. Null reference crash on toggle-off — `dismiss()` synchronously dispatched `native:inspect` which nulled the controller reference before `destroy()` ran.
+  Fixed by using `dismissOnClickOutside: false` for the toggle pattern and null-safe local references in the dismiss flow.
+
 ## 0.7.216
 
 ### Added
