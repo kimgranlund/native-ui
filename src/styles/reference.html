@@ -263,15 +263,18 @@
             <!-- Coordinators -->
             <tr class="cat-header"><td colspan="9">Coordinators <span class="tag tag-coord">display: contents</span></td></tr>
             <tr>
-              <td>n-select <span class="tag tag-coord">coord</span></td>
-              <td class="n">–</td>
-              <td class="n">–</td>
-              <td class="n">–</td>
-              <td class="n">–</td>
-              <td class="n">–</td>
-              <td class="n">–</td>
-              <td class="n">–</td>
-              <td class="n">–</td>
+              <td>n-select</td>
+              <td class="y">●</td><!-- hover: shares button.css -->
+              <td class="y">●</td><!-- active: shares button.css -->
+              <td class="a">○</td><!-- focus: focusable, no :focus rule -->
+              <td class="y">●</td><!-- focus-visible: shares button.css -->
+              <td class="y">●</td><!-- pressed: shares button.css -->
+              <td class="n">–</td><!-- disabled: uses aria-disabled -->
+              <td class="y">●</td><!-- aria-disabled: shares button.css -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td colspan="9" class="sub" style="padding-left:calc(var(--n-space) * 8);">↳ since v0.7.127, n-select IS the trigger button — shares all :where(n-button, n-select) CSS states</td>
             </tr>
             <tr>
               <td>n-combobox <span class="tag tag-coord">coord</span></td>
@@ -296,8 +299,39 @@
               <td class="n">–</td>
             </tr>
 
+            <!-- Interactive (misc) -->
+            <tr class="cat-header"><td colspan="9">Interactive (Misc)</td></tr>
+            <tr>
+              <td>n-gripper</td>
+              <td class="y">●</td><!-- hover: ::after opacity -->
+              <td class="n">–</td><!-- active -->
+              <td class="n">–</td><!-- focus -->
+              <td class="n">–</td><!-- focus-visible: no keyboard -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="y">●</td><!-- disabled: pointer-events: none -->
+              <td class="n">–</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td colspan="9" class="sub" style="padding-left:calc(var(--n-space) * 8);">↳ [gripping] attr set during active resize drag</td>
+            </tr>
+
             <!-- Display -->
             <tr class="cat-header"><td colspan="9">Display Components</td></tr>
+            <tr>
+              <td>n-progress <span class="tag tag-display">display</span></td>
+              <td class="n">–</td><!-- hover -->
+              <td class="n">–</td><!-- active -->
+              <td class="n">–</td><!-- focus -->
+              <td class="n">–</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="n">–</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td colspan="9" class="sub" style="padding-left:calc(var(--n-space) * 8);">↳ read-only indicator. [indeterminate] triggers animated fill. Controlled via --n-progress (0–1)</td>
+            </tr>
             <tr>
               <td>n-avatar <span class="tag tag-display">display</span></td>
               <td class="a">○</td><!-- hover: visible element -->
@@ -369,6 +403,34 @@
               <td class="n">–</td><!-- disabled -->
               <td class="n">–</td><!-- aria-disabled -->
               <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td>n-pane <span class="tag tag-container">container</span></td>
+              <td class="a">○</td><!-- hover: edge handles show on hover -->
+              <td class="n">–</td><!-- active -->
+              <td class="n">–</td><!-- focus -->
+              <td class="n">–</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="n">–</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td colspan="9" class="sub" style="padding-left:calc(var(--n-space) * 8);">↳ [minimized], [data-resizing], [data-edge-near] attrs control resize interaction states</td>
+            </tr>
+            <tr>
+              <td>n-feed <span class="tag tag-container">container</span></td>
+              <td class="n">–</td><!-- hover -->
+              <td class="n">–</td><!-- active -->
+              <td class="n">–</td><!-- focus -->
+              <td class="n">–</td><!-- focus-visible -->
+              <td class="n">–</td><!-- pressed -->
+              <td class="n">–</td><!-- disabled -->
+              <td class="n">–</td><!-- aria-disabled -->
+              <td class="n">–</td><!-- active attr -->
+            </tr>
+            <tr>
+              <td colspan="9" class="sub" style="padding-left:calc(var(--n-space) * 8);">↳ passive scrollable container. [scroll], [auto-scroll], [align] control layout</td>
             </tr>
           </tbody>
         </table>
@@ -892,6 +954,56 @@
             <n-table-cell><code>padded</code></n-table-cell>
             <n-table-cell><code>"false"</code> — removes padding</n-table-cell>
           </n-table-row>
+          <n-table-row>
+            <n-table-cell>n-select</n-table-cell>
+            <n-table-cell><code>placeholder</code></n-table-cell>
+            <n-table-cell>String — label text when no value selected</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell></n-table-cell>
+            <n-table-cell><code>options</code></n-table-cell>
+            <n-table-cell>JSON array — programmatic options <code>[{value, label}]</code></n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>n-gripper</n-table-cell>
+            <n-table-cell><code>orientation</code></n-table-cell>
+            <n-table-cell><code>"horizontal"</code> / <code>"vertical"</code> / <code>"corner"</code></n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>n-progress</n-table-cell>
+            <n-table-cell><code>value</code></n-table-cell>
+            <n-table-cell><code>0</code>–<code>100</code> — fill percentage</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell></n-table-cell>
+            <n-table-cell><code>indeterminate</code></n-table-cell>
+            <n-table-cell>Boolean — animated fill, no value</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>n-feed</n-table-cell>
+            <n-table-cell><code>align</code></n-table-cell>
+            <n-table-cell><code>"start"</code> / <code>"end"</code> — content anchor direction</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell></n-table-cell>
+            <n-table-cell><code>auto-scroll</code></n-table-cell>
+            <n-table-cell>Boolean — auto-scrolls to newest content</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell>n-pane</n-table-cell>
+            <n-table-cell><code>minimized</code></n-table-cell>
+            <n-table-cell>Boolean — collapses pane to header only</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell></n-table-cell>
+            <n-table-cell><code>bordered</code></n-table-cell>
+            <n-table-cell>Boolean — adds border between panes</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell></n-table-cell>
+            <n-table-cell><code>scrollable</code></n-table-cell>
+            <n-table-cell><code>"y"</code> / <code>"x"</code> / <code>"both"</code> — overflow behavior</n-table-cell>
+          </n-table-row>
         </n-table-body>
       </n-table>
 
@@ -1222,6 +1334,18 @@
             <tr>
               <td colspan="7" class="sub" style="padding-left:calc(var(--n-space) * 8);">↳ emits <code>native:slide-change</code> (not <code>native:change</code>) with <code>{ index, slide }</code></td>
             </tr>
+            <tr>
+              <td>n-feed</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+              <td class="n">–</td>
+            </tr>
+            <tr>
+              <td colspan="7" class="sub" style="padding-left:calc(var(--n-space) * 8);">↳ emits <code>native:feed-scroll</code> and <code>native:range-change</code> (virtual scroll)</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -1402,6 +1526,8 @@
           <n-table-row><n-table-cell>n-badge</n-table-cell><n-table-cell><code>status</code></n-table-cell><n-table-cell>ElementInternals</n-table-cell></n-table-row>
           <n-table-row><n-table-cell>n-toolbar</n-table-cell><n-table-cell><code>toolbar</code></n-table-cell><n-table-cell>ElementInternals</n-table-cell></n-table-row>
           <n-table-row><n-table-cell>n-tooltip</n-table-cell><n-table-cell><code>tooltip</code></n-table-cell><n-table-cell>ElementInternals</n-table-cell></n-table-row>
+          <n-table-row><n-table-cell>n-feed</n-table-cell><n-table-cell><code>feed</code></n-table-cell><n-table-cell>ElementInternals</n-table-cell></n-table-row>
+          <n-table-row><n-table-cell>n-progress</n-table-cell><n-table-cell><code>progressbar</code></n-table-cell><n-table-cell>ElementInternals</n-table-cell></n-table-row>
         </n-table-body>
       </n-table>
 

@@ -96,9 +96,13 @@ const components = [
   },
   {
     name: 'n-select',
-    category: 'coordinator',
+    category: 'interactive',
     states: [
-      { state: '(coordinator)', bg: 'display: contents', color: '—', border: '—', group: 'interaction' },
+      { state: 'rest (default)', bg: '--n-button', color: '--n-ink', border: '--n-border-muted-neutral', group: 'interaction' },
+      { state: ':hover', bg: '--n-panel-hover-neutral', color: '--n-ink-hover', border: '--n-border-hover-neutral', group: 'interaction' },
+      { state: ':active', bg: '--n-panel-active-neutral', color: '--n-ink-active', border: '--n-border-active-neutral', group: 'interaction' },
+      { state: ':focus-visible', bg: '(unchanged)', color: '(unchanged)', border: 'outline: --n-focus-ring', group: 'interaction' },
+      { state: '[aria-disabled]', bg: '--n-panel-disabled-neutral', color: '--n-ink-disabled', border: '--n-border-muted-neutral', group: 'interaction' },
     ]
   },
   {
@@ -328,6 +332,37 @@ const components = [
       { state: '[invalid]', bg: '(unchanged)', color: 'error slot shown', border: '(unchanged)', group: 'value' },
       { state: '[required]', bg: '(unchanged)', color: '* shown', border: '(unchanged)', group: 'value' },
       { state: '[disabled]', bg: '(unchanged)', color: '--n-ink-muted', border: '(unchanged)', group: 'interaction' },
+    ]
+  },
+  {
+    name: 'n-gripper',
+    category: 'interactive',
+    states: [
+      { state: 'rest', bg: 'transparent', color: '--n-ink-muted', border: 'none', group: 'interaction' },
+      { state: ':hover', bg: '(unchanged)', color: '(unchanged)', border: 'none', group: 'interaction' },
+      { state: '[gripping]', bg: '(unchanged)', color: '(unchanged)', border: 'none', group: 'interaction' },
+      { state: '[disabled]', bg: '(transparent)', color: '--n-ink-disabled', border: 'none', group: 'interaction' },
+    ]
+  },
+  {
+    name: 'n-progress',
+    category: 'display',
+    states: [
+      { state: 'fill', bg: '--n-ink', color: '—', border: 'none', group: 'interaction' },
+      { state: '[indeterminate]', bg: '--n-ink', color: '—', border: 'none', group: 'interaction' },
+    ]
+  },
+  {
+    name: 'n-feed',
+    category: 'container',
+    states: []
+  },
+  {
+    name: 'n-pane',
+    category: 'container',
+    states: [
+      { state: '[minimized]', bg: '(inherit)', color: '(inherit)', border: '(inherit)', group: 'interaction' },
+      { state: '[data-resizing]', bg: '(inherit)', color: '(inherit)', border: 'accent bar', group: 'interaction' },
     ]
   },
 ];

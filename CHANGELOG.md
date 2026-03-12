@@ -2,6 +2,12 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.153
+
+### Fixed
+- **state-grid** — n-select reclassified from "coordinator" to "interactive" with full button states (hover, active, focus-visible, aria-disabled). Added missing components: n-gripper, n-progress, n-feed, n-pane.
+- **reference** — n-select Interactive States row updated from all "–" to matching n-button states (shares `:where(n-button, n-select)` CSS). Added n-gripper, n-progress, n-feed, n-pane to Interactive States, Component-Specific Attributes, Events, and ARIA Roles tables.
+
 ## 0.7.152
 
 ### Changed
