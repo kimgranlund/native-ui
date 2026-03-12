@@ -219,6 +219,29 @@
   max-width: 640px;
 }
 
+/* Compare mode — viewing original */
+.tl-preview-mount[data-compare="original"] {
+  outline: 2px dashed var(--pg-text-muted);
+  outline-offset: -2px;
+  position: relative;
+}
+
+.tl-preview-mount[data-compare="original"]::after {
+  content: 'ORIGINAL';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font: 600 0.625rem/1.4 ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--pg-text-muted);
+  background: var(--pg-chrome);
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.2rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* Clickable elements in preview */
 .tl-preview-mount [id] {
   cursor: pointer;
@@ -300,8 +323,12 @@
   border-block-start: 1px solid var(--pg-border-color);
   padding: 0.625rem 1.25rem;
   display: flex;
+  align-items: center;
   gap: 0.5rem;
-  justify-content: flex-end;
+}
+
+.tl-actions [fill] {
+  flex: 1;
 }
 
 /* ── Insights pane ── */

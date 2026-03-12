@@ -34,6 +34,9 @@ import '../../../../src/icons/phosphor/trend-down.ts';
 import '../../../../src/icons/phosphor/caret-right.ts';
 import '../../../../src/icons/phosphor/stack-simple.ts';
 import '../../../../src/icons/phosphor/arrows-out-simple.ts';
+import '../../../../src/icons/phosphor/arrows-left-right.ts';
+import '../../../../src/icons/phosphor/arrow-counter-clockwise.ts';
+import '../../../../src/icons/phosphor/floppy-disk.ts';
 
 // Traits
 import { CSSInspectController } from '../../../../packages/native-traits/src/traits/css-inspect/css-inspect-controller.ts';
@@ -79,6 +82,8 @@ let temperature = 0.7;
 let maxTokens = 4096;
 let pipelineMode = false;
 let regenerating = false;
+let isDirty = false;
+let showingOriginal = false;
 let cssInspector: CSSInspectController | null = null;
 
 // Rendered card tracking
@@ -119,6 +124,10 @@ const inspectToggleBtn = document.getElementById('inspect-toggle')!;
 const fullscreenToggleBtn = document.getElementById('fullscreen-toggle')!;
 const btnRegenerate = document.getElementById('btn-regenerate')!;
 const btnExport = document.getElementById('btn-export')!;
+const btnReset = document.getElementById('btn-reset')!;
+const btnDownload = document.getElementById('btn-download')!;
+const btnSave = document.getElementById('btn-save')!;
+const compareToggle = document.getElementById('compare-toggle')!;
 const btnClose = document.getElementById('lightbox-close')!;
 
 // Set JSON language mode on editors after CE upgrade
@@ -248,6 +257,13 @@ async function renderCardPreview(id: string): Promise<void> {
 // Filters
 // ══════════════════════════════════════════════════════════════════
 
+/** Update dirty state + enable/disable Reset button. */
+function setDirty(dirty: boolean): void {
+  isDirty = dirty;
+  if (dirty) btnReset.removeAttribute('disabled');
+  else btnReset.setAttribute('disabled', '');
+}
+
 /** Toggle a button between ghost (off) and primary+accent (on). */
 function setChipActive(btn: Element, active: boolean): void {
   btn.setAttribute('variant', active ? 'primary' : 'ghost');
@@ -284,8 +300,17 @@ function populateCategoryFilter(): void {
 // ══════════════════════════════════════════════════════════════════
 
 async function openLightbox(id: string): Promise<void> {
-  const pattern = await loadPattern(id);
+  let pattern = await loadPattern(id);
   if (!pattern) return;
+
+  // Load saved version from localStorage if present
+  const saved = localStorage.getItem(`tl-pattern-${id}`);
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved) as Pattern;
+      if (parsed.components) pattern = parsed;
+    } catch { /* ignore corrupt data */ }
+  }
 
   currentPattern = pattern;
   originalSchema = structuredClone(pattern.components);
@@ -312,6 +337,12 @@ async function openLightbox(id: string): Promise<void> {
 
   // Render preview
   renderLightboxPreview(pattern.components as Record<string, unknown>[]);
+
+  // Reset state
+  setDirty(false);
+  showingOriginal = false;
+  setChipActive(compareToggle, false);
+  lightboxPreview.removeAttribute('data-compare');
 
   // Show schema tab
   showTab('schema');
@@ -402,6 +433,13 @@ function onSchemaInput(): void {
         renderLightboxPreview(components as Record<string, unknown>[]);
         if (currentPattern) {
           currentPattern = { ...currentPattern, components };
+          setDirty(true);
+        }
+        // Exit compare mode on edit
+        if (showingOriginal) {
+          showingOriginal = false;
+          setChipActive(compareToggle, false);
+          lightboxPreview.removeAttribute('data-compare');
         }
       }
     } catch {
@@ -806,7 +844,64 @@ function applyRegenResult(components: Record<string, unknown>[]): void {
   currentPattern = { ...currentPattern, components: components as Pattern['components'] };
   schemaEditor.value = JSON.stringify(currentPattern, null, 2);
   renderLightboxPreview(components);
+  setDirty(true);
   showTab('schema');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// CRUD — Reset, Download, Save
+// ══════════════════════════════════════════════════════════════════
+
+function handleReset(): void {
+  if (!currentPattern || !originalSchema) return;
+  currentPattern = { ...currentPattern, components: structuredClone(originalSchema) };
+  schemaEditor.value = JSON.stringify(currentPattern, null, 2);
+  renderLightboxPreview(originalSchema as Record<string, unknown>[]);
+  setDirty(false);
+  // Exit compare mode
+  if (showingOriginal) {
+    showingOriginal = false;
+    setChipActive(compareToggle, false);
+    lightboxPreview.removeAttribute('data-compare');
+  }
+}
+
+function handleDownload(): void {
+  if (!currentPattern) return;
+  const blob = new Blob([JSON.stringify(currentPattern, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${currentPattern.id}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function handleSave(): void {
+  if (!currentPattern) return;
+  localStorage.setItem(`tl-pattern-${currentPattern.id}`, JSON.stringify(currentPattern));
+  setDirty(false);
+  // Flash confirmation on save button
+  btnSave.setAttribute('intent', 'success');
+  setTimeout(() => btnSave.removeAttribute('intent'), 1200);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// Before / After Compare
+// ══════════════════════════════════════════════════════════════════
+
+function toggleCompare(): void {
+  if (!currentPattern || !originalSchema) return;
+  showingOriginal = !showingOriginal;
+  setChipActive(compareToggle, showingOriginal);
+
+  if (showingOriginal) {
+    lightboxPreview.setAttribute('data-compare', 'original');
+    renderLightboxPreview(originalSchema as Record<string, unknown>[]);
+  } else {
+    lightboxPreview.removeAttribute('data-compare');
+    renderLightboxPreview(currentPattern.components as Record<string, unknown>[]);
+  }
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -933,9 +1028,13 @@ schemaEditor.addEventListener('native:input', onSchemaInput);
 // Preview click inspection
 lightboxPreview.addEventListener('click', onPreviewClick);
 
-// Regenerate + Export
+// Regenerate + Export + CRUD + Compare
 btnRegenerate.addEventListener('pointerup', handleRegenerate);
 btnExport.addEventListener('pointerup', handleExport);
+btnReset.addEventListener('pointerup', handleReset);
+btnDownload.addEventListener('pointerup', handleDownload);
+btnSave.addEventListener('pointerup', handleSave);
+compareToggle.addEventListener('pointerup', toggleCompare);
 
 // Settings controls
 modelPicker?.addEventListener('native:change', () => {

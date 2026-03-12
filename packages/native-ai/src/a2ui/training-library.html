@@ -46,6 +46,10 @@
           <span id="lightbox-title" class="tl-lightbox-title">Pattern</span>
           <span id="lightbox-badges"></span>
           <span fill></span>
+          <n-button variant="ghost" size="sm" id="compare-toggle" title="Compare with original">
+            <n-icon name="arrows-left-right"></n-icon>
+          </n-button>
+          <hr aria-orientation="vertical">
           <n-button variant="primary" intent="accent" size="sm" data-chip="schema">Schema</n-button>
           <n-button variant="ghost" size="sm" data-chip="insights">Insights</n-button>
           <n-button variant="ghost" size="sm" data-chip="output">Output</n-button>
@@ -111,13 +115,26 @@
 
           <!-- Action footer -->
           <n-footer class="tl-actions">
-            <n-button variant="primary" intent="accent" size="sm" id="btn-regenerate">
-              <n-icon name="arrow-clockwise" slot="leading"></n-icon>
-              Regenerate
+            <n-button variant="ghost" size="sm" id="btn-reset" disabled title="Reset to original">
+              <n-icon name="arrow-counter-clockwise" slot="leading"></n-icon>
+              Reset
+            </n-button>
+            <span fill></span>
+            <n-button variant="outline" size="sm" id="btn-download">
+              <n-icon name="download-simple" slot="leading"></n-icon>
+              Download
+            </n-button>
+            <n-button variant="outline" size="sm" id="btn-save">
+              <n-icon name="floppy-disk" slot="leading"></n-icon>
+              Save
             </n-button>
             <n-button variant="outline" size="sm" id="btn-export">
               <n-icon name="copy" slot="leading"></n-icon>
-              Export Improvement
+              Export
+            </n-button>
+            <n-button variant="primary" intent="accent" size="sm" id="btn-regenerate">
+              <n-icon name="arrow-clockwise" slot="leading"></n-icon>
+              Regenerate
             </n-button>
           </n-footer>
         </n-pane>

@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-ai",
-  "version": "1.0.111",
+  "version": "1.0.112",
   "description": "AI components for @nonoun/native-ui — A2UI protocol adapter + chat input/message layout",
   "license": "MIT",
   "type": "module",

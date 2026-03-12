@@ -2,6 +2,12 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.200
+
+### Added (native-ai@1.0.112)
+- **Training Library: Before/After compare** — Toggle button in lightbox toolbar renders the original pattern alongside edits. Dashed outline + "ORIGINAL" label indicates compare mode. Auto-exits on schema edit or reset.
+- **Training Library: CRUD actions** — Footer gains Reset (revert to original), Download (.json export), and Save (localStorage persistence). Dirty tracking enables/disables Reset. Saved patterns auto-load on next lightbox open. Save flashes green confirmation.
+
 ## 0.7.199
 
 ### Added (native-ai@1.0.111)
