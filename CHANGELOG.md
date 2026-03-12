@@ -2,10 +2,16 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.177
+
+_Changelog and version bump only — no code changes._
+
 ## 0.7.176
 
 ### Changed (native-ai@1.0.92)
 - **Training Library full-width toolbar** — Tab toggles (Schema/Insights/Output/Settings) moved into the top toolbar as chip buttons, replacing the `<n-tabs>` component. Added fullscreen toggle icon button. Toolbar spans the full dialog width matching the A2UI Builder pattern.
+- **Training Library preview centering** — Lightbox preview pane now flex-centers the rendered artifact with `max-width: 640px` so patterns sit in the middle of the pane instead of top-left.
+- **Training Library text legibility** — Bumped font sizes and spacing across all editor panes: code editor/output `0.6875rem → 0.8125rem` with `line-height: 1.7`, insights text `0.875rem` with `1.6` leading, settings form `0.875rem` with wider padding. Consistent `1.25rem` inline padding across all panels.
 
 ## 0.7.175
 
