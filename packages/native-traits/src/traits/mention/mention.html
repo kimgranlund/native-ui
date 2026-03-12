@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mention — Trait Demo</title>
+    <link rel="stylesheet" href="../../../../../src/styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../../../../src/styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../../../../src/styles/spa/spa-pages.css" />
+    <link rel="stylesheet" href="./mention.demo.css" />
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <header>
+      <h1>Mention</h1>
+      <div class="demo-desc">
+      Detects <code>@</code> anywhere in an input (preceded by whitespace or at text start), shows a caret-anchored mention listbox popover, filters by query, and inserts a styled mention tag on selection. Uses the same <code>TextTriggerController</code> base class as slash commands. Works with <code>&lt;n-textarea&gt;</code> and <code>&lt;n-input&gt;</code>.
+    </div>
+    </header>
+
+    <section>
+
+    <!-- ── Basic Mentions (Textarea) ── -->
+
+    <h2>Basic Mentions</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Type <code>@</code> in the textarea to see the mention list. Arrow keys navigate, <strong>Enter</strong> selects, <strong>Escape</strong> closes. An accent-colored mention tag is inserted on selection. Works mid-text — try typing some text then <code>@</code>.
+      </p>
+      <div id="basic-wrapper" class="mention-wrapper">
+        <n-textarea id="basic-textarea" placeholder="Type @ to mention someone..." rows="2"></n-textarea>
+      </div>
+      <div id="basic-log" class="output"></div>
+      <pre class="demo-code"><code>import { MentionController } from '@nonoun/native-traits';
+
+const wrapper = document.querySelector('#wrapper');
+const textarea = wrapper.querySelector('n-textarea');
+
+const mention = new MentionController(wrapper, {
+  input: textarea,
+  items: [
+    { value: 'kim', label: 'Kim Granlund', description: 'Designer' },
+    { value: 'alex', label: 'Alex Chen', description: 'Engineer' },
+    { value: 'sam', label: 'Sam Rivera', description: 'Product Manager' },
+  ],
+});
+
+wrapper.addEventListener('native:mention-select', (e) =&gt; {
+  console.log('Mentioned:', e.detail.command);
+});</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── With n-input ── -->
+
+    <h2>With n-input</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Same pattern using <code>&lt;n-input&gt;</code> for single-line input. Type <code>@</code> to trigger the mention popover.
+      </p>
+      <div id="input-wrapper" class="mention-wrapper">
+        <n-input id="input-field" placeholder="Type @ for mentions..."></n-input>
+      </div>
+      <div id="input-log" class="output"></div>
+    </n-container>
+
+    <!-- ── Combined: Slash + Mention ── -->
+
+    <h2>Combined: Slash + Mention</h2>
+    <n-container data-kind="panel" bordered>
+      <p class="demo-hint">
+        Multiple <code>TextTriggerController</code> instances on the same input. Type <code>/</code> for slash commands or <code>@</code> for mentions — each triggers its own popover independently.
+      </p>
+      <div id="combo-wrapper" class="mention-wrapper">
+        <n-textarea id="combo-textarea" placeholder="Type / for commands or @ for mentions..." rows="2"></n-textarea>
+      </div>
+      <div id="combo-log" class="output"></div>
+      <pre class="demo-code"><code>import { SlashCommandController } from '@nonoun/native-traits';
+import { MentionController } from '@nonoun/native-traits';
+
+const wrapper = document.querySelector('#wrapper');
+const textarea = wrapper.querySelector('n-textarea');
+
+// Both controllers on the same input — no conflict
+const slash = new SlashCommandController(wrapper, {
+  input: textarea,
+  commands: [{ value: 'help', label: 'Help' }, ...],
+});
+const mention = new MentionController(wrapper, {
+  input: textarea,
+  items: [{ value: 'kim', label: 'Kim Granlund' }, ...],
+});
+
+wrapper.addEventListener('native:slash-select', (e) =&gt; { ... });
+wrapper.addEventListener('native:mention-select', (e) =&gt; { ... });</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API</h2>
+
+    <div class="api-section">
+      <h3>Constructor Options (<code>MentionOptions</code>)</h3>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Property</n-table-header>
+            <n-table-header>Type</n-table-header>
+            <n-table-header>Description</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><code>input</code></n-table-cell>
+            <n-table-cell><code>HTMLElement</code></n-table-cell>
+            <n-table-cell>The input element to monitor (<code>n-textarea</code>, <code>n-input</code>, or any element dispatching <code>native:input</code>).</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>items</code></n-table-cell>
+            <n-table-cell><code>MentionItem[]</code></n-table-cell>
+            <n-table-cell>Array of mentionable items to display in the popover.</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    </div>
+
+    <div class="api-section">
+      <h3><code>MentionItem</code> Interface</h3>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto auto auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Property</n-table-header>
+            <n-table-header>Type</n-table-header>
+            <n-table-header>Required</n-table-header>
+            <n-table-header>Description</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><code>value</code></n-table-cell>
+            <n-table-cell><code>string</code></n-table-cell>
+            <n-table-cell>Yes</n-table-cell>
+            <n-table-cell>Unique identifier (e.g. user ID).</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>label</code></n-table-cell>
+            <n-table-cell><code>string</code></n-table-cell>
+            <n-table-cell>Yes</n-table-cell>
+            <n-table-cell>Display name shown in the popover and in the inserted tag.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>description</code></n-table-cell>
+            <n-table-cell><code>string</code></n-table-cell>
+            <n-table-cell>No</n-table-cell>
+            <n-table-cell>Optional description (used for filtering and <code>title</code> attribute).</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>avatar</code></n-table-cell>
+            <n-table-cell><code>string</code></n-table-cell>
+            <n-table-cell>No</n-table-cell>
+            <n-table-cell>Optional avatar URL — renders an <code>n-avatar</code> in the listbox option.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>action</code></n-table-cell>
+            <n-table-cell><code>'tag' | 'insert' | 'event'</code></n-table-cell>
+            <n-table-cell>No</n-table-cell>
+            <n-table-cell>Behavior on selection. Defaults to <code>'tag'</code> (accent-colored mention pill).</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    </div>
+
+    <div class="api-section">
+      <h3>Events</h3>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Event</n-table-header>
+            <n-table-header>Detail</n-table-header>
+            <n-table-header>Description</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><code>native:mention-query</code></n-table-cell>
+            <n-table-cell><code>{ query, commands }</code></n-table-cell>
+            <n-table-cell>Fired on host when typing after <code>@</code>. <code>query</code> is the text after <code>@</code>. <code>commands</code> is the filtered array of matching items.</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><code>native:mention-select</code></n-table-cell>
+            <n-table-cell><code>{ command, action }</code></n-table-cell>
+            <n-table-cell>Fired on host when a mention is selected (Enter or click). <code>command</code> is the full <code>MentionItem</code> object.</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    </div>
+
+    <div class="api-section">
+      <h3>Keyboard</h3>
+      <n-table variant="plain" size="sm" style="grid-template-columns: auto 1fr;">
+        <n-table-head>
+          <n-table-row>
+            <n-table-header>Key</n-table-header>
+            <n-table-header>Action</n-table-header>
+          </n-table-row>
+        </n-table-head>
+        <n-table-body>
+          <n-table-row>
+            <n-table-cell><kbd>ArrowDown</kbd> / <kbd>ArrowUp</kbd></n-table-cell>
+            <n-table-cell>Navigate mention list</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><kbd>Enter</kbd></n-table-cell>
+            <n-table-cell>Select active mention</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><kbd>Tab</kbd></n-table-cell>
+            <n-table-cell>Select closest match (when query has 2+ characters)</n-table-cell>
+          </n-table-row>
+          <n-table-row>
+            <n-table-cell><kbd>Escape</kbd></n-table-cell>
+            <n-table-cell>Close popover</n-table-cell>
+          </n-table-row>
+        </n-table-body>
+      </n-table>
+    </div>
+
+    </section>
+
+    </main></native-dashboard-spa>
+
+    <!-- Script 1: Register all traits BEFORE any component define() -->
+    <script type="module">
+      import { registerAllTraits } from '../../index.ts';
+      registerAllTraits();
+    </script>
+
+    <!-- Script 2: Import components and wire demos -->
+    <script type="module" src="./mention.demo.ts"></script>
+  </body>
+</html>

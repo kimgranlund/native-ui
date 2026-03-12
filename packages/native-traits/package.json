@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-traits",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Composable trait controllers for @nonoun/native-ui — press, drag, resize, popover, and 30+ more behaviors",
   "license": "MIT",
   "type": "module",

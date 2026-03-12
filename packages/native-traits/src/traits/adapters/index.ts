@@ -26,6 +26,7 @@ import { swipeableAdapter } from '../swipe/swipeable-adapter.ts';
 import { editableAdapter } from '../edit/editable-adapter.ts';
 import { presentableAdapter } from '../present/presentable-adapter.ts';
 import { slashCommandableAdapter } from '../slash-command/slash-commandable-adapter.ts';
+import { mentionableAdapter } from '../mention/mentionable-adapter.ts';
 import { shortcutableAdapter } from '../shortcut/shortcutable-adapter.ts';
 import { gatewayableAdapter } from '../gateway/gatewayable-adapter.ts';
 import { noodleableAdapter } from '../noodle/noodleable-adapter.ts';
@@ -66,6 +67,7 @@ export {
   editableAdapter,
   presentableAdapter,
   slashCommandableAdapter,
+  mentionableAdapter,
   shortcutableAdapter,
   gatewayableAdapter,
   noodleableAdapter,
@@ -108,6 +110,7 @@ export const coreAdapters: readonly TraitAdapter[] = [
   editableAdapter,
   presentableAdapter,
   slashCommandableAdapter,
+  mentionableAdapter,
   shortcutableAdapter,
   gatewayableAdapter,
   noodleableAdapter,

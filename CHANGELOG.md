@@ -2,6 +2,16 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.142
+
+### Added
+- **TextTriggerController** — Abstract base class for trigger-char-at-caret → popover → select → action pattern. Extracted from SlashCommandController to enable multiple trigger types.
+- **MentionController** — `@` mention trigger. Shows caret-anchored popover of mentionable items, inserts accent-colored `@Name` tags. Events: `native:mention-query`, `native:mention-select`. Supports avatar rendering in listbox options.
+- **`mentionable` trait adapter** — Declarative mention support via `<n-controller traits="mentionable">`.
+
+### Changed
+- **SlashCommandController** now extends TextTriggerController (zero breaking changes — same constructor, events, and API). `SlashCommand` is now a type alias for `TextTriggerItem`.
+
 ## 0.7.141
 
 ### Added

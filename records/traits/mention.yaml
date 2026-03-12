@@ -1,0 +1,72 @@
+trait: mention
+controller: MentionController
+description: "Detects `@` at the caret position (preceded by whitespace or at text start), shows a caret-anchored
+  mention listbox popover, filters by query, and dispatches selection events. Extends TextTriggerController.
+  Events: - `native:mention-query` — dispatched on host when typing after `@`. Detail: `{ query, commands }` -
+  `native:mention-select` — dispatched on host when a mention is selected. Detail: `{ command }`"
+source:
+  controller: packages/native-traits/src/traits/mention/mention-controller.ts
+  adapter: packages/native-traits/src/traits/mention/mentionable-adapter.ts
+  demo: packages/native-traits/src/traits/mention/mention.html
+  test: packages/native-traits/src/traits/mention/mention.test.ts
+options:
+  input:
+    type: HTMLElement
+    required: true
+  items:
+    type: MentionItem[]
+    required: true
+injected_events:
+  native:mention-query:
+    detail:
+      query:
+        type: string
+      commands:
+        type: string
+  native:mention-select:
+    detail:
+      command:
+        type: string
+      action:
+        type: string
+methods:
+  destroy:
+    returns: void
+consumption:
+  imperative: new MentionController(element, options)
+  provider: <n-controller traits="mentionable">
+  self_trait: <n-button traits="mentionable">
+behavior:
+  - trigger: "native:input event on host (text typed after @)"
+    actions:
+      - "Detects @ at caret position (preceded by whitespace or at text start)"
+      - "Extracts query text between @ and caret"
+      - "Creates caret-anchored listbox popover with filtered mention options"
+      - "Dispatches native:mention-query with query and matching items"
+  - trigger: "Enter key while popover is open"
+    actions:
+      - "Selects the active (highlighted) mention option"
+      - "Inserts accent-colored mention tag with @label format"
+      - "Removes @query text from the input"
+      - "Dispatches native:mention-select with item and action"
+  - trigger: "Tab key while popover is open (query 2+ chars)"
+    actions:
+      - "Selects the active or first matching mention"
+  - trigger: "ArrowDown/ArrowUp while popover is open"
+    actions:
+      - "Delegates to listbox for keyboard navigation"
+  - trigger: "Escape key while popover is open"
+    actions:
+      - "Closes the mention popover without selecting"
+a11y:
+  keyboard:
+    - key: "Enter"
+      action: "Selects the highlighted mention"
+    - key: "Tab"
+      action: "Selects the closest matching mention (query 2+ chars)"
+    - key: "ArrowDown"
+      action: "Highlights next mention in list"
+    - key: "ArrowUp"
+      action: "Highlights previous mention in list"
+    - key: "Escape"
+      action: "Closes the mention popover"

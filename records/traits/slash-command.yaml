@@ -1,5 +1,6 @@
 trait: slash-command
 controller: SlashCommandController
+base_class: TextTriggerController
 description: "Detects `/` at the caret position (preceded by whitespace or at text start), shows a caret-anchored
   command listbox popover, filters by query, and dispatches selection events. Works anywhere in the text, not just at
   the start. Events: - `native:slash-query` — dispatched on host when typing after `/`. Detail: `{ query, commands }` -
