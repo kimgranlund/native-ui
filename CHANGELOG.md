@@ -2,6 +2,26 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.149
+
+### Added
+- **n-header** — New typography tokens: `--n-font-weight`, `--n-text-transform`, `--n-letter-spacing`, `--n-background`. Enables compact IDE-style pane headers via tokens instead of direct CSS overrides (T0219).
+- **n-picture** — New dimension tokens: `--n-picture-width`, `--n-picture-height`, `--n-picture-max-width`. Replaces inline `style="width/height"` on picture elements (T0217).
+- **n-divider** — New `--n-divider-size` token for vertical divider height. Replaces inline `style="height"` (T0218).
+
+### Fixed
+- **pane.css** — Eliminated 5 fallback chains (`var(--n-X, var(--n-Y))`). `--n-pane-handle-accent` and `--n-pane-border-color` now defined in `:where(n-pane)` base rule (T0222).
+- **segmented-control.css** — Eliminated fallback chain for `--n-indicator-background`, now defined in base rule (T0222).
+- **noodleable.demo.css** — Removed 8 gratuitous `!important` declarations on port indicator states. Replaced 3 direct component overrides (n-header display/background, n-body padding) with token API (`--n-background`, `--n-padding-block/inline`).
+- **n-layout.css** — Removed dead `@supports not (color: light-dark(...))` fallback block with hardcoded hex colors. `light-dark()` is now baseline.
+- **8 trait demo CSS files** — Scoped bare `h3 {}` and `p {}` selectors to `section h3 {}` / `section p {}` to prevent global style leaking.
+
+## 0.7.148
+
+### Fixed
+- **n-toolbar** — Overflow spillover menu now dispatches `native:press` on the source button before calling `.click()`. Previously, buttons using PressController (which listens for pointer/keyboard events, not `click`) were silently ignored when activated from the overflow menu. Affects all toolbar consumers.
+- **Noodleable demo** — Fixed broken CSS import referencing old `codemirror.css` path (renamed to `editor.css` in native-code package split).
+
 ## 0.7.147
 
 ### Fixed

@@ -18,11 +18,5 @@
   box-shadow: var(--n-shadow-xl);
 }
 
-/* WHY: top-layer loses inheritance — provide fallbacks */
-@supports not (color: light-dark(red, red)) {
-  .nav-cmd-dialog n-command {
-    background: #fff;
-    color: #1a1a1a;
-    border-color: #ddd;
-  }
-}
+/* WHY: top-layer loses inheritance — light-dark() is now baseline,
+   so the fallback block for browsers without it has been removed. */

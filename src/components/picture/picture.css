@@ -10,8 +10,11 @@
 
   :where(n-picture) {
     display: block;
+    width: var(--n-picture-width);
+    height: var(--n-picture-height);
+    --n-picture-max-width: 100%;
+    max-width: var(--n-picture-max-width);
     min-width: 0;
-    max-width: 100%;
     overflow: hidden;
     border-radius: var(--n-radius);
   }

@@ -24,6 +24,10 @@
   :where(n-header) {
     --n-padding-block: var(--n-space);
     --n-padding-inline: calc(var(--n-space) * var(--n-space-k));
+    --n-background: transparent;
+    --n-font-weight: var(--n-button-font-weight);
+    --n-text-transform: none;
+    --n-letter-spacing: normal;
 
     display: grid;
     grid-template-columns: 1fr;
@@ -32,13 +36,15 @@
     min-height: calc(var(--n-size) + var(--n-padding-block) * 2);
     padding-block: var(--n-padding-block);
     padding-inline: var(--n-padding-inline);
-    font-weight: var(--n-button-font-weight);
+    font-weight: var(--n-font-weight);
     color: var(--n-ink-strong);
     min-width: 0;
-    background: var(--n-background, transparent);
+    background: var(--n-background);
 
     font-size: var(--n-font-size);
     line-height: var(--n-line-height);
+    text-transform: var(--n-text-transform);
+    letter-spacing: var(--n-letter-spacing);
     box-sizing: border-box;
   }
 

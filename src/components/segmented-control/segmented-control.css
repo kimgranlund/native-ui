@@ -10,6 +10,7 @@
     --n-background: var(--n-control);
     --n-border-color: var(--n-border-rest);
     --n-segment-count: 1;
+    --n-indicator-background: var(--n-surface);
 
     position: relative;
     display: grid;
@@ -60,7 +61,7 @@
     left: var(--n-space);
     width: calc((100% - var(--n-space) * 2) / var(--n-segment-count));
     border-radius: calc(var(--n-radius) - var(--n-space));
-    background: var(--n-indicator-background, var(--n-surface));
+    background: var(--n-indicator-background);
     /* WHY: transform is set directly on the element by JS — no @property needed
        for CSS transitions to animate transform on real DOM elements. */
 

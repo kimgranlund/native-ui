@@ -1,4 +1,4 @@
-@import '~pkg/native-code/codemirror/css/codemirror.css';
+@import '~pkg/native-code/codemirror/css/editor.css';
 
 /* ── Noodle Arena ── */
 
@@ -154,11 +154,9 @@
 }
 
 .flow-split > n-header {
-  display: flex;
-  align-items: center;
   flex: none;
   grid-column: 1 / -1;
-  background-color: var(--n-panel);
+  --n-background: var(--n-panel);
   border-bottom: 1px solid var(--n-border-muted-neutral);
 }
 
@@ -176,12 +174,13 @@
 }
 
 .flow-split > n-pane > n-header {
-  background: var(--n-panel);
+  --n-background: var(--n-panel);
   border-block-end: 1px solid var(--n-border-muted-neutral);
 }
 
 .flow-split > n-pane > n-body {
-  padding: 0;
+  --n-padding-block: 0;
+  --n-padding-inline: 0;
 }
 
 .flow-split > n-pane > n-body > div {
@@ -240,25 +239,25 @@
 /* ── Port Interaction States ── */
 
 [data-noodle-port-indicator]:hover {
-  transform: translate(-50%, -50%) scale(1.4) !important;
-  box-shadow: 0 0 0 3px var(--n-color-accent-200), 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+  transform: translate(-50%, -50%) scale(1.4);
+  box-shadow: 0 0 0 3px var(--n-color-accent-200), 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 [data-noodle-port-indicator][data-noodle-dragging] {
-  transform: translate(-50%, -50%) scale(1.1) !important;
-  background: var(--n-color-accent-700) !important;
-  box-shadow: 0 0 0 2px var(--n-color-accent-300) !important;
+  transform: translate(-50%, -50%) scale(1.1);
+  background: var(--n-color-accent-700);
+  box-shadow: 0 0 0 2px var(--n-color-accent-300);
 }
 
 [data-noodle-port-indicator][data-noodle-droppable] {
-  transform: translate(-50%, -50%) scale(1.3) !important;
-  animation: noodle-port-pulse 1s ease infinite !important;
+  transform: translate(-50%, -50%) scale(1.3);
+  animation: noodle-port-pulse 1s ease infinite;
 }
 
 [data-noodle-port-indicator][data-noodle-drop-ready] {
-  transform: translate(-50%, -50%) scale(1.6) !important;
-  box-shadow: 0 0 0 4px var(--n-color-accent-300), 0 0 12px var(--n-color-accent-400) !important;
-  animation: none !important;
+  transform: translate(-50%, -50%) scale(1.6);
+  box-shadow: 0 0 0 4px var(--n-color-accent-300), 0 0 12px var(--n-color-accent-400);
+  animation: none;
 }
 
 @keyframes noodle-port-pulse {

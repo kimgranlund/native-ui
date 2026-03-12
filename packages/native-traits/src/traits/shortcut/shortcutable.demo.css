@@ -24,4 +24,4 @@
   align-items: center;
   flex-wrap: wrap;
 }
-p { margin: 0; font-size: 0.8125rem; color: var(--n-ink-muted); }
+section p { margin: 0; font-size: 0.8125rem; color: var(--n-ink-muted); }

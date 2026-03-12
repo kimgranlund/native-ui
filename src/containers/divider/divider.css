@@ -35,6 +35,7 @@
     flex-direction: column;
     justify-content: center;
     width: auto;
+    height: var(--n-divider-size);
   }
 
   :where(n-divider)[orientation="vertical"]:empty::after {

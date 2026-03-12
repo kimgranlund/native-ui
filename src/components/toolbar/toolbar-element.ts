@@ -429,7 +429,16 @@ export class NToolbar extends NativeElement {
 
     const index = parseInt(detail.value, 10);
     const source = this.#getOverflowButtons()[index];
-    if (source) source.click();
+    if (source) {
+      // Dispatch native:press (what PressController-driven buttons listen for),
+      // then fall back to click() for standard <button> elements.
+      source.dispatchEvent(new CustomEvent('native:press', {
+        bubbles: true,
+        composed: true,
+        detail: { pointerType: 'virtual' },
+      }));
+      source.click();
+    }
 
     // Close the popover
     this.#popover?.syncPopover(false);
