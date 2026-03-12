@@ -258,6 +258,24 @@
   outline-offset: 2px;
 }
 
+/* ── Chat pane (docked right, hidden by default) ── */
+
+.tl-lightbox n-pane[data-panel-id="chat"] {
+  display: flex;
+  flex-direction: column;
+  background: var(--pg-chrome);
+  border-inline-start: 1px solid var(--pg-border-color);
+}
+
+.tl-lightbox n-pane[data-panel-id="chat"][hidden] {
+  display: none;
+}
+
+.tl-lightbox n-pane[data-panel-id="chat"] n-llm-chat-pane {
+  flex: 1;
+  min-height: 0;
+}
+
 /* ── Editor pane (right) ── */
 
 .tl-lightbox n-pane[data-panel-id="editor"] {

@@ -37,6 +37,12 @@ import '../../../../src/icons/phosphor/arrows-out-simple.ts';
 import '../../../../src/icons/phosphor/arrows-left-right.ts';
 import '../../../../src/icons/phosphor/arrow-counter-clockwise.ts';
 import '../../../../src/icons/phosphor/floppy-disk.ts';
+import '../../../../src/icons/phosphor/chat-dots.ts';
+
+// LLM Chat
+import '../chat/llm-chat/n-llm-chat-pane.ts';
+import { LLMChatController } from '../chat/llm-chat/llm-chat-controller.ts';
+import type { NLLMChatPane } from '../chat/llm-chat/llm-chat-pane-element.ts';
 
 // Traits
 import { CSSInspectController } from '../../../../packages/native-traits/src/traits/css-inspect/css-inspect-controller.ts';
@@ -85,6 +91,7 @@ let regenerating = false;
 let isDirty = false;
 let showingOriginal = false;
 let cssInspector: CSSInspectController | null = null;
+let chatController: LLMChatController | null = null;
 
 // Rendered card tracking
 const renderedCards = new Set<string>();
@@ -128,6 +135,9 @@ const btnReset = document.getElementById('btn-reset')!;
 const btnDownload = document.getElementById('btn-download')!;
 const btnSave = document.getElementById('btn-save')!;
 const compareToggle = document.getElementById('compare-toggle')!;
+const chatToggle = document.getElementById('chat-toggle')!;
+const chatPane = document.getElementById('llm-chat-pane') as HTMLElement & NLLMChatPane;
+const chatPaneContainer = document.querySelector('[data-panel-id="chat"]') as HTMLElement;
 const btnClose = document.getElementById('lightbox-close')!;
 
 // Set JSON language mode on editors after CE upgrade
@@ -344,6 +354,29 @@ async function openLightbox(id: string): Promise<void> {
   setChipActive(compareToggle, false);
   lightboxPreview.removeAttribute('data-compare');
 
+  // Create LLM chat controller bound to this pattern
+  chatController?.destroy();
+  chatController = new LLMChatController({
+    systemPrompt,
+    model: currentModel,
+    createAdapter: (system, _model, tokens) => buildLLMAdapter(system, tokens),
+    contexts: [{
+      id: 'pattern-schema',
+      label: pattern.label,
+      element: lightboxPreview,
+      read: () => JSON.stringify(currentPattern, null, 2),
+      apply: (output) => {
+        const parsed = parseJsonFromResponse(output);
+        if (parsed?.components) applyRegenResult(parsed.components);
+        else if (parsed?.schema?.components) applyRegenResult(parsed.schema.components);
+      },
+      systemPromptFragment: `You are editing an A2UI pattern schema. The pattern uses a flat adjacency list of components.\nComponent reference:\n${componentRef}\n\nRespond with valid JSON containing a "components" array.`,
+      icon: 'brackets-curly',
+    }],
+  });
+  // Bind to chat pane
+  if (chatPane) chatPane.controller = chatController;
+
   // Show schema tab
   showTab('schema');
 
@@ -396,6 +429,10 @@ function dismissInspector(): void {
 
 function closeLightbox(): void {
   dismissInspector();
+  chatController?.destroy();
+  chatController = null;
+  chatPaneContainer.hidden = true;
+  setChipActive(chatToggle, false);
   dialog.close();
   dialog.removeAttribute('data-fullscreen');
   setChipActive(fullscreenToggleBtn, false);
@@ -982,6 +1019,10 @@ grid.addEventListener('pointerup', (e) => {
 btnClose.addEventListener('pointerup', closeLightbox);
 dialog.addEventListener('close', () => {
   dismissInspector();
+  chatController?.destroy();
+  chatController = null;
+  chatPaneContainer.hidden = true;
+  setChipActive(chatToggle, false);
   dialog.removeAttribute('data-fullscreen');
   setChipActive(fullscreenToggleBtn, false);
   lightboxAdapter?.destroy();
@@ -1014,6 +1055,13 @@ lightboxPreview.addEventListener('native:inspect', (e: Event) => {
 dialog.addEventListener('pointerup', (e) => {
   const chip = (e.target as HTMLElement).closest<HTMLElement>('[data-chip]');
   if (chip) showTab(chip.getAttribute('data-chip')!);
+});
+
+// Chat toggle — show/hide the docked chat pane
+chatToggle.addEventListener('pointerup', () => {
+  const wasHidden = chatPaneContainer.hidden;
+  chatPaneContainer.hidden = !wasHidden;
+  setChipActive(chatToggle, wasHidden); // active when now visible
 });
 
 // Fullscreen toggle

@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../../../../src/styles/css/components.native-ui.css" />
   <link rel="stylesheet" href="../../../../packages/native-code/src/codemirror/css/editor.css" />
   <link rel="stylesheet" href="../../../../src/styles/spa/spa-pages.css" />
+  <link rel="stylesheet" href="../chat/llm-chat/n-llm-chat-pane.css" />
   <link rel="stylesheet" href="./training-library.demo.css" />
 </head>
 <body>
@@ -55,6 +56,9 @@
           <n-button variant="ghost" size="sm" data-chip="output">Output</n-button>
           <n-button variant="ghost" size="sm" data-chip="settings">Settings</n-button>
           <hr aria-orientation="vertical">
+          <n-button variant="ghost" size="sm" id="chat-toggle" title="AI Chat">
+            <n-icon name="chat-dots"></n-icon>
+          </n-button>
           <n-button variant="ghost" size="sm" id="inspect-toggle" title="CSS Inspector">
             <n-icon name="stack-simple"></n-icon>
           </n-button>
@@ -137,6 +141,11 @@
               Regenerate
             </n-button>
           </n-footer>
+        </n-pane>
+
+        <!-- AI Chat pane (hidden by default, toggled via chat button) -->
+        <n-pane data-panel-id="chat" size="360" size-min="280" hidden>
+          <n-llm-chat-pane id="llm-chat-pane" open position="docked"></n-llm-chat-pane>
         </n-pane>
       </n-panes>
     </dialog>

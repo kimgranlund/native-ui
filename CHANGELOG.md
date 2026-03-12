@@ -2,6 +2,13 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.201
+
+### Added (native-ai@1.0.113)
+- **LLMChatController** — Reusable contextual AI editor controller (`packages/native-ai/src/chat/llm-chat/`). Manages context bindings (read/apply), message history, streaming, model selection, and highlight state. Any component or data store can register as a "context" the LLM can read from and write back to.
+- **`<n-llm-chat-pane>`** — Floating/dockable chat panel element. Stamps header (context selector), chat feed, and chat input. Supports `position="float"` (fixed overlay) and docked mode (flex child in `<n-panes>`). Context highlight via `[data-llm-context="active"]` outline on bound elements.
+- **Training Library: AI Chat pane** — Docked chat pane in lightbox (toggle via chat-dots button in toolbar). Binds to the active pattern schema — chat queries inject the current pattern state, LLM responses auto-apply component changes to the preview. Third resizable pane alongside preview and editor.
+
 ## 0.7.200
 
 ### Added (native-ai@1.0.112)
