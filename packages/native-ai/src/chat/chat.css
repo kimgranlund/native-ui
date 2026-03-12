@@ -949,7 +949,6 @@
 
     padding-block: var(--n-padding-block);
     padding-inline: var(--n-padding-inline);
-    background: var(--n-background, transparent);
     border: var(--n-chat-input-border, none);
     border-radius: var(--n-chat-input-border-radius, 0);
     box-sizing: border-box;
@@ -960,11 +959,14 @@
      Provides the nested rounded rect visible in the reference design. */
 
   :where(n-chat-input-prompt) {
+    --n-background: var(--n-control);
+
     position: relative;
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
     min-height: 0;
+    background: var(--n-background);
     border: 1px solid var(--n-border-rest);
     border-radius: var(--n-radius);
     transition: border-color var(--n-duration) var(--n-easing);

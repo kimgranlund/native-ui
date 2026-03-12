@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
     <style>
       .demo-panes { height: 280px; }
-      .demo-panes n-body { padding: 0.5rem; }
     </style>
   </head>
   <body>
@@ -31,13 +30,13 @@
     <n-container data-kind="panel" bordered class="demo-panes">
       <n-panes>
         <n-pane label="Explorer" icon="folder">
-          <n-body><p>File tree content</p></n-body>
+          <n-body padding="none"><p>File tree content</p></n-body>
         </n-pane>
         <n-pane label="Editor" icon="code">
-          <n-body><p>Code editor content</p></n-body>
+          <n-body padding="none"><p>Code editor content</p></n-body>
         </n-pane>
         <n-pane label="Preview" icon="eye">
-          <n-body><p>Preview content</p></n-body>
+          <n-body padding="none"><p>Preview content</p></n-body>
         </n-pane>
       </n-panes>
     </n-container>
@@ -48,10 +47,10 @@
     <n-container data-kind="panel" bordered class="demo-panes" style="height: 360px;">
       <n-panes orientation="vertical">
         <n-pane label="Source">
-          <n-body><p>Source panel content</p></n-body>
+          <n-body padding="none"><p>Source panel content</p></n-body>
         </n-pane>
         <n-pane label="Console">
-          <n-body><p>Console output</p></n-body>
+          <n-body padding="none"><p>Console output</p></n-body>
         </n-pane>
       </n-panes>
     </n-container>
@@ -62,13 +61,13 @@
     <n-container data-kind="panel" bordered class="demo-panes">
       <n-panes id="closeable-demo">
         <n-pane label="Panel A" closeable minimizable>
-          <n-body><p>This pane can be closed or minimized.</p></n-body>
+          <n-body padding="none"><p>This pane can be closed or minimized.</p></n-body>
         </n-pane>
         <n-pane label="Panel B" closeable minimizable>
-          <n-body><p>This one too.</p></n-body>
+          <n-body padding="none"><p>This one too.</p></n-body>
         </n-pane>
         <n-pane label="Panel C">
-          <n-body><p>This one stays.</p></n-body>
+          <n-body padding="none"><p>This one stays.</p></n-body>
         </n-pane>
       </n-panes>
     </n-container>
@@ -79,15 +78,15 @@
     <n-container data-kind="panel" bordered class="demo-panes" style="height: 400px;">
       <n-panes>
         <n-pane label="Sidebar" icon="sidebar" size="200px" size-min="120" size-max="300">
-          <n-body><p>Sidebar content</p></n-body>
+          <n-body padding="none"><p>Sidebar content</p></n-body>
         </n-pane>
         <n-pane>
           <n-panes orientation="vertical">
             <n-pane label="Editor" icon="code">
-              <n-body><p>Editor content</p></n-body>
+              <n-body padding="none"><p>Editor content</p></n-body>
             </n-pane>
             <n-pane label="Terminal" icon="terminal">
-              <n-body><p>Terminal output</p></n-body>
+              <n-body padding="none"><p>Terminal output</p></n-body>
             </n-pane>
           </n-panes>
         </n-pane>
@@ -100,13 +99,13 @@
     <n-container data-kind="panel" bordered class="demo-panes">
       <n-panes>
         <n-pane label="Sidebar" icon="sidebar" size="200px">
-          <n-body><p>Fixed 200px sidebar (won't grow)</p></n-body>
+          <n-body padding="none"><p>Fixed 200px sidebar (won't grow)</p></n-body>
         </n-pane>
         <n-pane label="Editor" icon="code">
-          <n-body><p>Fills remaining space (auto)</p></n-body>
+          <n-body padding="none"><p>Fills remaining space (auto)</p></n-body>
         </n-pane>
         <n-pane label="Inspector" icon="sliders" size="25%">
-          <n-body><p>25% inspector (won't grow)</p></n-body>
+          <n-body padding="none"><p>25% inspector (won't grow)</p></n-body>
         </n-pane>
       </n-panes>
     </n-container>
@@ -122,7 +121,7 @@
           <p>Line 9</p><p>Line 10</p><p>Line 11</p><p>Line 12</p>
         </n-pane>
         <n-pane label="Not scrollable">
-          <n-body><p>Content in n-body (body scrolls independently)</p></n-body>
+          <n-body padding="none"><p>Content in n-body (body scrolls independently)</p></n-body>
         </n-pane>
       </n-panes>
     </n-container>

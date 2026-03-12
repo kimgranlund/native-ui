@@ -5,12 +5,14 @@
 
 [density="compact"] {
   --n-space-k: 2;
+  --n-pad-gap: var(--n-space);
 }
 [density="default"] {
   --n-space-k: 4;
 }
 [density="loose"] {
   --n-space-k: 6;
+  --n-pad-gap: calc(var(--n-space) * 3);
 }
 
 /* Numeric density — direct --n-space-k multiplier */
@@ -46,6 +48,8 @@
 
 [density="inline"] {
   --n-space-k: 1;
+  --n-pad-block: 0;
+  --n-pad-gap: var(--n-space);
   --n-size: var(--n-size-xs);  /* 1.5rem (24px) */
 }
 

@@ -106,10 +106,10 @@
     display: flex;
     align-items: center;
     min-width: 0;
-    gap: calc(var(--n-space) * 2);
+    gap: var(--n-pad-gap);
 
     min-height: var(--n-size);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-inline: var(--n-pad-inline);
 
     font-size: var(--n-font-size);
     letter-spacing: var(--n-letter-spacing);
@@ -170,6 +170,16 @@
     outline-offset: -2px;
   }
 
+  /* ── Icon-side padding compensation ── */
+
+  :where(n-option, n-command-item):has(> n-icon:first-child) {
+    padding-inline: var(--n-pad-inline-icon) var(--n-pad-inline);
+  }
+
+  :where(n-option, n-command-item):has(> n-icon:last-child) {
+    padding-inline: var(--n-pad-inline) var(--n-pad-inline-icon);
+  }
+
   /* ── Option Group ── */
   /* WHY: Group is purely structural — small uppercase label header,
      flat child options with no indentation. */
@@ -188,9 +198,9 @@
   :where(n-option-group-header) {
     display: flex;
     align-items: center;
-    gap: calc(var(--n-space) * 2);
+    gap: var(--n-pad-gap);
     min-height: var(--n-size);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-inline: var(--n-pad-inline);
     font-size: var(--n-group-header-font);
     font-weight: 600;
     text-transform: uppercase;

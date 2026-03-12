@@ -22,9 +22,8 @@
      ╰──────────────────────────────────────────────────────────╯ */
 
   :where(n-header) {
-    --n-padding-block: var(--n-space);
-    --n-padding-inline: calc(var(--n-space) * var(--n-space-k));
-    --n-background: transparent;
+    --n-pad-block: var(--n-space);
+    --n-background: var(--n-panel);
     --n-font-weight: var(--n-button-font-weight);
     --n-text-transform: none;
     --n-letter-spacing: normal;
@@ -32,10 +31,10 @@
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
-    gap: calc(var(--n-space) * 2);
-    min-height: calc(var(--n-size) + var(--n-padding-block) * 2);
-    padding-block: var(--n-padding-block);
-    padding-inline: var(--n-padding-inline);
+    gap: var(--n-pad-gap);
+    min-height: calc(var(--n-size) + var(--n-pad-block) * 2);
+    padding-block: var(--n-pad-block);
+    padding-inline: var(--n-pad-inline);
     font-weight: var(--n-font-weight);
     color: var(--n-ink-strong);
     min-width: 0;
@@ -122,17 +121,18 @@
      ╰──────────────────────────────────────────────────────────╯ */
 
   :where(n-footer) {
-    --n-padding-block: var(--n-space);
-    --n-padding-inline: calc(var(--n-space) * var(--n-space-k));
+    --n-pad-block: var(--n-space);
+    --n-background: var(--n-panel);
 
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
-    gap: calc(var(--n-space) * 2);
-    min-height: calc(var(--n-size) + var(--n-padding-block) * 2);
-    padding-block: var(--n-padding-block);
-    padding-inline: var(--n-padding-inline);
+    gap: var(--n-pad-gap);
+    min-height: calc(var(--n-size) + var(--n-pad-block) * 2);
+    padding-block: var(--n-pad-block);
+    padding-inline: var(--n-pad-inline);
     min-width: 0;
+    background: var(--n-background);
 
     font-size: var(--n-font-size);
     line-height: var(--n-line-height);
@@ -317,14 +317,6 @@
   background: var(--n-border-muted);
 }
 
-:where(n-header)[dividers] + :where(n-body) {
-  padding-block-start: calc(var(--n-space) * 2);
-}
-
-:where(n-body):has(+ :where(n-footer)[dividers]) {
-  padding-block-end: calc(var(--n-space) * 2);
-}
-
 :where(n-header)[sticky] {
   position: sticky;
   top: 0;
@@ -356,10 +348,10 @@
 
 /* ── Padding ── */
 
-[padding="none"] { --n-padding-block: 0; --n-padding-inline: 0; }
-[padding="tight"] { --n-padding-block: calc(var(--n-space) * 4); --n-padding-inline: calc(var(--n-space) * 4); }
-[padding="regular"] { --n-padding-block: calc(var(--n-space) * 6); --n-padding-inline: calc(var(--n-space) * 6); }
-[padding="relaxed"] { --n-padding-block: calc(var(--n-space) * 8); --n-padding-inline: calc(var(--n-space) * 8); }
+[padding="none"] { --n-pad-block: 0; --n-pad-inline: 0; }
+[padding="tight"] { --n-pad-block: calc(var(--n-space) * 4); --n-pad-inline: calc(var(--n-space) * 4); }
+[padding="regular"] { --n-pad-block: calc(var(--n-space) * 6); --n-pad-inline: calc(var(--n-space) * 6); }
+[padding="relaxed"] { --n-pad-block: calc(var(--n-space) * 8); --n-pad-inline: calc(var(--n-space) * 8); }
 
 /* ── Justify ── */
 

@@ -123,13 +123,13 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: calc(var(--n-space) * 2);
+    gap: var(--n-pad-gap);
 
     position: relative;
     z-index: 1;
 
     min-height: var(--n-size);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-inline: var(--n-pad-inline);
 
     font-size: var(--n-font-size);
     letter-spacing: var(--n-letter-spacing);
@@ -188,6 +188,16 @@
     color: var(--n-ink-disabled);
     cursor: not-allowed;
     pointer-events: none;
+  }
+
+  /* ── Icon-side padding compensation ── */
+
+  :where(n-tab):has(> n-icon:first-child) {
+    padding-inline: var(--n-pad-inline-icon) var(--n-pad-inline);
+  }
+
+  :where(n-tab):has(> n-icon:last-child) {
+    padding-inline: var(--n-pad-inline) var(--n-pad-inline-icon);
   }
 
   /* ── Vertical Tab Overrides (after base rules so cascade wins) ── */

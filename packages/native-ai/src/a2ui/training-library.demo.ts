@@ -30,8 +30,6 @@ import '../../../../src/icons/phosphor/trash.ts';
 import '../../../../src/icons/phosphor/package.ts';
 import '../../../../src/icons/phosphor/trend-up.ts';
 import '../../../../src/icons/phosphor/trend-down.ts';
-import '../../../../src/icons/phosphor/caret-right.ts';
-import '../../../../src/icons/phosphor/caret-left.ts';
 import '../../../../src/icons/phosphor/stack-simple.ts';
 import '../../../../src/icons/phosphor/arrows-out-simple.ts';
 import '../../../../src/icons/phosphor/floppy-disk.ts';
@@ -41,11 +39,18 @@ import '../../../../src/icons/phosphor/brackets-angle.ts';
 import '../../../../src/icons/phosphor/paint-brush.ts';
 import '../../../../src/icons/phosphor/lightning.ts';
 import '../../../../src/icons/phosphor/lightbulb.ts';
+import '../../../../src/icons/phosphor/crosshair.ts';
+import '../../../../src/icons/phosphor/arrows-in-cardinal.ts';
+import '../../../../src/icons/phosphor/brain.ts';
+import '../../../../src/icons/phosphor/sparkle.ts';
+import '../../../../src/icons/phosphor/plus.ts';
+import '../../../../src/icons/phosphor/flask.ts';
+import '../../../../src/icons/phosphor/arrow-up.ts';
 
-// LLM Chat
-import '../chat/llm-chat/n-llm-chat-pane.ts';
+// Chat UI (agent-feed + agent-input)
+import '../chat/register.ts';
 import { LLMChatController } from '../chat/llm-chat/llm-chat-controller.ts';
-import type { NLLMChatPane } from '../chat/llm-chat/llm-chat-pane-element.ts';
+import type { LLMChatMessage } from '../chat/llm-chat/llm-chat-controller.ts';
 
 // Traits
 import { CSSInspectController } from '../../../../packages/native-traits/src/traits/css-inspect/css-inspect-controller.ts';
@@ -59,6 +64,7 @@ import { javascript } from '@codemirror/lang-javascript';
 import type { EditorView } from '@codemirror/view';
 
 // Kernel + A2UI
+import { effect } from '@nonoun/native-core';
 import { Kernel, resetKernel } from '@nonoun/native-kernel';
 import { createA2UIAdapter } from './protocol/a2ui-adapter.ts';
 import type { A2UIAdapter } from './protocol/a2ui-adapter.ts';
@@ -76,7 +82,19 @@ import { PIPELINE_STEPS, runPipeline } from './builder/pipeline.ts';
 import type { GatewayAdapter } from '../chat/gateway/adapter.ts';
 import { isClaudeModel, createAdapter } from '../chat/gateway/model-registry.ts';
 import { parseJsonFromResponse, stripFences } from '../chat/parsing/json-extractor.ts';
-import promptJson from './builder/system-prompt.json' with { type: 'json' };
+import copilotPromptJson from './copilot-prompt.json' with { type: 'json' };
+
+// ══════════════════════════════════════════════════════════════════
+// Types
+// ══════════════════════════════════════════════════════════════════
+
+interface CopilotResponse {
+  type?: string;
+  reply?: string;
+  schema?: { surfaceId?: string; components?: Record<string, unknown>[] };
+  components?: Record<string, unknown>[];
+  suggestions?: Array<{ label: string; prompt?: string; value?: string }>;
+}
 
 // ══════════════════════════════════════════════════════════════════
 // State
@@ -85,6 +103,7 @@ import promptJson from './builder/system-prompt.json' with { type: 'json' };
 const catalog = loadCatalog();
 let activeFilter: 'all' | 'micro' | 'block' = 'all';
 let activeCategory = '';
+let searchQuery = '';
 let currentPattern: Pattern | null = null;
 let originalSchema: Pattern['components'] | null = null;
 let lightboxAdapter: A2UIAdapter | null = null;
@@ -117,8 +136,6 @@ const chipEls = new Map<string, HTMLElement>();
 // Rendered card tracking
 const renderedCards = new Set<string>();
 
-// System prompt + component reference (same as builder)
-const systemPrompt = (promptJson as { content: string }).content ?? JSON.stringify(promptJson);
 const componentRef = Array.from(REGISTRY.values())
   .map((m) => {
     const cat = getComponentCategory(m.a2uiType);
@@ -127,12 +144,16 @@ const componentRef = Array.from(REGISTRY.values())
   })
   .join('\n');
 
+// System prompt — co-pilot prompt with component reference injected
+const systemPrompt = (copilotPromptJson as { prompt: string }).prompt
+  .replace('{{COMPONENT_REF}}', componentRef);
+
 // ══════════════════════════════════════════════════════════════════
 // DOM refs
 // ══════════════════════════════════════════════════════════════════
 
 const grid = document.getElementById('pattern-grid')!;
-const countEl = document.getElementById('pattern-count')!;
+const searchInput = document.getElementById('pattern-search') as HTMLElement & { value: string };
 const dialog = document.getElementById('editor-lightbox') as HTMLDialogElement;
 const lightboxPreview = document.getElementById('lightbox-preview')!;
 type NEditor = HTMLElement & { value: string; extensions: unknown[]; editorView: EditorView | null };
@@ -149,9 +170,16 @@ const viewSelect = document.getElementById('tl-view-select') as HTMLElement & { 
 const actionsMenu = document.getElementById('tl-actions-menu') as HTMLElement & { value: string };
 const compareToggle = document.getElementById('compare-toggle') as HTMLElement & { value: string };
 const chatToggle = document.getElementById('chat-toggle')!;
-const chatPane = document.getElementById('llm-chat-pane') as HTMLElement & NLLMChatPane;
-const btnPrev = document.getElementById('btn-prev')!;
-const btnNext = document.getElementById('btn-next')!;
+const chatFeed = document.getElementById('chat-feed')!;
+const chatComposer = document.getElementById('chat-composer') as HTMLElement & { busy: boolean };
+const chatModelPicker = document.getElementById('chat-model-picker') as HTMLElement & { value: string };
+const btnCenter = document.getElementById('btn-center')!;
+const btnResetZoom = document.getElementById('btn-reset-zoom')!;
+
+// Create canvas wrapper for pan/zoom inside the preview mount
+const canvas = document.createElement('div');
+canvas.className = 'tl-canvas';
+lightboxPreview.appendChild(canvas);
 
 // Set language modes on editors after CE upgrade
 customElements.whenDefined('n-editor').then(() => {
@@ -167,6 +195,138 @@ customElements.whenDefined('n-editor').then(() => {
 
 resetKernel();
 const kernel = new Kernel({ allowUnregistered: true });
+
+// ══════════════════════════════════════════════════════════════════
+// Pan / Zoom
+// ══════════════════════════════════════════════════════════════════
+
+let panX = 0;
+let panY = 0;
+let zoom = 1;
+const ZOOM_MIN = 0.1;
+const ZOOM_MAX = 5;
+const ZOOM_STEP = 0.002;
+
+function applyTransform(): void {
+  canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+}
+
+function resetPanZoom(): void {
+  panX = 0;
+  panY = 0;
+  zoom = 1;
+  applyTransform();
+}
+
+function centerContents(): void {
+  const mountRect = lightboxPreview.getBoundingClientRect();
+  // The canvas fills the mount at its natural size, then we transform it.
+  // Center = translate so that the canvas center aligns with the mount center.
+  const canvasW = lightboxPreview.clientWidth;
+  const canvasH = lightboxPreview.clientHeight;
+  panX = (mountRect.width - canvasW * zoom) / 2;
+  panY = (mountRect.height - canvasH * zoom) / 2;
+  applyTransform();
+}
+
+function resetZoom(): void {
+  // Reset zoom to 100% while keeping content centered
+  const mountRect = lightboxPreview.getBoundingClientRect();
+  const cx = mountRect.width / 2;
+  const cy = mountRect.height / 2;
+  // Zoom toward center
+  const oldZoom = zoom;
+  zoom = 1;
+  panX = cx - (cx - panX) * (zoom / oldZoom);
+  panY = cy - (cy - panY) * (zoom / oldZoom);
+  applyTransform();
+}
+
+// ── Pointer pan ──
+
+let panState: { pointerId: number; startX: number; startY: number; startPanX: number; startPanY: number } | null = null;
+
+function onPanPointerDown(e: PointerEvent): void {
+  // Only primary button (left click)
+  if (e.button !== 0) return;
+
+  // Option held → element inspection, not pan
+  if (e.altKey) return;
+
+  // CSS Inspector active → let inspector handle drag-to-rotate
+  if (cssInspector) return;
+
+  // Pane resize active → let n-panes handle the drag
+  if ((e.target as HTMLElement).closest('n-panes[data-resizing]')) return;
+
+  // Only pan when clicking directly on the preview mount or inside the canvas
+  const target = e.target as HTMLElement;
+  if (target !== lightboxPreview && target !== canvas && !canvas.contains(target)) return;
+
+  // Don't pan when clicking on a2ui Card content — let normal interactions through
+  if (target.closest('[data-a2ui="Card"]')) return;
+
+  // Don't pan when clicking floating toolbar controls
+  if (target.closest('.tl-floating-top') || target.closest('.tl-floating-bottom')) return;
+
+  e.preventDefault();
+  lightboxPreview.setPointerCapture(e.pointerId);
+  lightboxPreview.setAttribute('data-panning', '');
+  panState = {
+    pointerId: e.pointerId,
+    startX: e.clientX,
+    startY: e.clientY,
+    startPanX: panX,
+    startPanY: panY,
+  };
+}
+
+function onPanPointerMove(e: PointerEvent): void {
+  if (!panState || e.pointerId !== panState.pointerId) return;
+  panX = panState.startPanX + (e.clientX - panState.startX);
+  panY = panState.startPanY + (e.clientY - panState.startY);
+  applyTransform();
+}
+
+function onPanPointerUp(e: PointerEvent): void {
+  if (!panState || e.pointerId !== panState.pointerId) return;
+  try { lightboxPreview.releasePointerCapture(e.pointerId); } catch { /* already released */ }
+  lightboxPreview.removeAttribute('data-panning');
+  panState = null;
+}
+
+// ── Wheel zoom ──
+
+function onWheelZoom(e: WheelEvent): void {
+  e.preventDefault();
+
+  // Zoom toward pointer position
+  const rect = lightboxPreview.getBoundingClientRect();
+  const px = e.clientX - rect.left;
+  const py = e.clientY - rect.top;
+
+  const oldZoom = zoom;
+  const delta = -e.deltaY * ZOOM_STEP;
+  zoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, zoom * (1 + delta)));
+
+  // Adjust pan so the point under the cursor stays fixed
+  const scale = zoom / oldZoom;
+  panX = px - (px - panX) * scale;
+  panY = py - (py - panY) * scale;
+  applyTransform();
+}
+
+// Wire pan/zoom to the preview mount
+lightboxPreview.addEventListener('pointerdown', onPanPointerDown);
+lightboxPreview.addEventListener('pointermove', onPanPointerMove);
+lightboxPreview.addEventListener('pointerup', onPanPointerUp);
+lightboxPreview.addEventListener('pointercancel', onPanPointerUp);
+lightboxPreview.addEventListener('wheel', onWheelZoom, { passive: false });
+
+// Option+hover element highlighting
+canvas.addEventListener('pointermove', onOptionHover);
+canvas.addEventListener('pointerleave', clearOptionHover);
+document.addEventListener('keyup', (e) => { if (e.key === 'Alt') clearOptionHover(); });
 
 // ══════════════════════════════════════════════════════════════════
 // Helpers
@@ -188,16 +348,19 @@ function flattenComponents(comps: Record<string, unknown>[]): Record<string, unk
 // ══════════════════════════════════════════════════════════════════
 
 function getFilteredPatterns(): CatalogEntry[] {
+  const q = searchQuery.toLowerCase();
   return catalog.patterns.filter((p) => {
     if (activeFilter !== 'all' && p.tier !== activeFilter) return false;
     if (activeCategory && p.category !== activeCategory) return false;
+    if (q && !p.label.toLowerCase().includes(q) && !p.category.toLowerCase().includes(q) && !p.id.toLowerCase().includes(q)) return false;
     return true;
   });
 }
 
 function renderGrid(): void {
   const entries = getFilteredPatterns();
-  countEl.textContent = `${entries.length} pattern${entries.length !== 1 ? 's' : ''}`;
+  searchInput.setAttribute('placeholder', `${entries.length} pattern${entries.length !== 1 ? 's' : ''}`);
+  renderedCards.clear();
   grid.innerHTML = '';
 
   for (const entry of entries) {
@@ -278,6 +441,23 @@ async function renderCardPreview(id: string): Promise<void> {
   }
 }
 
+/** Re-render a single card's preview with the given components (e.g. after save). */
+function refreshCardPreview(id: string, components: Record<string, unknown>[]): void {
+  const mount = document.getElementById(`card-preview-${id}`);
+  if (!mount) return;
+  try {
+    mount.innerHTML = '';
+    const flat = flattenComponents(components);
+    const adapter = createA2UIAdapter(kernel, {});
+    adapter.receive(
+      { updateComponents: { surfaceId: `card-${id}`, components: flat } },
+      mount,
+    );
+  } catch {
+    mount.textContent = '⚠ Render failed';
+  }
+}
+
 // ══════════════════════════════════════════════════════════════════
 // Filters
 // ══════════════════════════════════════════════════════════════════
@@ -304,6 +484,11 @@ function onFilterChange(filter: string): void {
 
 function onCategoryChange(category: string): void {
   activeCategory = category;
+  renderGrid();
+}
+
+function onSearchInput(value: string): void {
+  searchQuery = value;
   renderGrid();
 }
 
@@ -359,7 +544,8 @@ async function openLightbox(id: string): Promise<void> {
   // Schema editor
   schemaEditor.value = JSON.stringify(pattern, null, 2);
 
-  // Render preview
+  // Render preview + reset canvas transform
+  resetPanZoom();
   renderLightboxPreview(pattern.components as Record<string, unknown>[]);
 
   // Reset state
@@ -370,6 +556,8 @@ async function openLightbox(id: string): Promise<void> {
 
   // Create LLM chat controller bound to this pattern
   chatController?.destroy();
+  chatRenderedCount = 0;
+  chatFeed.innerHTML = '';
   chatController = new LLMChatController({
     systemPrompt,
     model: currentModel,
@@ -377,19 +565,65 @@ async function openLightbox(id: string): Promise<void> {
     contexts: [{
       id: 'pattern-schema',
       label: pattern.label,
-      element: lightboxPreview,
-      read: () => JSON.stringify(currentPattern, null, 2),
-      apply: (output) => {
-        const parsed = parseJsonFromResponse(output);
-        if (parsed?.components) applyRegenResult(parsed.components);
-        else if (parsed?.schema?.components) applyRegenResult(parsed.schema.components);
+      element: canvas,
+      read: () => {
+        const schema = JSON.stringify(currentPattern, null, 2);
+        const html = canvas.innerHTML;
+        return `Schema:\n${schema}\n\nRendered HTML:\n${html}`;
       },
-      systemPromptFragment: `You are editing an A2UI pattern schema. The pattern uses a flat adjacency list of components.\nComponent reference:\n${componentRef}\n\nRespond with valid JSON containing a "components" array.`,
+      apply: (output) => {
+        // Final apply — parse and render the completed schema
+        try {
+          const parsed = parseJsonFromResponse<CopilotResponse>(output);
+          const components = parsed?.schema?.components ?? parsed?.components;
+          if (components) applyRegenResult(components as Record<string, unknown>[]);
+        } catch { /* onComplete handles reply/seeds */ }
+      },
+      systemPromptFragment: `Pattern: "${pattern.label}" (${pattern.tier} tier)\nRespond with valid JSON containing a "components" array.`,
       icon: 'brackets-curly',
     }],
+    // Live preview: try to extract components from partial JSON as it streams
+    // Debounced to avoid re-rendering on every chunk (adapter teardown is expensive)
+    onStream: (() => {
+      let timer: ReturnType<typeof setTimeout> | null = null;
+      let lastComponentCount = 0;
+      return (fullMessage: string) => {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+          try {
+            const parsed = parseJsonFromResponse<CopilotResponse>(fullMessage);
+            const components = parsed?.schema?.components ?? parsed?.components;
+            // Only re-render when component count changes (new components streamed in)
+            if (components?.length && components.length !== lastComponentCount) {
+              lastComponentCount = components.length;
+              applyRegenResult(components as Record<string, unknown>[]);
+            }
+          } catch { /* partial JSON not yet parseable — expected */ }
+        }, 300);
+      };
+    })(),
+    // Post-completion: replace raw JSON in chat with reply text, show seed suggestions
+    onComplete: (finalMessage) => {
+      try {
+        const parsed = parseJsonFromResponse<CopilotResponse>(finalMessage);
+        // Replace the chat message content with the human-readable reply
+        if (parsed?.reply && chatController) {
+          const msgs = [...chatController.messages.value];
+          const last = msgs[msgs.length - 1];
+          if (last?.role === 'assistant') {
+            msgs[msgs.length - 1] = { ...last, content: parsed.reply };
+            chatController.messages.value = msgs;
+          }
+        }
+        // Render follow-up seed suggestions
+        if (parsed?.suggestions?.length) {
+          renderChatSeeds(parsed.suggestions);
+        }
+      } catch { /* not structured JSON — leave raw content */ }
+    },
   });
-  // Bind to chat pane
-  if (chatPane) chatPane.controller = chatController;
+  // Bind chat controller to direct DOM
+  bindChatController(chatController);
 
   // Ensure default panels are open
   activePanels.add('preview');
@@ -400,20 +634,22 @@ async function openLightbox(id: string): Promise<void> {
 }
 
 function renderLightboxPreview(components: Record<string, unknown>[]): void {
+  // Tear down inspector before destroying artifact DOM
+  if (cssInspector) dismissInspector();
   // Destroy old adapter
   lightboxAdapter?.destroy();
-  lightboxPreview.innerHTML = '';
+  canvas.innerHTML = '';
 
   const flat = flattenComponents(components);
   lightboxAdapter = createA2UIAdapter(kernel, {});
   lightboxAdapter.receive(
     { updateComponents: { surfaceId: 'lightbox', components: flat } },
-    lightboxPreview,
+    canvas,
   );
 
   // Update output tab
   requestAnimationFrame(() => {
-    outputPre.value = formatHtml(lightboxPreview.innerHTML);
+    outputPre.value = formatHtml(canvas.innerHTML);
   });
 }
 
@@ -434,12 +670,53 @@ function formatHtml(raw: string): string {
   return lines.join('\n');
 }
 
+let inspectorObserver: MutationObserver | null = null;
+
 function dismissInspector(): void {
+  inspectorObserver?.disconnect();
+  inspectorObserver = null;
   if (cssInspector) {
     cssInspector.dismiss();
     cssInspector.destroy();
     cssInspector = null;
   }
+  inspectToggleBtn.setAttribute('variant', 'ghost');
+}
+
+/** Bridge inspector selection → editor highlighting.
+ *  When the user clicks a layer in the 3D inspector, find its `id`
+ *  and scroll the corresponding Schema / HTML / CSS editor to that section. */
+function bridgeInspectorSelection(): void {
+  inspectorObserver?.disconnect();
+  if (!cssInspector?.active) return;
+
+  const root = cssInspector.inspectRoot;
+  inspectorObserver = new MutationObserver((mutations) => {
+    for (const m of mutations) {
+      if (m.attributeName !== 'inspect-selected') continue;
+      const el = m.target as HTMLElement;
+      if (!el.hasAttribute('inspect-selected')) continue;
+      const id = el.id;
+      if (!id) continue;
+
+      // Highlight in whichever editor panes are open
+      clearHighlights();
+      const tab = activeEditorPanel();
+      if (tab === 'schema') highlightInSchema(id);
+      else if (tab === 'html') highlightInOutput(id);
+      else {
+        // Fall back: try schema first, then html
+        if (!highlightInSchema(id)) highlightInOutput(id);
+      }
+      break;
+    }
+  });
+
+  inspectorObserver.observe(root, {
+    attributes: true,
+    attributeFilter: ['inspect-selected'],
+    subtree: true,
+  });
 }
 
 // ── Panel toggle (builder-style) ──
@@ -448,7 +725,8 @@ function syncPanels(): void {
   // Clear inline flex so CSS defaults redistribute
   for (const [_, el] of paneEls) el.style.removeProperty('flex');
   for (const [id, el] of paneEls) el.hidden = !activePanels.has(id);
-  for (const [id, chip] of chipEls) chip.toggleAttribute('force-active', activePanels.has(id));
+  for (const [id, chip] of chipEls) chip.setAttribute('variant', activePanels.has(id) ? 'selected' : 'ghost');
+  chatToggle.setAttribute('variant', activePanels.has('chat') ? 'selected' : 'ghost');
 }
 
 /** Ensure a panel is visible (open it if hidden). */
@@ -491,9 +769,27 @@ function onSchemaInput(): void {
 // ── DOM ↔ Schema bidirectional highlighting ──
 
 function clearHighlights(): void {
-  lightboxPreview.querySelectorAll('[data-highlight]').forEach((el) => {
+  canvas.querySelectorAll('[data-highlight]').forEach((el) => {
     el.removeAttribute('data-highlight');
   });
+}
+
+function clearOptionHover(): void {
+  canvas.querySelectorAll('[data-option-hover]').forEach((el) => {
+    el.removeAttribute('data-option-hover');
+  });
+}
+
+/** Option+hover: highlight the element under the cursor. */
+function onOptionHover(e: PointerEvent): void {
+  if (!e.altKey) { clearOptionHover(); return; }
+  const target = (e.target as HTMLElement).closest('[id]') as HTMLElement | null;
+  const current = canvas.querySelector('[data-option-hover]');
+  if (target === current) return;
+  clearOptionHover();
+  if (target && target !== canvas && target !== lightboxPreview) {
+    target.setAttribute('data-option-hover', '');
+  }
 }
 
 /** Select a range in a CodeMirror editor and scroll it into view. */
@@ -581,13 +877,15 @@ function highlightInOutput(clickedId: string): boolean {
   return true;
 }
 
-/** Preview → editor: click element highlights it in the current tab's editor (or falls back). */
+/** Preview → editor: Option+click selects element and highlights in the editor. */
 function onPreviewClick(e: Event): void {
+  if (!(e as MouseEvent).altKey) return;
   const target = e.target as HTMLElement;
   clearHighlights();
+  clearOptionHover();
 
   const el = target.closest('[id]') as HTMLElement | null;
-  if (!el || el === lightboxPreview) return;
+  if (!el || el === lightboxPreview || el === canvas) return;
   const clickedId = el.id;
 
   el.setAttribute('data-highlight', '');
@@ -747,7 +1045,6 @@ function appendConstruct(entry: HTMLElement, _output: string): void {
 function getApiKey(model: string): string | null {
   if (isClaudeModel(model)) {
     return (import.meta as Record<string, Record<string, string>>).env?.VITE_ANTHROPIC_API_KEY
-      ?? (import.meta as Record<string, Record<string, string>>).env?.VITE_CLAUDE_API_KEY
       ?? null;
   }
   return (import.meta as Record<string, Record<string, string>>).env?.VITE_OPENAI_API_KEY ?? null;
@@ -894,6 +1191,26 @@ function applyRegenResult(components: Record<string, unknown>[]): void {
 // CRUD — Reset, Download, Save
 // ══════════════════════════════════════════════════════════════════
 
+const MAX_BACKUP_VERSIONS = 10;
+
+/** Push the current saved version onto the backup stack before overwriting. */
+function backupPatternVersion(id: string): void {
+  const existing = localStorage.getItem(`tl-pattern-${id}`);
+  if (!existing) return;
+  const key = `tl-pattern-${id}-backups`;
+  let backups: string[] = [];
+  try {
+    const raw = localStorage.getItem(key);
+    if (raw) backups = JSON.parse(raw) as string[];
+  } catch { /* corrupt — start fresh */ }
+  backups.push(existing);
+  // Trim oldest versions beyond the cap
+  if (backups.length > MAX_BACKUP_VERSIONS) {
+    backups = backups.slice(backups.length - MAX_BACKUP_VERSIONS);
+  }
+  localStorage.setItem(key, JSON.stringify(backups));
+}
+
 function handleReset(): void {
   if (!currentPattern || !originalSchema) return;
   currentPattern = { ...currentPattern, components: structuredClone(originalSchema) };
@@ -931,11 +1248,15 @@ function handleDuplicate(): void {
 
 function handleSave(): void {
   if (!currentPattern || !isDirty) return;
+  // Backup previous version before overwriting
+  backupPatternVersion(currentPattern.id);
   localStorage.setItem(`tl-pattern-${currentPattern.id}`, JSON.stringify(currentPattern));
   setDirty(false);
   // Flash confirmation on save button
   btnSave.setAttribute('intent', 'success');
   setTimeout(() => btnSave.removeAttribute('intent'), 1200);
+  // Update the card preview tile on the grid
+  refreshCardPreview(currentPattern.id, currentPattern.components as Record<string, unknown>[]);
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -958,6 +1279,117 @@ function setCompareMode(mode: 'edited' | 'original'): void {
 
 
 // ══════════════════════════════════════════════════════════════════
+// Chat Controller → Direct DOM Binding
+// ══════════════════════════════════════════════════════════════════
+
+let chatRenderedCount = 0;
+let chatEffectCleanups: Array<() => void> = [];
+
+function bindChatController(ctrl: LLMChatController): void {
+  // Clean up previous bindings
+  chatEffectCleanups.forEach((fn) => fn());
+  chatEffectCleanups = [];
+
+  // Sync messages → feed
+  const cleanup1 = effect(() => {
+    const messages = ctrl.messages.value;
+    renderChatMessages(messages);
+  });
+  chatEffectCleanups.push(cleanup1);
+
+  // Sync streaming → busy state on composer
+  const cleanup2 = effect(() => {
+    chatComposer.busy = ctrl.streaming.value;
+  });
+  chatEffectCleanups.push(cleanup2);
+}
+
+function renderChatMessages(messages: LLMChatMessage[]): void {
+  // Append-only rendering
+  for (let i = chatRenderedCount; i < messages.length; i++) {
+    const msg = messages[i];
+    const group = document.createElement('n-agent-dialogue');
+    group.setAttribute('data-role', msg.role);
+    group.setAttribute('data-msg-idx', String(i));
+
+    const item = document.createElement('n-agent-dialogue-item');
+    item.setAttribute('data-role', msg.role);
+    item.setAttribute('status', msg.status);
+    item.setAttribute('actions', 'none');
+
+    const text = document.createElement('n-chat-message-text');
+    (text as HTMLElement & { content: string }).content = msg.content;
+
+    item.appendChild(text);
+    group.appendChild(item);
+    chatFeed.appendChild(group);
+  }
+
+  // Update last message content if streaming
+  if (messages.length > 0) {
+    const last = messages[messages.length - 1];
+    const lastEl = chatFeed.querySelector(`[data-msg-idx="${messages.length - 1}"] n-chat-message-text`);
+    if (lastEl && last.status === 'streaming') {
+      (lastEl as HTMLElement & { content: string }).content = last.content;
+    }
+  }
+
+  chatRenderedCount = messages.length;
+}
+
+// ── Chat seeds (follow-up suggestion chips) ──
+
+function renderChatSeeds(suggestions: Array<{ label: string; prompt?: string; value?: string }>) {
+  // Remove previous seeds
+  for (const el of chatFeed.querySelectorAll('[data-seeds]')) el.remove();
+
+  const group = document.createElement('n-agent-dialogue');
+  group.setAttribute('data-role', 'assistant');
+  group.setAttribute('data-seeds', '');
+
+  const seed = document.createElement('n-chat-message-seed') as HTMLElement & { options: Array<{ label: string; value: string }> };
+  seed.options = suggestions.map(s => ({
+    label: s.label,
+    value: s.prompt ?? s.value ?? s.label,
+  }));
+  group.appendChild(seed);
+  chatFeed.appendChild(group);
+  chatFeed.scrollTop = chatFeed.scrollHeight;
+}
+
+// Seed chip selection → auto-submit
+chatFeed.addEventListener('native:seed-select', (e: Event) => {
+  const value = (e as CustomEvent).detail?.value;
+  if (value && chatController) {
+    // Remove seeds before sending
+    for (const el of chatFeed.querySelectorAll('[data-seeds]')) el.remove();
+    chatController.send(value);
+  }
+});
+
+// Composer submit
+chatComposer.addEventListener('native:send', (e: Event) => {
+  const value = (e as CustomEvent).detail?.value;
+  if (value && chatController) {
+    // Remove seeds before sending
+    for (const el of chatFeed.querySelectorAll('[data-seeds]')) el.remove();
+    chatController.send(value);
+  }
+});
+
+// Model picker sync
+chatModelPicker.addEventListener('native:change', () => {
+  currentModel = chatModelPicker.value;
+});
+
+// Pipeline toggle in chat header
+const pipelineToggle = chatComposer.querySelector('[data-role="toggle-pipeline"]');
+pipelineToggle?.addEventListener('pointerup', () => {
+  pipelineMode = !pipelineMode;
+  pipelineToggle.setAttribute('variant', pipelineMode ? 'selected' : 'ghost');
+});
+
+// ══════════════════════════════════════════════════════════════════
 // Event Wiring
 // ══════════════════════════════════════════════════════════════════
 
@@ -973,6 +1405,11 @@ categoryFilter.addEventListener('native:change', () => {
   onCategoryChange(categoryFilter.value);
 });
 
+// Keyword search
+searchInput.addEventListener('native:input', () => {
+  onSearchInput(searchInput.value);
+});
+
 // Card clicks (delegated)
 grid.addEventListener('pointerup', (e) => {
   const card = (e.target as HTMLElement).closest('.tl-card') as HTMLElement | null;
@@ -982,19 +1419,26 @@ grid.addEventListener('pointerup', (e) => {
 // Lightbox close (Escape key / backdrop)
 dialog.addEventListener('close', () => {
   dismissInspector();
+  chatEffectCleanups.forEach((fn) => fn());
+  chatEffectCleanups = [];
   chatController?.destroy();
   chatController = null;
+  chatRenderedCount = 0;
+  chatFeed.innerHTML = '';
   // Reset panels to default state
   activePanels.clear();
   activePanels.add('preview');
   activePanels.add('schema');
   syncPanels();
   dialog.removeAttribute('data-fullscreen');
+  fullscreenToggleBtn.setAttribute('variant', 'ghost');
+  fullscreenToggleBtn.querySelector('n-icon')!.setAttribute('name', 'arrows-out-simple');
   lightboxAdapter?.destroy();
   lightboxAdapter = null;
   currentPattern = null;
   originalSchema = null;
-  lightboxPreview.innerHTML = '';
+  canvas.innerHTML = '';
+  resetPanZoom();
 });
 
 // Main toolbar — Save
@@ -1029,7 +1473,7 @@ for (const panel of PANELS) {
   const chipEl = dialog.querySelector(`n-button[data-chip="${panel.id}"]`) as HTMLElement | null;
   if (chipEl) {
     chipEls.set(panel.id, chipEl);
-    chipEl.toggleAttribute('force-active', activePanels.has(panel.id));
+    chipEl.setAttribute('variant', activePanels.has(panel.id) ? 'selected' : 'ghost');
 
     chipEl.addEventListener('native:press', () => {
       if (activePanels.has(panel.id)) {
@@ -1051,20 +1495,32 @@ for (const btn of dialog.querySelectorAll('[data-close-panel-id]')) {
   });
 }
 
-// CSS Inspector toggle
+// CSS Inspector toggle — activates 3D exploded view on the whole artifact
 inspectToggleBtn.addEventListener('pointerup', () => {
   if (cssInspector) {
     dismissInspector();
   } else {
-    cssInspector = new CSSInspectController(lightboxPreview, { pick: true, labels: true });
+    const artifact = canvas.firstElementChild as HTMLElement | null;
+    if (!artifact) return;
+    cssInspector = new CSSInspectController(artifact, { labels: true });
+    cssInspector.inspect();
+    inspectToggleBtn.setAttribute('variant', 'selected');
   }
 });
 
-// Sync button state if inspector dismisses itself (e.g. Escape key)
-lightboxPreview.addEventListener('native:inspect', (e: Event) => {
+// Sync button state + bridge selections when inspector activates/deactivates
+canvas.addEventListener('native:inspect', (e: Event) => {
   const detail = (e as CustomEvent).detail;
-  if (!detail?.active && cssInspector) {
-    cssInspector = null;
+  if (detail?.active && cssInspector) {
+    bridgeInspectorSelection();
+  } else if (!detail?.active) {
+    inspectorObserver?.disconnect();
+    inspectorObserver = null;
+    // Only clear if user dismissed via toggle (dismissInspector sets cssInspector = null first)
+    if (cssInspector) {
+      cssInspector = null;
+      inspectToggleBtn.setAttribute('variant', 'ghost');
+    }
   }
 });
 
@@ -1080,7 +1536,9 @@ chatToggle.addEventListener('pointerup', () => {
 
 // Fullscreen toggle
 fullscreenToggleBtn.addEventListener('pointerup', () => {
-  dialog.toggleAttribute('data-fullscreen');
+  const isFullscreen = dialog.toggleAttribute('data-fullscreen');
+  fullscreenToggleBtn.setAttribute('variant', isFullscreen ? 'selected' : 'ghost');
+  fullscreenToggleBtn.querySelector('n-icon')!.setAttribute('name', isFullscreen ? 'x' : 'arrows-out-simple');
 });
 
 // Compare control
@@ -1092,15 +1550,11 @@ compareToggle.addEventListener('native:change', (e) => {
 schemaEditor.addEventListener('native:input', onSchemaInput);
 
 // Preview click inspection
-lightboxPreview.addEventListener('click', onPreviewClick);
+canvas.addEventListener('click', onPreviewClick);
 
-// Surface steppers (prev/next)
-btnPrev.addEventListener('pointerup', () => {
-  // TODO: step through surfaces when multi-surface patterns exist
-});
-btnNext.addEventListener('pointerup', () => {
-  // TODO: step through surfaces when multi-surface patterns exist
-});
+// Pan/zoom toolbar
+btnCenter.addEventListener('pointerup', centerContents);
+btnResetZoom.addEventListener('pointerup', resetZoom);
 
 // ══════════════════════════════════════════════════════════════════
 // Boot

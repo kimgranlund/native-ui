@@ -84,14 +84,14 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: calc(var(--n-space) * 2);
+    gap: var(--n-pad-gap);
 
     /* WHY: z-index ensures text sits above the floating indicator */
     position: relative;
     z-index: 1;
 
     min-height: calc(var(--n-size) - var(--n-space) * 2 - 2px);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-inline: var(--n-pad-inline);
 
     font-size: var(--n-font-size);
     letter-spacing: var(--n-letter-spacing);
@@ -163,6 +163,16 @@
   :where(n-segmented-control)[aria-disabled="true"] > :where(.n-segmented-indicator) {
     background: var(--n-background-disabled);
     border-color: transparent;
+  }
+
+  /* ── Icon-side padding compensation ── */
+
+  :where(n-segment):has(> n-icon:first-child) {
+    padding-inline: var(--n-pad-inline-icon) var(--n-pad-inline);
+  }
+
+  :where(n-segment):has(> n-icon:last-child) {
+    padding-inline: var(--n-pad-inline) var(--n-pad-inline-icon);
   }
 
   :where(n-segmented-control[hidden]) { display: none; }

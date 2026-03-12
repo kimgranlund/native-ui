@@ -36,13 +36,13 @@
   :where(n-tree-item) > :where([slot="label"]) {
     display: flex;
     align-items: center;
-    gap: calc(var(--n-space) * 2);
+    gap: var(--n-pad-gap);
 
     min-height: var(--n-size);
     /* WHY: Each nesting level indents by icon-size + gap so child text
        aligns with the parent's text (past the caret icon). */
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
-    padding-inline-start: calc(var(--n-space-k) * var(--n-space) + var(--n-tree-depth, 0) * (var(--n-icon-size) + var(--n-space) * 2));
+    padding-inline: var(--n-pad-inline);
+    padding-inline-start: calc(var(--n-pad-inline) + var(--n-tree-depth, 0) * (var(--n-icon-size) + var(--n-pad-gap)));
 
     font-size: var(--n-font-size);
     letter-spacing: var(--n-letter-spacing);

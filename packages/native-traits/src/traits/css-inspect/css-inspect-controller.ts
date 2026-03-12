@@ -15,6 +15,8 @@ export interface CSSInspectOptions {
   recursive?: boolean;
   /** Pick mode: Alt+hover highlights descendants, Alt+click picks the inspection target (default false) */
   pick?: boolean;
+  /** Always-ready mode: hover/click activates without holding Alt (default false) */
+  alwaysReady?: boolean;
   /** Disable the controller */
   disabled?: boolean;
 }
@@ -42,6 +44,7 @@ export class CSSInspectController {
   labels: boolean;
   recursive: boolean;
   pick: boolean;
+  alwaysReady: boolean;
   disabled: boolean;
 
   #attached = false;
@@ -75,6 +78,7 @@ export class CSSInspectController {
     this.labels = options.labels ?? true;
     this.recursive = options.recursive ?? true;
     this.pick = options.pick ?? false;
+    this.alwaysReady = options.alwaysReady ?? false;
     this.disabled = options.disabled ?? false;
     this.attach();
   }
@@ -138,7 +142,7 @@ export class CSSInspectController {
   #onPointerEnter = (_e: PointerEvent): void => {
     this.#pointerInside = true;
     if (this.disabled || this.#active) return;
-    if (this.#altHeld) this.#setReady(true);
+    if (this.#altHeld || this.alwaysReady) this.#setReady(true);
   };
 
   #onPointerLeave = (_e: PointerEvent): void => {
@@ -160,7 +164,7 @@ export class CSSInspectController {
   #onAltUp = (e: KeyboardEvent): void => {
     if (e.key !== 'Alt') return;
     this.#altHeld = false;
-    if (this.#active) return;
+    if (this.#active || this.alwaysReady) return;
     this.#setReady(false);
     this.#clearHover();
     this.#teardownHighlights();
@@ -186,7 +190,8 @@ export class CSSInspectController {
   /** Alt+pointerdown activates immediately — enables press-and-drag tilt without a full click. */
   #onPointerDown = (e: PointerEvent): void => {
     if (this.disabled || this.#active) return;
-    if (!e.altKey || e.button !== 0) return;
+    if (e.button !== 0) return;
+    if (!e.altKey && !this.alwaysReady) return;
 
     e.preventDefault(); // prevent text selection during drag-to-tilt
     this.#pointerDownActivated = true;
@@ -204,7 +209,7 @@ export class CSSInspectController {
   /** Hover highlighting — pre-inspection via popover overlay, active-mode via attributes on clone */
   #onHoverMove = (e: PointerEvent): void => {
     if (this.disabled) return;
-    if (!this.#active && !this.#altHeld) return;
+    if (!this.#active && !this.#altHeld && !this.alwaysReady) return;
 
     const root = this.#clone ?? this.host;
     const target = (e.target as HTMLElement);
@@ -243,7 +248,7 @@ export class CSSInspectController {
 
       if (this.pick) {
         // Pick mode: Alt+click on a hovered child picks it as inspection target
-        if (!this.#altHeld || !this.#hoveredChild) return;
+        if ((!this.#altHeld && !this.alwaysReady) || !this.#hoveredChild) return;
         e.stopPropagation();
         const target = this.#hoveredChild;
         this.#clearHover();

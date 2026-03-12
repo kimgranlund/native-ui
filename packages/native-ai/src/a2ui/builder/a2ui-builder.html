@@ -18,7 +18,7 @@
       <n-container class="builder" padding="0" gap="0">
 
         <!-- ── Header toolbar: panel toggle chips ── -->
-        <n-header>
+        <n-header dividers>
           <n-toolbar variant="ghost" size="sm">
             <span class="builder-title">A2UI Builder</span>
             <span fill></span>
@@ -93,7 +93,7 @@
                 <n-button variant="ghost" inline size="sm" data-close-panel-id="preview"><n-icon name="x"></n-icon></n-button>
               </aside>
             </n-header>
-            <n-body overflow="hidden" relative>
+            <n-body overflow="hidden" relative padding="none">
               <div id="preview-canvas">
                 <div id="preview-mount">
                   <span class="empty-state">Live preview will appear here</span>
@@ -109,7 +109,7 @@
               <span>Reasoning</span>
               <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="concepts"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <n-body scrollbar="none">
+            <n-body scrollbar="none" padding="none">
               <div id="concepts-wrap" class="concepts-wrap"></div>
             </n-body>
           </n-pane>
@@ -121,7 +121,7 @@
               <span>Schema</span>
               <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="schema"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <n-body scrollbar="none">
+            <n-body scrollbar="none" padding="none">
               <n-editor id="schema-pre" readonly line-numbers="false" line-wrapping></n-editor>
             </n-body>
           </n-pane>
@@ -133,7 +133,7 @@
               <span>HTML</span>
               <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="html"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <n-body scrollbar="none">
+            <n-body scrollbar="none" padding="none">
               <n-editor id="html-pre" readonly line-numbers="false" line-wrapping></n-editor>
             </n-body>
           </n-pane>
@@ -145,7 +145,7 @@
               <span>CSS</span>
               <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="css"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <n-body scrollbar="none">
+            <n-body scrollbar="none" padding="none">
               <n-editor id="css-editor" line-numbers="false" line-wrapping placeholder="/* Custom styles for the preview */"></n-editor>
             </n-body>
           </n-pane>
@@ -160,7 +160,7 @@
                 <n-button variant="ghost" inline size="sm" data-close-panel-id="js"><n-icon name="x"></n-icon></n-button>
               </aside>
             </n-header>
-            <n-body scrollbar="none">
+            <n-body scrollbar="none" padding="none">
               <n-editor id="js-editor" line-numbers="false" line-wrapping placeholder="// preview.querySelector('#btn1')..."></n-editor>
             </n-body>
           </n-pane>
@@ -172,7 +172,7 @@
               <span>Map</span>
               <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="map"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <n-body scrollbar="none">
+            <n-body scrollbar="none" padding="none">
               <table id="map-table" class="map-table">
                 <thead><tr><th class="map-chevron"></th><th>A2UI Type</th><th>Native Tag</th><th>Category</th></tr></thead>
                 <tbody></tbody>
@@ -187,7 +187,7 @@
               <span>Prompt</span>
               <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="prompt"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
-            <n-body scrollbar="none">
+            <n-body scrollbar="none" padding="none">
               <n-editor id="prompt-editor" line-numbers="false" line-wrapping></n-editor>
             </n-body>
           </n-pane>

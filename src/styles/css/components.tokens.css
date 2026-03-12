@@ -59,6 +59,13 @@
     --n-space: var(--n-space-md);
     --n-space-k: 4;
 
+    /* ─── Compound Padding (derived from space + space-k) ─── */
+
+    --n-pad-block: var(--n-space);
+    --n-pad-inline: calc(var(--n-space-k) * var(--n-space));
+    --n-pad-gap: calc(var(--n-space) * 2);
+    --n-pad-inline-icon: calc(var(--n-pad-inline) / 2);
+
     /* ─── Icon ─── */
 
     --n-icon-xs: 0.75rem;
@@ -693,7 +700,8 @@
   --n-border-color-disabled: transparent;
 }
 
-[variant="selected"] {
+[variant="selected"],
+[aria-pressed="true"] {
   --n-background: white;
   --n-background-hover: var(--n-panel-hover);
   --n-background-active: var(--n-panel-active);

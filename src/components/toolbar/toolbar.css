@@ -23,7 +23,7 @@
     min-width: 0;
     min-height: var(--n-size);
     align-items: center;
-    gap: calc(var(--n-space) * 2);
+    gap: var(--n-pad-gap);
     overflow: clip;
     background: var(--n-background);
     border-radius: var(--n-radius);

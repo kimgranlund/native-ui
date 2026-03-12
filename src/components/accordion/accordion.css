@@ -51,11 +51,11 @@
   :where(n-accordion-item) > :where(details) > :where(summary) {
     display: flex;
     align-items: center;
-    gap: calc(var(--n-space) * 2);
+    gap: var(--n-pad-gap);
 
     min-height: var(--n-size);
-    padding-block: var(--n-space);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-block: var(--n-pad-block);
+    padding-inline: var(--n-pad-inline);
 
     font-size: var(--n-font-size);
     letter-spacing: var(--n-letter-spacing);
@@ -135,7 +135,7 @@
 
   :where(n-accordion-item) > :where(details) > :where([part="content"]) {
     padding-block: calc(var(--n-space) * 2);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-inline: var(--n-pad-inline);
 
     font-size: var(--n-font-size);
     letter-spacing: var(--n-letter-spacing);

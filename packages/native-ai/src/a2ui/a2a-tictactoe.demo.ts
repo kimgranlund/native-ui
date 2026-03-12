@@ -26,7 +26,7 @@ const simSwitch = document.getElementById('switch-sim');
 
 function isSimulation() { return simSwitch.checked; }
 function isHuman(player) { return player === 'X' ? modelXSelect.value === 'human' : modelOSelect.value === 'human'; }
-const ANTHROPIC_KEY = import.meta.env?.VITE_ANTHROPIC_API_KEY || import.meta.env?.VITE_CLAUDE_API_KEY || '';
+const ANTHROPIC_KEY = import.meta.env?.VITE_ANTHROPIC_API_KEY || '';
 const OPENAI_KEY = import.meta.env?.VITE_OPENAI_API_KEY || '';
 function getAnthropicKey() { return ANTHROPIC_KEY; }
 function getOpenaiKey() { return OPENAI_KEY; }

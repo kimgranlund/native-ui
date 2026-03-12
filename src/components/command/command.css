@@ -39,9 +39,9 @@
   :where(n-command-input) {
     display: flex;
     align-items: center;
-    gap: calc(var(--n-space) * 2);
+    gap: var(--n-pad-gap);
     min-height: var(--n-size);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-inline: var(--n-pad-inline);
     border-bottom: 1px solid var(--n-border-color);
   }
 
@@ -89,7 +89,7 @@
     display: flex;
     align-items: center;
     min-height: var(--n-size);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-inline: var(--n-pad-inline);
     font-size: var(--n-group-header-font);
     font-weight: 600;
     text-transform: uppercase;

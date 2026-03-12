@@ -2,9 +2,7 @@
 
 const panelModels = document.getElementById('demo-panel-models');
 if (panelModels) {
-  const claudeApiKey = import.meta.env?.VITE_ANTHROPIC_API_KEY
-    || import.meta.env?.VITE_CLAUDE_API_KEY
-    || null;
+  const claudeApiKey = import.meta.env?.VITE_ANTHROPIC_API_KEY || null;
   const openAiApiKey = import.meta.env?.VITE_OPENAI_API_KEY || null;
 
   (panelModels as any).models = [
@@ -37,7 +35,7 @@ if (panelModels) {
     if (!claudeApiKey) {
       (panelModels as any).gateway = 'mock';
       (panelModels as any).gatewayUrl = 'mock';
-      console.warn('[native-chat demo] Missing Claude API key. Set VITE_ANTHROPIC_API_KEY or VITE_CLAUDE_API_KEY in .env and restart Vite.');
+      console.warn('[native-chat demo] Missing Anthropic API key. Set VITE_ANTHROPIC_API_KEY in .env and restart Vite.');
       return;
     }
     (panelModels as any).gateway = 'claude';

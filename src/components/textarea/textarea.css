@@ -27,7 +27,7 @@
     min-height: var(--n-size);
     height: calc(var(--n-size) * var(--n-rows));
     padding-block: calc(var(--n-space) * 2);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-inline: var(--n-pad-inline);
 
     font-size: var(--n-font-size);
     letter-spacing: var(--n-letter-spacing);

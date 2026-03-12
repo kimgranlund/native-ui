@@ -12,10 +12,9 @@
   flex-wrap: wrap;
 }
 
-.tl-count {
+.tl-filter-bar > n-input[type="search"] {
   margin-inline-start: auto;
-  font-size: 0.75rem;
-  color: var(--n-ink-muted);
+  width: 12rem;
 }
 
 /* ── Pattern Grid ── */
@@ -134,6 +133,14 @@
   --pg-text-muted: var(--n-ink-muted-neutral, #7d8799);
   --pg-text-strong: var(--n-ink-strong-neutral, #e5e7eb);
   --pg-accent: var(--n-ink-accent, #61afef);
+  --n-background: var(--pg-editor-bg);
+  --n-background-hover: var(--pg-editor-bg);
+  --n-ink: var(--pg-text);
+  --n-ink-hover: var(--pg-text);
+  --n-ink-strong: var(--pg-text-strong);
+  --n-border-color: var(--pg-border-color);
+  --n-pane-handle-accent: var(--pg-accent);
+  --n-pane-border-color: var(--pg-border-color);
 
   width: 92vw;
   height: 88vh;
@@ -168,11 +175,9 @@
 /* ── Top toolbar (full width) ── */
 
 .tl-lightbox > n-header {
-  --n-background: var(--pg-chrome);
-  --n-border-color: var(--pg-border-color);
-  --n-color: var(--pg-text-strong);
-  border-block-end: 1px solid var(--pg-border-color);
   flex-shrink: 0;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .tl-lightbox-title {
@@ -192,30 +197,41 @@
 /* ── Split body (resizable n-panes) ── */
 
 .tl-lightbox > n-panes {
-  --n-pane-handle-accent: var(--pg-accent);
-  --n-pane-border-color: var(--pg-border-color);
   flex: 1;
   min-height: 0;
 }
 
 .tl-preview-mount {
   flex: 1;
-  overflow: auto;
+  overflow: hidden;
   background:
     repeating-linear-gradient(to right,  oklch(0.5 0 0 / 0.045) 0 1px, transparent 1px 1rem),
     repeating-linear-gradient(to bottom, oklch(0.5 0 0 / 0.045) 0 1px, transparent 1px 1rem),
     var(--n-body, #ffffff);
-  padding: 1.5rem;
   color: var(--n-ink);
+  position: relative;
+  cursor: grab;
+}
+
+.tl-preview-mount[data-panning] {
+  cursor: grabbing;
+}
+
+/* Pan/zoom canvas layer */
+.tl-canvas {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1.5rem;
+  transform-origin: 0 0;
+  will-change: transform;
 }
 
-/* Rendered artifact wrapper — shrink-to-fit, centered */
-.tl-preview-mount > * {
+/* Rendered artifact wrapper — fill available width, centered */
+.tl-canvas > * {
   width: 100%;
-  max-width: 640px;
 }
 
 /* ── Preview pane layout ── */
@@ -225,23 +241,24 @@
 }
 
 /* Floating toolbar wrapper — top center (placement only) */
-.tl-floating-top {
-  position: absolute;
-  top: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
-  pointer-events: auto;
-}
-
-/* Floating toolbar wrapper — bottom center (placement only) */
+.tl-floating-top,
 .tl-floating-bottom {
   position: absolute;
-  bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
   pointer-events: auto;
+  width: max-content;
+}
+
+.tl-floating-top  { top: 2rem; }
+.tl-floating-bottom { bottom: 2rem; }
+
+/* Toolbar inside floating wrappers — intrinsic width, no flex shrink */
+.tl-floating-top > n-toolbar,
+.tl-floating-bottom > n-toolbar {
+  flex: 0 0 auto;
+  width: max-content;
 }
 
 /* Vertical dividers inside preview toolbars */
@@ -259,18 +276,15 @@
   outline-offset: -2px;
 }
 
-/* Clickable elements in preview */
-.tl-preview-mount [id] {
-  cursor: pointer;
-  transition: outline 150ms;
-}
-
-.tl-preview-mount [id]:hover {
+/* Option+hover highlight */
+.tl-canvas [data-option-hover] {
   outline: 2px solid var(--n-border-accent);
   outline-offset: 2px;
+  cursor: default;
 }
 
-.tl-preview-mount [data-highlight] {
+/* Option+click selection */
+.tl-canvas [data-highlight] {
   outline: 2px solid var(--n-ink-accent);
   outline-offset: 2px;
 }
@@ -288,8 +302,8 @@
   flex: none;
   --n-background: var(--pg-chrome);
   --n-background-hover: var(--pg-editor-bg);
-  --n-padding-block: 0;
-  --n-padding-inline: 0.5rem;
+  --n-pad-block: 0;
+  --n-pad-inline: 0.5rem;
   --n-size: 1.75rem;
   --n-font-size: 0.75rem;
   --n-font-weight: 600;
@@ -298,10 +312,8 @@
   --n-icon-size: 0.875rem;
 }
 
-/* Pane content */
+/* Pane content — code font for editor panes */
 .tl-lightbox n-pane > n-body {
-  --n-padding-block: 0;
-  --n-padding-inline: 0;
   --n-font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
   --n-font-size: 0.8125rem;
   --n-line-height: 1.5;
@@ -312,15 +324,29 @@
   border-radius: 0;
 }
 
-/* Chat pane */
-.tl-lightbox n-pane[data-panel-id="chat"] n-llm-chat-pane {
+/* Chat pane — feed fills available space, composer pins to bottom */
+.tl-lightbox n-pane[data-panel-id="chat"] {
+  background: var(--n-body);
+}
+
+.tl-lightbox n-pane[data-panel-id="chat"] > n-chat-feed {
   flex: 1;
   min-height: 0;
+}
+
+.tl-lightbox n-pane[data-panel-id="chat"] > :where(n-agent-input) {
+  flex: none;
 }
 
 /* Preview pane — exempt from flex-basis override */
 .tl-lightbox n-pane[data-panel-id="preview"] {
   flex: 1 1 0%;
+}
+
+/* ── View select listbox — cap height for 50-pattern list ── */
+
+.tl-lightbox n-select#tl-view-select n-listbox[popover] {
+  max-height: min(24rem, 60vh);
 }
 
 /* ── Actions dropdown divider ── */
@@ -447,36 +473,36 @@
    ══════════════════════════════════════════════════════════════════ */
 
 /* Ready state — crosshair cursor */
-.tl-preview-mount [inspect-ready] {
+.tl-canvas [inspect-ready] {
   cursor: crosshair;
 }
 
 /* 3D inspection: outlines on exploded layers */
-.tl-preview-mount [inspect-layer] {
+.tl-canvas [inspect-layer] {
   outline: 0.75px solid oklch(0.7 0.15 250 / 0.5);
   outline-offset: 0;
   transition: outline 300ms ease;
 }
 
-.tl-preview-mount [inspect-layer][inspect-hover],
-.tl-preview-mount [inspect-layer][inspect-selected] {
+.tl-canvas [inspect-layer][inspect-hover],
+.tl-canvas [inspect-layer][inspect-selected] {
   outline: 3px solid oklch(0.7 0.15 250 / 1);
   outline-offset: 0;
 }
 
 /* Suppress native outlines on internals */
-.tl-preview-mount [inspect-layer] *,
-.tl-preview-mount [inspect-layer] *:focus,
-.tl-preview-mount [inspect-layer] *:focus-visible {
+.tl-canvas [inspect-layer] *,
+.tl-canvas [inspect-layer] *:focus,
+.tl-canvas [inspect-layer] *:focus-visible {
   outline: none !important;
 }
 
 /* Labels on inspected elements */
-.tl-preview-mount [data-inspect-label] {
+.tl-canvas [data-inspect-label] {
   position: relative;
 }
 
-.tl-preview-mount [data-inspect-label]::after {
+.tl-canvas [data-inspect-label]::after {
   content: attr(data-inspect-label);
   position: absolute;
   top: -1.25rem;
@@ -498,9 +524,9 @@
 }
 
 /* Dim labels on non-hovered/non-selected layers */
-.tl-preview-mount [inspecting]:has([inspect-hover]) [inspect-layer]:not([inspect-hover])::after {
+.tl-canvas [inspecting]:has([inspect-hover]) [inspect-layer]:not([inspect-hover])::after {
   opacity: 0.2;
 }
-.tl-preview-mount [inspecting]:has([inspect-selected]) [inspect-layer]:not([inspect-selected])::after {
+.tl-canvas [inspecting]:has([inspect-selected]) [inspect-layer]:not([inspect-selected])::after {
   opacity: 0.2;
 }

@@ -47,6 +47,10 @@ export interface LLMChatControllerOptions {
   maxContextMessages?: number;
   /** Factory for creating gateway adapters. */
   createAdapter: (system: string, model: string, maxTokens: number) => GatewayAdapter | null;
+  /** Called on each streaming chunk with the full message so far. Use for live preview updates. */
+  onStream?: (fullMessage: string) => void;
+  /** Called once streaming completes with the final message. Use for post-processing (e.g. extracting reply text, rendering seeds). */
+  onComplete?: (finalMessage: string) => void;
 }
 
 // ── Message Type ──
@@ -89,6 +93,8 @@ export class LLMChatController {
   readonly #systemPrompt: string;
   readonly #createAdapter: LLMChatControllerOptions['createAdapter'];
   readonly #maxContextMessages: number;
+  readonly #onStream?: (fullMessage: string) => void;
+  readonly #onComplete?: (finalMessage: string) => void;
   #abortController: AbortController | null = null;
   #previousHighlightEl: HTMLElement | null = null;
 
@@ -96,6 +102,8 @@ export class LLMChatController {
     this.#systemPrompt = options.systemPrompt;
     this.#createAdapter = options.createAdapter;
     this.#maxContextMessages = options.maxContextMessages ?? MAX_CONTEXT_MESSAGES;
+    this.#onStream = options.onStream;
+    this.#onComplete = options.onComplete;
 
     if (options.model) this.model.value = options.model;
     if (options.contexts?.length) {
@@ -206,36 +214,48 @@ export class LLMChatController {
     try {
       const response = await adapter.sendMessageStream({
         id: crypto.randomUUID(),
-        messages: history.slice(0, -1), // Exclude current user message (it's the query)
+        messages: history,
         query,
         model: this.model.value,
         signal: abort.signal,
         onChunk: (chunk: SendMessageStreamChunk) => {
           this.streamDelta.value = chunk.fullMessage;
-          // Update the last message (assistant placeholder)
-          const updated = [...this.messages.value];
-          const last = updated[updated.length - 1];
-          if (last?.role === 'assistant') {
-            updated[updated.length - 1] = { ...last, content: chunk.fullMessage };
-            this.messages.value = updated;
+          if (this.#onStream) {
+            // When onStream is set, the consumer handles display (e.g. co-pilot mode).
+            // Don't dump raw JSON into the chat bubble — let onComplete set the final text.
+            this.#onStream(chunk.fullMessage);
+          } else {
+            // Default: update the last message with streaming content
+            const updated = [...this.messages.value];
+            const last = updated[updated.length - 1];
+            if (last?.role === 'assistant') {
+              updated[updated.length - 1] = { ...last, content: chunk.fullMessage };
+              this.messages.value = updated;
+            }
           }
         },
       });
 
-      // Finalize assistant message
+      // Apply output to context
+      ctx.apply(response.message);
+
+      // Let onComplete set the display content (e.g. extract reply from JSON).
+      // If no onComplete, fall back to showing the raw response.
+      this.#onComplete?.(response.message);
+
+      // Finalize assistant message — mark as sent
       const final = [...this.messages.value];
       const last = final[final.length - 1];
       if (last?.role === 'assistant') {
         final[final.length - 1] = {
           ...last,
-          content: response.message,
+          // onComplete may have already set content (e.g. reply text).
+          // Only overwrite if it's still empty (streaming mode didn't populate it).
+          content: last.content || response.message,
           status: 'sent',
         };
         this.messages.value = final;
       }
-
-      // Apply output to context
-      ctx.apply(response.message);
     } catch (err) {
       if ((err as Error).name === 'AbortError') {
         // Mark as partial

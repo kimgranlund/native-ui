@@ -160,6 +160,7 @@ export class NPaneGroup extends NativeElement {
     if (index < 0) return;
 
     e.preventDefault();
+    e.stopPropagation();
     this.#clearHover();
 
     this.#activeIndex = index;

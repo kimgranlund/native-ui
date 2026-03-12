@@ -2,6 +2,99 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.216
+
+### Added
+- **`--n-pad-block`, `--n-pad-inline`, `--n-pad-gap` compound padding tokens** — New 3-tier CSS custom properties replace hardcoded padding/gap formulas across all interactive and container components. Density presets (`compact`, `default`, `loose`, `inline`) now control block padding, inline padding, and gap independently. Components consume tokens instead of formulas — zero visual change at default density.
+- **Density-aware gap and block padding** — `density="compact"` now tightens gap (`--n-pad-gap: var(--n-space)`) in addition to narrowing inline padding. `density="inline"` zeroes block padding. Previously only `--n-space-k` (inline multiplier) changed.
+- **n-header/n-footer token rename** — `--n-padding-block`/`--n-padding-inline` → `--n-pad-block`/`--n-pad-inline`. `padding="tight|regular|relaxed"` attribute selectors updated. Old tokens removed.
+
+### Changed
+- **17 component/container CSS files migrated** — button, input, textarea, select, listbox, command, tabs, segmented-control, accordion, tree, toolbar, container, body, pane, n-header, n-footer all consume `--n-pad-*` tokens.
+
+### Changed (native-ai@1.0.123)
+- **Training Library co-pilot chat** — Fixed 400 error on first message (empty `messages` array sent to Anthropic). Dedicated `copilot-prompt.json` system prompt for schema editing (separate from builder). Streaming schema preview applies live during LLM response (debounced, component-count gated). Chat bubble shows concise `reply` text instead of raw JSON. Follow-up seed suggestion chips rendered after each response.
+- **Builder state injection** — Builder sends both current schema JSON and rendered HTML as `[CURRENT STATE]` context block to LLM.
+- **Save → preview tile update** — Saving an edited pattern in the Training Library lightbox immediately re-renders the corresponding card preview tile on the grid page.
+- **Version backup on save** — Each save pushes the previous version onto a `tl-pattern-{id}-backups` localStorage stack (capped at 10 versions).
+
+### Changed (native-traits@0.1.13)
+- **CSSInspectController** — Added `alwaysReady` option and `inspectRoot` getter for external bridge integration.
+
+## 0.7.215
+
+### Fixed
+- **Adaptive grid columns for n-button/n-select** — Replaced single 3-column `grid-template-columns: auto 1fr auto` with adaptive templates that match which slots are actually present. Empty grid tracks created phantom gaps (gap is rendered between all tracks, including 0-width empty ones). Now: `leading + label` → `auto 1fr`, `label + trailing` → `1fr auto`, `all three` → `auto 1fr auto`. Fixes n-select caret alignment and any button with only one icon side.
+
+### Changed (native-ai@1.0.122)
+- **Builder: CSS Inspector auto-activates** — `CSSInspectController` is created on load with `alwaysReady: true`. Hover highlights descendants, click picks for 3D inspection — no Alt key or artifact click required. Toggle button starts `aria-pressed="true"`.
+- **Env var rename** — All `VITE_CLAUDE_*` fallbacks removed from native-ui and native-ai. Canonical names: `VITE_ANTHROPIC_API_KEY`, `VITE_OPENAI_API_KEY`. Convention: `VITE_{PROVIDER}_{KEY_SPECIFICS}`. Template `src/.env` updated.
+
+## 0.7.214
+
+### Added
+- **n-body `padding="none"` attribute** — New attribute API selector for zeroing n-body padding. Also accepts `padding="0"`.
+- **`[aria-pressed="true"]` token resolution** — `aria-pressed="true"` now resolves the same token set as `[variant="selected"]` (white background, inverse ink, transparent border) in `components.tokens.css`. Enables proper toggle button styling via ARIA semantics.
+- **n-chat-input-prompt background** — `n-chat-input-prompt` now owns its background (`--n-background: var(--n-control)`) instead of inheriting from `n-agent-input`. Matches n-input pattern where the bordered rect owns its fill.
+
+### Fixed
+- **force-active → aria-pressed migration** — All production `force-active` usage in A2UI Builder replaced with `aria-pressed="true"/"false"`. Affected: panel chip toggles, inspector toggle, lightbox mode, pipeline mode. `force-active` is debug-only.
+- **n-agent-input background removed** — Stripped `background` from the base `n-agent-input` rule. The outer wrapper should be transparent; background belongs on `n-chat-input-prompt`.
+- **Stale token references** — Renamed remaining `--n-padding-block`/`--n-padding-inline` → `--n-pad-block`/`--n-pad-inline` in A2UI Builder and Training Library CSS.
+- **Builder/TL: removed component-internal overrides** — Stripped `--n-pad-block`, `--n-pad-inline`, `--n-background` token overrides from n-body and n-agent-input in builder and training library CSS. Components use `padding="none"` attribute instead.
+- **Training Library chat pane** — Added `background: var(--n-body)` and `border="block"` so the chat pane is no longer transparent over the pattern grid.
+
+### Changed
+- **Demo pane bodies** — All `<n-body>` elements inside `<n-pane>` across pane demos, A2UI Builder, Training Library, and noodle demo now use `padding="none"` attribute instead of CSS token overrides.
+
+## 0.7.212
+
+### Added
+- **Compound padding tokens** — New `--n-pad-block`, `--n-pad-inline`, `--n-pad-gap`, `--n-pad-inline-icon` CSS custom properties on `:root`. Components now consume these tokens instead of hardcoded `calc()` formulas, enabling independent control over block padding, inline padding, and gap at every density level.
+- **Density gap/block control** — `[density="compact"]` now tightens gap (`--n-pad-gap: var(--n-space)`). `[density="loose"]` widens gap (`calc(var(--n-space) * 3)`). `[density="inline"]` zeroes block padding and tightens gap.
+- **Icon-side optical padding compensation** — New `--n-pad-inline-icon` token (`pad-inline / 2`) reduces padding on the icon side of interactive elements so `icon-pad + gap ≈ text-pad`. Applied to n-button, n-select, n-tab, n-segment, n-option, n-command-item via two-value `padding-inline` shorthand. n-select auto-flips (full start padding, reduced end padding for trailing caret).
+
+### Changed
+- **17 components migrated** to `--n-pad-*` tokens: n-button, n-select, n-input, n-textarea, n-tab, n-option, n-option-group-header, n-command-input, n-command-group heading, n-segment, n-accordion summary + content, n-tree-item label, n-toolbar, n-container, n-body, n-header, n-footer.
+- **Token rename** — `--n-padding-block` / `--n-padding-inline` on n-header, n-footer, n-body, n-pane header renamed to `--n-pad-block` / `--n-pad-inline` for consistency. The `[padding="none|tight|regular|relaxed"]` attribute API now sets the new token names.
+
+### Migration
+- If you override `--n-padding-block` or `--n-padding-inline` on n-header, n-footer, or n-body, rename to `--n-pad-block` / `--n-pad-inline`.
+- n-stack and n-grid still use `--n-padding-block` / `--n-padding-inline` (unchanged).
+
+## 0.7.210
+
+### Removed (native-ai@1.0.120)
+- **Training Library: prev/next paddles removed** — Removed the unused prev/next surface stepper buttons, divider, `updatePaddles()` function, event listeners, and caret icon imports. All patterns are single-surface; the hidden buttons were leaking into the toolbar overflow menu as ghost "Action" entries.
+
+## 0.7.209
+
+### Changed (native-ai@1.0.119)
+- **Training Library: floating toolbar size** — Both floating toolbars (compare bar + preview controls) bumped from `size="sm"` to `size="md"` for better click targets.
+- **Training Library: fullscreen icon swap** — Fullscreen toggle shows `x` icon when active, reverts to `arrows-out-simple` when deactivated or lightbox closes.
+- **Training Library: Option+hover cursor** — Elements highlighted via Option+hover now show a default pointer instead of the grab cursor.
+
+## 0.7.208
+
+### Fixed (native-ai@1.0.118)
+- **Training Library: toolbar overflow labels** — Icon-only buttons in the floating preview toolbar now have `aria-label` attributes so the toolbar overflow menu shows meaningful names ("AI Chat", "CSS Inspector", "Center", "Reset zoom") instead of icon names ("Chat Dots", "Crosshair"). All buttons also have `overflow-pin` to prevent overflow entirely in the compact floating toolbar. Same fix applied to the fullscreen toggle in the top toolbar.
+
+## 0.7.207
+
+### Added (native-traits@0.1.11)
+- **CSSInspectController: `alwaysReady` option** — New `alwaysReady: boolean` option bypasses the Alt-key requirement for hover highlighting and pick-to-inspect activation. Default `false` preserves existing behavior. Also wired in the `css-inspectable` trait adapter as `data-trait-css-inspectable-always-ready`.
+
+### Added (native-ai@1.0.117)
+- **Training Library: toggle button states** — Inspector, chat, and fullscreen toolbar buttons now use `force-active` attribute for clear on/off visual feedback.
+- **Training Library: pane resize guard** — Dragging `n-panes` resize handles no longer triggers canvas panning.
+- **Training Library: header overflow fix** — Lightbox top `n-header` constrained with `overflow: hidden; max-width: 100%` to prevent toolbar overflow when preview content is large.
+
+## 0.7.206
+
+### Added (native-ai@1.0.116)
+- **Training Library: pan/zoom preview** — Preview pane is now pannable (pointer drag) and zoomable (scroll wheel). Pan is suppressed when hovering `[data-a2ui="Card"]` content to preserve normal interactions. New bottom toolbar buttons: **Center contents** (crosshair icon) and **Reset zoom to 100%** (arrows-in-cardinal icon). Canvas wrapper (`div.tl-canvas`) replaces direct mount rendering for CSS transform-based pan/zoom.
+- **Training Library: inspector → editor bridge** — CSS Inspector selections now highlight the corresponding section in the active editor pane (Schema/HTML). MutationObserver watches the inspector's clone root for `inspect-selected` attribute changes and bridges to the editor's `selectRange()` API. Inspector stays active during selection — only Escape or clicking outside dismisses it.
+
 ## 0.7.204
 
 ### Added

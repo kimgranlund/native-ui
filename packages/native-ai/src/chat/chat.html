@@ -263,9 +263,9 @@
   model="claude-haiku-4-5"
   open&gt;&lt;/native-chat-panel&gt;
 &lt;script&gt;
-  // Set key via Vite env: VITE_CLAUDE_API_KEY or VITE_ANTHROPIC_API_KEY
+  // Set key via Vite env: VITE_ANTHROPIC_API_KEY
   panel.gatewayConfig = {
-    apiKey: import.meta.env?.VITE_ANTHROPIC_API_KEY || import.meta.env?.VITE_CLAUDE_API_KEY,
+    apiKey: import.meta.env?.VITE_ANTHROPIC_API_KEY,
     model: 'claude-haiku-4-5',
     maxTokens: 1024,
   };

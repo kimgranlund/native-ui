@@ -24,11 +24,11 @@
     box-sizing: border-box;
     min-width: 0;
     align-items: center;
-    gap: calc(var(--n-space) * 2);
+    gap: var(--n-pad-gap);
 
     min-height: var(--n-size);
     max-height: var(--n-size);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-inline: var(--n-pad-inline);
 
     font-size: var(--n-font-size);
     letter-spacing: var(--n-letter-spacing);

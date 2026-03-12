@@ -13,6 +13,7 @@ export const cssInspectableAdapter: TraitAdapter<CSSInspectController> = {
       labels: options['labels'] !== undefined ? options['labels'] !== 'false' : undefined,
       recursive: options['recursive'] !== undefined ? options['recursive'] !== 'false' : undefined,
       pick: options['pick'] !== undefined ? options['pick'] !== 'false' : undefined,
+      alwaysReady: options['always-ready'] !== undefined ? options['always-ready'] !== 'false' : undefined,
       disabled: options['disabled'] === 'true',
     });
   },
@@ -41,6 +42,7 @@ export const cssInspectableAdapter: TraitAdapter<CSSInspectController> = {
     if ('labels' in options) instance.labels = options['labels'] !== 'false';
     if ('recursive' in options) instance.recursive = options['recursive'] !== 'false';
     if ('pick' in options) instance.pick = options['pick'] !== 'false';
+    if ('always-ready' in options) instance.alwaysReady = options['always-ready'] !== 'false';
     if ('disabled' in options) instance.disabled = options['disabled'] === 'true';
   },
 };

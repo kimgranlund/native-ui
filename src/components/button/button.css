@@ -35,12 +35,12 @@
     align-items: center;
     justify-content: center;
     justify-items: center;
-    gap: calc(var(--n-space) * 2);
+    gap: var(--n-pad-gap);
 
     min-height: var(--n-size);
     max-height: var(--n-size);
-    padding-block: var(--n-space);
-    padding-inline: calc(var(--n-space-k) * var(--n-space));
+    padding-block: var(--n-pad-block);
+    padding-inline: var(--n-pad-inline);
 
     font-size: var(--n-font-size);
     letter-spacing: var(--n-letter-spacing);
@@ -98,22 +98,35 @@
 
   /* ── Slots ── */
 
-  /* WHY: Upgrade to 3-column grid only when slot structure is present */
-  :where(n-button, n-select):where(:has(> [slot])) {
+  /* WHY: Adaptive grid columns based on which slots are present.
+     Empty grid tracks still receive gap, so a 3-column template with
+     an unpopulated column creates a phantom gap. Match the template
+     to the actual slot combination to avoid this. */
+
+  /* Leading + label (no trailing) — e.g. button with leading icon */
+  :where(n-button, n-select):has(> [slot="leading"]):not(:has(> [slot="trailing"])) {
+    grid-template-columns: auto 1fr;
+  }
+
+  :where(n-button, n-select):has(> [slot="leading"]):not(:has(> [slot="trailing"])) > :where([slot="leading"]) { grid-column: 1; }
+  :where(n-button, n-select):has(> [slot="leading"]):not(:has(> [slot="trailing"])) > :where([slot="label"])   { grid-column: 2; }
+
+  /* Label + trailing (no leading) — e.g. n-select with caret */
+  :where(n-button, n-select):has(> [slot="trailing"]):not(:has(> [slot="leading"])) {
+    grid-template-columns: 1fr auto;
+  }
+
+  :where(n-button, n-select):has(> [slot="trailing"]):not(:has(> [slot="leading"])) > :where([slot="label"])    { grid-column: 1; }
+  :where(n-button, n-select):has(> [slot="trailing"]):not(:has(> [slot="leading"])) > :where([slot="trailing"]) { grid-column: 2; }
+
+  /* All three: leading + label + trailing */
+  :where(n-button, n-select):has(> [slot="leading"]):has(> [slot="trailing"]) {
     grid-template-columns: auto 1fr auto;
   }
 
-  :where(n-button, n-select) > :where([slot="leading"]) {
-    grid-column: 1;
-  }
-
-  :where(n-button, n-select) > :where([slot="label"]) {
-    grid-column: 2;
-  }
-
-  :where(n-button, n-select) > :where([slot="trailing"]) {
-    grid-column: 3;
-  }
+  :where(n-button, n-select):has(> [slot="leading"]):has(> [slot="trailing"]) > :where([slot="leading"])  { grid-column: 1; }
+  :where(n-button, n-select):has(> [slot="leading"]):has(> [slot="trailing"]) > :where([slot="label"])    { grid-column: 2; }
+  :where(n-button, n-select):has(> [slot="leading"]):has(> [slot="trailing"]) > :where([slot="trailing"]) { grid-column: 3; }
 
   /* ── Justify: spread — label fills, text left-aligned ── */
 
@@ -125,6 +138,22 @@
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  /* ── Icon-side padding compensation ── */
+  /* WHY: Icons have built-in whitespace in their bounding box.
+     Reduce padding on the icon side so: icon-pad + gap ≈ text-pad. */
+
+  :where(n-button, n-select):has(> [slot="leading"]) {
+    padding-inline: var(--n-pad-inline-icon) var(--n-pad-inline);
+  }
+
+  :where(n-button, n-select):has(> [slot="trailing"]) {
+    padding-inline: var(--n-pad-inline) var(--n-pad-inline-icon);
+  }
+
+  :where(n-button, n-select):has(> [slot="leading"]):has(> [slot="trailing"]) {
+    padding-inline: var(--n-pad-inline-icon);
   }
 
   /* ── Icon-only mode ── */

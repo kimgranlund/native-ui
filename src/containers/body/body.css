@@ -6,19 +6,19 @@
      inherited from the parent height constraint. */
 
   :where(n-body) {
-    --n-padding-block: calc(var(--n-space) * var(--n-space-k));
-    --n-padding-inline: calc(var(--n-space) * var(--n-space-k));
-    --n-background: transparent;
+    --n-background: var(--n-panel);
     --n-font-family: inherit;
 
     display: flex;
     flex: 1 1 0%;
     min-width: 0;
-    min-height: calc(var(--n-size) + var(--n-padding-block) * 2);
+    min-height: calc(var(--n-size) + var(--n-pad-inline) * 2);
     flex-direction: column;
-    gap: calc(var(--n-space) * var(--n-space-k));
-    padding-block: var(--n-padding-block);
-    padding-inline: var(--n-padding-inline);
+    /* WHY: Body uses symmetric padding (same as container).
+       Uses --n-pad-inline directly — must NOT redefine --n-pad-block/gap. */
+    gap: var(--n-pad-inline);
+    padding-block: var(--n-pad-inline);
+    padding-inline: var(--n-pad-inline);
     background: var(--n-background);
 
     font-family: var(--n-font-family);
@@ -54,4 +54,9 @@
 
 :where(n-body)[relative] {
   position: relative;
+}
+
+[padding="0"]:where(n-body),
+[padding="none"]:where(n-body) {
+  padding: 0;
 }

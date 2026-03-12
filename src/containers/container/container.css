@@ -27,9 +27,12 @@
     flex: 1 1 0%;
     min-width: 0;
     flex-direction: column;
-    gap: calc(var(--n-space) * var(--n-space-k));
-    padding-block: calc(var(--n-space) * var(--n-space-k));
-    padding-inline: calc(var(--n-space) * var(--n-space-k));
+    /* WHY: Container uses symmetric padding (all sides = inline).
+       Uses --n-pad-inline directly — must NOT redefine --n-pad-block/gap
+       because those cascade to child components (buttons, inputs). */
+    gap: var(--n-pad-inline);
+    padding-block: var(--n-pad-inline);
+    padding-inline: var(--n-pad-inline);
     background: var(--n-ground);
     border-radius: var(--n-radius);
 
@@ -110,9 +113,9 @@
   :where(n-container[data-kind="panel"]) > :where(n-body) {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--n-space) * var(--n-space-k));
-    padding-block: calc(var(--n-space) * var(--n-space-k));
-    padding-inline: calc(var(--n-space) * var(--n-space-k));
+    gap: var(--n-pad-inline);
+    padding-block: var(--n-pad-inline);
+    padding-inline: var(--n-pad-inline);
     box-sizing: border-box;
   }
 
