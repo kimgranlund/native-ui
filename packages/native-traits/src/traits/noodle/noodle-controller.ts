@@ -521,8 +521,6 @@ export class NoodleController {
       sourceDot: dot,
     };
 
-    console.log('[noodle] drag started from', targetId, side, 'portElements:', this.#portElements.length);
-
     // Mark source port as dragging
     dot.setAttribute('data-noodle-dragging', '');
 
@@ -585,35 +583,17 @@ export class NoodleController {
 
   #onPortPointerUp = (e: PointerEvent): void => {
     const state = this.#dragState;
-    if (!state) { console.warn('[noodle] pointerup: no drag state'); return; }
-
-    console.log('[noodle] pointerup at', e.clientX, e.clientY, 'from', state.fromId, state.fromPort);
-    console.log('[noodle] portElements:', this.#portElements.length, 'droppable:', this.#portElements.filter(d => d.hasAttribute('data-noodle-droppable')).length);
+    if (!state) return;
 
     // Proximity-based snap: find nearest port within threshold
     const nearest = this.#findNearestPort(e.clientX, e.clientY);
-    console.log('[noodle] nearest port:', nearest?.getAttribute('data-noodle-target'), nearest?.getAttribute('data-noodle-side'), nearest);
     if (nearest) {
       const toId = nearest.getAttribute('data-noodle-target')!;
       const toPort = nearest.getAttribute('data-noodle-side')! as PortSide;
 
       // Don't connect to same port on same element
       if (toId !== state.fromId || toPort !== state.fromPort) {
-        console.log('[noodle] CONNECTING', state.fromId, state.fromPort, '->', toId, toPort);
         this.connect(state.fromId, toId, state.fromPort, toPort);
-      } else {
-        console.log('[noodle] same port, skipping');
-      }
-    } else {
-      console.log('[noodle] no port found within radius', DROP_SNAP_RADIUS);
-      // Log distances to all droppable ports for debugging
-      for (const dot of this.#portElements) {
-        if (!dot.hasAttribute('data-noodle-droppable')) continue;
-        const rect = dot.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
-        console.log(`  port ${dot.getAttribute('data-noodle-target')}:${dot.getAttribute('data-noodle-side')} dist=${Math.round(dist)} rect=(${Math.round(rect.left)},${Math.round(rect.top)}) size=${Math.round(rect.width)}x${Math.round(rect.height)}`);
       }
     }
 

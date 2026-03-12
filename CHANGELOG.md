@@ -2,6 +2,13 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.147
+
+### Fixed
+- **MagnetController** — Snap threshold, guide line positions, and drag translate now account for CSS transform scale on the host or its ancestors (e.g. zoomed-out infinite canvas). Previously, guides were misaligned and snap distances were wrong when zoomed out via `transform: scale()`. `@nonoun/native-traits@0.1.6`.
+- **ResizeController** — Pointer delta and step snapping now account for CSS transform scale on the host or its ancestors. Previously, resizing at 50% zoom would only move half the expected distance. `@nonoun/native-traits@0.1.6`.
+- **NoodleController** — Removed verbose `[noodle]` debug `console.log` statements that shipped in production dist (T0213). `@nonoun/native-traits@0.1.6`.
+
 ## 0.7.145
 
 ### Changed

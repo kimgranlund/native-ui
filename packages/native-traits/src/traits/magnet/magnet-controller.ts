@@ -59,6 +59,7 @@ export class MagnetController {
   #attached = false;
   #dragState: DragState | null = null;
   #guideElements: HTMLElement[] = [];
+  #scale = 1;
 
   constructor(host: HTMLElement, options: MagnetOptions = {}) {
     this.host = host;
@@ -106,12 +107,18 @@ export class MagnetController {
     this.host.toggleAttribute('magnetized', true);
     item.style.willChange = 'translate';
 
+    // Detect CSS transform scale on host (e.g. zoomed-out canvas)
+    const hostRect = this.host.getBoundingClientRect();
+    const clientW = this.host.clientWidth;
+    this.#scale = (clientW && hostRect.width) ? hostRect.width / clientW : 1;
+
     const { tx, ty } = this.#parseTranslate(item);
 
+    // Store offset in local (unscaled) coordinate space
     this.#dragState = {
       item,
-      offsetX: e.clientX - tx,
-      offsetY: e.clientY - ty,
+      offsetX: e.clientX / this.#scale - tx,
+      offsetY: e.clientY / this.#scale - ty,
       pointerId: e.pointerId,
       snapping: false,
     };
@@ -125,9 +132,9 @@ export class MagnetController {
     const state = this.#dragState;
     if (!state) return;
 
-    // Raw desired translate from pointer delta
-    const rawTx = e.clientX - state.offsetX;
-    const rawTy = e.clientY - state.offsetY;
+    // Raw desired translate from pointer delta (converted to local space)
+    const rawTx = e.clientX / this.#scale - state.offsetX;
+    const rawTy = e.clientY / this.#scale - state.offsetY;
 
     // Calculate snap
     const snap = this.#calculateSnap(state.item, rawTx, rawTy);
@@ -145,11 +152,11 @@ export class MagnetController {
     const isSnapping = (snap.x !== null && !snap.x.guideOnly) || (snap.y !== null && !snap.y.guideOnly);
     state.item.toggleAttribute('magnet-snapping', isSnapping);
 
-    // Guides (positioned at the snap line, not the item)
+    // Guides (positioned at the snap line in local coordinate space)
     if (this.guides) {
       this.#removeGuides();
-      if (snap.x?.guidePos != null) this.#addGuide('x', snap.x.guidePos);
-      if (snap.y?.guidePos != null) this.#addGuide('y', snap.y.guidePos);
+      if (snap.x?.guidePos != null) this.#addGuide('x', snap.x.guidePos / this.#scale);
+      if (snap.y?.guidePos != null) this.#addGuide('y', snap.y.guidePos / this.#scale);
     }
 
     // Edge-triggered snap event (only on snap enter)
@@ -209,18 +216,28 @@ export class MagnetController {
     const hostRect = this.host.getBoundingClientRect();
     const projected = this.#projectItemRect(item, rawTx, rawTy);
 
+    // Scale threshold to client space — getBoundingClientRect values are scaled,
+    // so compare against scaled threshold for consistent snap distance on screen
+    const scaledThreshold = this.threshold * this.#scale;
+
     let bestX: SnapAxis | null = null;
     let bestY: SnapAxis | null = null;
-    let bestDistX = this.threshold;
-    let bestDistY = this.threshold;
+    let bestDistX = scaledThreshold;
+    let bestDistY = scaledThreshold;
+
+    // All distance comparisons happen in client (screen) space via getBoundingClientRect.
+    // Translate adjustments convert back to local space by dividing by scale.
+    const s = this.#scale;
 
     // Grid snap (in host-relative space so all items share the same grid)
     if (this.gridSize > 0) {
       const itemLeftInHost = projected.left - hostRect.left;
       const itemTopInHost = projected.top - hostRect.top;
 
-      const snappedLeft = Math.round(itemLeftInHost / this.gridSize) * this.gridSize;
-      const snappedTop = Math.round(itemTopInHost / this.gridSize) * this.gridSize;
+      // gridSize is in local space — scale to client space for comparison
+      const scaledGrid = this.gridSize * s;
+      const snappedLeft = Math.round(itemLeftInHost / scaledGrid) * scaledGrid;
+      const snappedTop = Math.round(itemTopInHost / scaledGrid) * scaledGrid;
 
       const distX = Math.abs(itemLeftInHost - snappedLeft);
       const distY = Math.abs(itemTopInHost - snappedTop);
@@ -228,7 +245,7 @@ export class MagnetController {
       if (distX < bestDistX) {
         bestDistX = distX;
         bestX = {
-          translate: rawTx + (snappedLeft - itemLeftInHost),
+          translate: rawTx + (snappedLeft - itemLeftInHost) / s,
           guidePos: snappedLeft,
           snapType: 'grid',
         };
@@ -236,7 +253,7 @@ export class MagnetController {
       if (distY < bestDistY) {
         bestDistY = distY;
         bestY = {
-          translate: rawTy + (snappedTop - itemTopInHost),
+          translate: rawTy + (snappedTop - itemTopInHost) / s,
           guidePos: snappedTop,
           snapType: 'grid',
         };
@@ -262,7 +279,7 @@ export class MagnetController {
             if (dist < bestDistX) {
               bestDistX = dist;
               bestX = {
-                translate: rawTx + (sibEdge - itemEdge),
+                translate: rawTx + (sibEdge - itemEdge) / s,
                 guidePos: sibEdge - hostRect.left,
                 snapType: 'sibling',
                 guideOnly: siblingGuideOnly,
@@ -281,7 +298,7 @@ export class MagnetController {
             if (dist < bestDistY) {
               bestDistY = dist;
               bestY = {
-                translate: rawTy + (sibEdge - itemEdge),
+                translate: rawTy + (sibEdge - itemEdge) / s,
                 guidePos: sibEdge - hostRect.top,
                 snapType: 'sibling',
                 guideOnly: siblingGuideOnly,
@@ -300,7 +317,7 @@ export class MagnetController {
       if (distLeft < bestDistX) {
         bestDistX = distLeft;
         bestX = {
-          translate: rawTx + (hostRect.left - projected.left),
+          translate: rawTx + (hostRect.left - projected.left) / s,
           guidePos: 0,
           snapType: 'edge',
           guideOnly: edgeGuideOnly,
@@ -311,7 +328,7 @@ export class MagnetController {
       if (distRight < bestDistX) {
         bestDistX = distRight;
         bestX = {
-          translate: rawTx + (hostRect.right - projected.right),
+          translate: rawTx + (hostRect.right - projected.right) / s,
           guidePos: hostRect.width,
           snapType: 'edge',
           guideOnly: edgeGuideOnly,
@@ -322,7 +339,7 @@ export class MagnetController {
       if (distTop < bestDistY) {
         bestDistY = distTop;
         bestY = {
-          translate: rawTy + (hostRect.top - projected.top),
+          translate: rawTy + (hostRect.top - projected.top) / s,
           guidePos: 0,
           snapType: 'edge',
           guideOnly: edgeGuideOnly,
@@ -333,7 +350,7 @@ export class MagnetController {
       if (distBottom < bestDistY) {
         bestDistY = distBottom; // suppress unused: bestDistY is the running minimum
         bestY = {
-          translate: rawTy + (hostRect.bottom - projected.bottom),
+          translate: rawTy + (hostRect.bottom - projected.bottom) / s,
           guidePos: hostRect.height,
           snapType: 'edge',
           guideOnly: edgeGuideOnly,
@@ -366,12 +383,13 @@ export class MagnetController {
     return { tx: parseFloat(parts[0]) || 0, ty: parseFloat(parts[1]) || 0 };
   }
 
-  /** Project where the item WOULD be at the proposed translate values. */
+  /** Project where the item WOULD be at the proposed translate values (returns client-space rect). */
   #projectItemRect(item: HTMLElement, proposedTx: number, proposedTy: number) {
     const base = item.getBoundingClientRect();
     const { tx, ty } = this.#parseTranslate(item);
-    const dx = proposedTx - tx;
-    const dy = proposedTy - ty;
+    // Delta is in local space — scale to client space for getBoundingClientRect comparison
+    const dx = (proposedTx - tx) * this.#scale;
+    const dy = (proposedTy - ty) * this.#scale;
     const left = base.left + dx;
     const top = base.top + dy;
     const right = base.right + dx;

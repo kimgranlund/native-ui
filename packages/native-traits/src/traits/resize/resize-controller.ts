@@ -70,6 +70,7 @@ export class ResizeController {
   #isResizing = false;
   #attached = false;
   #activeHandle: HandlePosition | null = null;
+  #scale = 1;
 
   constructor(host: HTMLElement, options: ResizeOptions) {
     this.host = host;
@@ -144,8 +145,12 @@ export class ResizeController {
     this.#startY = e.clientY;
 
     const rect = this.host.getBoundingClientRect();
-    this.#startWidth = rect.width;
-    this.#startHeight = rect.height;
+    // Detect CSS transform scale — getBoundingClientRect is client-space (scaled),
+    // but style.width/height are in local space. Convert delta accordingly.
+    const clientW = this.host.clientWidth;
+    this.#scale = (clientW && rect.width) ? rect.width / clientW : 1;
+    this.#startWidth = this.#scale !== 1 ? rect.width / this.#scale : rect.width;
+    this.#startHeight = this.#scale !== 1 ? rect.height / this.#scale : rect.height;
 
     this.host.setAttribute(this.stateAttribute, '');
     if (this.#handleElement) this.#handleElement.setAttribute(this.stateAttribute, '');
@@ -166,10 +171,11 @@ export class ResizeController {
   #onPointerMove = (e: PointerEvent): void => {
     if (!this.#isResizing) return;
 
-    let dx = e.clientX - this.#startX;
-    let dy = e.clientY - this.#startY;
+    // Convert client-space delta to local (unscaled) space
+    let dx = (e.clientX - this.#startX) / this.#scale;
+    let dy = (e.clientY - this.#startY) / this.#scale;
 
-    // Step snapping
+    // Step snapping (in local space)
     if (this.step > 0) {
       dx = Math.round(dx / this.step) * this.step;
       dy = Math.round(dy / this.step) * this.step;
@@ -222,10 +228,11 @@ export class ResizeController {
     if (!this.#isResizing) return;
 
     const rect = this.host.getBoundingClientRect();
+    const s = this.#scale;
     this.#eventTarget.dispatchEvent(new CustomEvent('native:resize-end', {
       bubbles: true,
       composed: true,
-      detail: { width: rect.width, height: rect.height, handle: this.#activeHandle },
+      detail: { width: rect.width / s, height: rect.height / s, handle: this.#activeHandle },
     }));
 
     this.#cleanup();
