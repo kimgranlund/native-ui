@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.174
+
+### Changed (native-ai@1.0.90)
+- **Training Library lightbox header** — Replaced slot-based `n-header` layout with `n-toolbar` inside `n-header`, matching the A2UI Builder pattern (title + `<span fill>` + trailing action buttons).
+
 ## 0.7.173
 
 ### Changed (native-ai@1.0.89)

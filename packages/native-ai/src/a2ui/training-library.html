@@ -43,14 +43,17 @@
         <!-- Left: Preview -->
         <div class="tl-preview-pane">
           <n-header>
-            <span id="lightbox-title" class="tl-lightbox-title">Pattern</span>
-            <span id="lightbox-badges" slot="trailing"></span>
-            <n-button variant="ghost" size="sm" id="inspect-toggle" slot="trailing" title="CSS Inspector">
-              <n-icon name="stack-simple"></n-icon>
-            </n-button>
-            <n-button variant="ghost" size="sm" id="lightbox-close" slot="trailing">
-              <n-icon name="x"></n-icon>
-            </n-button>
+            <n-toolbar variant="ghost" size="sm">
+              <span id="lightbox-title" class="tl-lightbox-title">Pattern</span>
+              <span id="lightbox-badges"></span>
+              <span fill></span>
+              <n-button variant="ghost" size="sm" id="inspect-toggle" title="CSS Inspector">
+                <n-icon name="stack-simple"></n-icon>
+              </n-button>
+              <n-button variant="ghost" size="sm" id="lightbox-close">
+                <n-icon name="x"></n-icon>
+              </n-button>
+            </n-toolbar>
           </n-header>
           <div class="tl-preview-mount" id="lightbox-preview"></div>
         </div>
