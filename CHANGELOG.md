@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.165
+
+### Added (native-ai@1.0.82)
+- **Training Library Insights pane** — New "Insights" tab in the editor lightbox shows pipeline reasoning at every step. Displays `[Reasoning state: {step}]` placeholder while each step is in-flight, then streams in structured summaries (interpretation, concepts with accent badges, plan with traits/layout, construct completion) on step completion. Mirrors the builder's insight rendering pattern.
+
 ## 0.7.164
 
 ### Added (native-ai@1.0.81)

@@ -50,7 +50,7 @@ import type { CatalogEntry, Pattern } from './patterns/pattern-types.ts';
 import { PIPELINE_STEPS, runPipeline } from './builder/pipeline.ts';
 import type { GatewayAdapter } from '../../chat/gateway/adapter.ts';
 import { isClaudeModel, createAdapter } from '../../chat/gateway/model-registry.ts';
-import { parseJsonFromResponse } from '../../chat/parsing/json-extractor.ts';
+import { parseJsonFromResponse, stripFences } from '../../chat/parsing/json-extractor.ts';
 import promptJson from './builder/system-prompt.json' with { type: 'json' };
 
 // ══════════════════════════════════════════════════════════════════
@@ -102,6 +102,7 @@ const tokensRange = document.getElementById('tl-max-tokens') as HTMLInputElement
 const pipelineToggle = document.getElementById('tl-pipeline-toggle') as HTMLInputElement;
 const tempVal = document.getElementById('temp-val')!;
 const tokensVal = document.getElementById('tokens-val')!;
+const insightsWrap = document.getElementById('insights-wrap')!;
 const btnRegenerate = document.getElementById('btn-regenerate')!;
 const btnExport = document.getElementById('btn-export')!;
 const btnClose = document.getElementById('lightbox-close')!;
@@ -353,6 +354,143 @@ function onPreviewClick(e: Event): void {
 }
 
 // ══════════════════════════════════════════════════════════════════
+// Insights Pane
+// ══════════════════════════════════════════════════════════════════
+
+let insightCounter = 0;
+
+/** Map step id → its DOM entry (so we can replace placeholder with content). */
+const insightEntries = new Map<string, HTMLElement>();
+
+function clearInsights(): void {
+  insightsWrap.innerHTML = '';
+  insightCounter = 0;
+  insightEntries.clear();
+}
+
+function appendInsightEntry(label: string, stepId?: string): HTMLElement {
+  insightCounter++;
+  const entry = document.createElement('div');
+  entry.className = 'tl-insight-entry';
+
+  const header = document.createElement('div');
+  header.className = 'tl-insight-header';
+  const num = document.createElement('span');
+  num.className = 'tl-insight-num';
+  num.textContent = `#${insightCounter}`;
+  header.appendChild(num);
+  const title = document.createElement('span');
+  title.className = 'tl-insight-label';
+  title.textContent = label;
+  header.appendChild(title);
+  entry.appendChild(header);
+
+  insightsWrap.appendChild(entry);
+  insightsWrap.scrollTop = insightsWrap.scrollHeight;
+
+  if (stepId) insightEntries.set(stepId, entry);
+  return entry;
+}
+
+function appendInsightText(parent: HTMLElement, text: string, muted = false): void {
+  const el = document.createElement('span');
+  el.className = 'tl-insight-text';
+  if (muted) el.setAttribute('data-muted', '');
+  el.textContent = text;
+  parent.appendChild(el);
+}
+
+function appendInsightBadges(parent: HTMLElement, items: string[], intent?: string): void {
+  const wrap = document.createElement('div');
+  wrap.className = 'tl-insight-badges';
+  for (const item of items) {
+    const badge = document.createElement('n-badge');
+    if (intent) badge.setAttribute('intent', intent);
+    badge.textContent = item;
+    wrap.appendChild(badge);
+  }
+  parent.appendChild(wrap);
+}
+
+function appendInsightPlaceholder(entry: HTMLElement, stepLabel: string): HTMLElement {
+  const placeholder = document.createElement('span');
+  placeholder.className = 'tl-insight-placeholder';
+  placeholder.textContent = `[Reasoning state: ${stepLabel}]`;
+  entry.appendChild(placeholder);
+  return placeholder;
+}
+
+function appendInterpretation(entry: HTMLElement, output: string): void {
+  // Remove placeholder
+  entry.querySelector('.tl-insight-placeholder')?.remove();
+
+  try {
+    const data = JSON.parse(stripFences(output));
+    if (data.intent) appendInsightText(entry, data.intent);
+    const meta: string[] = [];
+    if (data.uiKind) meta.push(data.uiKind);
+    if (meta.length) appendInsightBadges(entry, meta);
+    if (data.assumptions?.length) {
+      for (const a of data.assumptions) appendInsightText(entry, `→ ${a}`, true);
+    }
+  } catch {
+    appendInsightText(entry, output.slice(0, 300), true);
+  }
+}
+
+function appendConcepts(entry: HTMLElement, output: string): void {
+  entry.querySelector('.tl-insight-placeholder')?.remove();
+
+  try {
+    const data = JSON.parse(stripFences(output));
+
+    for (const c of data.concepts ?? []) {
+      const item = document.createElement('div');
+      item.className = 'tl-insight-concept';
+      const name = document.createElement('span');
+      name.className = 'tl-insight-concept-name';
+      name.textContent = c.pattern;
+      item.appendChild(name);
+      if (c.rationale) appendInsightText(item, c.rationale, true);
+      entry.appendChild(item);
+    }
+
+    if (data.interactions?.length) {
+      appendInsightBadges(entry, data.interactions, 'accent');
+    }
+    if (data.dataFlow) appendInsightText(entry, data.dataFlow);
+    if (data.stateModel) appendInsightText(entry, data.stateModel, true);
+  } catch {
+    appendInsightText(entry, output.slice(0, 300), true);
+  }
+}
+
+function appendPlan(entry: HTMLElement, output: string): void {
+  entry.querySelector('.tl-insight-placeholder')?.remove();
+
+  try {
+    const data = JSON.parse(stripFences(output));
+    if (data.layout) appendInsightText(entry, data.layout);
+    if (data.hierarchy) appendInsightText(entry, data.hierarchy, true);
+
+    const traits = data.traits ?? [];
+    if (traits.length) appendInsightBadges(entry, traits);
+
+    const notes: string[] = [];
+    if (data.cssNeeded && data.cssNotes) notes.push(`CSS: ${data.cssNotes}`);
+    if (data.jsNeeded && data.jsNotes) notes.push(`JS: ${data.jsNotes}`);
+    for (const n of notes) appendInsightText(entry, n, true);
+  } catch {
+    appendInsightText(entry, output.slice(0, 300), true);
+  }
+}
+
+function appendConstruct(entry: HTMLElement, _output: string): void {
+  entry.querySelector('.tl-insight-placeholder')?.remove();
+  appendInsightText(entry, 'Schema constructed — see Schema tab for full output.');
+}
+
+// ══════════════════════════════════════════════════════════════════
 // LLM Regeneration
 // ══════════════════════════════════════════════════════════════════
 
@@ -435,6 +573,10 @@ async function regenerateDirect(query: string): Promise<void> {
 }
 
 async function regeneratePipeline(query: string): Promise<void> {
+  // Clear and switch to insights tab
+  clearInsights();
+  showTab('insights');
+
   const ctx = {
     query,
     currentSchema: currentPattern
@@ -444,17 +586,36 @@ async function regeneratePipeline(query: string): Promise<void> {
     conversationHistory: [] as Array<{ role: string; message: string }>,
   };
 
+  const stepLabels: Record<string, string> = {
+    interpret: 'Interpretation',
+    concepts: 'Concept Mapping',
+    plan: 'Planning',
+    construct: 'Constructing',
+  };
+
   const callbacks = {
     onStepStart(step: (typeof PIPELINE_STEPS)[number], _idx: number) {
-      schemaEditor.value = `// ${step.activeLabel}...\n` + schemaEditor.value;
+      const entry = appendInsightEntry(stepLabels[step.id] ?? step.label, step.id);
+      appendInsightPlaceholder(entry, step.activeLabel);
     },
-    onStepComplete(_step: (typeof PIPELINE_STEPS)[number], _idx: number, _output: string) {
-      // Progress tracked
+    onStepComplete(step: (typeof PIPELINE_STEPS)[number], _idx: number, output: string) {
+      const entry = insightEntries.get(step.id);
+      if (!entry) return;
+
+      if (step.id === 'interpret') appendInterpretation(entry, output);
+      else if (step.id === 'concepts') appendConcepts(entry, output);
+      else if (step.id === 'plan') appendPlan(entry, output);
+      else if (step.id === 'construct') appendConstruct(entry, output);
     },
     onStreamChunk(_delta: string, fullMessage: string) {
       schemaEditor.value = fullMessage;
     },
     onError(step: (typeof PIPELINE_STEPS)[number], _idx: number, error: Error) {
+      const entry = insightEntries.get(step.id);
+      if (entry) {
+        entry.querySelector('.tl-insight-placeholder')?.remove();
+        appendInsightText(entry, `Error: ${error.message}`, true);
+      }
       schemaEditor.value = `// Error in ${step.label}: ${error.message}`;
     },
   };

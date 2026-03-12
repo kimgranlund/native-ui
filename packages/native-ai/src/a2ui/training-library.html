@@ -56,6 +56,7 @@
         <div class="tl-editor-pane">
           <n-tabs id="editor-tabs" size="sm">
             <n-tab value="schema" selected>Schema</n-tab>
+            <n-tab value="insights">Insights</n-tab>
             <n-tab value="output">Output</n-tab>
             <n-tab value="settings">Settings</n-tab>
           </n-tabs>
@@ -63,6 +64,11 @@
           <!-- Schema tab -->
           <div class="tl-tab-panel" data-tab="schema">
             <textarea id="schema-editor" class="tl-code-editor" spellcheck="false"></textarea>
+          </div>
+
+          <!-- Insights tab -->
+          <div class="tl-tab-panel" data-tab="insights" hidden>
+            <div id="insights-wrap" class="tl-insights-wrap"></div>
           </div>
 
           <!-- Output tab -->
