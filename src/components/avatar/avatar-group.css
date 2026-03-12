@@ -17,7 +17,7 @@
 
   :where(n-avatar-group) > :where(n-avatar) {
     margin-inline-start: -0.5rem;
-    outline: 2px solid var(--n-ground, var(--n-body-neutral));
+    outline: 2px solid var(--n-ground);
     outline-offset: -1px;
   }
 

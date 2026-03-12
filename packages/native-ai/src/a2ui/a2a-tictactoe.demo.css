@@ -26,7 +26,7 @@
 #model-o.active > n-button { outline: 3px solid var(--n-ink-danger); outline-offset: 3px; }
 
 .surface-mount .stack[data-empty]:hover {
-  background: var(--n-panel-hover) !important;
+  background: var(--n-panel-hover);
   cursor: pointer;
 }
 

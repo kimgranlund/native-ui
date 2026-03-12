@@ -136,7 +136,7 @@ n-table code {
   letter-spacing: 0.05em;
   padding-top: calc(var(--n-space) * 4);
   border-bottom: 2px solid var(--n-border-neutral);
-  background: var(--n-doc-neutral) !important;
+  background: var(--n-doc-neutral);
 }
 
 /* Sub-element notes */

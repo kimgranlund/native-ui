@@ -20,8 +20,8 @@ body {
 }
 
 .stat-card n-header {
-  font-size: 0.8125rem;
-  font-weight: 500;
+  --n-font-size: 0.8125rem;
+  --n-font-weight: 500;
   color: var(--n-ink-muted-neutral);
 }
 
@@ -33,7 +33,7 @@ body {
 }
 
 .stat-card n-footer {
-  font-size: 0.75rem;
+  --n-font-size: 0.75rem;
 }
 
 .stat-card .change-label {

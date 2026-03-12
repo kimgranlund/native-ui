@@ -2,6 +2,14 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.151
+
+### Fixed
+- **avatar-group** — Removed banned fallback chain `var(--n-ground, var(--n-body-neutral))` → `var(--n-ground)` (`--n-ground` already defaults to `--n-body`).
+- **data-dashboard-stats block** — Migrated `font-size`/`font-weight` overrides on `n-header`/`n-footer` to `--n-font-size`/`--n-font-weight` tokens.
+- **reference.demo.css** — Removed unnecessary `!important` on `.cat-header td` background.
+- **a2a-tictactoe.demo.css** — Removed unnecessary `!important` on hover background.
+
 ## 0.7.150 / native-ai 1.0.78
 
 ### Added
