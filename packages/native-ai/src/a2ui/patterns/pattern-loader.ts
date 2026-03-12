@@ -12,6 +12,12 @@ import catalogData from './pattern-catalog.json' with { type: 'json' };
 /** Cached catalog singleton. */
 const catalog = catalogData as PatternCatalog;
 
+/** Eagerly import all pattern JSON files via Vite glob. */
+const patternModules = import.meta.glob(
+  ['./**/*.json', '!./pattern-catalog.json'],
+  { import: 'default', eager: true },
+) as Record<string, Pattern>;
+
 /** Returns the full pattern catalog (System of Record). */
 export function loadCatalog(): PatternCatalog {
   return catalog;
@@ -79,10 +85,8 @@ export async function loadPattern(id: string): Promise<Pattern | null> {
   if (!entry) return null;
 
   const folder = entry.tier === 'micro' ? 'micro' : 'blocks';
-  try {
-    const mod = await import(`./${folder}/${id}.json`, { with: { type: 'json' } });
-    return mod.default as Pattern;
-  } catch {
-    return null;
-  }
+  const key = `./${folder}/${id}.json`;
+  const data = patternModules[key];
+  if (!data) return null;
+  return data as Pattern;
 }

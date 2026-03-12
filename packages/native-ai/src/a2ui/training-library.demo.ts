@@ -218,9 +218,10 @@ async function renderCardPreview(id: string): Promise<void> {
     const pattern = await loadPattern(id);
     if (!pattern) return;
 
+    const flat = flattenComponents(pattern.components as Record<string, unknown>[]);
     const adapter = createA2UIAdapter(kernel, {});
     adapter.receive(
-      { updateComponents: { surfaceId: `card-${id}`, components: flattenComponents(pattern.components as Record<string, unknown>[]) } },
+      { updateComponents: { surfaceId: `card-${id}`, components: flat } },
       mount,
     );
     // Keep adapter alive — kernel owns the surface
