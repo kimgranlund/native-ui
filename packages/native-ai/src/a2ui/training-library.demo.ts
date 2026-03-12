@@ -165,7 +165,7 @@ function renderGrid(): void {
         <span class="tl-card-badge" data-tier="${entry.tier}">${entry.tier}</span>
         <span class="tl-card-badge" data-category>${entry.category}</span>
       </div>
-      <div class="tl-card-overlay"><span>Edit</span></div>
+      <div class="tl-card-overlay"><n-button variant="primary" intent="accent" size="sm"><n-icon name="pencil-simple" slot="leading"></n-icon>Edit</n-button></div>
     `;
 
     grid.appendChild(card);
@@ -320,6 +320,8 @@ function dismissInspector(): void {
 function closeLightbox(): void {
   dismissInspector();
   dialog.close();
+  dialog.removeAttribute('data-fullscreen');
+  fullscreenToggleBtn.removeAttribute('data-active');
   lightboxAdapter?.destroy();
   lightboxAdapter = null;
   currentPattern = null;
@@ -838,10 +840,13 @@ grid.addEventListener('pointerup', (e) => {
 btnClose.addEventListener('pointerup', closeLightbox);
 dialog.addEventListener('close', () => {
   dismissInspector();
+  dialog.removeAttribute('data-fullscreen');
+  fullscreenToggleBtn.removeAttribute('data-active');
   lightboxAdapter?.destroy();
   lightboxAdapter = null;
   currentPattern = null;
   originalSchema = null;
+  lightboxPreview.innerHTML = '';
 });
 
 // CSS Inspector toggle
@@ -894,18 +899,18 @@ modelPicker?.addEventListener('native:change', () => {
   currentModel = modelPicker.value;
 });
 
-tempRange?.addEventListener('input', () => {
-  temperature = parseFloat(tempRange.value);
+tempRange?.addEventListener('native:input', () => {
+  temperature = (tempRange as unknown as { value: number }).value;
   tempVal.textContent = String(temperature);
 });
 
-tokensRange?.addEventListener('input', () => {
-  maxTokens = parseInt(tokensRange.value, 10);
+tokensRange?.addEventListener('native:input', () => {
+  maxTokens = (tokensRange as unknown as { value: number }).value;
   tokensVal.textContent = String(maxTokens);
 });
 
-pipelineToggle?.addEventListener('native:change', () => {
-  pipelineMode = (pipelineToggle as unknown as { checked: boolean }).checked;
+pipelineToggle?.addEventListener('native:change', (e) => {
+  pipelineMode = (e as CustomEvent).detail?.checked ?? false;
 });
 
 // ══════════════════════════════════════════════════════════════════

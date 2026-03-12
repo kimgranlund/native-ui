@@ -126,14 +126,6 @@
   opacity: 1;
 }
 
-.tl-card-overlay span {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: white;
-  background: var(--n-control-accent);
-  padding: 0.375rem 1rem;
-  border-radius: var(--n-radius);
-}
 
 /* ══════════════════════════════════════════════════════════════════
    Editor Lightbox
@@ -158,6 +150,10 @@
   background: var(--pg-editor-bg);
   color: var(--pg-text);
   overflow: hidden;
+}
+
+/* Flex layout only when open — preserve UA display:none when closed */
+.tl-lightbox[open] {
   display: flex;
   flex-direction: column;
 }

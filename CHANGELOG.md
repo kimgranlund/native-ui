@@ -2,6 +2,13 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.178
+
+### Fixed (native-ai@1.0.93)
+- **Training Library dialog stuck after Escape** — `display: flex` on `.tl-lightbox` was overriding the UA `dialog:not([open]) { display: none }`, keeping the dialog visible after close. Moved flex layout to `.tl-lightbox[open]`. Close handler now also clears `data-fullscreen` and empties the preview mount.
+- **Training Library settings controls not wired** — `n-range` fires `native:input` not standard `input`. Temperature and Max Tokens sliders now listen on the correct event. Pipeline toggle reads `checked` from event detail.
+- **Training Library card overlay button** — Replaced hand-styled `<span>Edit</span>` with proper `<n-button variant="primary" intent="accent" size="sm">` with pencil icon.
+
 ## 0.7.177
 
 _Changelog and version bump only — no code changes._
