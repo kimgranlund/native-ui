@@ -178,9 +178,9 @@ export class BacktickWrapController {
     const s = code.style;
     s.fontFamily = 'var(--n-font-family-mono)';
     s.fontSize = '0.875em';
-    s.background = 'var(--n-surface)';
-    s.color = 'var(--n-surface-ink)';
-    s.borderRadius = 'calc(var(--n-radius) * 0.5)';
+    s.background = 'var(--n-panel-warning)';
+    s.color = 'var(--n-ink-warning)';
+    s.borderRadius = 'var(--n-radius)';
     s.padding = '0.1em 0.3em';
     s.userSelect = 'all';
   }

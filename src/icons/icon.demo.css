@@ -43,3 +43,39 @@
         color: var(--n-ink-muted-neutral);
         font-family: ui-monospace, monospace;
       }
+
+      .all-icons-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+        gap: 1px;
+        background: var(--n-border-muted-neutral);
+        border: 1px solid var(--n-border-muted-neutral);
+        border-radius: var(--n-radius);
+        overflow: hidden;
+      }
+
+      .icon-cell {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.625rem 0.25rem;
+        background: var(--n-ground);
+        cursor: default;
+        transition: background 0.15s;
+      }
+
+      .icon-cell:hover {
+        background: var(--n-panel-neutral);
+      }
+
+      .icon-cell > span {
+        font-size: 0.5625rem;
+        color: var(--n-ink-muted-neutral);
+        font-family: var(--n-font-family-mono);
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+        white-space: nowrap;
+      }

@@ -128,13 +128,21 @@ describe('MentionController', () => {
     ctrl.destroy();
   });
 
+  it('auto-activates first option on render', () => {
+    const { host, input, ctrl } = create();
+    simulateTyping(host, input, '@');
+
+    const options = host.querySelectorAll('n-option');
+    expect(options[0].hasAttribute('active')).toBe(true);
+    for (let i = 1; i < options.length; i++) {
+      expect(options[i].hasAttribute('active')).toBe(false);
+    }
+    ctrl.destroy();
+  });
+
   it('dispatches native:mention-select on Enter with active option', () => {
     const { host, input, ctrl } = create();
     simulateTyping(host, input, '@kim');
-
-    const option = host.querySelector('n-option');
-    expect(option).not.toBeNull();
-    option!.setAttribute('active', '');
 
     const handler = vi.fn();
     host.addEventListener('native:mention-select', handler);
@@ -155,9 +163,6 @@ describe('MentionController', () => {
     const { host, input, ctrl } = create();
     simulateTyping(host, input, '@kim');
 
-    const option = host.querySelector('n-option');
-    option!.setAttribute('active', '');
-
     input.dispatchEvent(new KeyboardEvent('keydown', {
       key: 'Enter',
       bubbles: true,
@@ -174,9 +179,6 @@ describe('MentionController', () => {
   it('mention tag uses accent color styling', () => {
     const { host, input, ctrl } = create();
     simulateTyping(host, input, '@kim');
-
-    const option = host.querySelector('n-option');
-    option!.setAttribute('active', '');
 
     input.dispatchEvent(new KeyboardEvent('keydown', {
       key: 'Enter',
@@ -261,13 +263,12 @@ describe('MentionController', () => {
     ctrl.destroy();
   });
 
-  it('delegates ArrowDown to listbox', () => {
+  it('ArrowDown moves active to next option', () => {
     const { host, input, ctrl } = create();
     simulateTyping(host, input, '@');
 
-    const listbox = host.querySelector('n-listbox')!;
-    const spy = vi.fn();
-    listbox.addEventListener('keydown', spy);
+    const options = host.querySelectorAll('n-option');
+    expect(options[0].hasAttribute('active')).toBe(true);
 
     input.dispatchEvent(new KeyboardEvent('keydown', {
       key: 'ArrowDown',
@@ -275,7 +276,42 @@ describe('MentionController', () => {
       cancelable: true,
     }));
 
-    expect(spy).toHaveBeenCalled();
+    expect(options[0].hasAttribute('active')).toBe(false);
+    expect(options[1].hasAttribute('active')).toBe(true);
+    ctrl.destroy();
+  });
+
+  it('ArrowUp wraps to last option', () => {
+    const { host, input, ctrl } = create();
+    simulateTyping(host, input, '@');
+
+    const options = host.querySelectorAll('n-option');
+    expect(options[0].hasAttribute('active')).toBe(true);
+
+    input.dispatchEvent(new KeyboardEvent('keydown', {
+      key: 'ArrowUp',
+      bubbles: true,
+      cancelable: true,
+    }));
+
+    expect(options[0].hasAttribute('active')).toBe(false);
+    expect(options[options.length - 1].hasAttribute('active')).toBe(true);
+    ctrl.destroy();
+  });
+
+  it('click on option selects it', () => {
+    const { host, input, ctrl } = create();
+    simulateTyping(host, input, '@');
+
+    const handler = vi.fn();
+    host.addEventListener('native:mention-select', handler);
+
+    const option = host.querySelectorAll('n-option')[1];
+    option.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    expect(handler).toHaveBeenCalledTimes(1);
+    expect(handler.mock.calls[0][0].detail.command.value).toBe('alex');
+    expect(ctrl.open).toBe(false);
     ctrl.destroy();
   });
 

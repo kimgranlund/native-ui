@@ -1,6 +1,6 @@
 {
   "name": "@nonoun/native-core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Core foundation for @nonoun/native-ui — NativeElement base class, signal-based reactivity, and registry system",
   "license": "MIT",
   "type": "module",

@@ -148,60 +148,30 @@ function toOklch(probe: HTMLElement, color: string): string {
   return computed;
 }
 
-export async function exportComputedTokens(): Promise<void> {
-  const allNames: string[] = [];
+/** Wait for styles to recompute after a color-scheme change. */
+function waitForRepaint(): Promise<void> {
+  return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+}
 
-  // Fetch and parse each source file
-  for (const path of SOURCE_FILES) {
-    try {
-      const res = await fetch(path);
-      const css = await res.text();
-      const names = extractPropertyNames(css);
-      for (const n of names) {
-        if (!allNames.includes(n)) allNames.push(n);
-      }
-    } catch (err) {
-      console.warn(`Failed to fetch ${path}:`, err);
-    }
-  }
-
-  if (allNames.length === 0) {
-    console.error('No tokens found');
-    return;
-  }
-
-  // Create off-screen probe element for color resolution
-  const probe = document.createElement('div');
-  probe.style.cssText = 'position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;pointer-events:none;';
-  document.body.appendChild(probe);
-
-  // Resolve color tokens only — skip anything that doesn't resolve to a color
+/** Resolve token names to computed values for the current color scheme. */
+function resolveEntries(probe: HTMLElement, names: string[]): [string, string][] {
   const entries: [string, string][] = [];
-  for (const name of allNames) {
+  for (const name of names) {
     const color = resolveColor(probe, name);
     if (!color) continue;
     const oklch = toOklch(probe, color);
     entries.push([name, oklch]);
   }
+  return entries;
+}
 
-  probe.remove();
-
-  // Group by prefix
+/** Build a CSS :root block from resolved entries. */
+function buildCssBlock(entries: [string, string][], scheme: string): string[] {
   const groups = groupTokens(entries.map(([n]) => n));
   const valueMap = new Map(entries);
+  const lines: string[] = [];
 
-  // Build CSS output
-  const lines: string[] = [
-    '/* ════════════════════════════════════════════════════════════════',
-    '   Computed Design Tokens (resolved to final values)',
-    `   Generated: ${new Date().toISOString()}`,
-    `   Color scheme: ${getComputedStyle(document.documentElement).colorScheme || 'light'}`,
-    `   Theme: ${document.documentElement.getAttribute('theme') || 'default'}`,
-    `   Tokens: ${entries.length}`,
-    '   ════════════════════════════════════════════════════════════════ */',
-    '',
-    ':root {',
-  ];
+  lines.push(`  /* ── ${scheme} ── */`);
 
   let first = true;
   for (const [prefix, names] of groups) {
@@ -227,18 +197,289 @@ export async function exportComputedTokens(): Promise<void> {
     }
   }
 
-  lines.push('}', '');
-  const css = lines.join('\n');
+  return lines;
+}
 
-  // Download
+/**
+ * Resolve tokens from CSS source files for both light and dark schemes,
+ * then download a single CSS file with both modes.
+ */
+async function resolveAndDownload(paths: string[], filenamePrefix: string): Promise<void> {
+  const allNames: string[] = [];
+
+  for (const path of paths) {
+    try {
+      const res = await fetch(path);
+      const css = await res.text();
+      const names = extractPropertyNames(css);
+      for (const n of names) {
+        if (!allNames.includes(n)) allNames.push(n);
+      }
+    } catch (err) {
+      console.warn(`Failed to fetch ${path}:`, err);
+    }
+  }
+
+  if (allNames.length === 0) {
+    console.error('No tokens found');
+    return;
+  }
+
+  const probe = document.createElement('div');
+  probe.style.cssText = 'position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;pointer-events:none;';
+  document.body.appendChild(probe);
+
+  const root = document.documentElement;
+  const originalScheme = root.style.colorScheme;
+
+  // Resolve light
+  root.style.colorScheme = 'light';
+  await waitForRepaint();
+  const lightEntries = resolveEntries(probe, allNames);
+
+  // Resolve dark
+  root.style.colorScheme = 'dark';
+  await waitForRepaint();
+  const darkEntries = resolveEntries(probe, allNames);
+
+  // Restore
+  root.style.colorScheme = originalScheme;
+  probe.remove();
+
+  const theme = root.getAttribute('theme') || 'default';
+  const totalTokens = new Set([...lightEntries.map(([n]) => n), ...darkEntries.map(([n]) => n)]).size;
+
+  const lines: string[] = [
+    '/* ════════════════════════════════════════════════════════════════',
+    `   ${filenamePrefix} (resolved to final values)`,
+    `   Generated: ${new Date().toISOString()}`,
+    `   Theme: ${theme}`,
+    `   Tokens: ${totalTokens} per mode`,
+    '   ════════════════════════════════════════════════════════════════ */',
+    '',
+    '/* ── Light Mode ── */',
+    '@media (prefers-color-scheme: light) {',
+    ':root {',
+    ...buildCssBlock(lightEntries, 'light'),
+    '}',
+    '}',
+    '',
+    '/* ── Dark Mode ── */',
+    '@media (prefers-color-scheme: dark) {',
+    ':root {',
+    ...buildCssBlock(darkEntries, 'dark'),
+    '}',
+    '}',
+    '',
+  ];
+
+  const css = lines.join('\n');
   const blob = new Blob([css], { type: 'text/css' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
+  a.download = `${filenamePrefix}-${theme}.css`;
 
-  const scheme = getComputedStyle(document.documentElement).colorScheme?.includes('dark') ? 'dark' : 'light';
-  const theme = document.documentElement.getAttribute('theme') || 'default';
-  a.download = `tokens-computed-${theme}-${scheme}.css`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+/** Download all computed + semantic tokens combined. */
+export function exportComputedTokens(): Promise<void> {
+  return resolveAndDownload(SOURCE_FILES, 'tokens-computed');
+}
+
+/** Download only colors.computed.css tokens (primitives). */
+export function exportComputedColors(): Promise<void> {
+  return resolveAndDownload(['./css/colors.computed.css'], 'colors-computed');
+}
+
+/** Download only colors.semantic.css tokens (semantic roles). */
+export function exportSemanticColors(): Promise<void> {
+  return resolveAndDownload(['./css/colors.semantic.css'], 'colors-semantic');
+}
+
+// ── Figma Variables Export ──
+
+const FAMILIES = ['neutral', 'accent', 'info', 'success', 'warning', 'danger'] as const;
+
+/**
+ * Mapping from CSS token patterns to Figma variable paths.
+ *
+ * CSS: --n-{role}-{modifier?}-{family}
+ * Figma: {family}.{figmaRole}.{figmaModifier}
+ *
+ * Each entry: [cssPrefix, figmaPath]
+ * {f} = family placeholder, replaced at runtime.
+ */
+const TOKEN_TO_FIGMA: [string, string][] = [
+  // Ink
+  ['ink-{f}',              '{f}.ink.color'],
+  ['ink-strong-{f}',       '{f}.ink.strong'],
+  ['ink-inverse-{f}',      '{f}.ink.inverse'],
+  ['ink-muted-{f}',        '{f}.ink.muted'],
+  ['ink-placeholder-{f}',  '{f}.ink.placeholder'],
+  ['ink-hover-{f}',        '{f}.ink.hover'],
+  ['ink-active-{f}',       '{f}.ink.active'],
+  ['ink-disabled-{f}',     '{f}.ink.disabled'],
+
+  // Surface (primary fill)
+  ['surface-{f}',          '{f}.surface.color'],
+  ['surface-hover-{f}',    '{f}.surface.hover'],
+  ['surface-active-{f}',   '{f}.surface.active'],
+  ['surface-disabled-{f}', '{f}.surface.disabled'],
+
+  // Surface ink (text on surface fills)
+  ['surface-ink-{f}',          '{f}.surface.ink.color'],
+  ['surface-ink-hover-{f}',    '{f}.surface.ink.hover'],
+  ['surface-ink-active-{f}',   '{f}.surface.ink.active'],
+  ['surface-ink-disabled-{f}', '{f}.surface.ink.disabled'],
+
+  // Grounds (nested under surface in Figma)
+  ['doc-{f}',              '{f}.surface.doc.color'],
+  ['doc-hover-{f}',        '{f}.surface.doc.hover'],
+  ['doc-active-{f}',       '{f}.surface.doc.active'],
+  ['doc-disabled-{f}',     '{f}.surface.doc.disabled'],
+
+  ['body-{f}',              '{f}.surface.body.color'],
+  ['body-hover-{f}',        '{f}.surface.body.hover'],
+  ['body-active-{f}',       '{f}.surface.body.active'],
+  ['body-disabled-{f}',     '{f}.surface.body.disabled'],
+
+  ['panel-{f}',              '{f}.surface.panel.color'],
+  ['panel-hover-{f}',        '{f}.surface.panel.hover'],
+  ['panel-active-{f}',       '{f}.surface.panel.active'],
+  ['panel-disabled-{f}',     '{f}.surface.panel.disabled'],
+
+  ['control-{f}',              '{f}.surface.control.color'],
+  ['control-hover-{f}',        '{f}.surface.control.hover'],
+  ['control-active-{f}',       '{f}.surface.control.active'],
+  ['control-disabled-{f}',     '{f}.surface.control.disabled'],
+
+  ['button-{f}',              '{f}.surface.button.color'],
+  ['button-hover-{f}',        '{f}.surface.button.hover'],
+  ['button-active-{f}',       '{f}.surface.button.active'],
+  ['button-disabled-{f}',     '{f}.surface.button.disabled'],
+
+  ['card-{f}',              '{f}.surface.card.color'],
+  ['card-hover-{f}',        '{f}.surface.card.hover'],
+  ['card-active-{f}',       '{f}.surface.card.active'],
+  ['card-disabled-{f}',     '{f}.surface.card.disabled'],
+
+  ['modal-{f}',              '{f}.surface.modal.color'],
+  ['modal-hover-{f}',        '{f}.surface.modal.hover'],
+  ['modal-active-{f}',       '{f}.surface.modal.active'],
+  ['modal-disabled-{f}',     '{f}.surface.modal.disabled'],
+
+  // Border
+  ['border-{f}',           '{f}.border.color'],
+  ['border-muted-{f}',     '{f}.border.muted'],
+  ['border-hover-{f}',     '{f}.border.hover'],
+  ['border-active-{f}',    '{f}.border.active'],
+  ['border-disabled-{f}',  '{f}.border.disabled'],
+];
+
+/** Resolve a computed color to a hex string (Figma requires hex). */
+function toHex(_probe: HTMLElement, color: string): string {
+  // Create a canvas to convert any color format to RGBA
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 1;
+  const ctx = canvas.getContext('2d')!;
+  ctx.clearRect(0, 0, 1, 1);
+  ctx.fillStyle = color;
+  ctx.fillRect(0, 0, 1, 1);
+  const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
+
+  if (a < 255) {
+    const ah = a.toString(16).padStart(2, '0');
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}${ah}`;
+  }
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
+
+/** Set a deeply nested key on an object, creating intermediary objects as needed. */
+function setNested(obj: Record<string, unknown>, path: string, value: unknown): void {
+  const parts = path.split('.');
+  let cur: Record<string, unknown> = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (!(parts[i] in cur) || typeof cur[parts[i]] !== 'object') {
+      cur[parts[i]] = {};
+    }
+    cur = cur[parts[i]] as Record<string, unknown>;
+  }
+  cur[parts[parts.length - 1]] = value;
+}
+
+/** Resolve all semantic tokens for the current color scheme into a mode object. */
+function resolveMode(probe: HTMLElement): Record<string, unknown> {
+  const modeData: Record<string, unknown> = {};
+
+  for (const family of FAMILIES) {
+    for (const [cssPattern, figmaPattern] of TOKEN_TO_FIGMA) {
+      const cssName = `--n-${cssPattern.replace('{f}', family)}`;
+      const figmaPath = figmaPattern.replace('{f}', family);
+
+      const color = resolveColor(probe, cssName);
+      if (!color) continue;
+
+      const hex = toHex(probe, color);
+      setNested(modeData, figmaPath, {
+        $scopes: ['ALL_SCOPES'],
+        $type: 'color',
+        $value: hex,
+      });
+    }
+  }
+
+  return modeData;
+}
+
+/**
+ * Export semantic tokens as Figma Variables JSON (matching the hydrated schema).
+ * Toggles color-scheme to capture both light and dark modes in a single file.
+ */
+export async function exportFigmaVariables(): Promise<void> {
+  const probe = document.createElement('div');
+  probe.style.cssText = 'position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;pointer-events:none;';
+  document.body.appendChild(probe);
+
+  const root = document.documentElement;
+  const originalScheme = root.style.colorScheme;
+
+  // Resolve light mode
+  root.style.colorScheme = 'light';
+  await waitForRepaint();
+  const lightData = resolveMode(probe);
+
+  // Resolve dark mode
+  root.style.colorScheme = 'dark';
+  await waitForRepaint();
+  const darkData = resolveMode(probe);
+
+  // Restore original
+  root.style.colorScheme = originalScheme;
+
+  probe.remove();
+
+  const output = [{
+    Colors: {
+      modes: {
+        light: lightData,
+        dark: darkData,
+      },
+    },
+  }];
+
+  const json = JSON.stringify(output, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+
+  const theme = root.getAttribute('theme') || 'default';
+  a.download = `figma-variables-${theme}.json`;
 
   document.body.appendChild(a);
   a.click();

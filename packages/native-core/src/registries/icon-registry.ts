@@ -10,6 +10,10 @@ export function getIcon(name: string): string | undefined {
   return icons.get(name);
 }
 
+export function getIconNames(): string[] {
+  return Array.from(icons.keys());
+}
+
 export function onIconRegistered(fn: (name: string) => void): () => void {
   subscribers.add(fn);
   return () => subscribers.delete(fn);

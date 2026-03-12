@@ -3,7 +3,7 @@ export { registerTrait, getTrait, getRegisteredTraitNames, onTraitRegistered } f
 export type { TraitAdapter } from './trait-registry.ts';
 
 // Icon registry
-export { registerIcon, getIcon, onIconRegistered } from './icon-registry.ts';
+export { registerIcon, getIcon, getIconNames, onIconRegistered } from './icon-registry.ts';
 
 // Plugin registry (kernel extensions)
 export { PluginRegistry } from './plugin-registry.ts';

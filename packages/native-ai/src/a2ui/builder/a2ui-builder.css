@@ -206,11 +206,22 @@ n-agent-dialogue-item[data-type="remap"] n-chat-message-text {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1);
   min-width: 20rem;
   cursor: default;
   pointer-events: auto;
-  will-change: transform;
+  will-change: transform, opacity;
+  transition: transform 0.4s var(--n-easing, ease), opacity 0.3s var(--n-easing, ease);
+}
+
+#preview-mount.entering {
+  transform: translate(-50%, -50%) scale(0.95);
+  opacity: 0;
+}
+
+#preview-mount.entered {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
 }
 
 /* ── Insights pane ── */

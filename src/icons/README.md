@@ -50,15 +50,15 @@
 ### Examples
 
 ```html
-<n-icon name="house"></n-icon>
+<n-icon name="house" size="xs"></n-icon>
 ```
 
 ```html
-<n-icon name="gear"></n-icon>
+<n-icon name="house" size="sm"></n-icon>
 ```
 
 ```html
-<n-icon name="bell"></n-icon>
+<n-icon name="house" size="md"></n-icon>
 ```
 
 ## File Inventory

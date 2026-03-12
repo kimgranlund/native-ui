@@ -122,5 +122,5 @@ export type { DiagnosticsReport, DiagnosticsOptions } from '@nonoun/native-core'
 
 // Icons
 export { NIcon } from './icons/icon-element.ts';
-export { registerIcon, getIcon, onIconRegistered } from '@nonoun/native-core';
+export { registerIcon, getIcon, getIconNames, onIconRegistered } from '@nonoun/native-core';
 

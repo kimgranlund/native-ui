@@ -22,54 +22,6 @@
 
     <section>
 
-    <!-- ── Basic Icons ── -->
-
-    <h2>Basic Icons</h2>
-    <n-container data-kind="panel" bordered>
-      <div class="icon-row">
-        <div class="icon-container">
-          <n-icon name="house"></n-icon>
-          <span class="icon-container-label">house</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="gear"></n-icon>
-          <span class="icon-container-label">gear</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="bell"></n-icon>
-          <span class="icon-container-label">bell</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="magnifying-glass"></n-icon>
-          <span class="icon-container-label">magnifying-glass</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="heart"></n-icon>
-          <span class="icon-container-label">heart</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="star"></n-icon>
-          <span class="icon-container-label">star</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="check"></n-icon>
-          <span class="icon-container-label">check</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="x"></n-icon>
-          <span class="icon-container-label">x</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="trash"></n-icon>
-          <span class="icon-container-label">trash</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="pencil-simple"></n-icon>
-          <span class="icon-container-label">pencil-simple</span>
-        </div>
-      </div>
-    </n-container>
-
     <!-- ── Sizes ── -->
 
     <h2>Sizes</h2>
@@ -203,45 +155,11 @@
       <div class="log" id="late-log"></div>
     </n-container>
 
-    <!-- ── Navigation Icons ── -->
+    <!-- ── All Icons ── -->
 
-    <h2>Navigation Icons</h2>
-    <n-container data-kind="panel" bordered>
-      <div class="icon-row">
-        <div class="icon-container">
-          <n-icon name="caret-up"></n-icon>
-          <span class="icon-container-label">caret-up</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="caret-down"></n-icon>
-          <span class="icon-container-label">caret-down</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="caret-left"></n-icon>
-          <span class="icon-container-label">caret-left</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="caret-right"></n-icon>
-          <span class="icon-container-label">caret-right</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="arrow-up"></n-icon>
-          <span class="icon-container-label">arrow-up</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="arrow-down"></n-icon>
-          <span class="icon-container-label">arrow-down</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="arrow-left"></n-icon>
-          <span class="icon-container-label">arrow-left</span>
-        </div>
-        <div class="icon-container">
-          <n-icon name="arrow-right"></n-icon>
-          <span class="icon-container-label">arrow-right</span>
-        </div>
-      </div>
-    </n-container>
+    <h2>All Icons <span id="icon-count" class="demo-col-label" style="margin-inline-start: 0.5rem;"></span></h2>
+    <n-input id="icon-search" placeholder="Search icons..." size="sm" style="max-width: 20rem; margin-block-end: 0.75rem;"></n-input>
+    <div id="all-icons-grid" class="all-icons-grid"></div>
 
     </section>
 

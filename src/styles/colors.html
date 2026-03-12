@@ -14,7 +14,10 @@
     <h1>Color Boiler Plate</h1>
     <header>
       <div class="header">
-        <n-button id="export-tokens" size="sm" variant="outline">Export Computed Tokens</n-button>
+        <n-button id="export-tokens" size="sm" variant="outline">Export All Tokens</n-button>
+        <n-button id="export-computed" size="sm" variant="outline">Export Computed Colors</n-button>
+        <n-button id="export-semantic" size="sm" variant="outline">Export Semantic Colors</n-button>
+        <n-button id="export-figma" size="sm" variant="outline">Export Figma Variables</n-button>
         <div class="toggle-wrap">
           <select class="theme-select" id="theme-select">
             <option value="">Default</option>
@@ -72,8 +75,11 @@
     </script>
     <script type="module" src="./colors.demo.ts"></script>
     <script type="module">
-      import { exportComputedTokens } from './colors.export.ts';
+      import { exportComputedTokens, exportComputedColors, exportSemanticColors, exportFigmaVariables } from './colors.export.ts';
       document.getElementById('export-tokens').addEventListener('click', exportComputedTokens);
+      document.getElementById('export-computed').addEventListener('click', exportComputedColors);
+      document.getElementById('export-semantic').addEventListener('click', exportSemanticColors);
+      document.getElementById('export-figma').addEventListener('click', exportFigmaVariables);
     </script>
   </body>
 </html>

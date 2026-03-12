@@ -28,4 +28,4 @@ export { registerTrait, getTrait, getRegisteredTraitNames, onTraitRegistered } f
 export type { TraitAdapter } from './registries/trait-registry.ts';
 export { PluginRegistry } from './registries/plugin-registry.ts';
 export type { PluginFactory } from './registries/plugin-registry.ts';
-export { registerIcon, getIcon, onIconRegistered } from './registries/icon-registry.ts';
+export { registerIcon, getIcon, getIconNames, onIconRegistered } from './registries/icon-registry.ts';

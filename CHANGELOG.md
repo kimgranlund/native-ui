@@ -2,6 +2,47 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.160
+
+### Added
+- **Icon registry** — `getIconNames()` API returns all registered icon names. Exported from `@nonoun/native-core` and `@nonoun/native-ui`.
+- **Icon demo** — Searchable all-icons grid (3,119 Phosphor icons) with real-time filtering and count badge.
+- **Colors page** — 4 export buttons: All Tokens CSS, Computed Colors CSS, Semantic Colors CSS, Figma Variables JSON. All exports toggle light/dark color scheme for dual-mode output.
+
+### Fixed
+- **n-feed** — Horizontal overflow no longer visible. Base rule sets `overflow: hidden`; `[scroll]` variant explicitly sets `overflow-x: hidden`.
+- **LinkPasteController** — Trailing whitespace trimmed from selected text before wrapping in link.
+
+## 0.7.159
+
+### Changed
+- **A2UI Builder** — Preview re-centers with scale+opacity transition on new generations. Seed suggestions now drawn from a pool of 18 options (4 random picks per session). Added inline SVG icon generation instruction to system prompt.
+
+## 0.7.158
+
+### Fixed
+- **A2A Tic-Tac-Toe** — Grid boards no longer collapse. Added `min-width: 18rem`, `max-width: 24rem`, `width: 100%` to board containers. Replaced `anchor-center` with `center` for broader support.
+
+## 0.7.157
+
+### Fixed
+- **TextTriggerController** — Enter and click selection now work in slash commands and mentions. Replaced listbox arrow-key delegation (which stole focus from the input via `RovingFocusController`) with internal virtual-focus navigation. First option is auto-activated on render. Listbox now uses `virtual-focus` attribute to prevent focus theft.
+
+## 0.7.156
+
+### Fixed
+- **LinkPasteController** — Removed trailing non-breaking space (`\u00A0`) inserted after pasted links. Cursor now lands directly after the `<a>` element.
+
+## 0.7.155
+
+### Changed
+- **BacktickWrapController** — Inline code tags now use warning button colors (`--n-panel-warning` bg, `--n-ink-warning` text) with default `--n-radius` border-radius and mono font.
+
+## 0.7.154
+
+### Changed
+- **n-pane** — Hidden scrollbars (`scrollbar-width: none`) on pane body content and all `[scrollable]` variants.
+
 ## 0.7.153
 
 ### Fixed

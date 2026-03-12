@@ -18,6 +18,7 @@ export abstract class TextTriggerController {
   #tag: HTMLElement | null = null;
   #currentMatch: TextTriggerMatch | null = null;
   #open = false;
+  #activeIndex = -1;
 
   // ── Abstract: subclass identity ──
 
@@ -105,6 +106,7 @@ export abstract class TextTriggerController {
 
     if (this.#listbox) {
       this.#listbox.removeEventListener('native:change', this.#onListboxChange);
+      this.#listbox.removeEventListener('click', this.#onListboxClick);
       this.#listbox.remove();
       this.#listbox = null;
     }
@@ -227,9 +229,9 @@ export abstract class TextTriggerController {
 
     if (key === 'Enter' && this.#open) {
       ke.preventDefault();
-      const active = this.#listbox?.querySelector<HTMLElement>('[active]');
-      if (active) {
-        const value = active.getAttribute('value') ?? '';
+      const option = this.#getActiveOption();
+      if (option) {
+        const value = option.getAttribute('value') ?? '';
         this.#selectItem(value);
       }
       return;
@@ -240,25 +242,26 @@ export abstract class TextTriggerController {
       const query = this.#currentMatch?.query ?? '';
       if (query.length >= 2) {
         ke.preventDefault();
-        const active = this.#listbox?.querySelector<HTMLElement>('[active]');
-        const first = this.#listbox?.querySelector<HTMLElement>('n-option');
-        const target = active ?? first;
-        if (target) {
-          const value = target.getAttribute('value') ?? '';
+        const option = this.#getActiveOption()
+          ?? this.#listbox?.querySelector<HTMLElement>('n-option');
+        if (option) {
+          const value = option.getAttribute('value') ?? '';
           this.#selectItem(value);
         }
       }
       return;
     }
 
-    // Delegate arrow keys to the listbox for built-in keyboard navigation
+    // Navigate options — managed internally to keep focus in the input
     if ((key === 'ArrowDown' || key === 'ArrowUp') && this.#open && this.#listbox) {
       ke.preventDefault();
-      this.#listbox.dispatchEvent(new KeyboardEvent('keydown', {
-        key,
-        bubbles: true,
-        cancelable: true,
-      }));
+      const options = this.#listbox.querySelectorAll<HTMLElement>('n-option');
+      if (options.length === 0) return;
+      const delta = key === 'ArrowDown' ? 1 : -1;
+      let next = this.#activeIndex + delta;
+      if (next < 0) next = options.length - 1;
+      if (next >= options.length) next = 0;
+      this.#setActiveIndex(next);
     }
   };
 
@@ -273,6 +276,13 @@ export abstract class TextTriggerController {
       e.stopImmediatePropagation();
       this.#selectItem(value);
     }
+  };
+
+  #onListboxClick = (e: Event): void => {
+    const option = (e.target as HTMLElement).closest?.('n-option') as HTMLElement | null;
+    if (!option) return;
+    const value = option.getAttribute('value') ?? '';
+    if (value) this.#selectItem(value);
   };
 
   // ── Internal methods ──
@@ -457,6 +467,23 @@ export abstract class TextTriggerController {
     this.#input.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
+  #setActiveIndex(index: number): void {
+    if (!this.#listbox) return;
+    const options = this.#listbox.querySelectorAll<HTMLElement>('n-option');
+    for (let i = 0; i < options.length; i++) {
+      options[i].toggleAttribute('active', i === index);
+    }
+    this.#activeIndex = index;
+    // Scroll the active option into view
+    options[index]?.scrollIntoView({ block: 'nearest' });
+  }
+
+  #getActiveOption(): HTMLElement | null {
+    if (!this.#listbox || this.#activeIndex < 0) return null;
+    const options = this.#listbox.querySelectorAll<HTMLElement>('n-option');
+    return options[this.#activeIndex] ?? null;
+  }
+
   #getFilteredItems(query: string): TextTriggerItem[] {
     if (!query) return this.#items;
     const lowerQuery = query.toLowerCase();
@@ -473,6 +500,7 @@ export abstract class TextTriggerController {
     this.#listbox.setAttribute('role', 'listbox');
     this.#listbox.setAttribute('size', 'sm');
     this.#listbox.setAttribute('density', 'compact');
+    this.#listbox.setAttribute('virtual-focus', '');
     this.host.appendChild(this.#listbox);
 
     this.#popover.wirePopover(this.host, this.#listbox);
@@ -485,6 +513,7 @@ export abstract class TextTriggerController {
     s.setProperty('overflow-y', 'auto');
 
     this.#listbox.addEventListener('native:change', this.#onListboxChange);
+    this.#listbox.addEventListener('click', this.#onListboxClick);
   }
 
   #renderOptions(query: string): void {
@@ -494,9 +523,11 @@ export abstract class TextTriggerController {
 
     this.#listbox.innerHTML = '';
 
-    for (const item of filtered) {
+    for (let i = 0; i < filtered.length; i++) {
+      const item = filtered[i];
       const option = document.createElement('n-option');
       option.setAttribute('value', item.value);
+      if (i === 0) option.setAttribute('active', '');
       option.style.display = 'flex';
       option.style.alignItems = 'center';
 
@@ -504,5 +535,7 @@ export abstract class TextTriggerController {
 
       this.#listbox.appendChild(option);
     }
+
+    this.#activeIndex = filtered.length > 0 ? 0 : -1;
   }
 }

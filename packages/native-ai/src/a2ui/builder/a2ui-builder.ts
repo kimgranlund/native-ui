@@ -331,12 +331,7 @@ function mockResponse(input: string): MockResult {
       { value: 'Remove the last component', label: 'Remove last' },
     ];
   } else {
-    fallback.suggestions = [
-      { value: 'A login form with email and password', label: 'Login form' },
-      { value: 'A settings page with toggles and dropdowns', label: 'Settings page' },
-      { value: 'A dashboard with stat cards and badges', label: 'Dashboard' },
-      { value: 'A contact form', label: 'Contact form' },
-    ];
+    fallback.suggestions = pickRandomSeeds(4);
   }
 
   return fallback;
@@ -973,12 +968,23 @@ function renderPreview(schema: MockResult['schema']) {
     cssInspector = null;
     inspectToggleBtn?.removeAttribute('data-active');
   }
+
+  // Animate: shrink out → rebuild → grow in
+  previewMount.classList.add('entering');
+  previewMount.classList.remove('entered');
+
   previewMount.innerHTML = '';
   previewStyle = null; // Reset — will be recreated if CSS is applied
   currentAdapter = createA2UIAdapter(kernel, {
     onClientMessage: (msg: unknown) => console.log('[A2UI Builder →]', msg),
   });
   currentAdapter.receive({ updateComponents: schema }, previewMount);
+
+  // Re-center with transition after content renders
+  requestAnimationFrame(() => {
+    previewMount.classList.remove('entering');
+    previewMount.classList.add('entered');
+  });
 
   // Extract rendered HTML after adapter finishes rendering
   queueMicrotask(() => {
@@ -1356,12 +1362,39 @@ welcomeEl.innerHTML = `
 `;
 
 const welcomeChips = welcomeEl.querySelector('.builder-welcome-chips')!;
-const starters = [
-  { value: 'A login form with email and password', label: 'Login form' },
-  { value: 'A settings page with toggles and dropdowns', label: 'Settings page' },
+
+const SEED_POOL: SeedOption[] = [
+  { value: 'A tic-tac-toe game with a 3x3 grid', label: 'Tic Tac Toe Game' },
+  { value: 'An ontology object card with properties, relations, and metadata', label: 'Ontology Object Card' },
+  { value: 'A battleship game with a 10x10 grid and ship placement', label: 'Battle Ship Game' },
+  { value: 'A user details card with avatar, bio, stats, and action buttons', label: 'User Details Card' },
+  { value: 'An OTP verification form with 6 digit inputs and a resend button', label: 'Auth OTP' },
+  { value: 'A product showcase with 4 Unsplash images in a slideshow, size/add-on selectors, and add-to-cart button', label: 'Product Showcase' },
+  { value: 'A login form with email and password', label: 'Login Form' },
+  { value: 'A settings page with toggles and dropdowns', label: 'Settings Page' },
   { value: 'A dashboard with stat cards and badges', label: 'Dashboard' },
-  { value: 'A contact form', label: 'Contact form' },
+  { value: 'A contact form with name, email, and message', label: 'Contact Form' },
+  { value: 'A kanban board with three columns: To Do, In Progress, Done', label: 'Kanban Board' },
+  { value: 'A music player with album art, progress bar, and playback controls', label: 'Music Player' },
+  { value: 'A weather widget with temperature, conditions, and 5-day forecast', label: 'Weather Widget' },
+  { value: 'A chat message thread with avatars, timestamps, and reactions', label: 'Chat Thread' },
+  { value: 'A pricing table with three tiers and feature comparison', label: 'Pricing Table' },
+  { value: 'A file upload dropzone with progress indicators', label: 'File Upload' },
+  { value: 'A calendar month view with event indicators', label: 'Calendar View' },
+  { value: 'A notification center with read/unread states and dismiss', label: 'Notification Center' },
 ];
+
+function pickRandomSeeds(count: number): SeedOption[] {
+  const pool = [...SEED_POOL];
+  const picks: SeedOption[] = [];
+  for (let i = 0; i < count && pool.length > 0; i++) {
+    const idx = Math.floor(Math.random() * pool.length);
+    picks.push(pool.splice(idx, 1)[0]);
+  }
+  return picks;
+}
+
+const starters = pickRandomSeeds(4);
 for (const s of starters) {
   const btn = document.createElement('n-button');
   btn.setAttribute('variant', 'outlined');

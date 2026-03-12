@@ -59,7 +59,7 @@ export class LinkPasteController {
     // We're handling this paste — prevent default insertion
     clipboardEvent.preventDefault();
 
-    const selectedText = range.toString();
+    const selectedText = range.toString().trimEnd();
 
     // Delete the selected text
     range.deleteContents();
@@ -75,13 +75,9 @@ export class LinkPasteController {
     // Insert at deletion point
     range.insertNode(anchor);
 
-    // Trailing space for continued typing
-    const space = document.createTextNode('\u00A0');
-    anchor.after(space);
-
-    // Place cursor after the space
+    // Place cursor after the link
     const newRange = document.createRange();
-    newRange.setStartAfter(space);
+    newRange.setStartAfter(anchor);
     newRange.collapse(true);
     sel.removeAllRanges();
     sel.addRange(newRange);

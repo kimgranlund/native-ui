@@ -187,13 +187,21 @@ describe('SlashCommandController', () => {
     ctrl.destroy();
   });
 
+  it('auto-activates first option on render', () => {
+    const { host, input, ctrl } = create();
+    simulateTyping(host, input, '/');
+
+    const options = host.querySelectorAll('n-option');
+    expect(options[0].hasAttribute('active')).toBe(true);
+    for (let i = 1; i < options.length; i++) {
+      expect(options[i].hasAttribute('active')).toBe(false);
+    }
+    ctrl.destroy();
+  });
+
   it('dispatches native:slash-select on Enter with active option', () => {
     const { host, input, ctrl } = create();
     simulateTyping(host, input, '/help');
-
-    const option = host.querySelector('n-option');
-    expect(option).not.toBeNull();
-    option!.setAttribute('active', '');
 
     const handler = vi.fn();
     host.addEventListener('native:slash-select', handler);
@@ -215,9 +223,6 @@ describe('SlashCommandController', () => {
     const { host, input, ctrl } = create();
     simulateTyping(host, input, '/help');
 
-    const option = host.querySelector('n-option');
-    option!.setAttribute('active', '');
-
     input.dispatchEvent(new KeyboardEvent('keydown', {
       key: 'Enter',
       bubbles: true,
@@ -228,6 +233,22 @@ describe('SlashCommandController', () => {
     expect(tag).not.toBeNull();
     expect(tag?.textContent).toBe('/help');
     expect(tag?.getAttribute('contenteditable')).toBe('false');
+    ctrl.destroy();
+  });
+
+  it('click on option selects it', () => {
+    const { host, input, ctrl } = create();
+    simulateTyping(host, input, '/');
+
+    const handler = vi.fn();
+    host.addEventListener('native:slash-select', handler);
+
+    const option = host.querySelectorAll('n-option')[1];
+    option.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    expect(handler).toHaveBeenCalledTimes(1);
+    expect(handler.mock.calls[0][0].detail.command.value).toBe('search');
+    expect(ctrl.open).toBe(false);
     ctrl.destroy();
   });
 
@@ -378,13 +399,12 @@ describe('SlashCommandController', () => {
     ctrl.destroy();
   });
 
-  it('delegates ArrowDown to listbox', () => {
+  it('ArrowDown moves active to next option', () => {
     const { host, input, ctrl } = create();
     simulateTyping(host, input, '/');
 
-    const listbox = host.querySelector('n-listbox')!;
-    const spy = vi.fn();
-    listbox.addEventListener('keydown', spy);
+    const options = host.querySelectorAll('n-option');
+    expect(options[0].hasAttribute('active')).toBe(true);
 
     input.dispatchEvent(new KeyboardEvent('keydown', {
       key: 'ArrowDown',
@@ -392,17 +412,17 @@ describe('SlashCommandController', () => {
       cancelable: true,
     }));
 
-    expect(spy).toHaveBeenCalled();
+    expect(options[0].hasAttribute('active')).toBe(false);
+    expect(options[1].hasAttribute('active')).toBe(true);
     ctrl.destroy();
   });
 
-  it('delegates ArrowUp to listbox', () => {
+  it('ArrowUp wraps to last option', () => {
     const { host, input, ctrl } = create();
     simulateTyping(host, input, '/');
 
-    const listbox = host.querySelector('n-listbox')!;
-    const spy = vi.fn();
-    listbox.addEventListener('keydown', spy);
+    const options = host.querySelectorAll('n-option');
+    expect(options[0].hasAttribute('active')).toBe(true);
 
     input.dispatchEvent(new KeyboardEvent('keydown', {
       key: 'ArrowUp',
@@ -410,7 +430,8 @@ describe('SlashCommandController', () => {
       cancelable: true,
     }));
 
-    expect(spy).toHaveBeenCalled();
+    expect(options[0].hasAttribute('active')).toBe(false);
+    expect(options[options.length - 1].hasAttribute('active')).toBe(true);
     ctrl.destroy();
   });
 
@@ -462,9 +483,12 @@ describe('SlashCommandController', () => {
     const { host, input, ctrl } = create();
     simulateTyping(host, input, '/he');
 
-    // Set the second option as active
-    const options = host.querySelectorAll('n-option');
-    options[1].setAttribute('active', '');
+    // Navigate to second option with ArrowDown
+    input.dispatchEvent(new KeyboardEvent('keydown', {
+      key: 'ArrowDown',
+      bubbles: true,
+      cancelable: true,
+    }));
 
     const handler = vi.fn();
     host.addEventListener('native:slash-select', handler);
