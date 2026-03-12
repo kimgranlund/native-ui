@@ -2,6 +2,16 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.162
+
+### Fixed
+- **Listbox popover guard** — CSS rule hides `<n-listbox>` without `[popover]` inside `n-select` / `n-combobox` to prevent flash before JS upgrade. All HTML-authored listboxes must have `popover` attribute.
+- **Figma export** — Restructured token paths into nested folders (`color/source/`, `color/{family}/scrim/`, `scrim-tint/`, `elevation/`, `brightness/`). Fixes group/variable conflict that caused only 7 colors to import. Output format is hex (Figma requires it).
+- **Colors page** — Added missing `popover` attribute to all `<n-listbox>` elements (export, theme, scheme selects).
+
+### Changed (native-ai@1.0.79)
+- **n-chat-feed** — `scrollbar-width: none` replaces `thin` on `[scrollable]` variant. Feed remains scrollable; scrollbar is hidden.
+
 ## 0.7.161
 
 ### Breaking

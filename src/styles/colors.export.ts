@@ -4,10 +4,6 @@
  * and generate a downloadable tokens-computed.css.
  */
 
-const SOURCE_FILES = [
-  './css/colors.computed.css',
-  './css/colors.semantic.css',
-];
 
 /** Parse CSS text for custom property declarations on :root. */
 function extractPropertyNames(css: string): string[] {
@@ -286,19 +282,9 @@ async function resolveAndDownload(paths: string[], filenamePrefix: string): Prom
   URL.revokeObjectURL(url);
 }
 
-/** Download all computed + semantic tokens combined. */
-export function exportComputedTokens(): Promise<void> {
-  return resolveAndDownload(SOURCE_FILES, 'tokens-computed');
-}
-
-/** Download only colors.computed.css tokens (primitives). */
-export function exportComputedColors(): Promise<void> {
-  return resolveAndDownload(['./css/colors.computed.css'], 'colors-computed');
-}
-
-/** Download only colors.semantic.css tokens (semantic roles). */
-export function exportSemanticColors(): Promise<void> {
-  return resolveAndDownload(['./css/colors.semantic.css'], 'colors-semantic');
+/** Download resolved CSS tokens for the given source files. */
+export function exportCss(paths: string[], filenamePrefix: string): Promise<void> {
+  return resolveAndDownload(paths, filenamePrefix);
 }
 
 // ── Figma Variables Export ──
@@ -381,22 +367,25 @@ const TOKEN_TO_FIGMA: [string, string][] = [
   ['border-disabled-{f}',  '{f}.border.disabled'],
 ];
 
-/** Resolve a computed color to a hex string (Figma requires hex). */
-function toHex(_probe: HTMLElement, color: string): string {
-  // Create a canvas to convert any color format to RGBA
+/** Convert a computed color string to hex via canvas. */
+function toHex(color: string): string {
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = 1;
   const ctx = canvas.getContext('2d')!;
   ctx.clearRect(0, 0, 1, 1);
   ctx.fillStyle = color;
   ctx.fillRect(0, 0, 1, 1);
-  const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
+  const d = ctx.getImageData(0, 0, 1, 1).data;
+  const r = d[0], g = d[1], b = d[2], a = d[3];
+
+  const rh = r.toString(16).padStart(2, '0');
+  const gh = g.toString(16).padStart(2, '0');
+  const bh = b.toString(16).padStart(2, '0');
 
   if (a < 255) {
-    const ah = a.toString(16).padStart(2, '0');
-    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}${ah}`;
+    return `#${rh}${gh}${bh}${a.toString(16).padStart(2, '0')}`;
   }
-  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  return `#${rh}${gh}${bh}`;
 }
 
 /** Set a deeply nested key on an object, creating intermediary objects as needed. */
@@ -412,35 +401,154 @@ function setNested(obj: Record<string, unknown>, path: string, value: unknown): 
   cur[parts[parts.length - 1]] = value;
 }
 
-/** Resolve all semantic tokens for the current color scheme into a mode object. */
-function resolveMode(probe: HTMLElement): Record<string, unknown> {
-  const modeData: Record<string, unknown> = {};
+/** Skip intermediate/math tokens that aren't actual colors. */
+const SKIP_PREFIXES = ['--n-env-', '--n-C-', '--n-L-'];
 
+const ELEVATION = ['lowest', 'lower', 'low', 'base', 'high', 'higher', 'highest'];
+const BRIGHTNESS = ['brightest', 'brighter', 'bright', 'dim', 'dimmer', 'dimmest'];
+
+/**
+ * Convert a CSS token name to a Figma variable path with nested folders.
+ *
+ * Source (raw 1–11):
+ *   --n-color-{f}-{N}        → color.source.{f}.{N}
+ *   --n-color-{f}-{N}-scrim  → color.source.{f}.scrim.{N}
+ *
+ * Semantic (050–950):
+ *   --n-color-{f}-{NNN}       → color.{f}.{NNN}
+ *   --n-color-{f}-{NNN}-scrim → color.{f}.scrim.{NNN}
+ *
+ * Named scales:
+ *   --n-color-{f}-scrim-tint-{s}  → color.{f}.scrim-tint.{s}
+ *   --n-color-{f}-scrim-shade-{s} → color.{f}.scrim-shade.{s}
+ *   --n-color-{f}-{elevation}     → color.{f}.elevation.{elevation}
+ *   --n-color-{f}-{brightness}    → color.{f}.brightness.{brightness}
+ *
+ * Base aliases:
+ *   --n-color-{f}       → color.{f}.color
+ *   --n-color-{f}-scrim → color.{f}.scrim.color
+ */
+function tokenToFigmaPath(name: string): string | null {
+  const bare = name.replace(/^--n-/, '');
+
+  for (const family of FAMILIES) {
+    const prefix = `color-${family}`;
+    if (!bare.startsWith(prefix)) continue;
+
+    // Exact match: base alias
+    if (bare === prefix) return `color.${family}.color`;
+
+    const suffix = bare.slice(prefix.length + 1); // everything after "color-{family}-"
+
+    // Base scrim alias
+    if (suffix === 'scrim') return `color.${family}.scrim.color`;
+
+    // Scrim-tint / scrim-shade sub-scales
+    const tintMatch = suffix.match(/^scrim-tint-(.+)$/);
+    if (tintMatch) return `color.${family}.scrim-tint.${tintMatch[1]}`;
+
+    const shadeMatch = suffix.match(/^scrim-shade-(.+)$/);
+    if (shadeMatch) return `color.${family}.scrim-shade.${shadeMatch[1]}`;
+
+    // Source raw steps: 1–11 (single/double digit, no leading zero)
+    const sourceMatch = suffix.match(/^(\d{1,2})$/);
+    if (sourceMatch && +sourceMatch[1] >= 1 && +sourceMatch[1] <= 11) {
+      return `color.source.${family}.${sourceMatch[1]}`;
+    }
+
+    // Source raw scrims: 1-scrim through 11-scrim
+    const sourceScrimMatch = suffix.match(/^(\d{1,2})-scrim$/);
+    if (sourceScrimMatch && +sourceScrimMatch[1] >= 1 && +sourceScrimMatch[1] <= 11) {
+      return `color.source.${family}.scrim.${sourceScrimMatch[1]}`;
+    }
+
+    // Semantic steps: 050–950
+    const semanticMatch = suffix.match(/^(0\d{2}|\d{3})$/);
+    if (semanticMatch) return `color.${family}.${semanticMatch[1]}`;
+
+    // Semantic scrims: 050-scrim through 950-scrim
+    const semanticScrimMatch = suffix.match(/^(0\d{2}|\d{3})-scrim$/);
+    if (semanticScrimMatch) return `color.${family}.scrim.${semanticScrimMatch[1]}`;
+
+    // Elevation scale
+    if (ELEVATION.includes(suffix)) return `color.${family}.elevation.${suffix}`;
+
+    // Brightness scale
+    if (BRIGHTNESS.includes(suffix)) return `color.${family}.brightness.${suffix}`;
+
+    // Fallback: keep as leaf under family
+    return `color.${family}.${suffix}`;
+  }
+
+  // Non-color tokens: split on hyphens
+  return bare.replace(/-/g, '.');
+}
+
+/** Resolve tokens into a Figma-structured mode object. Uses TOKEN_TO_FIGMA for family-based semantic tokens, and falls back to smart path mapping for color primitives. */
+function resolveFigmaMode(probe: HTMLElement, tokenNames: string[]): Record<string, unknown> {
+  const modeData: Record<string, unknown> = {};
+  const handled = new Set<string>();
+
+  // Map family-based semantic tokens via TOKEN_TO_FIGMA
   for (const family of FAMILIES) {
     for (const [cssPattern, figmaPattern] of TOKEN_TO_FIGMA) {
       const cssName = `--n-${cssPattern.replace('{f}', family)}`;
-      const figmaPath = figmaPattern.replace('{f}', family);
+      if (!tokenNames.includes(cssName)) continue;
 
+      const figmaPath = figmaPattern.replace('{f}', family);
       const color = resolveColor(probe, cssName);
       if (!color) continue;
 
-      const hex = toHex(probe, color);
+      handled.add(cssName);
       setNested(modeData, figmaPath, {
         $scopes: ['ALL_SCOPES'],
         $type: 'color',
-        $value: hex,
+        $value: toHex(color),
       });
     }
+  }
+
+  // Remaining tokens → smart path mapping
+  for (const name of tokenNames) {
+    if (handled.has(name)) continue;
+    if (SKIP_PREFIXES.some(p => name.startsWith(p))) continue;
+
+    const color = resolveColor(probe, name);
+    if (!color) continue;
+
+    const figmaPath = tokenToFigmaPath(name);
+    if (!figmaPath) continue;
+
+    setNested(modeData, figmaPath, {
+      $scopes: ['ALL_SCOPES'],
+      $type: 'color',
+      $value: toHex(color),
+    });
   }
 
   return modeData;
 }
 
 /**
- * Export semantic tokens as Figma Variables JSON (matching the hydrated schema).
- * Toggles color-scheme to capture both light and dark modes in a single file.
+ * Resolve tokens from CSS source files, then map to Figma Variables JSON and
+ * export with both light and dark modes. Also includes any non-family tokens
+ * from the source files as flat Figma variables.
  */
-export async function exportFigmaVariables(): Promise<void> {
+export async function exportFigma(paths: string[]): Promise<void> {
+  // Collect all token names from the source files
+  const allNames: string[] = [];
+  for (const path of paths) {
+    try {
+      const res = await fetch(path);
+      const css = await res.text();
+      for (const n of extractPropertyNames(css)) {
+        if (!allNames.includes(n)) allNames.push(n);
+      }
+    } catch (err) {
+      console.warn(`Failed to fetch ${path}:`, err);
+    }
+  }
+
   const probe = document.createElement('div');
   probe.style.cssText = 'position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;pointer-events:none;';
   document.body.appendChild(probe);
@@ -451,16 +559,15 @@ export async function exportFigmaVariables(): Promise<void> {
   // Resolve light mode
   root.style.colorScheme = 'light';
   await waitForRepaint();
-  const lightData = resolveMode(probe);
+  const lightData = resolveFigmaMode(probe, allNames);
 
   // Resolve dark mode
   root.style.colorScheme = 'dark';
   await waitForRepaint();
-  const darkData = resolveMode(probe);
+  const darkData = resolveFigmaMode(probe, allNames);
 
   // Restore original
   root.style.colorScheme = originalScheme;
-
   probe.remove();
 
   const output = [{

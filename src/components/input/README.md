@@ -33,7 +33,7 @@ surface handles editing.
 
 | Attribute | Type | Values | Description |
 |-----------|------|--------|-------------|
-| `inline` | boolean | _(boolean)_ | Switches from block-level to inline display so the input sizes to its content |
+| `inline` | boolean | _(boolean)_ | No-op (kept for backward compatibility). Inputs are inline-flex by default since 0.7.161. |
 
 ## Events
 

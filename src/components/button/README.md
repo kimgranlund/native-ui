@@ -23,7 +23,7 @@
 |-----------|------|--------|-------------|
 | `pressed` | boolean | _(boolean)_ | Visually shows the button in its active/pressed state |
 | `justify` | enum | `spread` | Spreads the label to fill available space with text left-aligned (used for dropdown triggers) |
-| `inline` | boolean | _(boolean)_ | Switches from block-level grid to inline-grid so the button sizes to its content |
+| `inline` | boolean | _(boolean)_ | No-op (kept for backward compatibility). Buttons are inline-grid by default since 0.7.161. |
 
 ## Events
 

@@ -216,7 +216,7 @@
      ownership belongs to a parent container. */
   [scrollable]:where(n-chat-feed) {
     overflow-y: auto;
-    scrollbar-width: thin;
+    scrollbar-width: none;
     scroll-behavior: smooth;
   }
 

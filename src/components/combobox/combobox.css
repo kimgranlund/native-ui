@@ -9,6 +9,11 @@
     display: contents;
   }
 
+  /* Hide listbox until JS upgrades it with [popover] */
+  :where(n-combobox) > :where(n-listbox:not([popover])) {
+    display: none;
+  }
+
   /* WHY: The input acts as a dropdown trigger — default cursor at rest,
      text cursor once focused (typing to filter). */
 

@@ -18,7 +18,7 @@
       <div class="demo-desc">OKLCH color primitives, semantic tokens, and theme controls. Adjust environment parameters, preview all families, and export for CSS or Figma.</div>
       <div class="color-controls">
         <n-select id="export-select" size="sm" variant="outline" placeholder="Export Colors">
-          <n-listbox>
+          <n-listbox popover>
             <n-option value="figma-computed">Figma (computed)</n-option>
             <n-option value="figma-all">Figma (computed + semantic)</n-option>
             <n-option value="css-computed">CSS (computed)</n-option>
@@ -26,7 +26,7 @@
           </n-listbox>
         </n-select>
         <n-select id="theme-select" size="sm" variant="outline" placeholder="Theme">
-          <n-listbox>
+          <n-listbox popover>
             <n-option value="">Default</n-option>
             <n-option value="forest">Forest</n-option>
             <n-option value="rose">Rose</n-option>
@@ -34,7 +34,7 @@
           </n-listbox>
         </n-select>
         <n-select id="scheme-select" size="sm" variant="outline" placeholder="Scheme">
-          <n-listbox>
+          <n-listbox popover>
             <n-option value="system">System</n-option>
             <n-option value="light">Light</n-option>
             <n-option value="dark">Dark</n-option>

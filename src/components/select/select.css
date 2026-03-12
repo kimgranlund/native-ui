@@ -9,6 +9,11 @@
     overflow: visible;
   }
 
+  /* Hide listbox until JS upgrades it with [popover] */
+  :where(n-select) > :where(n-listbox:not([popover])) {
+    display: none;
+  }
+
   /* ── Popover Listbox — hidden in grid, positioned when open ──
      WHY: n-listbox[popover] is a direct child but has display:none when closed
      (UA popover style). When open it moves to the top layer and is positioned
