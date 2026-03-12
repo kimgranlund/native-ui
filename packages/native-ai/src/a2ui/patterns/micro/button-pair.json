@@ -1,0 +1,13 @@
+{
+  "id": "button-pair",
+  "label": "Button Pair",
+  "tier": "micro",
+  "concepts": ["actions", "confirm", "cancel"],
+  "description": "Primary and secondary buttons side by side for confirm/cancel flows.",
+  "category": "primitive",
+  "components": [
+    { "id": "root", "component": "Row", "children": ["cancel", "confirm"], "properties": { "gap": "sm" } },
+    { "id": "cancel", "component": "Button", "text": "Cancel", "variant": "outline" },
+    { "id": "confirm", "component": "Button", "text": "Confirm", "variant": "primary" }
+  ]
+}

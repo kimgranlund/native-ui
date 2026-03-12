@@ -1,0 +1,17 @@
+{
+  "id": "empty-state",
+  "label": "Empty State",
+  "tier": "block",
+  "concepts": ["empty", "placeholder", "zero-data", "onboarding"],
+  "description": "Empty state placeholder with centered icon, heading, description text, and a primary call-to-action button.",
+  "category": "feedback",
+  "components": [
+    { "id": "root", "component": "Card", "children": ["body"] },
+    { "id": "body", "component": "Body", "child": "content-col" },
+    { "id": "content-col", "component": "Column", "children": ["icon", "heading", "description", "cta-btn"], "properties": { "align": "center", "gap": "md" } },
+    { "id": "icon", "component": "Icon", "properties": { "name": "package", "size": "lg" } },
+    { "id": "heading", "component": "Text", "text": "No items yet", "properties": { "size": "lg", "weight": "bold" } },
+    { "id": "description", "component": "Text", "text": "Get started by creating your first item.", "properties": { "muted": true } },
+    { "id": "cta-btn", "component": "Button", "text": "Create Item", "variant": "primary" }
+  ]
+}

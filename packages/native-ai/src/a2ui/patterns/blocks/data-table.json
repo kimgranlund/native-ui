@@ -1,0 +1,25 @@
+{
+  "id": "data-table",
+  "label": "Data Table",
+  "tier": "block",
+  "concepts": ["table", "records", "CRUD", "data-grid"],
+  "description": "Data table card with search, add-new button, sortable table, and pagination controls.",
+  "category": "data",
+  "components": [
+    { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
+    { "id": "header", "component": "Header", "children": ["table-title", "controls-row"] },
+    { "id": "table-title", "component": "Text", "text": "Records", "properties": { "size": "lg", "weight": "bold" } },
+    { "id": "controls-row", "component": "Row", "children": ["search-field", "add-btn"], "properties": { "gap": "sm", "align": "center" } },
+    { "id": "search-field", "component": "TextField", "properties": { "placeholder": "Search records...", "type": "search" } },
+    { "id": "add-btn", "component": "Button", "text": "Add New", "variant": "primary" },
+    { "id": "body", "component": "Body", "child": "data-tbl" },
+    { "id": "data-tbl", "component": "Table", "properties": { "cols": "Name,Email,Role,Status", "sticky-header": true, "selectable": true } },
+    { "id": "footer", "component": "Footer", "children": ["footer-row"] },
+    { "id": "footer-row", "component": "Row", "children": ["count-text", "pagination-row"], "properties": { "justify": "space-between", "align": "center" } },
+    { "id": "count-text", "component": "Text", "text": "Showing 1-10 of 48 items", "properties": { "muted": true, "size": "sm" } },
+    { "id": "pagination-row", "component": "Row", "children": ["prev-btn", "next-btn"], "properties": { "gap": "sm" } },
+    { "id": "prev-btn", "component": "Button", "text": "Previous", "variant": "outline", "properties": { "size": "sm" } },
+    { "id": "next-btn", "component": "Button", "text": "Next", "variant": "outline", "properties": { "size": "sm" } }
+  ],
+  "composedOf": ["search-field", "button-pair"]
+}

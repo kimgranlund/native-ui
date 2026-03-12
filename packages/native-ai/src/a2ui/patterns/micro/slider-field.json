@@ -1,0 +1,15 @@
+{
+  "id": "slider-field",
+  "label": "Slider Field",
+  "tier": "micro",
+  "concepts": ["range", "adjustment", "value"],
+  "description": "Label + current value + slider for range-based input.",
+  "category": "form",
+  "components": [
+    { "id": "root", "component": "Column", "children": ["info", "slider"], "properties": { "gap": "xs" } },
+    { "id": "info", "component": "Row", "children": ["label", "value"], "properties": { "justify": "space-between" } },
+    { "id": "label", "component": "Text", "text": "Volume", "properties": { "size": "sm" } },
+    { "id": "value", "component": "Text", "text": "75%", "properties": { "size": "sm", "muted": true } },
+    { "id": "slider", "component": "Slider", "properties": { "value": 75, "min": 0, "max": 100 } }
+  ]
+}

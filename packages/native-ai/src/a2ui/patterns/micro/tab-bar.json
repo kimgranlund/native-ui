@@ -1,0 +1,14 @@
+{
+  "id": "tab-bar",
+  "label": "Tab Bar",
+  "tier": "micro",
+  "concepts": ["tabs", "sections", "views"],
+  "description": "Horizontal tab row for switching between content sections.",
+  "category": "navigation",
+  "components": [
+    { "id": "root", "component": "Tabs", "children": ["tab1", "tab2", "tab3"] },
+    { "id": "tab1", "component": "Button", "text": "Overview", "variant": "ghost" },
+    { "id": "tab2", "component": "Button", "text": "Details", "variant": "ghost" },
+    { "id": "tab3", "component": "Button", "text": "Reviews", "variant": "ghost" }
+  ]
+}

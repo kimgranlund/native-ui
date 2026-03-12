@@ -1,0 +1,15 @@
+{
+  "id": "avatar-row",
+  "label": "Avatar Row",
+  "tier": "micro",
+  "concepts": ["profile", "user", "identity"],
+  "description": "Avatar + name + secondary text for user identity display.",
+  "category": "primitive",
+  "components": [
+    { "id": "root", "component": "Row", "children": ["avatar", "info"], "properties": { "gap": "sm", "align": "center" } },
+    { "id": "avatar", "component": "Avatar", "properties": { "name": "Jane Doe" } },
+    { "id": "info", "component": "Column", "children": ["name", "role"], "properties": { "gap": "xs" } },
+    { "id": "name", "component": "Text", "text": "Jane Doe", "properties": { "weight": "medium" } },
+    { "id": "role", "component": "Text", "text": "Product Designer", "properties": { "muted": true, "size": "sm" } }
+  ]
+}

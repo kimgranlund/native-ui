@@ -1,0 +1,19 @@
+{
+  "id": "confirmation-modal",
+  "label": "Confirmation Modal",
+  "tier": "block",
+  "concepts": ["confirm", "delete", "destructive", "modal"],
+  "description": "Destructive confirmation dialog with warning icon, title, explanation text, and cancel/delete button pair.",
+  "category": "overlay",
+  "components": [
+    { "id": "root", "component": "Modal", "children": ["content-col"] },
+    { "id": "content-col", "component": "Column", "children": ["icon", "heading", "description", "actions-row"], "properties": { "gap": "md", "align": "center" } },
+    { "id": "icon", "component": "Icon", "properties": { "name": "warning-circle", "size": "xl", "intent": "danger" } },
+    { "id": "heading", "component": "Text", "text": "Delete Item?", "properties": { "size": "lg", "weight": "bold" } },
+    { "id": "description", "component": "Text", "text": "This action cannot be undone. The item and all associated data will be permanently removed." },
+    { "id": "actions-row", "component": "Row", "children": ["cancel-btn", "delete-btn"], "properties": { "gap": "md", "justify": "end" } },
+    { "id": "cancel-btn", "component": "Button", "text": "Cancel", "variant": "outline" },
+    { "id": "delete-btn", "component": "Button", "text": "Delete", "variant": "primary", "properties": { "intent": "danger" } }
+  ],
+  "composedOf": ["button-pair"]
+}

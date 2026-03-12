@@ -1,0 +1,27 @@
+{
+  "id": "video-player-card",
+  "label": "Video Player Card",
+  "tier": "block",
+  "concepts": ["video", "player", "media", "streaming"],
+  "description": "Video player card with title, description, view count, and action buttons.",
+  "category": "media",
+  "components": [
+    { "id": "root", "component": "Card", "children": ["body"] },
+    { "id": "body", "component": "Body", "child": "content-col" },
+    { "id": "content-col", "component": "Column", "children": ["video", "info-col"], "properties": { "gap": "md" } },
+    { "id": "video", "component": "Video", "properties": { "src": "video.mp4" } },
+    { "id": "info-col", "component": "Column", "children": ["title", "description", "stats-row", "actions-row"], "properties": { "gap": "sm" } },
+    { "id": "title", "component": "Text", "text": "Introduction to Web Components", "properties": { "size": "lg", "weight": "bold" } },
+    { "id": "description", "component": "Text", "text": "Learn the fundamentals of building reusable web components with custom elements, shadow DOM, and HTML templates." },
+    { "id": "stats-row", "component": "Row", "children": ["icon-views", "views-count", "icon-likes", "likes-count"], "properties": { "gap": "sm", "align": "center" } },
+    { "id": "icon-views", "component": "Icon", "properties": { "name": "eye" } },
+    { "id": "views-count", "component": "Text", "text": "1.2K views", "properties": { "muted": true, "size": "sm" } },
+    { "id": "icon-likes", "component": "Icon", "properties": { "name": "thumbs-up" } },
+    { "id": "likes-count", "component": "Text", "text": "342", "properties": { "muted": true, "size": "sm" } },
+    { "id": "actions-row", "component": "Row", "children": ["like-btn", "share-btn", "save-btn"], "properties": { "gap": "sm" } },
+    { "id": "like-btn", "component": "Button", "text": "Like", "variant": "outline" },
+    { "id": "share-btn", "component": "Button", "text": "Share", "variant": "outline" },
+    { "id": "save-btn", "component": "Button", "text": "Save", "variant": "ghost" }
+  ],
+  "composedOf": ["button-pair"]
+}

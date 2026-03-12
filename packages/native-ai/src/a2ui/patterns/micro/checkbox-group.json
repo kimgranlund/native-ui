@@ -1,0 +1,15 @@
+{
+  "id": "checkbox-group",
+  "label": "Checkbox Group",
+  "tier": "micro",
+  "concepts": ["selection", "multiple", "options"],
+  "description": "Group label + 3 vertically stacked checkboxes for multi-selection.",
+  "category": "form",
+  "components": [
+    { "id": "root", "component": "Column", "children": ["label", "option1", "option2", "option3"], "properties": { "gap": "sm" } },
+    { "id": "label", "component": "Text", "text": "Select options" },
+    { "id": "option1", "component": "CheckBox", "text": "Option A" },
+    { "id": "option2", "component": "CheckBox", "text": "Option B" },
+    { "id": "option3", "component": "CheckBox", "text": "Option C" }
+  ]
+}

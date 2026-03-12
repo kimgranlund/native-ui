@@ -1,0 +1,15 @@
+{
+  "id": "progress-labeled",
+  "label": "Labeled Progress",
+  "tier": "micro",
+  "concepts": ["loading", "completion", "status"],
+  "description": "Label + percentage + progress bar for completion tracking.",
+  "category": "feedback",
+  "components": [
+    { "id": "root", "component": "Column", "children": ["info", "bar"], "properties": { "gap": "xs" } },
+    { "id": "info", "component": "Row", "children": ["label", "percent"], "properties": { "justify": "space-between" } },
+    { "id": "label", "component": "Text", "text": "Upload progress", "properties": { "size": "sm" } },
+    { "id": "percent", "component": "Text", "text": "68%", "properties": { "size": "sm", "muted": true } },
+    { "id": "bar", "component": "Progress", "properties": { "value": 68 } }
+  ]
+}

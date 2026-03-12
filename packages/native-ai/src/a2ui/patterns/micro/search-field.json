@@ -1,0 +1,13 @@
+{
+  "id": "search-field",
+  "label": "Search Field",
+  "tier": "micro",
+  "concepts": ["search", "filter", "query"],
+  "description": "Search icon + text input for search and filter interactions.",
+  "category": "form",
+  "components": [
+    { "id": "root", "component": "Row", "children": ["icon", "input"], "properties": { "gap": "sm", "align": "center" } },
+    { "id": "icon", "component": "Icon", "properties": { "name": "magnifying-glass" } },
+    { "id": "input", "component": "TextField", "properties": { "placeholder": "Search..." } }
+  ]
+}

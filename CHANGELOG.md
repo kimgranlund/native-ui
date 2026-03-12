@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.163
+
+### Added (native-ai@1.0.80)
+- **A2UI Pattern Library** — 50 reusable UI composition patterns (25 micro, 25 blocks) for grounding AI generation in proven component arrangements. Patterns cover auth flows, forms, e-commerce, dashboards, data tables, media players, chat, navigation, and interactive elements. System of Record catalog (`pattern-catalog.json`) with concept-based matching for the reasoning pipeline. TypeScript types, loader utility, and `matchPatterns()` API for concept → pattern retrieval.
+
 ## 0.7.162
 
 ### Fixed

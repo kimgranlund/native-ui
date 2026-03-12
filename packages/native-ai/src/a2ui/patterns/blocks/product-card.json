@@ -1,0 +1,23 @@
+{
+  "id": "product-card",
+  "label": "Product Card",
+  "tier": "block",
+  "concepts": ["product", "e-commerce", "item", "merchandise"],
+  "description": "E-commerce product card with image, title, sale badge, price, description, and add-to-cart controls.",
+  "category": "commerce",
+  "components": [
+    { "id": "root", "component": "Card", "children": ["product-image", "body"] },
+    { "id": "product-image", "component": "Image", "properties": { "src": "https://placehold.co/400x300", "alt": "Product image", "aspect-ratio": "4/3" } },
+    { "id": "body", "component": "Body", "child": "content-col" },
+    { "id": "content-col", "component": "Column", "children": ["title-row", "price", "description", "actions-row"], "properties": { "gap": "sm" } },
+    { "id": "title-row", "component": "Row", "children": ["product-title", "sale-badge"], "properties": { "justify": "space-between", "align": "center" } },
+    { "id": "product-title", "component": "Text", "text": "Wireless Headphones", "properties": { "size": "lg", "weight": "bold" } },
+    { "id": "sale-badge", "component": "Badge", "text": "Sale", "properties": { "intent": "danger" } },
+    { "id": "price", "component": "Text", "text": "$79.99", "properties": { "size": "lg", "weight": "bold", "intent": "primary" } },
+    { "id": "description", "component": "Text", "text": "Premium noise-cancelling headphones with 30-hour battery life and ultra-comfortable ear cushions.", "properties": { "muted": true, "size": "sm" } },
+    { "id": "actions-row", "component": "Row", "children": ["quantity-picker", "add-btn"], "properties": { "gap": "md", "align": "center" } },
+    { "id": "quantity-picker", "component": "ChoicePicker", "properties": { "options": ["1", "2", "3", "4", "5"], "value": "1" } },
+    { "id": "add-btn", "component": "Button", "text": "Add to Cart", "variant": "primary" }
+  ],
+  "composedOf": ["button-pair"]
+}

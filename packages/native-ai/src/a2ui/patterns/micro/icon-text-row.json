@@ -1,0 +1,14 @@
+{
+  "id": "icon-text-row",
+  "label": "Icon Text Row",
+  "tier": "micro",
+  "concepts": ["menu-item", "list-item", "nav"],
+  "description": "Icon + text label + optional trailing badge for navigation items.",
+  "category": "navigation",
+  "components": [
+    { "id": "root", "component": "Row", "children": ["icon", "label", "badge"], "properties": { "gap": "sm", "align": "center" } },
+    { "id": "icon", "component": "Icon", "properties": { "name": "house" } },
+    { "id": "label", "component": "Text", "text": "Dashboard" },
+    { "id": "badge", "component": "Badge", "text": "3", "properties": { "intent": "info" } }
+  ]
+}

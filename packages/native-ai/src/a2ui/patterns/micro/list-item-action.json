@@ -1,0 +1,14 @@
+{
+  "id": "list-item-action",
+  "label": "List Item with Action",
+  "tier": "micro",
+  "concepts": ["list", "selectable", "interactive"],
+  "description": "List row with leading icon, text label, and trailing action button.",
+  "category": "data",
+  "components": [
+    { "id": "root", "component": "Row", "children": ["icon", "label", "action"], "properties": { "gap": "sm" } },
+    { "id": "icon", "component": "Icon", "properties": { "name": "file" } },
+    { "id": "label", "component": "Text", "text": "Document.pdf" },
+    { "id": "action", "component": "Button", "text": "Open", "variant": "ghost", "properties": { "size": "sm" } }
+  ]
+}

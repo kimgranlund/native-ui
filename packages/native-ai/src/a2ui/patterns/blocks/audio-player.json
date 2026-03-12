@@ -1,0 +1,24 @@
+{
+  "id": "audio-player",
+  "label": "Audio Player",
+  "tier": "block",
+  "concepts": ["audio", "music", "player", "podcast"],
+  "description": "Audio player card with album art, track info, playback controls, and a progress slider.",
+  "category": "media",
+  "components": [
+    { "id": "root", "component": "Card", "children": ["body"] },
+    { "id": "body", "component": "Body", "child": "layout-row" },
+    { "id": "layout-row", "component": "Row", "children": ["album-art", "details-col"], "properties": { "gap": "md", "align": "center" } },
+    { "id": "album-art", "component": "Image", "properties": { "src": "https://placehold.co/80x80", "alt": "Album art", "aspect-ratio": "1/1" } },
+    { "id": "details-col", "component": "Column", "children": ["track-title", "artist-name", "controls-row", "progress-row"], "properties": { "gap": "sm" } },
+    { "id": "track-title", "component": "Text", "text": "Midnight Serenade", "properties": { "size": "lg", "weight": "bold" } },
+    { "id": "artist-name", "component": "Text", "text": "The Moonlight Trio", "properties": { "muted": true, "size": "sm" } },
+    { "id": "controls-row", "component": "Row", "children": ["prev-btn", "play-btn", "next-btn"], "properties": { "gap": "sm", "align": "center" } },
+    { "id": "prev-btn", "component": "Button", "text": "Prev", "variant": "ghost", "properties": { "size": "sm" } },
+    { "id": "play-btn", "component": "Button", "text": "Play", "variant": "primary" },
+    { "id": "next-btn", "component": "Button", "text": "Next", "variant": "ghost", "properties": { "size": "sm" } },
+    { "id": "progress-row", "component": "Row", "children": ["progress-slider", "time-text"], "properties": { "gap": "sm", "align": "center" } },
+    { "id": "progress-slider", "component": "Slider", "properties": { "min": 0, "max": 252, "value": 154 } },
+    { "id": "time-text", "component": "Text", "text": "2:34 / 4:12", "properties": { "muted": true, "size": "sm" } }
+  ]
+}

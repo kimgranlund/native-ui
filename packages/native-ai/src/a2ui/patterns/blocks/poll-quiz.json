@@ -1,0 +1,24 @@
+{
+  "id": "poll-quiz",
+  "label": "Poll / Quiz",
+  "tier": "block",
+  "concepts": ["poll", "quiz", "vote", "survey"],
+  "description": "Poll card with question, answer options, vote button, and result progress bars.",
+  "category": "interactive",
+  "components": [
+    { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
+    { "id": "header", "component": "Header", "children": ["question", "poll-badge"] },
+    { "id": "question", "component": "Text", "text": "What framework do you prefer for building UIs?", "properties": { "size": "lg", "weight": "bold" } },
+    { "id": "poll-badge", "component": "Badge", "text": "Poll" },
+    { "id": "body", "component": "Body", "child": "options-col" },
+    { "id": "options-col", "component": "Column", "children": ["option-a", "option-b", "option-c", "option-d"], "properties": { "gap": "sm" } },
+    { "id": "option-a", "component": "CheckBox", "text": "Web Components" },
+    { "id": "option-b", "component": "CheckBox", "text": "React" },
+    { "id": "option-c", "component": "CheckBox", "text": "Vue" },
+    { "id": "option-d", "component": "CheckBox", "text": "Svelte" },
+    { "id": "footer", "component": "Footer", "children": ["footer-row"] },
+    { "id": "footer-row", "component": "Row", "children": ["vote-count", "vote-btn"], "properties": { "justify": "space-between", "align": "center" } },
+    { "id": "vote-count", "component": "Text", "text": "42 votes", "properties": { "muted": true, "size": "sm" } },
+    { "id": "vote-btn", "component": "Button", "text": "Vote", "variant": "primary" }
+  ]
+}

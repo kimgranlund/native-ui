@@ -1,0 +1,32 @@
+{
+  "id": "registration-form",
+  "label": "Registration Form",
+  "tier": "block",
+  "concepts": ["sign-up", "register", "create-account", "onboarding"],
+  "description": "Sign-up form with name fields, email, password confirmation, terms checkbox, and submit button.",
+  "category": "auth",
+  "components": [
+    { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
+    { "id": "header", "component": "Header", "children": ["title"] },
+    { "id": "title", "component": "Text", "text": "Create Account", "properties": { "size": "xl", "weight": "bold" } },
+    { "id": "body", "component": "Body", "child": "form-col" },
+    { "id": "form-col", "component": "Column", "children": ["name-row", "email-label", "email-input", "password-label", "password-input", "confirm-label", "confirm-input", "terms-check"], "properties": { "gap": "md" } },
+    { "id": "name-row", "component": "Row", "children": ["first-name-col", "last-name-col"], "properties": { "gap": "md" } },
+    { "id": "first-name-col", "component": "Column", "children": ["first-name-label", "first-name-input"], "properties": { "gap": "xs" } },
+    { "id": "first-name-label", "component": "Text", "text": "First Name", "properties": { "size": "sm", "weight": "medium" } },
+    { "id": "first-name-input", "component": "TextField", "properties": { "placeholder": "Jane" } },
+    { "id": "last-name-col", "component": "Column", "children": ["last-name-label", "last-name-input"], "properties": { "gap": "xs" } },
+    { "id": "last-name-label", "component": "Text", "text": "Last Name", "properties": { "size": "sm", "weight": "medium" } },
+    { "id": "last-name-input", "component": "TextField", "properties": { "placeholder": "Doe" } },
+    { "id": "email-label", "component": "Text", "text": "Email", "properties": { "size": "sm", "weight": "medium" } },
+    { "id": "email-input", "component": "TextField", "properties": { "placeholder": "you@example.com", "type": "email" } },
+    { "id": "password-label", "component": "Text", "text": "Password", "properties": { "size": "sm", "weight": "medium" } },
+    { "id": "password-input", "component": "TextField", "properties": { "placeholder": "Create a password", "type": "password" } },
+    { "id": "confirm-label", "component": "Text", "text": "Confirm Password", "properties": { "size": "sm", "weight": "medium" } },
+    { "id": "confirm-input", "component": "TextField", "properties": { "placeholder": "Confirm your password", "type": "password" } },
+    { "id": "terms-check", "component": "CheckBox", "text": "I agree to the Terms of Service and Privacy Policy" },
+    { "id": "footer", "component": "Footer", "children": ["submit-btn"] },
+    { "id": "submit-btn", "component": "Button", "text": "Create Account", "variant": "primary", "properties": { "full": true } }
+  ],
+  "composedOf": ["form-field"]
+}

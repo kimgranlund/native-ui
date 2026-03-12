@@ -1,0 +1,32 @@
+{
+  "id": "user-profile-card",
+  "label": "User Profile Card",
+  "tier": "block",
+  "concepts": ["profile", "user", "account", "bio"],
+  "description": "Profile card with avatar, name, role badge, bio, contact details, and action buttons.",
+  "category": "admin",
+  "components": [
+    { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
+    { "id": "header", "component": "Header", "children": ["avatar-row"] },
+    { "id": "avatar-row", "component": "Row", "children": ["user-avatar", "identity-col"], "properties": { "gap": "md", "align": "center" } },
+    { "id": "user-avatar", "component": "Avatar", "properties": { "size": "lg", "src": "https://placehold.co/80x80", "alt": "User avatar" } },
+    { "id": "identity-col", "component": "Column", "children": ["user-name", "user-role", "pro-badge"], "properties": { "gap": "xs" } },
+    { "id": "user-name", "component": "Text", "text": "Jane Cooper", "properties": { "size": "lg", "weight": "bold" } },
+    { "id": "user-role", "component": "Text", "text": "Senior Designer", "properties": { "muted": true, "size": "sm" } },
+    { "id": "pro-badge", "component": "Badge", "text": "Pro", "properties": { "intent": "primary" } },
+    { "id": "body", "component": "Body", "child": "details-col" },
+    { "id": "details-col", "component": "Column", "children": ["bio-text", "email-row", "location-row"], "properties": { "gap": "sm" } },
+    { "id": "bio-text", "component": "Text", "text": "Passionate about creating beautiful, intuitive interfaces. 10+ years of experience in product design and design systems.", "properties": { "size": "sm" } },
+    { "id": "email-row", "component": "Row", "children": ["email-icon", "email-text"], "properties": { "gap": "sm", "align": "center" } },
+    { "id": "email-icon", "component": "Icon", "properties": { "name": "envelope", "size": "sm" } },
+    { "id": "email-text", "component": "Text", "text": "jane.cooper@example.com", "properties": { "size": "sm", "muted": true } },
+    { "id": "location-row", "component": "Row", "children": ["location-icon", "location-text"], "properties": { "gap": "sm", "align": "center" } },
+    { "id": "location-icon", "component": "Icon", "properties": { "name": "map-pin", "size": "sm" } },
+    { "id": "location-text", "component": "Text", "text": "San Francisco, CA", "properties": { "size": "sm", "muted": true } },
+    { "id": "footer", "component": "Footer", "children": ["actions-row"] },
+    { "id": "actions-row", "component": "Row", "children": ["message-btn", "follow-btn"], "properties": { "gap": "sm" } },
+    { "id": "message-btn", "component": "Button", "text": "Message", "variant": "primary" },
+    { "id": "follow-btn", "component": "Button", "text": "Follow", "variant": "outline" }
+  ],
+  "composedOf": ["avatar-row", "button-pair"]
+}

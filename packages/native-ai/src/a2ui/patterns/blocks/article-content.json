@@ -1,0 +1,29 @@
+{
+  "id": "article-content",
+  "label": "Article Content",
+  "tier": "block",
+  "concepts": ["article", "blog", "post", "editorial"],
+  "description": "Blog post card with hero image, title, author byline, body text, and tags.",
+  "category": "content",
+  "components": [
+    { "id": "root", "component": "Card", "children": ["header", "body"] },
+    { "id": "header", "component": "Header", "children": ["hero"] },
+    { "id": "hero", "component": "Image", "properties": { "src": "hero.jpg", "alt": "Article hero image" } },
+    { "id": "body", "component": "Body", "child": "content-col" },
+    { "id": "content-col", "component": "Column", "children": ["title", "byline", "divider", "para-1", "para-2", "tags-row"], "properties": { "gap": "md" } },
+    { "id": "title", "component": "Text", "text": "Getting Started with Design Systems", "properties": { "size": "xl", "weight": "bold" } },
+    { "id": "byline", "component": "Row", "children": ["author-avatar", "author-info"], "properties": { "gap": "sm", "align": "center" } },
+    { "id": "author-avatar", "component": "Avatar", "properties": { "name": "Alex Morgan" } },
+    { "id": "author-info", "component": "Column", "children": ["author-name", "publish-date"], "properties": { "gap": "xs" } },
+    { "id": "author-name", "component": "Text", "text": "Alex Morgan", "properties": { "weight": "medium" } },
+    { "id": "publish-date", "component": "Text", "text": "March 10, 2026", "properties": { "muted": true, "size": "sm" } },
+    { "id": "divider", "component": "Divider" },
+    { "id": "para-1", "component": "Text", "text": "Design systems provide a shared language and set of reusable components that help teams build consistent user interfaces at scale. They bridge the gap between design and development." },
+    { "id": "para-2", "component": "Text", "text": "By establishing clear patterns and guidelines, design systems reduce decision fatigue and free teams to focus on solving unique problems rather than reinventing common UI elements." },
+    { "id": "tags-row", "component": "Row", "children": ["tag-1", "tag-2", "tag-3"], "properties": { "gap": "sm" } },
+    { "id": "tag-1", "component": "Badge", "text": "Design" },
+    { "id": "tag-2", "component": "Badge", "text": "Systems" },
+    { "id": "tag-3", "component": "Badge", "text": "Frontend" }
+  ],
+  "composedOf": ["avatar-row", "badge-text"]
+}

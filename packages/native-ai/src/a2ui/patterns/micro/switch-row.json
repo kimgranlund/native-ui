@@ -1,0 +1,15 @@
+{
+  "id": "switch-row",
+  "label": "Switch Row",
+  "tier": "micro",
+  "concepts": ["setting", "toggle", "preference"],
+  "description": "Label + description on left, switch on right for toggling settings.",
+  "category": "form",
+  "components": [
+    { "id": "root", "component": "Row", "children": ["text-group", "toggle"], "properties": { "gap": "md", "align": "center", "justify": "space-between" } },
+    { "id": "text-group", "component": "Column", "children": ["label", "description"], "properties": { "gap": "xs" } },
+    { "id": "label", "component": "Text", "text": "Enable notifications" },
+    { "id": "description", "component": "Text", "text": "Receive alerts for new activity.", "properties": { "muted": true, "size": "sm" } },
+    { "id": "toggle", "component": "Switch" }
+  ]
+}

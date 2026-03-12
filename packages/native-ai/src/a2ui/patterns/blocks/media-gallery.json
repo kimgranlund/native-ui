@@ -1,0 +1,30 @@
+{
+  "id": "media-gallery",
+  "label": "Media Gallery",
+  "tier": "block",
+  "concepts": ["photos", "gallery", "images", "portfolio"],
+  "description": "Image grid with pagination controls for browsing a photo gallery.",
+  "category": "media",
+  "components": [
+    { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
+    { "id": "header", "component": "Header", "children": ["title"] },
+    { "id": "title", "component": "Text", "text": "Gallery", "properties": { "size": "lg", "weight": "bold" } },
+    { "id": "body", "component": "Body", "child": "grid" },
+    { "id": "grid", "component": "Row", "children": ["col-1", "col-2", "col-3"], "properties": { "gap": "md" } },
+    { "id": "col-1", "component": "Column", "children": ["img-1a", "img-1b"], "properties": { "gap": "md" } },
+    { "id": "img-1a", "component": "Image", "properties": { "src": "photo-1.jpg", "alt": "Photo 1" } },
+    { "id": "img-1b", "component": "Image", "properties": { "src": "photo-2.jpg", "alt": "Photo 2" } },
+    { "id": "col-2", "component": "Column", "children": ["img-2a", "img-2b"], "properties": { "gap": "md" } },
+    { "id": "img-2a", "component": "Image", "properties": { "src": "photo-3.jpg", "alt": "Photo 3" } },
+    { "id": "img-2b", "component": "Image", "properties": { "src": "photo-4.jpg", "alt": "Photo 4" } },
+    { "id": "col-3", "component": "Column", "children": ["img-3a", "img-3b"], "properties": { "gap": "md" } },
+    { "id": "img-3a", "component": "Image", "properties": { "src": "photo-5.jpg", "alt": "Photo 5" } },
+    { "id": "img-3b", "component": "Image", "properties": { "src": "photo-6.jpg", "alt": "Photo 6" } },
+    { "id": "footer", "component": "Footer", "children": ["nav-row"] },
+    { "id": "nav-row", "component": "Row", "children": ["btn-prev", "page-text", "btn-next"], "properties": { "justify": "space-between", "align": "center" } },
+    { "id": "btn-prev", "component": "Button", "text": "Prev", "variant": "outline" },
+    { "id": "page-text", "component": "Text", "text": "Page 1 of 3", "properties": { "muted": true } },
+    { "id": "btn-next", "component": "Button", "text": "Next", "variant": "outline" }
+  ],
+  "composedOf": ["thumbnail-caption"]
+}

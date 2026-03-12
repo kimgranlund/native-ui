@@ -1,0 +1,17 @@
+{
+  "id": "rating-display",
+  "label": "Rating Display",
+  "tier": "micro",
+  "concepts": ["rating", "stars", "review"],
+  "description": "Five filled star icons with a numeric score for displaying ratings.",
+  "category": "data",
+  "components": [
+    { "id": "root", "component": "Row", "children": ["star1", "star2", "star3", "star4", "star5", "score"], "properties": { "gap": "xs" } },
+    { "id": "star1", "component": "Icon", "properties": { "name": "star-fill" } },
+    { "id": "star2", "component": "Icon", "properties": { "name": "star-fill" } },
+    { "id": "star3", "component": "Icon", "properties": { "name": "star-fill" } },
+    { "id": "star4", "component": "Icon", "properties": { "name": "star-fill" } },
+    { "id": "star5", "component": "Icon", "properties": { "name": "star-fill" } },
+    { "id": "score", "component": "Text", "text": "4.5" }
+  ]
+}

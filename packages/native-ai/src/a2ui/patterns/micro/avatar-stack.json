@@ -1,0 +1,15 @@
+{
+  "id": "avatar-stack",
+  "label": "Avatar Stack",
+  "tier": "micro",
+  "concepts": ["group", "team", "participants"],
+  "description": "Three overlapping avatars with an overflow count badge showing additional participants.",
+  "category": "primitive",
+  "components": [
+    { "id": "root", "component": "Row", "children": ["avatar1", "avatar2", "avatar3", "overflow"], "properties": { "gap": "none" } },
+    { "id": "avatar1", "component": "Avatar", "properties": { "src": "", "alt": "User 1" } },
+    { "id": "avatar2", "component": "Avatar", "properties": { "src": "", "alt": "User 2" } },
+    { "id": "avatar3", "component": "Avatar", "properties": { "src": "", "alt": "User 3" } },
+    { "id": "overflow", "component": "Badge", "text": "+5" }
+  ]
+}

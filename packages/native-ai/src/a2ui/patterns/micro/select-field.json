@@ -1,0 +1,14 @@
+{
+  "id": "select-field",
+  "label": "Select Field",
+  "tier": "micro",
+  "concepts": ["dropdown", "choice", "picker"],
+  "description": "Label + select dropdown + helper text for single-choice selection.",
+  "category": "form",
+  "components": [
+    { "id": "root", "component": "Column", "children": ["label", "picker", "helper"], "properties": { "gap": "xs" } },
+    { "id": "label", "component": "Text", "text": "Category" },
+    { "id": "picker", "component": "ChoicePicker", "properties": { "placeholder": "Choose an option..." } },
+    { "id": "helper", "component": "Text", "text": "Select the most relevant category.", "properties": { "muted": true, "size": "sm" } }
+  ]
+}

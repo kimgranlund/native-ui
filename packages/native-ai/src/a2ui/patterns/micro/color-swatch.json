@@ -1,0 +1,13 @@
+{
+  "id": "color-swatch",
+  "label": "Color Swatch",
+  "tier": "micro",
+  "concepts": ["color", "palette", "swatch"],
+  "description": "A color tile with a hex label beneath for displaying palette colors.",
+  "category": "primitive",
+  "components": [
+    { "id": "root", "component": "Column", "children": ["swatch", "label"], "properties": { "gap": "xs" } },
+    { "id": "swatch", "component": "Card", "children": [], "properties": { "style": "aspect-ratio:1; background:var(--color)" } },
+    { "id": "label", "component": "Text", "text": "#3B82F6", "properties": { "muted": true } }
+  ]
+}

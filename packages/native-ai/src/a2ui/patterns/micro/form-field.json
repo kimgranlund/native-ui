@@ -1,0 +1,14 @@
+{
+  "id": "form-field",
+  "label": "Form Field",
+  "tier": "micro",
+  "concepts": ["input", "label", "validation"],
+  "description": "Label + text input + helper text for standard form fields.",
+  "category": "form",
+  "components": [
+    { "id": "root", "component": "Column", "children": ["label", "input", "helper"], "properties": { "gap": "xs" } },
+    { "id": "label", "component": "Text", "text": "Label" },
+    { "id": "input", "component": "TextField", "properties": { "placeholder": "Enter value..." } },
+    { "id": "helper", "component": "Text", "text": "Helper text", "properties": { "muted": true, "size": "sm" } }
+  ]
+}

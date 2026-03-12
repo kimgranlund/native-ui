@@ -1,0 +1,14 @@
+{
+  "id": "thumbnail-caption",
+  "label": "Thumbnail with Caption",
+  "tier": "micro",
+  "concepts": ["media", "image", "caption"],
+  "description": "Image thumbnail with title and muted description text beneath.",
+  "category": "media",
+  "components": [
+    { "id": "root", "component": "Column", "children": ["image", "title", "caption"], "properties": { "gap": "xs" } },
+    { "id": "image", "component": "Image", "properties": { "src": "", "alt": "Thumbnail" } },
+    { "id": "title", "component": "Text", "text": "Image Title" },
+    { "id": "caption", "component": "Text", "text": "A brief description of the image content.", "properties": { "muted": true } }
+  ]
+}

@@ -1,0 +1,836 @@
+{
+  "version": "1.0.0",
+  "count": 50,
+  "categories": {
+    "admin": [
+      "user-profile-card"
+    ],
+    "auth": [
+      "auth-card",
+      "registration-form"
+    ],
+    "commerce": [
+      "checkout-form",
+      "pricing-table",
+      "product-card",
+      "shopping-cart"
+    ],
+    "communication": [
+      "chat-conversation",
+      "comment-thread",
+      "notification-list",
+      "timeline-feed"
+    ],
+    "content": [
+      "article-content"
+    ],
+    "dashboard": [
+      "metric-dashboard",
+      "metric-tile"
+    ],
+    "data": [
+      "badge-text",
+      "data-table",
+      "filter-bar",
+      "key-value-pair",
+      "list-item-action",
+      "rating-display",
+      "search-results"
+    ],
+    "feedback": [
+      "alert-inline",
+      "empty-state",
+      "progress-labeled",
+      "toast-message"
+    ],
+    "form": [
+      "checkbox-group",
+      "form-field",
+      "search-field",
+      "select-field",
+      "settings-form",
+      "slider-field",
+      "switch-row",
+      "textarea-field",
+      "wizard-stepper"
+    ],
+    "interactive": [
+      "game-grid",
+      "poll-quiz"
+    ],
+    "media": [
+      "audio-player",
+      "media-gallery",
+      "thumbnail-caption",
+      "video-player-card"
+    ],
+    "navigation": [
+      "breadcrumb-trail",
+      "icon-text-row",
+      "tab-bar"
+    ],
+    "overlay": [
+      "confirm-dialog-actions",
+      "confirmation-modal"
+    ],
+    "primitive": [
+      "avatar-row",
+      "avatar-stack",
+      "button-pair",
+      "card-header",
+      "color-swatch"
+    ]
+  },
+  "patterns": [
+    {
+      "id": "alert-inline",
+      "label": "Inline Alert",
+      "tier": "micro",
+      "concepts": [
+        "alert",
+        "warning",
+        "info"
+      ],
+      "description": "Icon paired with message text for inline feedback and notifications.",
+      "category": "feedback",
+      "componentCount": 4
+    },
+    {
+      "id": "avatar-row",
+      "label": "Avatar Row",
+      "tier": "micro",
+      "concepts": [
+        "profile",
+        "user",
+        "identity"
+      ],
+      "description": "Avatar + name + secondary text for user identity display.",
+      "category": "primitive",
+      "componentCount": 5
+    },
+    {
+      "id": "avatar-stack",
+      "label": "Avatar Stack",
+      "tier": "micro",
+      "concepts": [
+        "group",
+        "team",
+        "participants"
+      ],
+      "description": "Three overlapping avatars with an overflow count badge showing additional participants.",
+      "category": "primitive",
+      "componentCount": 5
+    },
+    {
+      "id": "badge-text",
+      "label": "Badge with Text",
+      "tier": "micro",
+      "concepts": [
+        "status",
+        "tag",
+        "indicator"
+      ],
+      "description": "Text label paired with a status badge for displaying labeled states.",
+      "category": "data",
+      "componentCount": 3
+    },
+    {
+      "id": "breadcrumb-trail",
+      "label": "Breadcrumb Trail",
+      "tier": "micro",
+      "concepts": [
+        "navigation",
+        "hierarchy",
+        "path"
+      ],
+      "description": "3-level breadcrumb showing navigational hierarchy from root to current page.",
+      "category": "navigation",
+      "componentCount": 4
+    },
+    {
+      "id": "button-pair",
+      "label": "Button Pair",
+      "tier": "micro",
+      "concepts": [
+        "actions",
+        "confirm",
+        "cancel"
+      ],
+      "description": "Primary and secondary buttons side by side for confirm/cancel flows.",
+      "category": "primitive",
+      "componentCount": 3
+    },
+    {
+      "id": "card-header",
+      "label": "Card Header",
+      "tier": "micro",
+      "concepts": [
+        "title",
+        "actions",
+        "section-header"
+      ],
+      "description": "Title on the left with an action button on the right for card or section headers.",
+      "category": "primitive",
+      "componentCount": 3
+    },
+    {
+      "id": "checkbox-group",
+      "label": "Checkbox Group",
+      "tier": "micro",
+      "concepts": [
+        "selection",
+        "multiple",
+        "options"
+      ],
+      "description": "Group label + 3 vertically stacked checkboxes for multi-selection.",
+      "category": "form",
+      "componentCount": 5
+    },
+    {
+      "id": "color-swatch",
+      "label": "Color Swatch",
+      "tier": "micro",
+      "concepts": [
+        "color",
+        "palette",
+        "swatch"
+      ],
+      "description": "A color tile with a hex label beneath for displaying palette colors.",
+      "category": "primitive",
+      "componentCount": 3
+    },
+    {
+      "id": "confirm-dialog-actions",
+      "label": "Confirm Dialog Actions",
+      "tier": "micro",
+      "concepts": [
+        "modal",
+        "confirm",
+        "destructive"
+      ],
+      "description": "Dialog footer with cancel and destructive confirm buttons for dangerous actions.",
+      "category": "overlay",
+      "componentCount": 4
+    },
+    {
+      "id": "form-field",
+      "label": "Form Field",
+      "tier": "micro",
+      "concepts": [
+        "input",
+        "label",
+        "validation"
+      ],
+      "description": "Label + text input + helper text for standard form fields.",
+      "category": "form",
+      "componentCount": 4
+    },
+    {
+      "id": "icon-text-row",
+      "label": "Icon Text Row",
+      "tier": "micro",
+      "concepts": [
+        "menu-item",
+        "list-item",
+        "nav"
+      ],
+      "description": "Icon + text label + optional trailing badge for navigation items.",
+      "category": "navigation",
+      "componentCount": 4
+    },
+    {
+      "id": "key-value-pair",
+      "label": "Key–Value Pair",
+      "tier": "micro",
+      "concepts": [
+        "detail",
+        "property",
+        "attribute"
+      ],
+      "description": "Muted label on the left, value on the right for property display.",
+      "category": "data",
+      "componentCount": 3
+    },
+    {
+      "id": "list-item-action",
+      "label": "List Item with Action",
+      "tier": "micro",
+      "concepts": [
+        "list",
+        "selectable",
+        "interactive"
+      ],
+      "description": "List row with leading icon, text label, and trailing action button.",
+      "category": "data",
+      "componentCount": 4
+    },
+    {
+      "id": "metric-tile",
+      "label": "Metric Tile",
+      "tier": "micro",
+      "concepts": [
+        "stat",
+        "KPI",
+        "number"
+      ],
+      "description": "Large number + label + trend icon for dashboard KPI display.",
+      "category": "dashboard",
+      "componentCount": 7
+    },
+    {
+      "id": "progress-labeled",
+      "label": "Labeled Progress",
+      "tier": "micro",
+      "concepts": [
+        "loading",
+        "completion",
+        "status"
+      ],
+      "description": "Label + percentage + progress bar for completion tracking.",
+      "category": "feedback",
+      "componentCount": 5
+    },
+    {
+      "id": "rating-display",
+      "label": "Rating Display",
+      "tier": "micro",
+      "concepts": [
+        "rating",
+        "stars",
+        "review"
+      ],
+      "description": "Five filled star icons with a numeric score for displaying ratings.",
+      "category": "data",
+      "componentCount": 7
+    },
+    {
+      "id": "search-field",
+      "label": "Search Field",
+      "tier": "micro",
+      "concepts": [
+        "search",
+        "filter",
+        "query"
+      ],
+      "description": "Search icon + text input for search and filter interactions.",
+      "category": "form",
+      "componentCount": 3
+    },
+    {
+      "id": "select-field",
+      "label": "Select Field",
+      "tier": "micro",
+      "concepts": [
+        "dropdown",
+        "choice",
+        "picker"
+      ],
+      "description": "Label + select dropdown + helper text for single-choice selection.",
+      "category": "form",
+      "componentCount": 4
+    },
+    {
+      "id": "slider-field",
+      "label": "Slider Field",
+      "tier": "micro",
+      "concepts": [
+        "range",
+        "adjustment",
+        "value"
+      ],
+      "description": "Label + current value + slider for range-based input.",
+      "category": "form",
+      "componentCount": 5
+    },
+    {
+      "id": "switch-row",
+      "label": "Switch Row",
+      "tier": "micro",
+      "concepts": [
+        "setting",
+        "toggle",
+        "preference"
+      ],
+      "description": "Label + description on left, switch on right for toggling settings.",
+      "category": "form",
+      "componentCount": 5
+    },
+    {
+      "id": "tab-bar",
+      "label": "Tab Bar",
+      "tier": "micro",
+      "concepts": [
+        "tabs",
+        "sections",
+        "views"
+      ],
+      "description": "Horizontal tab row for switching between content sections.",
+      "category": "navigation",
+      "componentCount": 4
+    },
+    {
+      "id": "textarea-field",
+      "label": "Textarea Field",
+      "tier": "micro",
+      "concepts": [
+        "multiline",
+        "label",
+        "description"
+      ],
+      "description": "Label + textarea + helper text for multiline input fields.",
+      "category": "form",
+      "componentCount": 4
+    },
+    {
+      "id": "thumbnail-caption",
+      "label": "Thumbnail with Caption",
+      "tier": "micro",
+      "concepts": [
+        "media",
+        "image",
+        "caption"
+      ],
+      "description": "Image thumbnail with title and muted description text beneath.",
+      "category": "media",
+      "componentCount": 4
+    },
+    {
+      "id": "toast-message",
+      "label": "Toast Message",
+      "tier": "micro",
+      "concepts": [
+        "notification",
+        "toast",
+        "transient"
+      ],
+      "description": "Toast notification with icon, message text, and dismiss button.",
+      "category": "feedback",
+      "componentCount": 5
+    },
+    {
+      "id": "article-content",
+      "label": "Article Content",
+      "tier": "block",
+      "concepts": [
+        "article",
+        "blog",
+        "post",
+        "editorial"
+      ],
+      "description": "Blog post card with hero image, title, author byline, body text, and tags.",
+      "category": "content",
+      "componentCount": 18,
+      "composedOf": [
+        "avatar-row",
+        "badge-text"
+      ]
+    },
+    {
+      "id": "audio-player",
+      "label": "Audio Player",
+      "tier": "block",
+      "concepts": [
+        "audio",
+        "music",
+        "player",
+        "podcast"
+      ],
+      "description": "Audio player card with album art, track info, playback controls, and a progress slider.",
+      "category": "media",
+      "componentCount": 14
+    },
+    {
+      "id": "auth-card",
+      "label": "Authentication Card",
+      "tier": "block",
+      "concepts": [
+        "login",
+        "sign-in",
+        "credentials",
+        "authentication"
+      ],
+      "description": "Login card with logo, title, email/password fields, submit button, and secondary links.",
+      "category": "auth",
+      "componentCount": 16,
+      "composedOf": [
+        "form-field",
+        "button-pair"
+      ]
+    },
+    {
+      "id": "chat-conversation",
+      "label": "Chat Conversation",
+      "tier": "block",
+      "concepts": [
+        "chat",
+        "messaging",
+        "conversation",
+        "dialogue"
+      ],
+      "description": "Chat UI with user presence header, a scrollable message list with alternating sent/received messages, and a compose footer.",
+      "category": "communication",
+      "componentCount": 28,
+      "composedOf": [
+        "avatar-row"
+      ]
+    },
+    {
+      "id": "checkout-form",
+      "label": "Checkout Form",
+      "tier": "block",
+      "concepts": [
+        "checkout",
+        "payment",
+        "billing",
+        "order"
+      ],
+      "description": "Payment form with shipping and billing sections, field groups, and order total.",
+      "category": "commerce",
+      "componentCount": 25,
+      "composedOf": [
+        "form-field",
+        "button-pair"
+      ]
+    },
+    {
+      "id": "comment-thread",
+      "label": "Comment Thread",
+      "tier": "block",
+      "concepts": [
+        "comments",
+        "discussion",
+        "replies",
+        "feedback"
+      ],
+      "description": "Comments section with user avatars, timestamps, reply/like actions, and a compose area.",
+      "category": "communication",
+      "componentCount": 32,
+      "composedOf": [
+        "avatar-row"
+      ]
+    },
+    {
+      "id": "confirmation-modal",
+      "label": "Confirmation Modal",
+      "tier": "block",
+      "concepts": [
+        "confirm",
+        "delete",
+        "destructive",
+        "modal"
+      ],
+      "description": "Destructive confirmation dialog with warning icon, title, explanation text, and cancel/delete button pair.",
+      "category": "overlay",
+      "componentCount": 8,
+      "composedOf": [
+        "button-pair"
+      ]
+    },
+    {
+      "id": "data-table",
+      "label": "Data Table",
+      "tier": "block",
+      "concepts": [
+        "table",
+        "records",
+        "CRUD",
+        "data-grid"
+      ],
+      "description": "Data table card with search, add-new button, sortable table, and pagination controls.",
+      "category": "data",
+      "componentCount": 14,
+      "composedOf": [
+        "search-field",
+        "button-pair"
+      ]
+    },
+    {
+      "id": "empty-state",
+      "label": "Empty State",
+      "tier": "block",
+      "concepts": [
+        "empty",
+        "placeholder",
+        "zero-data",
+        "onboarding"
+      ],
+      "description": "Empty state placeholder with centered icon, heading, description text, and a primary call-to-action button.",
+      "category": "feedback",
+      "componentCount": 7
+    },
+    {
+      "id": "filter-bar",
+      "label": "Filter Bar",
+      "tier": "block",
+      "concepts": [
+        "filter",
+        "sort",
+        "toolbar",
+        "search"
+      ],
+      "description": "Horizontal filter and sort bar with search field, category picker, date range inputs, sort selector, and action buttons.",
+      "category": "data",
+      "componentCount": 8,
+      "composedOf": [
+        "search-field"
+      ]
+    },
+    {
+      "id": "game-grid",
+      "label": "Game Grid",
+      "tier": "block",
+      "concepts": [
+        "game",
+        "grid",
+        "tic-tac-toe",
+        "board"
+      ],
+      "description": "Tic-tac-toe style game board with a 3x3 button grid, turn indicator badge, score display, and new game action.",
+      "category": "interactive",
+      "componentCount": 23,
+      "composedOf": [
+        "button-pair"
+      ]
+    },
+    {
+      "id": "media-gallery",
+      "label": "Media Gallery",
+      "tier": "block",
+      "concepts": [
+        "photos",
+        "gallery",
+        "images",
+        "portfolio"
+      ],
+      "description": "Image grid with pagination controls for browsing a photo gallery.",
+      "category": "media",
+      "componentCount": 19,
+      "composedOf": [
+        "thumbnail-caption"
+      ]
+    },
+    {
+      "id": "metric-dashboard",
+      "label": "Metric Dashboard",
+      "tier": "block",
+      "concepts": [
+        "KPI",
+        "analytics",
+        "stats",
+        "metrics"
+      ],
+      "description": "Four metric cards arranged in a 2x2 grid, each showing a large number, label, and trend indicator.",
+      "category": "dashboard",
+      "componentCount": 31,
+      "composedOf": [
+        "metric-tile"
+      ]
+    },
+    {
+      "id": "notification-list",
+      "label": "Notification List",
+      "tier": "block",
+      "concepts": [
+        "notifications",
+        "alerts",
+        "inbox",
+        "activity"
+      ],
+      "description": "Notification panel with badge count, dismissible notification items, and mark-all-read action.",
+      "category": "communication",
+      "componentCount": 27,
+      "composedOf": [
+        "icon-text-row"
+      ]
+    },
+    {
+      "id": "poll-quiz",
+      "label": "Poll / Quiz",
+      "tier": "block",
+      "concepts": [
+        "poll",
+        "quiz",
+        "vote",
+        "survey"
+      ],
+      "description": "Poll card with question, answer options, vote button, and result progress bars.",
+      "category": "interactive",
+      "componentCount": 14
+    },
+    {
+      "id": "pricing-table",
+      "label": "Pricing Table",
+      "tier": "block",
+      "concepts": [
+        "pricing",
+        "plans",
+        "subscription",
+        "tiers"
+      ],
+      "description": "Side-by-side pricing plan cards with tier name, price, features, and CTA.",
+      "category": "commerce",
+      "componentCount": 38,
+      "composedOf": [
+        "button-pair"
+      ]
+    },
+    {
+      "id": "product-card",
+      "label": "Product Card",
+      "tier": "block",
+      "concepts": [
+        "product",
+        "e-commerce",
+        "item",
+        "merchandise"
+      ],
+      "description": "E-commerce product card with image, title, sale badge, price, description, and add-to-cart controls.",
+      "category": "commerce",
+      "componentCount": 12,
+      "composedOf": [
+        "button-pair"
+      ]
+    },
+    {
+      "id": "registration-form",
+      "label": "Registration Form",
+      "tier": "block",
+      "concepts": [
+        "sign-up",
+        "register",
+        "create-account",
+        "onboarding"
+      ],
+      "description": "Sign-up form with name fields, email, password confirmation, terms checkbox, and submit button.",
+      "category": "auth",
+      "componentCount": 21,
+      "composedOf": [
+        "form-field"
+      ]
+    },
+    {
+      "id": "search-results",
+      "label": "Search Results",
+      "tier": "block",
+      "concepts": [
+        "search",
+        "results",
+        "filter",
+        "browse"
+      ],
+      "description": "Search page with query field, sort picker, and a list of result cards with metadata.",
+      "category": "data",
+      "componentCount": 41,
+      "composedOf": [
+        "search-field"
+      ]
+    },
+    {
+      "id": "settings-form",
+      "label": "Settings Form",
+      "tier": "block",
+      "concepts": [
+        "preferences",
+        "settings",
+        "configuration",
+        "profile"
+      ],
+      "description": "Settings card with profile fields, notification toggles, and save/cancel actions.",
+      "category": "form",
+      "componentCount": 25,
+      "composedOf": [
+        "form-field",
+        "textarea-field",
+        "switch-row",
+        "button-pair"
+      ]
+    },
+    {
+      "id": "shopping-cart",
+      "label": "Shopping Cart",
+      "tier": "block",
+      "concepts": [
+        "cart",
+        "checkout",
+        "order",
+        "basket"
+      ],
+      "description": "Shopping cart panel with item list, per-item remove actions, total, and checkout button.",
+      "category": "commerce",
+      "componentCount": 23,
+      "composedOf": [
+        "list-item-action"
+      ]
+    },
+    {
+      "id": "timeline-feed",
+      "label": "Timeline Feed",
+      "tier": "block",
+      "concepts": [
+        "timeline",
+        "activity",
+        "feed",
+        "history"
+      ],
+      "description": "Activity timeline with event icons, descriptions, timestamps, and a load-more action.",
+      "category": "communication",
+      "componentCount": 31,
+      "composedOf": [
+        "icon-text-row"
+      ]
+    },
+    {
+      "id": "user-profile-card",
+      "label": "User Profile Card",
+      "tier": "block",
+      "concepts": [
+        "profile",
+        "user",
+        "account",
+        "bio"
+      ],
+      "description": "Profile card with avatar, name, role badge, bio, contact details, and action buttons.",
+      "category": "admin",
+      "componentCount": 21,
+      "composedOf": [
+        "avatar-row",
+        "button-pair"
+      ]
+    },
+    {
+      "id": "video-player-card",
+      "label": "Video Player Card",
+      "tier": "block",
+      "concepts": [
+        "video",
+        "player",
+        "media",
+        "streaming"
+      ],
+      "description": "Video player card with title, description, view count, and action buttons.",
+      "category": "media",
+      "componentCount": 16,
+      "composedOf": [
+        "button-pair"
+      ]
+    },
+    {
+      "id": "wizard-stepper",
+      "label": "Wizard Stepper",
+      "tier": "block",
+      "concepts": [
+        "wizard",
+        "stepper",
+        "multi-step",
+        "onboarding"
+      ],
+      "description": "Multi-step wizard with numbered step indicators in the header, form fields in the body, and back/continue navigation in the footer.",
+      "category": "form",
+      "componentCount": 23,
+      "composedOf": [
+        "form-field",
+        "button-pair"
+      ]
+    }
+  ]
+}

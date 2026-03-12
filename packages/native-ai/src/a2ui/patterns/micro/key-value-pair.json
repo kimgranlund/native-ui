@@ -1,0 +1,13 @@
+{
+  "id": "key-value-pair",
+  "label": "Key–Value Pair",
+  "tier": "micro",
+  "concepts": ["detail", "property", "attribute"],
+  "description": "Muted label on the left, value on the right for property display.",
+  "category": "data",
+  "components": [
+    { "id": "root", "component": "Row", "children": ["key", "value"], "properties": { "justify": "space-between", "align": "center" } },
+    { "id": "key", "component": "Text", "text": "Status", "properties": { "muted": true, "size": "sm" } },
+    { "id": "value", "component": "Text", "text": "Active" }
+  ]
+}

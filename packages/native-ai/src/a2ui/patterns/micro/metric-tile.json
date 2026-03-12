@@ -1,0 +1,17 @@
+{
+  "id": "metric-tile",
+  "label": "Metric Tile",
+  "tier": "micro",
+  "concepts": ["stat", "KPI", "number"],
+  "description": "Large number + label + trend icon for dashboard KPI display.",
+  "category": "dashboard",
+  "components": [
+    { "id": "root", "component": "Card", "children": ["content"] },
+    { "id": "content", "component": "Column", "children": ["value", "label", "trend"], "properties": { "gap": "xs" } },
+    { "id": "value", "component": "Text", "text": "2,847", "properties": { "size": "2xl", "weight": "bold" } },
+    { "id": "label", "component": "Text", "text": "Total Users", "properties": { "muted": true, "size": "sm" } },
+    { "id": "trend", "component": "Row", "children": ["trend-icon", "trend-text"], "properties": { "gap": "xs", "align": "center" } },
+    { "id": "trend-icon", "component": "Icon", "properties": { "name": "trend-up" } },
+    { "id": "trend-text", "component": "Text", "text": "+12.5%", "properties": { "size": "sm", "intent": "success" } }
+  ]
+}

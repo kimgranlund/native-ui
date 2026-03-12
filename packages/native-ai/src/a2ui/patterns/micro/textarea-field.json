@@ -1,0 +1,14 @@
+{
+  "id": "textarea-field",
+  "label": "Textarea Field",
+  "tier": "micro",
+  "concepts": ["multiline", "label", "description"],
+  "description": "Label + textarea + helper text for multiline input fields.",
+  "category": "form",
+  "components": [
+    { "id": "root", "component": "Column", "children": ["label", "textarea", "helper"], "properties": { "gap": "xs" } },
+    { "id": "label", "component": "Text", "text": "Description" },
+    { "id": "textarea", "component": "TextArea", "properties": { "placeholder": "Enter description...", "rows": 4 } },
+    { "id": "helper", "component": "Text", "text": "Provide a detailed description.", "properties": { "muted": true, "size": "sm" } }
+  ]
+}

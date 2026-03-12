@@ -1,0 +1,14 @@
+{
+  "id": "alert-inline",
+  "label": "Inline Alert",
+  "tier": "micro",
+  "concepts": ["alert", "warning", "info"],
+  "description": "Icon paired with message text for inline feedback and notifications.",
+  "category": "feedback",
+  "components": [
+    { "id": "root", "component": "Card", "children": ["content"], "properties": { "intent": "info" } },
+    { "id": "content", "component": "Row", "children": ["icon", "message"], "properties": { "gap": "sm" } },
+    { "id": "icon", "component": "Icon", "properties": { "name": "info" } },
+    { "id": "message", "component": "Text", "text": "This action requires additional verification." }
+  ]
+}

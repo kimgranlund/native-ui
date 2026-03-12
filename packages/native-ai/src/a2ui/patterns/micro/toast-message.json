@@ -1,0 +1,15 @@
+{
+  "id": "toast-message",
+  "label": "Toast Message",
+  "tier": "micro",
+  "concepts": ["notification", "toast", "transient"],
+  "description": "Toast notification with icon, message text, and dismiss button.",
+  "category": "feedback",
+  "components": [
+    { "id": "root", "component": "Toast", "children": ["content"] },
+    { "id": "content", "component": "Row", "children": ["icon", "message", "dismiss"], "properties": { "gap": "sm" } },
+    { "id": "icon", "component": "Icon", "properties": { "name": "check-circle" } },
+    { "id": "message", "component": "Text", "text": "Changes saved successfully." },
+    { "id": "dismiss", "component": "Button", "text": "\u00d7", "variant": "ghost", "properties": { "size": "sm" } }
+  ]
+}

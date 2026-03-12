@@ -1,0 +1,13 @@
+{
+  "id": "card-header",
+  "label": "Card Header",
+  "tier": "micro",
+  "concepts": ["title", "actions", "section-header"],
+  "description": "Title on the left with an action button on the right for card or section headers.",
+  "category": "primitive",
+  "components": [
+    { "id": "root", "component": "Header", "children": ["title", "action"] },
+    { "id": "title", "component": "Text", "text": "Section Title" },
+    { "id": "action", "component": "Button", "text": "Edit", "variant": "ghost", "properties": { "size": "sm" } }
+  ]
+}

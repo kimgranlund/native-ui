@@ -1,0 +1,27 @@
+{
+  "id": "auth-card",
+  "label": "Authentication Card",
+  "tier": "block",
+  "concepts": ["login", "sign-in", "credentials", "authentication"],
+  "description": "Login card with logo, title, email/password fields, submit button, and secondary links.",
+  "category": "auth",
+  "components": [
+    { "id": "root", "component": "Card", "children": ["header", "body", "footer"] },
+    { "id": "header", "component": "Header", "children": ["logo", "title"] },
+    { "id": "logo", "component": "Icon", "properties": { "name": "lock", "size": "xl" } },
+    { "id": "title", "component": "Text", "text": "Sign In", "properties": { "size": "xl", "weight": "bold" } },
+    { "id": "body", "component": "Body", "child": "form-col" },
+    { "id": "form-col", "component": "Column", "children": ["email-label", "email-input", "password-label", "password-input", "submit-btn"], "properties": { "gap": "md" } },
+    { "id": "email-label", "component": "Text", "text": "Email", "properties": { "size": "sm", "weight": "medium" } },
+    { "id": "email-input", "component": "TextField", "properties": { "placeholder": "you@example.com", "type": "email" } },
+    { "id": "password-label", "component": "Text", "text": "Password", "properties": { "size": "sm", "weight": "medium" } },
+    { "id": "password-input", "component": "TextField", "properties": { "placeholder": "Enter password", "type": "password" } },
+    { "id": "submit-btn", "component": "Button", "text": "Sign In", "variant": "primary", "properties": { "full": true } },
+    { "id": "footer", "component": "Footer", "children": ["divider", "links-row"] },
+    { "id": "divider", "component": "Divider" },
+    { "id": "links-row", "component": "Row", "children": ["forgot-link", "create-link"], "properties": { "justify": "space-between" } },
+    { "id": "forgot-link", "component": "Button", "text": "Forgot password?", "variant": "ghost", "properties": { "size": "sm" } },
+    { "id": "create-link", "component": "Button", "text": "Create account", "variant": "ghost", "properties": { "size": "sm" } }
+  ],
+  "composedOf": ["form-field", "button-pair"]
+}

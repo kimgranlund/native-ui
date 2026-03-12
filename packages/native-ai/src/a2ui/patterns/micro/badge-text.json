@@ -1,0 +1,13 @@
+{
+  "id": "badge-text",
+  "label": "Badge with Text",
+  "tier": "micro",
+  "concepts": ["status", "tag", "indicator"],
+  "description": "Text label paired with a status badge for displaying labeled states.",
+  "category": "data",
+  "components": [
+    { "id": "root", "component": "Row", "children": ["label", "badge"], "properties": { "gap": "sm" } },
+    { "id": "label", "component": "Text", "text": "Status" },
+    { "id": "badge", "component": "Badge", "text": "Active", "properties": { "intent": "success" } }
+  ]
+}
