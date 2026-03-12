@@ -4,37 +4,51 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/native.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Color Boiler Plate</title>
+    <title>Color System</title>
     <link rel="stylesheet" href="./spa/spa-app.css" />
     <link rel="stylesheet" href="./css/components.native-ui.css" />
+    <link rel="stylesheet" href="./spa/spa-pages.css" />
     <link rel="stylesheet" href="./colors.demo.css" />
   </head>
   <body>
     <native-dashboard-spa><main>
-    <h1>Color Boiler Plate</h1>
+
     <header>
-      <div class="header">
-        <n-button id="export-tokens" size="sm" variant="outline">Export All Tokens</n-button>
-        <n-button id="export-computed" size="sm" variant="outline">Export Computed Colors</n-button>
-        <n-button id="export-semantic" size="sm" variant="outline">Export Semantic Colors</n-button>
-        <n-button id="export-figma" size="sm" variant="outline">Export Figma Variables</n-button>
-        <div class="toggle-wrap">
-          <select class="theme-select" id="theme-select">
-            <option value="">Default</option>
-            <option value="forest">Forest</option>
-            <option value="rose">Rose</option>
-            <option value="zinc">Zinc</option>
-          </select>
-          <div class="toggle-track" id="theme-toggle">
-            <div class="toggle-thumb"></div>
-          </div>
-        </div>
+      <h1>Color System</h1>
+      <div class="demo-desc">OKLCH color primitives, semantic tokens, and theme controls. Adjust environment parameters, preview all families, and export for CSS or Figma.</div>
+      <div class="color-controls">
+        <n-select id="export-select" size="sm" variant="outline" placeholder="Export Colors">
+          <n-listbox>
+            <n-option value="figma-computed">Figma (computed)</n-option>
+            <n-option value="figma-all">Figma (computed + semantic)</n-option>
+            <n-option value="css-computed">CSS (computed)</n-option>
+            <n-option value="css-all">CSS (computed + semantic)</n-option>
+          </n-listbox>
+        </n-select>
+        <n-select id="theme-select" size="sm" variant="outline" placeholder="Theme">
+          <n-listbox>
+            <n-option value="">Default</n-option>
+            <n-option value="forest">Forest</n-option>
+            <n-option value="rose">Rose</n-option>
+            <n-option value="zinc">Zinc</n-option>
+          </n-listbox>
+        </n-select>
+        <n-select id="scheme-select" size="sm" variant="outline" placeholder="Scheme">
+          <n-listbox>
+            <n-option value="system">System</n-option>
+            <n-option value="light">Light</n-option>
+            <n-option value="dark">Dark</n-option>
+          </n-listbox>
+        </n-select>
       </div>
       <div class="adjustments" id="adjustments"></div>
     </header>
 
+    <section>
+
+    <h2>Usage</h2>
     <n-container data-kind="panel" bordered>
-    <pre class="demo-code"><code>/* ── Color Environment Parameters ── */
+    <pre class="demo-code" visible><code>/* ── Color Environment Parameters ── */
 :root {
   --n-env-lightness-min: 0.25;
   --n-env-lightness-max: 0.98;
@@ -62,24 +76,39 @@
 }</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
     </n-container>
 
+    <h2>Color Families</h2>
     <div id="families"></div>
+
+    </section>
 
     </main></native-dashboard-spa>
     <script type="module">
       import '../nav/native-dashboard.ts';
       import '../components/button/button.ts';
+      import '../components/select/select.ts';
+      import '../components/listbox/listbox.ts';
       import '../icons/icon.ts';
       import '../icons/phosphor/copy.ts';
       import '../icons/phosphor/check.ts';
+      import '../icons/phosphor/caret-up-down.ts';
       import '../icons/phosphor/download-simple.ts';
     </script>
     <script type="module" src="./colors.demo.ts"></script>
     <script type="module">
-      import { exportComputedTokens, exportComputedColors, exportSemanticColors, exportFigmaVariables } from './colors.export.ts';
-      document.getElementById('export-tokens').addEventListener('click', exportComputedTokens);
-      document.getElementById('export-computed').addEventListener('click', exportComputedColors);
-      document.getElementById('export-semantic').addEventListener('click', exportSemanticColors);
-      document.getElementById('export-figma').addEventListener('click', exportFigmaVariables);
+      import { exportCss, exportFigma } from './colors.export.ts';
+      const sel = document.getElementById('export-select');
+      sel.addEventListener('native:change', (e) => {
+        const v = e.detail.value;
+        if (!v) return;
+        switch (v) {
+          case 'figma-computed': exportFigma(['./css/colors.computed.css']); break;
+          case 'figma-all':      exportFigma(['./css/colors.computed.css', './css/colors.semantic.css']); break;
+          case 'css-computed':   exportCss(['./css/colors.computed.css'], 'colors-computed'); break;
+          case 'css-all':        exportCss(['./css/colors.computed.css', './css/colors.semantic.css'], 'colors-all'); break;
+        }
+        // Reset select so the same option can be picked again
+        sel.value = '';
+      });
     </script>
   </body>
 </html>

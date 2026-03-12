@@ -45,7 +45,7 @@ attributes:
 css_attributes:
   inline:
     type: boolean
-    description: Switches from block-level to inline display so the input sizes to its content
+    description: No-op (kept for backward compatibility). Inputs are inline-flex by default since 0.7.161.
 events:
   native:format:
     description: Fired after formatting with `{ type, value }` detail

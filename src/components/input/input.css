@@ -18,9 +18,9 @@
     --n-border-color-hover: var(--n-border-muted);
     --n-border-color-disabled: transparent;
 
-    display: flex;
+    display: inline-flex;
+    vertical-align: middle;
     box-sizing: border-box;
-    width: 100%;
     min-width: 0;
     align-items: center;
     gap: calc(var(--n-space) * 2);
@@ -146,9 +146,3 @@
 
 }
 
-/* ── Attribute API (unlayered) ── */
-
-:where(n-input)[inline] {
-  display: inline-flex;
-  width: auto;
-}

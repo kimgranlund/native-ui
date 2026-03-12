@@ -478,9 +478,9 @@ families.forEach((fam) => {
 
 /* ── Theme select ── */
 
-const themeSelect = document.getElementById("theme-select") as HTMLSelectElement;
-themeSelect.addEventListener("change", () => {
-  const val = themeSelect.value;
+const themeSelect = document.getElementById("theme-select")!;
+themeSelect.addEventListener("native:change", (e: Event) => {
+  const val = (e as CustomEvent).detail.value;
   if (val) {
     root.setAttribute("theme", val);
   } else {
@@ -492,29 +492,35 @@ themeSelect.addEventListener("change", () => {
   requestAnimationFrame(() => syncSliders());
 });
 
-/* ── Theme toggle ── */
+/* ── Color scheme select ── */
 
-const toggle = document.getElementById("theme-toggle")!;
+const schemeSelect = document.getElementById("scheme-select")!;
 const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
 const storedScheme = localStorage.getItem("color-scheme");
-let isDark = storedScheme !== null ? storedScheme === "dark" : systemDark.matches;
 
-function applyTheme(): void {
-  root.style.colorScheme = isDark ? "dark" : "light";
-  toggle.classList.toggle("active", isDark);
-  localStorage.setItem("color-scheme", isDark ? "dark" : "light");
+function applyScheme(scheme: string): void {
+  if (scheme === "system") {
+    root.style.removeProperty("colorScheme");
+    localStorage.removeItem("color-scheme");
+  } else {
+    root.style.colorScheme = scheme;
+    localStorage.setItem("color-scheme", scheme);
+  }
 }
 
-applyTheme();
+// Apply stored preference on load
+if (storedScheme) {
+  applyScheme(storedScheme);
+  (schemeSelect as HTMLElement & { value: string }).value = storedScheme;
+}
 
-toggle.addEventListener("click", () => {
-  isDark = !isDark;
-  applyTheme();
+schemeSelect.addEventListener("native:change", (e: Event) => {
+  applyScheme((e as CustomEvent).detail.value);
 });
 
-systemDark.addEventListener("change", (e) => {
-  if (localStorage.getItem("color-scheme") === null) {
-    isDark = (e as MediaQueryListEvent).matches;
-    applyTheme();
+systemDark.addEventListener("change", () => {
+  if (!localStorage.getItem("color-scheme")) {
+    // System scheme changed, no explicit override — just re-sync sliders
+    requestAnimationFrame(() => syncSliders());
   }
 });

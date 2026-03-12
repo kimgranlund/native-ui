@@ -19,9 +19,9 @@
     --n-border-color-hover: var(--n-border-muted);
     --n-border-color-disabled: transparent;
 
-    display: block;
-    flex: 1 1 0%;
+    display: inline-block;
     min-width: 0;
+    vertical-align: top;
 
     min-height: var(--n-size);
     height: calc(var(--n-size) * var(--n-rows));

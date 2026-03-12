@@ -2,6 +2,14 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.161
+
+### Breaking
+- **Controls display** — `n-button`, `n-select` now `inline-grid`; `n-input` now `inline-flex`; `n-textarea` now `inline-block`. Controls no longer stretch to `width: 100%` by default. In flex/grid parents this is transparent; in flow layout controls will shrink-wrap to content. Add `width: 100%` or `display: grid` on the parent to restore stretch behavior. The `[inline]` attribute is now a no-op (kept for backward compatibility).
+
+### Changed
+- **Colors page** — Modernized to standard demo template (`header > h1 + desc` / `section`). Export buttons replaced with `<n-select>` dropdown. Theme and scheme controls now use `<n-select>` instead of native `<select>` and custom toggle. Added `spa-pages.css` import; removed bare element selectors from `colors.demo.css`.
+
 ## 0.7.160
 
 ### Added

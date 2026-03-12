@@ -25,7 +25,7 @@ css_attributes:
     description: Spreads the label to fill available space with text left-aligned (used for dropdown triggers)
   inline:
     type: boolean
-    description: Switches from block-level grid to inline-grid so the button sizes to its content
+    description: No-op (kept for backward compatibility). Buttons are inline-grid by default since 0.7.161.
 events:
   native:press:
     description: Fired on activation (click, Enter, Space)

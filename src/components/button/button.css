@@ -27,8 +27,8 @@
     cursor: pointer;
     box-sizing: border-box;
 
-    display: grid;
-    width: 100%;
+    display: inline-grid;
+    vertical-align: middle;
     min-width: 0;
     grid-template-columns: auto;
     grid-auto-flow: column;
@@ -137,8 +137,3 @@
 
 /* ── Attribute API (unlayered) ── */
 
-:where(n-button, n-select)[inline] {
-  display: inline-grid;
-  width: auto;
-  vertical-align: middle;
-}

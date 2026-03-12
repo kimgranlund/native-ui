@@ -1,110 +1,33 @@
-body {
-  background: var(--n-color-neutral-dim);
-  transition:
-    background 0.2s,
-    color 0.2s;
-}
+/* ── Color Controls (header toolbar) ── */
 
-/* ── Layout ── */
-
-main {
-  padding: 2rem;
-}
-
-header {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  max-height: 30vh;
-  overflow-y: auto;
-  z-index: 1000;
-  padding: 2rem;
-  background: var(--n-color-neutral-100);
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-h1 {
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-
-/* ── Toggle switch ── */
-
-.toggle-wrap {
+.color-controls {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  margin-top: 0.75rem;
 }
 
-.toggle-track {
-  position: relative;
-  width: 44px;
-  height: 24px;
-  background: var(--n-color-neutral-scrim);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background 0.2s;
+.color-controls > n-select {
+  min-width: 10rem;
 }
 
-.toggle-track.active {
-  background: var(--n-color-accent);
+/* ── Adjustments (env parameter sliders) ── */
+
+.adjustments {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 1.5rem;
+  margin-top: 0.75rem;
 }
 
-.toggle-thumb {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 50%;
-  transition: transform 0.2s;
+.adjustment-group {
+  margin-bottom: 0;
 }
 
-.toggle-track.active .toggle-thumb {
-  transform: translateX(20px);
-}
-
-.theme-select {
-  font-size: 0.75rem;
-  font-weight: 600;
-  font-family: inherit;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid var(--n-color-neutral-300-scrim);
-  border-radius: 0.375rem;
-  background: var(--n-color-neutral-high);
-  color: inherit;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* ── Section headings ── */
-
-h2 {
-  font-size: 1rem;
-  font-weight: 700;
-  margin: 1.75rem 0 0.5rem;
-}
-
-h3 {
-  font-size: 0.625rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  opacity: 0.5;
-  min-width: 5.5rem;
-  flex-shrink: 0;
+.adjustment-group h3 {
+  margin-bottom: 0.375rem;
+  opacity: 0.4;
+  min-width: 0;
 }
 
 /* ── Family section ── */
@@ -112,8 +35,9 @@ h3 {
 .family-section {
   margin-bottom: 2.5rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid var(--n-color-neutral-300-scrim);
+  border-bottom: 1px solid var(--n-border-muted-neutral);
 }
+
 .family-section:last-child {
   border-bottom: none;
 }
@@ -132,6 +56,14 @@ h3 {
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 2px;
+}
+
+.swatch-row-wrap > h3 {
+  font-size: 0.625rem;
+  min-width: 5.5rem;
+  flex-shrink: 0;
+  opacity: 0.5;
+  margin: 0;
 }
 
 .swatch-grid {
@@ -193,6 +125,10 @@ h3 {
   opacity: 0.6;
 }
 
+.adjustments .slider-row label {
+  width: 4rem;
+}
+
 /* Range input: 6px track with progress fill via --track-fill (set by JS).
    Thumb is 6px to match track height; padding expands the drag hit area
    without affecting layout (offset by equal negative margin).
@@ -205,8 +141,8 @@ h3 {
   -webkit-appearance: none;
   appearance: none;
   background: transparent;
-  padding: 0.5rem 0; /* expand click/drag area */
-  margin: -0.5rem 0; /* offset to preserve layout */
+  padding: 0.5rem 0;
+  margin: -0.5rem 0;
 }
 
 .slider-row input[type="range"]::-webkit-slider-runnable-track {
@@ -256,64 +192,4 @@ h3 {
 .btn-row button svg {
   width: 1em;
   height: 1em;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.75rem;
-}
-
-.header h1 {
-  margin: 0;
-}
-
-.adjustments {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0 1.5rem;
-}
-
-.adjustment-group {
-  margin-bottom: 0;
-}
-
-.adjustment-group h3 {
-  margin-bottom: 0.375rem;
-  opacity: 0.4;
-  min-width: 0;
-}
-
-header .slider-row label {
-  width: 4rem;
-}
-
-/* ── Code Blocks ── */
-
-.demo-code {
-  display: none;
-  position: relative;
-  background: var(--n-panel-neutral);
-  border: 1px solid var(--n-border-muted-neutral);
-  border-radius: var(--n-radius);
-  padding: 0.75rem;
-  margin: 0;
-  margin-top: 0.75rem;
-  font-family: ui-monospace, monospace;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  overflow-x: auto;
-  white-space: pre;
-  color: var(--n-ink-neutral);
-}
-
-.demo-code[visible] {
-  display: block;
-}
-
-.demo-code > n-button {
-  position: absolute;
-  top: 0.375rem;
-  right: 0.375rem;
 }
