@@ -1,0 +1,22 @@
+/* ── n-noodles ── */
+
+@layer ui {
+  :where(n-noodles):not(:defined) { visibility: hidden; }
+  :where(n-noodles) {
+    display: block;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+}
+
+/* Port dot interaction states */
+:where(n-noodles) :where([data-noodle-port-indicator]) {
+  transition: transform 150ms ease, opacity 150ms ease;
+}
+:where(n-noodles) :where([data-noodle-drop-ready]) {
+  transform: scale(1.4);
+}
+:where(n-noodles) :where([data-noodle-dragging]) {
+  opacity: 0.5;
+}

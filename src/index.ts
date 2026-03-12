@@ -94,6 +94,7 @@ export { NBreadcrumbItem } from './components/breadcrumb/breadcrumb-item-element
 export { NPagination } from './components/pagination/pagination-element.ts';
 export { NDrawer } from './components/drawer/drawer-element.ts';
 export { NFeed } from './components/feed/feed-element.ts';
+export { NNoodles } from './components/noodles/noodles-element.ts';
 export { NTree } from './components/tree/tree-element.ts';
 export { NTreeItem } from './components/tree/tree-item-element.ts';
 export { NPaginationDots } from './components/pagination-dots/pagination-dots-element.ts';

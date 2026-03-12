@@ -18,6 +18,7 @@
   { "title": "Dialog", "path": "/src/components/dialog/dialog.html", "group": "Components" },
   { "title": "Drawer", "path": "/src/components/drawer/drawer.html", "group": "Components" },
   { "title": "Feed", "path": "/src/components/feed/feed.html", "group": "Components", "badge": "new" },
+  { "title": "Noodles", "path": "/src/components/noodles/noodles.html", "group": "Components", "badge": "new" },
   { "title": "Field", "path": "/src/components/field/field.html", "group": "Components" },
   { "title": "Input", "path": "/src/components/input/input.html", "group": "Components" },
   { "title": "Input OTP", "path": "/src/components/input-otp/input-otp.html", "group": "Components" },

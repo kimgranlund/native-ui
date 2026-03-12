@@ -1,0 +1,60 @@
+component: NNoodles
+tag: n-noodles
+category: component
+description: Declarative SVG noodle canvas. Children declare ports and the element handles the SVG overlay, coordinate system, and stacking context.
+source:
+  element: src/components/noodles/noodles-element.ts
+  css: src/components/noodles/n-noodles.css
+  registration: src/components/noodles/n-noodles.ts
+  demo: src/components/noodles/noodles.html
+attributes:
+  editable:
+    type: boolean
+    description: Allow interactive creation/deletion of connections
+  color:
+    type: string
+    description: Noodle stroke color (default accent)
+  stroke-width:
+    type: number
+    description: Stroke width in px (default 2)
+  tension:
+    type: number
+    description: Bezier control point distance 0-1 (default 0.5)
+  show-ports:
+    type: boolean
+    description: Show port indicator dots (defaults to editable state)
+  port-size:
+    type: number
+    description: Port dot size in px (default 10)
+  curve:
+    type: enum
+    values:
+      - bezier
+      - step
+      - straight
+    description: Curve style (default bezier)
+  animated:
+    type: boolean
+    description: Flowing dash animation on noodles
+  disabled:
+    type: boolean
+    description: Disable the controller
+events:
+  native:noodle-connect:
+    detail: '{ id: string, from: string, to: string, fromPort: PortSide, toPort: PortSide }'
+    description: Connection created (via UI or programmatic)
+  native:noodle-disconnect:
+    detail: '{ id: string, from: string, to: string, fromPort: PortSide, toPort: PortSide }'
+    description: Connection removed
+  native:noodle-drag:
+    detail: '{ from: string, fromPort: PortSide, x: number, y: number, reconnect?: boolean }'
+    description: Pointer moves during drag-to-connect
+css_tokens:
+  --n-noodle-color:
+    default: var(--n-color-accent-500)
+    description: Default noodle stroke color (overridden by color attribute)
+a11y:
+  role: none
+  notes: SVG overlay is presentational. Nodes within should have appropriate roles and labels.
+traits:
+  compatible: []

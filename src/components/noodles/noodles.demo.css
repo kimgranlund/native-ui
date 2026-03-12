@@ -1,0 +1,39 @@
+/* ── Noodle canvas ── */
+
+.noodle-canvas {
+  height: 200px;
+}
+.noodle-canvas--tall {
+  height: 240px;
+}
+
+/* ── Node styling ── */
+
+.node {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--n-radius);
+  background: var(--n-surface);
+  border: 1px solid var(--n-border);
+  font-size: var(--n-font-size-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  user-select: none;
+  z-index: 1;
+}
+.node--accent { border-color: var(--n-color-accent-500); color: var(--n-color-accent-600); }
+.node--warning { border-color: var(--n-color-warning-500); color: var(--n-color-warning-600); }
+.node--success { border-color: var(--n-color-success-500); color: var(--n-color-success-600); }
+.node--danger { border-color: var(--n-color-danger-500); color: var(--n-color-danger-600); }
+
+/* ── Controls ── */
+
+.demo-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-block: 8px;
+}

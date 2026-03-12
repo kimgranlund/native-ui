@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/native.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>n-noodles — Component Demo</title>
+    <link rel="stylesheet" href="../../styles/spa/spa-app.css" />
+    <link rel="stylesheet" href="../../styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../styles/spa/spa-pages.css" />
+    <link rel="stylesheet" href="./noodles.demo.css" />
+  </head>
+  <body>
+    <native-dashboard-spa><main>
+
+    <header>
+      <h1>&lt;n-noodles&gt;</h1>
+      <div class="demo-desc">
+      Declarative SVG noodle canvas. Children declare ports via <code>data-noodle-port</code> and the element handles the SVG overlay, coordinate system, and stacking context automatically.
+    </div>
+    </header>
+
+    <section>
+
+    <!-- ── Basic ── -->
+
+    <h2>Basic (static connections)</h2>
+    <n-container data-kind="panel" bordered>
+      <n-noodles id="demo-basic" class="noodle-canvas">
+        <div id="b-start" class="node" data-noodle-port="right" style="left: 40px; top: 60px;">
+          <n-icon name="database" size="20"></n-icon> Source
+        </div>
+        <div id="b-mid" class="node" data-noodle-port="left right" style="left: 240px; top: 30px;">
+          <n-icon name="funnel" size="20"></n-icon> Filter
+        </div>
+        <div id="b-mid2" class="node" data-noodle-port="left right" style="left: 240px; top: 110px;">
+          <n-icon name="arrows-merge" size="20"></n-icon> Transform
+        </div>
+        <div id="b-end" class="node" data-noodle-port="left" style="left: 460px; top: 60px;">
+          <n-icon name="monitor" size="20"></n-icon> Display
+        </div>
+      </n-noodles>
+    <pre class="demo-code"><code>&lt;n-noodles&gt;
+  &lt;div id="src" data-noodle-port="right"&gt;Source&lt;/div&gt;
+  &lt;div id="filter" data-noodle-port="left right"&gt;Filter&lt;/div&gt;
+  &lt;div id="display" data-noodle-port="left"&gt;Display&lt;/div&gt;
+&lt;/n-noodles&gt;
+
+&lt;script&gt;
+  const canvas = document.querySelector('n-noodles');
+  canvas.connect('src', 'filter', 'right', 'left');
+  canvas.connect('filter', 'display', 'right', 'left');
+&lt;/script&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Editable ── -->
+
+    <h2>Editable (drag-to-connect)</h2>
+    <p class="demo-desc">Drag from a port dot to connect. Grab near a noodle endpoint to reconnect. Drop outside to disconnect.</p>
+    <n-container data-kind="panel" bordered>
+      <n-noodles id="demo-editable" editable class="noodle-canvas noodle-canvas--tall">
+        <div id="e-input" class="node node--accent" data-noodle-port="right bottom" style="left: 40px; top: 30px;">
+          <n-icon name="keyboard" size="20"></n-icon> Input
+        </div>
+        <div id="e-validate" class="node node--warning" data-noodle-port="left right top bottom" style="left: 240px; top: 30px;">
+          <n-icon name="shield-check" size="20"></n-icon> Validate
+        </div>
+        <div id="e-process" class="node node--success" data-noodle-port="left right top bottom" style="left: 240px; top: 140px;">
+          <n-icon name="gear" size="20"></n-icon> Process
+        </div>
+        <div id="e-output" class="node node--danger" data-noodle-port="left top" style="left: 460px; top: 80px;">
+          <n-icon name="export" size="20"></n-icon> Output
+        </div>
+      </n-noodles>
+      <div class="demo-controls">
+        <n-button id="edit-clear" size="sm" variant="ghost"><n-icon name="trash" size="16"></n-icon> Clear all</n-button>
+        <span id="edit-status" class="text" muted size="sm">0 connections</span>
+      </div>
+    <pre class="demo-code"><code>&lt;n-noodles editable&gt;
+  &lt;div id="input" data-noodle-port="right bottom"&gt;Input&lt;/div&gt;
+  &lt;div id="validate" data-noodle-port="left right top bottom"&gt;Validate&lt;/div&gt;
+  &lt;div id="output" data-noodle-port="left top"&gt;Output&lt;/div&gt;
+&lt;/n-noodles&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── Styled ── -->
+
+    <h2>Styled (curves, colors, animation)</h2>
+    <p class="demo-desc">Custom colors, step curves, animation, and per-connection color overrides.</p>
+    <n-container data-kind="panel" bordered>
+      <div class="demo-controls">
+        <n-button id="style-bezier" size="sm">Bezier</n-button>
+        <n-button id="style-step" size="sm">Step</n-button>
+        <n-button id="style-straight" size="sm">Straight</n-button>
+        <hr style="border:0; width:1px; height:20px; background:var(--n-border);">
+        <n-button id="style-animate" size="sm" variant="ghost"><n-icon name="play" size="16"></n-icon> Animate</n-button>
+      </div>
+      <n-noodles id="demo-styled" color="var(--n-color-success-500)" stroke-width="3" class="noodle-canvas noodle-canvas--tall">
+        <div id="s-a" class="node node--accent" data-noodle-port="right bottom" style="left: 40px; top: 30px;">
+          <n-icon name="cloud" size="20"></n-icon> API
+        </div>
+        <div id="s-b" class="node node--warning" data-noodle-port="left right top bottom" style="left: 240px; top: 30px;">
+          <n-icon name="funnel" size="20"></n-icon> Filter
+        </div>
+        <div id="s-c" class="node node--success" data-noodle-port="left right top bottom" style="left: 240px; top: 140px;">
+          <n-icon name="lightning" size="20"></n-icon> Cache
+        </div>
+        <div id="s-d" class="node node--danger" data-noodle-port="left top" style="left: 460px; top: 80px;">
+          <n-icon name="chart-bar" size="20"></n-icon> Dashboard
+        </div>
+      </n-noodles>
+    <pre class="demo-code"><code>&lt;n-noodles color="var(--n-color-success-500)" stroke-width="3" curve="step"&gt;
+  ...
+&lt;/n-noodles&gt;</code><n-button class="copy-btn" size="sm" variant="ghost" aria-label="Copy"><n-icon name="copy"></n-icon></n-button></pre>
+    </n-container>
+
+    <!-- ── API Reference ── -->
+
+    <h2>API Reference</h2>
+
+    <h3>Attributes</h3>
+    <div class="api-section">
+    <table class="api-table">
+      <thead><tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>editable</code></td><td>boolean</td><td>false</td><td>Allow interactive creation/deletion of connections</td></tr>
+        <tr><td><code>color</code></td><td>string</td><td>accent</td><td>Noodle stroke color</td></tr>
+        <tr><td><code>stroke-width</code></td><td>number</td><td>2</td><td>Stroke width in px</td></tr>
+        <tr><td><code>tension</code></td><td>number</td><td>0.5</td><td>Bezier control point distance (0–1)</td></tr>
+        <tr><td><code>show-ports</code></td><td>boolean</td><td>auto</td><td>Show port indicator dots (defaults to editable)</td></tr>
+        <tr><td><code>port-size</code></td><td>number</td><td>10</td><td>Port dot size in px</td></tr>
+        <tr><td><code>curve</code></td><td>string</td><td>bezier</td><td>Curve style: <code>bezier</code>, <code>step</code>, <code>straight</code></td></tr>
+        <tr><td><code>animated</code></td><td>boolean</td><td>false</td><td>Flowing dash animation on noodles</td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td>false</td><td>Disable the controller</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>Properties &amp; Methods</h3>
+    <div class="api-section">
+    <table class="api-table">
+      <thead><tr><th>Member</th><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>.connections</code></td><td>NoodleConnection[]</td><td>Current connections (read-only)</td></tr>
+        <tr><td><code>.connect(from, to, fromPort?, toPort?)</code></td><td>string</td><td>Create a connection, returns ID</td></tr>
+        <tr><td><code>.disconnect(id)</code></td><td>boolean</td><td>Remove a connection by ID</td></tr>
+        <tr><td><code>.setConnections(arr)</code></td><td>void</td><td>Replace all connections</td></tr>
+        <tr><td><code>.clear()</code></td><td>void</td><td>Remove all connections</td></tr>
+        <tr><td><code>.update()</code></td><td>void</td><td>Force re-render</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>Events</h3>
+    <div class="api-section">
+    <table class="api-table">
+      <thead><tr><th>Event</th><th>Detail</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>native:noodle-connect</code></td><td><code>{ id, from, to, fromPort, toPort }</code></td><td>Connection created</td></tr>
+        <tr><td><code>native:noodle-disconnect</code></td><td><code>{ id, from, to, fromPort, toPort }</code></td><td>Connection removed</td></tr>
+        <tr><td><code>native:noodle-drag</code></td><td><code>{ from, fromPort, x, y }</code></td><td>Pointer moves during drag</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>Port Declaration</h3>
+    <p class="demo-desc">Children declare connectable ports via the <code>data-noodle-port</code> attribute with space-separated sides:</p>
+    <pre class="demo-code"><code>&lt;div id="node-1" data-noodle-port="left right top bottom"&gt;...&lt;/div&gt;</code></pre>
+
+    </section>
+    </main></native-dashboard-spa>
+
+    <!-- Register traits before components -->
+    <script type="module">
+      import { registerAllTraits } from '@nonoun/native-traits';
+      registerAllTraits();
+    </script>
+    <script type="module">
+      import '../../nav/n-layout.ts';
+      import '../button/n-button.ts';
+      import '../../icons/n-icon.ts';
+      import '../container/n-container.ts';
+      import './n-noodles.ts';
+      import './noodles.demo.ts';
+    </script>
+  </body>
+</html>

@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.141
+
+### Added
+- **`<n-noodles>` component** — Declarative SVG noodle canvas. Wraps NoodleController with a zero-config custom element. Children declare ports via `data-noodle-port`, element handles SVG overlay, coordinate system, and stacking context. Attributes: `editable`, `color`, `stroke-width`, `tension`, `show-ports`, `port-size`, `curve`, `animated`, `disabled`. Demo page with 3 interactive demos.
+
 ## 0.7.140
 
 ### Changed
