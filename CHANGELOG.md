@@ -2,6 +2,15 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.197
+
+### Changed (native-ai@1.0.109)
+- **Training Library: resizable panes** — Lightbox split replaced with `<n-panes handle="hover">` + `<n-pane>` — preview and editor panes are now drag-resizable with hover-proximity accent bar.
+- **Training Library + Builder: component API for toggle state** — Replaced `data-active` CSS overrides with component attributes. Training Library chips toggle `variant="primary" intent="accent"` (on) / `variant="ghost"` (off). Builder chips use `force-active` attribute. Removed 4 CSS rules that manually overrode `--n-background`/`--n-color`.
+- **Training Library: DOM→editor click-to-highlight** — Clicking a rendered element in the preview selects the corresponding component object in the schema JSON editor (or the opening tag in the output HTML editor) and scrolls it into view via CodeMirror selection API.
+- **Training Library: output tab HTML syntax highlighting** — Output editor uses `htmlLang()` instead of `json()` for proper HTML syntax coloring.
+- **Training Library: no text wrapping in editors** — Schema and output editors no longer soft-wrap; horizontal scroll instead.
+
 ## 0.7.194
 
 ### Changed (native-ai@1.0.106)

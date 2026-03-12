@@ -7,6 +7,7 @@
   <title>A2UI Training Library</title>
   <link rel="stylesheet" href="../../../../src/styles/spa/spa-app.css" />
   <link rel="stylesheet" href="../../../../src/styles/css/components.native-ui.css" />
+  <link rel="stylesheet" href="../../../../packages/native-code/src/codemirror/css/editor.css" />
   <link rel="stylesheet" href="../../../../src/styles/spa/spa-pages.css" />
   <link rel="stylesheet" href="./training-library.demo.css" />
 </head>
@@ -22,7 +23,7 @@
     <section>
       <!-- Filter bar -->
       <div class="tl-filter-bar">
-        <n-button variant="ghost" size="sm" data-filter="all" data-active>All</n-button>
+        <n-button variant="primary" intent="accent" size="sm" data-filter="all">All</n-button>
         <n-button variant="ghost" size="sm" data-filter="micro">Micro</n-button>
         <n-button variant="ghost" size="sm" data-filter="block">Block</n-button>
         <n-select id="category-filter" placeholder="All categories" variant="outline" size="sm" density="compact">
@@ -45,7 +46,7 @@
           <span id="lightbox-title" class="tl-lightbox-title">Pattern</span>
           <span id="lightbox-badges"></span>
           <span fill></span>
-          <n-button variant="ghost" size="sm" data-chip="schema" data-active>Schema</n-button>
+          <n-button variant="primary" intent="accent" size="sm" data-chip="schema">Schema</n-button>
           <n-button variant="ghost" size="sm" data-chip="insights">Insights</n-button>
           <n-button variant="ghost" size="sm" data-chip="output">Output</n-button>
           <n-button variant="ghost" size="sm" data-chip="settings">Settings</n-button>
@@ -63,15 +64,15 @@
       </n-header>
 
       <!-- ── Split: preview left, editor right ── -->
-      <div class="tl-lightbox-inner">
-        <div class="tl-preview-pane">
+      <n-panes handle="hover">
+        <n-pane data-panel-id="preview" size-min="200">
           <div class="tl-preview-mount" id="lightbox-preview"></div>
-        </div>
+        </n-pane>
 
-        <div class="tl-editor-pane">
+        <n-pane data-panel-id="editor" size-min="280" size="440">
           <!-- Schema tab -->
           <div class="tl-tab-panel" data-tab="schema">
-            <textarea id="schema-editor" class="tl-code-editor" spellcheck="false"></textarea>
+            <n-editor id="schema-editor" line-numbers="false"></n-editor>
           </div>
 
           <!-- Insights tab -->
@@ -81,7 +82,7 @@
 
           <!-- Output tab -->
           <div class="tl-tab-panel" data-tab="output" hidden>
-            <pre id="output-pre" class="tl-code-readonly"></pre>
+            <n-editor id="output-pre" readonly line-numbers="false"></n-editor>
           </div>
 
           <!-- Settings tab -->
@@ -119,8 +120,8 @@
               Export Improvement
             </n-button>
           </n-footer>
-        </div>
-      </div>
+        </n-pane>
+      </n-panes>
     </dialog>
 
   </main></native-dashboard-spa>

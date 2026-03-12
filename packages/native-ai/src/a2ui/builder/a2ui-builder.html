@@ -7,6 +7,7 @@
     <title>A2UI Builder</title>
     <link rel="stylesheet" href="../../../../../src/styles/spa/spa-app.css" />
     <link rel="stylesheet" href="../../../../../src/styles/css/components.native-ui.css" />
+    <link rel="stylesheet" href="../../../../native-code/src/codemirror/css/editor.css" />
     <link rel="stylesheet" href="../../../../../src/styles/spa/spa-pages.css" />
     <link rel="stylesheet" href="../../chat/chat.css" />
     <link rel="stylesheet" href="./a2ui-builder.css" />
@@ -121,7 +122,7 @@
               <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="schema"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
             <n-body scrollbar="none">
-              <pre id="schema-pre" class="pane-pre"></pre>
+              <n-editor id="schema-pre" readonly line-numbers="false" line-wrapping></n-editor>
             </n-body>
           </n-pane>
 
@@ -133,7 +134,7 @@
               <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="html"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
             <n-body scrollbar="none">
-              <pre id="html-pre" class="pane-pre"></pre>
+              <n-editor id="html-pre" readonly line-numbers="false" line-wrapping></n-editor>
             </n-body>
           </n-pane>
 
@@ -145,7 +146,7 @@
               <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="css"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
             <n-body scrollbar="none">
-              <textarea id="css-editor" class="code-editor" spellcheck="false" placeholder="/* Custom styles for the preview */"></textarea>
+              <n-editor id="css-editor" line-numbers="false" line-wrapping placeholder="/* Custom styles for the preview */"></n-editor>
             </n-body>
           </n-pane>
 
@@ -160,7 +161,7 @@
               </aside>
             </n-header>
             <n-body scrollbar="none">
-              <textarea id="js-editor" class="code-editor" spellcheck="false" placeholder="// `preview` is the mount element.&#10;// preview.querySelector('#btn1').addEventListener('native:press', () => { ... })"></textarea>
+              <n-editor id="js-editor" line-numbers="false" line-wrapping placeholder="// preview.querySelector('#btn1')..."></n-editor>
             </n-body>
           </n-pane>
 
@@ -187,7 +188,7 @@
               <aside slot="trailing"><n-button variant="ghost" inline size="sm" data-close-panel-id="prompt"><n-icon name="x"></n-icon></n-button></aside>
             </n-header>
             <n-body scrollbar="none">
-              <textarea id="prompt-editor" class="prompt-editor" spellcheck="false"></textarea>
+              <n-editor id="prompt-editor" line-numbers="false" line-wrapping></n-editor>
             </n-body>
           </n-pane>
 

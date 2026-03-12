@@ -50,6 +50,12 @@ import promptJson from './system-prompt.json';
 import { PIPELINE_STEPS, runPipeline, shouldSkipEarlySteps } from './pipeline.ts';
 import type { PipelineStep, PipelineCallbacks } from './pipeline.ts';
 
+import '../../../../native-code/src/codemirror/register.ts';
+import { json } from '@codemirror/lang-json';
+import { javascript } from '@codemirror/lang-javascript';
+import { css as cssLang } from '@codemirror/lang-css';
+import { html as htmlLang } from '@codemirror/lang-html';
+
 // ── System prompt ──
 
 const componentRef = Array.from(REGISTRY.values()).map(m => {
@@ -358,12 +364,20 @@ const messageTextMap = new Map<string, string>();
 // Pane content containers
 const previewMount = document.getElementById('preview-mount')!;
 const conceptsWrap = document.getElementById('concepts-wrap')!;
-const schemaPre = document.getElementById('schema-pre')!;
-const htmlPre = document.getElementById('html-pre')!;
-const cssEditor = document.getElementById('css-editor') as HTMLTextAreaElement;
-const jsEditor = document.getElementById('js-editor') as HTMLTextAreaElement;
+const schemaPre = document.getElementById('schema-pre') as HTMLElement & { value: string; extensions: unknown[] };
+const htmlPre = document.getElementById('html-pre') as HTMLElement & { value: string; extensions: unknown[] };
+const cssEditor = document.getElementById('css-editor') as HTMLElement & { value: string; extensions: unknown[] };
+const jsEditor = document.getElementById('js-editor') as HTMLElement & { value: string; extensions: unknown[] };
 const mapTable = document.getElementById('map-table')!;
-const promptEditor = document.getElementById('prompt-editor') as HTMLTextAreaElement;
+const promptEditor = document.getElementById('prompt-editor') as HTMLElement & { value: string; extensions: unknown[] };
+
+// Set language modes on editors after CE upgrade
+customElements.whenDefined('n-editor').then(() => {
+  schemaPre.extensions = [json()];
+  htmlPre.extensions = [htmlLang()];
+  cssEditor.extensions = [cssLang()];
+  jsEditor.extensions = [javascript()];
+});
 const modelPicker = document.getElementById('model-picker') as HTMLElement & { value: string };
 
 // ── CSS/JS live apply ──
@@ -455,7 +469,7 @@ function debouncedCSSApply(): void {
   cssDebounce = setTimeout(() => applyCSSToPreview(cssEditor.value), 300);
 }
 
-cssEditor.addEventListener('input', debouncedCSSApply);
+cssEditor.addEventListener('native:input', debouncedCSSApply);
 cssEditor.addEventListener('keydown', (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === 's') {
     e.preventDefault();
@@ -510,7 +524,7 @@ for (const panel of PANELS) {
   const chipEl = document.querySelector(`n-button[data-chip="${panel.id}"]`) as HTMLElement | null;
   if (chipEl) {
     chipEls.set(panel.id, chipEl);
-    chipEl.toggleAttribute('data-active', activePanels.has(panel.id));
+    chipEl.toggleAttribute('force-active', activePanels.has(panel.id));
 
     chipEl.addEventListener('native:press', () => {
       if (activePanels.has(panel.id)) {
@@ -549,7 +563,7 @@ function syncPanels() {
     el.style.removeProperty('flex');
   }
   for (const [id, el] of paneEls) el.hidden = !activePanels.has(id);
-  for (const [id, chip] of chipEls) chip.toggleAttribute('data-active', activePanels.has(id));
+  for (const [id, chip] of chipEls) chip.toggleAttribute('force-active', activePanels.has(id));
 }
 
 // ── Lightbox toggle (light/dark preview) ──
@@ -597,10 +611,10 @@ inspectToggleBtn?.addEventListener('native:press', () => {
     cssInspector.dismiss();
     cssInspector.destroy();
     cssInspector = null;
-    inspectToggleBtn.removeAttribute('data-active');
+    inspectToggleBtn.removeAttribute('force-active');
   } else {
     cssInspector = new CSSInspectController(previewMount, { pick: true, labels: true });
-    inspectToggleBtn.setAttribute('data-active', '');
+    inspectToggleBtn.setAttribute('force-active', '');
   }
 });
 
@@ -609,7 +623,7 @@ previewMount.addEventListener('native:inspect', (e: Event) => {
   const detail = (e as CustomEvent).detail;
   if (!detail.active && cssInspector) {
     // Inspector dismissed itself (e.g. Escape) — sync button state
-    inspectToggleBtn?.removeAttribute('data-active');
+    inspectToggleBtn?.removeAttribute('force-active');
   }
 });
 
@@ -682,7 +696,7 @@ lightboxModeBtn?.addEventListener('native:press', () => {
     builderEl.removeAttribute('popover');
   }
   builderEl.toggleAttribute('data-lightbox', lightboxMode);
-  lightboxModeBtn.toggleAttribute('data-active', lightboxMode);
+  lightboxModeBtn.toggleAttribute('force-active', lightboxMode);
   const icon = lightboxModeBtn.querySelector('n-icon');
   if (icon) icon.setAttribute('name', lightboxMode ? 'arrows-in-simple' : 'arrows-out-simple');
 });
@@ -692,7 +706,7 @@ lightboxModeBtn?.addEventListener('native:press', () => {
 const pipelineBtn = document.querySelector('[data-role="toggle-pipeline"]') as HTMLElement | null;
 pipelineBtn?.addEventListener('native:press', () => {
   pipelineMode = !pipelineMode;
-  pipelineBtn.toggleAttribute('data-active', pipelineMode);
+  pipelineBtn.toggleAttribute('force-active', pipelineMode);
   if (pipelineMode) {
     pipelineBtn.setAttribute('intent', 'accent');
   } else {
@@ -706,7 +720,7 @@ pipelineBtn?.addEventListener('native:press', () => {
 
 // Prompt editor — editable textarea
 promptEditor.value = DEFAULT_SYSTEM_PROMPT;
-promptEditor.addEventListener('input', () => {
+promptEditor.addEventListener('native:input', () => {
   systemPrompt = promptEditor.value;
   llm = buildAdapter(currentModel);
 });
@@ -1180,7 +1194,7 @@ function populateInsightsFromResult(result: MockResult): void {
 }
 
 function renderSchema(schema: MockResult['schema']) {
-  schemaPre.textContent = JSON.stringify(schema, null, 2);
+  schemaPre.value = JSON.stringify(schema, null, 2);
 }
 
 function renderPreview(schema: MockResult['schema']) {
@@ -1193,7 +1207,7 @@ function renderPreview(schema: MockResult['schema']) {
     cssInspector.dismiss();
     cssInspector.destroy();
     cssInspector = null;
-    inspectToggleBtn?.removeAttribute('data-active');
+    inspectToggleBtn?.removeAttribute('force-active');
   }
 
   // Animate: shrink out → rebuild → grow in
@@ -1215,7 +1229,7 @@ function renderPreview(schema: MockResult['schema']) {
 
   // Extract rendered HTML after adapter finishes rendering
   queueMicrotask(() => {
-    htmlPre.textContent = previewMount.innerHTML;
+    htmlPre.value = previewMount.innerHTML;
   });
 }
 
@@ -1473,12 +1487,12 @@ async function sendPipeline(value: string) {
       else if (step.id === 'plan') fillPlan(entry, output);
       else if (step.id === 'construct') {
         fillConstruct(entry, output);
-        schemaPre.textContent = output;
+        schemaPre.value = output;
       }
       scrollReasoningToBottom();
     },
     onStreamChunk(_delta: string, fullMessage: string) {
-      schemaPre.textContent = fullMessage;
+      schemaPre.value = fullMessage;
     },
     onError(step: PipelineStep, _index: number, error: Error) {
       const line = stepLines.get(step.id);

@@ -38,6 +38,12 @@ import '../../../../src/icons/phosphor/arrows-out-simple.ts';
 // Traits
 import { CSSInspectController } from '../../../../packages/native-traits/src/traits/css-inspect/css-inspect-controller.ts';
 
+// n-editor (CodeMirror)
+import '../../../../packages/native-code/src/codemirror/register.ts';
+import { json } from '@codemirror/lang-json';
+import { html as htmlLang } from '@codemirror/lang-html';
+import type { EditorView } from '@codemirror/view';
+
 // Kernel + A2UI
 import { Kernel, resetKernel } from '@nonoun/native-kernel';
 import { createA2UIAdapter } from './protocol/a2ui-adapter.ts';
@@ -98,8 +104,9 @@ const dialog = document.getElementById('editor-lightbox') as HTMLDialogElement;
 const lightboxTitle = document.getElementById('lightbox-title')!;
 const lightboxBadges = document.getElementById('lightbox-badges')!;
 const lightboxPreview = document.getElementById('lightbox-preview')!;
-const schemaEditor = document.getElementById('schema-editor') as HTMLTextAreaElement;
-const outputPre = document.getElementById('output-pre')!;
+type NEditor = HTMLElement & { value: string; extensions: unknown[]; editorView: EditorView | null };
+const schemaEditor = document.getElementById('schema-editor') as NEditor;
+const outputPre = document.getElementById('output-pre') as NEditor;
 const categoryFilter = document.getElementById('category-filter') as HTMLElement & { value: string };
 const modelPicker = document.getElementById('tl-model') as HTMLElement & { value: string };
 const tempRange = document.getElementById('tl-temperature') as HTMLInputElement;
@@ -113,6 +120,12 @@ const fullscreenToggleBtn = document.getElementById('fullscreen-toggle')!;
 const btnRegenerate = document.getElementById('btn-regenerate')!;
 const btnExport = document.getElementById('btn-export')!;
 const btnClose = document.getElementById('lightbox-close')!;
+
+// Set JSON language mode on editors after CE upgrade
+customElements.whenDefined('n-editor').then(() => {
+  schemaEditor.extensions = [json()];
+  outputPre.extensions = [htmlLang()];
+});
 
 // ══════════════════════════════════════════════════════════════════
 // Kernel
@@ -235,10 +248,17 @@ async function renderCardPreview(id: string): Promise<void> {
 // Filters
 // ══════════════════════════════════════════════════════════════════
 
+/** Toggle a button between ghost (off) and primary+accent (on). */
+function setChipActive(btn: Element, active: boolean): void {
+  btn.setAttribute('variant', active ? 'primary' : 'ghost');
+  if (active) btn.setAttribute('intent', 'accent');
+  else btn.removeAttribute('intent');
+}
+
 function onFilterChange(filter: string): void {
   activeFilter = filter as 'all' | 'micro' | 'block';
   document.querySelectorAll('[data-filter]').forEach((btn) => {
-    btn.toggleAttribute('data-active', btn.getAttribute('data-filter') === filter);
+    setChipActive(btn, btn.getAttribute('data-filter') === filter);
   });
   renderGrid();
 }
@@ -303,8 +323,25 @@ function renderLightboxPreview(components: Record<string, unknown>[]): void {
 
   // Update output tab
   requestAnimationFrame(() => {
-    outputPre.textContent = lightboxPreview.innerHTML;
+    outputPre.value = formatHtml(lightboxPreview.innerHTML);
   });
+}
+
+/** Indent HTML for legibility — lightweight, no external deps. */
+function formatHtml(raw: string): string {
+  const tokens = raw.replace(/></g, '>\n<').split('\n');
+  let indent = 0;
+  const lines: string[] = [];
+  for (const token of tokens) {
+    const trimmed = token.trim();
+    if (!trimmed) continue;
+    const isClosing = /^<\//.test(trimmed);
+    const isSelfClosing = /\/>$/.test(trimmed) || /^<(area|base|br|col|embed|hr|img|input|link|meta|source|track|wbr)\b/i.test(trimmed);
+    if (isClosing) indent = Math.max(0, indent - 1);
+    lines.push('  '.repeat(indent) + trimmed);
+    if (!isClosing && !isSelfClosing && /^<[a-z]/i.test(trimmed)) indent++;
+  }
+  return lines.join('\n');
 }
 
 function dismissInspector(): void {
@@ -312,8 +349,7 @@ function dismissInspector(): void {
     cssInspector.dismiss();
     cssInspector.destroy();
     cssInspector = null;
-    inspectToggleBtn.removeAttribute('data-active');
-    inspectToggleBtn.removeAttribute('intent');
+    setChipActive(inspectToggleBtn, false);
   }
 }
 
@@ -321,7 +357,7 @@ function closeLightbox(): void {
   dismissInspector();
   dialog.close();
   dialog.removeAttribute('data-fullscreen');
-  fullscreenToggleBtn.removeAttribute('data-active');
+  setChipActive(fullscreenToggleBtn, false);
   lightboxAdapter?.destroy();
   lightboxAdapter = null;
   currentPattern = null;
@@ -338,7 +374,7 @@ function showTab(tab: string): void {
   });
   // Toggle chip active states in toolbar
   dialog.querySelectorAll('[data-chip]').forEach((btn) => {
-    btn.toggleAttribute('data-active', btn.getAttribute('data-chip') === tab);
+    setChipActive(btn, btn.getAttribute('data-chip') === tab);
   });
 }
 
@@ -372,107 +408,96 @@ function clearHighlights(): void {
   });
 }
 
-/** Preview → Schema: click element highlights it and scrolls schema to its "id". */
+/** Select a range in a CodeMirror editor and scroll it into view. */
+function selectRange(editor: NEditor, from: number, to: number): void {
+  const view = editor.editorView;
+  if (!view) return;
+  view.dispatch({ selection: { anchor: from, head: to }, scrollIntoView: true });
+  view.focus();
+}
+
+/**
+ * Find the enclosing JSON object boundaries for a `"id": "value"` match.
+ * Walks outward from the match position counting braces to find `{…}`.
+ */
+function findEnclosingObject(text: string, matchPos: number): { from: number; to: number } | null {
+  // Walk backward to opening `{`
+  let depth = 0;
+  let from = matchPos;
+  for (let i = matchPos; i >= 0; i--) {
+    if (text[i] === '}') depth++;
+    if (text[i] === '{') {
+      if (depth === 0) { from = i; break; }
+      depth--;
+    }
+  }
+  // Walk forward to closing `}`
+  depth = 0;
+  let to = matchPos;
+  for (let i = matchPos; i < text.length; i++) {
+    if (text[i] === '{') depth++;
+    if (text[i] === '}') {
+      if (depth === 1) { to = i + 1; break; }
+      depth--;
+    }
+  }
+  return { from, to };
+}
+
+/** Find an HTML element's opening tag in formatted HTML text. */
+function findHtmlTag(text: string, id: string): { from: number; to: number } | null {
+  // Match id="value" or id='value'
+  const pattern = new RegExp(`id=["']${id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}["']`);
+  const match = pattern.exec(text);
+  if (!match) return null;
+  // Walk backward to `<`
+  let from = match.index;
+  for (let i = match.index; i >= 0; i--) {
+    if (text[i] === '<') { from = i; break; }
+  }
+  // Walk forward to `>` (end of opening tag)
+  let to = match.index + match[0].length;
+  for (let i = to; i < text.length; i++) {
+    if (text[i] === '>') { to = i + 1; break; }
+  }
+  return { from, to };
+}
+
+/** Preview → Schema + Output: click element highlights it in both editors. */
 function onPreviewClick(e: Event): void {
   const target = e.target as HTMLElement;
   clearHighlights();
 
   const el = target.closest('[id]') as HTMLElement | null;
   if (!el || el === lightboxPreview) return;
+  const clickedId = el.id;
 
   el.setAttribute('data-highlight', '');
 
-  const searchStr = `"id": "${el.id}"`;
-  const idx = schemaEditor.value.indexOf(searchStr);
-  if (idx >= 0) {
-    schemaEditor.focus();
-    schemaEditor.setSelectionRange(idx, idx + searchStr.length);
-    const linesBefore = schemaEditor.value.substring(0, idx).split('\n').length;
-    const lineHeight = 11 * 1.6; // 0.6875rem * 1.6 line-height ≈ 17.6px
-    schemaEditor.scrollTop = Math.max(0, (linesBefore - 3) * lineHeight);
+  // Highlight in schema JSON
+  const schemaText = schemaEditor.value;
+  const idPattern = new RegExp(`"id"\\s*:\\s*"${clickedId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`);
+  const idMatch = idPattern.exec(schemaText);
+  if (idMatch) {
+    const obj = findEnclosingObject(schemaText, idMatch.index);
+    if (obj) {
+      selectRange(schemaEditor, obj.from, obj.to);
+      showTab('schema');
+      return;
+    }
   }
 
+  // Highlight in output HTML
+  const outputText = outputPre.value;
+  const tag = findHtmlTag(outputText, clickedId);
+  if (tag) {
+    selectRange(outputPre, tag.from, tag.to);
+    showTab('output');
+    return;
+  }
+
+  // Fallback: just show schema tab
   showTab('schema');
-}
-
-/** Schema → Preview: cursor position in editor highlights the corresponding DOM element. */
-let schemaCursorDebounce: ReturnType<typeof setTimeout> | undefined;
-
-function onSchemaCursorMove(): void {
-  clearTimeout(schemaCursorDebounce);
-  schemaCursorDebounce = setTimeout(() => {
-    clearHighlights();
-
-    const pos = schemaEditor.selectionStart;
-    const text = schemaEditor.value;
-
-    // Walk backwards from cursor to find the nearest "id": "..." in the enclosing component object.
-    // Strategy: find all "id": "xxx" occurrences, pick the one whose enclosing { } block contains the cursor.
-    const idPattern = /"id"\s*:\s*"([^"]+)"/g;
-    let bestId: string | null = null;
-    let bestStart = -1;
-    let match: RegExpExecArray | null;
-
-    while ((match = idPattern.exec(text)) !== null) {
-      const matchEnd = match.index + match[0].length;
-      if (matchEnd > pos) {
-        // This id is after the cursor — check if the cursor is still inside this component's object
-        // by seeing if there's an unmatched '{' before this id that hasn't been closed before cursor
-        if (bestId) break; // already found one before cursor, stop
-        // Check if cursor is between previous id's object start and this id (still in same object)
-        const objectStart = findObjectStart(text, match.index);
-        if (objectStart <= pos) {
-          bestId = match[1];
-          bestStart = objectStart;
-        }
-        break;
-      }
-      // This id is at or before cursor position — candidate
-      bestId = match[1];
-      bestStart = match.index;
-    }
-
-    // If no id found before cursor, try the first one after
-    if (!bestId) return;
-
-    // Verify cursor is inside the same object block as the id
-    const objectStart = findObjectStart(text, bestStart);
-    const objectEnd = findObjectEnd(text, objectStart);
-    if (pos < objectStart || pos > objectEnd) return;
-
-    // Highlight in preview
-    const el = lightboxPreview.querySelector(`#${CSS.escape(bestId)}`) as HTMLElement | null;
-    if (el) {
-      el.setAttribute('data-highlight', '');
-      el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    }
-  }, 120);
-}
-
-/** Find the start of the JSON object containing the given position. */
-function findObjectStart(text: string, pos: number): number {
-  let depth = 0;
-  for (let i = pos - 1; i >= 0; i--) {
-    if (text[i] === '}') depth++;
-    if (text[i] === '{') {
-      if (depth === 0) return i;
-      depth--;
-    }
-  }
-  return 0;
-}
-
-/** Find the end of the JSON object starting at the given position. */
-function findObjectEnd(text: string, pos: number): number {
-  let depth = 0;
-  for (let i = pos; i < text.length; i++) {
-    if (text[i] === '{') depth++;
-    if (text[i] === '}') {
-      depth--;
-      if (depth === 0) return i;
-    }
-  }
-  return text.length;
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -841,7 +866,7 @@ btnClose.addEventListener('pointerup', closeLightbox);
 dialog.addEventListener('close', () => {
   dismissInspector();
   dialog.removeAttribute('data-fullscreen');
-  fullscreenToggleBtn.removeAttribute('data-active');
+  setChipActive(fullscreenToggleBtn, false);
   lightboxAdapter?.destroy();
   lightboxAdapter = null;
   currentPattern = null;
@@ -855,8 +880,7 @@ inspectToggleBtn.addEventListener('pointerup', () => {
     dismissInspector();
   } else {
     cssInspector = new CSSInspectController(lightboxPreview, { pick: true, labels: true });
-    inspectToggleBtn.setAttribute('data-active', '');
-    inspectToggleBtn.setAttribute('intent', 'accent');
+    setChipActive(inspectToggleBtn, true);
   }
 });
 
@@ -865,8 +889,7 @@ lightboxPreview.addEventListener('native:inspect', (e: Event) => {
   const detail = (e as CustomEvent).detail;
   if (!detail?.active && cssInspector) {
     cssInspector = null;
-    inspectToggleBtn.removeAttribute('data-active');
-    inspectToggleBtn.removeAttribute('intent');
+    setChipActive(inspectToggleBtn, false);
   }
 });
 
@@ -879,13 +902,11 @@ dialog.addEventListener('pointerup', (e) => {
 // Fullscreen toggle
 fullscreenToggleBtn.addEventListener('pointerup', () => {
   const isFS = dialog.toggleAttribute('data-fullscreen');
-  fullscreenToggleBtn.toggleAttribute('data-active', isFS);
+  setChipActive(fullscreenToggleBtn, isFS);
 });
 
-// Schema editor — live update + cursor-driven highlight
-schemaEditor.addEventListener('input', onSchemaInput);
-schemaEditor.addEventListener('click', onSchemaCursorMove);
-schemaEditor.addEventListener('keyup', onSchemaCursorMove);
+// Schema editor — live update
+schemaEditor.addEventListener('native:input', onSchemaInput);
 
 // Preview click inspection
 lightboxPreview.addEventListener('click', onPreviewClick);
@@ -900,8 +921,8 @@ modelPicker?.addEventListener('native:change', () => {
 });
 
 tempRange?.addEventListener('native:input', () => {
-  temperature = Math.round((tempRange as unknown as { value: number }).value * 100) / 100;
-  tempVal.textContent = String(temperature);
+  temperature = parseFloat(((tempRange as unknown as { value: number }).value).toFixed(2));
+  tempVal.textContent = temperature.toFixed(2);
 });
 
 tokensRange?.addEventListener('native:input', () => {

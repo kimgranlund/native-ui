@@ -54,11 +54,6 @@ main {
   --n-border-muted: transparent;
 }
 
-.builder > n-header n-button[data-active] {
-  --n-background: var(--pg-editor-bg);
-  --n-color: var(--pg-text-strong);
-}
-
 /* ── Split: chat left, panes right (n-panes handles resize) ── */
 
 .builder > n-panes {
@@ -325,60 +320,10 @@ n-agent-dialogue-item[data-type="remap"] n-chat-message-text {
   gap: 0.5rem;
 }
 
-/* ── Pre content (schema, map) ── */
+/* ── Code editors (n-editor in panes) ── */
 
-.pane-pre {
-  margin: 0;
-  padding: 0.75rem 1rem;
-  font-size: 0.8125rem;
-  line-height: 1.7;
-  letter-spacing: 0.01em;
-  white-space: pre-wrap;
-  word-break: break-word;
-  color: var(--pg-text);
-}
-
-/* ── Prompt textarea (editable) ── */
-
-.prompt-editor {
-  display: block;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0.75rem 1rem;
-  border: none;
-  outline: none;
-  resize: none;
-  background: transparent;
-  color: var(--pg-text);
-  font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
-  font-size: 0.8125rem;
-  line-height: 1.7;
-  letter-spacing: 0.01em;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-/* ── Code editors (CSS/JS panes) ── */
-
-.code-editor {
-  display: block;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0.75rem 1rem;
-  border: none;
-  outline: none;
-  resize: none;
-  background: transparent;
-  color: var(--pg-text);
-  font-family: var(--n-font-family-mono, ui-monospace, 'SF Mono', 'Cascadia Code', monospace);
-  font-size: 0.8125rem;
-  line-height: 1.7;
-  letter-spacing: 0.01em;
-  white-space: pre-wrap;
-  word-break: break-word;
-  tab-size: 2;
+.builder n-pane n-editor {
+  border-radius: 0;
 }
 
 /* ── Component map table ── */
