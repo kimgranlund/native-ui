@@ -29,8 +29,8 @@ import '../../../../src/icons/phosphor/thumbs-up.ts';
 import '../../../../src/icons/phosphor/share.ts';
 import '../../../../src/icons/phosphor/trash.ts';
 import '../../../../src/icons/phosphor/package.ts';
-import '../../../../src/icons/phosphor/trending-up.ts';
-import '../../../../src/icons/phosphor/trending-down.ts';
+import '../../../../src/icons/phosphor/trend-up.ts';
+import '../../../../src/icons/phosphor/trend-down.ts';
 import '../../../../src/icons/phosphor/caret-right.ts';
 import '../../../../src/icons/phosphor/stack-simple.ts';
 

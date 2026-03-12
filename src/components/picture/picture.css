@@ -10,20 +10,46 @@
 
   :where(n-picture) {
     display: block;
+    position: relative;
     width: var(--n-picture-width);
     height: var(--n-picture-height);
     --n-picture-max-width: 100%;
     max-width: var(--n-picture-max-width);
     min-width: 0;
+    min-height: 3rem;
     overflow: hidden;
     border-radius: var(--n-radius);
+    background: var(--n-surface-neutral);
+  }
+
+  /* Placeholder icon — visible when img is missing, empty, or broken */
+  :where(n-picture)::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 256 256'%3E%3Cpath fill='%239ca3af' d='M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16m0 16v102.75l-26.07-26.06a16 16 0 0 0-22.63 0l-20 20l-44-44a16 16 0 0 0-22.62 0L40 149.37V56ZM40 172l52-52l80 80H40Zm176 28h-21.37l-36-36l20-20L216 181.38V200ZM144 100a12 12 0 1 1 12 12a12 12 0 0 1-12-12'/%3E%3C/svg%3E")
+      no-repeat center center;
+    pointer-events: none;
+    z-index: 0;
   }
 
   :where(n-picture) > :where(img) {
     display: block;
+    position: relative;
+    z-index: 1;
     max-width: 100%;
     height: auto;
     object-fit: cover;
+  }
+
+  /* Hide img when src is absent or empty — let placeholder show through */
+  :where(n-picture) > :where(img:not([src])),
+  :where(n-picture) > :where(img[src=""]) {
+    visibility: hidden;
   }
 
   /* ── Fit ── */

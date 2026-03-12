@@ -2,6 +2,14 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.168
+
+### Fixed (native-ai@1.0.84)
+- **Training Library 500 error** — Fixed missing icon imports (`trending-up` → `trend-up`, `trending-down` → `trend-down`).
+
+### Added
+- **n-picture placeholder** — `n-picture` now shows a neutral background with a centered image icon placeholder when the `<img>` has no `src`, an empty `src`, or fails to load. Broken images are hidden so the placeholder shows through instead of the browser's broken-image icon. (0.7.168, native-kernel@0.1.2)
+
 ## 0.7.167
 
 ### Fixed

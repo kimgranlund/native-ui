@@ -129,6 +129,11 @@ export class PlanExecutor {
       }
     }
 
+    // Hide broken images so n-picture placeholder shows through
+    if (node.tag === 'img') {
+      el.addEventListener('error', () => { (el as HTMLElement).style.visibility = 'hidden'; }, { once: true, signal });
+    }
+
     // Text content (only if no children)
     if (node.textContent && (!node.children || node.children.length === 0)) {
       el.textContent = node.textContent;
