@@ -2,6 +2,14 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.169
+
+### Added
+- **n-picture `contained` attr** — Boolean attribute strips background color, border-radius, and placeholder icon for inline/embedded use where the container chrome is unwanted.
+
+### Fixed (native-ai@1.0.85)
+- **n-chat-feed padding tokens** — `--n-chat-feed-padding-block` and `--n-chat-feed-padding-inline` now defined as proper tokens in the chat token block. Removes fallback chains from the `padding-block`/`padding-inline` declarations.
+
 ## 0.7.168
 
 ### Fixed (native-ai@1.0.84)

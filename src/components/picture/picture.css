@@ -64,6 +64,17 @@
   [aspect="video"]:where(n-picture) > :where(img) { aspect-ratio: 16 / 9; }
   [aspect="photo"]:where(n-picture) > :where(img) { aspect-ratio: 4 / 3; }
 
+  /* ── Contained mode — strip chrome for inline/embedded use ── */
+
+  [contained]:where(n-picture) {
+    background: none;
+    border-radius: 0;
+  }
+
+  [contained]:where(n-picture)::after {
+    display: none;
+  }
+
   /* ── Inline mode ── */
 
   [inline]:where(n-picture) {
