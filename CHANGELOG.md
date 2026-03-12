@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.175
+
+### Added (native-ai@1.0.91)
+- **Training Library bidirectional schema↔preview highlighting** — Clicking or navigating in the schema editor now highlights the corresponding DOM element in the preview pane (outline + scroll-into-view). Detects which JSON component object the cursor is inside by parsing enclosing `{ }` braces and finding the nearest `"id"` field. Complements the existing preview→schema click highlighting.
+
 ## 0.7.174
 
 ### Changed (native-ai@1.0.90)

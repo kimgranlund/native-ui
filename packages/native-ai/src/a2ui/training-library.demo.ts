@@ -356,35 +356,115 @@ function onSchemaInput(): void {
   }, 500);
 }
 
-// ── DOM Inspection ──
+// ── DOM ↔ Schema bidirectional highlighting ──
 
-function onPreviewClick(e: Event): void {
-  const target = e.target as HTMLElement;
-
-  // Clear previous highlights
+function clearHighlights(): void {
   lightboxPreview.querySelectorAll('[data-highlight]').forEach((el) => {
     el.removeAttribute('data-highlight');
   });
+}
 
-  // Find nearest element with an ID
+/** Preview → Schema: click element highlights it and scrolls schema to its "id". */
+function onPreviewClick(e: Event): void {
+  const target = e.target as HTMLElement;
+  clearHighlights();
+
   const el = target.closest('[id]') as HTMLElement | null;
   if (!el || el === lightboxPreview) return;
 
   el.setAttribute('data-highlight', '');
 
-  // Find ID in schema editor
   const searchStr = `"id": "${el.id}"`;
   const idx = schemaEditor.value.indexOf(searchStr);
   if (idx >= 0) {
     schemaEditor.focus();
     schemaEditor.setSelectionRange(idx, idx + searchStr.length);
-    // Scroll into view
     const linesBefore = schemaEditor.value.substring(0, idx).split('\n').length;
     const lineHeight = 11 * 1.6; // 0.6875rem * 1.6 line-height ≈ 17.6px
     schemaEditor.scrollTop = Math.max(0, (linesBefore - 3) * lineHeight);
   }
 
   showTab('schema');
+}
+
+/** Schema → Preview: cursor position in editor highlights the corresponding DOM element. */
+let schemaCursorDebounce: ReturnType<typeof setTimeout> | undefined;
+
+function onSchemaCursorMove(): void {
+  clearTimeout(schemaCursorDebounce);
+  schemaCursorDebounce = setTimeout(() => {
+    clearHighlights();
+
+    const pos = schemaEditor.selectionStart;
+    const text = schemaEditor.value;
+
+    // Walk backwards from cursor to find the nearest "id": "..." in the enclosing component object.
+    // Strategy: find all "id": "xxx" occurrences, pick the one whose enclosing { } block contains the cursor.
+    const idPattern = /"id"\s*:\s*"([^"]+)"/g;
+    let bestId: string | null = null;
+    let bestStart = -1;
+    let match: RegExpExecArray | null;
+
+    while ((match = idPattern.exec(text)) !== null) {
+      const matchEnd = match.index + match[0].length;
+      if (matchEnd > pos) {
+        // This id is after the cursor — check if the cursor is still inside this component's object
+        // by seeing if there's an unmatched '{' before this id that hasn't been closed before cursor
+        if (bestId) break; // already found one before cursor, stop
+        // Check if cursor is between previous id's object start and this id (still in same object)
+        const objectStart = findObjectStart(text, match.index);
+        if (objectStart <= pos) {
+          bestId = match[1];
+          bestStart = objectStart;
+        }
+        break;
+      }
+      // This id is at or before cursor position — candidate
+      bestId = match[1];
+      bestStart = match.index;
+    }
+
+    // If no id found before cursor, try the first one after
+    if (!bestId) return;
+
+    // Verify cursor is inside the same object block as the id
+    const objectStart = findObjectStart(text, bestStart);
+    const objectEnd = findObjectEnd(text, objectStart);
+    if (pos < objectStart || pos > objectEnd) return;
+
+    // Highlight in preview
+    const el = lightboxPreview.querySelector(`#${CSS.escape(bestId)}`) as HTMLElement | null;
+    if (el) {
+      el.setAttribute('data-highlight', '');
+      el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  }, 120);
+}
+
+/** Find the start of the JSON object containing the given position. */
+function findObjectStart(text: string, pos: number): number {
+  let depth = 0;
+  for (let i = pos - 1; i >= 0; i--) {
+    if (text[i] === '}') depth++;
+    if (text[i] === '{') {
+      if (depth === 0) return i;
+      depth--;
+    }
+  }
+  return 0;
+}
+
+/** Find the end of the JSON object starting at the given position. */
+function findObjectEnd(text: string, pos: number): number {
+  let depth = 0;
+  for (let i = pos; i < text.length; i++) {
+    if (text[i] === '{') depth++;
+    if (text[i] === '}') {
+      depth--;
+      if (depth === 0) return i;
+    }
+  }
+  return text.length;
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -785,8 +865,10 @@ editorTabs.addEventListener('native:change', (e) => {
   if (tab) showTab(tab);
 });
 
-// Schema editor
+// Schema editor — live update + cursor-driven highlight
 schemaEditor.addEventListener('input', onSchemaInput);
+schemaEditor.addEventListener('click', onSchemaCursorMove);
+schemaEditor.addEventListener('keyup', onSchemaCursorMove);
 
 // Preview click inspection
 lightboxPreview.addEventListener('click', onPreviewClick);
