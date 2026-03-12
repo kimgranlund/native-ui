@@ -184,6 +184,12 @@
   border-block-end: 1px solid var(--pg-border-color);
 }
 
+/* Inspector toggle — strong selected state (matches Flask pattern) */
+.tl-preview-pane n-button#inspect-toggle[data-active] {
+  --n-background: var(--n-button-accent);
+  --n-color: var(--n-ink-on-accent);
+}
+
 .tl-lightbox-title {
   font-size: 0.875rem;
   font-weight: 600;
@@ -420,4 +426,67 @@
 
 @keyframes tl-spin {
   to { transform: rotate(360deg); }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   CSS Inspector Mode
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Ready state — crosshair cursor */
+.tl-preview-mount [inspect-ready] {
+  cursor: crosshair;
+}
+
+/* 3D inspection: outlines on exploded layers */
+.tl-preview-mount [inspect-layer] {
+  outline: 0.75px solid oklch(0.7 0.15 250 / 0.5);
+  outline-offset: 0;
+  transition: outline 300ms ease;
+}
+
+.tl-preview-mount [inspect-layer][inspect-hover],
+.tl-preview-mount [inspect-layer][inspect-selected] {
+  outline: 3px solid oklch(0.7 0.15 250 / 1);
+  outline-offset: 0;
+}
+
+/* Suppress native outlines on internals */
+.tl-preview-mount [inspect-layer] *,
+.tl-preview-mount [inspect-layer] *:focus,
+.tl-preview-mount [inspect-layer] *:focus-visible {
+  outline: none !important;
+}
+
+/* Labels on inspected elements */
+.tl-preview-mount [data-inspect-label] {
+  position: relative;
+}
+
+.tl-preview-mount [data-inspect-label]::after {
+  content: attr(data-inspect-label);
+  position: absolute;
+  top: -1.25rem;
+  left: 0.25rem;
+  font: 600 0.625rem/1.4 ui-monospace, monospace;
+  color: oklch(0.85 0.15 250);
+  background: oklch(0.2 0.05 250 / 0.85);
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.2rem;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 200ms ease;
+  transform-origin: left bottom;
+  transform:
+    rotateY(calc(-1 * var(--inspect-tilt-y, 0deg)))
+    rotateX(calc(-1 * var(--inspect-tilt-x, 0deg)));
+}
+
+/* Dim labels on non-hovered/non-selected layers */
+.tl-preview-mount [inspecting]:has([inspect-hover]) [inspect-layer]:not([inspect-hover])::after {
+  opacity: 0.2;
+}
+.tl-preview-mount [inspecting]:has([inspect-selected]) [inspect-layer]:not([inspect-selected])::after {
+  opacity: 0.2;
 }

@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.166
+
+### Added (native-ai@1.0.83)
+- **Training Library CSS Inspector** — Toggle button in preview pane header activates `CSSInspectController` with `pick: true, labels: true`. Strong accent selected state (matching Flask pattern: `data-active` + `intent="accent"`). Full label rendering CSS for 3D exploded layers, hover/selected outlines, and counter-rotated monospace labels. Inspector dismissed on lightbox close or Escape key.
+
 ## 0.7.165
 
 ### Added (native-ai@1.0.82)

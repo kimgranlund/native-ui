@@ -32,6 +32,10 @@ import '../../../../src/icons/phosphor/package.ts';
 import '../../../../src/icons/phosphor/trending-up.ts';
 import '../../../../src/icons/phosphor/trending-down.ts';
 import '../../../../src/icons/phosphor/caret-right.ts';
+import '../../../../src/icons/phosphor/stack-simple.ts';
+
+// Traits
+import { CSSInspectController } from '../../../../packages/native-traits/src/traits/css-inspect/css-inspect-controller.ts';
 
 // Kernel + A2UI
 import { Kernel, resetKernel } from '@nonoun/native-kernel';
@@ -68,6 +72,7 @@ let temperature = 0.7;
 let maxTokens = 4096;
 let pipelineMode = false;
 let regenerating = false;
+let cssInspector: CSSInspectController | null = null;
 
 // Rendered card tracking
 const renderedCards = new Set<string>();
@@ -103,6 +108,7 @@ const pipelineToggle = document.getElementById('tl-pipeline-toggle') as HTMLInpu
 const tempVal = document.getElementById('temp-val')!;
 const tokensVal = document.getElementById('tokens-val')!;
 const insightsWrap = document.getElementById('insights-wrap')!;
+const inspectToggleBtn = document.getElementById('inspect-toggle')!;
 const btnRegenerate = document.getElementById('btn-regenerate')!;
 const btnExport = document.getElementById('btn-export')!;
 const btnClose = document.getElementById('lightbox-close')!;
@@ -283,7 +289,18 @@ function renderLightboxPreview(components: Record<string, unknown>[]): void {
   });
 }
 
+function dismissInspector(): void {
+  if (cssInspector) {
+    cssInspector.dismiss();
+    cssInspector.destroy();
+    cssInspector = null;
+    inspectToggleBtn.removeAttribute('data-active');
+    inspectToggleBtn.removeAttribute('intent');
+  }
+}
+
 function closeLightbox(): void {
+  dismissInspector();
   dialog.close();
   lightboxAdapter?.destroy();
   lightboxAdapter = null;
@@ -717,10 +734,32 @@ grid.addEventListener('pointerup', (e) => {
 // Lightbox close
 btnClose.addEventListener('pointerup', closeLightbox);
 dialog.addEventListener('close', () => {
+  dismissInspector();
   lightboxAdapter?.destroy();
   lightboxAdapter = null;
   currentPattern = null;
   originalSchema = null;
+});
+
+// CSS Inspector toggle
+inspectToggleBtn.addEventListener('pointerup', () => {
+  if (cssInspector) {
+    dismissInspector();
+  } else {
+    cssInspector = new CSSInspectController(lightboxPreview, { pick: true, labels: true });
+    inspectToggleBtn.setAttribute('data-active', '');
+    inspectToggleBtn.setAttribute('intent', 'accent');
+  }
+});
+
+// Sync button state if inspector dismisses itself (e.g. Escape key)
+lightboxPreview.addEventListener('native:inspect', (e: Event) => {
+  const detail = (e as CustomEvent).detail;
+  if (!detail?.active && cssInspector) {
+    cssInspector = null;
+    inspectToggleBtn.removeAttribute('data-active');
+    inspectToggleBtn.removeAttribute('intent');
+  }
 });
 
 // Tabs
