@@ -2,6 +2,11 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.170
+
+### Fixed (native-ai@1.0.86)
+- **Training Library 500 error** — Fixed incorrect relative import paths for chat gateway/parsing modules (`../../chat/` → `../chat/`).
+
 ## 0.7.169
 
 ### Added

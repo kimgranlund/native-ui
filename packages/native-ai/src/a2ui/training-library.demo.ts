@@ -52,9 +52,9 @@ import type { CatalogEntry, Pattern } from './patterns/pattern-types.ts';
 
 // Builder pipeline
 import { PIPELINE_STEPS, runPipeline } from './builder/pipeline.ts';
-import type { GatewayAdapter } from '../../chat/gateway/adapter.ts';
-import { isClaudeModel, createAdapter } from '../../chat/gateway/model-registry.ts';
-import { parseJsonFromResponse, stripFences } from '../../chat/parsing/json-extractor.ts';
+import type { GatewayAdapter } from '../chat/gateway/adapter.ts';
+import { isClaudeModel, createAdapter } from '../chat/gateway/model-registry.ts';
+import { parseJsonFromResponse, stripFences } from '../chat/parsing/json-extractor.ts';
 import promptJson from './builder/system-prompt.json' with { type: 'json' };
 
 // ══════════════════════════════════════════════════════════════════
