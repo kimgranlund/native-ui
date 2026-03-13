@@ -25,16 +25,14 @@
   gap: 1rem;
 }
 
-/* ── Pattern Card ── */
+/* ── Pattern Card (n-container[bordered]) ── */
 
 .tl-card {
+  --n-pad-block: 0;
+  --n-pad-inline: 0;
   position: relative;
-  border: 1px solid var(--n-stroke);
-  border-radius: var(--n-radius);
-  overflow: hidden;
   cursor: pointer;
   transition: box-shadow 200ms, border-color 200ms;
-  background: var(--n-panel);
 }
 
 .tl-card:hover {
@@ -42,31 +40,43 @@
   border-color: var(--n-border-accent);
 }
 
-/* Card preview (scaled-down render, centered) */
+/* Card preview (scaled-down render, n-body) */
 .tl-card-preview {
-  height: 200px;
+  aspect-ratio: 1;
   overflow: hidden;
   background: var(--n-body);
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .tl-card-preview > div {
-  transform: scale(0.45);
-  transform-origin: center center;
-  width: 222%;
+  width: 125%;
   padding: 1rem;
+  transform: scale(0.8);
+  transform-origin: center center;
+  transition: transform 200ms ease;
 }
 
-/* Card meta */
+.tl-card:hover .tl-card-preview > div {
+  transform: scale(0.9);
+}
+
+.tl-card:hover .tl-card-preview {
+  background: var(--n-panel);
+}
+
+/* Card meta (n-footer) */
 .tl-card-meta {
-  padding: 0.5rem 0.75rem;
+  --n-pad-block: 0.5rem;
+  --n-pad-inline: 0.75rem;
+  border-block-start: 1px solid var(--n-stroke);
+}
+
+.tl-card-meta > [slot="content"] {
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  border-block-start: 1px solid var(--n-stroke);
 }
 
 .tl-card-label {
@@ -101,23 +111,6 @@
 .tl-card-badge[data-category] {
   background: var(--n-control-neutral);
   color: var(--n-ink-neutral);
-}
-
-/* Hover overlay */
-.tl-card-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: oklch(0 0 0 / 0.45);
-  opacity: 0;
-  transition: opacity 200ms;
-  pointer-events: none;
-}
-
-.tl-card:hover .tl-card-overlay {
-  opacity: 1;
 }
 
 

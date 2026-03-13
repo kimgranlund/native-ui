@@ -2,6 +2,22 @@
 
 All notable changes to `@nonoun/native-ui` and sub-packages.
 
+## 0.7.221
+
+### Added (native-traits@0.1.15)
+- **CSSInspectController `tiltElement` option** — Scope 3D tilt tracking to a specific element instead of the entire document. When set, tilt only updates while the pointer is inside the element — moving outside pauses tilt so the user can interact with editor panes, chat, etc. without the 3D view rotating.
+
+### Changed (native-ai@1.0.128)
+- **Training Library card preview** — Square cards (`aspect-ratio: 1`), `scale(0.8)` default with `scale(0.9)` on hover, elevated background on hover (`--n-panel`). Removed old fixed-height 200px previews.
+- **Training Library tilt scoped to preview pane** — Inspector `tiltElement` set to `lightboxPreview` so tilt pauses when the mouse leaves the preview, allowing code editing and chat interaction.
+- **Lightbox no auto-focus** — `showModal()` followed by `blur()` to prevent auto-focusing the first focusable child element.
+- **HTML formatter staircase fix note** — The lightweight `formatHtml` function has a known issue with custom elements that don't have closing tags (e.g. `n-checkbox`), causing progressive indentation. Cosmetic only.
+
+## 0.7.220
+
+### Changed (native-ai@1.0.127)
+- **Training Library card markup dogfooded** — Grid cards now use `<n-container bordered>` with `<n-body padding="none">` (preview) and `<n-footer>` (meta) instead of raw `<article>` / `<div>` elements. Removed the hover overlay "Edit" button. Card CSS updated to use `--n-pad-block`/`--n-pad-inline` tokens instead of hardcoded padding. Matches the Astro host pattern.
+
 ## 0.7.219
 
 ### Fixed (native-ai@1.0.126)

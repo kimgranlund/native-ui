@@ -7,7 +7,6 @@ import '../../../../src/register-all.ts';
 // Icons
 import '../../../../src/icons/phosphor/x.ts';
 import '../../../../src/icons/phosphor/copy.ts';
-import '../../../../src/icons/phosphor/pencil-simple.ts';
 import '../../../../src/icons/phosphor/caret-up-down.ts';
 import '../../../../src/icons/phosphor/funnel.ts';
 import '../../../../src/icons/phosphor/download-simple.ts';
@@ -364,18 +363,20 @@ function renderGrid(): void {
   grid.innerHTML = '';
 
   for (const entry of entries) {
-    const card = document.createElement('article');
+    const card = document.createElement('n-container');
+    card.setAttribute('bordered', '');
     card.className = 'tl-card';
     card.dataset.patternId = entry.id;
 
     card.innerHTML = `
-      <div class="tl-card-preview"><div id="card-preview-${entry.id}" inert></div></div>
-      <div class="tl-card-meta">
-        <span class="tl-card-label">${entry.label}</span>
-        <span class="tl-card-badge" data-tier="${entry.tier}">${entry.tier}</span>
-        <span class="tl-card-badge" data-category>${entry.category}</span>
-      </div>
-      <div class="tl-card-overlay"><n-button variant="primary" intent="accent" size="sm" ><n-icon name="pencil-simple" slot="leading"></n-icon>Edit</n-button></div>
+      <n-body padding="none" class="tl-card-preview"><div id="card-preview-${entry.id}" inert></div></n-body>
+      <n-footer class="tl-card-meta">
+        <div slot="content">
+          <span class="tl-card-label">${entry.label}</span>
+          <span class="tl-card-badge" data-tier="${entry.tier}">${entry.tier}</span>
+          <span class="tl-card-badge" data-category>${entry.category}</span>
+        </div>
+      </n-footer>
     `;
 
     grid.appendChild(card);
@@ -403,7 +404,7 @@ function observeCards(): void {
     { rootMargin: '200px' },
   );
 
-  grid.querySelectorAll('.tl-card').forEach((card) => observer!.observe(card));
+  grid.querySelectorAll('n-container.tl-card').forEach((card) => observer!.observe(card));
 }
 
 async function renderBatch(ids: string[]): Promise<void> {
@@ -631,6 +632,8 @@ async function openLightbox(id: string): Promise<void> {
   syncPanels();
 
   dialog.showModal();
+  // Prevent showModal from auto-focusing a child element (e.g. n-select, n-editor)
+  (document.activeElement as HTMLElement | null)?.blur();
 }
 
 function renderLightboxPreview(components: Record<string, unknown>[]): void {
@@ -1550,7 +1553,7 @@ inspectToggleBtn.addEventListener('pointerup', () => {
   } else {
     const artifact = canvas.firstElementChild as HTMLElement | null;
     if (!artifact) return;
-    cssInspector = new CSSInspectController(artifact, { labels: true, dismissOnClickOutside: false });
+    cssInspector = new CSSInspectController(artifact, { labels: true, dismissOnClickOutside: false, tiltElement: lightboxPreview });
     cssInspector.inspect();
     inspectToggleBtn.setAttribute('variant', 'selected');
   }

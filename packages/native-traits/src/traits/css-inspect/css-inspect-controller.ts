@@ -20,6 +20,10 @@ export interface CSSInspectOptions {
   /** When false, clicking outside the popover does NOT dismiss the inspection (default true).
    *  Useful for toggle-button UIs where the consumer controls dismiss explicitly. */
   dismissOnClickOutside?: boolean;
+  /** Scope tilt tracking to a specific element instead of the entire document.
+   *  When set, tilt only updates while the pointer is inside this element — moving
+   *  outside pauses tilt so the user can interact with other UI (editors, chat, etc.). */
+  tiltElement?: HTMLElement;
   /** Disable the controller */
   disabled?: boolean;
 }
@@ -49,6 +53,7 @@ export class CSSInspectController {
   pick: boolean;
   alwaysReady: boolean;
   dismissOnClickOutside: boolean;
+  tiltElement: HTMLElement | null;
   disabled: boolean;
 
   #attached = false;
@@ -84,6 +89,7 @@ export class CSSInspectController {
     this.pick = options.pick ?? false;
     this.alwaysReady = options.alwaysReady ?? false;
     this.dismissOnClickOutside = options.dismissOnClickOutside ?? true;
+    this.tiltElement = options.tiltElement ?? null;
     this.disabled = options.disabled ?? false;
     this.attach();
   }
@@ -610,7 +616,7 @@ export class CSSInspectController {
       document.addEventListener('click', this.#onDocClick, true);
     }
     document.addEventListener('keydown', this.#onDocKeydown);
-    document.addEventListener('pointermove', this.#onDocTilt);
+    (this.tiltElement ?? document).addEventListener('pointermove', this.#onDocTilt as EventListener);
     document.addEventListener('wheel', this.#onWheel, { passive: false });
     document.addEventListener('selectstart', this.#onDocSelectStart);
     document.addEventListener('pointerdown', this.#onDocPointerDown);
@@ -658,7 +664,7 @@ export class CSSInspectController {
     // Remove document listeners
     document.removeEventListener('click', this.#onDocClick, true);
     document.removeEventListener('keydown', this.#onDocKeydown);
-    document.removeEventListener('pointermove', this.#onDocTilt);
+    (this.tiltElement ?? document).removeEventListener('pointermove', this.#onDocTilt as EventListener);
     document.removeEventListener('wheel', this.#onWheel);
     document.removeEventListener('selectstart', this.#onDocSelectStart);
     document.removeEventListener('pointerdown', this.#onDocPointerDown);
